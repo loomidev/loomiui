@@ -1,0 +1,118 @@
+import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
+import { customElement, property, state } from "lit/decorators.js";
+import { loomiStyles, onClickOutside } from "@loomi/core";
+import { componentStyles } from "./generated/styles.css.js";
+
+const CLOCK = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />`;
+const pad = (n: number) => String(n).padStart(2, "0");
+
+/**
+ * `<loomi-timepicker>` — pick a time. `popup` (input + panel) or `inline`. 12/24-hour.
+ * Form-associated: submits a formatted time (e.g. `3:25PM` or `03:25`) under `name`.
+ *
+ * @fires change - `detail: { value }` when the time changes.
+ */
+@customElement("loomi-timepicker")
+export class LoomiTimepicker extends LitElement {
+  static override styles = loomiStyles(componentStyles);
+  static formAssociated = true;
+  private internals = this.attachInternals();
+
+  @property() name = "";
+  /** `popup` (input + panel) or `inline`. Attribute is `tp-style` (`style` is reserved). */
+  @property({ attribute: "tp-style" }) tpStyle: "popup" | "inline" = "popup";
+  @property() format: "12" | "24" = "12";
+  @property({ attribute: "selected-value" }) selectedValue = "";
+  @property() label = "";
+  @property() placeholder = "HH:MM";
+  @property({ type: Boolean }) required = false;
+
+  @state() private hour: number | null = null;
+  @state() private minute: number | null = null;
+  @state() private ampm: "AM" | "PM" = "AM";
+  @state() private open = false;
+  @state() private parsed = false;
+  private cleanup?: () => void;
+
+  override willUpdate(): void {
+    if (!this.parsed && this.selectedValue) {
+      this.parse(this.selectedValue);
+      this.parsed = true;
+    }
+    this.internals.setFormValue(this.value);
+  }
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.cleanup?.();
+  }
+
+  private parse(v: string): void {
+    const m = v.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)?$/i);
+    if (!m) return;
+    this.hour = parseInt(m[1], 10);
+    this.minute = parseInt(m[2], 10);
+    if (m[3]) this.ampm = m[3].toUpperCase() as "AM" | "PM";
+  }
+
+  /** The formatted time, or "" if incomplete. */
+  get value(): string {
+    if (this.hour === null || this.minute === null) return "";
+    return this.format === "24"
+      ? `${pad(this.hour)}:${pad(this.minute)}`
+      : `${this.hour}:${pad(this.minute)}${this.ampm}`;
+  }
+
+  private commit(): void {
+    this.internals.setFormValue(this.value);
+    this.dispatchEvent(new CustomEvent("change", { bubbles: true, composed: true, detail: { value: this.value } }));
+  }
+
+  private toggle(): void {
+    this.open = !this.open;
+    if (this.open) this.cleanup = onClickOutside(this, () => (this.open = false));
+    else this.cleanup?.();
+  }
+
+  private renderSelects(): TemplateResult {
+    const hours = this.format === "24"
+      ? Array.from({ length: 24 }, (_, i) => i)
+      : Array.from({ length: 12 }, (_, i) => i + 1);
+    return html`<div class="loomi-selects">
+      <select aria-label="Hour" @change=${(e: Event) => { this.hour = Number((e.target as HTMLSelectElement).value); this.commit(); }}>
+        <option value="" ?selected=${this.hour === null}>HH</option>
+        ${hours.map((h) => html`<option value=${h} ?selected=${this.hour === h}>${this.format === "24" ? pad(h) : h}</option>`)}
+      </select>
+      <span class="loomi-colon">:</span>
+      <select aria-label="Minute" @change=${(e: Event) => { this.minute = Number((e.target as HTMLSelectElement).value); this.commit(); }}>
+        <option value="" ?selected=${this.minute === null}>MM</option>
+        ${Array.from({ length: 60 }, (_, i) => i).map((m) => html`<option value=${m} ?selected=${this.minute === m}>${pad(m)}</option>`)}
+      </select>
+      ${this.format === "12"
+        ? html`<select aria-label="AM/PM" @change=${(e: Event) => { this.ampm = (e.target as HTMLSelectElement).value as "AM" | "PM"; this.commit(); }}>
+            <option value="AM" ?selected=${this.ampm === "AM"}>AM</option>
+            <option value="PM" ?selected=${this.ampm === "PM"}>PM</option>
+          </select>`
+        : nothing}
+    </div>`;
+  }
+
+  override render(): TemplateResult {
+    if (this.tpStyle === "inline") {
+      return html`${this.label ? html`<span class="loomi-label">${this.label}</span>` : nothing}${this.renderSelects()}`;
+    }
+    return html`<div class="loomi-tp ${this.open ? "open" : ""}">
+      ${this.label ? html`<span class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req"> *</span>` : nothing}</span>` : nothing}
+      <div class="loomi-field" @click=${() => this.toggle()}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${CLOCK}</svg>
+        <span class="loomi-text ${this.value ? "" : "placeholder"}">${this.value || this.placeholder}${!this.value && this.required ? html`<span class="loomi-req"> *</span>` : nothing}</span>
+      </div>
+      ${this.open ? html`<div class="loomi-panel" @click=${(e: Event) => e.stopPropagation()}>${this.renderSelects()}</div>` : nothing}
+    </div>`;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "loomi-timepicker": LoomiTimepicker;
+  }
+}

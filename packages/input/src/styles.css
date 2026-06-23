@@ -1,0 +1,177 @@
+/* Component-scoped plain CSS for <loomi-input>. Colors resolve via --loomi-* tokens. */
+:host {
+  display: block;
+  margin-bottom: 1rem;
+}
+:host([no-clearing]) {
+  margin-bottom: 0;
+}
+:host([hidden]) {
+  display: none;
+}
+
+.loomi-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: var(--loomi-white);
+  border: 1px solid var(--loomi-gray-300);
+  border-radius: 0.5rem;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.loomi-field:focus-within {
+  border-color: var(--loomi-primary-500);
+  box-shadow: 0 0 0 3px var(--loomi-primary-100);
+}
+:host([invalid]) .loomi-field {
+  border-color: var(--loomi-red-400);
+}
+:host([invalid]) .loomi-field:focus-within {
+  box-shadow: 0 0 0 3px var(--loomi-red-100);
+}
+:host([disabled]) .loomi-field {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--loomi-gray-50);
+}
+
+/* size presets */
+.size-small {
+  --loomi-pad-y: 0.375rem;
+  --loomi-pad-x: 0.75rem;
+  font-size: 0.875rem;
+}
+.size-regular {
+  --loomi-pad-y: 0.5rem;
+  --loomi-pad-x: 0.875rem;
+  font-size: 0.875rem;
+}
+.size-medium {
+  --loomi-pad-y: 0.625rem;
+  --loomi-pad-x: 1rem;
+  font-size: 1rem;
+}
+.size-big {
+  --loomi-pad-y: 0.75rem;
+  --loomi-pad-x: 1.25rem;
+  font-size: 1.125rem;
+}
+
+.loomi-prefix,
+.loomi-suffix {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--loomi-gray-500);
+  white-space: nowrap;
+  flex: none;
+}
+.loomi-prefix {
+  padding-left: var(--loomi-pad-x);
+}
+.loomi-suffix {
+  padding-right: var(--loomi-pad-x);
+}
+.loomi-affix-solid {
+  align-self: stretch;
+  background: var(--loomi-gray-100);
+  padding-left: var(--loomi-pad-x);
+  padding-right: var(--loomi-pad-x);
+  color: var(--loomi-gray-600);
+}
+.loomi-prefix.loomi-affix-solid {
+  border-right: 1px solid var(--loomi-gray-300);
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+.loomi-suffix.loomi-affix-solid {
+  border-left: 1px solid var(--loomi-gray-300);
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.loomi-inputwrap {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.loomi-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: inherit;
+  color: var(--loomi-gray-900);
+  padding: var(--loomi-pad-y) var(--loomi-pad-x);
+}
+.loomi-input::placeholder {
+  color: var(--loomi-gray-400);
+}
+.loomi-input:disabled {
+  cursor: not-allowed;
+}
+
+/* floating label (input renders placeholder=" " so :placeholder-shown toggles) */
+.loomi-label {
+  position: absolute;
+  left: var(--loomi-pad-x);
+  top: 50%;
+  transform: translateY(-50%);
+  transform-origin: left center;
+  color: var(--loomi-gray-400);
+  pointer-events: none;
+  transition: all 0.15s ease;
+  background: var(--loomi-white);
+  padding: 0 0.25rem;
+  max-width: calc(100% - var(--loomi-pad-x));
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.loomi-input:focus ~ .loomi-label,
+.loomi-input:not(:placeholder-shown) ~ .loomi-label,
+.force-float .loomi-label {
+  top: 0;
+  transform: translateY(-50%) scale(0.85);
+  color: var(--loomi-primary-600);
+}
+:host([invalid]) .loomi-input:focus ~ .loomi-label,
+:host([invalid]) .loomi-input:not(:placeholder-shown) ~ .loomi-label {
+  color: var(--loomi-red-500);
+}
+.loomi-req {
+  color: var(--loomi-red-500);
+  margin-left: 0.15rem;
+}
+
+/* icon buttons in the suffix (clear / reveal password) */
+.loomi-iconbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: var(--loomi-gray-400);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.375rem;
+}
+.loomi-iconbtn:hover {
+  color: var(--loomi-gray-600);
+}
+.loomi-icon {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+}
+
+.loomi-error {
+  margin: 0.35rem 0 0;
+  font-size: 0.8rem;
+  color: var(--loomi-red-500);
+}

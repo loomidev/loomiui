@@ -1,0 +1,92 @@
+/* Component-scoped plain CSS for <loomi-textarea>. */
+:host {
+  display: block;
+  margin-bottom: 1rem;
+}
+:host([no-clearing]) {
+  margin-bottom: 0;
+}
+:host([hidden]) {
+  display: none;
+}
+
+.loomi-field {
+  position: relative;
+  display: block;
+  width: 100%;
+  background: var(--loomi-white);
+  border: 1px solid var(--loomi-gray-300);
+  border-radius: 0.5rem;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.loomi-field:focus-within {
+  border-color: var(--loomi-primary-500);
+  box-shadow: 0 0 0 3px var(--loomi-primary-100);
+}
+:host([invalid]) .loomi-field {
+  border-color: var(--loomi-red-400);
+}
+:host([invalid]) .loomi-field:focus-within {
+  box-shadow: 0 0 0 3px var(--loomi-red-100);
+}
+:host([disabled]) .loomi-field {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--loomi-gray-50);
+}
+
+.loomi-textarea {
+  display: block;
+  width: 100%;
+  resize: vertical;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: inherit;
+  color: var(--loomi-gray-900);
+  padding: 0.625rem 1rem;
+}
+.loomi-textarea::placeholder {
+  color: var(--loomi-gray-400);
+}
+.loomi-textarea:disabled {
+  cursor: not-allowed;
+}
+
+.loomi-label {
+  position: absolute;
+  left: 1rem;
+  top: 0.75rem;
+  transform-origin: left center;
+  color: var(--loomi-gray-400);
+  pointer-events: none;
+  transition: all 0.15s ease;
+  background: var(--loomi-white);
+  padding: 0 0.25rem;
+  max-width: calc(100% - 1rem);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.loomi-textarea:focus ~ .loomi-label,
+.loomi-textarea:not(:placeholder-shown) ~ .loomi-label {
+  top: 0;
+  transform: translateY(-50%) scale(0.85);
+  color: var(--loomi-primary-600);
+}
+:host([invalid]) .loomi-textarea:focus ~ .loomi-label,
+:host([invalid]) .loomi-textarea:not(:placeholder-shown) ~ .loomi-label {
+  color: var(--loomi-red-500);
+}
+.loomi-req {
+  color: var(--loomi-red-500);
+  margin-left: 0.15rem;
+}
+
+.loomi-error {
+  margin: 0.35rem 0 0;
+  font-size: 0.8rem;
+  color: var(--loomi-red-500);
+}

@@ -1,0 +1,74 @@
+:host {
+  display: block;
+  margin-bottom: 1rem;
+}
+:host([hidden]) {
+  display: none;
+}
+
+.loomi-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  line-height: 1.45;
+}
+.loomi-alert.faint {
+  background: var(--_loomi-accent-softer);
+  border-color: var(--_loomi-accent-soft);
+  color: var(--_loomi-accent-strong);
+}
+.loomi-alert.dark {
+  background: var(--_loomi-accent);
+  color: var(--loomi-white);
+}
+.loomi-alert.transparent {
+  background: transparent;
+}
+
+.loomi-alert a {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.loomi-ico {
+  flex: none;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin-top: 0.05rem;
+}
+.loomi-avatar {
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+.loomi-avatar.ring {
+  box-shadow: 0 0 0 2px currentColor;
+}
+.loomi-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.loomi-close {
+  flex: none;
+  display: inline-flex;
+  border: 0;
+  background: transparent;
+  color: currentColor;
+  opacity: 0.6;
+  cursor: pointer;
+  padding: 0;
+  line-height: 0;
+}
+.loomi-close:hover {
+  opacity: 1;
+}
+.loomi-close svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}

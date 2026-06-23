@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>loomi — table, modal, notification, bell</title>
+    <script type="importmap">
+      {
+        "imports": {
+          "lit": "https://esm.sh/lit@3.3.3",
+          "lit/": "https://esm.sh/lit@3.3.3/",
+          "@loomi/theme": "../packages/theme/dist/index.js",
+          "@loomi/core": "../packages/core/dist/index.js",
+          "@loomi/icons": "../packages/icons/dist/index.js",
+          "@loomi/checkbox/": "../packages/checkbox/dist/",
+          "@loomi/pagination/": "../packages/pagination/dist/"
+        }
+      }
+    </script>
+    <script type="module">
+      import "../packages/pagination/dist/loomi-pagination.js";
+      import "../packages/table/dist/loomi-table.js";
+      import "../packages/bell/dist/loomi-bell.js";
+      import { showLoomiModal } from "../packages/modal/dist/loomi-modal.js";
+      import { showLoomiNotification } from "../packages/notification/dist/loomi-notification.js";
+      import "../packages/notification/dist/loomi-notification.js";
+
+      const staff = [
+        { id: 1, first_name: "Michael", last_name: "Ocansey", department: "Engineering", email: "mike@loomi.dev" },
+        { id: 2, first_name: "Sara", last_name: "Field", department: "Design", email: "sara@loomi.dev" },
+        { id: 3, first_name: "Zane", last_name: "Hart", department: "Engineering", email: "zane@loomi.dev" },
+        { id: 4, first_name: "Rita", last_name: "Boon", department: "Marketing", email: "rita@loomi.dev" },
+        { id: 5, first_name: "Joe", last_name: "Diaz", department: "Design", email: "joe@loomi.dev" },
+        { id: 6, first_name: "Ada", last_name: "Quint", department: "Finance", email: "ada@loomi.dev" },
+        { id: 7, first_name: "Leo", last_name: "Mensah", department: "Engineering", email: "leo@loomi.dev" },
+        { id: 8, first_name: "Nia", last_name: "Cole", department: "Marketing", email: "nia@loomi.dev" },
+      ];
+      customElements.whenDefined("loomi-table").then(() => {
+        const tbl = document.getElementById("tbl");
+        tbl.data = staff;
+        tbl.excludeColumns = "id";
+        tbl.actionIcons = [
+          { icon: "paper-airplane", name: "message", tip: "Message", color: "green" },
+          { icon: "trash", name: "delete", tip: "Delete", color: "red" },
+        ];
+        tbl.addEventListener("action", (e) => showLoomiNotification("Action", `${e.detail.name} → ${e.detail.row.first_name}`, "info", 4));
+        tbl.addEventListener("selection-change", (e) => { document.getElementById("sel").textContent = e.detail.ids.join(", ") || "(none)"; });
+      });
+
+      document.getElementById("open-modal").addEventListener("click", () => showLoomiModal("demo"));
+      document.getElementById("notify").addEventListener("click", () => showLoomiNotification("Saved", "Your changes were saved.", "success", 5));
+      document.getElementById("notify-err").addEventListener("click", () => showLoomiNotification("Upload failed", "Try again in a moment.", "error", 5));
+      document.querySelector("loomi-modal").addEventListener("ok", () => showLoomiNotification("Confirmed", "You clicked Okay.", "success", 4));
+    </script>
+    <style>
+      body { font-family: ui-sans-serif, system-ui, sans-serif; margin: 0; padding: 2.5rem clamp(1rem,5vw,4rem); color: #0f172a; background: #f8fafc; max-width: 900px; }
+      h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin: 2rem 0 0.75rem; }
+      .row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+      button.plain { border: 1px solid #cbd5e1; background: #fff; border-radius: 8px; padding: .5rem 1rem; cursor: pointer; font: inherit; }
+    </style>
+  </head>
+  <body>
+    <h1>loomi — data &amp; overlays</h1>
+
+    <h2>Bell</h2>
+    <div class="row">
+      <loomi-bell></loomi-bell>
+      <loomi-bell color="red" animate-dot></loomi-bell>
+      <loomi-bell color="green" size="big"></loomi-bell>
+      <loomi-bell show-dot="false"></loomi-bell>
+    </div>
+
+    <h2>Overlays</h2>
+    <div class="row">
+      <button class="plain" id="open-modal">Open modal</button>
+      <button class="plain" id="notify">Success notification</button>
+      <button class="plain" id="notify-err">Error notification</button>
+    </div>
+
+    <loomi-modal name="demo" type="warning" title="Confirm deletion" ok-button-label="Yes, delete" cancel-button-label="Keep it" show-close-icon>
+      Are you sure you want to delete this user? This action cannot be undone.
+    </loomi-modal>
+    <loomi-notification position="top-right"></loomi-notification>
+
+    <h2>Pagination (standalone)</h2>
+    <loomi-pagination total="240" page-size="25" pagination-style="numbers"></loomi-pagination>
+
+    <h2>Table (search · sort · paginate · check · actions)</h2>
+    <p style="font-size:.85rem;color:#64748b">Selected ids: <span id="sel">(none)</span></p>
+    <loomi-table id="tbl" searchable sortable paginated page-size="5" checkable has-hover show-row-numbers></loomi-table>
+  </body>
+</html>

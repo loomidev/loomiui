@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>loomi — content & navigation</title>
+    <script type="importmap">
+      {
+        "imports": {
+          "lit": "https://esm.sh/lit@3.3.3",
+          "lit/": "https://esm.sh/lit@3.3.3/",
+          "@loomi/theme": "../packages/theme/dist/index.js",
+          "@loomi/icons": "../packages/icons/dist/index.js",
+          "@loomi/core": "../packages/core/dist/index.js"
+        }
+      }
+    </script>
+    <script type="module">
+      import "../packages/icon/dist/loomi-icon.js";
+      import "../packages/spinner/dist/loomi-spinner.js";
+      import "../packages/avatar/dist/loomi-avatar.js";
+      import "../packages/tag/dist/loomi-tag.js";
+      import "../packages/card/dist/loomi-card.js";
+      import "../packages/alert/dist/loomi-alert.js";
+      import "../packages/accordion/dist/loomi-accordion.js";
+      import "../packages/tab/dist/loomi-tab.js";
+      import "../packages/tooltip/dist/loomi-tooltip.js";
+    </script>
+    <style>
+      body { font-family: ui-sans-serif, system-ui, sans-serif; margin: 0; padding: 2.5rem clamp(1rem,5vw,4rem); color: #0f172a; background: #f8fafc; max-width: 820px; }
+      h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin: 2rem 0 0.75rem; }
+      .row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+    </style>
+  </head>
+  <body>
+    <h1>loomi content &amp; navigation</h1>
+
+    <h2>Icon &amp; Spinner</h2>
+    <div class="row">
+      <loomi-icon name="bell-alert" style="color:#7c3aed"></loomi-icon>
+      <loomi-icon name="trash" size="2rem" style="color:#dc2626"></loomi-icon>
+      <loomi-icon name="check-circle" size="2rem" style="color:#16a34a"></loomi-icon>
+      <loomi-spinner></loomi-spinner>
+      <loomi-spinner color="primary" size="medium"></loomi-spinner>
+      <loomi-spinner color="red" size="big"></loomi-spinner>
+    </div>
+
+    <h2>Avatars</h2>
+    <div class="row">
+      <loomi-avatar label="MK" bg-color="primary" dotted></loomi-avatar>
+      <loomi-avatar label="ZH" bg-color="orange" dotted dot-color="orange" size="big"></loomi-avatar>
+      <loomi-avatars stacked plus="34" size="medium">
+        <loomi-avatar label="SF" bg-color="blue"></loomi-avatar>
+        <loomi-avatar label="RB" bg-color="purple"></loomi-avatar>
+        <loomi-avatar label="JD" bg-color="green"></loomi-avatar>
+      </loomi-avatars>
+    </div>
+
+    <h2>Tags</h2>
+    <div class="row">
+      <loomi-tag label="pending"></loomi-tag>
+      <loomi-tag label="active" color="green"></loomi-tag>
+      <loomi-tag label="urgent" color="red" shade="dark"></loomi-tag>
+      <loomi-tag label="design" color="purple" outline rounded></loomi-tag>
+      <loomi-tag label="closable" color="cyan" can-close></loomi-tag>
+      <loomi-tag label="new" color="pink" tiny shade="dark"></loomi-tag>
+    </div>
+
+    <h2>Alerts</h2>
+    <loomi-alert>Your subscription expires in 19 days. <a href="#">Renew now</a></loomi-alert>
+    <loomi-alert type="success">Files were successfully uploaded.</loomi-alert>
+    <loomi-alert type="error" shade="dark">You do not have permission to upload files.</loomi-alert>
+    <loomi-alert type="warning">Well, this is your first warning.</loomi-alert>
+    <loomi-alert color="purple" icon="bell-alert">No more snoozing. Wake up!</loomi-alert>
+
+    <h2>Card</h2>
+    <div class="row">
+      <loomi-card title="recent activity" style="width:260px">
+        Nothing to see here yet. Check back later.
+      </loomi-card>
+      <loomi-card has-hover url="https://example.com" style="width:260px">
+        <strong>Clickable card</strong>
+        <div style="color:#64748b;font-size:.9rem">Opens example.com</div>
+      </loomi-card>
+    </div>
+
+    <h2>Accordion</h2>
+    <loomi-accordion>
+      <loomi-accordion-item title="What is loomi?" open>
+        A framework-agnostic Lit web component library, themeable via CSS variables.
+      </loomi-accordion-item>
+      <loomi-accordion-item title="How do I install it?">
+        Install the whole library with @loomi/components, or just one component.
+      </loomi-accordion-item>
+      <loomi-accordion-item title="Can I theme it?">
+        Yes — override --loomi-primary-600 (and friends) from your page CSS.
+      </loomi-accordion-item>
+    </loomi-accordion>
+
+    <h2>Tabs</h2>
+    <loomi-tabs color="primary">
+      <loomi-tab label="Overview" icon="information-circle" active>The overview panel.</loomi-tab>
+      <loomi-tab label="Activity" icon="bell-alert">The activity panel.</loomi-tab>
+      <loomi-tab label="Settings" icon="key">The settings panel.</loomi-tab>
+    </loomi-tabs>
+    <div style="height:1rem"></div>
+    <loomi-tabs color="purple" tab-style="pills">
+      <loomi-tab label="One" active>Pill one</loomi-tab>
+      <loomi-tab label="Two">Pill two</loomi-tab>
+    </loomi-tabs>
+
+    <h2>Tooltip</h2>
+    <div class="row">
+      <loomi-tooltip content="Tooltip on top!">
+        <loomi-tag label="hover me" color="blue"></loomi-tag>
+      </loomi-tooltip>
+      <loomi-tooltip content="On the right" position="right">
+        <loomi-tag label="and me" color="green"></loomi-tag>
+      </loomi-tooltip>
+    </div>
+  </body>
+</html>

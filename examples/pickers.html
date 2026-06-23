@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>loomi — pickers</title>
+    <script type="importmap">
+      {
+        "imports": {
+          "lit": "https://esm.sh/lit@3.3.3",
+          "lit/": "https://esm.sh/lit@3.3.3/",
+          "@loomi/theme": "../packages/theme/dist/index.js",
+          "@loomi/core": "../packages/core/dist/index.js",
+          "@loomi/icons": "../packages/icons/dist/index.js"
+        }
+      }
+    </script>
+    <script type="module">
+      import "../packages/datepicker/dist/loomi-datepicker.js";
+      import "../packages/timepicker/dist/loomi-timepicker.js";
+      import "../packages/colorpicker/dist/loomi-colorpicker.js";
+      const out = (id, ev) => customElements.whenDefined(ev.tag).then(() => {
+        document.querySelector(ev.sel).addEventListener("change", (e) =>
+          document.getElementById(id).textContent = JSON.stringify(e.detail));
+      });
+    </script>
+    <style>
+      body { font-family: ui-sans-serif, system-ui, sans-serif; margin: 0; padding: 2.5rem clamp(1rem,5vw,4rem); color: #0f172a; background: #f8fafc; max-width: 760px; }
+      h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin: 2rem 0 0.75rem; }
+      .row { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-start; }
+      .col { width: 240px; }
+      .mut { font-size:.85rem; color:#64748b }
+    </style>
+  </head>
+  <body>
+    <h1>loomi pickers</h1>
+
+    <h2>Datepicker</h2>
+    <div class="row">
+      <div class="col"><loomi-datepicker id="d1" label="Single date" placeholder="Pick a date"></loomi-datepicker></div>
+      <div class="col"><loomi-datepicker id="d2" range label="Date range" format="dd/mm/yyyy"></loomi-datepicker></div>
+      <div class="col"><loomi-datepicker id="d3" label="With default" selected-value="2026-06-22" format="D d M, Y"></loomi-datepicker></div>
+    </div>
+
+    <h2>Timepicker</h2>
+    <div class="row">
+      <div class="col"><loomi-timepicker label="Popup 12h"></loomi-timepicker></div>
+      <div class="col"><loomi-timepicker label="Popup 24h" format="24" selected-value="14:30"></loomi-timepicker></div>
+      <div class="col"><loomi-timepicker tp-style="inline" label="Inline 12h" selected-value="3:25PM"></loomi-timepicker></div>
+    </div>
+
+    <h2>Colorpicker</h2>
+    <div class="row">
+      <loomi-colorpicker show-value selected-value="#16a34a"></loomi-colorpicker>
+      <loomi-colorpicker show-value colors="#ef4444,#f97316,#eab308,#22c55e,#06b6d4,#3b82f6,#8b5cf6,#ec4899" selected-value="#3b82f6"></loomi-colorpicker>
+      <loomi-colorpicker size="big"></loomi-colorpicker>
+    </div>
+  </body>
+</html>

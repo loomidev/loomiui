@@ -1,0 +1,86 @@
+/* Component-scoped plain CSS for <loomi-checkbox>.
+   The active color is injected per-instance as --_loomi-accent (see the component). */
+:host {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+:host([no-clearing]) {
+  margin-bottom: 0;
+}
+:host([hidden]) {
+  display: none;
+}
+
+.loomi-cb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  cursor: pointer;
+  user-select: none;
+  color: var(--loomi-gray-800);
+}
+:host([disabled]) .loomi-cb {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* visually-hidden native control (keeps keyboard + a11y semantics) */
+.loomi-native {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.loomi-box {
+  flex: none;
+  width: 1.2rem;
+  height: 1.2rem;
+  border: 2px solid var(--loomi-gray-300);
+  border-radius: 0.35rem;
+  background: var(--loomi-white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--loomi-white);
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.loomi-box svg {
+  width: 0.8rem;
+  height: 0.8rem;
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity 0.12s ease,
+    transform 0.12s ease;
+}
+
+.loomi-native:checked + .loomi-box {
+  background: var(--_loomi-accent);
+  border-color: var(--_loomi-accent);
+}
+.loomi-native:checked + .loomi-box svg {
+  opacity: 1;
+  transform: scale(1);
+}
+.loomi-native:focus-visible + .loomi-box {
+  box-shadow: 0 0 0 3px var(--_loomi-accent-ring);
+}
+
+.loomi-label {
+  line-height: 1.3;
+}
+.loomi-label ::slotted(a),
+.loomi-label a {
+  color: var(--loomi-primary-600);
+  text-decoration: underline;
+}

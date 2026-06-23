@@ -1,0 +1,94 @@
+:host {
+  display: block;
+}
+:host([hidden]) {
+  display: none;
+}
+
+/* ---- progress bar ---- */
+.loomi-bar-wrap {
+  width: 100%;
+}
+.loomi-bar-label-out {
+  font-size: 0.8rem;
+  color: var(--loomi-gray-500);
+  margin-bottom: 0.25rem;
+  display: flex;
+}
+.loomi-bar-label-out.left { justify-content: flex-start; }
+.loomi-bar-label-out.center { justify-content: center; }
+.loomi-bar-label-out.right { justify-content: flex-end; }
+
+.loomi-track {
+  width: 100%;
+  height: 0.75rem;
+  background: var(--_loomi-accent-soft);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+.loomi-fill {
+  height: 100%;
+  border-radius: 9999px;
+  background: var(--_loomi-accent);
+  transition: width 0.5s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: var(--loomi-white);
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding-right: 0.4rem;
+  min-width: fit-content;
+}
+.loomi-fill.dark {
+  background: var(--_loomi-accent-strong);
+}
+.loomi-fill.striped {
+  background-image: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.2) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.2) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 1rem 1rem;
+}
+.loomi-fill.animated {
+  animation: loomi-stripes 1s linear infinite;
+}
+@keyframes loomi-stripes {
+  from { background-position: 1rem 0; }
+  to { background-position: 0 0; }
+}
+
+/* ---- progress circle ---- */
+.loomi-circle {
+  position: relative;
+  display: inline-flex;
+}
+.loomi-circle svg {
+  transform: rotate(-90deg);
+}
+.loomi-circle .track {
+  stroke: var(--_loomi-accent-soft);
+}
+.loomi-circle .bar {
+  stroke: var(--_loomi-accent);
+  transition: stroke-dashoffset 0.6s ease;
+  stroke-linecap: round;
+}
+.loomi-circle .bar.dark {
+  stroke: var(--_loomi-accent-strong);
+}
+.loomi-circle .label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--loomi-gray-700);
+}

@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>loomi — form components</title>
+    <script type="importmap">
+      {
+        "imports": {
+          "lit": "https://esm.sh/lit@3.3.3",
+          "lit/": "https://esm.sh/lit@3.3.3/",
+          "@loomi/theme": "../packages/theme/dist/index.js",
+          "@loomi/icons": "../packages/icons/dist/index.js"
+        }
+      }
+    </script>
+    <script type="module">
+      import "../packages/input/dist/loomi-input.js";
+      import "../packages/textarea/dist/loomi-textarea.js";
+      import "../packages/checkbox/dist/loomi-checkbox.js";
+      import "../packages/radio/dist/loomi-radio.js";
+      import "../packages/toggle/dist/loomi-toggle.js";
+      import "../packages/number/dist/loomi-number.js";
+      import "../packages/select/dist/loomi-select.js";
+    </script>
+    <style>
+      body {
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        margin: 0;
+        padding: 2.5rem clamp(1rem, 5vw, 4rem);
+        color: #0f172a;
+        background: #f8fafc;
+        max-width: 760px;
+      }
+      h1 { margin: 0 0 1.5rem; }
+      h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin: 2rem 0 0.75rem; }
+      .row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+      .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+      /* runtime rebrand: change one slot, restyle everything */
+      body.rebrand { --loomi-primary-600: #7c3aed; --loomi-primary-500: #8b5cf6; --loomi-primary-100: #ede9fe; --loomi-primary-50: #f5f3ff; --loomi-primary-700: #6d28d9; }
+    </style>
+  </head>
+  <body>
+    <h1>loomi form components</h1>
+    <button onclick="document.body.classList.toggle('rebrand')">Toggle theme → violet</button>
+
+    <h2>Input</h2>
+    <div class="grid2">
+      <loomi-input label="Full name"></loomi-input>
+      <loomi-input label="Email" type="email" prefix-icon="envelope"></loomi-input>
+      <loomi-input type="password" label="Password" viewable prefix-icon="key"></loomi-input>
+      <loomi-input label="Search" prefix-icon="magnifying-glass" clearable value="clear me"></loomi-input>
+      <loomi-input placeholder="0.00" prefix="USD" transparent-prefix="false" numeric></loomi-input>
+      <loomi-input placeholder="workspace" suffix=".loomi.dev" transparent-suffix="false"></loomi-input>
+      <loomi-input label="Age" numeric required size="small"></loomi-input>
+      <loomi-input label="Disabled" disabled value="nope"></loomi-input>
+    </div>
+
+    <h2>Textarea</h2>
+    <loomi-textarea label="Describe yourself" rows="3"></loomi-textarea>
+
+    <h2>Select</h2>
+    <div class="grid2">
+      <loomi-select
+        label="Country"
+        searchable
+        selected-value="gh"
+        data='[{"label":"Benin","value":"bj"},{"label":"Burkina Faso","value":"bf"},{"label":"Ghana","value":"gh"},{"label":"Nigeria","value":"ng"},{"label":"Kenya","value":"ke"}]'
+      ></loomi-select>
+      <loomi-select placeholder="Pick tags" multiple searchable max-selectable="3"
+        data='[{"label":"Pop","value":"pop"},{"label":"Hip hop","value":"hip"},{"label":"Trance","value":"trance"},{"label":"Jazz","value":"jazz"},{"label":"Rock","value":"rock"}]'></loomi-select>
+      <loomi-select placeholder="Gender (manual)">
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Prefer not to say</option>
+      </loomi-select>
+      <loomi-select placeholder="Disabled" disabled></loomi-select>
+    </div>
+
+    <h2>Number</h2>
+    <div class="row">
+      <loomi-number label="Quantity" value="3"></loomi-number>
+      <loomi-number value="20" step="10" min="0" max="100" transparent-icons="false"></loomi-number>
+      <loomi-number label="Age" min="18" max="65" value="18" size="small"></loomi-number>
+    </div>
+
+    <h2>Checkbox</h2>
+    <div class="row">
+      <loomi-checkbox checked>Default</loomi-checkbox>
+      <loomi-checkbox color="red" checked>Red</loomi-checkbox>
+      <loomi-checkbox color="green" checked>Green</loomi-checkbox>
+      <loomi-checkbox color="orange" checked>Orange</loomi-checkbox>
+      <loomi-checkbox disabled>Disabled</loomi-checkbox>
+    </div>
+
+    <h2>Radio</h2>
+    <div class="row">
+      <loomi-radio name="genre" value="action" checked>Action</loomi-radio>
+      <loomi-radio name="genre" value="comedy">Comedy</loomi-radio>
+      <loomi-radio name="genre" value="drama" color="purple">Drama</loomi-radio>
+      <loomi-radio name="genre" value="thriller" color="red">Thriller</loomi-radio>
+    </div>
+
+    <h2>Toggle</h2>
+    <div class="row" style="flex-direction:column;align-items:flex-start">
+      <loomi-toggle checked>Default (thick)</loomi-toggle>
+      <loomi-toggle bar="thin" color="green" checked>Thin · green</loomi-toggle>
+      <loomi-toggle bar="thicker" color="orange" label-position="right" checked>Thicker · label right</loomi-toggle>
+      <loomi-toggle disabled checked>Disabled</loomi-toggle>
+    </div>
+
+    <h2>Live value (form-associated)</h2>
+    <form id="f" class="row">
+      <loomi-input name="city" label="City" value="Accra"></loomi-input>
+      <loomi-select name="role" placeholder="Role" selected-value="dev"
+        data='[{"label":"Developer","value":"dev"},{"label":"Designer","value":"design"}]'></loomi-select>
+    </form>
+    <pre id="out" style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:1rem;"></pre>
+
+    <script type="module">
+      const f = document.getElementById("f");
+      const out = document.getElementById("out");
+      const dump = () => { out.textContent = JSON.stringify(Object.fromEntries(new FormData(f)), null, 2); };
+      f.addEventListener("input", dump);
+      f.addEventListener("change", dump);
+      customElements.whenDefined("loomi-select").then(() => setTimeout(dump, 50));
+    </script>
+  </body>
+</html>

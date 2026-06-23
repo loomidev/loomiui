@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>loomi — more form &amp; content</title>
+    <script type="importmap">
+      {
+        "imports": {
+          "lit": "https://esm.sh/lit@3.3.3",
+          "lit/": "https://esm.sh/lit@3.3.3/",
+          "@loomi/theme": "../packages/theme/dist/index.js",
+          "@loomi/core": "../packages/core/dist/index.js",
+          "@loomi/icons": "../packages/icons/dist/index.js"
+        }
+      }
+    </script>
+    <script type="module">
+      import "../packages/slider/dist/loomi-slider.js";
+      import "../packages/code/dist/loomi-code.js";
+      import "../packages/checkcards/dist/loomi-checkcards.js";
+      import "../packages/listview/dist/loomi-listview.js";
+      import "../packages/contact-card/dist/loomi-contact-card.js";
+      import "../packages/centered-content/dist/loomi-centered-content.js";
+      import "../packages/theme-switcher/dist/loomi-theme-switcher.js";
+
+      customElements.whenDefined("loomi-code").then(() => {
+        document.querySelector("loomi-code").addEventListener("verify", (e) =>
+          document.getElementById("pin").textContent = e.detail.code);
+      });
+      customElements.whenDefined("loomi-checkcards").then(() => {
+        document.querySelector("loomi-checkcards").addEventListener("change", (e) =>
+          document.getElementById("cc").textContent = e.detail.values.join(", ") || "(none)");
+      });
+    </script>
+    <style>
+      body { font-family: ui-sans-serif, system-ui, sans-serif; margin: 0; padding: 2.5rem clamp(1rem,5vw,4rem); color: #0f172a; background: #f8fafc; max-width: 880px; }
+      h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin: 2rem 0 0.75rem; }
+      .row { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center; }
+      .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
+      .mut { font-size: .85rem; color: #64748b; }
+      /* react to theme-switcher toggling .dark on <html> */
+      :root.dark body { background: #0b1220; color: #e2e8f0; }
+    </style>
+  </head>
+  <body>
+    <h2>Theme switcher</h2>
+    <loomi-theme-switcher></loomi-theme-switcher>
+
+    <h2>Slider</h2>
+    <div style="max-width:420px;display:flex;flex-direction:column;gap:1rem">
+      <loomi-slider selected="50"></loomi-slider>
+      <loomi-slider selected="30" color="pink" step="5"></loomi-slider>
+      <loomi-slider selected="70" color="green" min="0" max="100"></loomi-slider>
+    </div>
+
+    <h2>Verification code <span class="mut">— entered: <b id="pin">…</b></span></h2>
+    <div class="row">
+      <loomi-code total-digits="4"></loomi-code>
+      <loomi-code total-digits="6" size="big" mask></loomi-code>
+    </div>
+
+    <h2>Checkcards <span class="mut">— selected: <b id="cc">(none)</b></span></h2>
+    <loomi-checkcards name="hosting" max="2" color="primary" selected-value="aws">
+      <div class="grid3">
+        <loomi-checkcard value="aws" title="AWS" icon="cloud-arrow-up">Amazon Web Services backup.</loomi-checkcard>
+        <loomi-checkcard value="gcp" title="Google Cloud" icon="circle-stack">Google Cloud backup.</loomi-checkcard>
+        <loomi-checkcard value="azure" title="Azure" icon="bolt">Microsoft Azure backup.</loomi-checkcard>
+      </div>
+    </loomi-checkcards>
+
+    <h2>Listview &amp; contact card</h2>
+    <div class="grid2">
+      <loomi-listview compact>
+        <loomi-listview-item><strong>Michael Ocansey</strong> — Engineering</loomi-listview-item>
+        <loomi-listview-item><strong>Sara Field</strong> — Design</loomi-listview-item>
+        <loomi-listview-item><strong>Zane Hart</strong> — Engineering</loomi-listview-item>
+      </loomi-listview>
+      <loomi-contact-card
+        name="Michael K. Ocansey"
+        position="Senior Developer"
+        department="Tech"
+        email="mike@loomi.dev"
+        mobile="+233 123 456 789"
+        birthday="01 May"></loomi-contact-card>
+    </div>
+
+    <h2>Centered content</h2>
+    <div style="border:1px dashed #cbd5e1;border-radius:12px">
+      <loomi-centered-content min-height="180px">
+        <h3 style="margin:0">Welcome back</h3>
+        <p class="mut" style="margin:.25rem 0 0">Sign in to continue to your dashboard.</p>
+      </loomi-centered-content>
+    </div>
+  </body>
+</html>

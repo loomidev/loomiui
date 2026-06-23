@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>loomi — &lt;loomi-button&gt; showcase</title>
+
+    <!-- Resolve `lit` from a CDN; resolve the loomi packages from local dist builds.
+         This is just for the demo — consumers would resolve these from node_modules. -->
+    <script type="importmap">
+      {
+        "imports": {
+          "lit": "https://esm.sh/lit@3.3.3",
+          "lit/": "https://esm.sh/lit@3.3.3/",
+          "@loomi/theme": "../packages/theme/dist/index.js"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import "../packages/button/dist/loomi-button.js";
+    </script>
+
+    <style>
+      body {
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        margin: 0;
+        padding: 2.5rem clamp(1rem, 5vw, 4rem);
+        color: #0f172a;
+        background: #f8fafc;
+      }
+      h1 { margin: 0 0 0.25rem; }
+      p.lead { color: #475569; margin-top: 0; }
+      section { margin: 2rem 0; }
+      h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; }
+      .row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+
+      /* THEME OVERRIDE DEMO — no build step, no Tailwind. Just set the slots.
+         Toggled by the button below. */
+      body.rebrand {
+        --loomi-primary-600: #16a34a;
+        --loomi-primary-700: #15803d;
+        --loomi-primary-400: #4ade80;
+        --loomi-primary-100: #dcfce7;
+        --loomi-primary-200: #bbf7d0;
+        --loomi-primary-50:  #f0fdf4;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>&lt;loomi-button&gt;</h1>
+    <p class="lead">
+      Themeable, framework-agnostic Lit web component. Colors resolve through
+      <code>--loomi-*</code> custom properties.
+    </p>
+
+    <section>
+      <h2>Live theme override</h2>
+      <div class="row">
+        <loomi-button id="brand">Primary</loomi-button>
+        <loomi-button onclick="document.body.classList.toggle('rebrand')">
+          Toggle <code>--loomi-primary-*</code> → green
+        </loomi-button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Types</h2>
+      <div class="row">
+        <loomi-button>Primary</loomi-button>
+        <loomi-button type="secondary">Secondary</loomi-button>
+        <loomi-button outline>Primary Outline</loomi-button>
+        <loomi-button type="secondary" outline>Secondary Outline</loomi-button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Sizes</h2>
+      <div class="row">
+        <loomi-button size="tiny">Tiny</loomi-button>
+        <loomi-button size="small">Small</loomi-button>
+        <loomi-button size="regular">Regular</loomi-button>
+        <loomi-button size="medium">Medium</loomi-button>
+        <loomi-button size="big">Big</loomi-button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Radii</h2>
+      <div class="row">
+        <loomi-button radius="none">None</loomi-button>
+        <loomi-button radius="small">Small</loomi-button>
+        <loomi-button radius="medium">Medium</loomi-button>
+        <loomi-button radius="full">Full</loomi-button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Colors</h2>
+      <div class="row">
+        <loomi-button color="red">Red</loomi-button>
+        <loomi-button color="green">Green</loomi-button>
+        <loomi-button color="cyan" outline>Cyan Outline</loomi-button>
+        <loomi-button color="purple">Purple</loomi-button>
+        <loomi-button color="orange">Orange</loomi-button>
+        <loomi-button color="black">Black</loomi-button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Border widths (outline)</h2>
+      <div class="row">
+        <loomi-button outline border-width="2">Border 2</loomi-button>
+        <loomi-button outline border-width="4">Border 4</loomi-button>
+        <loomi-button outline border-width="8">Border 8</loomi-button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Icons</h2>
+      <div class="row">
+        <loomi-button icon="arrow-path">Refresh</loomi-button>
+        <loomi-button icon="arrow-small-right" icon-right type="secondary">Next</loomi-button>
+        <loomi-button icon="lock-closed" color="black">Locked</loomi-button>
+        <loomi-button icon="trash" color="red" outline>Delete</loomi-button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Spinners</h2>
+      <div class="row">
+        <loomi-button has-spinner show-spinner>Saving…</loomi-button>
+        <loomi-button has-spinner id="spin">Click to spin</loomi-button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Disabled &amp; link</h2>
+      <div class="row">
+        <loomi-button disabled>Disabled</loomi-button>
+        <loomi-button disabled outline>Disabled Outline</loomi-button>
+        <loomi-button tag="a" href="https://example.com" icon="paper-airplane">Link button</loomi-button>
+      </div>
+    </section>
+
+    <script type="module">
+      const spin = document.getElementById("spin");
+      spin?.addEventListener("click", () => {
+        spin.startSpinner();
+        setTimeout(() => spin.stopSpinner(), 2000);
+      });
+    </script>
+  </body>
+</html>

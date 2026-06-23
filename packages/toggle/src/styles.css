@@ -1,0 +1,93 @@
+/* Component-scoped plain CSS for <loomi-toggle>. Active color injected as --_loomi-accent. */
+:host {
+  display: inline-flex;
+  margin-bottom: 0.5rem;
+}
+:host([justified]) {
+  display: flex;
+  width: 100%;
+}
+:host([hidden]) {
+  display: none;
+}
+
+.loomi-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  user-select: none;
+  color: var(--loomi-gray-800);
+}
+:host([justified]) .loomi-toggle {
+  width: 100%;
+  justify-content: space-between;
+}
+:host([disabled]) .loomi-toggle {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.loomi-native {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* bar size presets */
+.bar-thin {
+  --tw: 2.25rem;
+  --th: 0.4rem;
+  --tk: 1.05rem;
+}
+.bar-thick {
+  --tw: 2.6rem;
+  --th: 1.45rem;
+  --tk: 1.05rem;
+}
+.bar-thicker {
+  --tw: 3rem;
+  --th: 1.8rem;
+  --tk: 1.4rem;
+}
+
+.loomi-track {
+  position: relative;
+  flex: none;
+  width: var(--tw);
+  height: var(--th);
+  border-radius: 9999px;
+  background: var(--loomi-gray-300);
+  transition: background-color 0.15s ease;
+}
+.loomi-knob {
+  position: absolute;
+  top: 50%;
+  left: 2px;
+  transform: translateY(-50%);
+  width: var(--tk);
+  height: var(--tk);
+  border-radius: 9999px;
+  background: var(--loomi-white);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: left 0.15s ease;
+}
+.loomi-native:checked + .loomi-track {
+  background: var(--_loomi-accent);
+}
+.loomi-native:checked + .loomi-track .loomi-knob {
+  left: calc(var(--tw) - var(--tk) - 2px);
+}
+.loomi-native:focus-visible + .loomi-track {
+  box-shadow: 0 0 0 3px var(--_loomi-accent-ring);
+}
+
+.loomi-label {
+  line-height: 1.3;
+}

@@ -1,0 +1,44 @@
+:host {
+  display: block;
+}
+:host([hidden]) {
+  display: none;
+}
+.loomi-proc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.6rem;
+  padding: 1.5rem;
+  color: var(--loomi-gray-600);
+}
+.loomi-icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.loomi-icon svg {
+  width: 100%;
+  height: 100%;
+}
+.loomi-spin {
+  color: var(--_loomi-accent, var(--loomi-primary-600, var(--_loomi-primary-600-default)));
+  animation: loomi-spin 0.7s linear infinite;
+}
+.loomi-spin circle { opacity: 0.25; }
+.loomi-spin path { opacity: 0.9; }
+.state-success .loomi-icon { color: var(--loomi-green-500, var(--_loomi-green-500-default)); }
+.state-failed .loomi-icon { color: var(--loomi-red-500, var(--_loomi-red-500-default)); }
+.loomi-title {
+  font-weight: 600;
+  color: var(--loomi-gray-900);
+  font-size: 1.05rem;
+}
+.loomi-message {
+  max-width: 22rem;
+  line-height: 1.5;
+}
+@keyframes loomi-spin { to { transform: rotate(360deg); } }

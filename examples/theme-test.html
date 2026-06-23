@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>loomi theme mechanism test</title>
+    <style>
+      /* Consumer override — exactly the documented BladewindUI-style experience. */
+      body.rebrand { --loomi-primary-600: #16a34a; }
+    </style>
+  </head>
+  <body>
+    <x-probe id="p"></x-probe>
+    <script>
+      // Hand-rolled element that adopts the SAME CSS pattern the build emits:
+      //   :host declares only the PRIVATE default; the utility references the public
+      //   slot with the private default as fallback.
+      const sheet = new CSSStyleSheet();
+      sheet.replaceSync(`
+        :host { display:block; --_loomi-primary-600-default: oklch(54.6% 0.245 262.881); }
+        .btn { background-color: var(--loomi-primary-600, var(--_loomi-primary-600-default)); }
+      `);
+      class XProbe extends HTMLElement {
+        constructor() {
+          super();
+          const sr = this.attachShadow({ mode: "open" });
+          sr.adoptedStyleSheets = [sheet];
+          const b = document.createElement("div");
+          b.className = "btn";
+          b.textContent = "probe";
+          sr.append(b);
+          this._btn = b;
+        }
+        bg() { return getComputedStyle(this._btn).backgroundColor; }
+      }
+      customElements.define("x-probe", XProbe);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,83 @@
+:host {
+  display: block;
+}
+:host([hidden]) {
+  display: none;
+}
+.loomi-tp {
+  position: relative;
+  width: 100%;
+}
+.loomi-field {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  background: var(--loomi-white);
+  border: 1px solid var(--loomi-gray-300);
+  border-radius: 0.5rem;
+  padding: 0.55rem 0.85rem;
+  cursor: pointer;
+}
+.loomi-field:focus-within,
+.loomi-tp.open .loomi-field {
+  border-color: var(--loomi-primary-500);
+  box-shadow: 0 0 0 3px var(--loomi-primary-100);
+}
+.loomi-field svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  color: var(--loomi-gray-400);
+  flex: none;
+}
+.loomi-text {
+  flex: 1 1 auto;
+  color: var(--loomi-gray-900);
+}
+.loomi-text.placeholder {
+  color: var(--loomi-gray-400);
+}
+.loomi-req {
+  color: var(--loomi-red-500);
+}
+
+.loomi-selects {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.loomi-panel {
+  position: absolute;
+  z-index: 70;
+  top: calc(100% + 0.4rem);
+  left: 0;
+  background: var(--loomi-white);
+  border: 1px solid var(--loomi-gray-200);
+  border-radius: 0.6rem;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  padding: 0.75rem;
+}
+select {
+  font: inherit;
+  border: 1px solid var(--loomi-gray-200);
+  border-radius: 0.4rem;
+  padding: 0.4rem 0.5rem;
+  background: var(--loomi-white);
+  color: var(--loomi-gray-800);
+  outline: none;
+}
+select:focus {
+  border-color: var(--loomi-primary-400);
+}
+.loomi-colon {
+  color: var(--loomi-gray-400);
+  font-weight: 600;
+}
+.loomi-label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--loomi-gray-500);
+  margin-bottom: 0.3rem;
+}

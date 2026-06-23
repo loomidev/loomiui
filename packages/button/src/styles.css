@@ -1,0 +1,88 @@
+/*
+ * Component-scoped, non-utility CSS for <loomi-button>.
+ *
+ * This file contains ONLY plain CSS (no Tailwind directives). The build script
+ * (scripts/build-styles.mjs) prepends the Tailwind utilities import, the loomi
+ * color `@theme inline` mapping, and the safelist before compiling, then inlines
+ * the whole result into the component's `static styles`. Tailwind passes this
+ * plain CSS through untouched.
+ *
+ * Everything here is Shadow-DOM scoped, so it cannot leak into the host page.
+ */
+
+:host {
+  display: inline-block;
+  /* font-family is set on :host by @loomi/theme's tokens (prefix-aware). */
+  -webkit-tap-highlight-color: transparent;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+:host([block]) {
+  display: block;
+}
+
+:host([block]) .loomi-btn {
+  width: 100%;
+}
+
+/* The interactive element (button or anchor). Layout/colors come from utilities. */
+.loomi-btn {
+  font-family: inherit;
+  text-decoration: none;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: none;
+}
+
+/* Disabled state (reflected from the `disabled` attribute on the host). */
+:host([disabled]) .loomi-btn,
+.loomi-btn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Icons inherit the text color. */
+.loomi-icon {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+}
+
+/* Spinner. */
+.loomi-spinner {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+  animation: loomi-spin 0.7s linear infinite;
+}
+
+.loomi-spinner circle {
+  opacity: 0.25;
+}
+
+.loomi-spinner path {
+  opacity: 0.9;
+}
+
+@keyframes loomi-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loomi-spinner {
+    animation-duration: 1.6s;
+  }
+}
+
+/* Hide empty named slots so they don't add stray gaps. */
+::slotted([slot="prefix"]),
+::slotted([slot="suffix"]) {
+  display: inline-flex;
+  align-items: center;
+}

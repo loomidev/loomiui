@@ -1,0 +1,57 @@
+:host {
+  display: inline-flex;
+}
+:host([hidden]) {
+  display: none;
+}
+
+.loomi-bell {
+  position: relative;
+  display: inline-flex;
+  color: var(--loomi-gray-600);
+}
+.loomi-bell.invert {
+  color: var(--loomi-white);
+}
+.loomi-bell svg {
+  width: var(--loomi-bell-size, 1.5rem);
+  height: var(--loomi-bell-size, 1.5rem);
+}
+.size-small {
+  --loomi-bell-size: 1.5rem;
+}
+.size-big {
+  --loomi-bell-size: 2.25rem;
+}
+
+.loomi-dot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 9999px;
+  background: var(--_loomi-accent);
+  box-shadow: 0 0 0 2px var(--loomi-white);
+}
+.loomi-bell.invert .loomi-dot {
+  box-shadow: 0 0 0 2px var(--loomi-gray-900, #111827);
+}
+.loomi-ping {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 9999px;
+  background: var(--_loomi-accent);
+  opacity: 0.75;
+  animation: loomi-ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes loomi-ping {
+  75%,
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}

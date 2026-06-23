@@ -1,0 +1,31 @@
+:host {
+  display: block;
+}
+:host([hidden]) {
+  display: none;
+}
+
+.loomi-listview {
+  background: var(--loomi-white);
+  border-radius: 0.6rem;
+  overflow: hidden;
+}
+:host([transparent]) .loomi-listview {
+  background: transparent;
+}
+::slotted(loomi-listview-item:not(:first-child)) {
+  border-top: 1px solid var(--loomi-gray-100);
+}
+
+/* item */
+.loomi-li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  color: var(--loomi-gray-700);
+}
+:host([compact]) .loomi-li {
+  padding: 0.5rem;
+  gap: 0.5rem;
+}

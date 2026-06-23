@@ -1,0 +1,39 @@
+:host {
+  display: block;
+}
+:host([hidden]) {
+  display: none;
+}
+.loomi-code {
+  display: inline-flex;
+  gap: 0.5rem;
+}
+.loomi-box {
+  width: var(--loomi-code-size, 3rem);
+  height: var(--loomi-code-size, 3rem);
+  text-align: center;
+  font-size: calc(var(--loomi-code-size, 3rem) * 0.45);
+  font-weight: 600;
+  color: var(--loomi-gray-900);
+  border: 1px solid var(--loomi-gray-300);
+  border-radius: 0.5rem;
+  outline: none;
+  background: var(--loomi-white);
+  transition:
+    border-color 0.12s ease,
+    box-shadow 0.12s ease;
+}
+.size-small { --loomi-code-size: 2.75rem; }
+.size-big { --loomi-code-size: 3.75rem; }
+.loomi-box:focus {
+  border-color: var(--loomi-primary-500);
+  box-shadow: 0 0 0 3px var(--loomi-primary-100);
+}
+:host([invalid]) .loomi-box {
+  border-color: var(--loomi-red-400);
+}
+.loomi-error {
+  margin: 0.5rem 0 0;
+  color: var(--loomi-red-500);
+  font-size: 0.85rem;
+}

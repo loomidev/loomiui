@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+# Security vulnerabilities should be reported privately per SECURITY.md, not as a public
+# issue. GitHub surfaces SECURITY.md automatically under the repo's "Security" tab once
+# this is pushed — no contact_link needed here (those require a hardcoded absolute URL,
+# which we can't fill in correctly until the GitHub org/repo name is finalized).

@@ -1,0 +1,46 @@
+:host {
+  display: block;
+}
+:host([hidden]) {
+  display: none;
+}
+.loomi-hlg {
+  width: 100%;
+}
+.loomi-bar {
+  display: flex;
+  width: 100%;
+  height: var(--loomi-hlg-height, 0.85rem);
+  border-radius: 9999px;
+  overflow: hidden;
+  background: var(--loomi-gray-100);
+}
+.loomi-seg {
+  height: 100%;
+  transition: width 0.5s ease;
+}
+.loomi-seg:first-child { border-radius: 9999px 0 0 9999px; }
+.loomi-seg:last-child { border-radius: 0 9999px 9999px 0; }
+.loomi-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  margin-top: 0.75rem;
+}
+.loomi-key {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--loomi-gray-600);
+}
+.loomi-dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 9999px;
+  flex: none;
+}
+.loomi-val {
+  color: var(--loomi-gray-400);
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,60 @@
+{
+  "name": "@loomi/content",
+  "version": "0.1.0",
+  "description": "All loomi content/data-display components in one install.",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@loomi/card": "workspace:^",
+    "@loomi/avatar": "workspace:^",
+    "@loomi/accordion": "workspace:^",
+    "@loomi/tag": "workspace:^",
+    "@loomi/tooltip": "workspace:^",
+    "@loomi/popover": "workspace:^",
+    "@loomi/empty-state": "workspace:^",
+    "@loomi/statistic": "workspace:^",
+    "@loomi/rating": "workspace:^",
+    "@loomi/timeline": "workspace:^",
+    "@loomi/progress": "workspace:^",
+    "@loomi/listview": "workspace:^",
+    "@loomi/contact-card": "workspace:^",
+    "@loomi/centered-content": "workspace:^",
+    "@loomi/sortable": "workspace:^",
+    "@loomi/processing": "workspace:^",
+    "@loomi/horizontal-line-graph": "workspace:^",
+    "@loomi/chart": "workspace:^"
+  },
+  "peerDependencies": {
+    "lit": "^3.0.0"
+  },
+  "devDependencies": {
+    "lit": "^3.3.3",
+    "typescript": "^5.6.3"
+  },
+  "keywords": [
+    "web-components",
+    "lit",
+    "loomi",
+    "content"
+  ]
+}

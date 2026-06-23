@@ -1,0 +1,30 @@
+{
+  "name": "@loomi/root",
+  "version": "0.0.0",
+  "private": true,
+  "description": "loomi — framework-agnostic Lit web component library (monorepo root)",
+  "license": "MIT",
+  "type": "module",
+  "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "pnpm -r --filter \"./packages/*\" build",
+    "clean": "pnpm -r exec rm -rf dist tsconfig.tsbuildinfo && rm -rf node_modules/.cache",
+    "dev": "pnpm -r --parallel dev",
+    "typecheck": "pnpm -r typecheck",
+    "test": "web-test-runner"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.31.0",
+    "@open-wc/testing": "^4.0.0",
+    "@web/dev-server-esbuild": "^1.0.5",
+    "@web/test-runner": "^0.20.2",
+    "@web/test-runner-puppeteer": "^0.18.0",
+    "typescript": "^5.6.3"
+  }
+}

@@ -1,0 +1,19 @@
+:host {
+  display: block;
+}
+:host([hidden]) {
+  display: none;
+}
+.loomi-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: var(--loomi-center-min, 60vh);
+  width: 100%;
+}
+.loomi-inner {
+  width: 100%;
+  max-width: var(--loomi-center-max, 28rem);
+}

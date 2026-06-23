@@ -1,0 +1,69 @@
+:host {
+  display: inline-block;
+}
+:host([hidden]) {
+  display: none;
+}
+.loomi-cp {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.loomi-swatch {
+  width: var(--loomi-cp-size, 2.5rem);
+  height: var(--loomi-cp-size, 2.5rem);
+  border-radius: 0.5rem;
+  border: 1px solid var(--loomi-gray-300);
+  cursor: pointer;
+  padding: 0;
+  background: none;
+}
+.size-small { --loomi-cp-size: 2rem; }
+.size-regular { --loomi-cp-size: 2.5rem; }
+.size-medium { --loomi-cp-size: 2.75rem; }
+.size-big { --loomi-cp-size: 3.25rem; }
+.loomi-native {
+  width: var(--loomi-cp-size, 2.5rem);
+  height: var(--loomi-cp-size, 2.5rem);
+  border: 1px solid var(--loomi-gray-300);
+  border-radius: 0.5rem;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+}
+.loomi-native::-webkit-color-swatch-wrapper { padding: 3px; }
+.loomi-native::-webkit-color-swatch { border: none; border-radius: 0.35rem; }
+.loomi-value {
+  font-size: 0.85rem;
+  color: var(--loomi-gray-600);
+  font-variant-numeric: tabular-nums;
+}
+.loomi-panel {
+  position: absolute;
+  z-index: 70;
+  top: calc(100% + 0.4rem);
+  left: 0;
+  background: var(--loomi-white);
+  border: 1px solid var(--loomi-gray-200);
+  border-radius: 0.6rem;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  padding: 0.6rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1.6rem);
+  gap: 0.4rem;
+}
+.loomi-chip {
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 0.35rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  padding: 0;
+}
+.loomi-chip.selected {
+  outline: 2px solid var(--loomi-gray-900, #111827);
+  outline-offset: 1px;
+}

@@ -1,0 +1,40 @@
+{
+  "name": "@loomi/theme",
+  "version": "0.1.0",
+  "description": "Shared design tokens + Tailwind theme source for the loomi component library. Defines the overridable `--loomi-*` custom property slots.",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "palette.json",
+    "src/tailwind-colors.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./palette.json": "./palette.json",
+    "./tailwind-colors.css": "./src/tailwind-colors.css"
+  },
+  "scripts": {
+    "build": "node scripts/build-tokens.mjs && tsc -p tsconfig.json",
+    "dev": "node scripts/build-tokens.mjs && tsc -p tsconfig.json --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "peerDependencies": {
+    "lit": "^3.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.0.0",
+    "lit": "^3.3.3",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.6.3"
+  }
+}

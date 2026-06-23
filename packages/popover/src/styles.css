@@ -1,0 +1,55 @@
+:host {
+  display: inline-block;
+  position: relative;
+}
+:host([hidden]) {
+  display: none;
+}
+
+.loomi-trigger {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  border: 0;
+  background: transparent;
+  color: var(--loomi-gray-500);
+  padding: 0;
+}
+.loomi-trigger svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.loomi-panel {
+  position: absolute;
+  z-index: 70;
+  width: var(--loomi-pop-width, 280px);
+  background: var(--loomi-white);
+  border: 1px solid var(--loomi-gray-200);
+  border-radius: 0.6rem;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  animation: loomi-pop 0.14s ease;
+}
+.loomi-title {
+  font-weight: 600;
+  color: var(--loomi-gray-900);
+  padding: 0.65rem 0.85rem;
+  border-bottom: 1px solid var(--loomi-gray-100);
+  font-size: 0.9rem;
+}
+.loomi-content {
+  padding: 0.85rem;
+  color: var(--loomi-gray-600);
+  font-size: 0.9rem;
+}
+
+.pos-bottom { top: calc(100% + 0.5rem); left: 0; }
+.pos-top { bottom: calc(100% + 0.5rem); left: 0; }
+.pos-right { left: calc(100% + 0.5rem); top: 0; }
+.pos-left { right: calc(100% + 0.5rem); top: 0; }
+
+@keyframes loomi-pop {
+  from { opacity: 0; transform: translateY(4px) scale(0.98); }
+}

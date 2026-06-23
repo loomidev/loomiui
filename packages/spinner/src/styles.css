@@ -1,0 +1,43 @@
+:host {
+  display: inline-flex;
+}
+:host([hidden]) {
+  display: none;
+}
+.loomi-spinner {
+  color: var(--_loomi-accent);
+  animation: loomi-spin 0.7s linear infinite;
+  width: var(--loomi-spinner-size, 1.5rem);
+  height: var(--loomi-spinner-size, 1.5rem);
+}
+.loomi-spinner circle {
+  opacity: 0.25;
+}
+.loomi-spinner path {
+  opacity: 0.9;
+}
+.size-small {
+  --loomi-spinner-size: 1rem;
+}
+.size-medium {
+  --loomi-spinner-size: 1.5rem;
+}
+.size-big {
+  --loomi-spinner-size: 2rem;
+}
+.size-xl {
+  --loomi-spinner-size: 3rem;
+}
+.size-omg {
+  --loomi-spinner-size: 4.5rem;
+}
+@keyframes loomi-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loomi-spinner {
+    animation-duration: 1.6s;
+  }
+}

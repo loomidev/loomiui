@@ -1,0 +1,82 @@
+import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
+import { customElement, property, state } from "lit/decorators.js";
+import { loomiStyles, accentVars, type LoomiColor } from "@loomi/core";
+import { getLoomiIcon } from "@loomi/icons";
+import { componentStyles } from "./generated/styles.css.js";
+
+export type LoomiAlertType = "info" | "error" | "warning" | "success";
+
+const TYPE_COLOR: Record<LoomiAlertType, LoomiColor> = {
+  info: "blue" as LoomiColor,
+  error: "red" as LoomiColor,
+  warning: "orange" as LoomiColor,
+  success: "green" as LoomiColor,
+};
+const TYPE_ICON: Record<LoomiAlertType, string> = {
+  info: "information-circle",
+  error: "x-circle",
+  warning: "exclamation-triangle",
+  success: "check-circle",
+};
+const X = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />`;
+
+/**
+ * `<loomi-alert>` — an inline alert message. Four prebuilt types with default icons,
+ * `faint`/`dark` shades, palette overrides, an optional avatar and a dismiss button.
+ *
+ * @slot - The alert message (may contain HTML/links).
+ * @fires close - Fired when dismissed (the alert hides itself unless prevented).
+ */
+@customElement("loomi-alert")
+export class LoomiAlert extends LitElement {
+  static override styles = loomiStyles(componentStyles);
+
+  @property() type: LoomiAlertType = "info";
+  @property() shade: "faint" | "dark" = "faint";
+  @property() color: LoomiColor | "transparent" | "" = "";
+  @property({ type: Boolean, attribute: "show-icon" }) showIcon = true;
+  @property({ type: Boolean, attribute: "show-close-icon" }) showCloseIcon = true;
+  @property() icon = "";
+  @property() avatar = "";
+  @property({ type: Boolean, attribute: "show-ring" }) showRing = false;
+
+  @state() private dismissed = false;
+
+  private onClose = (): void => {
+    const ev = new CustomEvent("close", { bubbles: true, composed: true, cancelable: true });
+    if (this.dispatchEvent(ev)) this.dismissed = true;
+  };
+
+  private renderIcon(name: string): TemplateResult | typeof nothing {
+    const path = getLoomiIcon(name);
+    if (!path) return nothing;
+    return html`<svg class="loomi-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${path}</svg>`;
+  }
+
+  override render(): TemplateResult | typeof nothing {
+    if (this.dismissed) return nothing;
+    const transparent = this.color === "transparent";
+    const color = (this.color && !transparent ? this.color : TYPE_COLOR[this.type]) as LoomiColor;
+    const iconName = this.icon || (this.color ? "" : TYPE_ICON[this.type]);
+    const cls = `loomi-alert ${this.shade} ${transparent ? "transparent" : ""}`;
+    return html`<div class=${cls} role="alert" style=${accentVars(color)}>
+      ${this.avatar
+        ? html`<img class="loomi-avatar ${this.showRing ? "ring" : ""}" src=${this.avatar} alt="" />`
+        : this.showIcon && iconName
+          ? this.renderIcon(iconName)
+          : nothing}
+      <div class="loomi-body"><slot></slot></div>
+      ${this.showCloseIcon
+        ? html`<button type="button" class="loomi-close" aria-label="Dismiss" @click=${this.onClose}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${X}</svg>
+          </button>`
+        : nothing}
+    </div>`;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "loomi-alert": LoomiAlert;
+  }
+}

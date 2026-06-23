@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>loomi — dataviz &amp; final</title>
+    <script type="importmap">
+      {
+        "imports": {
+          "lit": "https://esm.sh/lit@3.3.3",
+          "lit/": "https://esm.sh/lit@3.3.3/",
+          "@loomi/theme": "../packages/theme/dist/index.js",
+          "@loomi/core": "../packages/core/dist/index.js",
+          "@loomi/icons": "../packages/icons/dist/index.js"
+        }
+      }
+    </script>
+    <script type="module">
+      import "../packages/sortable/dist/loomi-sortable.js";
+      import "../packages/processing/dist/loomi-processing.js";
+      import "../packages/horizontal-line-graph/dist/loomi-horizontal-line-graph.js";
+      import "../packages/chart/dist/loomi-chart.js";
+      import "../packages/filepicker/dist/loomi-filepicker.js";
+
+      const sales = [
+        { label: "Jan", value: 30 }, { label: "Feb", value: 55 }, { label: "Mar", value: 42 },
+        { label: "Apr", value: 70 }, { label: "May", value: 60 }, { label: "Jun", value: 88 },
+      ];
+      const share = [
+        { label: "Direct", value: 45, color: "primary" }, { label: "Search", value: 30, color: "green" },
+        { label: "Social", value: 15, color: "orange" }, { label: "Email", value: 10, color: "purple" },
+      ];
+      customElements.whenDefined("loomi-chart").then(() => {
+        document.querySelectorAll("loomi-chart").forEach((c) => (c.data = sales));
+        document.getElementById("pie").data = share;
+        document.getElementById("donut").data = share;
+        document.getElementById("hlg").data = share;
+      });
+      customElements.whenDefined("loomi-sortable").then(() => {
+        const s = document.querySelector("loomi-sortable");
+        s.items = [
+          { id: "a", label: "Write the spec" }, { id: "b", label: "Build the component" },
+          { id: "c", label: "Write the tests" }, { id: "d", label: "Ship it" },
+        ];
+        s.addEventListener("reorder", (e) => document.getElementById("order").textContent = e.detail.order.join(" → "));
+      });
+    </script>
+    <style>
+      body { font-family: ui-sans-serif, system-ui, sans-serif; margin: 0; padding: 2.5rem clamp(1rem,5vw,4rem); color: #0f172a; background: #f8fafc; max-width: 880px; }
+      h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin: 2rem 0 0.75rem; }
+      .row { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start; }
+      .box { width: 280px; }
+      .mut { font-size:.85rem; color:#64748b }
+    </style>
+  </head>
+  <body>
+    <h1>loomi — data viz &amp; final</h1>
+
+    <h2>Charts</h2>
+    <div class="row">
+      <div class="box"><loomi-chart type="bar" color="primary"></loomi-chart></div>
+      <div class="box"><loomi-chart type="line" color="green"></loomi-chart></div>
+      <div class="box"><loomi-chart id="pie" type="pie" show-legend></loomi-chart></div>
+      <div class="box"><loomi-chart id="donut" type="donut" show-legend></loomi-chart></div>
+    </div>
+
+    <h2>Horizontal line graph</h2>
+    <div style="max-width:480px"><loomi-horizontal-line-graph id="hlg"></loomi-horizontal-line-graph></div>
+
+    <h2>Processing</h2>
+    <div class="row">
+      <div class="box" style="border:1px solid #e2e8f0;border-radius:12px"><loomi-processing title="Uploading…" message="Please wait while we process your files."></loomi-processing></div>
+      <div class="box" style="border:1px solid #e2e8f0;border-radius:12px"><loomi-processing state="success" title="All done!" message="Your files were uploaded."></loomi-processing></div>
+      <div class="box" style="border:1px solid #e2e8f0;border-radius:12px"><loomi-processing state="failed" title="Upload failed" message="Something went wrong."></loomi-processing></div>
+    </div>
+
+    <h2>Sortable <span class="mut">— order: <b id="order">a → b → c → d</b></span></h2>
+    <div style="max-width:420px"><loomi-sortable></loomi-sortable></div>
+
+    <h2>Filepicker</h2>
+    <div style="max-width:480px"><loomi-filepicker max-files="3" max-file-size="2mb" accepted-file-types="image/*,.pdf" placeholder-line1="Drag &amp; drop or click to upload" placeholder-line2="Images or PDF, up to %s"></loomi-filepicker></div>
+  </body>
+</html>

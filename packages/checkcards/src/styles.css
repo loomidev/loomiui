@@ -1,0 +1,95 @@
+:host {
+  display: block;
+}
+:host([hidden]) {
+  display: none;
+}
+
+/* parent just provides the accent + slots children */
+.loomi-cards {
+  display: contents;
+}
+
+/* card */
+.loomi-card {
+  position: relative;
+  display: flex;
+  gap: 0.75rem;
+  height: 100%;
+  background: var(--loomi-white);
+  border: var(--loomi-cc-border, 2px) solid var(--loomi-gray-200);
+  border-radius: 0.6rem;
+  padding: 1rem;
+  cursor: pointer;
+  transition:
+    border-color 0.12s ease,
+    box-shadow 0.12s ease;
+}
+.loomi-card.compact {
+  padding: 0.6rem 0.75rem;
+}
+.loomi-card.center {
+  align-items: center;
+}
+.r-none { border-radius: 0; }
+.r-small { border-radius: 0.4rem; }
+.r-medium { border-radius: 0.6rem; }
+.r-full { border-radius: 1.25rem; }
+
+:host([selected]) .loomi-card {
+  border-color: var(--_loomi-accent);
+  box-shadow: 0 0 0 1px var(--_loomi-accent);
+}
+
+.loomi-check {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--_loomi-accent);
+  opacity: 0;
+  transform: scale(0.7);
+  transition:
+    opacity 0.12s ease,
+    transform 0.12s ease;
+}
+:host([selected]) .loomi-check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.loomi-media {
+  flex: none;
+  color: var(--_loomi-accent);
+}
+.loomi-media svg {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+.loomi-avatar {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 9999px;
+  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--_loomi-accent-soft);
+  color: var(--_loomi-accent-fg);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+.loomi-body {
+  min-width: 0;
+}
+.loomi-title {
+  font-weight: 600;
+  color: var(--loomi-gray-900);
+}
+.loomi-content {
+  color: var(--loomi-gray-500);
+  font-size: 0.875rem;
+  line-height: 1.45;
+}

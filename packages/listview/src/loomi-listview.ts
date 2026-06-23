@@ -1,0 +1,50 @@
+import { LitElement, html, type TemplateResult } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import { loomiStyles } from "@loomi/core";
+import { componentStyles } from "./generated/styles.css.js";
+
+/**
+ * `<loomi-listview-item>` — a single list row (a flex container). Use inside `<loomi-listview>`.
+ * @slot - Row content.
+ */
+@customElement("loomi-listview-item")
+export class LoomiListviewItem extends LitElement {
+  static override styles = loomiStyles(componentStyles);
+
+  @property({ type: Boolean, reflect: true }) compact = false;
+
+  override render(): TemplateResult {
+    return html`<div class="loomi-li"><slot></slot></div>`;
+  }
+}
+
+/**
+ * `<loomi-listview>` — a divided list of `<loomi-listview-item>` rows.
+ * @slot - `<loomi-listview-item>` children.
+ */
+@customElement("loomi-listview")
+export class LoomiListview extends LitElement {
+  static override styles = loomiStyles(componentStyles);
+
+  @property({ type: Boolean, reflect: true }) transparent = false;
+  @property({ type: Boolean, reflect: true }) compact = false;
+
+  private sync = (): void => {
+    this.querySelectorAll("loomi-listview-item").forEach((i) => (i.compact = this.compact));
+  };
+
+  override firstUpdated(): void {
+    this.sync();
+  }
+
+  override render(): TemplateResult {
+    return html`<div class="loomi-listview"><slot @slotchange=${this.sync}></slot></div>`;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "loomi-listview": LoomiListview;
+    "loomi-listview-item": LoomiListviewItem;
+  }
+}

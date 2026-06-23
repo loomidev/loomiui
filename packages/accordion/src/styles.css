@@ -1,0 +1,75 @@
+:host {
+  display: block;
+}
+:host([hidden]) {
+  display: none;
+}
+
+/* ---- parent (loomi-accordion) ---- */
+.loomi-accordion.grouped {
+  border: 1px solid var(--loomi-gray-200);
+  border-radius: 0.6rem;
+  overflow: hidden;
+  background: var(--loomi-white);
+}
+.loomi-accordion.ungrouped {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.loomi-accordion.grouped ::slotted(loomi-accordion-item:not(:first-child)) {
+  border-top: 1px solid var(--loomi-gray-200);
+}
+
+/* ---- item (loomi-accordion-item) ---- */
+:host([standalone]) {
+  border: 1px solid var(--loomi-gray-200);
+  border-radius: 0.6rem;
+  overflow: hidden;
+  background: var(--_loomi-accent-softer, var(--loomi-white));
+}
+
+.loomi-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.9rem 1.1rem;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  color: var(--loomi-gray-800);
+  cursor: pointer;
+}
+.loomi-chevron {
+  flex: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  color: var(--loomi-gray-400);
+  transition: transform 0.2s ease;
+}
+:host([open]) .loomi-chevron {
+  transform: rotate(180deg);
+}
+
+.loomi-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.2s ease;
+}
+:host([open]) .loomi-content {
+  grid-template-rows: 1fr;
+}
+.loomi-content > div {
+  overflow: hidden;
+}
+.loomi-inner {
+  padding: 0 1.1rem 1.1rem;
+  color: var(--loomi-gray-600);
+}
+:host([no-padding]) .loomi-inner {
+  padding: 0;
+}

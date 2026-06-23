@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>loomi — widgets</title>
+    <script type="importmap">
+      {
+        "imports": {
+          "lit": "https://esm.sh/lit@3.3.3",
+          "lit/": "https://esm.sh/lit@3.3.3/",
+          "@loomi/theme": "../packages/theme/dist/index.js",
+          "@loomi/core": "../packages/core/dist/index.js",
+          "@loomi/icons": "../packages/icons/dist/index.js"
+        }
+      }
+    </script>
+    <script type="module">
+      import "../packages/dropmenu/dist/loomi-dropmenu.js";
+      import "../packages/popover/dist/loomi-popover.js";
+      import "../packages/empty-state/dist/loomi-empty-state.js";
+      import "../packages/statistic/dist/loomi-statistic.js";
+      import "../packages/rating/dist/loomi-rating.js";
+      import "../packages/timeline/dist/loomi-timeline.js";
+      import "../packages/progress/dist/loomi-progress.js";
+    </script>
+    <style>
+      body { font-family: ui-sans-serif, system-ui, sans-serif; margin: 0; padding: 2.5rem clamp(1rem,5vw,4rem); color: #0f172a; background: #f8fafc; max-width: 880px; }
+      h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin: 2rem 0 0.75rem; }
+      .row { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center; }
+      .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    </style>
+  </head>
+  <body>
+    <h1>loomi widgets</h1>
+
+    <h2>Dropmenu &amp; Popover</h2>
+    <div class="row">
+      <loomi-dropmenu divided>
+        <loomi-dropmenu-item header>Project actions</loomi-dropmenu-item>
+        <loomi-dropmenu-item icon="paper-airplane">Invite to project</loomi-dropmenu-item>
+        <loomi-dropmenu-item icon="check">Assign task</loomi-dropmenu-item>
+        <loomi-dropmenu-item icon="trash">Delete</loomi-dropmenu-item>
+      </loomi-dropmenu>
+      <loomi-popover title="Account">
+        <ul style="margin:0;padding-left:1rem;line-height:1.8">
+          <li><a href="#">Edit profile</a></li>
+          <li><a href="#">Change password</a></li>
+          <li><a href="#">Sign out</a></li>
+        </ul>
+      </loomi-popover>
+      <loomi-popover trigger="bell" position="right" trigger-on="mouseover">
+        <p style="margin:0">Hover popover on the right.</p>
+      </loomi-popover>
+    </div>
+
+    <h2>Statistics</h2>
+    <div class="grid">
+      <loomi-statistic number="34,500" label="Total payments" currency="GHS"></loomi-statistic>
+      <loomi-statistic number="1,204" label="Active users" label-position="bottom"></loomi-statistic>
+      <loomi-statistic label="Loading…" show-spinner></loomi-statistic>
+    </div>
+
+    <h2>Rating</h2>
+    <div class="row">
+      <loomi-rating rating="3"></loomi-rating>
+      <loomi-rating type="heart" color="red" rating="4" size="medium"></loomi-rating>
+      <loomi-rating type="thumbsup" color="green" rating="2" size="big"></loomi-rating>
+      <loomi-rating rating="5" color="purple" clickable="false"></loomi-rating>
+    </div>
+
+    <h2>Progress</h2>
+    <div style="max-width:420px;display:flex;flex-direction:column;gap:1rem">
+      <loomi-progress-bar percentage="36" show-percentage-label></loomi-progress-bar>
+      <loomi-progress-bar percentage="60" color="green" shade="dark" striped animated show-percentage-label show-percentage-label-inline="false" percentage-suffix="complete"></loomi-progress-bar>
+    </div>
+    <div class="row" style="margin-top:1rem">
+      <loomi-progress-circle percentage="65" show-label show-percent></loomi-progress-circle>
+      <loomi-progress-circle percentage="80" color="orange" shade="dark" size="small" show-label show-percent></loomi-progress-circle>
+      <loomi-progress-circle percentage="45" color="purple" size="tiny"></loomi-progress-circle>
+    </div>
+
+    <h2>Timeline</h2>
+    <loomi-timelines anchor="big" position="left">
+      <loomi-timeline date="10 days ago" content="You signed up" icon="check" completed></loomi-timeline>
+      <loomi-timeline date="8 days ago" content="Customer rep assigned" icon="user" completed></loomi-timeline>
+      <loomi-timeline date="2 days ago" content="Account is being reviewed" icon="key"></loomi-timeline>
+      <loomi-timeline content="Account activated" icon="bell-alert"></loomi-timeline>
+    </loomi-timelines>
+
+    <h2>Empty state</h2>
+    <loomi-empty-state heading="Nothing here yet" message="Your recent activity will show up here once things get going." button-label="Create something"></loomi-empty-state>
+  </body>
+</html>

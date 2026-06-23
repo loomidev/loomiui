@@ -1,0 +1,62 @@
+:host {
+  display: block;
+}
+:host([hidden]) {
+  display: none;
+}
+.loomi-chart {
+  width: 100%;
+}
+.loomi-chart svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.loomi-axis {
+  stroke: var(--loomi-gray-200);
+  stroke-width: 1;
+}
+.loomi-grid {
+  stroke: var(--loomi-gray-100);
+  stroke-width: 1;
+}
+.loomi-xlabel,
+.loomi-ylabel {
+  font-size: 9px;
+  fill: var(--loomi-gray-400);
+}
+.loomi-line {
+  fill: none;
+  stroke: var(--_loomi-accent);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.loomi-area {
+  fill: var(--_loomi-accent-softer);
+  opacity: 0.6;
+}
+.loomi-dot {
+  fill: var(--loomi-white);
+  stroke: var(--_loomi-accent);
+  stroke-width: 2;
+}
+.loomi-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  margin-top: 0.75rem;
+}
+.loomi-key {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--loomi-gray-600);
+}
+.loomi-keydot {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 0.2rem;
+  flex: none;
+}

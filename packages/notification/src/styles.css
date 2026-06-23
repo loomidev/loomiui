@@ -1,0 +1,74 @@
+:host {
+  display: contents;
+}
+
+.loomi-stack {
+  position: fixed;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: min(22rem, calc(100vw - 2rem));
+  pointer-events: none;
+}
+.pos-top-right { top: 1rem; right: 1rem; }
+.pos-bottom-right { bottom: 1rem; right: 1rem; flex-direction: column-reverse; }
+.pos-top-left { top: 1rem; left: 1rem; }
+.pos-bottom-left { bottom: 1rem; left: 1rem; flex-direction: column-reverse; }
+
+.loomi-toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  background: var(--loomi-white);
+  border: 1px solid var(--loomi-gray-100);
+  border-left: 3px solid var(--_loomi-accent);
+  border-radius: 0.5rem;
+  padding: 0.75rem 0.85rem;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  animation: loomi-slide 0.18s ease;
+}
+.loomi-ico {
+  flex: none;
+  width: 1.3rem;
+  height: 1.3rem;
+  margin-top: 0.05rem;
+  color: var(--_loomi-accent);
+}
+.loomi-content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.loomi-title {
+  font-weight: 600;
+  color: var(--loomi-gray-900);
+  font-size: 0.9rem;
+}
+.loomi-message {
+  color: var(--loomi-gray-600);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+.loomi-close {
+  flex: none;
+  border: 0;
+  background: transparent;
+  color: var(--loomi-gray-400);
+  cursor: pointer;
+  padding: 0;
+  line-height: 0;
+}
+.loomi-close:hover {
+  color: var(--loomi-gray-700);
+}
+.loomi-close svg {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+@keyframes loomi-slide {
+  from { opacity: 0; transform: translateX(12px); }
+}

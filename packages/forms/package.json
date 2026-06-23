@@ -1,0 +1,56 @@
+{
+  "name": "@loomi/forms",
+  "version": "0.1.0",
+  "description": "All loomi form components in one install.",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@loomi/input": "workspace:^",
+    "@loomi/textarea": "workspace:^",
+    "@loomi/select": "workspace:^",
+    "@loomi/checkbox": "workspace:^",
+    "@loomi/radio": "workspace:^",
+    "@loomi/toggle": "workspace:^",
+    "@loomi/number": "workspace:^",
+    "@loomi/slider": "workspace:^",
+    "@loomi/code": "workspace:^",
+    "@loomi/checkcards": "workspace:^",
+    "@loomi/datepicker": "workspace:^",
+    "@loomi/timepicker": "workspace:^",
+    "@loomi/colorpicker": "workspace:^",
+    "@loomi/filepicker": "workspace:^"
+  },
+  "peerDependencies": {
+    "lit": "^3.0.0"
+  },
+  "devDependencies": {
+    "lit": "^3.3.3",
+    "typescript": "^5.6.3"
+  },
+  "keywords": [
+    "web-components",
+    "lit",
+    "loomi",
+    "forms"
+  ]
+}

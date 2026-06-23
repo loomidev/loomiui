@@ -1,0 +1,266 @@
+{
+  "name": "@loomi/components",
+  "version": "0.1.0",
+  "description": "The whole loomi component library in one install. Re-exports every individual @loomi/* component package.",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./button": {
+      "types": "./dist/button.d.ts",
+      "import": "./dist/button.js"
+    },
+    "./input": {
+      "types": "./dist/input.d.ts",
+      "import": "./dist/input.js"
+    },
+    "./textarea": {
+      "types": "./dist/textarea.d.ts",
+      "import": "./dist/textarea.js"
+    },
+    "./checkbox": {
+      "types": "./dist/checkbox.d.ts",
+      "import": "./dist/checkbox.js"
+    },
+    "./radio": {
+      "types": "./dist/radio.d.ts",
+      "import": "./dist/radio.js"
+    },
+    "./toggle": {
+      "types": "./dist/toggle.d.ts",
+      "import": "./dist/toggle.js"
+    },
+    "./number": {
+      "types": "./dist/number.d.ts",
+      "import": "./dist/number.js"
+    },
+    "./select": {
+      "types": "./dist/select.d.ts",
+      "import": "./dist/select.js"
+    },
+    "./icon": {
+      "types": "./dist/icon.d.ts",
+      "import": "./dist/icon.js"
+    },
+    "./spinner": {
+      "types": "./dist/spinner.d.ts",
+      "import": "./dist/spinner.js"
+    },
+    "./avatar": {
+      "types": "./dist/avatar.d.ts",
+      "import": "./dist/avatar.js"
+    },
+    "./tag": {
+      "types": "./dist/tag.d.ts",
+      "import": "./dist/tag.js"
+    },
+    "./card": {
+      "types": "./dist/card.d.ts",
+      "import": "./dist/card.js"
+    },
+    "./alert": {
+      "types": "./dist/alert.d.ts",
+      "import": "./dist/alert.js"
+    },
+    "./accordion": {
+      "types": "./dist/accordion.d.ts",
+      "import": "./dist/accordion.js"
+    },
+    "./tab": {
+      "types": "./dist/tab.d.ts",
+      "import": "./dist/tab.js"
+    },
+    "./tooltip": {
+      "types": "./dist/tooltip.d.ts",
+      "import": "./dist/tooltip.js"
+    },
+    "./pagination": {
+      "types": "./dist/pagination.d.ts",
+      "import": "./dist/pagination.js"
+    },
+    "./table": {
+      "types": "./dist/table.d.ts",
+      "import": "./dist/table.js"
+    },
+    "./modal": {
+      "types": "./dist/modal.d.ts",
+      "import": "./dist/modal.js"
+    },
+    "./notification": {
+      "types": "./dist/notification.d.ts",
+      "import": "./dist/notification.js"
+    },
+    "./bell": {
+      "types": "./dist/bell.d.ts",
+      "import": "./dist/bell.js"
+    },
+    "./dropmenu": {
+      "types": "./dist/dropmenu.d.ts",
+      "import": "./dist/dropmenu.js"
+    },
+    "./popover": {
+      "types": "./dist/popover.d.ts",
+      "import": "./dist/popover.js"
+    },
+    "./empty-state": {
+      "types": "./dist/empty-state.d.ts",
+      "import": "./dist/empty-state.js"
+    },
+    "./statistic": {
+      "types": "./dist/statistic.d.ts",
+      "import": "./dist/statistic.js"
+    },
+    "./rating": {
+      "types": "./dist/rating.d.ts",
+      "import": "./dist/rating.js"
+    },
+    "./timeline": {
+      "types": "./dist/timeline.d.ts",
+      "import": "./dist/timeline.js"
+    },
+    "./progress": {
+      "types": "./dist/progress.d.ts",
+      "import": "./dist/progress.js"
+    },
+    "./slider": {
+      "types": "./dist/slider.d.ts",
+      "import": "./dist/slider.js"
+    },
+    "./code": {
+      "types": "./dist/code.d.ts",
+      "import": "./dist/code.js"
+    },
+    "./checkcards": {
+      "types": "./dist/checkcards.d.ts",
+      "import": "./dist/checkcards.js"
+    },
+    "./listview": {
+      "types": "./dist/listview.d.ts",
+      "import": "./dist/listview.js"
+    },
+    "./contact-card": {
+      "types": "./dist/contact-card.d.ts",
+      "import": "./dist/contact-card.js"
+    },
+    "./centered-content": {
+      "types": "./dist/centered-content.d.ts",
+      "import": "./dist/centered-content.js"
+    },
+    "./theme-switcher": {
+      "types": "./dist/theme-switcher.d.ts",
+      "import": "./dist/theme-switcher.js"
+    },
+    "./datepicker": {
+      "types": "./dist/datepicker.d.ts",
+      "import": "./dist/datepicker.js"
+    },
+    "./timepicker": {
+      "types": "./dist/timepicker.d.ts",
+      "import": "./dist/timepicker.js"
+    },
+    "./colorpicker": {
+      "types": "./dist/colorpicker.d.ts",
+      "import": "./dist/colorpicker.js"
+    },
+    "./sortable": {
+      "types": "./dist/sortable.d.ts",
+      "import": "./dist/sortable.js"
+    },
+    "./processing": {
+      "types": "./dist/processing.d.ts",
+      "import": "./dist/processing.js"
+    },
+    "./horizontal-line-graph": {
+      "types": "./dist/horizontal-line-graph.d.ts",
+      "import": "./dist/horizontal-line-graph.js"
+    },
+    "./chart": {
+      "types": "./dist/chart.d.ts",
+      "import": "./dist/chart.js"
+    },
+    "./filepicker": {
+      "types": "./dist/filepicker.d.ts",
+      "import": "./dist/filepicker.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@loomi/accordion": "workspace:^",
+    "@loomi/alert": "workspace:^",
+    "@loomi/avatar": "workspace:^",
+    "@loomi/bell": "workspace:^",
+    "@loomi/button": "workspace:^",
+    "@loomi/card": "workspace:^",
+    "@loomi/centered-content": "workspace:^",
+    "@loomi/chart": "workspace:^",
+    "@loomi/checkbox": "workspace:^",
+    "@loomi/checkcards": "workspace:^",
+    "@loomi/code": "workspace:^",
+    "@loomi/colorpicker": "workspace:^",
+    "@loomi/contact-card": "workspace:^",
+    "@loomi/core": "workspace:^",
+    "@loomi/datepicker": "workspace:^",
+    "@loomi/dropmenu": "workspace:^",
+    "@loomi/empty-state": "workspace:^",
+    "@loomi/filepicker": "workspace:^",
+    "@loomi/horizontal-line-graph": "workspace:^",
+    "@loomi/icon": "workspace:^",
+    "@loomi/icons": "workspace:^",
+    "@loomi/input": "workspace:^",
+    "@loomi/listview": "workspace:^",
+    "@loomi/modal": "workspace:^",
+    "@loomi/notification": "workspace:^",
+    "@loomi/number": "workspace:^",
+    "@loomi/pagination": "workspace:^",
+    "@loomi/popover": "workspace:^",
+    "@loomi/processing": "workspace:^",
+    "@loomi/progress": "workspace:^",
+    "@loomi/radio": "workspace:^",
+    "@loomi/rating": "workspace:^",
+    "@loomi/select": "workspace:^",
+    "@loomi/slider": "workspace:^",
+    "@loomi/sortable": "workspace:^",
+    "@loomi/spinner": "workspace:^",
+    "@loomi/statistic": "workspace:^",
+    "@loomi/tab": "workspace:^",
+    "@loomi/table": "workspace:^",
+    "@loomi/tag": "workspace:^",
+    "@loomi/textarea": "workspace:^",
+    "@loomi/theme": "workspace:^",
+    "@loomi/theme-switcher": "workspace:^",
+    "@loomi/timeline": "workspace:^",
+    "@loomi/timepicker": "workspace:^",
+    "@loomi/toggle": "workspace:^",
+    "@loomi/tooltip": "workspace:^"
+  },
+  "peerDependencies": {
+    "lit": "^3.0.0"
+  },
+  "devDependencies": {
+    "lit": "^3.3.3",
+    "typescript": "^5.6.3"
+  },
+  "keywords": [
+    "web-components",
+    "lit",
+    "loomi",
+    "ui",
+    "design-system"
+  ]
+}

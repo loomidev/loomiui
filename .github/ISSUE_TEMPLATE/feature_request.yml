@@ -1,0 +1,38 @@
+name: Feature request
+description: Suggest a new component, a new attribute on an existing one, or another improvement.
+labels: ["enhancement"]
+body:
+  - type: input
+    id: package
+    attributes:
+      label: Related package (if any)
+      description: Leave blank if this is a request for a brand-new component.
+      placeholder: "@loomi/select"
+    validations:
+      required: false
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the use case — what are you trying to build that loomi doesn't support today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed API
+      description: |
+        If you have one in mind, sketch the attribute(s)/event(s) you'd expect, e.g.:
+        `<loomi-select multiple max-selectable="3">`
+      render: html
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+    validations:
+      required: false

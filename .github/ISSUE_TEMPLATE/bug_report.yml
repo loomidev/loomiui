@@ -1,0 +1,63 @@
+name: Bug report
+description: Something in a loomi component isn't working as documented.
+labels: ["bug"]
+body:
+  - type: input
+    id: package
+    attributes:
+      label: Affected package(s)
+      description: e.g. @loomi/select, @loomi/table
+      placeholder: "@loomi/select"
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Run `npm ls @loomi/<package>` or check your package.json/lockfile.
+      placeholder: "0.1.0"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the bug. Screenshots/screen recordings help a lot.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproduction
+      description: |
+        A minimal HTML snippet, StackBlitz/CodePen link, or repo that reproduces the
+        issue. Issues without a reproduction are much harder to act on and may be
+        closed if we can't reproduce them.
+      render: html
+    validations:
+      required: false
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser & OS
+      placeholder: "Chrome 131 on macOS 15"
+    validations:
+      required: true
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else?
+    validations:
+      required: false

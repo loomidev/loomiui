@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "loomi-examples",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8731"],
+      "port": 8731
+    },
+    {
+      "name": "loomi-docs",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "cd ../docs && npx astro dev --port 4321 --host"],
+      "port": 4321
+    },
+    {
+      "name": "loomi-docs-preview",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "cd ../docs && npx astro preview --port 4324 --host"],
+      "port": 4324
+    }
+  ]
+}

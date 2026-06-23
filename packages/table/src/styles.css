@@ -1,0 +1,153 @@
+:host {
+  display: block;
+}
+:host([hidden]) {
+  display: none;
+}
+
+.loomi-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.loomi-searchbar {
+  align-self: flex-start;
+  position: relative;
+  min-width: 16rem;
+}
+.loomi-search {
+  width: 100%;
+  border: 1px solid var(--loomi-gray-300);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem 0.5rem 2.1rem;
+  font: inherit;
+  outline: none;
+}
+.loomi-search:focus {
+  border-color: var(--loomi-primary-500);
+  box-shadow: 0 0 0 3px var(--loomi-primary-100);
+}
+.loomi-search-ico {
+  position: absolute;
+  left: 0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.1rem;
+  height: 1.1rem;
+  color: var(--loomi-gray-400);
+}
+
+.loomi-scroll {
+  overflow-x: auto;
+  border-radius: 0.6rem;
+}
+.loomi-scroll.bordered {
+  border: 1px solid var(--loomi-gray-200);
+}
+.loomi-scroll.shadow {
+  box-shadow:
+    0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--loomi-white);
+  font-size: 0.9rem;
+  color: var(--loomi-gray-700);
+}
+:host([transparent]) table {
+  background: transparent;
+}
+thead th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--loomi-gray-500);
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--loomi-gray-200);
+  white-space: nowrap;
+}
+thead th.uppercasing {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+}
+thead th.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+.loomi-th-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.loomi-sort-ico {
+  width: 0.9rem;
+  height: 0.9rem;
+  opacity: 0.5;
+}
+.loomi-sort-ico.active {
+  opacity: 1;
+  color: var(--loomi-primary-600);
+}
+
+tbody td {
+  padding: 0.75rem 1rem;
+}
+.compact tbody td,
+.compact thead th {
+  padding: 0.4rem 0.6rem;
+}
+.divided tbody tr:not(:last-child) td {
+  border-bottom: 1px solid var(--loomi-gray-100);
+}
+.divided.thin tbody tr:not(:last-child) td {
+  border-bottom: 1px solid var(--loomi-gray-100);
+}
+.celled td,
+.celled th {
+  border: 1px solid var(--loomi-gray-200);
+}
+.striped tbody tr:nth-child(even) {
+  background: var(--loomi-gray-50);
+}
+.hoverable tbody tr:hover {
+  background: var(--loomi-gray-100);
+}
+.clickable tbody tr {
+  cursor: pointer;
+}
+
+.loomi-check-col,
+.loomi-num-col {
+  width: 1%;
+  white-space: nowrap;
+}
+.loomi-actions {
+  display: inline-flex;
+  gap: 0.4rem;
+}
+.loomi-action {
+  display: inline-flex;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  padding: 0.2rem;
+  border-radius: 0.35rem;
+  color: var(--_loomi-accent, var(--loomi-gray-500));
+}
+.loomi-action:hover {
+  background: var(--loomi-gray-100);
+}
+.loomi-action svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.loomi-empty {
+  padding: 2.5rem 1rem;
+  text-align: center;
+  color: var(--loomi-gray-400);
+}

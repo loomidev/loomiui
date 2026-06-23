@@ -1,0 +1,52 @@
+{
+  "name": "@loomi/theme-switcher",
+  "version": "0.1.0",
+  "description": "loomi <loomi-theme-switcher> — light/dark/system theme toggle.",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./loomi-theme-switcher.js": {
+      "types": "./dist/loomi-theme-switcher.d.ts",
+      "import": "./dist/loomi-theme-switcher.js"
+    }
+  },
+  "scripts": {
+    "build": "node scripts/build-styles.mjs && tsc -p tsconfig.json",
+    "dev": "node scripts/build-styles.mjs && tsc -p tsconfig.json --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@loomi/core": "workspace:^",
+    "@loomi/icons": "workspace:^"
+  },
+  "peerDependencies": {
+    "lit": "^3.0.0"
+  },
+  "devDependencies": {
+    "@loomi/theme": "workspace:^",
+    "@tailwindcss/cli": "^4.0.0",
+    "lit": "^3.3.3",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.6.3"
+  },
+  "keywords": [
+    "web-components",
+    "lit",
+    "loomi",
+    "theme",
+    "dark-mode"
+  ]
+}

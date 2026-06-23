@@ -1,0 +1,88 @@
+:host {
+  display: block;
+}
+:host([hidden]) {
+  display: none;
+}
+
+/* wrapper */
+.loomi-timelines.center {
+  max-width: 36rem;
+  margin: 0 auto;
+}
+
+/* item */
+.loomi-item {
+  display: flex;
+  gap: 0.85rem;
+}
+.loomi-date-col {
+  flex: none;
+  width: 6.5rem;
+  text-align: right;
+  color: var(--loomi-gray-400);
+  font-size: 0.8rem;
+  padding-top: 0.05rem;
+}
+.loomi-anchor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: none;
+}
+.loomi-dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: var(--loomi-white);
+  border: 2px solid var(--_loomi-accent);
+  color: var(--loomi-white);
+  flex: none;
+  overflow: hidden;
+}
+.loomi-dot.small {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+.loomi-dot.big {
+  width: 2rem;
+  height: 2rem;
+}
+.loomi-dot.completed {
+  background: var(--_loomi-accent);
+}
+.loomi-dot svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+.loomi-dot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.loomi-line {
+  flex: 1 1 auto;
+  width: 2px;
+  min-height: 1rem;
+  background: var(--loomi-gray-200);
+  margin: 0.25rem 0;
+}
+:host([last]) .loomi-line {
+  display: none;
+}
+.loomi-body {
+  padding-bottom: 1.4rem;
+  min-width: 0;
+}
+.loomi-date-top {
+  color: var(--loomi-gray-400);
+  font-size: 0.8rem;
+}
+.loomi-content {
+  color: var(--loomi-gray-700);
+  line-height: 1.45;
+}
+.loomi-content a {
+  color: var(--loomi-primary-600, var(--_loomi-primary-600-default));
+}

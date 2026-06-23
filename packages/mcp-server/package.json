@@ -1,0 +1,38 @@
+{
+  "name": "@loomi/mcp-server",
+  "version": "0.1.0",
+  "description": "MCP server exposing loomi component documentation to AI coding tools (Claude Code, Cursor, etc.) — mirrors the BladewindUI MCP connector shape (list_components, get_component_docs, search_components).",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "bin": {
+    "loomi-mcp-server": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "node scripts/build-manifest.mjs && tsc -p tsconfig.json && node scripts/chmod-bin.mjs",
+    "dev": "node scripts/build-manifest.mjs && tsc -p tsconfig.json --watch",
+    "start": "node dist/index.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "loomi",
+    "ai",
+    "documentation"
+  ]
+}
