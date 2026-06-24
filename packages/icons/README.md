@@ -1,6 +1,8 @@
 # @loomi/icons
 
-The shared icon registry used across loomi components (a Heroicons outline subset).
+The shared icon registry used across loomi components. It is generated from the
+official Heroicons 24px outline and solid sets, then published as plain Lit SVG
+templates — no React or Heroicons runtime dependency ships to consumers.
 
 ```bash
 npm install @loomi/icons lit
@@ -11,6 +13,7 @@ import { getLoomiIcon, registerLoomiIcon, loomiIconNames } from "@loomi/icons";
 import { svg } from "lit";
 
 registerLoomiIcon("rocket", svg`<path d="…" />`);
+getLoomiIcon("bell-alert", "solid");
 loomiIconNames(); // -> ["arrow-path", "bell-alert", …]
 ```
 
@@ -20,6 +23,6 @@ is available everywhere.
 
 | Export | Description |
 | --- | --- |
-| `getLoomiIcon(name)` | Returns the icon's inner SVG (a Lit `SVGTemplateResult`) or `undefined`. |
-| `registerLoomiIcon(name, svg)` | Register or override an icon. |
-| `loomiIconNames()` | List all registered icon names. |
+| `getLoomiIcon(name, variant)` | Returns the icon's inner SVG (a Lit `SVGTemplateResult`) or `undefined`. `variant` is `outline` or `solid`; default is `outline`. |
+| `registerLoomiIcon(name, svg, variant)` | Register or override an icon for `outline` or `solid`; default is `outline`. |
+| `loomiIconNames(variant)` | List all registered icon names for a variant; default is `outline`. |

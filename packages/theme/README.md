@@ -1,6 +1,6 @@
 # @loomi/theme
 
-The shared design tokens for the [loomi](../../README.md) component library. Every
+The shared design tokens for the [LoomiUI](../../README.md) component library. Every
 component depends on this package; you rarely import it directly.
 
 It provides:

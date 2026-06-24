@@ -15,7 +15,7 @@ export class LoomiCode extends LitElement {
   static formAssociated = true;
   private internals = this.attachInternals();
 
-  @property() name = "";
+  @property({ reflect: true }) name = "";
   @property({ type: Number, attribute: "total-digits" }) totalDigits = 4;
   @property() size: "small" | "big" = "small";
   @property({ type: Boolean }) mask = false;

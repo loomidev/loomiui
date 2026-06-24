@@ -15,8 +15,8 @@
   display: flex;
   align-items: stretch;
   width: 100%;
-  background: var(--loomi-white);
-  border: 1px solid var(--loomi-gray-300);
+  background: var(--loomi-surface);
+  border: 1px solid var(--loomi-surface-border);
   border-radius: 0.5rem;
   transition:
     border-color 0.15s ease,
@@ -29,7 +29,7 @@
 :host([disabled]) .loomi-field {
   opacity: 0.6;
   cursor: not-allowed;
-  background: var(--loomi-gray-50);
+  background: var(--loomi-surface-muted);
 }
 
 .size-small {
@@ -68,7 +68,7 @@
   background: transparent;
   font: inherit;
   text-align: center;
-  color: var(--loomi-gray-900);
+  color: var(--loomi-text);
   padding: var(--loomi-pad-y) var(--loomi-pad-x);
   -moz-appearance: textfield;
 }
@@ -86,27 +86,27 @@
   width: 2.6rem;
   border: 0;
   background: transparent;
-  color: var(--loomi-gray-600);
+  color: var(--loomi-text-secondary);
   cursor: pointer;
   transition: background-color 0.12s ease;
 }
 .loomi-step:hover:not(:disabled) {
-  background: var(--loomi-gray-100);
-  color: var(--loomi-gray-900);
+  background: var(--loomi-surface-hover);
+  color: var(--loomi-text);
 }
 .loomi-step:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
 .loomi-step.solid {
-  background: var(--loomi-gray-100);
+  background: var(--loomi-surface-hover);
 }
 .loomi-step.dec {
-  border-right: 1px solid var(--loomi-gray-200);
+  border-right: 1px solid var(--loomi-surface-border);
   border-radius: 0.5rem 0 0 0.5rem;
 }
 .loomi-step.inc {
-  border-left: 1px solid var(--loomi-gray-200);
+  border-left: 1px solid var(--loomi-surface-border);
   border-radius: 0 0.5rem 0.5rem 0;
 }
 .loomi-icon {
@@ -120,10 +120,10 @@
   top: 50%;
   transform: translateY(-50%);
   transform-origin: left center;
-  color: var(--loomi-gray-400);
+  color: var(--loomi-text-faint);
   pointer-events: none;
   transition: all 0.15s ease;
-  background: var(--loomi-white);
+  background: var(--loomi-surface);
   padding: 0 0.25rem;
   white-space: nowrap;
 }

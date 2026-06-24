@@ -20,7 +20,7 @@
   flex: none;
   width: 6.5rem;
   text-align: right;
-  color: var(--loomi-gray-400);
+  color: var(--loomi-text-faint);
   font-size: 0.8rem;
   padding-top: 0.05rem;
 }
@@ -35,7 +35,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  background: var(--loomi-white);
+  background: var(--loomi-surface);
   border: 2px solid var(--_loomi-accent);
   color: var(--loomi-white);
   flex: none;
@@ -65,7 +65,7 @@
   flex: 1 1 auto;
   width: 2px;
   min-height: 1rem;
-  background: var(--loomi-gray-200);
+  background: var(--loomi-surface-border);
   margin: 0.25rem 0;
 }
 :host([last]) .loomi-line {
@@ -76,11 +76,11 @@
   min-width: 0;
 }
 .loomi-date-top {
-  color: var(--loomi-gray-400);
+  color: var(--loomi-text-faint);
   font-size: 0.8rem;
 }
 .loomi-content {
-  color: var(--loomi-gray-700);
+  color: var(--loomi-text-secondary);
   line-height: 1.45;
 }
 .loomi-content a {

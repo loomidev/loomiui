@@ -24,7 +24,7 @@ export class LoomiRating extends LitElement {
   static formAssociated = true;
   private internals = this.attachInternals();
 
-  @property() name = "";
+  @property({ reflect: true }) name = "";
   @property() type: LoomiRatingType = "star";
   @property() color: LoomiColor = "orange" as LoomiColor;
   @property() size: LoomiRatingSize = "small";

@@ -2,9 +2,11 @@ import { LitElement, html, nothing, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { loomiStyles } from "@loomi/core";
 import { getLoomiIcon } from "@loomi/icons";
+import "@loomi/dropmenu/loomi-dropmenu.js";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiTheme = "light" | "dark" | "system";
+export type LoomiThemeSwitcherVariant = "horizontal" | "dropmenu";
 const STORAGE_KEY = "loomi-theme";
 
 /** Apply a theme: toggles the `dark` class on <html> and stores the choice. */
@@ -44,6 +46,7 @@ export class LoomiThemeSwitcher extends LitElement {
   @property({ attribute: "dark-icon" }) darkIcon = "moon";
   @property({ attribute: "system-icon" }) systemIcon = "computer-desktop";
   @property({ type: Boolean, attribute: "icon-right" }) iconRight = false;
+  @property() variant: LoomiThemeSwitcherVariant = "horizontal";
 
   @state() private mode: LoomiTheme = getLoomiTheme();
   private mq?: MediaQueryList;
@@ -69,24 +72,74 @@ export class LoomiThemeSwitcher extends LitElement {
     this.dispatchEvent(new CustomEvent("theme-change", { bubbles: true, composed: true, detail: { theme: mode } }));
   }
 
-  private opt(mode: LoomiTheme, text: string, iconName: string): TemplateResult {
+  private options(): Array<{ mode: LoomiTheme; text: string; icon: string }> {
+    return [
+      { mode: "light", text: this.lightText, icon: this.lightIcon },
+      { mode: "dark", text: this.darkText, icon: this.darkIcon },
+      { mode: "system", text: this.systemText, icon: this.systemIcon },
+    ];
+  }
+
+  private icon(iconName: string): TemplateResult | typeof nothing {
     const path = getLoomiIcon(iconName);
+    return path
+      ? html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${path}</svg>`
+      : nothing;
+  }
+
+  private opt(mode: LoomiTheme, text: string, iconName: string): TemplateResult {
     return html`<button
       class="loomi-opt ${this.iconRight ? "icon-right" : ""} ${this.mode === mode ? "active" : ""}"
       aria-pressed=${this.mode === mode ? "true" : "false"}
       @click=${() => this.select(mode)}
     >
-      ${path ? html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${path}</svg>` : nothing}
+      ${this.icon(iconName)}
       <span>${text}</span>
     </button>`;
   }
 
-  override render(): TemplateResult {
+  private renderHorizontal(): TemplateResult {
     return html`<div class="loomi-switch" role="group" aria-label="Theme">
-      ${this.opt("light", this.lightText, this.lightIcon)}
-      ${this.opt("dark", this.darkText, this.darkIcon)}
-      ${this.opt("system", this.systemText, this.systemIcon)}
+      ${this.options().map(({ mode, text, icon }) => this.opt(mode, text, icon))}
     </div>`;
+  }
+
+  private renderDropmenu(): TemplateResult {
+    const selected = this.options().find(({ mode }) => mode === this.mode) ?? this.options()[2];
+    const checkPath = getLoomiIcon("check");
+
+    return html`<loomi-dropmenu class="loomi-theme-menu" position="right">
+      <span slot="trigger" class="loomi-menu-trigger">
+        ${this.icon(selected.icon)}
+        <span>${selected.text}</span>
+      </span>
+      ${this.options().map(
+        ({ mode, text, icon }) => html`<loomi-dropmenu-item
+          icon=${icon}
+          class=${this.mode === mode ? "selected" : ""}
+          aria-current=${this.mode === mode ? "true" : "false"}
+          @click=${() => this.select(mode)}
+        >
+          <span class="loomi-menu-item-text">${text}</span>
+          ${this.mode === mode && checkPath
+            ? html`<svg
+                class="loomi-menu-check"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                aria-hidden="true"
+              >
+                ${checkPath}
+              </svg>`
+            : nothing}
+        </loomi-dropmenu-item>`,
+      )}
+    </loomi-dropmenu>`;
+  }
+
+  override render(): TemplateResult {
+    return this.variant === "dropmenu" ? this.renderDropmenu() : this.renderHorizontal();
   }
 }
 

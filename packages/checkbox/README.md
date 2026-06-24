@@ -11,28 +11,57 @@ npm install @loomi/checkbox lit
 import "@loomi/checkbox/loomi-checkbox.js";
 ```
 
+## Basic Usage
+
 ```html
 <loomi-checkbox>I agree to the terms</loomi-checkbox>
-<loomi-checkbox checked>Checked by default</loomi-checkbox>
-<loomi-checkbox disabled>Disabled</loomi-checkbox>
-
-<!-- HTML in the label via the default slot -->
-<loomi-checkbox>I agree to the <a href="/terms">terms</a></loomi-checkbox>
-
-<!-- form usage -->
-<loomi-checkbox name="notify_me" value="1">Send me newsletters</loomi-checkbox>
 ```
 
-## Colored checkboxes
+Labels can include HTML, since the label is the default slot:
 
 ```html
-<loomi-checkbox color="red" checked>Red</loomi-checkbox>
-<loomi-checkbox color="green" checked>Green</loomi-checkbox>
-<loomi-checkbox color="purple" checked>Purple</loomi-checkbox>
+<loomi-checkbox>I agree to the <a href="/terms">terms and conditions</a></loomi-checkbox>
 ```
+
+Checked and disabled, by default:
+
+```html
+<loomi-checkbox checked>Checked by default</loomi-checkbox>
+<loomi-checkbox disabled>Disabled</loomi-checkbox>
+<loomi-checkbox checked disabled>Checked and disabled</loomi-checkbox>
+```
+
+## Colored Checkboxes
 
 Any loomi color works: `primary` `secondary` `red` `blue` `green` `purple` `pink`
 `orange` `black` `cyan` `violet` `indigo` `fuchsia` `gray`.
+
+```html
+<loomi-checkbox color="red" checked>Red</loomi-checkbox>
+<loomi-checkbox color="yellow" checked>Yellow</loomi-checkbox>
+<loomi-checkbox color="green" checked>Green</loomi-checkbox>
+<loomi-checkbox color="pink" checked>Pink</loomi-checkbox>
+<loomi-checkbox color="cyan" checked>Cyan</loomi-checkbox>
+<loomi-checkbox color="purple" checked>Purple</loomi-checkbox>
+<loomi-checkbox color="orange" checked>Orange</loomi-checkbox>
+<loomi-checkbox color="violet" checked>Violet</loomi-checkbox>
+<loomi-checkbox color="indigo" checked>Indigo</loomi-checkbox>
+<loomi-checkbox color="fuchsia" checked>Fuchsia</loomi-checkbox>
+```
+
+The color is applied through a per-instance `--loomi-accent` property, so a global theme
+override (e.g. redefining `--loomi-pink-600` at `:root`) applies automatically — no need
+to touch the component.
+
+## Checkboxes and Forms
+
+Give the checkbox a `name` and `value` so the right thing is submitted. If the box is
+left unchecked, its name is omitted from the form payload entirely (standard checkbox
+behavior).
+
+```html
+<loomi-checkbox name="notify_me" value="1">Send me weekly newsletters</loomi-checkbox>
+```
 
 ## Attributes
 
@@ -46,6 +75,17 @@ Any loomi color works: `primary` `secondary` `red` `blue` `green` `purple` `pink
 | `color` | `primary` | Active color (any loomi color). |
 | `no-clearing` | `false` | Remove the default bottom margin. _(boolean)_ |
 
-**Slot:** default (label). **Part:** `box`. **Event:** `change` (composed). The color is
-applied through a per-instance `--loomi-accent` property, so the global theme override
-applies automatically.
+**Slot:** default (label). **Part:** `box`. **Event:** `change` (composed).
+
+## Full Example
+
+```html
+<loomi-checkbox
+  name="tnc"
+  value="yes"
+  color="pink"
+  checked
+>
+  I agree to the terms and conditions
+</loomi-checkbox>
+```

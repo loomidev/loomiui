@@ -35,6 +35,18 @@ export function hideLoomiModal(name: string): void {
   registry.get(name)?.hide();
 }
 
+// Exposed on `window` so plain `onclick="showLoomiModal('name')"` markup works with no
+// build step or module-scoped import, matching every other attribute-driven usage in
+// this library.
+declare global {
+  interface Window {
+    showLoomiModal: typeof showLoomiModal;
+    hideLoomiModal: typeof hideLoomiModal;
+  }
+}
+window.showLoomiModal = showLoomiModal;
+window.hideLoomiModal = hideLoomiModal;
+
 /**
  * `<loomi-modal>` — an overlay dialog. Open/close via `name` with `showLoomiModal()` /
  * `hideLoomiModal()`, or the instance `show()` / `hide()` methods.

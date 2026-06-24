@@ -6,10 +6,10 @@
 }
 
 .loomi-card {
-  background: var(--loomi-white);
-  border: 1px solid var(--loomi-gray-100);
+  background: var(--loomi-surface);
+  border: 1px solid var(--loomi-surface-border-subtle);
   overflow: hidden;
-  color: var(--loomi-gray-800);
+  color: var(--loomi-text);
 }
 .loomi-card.shadow {
   box-shadow:
@@ -60,8 +60,8 @@
   padding: 0;
 }
 .loomi-header {
-  border-bottom: 1px solid var(--loomi-gray-100);
+  border-bottom: 1px solid var(--loomi-surface-border-subtle);
 }
 .loomi-footer {
-  border-top: 1px solid var(--loomi-gray-100);
+  border-top: 1px solid var(--loomi-surface-border-subtle);
 }

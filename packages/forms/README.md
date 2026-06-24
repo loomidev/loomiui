@@ -1,6 +1,6 @@
 # @loomi/forms
 
-All loomi **form** components in one install.
+All LoomiUI **form** components in one install.
 
 ```bash
 npm install @loomi/forms lit

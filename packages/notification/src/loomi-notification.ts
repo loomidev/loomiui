@@ -111,8 +111,15 @@ export function showLoomiNotification(
   host.notify({ title, message, type, dismissIn, name });
 }
 
+// Exposed on `window` so plain `onclick="showLoomiNotification(...)"` markup works with
+// no build step or module-scoped import, matching every other attribute-driven usage in
+// this library.
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-notification": LoomiNotification;
   }
+  interface Window {
+    showLoomiNotification: typeof showLoomiNotification;
+  }
 }
+window.showLoomiNotification = showLoomiNotification;

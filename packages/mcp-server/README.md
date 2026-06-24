@@ -31,7 +31,7 @@ session):
 ```json
 {
   "mcpServers": {
-    "loomi": {
+    "loomiui": {
       "command": "npx",
       "args": ["-y", "@loomi/mcp-server"]
     }
@@ -46,7 +46,7 @@ Add the same shape to `~/.cursor/mcp.json` or Claude Desktop's `claude_desktop_c
 ```json
 {
   "mcpServers": {
-    "loomi": {
+    "loomiui": {
       "command": "npx",
       "args": ["-y", "@loomi/mcp-server"]
     }

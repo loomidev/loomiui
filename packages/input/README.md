@@ -45,8 +45,8 @@ Use text or a built-in [icon](../icons) (set `prefix-icon` / `suffix-icon`). Set
 ```html
 <loomi-input prefix="https://" placeholder="website"></loomi-input>
 <loomi-input prefix="USD" transparent-prefix="false" placeholder="0.00" numeric></loomi-input>
-<loomi-input suffix=".loomi.dev" transparent-suffix="false" placeholder="workspace"></loomi-input>
-<loomi-input prefix-icon="envelope" placeholder="me@loomi.dev"></loomi-input>
+<loomi-input suffix=".loomiui.dev" transparent-suffix="false" placeholder="workspace"></loomi-input>
+<loomi-input prefix-icon="envelope" placeholder="me@loomiui.dev"></loomi-input>
 <loomi-input prefix-icon="key" type="password" viewable placeholder="Password"></loomi-input>
 ```
 

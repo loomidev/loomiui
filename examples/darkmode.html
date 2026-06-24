@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>loomi — dark mode check</title>
+    <script type="importmap">
+      {
+        "imports": {
+          "lit": "https://esm.sh/lit@3.3.3",
+          "lit/": "https://esm.sh/lit@3.3.3/",
+          "@loomi/theme": "../packages/theme/dist/index.js",
+          "@loomi/core": "../packages/core/dist/index.js",
+          "@loomi/icons": "../packages/icons/dist/index.js",
+          "@loomi/dropmenu/": "../packages/dropmenu/dist/",
+          "@loomi/checkbox/": "../packages/checkbox/dist/",
+          "@loomi/pagination/": "../packages/pagination/dist/"
+        }
+      }
+    </script>
+    <script type="module">
+      import "../packages/theme-switcher/dist/loomi-theme-switcher.js";
+      import "../packages/accordion/dist/loomi-accordion.js";
+      import "../packages/card/dist/loomi-card.js";
+      import "../packages/checkcards/dist/loomi-checkcards.js";
+      import "../packages/code/dist/loomi-code.js";
+      import "../packages/contact-card/dist/loomi-contact-card.js";
+      import "../packages/datepicker/dist/loomi-datepicker.js";
+      import "../packages/dropmenu/dist/loomi-dropmenu.js";
+      import "../packages/input/dist/loomi-input.js";
+      import "../packages/select/dist/loomi-select.js";
+      import "../packages/table/dist/loomi-table.js";
+
+      customElements.whenDefined("loomi-table").then(() => {
+        const t = document.getElementById("tbl");
+        t.data = [
+          { id: 1, name: "Michael", dept: "Engineering" },
+          { id: 2, name: "Sara", dept: "Design" },
+        ];
+      });
+    </script>
+    <style>
+      body {
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        margin: 0;
+        padding: 2.5rem clamp(1rem, 5vw, 4rem);
+        color: #0f172a;
+        background: #f8fafc;
+        max-width: 760px;
+        transition: background-color 0.2s ease, color 0.2s ease;
+      }
+      :root.dark body {
+        background: #0b1220;
+        color: #e2e8f0;
+      }
+      h2 {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #64748b;
+        margin: 2rem 0 0.75rem;
+      }
+      .row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; }
+      .theme-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+    </style>
+  </head>
+  <body>
+    <h1>loomi — dark mode check</h1>
+    <div class="theme-row">
+      <loomi-theme-switcher></loomi-theme-switcher>
+      <loomi-theme-switcher variant="dropmenu"></loomi-theme-switcher>
+    </div>
+
+    <h2>Accordion</h2>
+    <loomi-accordion>
+      <loomi-accordion-item title="What is loomi?" open>A themeable Lit component library.</loomi-accordion-item>
+      <loomi-accordion-item title="Does it support dark mode?">Yes, via the theme switcher above.</loomi-accordion-item>
+    </loomi-accordion>
+
+    <h2>Card</h2>
+    <loomi-card title="Recent activity" style="width:280px">Nothing to see here yet.</loomi-card>
+
+    <h2>Checkcards</h2>
+    <loomi-checkcards selected-value="aws" style="display:block">
+      <div class="row">
+        <loomi-checkcard value="aws" title="AWS">Amazon Web Services.</loomi-checkcard>
+        <loomi-checkcard value="gcp" title="Google Cloud">Google Cloud.</loomi-checkcard>
+      </div>
+    </loomi-checkcards>
+
+    <h2>Code (verification)</h2>
+    <loomi-code total-digits="4"></loomi-code>
+
+    <h2>Contact card</h2>
+    <loomi-contact-card name="Michael K. Ocansey" position="Senior Developer" email="mike@loomi.dev" mobile="+233 123 456 789" style="width:320px"></loomi-contact-card>
+
+    <h2>Datepicker</h2>
+    <div style="width:240px"><loomi-datepicker label="Pick a date"></loomi-datepicker></div>
+
+    <h2>Dropmenu</h2>
+    <loomi-dropmenu divided>
+      <loomi-dropmenu-item header>Project</loomi-dropmenu-item>
+      <loomi-dropmenu-item>Invite</loomi-dropmenu-item>
+      <loomi-dropmenu-item>Delete</loomi-dropmenu-item>
+    </loomi-dropmenu>
+
+    <h2>Input</h2>
+    <div style="max-width:280px">
+      <loomi-input label="Full name" value="Michael"></loomi-input>
+      <loomi-input label="Email" prefix-icon="envelope"></loomi-input>
+    </div>
+
+    <h2>Select</h2>
+    <div style="max-width:280px">
+      <loomi-select label="Country" selected-value="gh" data='[{"label":"Ghana","value":"gh"},{"label":"Nigeria","value":"ng"}]'></loomi-select>
+    </div>
+
+    <h2>Table</h2>
+    <loomi-table id="tbl" has-hover></loomi-table>
+  </body>
+</html>

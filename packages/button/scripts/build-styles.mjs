@@ -58,6 +58,7 @@ const safelist = `@source inline("{${variantList}}{${propList}}-{${colorList}}-{
 const passthrough = readFileSync(resolve(pkgRoot, "src/styles.css"), "utf8");
 
 const input = `@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 
 @theme inline {

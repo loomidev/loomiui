@@ -1,4 +1,4 @@
-# loomi
+# LoomiUI
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
@@ -13,7 +13,7 @@ custom elements that work in any framework, or none at all.
 <loomi-button color="red" outline radius="full" icon="trash">Delete</loomi-button>
 ```
 
-## Why loomi
+## Why LoomiUI
 
 - **It's just HTML.** Every component is a real custom element — drop it into React,
   Vue, Angular, Svelte, a static site, or nothing at all. No wrapper libraries needed.
@@ -30,7 +30,7 @@ custom elements that work in any framework, or none at all.
   assistants (Claude Code, Cursor, etc.) look up real attribute tables instead of
   guessing. See [below](#ai-assisted-development).
 
-> **Status:** loomi is pre-1.0. Every package is versioned independently starting at
+> **Status:** LoomiUI is pre-1.0. Every package is versioned independently starting at
 > `0.x` — expect breaking changes between minor versions until packages reach `1.0`.
 
 ## Quick start
@@ -43,7 +43,7 @@ Try it with no install at all, straight from a CDN:
 </script>
 <script type="module" src="https://esm.sh/@loomi/button"></script>
 
-<loomi-button>Hello loomi</loomi-button>
+<loomi-button>Hello LoomiUI</loomi-button>
 ```
 
 Or install it properly:
@@ -69,7 +69,7 @@ npm install @loomi/components lit
 ```
 
 ```js
-import "@loomi/components"; // registers every loomi element
+import "@loomi/components"; // registers every LoomiUI element
 ```
 
 ### Install just what you need
@@ -128,9 +128,9 @@ See [`@loomi/core`'s README](packages/core#--loomi--public-theme-vs---_loomi-acc
 Each package's README has a full usage guide and attribute table. Or browse them all
 rendered live at [loomiui.com](https://loomiui.com).
 
-## Using loomi with a framework
+## Using LoomiUI with a framework
 
-loomi components are standard custom elements, so they work everywhere — the only thing
+LoomiUI components are standard custom elements, so they work everywhere — the only thing
 that differs between frameworks is how you bind **non-string properties** (arrays,
 objects, booleans passed as real values rather than attribute strings), e.g.
 `<loomi-select>`'s `.data` array.
@@ -167,7 +167,7 @@ attributes in every framework.
 
 ## Browser support
 
-loomi targets modern evergreen browsers: recent Chrome, Edge, Firefox, and Safari.
+LoomiUI targets modern evergreen browsers: recent Chrome, Edge, Firefox, and Safari.
 Form-associated custom elements (`ElementInternals`-based form participation, used by
 every form control) require **Safari 16.4+** — older Safari versions can render the
 components but won't submit their values inside a native `<form>`.

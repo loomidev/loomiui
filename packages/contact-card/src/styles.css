@@ -6,13 +6,13 @@
 }
 
 .loomi-cc {
-  background: var(--loomi-white);
-  border: 1px solid var(--loomi-gray-100);
+  background: var(--loomi-surface);
+  border: 1px solid var(--loomi-surface-border-subtle);
   border-radius: 0.75rem;
   padding: 1.25rem;
   display: flex;
   gap: 1rem;
-  color: var(--loomi-gray-700);
+  color: var(--loomi-text-secondary);
 }
 .loomi-cc.shadow {
   box-shadow:
@@ -48,8 +48,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--loomi-gray-100);
-  color: var(--loomi-gray-500);
+  background: var(--loomi-surface-hover);
+  color: var(--loomi-text-muted);
   font-weight: 600;
   text-transform: uppercase;
 }
@@ -58,11 +58,11 @@
 }
 .loomi-name {
   font-weight: 600;
-  color: var(--loomi-gray-900);
+  color: var(--loomi-text);
   font-size: 1.05rem;
 }
 .loomi-position {
-  color: var(--loomi-gray-500);
+  color: var(--loomi-text-muted);
   font-size: 0.875rem;
   margin-bottom: 0.4rem;
 }
@@ -71,7 +71,7 @@
   align-items: center;
   gap: 0.45rem;
   font-size: 0.85rem;
-  color: var(--loomi-gray-600);
+  color: var(--loomi-text-secondary);
   margin-top: 0.2rem;
 }
 .loomi-cc.centered .loomi-row {
@@ -80,7 +80,7 @@
 .loomi-row svg {
   width: 1rem;
   height: 1rem;
-  color: var(--loomi-gray-400);
+  color: var(--loomi-text-faint);
   flex: none;
 }
 .loomi-row a {

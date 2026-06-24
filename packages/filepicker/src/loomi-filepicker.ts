@@ -31,7 +31,7 @@ function human(bytes: number): string {
 export class LoomiFilepicker extends LitElement {
   static override styles = loomiStyles(componentStyles);
 
-  @property() name = "";
+  @property({ reflect: true }) name = "";
   @property({ attribute: "accepted-file-types" }) acceptedFileTypes = "image/*,application/pdf";
   @property({ attribute: "placeholder-line1" }) placeholderLine1 = "Choose files or drag and drop to upload";
   @property({ attribute: "placeholder-line2" }) placeholderLine2 = "%s up to %s";

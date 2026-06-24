@@ -11,7 +11,8 @@
           "lit/": "https://esm.sh/lit@3.3.3/",
           "@loomi/theme": "../packages/theme/dist/index.js",
           "@loomi/core": "../packages/core/dist/index.js",
-          "@loomi/icons": "../packages/icons/dist/index.js"
+          "@loomi/icons": "../packages/icons/dist/index.js",
+          "@loomi/dropmenu/": "../packages/dropmenu/dist/"
         }
       }
     </script>
@@ -37,6 +38,7 @@
       body { font-family: ui-sans-serif, system-ui, sans-serif; margin: 0; padding: 2.5rem clamp(1rem,5vw,4rem); color: #0f172a; background: #f8fafc; max-width: 880px; }
       h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin: 2rem 0 0.75rem; }
       .row { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center; }
+      .theme-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
       .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
       .grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
       .mut { font-size: .85rem; color: #64748b; }
@@ -46,7 +48,10 @@
   </head>
   <body>
     <h2>Theme switcher</h2>
-    <loomi-theme-switcher></loomi-theme-switcher>
+    <div class="theme-row">
+      <loomi-theme-switcher></loomi-theme-switcher>
+      <loomi-theme-switcher variant="dropmenu"></loomi-theme-switcher>
+    </div>
 
     <h2>Slider</h2>
     <div style="max-width:420px;display:flex;flex-direction:column;gap:1rem">

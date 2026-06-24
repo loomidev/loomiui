@@ -18,7 +18,7 @@ export class LoomiCheckbox extends LitElement {
 
   private internals = this.attachInternals();
 
-  @property() name = "";
+  @property({ reflect: true }) name = "";
   @property() value = "on";
   @property() label = "";
   @property({ type: Boolean, reflect: true }) checked = false;

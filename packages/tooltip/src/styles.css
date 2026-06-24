@@ -50,3 +50,35 @@
   top: 50%;
   translate: 0 -50%;
 }
+
+.loomi-tip::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+}
+.pos-top::after {
+  top: 100%;
+  left: 50%;
+  margin-left: -6px;
+  border-top-color: var(--loomi-gray-900, #111827);
+}
+.pos-bottom::after {
+  bottom: 100%;
+  left: 50%;
+  margin-left: -6px;
+  border-bottom-color: var(--loomi-gray-900, #111827);
+}
+.pos-left::after {
+  left: 100%;
+  top: 50%;
+  margin-top: -6px;
+  border-left-color: var(--loomi-gray-900, #111827);
+}
+.pos-right::after {
+  right: 100%;
+  top: 50%;
+  margin-top: -6px;
+  border-right-color: var(--loomi-gray-900, #111827);
+}

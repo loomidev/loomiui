@@ -5,7 +5,7 @@ import { getLoomiIcon } from "./icons.js";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiInputType = "text" | "email" | "password" | "search" | "tel" | "url";
-export type LoomiInputSize = "small" | "regular" | "medium" | "big";
+export type LoomiInputSize = "tiny" | "small" | "regular" | "medium" | "big";
 
 /**
  * `<loomi-input>` — a themeable text input with a floating label, text/icon
@@ -26,7 +26,7 @@ export class LoomiInput extends LitElement {
 
   private internals = this.attachInternals();
 
-  @property() name = "";
+  @property({ reflect: true }) name = "";
   @property() type: LoomiInputType = "text";
   @property() label = "";
   @property() placeholder = "";

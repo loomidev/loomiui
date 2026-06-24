@@ -4,6 +4,12 @@
 :host([hidden]) {
   display: none;
 }
+:host(loomi-progress-bar) {
+  /* As a flex item, an auto-width host with 100%-wide children collapses to ~min-content;
+     force it to claim the parent's full width so the bar fills any layout it's dropped into. */
+  width: 100%;
+  min-width: 0;
+}
 
 /* ---- progress bar ---- */
 .loomi-bar-wrap {
@@ -22,7 +28,8 @@
 .loomi-track {
   width: 100%;
   height: 0.75rem;
-  background: var(--_loomi-accent-soft);
+  background: var(--loomi-surface-hover);
+  border: 1px solid var(--loomi-surface-border);
   border-radius: 9999px;
   overflow: hidden;
 }
@@ -73,7 +80,7 @@
   transform: rotate(-90deg);
 }
 .loomi-circle .track {
-  stroke: var(--_loomi-accent-soft);
+  stroke: var(--loomi-surface-border);
 }
 .loomi-circle .bar {
   stroke: var(--_loomi-accent);

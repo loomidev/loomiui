@@ -24,7 +24,7 @@ export class LoomiNumber extends LitElement {
 
   private internals = this.attachInternals();
 
-  @property() name = "";
+  @property({ reflect: true }) name = "";
   @property() label = "";
   @property() value = "";
   @property({ type: Number }) min = 0;

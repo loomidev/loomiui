@@ -6,7 +6,7 @@
 }
 
 .loomi-listview {
-  background: var(--loomi-white);
+  background: var(--loomi-surface);
   border-radius: 0.6rem;
   overflow: hidden;
 }
@@ -14,7 +14,7 @@
   background: transparent;
 }
 ::slotted(loomi-listview-item:not(:first-child)) {
-  border-top: 1px solid var(--loomi-gray-100);
+  border-top: 1px solid var(--loomi-surface-border-subtle);
 }
 
 /* item */
@@ -23,7 +23,7 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  color: var(--loomi-gray-700);
+  color: var(--loomi-text-secondary);
 }
 :host([compact]) .loomi-li {
   padding: 0.5rem;

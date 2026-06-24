@@ -32,7 +32,7 @@ export class LoomiDatepicker extends LitElement {
   static formAssociated = true;
   private internals = this.attachInternals();
 
-  @property() name = "";
+  @property({ reflect: true }) name = "";
   @property({ type: Boolean }) range = false;
   @property({ attribute: "selected-value" }) selectedValue = "";
   @property({ attribute: "min-date" }) minDate = "";

@@ -59,6 +59,7 @@ passthrough = passthrough.replace(
 // runtime-interpolated color utilities, add an `@source inline(...)` safelist here
 // (see @loomi/button for an example).
 const input = `@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 
 @theme inline {

@@ -18,7 +18,7 @@
 }
 .loomi-search {
   width: 100%;
-  border: 1px solid var(--loomi-gray-300);
+  border: 1px solid var(--loomi-surface-border);
   border-radius: 0.5rem;
   padding: 0.5rem 0.75rem 0.5rem 2.1rem;
   font: inherit;
@@ -35,7 +35,7 @@
   transform: translateY(-50%);
   width: 1.1rem;
   height: 1.1rem;
-  color: var(--loomi-gray-400);
+  color: var(--loomi-text-faint);
 }
 
 .loomi-scroll {
@@ -43,7 +43,7 @@
   border-radius: 0.6rem;
 }
 .loomi-scroll.bordered {
-  border: 1px solid var(--loomi-gray-200);
+  border: 1px solid var(--loomi-surface-border);
 }
 .loomi-scroll.shadow {
   box-shadow:
@@ -54,9 +54,9 @@
 table {
   width: 100%;
   border-collapse: collapse;
-  background: var(--loomi-white);
+  background: var(--loomi-surface);
   font-size: 0.9rem;
-  color: var(--loomi-gray-700);
+  color: var(--loomi-text-secondary);
 }
 :host([transparent]) table {
   background: transparent;
@@ -64,9 +64,9 @@ table {
 thead th {
   text-align: left;
   font-weight: 600;
-  color: var(--loomi-gray-500);
+  color: var(--loomi-text-muted);
   padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--loomi-gray-200);
+  border-bottom: 1px solid var(--loomi-surface-border);
   white-space: nowrap;
 }
 thead th.uppercasing {
@@ -101,20 +101,20 @@ tbody td {
   padding: 0.4rem 0.6rem;
 }
 .divided tbody tr:not(:last-child) td {
-  border-bottom: 1px solid var(--loomi-gray-100);
+  border-bottom: 1px solid var(--loomi-surface-border-subtle);
 }
 .divided.thin tbody tr:not(:last-child) td {
-  border-bottom: 1px solid var(--loomi-gray-100);
+  border-bottom: 1px solid var(--loomi-surface-border-subtle);
 }
 .celled td,
 .celled th {
-  border: 1px solid var(--loomi-gray-200);
+  border: 1px solid var(--loomi-surface-border);
 }
 .striped tbody tr:nth-child(even) {
-  background: var(--loomi-gray-50);
+  background: var(--loomi-surface-muted);
 }
 .hoverable tbody tr:hover {
-  background: var(--loomi-gray-100);
+  background: var(--loomi-surface-hover);
 }
 .clickable tbody tr {
   cursor: pointer;
@@ -136,10 +136,10 @@ tbody td {
   cursor: pointer;
   padding: 0.2rem;
   border-radius: 0.35rem;
-  color: var(--_loomi-accent, var(--loomi-gray-500));
+  color: var(--_loomi-accent, var(--loomi-text-muted));
 }
 .loomi-action:hover {
-  background: var(--loomi-gray-100);
+  background: var(--loomi-surface-hover);
 }
 .loomi-action svg {
   width: 1.1rem;
@@ -149,5 +149,5 @@ tbody td {
 .loomi-empty {
   padding: 2.5rem 1rem;
   text-align: center;
-  color: var(--loomi-gray-400);
+  color: var(--loomi-text-faint);
 }

@@ -1,9 +1,9 @@
-import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
+import { LitElement, html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
 import { themeStyles } from "@loomi/theme";
 import { componentStyles } from "./generated/styles.css.js";
 
-export type LoomiSelectSize = "small" | "regular" | "medium" | "big";
+export type LoomiSelectSize = "tiny" | "small" | "regular" | "medium" | "big";
 
 interface LoomiOption {
   label: string;
@@ -32,7 +32,7 @@ export class LoomiSelect extends LitElement {
 
   private internals = this.attachInternals();
 
-  @property() name = "";
+  @property({ reflect: true }) name = "";
   @property() placeholder = "Select One";
   @property() label = "";
   @property({ type: Array }) data: Array<Record<string, unknown>> = [];
@@ -53,7 +53,6 @@ export class LoomiSelect extends LitElement {
   @state() private open = false;
   @state() private search = "";
   @state() private selected: string[] = [];
-  @state() private initialized = false;
   /** Index of the keyboard-highlighted option within `this.filtered`, while open. */
   @state() private activeIndex = -1;
 
@@ -68,13 +67,18 @@ export class LoomiSelect extends LitElement {
     document.removeEventListener("click", this.onDocClick, true);
   }
 
-  override willUpdate(): void {
-    if (!this.initialized && this.selectedValue) {
+  override willUpdate(changed: PropertyValues<this>): void {
+    // Re-sync `selected` from `selectedValue` on first render AND whenever it's set
+    // again afterwards (e.g. swapping which record a select reflects) — but never when
+    // `selected` itself just changed from a user pick, since that doesn't touch
+    // `selectedValue` at all.
+    if (changed.has("selectedValue")) {
       this.selected = this.selectedValue
-        .split(",")
-        .map((s) => s.trim())
-        .filter(Boolean);
-      this.initialized = true;
+        ? this.selectedValue
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean)
+        : [];
     }
     this.internals.setFormValue(this.selected.join(","));
   }

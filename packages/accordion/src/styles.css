@@ -7,10 +7,10 @@
 
 /* ---- parent (loomi-accordion) ---- */
 .loomi-accordion.grouped {
-  border: 1px solid var(--loomi-gray-200);
+  border: 1px solid var(--loomi-surface-border);
   border-radius: 0.6rem;
   overflow: hidden;
-  background: var(--loomi-white);
+  background: var(--loomi-surface);
 }
 .loomi-accordion.ungrouped {
   display: flex;
@@ -18,15 +18,15 @@
   gap: 0.6rem;
 }
 .loomi-accordion.grouped ::slotted(loomi-accordion-item:not(:first-child)) {
-  border-top: 1px solid var(--loomi-gray-200);
+  border-top: 1px solid var(--loomi-surface-border);
 }
 
 /* ---- item (loomi-accordion-item) ---- */
 :host([standalone]) {
-  border: 1px solid var(--loomi-gray-200);
+  border: 1px solid var(--loomi-surface-border);
   border-radius: 0.6rem;
   overflow: hidden;
-  background: var(--_loomi-accent-softer, var(--loomi-white));
+  background: var(--_loomi-accent-softer, var(--loomi-surface));
 }
 
 .loomi-head {
@@ -41,14 +41,14 @@
   font: inherit;
   font-weight: 600;
   text-align: left;
-  color: var(--loomi-gray-800);
+  color: var(--loomi-text);
   cursor: pointer;
 }
 .loomi-chevron {
   flex: none;
   width: 1.1rem;
   height: 1.1rem;
-  color: var(--loomi-gray-400);
+  color: var(--loomi-text-faint);
   transition: transform 0.2s ease;
 }
 :host([open]) .loomi-chevron {
@@ -68,7 +68,7 @@
 }
 .loomi-inner {
   padding: 0 1.1rem 1.1rem;
-  color: var(--loomi-gray-600);
+  color: var(--loomi-text-secondary);
 }
 :host([no-padding]) .loomi-inner {
   padding: 0;

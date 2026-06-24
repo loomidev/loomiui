@@ -12,7 +12,7 @@
   cursor: pointer;
   border: 0;
   background: transparent;
-  color: var(--loomi-gray-600);
+  color: var(--loomi-text-secondary);
   padding: 0;
 }
 .loomi-trigger svg {
@@ -22,11 +22,11 @@
 
 .loomi-menu {
   position: absolute;
-  z-index: 70;
+  z-index: var(--loomi-dropmenu-z-index, 1000);
   top: calc(100% + 0.4rem);
   min-width: 12rem;
-  background: var(--loomi-white);
-  border: 1px solid var(--loomi-gray-200);
+  background: var(--loomi-surface);
+  border: 1px solid var(--loomi-surface-border);
   border-radius: 0.6rem;
   box-shadow:
     0 10px 15px -3px rgba(0, 0, 0, 0.1),
@@ -42,7 +42,7 @@
   display: block;
 }
 :host([divided]) ::slotted(loomi-dropmenu-item:not(:last-child)) {
-  border-bottom: 1px solid var(--loomi-gray-100);
+  border-bottom: 1px solid var(--loomi-surface-border-subtle);
 }
 
 /* item */
@@ -52,7 +52,7 @@
   gap: 0.6rem;
   padding: 0.5rem 0.65rem;
   border-radius: 0.4rem;
-  color: var(--loomi-gray-700);
+  color: var(--loomi-text-secondary);
   cursor: pointer;
   font-size: 0.9rem;
 }
@@ -61,20 +61,20 @@
   text-align: right;
 }
 .loomi-item.hoverable:hover {
-  background: var(--loomi-gray-100);
+  background: var(--loomi-surface-hover);
 }
 .loomi-item.header {
   cursor: default;
   font-weight: 600;
-  color: var(--loomi-gray-900);
-  border-bottom: 1px solid var(--loomi-gray-100);
+  color: var(--loomi-text);
+  border-bottom: 1px solid var(--loomi-surface-border-subtle);
   border-radius: 0;
 }
 .loomi-item svg {
   width: 1.1rem;
   height: 1.1rem;
   flex: none;
-  color: var(--loomi-gray-400);
+  color: var(--loomi-text-faint);
 }
 .loomi-item ::slotted(a) {
   color: inherit;
@@ -84,6 +84,6 @@
 }
 .loomi-divider {
   height: 1px;
-  background: var(--loomi-gray-100);
+  background: var(--loomi-surface-border-subtle);
   margin: 0.35rem 0;
 }

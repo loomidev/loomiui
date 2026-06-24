@@ -14,6 +14,9 @@
   display: inline-block;
   /* font-family is set on :host by @loomi/theme's tokens (prefix-aware). */
   -webkit-tap-highlight-color: transparent;
+  --loomi-control-height: 2.5rem;
+  --loomi-control-pad-x: 1rem;
+  --loomi-control-font-size: 0.875rem;
 }
 
 :host([hidden]) {
@@ -28,9 +31,41 @@
   width: 100%;
 }
 
+:host([size="tiny"]) {
+  --loomi-control-height: 2rem;
+  --loomi-control-pad-x: 0.625rem;
+  --loomi-control-font-size: 0.75rem;
+}
+:host([size="small"]) {
+  --loomi-control-height: 2.25rem;
+  --loomi-control-pad-x: 0.75rem;
+  --loomi-control-font-size: 0.875rem;
+}
+:host([size="regular"]) {
+  --loomi-control-height: 2.5rem;
+  --loomi-control-pad-x: 1rem;
+  --loomi-control-font-size: 0.875rem;
+}
+:host([size="medium"]) {
+  --loomi-control-height: 2.75rem;
+  --loomi-control-pad-x: 1.25rem;
+  --loomi-control-font-size: 1rem;
+}
+:host([size="big"]) {
+  --loomi-control-height: 3rem;
+  --loomi-control-pad-x: 1.5rem;
+  --loomi-control-font-size: 1.125rem;
+}
+
 /* The interactive element (button or anchor). Layout/colors come from utilities. */
 .loomi-btn {
+  box-sizing: border-box;
+  min-height: var(--loomi-control-height);
+  padding-block: 0;
+  padding-inline: var(--loomi-control-pad-x);
+  font-size: var(--loomi-control-font-size);
   font-family: inherit;
+  line-height: 1.25;
   text-decoration: none;
   appearance: none;
   -webkit-appearance: none;

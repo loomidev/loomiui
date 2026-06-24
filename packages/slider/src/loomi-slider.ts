@@ -16,7 +16,7 @@ export class LoomiSlider extends LitElement {
   static formAssociated = true;
   private internals = this.attachInternals();
 
-  @property() name = "";
+  @property({ reflect: true }) name = "";
   @property() color: LoomiColor = "primary" as LoomiColor;
   @property({ type: Number }) min = 0;
   @property({ type: Number }) max = 100;

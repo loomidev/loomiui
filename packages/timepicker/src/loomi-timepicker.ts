@@ -5,6 +5,7 @@ import { componentStyles } from "./generated/styles.css.js";
 
 const CLOCK = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />`;
 const pad = (n: number) => String(n).padStart(2, "0");
+export type LoomiTimepickerSize = "tiny" | "small" | "regular" | "medium" | "big";
 
 /**
  * `<loomi-timepicker>` — pick a time. `popup` (input + panel) or `inline`. 12/24-hour.
@@ -18,13 +19,14 @@ export class LoomiTimepicker extends LitElement {
   static formAssociated = true;
   private internals = this.attachInternals();
 
-  @property() name = "";
+  @property({ reflect: true }) name = "";
   /** `popup` (input + panel) or `inline`. Attribute is `tp-style` (`style` is reserved). */
   @property({ attribute: "tp-style" }) tpStyle: "popup" | "inline" = "popup";
   @property() format: "12" | "24" = "12";
   @property({ attribute: "selected-value" }) selectedValue = "";
   @property() label = "";
   @property() placeholder = "HH:MM";
+  @property() size: LoomiTimepickerSize = "medium";
   @property({ type: Boolean }) required = false;
 
   @state() private hour: number | null = null;
@@ -100,7 +102,7 @@ export class LoomiTimepicker extends LitElement {
     if (this.tpStyle === "inline") {
       return html`${this.label ? html`<span class="loomi-label">${this.label}</span>` : nothing}${this.renderSelects()}`;
     }
-    return html`<div class="loomi-tp ${this.open ? "open" : ""}">
+    return html`<div class="loomi-tp size-${this.size} ${this.open ? "open" : ""}">
       ${this.label ? html`<span class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req"> *</span>` : nothing}</span>` : nothing}
       <div class="loomi-field" @click=${() => this.toggle()}>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${CLOCK}</svg>

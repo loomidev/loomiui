@@ -14,7 +14,7 @@
   width: var(--loomi-cp-size, 2.5rem);
   height: var(--loomi-cp-size, 2.5rem);
   border-radius: 0.5rem;
-  border: 1px solid var(--loomi-gray-300);
+  border: 1px solid var(--loomi-surface-border);
   cursor: pointer;
   padding: 0;
   background: none;
@@ -26,7 +26,7 @@
 .loomi-native {
   width: var(--loomi-cp-size, 2.5rem);
   height: var(--loomi-cp-size, 2.5rem);
-  border: 1px solid var(--loomi-gray-300);
+  border: 1px solid var(--loomi-surface-border);
   border-radius: 0.5rem;
   padding: 0;
   background: none;
@@ -36,7 +36,7 @@
 .loomi-native::-webkit-color-swatch { border: none; border-radius: 0.35rem; }
 .loomi-value {
   font-size: 0.85rem;
-  color: var(--loomi-gray-600);
+  color: var(--loomi-text-secondary);
   font-variant-numeric: tabular-nums;
 }
 .loomi-panel {
@@ -44,8 +44,8 @@
   z-index: 70;
   top: calc(100% + 0.4rem);
   left: 0;
-  background: var(--loomi-white);
-  border: 1px solid var(--loomi-gray-200);
+  background: var(--loomi-surface);
+  border: 1px solid var(--loomi-surface-border);
   border-radius: 0.6rem;
   box-shadow:
     0 10px 15px -3px rgba(0, 0, 0, 0.1),

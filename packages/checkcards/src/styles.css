@@ -16,8 +16,8 @@
   display: flex;
   gap: 0.75rem;
   height: 100%;
-  background: var(--loomi-white);
-  border: var(--loomi-cc-border, 2px) solid var(--loomi-gray-200);
+  background: var(--loomi-surface);
+  border: var(--loomi-cc-border, 2px) solid var(--loomi-surface-border);
   border-radius: 0.6rem;
   padding: 1rem;
   cursor: pointer;
@@ -86,10 +86,10 @@
 }
 .loomi-title {
   font-weight: 600;
-  color: var(--loomi-gray-900);
+  color: var(--loomi-text);
 }
 .loomi-content {
-  color: var(--loomi-gray-500);
+  color: var(--loomi-text-muted);
   font-size: 0.875rem;
   line-height: 1.45;
 }

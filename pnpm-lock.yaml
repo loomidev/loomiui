@@ -1274,6 +1274,9 @@ importers:
       '@loomi/core':
         specifier: workspace:^
         version: link:../core
+      '@loomi/dropmenu':
+        specifier: workspace:^
+        version: link:../dropmenu
       '@loomi/icons':
         specifier: workspace:^
         version: link:../icons

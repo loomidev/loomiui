@@ -34,15 +34,37 @@
         document.querySelectorAll("loomi-chart").forEach((c) => (c.data = sales));
         document.getElementById("pie").data = share;
         document.getElementById("donut").data = share;
+        document.getElementById("donut2").data = share;
         document.getElementById("hlg").data = share;
       });
       customElements.whenDefined("loomi-sortable").then(() => {
-        const s = document.querySelector("loomi-sortable");
+        const s = document.getElementById("basic-sortable");
         s.items = [
           { id: "a", label: "Write the spec" }, { id: "b", label: "Build the component" },
-          { id: "c", label: "Write the tests" }, { id: "d", label: "Ship it" },
+          { id: "c", label: "Write the tests", locked: true }, { id: "d", label: "Ship it" },
         ];
         s.addEventListener("reorder", (e) => document.getElementById("order").textContent = e.detail.order.join(" → "));
+
+        const todo = document.getElementById("todo");
+        const doing = document.getElementById("doing");
+        todo.items = [
+          { id: "t1", label: "Design review" }, { id: "t2", label: "Write tests" }, { id: "t3", label: "Deploy" },
+        ];
+        doing.items = [{ id: "t4", label: "API integration" }];
+        const log = (e) => {
+          document.getElementById("kanban-log").textContent =
+            `todo: ${todo.order.join(",")} | doing: ${doing.order.join(",")}`;
+        };
+        todo.addEventListener("transfer", log);
+        doing.addEventListener("transfer", log);
+        todo.addEventListener("reorder", log);
+        doing.addEventListener("reorder", log);
+
+        const multi = document.getElementById("multi-sortable");
+        multi.items = [
+          { id: "m1", label: "Apple" }, { id: "m2", label: "Banana" }, { id: "m3", label: "Cherry" },
+          { id: "m4", label: "Date" }, { id: "m5", label: "Elderberry" },
+        ];
       });
     </script>
     <style>
@@ -62,6 +84,7 @@
       <div class="box"><loomi-chart type="line" color="green"></loomi-chart></div>
       <div class="box"><loomi-chart id="pie" type="pie" show-legend></loomi-chart></div>
       <div class="box"><loomi-chart id="donut" type="donut" show-legend></loomi-chart></div>
+      <div class="box"><loomi-chart id="donut2" type="donut" donut-radius="65" show-legend></loomi-chart></div>
     </div>
 
     <h2>Horizontal line graph</h2>
@@ -74,8 +97,23 @@
       <div class="box" style="border:1px solid #e2e8f0;border-radius:12px"><loomi-processing state="failed" title="Upload failed" message="Something went wrong."></loomi-processing></div>
     </div>
 
-    <h2>Sortable <span class="mut">— order: <b id="order">a → b → c → d</b></span></h2>
-    <div style="max-width:420px"><loomi-sortable></loomi-sortable></div>
+    <h2>Sortable <span class="mut">— order: <b id="order">a → b → c → d</b> (item "c" is locked)</span></h2>
+    <div style="max-width:420px"><loomi-sortable id="basic-sortable" has-handle></loomi-sortable></div>
+
+    <h2>Sortable — shared group (drag between columns) <span class="mut"><b id="kanban-log"></b></span></h2>
+    <div class="row">
+      <div class="box">
+        <p class="mut" style="margin:0 0 .4rem">To do</p>
+        <loomi-sortable id="todo" type="shared" group="kanban"></loomi-sortable>
+      </div>
+      <div class="box">
+        <p class="mut" style="margin:0 0 .4rem">Doing</p>
+        <loomi-sortable id="doing" type="shared" group="kanban"></loomi-sortable>
+      </div>
+    </div>
+
+    <h2>Sortable — multidrag (Cmd/Ctrl+click to select) &amp; swap</h2>
+    <div style="max-width:420px"><loomi-sortable id="multi-sortable" multidrag swap></loomi-sortable></div>
 
     <h2>Filepicker</h2>
     <div style="max-width:480px"><loomi-filepicker max-files="3" max-file-size="2mb" accepted-file-types="image/*,.pdf" placeholder-line1="Drag &amp; drop or click to upload" placeholder-line2="Images or PDF, up to %s"></loomi-filepicker></div>

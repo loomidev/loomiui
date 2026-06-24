@@ -21,8 +21,8 @@
   display: flex;
   align-items: flex-start;
   gap: 0.6rem;
-  background: var(--loomi-white);
-  border: 1px solid var(--loomi-gray-100);
+  background: var(--loomi-surface);
+  border: 1px solid var(--loomi-surface-border-subtle);
   border-left: 3px solid var(--_loomi-accent);
   border-radius: 0.5rem;
   padding: 0.75rem 0.85rem;
@@ -44,11 +44,11 @@
 }
 .loomi-title {
   font-weight: 600;
-  color: var(--loomi-gray-900);
+  color: var(--loomi-text);
   font-size: 0.9rem;
 }
 .loomi-message {
-  color: var(--loomi-gray-600);
+  color: var(--loomi-text-secondary);
   font-size: 0.85rem;
   line-height: 1.4;
 }
@@ -56,13 +56,13 @@
   flex: none;
   border: 0;
   background: transparent;
-  color: var(--loomi-gray-400);
+  color: var(--loomi-text-faint);
   cursor: pointer;
   padding: 0;
   line-height: 0;
 }
 .loomi-close:hover {
-  color: var(--loomi-gray-700);
+  color: var(--loomi-text-secondary);
 }
 .loomi-close svg {
   width: 1.05rem;

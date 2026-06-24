@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>loomi — dark mode check 2</title>
+    <script type="importmap">
+      {
+        "imports": {
+          "lit": "https://esm.sh/lit@3.3.3",
+          "lit/": "https://esm.sh/lit@3.3.3/",
+          "@loomi/theme": "../packages/theme/dist/index.js",
+          "@loomi/core": "../packages/core/dist/index.js",
+          "@loomi/icons": "../packages/icons/dist/index.js",
+          "@loomi/dropmenu/": "../packages/dropmenu/dist/",
+          "quill": "https://esm.sh/quill@2.0.3"
+        }
+      }
+    </script>
+    <script type="module">
+      import "../packages/theme-switcher/dist/loomi-theme-switcher.js";
+      import "../packages/checkbox/dist/loomi-checkbox.js";
+      import "../packages/radio/dist/loomi-radio.js";
+      import "../packages/toggle/dist/loomi-toggle.js";
+      import "../packages/colorpicker/dist/loomi-colorpicker.js";
+      import "../packages/listview/dist/loomi-listview.js";
+      import "../packages/modal/dist/loomi-modal.js";
+      import "../packages/notification/dist/loomi-notification.js";
+      import "../packages/number/dist/loomi-number.js";
+      import "../packages/pagination/dist/loomi-pagination.js";
+      import "../packages/popover/dist/loomi-popover.js";
+      import "../packages/sortable/dist/loomi-sortable.js";
+      import "../packages/statistic/dist/loomi-statistic.js";
+      import "../packages/tab/dist/loomi-tab.js";
+      import "../packages/textarea/dist/loomi-textarea.js";
+      import "../packages/timeline/dist/loomi-timeline.js";
+      import "../packages/timepicker/dist/loomi-timepicker.js";
+
+      customElements.whenDefined("loomi-sortable").then(() => {
+        document.getElementById("srt").items = [
+          { id: "a", label: "First" }, { id: "b", label: "Second" }, { id: "c", label: "Third" },
+        ];
+      });
+      import { showLoomiModal } from "../packages/modal/dist/loomi-modal.js";
+      import { showLoomiNotification } from "../packages/notification/dist/loomi-notification.js";
+      document.getElementById("openModal").addEventListener("click", () => showLoomiModal("m1"));
+      document.getElementById("notify").addEventListener("click", () => showLoomiNotification("Saved", "Dark mode looks right.", "success"));
+    </script>
+    <style>
+      body { font-family: ui-sans-serif, system-ui, sans-serif; margin: 0; padding: 2.5rem clamp(1rem,5vw,4rem); color: #0f172a; background: #f8fafc; max-width: 760px; }
+      :root.dark body { background: #0b1220; color: #e2e8f0; }
+      h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin: 2rem 0 0.75rem; }
+      .row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; }
+      .theme-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+      button.plain { border: 1px solid #94a3b8; background: transparent; color: inherit; border-radius: 8px; padding: .5rem 1rem; cursor: pointer; font: inherit; }
+    </style>
+  </head>
+  <body>
+    <h1>loomi — dark mode check 2</h1>
+    <div class="theme-row">
+      <loomi-theme-switcher></loomi-theme-switcher>
+      <loomi-theme-switcher variant="dropmenu"></loomi-theme-switcher>
+    </div>
+
+    <h2>Checkbox / Radio / Toggle</h2>
+    <div class="row">
+      <loomi-checkbox checked>Checked</loomi-checkbox>
+      <loomi-radio name="g" checked>Selected</loomi-radio>
+      <loomi-toggle checked>On</loomi-toggle>
+      <loomi-toggle>Off</loomi-toggle>
+    </div>
+
+    <h2>Colorpicker</h2>
+    <loomi-colorpicker show-value colors="#ef4444,#22c55e,#3b82f6" selected-value="#3b82f6"></loomi-colorpicker>
+
+    <h2>Listview</h2>
+    <loomi-listview><loomi-listview-item>Row one</loomi-listview-item><loomi-listview-item>Row two</loomi-listview-item></loomi-listview>
+
+    <h2>Modal / Notification</h2>
+    <div class="row">
+      <button class="plain" id="openModal">Open modal</button>
+      <button class="plain" id="notify">Notify</button>
+    </div>
+    <loomi-modal name="m1" title="Dark mode" ok-button-label="Nice">It should look correct in dark mode too.</loomi-modal>
+    <loomi-notification></loomi-notification>
+
+    <h2>Number / Pagination</h2>
+    <div class="row">
+      <loomi-number value="3"></loomi-number>
+      <loomi-pagination total="60" page-size="10" pagination-style="numbers"></loomi-pagination>
+    </div>
+
+    <h2>Popover</h2>
+    <loomi-popover title="Info"><p style="margin:0">Some popover content.</p></loomi-popover>
+
+    <h2>Sortable</h2>
+    <div style="max-width:300px"><loomi-sortable id="srt"></loomi-sortable></div>
+
+    <h2>Statistic</h2>
+    <loomi-statistic number="1,204" label="Active users" has-border></loomi-statistic>
+
+    <h2>Tabs (system + pills)</h2>
+    <loomi-tabs tab-style="system">
+      <loomi-tab label="One" active>Tab one content</loomi-tab>
+      <loomi-tab label="Two">Tab two content</loomi-tab>
+    </loomi-tabs>
+
+    <h2>Textarea</h2>
+    <loomi-textarea label="Notes" value="Some text"></loomi-textarea>
+
+    <h2>Timeline</h2>
+    <loomi-timelines><loomi-timeline date="Today" content="Did a thing"></loomi-timeline></loomi-timelines>
+
+    <h2>Timepicker</h2>
+    <loomi-timepicker label="Start time" selected-value="3:25PM"></loomi-timepicker>
+  </body>
+</html>

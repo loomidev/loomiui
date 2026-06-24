@@ -1,5 +1,8 @@
 :host {
   display: block;
+  --loomi-control-height: 2.75rem;
+  --loomi-control-pad-x: 1rem;
+  --loomi-control-font-size: 1rem;
 }
 :host([hidden]) {
   display: none;
@@ -13,12 +16,19 @@
   align-items: center;
   gap: 0.5rem;
   width: 100%;
-  background: var(--loomi-white);
-  border: 1px solid var(--loomi-gray-300);
+  min-height: var(--loomi-control-height);
+  background: var(--loomi-surface);
+  border: 1px solid var(--loomi-surface-border);
   border-radius: 0.5rem;
-  padding: 0.55rem 0.85rem;
+  padding: 0 var(--loomi-control-pad-x);
+  font-size: var(--loomi-control-font-size);
   cursor: pointer;
 }
+.size-tiny { --loomi-control-height: 2rem; --loomi-control-pad-x: 0.625rem; --loomi-control-font-size: 0.75rem; }
+.size-small { --loomi-control-height: 2.25rem; --loomi-control-pad-x: 0.75rem; --loomi-control-font-size: 0.875rem; }
+.size-regular { --loomi-control-height: 2.5rem; --loomi-control-pad-x: 0.875rem; --loomi-control-font-size: 0.875rem; }
+.size-medium { --loomi-control-height: 2.75rem; --loomi-control-pad-x: 1rem; --loomi-control-font-size: 1rem; }
+.size-big { --loomi-control-height: 3rem; --loomi-control-pad-x: 1.25rem; --loomi-control-font-size: 1.125rem; }
 .loomi-field:focus-within,
 .loomi-tp.open .loomi-field {
   border-color: var(--loomi-primary-500);
@@ -27,15 +37,15 @@
 .loomi-field svg {
   width: 1.15rem;
   height: 1.15rem;
-  color: var(--loomi-gray-400);
+  color: var(--loomi-text-faint);
   flex: none;
 }
 .loomi-text {
   flex: 1 1 auto;
-  color: var(--loomi-gray-900);
+  color: var(--loomi-text);
 }
 .loomi-text.placeholder {
-  color: var(--loomi-gray-400);
+  color: var(--loomi-text-faint);
 }
 .loomi-req {
   color: var(--loomi-red-500);
@@ -51,8 +61,8 @@
   z-index: 70;
   top: calc(100% + 0.4rem);
   left: 0;
-  background: var(--loomi-white);
-  border: 1px solid var(--loomi-gray-200);
+  background: var(--loomi-surface);
+  border: 1px solid var(--loomi-surface-border);
   border-radius: 0.6rem;
   box-shadow:
     0 10px 15px -3px rgba(0, 0, 0, 0.1),
@@ -61,23 +71,23 @@
 }
 select {
   font: inherit;
-  border: 1px solid var(--loomi-gray-200);
+  border: 1px solid var(--loomi-surface-border);
   border-radius: 0.4rem;
   padding: 0.4rem 0.5rem;
-  background: var(--loomi-white);
-  color: var(--loomi-gray-800);
+  background: var(--loomi-surface);
+  color: var(--loomi-text);
   outline: none;
 }
 select:focus {
   border-color: var(--loomi-primary-400);
 }
 .loomi-colon {
-  color: var(--loomi-gray-400);
+  color: var(--loomi-text-faint);
   font-weight: 600;
 }
 .loomi-label {
   display: block;
   font-size: 0.8rem;
-  color: var(--loomi-gray-500);
+  color: var(--loomi-text-muted);
   margin-bottom: 0.3rem;
 }

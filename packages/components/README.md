@@ -1,6 +1,6 @@
 # @loomi/components
 
-The whole [loomi](../../README.md) component library in one install. This umbrella package
+The whole [LoomiUI](../../README.md) component library in one install. This umbrella package
 re-exports every individual `@loomi/*` component, so you can get everything with a single
 dependency.
 
@@ -9,7 +9,7 @@ npm install @loomi/components lit
 ```
 
 ```js
-// register every loomi custom element
+// register every LoomiUI custom element
 import "@loomi/components";
 
 // …or just one component's entry

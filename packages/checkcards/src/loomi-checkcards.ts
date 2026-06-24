@@ -65,7 +65,7 @@ export class LoomiCheckcards extends LitElement {
   static formAssociated = true;
   private internals = this.attachInternals();
 
-  @property() name = "";
+  @property({ reflect: true }) name = "";
   @property({ type: Number }) max = 1;
   @property() color: LoomiColor = "primary" as LoomiColor;
   @property({ attribute: "border-color" }) borderColor: LoomiColor | "" = "";

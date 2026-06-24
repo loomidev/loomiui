@@ -14,11 +14,11 @@
   text-align: center;
   font-size: calc(var(--loomi-code-size, 3rem) * 0.45);
   font-weight: 600;
-  color: var(--loomi-gray-900);
-  border: 1px solid var(--loomi-gray-300);
+  color: var(--loomi-text);
+  border: 1px solid var(--loomi-surface-border);
   border-radius: 0.5rem;
   outline: none;
-  background: var(--loomi-white);
+  background: var(--loomi-surface);
   transition:
     border-color 0.12s ease,
     box-shadow 0.12s ease;

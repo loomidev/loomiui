@@ -17,7 +17,7 @@
   gap: 0.55rem;
   cursor: pointer;
   user-select: none;
-  color: var(--loomi-gray-800);
+  color: var(--loomi-text);
 }
 :host([disabled]) .loomi-radio {
   cursor: not-allowed;
@@ -40,9 +40,9 @@
   flex: none;
   width: 1.2rem;
   height: 1.2rem;
-  border: 2px solid var(--loomi-gray-300);
+  border: 2px solid var(--loomi-surface-border);
   border-radius: 9999px;
-  background: var(--loomi-white);
+  background: var(--loomi-surface);
   display: inline-flex;
   align-items: center;
   justify-content: center;

@@ -1,6 +1,6 @@
 # @loomi/content
 
-All loomi **content / data-display** components in one install.
+All LoomiUI **content / data-display** components in one install.
 
 ```bash
 npm install @loomi/content lit

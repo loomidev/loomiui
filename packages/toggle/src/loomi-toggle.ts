@@ -22,7 +22,7 @@ export class LoomiToggle extends LitElement {
 
   private internals = this.attachInternals();
 
-  @property() name = "";
+  @property({ reflect: true }) name = "";
   @property() value = "on";
   @property() label = "";
   @property({ attribute: "label-position" }) labelPosition: LoomiLabelPosition = "left";

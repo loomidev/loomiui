@@ -1,4 +1,4 @@
-# Contributing to loomi
+# Contributing to LoomiUI
 
 This is the maintainer's guide: what's been built, how the pieces fit together, how to
 get a dev environment running, how to add a component, and how to publish. Read this
@@ -274,7 +274,7 @@ Things worth understanding line by line:
     `@loomi/*` packages all depend on them.
   - `peerDependencies`: `lit`. We deliberately do **not** bundle Lit or list it as a
     regular dependency — if every one of the 44 packages bundled its own copy, a consumer
-    installing three loomi components could end up with three copies of Lit on the page
+    installing three LoomiUI components could end up with three copies of Lit on the page
     (multiple custom element registries, broken reactivity, bloated bundle). A peer
     dependency means "I need *a* copy of Lit ^3.0.0 to exist somewhere in your tree, you
     supply it." `auto-install-peers=true` satisfies this silently in local dev.

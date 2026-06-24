@@ -40,7 +40,7 @@
      no focusable children; suppress the outline only for that case, not for the real
      interactive elements (buttons, links) inside it, which keep their own focus ring. */
   outline: none;
-  background: var(--loomi-white);
+  background: var(--loomi-surface);
   border-radius: 0.85rem;
   width: 100%;
   max-height: 90vh;
@@ -64,13 +64,13 @@
   right: 0.75rem;
   border: 0;
   background: transparent;
-  color: var(--loomi-gray-400);
+  color: var(--loomi-text-faint);
   cursor: pointer;
   padding: 0.25rem;
   line-height: 0;
 }
 .loomi-close:hover {
-  color: var(--loomi-gray-700);
+  color: var(--loomi-text-secondary);
 }
 .loomi-close svg {
   width: 1.3rem;
@@ -88,14 +88,14 @@
   font-weight: 600;
   text-align: center;
   padding: 1.25rem 1.5rem 0;
-  color: var(--loomi-gray-900);
+  color: var(--loomi-text);
 }
 .loomi-title.has-ico {
   padding-top: 0.75rem;
 }
 .loomi-body {
   padding: 1rem 1.5rem 1.25rem;
-  color: var(--loomi-gray-600);
+  color: var(--loomi-text-secondary);
   text-align: center;
 }
 .loomi-body.plain {
@@ -125,9 +125,9 @@
   color: var(--loomi-white);
 }
 .loomi-btn.ghost {
-  background: var(--loomi-white);
-  border-color: var(--loomi-gray-300);
-  color: var(--loomi-gray-700);
+  background: var(--loomi-surface);
+  border-color: var(--loomi-surface-border);
+  color: var(--loomi-text-secondary);
 }
 
 @keyframes loomi-fade {

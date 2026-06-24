@@ -10,7 +10,9 @@
           "lit": "https://esm.sh/lit@3.3.3",
           "lit/": "https://esm.sh/lit@3.3.3/",
           "@loomi/theme": "../packages/theme/dist/index.js",
-          "@loomi/icons": "../packages/icons/dist/index.js"
+          "@loomi/core": "../packages/core/dist/index.js",
+          "@loomi/icons": "../packages/icons/dist/index.js",
+          "quill": "https://esm.sh/quill@2.0.3"
         }
       }
     </script>
@@ -58,6 +60,8 @@
 
     <h2>Textarea</h2>
     <loomi-textarea label="Describe yourself" rows="3"></loomi-textarea>
+    <loomi-textarea label="Notes (rich text)" toolbar rows="4" value="<p>Hello <strong>world</strong></p>"></loomi-textarea>
+    <loomi-textarea label="Disabled rich text" toolbar disabled value="<p>Locked content.</p>"></loomi-textarea>
 
     <h2>Select</h2>
     <div class="grid2">

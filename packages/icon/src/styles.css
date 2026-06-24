@@ -10,8 +10,12 @@
   display: none;
 }
 svg,
+img,
 ::slotted(svg) {
   width: var(--loomi-icon-size, 1.5rem);
   height: var(--loomi-icon-size, 1.5rem);
   display: block;
+}
+img {
+  object-fit: contain;
 }

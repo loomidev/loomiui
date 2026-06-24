@@ -17,7 +17,7 @@ export class LoomiColorpicker extends LitElement {
   static formAssociated = true;
   private internals = this.attachInternals();
 
-  @property() name = "";
+  @property({ reflect: true }) name = "";
   @property({ attribute: "selected-value" }) selectedValue = "#000000";
   @property({ type: Boolean, attribute: "show-value" }) showValue = false;
   @property() colors = "";

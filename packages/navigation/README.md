@@ -1,6 +1,6 @@
 # @loomi/navigation
 
-All loomi **navigation** components in one install.
+All LoomiUI **navigation** components in one install.
 
 ```bash
 npm install @loomi/navigation lit

@@ -11,10 +11,10 @@
   gap: 0.75rem;
   flex-wrap: wrap;
   font-size: 0.875rem;
-  color: var(--loomi-gray-600);
+  color: var(--loomi-text-secondary);
 }
 .loomi-total {
-  color: var(--loomi-gray-500);
+  color: var(--loomi-text-muted);
 }
 .loomi-controls {
   display: inline-flex;
@@ -30,9 +30,9 @@
   min-width: 2rem;
   height: 2rem;
   padding: 0 0.5rem;
-  border: 1px solid var(--loomi-gray-200);
-  background: var(--loomi-white);
-  color: var(--loomi-gray-700);
+  border: 1px solid var(--loomi-surface-border);
+  background: var(--loomi-surface);
+  color: var(--loomi-text-secondary);
   border-radius: 0.4rem;
   font: inherit;
   cursor: pointer;
@@ -41,7 +41,7 @@
     border-color 0.12s ease;
 }
 .loomi-page:hover:not(:disabled):not(.active) {
-  background: var(--loomi-gray-100);
+  background: var(--loomi-surface-hover);
 }
 .loomi-page.active {
   background: var(--_loomi-accent);
@@ -58,15 +58,15 @@
 }
 .loomi-ellipsis {
   padding: 0 0.25rem;
-  color: var(--loomi-gray-400);
+  color: var(--loomi-text-faint);
 }
 
 .loomi-select {
   height: 2rem;
-  border: 1px solid var(--loomi-gray-200);
+  border: 1px solid var(--loomi-surface-border);
   border-radius: 0.4rem;
-  background: var(--loomi-white);
+  background: var(--loomi-surface);
   font: inherit;
   padding: 0 0.5rem;
-  color: var(--loomi-gray-700);
+  color: var(--loomi-text-secondary);
 }
