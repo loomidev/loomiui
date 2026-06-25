@@ -111,8 +111,8 @@ export class LoomiThemeSwitcher extends LitElement {
 
     return html`<loomi-dropmenu class="loomi-theme-menu" position="right">
       <span slot="trigger" class="loomi-menu-trigger">
-        ${this.icon(selected.icon)}
-        <span>${selected.text}</span>
+        <loomi-icon class="loomi-menu-selected-icon" name=${selected.icon} size="1.05rem"></loomi-icon>
+        <span class="loomi-sr-only">Theme: ${selected.text}</span>
         <loomi-icon class="loomi-menu-chevron" name="chevron-down" size="1rem"></loomi-icon>
       </span>
       ${this.options().map(

@@ -20,6 +20,15 @@ const TYPE_ICON: Record<LoomiAlertType, string> = {
 };
 const X = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />`;
 
+const booleanAttribute = {
+  fromAttribute(value: string | null): boolean {
+    return value !== null && value.toLowerCase() !== "false";
+  },
+  toAttribute(value: boolean): string | null {
+    return value ? "" : null;
+  },
+};
+
 /**
  * `<loomi-alert>` — an inline alert message. Four prebuilt types with default icons,
  * `faint`/`dark` shades, palette overrides, an optional avatar and a dismiss button.
@@ -34,8 +43,9 @@ export class LoomiAlert extends LitElement {
   @property() type: LoomiAlertType = "info";
   @property() shade: "faint" | "dark" = "faint";
   @property() color: LoomiColor | "transparent" | "" = "";
-  @property({ type: Boolean, attribute: "show-icon" }) showIcon = true;
-  @property({ type: Boolean, attribute: "show-close-icon" }) showCloseIcon = true;
+  @property({ type: Boolean, attribute: "show-icon", converter: booleanAttribute }) showIcon = true;
+  @property({ type: Boolean, attribute: "show-close-icon", converter: booleanAttribute })
+  showCloseIcon = true;
   @property() icon = "";
   @property() avatar = "";
   @property({ type: Boolean, attribute: "show-ring" }) showRing = false;
