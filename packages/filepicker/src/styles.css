@@ -28,6 +28,9 @@
   border-color: var(--loomi-primary-500, var(--_loomi-primary-500-default));
   background: var(--loomi-primary-50, var(--_loomi-primary-50-default));
 }
+:host([invalid]) .loomi-drop {
+  border-color: var(--loomi-red-400);
+}
 .loomi-drop.disabled {
   opacity: 0.6;
   cursor: not-allowed;

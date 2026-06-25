@@ -1,7 +1,7 @@
-import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
+import { LitElement, html, nothing, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { loomiStyles, accentVars, type LoomiColor } from "@loomi/core";
-import { getLoomiIcon } from "@loomi/icons";
+import "@loomi/icon/loomi-icon.js";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiNotificationType = "success" | "info" | "warning" | "error";
@@ -26,7 +26,6 @@ const TYPE: Record<LoomiNotificationType, { color: LoomiColor; icon: string }> =
   warning: { color: "orange" as LoomiColor, icon: "exclamation-triangle" },
   error: { color: "red" as LoomiColor, icon: "exclamation-circle" },
 };
-const X = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />`;
 
 let uid = 0;
 
@@ -41,6 +40,18 @@ export class LoomiNotification extends LitElement {
   @property() position: LoomiNotificationPosition = "top-right";
   @state() private toasts: Toast[] = [];
   private timers = new Map<number, ReturnType<typeof setTimeout>>();
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.moveToDocumentBody();
+  }
+
+  private moveToDocumentBody(): void {
+    const body = this.ownerDocument?.body;
+    if (body && this.parentElement !== body) {
+      body.appendChild(this);
+    }
+  }
 
   /** Show a notification. Re-renders an existing one when `name` matches. */
   notify(opts: LoomiNotifyOptions): void {
@@ -72,19 +83,24 @@ export class LoomiNotification extends LitElement {
     this.toasts = this.toasts.filter((t) => t.id !== id);
   }
 
+  private onDismiss(event: Event, id: number): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.dismiss(id);
+  }
+
   override render(): TemplateResult {
     return html`<div class="loomi-stack pos-${this.position}">
       ${this.toasts.map((t) => {
         const meta = TYPE[t.type];
-        const path = getLoomiIcon(meta.icon);
         return html`<div class="loomi-toast" role="status" style=${accentVars(meta.color)}>
-          ${path ? html`<svg class="loomi-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${path}</svg>` : nothing}
+          <loomi-icon class="loomi-ico" name=${meta.icon} stroke-width="1.6"></loomi-icon>
           <div class="loomi-content">
             ${t.title ? html`<div class="loomi-title">${t.title}</div>` : nothing}
             <div class="loomi-message">${t.message}</div>
           </div>
-          <button class="loomi-close" aria-label="Dismiss" @click=${() => this.dismiss(t.id)}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${X}</svg>
+          <button type="button" class="loomi-close" aria-label="Dismiss" @click=${(event: Event) => this.onDismiss(event, t.id)}>
+            <loomi-icon name="x-mark" stroke-width="2"></loomi-icon>
           </button>
         </div>`;
       })}

@@ -1,4 +1,4 @@
-import { LitElement, html, nothing, type TemplateResult } from "lit";
+import { LitElement, html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
 import { themeStyles } from "@loomi/theme";
 import { getLoomiIcon } from "./icons.js";
@@ -6,6 +6,20 @@ import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiInputType = "text" | "email" | "password" | "search" | "tel" | "url";
 export type LoomiInputSize = "tiny" | "small" | "regular" | "medium" | "big";
+export type LoomiInputDynamicMask =
+  | ""
+  | "creditcard"
+  | "credit-card"
+  | ((input: string) => string);
+
+const MASK_TOKEN_TESTS: Record<string, (char: string) => boolean> = {
+  "9": (char) => /[0-9]/.test(char),
+  a: (char) => /[A-Za-z]/.test(char),
+  "*": () => true,
+};
+
+const CREDIT_CARD_MASK = "9999 9999 9999 9999";
+const AMEX_CARD_MASK = "9999 999999 99999";
 
 /**
  * `<loomi-input>` — a themeable text input with a floating label, text/icon
@@ -25,6 +39,7 @@ export class LoomiInput extends LitElement {
   static formAssociated = true;
 
   private internals = this.attachInternals();
+  private validationVisible = false;
 
   @property({ reflect: true }) name = "";
   @property() type: LoomiInputType = "text";
@@ -36,6 +51,8 @@ export class LoomiInput extends LitElement {
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property({ type: Boolean }) numeric = false;
   @property({ type: Boolean, attribute: "with-dots" }) withDots = true;
+  @property() mask = "";
+  @property({ attribute: "dynamic-mask" }) dynamicMask: LoomiInputDynamicMask = "";
   @property() min = "";
   @property() max = "";
   @property() size: LoomiInputSize = "medium";
@@ -56,8 +73,19 @@ export class LoomiInput extends LitElement {
 
   @query("input") private inputEl!: HTMLInputElement;
 
-  override willUpdate(): void {
+  override willUpdate(changed: PropertyValues<this>): void {
+    if (
+      changed.has("value") ||
+      changed.has("numeric") ||
+      changed.has("withDots") ||
+      changed.has("mask") ||
+      changed.has("dynamicMask")
+    ) {
+      this.value = this.normalizeValue(this.value);
+    }
+
     this.internals.setFormValue(this.value);
+    this.syncValidity();
   }
 
   /** Focus the underlying input. */
@@ -76,9 +104,34 @@ export class LoomiInput extends LitElement {
 
   /** Validate required state; toggles `invalid`. Returns true when valid. */
   validate(): boolean {
-    const empty = this.required && this.value.trim() === "";
-    this.invalid = empty;
+    this.validationVisible = true;
+    return this.syncValidity(true);
+  }
+
+  checkValidity(): boolean {
+    this.syncValidity();
+    return this.internals.checkValidity();
+  }
+
+  reportValidity(): boolean {
+    this.validationVisible = true;
+    this.syncValidity(true);
+    return this.internals.reportValidity();
+  }
+
+  private syncValidity(showInvalid = this.validationVisible): boolean {
+    const empty = this.required && !this.disabled && !this.readonly && this.value.trim() === "";
+    this.invalid = empty && showInvalid;
+    const validity = empty ? { valueMissing: true } : {};
+    const message = empty ? this.errorMessage || "Please fill out this field." : "";
+    if (this.inputEl) this.internals.setValidity(validity, message, this.inputEl);
+    else this.internals.setValidity(validity, message);
     return !empty;
+  }
+
+  private showValidation(): void {
+    this.validationVisible = true;
+    this.syncValidity(true);
   }
 
   private emit(type: "input" | "change"): void {
@@ -95,9 +148,65 @@ export class LoomiInput extends LitElement {
     return v;
   }
 
+  private normalizeValue(raw: string): string {
+    const clean = this.sanitizeNumeric(raw);
+    const mask = this.resolveMask(clean);
+    return mask ? this.applyMask(clean, mask) : clean;
+  }
+
+  private resolveMask(input: string): string {
+    if (typeof this.dynamicMask === "function") return this.dynamicMask(input);
+
+    if (this.isCreditCardMask(this.dynamicMask) || this.isCreditCardMask(this.mask)) {
+      const digits = input.replace(/\D/g, "");
+      return digits.startsWith("34") || digits.startsWith("37") ? AMEX_CARD_MASK : CREDIT_CARD_MASK;
+    }
+
+    return this.mask;
+  }
+
+  private isCreditCardMask(mask: LoomiInputDynamicMask | string): boolean {
+    return typeof mask === "string" && (mask === "creditcard" || mask === "credit-card");
+  }
+
+  private applyMask(raw: string, mask: string): string {
+    let result = "";
+    let rawIndex = 0;
+
+    for (const maskChar of mask) {
+      const tokenTest = MASK_TOKEN_TESTS[maskChar];
+
+      if (!tokenTest) {
+        if (raw[rawIndex] === maskChar) rawIndex += 1;
+        if (this.hasRemainingTokenInput(raw, rawIndex, mask)) result += maskChar;
+        continue;
+      }
+
+      while (rawIndex < raw.length) {
+        const rawChar = raw[rawIndex++];
+        if (tokenTest(rawChar)) {
+          result += rawChar;
+          break;
+        }
+      }
+
+      if (rawIndex >= raw.length) break;
+    }
+
+    return result;
+  }
+
+  private hasRemainingTokenInput(raw: string, startIndex: number, mask: string): boolean {
+    const tokenTests = Array.from(new Set(mask.split("").map((char) => MASK_TOKEN_TESTS[char]).filter(Boolean)));
+    return raw
+      .slice(startIndex)
+      .split("")
+      .some((char) => tokenTests.some((tokenTest) => tokenTest(char)));
+  }
+
   private onInput = (e: Event): void => {
     const el = e.target as HTMLInputElement;
-    const clean = this.sanitizeNumeric(el.value);
+    const clean = this.normalizeValue(el.value);
     if (clean !== el.value) el.value = clean;
     this.value = el.value;
     if (this.invalid) this.validate();
@@ -176,6 +285,7 @@ export class LoomiInput extends LitElement {
             aria-invalid=${this.invalid ? "true" : "false"}
             @input=${this.onInput}
             @change=${this.onChange}
+            @blur=${this.showValidation}
           />
           ${hasLabel
             ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`

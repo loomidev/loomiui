@@ -30,5 +30,6 @@ describe("loomi-theme-switcher", () => {
     expect(changes).to.deep.equal(["dark"]);
     expect(document.documentElement.classList.contains("dark")).to.equal(true);
     expect(el.shadowRoot!.querySelector(".loomi-menu-trigger")!.textContent).to.include("Dark");
+    expect(el.shadowRoot!.querySelector('loomi-icon[name="chevron-down"]')).to.exist;
   });
 });

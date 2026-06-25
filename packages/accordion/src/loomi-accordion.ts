@@ -31,9 +31,9 @@ export class LoomiAccordionItem extends LitElement {
   };
 
   override render(): TemplateResult {
-    return html`<div style=${this.color ? accentVars(this.color) : nothing}>
+    return html`<div class="loomi-shell" style=${this.color ? accentVars(this.color) : nothing}>
       <button class="loomi-head" aria-expanded=${this.open ? "true" : "false"} @click=${this.toggle}>
-        <span><slot name="title">${this.title}</slot></span>
+        <span class="loomi-title"><slot name="title">${this.title}</slot></span>
         <svg class="loomi-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${CHEVRON}</svg>
       </button>
       <div class="loomi-content">
@@ -64,7 +64,7 @@ export class LoomiAccordion extends LitElement {
   private sync = (): void => {
     for (const item of this.items) {
       item.standalone = !this.grouped;
-      if (this.color && !item.color) item.color = this.color;
+      if (!item.hasAttribute("color")) item.color = this.color;
     }
   };
 

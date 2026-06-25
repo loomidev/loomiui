@@ -34,6 +34,13 @@
   border-color: var(--loomi-primary-500);
   box-shadow: 0 0 0 3px var(--loomi-primary-100);
 }
+:host([invalid]) .loomi-field {
+  border-color: var(--loomi-red-400);
+}
+:host([invalid]) .loomi-field:focus-within,
+:host([invalid]) .loomi-tp.open .loomi-field {
+  box-shadow: 0 0 0 3px var(--loomi-red-100);
+}
 .loomi-field svg {
   width: 1.15rem;
   height: 1.15rem;
@@ -80,6 +87,9 @@ select {
 }
 select:focus {
   border-color: var(--loomi-primary-400);
+}
+:host([invalid]) select {
+  border-color: var(--loomi-red-400);
 }
 .loomi-colon {
   color: var(--loomi-text-faint);

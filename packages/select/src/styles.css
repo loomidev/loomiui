@@ -92,6 +92,9 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.loomi-value.sizer {
+  visibility: hidden;
+}
 .loomi-value.placeholder {
   color: var(--loomi-text-faint);
 }
@@ -119,7 +122,10 @@
   transition: all 0.15s ease;
   background: var(--loomi-surface);
   padding: 0 0.25rem;
+  max-width: calc(100% - var(--loomi-control-pad-x) - var(--loomi-control-pad-x));
+  overflow: hidden;
   white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .loomi-select.float .loomi-label {
   top: 0;

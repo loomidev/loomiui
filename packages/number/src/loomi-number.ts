@@ -3,7 +3,7 @@ import { customElement, property, query } from "lit/decorators.js";
 import { themeStyles } from "@loomi/theme";
 import { componentStyles } from "./generated/styles.css.js";
 
-export type LoomiNumberSize = "small" | "regular" | "medium" | "big";
+export type LoomiNumberSize = "tiny" | "small" | "regular" | "medium" | "big";
 
 const MINUS = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />`;
 const PLUS = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14" />`;
@@ -23,6 +23,7 @@ export class LoomiNumber extends LitElement {
   static formAssociated = true;
 
   private internals = this.attachInternals();
+  private validationVisible = false;
 
   @property({ reflect: true }) name = "";
   @property() label = "";
@@ -35,11 +36,13 @@ export class LoomiNumber extends LitElement {
   @property({ type: Boolean, attribute: "with-dots" }) withDots = true;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
+  @property({ type: Boolean, reflect: true }) invalid = false;
 
   @query("input") private inputEl!: HTMLInputElement;
 
   override willUpdate(): void {
     this.internals.setFormValue(this.value);
+    this.syncValidity();
   }
 
   override focus(): void {
@@ -58,6 +61,7 @@ export class LoomiNumber extends LitElement {
   private setValue(n: number, emitChange = true): void {
     const clamped = this.clamp(this.withDots ? n : Math.round(n));
     this.value = String(clamped);
+    this.syncValidity();
     this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
     if (emitChange)
       this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
@@ -72,13 +76,48 @@ export class LoomiNumber extends LitElement {
     const raw = (e.target as HTMLInputElement).value;
     let v = raw.replace(this.withDots ? /[^0-9.\-]/g : /[^0-9\-]/g, "");
     this.value = v;
+    this.syncValidity();
     this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
   };
 
   private onChange = (): void => {
-    if (this.value.trim() === "") return;
+    if (this.value.trim() === "") {
+      this.syncValidity();
+      return;
+    }
     this.setValue(this.current);
   };
+
+  validate(): boolean {
+    this.validationVisible = true;
+    return this.syncValidity(true);
+  }
+
+  checkValidity(): boolean {
+    this.syncValidity();
+    return this.internals.checkValidity();
+  }
+
+  reportValidity(): boolean {
+    this.validationVisible = true;
+    this.syncValidity(true);
+    return this.internals.reportValidity();
+  }
+
+  private syncValidity(showInvalid = this.validationVisible): boolean {
+    const empty = this.required && !this.disabled && this.value.trim() === "";
+    this.invalid = empty && showInvalid;
+    const validity = empty ? { valueMissing: true } : {};
+    const message = empty ? "Please enter a number." : "";
+    if (this.inputEl) this.internals.setValidity(validity, message, this.inputEl);
+    else this.internals.setValidity(validity, message);
+    return !empty;
+  }
+
+  private showValidation(): void {
+    this.validationVisible = true;
+    this.syncValidity(true);
+  }
 
   private renderStep(dir: 1 | -1): TemplateResult {
     const atLimit =
@@ -119,8 +158,10 @@ export class LoomiNumber extends LitElement {
             ?disabled=${this.disabled}
             ?required=${this.required}
             aria-label=${hasLabel ? this.label : nothing}
+            aria-invalid=${this.invalid ? "true" : "false"}
             @input=${this.onInput}
             @change=${this.onChange}
+            @blur=${this.showValidation}
           />
           ${hasLabel
             ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`

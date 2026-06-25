@@ -1,0 +1,74 @@
+import { html, fixture, expect } from "@open-wc/testing";
+import "../dist/loomi-notification.js";
+import type { LoomiNotification } from "../dist/index.js";
+
+describe("loomi-notification", () => {
+  afterEach(() => {
+    document.querySelectorAll("loomi-notification").forEach((el) => el.remove());
+  });
+
+  it("renders notification icons through loomi-icon", async () => {
+    const el = await fixture<LoomiNotification>(html`<loomi-notification></loomi-notification>`);
+
+    el.notify({ title: "Saved", message: "Your changes were saved.", type: "success", dismissIn: 0 });
+    await el.updateComplete;
+
+    expect(el.shadowRoot!.querySelector('.loomi-toast > loomi-icon[name="check-circle"]')).to.exist;
+    expect(el.shadowRoot!.querySelector('.loomi-close loomi-icon[name="x-mark"]')).to.exist;
+  });
+
+  it("dismisses a notification from the close button", async () => {
+    const el = await fixture<LoomiNotification>(html`<loomi-notification></loomi-notification>`);
+
+    el.notify({ title: "Saved", message: "Your changes were saved.", type: "success", dismissIn: 0 });
+    await el.updateComplete;
+
+    const close = el.shadowRoot!.querySelector(".loomi-close") as HTMLButtonElement;
+    expect(close.type).to.equal("button");
+    close.click();
+    await el.updateComplete;
+
+    expect(el.shadowRoot!.querySelector(".loomi-toast")).to.not.exist;
+  });
+
+  it("renders above app chrome by default", async () => {
+    const el = await fixture<LoomiNotification>(html`<loomi-notification></loomi-notification>`);
+
+    el.notify({ title: "Saved", message: "Your changes were saved.", dismissIn: 0 });
+    await el.updateComplete;
+
+    expect(getComputedStyle(el).zIndex).to.equal("2147480000");
+  });
+
+  it("positions the stack from the selected corner", async () => {
+    const el = await fixture<LoomiNotification>(html`<loomi-notification position="bottom-left"></loomi-notification>`);
+
+    el.notify({ title: "Saved", message: "Your changes were saved.", dismissIn: 0 });
+    await el.updateComplete;
+
+    const stack = el.shadowRoot!.querySelector(".loomi-stack") as HTMLElement;
+    const style = getComputedStyle(stack);
+    expect(style.bottom).to.equal("16px");
+    expect(style.left).to.equal("16px");
+
+    el.position = "top-right";
+    await el.updateComplete;
+
+    const updatedStyle = getComputedStyle(stack);
+    expect(updatedStyle.top).to.equal("16px");
+    expect(updatedStyle.right).to.equal("16px");
+  });
+
+  it("moves to document.body to escape nested stacking contexts", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div style="position: relative; z-index: 1; transform: translateZ(0)">
+        <loomi-notification></loomi-notification>
+      </div>
+    `);
+    const el = document.body.querySelector("loomi-notification") as LoomiNotification;
+
+    expect(el).to.exist;
+    expect(el.parentElement).to.equal(document.body);
+    expect(wrapper.querySelector("loomi-notification")).to.not.exist;
+  });
+});

@@ -55,18 +55,25 @@ export class LoomiAvatars extends LitElement {
   @property({ type: Number }) plus = 0;
   @property() size: LoomiAvatarSize = "regular";
 
-  override connectedCallback(): void {
-    super.connectedCallback();
+  private syncChildren = (): void => {
     if (this.plus > 0) this.stacked = true;
-    // propagate size to children
     this.querySelectorAll("loomi-avatar").forEach((a) =>
       a.setAttribute("size", this.size),
     );
+  };
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.syncChildren();
+  }
+
+  override updated(): void {
+    this.syncChildren();
   }
 
   override render(): TemplateResult {
     return html`<span class="loomi-row size-${this.size}">
-      <slot></slot>
+      <slot @slotchange=${this.syncChildren}></slot>
       ${this.plus > 0
         ? html`<span class="loomi-plus" part="plus">+${this.plus}</span>`
         : nothing}

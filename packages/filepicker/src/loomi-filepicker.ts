@@ -30,6 +30,10 @@ function human(bytes: number): string {
 @customElement("loomi-filepicker")
 export class LoomiFilepicker extends LitElement {
   static override styles = loomiStyles(componentStyles);
+  static formAssociated = true;
+
+  private internals = this.attachInternals();
+  private validationVisible = false;
 
   @property({ reflect: true }) name = "";
   @property({ attribute: "accepted-file-types" }) acceptedFileTypes = "image/*,application/pdf";
@@ -41,7 +45,8 @@ export class LoomiFilepicker extends LitElement {
   @property({ type: Boolean, attribute: "can-drop" }) canDrop = true;
   @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean, attribute: "show-image-preview" }) showImagePreview = true;
-  @property({ type: Boolean }) required = false;
+  @property({ type: Boolean, reflect: true }) required = false;
+  @property({ type: Boolean, reflect: true }) invalid = false;
 
   @state() private files: File[] = [];
   @state() private over = false;
@@ -52,10 +57,67 @@ export class LoomiFilepicker extends LitElement {
     return this.files;
   }
 
+  override willUpdate(changed: Map<string, unknown>): void {
+    if (
+      changed.has("files") ||
+      changed.has("required") ||
+      changed.has("disabled") ||
+      changed.has("name")
+    ) {
+      this.syncFormValue();
+      this.syncValidity();
+    }
+  }
+
+  validate(): boolean {
+    this.validationVisible = true;
+    return this.syncValidity(true);
+  }
+
+  checkValidity(): boolean {
+    this.syncValidity();
+    return this.internals.checkValidity();
+  }
+
+  reportValidity(): boolean {
+    this.validationVisible = true;
+    this.syncValidity(true);
+    return this.internals.reportValidity();
+  }
+
+  private syncFormValue(): void {
+    if (!this.name || this.files.length === 0) {
+      this.internals.setFormValue(null);
+      return;
+    }
+
+    const data = new FormData();
+    const name = this.maxFiles > 1 ? `${this.name}[]` : this.name;
+    for (const file of this.files) data.append(name, file);
+    this.internals.setFormValue(data);
+  }
+
+  private syncValidity(showInvalid = this.validationVisible): boolean {
+    const empty = this.required && !this.disabled && this.files.length === 0;
+    this.invalid = empty && showInvalid;
+    const validity = empty ? { valueMissing: true } : {};
+    const message = empty ? "Please select a file." : "";
+    if (this.input) this.internals.setValidity(validity, message, this.input);
+    else this.internals.setValidity(validity, message);
+    return !empty;
+  }
+
+  private showValidation(): void {
+    this.validationVisible = true;
+    this.syncValidity(true);
+  }
+
   private syncInput(): void {
     const dt = new DataTransfer();
     for (const f of this.files) dt.items.add(f);
     if (this.input) this.input.files = dt.files;
+    this.syncFormValue();
+    this.syncValidity();
     this.dispatchEvent(new CustomEvent("change", { bubbles: true, composed: true, detail: { files: this.files } }));
   }
 
@@ -110,6 +172,7 @@ export class LoomiFilepicker extends LitElement {
           accept=${this.acceptedFileTypes}
           ?multiple=${this.maxFiles > 1}
           ?disabled=${this.disabled}
+          @blur=${this.showValidation}
           @change=${(e: Event) => this.add((e.target as HTMLInputElement).files)}
         />
       </div>

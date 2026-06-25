@@ -9,35 +9,41 @@ export interface LoomiSortableItem {
   label: string;
   /** Optional secondary line rendered beneath the label (plain text, no markup). */
   meta?: string;
-  /** Excluded from dragging — equivalent to BladewindUI's class-based `filter`. */
+  /** Additional classes applied to the rendered row, useful with selector filters. */
+  className?: string;
+  /** Excluded from dragging, equivalent to SortableJS's selector-based `filter`. */
+  filtered?: boolean;
+  /** Excluded from dragging. */
   locked?: boolean;
 }
 
+export interface LoomiSortableGroup {
+  name: string;
+  pull?: boolean | "clone" | string | string[];
+  put?: boolean | string | string[];
+}
+
+export type LoomiSortableGroupOption = string | LoomiSortableGroup;
+
 const GRIP = svg`<path d="M9 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 12a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 19a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM17 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM17 12a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM17 19a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" fill="currentColor" />`;
 
-// Module-level — not per-instance — because a drag-and-drop gesture spans two
-// different <loomi-sortable> elements (the one it started in, the one it's dropped
-// on), and both need to agree on what's being dragged. Lives for the duration of one
-// browser drag gesture only; cleared on drop or dragend. `items` is plural so a
-// multidrag selection can move together as one gesture.
+// Module-level because a drag-and-drop gesture can span two <loomi-sortable>
+// elements, and both lists need to agree on what is currently being dragged.
 let activeDrag: { source: LoomiSortable; items: LoomiSortableItem[] } | null = null;
 
 /**
- * `<loomi-sortable>` — a drag-and-drop reorderable list. Provide rows via the `items`
- * array (`{ id, label, meta?, locked? }`). Give two or more `type="shared"` lists the
- * same `group` to let users drag items between them — e.g. a Kanban board's
- * "To Do" / "In Progress" / "Done" columns.
+ * `<loomi-sortable>` — a SortableJS-inspired drag-and-drop list. Provide rows via
+ * the `items` array (`{ id, label, meta?, locked?, filtered?, className? }`). Give
+ * two or more lists the same non-empty `group` to let users drag items between them.
  *
  * Form-associated: when `name` is set, the host submits the current order (JSON array
  * of ids) like a native form control.
  *
  * @fires reorder - `detail: { order }` after reordering within the same list.
  * @fires transfer - `detail: { order, items }` on BOTH lists involved, after item(s)
- *   move from one list to another (fired once on the list that lost them, once on the
- *   list that gained them — each with that list's own resulting `order`).
- * @fires item-click - `detail: { item }` when a row is clicked (not dragged) — native
- *   drag-and-drop suppresses the click event after an actual drag, so this only fires
- *   for genuine clicks.
+ *   move from one list to another.
+ * @fires item-click - `detail: { item }` when a row is clicked outside multi-drag mode.
+ * @fires filter - `detail: { item }` when a filtered row is clicked or drag-started.
  */
 @customElement("loomi-sortable")
 export class LoomiSortable extends LitElement {
@@ -50,22 +56,34 @@ export class LoomiSortable extends LitElement {
   @property({ type: Array }) items: LoomiSortableItem[] = [];
   /** Form-control name; when set, the host submits the order as a JSON array of ids. */
   @property({ reflect: true }) name = "";
-  /** `simple` lists only sort within themselves. `shared` lists exchange items with others in the same `group`. */
+  /** Kept for backwards compatibility; setting a non-empty `group` is enough to share lists. */
   @property() type: "simple" | "shared" = "simple";
-  /** Group name used by `shared` lists to find each other. Ignored for `simple` lists. */
-  @property() group = "";
-  /** Leave the dragged item(s) in place when dropped into another (shared) list instead of moving them. */
+  /** SortableJS-style group name or object (`{ name, pull, put }`) for shared lists. */
+  @property() group: LoomiSortableGroupOption = "";
+  /** Leave dragged item(s) in place when dropped into another shared list. Alias for `group.pull = "clone"`. */
   @property({ type: Boolean }) clone = false;
-  /** Enable or disable dragging within (and out of) this list. The list still accepts incoming transfers when `false`. */
+  /** Enable or disable drag-starting from this list. The list still accepts incoming transfers when `false`. */
   @property({ type: Boolean }) sortable = true;
+  /** Enable or disable sorting within this list. Items may still be dragged out when `false`. */
+  @property({ type: Boolean }) sort = true;
+  /** SortableJS-style selector for rows/elements that cannot be dragged, e.g. `.filtered`. */
+  @property() filter = "";
+  /** SortableJS-style handle selector. Any non-empty value enables the built-in row handle. */
+  @property() handle = "";
   /** Drag by a dedicated handle instead of the whole row surface. */
   @property({ type: Boolean, attribute: "has-handle" }) hasHandle = false;
-  /** Icon name (from `@loomi/icons`) used for the drag handle when `has-handle` is set. */
+  /** Icon name (from `@loomi/icons`) used for the drag handle when handle mode is enabled. */
   @property({ attribute: "handle-icon" }) handleIcon = "bars-3";
-  /** Ctrl/Cmd + click to select multiple rows, then drag them together as a group. */
+  /** Backwards-compatible multi-drag flag. */
   @property({ type: Boolean }) multidrag = false;
-  /** Swap the dropped row with the row it lands on instead of shifting rows in between. Ignored when `multidrag` selects more than one row. */
+  /** SortableJS-style camelCase multi-drag flag, exposed as the `multi-drag` attribute. */
+  @property({ type: Boolean, attribute: "multi-drag" }) multiDrag = false;
+  /** Extra class applied to selected rows in multi-drag mode. */
+  @property({ attribute: "selected-class" }) selectedClass = "selected";
+  /** Swap the dropped row with the row it lands on instead of shifting rows in between. */
   @property({ type: Boolean }) swap = false;
+  /** Extra class applied to the hovered row in swap mode. */
+  @property({ attribute: "swap-class" }) swapClass = "highlight";
   /** Reorder animation duration in ms. `0` disables the animation. */
   @property({ type: Number }) animation = 150;
 
@@ -88,8 +106,6 @@ export class LoomiSortable extends LitElement {
     if (changed.has("items")) this.playFlip();
   }
 
-  // FLIP animation: capture each row's position before the reorder (First), let Lit
-  // re-render into the new order (Last), then animate from old to new position.
   private captureRects(): void {
     this.rowRects.clear();
     this.renderRoot.querySelectorAll<HTMLElement>(".loomi-row").forEach((el) => {
@@ -117,18 +133,103 @@ export class LoomiSortable extends LitElement {
     });
   }
 
+  private get isMultiDrag(): boolean {
+    return this.multidrag || this.multiDrag;
+  }
+
+  private get handleMode(): boolean {
+    return this.hasHandle || this.handle.trim() !== "";
+  }
+
+  private get normalizedGroup(): LoomiSortableGroup {
+    if (!this.group) return { name: "" };
+    return typeof this.group === "string" ? { name: this.group } : this.group;
+  }
+
+  private groupName(): string {
+    return this.normalizedGroup.name?.trim() ?? "";
+  }
+
+  private optionAllows(
+    option: boolean | "clone" | string | string[] | undefined,
+    peerGroup: string,
+    sameGroup: boolean,
+  ): boolean {
+    if (option === undefined) return sameGroup;
+    if (option === true || option === "clone") return true;
+    if (option === false) return false;
+    if (Array.isArray(option)) return option.includes(peerGroup);
+    return option === peerGroup;
+  }
+
+  private canPullTo(target: LoomiSortable): boolean {
+    const sourceGroup = this.groupName();
+    const targetGroup = target.groupName();
+    if (!sourceGroup || !targetGroup) return false;
+    return this.optionAllows(this.normalizedGroup.pull, targetGroup, sourceGroup === targetGroup);
+  }
+
+  private canPutFrom(source: LoomiSortable): boolean {
+    const targetGroup = this.groupName();
+    const sourceGroup = source.groupName();
+    if (!targetGroup || !sourceGroup) return false;
+    return this.optionAllows(this.normalizedGroup.put, sourceGroup, targetGroup === sourceGroup);
+  }
+
+  private shouldCloneTransfer(): boolean {
+    return this.clone || this.normalizedGroup.pull === "clone";
+  }
+
   private acceptsTransferFrom(other: LoomiSortable): boolean {
-    return (
-      other !== this &&
-      this.type === "shared" &&
-      other.type === "shared" &&
-      !!this.group &&
-      this.group === other.group
-    );
+    return other !== this && other.canPullTo(this) && this.canPutFrom(other);
+  }
+
+  private rowClasses(item: LoomiSortableItem, i: number, locked: boolean, filtered: boolean): string {
+    const classes = ["loomi-row"];
+    if (this.dragIndex === i) classes.push("dragging");
+    if (this.overIndex === i) {
+      classes.push("over");
+      if (this.swap && this.swapClass) classes.push(this.swapClass);
+    }
+    if (this.selectedIds.has(item.id)) {
+      classes.push("selected");
+      if (this.selectedClass && this.selectedClass !== "selected") classes.push(this.selectedClass);
+    }
+    if (locked) classes.push("locked");
+    if (filtered) classes.push("filtered");
+    if (item.className) classes.push(...item.className.split(/\s+/).filter(Boolean));
+    return classes.join(" ");
+  }
+
+  private itemFilteredByData(item: LoomiSortableItem): boolean {
+    if (item.filtered) return true;
+    if (this.filter.trim() === ".filtered") {
+      return item.className?.split(/\s+/).includes("filtered") ?? false;
+    }
+    return false;
+  }
+
+  private rowMatchesFilter(row: HTMLElement): boolean {
+    const selector = this.filter.trim();
+    if (!selector) return false;
+    try {
+      return row.matches(selector) || !!row.querySelector(selector);
+    } catch {
+      return false;
+    }
+  }
+
+  private emitFilter(item: LoomiSortableItem): void {
+    this.dispatchEvent(new CustomEvent("filter", { bubbles: true, composed: true, detail: { item } }));
   }
 
   private onRowClick(item: LoomiSortableItem, e: MouseEvent): void {
-    if (this.multidrag && (e.metaKey || e.ctrlKey)) {
+    const row = e.currentTarget as HTMLElement;
+    if (item.locked || this.itemFilteredByData(item) || this.rowMatchesFilter(row)) {
+      this.emitFilter(item);
+      return;
+    }
+    if (this.isMultiDrag) {
       e.preventDefault();
       const next = new Set(this.selectedIds);
       if (next.has(item.id)) next.delete(item.id);
@@ -136,19 +237,35 @@ export class LoomiSortable extends LitElement {
       this.selectedIds = next;
       return;
     }
-    if (this.multidrag && this.selectedIds.size > 0) this.selectedIds = new Set();
     this.dispatchEvent(new CustomEvent("item-click", { bubbles: true, composed: true, detail: { item } }));
   }
 
-  private onDragStart(i: number): void {
+  private onDragStart(i: number, e: DragEvent): void {
     const item = this.items[i];
-    if (item.locked || !this.sortable) return;
+    const row = e.currentTarget as HTMLElement;
+    if (this.handleMode && !(e.target as Element | null)?.closest(".loomi-handle")) {
+      e.preventDefault();
+      return;
+    }
+    if (item.locked || this.itemFilteredByData(item) || this.rowMatchesFilter(row)) {
+      e.preventDefault();
+      this.emitFilter(item);
+      return;
+    }
+    if (!this.sortable) {
+      e.preventDefault();
+      return;
+    }
     const dragged =
-      this.multidrag && this.selectedIds.has(item.id) && this.selectedIds.size > 1
+      this.isMultiDrag && this.selectedIds.has(item.id) && this.selectedIds.size > 1
         ? this.items.filter((it) => this.selectedIds.has(it.id))
         : [item];
     this.dragIndex = i;
     activeDrag = { source: this, items: dragged };
+    if (e.dataTransfer) {
+      e.dataTransfer.effectAllowed = this.shouldCloneTransfer() ? "copyMove" : "move";
+      e.dataTransfer.setData("text/plain", dragged.map((it) => it.id).join(","));
+    }
   }
 
   private onDragOver(i: number, e: DragEvent): void {
@@ -171,37 +288,53 @@ export class LoomiSortable extends LitElement {
     activeDrag = null;
   }
 
+  private reorderWithin(index: number): void {
+    if (!activeDrag) return;
+    const before = this.order.join("\u0000");
+    const dragged = activeDrag.items;
+    const draggedIds = new Set(dragged.map((it) => it.id));
+    const target = this.items[index];
+    if (!this.sort || this.dragIndex === null || (target && draggedIds.has(target.id))) {
+      this.endDrag();
+      return;
+    }
+    if (this.swap && target && dragged.length === 1) {
+      const from = this.items.findIndex((it) => it.id === dragged[0].id);
+      if (from !== -1) {
+        const next = [...this.items];
+        [next[from], next[index]] = [next[index], next[from]];
+        this.items = next;
+      }
+    } else {
+      const targetId = target?.id;
+      const remaining = this.items.filter((it) => !draggedIds.has(it.id));
+      const targetIdx = targetId ? remaining.findIndex((it) => it.id === targetId) : remaining.length;
+      remaining.splice(targetIdx === -1 ? remaining.length : targetIdx, 0, ...dragged);
+      this.items = remaining;
+    }
+    this.selectedIds = new Set();
+    this.endDrag();
+    if (this.order.join("\u0000") !== before) {
+      this.dispatchEvent(new CustomEvent("reorder", { bubbles: true, composed: true, detail: { order: this.order } }));
+    }
+  }
+
   private onDrop(i: number): void {
     if (!activeDrag) return;
     if (activeDrag.source === this) {
-      const dragged = activeDrag.items;
-      const draggedIds = new Set(dragged.map((it) => it.id));
-      if (this.dragIndex === null || draggedIds.has(this.items[i].id)) {
-        this.endDrag();
-        return;
-      }
-      if (this.swap && !this.multidrag && dragged.length === 1) {
-        const next = [...this.items];
-        [next[this.dragIndex], next[i]] = [next[i], next[this.dragIndex]];
-        this.items = next;
-      } else {
-        const targetId = this.items[i].id;
-        const remaining = this.items.filter((it) => !draggedIds.has(it.id));
-        const targetIdx = remaining.findIndex((it) => it.id === targetId);
-        remaining.splice(targetIdx, 0, ...dragged);
-        this.items = remaining;
-      }
-      this.selectedIds = new Set();
-      this.endDrag();
-      this.dispatchEvent(new CustomEvent("reorder", { bubbles: true, composed: true, detail: { order: this.order } }));
+      this.reorderWithin(i);
       return;
     }
     this.acceptTransfer(i);
   }
 
   private onContainerDrop(): void {
-    if (!activeDrag || activeDrag.source === this) {
+    if (!activeDrag) {
       this.endDrag();
+      return;
+    }
+    if (activeDrag.source === this) {
+      this.reorderWithin(this.items.length);
       return;
     }
     this.acceptTransfer(this.items.length);
@@ -214,15 +347,18 @@ export class LoomiSortable extends LitElement {
       this.endDrag();
       return;
     }
-    if (!source.clone) {
+    if (!source.shouldCloneTransfer()) {
       const draggedIds = new Set(dragged.map((it) => it.id));
       source.items = source.items.filter((it) => !draggedIds.has(it.id));
     }
-    const incoming = source.clone ? dragged.map((it) => ({ ...it })) : dragged;
+    const incoming = source.shouldCloneTransfer() ? dragged.map((it) => ({ ...it })) : dragged;
     const next = [...this.items];
     next.splice(index, 0, ...incoming);
     this.items = next;
     this.selectedIds = new Set();
+    source.selectedIds = new Set();
+    source.dragIndex = source.overIndex = null;
+    source.dragOverContainer = false;
     this.endDrag();
     source.dispatchEvent(
       new CustomEvent("transfer", { bubbles: true, composed: true, detail: { order: source.order, items: dragged } }),
@@ -246,18 +382,16 @@ export class LoomiSortable extends LitElement {
       }}
     >
       ${this.items.map((item, i) => {
-        const locked = !!item.locked || !this.sortable;
-        const rowDraggable = !this.hasHandle && !locked;
-        const handleDraggable = this.hasHandle && !locked;
+        const filtered = this.itemFilteredByData(item);
+        const locked = !!item.locked || !this.sortable || filtered;
+        const rowDraggable = !this.handleMode && !locked;
+        const handleDraggable = this.handleMode && !locked;
         return html`<div
-          class="loomi-row
-            ${this.dragIndex === i ? "dragging" : ""}
-            ${this.overIndex === i ? "over" : ""}
-            ${this.selectedIds.has(item.id) ? "selected" : ""}
-            ${locked ? "locked" : ""}"
+          class=${this.rowClasses(item, i, locked, filtered)}
           data-id=${item.id}
+          data-filtered=${filtered ? "true" : nothing}
           draggable=${rowDraggable}
-          @dragstart=${() => this.onDragStart(i)}
+          @dragstart=${(e: DragEvent) => this.onDragStart(i, e)}
           @dragover=${(e: DragEvent) => this.onDragOver(i, e)}
           @drop=${(e: DragEvent) => {
             e.preventDefault();
@@ -267,8 +401,8 @@ export class LoomiSortable extends LitElement {
           @dragend=${() => this.endDrag()}
           @click=${(e: MouseEvent) => this.onRowClick(item, e)}
         >
-          ${this.hasHandle
-            ? html`<span class="loomi-handle" draggable=${handleDraggable}
+          ${this.handleMode
+            ? html`<span class="loomi-handle" draggable=${handleDraggable} data-handle="true"
                 ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                   ${handleSvg}
                 </svg></span
@@ -278,7 +412,7 @@ export class LoomiSortable extends LitElement {
             <span class="loomi-label">${item.label}</span>
             ${item.meta ? html`<span class="loomi-meta">${item.meta}</span>` : nothing}
           </span>
-          ${item.locked
+          ${item.locked || filtered
             ? html`<svg class="loomi-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 ${getLoomiIcon("lock-closed")}
               </svg>`

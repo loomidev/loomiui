@@ -20,8 +20,10 @@ have a reference to the element).
 > **Important:** give every modal on a page a unique `name` — it's how `showLoomiModal()`
 > finds the right one.
 
-Clicking the backdrop, pressing <kbd>Esc</kbd>, or clicking a footer button all dismiss
-the modal by default. See [Non-Dismissible Modal](#non-dismissible-modal) to change that.
+The default modal keeps its content left aligned and places action buttons in a gray
+footer, right aligned. Clicking the backdrop, pressing <kbd>Esc</kbd>, or clicking a
+footer button all dismiss the modal by default. See
+[Non-Dismissible Modal](#non-dismissible-modal) to change that.
 
 ```html
 <loomi-button onclick="showLoomiModal('tnc-agreement')">Basic modal</loomi-button>
@@ -37,8 +39,8 @@ the modal by default. See [Non-Dismissible Modal](#non-dismissible-modal) to cha
 
 ## Different Types
 
-Four prebuilt types append the matching icon and color. The default (no `type` set) has
-no icon.
+Four prebuilt types add a left-side icon and matching action color. The default (no
+`type` set) has no icon.
 
 ```html
 <loomi-button onclick="showLoomiModal('info')">Info Modal</loomi-button>
@@ -65,7 +67,7 @@ no icon.
 ## Using Different Icons
 
 Set `icon` to use any icon from [`@loomi/icons`](../icons) instead of (or together with)
-a prebuilt `type`'s default icon:
+a prebuilt `type`'s default icon. Modal icons render through `<loomi-icon>`.
 
 ```html
 <loomi-button onclick="showLoomiModal('big-file')">Custom Icon</loomi-button>
@@ -116,7 +118,8 @@ Available: `none` `small` `medium` `large` `xl` `omg`.
 ## Action Buttons
 
 By default the footer shows `Cancel` and `Okay`. Customize the labels, or set a label to
-an empty string to hide that button entirely.
+an empty string to hide that button entirely. Footer actions render as
+`<loomi-button size="small">`.
 
 ```html
 <!-- custom labels -->
@@ -210,9 +213,13 @@ needed.
 | `show-close-icon` | `false` | Show the top-right close icon. _(boolean)_ |
 | `backdrop-can-close` | `true` | Backdrop click / Escape closes. _(boolean)_ |
 | `close-after-action` | `true` | Close after an action button is clicked. _(boolean)_ |
+| `prevent-scroll` | `true` | Prevent document scrolling while open. _(boolean)_ |
 | `blur-size` | `medium` | `none` \| `small` \| `medium` \| `large` \| `xl` \| `omg` |
 | `align-buttons` | `right` | `left` \| `center` \| `right` |
 | `stretch-action-buttons` | `false` | Full-width stacked buttons. _(boolean)_ |
+
+Boolean attributes can be omitted, present, or set to `"false"` in HTML, for example
+`backdrop-can-close="false"` or `show-close-icon`.
 
 **Methods:** `show()`, `hide()`. **Helpers:** `showLoomiModal(name)`, `hideLoomiModal(name)`.
 **Events:** `ok`, `cancel`, `close`, `open`. **Slot:** default (body).

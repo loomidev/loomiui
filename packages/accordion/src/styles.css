@@ -22,8 +22,11 @@
 }
 
 /* ---- item (loomi-accordion-item) ---- */
-:host([standalone]) {
-  border: 1px solid var(--loomi-surface-border);
+.loomi-shell {
+  background: transparent;
+}
+:host([standalone]) .loomi-shell {
+  border: 1px solid var(--_loomi-accent-border, var(--loomi-surface-border));
   border-radius: 0.6rem;
   overflow: hidden;
   background: var(--_loomi-accent-softer, var(--loomi-surface));
@@ -43,6 +46,15 @@
   text-align: left;
   color: var(--loomi-text);
   cursor: pointer;
+}
+.loomi-title {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  line-height: 1.25;
+}
+slot[name="title"]::slotted(*) {
+  margin: 0;
 }
 .loomi-chevron {
   flex: none;

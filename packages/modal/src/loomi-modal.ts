@@ -1,7 +1,8 @@
-import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
+import { LitElement, html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { loomiStyles, accentVars, type LoomiColor } from "@loomi/core";
-import { getLoomiIcon } from "@loomi/icons";
+import "@loomi/button/loomi-button.js";
+import "@loomi/icon/loomi-icon.js";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiModalType = "" | "info" | "error" | "warning" | "success";
@@ -13,7 +14,15 @@ const TYPE: Record<string, { color: LoomiColor; icon: string }> = {
   warning: { color: "orange" as LoomiColor, icon: "exclamation-triangle" },
   success: { color: "green" as LoomiColor, icon: "check-circle" },
 };
-const X = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />`;
+
+const booleanAttribute = {
+  fromAttribute(value: string | null): boolean {
+    return value !== null && value.toLowerCase() !== "false";
+  },
+  toAttribute(value: boolean): string | null {
+    return value ? "" : null;
+  },
+};
 
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
@@ -26,6 +35,29 @@ function deepActiveElement(): Element | null {
 }
 
 const registry = new Map<string, LoomiModal>();
+let scrollLockCount = 0;
+let previousBodyOverflow = "";
+let previousDocumentOverflow = "";
+
+function lockDocumentScroll(): void {
+  if (scrollLockCount === 0) {
+    previousBodyOverflow = document.body.style.overflow;
+    previousDocumentOverflow = document.documentElement.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+  }
+  scrollLockCount += 1;
+}
+
+function unlockDocumentScroll(): void {
+  if (scrollLockCount === 0) return;
+  scrollLockCount -= 1;
+  if (scrollLockCount === 0) {
+    document.body.style.overflow = previousBodyOverflow;
+    document.documentElement.style.overflow = previousDocumentOverflow;
+  }
+}
+
 /** Open a modal by its `name`. */
 export function showLoomiModal(name: string): void {
   registry.get(name)?.show();
@@ -66,16 +98,27 @@ export class LoomiModal extends LitElement {
   @property({ type: Boolean, reflect: true }) open = false;
   @property({ attribute: "ok-button-label" }) okButtonLabel = "Okay";
   @property({ attribute: "cancel-button-label" }) cancelButtonLabel = "Cancel";
-  @property({ type: Boolean, attribute: "show-action-buttons" }) showActionButtons = true;
-  @property({ type: Boolean, attribute: "show-close-icon" }) showCloseIcon = false;
-  @property({ type: Boolean, attribute: "backdrop-can-close" }) backdropCanClose = true;
-  @property({ type: Boolean, attribute: "close-after-action" }) closeAfterAction = true;
-  @property({ type: Boolean, attribute: "stretch-action-buttons" }) stretchActionButtons = false;
+  @property({ type: Boolean, attribute: "show-action-buttons", converter: booleanAttribute })
+  showActionButtons = true;
+  @property({ type: Boolean, attribute: "show-close-icon", converter: booleanAttribute })
+  showCloseIcon = false;
+  @property({ type: Boolean, attribute: "backdrop-can-close", converter: booleanAttribute })
+  backdropCanClose = true;
+  @property({ type: Boolean, attribute: "close-after-action", converter: booleanAttribute })
+  closeAfterAction = true;
+  @property({ type: Boolean, attribute: "prevent-scroll", converter: booleanAttribute })
+  preventScroll = true;
+  @property({ type: Boolean, attribute: "stretch-action-buttons", converter: booleanAttribute })
+  stretchActionButtons = false;
   @property({ attribute: "align-buttons" }) alignButtons: "left" | "center" | "right" = "right";
   @property({ attribute: "blur-size" }) blurSize: "none" | "small" | "medium" | "large" | "xl" | "omg" = "medium";
 
   /** The element focused before `show()` was called, restored when the modal closes. */
   private previouslyFocused: HTMLElement | null = null;
+  private hasScrollLock = false;
+  private isMovingInDom = false;
+  private originalParent: Node | null = null;
+  private originalNextSibling: ChildNode | null = null;
 
   override connectedCallback(): void {
     super.connectedCallback();
@@ -86,32 +129,103 @@ export class LoomiModal extends LitElement {
     super.disconnectedCallback();
     if (this.name) registry.delete(this.name);
     document.removeEventListener("keydown", this.onKey);
+    if (!this.isMovingInDom) this.releaseScrollLock();
+  }
+
+  protected override updated(changedProperties: PropertyValues<this>): void {
+    super.updated(changedProperties);
+    if (changedProperties.has("open") || changedProperties.has("preventScroll")) {
+      this.syncScrollLock();
+    }
   }
 
   show(): void {
     this.previouslyFocused = deepActiveElement() as HTMLElement | null;
+    this.moveToDocumentBody();
     this.open = true;
+    this.syncScrollLock();
     this.dispatchEvent(new Event("open", { bubbles: true, composed: true }));
     // Move focus into the dialog once it has rendered — first focusable element if
     // there is one (e.g. a footer button), else the dialog container itself.
-    this.updateComplete.then(() => {
-      const focusable = this.getFocusable();
-      (focusable[0] ?? this.shadowRoot?.querySelector<HTMLElement>(".loomi-dialog"))?.focus();
-    });
+    this.updateComplete
+      .then(() => this.waitForActionButtons())
+      .then(() => {
+        const focusable = this.getFocusable();
+        (focusable[0] ?? this.shadowRoot?.querySelector<HTMLElement>(".loomi-dialog"))?.focus();
+      });
   }
   hide(): void {
     this.open = false;
+    this.releaseScrollLock();
     this.dispatchEvent(new Event("close", { bubbles: true, composed: true }));
+    this.restoreOriginalPosition();
     this.previouslyFocused?.focus();
     this.previouslyFocused = null;
+  }
+
+  private moveToDocumentBody(): void {
+    if (this.parentNode === document.body) return;
+
+    this.originalParent = this.parentNode;
+    this.originalNextSibling = this.nextSibling;
+
+    this.isMovingInDom = true;
+    document.body.appendChild(this);
+    this.isMovingInDom = false;
+  }
+
+  private restoreOriginalPosition(): void {
+    if (!this.originalParent) return;
+
+    const nextSibling =
+      this.originalNextSibling?.parentNode === this.originalParent ? this.originalNextSibling : null;
+
+    this.isMovingInDom = true;
+    if (this.originalParent.isConnected) {
+      this.originalParent.insertBefore(this, nextSibling);
+    }
+    this.isMovingInDom = false;
+
+    this.originalParent = null;
+    this.originalNextSibling = null;
+  }
+
+  private syncScrollLock(): void {
+    if (this.open && this.preventScroll) {
+      if (!this.hasScrollLock) {
+        lockDocumentScroll();
+        this.hasScrollLock = true;
+      }
+    } else {
+      this.releaseScrollLock();
+    }
+  }
+
+  private releaseScrollLock(): void {
+    if (!this.hasScrollLock) return;
+    unlockDocumentScroll();
+    this.hasScrollLock = false;
   }
 
   /** Focusable elements in template order: close button, slotted body, footer buttons. */
   private getFocusable(): HTMLElement[] {
     const before = Array.from(this.shadowRoot?.querySelectorAll<HTMLElement>(".loomi-close") ?? []);
     const light = Array.from(this.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR));
-    const after = Array.from(this.shadowRoot?.querySelectorAll<HTMLElement>(".loomi-footer button") ?? []);
+    const after = Array.from(
+      this.shadowRoot?.querySelectorAll<HTMLElement>(".loomi-footer loomi-button") ?? [],
+    )
+      .map((button) => button.shadowRoot?.querySelector<HTMLElement>('[part="button"]') ?? null)
+      .filter((button): button is HTMLElement => !!button);
     return [...before, ...light, ...after];
+  }
+
+  private async waitForActionButtons(): Promise<void> {
+    const buttons = Array.from(
+      this.shadowRoot?.querySelectorAll<HTMLElement & { updateComplete?: Promise<unknown> }>(
+        ".loomi-footer loomi-button",
+      ) ?? [],
+    );
+    await Promise.all(buttons.map((button) => button.updateComplete ?? Promise.resolve()));
   }
 
   private onKey = (e: KeyboardEvent): void => {
@@ -146,34 +260,75 @@ export class LoomiModal extends LitElement {
 
   private onOk = (): void => {
     this.dispatchEvent(new Event("ok", { bubbles: true, composed: true }));
-    if (this.closeAfterAction) this.open = false;
+    if (this.closeAfterAction) this.hide();
   };
   private onCancel = (): void => {
     this.dispatchEvent(new Event("cancel", { bubbles: true, composed: true }));
-    if (this.closeAfterAction) this.open = false;
+    if (this.closeAfterAction) this.hide();
   };
 
   override render(): TemplateResult | typeof nothing {
     if (!this.open) return nothing;
     const t = this.type ? TYPE[this.type] : undefined;
     const iconName = this.icon || t?.icon || "";
-    const path = iconName ? getLoomiIcon(iconName) : undefined;
-    const accent = accentVars(t?.color ?? ("primary" as LoomiColor));
+    const actionColor = t?.color ?? ("primary" as LoomiColor);
+    const accent = accentVars(actionColor);
     const showOk = this.showActionButtons && this.okButtonLabel;
     const showCancel = this.showActionButtons && this.cancelButtonLabel;
+    const dialogClasses = [
+      "loomi-dialog",
+      `size-${this.size}`,
+      iconName ? "has-icon" : "is-default",
+      this.showCloseIcon ? "has-close" : "",
+    ].filter(Boolean).join(" ");
 
     return html`<div class="loomi-backdrop blur-${this.blurSize}" @click=${this.onBackdrop}>
-      <div class="loomi-dialog size-${this.size}" role="dialog" aria-modal="true" aria-label=${this.title || "Dialog"} tabindex="-1" style=${accent}>
+      <div
+        class=${dialogClasses}
+        role="dialog"
+        aria-modal="true"
+        aria-label=${this.title || "Dialog"}
+        tabindex="-1"
+        style=${accent}
+      >
         ${this.showCloseIcon
-          ? html`<button class="loomi-close" aria-label="Close" @click=${() => this.hide()}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${X}</svg></button>`
+          ? html`<button class="loomi-close" aria-label="Close" @click=${() => this.hide()}>
+              <loomi-icon name="x-mark" size="1.15rem" stroke-width="2"></loomi-icon>
+            </button>`
           : nothing}
-        ${path ? html`<svg class="loomi-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${path}</svg>` : nothing}
-        ${this.title ? html`<div class="loomi-title ${path ? "has-ico" : ""}">${this.title}</div>` : nothing}
-        <div class="loomi-body ${path || this.title ? "" : "plain"}"><slot></slot></div>
+        <div class="loomi-content">
+          ${iconName
+            ? html`<div class="loomi-icon-wrap">
+                <loomi-icon class="loomi-ico" name=${iconName} size="1.5rem"></loomi-icon>
+              </div>`
+            : nothing}
+          <div class="loomi-main">
+            ${this.title ? html`<div class="loomi-title">${this.title}</div>` : nothing}
+            <div class="loomi-body"><slot></slot></div>
+          </div>
+        </div>
         ${showOk || showCancel
           ? html`<div class="loomi-footer ${this.stretchActionButtons ? "stretch" : this.alignButtons}">
-              ${showCancel ? html`<button class="loomi-btn ghost" @click=${this.onCancel}>${this.cancelButtonLabel}</button>` : nothing}
-              ${showOk ? html`<button class="loomi-btn primary" @click=${this.onOk}>${this.okButtonLabel}</button>` : nothing}
+              ${showCancel
+                ? html`<loomi-button
+                    class="loomi-action"
+                    type="secondary"
+                    size="small"
+                    ?block=${this.stretchActionButtons}
+                    @click=${this.onCancel}
+                    >${this.cancelButtonLabel}</loomi-button
+                  >`
+                : nothing}
+              ${showOk
+                ? html`<loomi-button
+                    class="loomi-action"
+                    size="small"
+                    color=${actionColor}
+                    ?block=${this.stretchActionButtons}
+                    @click=${this.onOk}
+                    >${this.okButtonLabel}</loomi-button
+                  >`
+                : nothing}
             </div>`
           : nothing}
       </div>

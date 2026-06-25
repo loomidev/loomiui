@@ -1,7 +1,7 @@
 import { LitElement, html, nothing, type TemplateResult } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { themeStyles } from "@loomi/theme";
-import Quill from "quill";
+import type Quill from "quill";
 import { componentStyles, quillStyles } from "./generated/styles.css.js";
 
 /**
@@ -21,6 +21,7 @@ export class LoomiTextarea extends LitElement {
   static formAssociated = true;
 
   private internals = this.attachInternals();
+  private validationVisible = false;
   private quill?: Quill;
 
   @property({ reflect: true }) name = "";
@@ -42,6 +43,7 @@ export class LoomiTextarea extends LitElement {
 
   override willUpdate(changed: Map<string, unknown>): void {
     this.internals.setFormValue(this.value);
+    this.syncValidity();
     if (this.quill) {
       if (changed.has("disabled") || changed.has("readonly")) {
         this.quill.enable(!this.disabled && !this.readonly);
@@ -58,9 +60,11 @@ export class LoomiTextarea extends LitElement {
     this.quill = undefined;
   }
 
-  private initQuill(): void {
+  private async initQuill(): Promise<void> {
     if (!this.quillRootEl) return;
-    this.quill = new Quill(this.quillRootEl, {
+    const { default: QuillEditor } = await import("quill");
+    if (!this.quillRootEl) return;
+    this.quill = new QuillEditor(this.quillRootEl, {
       theme: "snow",
       placeholder: this.placeholder,
       readOnly: this.disabled || this.readonly,
@@ -73,7 +77,10 @@ export class LoomiTextarea extends LitElement {
       this.emit("input");
     });
     this.quill.on("selection-change", (range) => {
-      if (!range) this.emit("change");
+      if (!range) {
+        this.showValidation();
+        this.emit("change");
+      }
     });
   }
 
@@ -83,10 +90,36 @@ export class LoomiTextarea extends LitElement {
   }
 
   validate(): boolean {
+    this.validationVisible = true;
+    return this.syncValidity(true);
+  }
+
+  checkValidity(): boolean {
+    this.syncValidity();
+    return this.internals.checkValidity();
+  }
+
+  reportValidity(): boolean {
+    this.validationVisible = true;
+    this.syncValidity(true);
+    return this.internals.reportValidity();
+  }
+
+  private syncValidity(showInvalid = this.validationVisible): boolean {
     const text = this.toolbar ? (this.quill?.getText() ?? "") : this.value;
-    const empty = this.required && text.trim() === "";
-    this.invalid = empty;
+    const empty = this.required && !this.disabled && !this.readonly && text.trim() === "";
+    this.invalid = empty && showInvalid;
+    const validity = empty ? { valueMissing: true } : {};
+    const message = empty ? this.errorMessage || "Please fill out this field." : "";
+    const anchor = (this.toolbar ? this.quillRootEl : this.textareaEl) as HTMLElement | undefined;
+    if (anchor) this.internals.setValidity(validity, message, anchor);
+    else this.internals.setValidity(validity, message);
     return !empty;
+  }
+
+  private showValidation(): void {
+    this.validationVisible = true;
+    this.syncValidity(true);
   }
 
   private emit(type: "input" | "change"): void {
@@ -134,6 +167,7 @@ export class LoomiTextarea extends LitElement {
           aria-invalid=${this.invalid ? "true" : "false"}
           @input=${this.onInput}
           @change=${() => this.emit("change")}
+          @blur=${this.showValidation}
         ></textarea>
         ${hasLabel
           ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`

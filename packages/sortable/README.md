@@ -1,9 +1,9 @@
 # @loomi/sortable
 
-`<loomi-sortable>` — a drag-and-drop reorderable list. Provide rows via the `items`
-array (`{ id, label, meta? }`) and read the new order back from the `reorder` event.
-Give two or more lists the same `group` to let users drag items between them — a Kanban
-board's columns, for example.
+`<loomi-sortable>` — a SortableJS-inspired drag-and-drop list. Provide rows via the
+`items` array (`{ id, label, meta?, locked?, filtered?, className? }`) and read the
+new order back from the `reorder` event. Give two or more lists the same `group` to
+let users drag items between them — a Kanban board's columns, for example.
 
 ```bash
 npm install @loomi/sortable lit
@@ -48,11 +48,11 @@ document.getElementById("s").addEventListener("reorder", (e) => {
 });
 ```
 
-## Moving Items Between Lists
+## Shared Lists
 
-Give two or more `<loomi-sortable>` elements the same `group` and users can drag a row
-from one straight into another — exactly what a "To Do / In Progress / Done" board
-needs. Lists with no `group` (or a different one) stay independent.
+Give two or more `<loomi-sortable>` elements the same non-empty `group` and users can
+drag a row from one straight into another — exactly what a "To Do / In Progress / Done"
+board needs. Lists with no `group` (or a different one) stay independent.
 
 ```html
 <div>
@@ -75,20 +75,86 @@ needs. Lists with no `group` (or a different one) stay independent.
 </script>
 ```
 
-When an item moves across groups, `transfer` fires on **both** lists involved — once on
+When an item moves across lists, `transfer` fires on **both** lists involved — once on
 the list that lost it, once on the one that gained it — each with that list's own
 resulting `order`. Listen on whichever lists you care about to persist the new column.
 
 ```js
 for (const id of ["todo", "in-progress", "done"]) {
   document.getElementById(id).addEventListener("transfer", (e) => {
-    console.log(id, e.detail.order, e.detail.item);
+    console.log(id, e.detail.order, e.detail.items);
   });
 }
 ```
 
 An empty list still accepts a drop — it shows a "Drop here" hint so the target is
 visible even with zero rows.
+
+## Cloning
+
+Use `clone` or `group.pull = "clone"` to copy items into another list while leaving
+the source list unchanged.
+
+```js
+palette.group = { name: "shared", pull: "clone" };
+canvas.group = "shared";
+```
+
+## Disabling Sorting
+
+Set `sort = false` to prevent reordering within a list while still allowing items to
+be dragged into another compatible list. Set `sortable = false` only when the list
+should not start drags at all.
+
+```js
+source.group = { name: "shared", pull: "clone", put: false };
+source.sort = false;
+target.group = "shared";
+```
+
+## Handles
+
+Set `has-handle` or the SortableJS-style `handle` property to make rows draggable
+only from the built-in grip.
+
+```html
+<loomi-sortable id="s" has-handle></loomi-sortable>
+```
+
+```js
+s.handle = ".loomi-handle";
+```
+
+## Filter
+
+Set `filter` to a selector and mark rows with `className` or `filtered`. Filtered and
+locked rows do not start drags and emit a `filter` event when clicked or drag-started.
+
+```js
+s.filter = ".filtered";
+s.items = [
+  { id: "1", label: "Editable" },
+  { id: "2", label: "Locked", className: "filtered" },
+];
+```
+
+## MultiDrag
+
+Set `multi-drag` or the `multiDrag` property to let users click-select rows and drag
+the selected set together.
+
+```html
+<loomi-sortable id="s" multi-drag></loomi-sortable>
+```
+
+## Swap
+
+Set `swap` to swap the dragged row with the hovered row instead of shifting rows in
+between.
+
+```html
+<loomi-sortable id="s" swap></loomi-sortable>
+```
 
 ## Reacting to a Click (Not a Drag)
 
@@ -128,15 +194,20 @@ console.log(s.order); // current ids, top to bottom
 | Attribute | Default | Description |
 | --- | --- | --- |
 | `items` | `[]` | Rows to display/reorder — `{ id, label, meta? }[]` (property or JSON). |
-| `group` | _(blank)_ | Lists sharing the same non-blank group can exchange items via drag-and-drop. |
+| `group` | _(blank)_ | String group name, or JS property object `{ name, pull, put }`. |
+| `clone` | `false` | Clone dragged items into another shared list instead of moving them. |
+| `sort` | `true` | Enable same-list sorting. When `false`, compatible outbound drags still work. |
+| `sortable` | `true` | Enable drag-starting from the list. |
+| `has-handle` | `false` | Drag rows only from the built-in handle. |
+| `handle` | _(blank)_ | SortableJS-style handle selector; enables the built-in handle. |
+| `filter` | _(blank)_ | Selector for rows/elements that should not drag. |
+| `multi-drag` | `false` | Click-select multiple rows and drag them together. |
+| `swap` | `false` | Swap the dragged row with the hovered row. |
 
 **Property:** `order` (array of ids). **Events:** `reorder` (`detail: { order }`, same-list
-drag), `transfer` (`detail: { order, item }`, fired on both lists after a cross-list move),
-`item-click` (`detail: { item }`, a click that wasn't a drag).
-
-> Not (yet) ported from BladewindUI's SortableJS-backed version: a dedicated drag
-> handle (the whole row is draggable, not just the grip icon), multi-select drag, swap
-> mode, and locking individual items from being dragged.
+drag), `transfer` (`detail: { order, items }`, fired on both lists after a cross-list move),
+`filter` (`detail: { item }`), `item-click` (`detail: { item }`, a click outside multi-drag
+mode).
 
 ## Full Example
 

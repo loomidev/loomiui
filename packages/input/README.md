@@ -37,6 +37,46 @@ import "@loomi/input/loomi-input.js"; // registers <loomi-input>
 <loomi-input numeric min="3" max="12" label="Days off"></loomi-input>
 ```
 
+## Masking
+
+Masks follow Alpine's `x-mask` wildcard syntax: `9` accepts digits, `a` accepts letters,
+and `*` accepts any character. Literal characters in the mask are inserted as the user
+types.
+
+```html
+<loomi-input mask="99/99/9999" placeholder="MM/DD/YYYY"></loomi-input>
+<loomi-input mask="(999) 999-9999" label="Phone"></loomi-input>
+```
+
+Use the built-in dynamic credit card mask to switch between standard card grouping and
+Amex grouping (`34`/`37` prefixes).
+
+```html
+<loomi-input dynamic-mask="creditcard" label="Card number"></loomi-input>
+```
+
+`mask="creditcard"` is also accepted as a shortcut.
+
+For custom dynamic masks, assign a function to the `dynamicMask` property in JavaScript.
+The function receives the current input value before the next mask is applied and must
+return a mask string using the same `9` / `a` / `*` syntax.
+
+```html
+<loomi-input id="product-code" label="Product code"></loomi-input>
+```
+
+```js
+const input = document.querySelector("#product-code");
+
+input.dynamicMask = (value) => {
+  return value.startsWith("P") ? "a-999" : "999-999";
+};
+```
+
+Custom dynamic masks are property-only because HTML attributes can only pass strings.
+Use `dynamic-mask="creditcard"` for named built-ins and `el.dynamicMask = fn` for your
+own switching logic.
+
 ## Prefixes, Suffixes & Icons
 
 Use text or a built-in [icon](../icons) (set `prefix-icon` / `suffix-icon`). Set
@@ -91,6 +131,8 @@ const ok = document.querySelector("loomi-input").validate(); // toggles `invalid
 | `readonly` | `false` | Read-only field. _(boolean)_ |
 | `numeric` | `false` | Allow digits only. _(boolean)_ |
 | `with-dots` | `true` | Allow one decimal point when `numeric`. _(boolean)_ |
+| `mask` | _(blank)_ | Alpine-style mask using `9`, `a`, and `*` wildcards, or `creditcard`. |
+| `dynamic-mask` | _(blank)_ | Built-in dynamic mask attribute. Currently supports `creditcard`. |
 | `min` / `max` | _(blank)_ | Clamp numeric values on change. |
 | `size` | `medium` | `small` \| `regular` \| `medium` \| `big` |
 | `prefix` / `suffix` | _(blank)_ | Text affix. |
@@ -108,6 +150,7 @@ const ok = document.querySelector("loomi-input").validate(); // toggles `invalid
 | Member | Description |
 | --- | --- |
 | `.value` | Get/set the current value. |
+| `.dynamicMask` | Set a custom dynamic mask function, or a named built-in such as `"creditcard"`. |
 | `focus()` / `clear()` | Focus or clear the field. |
 | `validate()` | Validate required state; returns boolean. |
 | `input` / `change` | Native events (composed). |
@@ -124,6 +167,3 @@ const ok = document.querySelector("loomi-input").validate(); // toggles `invalid
 
 Inputs use the primary palette for focus and the gray palette for borders. Override from
 your page — see the [root README](../../README.md#theming-the-edit-tailwindconfigjs-replacement).
-
-> Not (yet) ported from BladewindUI: input masking, money formatting, dynamic masks and
-> country flags. Open an issue if you need them.

@@ -39,9 +39,15 @@
   border-color: var(--loomi-primary-400, var(--_loomi-primary-400-default));
   background: var(--loomi-primary-50, var(--_loomi-primary-50-default));
 }
+.loomi-row.highlight {
+  box-shadow: 0 0 0 2px var(--loomi-primary-400, var(--_loomi-primary-400-default));
+}
 .loomi-row.locked {
   cursor: not-allowed;
   opacity: 0.65;
+}
+.loomi-row.filtered {
+  cursor: not-allowed;
 }
 .loomi-handle {
   flex: none;

@@ -31,6 +31,7 @@
   "dependencies": {
     "@loomi/core": "workspace:^",
     "@loomi/dropmenu": "workspace:^",
+    "@loomi/icon": "workspace:^",
     "@loomi/icons": "workspace:^"
   },
   "peerDependencies": {

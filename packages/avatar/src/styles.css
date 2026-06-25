@@ -38,7 +38,7 @@
 }
 .loomi-dot {
   position: absolute;
-  right: 6%;
+  right: 0;
   width: 28%;
   height: 28%;
   border-radius: 9999px;
@@ -46,10 +46,12 @@
   box-sizing: border-box;
 }
 .loomi-dot.bottom {
-  bottom: 6%;
+  bottom: 0;
+  transform: translate(16%, 16%);
 }
 .loomi-dot.top {
-  top: 6%;
+  top: 0;
+  transform: translate(16%, -16%);
 }
 
 /* sizes */
@@ -78,14 +80,20 @@
 /* group */
 :host([stacked]) {
   display: inline-flex;
+  --loomi-av-stack-offset: calc(var(--loomi-av-size) * -0.36);
 }
 ::slotted(loomi-avatar) {
   display: inline-flex;
 }
 :host([stacked]) ::slotted(loomi-avatar:not(:first-child)) {
-  margin-left: -0.7rem;
+  margin-left: var(--loomi-av-stack-offset);
+}
+slot {
+  display: contents;
 }
 .loomi-plus {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -96,11 +104,12 @@
   color: var(--loomi-gray-700, #374151);
   font-weight: 600;
   font-size: calc(var(--loomi-av-size) * 0.3);
-  margin-left: -0.7rem;
+  margin-left: var(--loomi-av-stack-offset);
   box-shadow: 0 0 0 2px var(--loomi-white);
   cursor: default;
 }
 .loomi-row {
   display: inline-flex;
   align-items: center;
+  line-height: 0;
 }

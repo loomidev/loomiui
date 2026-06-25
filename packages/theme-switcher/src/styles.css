@@ -60,6 +60,10 @@
   height: 1.05rem;
   flex: none;
 }
+.loomi-menu-chevron {
+  color: var(--loomi-text-faint);
+  flex: none;
+}
 .loomi-menu-item-text {
   display: inline-block;
 }

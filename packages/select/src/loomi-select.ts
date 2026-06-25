@@ -31,6 +31,7 @@ export class LoomiSelect extends LitElement {
   static formAssociated = true;
 
   private internals = this.attachInternals();
+  private validationVisible = false;
 
   @property({ reflect: true }) name = "";
   @property() placeholder = "Select One";
@@ -57,6 +58,7 @@ export class LoomiSelect extends LitElement {
   @state() private activeIndex = -1;
 
   @query(".loomi-search") private searchEl?: HTMLInputElement;
+  @query(".loomi-trigger") private triggerEl?: HTMLButtonElement;
 
   override connectedCallback(): void {
     super.connectedCallback();
@@ -81,10 +83,11 @@ export class LoomiSelect extends LitElement {
         : [];
     }
     this.internals.setFormValue(this.selected.join(","));
+    this.syncValidity();
   }
 
   private onDocClick = (e: MouseEvent): void => {
-    if (this.open && !e.composedPath().includes(this)) this.close();
+    if (this.open && !e.composedPath().includes(this)) this.close(true);
   };
 
   /** Reset the selection. */
@@ -120,6 +123,10 @@ export class LoomiSelect extends LitElement {
 
   private toggleOpen(): void {
     if (this.disabled || this.readonly) return;
+    if (this.open) {
+      this.close(true);
+      return;
+    }
     this.open = !this.open;
     if (this.open) {
       const firstSelected = this.filtered.findIndex((o) => this.selected.includes(o.value));
@@ -128,14 +135,16 @@ export class LoomiSelect extends LitElement {
     }
   }
 
-  private close(): void {
+  private close(showValidation = false): void {
     this.open = false;
     this.search = "";
     this.activeIndex = -1;
+    if (showValidation) this.showValidation();
   }
 
   private emitChange(): void {
     this.internals.setFormValue(this.selected.join(","));
+    this.syncValidity();
     this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
   }
 
@@ -152,7 +161,6 @@ export class LoomiSelect extends LitElement {
       this.selected = [opt.value];
       this.close();
     }
-    if (this.invalid) this.invalid = this.selected.length === 0;
     this.dispatchEvent(
       new CustomEvent("select", {
         bubbles: true,
@@ -164,14 +172,39 @@ export class LoomiSelect extends LitElement {
   }
 
   validate(): boolean {
-    const empty = this.required && this.selected.length === 0;
-    this.invalid = empty;
+    this.validationVisible = true;
+    return this.syncValidity(true);
+  }
+
+  checkValidity(): boolean {
+    this.syncValidity();
+    return this.internals.checkValidity();
+  }
+
+  reportValidity(): boolean {
+    this.validationVisible = true;
+    this.syncValidity(true);
+    return this.internals.reportValidity();
+  }
+
+  private syncValidity(showInvalid = this.validationVisible): boolean {
+    const empty = this.required && !this.disabled && !this.readonly && this.selected.length === 0;
+    this.invalid = empty && showInvalid;
+    const validity = empty ? { valueMissing: true } : {};
+    const message = empty ? "Please select an option." : "";
+    if (this.triggerEl) this.internals.setValidity(validity, message, this.triggerEl);
+    else this.internals.setValidity(validity, message);
     return !empty;
+  }
+
+  private showValidation(): void {
+    this.validationVisible = true;
+    this.syncValidity(true);
   }
 
   private onKeydown = (e: KeyboardEvent): void => {
     if (e.key === "Escape") {
-      this.close();
+      this.close(true);
       return;
     }
     if (!this.open) {
@@ -213,10 +246,11 @@ export class LoomiSelect extends LitElement {
     const hasLabel = !!this.label;
     const hasSelection = this.selected.length > 0;
     const float = hasLabel && (this.open || hasSelection);
+    const reserveLabelSpace = hasLabel && !hasSelection && !this.open;
     const displayText = hasSelection
       ? this.selected.map((v) => this.labelFor(v)).join(", ")
-      : hasLabel && !this.open
-        ? ""
+      : reserveLabelSpace
+        ? `${this.label}${this.required ? " *" : ""}`
         : this.placeholder;
     const opts = this.filtered;
 
@@ -237,8 +271,9 @@ export class LoomiSelect extends LitElement {
           aria-activedescendant=${activeId}
           ?disabled=${this.disabled}
           @click=${this.toggleOpen}
+          @blur=${this.showValidation}
         >
-          <span class="loomi-value ${hasSelection ? "" : "placeholder"}">${displayText}</span>
+          <span class="loomi-value ${hasSelection ? "" : "placeholder"} ${reserveLabelSpace ? "sizer" : ""}">${displayText}</span>
           <svg class="loomi-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${CHEVRON}</svg>
         </button>
         ${hasLabel

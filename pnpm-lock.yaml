@@ -867,9 +867,9 @@ importers:
       '@loomi/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/icons':
+      '@loomi/icon':
         specifier: workspace:^
-        version: link:../icons
+        version: link:../icon
     devDependencies:
       '@loomi/theme':
         specifier: workspace:^

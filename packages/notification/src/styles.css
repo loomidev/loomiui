@@ -1,10 +1,13 @@
 :host {
-  display: contents;
+  position: fixed;
+  inset: 0;
+  z-index: var(--loomi-notification-z-index, 2147480000);
+  display: block;
+  pointer-events: none;
 }
 
 .loomi-stack {
-  position: fixed;
-  z-index: 200;
+  position: absolute;
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
@@ -33,9 +36,8 @@
 }
 .loomi-ico {
   flex: none;
-  width: 1.3rem;
-  height: 1.3rem;
-  margin-top: 0.05rem;
+  --loomi-icon-size: 1.3rem;
+  margin-top: 0.125rem;
   color: var(--_loomi-accent);
 }
 .loomi-content {
@@ -54,6 +56,9 @@
 }
 .loomi-close {
   flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 0;
   background: transparent;
   color: var(--loomi-text-faint);
@@ -64,9 +69,8 @@
 .loomi-close:hover {
   color: var(--loomi-text-secondary);
 }
-.loomi-close svg {
-  width: 1.05rem;
-  height: 1.05rem;
+.loomi-close loomi-icon {
+  --loomi-icon-size: 1.05rem;
 }
 
 @keyframes loomi-slide {

@@ -1,8 +1,18 @@
-import { html, fixture, expect, oneEvent } from "@open-wc/testing";
+import { html, fixture, expect, nextFrame, oneEvent } from "@open-wc/testing";
 import "../dist/loomi-modal.js";
 import { showLoomiModal, hideLoomiModal, type LoomiModal } from "../dist/index.js";
 
+function actionControl(action: Element): HTMLButtonElement {
+  return action.shadowRoot!.querySelector('[part="button"]') as HTMLButtonElement;
+}
+
 describe("loomi-modal", () => {
+  afterEach(() => {
+    for (const modal of Array.from(document.querySelectorAll<LoomiModal>("loomi-modal"))) {
+      modal.hide();
+    }
+  });
+
   it("is closed by default and opens via show()", async () => {
     const el = await fixture<LoomiModal>(html`<loomi-modal title="Hello">Body</loomi-modal>`);
     expect(el.open).to.be.false;
@@ -14,11 +24,56 @@ describe("loomi-modal", () => {
     expect(el.shadowRoot!.querySelector(".loomi-backdrop")).to.exist;
   });
 
+  it("moves to document.body while open and restores its original position on close", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div>
+        <section>
+          <loomi-modal title="Layered">Body</loomi-modal>
+          <span id="after"></span>
+        </section>
+      </div>
+    `);
+    const section = wrapper.querySelector("section")!;
+    const after = wrapper.querySelector("#after")!;
+    const el = section.querySelector("loomi-modal") as LoomiModal;
+
+    el.show();
+    await el.updateComplete;
+    expect(el.parentNode).to.equal(document.body);
+
+    el.hide();
+    await el.updateComplete;
+    expect(el.parentNode).to.equal(section);
+    expect(el.nextElementSibling).to.equal(after);
+  });
+
+  it('prevents document scrolling by default and honors prevent-scroll="false"', async () => {
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousDocumentOverflow = document.documentElement.style.overflow;
+
+    const el = await fixture<LoomiModal>(html`<loomi-modal></loomi-modal>`);
+    el.show();
+    await el.updateComplete;
+    expect(document.body.style.overflow).to.equal("hidden");
+    expect(document.documentElement.style.overflow).to.equal("hidden");
+
+    el.hide();
+    await el.updateComplete;
+    expect(document.body.style.overflow).to.equal(previousBodyOverflow);
+    expect(document.documentElement.style.overflow).to.equal(previousDocumentOverflow);
+
+    const unlocked = await fixture<LoomiModal>(html`<loomi-modal prevent-scroll="false"></loomi-modal>`);
+    unlocked.show();
+    await unlocked.updateComplete;
+    expect(document.body.style.overflow).to.equal(previousBodyOverflow);
+    expect(document.documentElement.style.overflow).to.equal(previousDocumentOverflow);
+  });
+
   it('fires "ok" and closes when the primary button is clicked', async () => {
     const el = await fixture<LoomiModal>(html`<loomi-modal ok-button-label="Yes"></loomi-modal>`);
     el.show();
     await el.updateComplete;
-    const btn = el.shadowRoot!.querySelector(".loomi-btn.primary") as HTMLButtonElement;
+    const btn = el.shadowRoot!.querySelector(".loomi-footer loomi-button:not([type='secondary'])") as HTMLElement;
     const okEvent = oneEvent(el, "ok");
     btn.click();
     await okEvent;
@@ -52,9 +107,12 @@ describe("loomi-modal", () => {
 
     el.show();
     await el.updateComplete;
+    await nextFrame();
     // first focusable in the dialog (no close icon here) is the "No" (cancel) button
     expect(document.activeElement).to.equal(el);
-    expect(el.shadowRoot!.activeElement).to.equal(el.shadowRoot!.querySelector(".loomi-btn.ghost"));
+    const cancelAction = el.shadowRoot!.querySelector(".loomi-footer loomi-button[type='secondary']") as HTMLElement;
+    expect(el.shadowRoot!.activeElement).to.equal(cancelAction);
+    expect(cancelAction.shadowRoot!.activeElement).to.equal(actionControl(cancelAction));
 
     el.hide();
     await el.updateComplete;
@@ -67,20 +125,51 @@ describe("loomi-modal", () => {
     );
     el.show();
     await el.updateComplete;
+    await nextFrame();
 
-    const cancelBtn = el.shadowRoot!.querySelector(".loomi-btn.ghost") as HTMLButtonElement;
-    const okBtn = el.shadowRoot!.querySelector(".loomi-btn.primary") as HTMLButtonElement;
+    const cancelAction = el.shadowRoot!.querySelector(".loomi-footer loomi-button[type='secondary']") as HTMLElement;
+    const okAction = el.shadowRoot!.querySelector(".loomi-footer loomi-button:not([type='secondary'])") as HTMLElement;
+    const cancelBtn = actionControl(cancelAction);
+    const okBtn = actionControl(okAction);
 
     // Tab forward from the LAST focusable element wraps to the FIRST.
     okBtn.focus();
-    expect(el.shadowRoot!.activeElement).to.equal(okBtn);
+    expect(okAction.shadowRoot!.activeElement).to.equal(okBtn);
     document.dispatchEvent(new KeyboardEvent("keydown", { key: "Tab", bubbles: true, cancelable: true }));
-    expect(el.shadowRoot!.activeElement).to.equal(cancelBtn);
+    expect(el.shadowRoot!.activeElement).to.equal(cancelAction);
+    expect(cancelAction.shadowRoot!.activeElement).to.equal(cancelBtn);
 
     // Shift+Tab from the FIRST focusable element wraps to the LAST.
     document.dispatchEvent(
       new KeyboardEvent("keydown", { key: "Tab", shiftKey: true, bubbles: true, cancelable: true }),
     );
-    expect(el.shadowRoot!.activeElement).to.equal(okBtn);
+    expect(el.shadowRoot!.activeElement).to.equal(okAction);
+    expect(okAction.shadowRoot!.activeElement).to.equal(okBtn);
+  });
+
+  it('honors backdrop-can-close="false" for backdrop clicks and Escape', async () => {
+    const el = await fixture<LoomiModal>(html`<loomi-modal backdrop-can-close="false"></loomi-modal>`);
+    el.show();
+    await el.updateComplete;
+
+    (el.shadowRoot!.querySelector(".loomi-backdrop") as HTMLElement).click();
+    await el.updateComplete;
+    expect(el.open).to.be.true;
+
+    document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    await el.updateComplete;
+    expect(el.open).to.be.true;
+  });
+
+  it("renders icons through loomi-icon and action buttons through loomi-button", async () => {
+    const el = await fixture<LoomiModal>(
+      html`<loomi-modal type="warning" title="Careful" show-close-icon></loomi-modal>`,
+    );
+    el.show();
+    await el.updateComplete;
+
+    expect(el.shadowRoot!.querySelector('.loomi-icon-wrap loomi-icon[name="exclamation-triangle"]')).to.exist;
+    expect(el.shadowRoot!.querySelector('.loomi-close loomi-icon[name="x-mark"]')).to.exist;
+    expect(el.shadowRoot!.querySelectorAll('.loomi-footer loomi-button[size="small"]')).to.have.length(2);
   });
 });

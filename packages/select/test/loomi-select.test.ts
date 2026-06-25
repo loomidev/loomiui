@@ -63,4 +63,20 @@ describe("loomi-select", () => {
     expect(trigger.getAttribute("aria-expanded")).to.equal("false");
     expect(trigger.textContent).to.include("Ghana");
   });
+
+  it("reserves width for the closed floating label before the select is opened", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div style="display:inline-flex">
+        <loomi-select label="Where are you from?" required .data=${DATA}></loomi-select>
+      </div>
+    `);
+    const el = wrapper.querySelector<LoomiSelect>("loomi-select")!;
+    const trigger = el.shadowRoot!.querySelector(".loomi-trigger") as HTMLButtonElement;
+    const label = el.shadowRoot!.querySelector(".loomi-label") as HTMLLabelElement;
+    const sizer = el.shadowRoot!.querySelector(".loomi-value.sizer") as HTMLElement;
+
+    expect(sizer.textContent).to.equal("Where are you from? *");
+    expect(getComputedStyle(sizer).visibility).to.equal("hidden");
+    expect(trigger.getBoundingClientRect().width).to.be.greaterThan(label.getBoundingClientRect().width);
+  });
 });
