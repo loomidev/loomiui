@@ -17,7 +17,7 @@ export class LoomiAvatar extends LitElement {
   @property() image = "";
   @property() alt = "avatar";
   @property() label = "";
-  @property() size: LoomiAvatarSize = "regular";
+  @property({ reflect: true }) size: LoomiAvatarSize = "regular";
   @property({ type: Boolean }) dotted = false;
   @property({ attribute: "dot-color" }) dotColor: LoomiColor = "green" as LoomiColor;
   @property({ attribute: "dot-position" }) dotPosition: "top" | "bottom" = "bottom";
@@ -52,14 +52,27 @@ export class LoomiAvatars extends LitElement {
   static override styles = loomiStyles(componentStyles);
 
   @property({ type: Boolean, reflect: true }) stacked = false;
+  @property({ type: Boolean }) dotted = false;
+  @property({ attribute: "dot-color" }) dotColor: LoomiColor = "green" as LoomiColor;
+  @property({ attribute: "dot-position" }) dotPosition: "top" | "bottom" = "bottom";
   @property({ type: Number }) plus = 0;
-  @property() size: LoomiAvatarSize = "regular";
+  @property({ reflect: true }) size: LoomiAvatarSize = "regular";
 
   private syncChildren = (): void => {
     if (this.plus > 0) this.stacked = true;
-    this.querySelectorAll("loomi-avatar").forEach((a) =>
-      a.setAttribute("size", this.size),
-    );
+    const hasGroupDotColor = this.hasAttribute("dot-color") || this.dotColor !== "green";
+    const hasGroupDotPosition = this.hasAttribute("dot-position") || this.dotPosition !== "bottom";
+
+    this.querySelectorAll("loomi-avatar").forEach((avatar) => {
+      avatar.setAttribute("size", this.size);
+      if (this.dotted) avatar.setAttribute("dotted", "");
+      if (hasGroupDotColor && !avatar.hasAttribute("dot-color")) {
+        avatar.setAttribute("dot-color", this.dotColor);
+      }
+      if (hasGroupDotPosition && !avatar.hasAttribute("dot-position")) {
+        avatar.setAttribute("dot-position", this.dotPosition);
+      }
+    });
   };
 
   override connectedCallback(): void {

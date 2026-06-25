@@ -123,6 +123,9 @@ By default avatars show a ring around them. Turn it off for a flatter look.
 | `stacked` | `false` | Overlap children. _(boolean)_ |
 | `plus` | `0` | Append a `+N` bubble (also forces stacking). |
 | `size` | `regular` | Propagated to children. |
+| `dotted` | `false` | Show a status dot on each child. _(boolean)_ |
+| `dot-color` | `green` | Propagated to children without their own `dot-color`. |
+| `dot-position` | `bottom` | Propagated to children without their own `dot-position`. |
 
 > Not (yet) ported from BladewindUI: a clickable `plus_action` callback on the `+N`
 > bubble — listen for a `click` on the avatars group element instead.

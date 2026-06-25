@@ -1,5 +1,7 @@
 :host {
   display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
   --loomi-av-size: 3rem;
 }
 :host([hidden]) {
@@ -74,6 +76,27 @@
   --loomi-av-size: 5rem;
 }
 .size-omg {
+  --loomi-av-size: 7rem;
+}
+:host([size="tiny"]) {
+  --loomi-av-size: 1.5rem;
+}
+:host([size="small"]) {
+  --loomi-av-size: 2rem;
+}
+:host([size="medium"]) {
+  --loomi-av-size: 2.5rem;
+}
+:host([size="regular"]) {
+  --loomi-av-size: 3rem;
+}
+:host([size="big"]) {
+  --loomi-av-size: 4rem;
+}
+:host([size="huge"]) {
+  --loomi-av-size: 5rem;
+}
+:host([size="omg"]) {
   --loomi-av-size: 7rem;
 }
 
