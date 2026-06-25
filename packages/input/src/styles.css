@@ -108,6 +108,8 @@
 .loomi-inputwrap {
   position: relative;
   display: flex;
+  align-self: stretch;
+  align-items: center;
   flex: 1 1 auto;
   min-width: 0;
 }
@@ -138,10 +140,12 @@
   transform: translateY(-50%);
   transform-origin: left center;
   color: var(--loomi-text-faint);
+  line-height: 1;
   pointer-events: none;
   transition: all 0.15s ease;
   background: var(--loomi-surface);
-  padding: 0 0.25rem;
+  padding-block: 0;
+  padding-inline: 0.25rem;
   max-width: calc(100% - var(--loomi-control-pad-x));
   overflow: hidden;
   white-space: nowrap;
