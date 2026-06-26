@@ -53,7 +53,7 @@ npm install @loomi/button lit
 ```
 
 ```js
-import "@loomi/button/loomi-button.js"; // registers <loomi-button>
+import "@loomi/button"; // registers <loomi-button>
 ```
 
 ```html
@@ -82,8 +82,8 @@ npm install @loomi/select @loomi/datepicker lit
 ```
 
 ```js
-import "@loomi/select/loomi-select.js";
-import "@loomi/datepicker/loomi-datepicker.js";
+import "@loomi/select";
+import "@loomi/datepicker";
 ```
 
 You can also install a whole category at once — see [`@loomi/forms`](packages/forms),
@@ -91,8 +91,8 @@ You can also install a whole category at once — see [`@loomi/forms`](packages/
 cherry-pick a single component from the umbrella package:
 `import "@loomi/components/button"`.
 
-> `lit` is a **peer dependency** of every package, so your app controls the single Lit
-> version on the page — there's never more than one copy.
+> Install `lit` alongside LoomiUI packages. This lets your app use one shared Lit version
+> instead of each Loomi package bringing its own copy.
 
 ## Theming
 
@@ -140,7 +140,7 @@ so set them imperatively via a ref:
 
 ```jsx
 import { useEffect, useRef } from "react";
-import "@loomi/select/loomi-select.js";
+import "@loomi/select";
 
 function CountryPicker() {
   const ref = useRef(null);
@@ -187,10 +187,10 @@ instead of guessing at an API.
 
 ## Contributing
 
-Want to add a component, understand the build pipeline, or publish a release? See
-**[CONTRIBUTING.md](CONTRIBUTING.md)** — it covers the monorepo architecture, the
-theming implementation, how to add a new component end to end, and the npm publish
-process in detail.
+Want to add a component, understand the build steps, or publish a release? See
+**[CONTRIBUTING.md](CONTRIBUTING.md)** — it explains the project structure, the theming
+implementation, how to add a new component end to end, and the npm publish process in
+detail.
 
 ## License
 

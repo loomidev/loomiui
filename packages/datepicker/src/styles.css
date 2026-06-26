@@ -81,14 +81,46 @@
   font-weight: 600;
   color: var(--loomi-text);
 }
+.loomi-title {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  min-width: 0;
+  font-weight: 600;
+  color: var(--loomi-text);
+}
+.loomi-head-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  line-height: 1.2;
+  padding: 0.25rem 0.35rem;
+  border-radius: 0.4rem;
+}
+.loomi-head-button:hover {
+  background: var(--loomi-surface-hover);
+}
 .loomi-nav {
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 0;
   background: transparent;
   color: var(--loomi-text-muted);
   cursor: pointer;
   padding: 0.3rem;
   border-radius: 0.4rem;
+}
+.loomi-nav-spacer {
+  width: 1.7rem;
+  height: 1.7rem;
 }
 .loomi-nav:hover {
   background: var(--loomi-surface-hover);
@@ -143,4 +175,34 @@
 }
 .loomi-empty {
   aspect-ratio: 1;
+}
+.loomi-picker-grid {
+  display: grid;
+  gap: 0.35rem;
+}
+.loomi-picker-grid.months {
+  grid-template-columns: repeat(3, 1fr);
+}
+.loomi-picker-grid.years {
+  grid-template-columns: repeat(4, 1fr);
+}
+.loomi-picker-cell {
+  min-height: 2.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: var(--loomi-text-secondary);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+  border-radius: 0.4rem;
+}
+.loomi-picker-cell:hover {
+  background: var(--loomi-surface-hover);
+}
+.loomi-picker-cell.selected {
+  background: var(--loomi-primary-600, var(--_loomi-primary-600-default));
+  color: var(--loomi-white);
 }

@@ -9,7 +9,7 @@ component at `loomi://docs/<name>`.
 
 It ships every component's documentation **bundled into the package** (generated from
 each component's README at build time), so it works standalone — no network access, no
-monorepo required.
+local LoomiUI source checkout required.
 
 ## Install & run
 
@@ -68,6 +68,6 @@ Plus one MCP **resource** per component at `loomi://docs/<name>` (e.g.
 ## Rebuilding the bundled docs
 
 `pnpm build` runs `scripts/build-manifest.mjs`, which reads every sibling
-`packages/*/README.md` in this monorepo and bundles them into
+`packages/*/README.md` in this LoomiUI source checkout and bundles them into
 `src/generated/manifest.json` before compiling. Re-run it whenever a component's README
 changes.

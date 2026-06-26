@@ -9,7 +9,7 @@ npm install @loomi/select lit
 ```
 
 ```js
-import "@loomi/select/loomi-select.js";
+import "@loomi/select";
 ```
 
 ## Basic Usage (Data-Driven)
@@ -220,3 +220,191 @@ new FormData(form).get("tags");     // "pop,jazz" (multiple)
   size="big"
 ></loomi-select>
 ```
+
+<!-- BEGIN loomi-framework-guide -->
+
+## Framework integration
+
+`<loomi-select>` is a standard custom element, so the browser can use it in plain HTML, Blade, React, Vue, Angular, Svelte, Astro, and most other frameworks. The important beginner rule is: install the package, import it once before the tag is rendered, then write the Loomi tag in your template.
+
+### Where to run commands
+
+Run install commands from the app where you want to use this component. That means the folder that contains that app's `package.json`. Do not run these install commands from `packages/select` unless you are editing LoomiUI itself.
+
+```bash
+cd /path/to/your-app
+npm install @loomi/select lit
+```
+
+If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
+
+```bash
+cd /path/to/your-copy-of-loomiui/components
+pnpm --filter @loomi/select build
+pnpm --filter @loomi/select typecheck
+```
+
+### Plain HTML
+
+Use the CDN version for prototypes, documentation pages, or a quick reproduction. The import map tells the browser where to find Lit, which Loomi components use internally.
+
+```html
+<script type="importmap">
+  { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
+</script>
+<script type="module" src="https://esm.sh/@loomi/select"></script>
+
+<loomi-select
+  name="country"
+  label="Country"
+  data='[{"label":"Ghana","value":"gh"},{"label":"Nigeria","value":"ng"}]'
+></loomi-select>
+```
+
+### Bundlers and single-page apps
+
+In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
+
+```js
+import "@loomi/select";
+```
+
+
+Because this is a form-capable component, give it a `name` when it should submit with a native `<form>`. Read its value with `new FormData(form).get("the-name")` just like you would for a built-in input.
+
+This component accepts `data` as a JavaScript property. Use an HTML attribute only for simple strings; use a property when you pass arrays, objects, or functions.
+
+```js
+const el = document.querySelector("loomi-select");
+el.data = [{ label: "Ghana", value: "gh" }, { label: "Nigeria", value: "ng" }];
+```
+
+### Laravel Blade
+
+Run the install command from your Laravel project root, then import the component in `resources/js/app.js`. If your project uses Laravel Vite, `npm run dev` and `npm run build` should also be run from the Laravel project root.
+
+```bash
+cd /path/to/your-laravel-app
+npm install @loomi/select lit
+npm run dev
+```
+
+```js
+// resources/js/app.js
+import "@loomi/select";
+```
+
+```blade
+<loomi-select
+  name="country"
+  label="Country"
+  data='[{"label":"Ghana","value":"gh"},{"label":"Nigeria","value":"ng"}]'
+></loomi-select>
+```
+
+### React
+
+React can render Loomi tags directly. If you are on React 18, or if you need to pass arrays, objects, or functions, use a ref and assign those values after the component mounts.
+
+```jsx
+import { useEffect, useRef } from "react";
+import "@loomi/select";
+
+export function LoomiExample() {
+  const el = useRef(null);
+
+  useEffect(() => {
+    el.current.data = [{ label: "Ghana", value: "gh" }, { label: "Nigeria", value: "ng" }];
+  }, []);
+
+  return <loomi-select ref={el}></loomi-select>;
+}
+```
+
+If TypeScript does not recognize the Loomi tag in JSX, add it to your app's JSX type declarations.
+
+### Vue
+
+Import the package in the component that uses it, or once in your main Vue file. Vue templates can use Loomi tags directly. For arrays, objects, or functions, pass the value as a JavaScript property instead of as plain text.
+
+```vue
+<script setup>
+import { onMounted, ref } from "vue";
+import "@loomi/select";
+
+const el = ref(null);
+
+onMounted(() => {
+  el.value.data = [{ label: "Ghana", value: "gh" }, { label: "Nigeria", value: "ng" }];
+});
+</script>
+
+<template>
+  <loomi-select ref="el"></loomi-select>
+</template>
+```
+
+If Vue warns that the tag is an unknown component, configure `compilerOptions.isCustomElement` for tags that start with `loomi-` in your Vite or Vue config.
+
+### Angular
+
+Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_ELEMENTS_SCHEMA`. For NgModule apps, add the schema to the module instead of the standalone component.
+
+```ts
+// app.component.ts
+import { AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, Component, ElementRef, ViewChild } from "@angular/core";
+import "@loomi/select";
+
+@Component({
+  selector: "app-root",
+  standalone: true,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  template: `
+    <loomi-select #el></loomi-select>
+  `,
+})
+export class AppComponent implements AfterViewInit {
+  @ViewChild("el") el!: ElementRef<any>;
+
+  ngAfterViewInit() {
+    this.el.nativeElement.data = [{ label: "Ghana", value: "gh" }, { label: "Nigeria", value: "ng" }];
+  }
+}
+```
+
+### Svelte and Astro
+
+Svelte can import the package inside a component script. Astro can import it in the frontmatter of the page or layout where the tag appears.
+
+```svelte
+<script>
+  import { onMount } from "svelte";
+  import "@loomi/select";
+
+  let el;
+
+  onMount(() => {
+    el.data = [{ label: "Ghana", value: "gh" }, { label: "Nigeria", value: "ng" }];
+  });
+</script>
+
+<loomi-select bind:this={el}></loomi-select>
+```
+
+```astro
+---
+import "@loomi/select";
+---
+
+<loomi-select
+  name="country"
+  label="Country"
+  data='[{"label":"Ghana","value":"gh"},{"label":"Nigeria","value":"ng"}]'
+></loomi-select>
+```
+
+### Server-side rendering notes
+
+Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on the server before browser-only code runs. If your framework complains, move the Loomi import to client-side code. In Next.js, that usually means a component with `"use client"`; in Nuxt, it often means a `.client.ts` plugin.
+
+<!-- END loomi-framework-guide -->
