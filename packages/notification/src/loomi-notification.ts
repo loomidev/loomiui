@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
+import { LoomiElement, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
 import "@loomi/icon/loomi-icon.js";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -34,7 +34,7 @@ let uid = 0;
  * the `notify()` method or the global `showLoomiNotification()` helper.
  */
 @customElement("loomi-notification")
-export class LoomiNotification extends LitElement {
+export class LoomiNotification extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() position: LoomiNotificationPosition = "top-right";

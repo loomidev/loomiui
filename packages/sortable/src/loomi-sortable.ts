@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
+import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { loomiStyles, loomiT } from "@loomi/core";
+import { LoomiElement, loomiStyles, loomiT } from "@loomi/core";
 import { getLoomiIcon } from "@loomi/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -46,7 +46,7 @@ let activeDrag: { source: LoomiSortable; items: LoomiSortableItem[] } | null = n
  * @fires filter - `detail: { item }` when a filtered row is clicked or drag-started.
  */
 @customElement("loomi-sortable")
-export class LoomiSortable extends LitElement {
+export class LoomiSortable extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
   static formAssociated = true;
 

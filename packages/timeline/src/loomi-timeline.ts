@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
+import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles, accentVars, type LoomiColor } from "@loomi/core";
+import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomi/core";
 import { getLoomiIcon } from "@loomi/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -13,7 +13,7 @@ const CHECK = svg`<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 1
  * @slot content - Alias for the default slot.
  */
 @customElement("loomi-timeline")
-export class LoomiTimeline extends LitElement {
+export class LoomiTimeline extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() date = "";
@@ -61,7 +61,7 @@ export class LoomiTimeline extends LitElement {
  * @slot - `<loomi-timeline>` children.
  */
 @customElement("loomi-timelines")
-export class LoomiTimelines extends LitElement {
+export class LoomiTimelines extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property({ type: Boolean }) stacked = false;

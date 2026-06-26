@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
-import { loomiT, themeStyles } from "@loomi/core";
+import { LoomiElement, loomiT, themeStyles } from "@loomi/core";
 import type Quill from "quill";
 import { componentStyles, quillStyles } from "./generated/styles.css.js";
 
@@ -16,7 +16,7 @@ import { componentStyles, quillStyles } from "./generated/styles.css.js";
  * @fires change - Native change event (composed).
  */
 @customElement("loomi-textarea")
-export class LoomiTextarea extends LitElement {
+export class LoomiTextarea extends LoomiElement {
   static override styles = [themeStyles, componentStyles, quillStyles];
   static formAssociated = true;
 

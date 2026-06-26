@@ -58,7 +58,8 @@ table {
   font-size: 0.9rem;
   color: var(--loomi-text-secondary);
 }
-:host([transparent]) table {
+:host([transparent]) table,
+table.transparent {
   background: transparent;
 }
 thead th {
@@ -119,6 +120,19 @@ tbody td {
 .clickable tbody tr {
   cursor: pointer;
 }
+tbody tr.selected {
+  background: var(--loomi-primary-50, var(--loomi-surface-hover));
+}
+.hoverable tbody tr.selected:hover {
+  background: var(--loomi-primary-100, var(--loomi-surface-hover));
+}
+.loomi-group-row td {
+  padding: 0.55rem 1rem;
+  background: var(--loomi-surface-muted);
+  color: var(--loomi-text-muted);
+  font-weight: 700;
+  text-transform: none;
+}
 
 .loomi-check-col,
 .loomi-num-col {
@@ -141,6 +155,13 @@ tbody td {
 .loomi-action:hover {
   background: var(--loomi-surface-hover);
 }
+.loomi-action.filled {
+  background: var(--_loomi-accent-bg, var(--loomi-primary-600));
+  color: #fff;
+}
+.loomi-action.filled:hover {
+  filter: brightness(0.96);
+}
 .loomi-action svg {
   width: 1.1rem;
   height: 1.1rem;
@@ -150,4 +171,33 @@ tbody td {
   padding: 2.5rem 1rem;
   text-align: center;
   color: var(--loomi-text-faint);
+}
+
+.loomi-empty-state {
+  display: grid;
+  justify-items: center;
+  gap: 0.5rem;
+}
+.loomi-empty-state img {
+  width: 9rem;
+  height: 9rem;
+  object-fit: contain;
+}
+.loomi-empty-heading {
+  font-weight: 700;
+  color: var(--loomi-text-secondary);
+}
+.loomi-empty-button {
+  border: 0;
+  border-radius: 0.45rem;
+  background: var(--loomi-primary-600);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  margin-top: 0.3rem;
+  padding: 0.45rem 0.8rem;
+}
+.loomi-empty-button:hover {
+  background: var(--loomi-primary-700);
 }

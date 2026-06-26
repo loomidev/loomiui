@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { loomiStyles, loomiT, onClickOutside } from "@loomi/core";
+import { LoomiElement, loomiStyles, loomiT, onClickOutside } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiColorpickerSize = "small" | "regular" | "medium" | "big";
@@ -12,7 +12,7 @@ export type LoomiColorpickerSize = "small" | "regular" | "medium" | "big";
  * @fires change - `detail: { value }` when a color is chosen.
  */
 @customElement("loomi-colorpicker")
-export class LoomiColorpicker extends LitElement {
+export class LoomiColorpicker extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
   static formAssociated = true;
   private internals = this.attachInternals();

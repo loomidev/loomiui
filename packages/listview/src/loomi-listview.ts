@@ -1,6 +1,6 @@
-import { LitElement, html, type TemplateResult } from "lit";
+import { html, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles } from "@loomi/core";
+import { LoomiElement, loomiStyles } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 /**
@@ -8,7 +8,7 @@ import { componentStyles } from "./generated/styles.css.js";
  * @slot - Row content.
  */
 @customElement("loomi-listview-item")
-export class LoomiListviewItem extends LitElement {
+export class LoomiListviewItem extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property({ type: Boolean, reflect: true }) compact = false;
@@ -23,7 +23,7 @@ export class LoomiListviewItem extends LitElement {
  * @slot - `<loomi-listview-item>` children.
  */
 @customElement("loomi-listview")
-export class LoomiListview extends LitElement {
+export class LoomiListview extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property({ type: Boolean, reflect: true }) transparent = false;

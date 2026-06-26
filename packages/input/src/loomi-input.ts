@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, type PropertyValues, type TemplateResult } from "lit";
+import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
-import { loomiT, themeStyles } from "@loomi/core";
+import { LoomiElement, loomiT, themeStyles } from "@loomi/core";
 import { getLoomiIcon } from "./icons.js";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -34,7 +34,7 @@ const AMEX_CARD_MASK = "9999 999999 99999";
  * @fires change - Native change event (composed).
  */
 @customElement("loomi-input")
-export class LoomiInput extends LitElement {
+export class LoomiInput extends LoomiElement {
   static override styles = [themeStyles, componentStyles];
   static formAssociated = true;
 

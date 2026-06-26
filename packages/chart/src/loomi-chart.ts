@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, svg, type TemplateResult, type SVGTemplateResult } from "lit";
+import { html, nothing, svg, type TemplateResult, type SVGTemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles, accentVars, cssColor, type LoomiColor } from "@loomi/core";
+import { LoomiElement, loomiStyles, accentVars, cssColor, type LoomiColor } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiChartType = "bar" | "line" | "pie" | "donut";
@@ -21,7 +21,7 @@ const segColor = (p: LoomiChartPoint, i: number): string => {
  * single series via `data` (`{ label, value, color? }`).
  */
 @customElement("loomi-chart")
-export class LoomiChart extends LitElement {
+export class LoomiChart extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() type: LoomiChartType = "bar";

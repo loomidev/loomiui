@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles, accentVars, type LoomiColor } from "@loomi/core";
+import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomi/core";
 import { getLoomiIcon } from "@loomi/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -13,7 +13,7 @@ export type LoomiTabStyle = "simple" | "system" | "pills";
  * @slot - The tab's content.
  */
 @customElement("loomi-tab")
-export class LoomiTab extends LitElement {
+export class LoomiTab extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() label = "";
@@ -37,7 +37,7 @@ export class LoomiTab extends LitElement {
  * @fires tab-change - `detail: { label }` when the active tab changes.
  */
 @customElement("loomi-tabs")
-export class LoomiTabs extends LitElement {
+export class LoomiTabs extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() color: LoomiColor = "primary" as LoomiColor;

@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
+import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles, accentVars, type LoomiColor } from "@loomi/core";
+import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiBellSize = "small" | "big";
@@ -11,7 +11,7 @@ const BELL = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M14.857
  * `<loomi-bell>` — a notification bell with an optional (optionally animated) status dot.
  */
 @customElement("loomi-bell")
-export class LoomiBell extends LitElement {
+export class LoomiBell extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() color: LoomiColor = "primary" as LoomiColor;

@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles, loomiT } from "@loomi/core";
+import { LoomiElement, loomiStyles, loomiT } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiStatRadius = "none" | "small" | "medium" | "large" | "xl";
@@ -12,7 +12,7 @@ export type LoomiStatRadius = "none" | "small" | "medium" | "large" | "xl";
  * @slot icon - Leading (or trailing) icon/illustration.
  */
 @customElement("loomi-statistic")
-export class LoomiStatistic extends LitElement {
+export class LoomiStatistic extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() label = "";

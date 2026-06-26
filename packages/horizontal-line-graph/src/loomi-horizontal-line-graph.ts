@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles, cssColor } from "@loomi/core";
+import { LoomiElement, loomiStyles, cssColor } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export interface LoomiGraphSegment {
@@ -17,7 +17,7 @@ const FALLBACK = ["primary", "green", "orange", "red", "purple", "cyan", "pink",
  * with an optional legend. Provide `data` (`{ label, value, color? }`).
  */
 @customElement("loomi-horizontal-line-graph")
-export class LoomiHorizontalLineGraph extends LitElement {
+export class LoomiHorizontalLineGraph extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property({ type: Array }) data: LoomiGraphSegment[] = [];

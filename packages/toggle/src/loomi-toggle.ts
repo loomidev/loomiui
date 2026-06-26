@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles, accentVars, isLoomiColor, type LoomiColor } from "@loomi/core";
+import { LoomiElement, loomiStyles, accentVars, isLoomiColor, type LoomiColor } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiToggleBar = "thin" | "thick" | "thicker";
@@ -16,7 +16,7 @@ export type LoomiLabelPosition = "left" | "right";
  * @fires change - Fired when the checked state changes (composed).
  */
 @customElement("loomi-toggle")
-export class LoomiToggle extends LitElement {
+export class LoomiToggle extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
   static formAssociated = true;
 

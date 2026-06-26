@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
+import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
-import { loomiDefaultText, loomiStyles, loomiT } from "@loomi/core";
+import { LoomiElement, loomiDefaultText, loomiStyles, loomiT } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 const UPLOAD = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 7.5 7.5 12M12 7.5v9" />`;
@@ -30,7 +30,7 @@ function human(bytes: number): string {
  * @fires change - `detail: { files }` whenever the selection changes.
  */
 @customElement("loomi-filepicker")
-export class LoomiFilepicker extends LitElement {
+export class LoomiFilepicker extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
   static formAssociated = true;
 

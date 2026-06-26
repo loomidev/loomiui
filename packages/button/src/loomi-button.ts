@@ -1,7 +1,7 @@
-import { LitElement, html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { themeStyles, isLoomiColor, type LoomiColor } from "@loomi/theme";
+import { LoomiElement, themeStyles, isLoomiColor, type LoomiColor } from "@loomi/core";
 import { getLoomiIcon } from "./icons.js";
 import { buttonStyles } from "./generated/styles.css.js";
 
@@ -47,7 +47,7 @@ const BORDER_WIDTH: Record<number, string> = {
  * @fires click - Native click event (composed; crosses the shadow boundary).
  */
 @customElement("loomi-button")
-export class LoomiButton extends LitElement {
+export class LoomiButton extends LoomiElement {
   static override styles = [themeStyles, buttonStyles];
 
   /** Structural variant: `primary` (bold fill) or `secondary` (soft). */

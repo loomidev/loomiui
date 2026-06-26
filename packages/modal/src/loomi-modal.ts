@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, type PropertyValues, type TemplateResult } from "lit";
+import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
+import { LoomiElement, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
 import "@loomi/button/loomi-button.js";
 import "@loomi/icon/loomi-icon.js";
 import { componentStyles } from "./generated/styles.css.js";
@@ -89,7 +89,7 @@ window.hideLoomiModal = hideLoomiModal;
  * @fires ok - Primary button clicked. @fires cancel - Secondary button clicked. @fires close - Dismissed.
  */
 @customElement("loomi-modal")
-export class LoomiModal extends LitElement {
+export class LoomiModal extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() name = "";

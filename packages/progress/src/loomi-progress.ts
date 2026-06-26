@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles, accentVars, type LoomiColor } from "@loomi/core";
+import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiProgressLabelPosition =
@@ -10,7 +10,7 @@ export type LoomiProgressLabelPosition =
  * `<loomi-progress-bar>` — a horizontal progress bar.
  */
 @customElement("loomi-progress-bar")
-export class LoomiProgressBar extends LitElement {
+export class LoomiProgressBar extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property({ type: Number }) percentage = 0;
@@ -55,7 +55,7 @@ const SIZES: Record<string, number> = { tiny: 50, small: 80, medium: 120, big: 2
  * `<loomi-progress-circle>` — a circular progress indicator.
  */
 @customElement("loomi-progress-circle")
-export class LoomiProgressCircle extends LitElement {
+export class LoomiProgressCircle extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property({ type: Number }) percentage = 0;

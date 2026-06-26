@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles, accentVars, isLoomiColor, type LoomiColor } from "@loomi/core";
+import { LoomiElement, loomiStyles, accentVars, isLoomiColor, type LoomiColor } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 /**
@@ -13,7 +13,7 @@ import { componentStyles } from "./generated/styles.css.js";
  * @fires change - Fired when this radio becomes checked (composed).
  */
 @customElement("loomi-radio")
-export class LoomiRadio extends LitElement {
+export class LoomiRadio extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
   static formAssociated = true;
 

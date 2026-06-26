@@ -9,16 +9,88 @@
   align-items: center;
   gap: 0.85rem;
 }
-.loomi-range {
+.loomi-control {
+  position: relative;
   flex: 1 1 auto;
+  min-width: 0;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+.loomi-track {
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  height: 0.35rem;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--loomi-gray-200) 0 var(--loomi-range-start, 0%),
+    var(--_loomi-accent) var(--loomi-range-start, 0%) var(--loomi-range-end, 0%),
+    var(--loomi-gray-200) var(--loomi-range-end, 0%) 100%
+  );
+  pointer-events: none;
+}
+.loomi-range {
+  position: absolute;
+  inset-inline: 0;
   width: 100%;
-  accent-color: var(--_loomi-accent);
+  height: 1.5rem;
+  margin: 0;
+  appearance: none;
+  background: transparent;
   cursor: pointer;
-  height: 1.25rem;
+  z-index: 1;
+}
+.loomi-control-range .loomi-range {
+  pointer-events: none;
+}
+.loomi-range-end {
+  z-index: 2;
+}
+.loomi-range:focus {
+  outline: none;
+}
+.loomi-range:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--_loomi-accent);
+  outline-offset: 3px;
+}
+.loomi-range:focus-visible::-moz-range-thumb {
+  outline: 2px solid var(--_loomi-accent);
+  outline-offset: 3px;
+}
+.loomi-range::-webkit-slider-runnable-track {
+  height: 0.35rem;
+  background: transparent;
+}
+.loomi-range::-webkit-slider-thumb {
+  width: 1rem;
+  height: 1rem;
+  margin-top: -0.325rem;
+  appearance: none;
+  border: 2px solid var(--_loomi-accent);
+  border-radius: 999px;
+  background: var(--loomi-white);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--loomi-black) 18%, transparent);
+  pointer-events: auto;
+}
+.loomi-range::-moz-range-track {
+  height: 0.35rem;
+  background: transparent;
+}
+.loomi-range::-moz-range-thumb {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid var(--_loomi-accent);
+  border-radius: 999px;
+  background: var(--loomi-white);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--loomi-black) 18%, transparent);
+  pointer-events: auto;
 }
 .loomi-value {
   flex: none;
-  min-width: 2.5rem;
+  min-width: 3rem;
   text-align: center;
   font-size: 0.85rem;
   font-weight: 600;

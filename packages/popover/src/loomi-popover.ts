@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { loomiStyles, onClickOutside } from "@loomi/core";
+import { LoomiElement, loomiStyles, onClickOutside } from "@loomi/core";
 import { getLoomiIcon } from "@loomi/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -13,7 +13,7 @@ export type LoomiPopoverPosition = "top" | "bottom" | "left" | "right";
  * @slot trigger - Custom trigger markup (overrides the `trigger` icon).
  */
 @customElement("loomi-popover")
-export class LoomiPopover extends LitElement {
+export class LoomiPopover extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() trigger = "information-circle";

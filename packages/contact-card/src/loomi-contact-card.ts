@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles } from "@loomi/core";
+import { LoomiElement, loomiStyles } from "@loomi/core";
 import { getLoomiIcon } from "@loomi/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -13,7 +13,7 @@ function icon(name: string): TemplateResult {
  * @slot - Extra content rendered below the contact details.
  */
 @customElement("loomi-contact-card")
-export class LoomiContactCard extends LitElement {
+export class LoomiContactCard extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() name = "";

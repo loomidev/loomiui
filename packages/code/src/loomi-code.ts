@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property, state, queryAll } from "lit/decorators.js";
-import { loomiDefaultText, loomiStyles, loomiT } from "@loomi/core";
+import { LoomiElement, loomiDefaultText, loomiStyles, loomiT } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 const DEFAULT_ERROR_MESSAGE = "Verification code is invalid";
 
@@ -11,7 +11,7 @@ const DEFAULT_ERROR_MESSAGE = "Verification code is invalid";
  * @fires verify - `detail: { code }` when the last box is filled.
  */
 @customElement("loomi-code")
-export class LoomiCode extends LitElement {
+export class LoomiCode extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
   static formAssociated = true;
   private internals = this.attachInternals();

@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles, accentVars, cssColor, type LoomiColor } from "@loomi/core";
+import { LoomiElement, loomiStyles, accentVars, cssColor, type LoomiColor } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiAvatarSize =
@@ -11,7 +11,7 @@ export type LoomiAvatarSize =
  * Wrap several in `<loomi-avatars>` to stack them.
  */
 @customElement("loomi-avatar")
-export class LoomiAvatar extends LitElement {
+export class LoomiAvatar extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() image = "";
@@ -48,7 +48,7 @@ export class LoomiAvatar extends LitElement {
  * @slot - `<loomi-avatar>` children.
  */
 @customElement("loomi-avatars")
-export class LoomiAvatars extends LitElement {
+export class LoomiAvatars extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property({ type: Boolean, reflect: true }) stacked = false;

@@ -1,10 +1,9 @@
 # @loomi/table
 
-`<loomi-table>` — a data-driven table with search, sorting, pagination (via
-[`<loomi-pagination>`](../pagination)), checkable rows (via
-[`<loomi-checkbox>`](../checkbox)) and action icons. Unlike BladewindUI's table, loomi's
-is fully data-driven — there's no manual `<tr>`-building mode; pass rows via `data` and
-the table renders itself.
+`<loomi-table>` — a BladewindUI-inspired table with manual rows, dynamic data,
+search, sorting, pagination (via [`<loomi-pagination>`](../pagination)), selectable
+and checkable rows (via [`<loomi-checkbox>`](../checkbox)), row grouping, empty-state
+options, custom row templates and action icons.
 
 ```bash
 npm install @loomi/table lit
@@ -102,6 +101,16 @@ cell don't trigger it, so icon clicks and row clicks never collide).
 t.addEventListener("row-click", (e) => goToProfile(e.detail.row.id));
 ```
 
+## Selectable Rows
+
+Set `selectable` to let row clicks toggle selected state. This uses the same
+selection store as checkboxes, so `selectedIds`, `selectedValue`, and
+`selection-change` all stay in sync.
+
+```html
+<loomi-table id="selectable-staff" selectable></loomi-table>
+```
+
 ## Searchable
 
 ```html
@@ -139,10 +148,22 @@ listen for `selection-change`.
 Pre-check rows on load with `selected-value` (comma-separated ids), and control which
 field counts as the row's id with `id-key` (defaults to `id`).
 
+Bladewind-style aliases also work: `selected_value`, `id_key`, `include_columns`,
+`exclude_columns`, `column_aliases`, `action_icons`, and the other underscore
+attributes listed below.
+
+## Grouping Rows
+
+Group dynamic rows by any key in your data with `groupby`.
+
+```html
+<loomi-table id="staff-by-team" groupby="department"></loomi-table>
+```
+
 ## Pagination
 
 ```html
-<loomi-table id="t8" paginated page-size="10"></loomi-table>
+<loomi-table id="t8" paginated page-size="25"></loomi-table>
 
 <!-- show page numbers instead of prev/next arrows -->
 <loomi-table id="t9" paginated page-size="10" pagination-style="numbers"></loomi-table>
@@ -153,11 +174,54 @@ field counts as the row's id with `id-key` (defaults to `id`).
 
 Pagination styles: `arrows` (default), `numbers`, `dropdown` — same options as
 [`<loomi-pagination>`](../pagination), since that's exactly what renders underneath.
+You can also use Bladewind-compatible `default_page`, `limit`, `show_total`,
+`show_page_number`, `show_total_pages`, and `total_label`.
 
 ## No Data Message
 
 ```html
 <loomi-table id="t11" no-data-message="The staff directory is empty"></loomi-table>
+```
+
+Render the message as an empty-state panel with optional image, heading, and button:
+
+```html
+<loomi-table
+  message_as_empty_state="true"
+  show_image="false"
+  heading="No staff"
+  no_data_message="The staff directory is empty"
+  button_label="Add staff"
+></loomi-table>
+```
+
+Listen for `empty-action` to handle the empty-state button. The Bladewind `onclick`
+attribute is accepted and included in the event detail.
+
+## Manual and Custom Layouts
+
+For a manually authored table, provide header cells in the `header` slot and rows in
+the default slot:
+
+```html
+<loomi-table selectable>
+  <th slot="header">Item</th>
+  <th slot="header">Quantity</th>
+  <tr><td>Office furniture</td><td>2</td></tr>
+</loomi-table>
+```
+
+For dynamic data with a custom row layout, set `layout="custom"` and provide header
+and row templates. Row templates replace `{key}` placeholders from each row, while
+pagination still works from the `data` array.
+
+```html
+<loomi-table id="custom-users" layout="custom" paginated page-size="5">
+  <template slot="header"><th>ID</th><th>User Details</th></template>
+  <template slot="row">
+    <tr><td>{id}</td><td><strong>{name}</strong><br>{email}</td></tr>
+  </template>
+</loomi-table>
 ```
 
 ## Putting It Together
@@ -186,34 +250,51 @@ same table:
 
 | Attribute | Default | Description |
 | --- | --- | --- |
+| `name` | auto | Stable class/name hook, matching Bladewind's targeting pattern. |
 | `data` | `[]` | Row objects — property (`.data`) or JSON-string attribute. |
 | `columns` | _(auto)_ | Column keys (defaults to the first row's keys). |
-| `include-columns` / `exclude-columns` | _(blank)_ | Comma-separated key allow/deny lists (`include` wins if both are set). |
-| `column-aliases` | `{}` | Map of `key -> display name` (property or JSON). |
+| `layout` | `auto` | `auto` \| `custom`; custom uses row/header templates or slotted rows. |
+| `row-template` | _(blank)_ | Template string for `layout="custom"`; `{key}` placeholders are filled from row data. |
+| `include-columns` / `include_columns` | _(blank)_ | Comma-separated key allow list. |
+| `exclude-columns` / `exclude_columns` | _(blank)_ | Comma-separated key deny list (`include` wins if both are set). |
+| `column-aliases` / `column_aliases` | `{}` | Map of `key -> display name` (property or JSON). |
 | `searchable` | `false` | Show a search box. _(boolean)_ |
-| `search-placeholder` | `Search…` | Search input placeholder. |
+| `search-placeholder` / `search_placeholder` | `Search table below...` | Search input placeholder. |
 | `sortable` | `false` | Enable column sorting. _(boolean)_ |
-| `sortable-columns` | _(all)_ | Comma-separated sortable keys. |
+| `sortable-columns` / `sortable_columns` | _(all)_ | Comma-separated sortable keys. |
 | `paginated` | `false` | Enable pagination. _(boolean)_ |
-| `page-size` | `10` | Rows per page. |
-| `pagination-style` | `arrows` | `arrows` \| `numbers` \| `dropdown` |
+| `page-size` / `page_size` | `25` | Rows per page. |
+| `pagination-style` / `pagination_style` | `arrows` | `arrows` \| `numbers` \| `dropdown` |
+| `show-total` / `show_total` | `true` | Show the pagination total label. _(boolean)_ |
+| `show-page-number` / `show_page_number` | `true` | Show current page between arrow controls. _(boolean)_ |
+| `show-total-pages` / `show_total_pages` | `false` | Show `current / total` for arrow pagination. _(boolean)_ |
+| `default-page` / `default_page` | `1` | Initial selected page. |
+| `limit` | `0` | Max total rows to display (`0` = no limit). |
+| `total-label` / `total_label` | `Showing :a to :b of :c records` | Pagination total label placeholders. |
+| `selectable` | `false` | Row clicks toggle selection. _(boolean)_ |
 | `checkable` | `false` | Add a checkbox column. _(boolean)_ |
-| `id-key` | `id` | Row key used as the selection id. |
-| `selected-value` | _(blank)_ | Comma-separated ids to pre-check. |
-| `action-icons` | `[]` | Array of `{ icon, name?, tip?, color? }` (property or JSON). |
-| `actions-title` | `actions` | Heading for the action-icons column. |
-| `show-row-numbers` | `false` | Show a leading `#` column. _(boolean)_ |
-| `striped` / `divided` / `celled` / `compact` / `has-hover` / `has-shadow` / `has-border` | — | Styling toggles. _(boolean)_ |
+| `id-key` / `id_key` | `id` | Row key used as the selection id. |
+| `selected-value` / `selected_value` | _(blank)_ | Comma-separated ids to pre-check. |
+| `action-icons` / `action_icons` | `[]` | Array of `{ icon, name?, tip?, color?, click?, icon_type?, button_outline? }`. |
+| `actions-title` / `actions_title` | `actions` | Heading for the action-icons column. |
+| `show-row-numbers` / `show_row_numbers` | `false` | Show a leading `#` column. _(boolean)_ |
+| `groupby` / `group-by` | _(blank)_ | Key used to render group heading rows. |
+| `striped` / `divided` / `celled` / `compact` / `transparent` | — | Styling toggles. _(boolean)_ |
+| `has-hover` / `has_hover`, `has-shadow` / `has_shadow`, `has-border` / `has_border` | — | Bladewind-compatible styling toggles. _(boolean)_ |
 | `divider` | `regular` | `regular` \| `thin` |
-| `no-data-message` | `No records to display` | Shown when there are no rows. |
+| `no-data-message` / `no_data_message` | `No records to display` | Shown when there are no rows. |
+| `message-as-empty-state` / `message_as_empty_state` | `false` | Render no-data content as an empty state. _(boolean)_ |
+| `image` | `empty-state.svg` | Empty-state image URL. |
+| `heading` | _(blank)_ | Empty-state heading. |
+| `button-label` / `button_label` | _(blank)_ | Empty-state CTA label. |
+| `show-image` / `show_image` | `true` | Show empty-state image. _(boolean)_ |
+| `onclick` | _(blank)_ | Bladewind-style empty-state action string, also emitted in `empty-action`. |
+| `nonce` | _(blank)_ | Accepted for Bladewind API compatibility. |
 
 **Events:** `row-click` (`{ row }`), `action` (`{ name, row }`),
-`selection-change` (`{ ids }`), `page-change` (`{ page }`).
-**Property:** `selectedIds` (read-only, current checked ids).
-
-> Not (yet) ported from BladewindUI: row grouping (`groupby`), manually-authored `<tr>`
-> rows alongside dynamic data, and rendering the empty state as a full
-> [`<loomi-empty-state>`](../empty-state).
+`action-call`, `selection-change` (`{ ids, rows, selectedValue }`), `empty-action`,
+`page-change` (`{ page }`).
+**Properties:** `selectedIds`, `selectedRows` (read-only current selection).
 
 ## Full Example
 

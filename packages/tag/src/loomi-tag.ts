@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
+import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
+import { LoomiElement, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 const X = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />`;
@@ -13,7 +13,7 @@ const X = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6
  * @fires close - Fired when the close button is clicked (the tag removes itself unless prevented).
  */
 @customElement("loomi-tag")
-export class LoomiTag extends LitElement {
+export class LoomiTag extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() label = "";
@@ -58,7 +58,7 @@ export class LoomiTag extends LitElement {
  * @slot - `<loomi-tag>` children.
  */
 @customElement("loomi-tags")
-export class LoomiTags extends LitElement {
+export class LoomiTags extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   override connectedCallback(): void {

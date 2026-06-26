@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
+import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles, accentVars, type LoomiColor } from "@loomi/core";
+import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomi/core";
 import { getLoomiIcon } from "@loomi/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -11,7 +11,7 @@ const CHECK = svg`<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 1
  * @slot - Card body content.
  */
 @customElement("loomi-checkcard")
-export class LoomiCheckcard extends LitElement {
+export class LoomiCheckcard extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() value = "";
@@ -60,7 +60,7 @@ export class LoomiCheckcard extends LitElement {
  * @fires change - `detail: { values }` when the selection changes.
  */
 @customElement("loomi-checkcards")
-export class LoomiCheckcards extends LitElement {
+export class LoomiCheckcards extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
   static formAssociated = true;
   private internals = this.attachInternals();

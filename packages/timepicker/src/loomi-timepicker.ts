@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
+import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { loomiDefaultText, loomiStyles, loomiT, onClickOutside } from "@loomi/core";
+import { LoomiElement, loomiDefaultText, loomiStyles, loomiT, onClickOutside } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 const CLOCK = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />`;
@@ -15,7 +15,7 @@ const DEFAULT_PLACEHOLDER = "HH:MM";
  * @fires change - `detail: { value }` when the time changes.
  */
 @customElement("loomi-timepicker")
-export class LoomiTimepicker extends LitElement {
+export class LoomiTimepicker extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
   static formAssociated = true;
   private internals = this.attachInternals();

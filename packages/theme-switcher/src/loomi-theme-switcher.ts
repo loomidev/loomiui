@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { loomiDefaultText, loomiStyles, loomiT } from "@loomi/core";
+import { LoomiElement, loomiDefaultText, loomiStyles, loomiT } from "@loomi/core";
 import { getLoomiIcon } from "@loomi/icons";
 import "@loomi/dropmenu/loomi-dropmenu.js";
 import "@loomi/icon/loomi-icon.js";
@@ -40,7 +40,7 @@ export function getLoomiTheme(): LoomiTheme {
  * @fires theme-change - `detail: { theme }` when the theme is changed.
  */
 @customElement("loomi-theme-switcher")
-export class LoomiThemeSwitcher extends LitElement {
+export class LoomiThemeSwitcher extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property({ attribute: "light-text" }) lightText = DEFAULT_LIGHT_TEXT;

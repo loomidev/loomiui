@@ -1,4 +1,4 @@
-import { type CSSResultGroup } from "lit";
+import { LitElement, type CSSResultGroup, type PropertyValues } from "lit";
 import { themeStyles, type LoomiColor } from "@loomi/theme";
 export * from "./i18n.js";
 
@@ -22,6 +22,67 @@ export {
  */
 export function loomiStyles(...styles: CSSResultGroup[]): CSSResultGroup[] {
   return [themeStyles, ...styles];
+}
+
+function safeClassToken(value: string): string {
+  return value
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^A-Za-z0-9_-]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function componentTypeFromTag(tagName: string): string {
+  return safeClassToken(tagName.toLowerCase().replace(/^loomi-/, "")) || "component";
+}
+
+function randomSuffix(): string {
+  return Math.random().toString(36).slice(2, 7) || String(Date.now()).slice(-5);
+}
+
+/**
+ * Shared base for loomi web components. Each host element receives a stable target
+ * class using its explicit `name` when present, or `loomi-<component>-<suffix>`.
+ */
+export class LoomiElement extends LitElement {
+  static override properties = {
+    name: { type: String, reflect: true },
+  };
+
+  declare name: string;
+
+  private generatedLoomiName = "";
+  private appliedLoomiNameClass = "";
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.syncLoomiNameClass();
+  }
+
+  protected override update(changedProperties: PropertyValues<this>): void {
+    super.update(changedProperties);
+    this.syncLoomiNameClass();
+  }
+
+  private get defaultLoomiName(): string {
+    if (!this.generatedLoomiName) {
+      this.generatedLoomiName = `loomi-${componentTypeFromTag(this.localName)}-${randomSuffix()}`;
+    }
+    return this.generatedLoomiName;
+  }
+
+  private get loomiNameClass(): string {
+    return safeClassToken(this.name || "") || this.defaultLoomiName;
+  }
+
+  private syncLoomiNameClass(): void {
+    const nextClass = this.loomiNameClass;
+    if (this.appliedLoomiNameClass === nextClass) return;
+    if (this.appliedLoomiNameClass) this.classList.remove(this.appliedLoomiNameClass);
+    this.classList.add(nextClass);
+    this.appliedLoomiNameClass = nextClass;
+  }
 }
 
 /** A single token reference with its private-default fallback, e.g. `var(--loomi-red-600, var(--_loomi-red-600-default))`. */

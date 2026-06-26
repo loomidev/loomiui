@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles } from "@loomi/core";
+import { LoomiElement, loomiStyles } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiCardRadius = "none" | "small" | "medium" | "large" | "xl";
@@ -14,7 +14,7 @@ export type LoomiCardRadius = "none" | "small" | "medium" | "large" | "xl";
  * @slot footer - Fixed footer region.
  */
 @customElement("loomi-card")
-export class LoomiCard extends LitElement {
+export class LoomiCard extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() title = "";

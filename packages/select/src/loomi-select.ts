@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
+import { html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
-import { loomiDefaultText, loomiT, themeStyles } from "@loomi/core";
+import { LoomiElement, loomiDefaultText, loomiT, themeStyles } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiSelectSize = "tiny" | "small" | "regular" | "medium" | "big";
@@ -28,7 +28,7 @@ const DEFAULT_EMPTY_PLACEHOLDER = "No options available";
  * @fires change - Fired when the selection changes (composed).
  */
 @customElement("loomi-select")
-export class LoomiSelect extends LitElement {
+export class LoomiSelect extends LoomiElement {
   static override styles = [themeStyles, componentStyles];
   static formAssociated = true;
 

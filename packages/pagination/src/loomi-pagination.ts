@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
+import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiDefaultText, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
+import { LoomiElement, loomiDefaultText, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiPaginationStyle = "arrows" | "numbers" | "dropdown";
@@ -8,21 +8,36 @@ export type LoomiPaginationStyle = "arrows" | "numbers" | "dropdown";
 const PREV = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />`;
 const NEXT = svg`<path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />`;
 const DEFAULT_TOTAL_LABEL = "Showing :a to :b of :c";
+const booleanConverter = {
+  fromAttribute(value: string | null): boolean {
+    return value !== null && value !== "false" && value !== "0";
+  },
+  toAttribute(value: boolean): string {
+    return value ? "true" : "false";
+  },
+};
 
 /**
  * `<loomi-pagination>` — page controls driven by `total`, `page-size` and `page`.
  * Emits `page-change` (`detail: { page }`). Styles: `arrows`, `numbers`, `dropdown`.
  */
 @customElement("loomi-pagination")
-export class LoomiPagination extends LitElement {
+export class LoomiPagination extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property({ type: Number }) total = 0;
   @property({ type: Number, attribute: "page-size" }) pageSize = 10;
   @property({ type: Number }) page = 1;
   @property({ attribute: "pagination-style" }) paginationStyle: LoomiPaginationStyle = "arrows";
-  @property({ type: Boolean, attribute: "show-total" }) showTotal = true;
+  @property({ attribute: "pagination_style" }) paginationStyleAlias: LoomiPaginationStyle | "" = "";
+  @property({ converter: booleanConverter, attribute: "show-total" }) showTotal = true;
+  @property({ converter: booleanConverter, attribute: "show_total" }) showTotalAlias?: boolean;
+  @property({ converter: booleanConverter, attribute: "show-page-number" }) showPageNumber = true;
+  @property({ converter: booleanConverter, attribute: "show_page_number" }) showPageNumberAlias?: boolean;
+  @property({ converter: booleanConverter, attribute: "show-total-pages" }) showTotalPages = true;
+  @property({ converter: booleanConverter, attribute: "show_total_pages" }) showTotalPagesAlias?: boolean;
   @property({ attribute: "total-label" }) totalLabel = DEFAULT_TOTAL_LABEL;
+  @property({ attribute: "total_label" }) totalLabelAlias = "";
   @property() locale = "";
   @property() color: LoomiColor = "primary" as LoomiColor;
 
@@ -43,7 +58,7 @@ export class LoomiPagination extends LitElement {
     if (this.total === 0) return loomiT("pagination.noRecords", {}, this.locale);
     const a = (this.page - 1) * this.pageSize + 1;
     const b = Math.min(this.total, this.page * this.pageSize);
-    return loomiDefaultText(this.totalLabel, DEFAULT_TOTAL_LABEL, "pagination.totalLabel", this.locale)
+    return loomiDefaultText(this.totalLabelAlias || this.totalLabel, DEFAULT_TOTAL_LABEL, "pagination.totalLabel", this.locale)
       .replace(":a", String(a))
       .replace(":b", String(b))
       .replace(":c", String(this.total));
@@ -76,7 +91,11 @@ export class LoomiPagination extends LitElement {
     const prev = html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${PREV}</svg>`;
     const next = html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${NEXT}</svg>`;
 
-    if (this.paginationStyle === "dropdown") {
+    const paginationStyle = this.paginationStyleAlias || this.paginationStyle;
+    const showPageNumber = this.showPageNumberAlias ?? this.showPageNumber;
+    const showTotalPages = this.showTotalPagesAlias ?? this.showTotalPages;
+
+    if (paginationStyle === "dropdown") {
       return html`<span class="loomi-controls">
         ${this.btn(prev, { disabled: this.page <= 1, onClick: () => this.go(this.page - 1) })}
         <select class="loomi-select" .value=${String(this.page)} @change=${(e: Event) => this.go(Number((e.target as HTMLSelectElement).value))}>
@@ -88,7 +107,7 @@ export class LoomiPagination extends LitElement {
       </span>`;
     }
 
-    if (this.paginationStyle === "numbers") {
+    if (paginationStyle === "numbers") {
       return html`<span class="loomi-controls">
         ${this.btn(prev, { disabled: this.page <= 1, onClick: () => this.go(this.page - 1) })}
         ${this.numbers().map((p) =>
@@ -103,14 +122,16 @@ export class LoomiPagination extends LitElement {
     // arrows
     return html`<span class="loomi-controls">
       ${this.btn(prev, { disabled: this.page <= 1, onClick: () => this.go(this.page - 1) })}
-      <span class="loomi-total">${this.page} / ${this.pageCount}</span>
+      ${showPageNumber
+        ? html`<span class="loomi-total">${showTotalPages ? `${this.page} / ${this.pageCount}` : this.page}</span>`
+        : nothing}
       ${this.btn(next, { disabled: this.page >= this.pageCount, onClick: () => this.go(this.page + 1) })}
     </span>`;
   }
 
   override render(): TemplateResult {
     return html`<div class="loomi-pagination" style=${accentVars(this.color)}>
-      ${this.showTotal ? html`<span class="loomi-total">${this.totalText()}</span>` : nothing}
+      ${(this.showTotalAlias ?? this.showTotal) ? html`<span class="loomi-total">${this.totalText()}</span>` : nothing}
       ${this.renderControls()}
     </div>`;
   }

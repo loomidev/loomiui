@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
+import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
+import { LoomiElement, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
 import { getLoomiIcon } from "@loomi/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -37,7 +37,7 @@ const booleanAttribute = {
  * @fires close - Fired when dismissed (the alert hides itself unless prevented).
  */
 @customElement("loomi-alert")
-export class LoomiAlert extends LitElement {
+export class LoomiAlert extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() type: LoomiAlertType = "info";

@@ -57,6 +57,9 @@ importers:
       '@loomi/icons':
         specifier: workspace:^
         version: link:../icons
+      '@loomi/theme':
+        specifier: workspace:^
+        version: link:../theme
     devDependencies:
       '@loomi/theme':
         specifier: workspace:^
@@ -769,9 +772,6 @@ importers:
       '@loomi/icons':
         specifier: workspace:^
         version: link:../icons
-      '@loomi/theme':
-        specifier: workspace:^
-        version: link:../theme
     devDependencies:
       '@tailwindcss/cli':
         specifier: ^4.0.0

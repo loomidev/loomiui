@@ -50,6 +50,22 @@ Default bounds are `0`–`100`.
 <loomi-slider min="18" max="65" selected="25"></loomi-slider>
 ```
 
+## Range Selection
+
+Add `range` for a dual-handle slider. `selected` controls the start value and
+`selected-end` controls the end value.
+
+```html
+<loomi-slider name="budget" range selected="20" selected-end="80"></loomi-slider>
+```
+
+When submitted in a form, a range slider submits the ordered values joined with
+`" - "`.
+
+```js
+new FormData(form).get("budget"); // "20 - 80"
+```
+
 ## Hiding the Value Bubble
 
 ```html
@@ -72,15 +88,14 @@ new FormData(form).get("age"); // "34"
 | --- | --- | --- |
 | `name` | _(blank)_ | Submitted with the form. |
 | `selected` | `0` | Current/default value. |
+| `selected-end` | `100` | End value when `range` is enabled. |
+| `range` | `false` | Enable dual-handle range selection. _(boolean)_ |
 | `min` / `max` | `0` / `100` | Range bounds. |
 | `step` | `1` | Increment. |
 | `color` | `primary` | Any loomi color (themes the track via `accent-color`). |
 | `show-values` | `true` | Show the value bubble. _(boolean)_ |
 
 **Events:** `input`, `change` (composed).
-
-> Not (yet) implemented: dual-handle range selection (BladewindUI's own range slider is
-> documented as buggy too).
 
 ## Full Example
 

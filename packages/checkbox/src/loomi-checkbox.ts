@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles, accentVars, isLoomiColor, type LoomiColor } from "@loomi/core";
+import { LoomiElement, loomiStyles, accentVars, isLoomiColor, type LoomiColor } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 /**
@@ -12,7 +12,7 @@ import { componentStyles } from "./generated/styles.css.js";
  * @fires change - Fired when the checked state changes (composed).
  */
 @customElement("loomi-checkbox")
-export class LoomiCheckbox extends LitElement {
+export class LoomiCheckbox extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
   static formAssociated = true;
 

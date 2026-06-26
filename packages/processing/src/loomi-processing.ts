@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
+import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
+import { LoomiElement, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiProcessingState = "processing" | "success" | "failed";
@@ -14,7 +14,7 @@ const X = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75
  * async task progresses.
  */
 @customElement("loomi-processing")
-export class LoomiProcessing extends LitElement {
+export class LoomiProcessing extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() state: LoomiProcessingState = "processing";

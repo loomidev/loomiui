@@ -1,6 +1,6 @@
-import { LitElement, html, type TemplateResult } from "lit";
+import { html, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles } from "@loomi/core";
+import { LoomiElement, loomiStyles } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiTooltipPosition = "top" | "bottom" | "left" | "right";
@@ -12,7 +12,7 @@ export type LoomiTooltipPosition = "top" | "bottom" | "left" | "right";
  * @slot content - Rich tooltip content (overrides the `content` attribute).
  */
 @customElement("loomi-tooltip")
-export class LoomiTooltip extends LitElement {
+export class LoomiTooltip extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() content = "";

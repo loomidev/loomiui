@@ -1,6 +1,6 @@
-import { LitElement, html, type TemplateResult } from "lit";
+import { html, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
+import { LoomiElement, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiSpinnerSize = "small" | "medium" | "big" | "xl" | "omg";
@@ -9,7 +9,7 @@ export type LoomiSpinnerSize = "small" | "medium" | "big" | "xl" | "omg";
  * `<loomi-spinner>` — a themeable loading spinner.
  */
 @customElement("loomi-spinner")
-export class LoomiSpinner extends LitElement {
+export class LoomiSpinner extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() size: LoomiSpinnerSize = "small";

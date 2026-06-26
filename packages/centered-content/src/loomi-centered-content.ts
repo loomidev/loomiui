@@ -1,6 +1,6 @@
-import { LitElement, html, type TemplateResult } from "lit";
+import { html, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles } from "@loomi/core";
+import { LoomiElement, loomiStyles } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 /**
@@ -10,7 +10,7 @@ import { componentStyles } from "./generated/styles.css.js";
  * @slot - The content to center.
  */
 @customElement("loomi-centered-content")
-export class LoomiCenteredContent extends LitElement {
+export class LoomiCenteredContent extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   /** Minimum height of the centering area (any CSS length). */

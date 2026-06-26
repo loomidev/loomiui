@@ -1,6 +1,6 @@
-import { LitElement, html, svg, type TemplateResult, type SVGTemplateResult } from "lit";
+import { html, svg, type TemplateResult, type SVGTemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
+import { LoomiElement, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiRatingType = "star" | "heart" | "thumbsup";
@@ -19,7 +19,7 @@ const SHAPES: Record<LoomiRatingType, SVGTemplateResult> = {
  * @fires change - `detail: { rating }` when a new rating is chosen.
  */
 @customElement("loomi-rating")
-export class LoomiRating extends LitElement {
+export class LoomiRating extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
   static formAssociated = true;
   private internals = this.attachInternals();

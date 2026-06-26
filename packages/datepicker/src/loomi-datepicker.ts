@@ -1,14 +1,12 @@
-import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
+import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import {
-  loomiDateFormatter,
+import { LoomiElement, loomiDateFormatter,
   loomiDefaultText,
   loomiMonthName,
   loomiStyles,
   loomiT,
   loomiWeekdayNames,
-  onClickOutside,
-} from "@loomi/core";
+  onClickOutside, } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiDateFormat =
@@ -37,7 +35,7 @@ const sameDay = (a: Date, b: Date) => a.toDateString() === b.toDateString();
  * @fires change - `detail: { value, dates }` when the selection changes.
  */
 @customElement("loomi-datepicker")
-export class LoomiDatepicker extends LitElement {
+export class LoomiDatepicker extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
   static formAssociated = true;
   private internals = this.attachInternals();

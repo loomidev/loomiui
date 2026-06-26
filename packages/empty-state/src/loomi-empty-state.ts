@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
+import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles } from "@loomi/core";
+import { LoomiElement, loomiStyles } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiEmptyImageSize = "small" | "medium" | "large" | "xl" | "omg";
@@ -21,7 +21,7 @@ const DEFAULT_ART = svg`<svg viewBox="0 0 120 100" fill="none" xmlns="http://www
  * @fires action - Fired when the action button is clicked.
  */
 @customElement("loomi-empty-state")
-export class LoomiEmptyState extends LitElement {
+export class LoomiEmptyState extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() heading = "";

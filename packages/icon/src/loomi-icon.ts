@@ -1,6 +1,6 @@
-import { LitElement, html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles } from "@loomi/core";
+import { LoomiElement, loomiStyles } from "@loomi/core";
 import { getLoomiIcon, type LoomiIconVariant } from "@loomi/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -13,7 +13,7 @@ import { componentStyles } from "./generated/styles.css.js";
  * @slot - Custom inline `<svg>` (overrides `name`).
  */
 @customElement("loomi-icon")
-export class LoomiIcon extends LitElement {
+export class LoomiIcon extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   /** Registered icon name (see `@loomi/icons`). */
