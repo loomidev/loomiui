@@ -15,19 +15,20 @@ import "@loomi/avatar";
 ## Basic Usage
 
 ```html
-<loomi-avatar image="/me.jpg"></loomi-avatar>
+<!-- /avatars/john.svg is an image in the docs site public directory -->
+<loomi-avatar image="/avatars/john.svg" />
 ```
 
 ## Different Sizes
 
 ```html
-<loomi-avatar image="/me.jpg" size="tiny"></loomi-avatar>
-<loomi-avatar image="/me.jpg" size="small"></loomi-avatar>
-<loomi-avatar image="/me.jpg" size="medium"></loomi-avatar>
-<loomi-avatar image="/me.jpg" size="regular"></loomi-avatar>
-<loomi-avatar image="/me.jpg" size="big"></loomi-avatar>
-<loomi-avatar image="/me.jpg" size="huge"></loomi-avatar>
-<loomi-avatar image="/me.jpg" size="omg"></loomi-avatar>
+<loomi-avatar image="/avatars/ada.svg" size="tiny"></loomi-avatar>
+<loomi-avatar image="/avatars/robert.svg" size="small"></loomi-avatar>
+<loomi-avatar image="/avatars/sara.svg" size="medium"></loomi-avatar>
+<loomi-avatar image="/avatars/john.svg" size="regular"></loomi-avatar>
+<loomi-avatar image="/avatars/male.jpg" size="big"></loomi-avatar>
+<loomi-avatar image="/avatars/female2.jpg" size="huge"></loomi-avatar>
+<loomi-avatar image="/avatars/female.jpg" size="omg"></loomi-avatar>
 ```
 
 ## Labels (Initials)
@@ -36,8 +37,8 @@ Skip `image` and set `label` to show initials instead — useful as a placeholde
 users without a profile picture.
 
 ```html
-<loomi-avatar label="MK"></loomi-avatar>
-<loomi-avatar label="MK" bg-color="primary"></loomi-avatar>
+<loomi-avatar label="JD"></loomi-avatar>
+<loomi-avatar label="PK" bg-color="primary"></loomi-avatar>
 ```
 
 ## Stacked Avatars
@@ -47,8 +48,8 @@ when every child is the same size.
 
 ```html
 <loomi-avatars stacked>
-  <loomi-avatar image="/ada.jpg"></loomi-avatar>
-  <loomi-avatar image="/sara.jpg"></loomi-avatar>
+  <loomi-avatar image="/avatars/female.jpg"></loomi-avatar>
+  <loomi-avatar image="/avatars/sara.svg"></loomi-avatar>
   <loomi-avatar label="RB"></loomi-avatar>
 </loomi-avatars>
 ```
@@ -71,17 +72,17 @@ instead (this implies `stacked`).
 Add a status dot — for online/offline/busy presence.
 
 ```html
-<loomi-avatar image="/me.jpg" dotted></loomi-avatar>
-<loomi-avatar image="/me.jpg" dotted dot-position="top"></loomi-avatar>
+<loomi-avatar image="/avatars/male.jpg" dotted></loomi-avatar>
+<loomi-avatar image="/avatars/robert.svg" dotted dot-position="top"></loomi-avatar>
 ```
 
 The dot accepts any loomi color via `dot-color`:
 
 ```html
 <loomi-avatars dotted>
-  <loomi-avatar image="/a.jpg" dot-color="primary"></loomi-avatar>
-  <loomi-avatar image="/b.jpg" dot-color="gray"></loomi-avatar>
-  <loomi-avatar image="/c.jpg" dot-color="red"></loomi-avatar>
+  <loomi-avatar image="/avatars/female2.jpg" dot-color="primary"></loomi-avatar>
+  <loomi-avatar image="/avatars/male2.jpg" dot-color="gray"></loomi-avatar>
+  <loomi-avatar image="/avatars/female.jpg" dot-color="red"></loomi-avatar>
 </loomi-avatars>
 ```
 
@@ -100,7 +101,7 @@ The dot accepts any loomi color via `dot-color`:
 By default avatars show a ring around them. Turn it off for a flatter look.
 
 ```html
-<loomi-avatar image="/me.jpg" show-ring="false"></loomi-avatar>
+<loomi-avatar image="/avatars/sara.svg" show-ring="false"></loomi-avatar>
 ```
 
 ## Attributes
@@ -134,8 +135,8 @@ By default avatars show a ring around them. Turn it off for a flatter look.
 
 ```html
 <loomi-avatars size="big" dotted dot-color="red" dot-position="top" plus="33" stacked>
-  <loomi-avatar image="/a.jpg"></loomi-avatar>
-  <loomi-avatar image="/b.jpg"></loomi-avatar>
+  <loomi-avatar image="/avatars/robert.svg"></loomi-avatar>
+  <loomi-avatar image="/avatars/female.jpg"></loomi-avatar>
   <loomi-avatar label="ZH" bg-color="cyan"></loomi-avatar>
 </loomi-avatars>
 ```
@@ -175,7 +176,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 
 <loomi-avatars>
   <loomi-avatar label="AO" bg-color="green"></loomi-avatar>
-  <loomi-avatar image="/images/team/ama.jpg" alt="Ama" show-ring></loomi-avatar>
+  <loomi-avatar image="/avatars/female.jpg" alt="Ama" show-ring></loomi-avatar>
 </loomi-avatars>
 ```
 
@@ -206,7 +207,7 @@ import "@loomi/avatar";
 ```blade
 <loomi-avatars>
   <loomi-avatar label="AO" bg-color="green"></loomi-avatar>
-  <loomi-avatar image="/images/team/ama.jpg" alt="Ama" show-ring></loomi-avatar>
+  <loomi-avatar image="/images/team/jdoe.jpg" alt="Ama" show-ring></loomi-avatar>
 </loomi-avatars>
 ```
 
@@ -221,7 +222,7 @@ export function LoomiExample() {
   return (
     <loomi-avatars>
       <loomi-avatar label="AO" bg-color="green"></loomi-avatar>
-      <loomi-avatar image="/images/team/ama.jpg" alt="Ama" show-ring></loomi-avatar>
+      <loomi-avatar image="/images/team/jdoe.jpg" alt="Ama"></loomi-avatar>
     </loomi-avatars>
   );
 }
@@ -241,7 +242,7 @@ import "@loomi/avatar";
 <template>
   <loomi-avatars>
     <loomi-avatar label="AO" bg-color="green"></loomi-avatar>
-    <loomi-avatar image="/images/team/ama.jpg" alt="Ama" show-ring></loomi-avatar>
+    <loomi-avatar image="/images/team/jdoe.jpg" alt="Ama" show-ring></loomi-avatar>
   </loomi-avatars>
 </template>
 ```
@@ -264,7 +265,7 @@ import "@loomi/avatar";
   template: `
     <loomi-avatars>
       <loomi-avatar label="AO" bg-color="green"></loomi-avatar>
-      <loomi-avatar image="/images/team/ama.jpg" alt="Ama" show-ring></loomi-avatar>
+      <loomi-avatar image="/images/team/jdoe.jpg" alt="Ama" show-ring></loomi-avatar>
     </loomi-avatars>
   `,
 })
@@ -282,7 +283,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 <loomi-avatars>
   <loomi-avatar label="AO" bg-color="green"></loomi-avatar>
-  <loomi-avatar image="/images/team/ama.jpg" alt="Ama" show-ring></loomi-avatar>
+  <loomi-avatar image="/images/team/jdoe.jpg" alt="Ama" show-ring></loomi-avatar>
 </loomi-avatars>
 ```
 
@@ -293,7 +294,7 @@ import "@loomi/avatar";
 
 <loomi-avatars>
   <loomi-avatar label="AO" bg-color="green"></loomi-avatar>
-  <loomi-avatar image="/images/team/ama.jpg" alt="Ama" show-ring></loomi-avatar>
+  <loomi-avatar image="/images/team/jdoe.jpg" alt="Ama" show-ring></loomi-avatar>
 </loomi-avatars>
 ```
 
