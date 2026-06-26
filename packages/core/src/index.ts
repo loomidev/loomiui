@@ -1,5 +1,6 @@
 import { type CSSResultGroup } from "lit";
 import { themeStyles, type LoomiColor } from "@loomi/theme";
+export * from "./i18n.js";
 
 // Re-export the shared theme surface so components import everything from @loomi/core.
 export {

@@ -1,11 +1,13 @@
 import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
-import { loomiStyles } from "@loomi/core";
+import { loomiDefaultText, loomiStyles, loomiT } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 const UPLOAD = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 7.5 7.5 12M12 7.5v9" />`;
 const FILE = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />`;
 const X = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />`;
+const DEFAULT_PLACEHOLDER_LINE1 = "Choose files or drag and drop to upload";
+const DEFAULT_PLACEHOLDER_LINE2 = "%s up to %s";
 
 function parseSize(s: string): number {
   const m = s.trim().toLowerCase().match(/^([\d.]+)\s*(kb|mb|gb)?$/);
@@ -37,8 +39,9 @@ export class LoomiFilepicker extends LitElement {
 
   @property({ reflect: true }) name = "";
   @property({ attribute: "accepted-file-types" }) acceptedFileTypes = "image/*,application/pdf";
-  @property({ attribute: "placeholder-line1" }) placeholderLine1 = "Choose files or drag and drop to upload";
-  @property({ attribute: "placeholder-line2" }) placeholderLine2 = "%s up to %s";
+  @property({ attribute: "placeholder-line1" }) placeholderLine1 = DEFAULT_PLACEHOLDER_LINE1;
+  @property({ attribute: "placeholder-line2" }) placeholderLine2 = DEFAULT_PLACEHOLDER_LINE2;
+  @property() locale = "";
   @property({ type: Number, attribute: "max-files" }) maxFiles = 1;
   @property({ attribute: "max-file-size" }) maxFileSize = "5mb";
   @property({ type: Boolean, attribute: "can-browse" }) canBrowse = true;
@@ -101,7 +104,7 @@ export class LoomiFilepicker extends LitElement {
     const empty = this.required && !this.disabled && this.files.length === 0;
     this.invalid = empty && showInvalid;
     const validity = empty ? { valueMissing: true } : {};
-    const message = empty ? "Please select a file." : "";
+    const message = empty ? loomiT("validation.selectFile", {}, this.locale) : "";
     if (this.input) this.internals.setValidity(validity, message, this.input);
     else this.internals.setValidity(validity, message);
     return !empty;
@@ -146,7 +149,12 @@ export class LoomiFilepicker extends LitElement {
   }
 
   private placeholder2(): string {
-    return this.placeholderLine2.replace("%s", this.acceptedFileTypes).replace("%s", this.maxFileSize);
+    return loomiDefaultText(
+      this.placeholderLine2,
+      DEFAULT_PLACEHOLDER_LINE2,
+      "filepicker.placeholderLine2",
+      this.locale,
+    ).replace("%s", this.acceptedFileTypes).replace("%s", this.maxFileSize);
   }
 
   private isImage(f: File): boolean {
@@ -154,6 +162,12 @@ export class LoomiFilepicker extends LitElement {
   }
 
   override render(): TemplateResult {
+    const placeholderLine1 = loomiDefaultText(
+      this.placeholderLine1,
+      DEFAULT_PLACEHOLDER_LINE1,
+      "filepicker.placeholderLine1",
+      this.locale,
+    );
     return html`<div class="loomi-fp">
       <div
         class="loomi-drop ${this.over ? "over" : ""} ${this.disabled ? "disabled" : ""}"
@@ -163,7 +177,7 @@ export class LoomiFilepicker extends LitElement {
         @drop=${(e: DragEvent) => this.onDrop(e)}
       >
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${UPLOAD}</svg>
-        <div class="loomi-l1">${this.placeholderLine1}${this.required ? html`<span class="loomi-req"> *</span>` : nothing}</div>
+        <div class="loomi-l1">${placeholderLine1}${this.required ? html`<span class="loomi-req"> *</span>` : nothing}</div>
         <div class="loomi-l2">${this.placeholder2()}</div>
         <input
           class="loomi-native"
@@ -188,7 +202,7 @@ export class LoomiFilepicker extends LitElement {
                 <div class="loomi-fname">${f.name}</div>
                 <div class="loomi-fsize">${human(f.size)}</div>
               </span>
-              <button class="loomi-remove" aria-label="Remove" @click=${() => this.removeFile(i)}>
+              <button class="loomi-remove" aria-label=${loomiT("common.remove", {}, this.locale)} @click=${() => this.removeFile(i)}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${X}</svg>
               </button>
             </div>`)}

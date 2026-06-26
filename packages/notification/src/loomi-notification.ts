@@ -1,6 +1,6 @@
 import { LitElement, html, nothing, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { loomiStyles, accentVars, type LoomiColor } from "@loomi/core";
+import { loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
 import "@loomi/icon/loomi-icon.js";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -38,6 +38,7 @@ export class LoomiNotification extends LitElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() position: LoomiNotificationPosition = "top-right";
+  @property() locale = "";
   @state() private toasts: Toast[] = [];
   private timers = new Map<number, ReturnType<typeof setTimeout>>();
 
@@ -99,7 +100,7 @@ export class LoomiNotification extends LitElement {
             ${t.title ? html`<div class="loomi-title">${t.title}</div>` : nothing}
             <div class="loomi-message">${t.message}</div>
           </div>
-          <button type="button" class="loomi-close" aria-label="Dismiss" @click=${(event: Event) => this.onDismiss(event, t.id)}>
+          <button type="button" class="loomi-close" aria-label=${loomiT("common.dismiss", {}, this.locale)} @click=${(event: Event) => this.onDismiss(event, t.id)}>
             <loomi-icon name="x-mark" stroke-width="2"></loomi-icon>
           </button>
         </div>`;

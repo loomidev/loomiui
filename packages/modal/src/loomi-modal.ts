@@ -1,6 +1,6 @@
 import { LitElement, html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles, accentVars, type LoomiColor } from "@loomi/core";
+import { loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
 import "@loomi/button/loomi-button.js";
 import "@loomi/icon/loomi-icon.js";
 import { componentStyles } from "./generated/styles.css.js";
@@ -14,6 +14,8 @@ const TYPE: Record<string, { color: LoomiColor; icon: string }> = {
   warning: { color: "orange" as LoomiColor, icon: "exclamation-triangle" },
   success: { color: "green" as LoomiColor, icon: "check-circle" },
 };
+const DEFAULT_OK_LABEL = "Okay";
+const DEFAULT_CANCEL_LABEL = "Cancel";
 
 const booleanAttribute = {
   fromAttribute(value: string | null): boolean {
@@ -95,9 +97,10 @@ export class LoomiModal extends LitElement {
   @property() type: LoomiModalType = "";
   @property() icon = "";
   @property() size: LoomiModalSize = "medium";
+  @property() locale = "";
   @property({ type: Boolean, reflect: true }) open = false;
-  @property({ attribute: "ok-button-label" }) okButtonLabel = "Okay";
-  @property({ attribute: "cancel-button-label" }) cancelButtonLabel = "Cancel";
+  @property({ attribute: "ok-button-label" }) okButtonLabel = DEFAULT_OK_LABEL;
+  @property({ attribute: "cancel-button-label" }) cancelButtonLabel = DEFAULT_CANCEL_LABEL;
   @property({ type: Boolean, attribute: "show-action-buttons", converter: booleanAttribute })
   showActionButtons = true;
   @property({ type: Boolean, attribute: "show-close-icon", converter: booleanAttribute })
@@ -273,6 +276,10 @@ export class LoomiModal extends LitElement {
     const iconName = this.icon || t?.icon || "";
     const actionColor = t?.color ?? ("primary" as LoomiColor);
     const accent = accentVars(actionColor);
+    const okLabel = this.okButtonLabel === DEFAULT_OK_LABEL ? loomiT("modal.ok", {}, this.locale) : this.okButtonLabel;
+    const cancelLabel = this.cancelButtonLabel === DEFAULT_CANCEL_LABEL
+      ? loomiT("modal.cancel", {}, this.locale)
+      : this.cancelButtonLabel;
     const showOk = this.showActionButtons && this.okButtonLabel;
     const showCancel = this.showActionButtons && this.cancelButtonLabel;
     const dialogClasses = [
@@ -287,12 +294,12 @@ export class LoomiModal extends LitElement {
         class=${dialogClasses}
         role="dialog"
         aria-modal="true"
-        aria-label=${this.title || "Dialog"}
+        aria-label=${this.title || loomiT("modal.dialog", {}, this.locale)}
         tabindex="-1"
         style=${accent}
       >
         ${this.showCloseIcon
-          ? html`<button class="loomi-close" aria-label="Close" @click=${() => this.hide()}>
+          ? html`<button class="loomi-close" aria-label=${loomiT("common.close", {}, this.locale)} @click=${() => this.hide()}>
               <loomi-icon name="x-mark" size="1.15rem" stroke-width="2"></loomi-icon>
             </button>`
           : nothing}
@@ -316,7 +323,7 @@ export class LoomiModal extends LitElement {
                     size="small"
                     ?block=${this.stretchActionButtons}
                     @click=${this.onCancel}
-                    >${this.cancelButtonLabel}</loomi-button
+                    >${cancelLabel}</loomi-button
                   >`
                 : nothing}
               ${showOk
@@ -326,7 +333,7 @@ export class LoomiModal extends LitElement {
                     color=${actionColor}
                     ?block=${this.stretchActionButtons}
                     @click=${this.onOk}
-                    >${this.okButtonLabel}</loomi-button
+                    >${okLabel}</loomi-button
                   >`
                 : nothing}
             </div>`

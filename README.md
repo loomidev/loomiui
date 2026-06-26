@@ -116,6 +116,33 @@ boundary — one `:root` declaration restyles the entire library instantly.
 Curious how the override mechanism avoids the usual Shadow DOM custom-property pitfalls?
 See [`@loomi/core`'s README](packages/core#--loomi--public-theme-vs---_loomi-accent-private-per-instance).
 
+## Internationalization
+
+Built-in component text is translated through `@loomi/core`: placeholders, validation
+messages, aria labels, pagination text, and datepicker month/weekday names. Set a shared
+locale before rendering components, or use a component's `locale` attribute for a local
+override.
+
+```js
+import { setLoomiLocale, defineLoomiTranslations } from "@loomi/core";
+import "@loomi/components";
+
+setLoomiLocale("es");
+
+defineLoomiTranslations("ak", {
+  datepicker: { placeholder: "Paw da a wobɛpaw" },
+  filepicker: { placeholderLine1: "Paw fael anaa twe bra ha" },
+});
+```
+
+```html
+<loomi-datepicker locale="fr"></loomi-datepicker>
+<loomi-filepicker locale="pt_BR"></loomi-filepicker>
+```
+
+Default locales: `en`, `ar`, `de`, `es`, `fr`, `it`, `ml`, `pt_BR`, `tr`, and
+`zh_CN`. Per-component text attributes still take precedence when you need custom copy.
+
 ## Components
 
 | Category | Packages |

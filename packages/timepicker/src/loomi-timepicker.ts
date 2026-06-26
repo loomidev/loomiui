@@ -1,11 +1,12 @@
 import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { loomiStyles, onClickOutside } from "@loomi/core";
+import { loomiDefaultText, loomiStyles, loomiT, onClickOutside } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 const CLOCK = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />`;
 const pad = (n: number) => String(n).padStart(2, "0");
 export type LoomiTimepickerSize = "tiny" | "small" | "regular" | "medium" | "big";
+const DEFAULT_PLACEHOLDER = "HH:MM";
 
 /**
  * `<loomi-timepicker>` — pick a time. `popup` (input + panel) or `inline`. 12/24-hour.
@@ -26,7 +27,8 @@ export class LoomiTimepicker extends LitElement {
   @property() format: "12" | "24" = "12";
   @property({ attribute: "selected-value" }) selectedValue = "";
   @property() label = "";
-  @property() placeholder = "HH:MM";
+  @property() placeholder = DEFAULT_PLACEHOLDER;
+  @property() locale = "";
   @property() size: LoomiTimepickerSize = "medium";
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) invalid = false;
@@ -94,7 +96,7 @@ export class LoomiTimepicker extends LitElement {
     this.invalid = empty && showInvalid;
     this.internals.setValidity(
       empty ? { valueMissing: true } : {},
-      empty ? "Please select a time." : "",
+      empty ? loomiT("validation.selectTime", {}, this.locale) : "",
     );
     return !empty;
   }
@@ -123,7 +125,7 @@ export class LoomiTimepicker extends LitElement {
       ? Array.from({ length: 24 }, (_, i) => i)
       : Array.from({ length: 12 }, (_, i) => i + 1);
     return html`<div class="loomi-selects">
-      <select aria-label="Hour" @blur=${this.showValidation} @change=${(e: Event) => {
+      <select aria-label=${loomiT("timepicker.hour", {}, this.locale)} @blur=${this.showValidation} @change=${(e: Event) => {
         const value = (e.target as HTMLSelectElement).value;
         this.hour = value === "" ? null : Number(value);
         this.commit();
@@ -132,7 +134,7 @@ export class LoomiTimepicker extends LitElement {
         ${hours.map((h) => html`<option value=${h} ?selected=${this.hour === h}>${this.format === "24" ? pad(h) : h}</option>`)}
       </select>
       <span class="loomi-colon">:</span>
-      <select aria-label="Minute" @blur=${this.showValidation} @change=${(e: Event) => {
+      <select aria-label=${loomiT("timepicker.minute", {}, this.locale)} @blur=${this.showValidation} @change=${(e: Event) => {
         const value = (e.target as HTMLSelectElement).value;
         this.minute = value === "" ? null : Number(value);
         this.commit();
@@ -141,7 +143,7 @@ export class LoomiTimepicker extends LitElement {
         ${Array.from({ length: 60 }, (_, i) => i).map((m) => html`<option value=${m} ?selected=${this.minute === m}>${pad(m)}</option>`)}
       </select>
       ${this.format === "12"
-        ? html`<select aria-label="AM/PM" @blur=${this.showValidation} @change=${(e: Event) => { this.ampm = (e.target as HTMLSelectElement).value as "AM" | "PM"; this.commit(); }}>
+        ? html`<select aria-label=${loomiT("timepicker.ampm", {}, this.locale)} @blur=${this.showValidation} @change=${(e: Event) => { this.ampm = (e.target as HTMLSelectElement).value as "AM" | "PM"; this.commit(); }}>
             <option value="AM" ?selected=${this.ampm === "AM"}>AM</option>
             <option value="PM" ?selected=${this.ampm === "PM"}>PM</option>
           </select>`
@@ -157,7 +159,7 @@ export class LoomiTimepicker extends LitElement {
       ${this.label ? html`<span class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req"> *</span>` : nothing}</span>` : nothing}
       <div class="loomi-field" tabindex="0" @blur=${this.showValidation} @click=${() => this.toggle()}>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${CLOCK}</svg>
-        <span class="loomi-text ${this.value ? "" : "placeholder"}">${this.value || this.placeholder}${!this.value && this.required ? html`<span class="loomi-req"> *</span>` : nothing}</span>
+        <span class="loomi-text ${this.value ? "" : "placeholder"}">${this.value || loomiDefaultText(this.placeholder, DEFAULT_PLACEHOLDER, "timepicker.placeholder", this.locale)}${!this.value && this.required ? html`<span class="loomi-req"> *</span>` : nothing}</span>
       </div>
       ${this.open ? html`<div class="loomi-panel" @click=${(e: Event) => e.stopPropagation()}>${this.renderSelects()}</div>` : nothing}
     </div>`;

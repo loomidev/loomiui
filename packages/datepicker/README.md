@@ -86,6 +86,37 @@ Restrict selectable dates — anything outside the bounds is disabled and grayed
 <loomi-datepicker week-starts="monday"></loomi-datepicker>
 ```
 
+## Internationalization
+
+`<loomi-datepicker>` uses Loomi's shared i18n defaults for the placeholder, navigation
+labels, formatted month names, weekday headings, and `D d M, Y` display format.
+
+```js
+import { setLoomiLocale, defineLoomiTranslations } from "@loomi/core";
+import "@loomi/datepicker";
+
+setLoomiLocale("fr");
+
+defineLoomiTranslations("ak", {
+  datepicker: {
+    placeholder: "Paw da a wobɛpaw",
+    previousMonth: "Bosome a atwam",
+    nextMonth: "Bosome a edi hɔ",
+    monthsShort: ["S-Ɔ", "K-Ɔ", "E-Ɔ", "E-O", "E-K", "O-A", "A-K", "D-Ɔ", "F-Ɛ", "Ɔ-A", "O-O", "M-Ɔ"],
+    weekdaysShort: ["Kwe", "Dwo", "Ben", "Wuk", "Yaw", "Fia", "Mem"],
+  },
+});
+```
+
+```html
+<!-- Override only this datepicker. -->
+<loomi-datepicker locale="de"></loomi-datepicker>
+```
+
+Built-in locales: `en`, `ar`, `de`, `es`, `fr`, `it`, `ml`, `pt_BR`, `tr`, and
+`zh_CN`. Custom locales may provide `monthsShort`, `monthsLong`, and `weekdaysShort`
+arrays. A custom `placeholder` attribute still overrides the translated default.
+
 ## Sizes
 
 ```html
@@ -116,6 +147,7 @@ document.querySelector("loomi-datepicker").addEventListener("change", (e) => {
 | `format` | `yyyy-mm-dd` | `yyyy-mm-dd` \| `dd-mm-yyyy` \| `mm-dd-yyyy` \| `yyyy/mm/dd` \| `dd/mm/yyyy` \| `mm/dd/yyyy` \| `D d M, Y` |
 | `week-starts` | `sunday` | `sunday` \| `monday` |
 | `placeholder` / `label` | `Select a date` | Field placeholder / label. |
+| `locale` | _(global)_ | Override the shared Loomi locale for this datepicker. |
 | `required` | `false` | Append an asterisk. _(boolean)_ |
 | `size` | `regular` | `tiny` \| `small` \| `regular` \| `medium` \| `big` |
 

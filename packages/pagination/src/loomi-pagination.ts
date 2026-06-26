@@ -1,12 +1,13 @@
 import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles, accentVars, type LoomiColor } from "@loomi/core";
+import { loomiDefaultText, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiPaginationStyle = "arrows" | "numbers" | "dropdown";
 
 const PREV = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />`;
 const NEXT = svg`<path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />`;
+const DEFAULT_TOTAL_LABEL = "Showing :a to :b of :c";
 
 /**
  * `<loomi-pagination>` — page controls driven by `total`, `page-size` and `page`.
@@ -21,7 +22,8 @@ export class LoomiPagination extends LitElement {
   @property({ type: Number }) page = 1;
   @property({ attribute: "pagination-style" }) paginationStyle: LoomiPaginationStyle = "arrows";
   @property({ type: Boolean, attribute: "show-total" }) showTotal = true;
-  @property({ attribute: "total-label" }) totalLabel = "Showing :a to :b of :c";
+  @property({ attribute: "total-label" }) totalLabel = DEFAULT_TOTAL_LABEL;
+  @property() locale = "";
   @property() color: LoomiColor = "primary" as LoomiColor;
 
   get pageCount(): number {
@@ -38,10 +40,10 @@ export class LoomiPagination extends LitElement {
   }
 
   private totalText(): string {
-    if (this.total === 0) return "No records";
+    if (this.total === 0) return loomiT("pagination.noRecords", {}, this.locale);
     const a = (this.page - 1) * this.pageSize + 1;
     const b = Math.min(this.total, this.page * this.pageSize);
-    return this.totalLabel
+    return loomiDefaultText(this.totalLabel, DEFAULT_TOTAL_LABEL, "pagination.totalLabel", this.locale)
       .replace(":a", String(a))
       .replace(":b", String(b))
       .replace(":c", String(this.total));
@@ -79,7 +81,7 @@ export class LoomiPagination extends LitElement {
         ${this.btn(prev, { disabled: this.page <= 1, onClick: () => this.go(this.page - 1) })}
         <select class="loomi-select" .value=${String(this.page)} @change=${(e: Event) => this.go(Number((e.target as HTMLSelectElement).value))}>
           ${Array.from({ length: this.pageCount }, (_, i) => i + 1).map(
-            (p) => html`<option value=${p} ?selected=${p === this.page}>Page ${p} of ${this.pageCount}</option>`,
+            (p) => html`<option value=${p} ?selected=${p === this.page}>${loomiT("pagination.pageOf", { page: p, pages: this.pageCount }, this.locale)}</option>`,
           )}
         </select>
         ${this.btn(next, { disabled: this.page >= this.pageCount, onClick: () => this.go(this.page + 1) })}

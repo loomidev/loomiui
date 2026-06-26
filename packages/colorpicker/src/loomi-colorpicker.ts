@@ -1,6 +1,6 @@
 import { LitElement, html, nothing, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { loomiStyles, onClickOutside } from "@loomi/core";
+import { loomiStyles, loomiT, onClickOutside } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiColorpickerSize = "small" | "regular" | "medium" | "big";
@@ -21,6 +21,7 @@ export class LoomiColorpicker extends LitElement {
   @property({ attribute: "selected-value" }) selectedValue = "#000000";
   @property({ type: Boolean, attribute: "show-value" }) showValue = false;
   @property() colors = "";
+  @property() locale = "";
   @property() size: LoomiColorpickerSize = "regular";
 
   @state() private open = false;
@@ -53,7 +54,7 @@ export class LoomiColorpicker extends LitElement {
   override render(): TemplateResult {
     const palette = this.palette;
     const swatch = palette.length
-      ? html`<button class="loomi-swatch size-${this.size}" style="background:${this.selectedValue}" aria-label="Pick color" @click=${() => this.toggle()}></button>
+      ? html`<button class="loomi-swatch size-${this.size}" style="background:${this.selectedValue}" aria-label=${loomiT("colorpicker.pickColor", {}, this.locale)} @click=${() => this.toggle()}></button>
           ${this.open
             ? html`<div class="loomi-panel" role="listbox">
                 ${palette.map((c) => html`<button class="loomi-chip ${c.toLowerCase() === this.selectedValue.toLowerCase() ? "selected" : ""}" style="background:${c}" aria-label=${c} @click=${() => { this.setValue(c); this.open = false; }}></button>`)}

@@ -1,6 +1,6 @@
 import { LitElement, html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
-import { themeStyles } from "@loomi/theme";
+import { loomiT, themeStyles } from "@loomi/core";
 import { getLoomiIcon } from "./icons.js";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -44,6 +44,7 @@ export class LoomiInput extends LitElement {
   @property({ reflect: true }) name = "";
   @property() type: LoomiInputType = "text";
   @property() label = "";
+  @property() locale = "";
   @property() placeholder = "";
   @property() value = "";
   @property({ type: Boolean, reflect: true }) required = false;
@@ -123,7 +124,7 @@ export class LoomiInput extends LitElement {
     const empty = this.required && !this.disabled && !this.readonly && this.value.trim() === "";
     this.invalid = empty && showInvalid;
     const validity = empty ? { valueMissing: true } : {};
-    const message = empty ? this.errorMessage || "Please fill out this field." : "";
+    const message = empty ? this.errorMessage || loomiT("validation.requiredField", {}, this.locale) : "";
     if (this.inputEl) this.internals.setValidity(validity, message, this.inputEl);
     else this.internals.setValidity(validity, message);
     return !empty;
@@ -249,10 +250,10 @@ export class LoomiInput extends LitElement {
     const cls = `loomi-suffix${this.transparentSuffix ? "" : " loomi-affix-solid"}`;
     return html`<span class=${cls}>
       ${showClear
-        ? html`<button type="button" class="loomi-iconbtn" aria-label="Clear" @click=${this.clear}>${this.renderIcon("x-circle")}</button>`
+        ? html`<button type="button" class="loomi-iconbtn" aria-label=${loomiT("common.clear", {}, this.locale)} @click=${this.clear}>${this.renderIcon("x-circle")}</button>`
         : nothing}
       ${showReveal
-        ? html`<button type="button" class="loomi-iconbtn" aria-label="Toggle password visibility" @click=${() => (this.revealed = !this.revealed)}>${this.renderIcon(this.revealed ? "eye-slash" : "eye")}</button>`
+        ? html`<button type="button" class="loomi-iconbtn" aria-label=${loomiT("input.togglePassword", {}, this.locale)} @click=${() => (this.revealed = !this.revealed)}>${this.renderIcon(this.revealed ? "eye-slash" : "eye")}</button>`
         : nothing}
       <slot name="suffix">${this.suffixIcon ? this.renderIcon(this.suffixIcon) : this.suffix}</slot>
     </span>`;

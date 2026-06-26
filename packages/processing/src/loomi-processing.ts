@@ -1,6 +1,6 @@
 import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles, accentVars, type LoomiColor } from "@loomi/core";
+import { loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiProcessingState = "processing" | "success" | "failed";
@@ -21,6 +21,7 @@ export class LoomiProcessing extends LitElement {
   @property() title = "";
   @property() message = "";
   @property() color: LoomiColor = "primary" as LoomiColor;
+  @property() locale = "";
 
   override render(): TemplateResult {
     let icon: TemplateResult;
@@ -29,7 +30,7 @@ export class LoomiProcessing extends LitElement {
     } else if (this.state === "failed") {
       icon = html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${X}</svg>`;
     } else {
-      icon = html`<svg class="loomi-spin" viewBox="0 0 24 24" fill="none" aria-label="Processing">
+      icon = html`<svg class="loomi-spin" viewBox="0 0 24 24" fill="none" aria-label=${loomiT("processing.processing", {}, this.locale)}>
         <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="3"></circle>
         <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>
       </svg>`;

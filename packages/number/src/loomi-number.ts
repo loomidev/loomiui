@@ -1,6 +1,6 @@
 import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
-import { themeStyles } from "@loomi/theme";
+import { loomiT, themeStyles } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiNumberSize = "tiny" | "small" | "regular" | "medium" | "big";
@@ -27,6 +27,7 @@ export class LoomiNumber extends LitElement {
 
   @property({ reflect: true }) name = "";
   @property() label = "";
+  @property() locale = "";
   @property() value = "";
   @property({ type: Number }) min = 0;
   @property({ type: Number }) max = 100;
@@ -108,7 +109,7 @@ export class LoomiNumber extends LitElement {
     const empty = this.required && !this.disabled && this.value.trim() === "";
     this.invalid = empty && showInvalid;
     const validity = empty ? { valueMissing: true } : {};
-    const message = empty ? "Please enter a number." : "";
+    const message = empty ? loomiT("validation.enterNumber", {}, this.locale) : "";
     if (this.inputEl) this.internals.setValidity(validity, message, this.inputEl);
     else this.internals.setValidity(validity, message);
     return !empty;
@@ -127,7 +128,7 @@ export class LoomiNumber extends LitElement {
     return html`<button
       type="button"
       class=${cls}
-      aria-label=${dir === 1 ? "Increment" : "Decrement"}
+      aria-label=${dir === 1 ? loomiT("number.increment", {}, this.locale) : loomiT("number.decrement", {}, this.locale)}
       ?disabled=${this.disabled || atLimit}
       @click=${() => this.bump(dir)}
     >

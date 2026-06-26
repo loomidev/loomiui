@@ -1,6 +1,6 @@
 import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles, accentVars, type LoomiColor } from "@loomi/core";
+import { loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 const X = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />`;
@@ -17,6 +17,7 @@ export class LoomiTag extends LitElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() label = "";
+  @property() locale = "";
   @property() color: LoomiColor = "primary" as LoomiColor;
   @property() shade: "faint" | "dark" = "faint";
   @property({ type: Boolean, attribute: "can-close" }) canClose = false;
@@ -43,7 +44,7 @@ export class LoomiTag extends LitElement {
     return html`<span class=${cls} style=${accentVars(this.color)}>
       <slot>${this.label}</slot>
       ${this.canClose
-        ? html`<button type="button" class="loomi-close" aria-label="Remove" @click=${this.onClose}>
+        ? html`<button type="button" class="loomi-close" aria-label=${loomiT("common.remove", {}, this.locale)} @click=${this.onClose}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">${X}</svg>
           </button>`
         : nothing}

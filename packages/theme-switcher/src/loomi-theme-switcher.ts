@@ -1,6 +1,6 @@
 import { LitElement, html, nothing, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { loomiStyles } from "@loomi/core";
+import { loomiDefaultText, loomiStyles, loomiT } from "@loomi/core";
 import { getLoomiIcon } from "@loomi/icons";
 import "@loomi/dropmenu/loomi-dropmenu.js";
 import "@loomi/icon/loomi-icon.js";
@@ -9,6 +9,9 @@ import { componentStyles } from "./generated/styles.css.js";
 export type LoomiTheme = "light" | "dark" | "system";
 export type LoomiThemeSwitcherVariant = "horizontal" | "dropmenu";
 const STORAGE_KEY = "loomi-theme";
+const DEFAULT_LIGHT_TEXT = "Light";
+const DEFAULT_DARK_TEXT = "Dark";
+const DEFAULT_SYSTEM_TEXT = "System";
 
 /** Apply a theme: toggles the `dark` class on <html> and stores the choice. */
 export function applyLoomiTheme(mode: LoomiTheme): void {
@@ -40,9 +43,10 @@ export function getLoomiTheme(): LoomiTheme {
 export class LoomiThemeSwitcher extends LitElement {
   static override styles = loomiStyles(componentStyles);
 
-  @property({ attribute: "light-text" }) lightText = "Light";
-  @property({ attribute: "dark-text" }) darkText = "Dark";
-  @property({ attribute: "system-text" }) systemText = "System";
+  @property({ attribute: "light-text" }) lightText = DEFAULT_LIGHT_TEXT;
+  @property({ attribute: "dark-text" }) darkText = DEFAULT_DARK_TEXT;
+  @property({ attribute: "system-text" }) systemText = DEFAULT_SYSTEM_TEXT;
+  @property() locale = "";
   @property({ attribute: "light-icon" }) lightIcon = "sun";
   @property({ attribute: "dark-icon" }) darkIcon = "moon";
   @property({ attribute: "system-icon" }) systemIcon = "computer-desktop";
@@ -75,9 +79,9 @@ export class LoomiThemeSwitcher extends LitElement {
 
   private options(): Array<{ mode: LoomiTheme; text: string; icon: string }> {
     return [
-      { mode: "light", text: this.lightText, icon: this.lightIcon },
-      { mode: "dark", text: this.darkText, icon: this.darkIcon },
-      { mode: "system", text: this.systemText, icon: this.systemIcon },
+      { mode: "light", text: loomiDefaultText(this.lightText, DEFAULT_LIGHT_TEXT, "themeSwitcher.light", this.locale), icon: this.lightIcon },
+      { mode: "dark", text: loomiDefaultText(this.darkText, DEFAULT_DARK_TEXT, "themeSwitcher.dark", this.locale), icon: this.darkIcon },
+      { mode: "system", text: loomiDefaultText(this.systemText, DEFAULT_SYSTEM_TEXT, "themeSwitcher.system", this.locale), icon: this.systemIcon },
     ];
   }
 
@@ -100,7 +104,7 @@ export class LoomiThemeSwitcher extends LitElement {
   }
 
   private renderHorizontal(): TemplateResult {
-    return html`<div class="loomi-switch" role="group" aria-label="Theme">
+    return html`<div class="loomi-switch" role="group" aria-label=${loomiT("themeSwitcher.theme", {}, this.locale)}>
       ${this.options().map(({ mode, text, icon }) => this.opt(mode, text, icon))}
     </div>`;
   }
@@ -112,7 +116,7 @@ export class LoomiThemeSwitcher extends LitElement {
     return html`<loomi-dropmenu class="loomi-theme-menu" position="right">
       <span slot="trigger" class="loomi-menu-trigger">
         <loomi-icon class="loomi-menu-selected-icon" name=${selected.icon} size="1.05rem"></loomi-icon>
-        <span class="loomi-sr-only">Theme: ${selected.text}</span>
+        <span class="loomi-sr-only">${loomiT("themeSwitcher.selectedTheme", { theme: selected.text }, this.locale)}</span>
         <loomi-icon class="loomi-menu-chevron" name="chevron-down" size="1rem"></loomi-icon>
       </span>
       ${this.options().map(

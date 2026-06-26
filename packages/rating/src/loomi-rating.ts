@@ -1,6 +1,6 @@
 import { LitElement, html, svg, type TemplateResult, type SVGTemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { loomiStyles, accentVars, type LoomiColor } from "@loomi/core";
+import { loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiRatingType = "star" | "heart" | "thumbsup";
@@ -30,6 +30,7 @@ export class LoomiRating extends LitElement {
   @property() size: LoomiRatingSize = "small";
   @property({ type: Number }) rating = 0;
   @property({ type: Boolean }) clickable = true;
+  @property() locale = "";
 
   @state() private hover = 0;
 
@@ -50,7 +51,7 @@ export class LoomiRating extends LitElement {
       class="loomi-rating size-${this.size} ${this.clickable ? "" : "readonly"}"
       style=${accentVars(this.color)}
       role="radiogroup"
-      aria-label="Rating"
+      aria-label=${loomiT("rating.label", {}, this.locale)}
       @mouseleave=${() => (this.hover = 0)}
     >
       ${[1, 2, 3, 4, 5].map(
@@ -58,7 +59,7 @@ export class LoomiRating extends LitElement {
           class="loomi-star ${n <= active ? "on" : ""}"
           role="radio"
           aria-checked=${n === this.rating ? "true" : "false"}
-          aria-label="${n} star${n > 1 ? "s" : ""}"
+          aria-label=${loomiT("rating.valueLabel", { value: n, max: 5 }, this.locale)}
           @mouseenter=${() => this.clickable && (this.hover = n)}
           @click=${() => this.pick(n)}
         >

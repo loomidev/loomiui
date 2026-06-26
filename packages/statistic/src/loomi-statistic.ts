@@ -1,6 +1,6 @@
 import { LitElement, html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles } from "@loomi/core";
+import { loomiStyles, loomiT } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiStatRadius = "none" | "small" | "medium" | "large" | "xl";
@@ -16,6 +16,7 @@ export class LoomiStatistic extends LitElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() label = "";
+  @property() locale = "";
   @property() number = "";
   @property({ attribute: "label-position" }) labelPosition: "top" | "bottom" = "top";
   @property() currency = "";
@@ -52,7 +53,7 @@ export class LoomiStatistic extends LitElement {
       <div class="loomi-body ${this.labelPosition}">
         <div class="loomi-label">${this.label}</div>
         ${this.showSpinner
-          ? html`<svg class="loomi-spinner" viewBox="0 0 24 24" fill="none" aria-label="Loading"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="3" opacity="0.25"></circle><path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path></svg>`
+          ? html`<svg class="loomi-spinner" viewBox="0 0 24 24" fill="none" aria-label=${loomiT("common.loading", {}, this.locale)}><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="3" opacity="0.25"></circle><path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path></svg>`
           : html`<div class="loomi-number ${this.currency && this.currencyPosition === "right" ? "currency-right" : ""}">
               ${this.currency ? html`<span class="loomi-currency">${this.currency}</span>` : nothing}
               <span>${this.number}</span>

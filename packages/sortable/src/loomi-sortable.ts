@@ -1,6 +1,6 @@
 import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { loomiStyles } from "@loomi/core";
+import { loomiStyles, loomiT } from "@loomi/core";
 import { getLoomiIcon } from "@loomi/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -64,6 +64,7 @@ export class LoomiSortable extends LitElement {
   @property({ type: Boolean }) clone = false;
   /** Enable or disable drag-starting from this list. The list still accepts incoming transfers when `false`. */
   @property({ type: Boolean }) sortable = true;
+  @property() locale = "";
   /** Enable or disable sorting within this list. Items may still be dragged out when `false`. */
   @property({ type: Boolean }) sort = true;
   /** SortableJS-style selector for rows/elements that cannot be dragged, e.g. `.filtered`. */
@@ -419,7 +420,7 @@ export class LoomiSortable extends LitElement {
             : nothing}
         </div>`;
       })}
-      ${this.items.length === 0 ? html`<div class="loomi-empty-hint">Drop here</div>` : nothing}
+      ${this.items.length === 0 ? html`<div class="loomi-empty-hint">${loomiT("sortable.dropHere", {}, this.locale)}</div>` : nothing}
     </div>`;
   }
 }

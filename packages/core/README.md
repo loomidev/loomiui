@@ -17,6 +17,9 @@ npm install @loomi/core lit
 | `accentVars(color)` | Returns the per-instance accent custom properties for a color (see below). |
 | `cssColor(color, shade)` | A single themed color value with private-default fallback, for inline use. |
 | `onClickOutside(el, handler)` | Calls `handler` on a click outside `el` (crosses shadow boundaries). Returns a cleanup fn. |
+| `setLoomiLocale(locale)` / `getLoomiLocale()` | Set or read the shared locale used by translated component defaults. |
+| `defineLoomiTranslations(locale, messages)` | Add or override translations for built-in component text. |
+| `loomiT(path, params, locale)` | Translate a shared message by key, with English fallback. |
 | `LOOMI_COLORS`, `LOOMI_SHADES`, `isLoomiColor`, `LoomiColor`, `LoomiShade` | Palette (re-exported from `@loomi/theme`). |
 
 ```ts
@@ -30,6 +33,57 @@ class Foo extends LitElement {
     return html`<span style=${accentVars("red")} class="thing">…</span>`;
   }
 }
+```
+
+## Internationalization
+
+Loomi keeps built-in component copy in `@loomi/core`: placeholders, validation
+messages, aria labels, pagination strings, datepicker month/week names, and similar
+defaults. User-provided text still wins, so attributes like `label`,
+`placeholder-line1`, `ok-button-label`, and `no-data-message` remain the right way to
+customize one component.
+
+Set the shared locale before rendering components:
+
+```js
+import { setLoomiLocale } from "@loomi/core";
+import "@loomi/datepicker";
+import "@loomi/filepicker";
+
+setLoomiLocale("fr");
+```
+
+Or override a single component:
+
+```html
+<loomi-datepicker locale="de"></loomi-datepicker>
+<loomi-filepicker locale="pt_BR"></loomi-filepicker>
+```
+
+Built-in locales: `en`, `ar`, `de`, `es`, `fr`, `it`, `ml`, `pt_BR`, `tr`, and
+`zh_CN`. Datepicker month and weekday names are formatted with the component/global
+locale.
+
+To customize copy or add another language, register only the keys you want to change:
+datepicker custom locales may also provide `monthsShort`, `monthsLong`, and
+`weekdaysShort` arrays.
+
+```js
+import { defineLoomiTranslations, setLoomiLocale } from "@loomi/core";
+
+defineLoomiTranslations("ak", {
+  datepicker: {
+    placeholder: "Paw da a wobɛpaw",
+    monthsShort: ["S-Ɔ", "K-Ɔ", "E-Ɔ", "E-O", "E-K", "O-A", "A-K", "D-Ɔ", "F-Ɛ", "Ɔ-A", "O-O", "M-Ɔ"],
+    weekdaysShort: ["Kwe", "Dwo", "Ben", "Wuk", "Yaw", "Fia", "Mem"],
+  },
+  filepicker: {
+    placeholderLine1: "Paw fael anaa twe bra ha",
+    placeholderLine2: "%s kosi %s",
+  },
+});
+
+setLoomiLocale("ak");
 ```
 
 ## `--loomi-*` (public theme) vs `--_loomi-accent` (private, per-instance)

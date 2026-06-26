@@ -39,6 +39,34 @@ and max size on the second line. Customize either line — use `%s` in
 ></loomi-filepicker>
 ```
 
+## Internationalization
+
+`<loomi-filepicker>` uses Loomi's shared i18n defaults for the drop-zone placeholder,
+required validation message, and remove-file label. Custom `placeholder-line1` and
+`placeholder-line2` attributes still override the translated defaults.
+
+```js
+import { setLoomiLocale, defineLoomiTranslations } from "@loomi/core";
+import "@loomi/filepicker";
+
+setLoomiLocale("es");
+
+defineLoomiTranslations("ak", {
+  filepicker: {
+    placeholderLine1: "Paw fael anaa twe bra ha",
+    placeholderLine2: "%s kosi %s",
+  },
+});
+```
+
+```html
+<!-- Override only this filepicker. -->
+<loomi-filepicker locale="pt_BR"></loomi-filepicker>
+```
+
+Built-in locales: `en`, `ar`, `de`, `es`, `fr`, `it`, `ml`, `pt_BR`, `tr`, and
+`zh_CN`.
+
 ## Drag-and-Drop or Browse Only
 
 ```html
@@ -120,6 +148,7 @@ form submit with `enctype="multipart/form-data"` just works.
 | `name` | _(blank)_ | File input name (becomes `name[]` when `max-files > 1`). |
 | `accepted-file-types` | `image/*,application/pdf` | Comma-separated MIME types / extensions. |
 | `placeholder-line1` / `placeholder-line2` | … | Drop-zone text (`%s` → types, then max size). |
+| `locale` | _(global)_ | Override the shared Loomi locale for this filepicker. |
 | `max-files` | `1` | Maximum number of files. |
 | `max-file-size` | `5mb` | Max size per file (`kb` / `mb` / `gb`). |
 | `can-browse` / `can-drop` | `true` | Allow click-to-browse / drag-and-drop. _(boolean)_ |

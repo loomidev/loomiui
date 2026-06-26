@@ -1,6 +1,6 @@
 import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { loomiStyles, cssColor } from "@loomi/core";
+import { loomiDefaultText, loomiStyles, cssColor } from "@loomi/core";
 import { getLoomiIcon } from "@loomi/icons";
 import "@loomi/checkbox/loomi-checkbox.js";
 import "@loomi/pagination/loomi-pagination.js";
@@ -17,6 +17,9 @@ export interface LoomiActionIcon {
 
 const SORT = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />`;
 const SEARCH = svg`<path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />`;
+const DEFAULT_SEARCH_PLACEHOLDER = "Search…";
+const DEFAULT_ACTIONS_TITLE = "actions";
+const DEFAULT_NO_DATA_MESSAGE = "No records to display";
 
 /**
  * `<loomi-table>` — a data-driven table with search, sorting, pagination, checkable
@@ -48,7 +51,8 @@ export class LoomiTable extends LitElement {
   @property({ type: Boolean }) uppercasing = true;
 
   @property({ type: Boolean }) searchable = false;
-  @property({ attribute: "search-placeholder" }) searchPlaceholder = "Search…";
+  @property({ attribute: "search-placeholder" }) searchPlaceholder = DEFAULT_SEARCH_PLACEHOLDER;
+  @property() locale = "";
   @property({ type: Boolean }) sortable = false;
   @property({ attribute: "sortable-columns" }) sortableColumns = "";
 
@@ -62,8 +66,8 @@ export class LoomiTable extends LitElement {
   @property({ attribute: "selected-value" }) selectedValue = "";
 
   @property({ type: Array, attribute: "action-icons" }) actionIcons: LoomiActionIcon[] = [];
-  @property({ attribute: "actions-title" }) actionsTitle = "actions";
-  @property({ attribute: "no-data-message" }) noDataMessage = "No records to display";
+  @property({ attribute: "actions-title" }) actionsTitle = DEFAULT_ACTIONS_TITLE;
+  @property({ attribute: "no-data-message" }) noDataMessage = DEFAULT_NO_DATA_MESSAGE;
   @property({ type: Boolean }) clickable = false;
 
   @state() private query = "";
@@ -200,6 +204,19 @@ export class LoomiTable extends LitElement {
   override render(): TemplateResult {
     const cols = this.cols;
     const rows = this.pageRows;
+    const searchPlaceholder = loomiDefaultText(
+      this.searchPlaceholder,
+      DEFAULT_SEARCH_PLACEHOLDER,
+      "table.searchPlaceholder",
+      this.locale,
+    );
+    const actionsTitle = loomiDefaultText(this.actionsTitle, DEFAULT_ACTIONS_TITLE, "table.actionsTitle", this.locale);
+    const noDataMessage = loomiDefaultText(
+      this.noDataMessage,
+      DEFAULT_NO_DATA_MESSAGE,
+      "table.noDataMessage",
+      this.locale,
+    );
     const colSpan = cols.length + (this.checkable ? 1 : 0) + (this.showRowNumbers ? 1 : 0) + (this.actionIcons.length ? 1 : 0);
     const tableCls = [
       this.striped ? "striped" : "",
@@ -215,7 +232,7 @@ export class LoomiTable extends LitElement {
       ${this.searchable
         ? html`<div class="loomi-searchbar">
             <svg class="loomi-search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${SEARCH}</svg>
-            <input class="loomi-search" type="text" placeholder=${this.searchPlaceholder}
+            <input class="loomi-search" type="text" placeholder=${searchPlaceholder}
               .value=${this.query}
               @input=${(e: Event) => { this.query = (e.target as HTMLInputElement).value; this.page = 1; }} />
           </div>`
@@ -242,12 +259,12 @@ export class LoomiTable extends LitElement {
                   </span>
                 </th>`;
               })}
-              ${this.actionIcons.length ? html`<th class="${this.uppercasing ? "uppercasing" : ""}">${this.actionsTitle}</th>` : nothing}
+              ${this.actionIcons.length ? html`<th class="${this.uppercasing ? "uppercasing" : ""}">${actionsTitle}</th>` : nothing}
             </tr>
           </thead>
           <tbody>
             ${rows.length === 0
-              ? html`<tr><td class="loomi-empty" colspan=${colSpan}>${this.noDataMessage}</td></tr>`
+              ? html`<tr><td class="loomi-empty" colspan=${colSpan}>${noDataMessage}</td></tr>`
               : rows.map((row, i) => {
                   const id = this.rowId(row, (this.paginated ? (this.page - 1) * this.pageSize : 0) + i);
                   return html`<tr @click=${() => this.dispatchEvent(new CustomEvent("row-click", { bubbles: true, composed: true, detail: { row } }))}>
@@ -270,6 +287,7 @@ export class LoomiTable extends LitElement {
             .total=${this.processed.length}
             .pageSize=${this.pageSize}
             .page=${this.page}
+            .locale=${this.locale}
             pagination-style=${this.paginationStyle}
             @page-change=${(e: CustomEvent) => { this.page = e.detail.page; this.dispatchEvent(new CustomEvent("page-change", { bubbles: true, composed: true, detail: e.detail })); }}
           ></loomi-pagination>`

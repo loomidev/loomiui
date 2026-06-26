@@ -1,6 +1,6 @@
 import { LitElement, html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
-import { themeStyles } from "@loomi/theme";
+import { loomiDefaultText, loomiT, themeStyles } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiSelectSize = "tiny" | "small" | "regular" | "medium" | "big";
@@ -13,6 +13,8 @@ interface LoomiOption {
 
 const CHEVRON = svg`<path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />`;
 const CHECK = svg`<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />`;
+const DEFAULT_PLACEHOLDER = "Select One";
+const DEFAULT_EMPTY_PLACEHOLDER = "No options available";
 
 /**
  * `<loomi-select>` — a themeable custom select. Supports a `data` array (or JSON),
@@ -34,8 +36,9 @@ export class LoomiSelect extends LitElement {
   private validationVisible = false;
 
   @property({ reflect: true }) name = "";
-  @property() placeholder = "Select One";
+  @property() placeholder = DEFAULT_PLACEHOLDER;
   @property() label = "";
+  @property() locale = "";
   @property({ type: Array }) data: Array<Record<string, unknown>> = [];
   @property({ attribute: "label-key" }) labelKey = "label";
   @property({ attribute: "value-key" }) valueKey = "value";
@@ -48,7 +51,7 @@ export class LoomiSelect extends LitElement {
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property({ type: Boolean, reflect: true }) required = false;
   @property() size: LoomiSelectSize = "medium";
-  @property({ attribute: "empty-placeholder" }) emptyPlaceholder = "No options available";
+  @property({ attribute: "empty-placeholder" }) emptyPlaceholder = DEFAULT_EMPTY_PLACEHOLDER;
   @property({ type: Boolean, reflect: true }) invalid = false;
 
   @state() private open = false;
@@ -191,7 +194,7 @@ export class LoomiSelect extends LitElement {
     const empty = this.required && !this.disabled && !this.readonly && this.selected.length === 0;
     this.invalid = empty && showInvalid;
     const validity = empty ? { valueMissing: true } : {};
-    const message = empty ? "Please select an option." : "";
+    const message = empty ? loomiT("validation.selectOption", {}, this.locale) : "";
     if (this.triggerEl) this.internals.setValidity(validity, message, this.triggerEl);
     else this.internals.setValidity(validity, message);
     return !empty;
@@ -251,7 +254,7 @@ export class LoomiSelect extends LitElement {
       ? this.selected.map((v) => this.labelFor(v)).join(", ")
       : reserveLabelSpace
         ? `${this.label}${this.required ? " *" : ""}`
-        : this.placeholder;
+        : loomiDefaultText(this.placeholder, DEFAULT_PLACEHOLDER, "select.placeholder", this.locale);
     const opts = this.filtered;
 
     const activeId =
@@ -286,7 +289,7 @@ export class LoomiSelect extends LitElement {
                     <input
                       class="loomi-search"
                       type="text"
-                      placeholder="Search…"
+                      placeholder=${loomiT("select.searchPlaceholder", {}, this.locale)}
                       .value=${this.search}
                       @input=${(e: Event) => {
                         this.search = (e.target as HTMLInputElement).value;
@@ -314,7 +317,7 @@ export class LoomiSelect extends LitElement {
                           : nothing}
                       </div>`;
                     })
-                  : html`<div class="loomi-empty">${this.emptyPlaceholder}</div>`}
+                  : html`<div class="loomi-empty">${loomiDefaultText(this.emptyPlaceholder, DEFAULT_EMPTY_PLACEHOLDER, "select.emptyPlaceholder", this.locale)}</div>`}
               </div>
             </div>`
           : nothing}

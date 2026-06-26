@@ -1,6 +1,6 @@
 import { LitElement, html, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { loomiStyles, accentVars, type LoomiColor } from "@loomi/core";
+import { loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiSpinnerSize = "small" | "medium" | "big" | "xl" | "omg";
@@ -14,6 +14,7 @@ export class LoomiSpinner extends LitElement {
 
   @property() size: LoomiSpinnerSize = "small";
   @property() color: LoomiColor = "gray" as LoomiColor;
+  @property() locale = "";
 
   override render(): TemplateResult {
     return html`<svg
@@ -22,7 +23,7 @@ export class LoomiSpinner extends LitElement {
       viewBox="0 0 24 24"
       fill="none"
       role="status"
-      aria-label="Loading"
+      aria-label=${loomiT("common.loading", {}, this.locale)}
     >
       <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="3"></circle>
       <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>

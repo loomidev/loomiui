@@ -1,6 +1,6 @@
 import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { loomiStyles, accentVars, type LoomiColor } from "@loomi/core";
+import { loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
 import { getLoomiIcon } from "@loomi/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -48,6 +48,7 @@ export class LoomiAlert extends LitElement {
   showCloseIcon = true;
   @property() icon = "";
   @property() avatar = "";
+  @property() locale = "";
   @property({ type: Boolean, attribute: "show-ring" }) showRing = false;
 
   @state() private dismissed = false;
@@ -77,7 +78,7 @@ export class LoomiAlert extends LitElement {
           : nothing}
       <div class="loomi-body"><slot></slot></div>
       ${this.showCloseIcon
-        ? html`<button type="button" class="loomi-close" aria-label="Dismiss" @click=${this.onClose}>
+        ? html`<button type="button" class="loomi-close" aria-label=${loomiT("common.dismiss", {}, this.locale)} @click=${this.onClose}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${X}</svg>
           </button>`
         : nothing}

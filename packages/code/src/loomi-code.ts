@@ -1,7 +1,8 @@
 import { LitElement, html, nothing, type TemplateResult } from "lit";
 import { customElement, property, state, queryAll } from "lit/decorators.js";
-import { loomiStyles } from "@loomi/core";
+import { loomiDefaultText, loomiStyles, loomiT } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
+const DEFAULT_ERROR_MESSAGE = "Verification code is invalid";
 
 /**
  * `<loomi-code>` — a verification-code (PIN) input of N boxes. Form-associated: submits
@@ -19,7 +20,8 @@ export class LoomiCode extends LitElement {
   @property({ type: Number, attribute: "total-digits" }) totalDigits = 4;
   @property() size: "small" | "big" = "small";
   @property({ type: Boolean }) mask = false;
-  @property({ attribute: "error-message" }) errorMessage = "Verification code is invalid";
+  @property({ attribute: "error-message" }) errorMessage = DEFAULT_ERROR_MESSAGE;
+  @property() locale = "";
   @property({ type: Boolean, reflect: true }) invalid = false;
 
   @state() private digits: string[] = [];
@@ -88,13 +90,13 @@ export class LoomiCode extends LitElement {
         type=${this.mask ? "password" : "text"}
         inputmode="numeric"
         maxlength="1"
-        aria-label="Digit ${i + 1}"
+        aria-label=${loomiT("code.digitLabel", { number: i + 1 }, this.locale)}
         .value=${this.digits[i] ?? ""}
         @input=${(e: Event) => this.onInput(i, e)}
         @keydown=${(e: KeyboardEvent) => this.onKeydown(i, e)}
       />`)}
     </div>
-    ${this.invalid ? html`<p class="loomi-error">${this.errorMessage}</p>` : nothing}`;
+    ${this.invalid ? html`<p class="loomi-error">${loomiDefaultText(this.errorMessage, DEFAULT_ERROR_MESSAGE, "code.errorMessage", this.locale)}</p>` : nothing}`;
   }
 }
 

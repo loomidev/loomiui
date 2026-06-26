@@ -1,6 +1,6 @@
 import { LitElement, html, nothing, type TemplateResult } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
-import { themeStyles } from "@loomi/theme";
+import { loomiT, themeStyles } from "@loomi/core";
 import type Quill from "quill";
 import { componentStyles, quillStyles } from "./generated/styles.css.js";
 
@@ -26,6 +26,7 @@ export class LoomiTextarea extends LitElement {
 
   @property({ reflect: true }) name = "";
   @property() label = "";
+  @property() locale = "";
   @property() placeholder = "";
   @property() value = "";
   @property({ type: Number }) rows = 3;
@@ -110,7 +111,7 @@ export class LoomiTextarea extends LitElement {
     const empty = this.required && !this.disabled && !this.readonly && text.trim() === "";
     this.invalid = empty && showInvalid;
     const validity = empty ? { valueMissing: true } : {};
-    const message = empty ? this.errorMessage || "Please fill out this field." : "";
+    const message = empty ? this.errorMessage || loomiT("validation.requiredField", {}, this.locale) : "";
     const anchor = (this.toolbar ? this.quillRootEl : this.textareaEl) as HTMLElement | undefined;
     if (anchor) this.internals.setValidity(validity, message, anchor);
     else this.internals.setValidity(validity, message);

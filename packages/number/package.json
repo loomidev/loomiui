@@ -29,6 +29,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@loomi/core": "workspace:^",
     "@loomi/theme": "workspace:^"
   },
   "peerDependencies": {
