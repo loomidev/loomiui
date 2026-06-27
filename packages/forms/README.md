@@ -1,31 +1,31 @@
-# @loomi/forms
+# @loomidev/forms
 
 All LoomiUI **form** components in one install.
 
 ```bash
-npm install @loomi/forms lit
+npm install @loomidev/forms lit
 ```
 
 ```js
-import "@loomi/forms"; // registers all form elements
+import "@loomidev/forms"; // registers all form elements
 ```
 
 | Package |
 | --- |
-| [`@loomi/input`](../input) |
-| [`@loomi/textarea`](../textarea) |
-| [`@loomi/select`](../select) |
-| [`@loomi/checkbox`](../checkbox) |
-| [`@loomi/radio`](../radio) |
-| [`@loomi/toggle`](../toggle) |
-| [`@loomi/number`](../number) |
-| [`@loomi/slider`](../slider) |
-| [`@loomi/code`](../code) |
-| [`@loomi/checkcards`](../checkcards) |
-| [`@loomi/datepicker`](../datepicker) |
-| [`@loomi/timepicker`](../timepicker) |
-| [`@loomi/colorpicker`](../colorpicker) |
-| [`@loomi/filepicker`](../filepicker) |
+| [`@loomidev/input`](../input) |
+| [`@loomidev/textarea`](../textarea) |
+| [`@loomidev/select`](../select) |
+| [`@loomidev/checkbox`](../checkbox) |
+| [`@loomidev/radio`](../radio) |
+| [`@loomidev/toggle`](../toggle) |
+| [`@loomidev/number`](../number) |
+| [`@loomidev/slider`](../slider) |
+| [`@loomidev/code`](../code) |
+| [`@loomidev/checkcards`](../checkcards) |
+| [`@loomidev/datepicker`](../datepicker) |
+| [`@loomidev/timepicker`](../timepicker) |
+| [`@loomidev/colorpicker`](../colorpicker) |
+| [`@loomidev/filepicker`](../filepicker) |
 
 All form controls are **form-associated** — their values submit with a native `<form>` via `ElementInternals`.
 
@@ -33,7 +33,7 @@ All form controls are **form-associated** — their values submit with a native 
 
 ## Framework integration
 
-`@loomi/forms` registers all LoomiUI form controls. Use it when you want one import for a whole category instead of installing each component separately.
+`@loomidev/forms` registers all LoomiUI form controls. Use it when you want one import for a whole category instead of installing each component separately.
 
 ### Where to run commands
 
@@ -41,13 +41,13 @@ Run install commands from the app where you want to use this bundle. That means 
 
 ```bash
 cd /path/to/your-app
-npm install @loomi/forms lit
+npm install @loomidev/forms lit
 ```
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomi/forms build
-pnpm --filter @loomi/forms typecheck
+pnpm --filter @loomidev/forms build
+pnpm --filter @loomidev/forms typecheck
 ```
 
 ### Plain HTML
@@ -56,7 +56,7 @@ pnpm --filter @loomi/forms typecheck
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomi/forms"></script>
+<script type="module" src="https://esm.sh/@loomidev/forms"></script>
 
 <form>
   <loomi-input name="email" type="email" label="Email" required></loomi-input>
@@ -69,13 +69,13 @@ pnpm --filter @loomi/forms typecheck
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomi/forms lit
+npm install @loomidev/forms lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomi/forms";
+import "@loomidev/forms";
 ```
 
 ```blade
@@ -89,7 +89,7 @@ import "@loomi/forms";
 ### React
 
 ```jsx
-import "@loomi/forms";
+import "@loomidev/forms";
 
 export function LoomiBundleExample() {
   return (
@@ -108,7 +108,7 @@ For array or object properties such as select `data` or table `columns`, assign 
 
 ```vue
 <script setup>
-import "@loomi/forms";
+import "@loomidev/forms";
 </script>
 
 <template>
@@ -126,7 +126,7 @@ Configure Vue's `compilerOptions.isCustomElement` for tags that start with `loom
 
 ```ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
-import "@loomi/forms";
+import "@loomidev/forms";
 
 @Component({
   selector: "app-root",
@@ -147,7 +147,7 @@ export class AppComponent {}
 
 ```svelte
 <script>
-  import "@loomi/forms";
+  import "@loomidev/forms";
 </script>
 
 <form>
@@ -159,7 +159,7 @@ export class AppComponent {}
 
 ```astro
 ---
-import "@loomi/forms";
+import "@loomidev/forms";
 ---
 
 <form>

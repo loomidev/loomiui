@@ -1,4 +1,4 @@
-# @loomi/mcp-server
+# @loomidev/mcp-server
 
 An [MCP](https://modelcontextprotocol.io) server that exposes loomi's component
 documentation to AI coding tools (Claude Code, Cursor, Claude Desktop, etc.) — so the
@@ -14,13 +14,13 @@ local LoomiUI source checkout required.
 ## Install & run
 
 ```bash
-npx @loomi/mcp-server
+npx @loomidev/mcp-server
 ```
 
 Or install it and point your MCP client at the binary directly:
 
 ```bash
-npm install -g @loomi/mcp-server
+npm install -g @loomidev/mcp-server
 ```
 
 ## Configure in Claude Code
@@ -33,7 +33,7 @@ session):
   "mcpServers": {
     "loomiui": {
       "command": "npx",
-      "args": ["-y", "@loomi/mcp-server"]
+      "args": ["-y", "@loomidev/mcp-server"]
     }
   }
 }
@@ -48,7 +48,7 @@ Add the same shape to `~/.cursor/mcp.json` or Claude Desktop's `claude_desktop_c
   "mcpServers": {
     "loomiui": {
       "command": "npx",
-      "args": ["-y", "@loomi/mcp-server"]
+      "args": ["-y", "@loomidev/mcp-server"]
     }
   }
 }

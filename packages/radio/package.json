@@ -1,7 +1,7 @@
 {
-  "name": "@loomi/radio",
+  "name": "@loomidev/radio",
   "version": "0.1.0",
-  "description": "loomi <loomi-radio> — a themeable radio-button web component with name-based grouping.",
+  "description": "<loomi-radio> — a themeable radio-button web component with name-based grouping.",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -29,8 +29,8 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@loomi/core": "workspace:^",
-    "@loomi/theme": "workspace:^"
+    "@loomidev/core": "workspace:^",
+    "@loomidev/theme": "workspace:^"
   },
   "peerDependencies": {
     "lit": "^3.0.0"
@@ -44,7 +44,7 @@
   "keywords": [
     "web-components",
     "lit",
-    "loomi",
+    "loomiui",
     "form",
     "radio",
     "radio-button"

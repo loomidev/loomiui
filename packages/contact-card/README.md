@@ -1,15 +1,15 @@
-# @loomi/contact-card
+# @loomidev/contact-card
 
 `<loomi-contact-card>` — a ready-made card for displaying a contact, with avatar, name,
 position and contact rows. Saves you from manually building this layout out of
 [`<loomi-card>`](../card) and [`<loomi-avatar>`](../avatar) every time.
 
 ```bash
-npm install @loomi/contact-card lit
+npm install @loomidev/contact-card lit
 ```
 
 ```js
-import "@loomi/contact-card";
+import "@loomidev/contact-card";
 ```
 
 ## Basic Usage
@@ -121,15 +121,15 @@ Run install commands from the app where you want to use this component. That mea
 
 ```bash
 cd /path/to/your-app
-npm install @loomi/contact-card lit
+npm install @loomidev/contact-card lit
 ```
 
 If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomi/contact-card build
-pnpm --filter @loomi/contact-card typecheck
+pnpm --filter @loomidev/contact-card build
+pnpm --filter @loomidev/contact-card typecheck
 ```
 
 ### Plain HTML
@@ -140,7 +140,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomi/contact-card"></script>
+<script type="module" src="https://esm.sh/@loomidev/contact-card"></script>
 
 <loomi-contact-card
   name="Ama Mensah"
@@ -155,7 +155,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
 ```js
-import "@loomi/contact-card";
+import "@loomidev/contact-card";
 ```
 
 
@@ -165,13 +165,13 @@ Run the install command from your Laravel project root, then import the componen
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomi/contact-card lit
+npm install @loomidev/contact-card lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomi/contact-card";
+import "@loomidev/contact-card";
 ```
 
 ```blade
@@ -188,7 +188,7 @@ import "@loomi/contact-card";
 React can render Loomi tags directly. If you are on React 18, or if you need to pass arrays, objects, or functions, use a ref and assign those values after the component mounts.
 
 ```jsx
-import "@loomi/contact-card";
+import "@loomidev/contact-card";
 
 export function LoomiExample() {
   return (
@@ -210,7 +210,7 @@ Import the package in the component that uses it, or once in your main Vue file.
 
 ```vue
 <script setup>
-import "@loomi/contact-card";
+import "@loomidev/contact-card";
 </script>
 
 <template>
@@ -232,7 +232,7 @@ Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_
 ```ts
 // app.component.ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
-import "@loomi/contact-card";
+import "@loomidev/contact-card";
 
 @Component({
   selector: "app-root",
@@ -256,7 +256,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```svelte
 <script>
-  import "@loomi/contact-card";
+  import "@loomidev/contact-card";
 </script>
 
 <loomi-contact-card
@@ -269,7 +269,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```astro
 ---
-import "@loomi/contact-card";
+import "@loomidev/contact-card";
 ---
 
 <loomi-contact-card

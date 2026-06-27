@@ -1,15 +1,15 @@
-# @loomi/alert
+# @loomidev/alert
 
 `<loomi-alert>` — an inline alert message. Four prebuilt types with default icons,
 `faint`/`dark` shades, palette overrides, an optional avatar, and a dismiss button.
-For floating/overlay alerts instead, see [`@loomi/notification`](../notification).
+For floating/overlay alerts instead, see [`@loomidev/notification`](../notification).
 
 ```bash
-npm install @loomi/alert lit
+npm install @loomidev/alert lit
 ```
 
 ```js
-import "@loomi/alert";
+import "@loomidev/alert";
 ```
 
 ## Basic Usage
@@ -65,7 +65,7 @@ The type icon and the dismiss (×) icon can each be hidden independently.
 
 The four prebuilt types already have default icons (`information-circle`, `x-circle`,
 `exclamation-triangle`, `check-circle`). Set `icon` to use a different one from the
-shared [`@loomi/icons`](../icons) registry — most useful together with a custom `color`.
+shared [`@loomidev/icons`](../icons) registry — most useful together with a custom `color`.
 
 ```html
 <loomi-alert color="indigo" icon="bell-alert">No more snoozing. Wake up!</loomi-alert>
@@ -108,7 +108,7 @@ document.querySelector("loomi-alert").addEventListener("close", (e) => {
 | `type` | `info` | `info` \| `error` \| `warning` \| `success` |
 | `shade` | `faint` | `faint` \| `dark` |
 | `color` | _(blank)_ | Override color — any loomi color, or `transparent`. |
-| `icon` | _(blank)_ | Icon name override (see [`@loomi/icons`](../icons)). |
+| `icon` | _(blank)_ | Icon name override (see [`@loomidev/icons`](../icons)). |
 | `avatar` | _(blank)_ | Image URL shown instead of the icon. |
 | `show-icon` | `true` | Show the type icon. _(boolean)_ |
 | `show-close-icon` | `true` | Show the dismiss button. _(boolean)_ |
@@ -142,15 +142,15 @@ Run install commands from the app where you want to use this component. That mea
 
 ```bash
 cd /path/to/your-app
-npm install @loomi/alert lit
+npm install @loomidev/alert lit
 ```
 
 If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomi/alert build
-pnpm --filter @loomi/alert typecheck
+pnpm --filter @loomidev/alert build
+pnpm --filter @loomidev/alert typecheck
 ```
 
 ### Plain HTML
@@ -161,7 +161,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomi/alert"></script>
+<script type="module" src="https://esm.sh/@loomidev/alert"></script>
 
 <loomi-alert type="success" show-close-icon>Settings saved.</loomi-alert>
 ```
@@ -171,7 +171,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
 ```js
-import "@loomi/alert";
+import "@loomidev/alert";
 ```
 
 
@@ -181,13 +181,13 @@ Run the install command from your Laravel project root, then import the componen
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomi/alert lit
+npm install @loomidev/alert lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomi/alert";
+import "@loomidev/alert";
 ```
 
 ```blade
@@ -199,7 +199,7 @@ import "@loomi/alert";
 React can render Loomi tags directly. If you are on React 18, or if you need to pass arrays, objects, or functions, use a ref and assign those values after the component mounts.
 
 ```jsx
-import "@loomi/alert";
+import "@loomidev/alert";
 
 export function LoomiExample() {
   return (
@@ -216,7 +216,7 @@ Import the package in the component that uses it, or once in your main Vue file.
 
 ```vue
 <script setup>
-import "@loomi/alert";
+import "@loomidev/alert";
 </script>
 
 <template>
@@ -233,7 +233,7 @@ Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_
 ```ts
 // app.component.ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
-import "@loomi/alert";
+import "@loomidev/alert";
 
 @Component({
   selector: "app-root",
@@ -252,7 +252,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```svelte
 <script>
-  import "@loomi/alert";
+  import "@loomidev/alert";
 </script>
 
 <loomi-alert type="success" show-close-icon>Settings saved.</loomi-alert>
@@ -260,7 +260,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```astro
 ---
-import "@loomi/alert";
+import "@loomidev/alert";
 ---
 
 <loomi-alert type="success" show-close-icon>Settings saved.</loomi-alert>

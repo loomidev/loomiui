@@ -1,18 +1,18 @@
-# @loomi/core
+# @loomidev/core
 
 Shared runtime assets for loomi components — the loomi analogue of BladewindUI's `core`
 package. Every component imports its theme styles and helpers from here, so the shared
 plumbing lives in exactly one place.
 
 ```bash
-npm install @loomi/core lit
+npm install @loomidev/core lit
 ```
 
 ## Exports
 
 | Export | Description |
 | --- | --- |
-| `themeStyles` | The shared `:host` design tokens (re-exported from `@loomi/theme`). |
+| `themeStyles` | The shared `:host` design tokens (re-exported from `@loomidev/theme`). |
 | `loomiStyles(...styles)` | Prepends `themeStyles` to a component's own styles. Use in `static styles`. |
 | `accentVars(color)` | Returns the per-instance accent custom properties for a color (see below). |
 | `cssColor(color, shade)` | A single themed color value with private-default fallback, for inline use. |
@@ -20,11 +20,11 @@ npm install @loomi/core lit
 | `setLoomiLocale(locale)` / `getLoomiLocale()` | Set or read the shared locale used by translated component defaults. |
 | `defineLoomiTranslations(locale, messages)` | Add or override translations for built-in component text. |
 | `loomiT(path, params, locale)` | Translate a shared message by key, with English fallback. |
-| `LOOMI_COLORS`, `LOOMI_SHADES`, `isLoomiColor`, `LoomiColor`, `LoomiShade` | Palette (re-exported from `@loomi/theme`). |
+| `LOOMI_COLORS`, `LOOMI_SHADES`, `isLoomiColor`, `LoomiColor`, `LoomiShade` | Palette (re-exported from `@loomidev/theme`). |
 
 ```ts
 import { LitElement } from "lit";
-import { loomiStyles, accentVars } from "@loomi/core";
+import { loomiStyles, accentVars } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 class Foo extends LitElement {
@@ -37,7 +37,7 @@ class Foo extends LitElement {
 
 ## Internationalization
 
-Loomi keeps built-in component copy in `@loomi/core`: placeholders, validation
+Loomi keeps built-in component copy in `@loomidev/core`: placeholders, validation
 messages, aria labels, pagination strings, datepicker month/week names, and similar
 defaults. User-provided text still wins, so attributes like `label`,
 `placeholder-line1`, `ok-button-label`, and `no-data-message` remain the right way to
@@ -46,9 +46,9 @@ customize one component.
 Set the shared locale before rendering components:
 
 ```js
-import { setLoomiLocale } from "@loomi/core";
-import "@loomi/datepicker";
-import "@loomi/filepicker";
+import { setLoomiLocale } from "@loomidev/core";
+import "@loomidev/datepicker";
+import "@loomidev/filepicker";
 
 setLoomiLocale("fr");
 ```
@@ -75,7 +75,7 @@ register only the keys you want to change at runtime — datepicker custom local
 may also provide `monthsShort`, `monthsLong`, and `weekdaysShort` arrays.
 
 ```js
-import { defineLoomiTranslations, setLoomiLocale } from "@loomi/core";
+import { defineLoomiTranslations, setLoomiLocale } from "@loomidev/core";
 
 defineLoomiTranslations("ak", {
   datepicker: {

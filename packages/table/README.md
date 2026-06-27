@@ -1,4 +1,4 @@
-# @loomi/table
+# @loomidev/table
 
 `<loomi-table>` — a BladewindUI-inspired table with manual rows, dynamic data,
 search, sorting, pagination (via [`<loomi-pagination>`](../pagination)), selectable
@@ -6,11 +6,11 @@ and checkable rows (via [`<loomi-checkbox>`](../checkbox)), row grouping, empty-
 options, custom row templates and action icons.
 
 ```bash
-npm install @loomi/table lit
+npm install @loomidev/table lit
 ```
 
 ```js
-import "@loomi/table";
+import "@loomidev/table";
 ```
 
 ## Basic Usage
@@ -342,15 +342,15 @@ Run install commands from the app where you want to use this component. That mea
 
 ```bash
 cd /path/to/your-app
-npm install @loomi/table lit
+npm install @loomidev/table lit
 ```
 
 If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomi/table build
-pnpm --filter @loomi/table typecheck
+pnpm --filter @loomidev/table build
+pnpm --filter @loomidev/table typecheck
 ```
 
 ### Plain HTML
@@ -361,7 +361,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomi/table"></script>
+<script type="module" src="https://esm.sh/@loomidev/table"></script>
 
 <loomi-table id="customers-table" searchable sortable paginated page-size="10"></loomi-table>
 ```
@@ -371,7 +371,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
 ```js
-import "@loomi/table";
+import "@loomidev/table";
 ```
 
 
@@ -388,13 +388,13 @@ Run the install command from your Laravel project root, then import the componen
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomi/table lit
+npm install @loomidev/table lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomi/table";
+import "@loomidev/table";
 ```
 
 ```blade
@@ -407,7 +407,7 @@ React can render Loomi tags directly. If you are on React 18, or if you need to 
 
 ```jsx
 import { useEffect, useRef } from "react";
-import "@loomi/table";
+import "@loomidev/table";
 
 export function LoomiExample() {
   const el = useRef(null);
@@ -429,7 +429,7 @@ Import the package in the component that uses it, or once in your main Vue file.
 ```vue
 <script setup>
 import { onMounted, ref } from "vue";
-import "@loomi/table";
+import "@loomidev/table";
 
 const el = ref(null);
 
@@ -452,7 +452,7 @@ Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_
 ```ts
 // app.component.ts
 import { AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, Component, ElementRef, ViewChild } from "@angular/core";
-import "@loomi/table";
+import "@loomidev/table";
 
 @Component({
   selector: "app-root",
@@ -478,7 +478,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 ```svelte
 <script>
   import { onMount } from "svelte";
-  import "@loomi/table";
+  import "@loomidev/table";
 
   let el;
 
@@ -492,7 +492,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```astro
 ---
-import "@loomi/table";
+import "@loomidev/table";
 ---
 
 <loomi-table id="customers-table" searchable sortable paginated page-size="10"></loomi-table>

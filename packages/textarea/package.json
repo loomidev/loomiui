@@ -1,7 +1,7 @@
 {
-  "name": "@loomi/textarea",
+  "name": "@loomidev/textarea",
   "version": "0.1.0",
-  "description": "loomi <loomi-textarea> — a themeable multi-line text input web component with floating labels.",
+  "description": "<loomi-textarea> — a themeable multi-line text input web component with floating labels.",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -29,8 +29,8 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@loomi/core": "workspace:^",
-    "@loomi/theme": "workspace:^",
+    "@loomidev/core": "workspace:^",
+    "@loomidev/theme": "workspace:^",
     "quill": "^2.0.3"
   },
   "peerDependencies": {
@@ -45,7 +45,7 @@
   "keywords": [
     "web-components",
     "lit",
-    "loomi",
+    "loomiui",
     "form",
     "textarea",
     "comment"

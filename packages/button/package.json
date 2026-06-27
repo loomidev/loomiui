@@ -1,7 +1,7 @@
 {
-  "name": "@loomi/button",
+  "name": "@loomidev/button",
   "version": "0.1.0",
-  "description": "loomi <loomi-button> — a themeable, framework-agnostic button web component built with Lit.",
+  "description": "<loomi-button> — a themeable, framework-agnostic button web component built with Lit.",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -29,9 +29,9 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@loomi/core": "workspace:^",
-    "@loomi/icons": "workspace:^",
-    "@loomi/theme": "workspace:^"
+    "@loomidev/core": "workspace:^",
+    "@loomidev/icons": "workspace:^",
+    "@loomidev/theme": "workspace:^"
   },
   "peerDependencies": {
     "lit": "^3.0.0"
@@ -46,7 +46,7 @@
     "web-components",
     "lit",
     "button",
-    "loomi",
+    "loomiui",
     "ui",
     "design-system"
   ]

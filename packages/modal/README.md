@@ -1,13 +1,13 @@
-# @loomi/modal
+# @loomidev/modal
 
 `<loomi-modal>` — an overlay dialog with types, sizes, and action buttons.
 
 ```bash
-npm install @loomi/modal lit
+npm install @loomidev/modal lit
 ```
 
 ```js
-import "@loomi/modal";
+import "@loomidev/modal";
 ```
 
 ## Default Modal
@@ -33,7 +33,7 @@ footer button all dismiss the modal by default. See
 </loomi-modal>
 
 <script type="module">
-  import { showLoomiModal } from "@loomi/modal";
+  import { showLoomiModal } from "@loomidev/modal";
 </script>
 ```
 
@@ -66,7 +66,7 @@ Four prebuilt types add a left-side icon and matching action color. The default 
 
 ## Using Different Icons
 
-Set `icon` to use any icon from [`@loomi/icons`](../icons) instead of (or together with)
+Set `icon` to use any icon from [`@loomidev/icons`](../icons) instead of (or together with)
 a prebuilt `type`'s default icon. Modal icons render through `<loomi-icon>`.
 
 ```html
@@ -256,15 +256,15 @@ Run install commands from the app where you want to use this component. That mea
 
 ```bash
 cd /path/to/your-app
-npm install @loomi/modal lit
+npm install @loomidev/modal lit
 ```
 
 If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomi/modal build
-pnpm --filter @loomi/modal typecheck
+pnpm --filter @loomidev/modal build
+pnpm --filter @loomidev/modal typecheck
 ```
 
 ### Plain HTML
@@ -275,7 +275,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomi/modal"></script>
+<script type="module" src="https://esm.sh/@loomidev/modal"></script>
 
 <loomi-modal name="confirm-delete" title="Delete customer?" type="warning">
   This action cannot be undone.
@@ -287,7 +287,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
 ```js
-import "@loomi/modal";
+import "@loomidev/modal";
 ```
 
 
@@ -297,13 +297,13 @@ Run the install command from your Laravel project root, then import the componen
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomi/modal lit
+npm install @loomidev/modal lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomi/modal";
+import "@loomidev/modal";
 ```
 
 ```blade
@@ -317,7 +317,7 @@ import "@loomi/modal";
 React can render Loomi tags directly. If you are on React 18, or if you need to pass arrays, objects, or functions, use a ref and assign those values after the component mounts.
 
 ```jsx
-import "@loomi/modal";
+import "@loomidev/modal";
 
 export function LoomiExample() {
   return (
@@ -336,7 +336,7 @@ Import the package in the component that uses it, or once in your main Vue file.
 
 ```vue
 <script setup>
-import "@loomi/modal";
+import "@loomidev/modal";
 </script>
 
 <template>
@@ -355,7 +355,7 @@ Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_
 ```ts
 // app.component.ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
-import "@loomi/modal";
+import "@loomidev/modal";
 
 @Component({
   selector: "app-root",
@@ -376,7 +376,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```svelte
 <script>
-  import "@loomi/modal";
+  import "@loomidev/modal";
 </script>
 
 <loomi-modal name="confirm-delete" title="Delete customer?" type="warning">
@@ -386,7 +386,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```astro
 ---
-import "@loomi/modal";
+import "@loomidev/modal";
 ---
 
 <loomi-modal name="confirm-delete" title="Delete customer?" type="warning">

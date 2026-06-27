@@ -1,5 +1,5 @@
 {
-  "name": "@loomi/navigation",
+  "name": "@loomidev/navigation",
   "version": "0.1.0",
   "description": "All loomi navigation components in one install.",
   "license": "MIT",
@@ -25,10 +25,10 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@loomi/tab": "workspace:^",
-    "@loomi/pagination": "workspace:^",
-    "@loomi/dropmenu": "workspace:^",
-    "@loomi/theme-switcher": "workspace:^"
+    "@loomidev/tab": "workspace:^",
+    "@loomidev/pagination": "workspace:^",
+    "@loomidev/dropmenu": "workspace:^",
+    "@loomidev/theme-switcher": "workspace:^"
   },
   "peerDependencies": {
     "lit": "^3.0.0"
@@ -40,7 +40,7 @@
   "keywords": [
     "web-components",
     "lit",
-    "loomi",
+    "loomiui",
     "navigation"
   ]
 }

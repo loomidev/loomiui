@@ -1,15 +1,15 @@
-# @loomi/popover
+# @loomidev/popover
 
 `<loomi-popover>` — a floating rich-content panel opened on click or hover. Unlike a
 tooltip, it can contain links, lists, images, or any custom markup — not just a line of
 text.
 
 ```bash
-npm install @loomi/popover lit
+npm install @loomidev/popover lit
 ```
 
 ```js
-import "@loomi/popover";
+import "@loomidev/popover";
 ```
 
 ## Basic Usage
@@ -24,7 +24,7 @@ The default trigger is an information-circle icon.
 
 ## Trigger Icon
 
-Swap the default trigger for any icon from [`@loomi/icons`](../icons).
+Swap the default trigger for any icon from [`@loomidev/icons`](../icons).
 
 ```html
 <loomi-popover trigger="question-mark-circle">
@@ -110,7 +110,7 @@ popover.toggle();
 
 | Attribute | Default | Description |
 | --- | --- | --- |
-| `trigger` | `information-circle` | Trigger icon name (from `@loomi/icons`). Ignored when the `trigger` slot is used. |
+| `trigger` | `information-circle` | Trigger icon name (from `@loomidev/icons`). Ignored when the `trigger` slot is used. |
 | `trigger-on` | `click` | `click` \| `mouseover` |
 | `position` | `bottom` | `top` \| `bottom` \| `left` \| `right` |
 | `title` | _(blank)_ | Optional heading above the content. |
@@ -142,15 +142,15 @@ Run install commands from the app where you want to use this component. That mea
 
 ```bash
 cd /path/to/your-app
-npm install @loomi/popover lit
+npm install @loomidev/popover lit
 ```
 
 If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomi/popover build
-pnpm --filter @loomi/popover typecheck
+pnpm --filter @loomidev/popover build
+pnpm --filter @loomidev/popover typecheck
 ```
 
 ### Plain HTML
@@ -161,7 +161,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomi/popover"></script>
+<script type="module" src="https://esm.sh/@loomidev/popover"></script>
 
 <loomi-popover title="Customer note" trigger-on="click">
   <loomi-button slot="trigger">View note</loomi-button>
@@ -174,7 +174,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
 ```js
-import "@loomi/popover";
+import "@loomidev/popover";
 ```
 
 
@@ -184,13 +184,13 @@ Run the install command from your Laravel project root, then import the componen
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomi/popover lit
+npm install @loomidev/popover lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomi/popover";
+import "@loomidev/popover";
 ```
 
 ```blade
@@ -205,7 +205,7 @@ import "@loomi/popover";
 React can render Loomi tags directly. If you are on React 18, or if you need to pass arrays, objects, or functions, use a ref and assign those values after the component mounts.
 
 ```jsx
-import "@loomi/popover";
+import "@loomidev/popover";
 
 export function LoomiExample() {
   return (
@@ -225,7 +225,7 @@ Import the package in the component that uses it, or once in your main Vue file.
 
 ```vue
 <script setup>
-import "@loomi/popover";
+import "@loomidev/popover";
 </script>
 
 <template>
@@ -245,7 +245,7 @@ Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_
 ```ts
 // app.component.ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
-import "@loomi/popover";
+import "@loomidev/popover";
 
 @Component({
   selector: "app-root",
@@ -267,7 +267,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```svelte
 <script>
-  import "@loomi/popover";
+  import "@loomidev/popover";
 </script>
 
 <loomi-popover title="Customer note" trigger-on="click">
@@ -278,7 +278,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```astro
 ---
-import "@loomi/popover";
+import "@loomidev/popover";
 ---
 
 <loomi-popover title="Customer note" trigger-on="click">

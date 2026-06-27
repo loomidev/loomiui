@@ -1,15 +1,15 @@
-# @loomi/processing
+# @loomidev/processing
 
 `<loomi-processing>` — a process indicator with `processing` (spinner), `success` and
 `failed` states. Best used inside a [`<loomi-modal>`](../modal) while an async task runs,
 switching `state` (and `title`/`message`) once it resolves.
 
 ```bash
-npm install @loomi/processing lit
+npm install @loomidev/processing lit
 ```
 
 ```js
-import "@loomi/processing";
+import "@loomidev/processing";
 ```
 
 ## Basic Usage
@@ -45,7 +45,7 @@ then swaps `state` based on the result.
 </loomi-modal>
 
 <script type="module">
-  import { showLoomiModal } from "@loomi/modal";
+  import { showLoomiModal } from "@loomidev/modal";
 
   async function deletePayment(id) {
     const status = document.getElementById("delete-status");
@@ -100,15 +100,15 @@ Run install commands from the app where you want to use this component. That mea
 
 ```bash
 cd /path/to/your-app
-npm install @loomi/processing lit
+npm install @loomidev/processing lit
 ```
 
 If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomi/processing build
-pnpm --filter @loomi/processing typecheck
+pnpm --filter @loomidev/processing build
+pnpm --filter @loomidev/processing typecheck
 ```
 
 ### Plain HTML
@@ -119,7 +119,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomi/processing"></script>
+<script type="module" src="https://esm.sh/@loomidev/processing"></script>
 
 <loomi-processing state="loading" title="Uploading" message="Please wait while the file is saved."></loomi-processing>
 ```
@@ -129,7 +129,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
 ```js
-import "@loomi/processing";
+import "@loomidev/processing";
 ```
 
 
@@ -139,13 +139,13 @@ Run the install command from your Laravel project root, then import the componen
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomi/processing lit
+npm install @loomidev/processing lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomi/processing";
+import "@loomidev/processing";
 ```
 
 ```blade
@@ -157,7 +157,7 @@ import "@loomi/processing";
 React can render Loomi tags directly. If you are on React 18, or if you need to pass arrays, objects, or functions, use a ref and assign those values after the component mounts.
 
 ```jsx
-import "@loomi/processing";
+import "@loomidev/processing";
 
 export function LoomiExample() {
   return (
@@ -174,7 +174,7 @@ Import the package in the component that uses it, or once in your main Vue file.
 
 ```vue
 <script setup>
-import "@loomi/processing";
+import "@loomidev/processing";
 </script>
 
 <template>
@@ -191,7 +191,7 @@ Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_
 ```ts
 // app.component.ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
-import "@loomi/processing";
+import "@loomidev/processing";
 
 @Component({
   selector: "app-root",
@@ -210,7 +210,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```svelte
 <script>
-  import "@loomi/processing";
+  import "@loomidev/processing";
 </script>
 
 <loomi-processing state="loading" title="Uploading" message="Please wait while the file is saved."></loomi-processing>
@@ -218,7 +218,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```astro
 ---
-import "@loomi/processing";
+import "@loomidev/processing";
 ---
 
 <loomi-processing state="loading" title="Uploading" message="Please wait while the file is saved."></loomi-processing>

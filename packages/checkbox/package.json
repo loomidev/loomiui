@@ -1,7 +1,7 @@
 {
-  "name": "@loomi/checkbox",
+  "name": "@loomidev/checkbox",
   "version": "0.1.0",
-  "description": "loomi <loomi-checkbox> — a themeable checkbox web component in the full loomi palette.",
+  "description": "<loomi-checkbox> — a themeable checkbox web component in the full loomi palette.",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -29,8 +29,8 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@loomi/core": "workspace:^",
-    "@loomi/theme": "workspace:^"
+    "@loomidev/core": "workspace:^",
+    "@loomidev/theme": "workspace:^"
   },
   "peerDependencies": {
     "lit": "^3.0.0"
@@ -44,7 +44,7 @@
   "keywords": [
     "web-components",
     "lit",
-    "loomi",
+    "loomiui",
     "form",
     "checkbox"
   ]

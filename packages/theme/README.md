@@ -1,4 +1,4 @@
-# @loomi/theme
+# @loomidev/theme
 
 The shared design tokens for the [LoomiUI](../../README.md) component library. Every
 component depends on this package; you rarely import it directly.
@@ -14,7 +14,7 @@ It provides:
   components against the `--loomi-*` slots in your editor.
 
 ```ts
-import { themeStyles, LOOMI_COLORS, type LoomiColor } from "@loomi/theme";
+import { themeStyles, LOOMI_COLORS, type LoomiColor } from "@loomidev/theme";
 
 class MyComponent extends LitElement {
   static styles = [themeStyles, myCompiledStyles];

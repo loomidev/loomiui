@@ -1,4 +1,4 @@
-# @loomi/input
+# @loomidev/input
 
 `<loomi-input>` — a themeable text input with a floating label, text/icon prefixes &
 suffixes, password reveal, a clearable field, numeric filtering and inline validation.
@@ -7,11 +7,11 @@ It is **form-associated**: its value submits with the surrounding `<form>` under
 ## Installation
 
 ```bash
-npm install @loomi/input lit
+npm install @loomidev/input lit
 ```
 
 ```js
-import "@loomi/input"; // registers <loomi-input>
+import "@loomidev/input"; // registers <loomi-input>
 ```
 
 ## Basic Usage
@@ -136,7 +136,7 @@ const ok = document.querySelector("loomi-input").validate(); // toggles `invalid
 | `min` / `max` | _(blank)_ | Clamp numeric values on change. |
 | `size` | `medium` | `small` \| `regular` \| `medium` \| `big` |
 | `prefix` / `suffix` | _(blank)_ | Text affix. |
-| `prefix-icon` / `suffix-icon` | _(blank)_ | Icon-name affix (see `@loomi/icons`). |
+| `prefix-icon` / `suffix-icon` | _(blank)_ | Icon-name affix (see `@loomidev/icons`). |
 | `transparent-prefix` / `transparent-suffix` | `true` | Transparent (vs solid) affix. _(boolean)_ |
 | `viewable` | `false` | Show a reveal eye when `type="password"`. _(boolean)_ |
 | `clearable` | `false` | Show a clear (✕) button when the field has a value. _(boolean)_ |
@@ -180,15 +180,15 @@ Run install commands from the app where you want to use this component. That mea
 
 ```bash
 cd /path/to/your-app
-npm install @loomi/input lit
+npm install @loomidev/input lit
 ```
 
 If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomi/input build
-pnpm --filter @loomi/input typecheck
+pnpm --filter @loomidev/input build
+pnpm --filter @loomidev/input typecheck
 ```
 
 ### Plain HTML
@@ -199,7 +199,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomi/input"></script>
+<script type="module" src="https://esm.sh/@loomidev/input"></script>
 
 <loomi-input name="email" type="email" label="Email address" required></loomi-input>
 ```
@@ -209,7 +209,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
 ```js
-import "@loomi/input";
+import "@loomidev/input";
 ```
 
 
@@ -221,13 +221,13 @@ Run the install command from your Laravel project root, then import the componen
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomi/input lit
+npm install @loomidev/input lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomi/input";
+import "@loomidev/input";
 ```
 
 ```blade
@@ -239,7 +239,7 @@ import "@loomi/input";
 React can render Loomi tags directly. If you are on React 18, or if you need to pass arrays, objects, or functions, use a ref and assign those values after the component mounts.
 
 ```jsx
-import "@loomi/input";
+import "@loomidev/input";
 
 export function LoomiExample() {
   return (
@@ -256,7 +256,7 @@ Import the package in the component that uses it, or once in your main Vue file.
 
 ```vue
 <script setup>
-import "@loomi/input";
+import "@loomidev/input";
 </script>
 
 <template>
@@ -273,7 +273,7 @@ Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_
 ```ts
 // app.component.ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
-import "@loomi/input";
+import "@loomidev/input";
 
 @Component({
   selector: "app-root",
@@ -292,7 +292,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```svelte
 <script>
-  import "@loomi/input";
+  import "@loomidev/input";
 </script>
 
 <loomi-input name="email" type="email" label="Email address" required></loomi-input>
@@ -300,7 +300,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```astro
 ---
-import "@loomi/input";
+import "@loomidev/input";
 ---
 
 <loomi-input name="email" type="email" label="Email address" required></loomi-input>

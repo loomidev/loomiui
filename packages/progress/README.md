@@ -1,14 +1,14 @@
-# @loomi/progress
+# @loomidev/progress
 
 `<loomi-progress-bar>` and `<loomi-progress-circle>` — horizontal and circular progress
 indicators, with a subtle fill animation.
 
 ```bash
-npm install @loomi/progress lit
+npm install @loomidev/progress lit
 ```
 
 ```js
-import "@loomi/progress";
+import "@loomidev/progress";
 ```
 
 ## Progress Bar — Basic Usage
@@ -162,15 +162,15 @@ Run install commands from the app where you want to use this component. That mea
 
 ```bash
 cd /path/to/your-app
-npm install @loomi/progress lit
+npm install @loomidev/progress lit
 ```
 
 If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomi/progress build
-pnpm --filter @loomi/progress typecheck
+pnpm --filter @loomidev/progress build
+pnpm --filter @loomidev/progress typecheck
 ```
 
 ### Plain HTML
@@ -181,7 +181,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomi/progress"></script>
+<script type="module" src="https://esm.sh/@loomidev/progress"></script>
 
 <loomi-progress-bar percentage="65" color="green" show-percent></loomi-progress-bar>
 <loomi-progress-circle percentage="65" color="green"></loomi-progress-circle>
@@ -192,7 +192,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
 ```js
-import "@loomi/progress";
+import "@loomidev/progress";
 ```
 
 
@@ -202,13 +202,13 @@ Run the install command from your Laravel project root, then import the componen
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomi/progress lit
+npm install @loomidev/progress lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomi/progress";
+import "@loomidev/progress";
 ```
 
 ```blade
@@ -221,7 +221,7 @@ import "@loomi/progress";
 React can render Loomi tags directly. If you are on React 18, or if you need to pass arrays, objects, or functions, use a ref and assign those values after the component mounts.
 
 ```jsx
-import "@loomi/progress";
+import "@loomidev/progress";
 
 export function LoomiExample() {
   return (
@@ -241,7 +241,7 @@ Import the package in the component that uses it, or once in your main Vue file.
 
 ```vue
 <script setup>
-import "@loomi/progress";
+import "@loomidev/progress";
 </script>
 
 <template>
@@ -259,7 +259,7 @@ Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_
 ```ts
 // app.component.ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
-import "@loomi/progress";
+import "@loomidev/progress";
 
 @Component({
   selector: "app-root",
@@ -279,7 +279,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```svelte
 <script>
-  import "@loomi/progress";
+  import "@loomidev/progress";
 </script>
 
 <loomi-progress-bar percentage="65" color="green" show-percent></loomi-progress-bar>
@@ -288,7 +288,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```astro
 ---
-import "@loomi/progress";
+import "@loomidev/progress";
 ---
 
 <loomi-progress-bar percentage="65" color="green" show-percent></loomi-progress-bar>

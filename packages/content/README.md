@@ -1,41 +1,41 @@
-# @loomi/content
+# @loomidev/content
 
 All LoomiUI **content / data-display** components in one install.
 
 ```bash
-npm install @loomi/content lit
+npm install @loomidev/content lit
 ```
 
 ```js
-import "@loomi/content"; // registers all content elements
+import "@loomidev/content"; // registers all content elements
 ```
 
 | Package |
 | --- |
-| [`@loomi/card`](../card) |
-| [`@loomi/avatar`](../avatar) |
-| [`@loomi/accordion`](../accordion) |
-| [`@loomi/tag`](../tag) |
-| [`@loomi/tooltip`](../tooltip) |
-| [`@loomi/popover`](../popover) |
-| [`@loomi/empty-state`](../empty-state) |
-| [`@loomi/statistic`](../statistic) |
-| [`@loomi/rating`](../rating) |
-| [`@loomi/timeline`](../timeline) |
-| [`@loomi/progress`](../progress) |
-| [`@loomi/listview`](../listview) |
-| [`@loomi/contact-card`](../contact-card) |
-| [`@loomi/centered-content`](../centered-content) |
-| [`@loomi/sortable`](../sortable) |
-| [`@loomi/processing`](../processing) |
-| [`@loomi/horizontal-line-graph`](../horizontal-line-graph) |
-| [`@loomi/chart`](../chart) |
+| [`@loomidev/card`](../card) |
+| [`@loomidev/avatar`](../avatar) |
+| [`@loomidev/accordion`](../accordion) |
+| [`@loomidev/tag`](../tag) |
+| [`@loomidev/tooltip`](../tooltip) |
+| [`@loomidev/popover`](../popover) |
+| [`@loomidev/empty-state`](../empty-state) |
+| [`@loomidev/statistic`](../statistic) |
+| [`@loomidev/rating`](../rating) |
+| [`@loomidev/timeline`](../timeline) |
+| [`@loomidev/progress`](../progress) |
+| [`@loomidev/listview`](../listview) |
+| [`@loomidev/contact-card`](../contact-card) |
+| [`@loomidev/centered-content`](../centered-content) |
+| [`@loomidev/sortable`](../sortable) |
+| [`@loomidev/processing`](../processing) |
+| [`@loomidev/horizontal-line-graph`](../horizontal-line-graph) |
+| [`@loomidev/chart`](../chart) |
 
 <!-- BEGIN loomi-framework-guide -->
 
 ## Framework integration
 
-`@loomi/content` registers all LoomiUI content/display components. Use it when you want one import for a whole category instead of installing each component separately.
+`@loomidev/content` registers all LoomiUI content/display components. Use it when you want one import for a whole category instead of installing each component separately.
 
 ### Where to run commands
 
@@ -43,13 +43,13 @@ Run install commands from the app where you want to use this bundle. That means 
 
 ```bash
 cd /path/to/your-app
-npm install @loomi/content lit
+npm install @loomidev/content lit
 ```
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomi/content build
-pnpm --filter @loomi/content typecheck
+pnpm --filter @loomidev/content build
+pnpm --filter @loomidev/content typecheck
 ```
 
 ### Plain HTML
@@ -58,7 +58,7 @@ pnpm --filter @loomi/content typecheck
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomi/content"></script>
+<script type="module" src="https://esm.sh/@loomidev/content"></script>
 
 <loomi-card title="Team member">
   <loomi-avatar label="AM" bg-color="green"></loomi-avatar>
@@ -70,13 +70,13 @@ pnpm --filter @loomi/content typecheck
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomi/content lit
+npm install @loomidev/content lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomi/content";
+import "@loomidev/content";
 ```
 
 ```blade
@@ -89,7 +89,7 @@ import "@loomi/content";
 ### React
 
 ```jsx
-import "@loomi/content";
+import "@loomidev/content";
 
 export function LoomiBundleExample() {
   return (
@@ -107,7 +107,7 @@ For array or object properties such as select `data` or table `columns`, assign 
 
 ```vue
 <script setup>
-import "@loomi/content";
+import "@loomidev/content";
 </script>
 
 <template>
@@ -124,7 +124,7 @@ Configure Vue's `compilerOptions.isCustomElement` for tags that start with `loom
 
 ```ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
-import "@loomi/content";
+import "@loomidev/content";
 
 @Component({
   selector: "app-root",
@@ -144,7 +144,7 @@ export class AppComponent {}
 
 ```svelte
 <script>
-  import "@loomi/content";
+  import "@loomidev/content";
 </script>
 
 <loomi-card title="Team member">
@@ -155,7 +155,7 @@ export class AppComponent {}
 
 ```astro
 ---
-import "@loomi/content";
+import "@loomidev/content";
 ---
 
 <loomi-card title="Team member">

@@ -1,5 +1,5 @@
 {
-  "name": "@loomi/icons",
+  "name": "@loomidev/icons",
   "version": "0.1.0",
   "description": "Shared icon registry for loomi components (a Heroicons outline subset) with a runtime register API.",
   "license": "MIT",
@@ -36,7 +36,7 @@
   "keywords": [
     "web-components",
     "lit",
-    "loomi",
+    "loomiui",
     "icons",
     "heroicons"
   ]

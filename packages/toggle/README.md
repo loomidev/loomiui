@@ -1,14 +1,14 @@
-# @loomi/toggle
+# @loomidev/toggle
 
 `<loomi-toggle>` — a themeable toggle/switch (a checkbox, spiced up).
 **Form-associated**: submits `value` (default `"on"`) under `name` when checked.
 
 ```bash
-npm install @loomi/toggle lit
+npm install @loomidev/toggle lit
 ```
 
 ```js
-import "@loomi/toggle";
+import "@loomidev/toggle";
 ```
 
 ## Basic Usage
@@ -111,15 +111,15 @@ Run install commands from the app where you want to use this component. That mea
 
 ```bash
 cd /path/to/your-app
-npm install @loomi/toggle lit
+npm install @loomidev/toggle lit
 ```
 
 If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomi/toggle build
-pnpm --filter @loomi/toggle typecheck
+pnpm --filter @loomidev/toggle build
+pnpm --filter @loomidev/toggle typecheck
 ```
 
 ### Plain HTML
@@ -130,7 +130,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomi/toggle"></script>
+<script type="module" src="https://esm.sh/@loomidev/toggle"></script>
 
 <loomi-toggle name="notifications" label="Email notifications" checked></loomi-toggle>
 ```
@@ -140,7 +140,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
 ```js
-import "@loomi/toggle";
+import "@loomidev/toggle";
 ```
 
 
@@ -152,13 +152,13 @@ Run the install command from your Laravel project root, then import the componen
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomi/toggle lit
+npm install @loomidev/toggle lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomi/toggle";
+import "@loomidev/toggle";
 ```
 
 ```blade
@@ -170,7 +170,7 @@ import "@loomi/toggle";
 React can render Loomi tags directly. If you are on React 18, or if you need to pass arrays, objects, or functions, use a ref and assign those values after the component mounts.
 
 ```jsx
-import "@loomi/toggle";
+import "@loomidev/toggle";
 
 export function LoomiExample() {
   return (
@@ -187,7 +187,7 @@ Import the package in the component that uses it, or once in your main Vue file.
 
 ```vue
 <script setup>
-import "@loomi/toggle";
+import "@loomidev/toggle";
 </script>
 
 <template>
@@ -204,7 +204,7 @@ Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_
 ```ts
 // app.component.ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
-import "@loomi/toggle";
+import "@loomidev/toggle";
 
 @Component({
   selector: "app-root",
@@ -223,7 +223,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```svelte
 <script>
-  import "@loomi/toggle";
+  import "@loomidev/toggle";
 </script>
 
 <loomi-toggle name="notifications" label="Email notifications" checked></loomi-toggle>
@@ -231,7 +231,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```astro
 ---
-import "@loomi/toggle";
+import "@loomidev/toggle";
 ---
 
 <loomi-toggle name="notifications" label="Email notifications" checked></loomi-toggle>

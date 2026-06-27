@@ -1,15 +1,15 @@
-# @loomi/radio
+# @loomidev/radio
 
 `<loomi-radio>` — a themeable radio button. Give radios in a group the same `name` and
 they become mutually exclusive (coordinated across the same DOM root, since native radio
 grouping doesn't cross shadow boundaries). **Form-associated**.
 
 ```bash
-npm install @loomi/radio lit
+npm install @loomidev/radio lit
 ```
 
 ```js
-import "@loomi/radio";
+import "@loomidev/radio";
 ```
 
 ## Basic Usage
@@ -107,15 +107,15 @@ Run install commands from the app where you want to use this component. That mea
 
 ```bash
 cd /path/to/your-app
-npm install @loomi/radio lit
+npm install @loomidev/radio lit
 ```
 
 If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomi/radio build
-pnpm --filter @loomi/radio typecheck
+pnpm --filter @loomidev/radio build
+pnpm --filter @loomidev/radio typecheck
 ```
 
 ### Plain HTML
@@ -126,7 +126,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomi/radio"></script>
+<script type="module" src="https://esm.sh/@loomidev/radio"></script>
 
 <loomi-radio name="frequency" value="monthly" label="Monthly" checked></loomi-radio>
 ```
@@ -136,7 +136,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
 ```js
-import "@loomi/radio";
+import "@loomidev/radio";
 ```
 
 
@@ -148,13 +148,13 @@ Run the install command from your Laravel project root, then import the componen
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomi/radio lit
+npm install @loomidev/radio lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomi/radio";
+import "@loomidev/radio";
 ```
 
 ```blade
@@ -166,7 +166,7 @@ import "@loomi/radio";
 React can render Loomi tags directly. If you are on React 18, or if you need to pass arrays, objects, or functions, use a ref and assign those values after the component mounts.
 
 ```jsx
-import "@loomi/radio";
+import "@loomidev/radio";
 
 export function LoomiExample() {
   return (
@@ -183,7 +183,7 @@ Import the package in the component that uses it, or once in your main Vue file.
 
 ```vue
 <script setup>
-import "@loomi/radio";
+import "@loomidev/radio";
 </script>
 
 <template>
@@ -200,7 +200,7 @@ Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_
 ```ts
 // app.component.ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
-import "@loomi/radio";
+import "@loomidev/radio";
 
 @Component({
   selector: "app-root",
@@ -219,7 +219,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```svelte
 <script>
-  import "@loomi/radio";
+  import "@loomidev/radio";
 </script>
 
 <loomi-radio name="frequency" value="monthly" label="Monthly" checked></loomi-radio>
@@ -227,7 +227,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```astro
 ---
-import "@loomi/radio";
+import "@loomidev/radio";
 ---
 
 <loomi-radio name="frequency" value="monthly" label="Monthly" checked></loomi-radio>

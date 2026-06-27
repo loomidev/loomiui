@@ -1,8 +1,8 @@
 {
-  "name": "@loomi/root",
+  "name": "@loomidev/root",
   "version": "0.0.0",
   "private": true,
-  "description": "loomi — framework-agnostic Lit web component library (monorepo root)",
+  "description": "framework-agnostic Lit web component library (monorepo root)",
   "license": "MIT",
   "type": "module",
   "packageManager": "pnpm@9.15.9",

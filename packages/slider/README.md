@@ -1,15 +1,15 @@
-# @loomi/slider
+# @loomidev/slider
 
 `<loomi-slider>` — select a numeric value with a slider, instead of clicking
 increment/decrement arrows or typing a value directly. **Form-associated**: submits the
 value under `name`.
 
 ```bash
-npm install @loomi/slider lit
+npm install @loomidev/slider lit
 ```
 
 ```js
-import "@loomi/slider";
+import "@loomidev/slider";
 ```
 
 ## Basic Usage
@@ -122,15 +122,15 @@ Run install commands from the app where you want to use this component. That mea
 
 ```bash
 cd /path/to/your-app
-npm install @loomi/slider lit
+npm install @loomidev/slider lit
 ```
 
 If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomi/slider build
-pnpm --filter @loomi/slider typecheck
+pnpm --filter @loomidev/slider build
+pnpm --filter @loomidev/slider typecheck
 ```
 
 ### Plain HTML
@@ -141,7 +141,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomi/slider"></script>
+<script type="module" src="https://esm.sh/@loomidev/slider"></script>
 
 <loomi-slider name="budget" min="0" max="100" step="5" selected="40" show-values></loomi-slider>
 ```
@@ -151,7 +151,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
 ```js
-import "@loomi/slider";
+import "@loomidev/slider";
 ```
 
 
@@ -163,13 +163,13 @@ Run the install command from your Laravel project root, then import the componen
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomi/slider lit
+npm install @loomidev/slider lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomi/slider";
+import "@loomidev/slider";
 ```
 
 ```blade
@@ -181,7 +181,7 @@ import "@loomi/slider";
 React can render Loomi tags directly. If you are on React 18, or if you need to pass arrays, objects, or functions, use a ref and assign those values after the component mounts.
 
 ```jsx
-import "@loomi/slider";
+import "@loomidev/slider";
 
 export function LoomiExample() {
   return (
@@ -198,7 +198,7 @@ Import the package in the component that uses it, or once in your main Vue file.
 
 ```vue
 <script setup>
-import "@loomi/slider";
+import "@loomidev/slider";
 </script>
 
 <template>
@@ -215,7 +215,7 @@ Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_
 ```ts
 // app.component.ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
-import "@loomi/slider";
+import "@loomidev/slider";
 
 @Component({
   selector: "app-root",
@@ -234,7 +234,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```svelte
 <script>
-  import "@loomi/slider";
+  import "@loomidev/slider";
 </script>
 
 <loomi-slider name="budget" min="0" max="100" step="5" selected="40" show-values></loomi-slider>
@@ -242,7 +242,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```astro
 ---
-import "@loomi/slider";
+import "@loomidev/slider";
 ---
 
 <loomi-slider name="budget" min="0" max="100" step="5" selected="40" show-values></loomi-slider>

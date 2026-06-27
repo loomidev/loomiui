@@ -1,4 +1,4 @@
-# @loomi/checkcards
+# @loomidev/checkcards
 
 `<loomi-checkcards>` — selectable cards, a prettier alternative to checkboxes or radio
 groups. Define content in a `<loomi-checkcard>` and give it a `value` — that's what gets
@@ -6,11 +6,11 @@ submitted when the form is submitted. **Form-associated**: submits the selected 
 (comma-joined) under `name`.
 
 ```bash
-npm install @loomi/checkcards lit
+npm install @loomidev/checkcards lit
 ```
 
 ```js
-import "@loomi/checkcards";
+import "@loomidev/checkcards";
 ```
 
 ## Basic Usage
@@ -70,7 +70,7 @@ instead, requiring the user to unselect a card first.
 ## Icons and Avatars
 
 The card's content is entirely up to you, but for convenience a leading `icon` (from
-[`@loomi/icons`](../icons)) or `avatar` (an image URL, or ≤3 characters for an initials
+[`@loomidev/icons`](../icons)) or `avatar` (an image URL, or ≤3 characters for an initials
 label) can be set directly on `<loomi-checkcard>`. The `color` attribute on the parent
 `<loomi-checkcards>` controls the icon/avatar color.
 
@@ -186,15 +186,15 @@ Run install commands from the app where you want to use this component. That mea
 
 ```bash
 cd /path/to/your-app
-npm install @loomi/checkcards lit
+npm install @loomidev/checkcards lit
 ```
 
 If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomi/checkcards build
-pnpm --filter @loomi/checkcards typecheck
+pnpm --filter @loomidev/checkcards build
+pnpm --filter @loomidev/checkcards typecheck
 ```
 
 ### Plain HTML
@@ -205,7 +205,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomi/checkcards"></script>
+<script type="module" src="https://esm.sh/@loomidev/checkcards"></script>
 
 <loomi-checkcards name="plan" selected-value="pro">
   <loomi-checkcard value="starter" title="Starter">For small projects.</loomi-checkcard>
@@ -218,7 +218,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
 ```js
-import "@loomi/checkcards";
+import "@loomidev/checkcards";
 ```
 
 
@@ -230,13 +230,13 @@ Run the install command from your Laravel project root, then import the componen
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomi/checkcards lit
+npm install @loomidev/checkcards lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomi/checkcards";
+import "@loomidev/checkcards";
 ```
 
 ```blade
@@ -251,7 +251,7 @@ import "@loomi/checkcards";
 React can render Loomi tags directly. If you are on React 18, or if you need to pass arrays, objects, or functions, use a ref and assign those values after the component mounts.
 
 ```jsx
-import "@loomi/checkcards";
+import "@loomidev/checkcards";
 
 export function LoomiExample() {
   return (
@@ -271,7 +271,7 @@ Import the package in the component that uses it, or once in your main Vue file.
 
 ```vue
 <script setup>
-import "@loomi/checkcards";
+import "@loomidev/checkcards";
 </script>
 
 <template>
@@ -291,7 +291,7 @@ Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_
 ```ts
 // app.component.ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
-import "@loomi/checkcards";
+import "@loomidev/checkcards";
 
 @Component({
   selector: "app-root",
@@ -313,7 +313,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```svelte
 <script>
-  import "@loomi/checkcards";
+  import "@loomidev/checkcards";
 </script>
 
 <loomi-checkcards name="plan" selected-value="pro">
@@ -324,7 +324,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```astro
 ---
-import "@loomi/checkcards";
+import "@loomidev/checkcards";
 ---
 
 <loomi-checkcards name="plan" selected-value="pro">

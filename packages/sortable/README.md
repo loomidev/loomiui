@@ -1,4 +1,4 @@
-# @loomi/sortable
+# @loomidev/sortable
 
 `<loomi-sortable>` — a SortableJS-inspired drag-and-drop list. Provide rows via the
 `items` array (`{ id, label, meta?, locked?, filtered?, className? }`) and read the
@@ -6,11 +6,11 @@ new order back from the `reorder` event. Give two or more lists the same `group`
 let users drag items between them — a Kanban board's columns, for example.
 
 ```bash
-npm install @loomi/sortable lit
+npm install @loomidev/sortable lit
 ```
 
 ```js
-import "@loomi/sortable";
+import "@loomidev/sortable";
 ```
 
 ## Basic Usage
@@ -374,15 +374,15 @@ Run install commands from the app where you want to use this component. That mea
 
 ```bash
 cd /path/to/your-app
-npm install @loomi/sortable lit
+npm install @loomidev/sortable lit
 ```
 
 If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomi/sortable build
-pnpm --filter @loomi/sortable typecheck
+pnpm --filter @loomidev/sortable build
+pnpm --filter @loomidev/sortable typecheck
 ```
 
 ### Plain HTML
@@ -393,7 +393,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomi/sortable"></script>
+<script type="module" src="https://esm.sh/@loomidev/sortable"></script>
 
 <loomi-sortable id="task-list"></loomi-sortable>
 ```
@@ -403,7 +403,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
 ```js
-import "@loomi/sortable";
+import "@loomidev/sortable";
 ```
 
 
@@ -420,13 +420,13 @@ Run the install command from your Laravel project root, then import the componen
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomi/sortable lit
+npm install @loomidev/sortable lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomi/sortable";
+import "@loomidev/sortable";
 ```
 
 ```blade
@@ -439,7 +439,7 @@ React can render Loomi tags directly. If you are on React 18, or if you need to 
 
 ```jsx
 import { useEffect, useRef } from "react";
-import "@loomi/sortable";
+import "@loomidev/sortable";
 
 export function LoomiExample() {
   const el = useRef(null);
@@ -461,7 +461,7 @@ Import the package in the component that uses it, or once in your main Vue file.
 ```vue
 <script setup>
 import { onMounted, ref } from "vue";
-import "@loomi/sortable";
+import "@loomidev/sortable";
 
 const el = ref(null);
 
@@ -484,7 +484,7 @@ Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_
 ```ts
 // app.component.ts
 import { AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, Component, ElementRef, ViewChild } from "@angular/core";
-import "@loomi/sortable";
+import "@loomidev/sortable";
 
 @Component({
   selector: "app-root",
@@ -510,7 +510,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 ```svelte
 <script>
   import { onMount } from "svelte";
-  import "@loomi/sortable";
+  import "@loomidev/sortable";
 
   let el;
 
@@ -524,7 +524,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```astro
 ---
-import "@loomi/sortable";
+import "@loomidev/sortable";
 ---
 
 <loomi-sortable id="task-list"></loomi-sortable>

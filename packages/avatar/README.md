@@ -1,15 +1,15 @@
-# @loomi/avatar
+# @loomidev/avatar
 
 `<loomi-avatar>` — a rounded image or initials avatar with an optional status dot. Wrap
 several in `<loomi-avatars>` to stack them with an optional `+N` bubble. A logged-in user
 header, a contact list, or an employee directory are all good fits.
 
 ```bash
-npm install @loomi/avatar lit
+npm install @loomidev/avatar lit
 ```
 
 ```js
-import "@loomi/avatar";
+import "@loomidev/avatar";
 ```
 
 ## Basic Usage
@@ -153,15 +153,15 @@ Run install commands from the app where you want to use this component. That mea
 
 ```bash
 cd /path/to/your-app
-npm install @loomi/avatar lit
+npm install @loomidev/avatar lit
 ```
 
 If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomi/avatar build
-pnpm --filter @loomi/avatar typecheck
+pnpm --filter @loomidev/avatar build
+pnpm --filter @loomidev/avatar typecheck
 ```
 
 ### Plain HTML
@@ -172,7 +172,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomi/avatar"></script>
+<script type="module" src="https://esm.sh/@loomidev/avatar"></script>
 
 <loomi-avatars>
   <loomi-avatar label="AO" bg-color="green"></loomi-avatar>
@@ -185,7 +185,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
 ```js
-import "@loomi/avatar";
+import "@loomidev/avatar";
 ```
 
 
@@ -195,13 +195,13 @@ Run the install command from your Laravel project root, then import the componen
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomi/avatar lit
+npm install @loomidev/avatar lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomi/avatar";
+import "@loomidev/avatar";
 ```
 
 ```blade
@@ -216,7 +216,7 @@ import "@loomi/avatar";
 React can render Loomi tags directly. If you are on React 18, or if you need to pass arrays, objects, or functions, use a ref and assign those values after the component mounts.
 
 ```jsx
-import "@loomi/avatar";
+import "@loomidev/avatar";
 
 export function LoomiExample() {
   return (
@@ -236,7 +236,7 @@ Import the package in the component that uses it, or once in your main Vue file.
 
 ```vue
 <script setup>
-import "@loomi/avatar";
+import "@loomidev/avatar";
 </script>
 
 <template>
@@ -256,7 +256,7 @@ Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_
 ```ts
 // app.component.ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
-import "@loomi/avatar";
+import "@loomidev/avatar";
 
 @Component({
   selector: "app-root",
@@ -278,7 +278,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```svelte
 <script>
-  import "@loomi/avatar";
+  import "@loomidev/avatar";
 </script>
 
 <loomi-avatars>
@@ -289,7 +289,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```astro
 ---
-import "@loomi/avatar";
+import "@loomidev/avatar";
 ---
 
 <loomi-avatars>

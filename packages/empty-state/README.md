@@ -1,15 +1,15 @@
-# @loomi/empty-state
+# @loomidev/empty-state
 
 `<loomi-empty-state>` — a friendly placeholder for empty content, so users see a helpful
 message instead of a boring blank page. Comes with a built-in illustration, but is
 intentionally minimal so different apps can shape it to their needs.
 
 ```bash
-npm install @loomi/empty-state lit
+npm install @loomidev/empty-state lit
 ```
 
 ```js
-import "@loomi/empty-state";
+import "@loomidev/empty-state";
 ```
 
 ## Basic Usage
@@ -130,15 +130,15 @@ Run install commands from the app where you want to use this component. That mea
 
 ```bash
 cd /path/to/your-app
-npm install @loomi/empty-state lit
+npm install @loomidev/empty-state lit
 ```
 
 If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomi/empty-state build
-pnpm --filter @loomi/empty-state typecheck
+pnpm --filter @loomidev/empty-state build
+pnpm --filter @loomidev/empty-state typecheck
 ```
 
 ### Plain HTML
@@ -149,7 +149,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomi/empty-state"></script>
+<script type="module" src="https://esm.sh/@loomidev/empty-state"></script>
 
 <loomi-empty-state
   heading="No invoices"
@@ -163,7 +163,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
 ```js
-import "@loomi/empty-state";
+import "@loomidev/empty-state";
 ```
 
 
@@ -173,13 +173,13 @@ Run the install command from your Laravel project root, then import the componen
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomi/empty-state lit
+npm install @loomidev/empty-state lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomi/empty-state";
+import "@loomidev/empty-state";
 ```
 
 ```blade
@@ -195,7 +195,7 @@ import "@loomi/empty-state";
 React can render Loomi tags directly. If you are on React 18, or if you need to pass arrays, objects, or functions, use a ref and assign those values after the component mounts.
 
 ```jsx
-import "@loomi/empty-state";
+import "@loomidev/empty-state";
 
 export function LoomiExample() {
   return (
@@ -216,7 +216,7 @@ Import the package in the component that uses it, or once in your main Vue file.
 
 ```vue
 <script setup>
-import "@loomi/empty-state";
+import "@loomidev/empty-state";
 </script>
 
 <template>
@@ -237,7 +237,7 @@ Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_
 ```ts
 // app.component.ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
-import "@loomi/empty-state";
+import "@loomidev/empty-state";
 
 @Component({
   selector: "app-root",
@@ -260,7 +260,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```svelte
 <script>
-  import "@loomi/empty-state";
+  import "@loomidev/empty-state";
 </script>
 
 <loomi-empty-state
@@ -272,7 +272,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```astro
 ---
-import "@loomi/empty-state";
+import "@loomidev/empty-state";
 ---
 
 <loomi-empty-state

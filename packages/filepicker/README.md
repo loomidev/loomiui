@@ -1,4 +1,4 @@
-# @loomi/filepicker
+# @loomidev/filepicker
 
 `<loomi-filepicker>` — a drag-and-drop file picker with previews. Keeps a real
 `<input type="file">` in sync, so it submits inside a `<form>` with
@@ -6,11 +6,11 @@
 Filepond wrapper.
 
 ```bash
-npm install @loomi/filepicker lit
+npm install @loomidev/filepicker lit
 ```
 
 ```js
-import "@loomi/filepicker";
+import "@loomidev/filepicker";
 ```
 
 ## Basic Usage
@@ -46,8 +46,8 @@ required validation message, and remove-file label. Custom `placeholder-line1` a
 `placeholder-line2` attributes still override the translated defaults.
 
 ```js
-import { setLoomiLocale, defineLoomiTranslations } from "@loomi/core";
-import "@loomi/filepicker";
+import { setLoomiLocale, defineLoomiTranslations } from "@loomidev/core";
+import "@loomidev/filepicker";
 
 setLoomiLocale("es");
 
@@ -189,15 +189,15 @@ Run install commands from the app where you want to use this component. That mea
 
 ```bash
 cd /path/to/your-app
-npm install @loomi/filepicker lit
+npm install @loomidev/filepicker lit
 ```
 
 If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomi/filepicker build
-pnpm --filter @loomi/filepicker typecheck
+pnpm --filter @loomidev/filepicker build
+pnpm --filter @loomidev/filepicker typecheck
 ```
 
 ### Plain HTML
@@ -208,7 +208,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomi/filepicker"></script>
+<script type="module" src="https://esm.sh/@loomidev/filepicker"></script>
 
 <loomi-filepicker name="documents" accepted-file-types=".pdf,.docx" max-files="3"></loomi-filepicker>
 ```
@@ -218,7 +218,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
 ```js
-import "@loomi/filepicker";
+import "@loomidev/filepicker";
 ```
 
 
@@ -230,13 +230,13 @@ Run the install command from your Laravel project root, then import the componen
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomi/filepicker lit
+npm install @loomidev/filepicker lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomi/filepicker";
+import "@loomidev/filepicker";
 ```
 
 ```blade
@@ -248,7 +248,7 @@ import "@loomi/filepicker";
 React can render Loomi tags directly. If you are on React 18, or if you need to pass arrays, objects, or functions, use a ref and assign those values after the component mounts.
 
 ```jsx
-import "@loomi/filepicker";
+import "@loomidev/filepicker";
 
 export function LoomiExample() {
   return (
@@ -265,7 +265,7 @@ Import the package in the component that uses it, or once in your main Vue file.
 
 ```vue
 <script setup>
-import "@loomi/filepicker";
+import "@loomidev/filepicker";
 </script>
 
 <template>
@@ -282,7 +282,7 @@ Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_
 ```ts
 // app.component.ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
-import "@loomi/filepicker";
+import "@loomidev/filepicker";
 
 @Component({
   selector: "app-root",
@@ -301,7 +301,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```svelte
 <script>
-  import "@loomi/filepicker";
+  import "@loomidev/filepicker";
 </script>
 
 <loomi-filepicker name="documents" accepted-file-types=".pdf,.docx" max-files="3"></loomi-filepicker>
@@ -309,7 +309,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```astro
 ---
-import "@loomi/filepicker";
+import "@loomidev/filepicker";
 ---
 
 <loomi-filepicker name="documents" accepted-file-types=".pdf,.docx" max-files="3"></loomi-filepicker>

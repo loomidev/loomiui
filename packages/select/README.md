@@ -1,15 +1,15 @@
-# @loomi/select
+# @loomidev/select
 
 `<loomi-select>` — a themeable custom select. Supports a `data` array (or JSON string),
 manual `<option>` children, search, multiple selection, images and a floating label.
 **Form-associated**: submits the selected value(s) under `name` (comma-joined for multiple).
 
 ```bash
-npm install @loomi/select lit
+npm install @loomidev/select lit
 ```
 
 ```js
-import "@loomi/select";
+import "@loomidev/select";
 ```
 
 ## Basic Usage (Data-Driven)
@@ -233,15 +233,15 @@ Run install commands from the app where you want to use this component. That mea
 
 ```bash
 cd /path/to/your-app
-npm install @loomi/select lit
+npm install @loomidev/select lit
 ```
 
 If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomi/select build
-pnpm --filter @loomi/select typecheck
+pnpm --filter @loomidev/select build
+pnpm --filter @loomidev/select typecheck
 ```
 
 ### Plain HTML
@@ -252,7 +252,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomi/select"></script>
+<script type="module" src="https://esm.sh/@loomidev/select"></script>
 
 <loomi-select
   name="country"
@@ -266,7 +266,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
 ```js
-import "@loomi/select";
+import "@loomidev/select";
 ```
 
 
@@ -285,13 +285,13 @@ Run the install command from your Laravel project root, then import the componen
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomi/select lit
+npm install @loomidev/select lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomi/select";
+import "@loomidev/select";
 ```
 
 ```blade
@@ -308,7 +308,7 @@ React can render Loomi tags directly. If you are on React 18, or if you need to 
 
 ```jsx
 import { useEffect, useRef } from "react";
-import "@loomi/select";
+import "@loomidev/select";
 
 export function LoomiExample() {
   const el = useRef(null);
@@ -330,7 +330,7 @@ Import the package in the component that uses it, or once in your main Vue file.
 ```vue
 <script setup>
 import { onMounted, ref } from "vue";
-import "@loomi/select";
+import "@loomidev/select";
 
 const el = ref(null);
 
@@ -353,7 +353,7 @@ Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_
 ```ts
 // app.component.ts
 import { AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, Component, ElementRef, ViewChild } from "@angular/core";
-import "@loomi/select";
+import "@loomidev/select";
 
 @Component({
   selector: "app-root",
@@ -379,7 +379,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 ```svelte
 <script>
   import { onMount } from "svelte";
-  import "@loomi/select";
+  import "@loomidev/select";
 
   let el;
 
@@ -393,7 +393,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```astro
 ---
-import "@loomi/select";
+import "@loomidev/select";
 ---
 
 <loomi-select

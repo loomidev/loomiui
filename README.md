@@ -26,7 +26,7 @@ custom elements that work in any framework, or none at all.
   single button or the entire library.
 - **Real form participation.** Every form control is form-associated via
   `ElementInternals` — they submit inside a native `<form>` like any built-in input.
-- **An MCP server included.** [`@loomi/mcp-server`](packages/mcp-server) lets AI coding
+- **An MCP server included.** [`@loomidev/mcp-server`](packages/mcp-server) lets AI coding
   assistants (Claude Code, Cursor, etc.) look up real attribute tables instead of
   guessing. See [below](#ai-assisted-development).
 
@@ -41,7 +41,7 @@ Try it with no install at all, straight from a CDN:
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomi/button"></script>
+<script type="module" src="https://esm.sh/@loomidev/button"></script>
 
 <loomi-button>Hello LoomiUI</loomi-button>
 ```
@@ -49,11 +49,11 @@ Try it with no install at all, straight from a CDN:
 Or install it properly:
 
 ```bash
-npm install @loomi/button lit
+npm install @loomidev/button lit
 ```
 
 ```js
-import "@loomi/button"; // registers <loomi-button>
+import "@loomidev/button"; // registers <loomi-button>
 ```
 
 ```html
@@ -65,31 +65,31 @@ import "@loomi/button"; // registers <loomi-button>
 ### Install everything
 
 ```bash
-npm install @loomi/components lit
+npm install @loomidev/components lit
 ```
 
 ```js
-import "@loomi/components"; // registers every LoomiUI element
+import "@loomidev/components"; // registers every LoomiUI element
 ```
 
 ### Install just what you need
 
-Each component is its own package, depending only on the tiny shared `@loomi/core` and
-`@loomi/theme` (pulled in automatically).
+Each component is its own package, depending only on the tiny shared `@loomidev/core` and
+`@loomidev/theme` (pulled in automatically).
 
 ```bash
-npm install @loomi/select @loomi/datepicker lit
+npm install @loomidev/select @loomidev/datepicker lit
 ```
 
 ```js
-import "@loomi/select";
-import "@loomi/datepicker";
+import "@loomidev/select";
+import "@loomidev/datepicker";
 ```
 
-You can also install a whole category at once — see [`@loomi/forms`](packages/forms),
-[`@loomi/content`](packages/content), [`@loomi/navigation`](packages/navigation) — or
+You can also install a whole category at once — see [`@loomidev/forms`](packages/forms),
+[`@loomidev/content`](packages/content), [`@loomidev/navigation`](packages/navigation) — or
 cherry-pick a single component from the umbrella package:
-`import "@loomi/components/button"`.
+`import "@loomidev/components/button"`.
 
 > Install `lit` alongside LoomiUI packages. This lets your app use one shared Lit version
 > instead of each Loomi package bringing its own copy.
@@ -114,18 +114,18 @@ boundary — one `:root` declaration restyles the entire library instantly.
 `50`–`950` tonal scale (e.g. `--loomi-cyan-500`).
 
 Curious how the override mechanism avoids the usual Shadow DOM custom-property pitfalls?
-See [`@loomi/core`'s README](packages/core#--loomi--public-theme-vs---_loomi-accent-private-per-instance).
+See [`@loomidev/core`'s README](packages/core#--loomi--public-theme-vs---_loomi-accent-private-per-instance).
 
 ## Internationalization
 
-Built-in component text is translated through `@loomi/core`: placeholders, validation
+Built-in component text is translated through `@loomidev/core`: placeholders, validation
 messages, aria labels, pagination text, and datepicker month/weekday names. Set a shared
 locale before rendering components, or use a component's `locale` attribute for a local
 override.
 
 ```js
-import { setLoomiLocale, defineLoomiTranslations } from "@loomi/core";
-import "@loomi/components";
+import { setLoomiLocale, defineLoomiTranslations } from "@loomidev/core";
+import "@loomidev/components";
 
 setLoomiLocale("es");
 
@@ -167,7 +167,7 @@ so set them imperatively via a ref:
 
 ```jsx
 import { useEffect, useRef } from "react";
-import "@loomi/select";
+import "@loomidev/select";
 
 function CountryPicker() {
   const ref = useRef(null);
@@ -201,11 +201,11 @@ components but won't submit their values inside a native `<form>`.
 
 ## AI-assisted development
 
-[`@loomi/mcp-server`](packages/mcp-server) is an [MCP](https://modelcontextprotocol.io)
+[`@loomidev/mcp-server`](packages/mcp-server) is an [MCP](https://modelcontextprotocol.io)
 server that exposes every component's real documentation to AI coding tools:
 
 ```bash
-npx @loomi/mcp-server
+npx @loomidev/mcp-server
 ```
 
 Point Claude Code, Cursor, or Claude Desktop at it (see the package README for the exact

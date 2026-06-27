@@ -1,21 +1,21 @@
-# @loomi/navigation
+# @loomidev/navigation
 
 All LoomiUI **navigation** components in one install.
 
 ```bash
-npm install @loomi/navigation lit
+npm install @loomidev/navigation lit
 ```
 
 ```js
-import "@loomi/navigation"; // registers all navigation elements
+import "@loomidev/navigation"; // registers all navigation elements
 ```
 
 | Package |
 | --- |
-| [`@loomi/tab`](../tab) |
-| [`@loomi/pagination`](../pagination) |
-| [`@loomi/dropmenu`](../dropmenu) |
-| [`@loomi/theme-switcher`](../theme-switcher) |
+| [`@loomidev/tab`](../tab) |
+| [`@loomidev/pagination`](../pagination) |
+| [`@loomidev/dropmenu`](../dropmenu) |
+| [`@loomidev/theme-switcher`](../theme-switcher) |
 
 See the [root README](../../README.md) for the install/theming model.
 
@@ -23,7 +23,7 @@ See the [root README](../../README.md) for the install/theming model.
 
 ## Framework integration
 
-`@loomi/navigation` registers all LoomiUI navigation components. Use it when you want one import for a whole category instead of installing each component separately.
+`@loomidev/navigation` registers all LoomiUI navigation components. Use it when you want one import for a whole category instead of installing each component separately.
 
 ### Where to run commands
 
@@ -31,13 +31,13 @@ Run install commands from the app where you want to use this bundle. That means 
 
 ```bash
 cd /path/to/your-app
-npm install @loomi/navigation lit
+npm install @loomidev/navigation lit
 ```
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomi/navigation build
-pnpm --filter @loomi/navigation typecheck
+pnpm --filter @loomidev/navigation build
+pnpm --filter @loomidev/navigation typecheck
 ```
 
 ### Plain HTML
@@ -46,7 +46,7 @@ pnpm --filter @loomi/navigation typecheck
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomi/navigation"></script>
+<script type="module" src="https://esm.sh/@loomidev/navigation"></script>
 
 <loomi-tabs>
   <loomi-tab label="Overview" active>Overview content</loomi-tab>
@@ -58,13 +58,13 @@ pnpm --filter @loomi/navigation typecheck
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomi/navigation lit
+npm install @loomidev/navigation lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomi/navigation";
+import "@loomidev/navigation";
 ```
 
 ```blade
@@ -77,7 +77,7 @@ import "@loomi/navigation";
 ### React
 
 ```jsx
-import "@loomi/navigation";
+import "@loomidev/navigation";
 
 export function LoomiBundleExample() {
   return (
@@ -95,7 +95,7 @@ For array or object properties such as select `data` or table `columns`, assign 
 
 ```vue
 <script setup>
-import "@loomi/navigation";
+import "@loomidev/navigation";
 </script>
 
 <template>
@@ -112,7 +112,7 @@ Configure Vue's `compilerOptions.isCustomElement` for tags that start with `loom
 
 ```ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
-import "@loomi/navigation";
+import "@loomidev/navigation";
 
 @Component({
   selector: "app-root",
@@ -132,7 +132,7 @@ export class AppComponent {}
 
 ```svelte
 <script>
-  import "@loomi/navigation";
+  import "@loomidev/navigation";
 </script>
 
 <loomi-tabs>
@@ -143,7 +143,7 @@ export class AppComponent {}
 
 ```astro
 ---
-import "@loomi/navigation";
+import "@loomidev/navigation";
 ---
 
 <loomi-tabs>

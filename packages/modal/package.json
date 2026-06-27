@@ -1,7 +1,7 @@
 {
-  "name": "@loomi/modal",
+  "name": "@loomidev/modal",
   "version": "0.1.0",
-  "description": "loomi <loomi-modal> — overlay dialog with types, sizes and action buttons.",
+  "description": "<loomi-modal> — overlay dialog with types, sizes and action buttons.",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -29,15 +29,15 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@loomi/button": "workspace:^",
-    "@loomi/core": "workspace:^",
-    "@loomi/icon": "workspace:^"
+    "@loomidev/button": "workspace:^",
+    "@loomidev/core": "workspace:^",
+    "@loomidev/icon": "workspace:^"
   },
   "peerDependencies": {
     "lit": "^3.0.0"
   },
   "devDependencies": {
-    "@loomi/theme": "workspace:^",
+    "@loomidev/theme": "workspace:^",
     "@tailwindcss/cli": "^4.0.0",
     "lit": "^3.3.3",
     "tailwindcss": "^4.0.0",
@@ -46,7 +46,7 @@
   "keywords": [
     "web-components",
     "lit",
-    "loomi",
+    "loomiui",
     "modal",
     "dialog"
   ]

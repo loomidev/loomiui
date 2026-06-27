@@ -1,4 +1,4 @@
-# @loomi/tab
+# @loomidev/tab
 
 `<loomi-tabs>` builds a heading bar from its `<loomi-tab>` children and toggles which
 panel is visible. Unlike BladewindUI's tab component, there's no separate
@@ -7,11 +7,11 @@ heading (`label`/`icon`) **and** its own panel content together, so there's noth
 name-match by hand.
 
 ```bash
-npm install @loomi/tab lit
+npm install @loomidev/tab lit
 ```
 
 ```js
-import "@loomi/tab";
+import "@loomidev/tab";
 ```
 
 ## Basic Usage
@@ -95,7 +95,7 @@ Each tab is its own independent pill; the active one fills with `color`.
 ## With Icons
 
 Set `icon` on a `<loomi-tab>` to prefix its heading with an icon from the shared
-[`@loomi/icons`](../icons) registry. Works in any of the three styles.
+[`@loomidev/icons`](../icons) registry. Works in any of the three styles.
 
 ```html
 <loomi-tabs>
@@ -108,7 +108,7 @@ Set `icon` on a `<loomi-tab>` to prefix its heading with an icon from the shared
 Need an icon that isn't built in? Register your own — no need to fork the registry:
 
 ```js
-import { registerLoomiIcon } from "@loomi/icons";
+import { registerLoomiIcon } from "@loomidev/icons";
 import { svg } from "lit";
 
 registerLoomiIcon("rocket", svg`<path d="…" />`);
@@ -163,7 +163,7 @@ every style.
 | Attribute | Default | Description |
 | --- | --- | --- |
 | `label` | _(blank)_ | Heading text. |
-| `icon` | _(blank)_ | Heading icon name (see [`@loomi/icons`](../icons)). |
+| `icon` | _(blank)_ | Heading icon name (see [`@loomidev/icons`](../icons)). |
 | `active` | `false` | Selected by default. _(boolean)_ |
 | `disabled` | `false` | Disabled tab — faded out, ignores clicks and keyboard focus. _(boolean)_ |
 | `url` | _(blank)_ | Navigate to this URL instead of switching panels. |
@@ -200,15 +200,15 @@ Run install commands from the app where you want to use this component. That mea
 
 ```bash
 cd /path/to/your-app
-npm install @loomi/tab lit
+npm install @loomidev/tab lit
 ```
 
 If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomi/tab build
-pnpm --filter @loomi/tab typecheck
+pnpm --filter @loomidev/tab build
+pnpm --filter @loomidev/tab typecheck
 ```
 
 ### Plain HTML
@@ -219,7 +219,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomi/tab"></script>
+<script type="module" src="https://esm.sh/@loomidev/tab"></script>
 
 <loomi-tabs>
   <loomi-tab label="Overview" active>Account summary</loomi-tab>
@@ -232,7 +232,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
 ```js
-import "@loomi/tab";
+import "@loomidev/tab";
 ```
 
 
@@ -242,13 +242,13 @@ Run the install command from your Laravel project root, then import the componen
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomi/tab lit
+npm install @loomidev/tab lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomi/tab";
+import "@loomidev/tab";
 ```
 
 ```blade
@@ -263,7 +263,7 @@ import "@loomi/tab";
 React can render Loomi tags directly. If you are on React 18, or if you need to pass arrays, objects, or functions, use a ref and assign those values after the component mounts.
 
 ```jsx
-import "@loomi/tab";
+import "@loomidev/tab";
 
 export function LoomiExample() {
   return (
@@ -283,7 +283,7 @@ Import the package in the component that uses it, or once in your main Vue file.
 
 ```vue
 <script setup>
-import "@loomi/tab";
+import "@loomidev/tab";
 </script>
 
 <template>
@@ -303,7 +303,7 @@ Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_
 ```ts
 // app.component.ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
-import "@loomi/tab";
+import "@loomidev/tab";
 
 @Component({
   selector: "app-root",
@@ -325,7 +325,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```svelte
 <script>
-  import "@loomi/tab";
+  import "@loomidev/tab";
 </script>
 
 <loomi-tabs>
@@ -336,7 +336,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```astro
 ---
-import "@loomi/tab";
+import "@loomidev/tab";
 ---
 
 <loomi-tabs>

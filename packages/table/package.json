@@ -1,7 +1,7 @@
 {
-  "name": "@loomi/table",
+  "name": "@loomidev/table",
   "version": "0.1.0",
-  "description": "loomi <loomi-table> — data table with sorting, search, pagination, checkable rows and action icons.",
+  "description": "<loomi-table> — data table with sorting, search, pagination, checkable rows and action icons.",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -29,16 +29,16 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@loomi/core": "workspace:^",
-    "@loomi/icons": "workspace:^",
-    "@loomi/checkbox": "workspace:^",
-    "@loomi/pagination": "workspace:^"
+    "@loomidev/core": "workspace:^",
+    "@loomidev/icons": "workspace:^",
+    "@loomidev/checkbox": "workspace:^",
+    "@loomidev/pagination": "workspace:^"
   },
   "peerDependencies": {
     "lit": "^3.0.0"
   },
   "devDependencies": {
-    "@loomi/theme": "workspace:^",
+    "@loomidev/theme": "workspace:^",
     "@tailwindcss/cli": "^4.0.0",
     "lit": "^3.3.3",
     "tailwindcss": "^4.0.0",
@@ -47,7 +47,7 @@
   "keywords": [
     "web-components",
     "lit",
-    "loomi",
+    "loomiui",
     "table",
     "datatable"
   ]

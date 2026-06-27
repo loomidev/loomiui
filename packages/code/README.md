@@ -1,15 +1,15 @@
-# @loomi/code
+# @loomidev/code
 
 `<loomi-code>` — a verification-code (PIN) input of N boxes with auto-advance and paste
 support. It's common to send users a 4–6 digit code via email or SMS for them to enter
 here. **Form-associated**: submits the joined code under `name`.
 
 ```bash
-npm install @loomi/code lit
+npm install @loomidev/code lit
 ```
 
 ```js
-import "@loomi/code";
+import "@loomidev/code";
 ```
 
 ## Basic Usage
@@ -122,15 +122,15 @@ Run install commands from the app where you want to use this component. That mea
 
 ```bash
 cd /path/to/your-app
-npm install @loomi/code lit
+npm install @loomidev/code lit
 ```
 
 If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomi/code build
-pnpm --filter @loomi/code typecheck
+pnpm --filter @loomidev/code build
+pnpm --filter @loomidev/code typecheck
 ```
 
 ### Plain HTML
@@ -141,7 +141,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomi/code"></script>
+<script type="module" src="https://esm.sh/@loomidev/code"></script>
 
 <loomi-code name="otp" total-digits="6" mask="number"></loomi-code>
 ```
@@ -151,7 +151,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
 ```js
-import "@loomi/code";
+import "@loomidev/code";
 ```
 
 
@@ -163,13 +163,13 @@ Run the install command from your Laravel project root, then import the componen
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomi/code lit
+npm install @loomidev/code lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomi/code";
+import "@loomidev/code";
 ```
 
 ```blade
@@ -181,7 +181,7 @@ import "@loomi/code";
 React can render Loomi tags directly. If you are on React 18, or if you need to pass arrays, objects, or functions, use a ref and assign those values after the component mounts.
 
 ```jsx
-import "@loomi/code";
+import "@loomidev/code";
 
 export function LoomiExample() {
   return (
@@ -198,7 +198,7 @@ Import the package in the component that uses it, or once in your main Vue file.
 
 ```vue
 <script setup>
-import "@loomi/code";
+import "@loomidev/code";
 </script>
 
 <template>
@@ -215,7 +215,7 @@ Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_
 ```ts
 // app.component.ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
-import "@loomi/code";
+import "@loomidev/code";
 
 @Component({
   selector: "app-root",
@@ -234,7 +234,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```svelte
 <script>
-  import "@loomi/code";
+  import "@loomidev/code";
 </script>
 
 <loomi-code name="otp" total-digits="6" mask="number"></loomi-code>
@@ -242,7 +242,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```astro
 ---
-import "@loomi/code";
+import "@loomidev/code";
 ---
 
 <loomi-code name="otp" total-digits="6" mask="number"></loomi-code>

@@ -1,15 +1,15 @@
-# @loomi/icons
+# @loomidev/icons
 
 The shared icon registry used across loomi components. It is generated from the
 official Heroicons 24px outline and solid sets, then published as plain Lit SVG
 templates — no React or Heroicons runtime dependency ships to consumers.
 
 ```bash
-npm install @loomi/icons lit
+npm install @loomidev/icons lit
 ```
 
 ```ts
-import { getLoomiIcon, registerLoomiIcon, loomiIconNames } from "@loomi/icons";
+import { getLoomiIcon, registerLoomiIcon, loomiIconNames } from "@loomidev/icons";
 import { svg } from "lit";
 
 registerLoomiIcon("rocket", svg`<path d="…" />`);

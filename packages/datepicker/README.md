@@ -1,14 +1,14 @@
-# @loomi/datepicker
+# @loomidev/datepicker
 
 `<loomi-datepicker>` — a calendar date picker (single or range) with locale-aware
 month/weekday names. **Form-associated**: submits the formatted date(s) under `name`.
 
 ```bash
-npm install @loomi/datepicker lit
+npm install @loomidev/datepicker lit
 ```
 
 ```js
-import "@loomi/datepicker";
+import "@loomidev/datepicker";
 ```
 
 ## Basic Usage
@@ -92,8 +92,8 @@ Restrict selectable dates — anything outside the bounds is disabled and grayed
 labels, formatted month names, weekday headings, and `D d M, Y` display format.
 
 ```js
-import { setLoomiLocale, defineLoomiTranslations } from "@loomi/core";
-import "@loomi/datepicker";
+import { setLoomiLocale, defineLoomiTranslations } from "@loomidev/core";
+import "@loomidev/datepicker";
 
 setLoomiLocale("fr");
 
@@ -181,15 +181,15 @@ Run install commands from the app where you want to use this component. That mea
 
 ```bash
 cd /path/to/your-app
-npm install @loomi/datepicker lit
+npm install @loomidev/datepicker lit
 ```
 
 If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomi/datepicker build
-pnpm --filter @loomi/datepicker typecheck
+pnpm --filter @loomidev/datepicker build
+pnpm --filter @loomidev/datepicker typecheck
 ```
 
 ### Plain HTML
@@ -200,7 +200,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomi/datepicker"></script>
+<script type="module" src="https://esm.sh/@loomidev/datepicker"></script>
 
 <loomi-datepicker name="start_date" label="Start date" required></loomi-datepicker>
 ```
@@ -210,7 +210,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
 ```js
-import "@loomi/datepicker";
+import "@loomidev/datepicker";
 ```
 
 
@@ -222,13 +222,13 @@ Run the install command from your Laravel project root, then import the componen
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomi/datepicker lit
+npm install @loomidev/datepicker lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomi/datepicker";
+import "@loomidev/datepicker";
 ```
 
 ```blade
@@ -240,7 +240,7 @@ import "@loomi/datepicker";
 React can render Loomi tags directly. If you are on React 18, or if you need to pass arrays, objects, or functions, use a ref and assign those values after the component mounts.
 
 ```jsx
-import "@loomi/datepicker";
+import "@loomidev/datepicker";
 
 export function LoomiExample() {
   return (
@@ -257,7 +257,7 @@ Import the package in the component that uses it, or once in your main Vue file.
 
 ```vue
 <script setup>
-import "@loomi/datepicker";
+import "@loomidev/datepicker";
 </script>
 
 <template>
@@ -274,7 +274,7 @@ Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_
 ```ts
 // app.component.ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
-import "@loomi/datepicker";
+import "@loomidev/datepicker";
 
 @Component({
   selector: "app-root",
@@ -293,7 +293,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```svelte
 <script>
-  import "@loomi/datepicker";
+  import "@loomidev/datepicker";
 </script>
 
 <loomi-datepicker name="start_date" label="Start date" required></loomi-datepicker>
@@ -301,7 +301,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```astro
 ---
-import "@loomi/datepicker";
+import "@loomidev/datepicker";
 ---
 
 <loomi-datepicker name="start_date" label="Start date" required></loomi-datepicker>

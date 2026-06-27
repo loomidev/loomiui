@@ -84,7 +84,7 @@ before, here's what's different and why it matters for this specific repo.
 | `npm uninstall <pkg>` | `pnpm remove <pkg>` | |
 | `npm run build` | `pnpm build` | (`run` is optional in pnpm for script names that don't collide with a built-in command) |
 | `npm run build --workspaces` | `pnpm -r build` | `-r` = recursive, run in every workspace package. |
-| n/a | `pnpm --filter @loomi/<name> build` | Run a script in exactly one workspace package. |
+| n/a | `pnpm --filter @loomidev/<name> build` | Run a script in exactly one workspace package. |
 | n/a | `pnpm -r --parallel dev` | Run in every package, all at once instead of sequentially. |
 
 ### Setting it up on a fresh machine
@@ -119,7 +119,7 @@ before, here's what's different and why it matters for this specific repo.
    pnpm install
    ```
    This installs every package's `dependencies`/`devDependencies` and symlinks every
-   `@loomi/*` workspace package into every other package that depends on it.
+   `@loomidev/*` workspace package into every other package that depends on it.
 5. **Build everything:**
    ```bash
    pnpm build
@@ -150,7 +150,7 @@ components/                          (repo root)
 ### `package.json` (root)
 ```json
 {
-  "name": "@loomi/root",
+  "name": "@loomidev/root",
   "private": true,
   "packageManager": "pnpm@9.15.9",
   "engines": { "node": ">=20" },
@@ -167,7 +167,7 @@ components/                          (repo root)
 `"private": true` physically prevents this package from ever being published by accident.
 It has no `dependencies` of its own — it's purely a script runner. `pnpm -r` runs a script
 in every workspace package that defines it, in dependency order (pnpm topologically sorts
-by each package's own `dependencies`, so `@loomi/theme` always builds before anything that
+by each package's own `dependencies`, so `@loomidev/theme` always builds before anything that
 depends on it).
 
 ### `pnpm-workspace.yaml`
@@ -189,7 +189,7 @@ link-workspace-packages=true
 prefer-workspace-packages=true
 auto-install-peers=true
 ```
-Tells pnpm to symlink in-workspace `@loomi/*` dependencies locally instead of fetching
+Tells pnpm to symlink in-workspace `@loomidev/*` dependencies locally instead of fetching
 them from the registry, and to silently satisfy `peerDependencies` (like `lit`) so you
 don't get nagged about them in local dev.
 
@@ -233,7 +233,7 @@ packages/button/
 ### `package.json`
 ```json
 {
-  "name": "@loomi/button",
+  "name": "@loomidev/button",
   "version": "0.1.0",
   "type": "module",
   "main": "./dist/index.js",
@@ -249,8 +249,8 @@ packages/button/
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@loomi/icons": "workspace:^",
-    "@loomi/theme": "workspace:^"
+    "@loomidev/icons": "workspace:^",
+    "@loomidev/theme": "workspace:^"
   },
   "peerDependencies": { "lit": "^3.0.0" },
   "devDependencies": {
@@ -265,16 +265,16 @@ Things worth understanding line by line:
   *only* these paths into the tarball. `src/`, `scripts/`, `node_modules/` never leave
   your machine. No `.npmignore` needed.
 - **`"exports"` has two entries.** `"."` is the barrel
-  (`import { LoomiButton } from "@loomi/button"`). `"./loomi-button.js"` is a
-  *side-effecting* entry point — `import "@loomi/button/loomi-button.js"` executes the
+  (`import { LoomiButton } from "@loomidev/button"`). `"./loomi-button.js"` is a
+  *side-effecting* entry point — `import "@loomidev/button/loomi-button.js"` executes the
   `@customElement("loomi-button")` decorator and registers the custom element. Consumers
   who just want the tag to work use the second form.
 - **`dependencies` vs `peerDependencies` vs `devDependencies`** — the part most likely to
   trip you up:
   - `dependencies`: things this package genuinely needs at runtime that aren't already
-    guaranteed by the consumer. `@loomi/theme` and `@loomi/icons` qualify — npm/pnpm's
+    guaranteed by the consumer. `@loomidev/theme` and `@loomidev/icons` qualify — npm/pnpm's
     dedup logic ensures only one copy of each ends up installed even if five different
-    `@loomi/*` packages all depend on them.
+    `@loomidev/*` packages all depend on them.
   - `peerDependencies`: `lit`. We deliberately do **not** bundle Lit or list it as a
     regular dependency — if every one of the 44 packages bundled its own copy, a consumer
     installing three LoomiUI components could end up with three copies of Lit on the page
@@ -282,7 +282,7 @@ Things worth understanding line by line:
     dependency means "I need *a* copy of Lit ^3.0.0 to exist somewhere in your tree, you
     supply it." `auto-install-peers=true` satisfies this silently in local dev.
   - `devDependencies`: build-only tools (`tailwindcss`, `@tailwindcss/cli`, `typescript`,
-    plus a dev-time copy of `lit`/`@loomi/theme` for the build script and type-checker to
+    plus a dev-time copy of `lit`/`@loomidev/theme` for the build script and type-checker to
     resolve against). None of this ships.
 - **`workspace:^`** — pnpm-specific: "resolve from the local workspace; rewrite to
   `^<published-version>` at publish time." See [§9](#9-publishing-to-npm).
@@ -293,7 +293,7 @@ one extra safelist block — see below). Don't hand-edit it per-package; if the 
 needs to change, change the master copy and re-copy it everywhere.
 
 What it does, in order:
-1. Reads `@loomi/theme/palette.json` (real `node_modules` resolution) for the color
+1. Reads `@loomidev/theme/palette.json` (real `node_modules` resolution) for the color
    names, shades, and `prefix` (currently `"loomi"`).
 2. Builds a Tailwind `@theme inline` block mapping every Tailwind color utility
    (`bg-red-600`, etc.) onto `var(--loomi-red-600, var(--_loomi-red-600-default))` —
@@ -306,7 +306,7 @@ What it does, in order:
 5. Writes the compiled CSS into `src/generated/styles.css.ts`, wrapped as a Lit
    `CSSResult` via `unsafeCSS(...)`, exported as `componentStyles`.
 
-`@loomi/button` additionally defines a **safelist** (`@source inline(...)`) because its
+`@loomidev/button` additionally defines a **safelist** (`@source inline(...)`) because its
 color classes are built from a runtime template string (`` `bg-${color}-600` ``) that
 Tailwind's static scanner can't see — without it, those classes would get purged. Every
 other component avoids this by themeing through the `--_loomi-accent` mechanism (see
@@ -320,7 +320,7 @@ build script rewrites them with the fallback chain automatically.
 
 ### `src/loomi-button.ts`
 ```ts
-import { LoomiElement, loomiStyles } from "@loomi/core";
+import { LoomiElement, loomiStyles } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 @customElement("loomi-button")
@@ -329,7 +329,7 @@ export class LoomiButton extends LoomiElement {
   // properties, render()...
 }
 ```
-Every one of the 44 components extends `LoomiElement` (from `@loomi/core`), never bare
+Every one of the 44 components extends `LoomiElement` (from `@loomidev/core`), never bare
 `LitElement` — see [§8, step 6](#8-adding-a-new-component-step-by-step) for what that
 buys you and why.
 
@@ -350,7 +350,7 @@ types/helpers. This is what `"."` in `exports` points at.
 
 These aren't components — every component depends on them.
 
-### `packages/theme/` — `@loomi/theme`
+### `packages/theme/` — `@loomidev/theme`
 Single source of truth for the color palette. Key file: `palette.json` (committed,
 hand-edited, **not** generated):
 ```json
@@ -373,9 +373,9 @@ To rebrand the entire library's custom-property prefix (e.g. `--loomi-*` →
 `--acme-*`), `palette.json`'s `"prefix"` field is the **single line** to change — both
 `build-tokens.mjs` and every component's `build-styles.mjs` read it from there.
 
-### `packages/core/` — `@loomi/core`
+### `packages/core/` — `@loomidev/core`
 Shared runtime helpers every component imports. Re-exports `themeStyles` and the palette
-from `@loomi/theme`, plus:
+from `@loomidev/theme`, plus:
 - `LoomiElement` — the base class every component extends instead of Lit's own
   `LitElement`, see [§8, step 6](#8-adding-a-new-component-step-by-step).
 - `loomiStyles(...styles)` — `return [themeStyles, ...styles]`. Used in every component's
@@ -390,7 +390,7 @@ from `@loomi/theme`, plus:
   messages, aria labels, ...). See [§8b](#8b-adding-or-updating-translations) for how the
   actual translation strings are organized and how to add or edit one.
 
-### `packages/icons/` — `@loomi/icons`
+### `packages/icons/` — `@loomidev/icons`
 A single `Record<string, SVGTemplateResult>` (a subset of Heroicons outline paths), plus
 `registerLoomiIcon()`/`getLoomiIcon()`/`loomiIconNames()`. Every component that needs an
 icon pulls from this **one shared registry** rather than maintaining its own copy — early
@@ -407,15 +407,15 @@ Two similarly-named things, easy to conflate:
   location for every workspace package per `pnpm-workspace.yaml`. No `package.json` of
   its own.
 - **`packages/components/`** — **one ordinary sibling package** among the other 51, whose
-  npm name happens to be `@loomi/components`. It's the "install everything" umbrella
+  npm name happens to be `@loomidev/components`. It's the "install everything" umbrella
   package: it depends on all 44 component packages plus `core`/`icons`/`theme`, and
   re-exports every one of them:
 
 ```json
 // packages/components/package.json (abridged)
 {
-  "name": "@loomi/components",
-  "dependencies": { "@loomi/core": "workspace:^", "@loomi/button": "workspace:^", "...": "..." },
+  "name": "@loomidev/components",
+  "dependencies": { "@loomidev/core": "workspace:^", "@loomidev/button": "workspace:^", "...": "..." },
   "exports": {
     ".": { "import": "./dist/index.js" },
     "./button": { "import": "./dist/button.js" }
@@ -424,13 +424,13 @@ Two similarly-named things, easy to conflate:
 ```
 ```ts
 // packages/components/src/button.ts — one of 44 tiny re-export files
-export * from "@loomi/button";
+export * from "@loomidev/button";
 ```
-That last pattern is what makes `import "@loomi/components/button"` work — it points at
+That last pattern is what makes `import "@loomidev/components/button"` work — it points at
 the `"./button"` entry in `exports`, letting someone who installs the umbrella still
 cherry-pick a single component without pulling the whole barrel into their bundle.
 
-It's named `components` because that's its npm package name — same logic as `@loomi/button`
+It's named `components` because that's its npm package name — same logic as `@loomidev/button`
 living in `packages/button/`. The folder name colliding visually with its parent
 (`packages/`) is purely cosmetic; pnpm resolves packages by the `name` field in
 `package.json`, never by folder name, so renaming the folder to e.g. `packages/all/` is
@@ -438,9 +438,9 @@ safe if the similarity keeps confusing people.
 
 Two more "bundle" packages work identically but for a subset, with no styles of their own
 and no per-component subpaths:
-- `packages/forms/` → `@loomi/forms` (14 form controls)
-- `packages/content/` → `@loomi/content` (18 content/display components)
-- `packages/navigation/` → `@loomi/navigation` (4 navigation components)
+- `packages/forms/` → `@loomidev/forms` (14 form controls)
+- `packages/content/` → `@loomidev/content` (18 content/display components)
+- `packages/navigation/` → `@loomidev/navigation` (4 navigation components)
 
 Their `"build"` script is just `tsc -p tsconfig.json` — nothing to compile.
 
@@ -463,7 +463,7 @@ stays empty on the component, so a consumer's `:root` override inherits straight
 the shadow boundary and wins; absent an override, `var(..., fallback)` resolves to the
 private default.
 
-This is why `@loomi/core` exports **`accentVars(color)`**, used by any component needing a
+This is why `@loomidev/core` exports **`accentVars(color)`**, used by any component needing a
 *per-instance* color (a red checkbox next to a green one can't both just read the global
 `--loomi-primary-*`):
 ```ts
@@ -494,7 +494,7 @@ reinvent it.**
 
 ## 8. Adding a new component, step by step
 
-1. **Decide deps first.** Needs icons? → depends on `@loomi/icons`. Composes another
+1. **Decide deps first.** Needs icons? → depends on `@loomidev/icons`. Composes another
    component (like `table` needs `checkbox` + `pagination`)? → build those first, depend
    on them as regular `dependencies`.
 2. **Scaffold:** `mkdir -p packages/<name>/{src,scripts}`
@@ -502,12 +502,12 @@ reinvent it.**
    `scripts/build-styles.mjs` and `tsconfig.json`.
 4. **Write `package.json`** — copy a similar component's, change `name`, `description`,
    `keywords`, the `./loomi-<name>.js` exports path, and `dependencies` (always
-   `@loomi/core`; add `@loomi/icons`/other components as needed; always `workspace:^`).
+   `@loomidev/core`; add `@loomidev/icons`/other components as needed; always `workspace:^`).
 5. **Write `src/styles.css`** — plain CSS, reference colors as `var(--loomi-gray-300)`
    or `var(--_loomi-accent)` if using `accentVars()`.
 6. **Write `src/loomi-<name>.ts`**:
    ```ts
-   import { LoomiElement, loomiStyles /*, accentVars */ } from "@loomi/core";
+   import { LoomiElement, loomiStyles /*, accentVars */ } from "@loomidev/core";
    import { componentStyles } from "./generated/styles.css.js";
 
    @customElement("loomi-<name>")
@@ -542,12 +542,12 @@ reinvent it.**
 8. **Build it in isolation first:**
    ```bash
    pnpm install
-   pnpm --filter @loomi/<name> build
+   pnpm --filter @loomidev/<name> build
    ```
 9. **Wire it into its grouping package(s)** (`forms`/`content`/`navigation`) — add to
-   `dependencies` and add `export * from "@loomi/<name>";` to `src/index.ts`.
+   `dependencies` and add `export * from "@loomidev/<name>";` to `src/index.ts`.
 10. **Wire it into the umbrella (`packages/components`)** — add to `dependencies`, add an
-    `exports["./<name>"]` entry, add `src/<name>.ts` (`export * from "@loomi/<name>";`),
+    `exports["./<name>"]` entry, add `src/<name>.ts` (`export * from "@loomidev/<name>";`),
     add the export line to `src/index.ts`.
 11. **Reinstall + full rebuild:** `pnpm install && pnpm build`
 12. **Write `packages/<name>/README.md`** — usage examples + full attribute table; copy
@@ -617,7 +617,7 @@ backlog effort.
 
 ## 8b. Adding or updating translations
 
-`@loomi/core`'s `src/i18n.ts` is the shared translation lookup (`loomiT`,
+`@loomidev/core`'s `src/i18n.ts` is the shared translation lookup (`loomiT`,
 `setLoomiLocale`, `defineLoomiTranslations`, `loomiMonthName`, etc.) that every component
 calls into for its built-in copy — placeholders, validation messages, aria labels,
 pagination strings, datepicker month/weekday names, and similar defaults. The strings
@@ -643,18 +643,18 @@ cycle, and no need to scroll past 400 lines of languages you don't read.
 4. Optionally add the locale code to the `LoomiLocale` union in `src/i18n.ts` — this is
    purely an autocomplete nicety, since the type also accepts any `string` and the
    runtime lookup works regardless.
-5. `pnpm --filter @loomi/core build` (or `pnpm build` from root) to confirm it compiles,
+5. `pnpm --filter @loomidev/core build` (or `pnpm build` from root) to confirm it compiles,
    then add the locale to the "Built-in locales" line in `packages/core/README.md`.
 
 ### Fixing or improving an existing translation
 
 No aggregation step needed — just edit the relevant `<locale>.ts` under
-`packages/core/src/locales/` and rebuild `@loomi/core`.
+`packages/core/src/locales/` and rebuild `@loomidev/core`.
 
 ### Adding a language without touching this repo at all
 
 Any consumer can register a translation at runtime via `defineLoomiTranslations(locale,
-translations)` (exported from `@loomi/core`) without a PR against this repo — see the
+translations)` (exported from `@loomidev/core`) without a PR against this repo — see the
 "Internationalization" section of `packages/core/README.md` for the consumer-facing
 docs. It deep-merges into whatever's already registered for that locale, so a partial
 object covering only the keys someone cares about is fine; anything missing still falls
@@ -668,11 +668,11 @@ you want it shipped as a built-in default.
 
 ### 9.1 One-time account setup
 1. Create an npm account: https://www.npmjs.com/signup
-2. **Decide who owns the `@loomi` scope.** Scoped packages require *someone* own the
+2. **Decide who owns the `@loomidev` scope.** Scoped packages require *someone* own the
    `loomi` organization on npm. Either create a free npm org at
    https://www.npmjs.com/org/create (free orgs publish unlimited **public** scoped
    packages — what we need), or, if `loomi` is taken, rename the scope everywhere
-   (every `package.json` + every internal `@loomi/...` import) *before* the first
+   (every `package.json` + every internal `@loomidev/...` import) *before* the first
    publish — not after.
 3. `npm login` (shared auth token, also used by `pnpm publish`).
 4. Add `"publishConfig": { "access": "public" }` to every package's `package.json` so you
@@ -680,8 +680,8 @@ you want it shipped as a built-in default.
    packages to requiring a paid private plan unless told otherwise).
 
 ### 9.2 The mechanic you must understand before publishing anything
-`packages/forms/package.json` says `"@loomi/input": "workspace:^"`. That syntax is **not
-valid outside this monorepo** — published literally, `npm install @loomi/forms` would
+`packages/forms/package.json` says `"@loomidev/input": "workspace:^"`. That syntax is **not
+valid outside this monorepo** — published literally, `npm install @loomidev/forms` would
 fail for anyone, since the npm registry doesn't understand `workspace:^`.
 
 **`pnpm publish` automatically rewrites `workspace:^` to the dependency's actual
@@ -693,7 +693,7 @@ this rewriting to happen.
 ### 9.3 Versioning strategy
 **Already set up.** This repo uses [Changesets](https://github.com/changesets/changesets)
 (`@changesets/cli`, config at `.changeset/config.json`) — `access` is set to `"public"`
-(required for new scoped packages) and `@loomi/root` is in `ignore` (it's private and
+(required for new scoped packages) and `@loomidev/root` is in `ignore` (it's private and
 never published). Every package's `package.json` already has
 `"publishConfig": { "access": "public" }` too, so a raw `pnpm publish` never needs the
 flag remembered by hand. Workflow:
@@ -714,13 +714,13 @@ pnpm -r publish --access public             # the real thing
 ```
 `pnpm -r publish` runs in every workspace package in dependency order automatically. The
 dry run shows exactly what `npm pack` would include per package — confirm only `dist/`
-(and, for `@loomi/theme`, also `palette.json` + `src/tailwind-colors.css` per its `files`
+(and, for `@loomidev/theme`, also `palette.json` + `src/tailwind-colors.css` per its `files`
 field) is being uploaded.
 
 ### 9.5 Does publish order matter?
-For the **very first release**, yes in one sense: if `@loomi/button` finished publishing
-before `@loomi/theme`/`@loomi/icons` existed on the registry at all, `npm install
-@loomi/button` would fail for end users immediately. `pnpm -r publish` already publishes
+For the **very first release**, yes in one sense: if `@loomidev/button` finished publishing
+before `@loomidev/theme`/`@loomidev/icons` existed on the registry at all, `npm install
+@loomidev/button` would fail for end users immediately. `pnpm -r publish` already publishes
 dependency-first (`theme`, `core`, `icons` → components → groupings → `components`
 umbrella) — don't fight this by publishing one package manually out of order on the first
 release. After that, every package exists at *some* version, so order matters less, but
@@ -742,7 +742,7 @@ keep doing dependencies-first anyway.
 
 Neither workflow can actually run until two things exist: the repo is pushed to a GitHub
 remote, and these two repo secrets are set —
-- `NPM_TOKEN` — an npm **automation** token with publish rights on the `@loomi` org
+- `NPM_TOKEN` — an npm **automation** token with publish rights on the `@loomidev` org
   (create one at npmjs.com under your account's Access Tokens, scoped to "Automation").
 - `GITHUB_TOKEN` is provided automatically by Actions; no setup needed.
 
@@ -764,7 +764,7 @@ up on npm":
 3. Merging *that* PR into `main` re-triggers `release.yml`. This time there's nothing
    left unconsumed, so the action runs `pnpm changeset publish` instead, pushing to the
    npm registry and creating a git tag per published package back on the GitHub repo
-   (e.g. `@loomi/button@0.2.0`).
+   (e.g. `@loomidev/button@0.2.0`).
 4. **Provenance is what cryptographically ties the two together.** Because this job runs
    in GitHub Actions with `id-token: write`, npm can attest — and display on each
    package's npm page — that the published tarball was built from this exact GitHub
@@ -783,7 +783,7 @@ field. Worth adding per package — e.g.
 "repository": { "type": "git", "url": "https://github.com/loomiui/loomiui.git", "directory": "packages/button" }
 ```
 npm renders this as a link on the package's registry page, and the `directory` field is
-what lets someone land on `@loomi/button`'s npm listing and get back to
+what lets someone land on `@loomidev/button`'s npm listing and get back to
 `packages/button/` in this exact repo, rather than just the repo root.
 
 ---
@@ -839,7 +839,7 @@ place, push as a single repository.
   can't be exercised before that.
 - **Versioning/changelog automation** via Changesets — see [§9.3](#93-versioning-strategy).
 - **Explicit browser support matrix**, a **React/Vue/Angular interop note**, a
-  **zero-install CDN quick start**, and the **`@loomi/mcp-server`** highlight — all now
+  **zero-install CDN quick start**, and the **`@loomidev/mcp-server`** highlight — all now
   in the user-facing `README.md` rather than buried here.
 - **A *partial* accessibility pass** — not a full audit. Fixed: `modal` now traps Tab
   focus, moves focus into the dialog on open, and restores it to the trigger on close;
@@ -870,14 +870,14 @@ place, push as a single repository.
 | I want to... | Do this |
 |---|---|
 | Build everything | `pnpm build` (from root) |
-| Build one package | `pnpm --filter @loomi/<name> build` |
+| Build one package | `pnpm --filter @loomidev/<name> build` |
 | Clean build artifacts | `pnpm clean` |
 | Run the smoke-test suite | `pnpm build && pnpm test` — see [§8a](#8a-automated-smoke-tests) |
 | Run one package's tests | `pnpm web-test-runner --files "packages/<name>/test/**/*.test.ts"` |
 | Add a new component | See [§8](#8-adding-a-new-component-step-by-step) |
 | Add or fix a translation | See [§8b](#8b-adding-or-updating-translations) |
 | Theme a color globally | `:root { --loomi-primary-600: #16a34a; }` on the consumer's page |
-| Give a component a per-instance color attribute | Use `accentVars(color)` from `@loomi/core`, see [§7](#7-the-theming-model-so-you-dont-break-it) |
+| Give a component a per-instance color attribute | Use `accentVars(color)` from `@loomidev/core`, see [§7](#7-the-theming-model-so-you-dont-break-it) |
 | Publish (no tooling) | `pnpm build && pnpm -r publish --access public --dry-run` then drop `--dry-run` |
 | Publish (with Changesets, recommended) | `pnpm changeset` → `pnpm changeset version` → `pnpm changeset publish` |
 | Diagnose "my color override isn't working" | Check the component declared `--_loomi-X-default` on `:host`, never the public `--loomi-X` ([§7](#7-the-theming-model-so-you-dont-break-it)) |
