@@ -64,9 +64,15 @@ Built-in locales: `en`, `ar`, `de`, `es`, `fr`, `it`, `ml`, `pt_BR`, `tr`, and
 `zh_CN`. Datepicker month and weekday names are formatted with the component/global
 locale.
 
-To customize copy or add another language, register only the keys you want to change:
-datepicker custom locales may also provide `monthsShort`, `monthsLong`, and
-`weekdaysShort` arrays.
+Each built-in locale lives in its own file under
+[`src/locales/`](./src/locales/) (e.g. `src/locales/fr.ts`), so contributing a
+translation doesn't mean editing one giant file. To add a built-in language,
+copy `en.ts` to `<locale>.ts`, translate the strings, and register it in
+`src/locales/index.ts`.
+
+To customize copy or add another language without touching this package at all,
+register only the keys you want to change at runtime — datepicker custom locales
+may also provide `monthsShort`, `monthsLong`, and `weekdaysShort` arrays.
 
 ```js
 import { defineLoomiTranslations, setLoomiLocale } from "@loomi/core";
