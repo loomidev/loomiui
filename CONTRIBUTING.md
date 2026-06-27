@@ -5,11 +5,13 @@ get a dev environment running, how to add a component, and how to publish. Read 
 before touching the codebase — it answers "why is it built this way" for the decisions
 that aren't obvious from the code alone.
 
-> **Status note:** this is a single git repository (initialized on `main`) — see
+> **Status note:** this is a single git repository — see
 > [§10](#10-should-each-component-be-its-own-git-repository) for why components aren't
-> split into separate repos. It hasn't been pushed to a remote yet; do that before
-> relying on the CI/release workflows in [§9](#9-publishing-to-npm), which only run on
-> GitHub Actions.
+> split into separate repos. It's pushed to `github.com/loomiui/loomiui` (`main` and
+> `development` are both live there) — see
+> [§9.7](#97-how-this-ties-to-the-github-repo) for how that connects to the CI/release
+> workflows in [§9](#9-publishing-to-npm), which only run on GitHub Actions and still
+> need their repo secrets configured before a real publish can happen.
 
 ## Table of contents
 
@@ -22,6 +24,7 @@ that aren't obvious from the code alone.
 7. [The theming model](#7-the-theming-model-so-you-dont-break-it)
 8. [Adding a new component, step by step](#8-adding-a-new-component-step-by-step)
    - [8a. Automated smoke tests](#8a-automated-smoke-tests)
+   - [8b. Adding or updating translations](#8b-adding-or-updating-translations)
 9. [Publishing to npm](#9-publishing-to-npm)
 10. [Should each component be its own git repository?](#10-should-each-component-be-its-own-git-repository)
 11. [Open-source readiness — status](#11-open-source-readiness--status)
@@ -317,15 +320,19 @@ build script rewrites them with the fallback chain automatically.
 
 ### `src/loomi-button.ts`
 ```ts
-import { loomiStyles } from "@loomi/core";
+import { LoomiElement, loomiStyles } from "@loomi/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 @customElement("loomi-button")
-export class LoomiButton extends LitElement {
+export class LoomiButton extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
   // properties, render()...
 }
 ```
+Every one of the 44 components extends `LoomiElement` (from `@loomi/core`), never bare
+`LitElement` — see [§8, step 6](#8-adding-a-new-component-step-by-step) for what that
+buys you and why.
+
 The import is `./generated/styles.css.js` — the **compiled output path**, `.js`
 extension even from a `.ts` file. With `"moduleResolution": "Bundler"`, TypeScript
 resolves this against what *will* exist after build, not what's in `src/` right now.
@@ -369,6 +376,8 @@ To rebrand the entire library's custom-property prefix (e.g. `--loomi-*` →
 ### `packages/core/` — `@loomi/core`
 Shared runtime helpers every component imports. Re-exports `themeStyles` and the palette
 from `@loomi/theme`, plus:
+- `LoomiElement` — the base class every component extends instead of Lit's own
+  `LitElement`, see [§8, step 6](#8-adding-a-new-component-step-by-step).
 - `loomiStyles(...styles)` — `return [themeStyles, ...styles]`. Used in every component's
   `static styles`.
 - `accentVars(color)` — the per-instance theming mechanism, see
@@ -376,6 +385,10 @@ from `@loomi/theme`, plus:
 - `cssColor(color, shade)` — single themed value for inline use (e.g. a status dot).
 - `onClickOutside(el, handler)` — used by dropdowns/popovers/selects to close on outside
   click.
+- `loomiT`/`setLoomiLocale`/`defineLoomiTranslations`/etc. (`src/i18n.ts`) — the shared
+  translation lookup behind every component's built-in copy (placeholders, validation
+  messages, aria labels, ...). See [§8b](#8b-adding-or-updating-translations) for how the
+  actual translation strings are organized and how to add or edit one.
 
 ### `packages/icons/` — `@loomi/icons`
 A single `Record<string, SVGTemplateResult>` (a subset of Heroicons outline paths), plus
@@ -494,17 +507,37 @@ reinvent it.**
    or `var(--_loomi-accent)` if using `accentVars()`.
 6. **Write `src/loomi-<name>.ts`**:
    ```ts
-   import { loomiStyles /*, accentVars */ } from "@loomi/core";
+   import { LoomiElement, loomiStyles /*, accentVars */ } from "@loomi/core";
    import { componentStyles } from "./generated/styles.css.js";
 
    @customElement("loomi-<name>")
-   export class Loomi<Name> extends LitElement {
+   export class Loomi<Name> extends LoomiElement {
      static override styles = loomiStyles(componentStyles);
    }
    declare global {
      interface HTMLElementTagNameMap { "loomi-<name>": Loomi<Name>; }
    }
    ```
+   **Extend `LoomiElement`, not `LitElement`.** `LoomiElement`
+   (`packages/core/src/index.ts`) is a thin `LitElement` subclass that every one of the
+   44 components extends, and it's what every component's `name` attribute is built on:
+   ```ts
+   export class LoomiElement extends LitElement {
+     static override properties = { name: { type: String, reflect: true } };
+     declare name: string;
+     // connectedCallback() / update() keep a stable CSS class on the host element in sync
+   }
+   ```
+   On `connectedCallback()` and every `update()`, it applies a CSS class to the host
+   element — either a sanitized version of the `name` attribute if the consumer set one
+   (`<loomi-button name="submit-btn">` → class `submit-btn`), or, if not, a generated
+   fallback (`loomi-button-a1b2c` style: `loomi-<component-type>-<random-suffix>`),
+   swapping the old class out if `name` changes later. This gives every component a
+   **stable selector to hook external CSS or test/automation code to**, without each of
+   the 44 components reimplementing the same `name`-to-class logic individually. If you
+   extend bare `LitElement` instead, your component silently loses this — there's no
+   compiler error, it just won't have a `name` attribute or the class-sync behavior every
+   sibling component has.
 7. **Write `src/index.ts`** — `export { Loomi<Name>, type ... } from "./loomi-<name>.js";`
 8. **Build it in isolation first:**
    ```bash
@@ -579,6 +612,55 @@ The other ~39 components do **not** have smoke tests yet — they've been verifi
 manually via the `examples/*.html` pages only. Extending coverage as you touch a
 component (step 14 above) is the expected way this fills in over time, not a dedicated
 backlog effort.
+
+---
+
+## 8b. Adding or updating translations
+
+`@loomi/core`'s `src/i18n.ts` is the shared translation lookup (`loomiT`,
+`setLoomiLocale`, `defineLoomiTranslations`, `loomiMonthName`, etc.) that every component
+calls into for its built-in copy — placeholders, validation messages, aria labels,
+pagination strings, datepicker month/weekday names, and similar defaults. The strings
+themselves don't live in `i18n.ts`: each built-in language is its own file under
+`packages/core/src/locales/` (`en.ts`, `ar.ts`, `de.ts`, `es.ts`, `fr.ts`, `it.ts`,
+`ml.ts`, `pt_BR.ts`, `tr.ts`, `zh_CN.ts`), aggregated by `src/locales/index.ts` into the
+`builtinTranslations` map that `i18n.ts` imports. That split exists on purpose: it means
+adding or fixing a translation is a one-file diff in your own language, with no risk of
+merge-conflicting with someone else translating a different language in the same PR
+cycle, and no need to scroll past 400 lines of languages you don't read.
+
+### Adding a brand-new built-in language
+
+1. Copy `packages/core/src/locales/en.ts` to `<locale>.ts`, named for the locale code
+   you're adding (e.g. `ak.ts` for Akan; use an underscore for region variants the way
+   `pt_BR.ts` does).
+2. Translate every string **value** — keep every object/array key identical to `en.ts`.
+   Leave `:placeholder`-style tokens (`:a`, `:max`, `:theme`, ...) and `%s` printf-style
+   tokens untouched; `loomiT()`'s template substitution fills those in at call time
+   regardless of language.
+3. Import the new file in `packages/core/src/locales/index.ts` and add it to the
+   `builtinTranslations` map.
+4. Optionally add the locale code to the `LoomiLocale` union in `src/i18n.ts` — this is
+   purely an autocomplete nicety, since the type also accepts any `string` and the
+   runtime lookup works regardless.
+5. `pnpm --filter @loomi/core build` (or `pnpm build` from root) to confirm it compiles,
+   then add the locale to the "Built-in locales" line in `packages/core/README.md`.
+
+### Fixing or improving an existing translation
+
+No aggregation step needed — just edit the relevant `<locale>.ts` under
+`packages/core/src/locales/` and rebuild `@loomi/core`.
+
+### Adding a language without touching this repo at all
+
+Any consumer can register a translation at runtime via `defineLoomiTranslations(locale,
+translations)` (exported from `@loomi/core`) without a PR against this repo — see the
+"Internationalization" section of `packages/core/README.md` for the consumer-facing
+docs. It deep-merges into whatever's already registered for that locale, so a partial
+object covering only the keys someone cares about is fine; anything missing still falls
+back to English. That's the right path for a quick or unofficial translation; promoting
+it to a real `locales/<x>.ts` file (steps above) is worth doing once it's complete and
+you want it shipped as a built-in default.
 
 ---
 
@@ -664,6 +746,46 @@ remote, and these two repo secrets are set —
   (create one at npmjs.com under your account's Access Tokens, scoped to "Automation").
 - `GITHUB_TOKEN` is provided automatically by Actions; no setup needed.
 
+### 9.7 How this ties to the GitHub repo
+
+Everything in [§9.6](#96-ci) is GitHub-Actions-driven, so it only works against the
+actual GitHub repo (`origin` is `github.com/loomiui/loomiui`; `main` and `development`
+are both pushed there). Concretely, here's the loop from "merge a PR" to "package shows
+up on npm":
+
+1. A PR merges into `main`. `ci.yml` already ran against the PR itself (build +
+   typecheck + test, [§9.6](#96-ci)); the merge to `main` is what triggers `release.yml`.
+2. If that merge included unconsumed `.changeset/*.md` files (someone ran `pnpm
+   changeset`, [§9.3](#93-versioning-strategy)), the Changesets GitHub Action opens or
+   updates a standing **"Version Packages" PR** on the same repo — it does **not**
+   publish yet. That PR is itself reviewable on GitHub like any other: it shows exactly
+   which packages bump, and by how much, generated straight from the changeset files'
+   contents.
+3. Merging *that* PR into `main` re-triggers `release.yml`. This time there's nothing
+   left unconsumed, so the action runs `pnpm changeset publish` instead, pushing to the
+   npm registry and creating a git tag per published package back on the GitHub repo
+   (e.g. `@loomi/button@0.2.0`).
+4. **Provenance is what cryptographically ties the two together.** Because this job runs
+   in GitHub Actions with `id-token: write`, npm can attest — and display on each
+   package's npm page — that the published tarball was built from this exact GitHub
+   repo, commit, and workflow run, not assembled by hand on a laptop. Only packages
+   published through this CI path get that badge; a manual `pnpm publish` from a local
+   machine ([§9.4](#94-manual-publish-no-tooling-one-off-release)) never does.
+5. The repo secrets from [§9.6](#96-ci) live on GitHub itself —
+   `github.com/loomiui/loomiui` → Settings → Secrets and variables → Actions — not
+   anywhere in this codebase. Until `NPM_TOKEN` is set there, `release.yml` still runs
+   and will still open the "Version Packages" PR, but the `pnpm changeset publish` step
+   fails for lack of registry credentials.
+
+One thing not wired up yet: no package's `package.json` declares a `"repository"`
+field. Worth adding per package — e.g.
+```json
+"repository": { "type": "git", "url": "https://github.com/loomiui/loomiui.git", "directory": "packages/button" }
+```
+npm renders this as a link on the package's registry page, and the `directory` field is
+what lets someone land on `@loomi/button`'s npm listing and get back to
+`packages/button/` in this exact repo, rather than just the repo root.
+
 ---
 
 ## 10. Should each component be its own git repository?
@@ -712,8 +834,9 @@ place, push as a single repository.
 - **`SECURITY.md`** with a private disclosure path, plus GitHub issue templates
   (`bug_report.yml`, `feature_request.yml`) and a PR template.
 - **npm publish provenance**: wired into `release.yml` (`id-token: write` +
-  Changesets' action) — will take effect once the repo has a GitHub remote and the
-  `NPM_TOKEN` secret is set; can't be exercised before that.
+  Changesets' action), see [§9.7](#97-how-this-ties-to-the-github-repo) — will take
+  effect once the `NPM_TOKEN` repo secret is set on `github.com/loomiui/loomiui`;
+  can't be exercised before that.
 - **Versioning/changelog automation** via Changesets — see [§9.3](#93-versioning-strategy).
 - **Explicit browser support matrix**, a **React/Vue/Angular interop note**, a
   **zero-install CDN quick start**, and the **`@loomi/mcp-server`** highlight — all now
@@ -736,9 +859,9 @@ place, push as a single repository.
   `aria-activedescendant` pattern).
 - **Test coverage** for the other ~39 components — extend opportunistically per
   [§8a](#8a-automated-smoke-tests), not as a dedicated backlog effort.
-- **An actual GitHub remote.** Nothing in `.github/workflows/` can run, and the
-  provenance publish can't be exercised, until this repo is pushed somewhere and its
-  secrets are configured.
+- **Repo secrets on GitHub.** The repo itself is pushed (`github.com/loomiui/loomiui`,
+  see [§9.7](#97-how-this-ties-to-the-github-repo)), but the workflows can't actually
+  publish until `NPM_TOKEN` is set there.
 
 ---
 
@@ -752,6 +875,7 @@ place, push as a single repository.
 | Run the smoke-test suite | `pnpm build && pnpm test` — see [§8a](#8a-automated-smoke-tests) |
 | Run one package's tests | `pnpm web-test-runner --files "packages/<name>/test/**/*.test.ts"` |
 | Add a new component | See [§8](#8-adding-a-new-component-step-by-step) |
+| Add or fix a translation | See [§8b](#8b-adding-or-updating-translations) |
 | Theme a color globally | `:root { --loomi-primary-600: #16a34a; }` on the consumer's page |
 | Give a component a per-instance color attribute | Use `accentVars(color)` from `@loomi/core`, see [§7](#7-the-theming-model-so-you-dont-break-it) |
 | Publish (no tooling) | `pnpm build && pnpm -r publish --access public --dry-run` then drop `--dry-run` |
