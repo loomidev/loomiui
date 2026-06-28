@@ -17,22 +17,7 @@ import "@loomidev/chart";
 You need to define either  a unique `id` or `class` attribute on the chart element, then assign the `data` property in JavaScript. The `data` property is an array of objects, each with a `label`, a `value`, and an optional `color`.
 `data` can either be loaded from an API or updated at runtime.
 
-```js
-<loomi-chart id="basic"></loomi-chart>
-```
-
-```js
-<script type="module">
-  document.getElementById("basic").data = [
-    { label: "Jan", value: 30 },
-    { label: "Feb", value: 55 },
-    { label: "Mar", value: 42 },
-    { label: "Apr", value: 60 },
-  ];
-</script>
-```
-
-```html
+```html.skip
 <loomi-chart id="basic"></loomi-chart>
 
 <script type="module">
@@ -41,16 +26,48 @@ You need to define either  a unique `id` or `class` attribute on the chart eleme
     { label: "Feb", value: 55 },
     { label: "Mar", value: 42 },
     { label: "Apr", value: 60 },
+    { label: "Jun", value: 70 },
   ];
 </script>
 ```
 
-`data` also accepts a JSON-encoded string as a plain HTML attribute, for static charts
-with no JavaScript at all — handy in Markdown, CMS content, or server-rendered HTML.
-Malformed JSON falls back to an empty series rather than breaking the chart.
+```js
+<loomi-chart id="basic"></loomi-chart>
+```
+
+```js
+<loomi-chart class="basic-chart"></loomi-chart>
+```
+
+```js
+<script type="module">
+    let chartData = [
+        { label: "Jan", value: 30 },
+        { label: "Feb", value: 55 },
+        { label: "Mar", value: 42 },
+        { label: "Apr", value: 60 },
+        { label: "May", value: 52 },
+        { label: "Jun", value: 70 },
+    ];
+    
+    document.getElementById("basic").data = chartData;
+    // or
+    document.querySelector(".basic-chart").data = chartData;
+</script>
+```
+
+The `data` property also accepts a JSON-encoded string passed directly through the HTML `data` attribute. 
+This makes static charts possible even when no JavaScript runs on the page, which is useful in Markdown docs, 
+CMS fields, emails, or server-rendered templates where inline scripting is limited.
+
+When using attribute JSON, ensure the string is valid JSON syntax and properly escaped for HTML. 
+If parsing fails, the component safely falls back to an empty data series instead of throwing an error, 
+so the chart remains stable and the page does not break.
 
 ```html
-<loomi-chart type="bar" data='[{"label":"Jan","value":30},{"label":"Feb","value":55}]'></loomi-chart>
+<loomi-chart 
+    type="bar" 
+    data='[{"label":"Jan","value":30},{"label":"Feb","value":55}]'></loomi-chart>
 ```
 
 ## Chart Types
