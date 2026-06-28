@@ -19,7 +19,7 @@ export const zh_CN: LoomiTranslations = {
     chooseYear: "选择年份",
     dialog: "日期选择器",
   },
-  filepicker: { placeholderLine1: "选择文件或拖放以上传", placeholderLine2: "%s，最大 %s" },
+  filepicker: { placeholderLine1: "选择文件或拖放以上传", placeholderLine2: "%s，最大 %s", cropTitle: "裁剪图片", cropApply: "应用", cropCancel: "取消" },
   select: { placeholder: "请选择", emptyPlaceholder: "没有可用选项", searchPlaceholder: "搜索..." },
   table: { searchPlaceholder: "搜索...", noDataMessage: "没有可显示的记录", actionsTitle: "操作" },
   pagination: { totalLabel: "显示第 :a 到 :b 条，共 :c 条", noRecords: "没有记录", pageOf: "第 :page 页，共 :pages 页" },

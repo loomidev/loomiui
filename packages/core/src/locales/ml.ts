@@ -19,7 +19,7 @@ export const ml: LoomiTranslations = {
     chooseYear: "വർഷം തിരഞ്ഞെടുക്കുക",
     dialog: "തീയതി തിരഞ്ഞെടുക്കൽ",
   },
-  filepicker: { placeholderLine1: "ഫയലുകൾ തിരഞ്ഞെടുക്കുക അല്ലെങ്കിൽ അപ്‌ലോഡ് ചെയ്യാൻ വലിച്ചിടുക", placeholderLine2: "%s %s വരെ" },
+  filepicker: { placeholderLine1: "ഫയലുകൾ തിരഞ്ഞെടുക്കുക അല്ലെങ്കിൽ അപ്‌ലോഡ് ചെയ്യാൻ വലിച്ചിടുക", placeholderLine2: "%s %s വരെ", cropTitle: "ചിത്രം ക്രോപ്പ് ചെയ്യുക", cropApply: "പ്രയോഗിക്കുക", cropCancel: "റദ്ദാക്കുക" },
   select: { placeholder: "ഒന്ന് തിരഞ്ഞെടുക്കുക", emptyPlaceholder: "ഓപ്ഷനുകളൊന്നും ലഭ്യമല്ല", searchPlaceholder: "തിരയുക..." },
   table: { searchPlaceholder: "തിരയുക...", noDataMessage: "കാണിക്കാൻ രേഖകളില്ല", actionsTitle: "നടപടികൾ" },
   pagination: { totalLabel: ":c ൽ :a മുതൽ :b വരെ കാണിക്കുന്നു", noRecords: "രേഖകളില്ല", pageOf: "പേജ് :page / :pages" },

@@ -103,3 +103,108 @@
 }
 .loomi-remove:hover { color: var(--loomi-red-500); }
 .loomi-remove svg { width: 1.1rem; height: 1.1rem; }
+
+.loomi-crop-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--loomi-modal-z-index, 2147480000);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.45);
+  animation: loomi-crop-fade 0.15s ease;
+}
+.loomi-crop-dialog {
+  background: var(--loomi-surface);
+  border-radius: 0.85rem;
+  padding: 1.25rem;
+  max-width: 90vw;
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.2),
+    0 8px 10px -6px rgba(0, 0, 0, 0.2);
+  animation: loomi-crop-pop 0.16s ease;
+  outline: none;
+}
+.loomi-crop-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--loomi-text);
+  margin-bottom: 0.85rem;
+}
+.loomi-crop-stage {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+  max-width: 80vw;
+  max-height: 60vh;
+  overflow: hidden;
+  border-radius: 0.4rem;
+}
+.loomi-crop-img {
+  display: block;
+  max-width: 80vw;
+  max-height: 60vh;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+.loomi-crop-rect {
+  position: absolute;
+  box-shadow: 0 0 0 9999px rgba(15, 23, 42, 0.55);
+  border: 1px solid var(--loomi-white);
+  cursor: move;
+  touch-action: none;
+}
+.loomi-crop-handle {
+  position: absolute;
+  right: -0.4rem;
+  bottom: -0.4rem;
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 9999px;
+  background: var(--loomi-white);
+  border: 1px solid var(--loomi-primary-600, var(--_loomi-primary-600-default));
+  cursor: nwse-resize;
+  touch-action: none;
+}
+.loomi-crop-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+.loomi-crop-btn {
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  padding: 0.45rem 1rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.loomi-crop-btn.cancel {
+  background: var(--loomi-surface);
+  color: var(--loomi-text-secondary);
+  border-color: var(--loomi-gray-200);
+}
+.loomi-crop-btn.cancel:hover {
+  background: var(--loomi-surface-hover);
+}
+.loomi-crop-btn.apply {
+  background: var(--loomi-primary-600, var(--_loomi-primary-600-default));
+  color: var(--loomi-white);
+}
+.loomi-crop-btn.apply:hover {
+  background: var(--loomi-primary-700, var(--_loomi-primary-700-default));
+}
+.loomi-crop-btn.apply:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@keyframes loomi-crop-fade {
+  from { opacity: 0; }
+}
+@keyframes loomi-crop-pop {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+}

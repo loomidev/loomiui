@@ -19,7 +19,7 @@ export const ar: LoomiTranslations = {
     chooseYear: "اختر السنة",
     dialog: "منتقي التاريخ",
   },
-  filepicker: { placeholderLine1: "اختر ملفات أو اسحبها وأفلتها للرفع", placeholderLine2: "%s حتى %s" },
+  filepicker: { placeholderLine1: "اختر ملفات أو اسحبها وأفلتها للرفع", placeholderLine2: "%s حتى %s", cropTitle: "قص الصورة", cropApply: "تطبيق", cropCancel: "إلغاء" },
   select: { placeholder: "اختر واحدا", emptyPlaceholder: "لا توجد خيارات متاحة", searchPlaceholder: "بحث..." },
   table: { searchPlaceholder: "بحث...", noDataMessage: "لا توجد سجلات للعرض", actionsTitle: "الإجراءات" },
   pagination: { totalLabel: "عرض :a إلى :b من :c", noRecords: "لا توجد سجلات", pageOf: "الصفحة :page من :pages" },

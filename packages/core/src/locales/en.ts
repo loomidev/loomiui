@@ -28,6 +28,9 @@ export const en: LoomiTranslations = {
   filepicker: {
     placeholderLine1: "Choose files or drag and drop to upload",
     placeholderLine2: "%s up to %s",
+    cropTitle: "Crop image",
+    cropApply: "Apply",
+    cropCancel: "Cancel",
   },
   select: {
     placeholder: "Select One",

@@ -1,1 +1,1 @@
-export { LoomiFilepicker } from "./loomi-filepicker.js";
+export { LoomiFilepicker, type LoomiCropAspectRatio } from "./loomi-filepicker.js";

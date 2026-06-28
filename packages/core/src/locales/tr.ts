@@ -19,7 +19,7 @@ export const tr: LoomiTranslations = {
     chooseYear: "Yıl seç",
     dialog: "Tarih seçici",
   },
-  filepicker: { placeholderLine1: "Dosya seçin veya yüklemek için sürükleyip bırakın", placeholderLine2: "%s en fazla %s" },
+  filepicker: { placeholderLine1: "Dosya seçin veya yüklemek için sürükleyip bırakın", placeholderLine2: "%s en fazla %s", cropTitle: "Görseli kırp", cropApply: "Uygula", cropCancel: "İptal" },
   select: { placeholder: "Seçin", emptyPlaceholder: "Kullanılabilir seçenek yok", searchPlaceholder: "Ara..." },
   table: { searchPlaceholder: "Ara...", noDataMessage: "Gösterilecek kayıt yok", actionsTitle: "işlemler" },
   pagination: { totalLabel: ":c kayıttan :a ile :b arası gösteriliyor", noRecords: "Kayıt yok", pageOf: "Sayfa :page / :pages" },

@@ -19,7 +19,7 @@ export const fr: LoomiTranslations = {
     chooseYear: "Choisir l'année",
     dialog: "Sélecteur de date",
   },
-  filepicker: { placeholderLine1: "Choisissez des fichiers ou glissez-déposez-les pour les téléverser", placeholderLine2: "%s jusqu'à %s" },
+  filepicker: { placeholderLine1: "Choisissez des fichiers ou glissez-déposez-les pour les téléverser", placeholderLine2: "%s jusqu'à %s", cropTitle: "Recadrer l'image", cropApply: "Appliquer", cropCancel: "Annuler" },
   select: { placeholder: "Sélectionner", emptyPlaceholder: "Aucune option disponible", searchPlaceholder: "Rechercher..." },
   table: { searchPlaceholder: "Rechercher...", noDataMessage: "Aucun enregistrement à afficher", actionsTitle: "actions" },
   pagination: { totalLabel: "Affichage de :a à :b sur :c", noRecords: "Aucun enregistrement", pageOf: "Page :page sur :pages" },

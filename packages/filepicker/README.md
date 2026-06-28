@@ -107,6 +107,30 @@ just file names.
 <loomi-filepicker max-files="3" show-image-preview="false"></loomi-filepicker>
 ```
 
+## Image Cropping
+
+Set `crop` to launch a crop dialog as soon as the user selects or drops an image. Drag
+the box to reposition it and drag the handle on its corner to resize; the file added to
+the picker is the cropped result. Non-image files skip the dialog entirely.
+
+Constrain the crop box with `crop-aspect-ratio`: `16:9` (default), `4:3`, `2:3`, `1:1`, or
+`free` (no fixed ratio — drag the handle to any width/height).
+
+```html
+<loomi-filepicker crop crop-aspect-ratio="1:1" accepted-file-types="image/*"></loomi-filepicker>
+```
+
+## Image Resizing
+
+Set `resize` to scale every uploaded image to fit within `resize-width` /
+`resize-height` (pixels) before it's added to the picker — no dialog, it just happens.
+Aspect ratio is preserved; pass only one of the two to constrain a single dimension.
+Runs after cropping when both are enabled.
+
+```html
+<loomi-filepicker resize resize-width="800" resize-height="600"></loomi-filepicker>
+```
+
 ## Disabled & Required
 
 ```html
@@ -154,12 +178,15 @@ form submit with `enctype="multipart/form-data"` just works.
 | `can-browse` / `can-drop` | `true` | Allow click-to-browse / drag-and-drop. _(boolean)_ |
 | `show-image-preview` | `true` | Thumbnail previews for images. _(boolean)_ |
 | `disabled` / `required` | `false` | Disable / mark required. _(boolean)_ |
+| `crop` | `false` | Launch a crop dialog when an image is selected/dropped. _(boolean)_ |
+| `crop-aspect-ratio` | `16:9` | `16:9`, `4:3`, `2:3`, `1:1`, or `free`. |
+| `resize` | `false` | Resize uploaded images to fit `resize-width`/`resize-height`. _(boolean)_ |
+| `resize-width` / `resize-height` | _(unset)_ | Target box in pixels; aspect ratio is preserved. |
 
 **Property:** `selectedFiles`. **Event:** `change` (`detail: { files }`).
 
-> Not ported from BladewindUI's Filepond wrapper: built-in image cropping/resizing and
-> auto-upload-to-route. Use the `change` event with your own upload logic, or submit the
-> form for manual upload.
+> Not ported from BladewindUI's Filepond wrapper: auto-upload-to-route. Use the `change`
+> event with your own upload logic, or submit the form for manual upload.
 
 ## Full Example
 
