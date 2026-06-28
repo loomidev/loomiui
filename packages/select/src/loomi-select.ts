@@ -1,6 +1,6 @@
 import { html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
-import { LoomiElement, loomiDefaultText, loomiT, themeStyles } from "@loomi/core";
+import { LoomiElement, loomiDefaultText, loomiT, themeStyles } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiSelectSize = "tiny" | "small" | "regular" | "medium" | "big";

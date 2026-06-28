@@ -6,8 +6,8 @@ body:
     id: package
     attributes:
       label: Affected package(s)
-      description: e.g. @loomi/select, @loomi/table
-      placeholder: "@loomi/select"
+      description: e.g. @loomidev/select, @loomidev/table
+      placeholder: "@loomidev/select"
     validations:
       required: true
 
@@ -15,7 +15,7 @@ body:
     id: version
     attributes:
       label: Version
-      description: Run `npm ls @loomi/<package>` or check your package.json/lockfile.
+      description: Run `npm ls @loomidev/<package>` or check your package.json/lockfile.
       placeholder: "0.1.0"
     validations:
       required: true

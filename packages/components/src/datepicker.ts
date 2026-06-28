@@ -1,2 +1,2 @@
-// Per-component entry: import "@loomi/components/datepicker";
-export * from "@loomi/datepicker";
+// Per-component entry: import "@loomidev/components/datepicker";
+export * from "@loomidev/datepicker";

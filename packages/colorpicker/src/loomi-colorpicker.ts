@@ -1,6 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, loomiT, onClickOutside } from "@loomi/core";
+import { LoomiElement, loomiStyles, loomiT, onClickOutside } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiColorpickerSize = "small" | "regular" | "medium" | "big";

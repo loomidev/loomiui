@@ -1,2 +1,2 @@
-// Per-component entry: import "@loomi/components/checkbox";
-export * from "@loomi/checkbox";
+// Per-component entry: import "@loomidev/components/checkbox";
+export * from "@loomidev/checkbox";

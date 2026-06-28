@@ -1,10 +1,10 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { customElement, property, state } from "lit/decorators.js";
-import { LoomiElement, loomiDefaultText, loomiStyles, cssColor } from "@loomi/core";
-import { getLoomiIcon, type LoomiIconVariant } from "@loomi/icons";
-import "@loomi/checkbox/loomi-checkbox.js";
-import "@loomi/pagination/loomi-pagination.js";
+import { LoomiElement, loomiDefaultText, loomiStyles, cssColor } from "@loomidev/core";
+import { getLoomiIcon, type LoomiIconVariant } from "@loomidev/icons";
+import "@loomidev/checkbox/loomi-checkbox.js";
+import "@loomidev/pagination/loomi-pagination.js";
 import { componentStyles } from "./generated/styles.css.js";
 
 type Row = Record<string, unknown>;

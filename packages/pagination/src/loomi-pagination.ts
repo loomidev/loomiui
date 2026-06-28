@@ -1,6 +1,6 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { LoomiElement, loomiDefaultText, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
+import { LoomiElement, loomiDefaultText, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiPaginationStyle = "arrows" | "numbers" | "dropdown";

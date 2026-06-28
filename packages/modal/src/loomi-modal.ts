@@ -1,8 +1,8 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
-import "@loomi/button/loomi-button.js";
-import "@loomi/icon/loomi-icon.js";
+import { LoomiElement, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomidev/core";
+import "@loomidev/button/loomi-button.js";
+import "@loomidev/icon/loomi-icon.js";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiModalType = "" | "info" | "error" | "warning" | "success";

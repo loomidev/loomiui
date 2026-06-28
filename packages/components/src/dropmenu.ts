@@ -1,2 +1,2 @@
-// Per-component entry: import "@loomi/components/dropmenu";
-export * from "@loomi/dropmenu";
+// Per-component entry: import "@loomidev/components/dropmenu";
+export * from "@loomidev/dropmenu";

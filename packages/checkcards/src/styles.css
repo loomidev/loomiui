@@ -19,14 +19,14 @@
   background: var(--loomi-surface);
   border: var(--loomi-cc-border, 2px) solid var(--loomi-surface-border);
   border-radius: 0.6rem;
-  padding: 1rem;
+  padding: 1rem 2rem 1rem 1rem;
   cursor: pointer;
   transition:
     border-color 0.12s ease,
     box-shadow 0.12s ease;
 }
 .loomi-card.compact {
-  padding: 0.6rem 0.75rem;
+  padding: 0.6rem 2rem 0.6rem 0.75rem;
 }
 .loomi-card.center {
   align-items: center;
@@ -43,29 +43,29 @@
 
 .loomi-check {
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  width: 1.25rem;
-  height: 1.25rem;
-  color: var(--_loomi-accent);
+  top: 50%;
+  right: 0.6rem;
+  width: 1.3rem;
+  height: 1.3rem;
+  --loomi-icon-size: 0.8rem;
+  border-radius: 9999px;
+  background: var(--_loomi-accent);
+  color: var(--loomi-white);
   opacity: 0;
-  transform: scale(0.7);
+  transform: translateY(-50%) scale(0.7);
   transition:
     opacity 0.12s ease,
     transform 0.12s ease;
 }
 :host([selected]) .loomi-check {
   opacity: 1;
-  transform: scale(1);
+  transform: translateY(-50%) scale(1);
 }
 
 .loomi-media {
   flex: none;
+  --loomi-icon-size: 1.75rem;
   color: var(--_loomi-accent);
-}
-.loomi-media svg {
-  width: 1.75rem;
-  height: 1.75rem;
 }
 .loomi-avatar {
   width: 2.25rem;

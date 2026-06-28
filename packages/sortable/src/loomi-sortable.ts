@@ -1,7 +1,7 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, loomiT } from "@loomi/core";
-import { getLoomiIcon } from "@loomi/icons";
+import { LoomiElement, loomiStyles, loomiT } from "@loomidev/core";
+import { getLoomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
 export interface LoomiSortableItem {
@@ -73,7 +73,7 @@ export class LoomiSortable extends LoomiElement {
   @property() handle = "";
   /** Drag by a dedicated handle instead of the whole row surface. */
   @property({ type: Boolean, attribute: "has-handle" }) hasHandle = false;
-  /** Icon name (from `@loomi/icons`) used for the drag handle when handle mode is enabled. */
+  /** Icon name (from `@loomidev/icons`) used for the drag handle when handle mode is enabled. */
   @property({ attribute: "handle-icon" }) handleIcon = "bars-3";
   /** Backwards-compatible multi-drag flag. */
   @property({ type: Boolean }) multidrag = false;

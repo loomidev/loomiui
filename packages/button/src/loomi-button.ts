@@ -1,7 +1,7 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { LoomiElement, themeStyles, isLoomiColor, type LoomiColor } from "@loomi/core";
+import { LoomiElement, themeStyles, isLoomiColor, type LoomiColor } from "@loomidev/core";
 import { getLoomiIcon } from "./icons.js";
 import { buttonStyles } from "./generated/styles.css.js";
 

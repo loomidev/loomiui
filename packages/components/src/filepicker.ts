@@ -1,2 +1,2 @@
-// Per-component entry: import "@loomi/components/filepicker";
-export * from "@loomi/filepicker";
+// Per-component entry: import "@loomidev/components/filepicker";
+export * from "@loomidev/filepicker";

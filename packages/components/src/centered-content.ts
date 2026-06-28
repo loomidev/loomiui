@@ -1,2 +1,2 @@
-// Per-component entry: import "@loomi/components/centered-content";
-export * from "@loomi/centered-content";
+// Per-component entry: import "@loomidev/components/centered-content";
+export * from "@loomidev/centered-content";

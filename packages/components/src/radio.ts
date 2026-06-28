@@ -1,2 +1,2 @@
-// Per-component entry: import "@loomi/components/radio";
-export * from "@loomi/radio";
+// Per-component entry: import "@loomidev/components/radio";
+export * from "@loomidev/radio";

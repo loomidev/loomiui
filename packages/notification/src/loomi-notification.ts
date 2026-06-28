@@ -1,7 +1,7 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
-import "@loomi/icon/loomi-icon.js";
+import { LoomiElement, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomidev/core";
+import "@loomidev/icon/loomi-icon.js";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiNotificationType = "success" | "info" | "warning" | "error";

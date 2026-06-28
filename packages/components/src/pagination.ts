@@ -1,2 +1,2 @@
-// Per-component entry: import "@loomi/components/pagination";
-export * from "@loomi/pagination";
+// Per-component entry: import "@loomidev/components/pagination";
+export * from "@loomidev/pagination";

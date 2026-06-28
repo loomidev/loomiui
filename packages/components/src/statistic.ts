@@ -1,2 +1,2 @@
-// Per-component entry: import "@loomi/components/statistic";
-export * from "@loomi/statistic";
+// Per-component entry: import "@loomidev/components/statistic";
+export * from "@loomidev/statistic";

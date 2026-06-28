@@ -1,2 +1,2 @@
-// Per-component entry: import "@loomi/components/checkcards";
-export * from "@loomi/checkcards";
+// Per-component entry: import "@loomidev/components/checkcards";
+export * from "@loomidev/checkcards";

@@ -1,2 +1,2 @@
-// Per-component entry: import "@loomi/components/alert";
-export * from "@loomi/alert";
+// Per-component entry: import "@loomidev/components/alert";
+export * from "@loomidev/alert";

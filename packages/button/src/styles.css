@@ -12,7 +12,7 @@
 
 :host {
   display: inline-block;
-  /* font-family is set on :host by @loomi/theme's tokens (prefix-aware). */
+  /* font-family is set on :host by @loomidev/theme's tokens (prefix-aware). */
   -webkit-tap-highlight-color: transparent;
   --loomi-control-height: 2.5rem;
   --loomi-control-pad-x: 1rem;

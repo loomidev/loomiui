@@ -1,2 +1,2 @@
-// Per-component entry: import "@loomi/components/timeline";
-export * from "@loomi/timeline";
+// Per-component entry: import "@loomidev/components/timeline";
+export * from "@loomidev/timeline";

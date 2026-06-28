@@ -1,11 +1,11 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { LoomiElement, loomiStyles } from "@loomi/core";
-import { getLoomiIcon, type LoomiIconVariant } from "@loomi/icons";
+import { LoomiElement, loomiStyles } from "@loomidev/core";
+import { getLoomiIcon, type LoomiIconVariant } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
 /**
- * `<loomi-icon>` — renders an icon from the shared `@loomi/icons` registry by `name`,
+ * `<loomi-icon>` — renders an icon from the shared `@loomidev/icons` registry by `name`,
  * a file from a custom directory, or any custom SVG placed in the default slot. Registry
  * icons follow `currentColor`; file icons render as images. Size is controlled with the
  * `size` attribute or the `--loomi-icon-size` custom property.
@@ -16,7 +16,7 @@ import { componentStyles } from "./generated/styles.css.js";
 export class LoomiIcon extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
-  /** Registered icon name (see `@loomi/icons`). */
+  /** Registered icon name (see `@loomidev/icons`). */
   @property() name = "";
   /** Heroicons style variant. */
   @property() variant: LoomiIconVariant = "outline";

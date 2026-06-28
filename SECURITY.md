@@ -19,7 +19,7 @@ Instead, report it privately using one of these methods:
    disclosure timeline with you.
 2. **Email**: if you don't have GitHub access or prefer email, contact the maintainer
    directly (see the `author`/contact info on the npm packages, e.g.
-   `npm view @loomi/core`).
+   `npm view @loomidev/core`).
 
 When reporting, please include:
 - The affected package(s) and version(s).
@@ -35,6 +35,6 @@ When reporting, please include:
 
 ## Scope
 
-This policy covers the `@loomi/*` packages published from this repository. It does not
+This policy covers the `@loomidev/*` packages published from this repository. It does not
 cover the [docs site](https://loomiui.com) infrastructure, third-party dependencies
 (report those upstream), or the `examples/*.html` demo pages (not published, dev-only).

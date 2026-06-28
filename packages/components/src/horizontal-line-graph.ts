@@ -1,2 +1,2 @@
-// Per-component entry: import "@loomi/components/horizontal-line-graph";
-export * from "@loomi/horizontal-line-graph";
+// Per-component entry: import "@loomidev/components/horizontal-line-graph";
+export * from "@loomidev/horizontal-line-graph";

@@ -4,7 +4,7 @@
 
 ## Affected package(s)
 
-<!-- e.g. @loomi/select, @loomi/forms -->
+<!-- e.g. @loomidev/select, @loomidev/forms -->
 
 ## Checklist
 

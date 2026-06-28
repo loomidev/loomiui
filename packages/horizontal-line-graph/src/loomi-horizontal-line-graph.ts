@@ -1,6 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, cssColor } from "@loomi/core";
+import { LoomiElement, loomiStyles, cssColor } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export interface LoomiGraphSegment {

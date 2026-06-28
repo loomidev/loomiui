@@ -1,2 +1,2 @@
-// Per-component entry: import "@loomi/components/select";
-export * from "@loomi/select";
+// Per-component entry: import "@loomidev/components/select";
+export * from "@loomidev/select";

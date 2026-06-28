@@ -29,11 +29,11 @@ importers:
 
   packages/accordion:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -51,14 +51,14 @@ importers:
 
   packages/alert:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/icons':
+      '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -76,11 +76,11 @@ importers:
 
   packages/avatar:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -98,14 +98,14 @@ importers:
 
   packages/bell:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/icons':
+      '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -123,13 +123,13 @@ importers:
 
   packages/button:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/icons':
+      '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
     devDependencies:
@@ -148,11 +148,11 @@ importers:
 
   packages/card:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -170,11 +170,11 @@ importers:
 
   packages/centered-content:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -192,11 +192,11 @@ importers:
 
   packages/chart:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -214,10 +214,10 @@ importers:
 
   packages/checkbox:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
     devDependencies:
@@ -236,14 +236,17 @@ importers:
 
   packages/checkcards:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/icons':
+      '@loomidev/icon':
+        specifier: workspace:^
+        version: link:../icon
+      '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -261,11 +264,11 @@ importers:
 
   packages/code:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -283,11 +286,11 @@ importers:
 
   packages/colorpicker:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -305,145 +308,145 @@ importers:
 
   packages/components:
     dependencies:
-      '@loomi/accordion':
+      '@loomidev/accordion':
         specifier: workspace:^
         version: link:../accordion
-      '@loomi/alert':
+      '@loomidev/alert':
         specifier: workspace:^
         version: link:../alert
-      '@loomi/avatar':
+      '@loomidev/avatar':
         specifier: workspace:^
         version: link:../avatar
-      '@loomi/bell':
+      '@loomidev/bell':
         specifier: workspace:^
         version: link:../bell
-      '@loomi/button':
+      '@loomidev/button':
         specifier: workspace:^
         version: link:../button
-      '@loomi/card':
+      '@loomidev/card':
         specifier: workspace:^
         version: link:../card
-      '@loomi/centered-content':
+      '@loomidev/centered-content':
         specifier: workspace:^
         version: link:../centered-content
-      '@loomi/chart':
+      '@loomidev/chart':
         specifier: workspace:^
         version: link:../chart
-      '@loomi/checkbox':
+      '@loomidev/checkbox':
         specifier: workspace:^
         version: link:../checkbox
-      '@loomi/checkcards':
+      '@loomidev/checkcards':
         specifier: workspace:^
         version: link:../checkcards
-      '@loomi/code':
+      '@loomidev/code':
         specifier: workspace:^
         version: link:../code
-      '@loomi/colorpicker':
+      '@loomidev/colorpicker':
         specifier: workspace:^
         version: link:../colorpicker
-      '@loomi/contact-card':
+      '@loomidev/contact-card':
         specifier: workspace:^
         version: link:../contact-card
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/datepicker':
+      '@loomidev/datepicker':
         specifier: workspace:^
         version: link:../datepicker
-      '@loomi/dropmenu':
+      '@loomidev/dropmenu':
         specifier: workspace:^
         version: link:../dropmenu
-      '@loomi/empty-state':
+      '@loomidev/empty-state':
         specifier: workspace:^
         version: link:../empty-state
-      '@loomi/filepicker':
+      '@loomidev/filepicker':
         specifier: workspace:^
         version: link:../filepicker
-      '@loomi/horizontal-line-graph':
+      '@loomidev/horizontal-line-graph':
         specifier: workspace:^
         version: link:../horizontal-line-graph
-      '@loomi/icon':
+      '@loomidev/icon':
         specifier: workspace:^
         version: link:../icon
-      '@loomi/icons':
+      '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons
-      '@loomi/input':
+      '@loomidev/input':
         specifier: workspace:^
         version: link:../input
-      '@loomi/listview':
+      '@loomidev/listview':
         specifier: workspace:^
         version: link:../listview
-      '@loomi/modal':
+      '@loomidev/modal':
         specifier: workspace:^
         version: link:../modal
-      '@loomi/notification':
+      '@loomidev/notification':
         specifier: workspace:^
         version: link:../notification
-      '@loomi/number':
+      '@loomidev/number':
         specifier: workspace:^
         version: link:../number
-      '@loomi/pagination':
+      '@loomidev/pagination':
         specifier: workspace:^
         version: link:../pagination
-      '@loomi/popover':
+      '@loomidev/popover':
         specifier: workspace:^
         version: link:../popover
-      '@loomi/processing':
+      '@loomidev/processing':
         specifier: workspace:^
         version: link:../processing
-      '@loomi/progress':
+      '@loomidev/progress':
         specifier: workspace:^
         version: link:../progress
-      '@loomi/radio':
+      '@loomidev/radio':
         specifier: workspace:^
         version: link:../radio
-      '@loomi/rating':
+      '@loomidev/rating':
         specifier: workspace:^
         version: link:../rating
-      '@loomi/select':
+      '@loomidev/select':
         specifier: workspace:^
         version: link:../select
-      '@loomi/slider':
+      '@loomidev/slider':
         specifier: workspace:^
         version: link:../slider
-      '@loomi/sortable':
+      '@loomidev/sortable':
         specifier: workspace:^
         version: link:../sortable
-      '@loomi/spinner':
+      '@loomidev/spinner':
         specifier: workspace:^
         version: link:../spinner
-      '@loomi/statistic':
+      '@loomidev/statistic':
         specifier: workspace:^
         version: link:../statistic
-      '@loomi/tab':
+      '@loomidev/tab':
         specifier: workspace:^
         version: link:../tab
-      '@loomi/table':
+      '@loomidev/table':
         specifier: workspace:^
         version: link:../table
-      '@loomi/tag':
+      '@loomidev/tag':
         specifier: workspace:^
         version: link:../tag
-      '@loomi/textarea':
+      '@loomidev/textarea':
         specifier: workspace:^
         version: link:../textarea
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
-      '@loomi/theme-switcher':
+      '@loomidev/theme-switcher':
         specifier: workspace:^
         version: link:../theme-switcher
-      '@loomi/timeline':
+      '@loomidev/timeline':
         specifier: workspace:^
         version: link:../timeline
-      '@loomi/timepicker':
+      '@loomidev/timepicker':
         specifier: workspace:^
         version: link:../timepicker
-      '@loomi/toggle':
+      '@loomidev/toggle':
         specifier: workspace:^
         version: link:../toggle
-      '@loomi/tooltip':
+      '@loomidev/tooltip':
         specifier: workspace:^
         version: link:../tooltip
     devDependencies:
@@ -456,14 +459,14 @@ importers:
 
   packages/contact-card:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/icons':
+      '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -481,58 +484,58 @@ importers:
 
   packages/content:
     dependencies:
-      '@loomi/accordion':
+      '@loomidev/accordion':
         specifier: workspace:^
         version: link:../accordion
-      '@loomi/avatar':
+      '@loomidev/avatar':
         specifier: workspace:^
         version: link:../avatar
-      '@loomi/card':
+      '@loomidev/card':
         specifier: workspace:^
         version: link:../card
-      '@loomi/centered-content':
+      '@loomidev/centered-content':
         specifier: workspace:^
         version: link:../centered-content
-      '@loomi/chart':
+      '@loomidev/chart':
         specifier: workspace:^
         version: link:../chart
-      '@loomi/contact-card':
+      '@loomidev/contact-card':
         specifier: workspace:^
         version: link:../contact-card
-      '@loomi/empty-state':
+      '@loomidev/empty-state':
         specifier: workspace:^
         version: link:../empty-state
-      '@loomi/horizontal-line-graph':
+      '@loomidev/horizontal-line-graph':
         specifier: workspace:^
         version: link:../horizontal-line-graph
-      '@loomi/listview':
+      '@loomidev/listview':
         specifier: workspace:^
         version: link:../listview
-      '@loomi/popover':
+      '@loomidev/popover':
         specifier: workspace:^
         version: link:../popover
-      '@loomi/processing':
+      '@loomidev/processing':
         specifier: workspace:^
         version: link:../processing
-      '@loomi/progress':
+      '@loomidev/progress':
         specifier: workspace:^
         version: link:../progress
-      '@loomi/rating':
+      '@loomidev/rating':
         specifier: workspace:^
         version: link:../rating
-      '@loomi/sortable':
+      '@loomidev/sortable':
         specifier: workspace:^
         version: link:../sortable
-      '@loomi/statistic':
+      '@loomidev/statistic':
         specifier: workspace:^
         version: link:../statistic
-      '@loomi/tag':
+      '@loomidev/tag':
         specifier: workspace:^
         version: link:../tag
-      '@loomi/timeline':
+      '@loomidev/timeline':
         specifier: workspace:^
         version: link:../timeline
-      '@loomi/tooltip':
+      '@loomidev/tooltip':
         specifier: workspace:^
         version: link:../tooltip
     devDependencies:
@@ -545,7 +548,7 @@ importers:
 
   packages/core:
     dependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
     devDependencies:
@@ -558,14 +561,14 @@ importers:
 
   packages/datepicker:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/icons':
+      '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -583,14 +586,14 @@ importers:
 
   packages/dropmenu:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/icons':
+      '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -608,11 +611,11 @@ importers:
 
   packages/empty-state:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -630,14 +633,14 @@ importers:
 
   packages/filepicker:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/icons':
+      '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -655,46 +658,46 @@ importers:
 
   packages/forms:
     dependencies:
-      '@loomi/checkbox':
+      '@loomidev/checkbox':
         specifier: workspace:^
         version: link:../checkbox
-      '@loomi/checkcards':
+      '@loomidev/checkcards':
         specifier: workspace:^
         version: link:../checkcards
-      '@loomi/code':
+      '@loomidev/code':
         specifier: workspace:^
         version: link:../code
-      '@loomi/colorpicker':
+      '@loomidev/colorpicker':
         specifier: workspace:^
         version: link:../colorpicker
-      '@loomi/datepicker':
+      '@loomidev/datepicker':
         specifier: workspace:^
         version: link:../datepicker
-      '@loomi/filepicker':
+      '@loomidev/filepicker':
         specifier: workspace:^
         version: link:../filepicker
-      '@loomi/input':
+      '@loomidev/input':
         specifier: workspace:^
         version: link:../input
-      '@loomi/number':
+      '@loomidev/number':
         specifier: workspace:^
         version: link:../number
-      '@loomi/radio':
+      '@loomidev/radio':
         specifier: workspace:^
         version: link:../radio
-      '@loomi/select':
+      '@loomidev/select':
         specifier: workspace:^
         version: link:../select
-      '@loomi/slider':
+      '@loomidev/slider':
         specifier: workspace:^
         version: link:../slider
-      '@loomi/textarea':
+      '@loomidev/textarea':
         specifier: workspace:^
         version: link:../textarea
-      '@loomi/timepicker':
+      '@loomidev/timepicker':
         specifier: workspace:^
         version: link:../timepicker
-      '@loomi/toggle':
+      '@loomidev/toggle':
         specifier: workspace:^
         version: link:../toggle
     devDependencies:
@@ -707,11 +710,11 @@ importers:
 
   packages/horizontal-line-graph:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -729,14 +732,14 @@ importers:
 
   packages/icon:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/icons':
+      '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -766,13 +769,13 @@ importers:
 
   packages/input:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/icons':
+      '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
     devDependencies:
@@ -791,11 +794,11 @@ importers:
 
   packages/listview:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -826,17 +829,17 @@ importers:
 
   packages/modal:
     dependencies:
-      '@loomi/button':
+      '@loomidev/button':
         specifier: workspace:^
         version: link:../button
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/icon':
+      '@loomidev/icon':
         specifier: workspace:^
         version: link:../icon
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -854,16 +857,16 @@ importers:
 
   packages/navigation:
     dependencies:
-      '@loomi/dropmenu':
+      '@loomidev/dropmenu':
         specifier: workspace:^
         version: link:../dropmenu
-      '@loomi/pagination':
+      '@loomidev/pagination':
         specifier: workspace:^
         version: link:../pagination
-      '@loomi/tab':
+      '@loomidev/tab':
         specifier: workspace:^
         version: link:../tab
-      '@loomi/theme-switcher':
+      '@loomidev/theme-switcher':
         specifier: workspace:^
         version: link:../theme-switcher
     devDependencies:
@@ -876,14 +879,14 @@ importers:
 
   packages/notification:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/icon':
+      '@loomidev/icon':
         specifier: workspace:^
         version: link:../icon
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -901,10 +904,10 @@ importers:
 
   packages/number:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
     devDependencies:
@@ -923,14 +926,14 @@ importers:
 
   packages/pagination:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/icons':
+      '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -948,14 +951,14 @@ importers:
 
   packages/popover:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/icons':
+      '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -973,14 +976,14 @@ importers:
 
   packages/processing:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/icons':
+      '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -998,11 +1001,11 @@ importers:
 
   packages/progress:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -1020,10 +1023,10 @@ importers:
 
   packages/radio:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
     devDependencies:
@@ -1042,11 +1045,11 @@ importers:
 
   packages/rating:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -1064,10 +1067,10 @@ importers:
 
   packages/select:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
     devDependencies:
@@ -1086,11 +1089,11 @@ importers:
 
   packages/slider:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -1108,14 +1111,14 @@ importers:
 
   packages/sortable:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/icons':
+      '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -1133,11 +1136,11 @@ importers:
 
   packages/spinner:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -1155,11 +1158,11 @@ importers:
 
   packages/statistic:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -1177,14 +1180,14 @@ importers:
 
   packages/tab:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/icons':
+      '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -1202,20 +1205,20 @@ importers:
 
   packages/table:
     dependencies:
-      '@loomi/checkbox':
+      '@loomidev/checkbox':
         specifier: workspace:^
         version: link:../checkbox
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/icons':
+      '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons
-      '@loomi/pagination':
+      '@loomidev/pagination':
         specifier: workspace:^
         version: link:../pagination
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -1233,11 +1236,11 @@ importers:
 
   packages/tag:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -1255,10 +1258,10 @@ importers:
 
   packages/textarea:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       quill:
@@ -1295,20 +1298,20 @@ importers:
 
   packages/theme-switcher:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/dropmenu':
+      '@loomidev/dropmenu':
         specifier: workspace:^
         version: link:../dropmenu
-      '@loomi/icon':
+      '@loomidev/icon':
         specifier: workspace:^
         version: link:../icon
-      '@loomi/icons':
+      '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -1326,14 +1329,14 @@ importers:
 
   packages/timeline:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/icons':
+      '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -1351,14 +1354,14 @@ importers:
 
   packages/timepicker:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/icons':
+      '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':
@@ -1376,10 +1379,10 @@ importers:
 
   packages/toggle:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
     devDependencies:
@@ -1398,11 +1401,11 @@ importers:
 
   packages/tooltip:
     dependencies:
-      '@loomi/core':
+      '@loomidev/core':
         specifier: workspace:^
         version: link:../core
     devDependencies:
-      '@loomi/theme':
+      '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
       '@tailwindcss/cli':

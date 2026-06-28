@@ -1,5 +1,5 @@
-// @loomi/navigation grouping. Importing this registers the category's elements.
-export * from "@loomi/tab";
-export * from "@loomi/pagination";
-export * from "@loomi/dropmenu";
-export * from "@loomi/theme-switcher";
+// @loomidev/navigation grouping. Importing this registers the category's elements.
+export * from "@loomidev/tab";
+export * from "@loomidev/pagination";
+export * from "@loomidev/dropmenu";
+export * from "@loomidev/theme-switcher";

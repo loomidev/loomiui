@@ -6,7 +6,7 @@ import { LoomiElement, loomiDateFormatter,
   loomiStyles,
   loomiT,
   loomiWeekdayNames,
-  onClickOutside, } from "@loomi/core";
+  onClickOutside, } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiDateFormat =

@@ -1,2 +1,2 @@
-// Per-component entry: import "@loomi/components/tooltip";
-export * from "@loomi/tooltip";
+// Per-component entry: import "@loomidev/components/tooltip";
+export * from "@loomidev/tooltip";

@@ -1,2 +1,2 @@
-// Per-component entry: import "@loomi/components/popover";
-export * from "@loomi/popover";
+// Per-component entry: import "@loomidev/components/popover";
+export * from "@loomidev/popover";

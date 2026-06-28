@@ -1,7 +1,7 @@
 # @loomidev/chart
 
-`<loomi-chart>` — a lightweight, dependency-free SVG chart: `bar`, `line`, `pie` or
-`donut`. Provide a single series via `data`.
+`<loomi-chart>` — a lightweight, dependency-free SVG chart: `bar`, `line`, `pie`, `donut`,
+`radar` or `scatter`. Provide a single series via `data`.
 
 ```bash
 npm install @loomidev/chart lit
@@ -33,6 +33,8 @@ import "@loomidev/chart";
 <loomi-chart id="line-chart" type="line" color="green"></loomi-chart>
 <loomi-chart id="pie-chart" type="pie" show-legend></loomi-chart>
 <loomi-chart id="donut-chart" type="donut" show-legend></loomi-chart>
+<loomi-chart id="radar-chart" type="radar" color="purple"></loomi-chart>
+<loomi-chart id="scatter-chart" type="scatter" color="cyan"></loomi-chart>
 
 <script type="module">
   const series = [
@@ -41,19 +43,44 @@ import "@loomidev/chart";
     { label: "Yellow", value: 13 },
     { label: "Green", value: 15 },
   ];
-  for (const id of ["bar-chart", "line-chart", "pie-chart", "donut-chart"]) {
+  for (const id of ["bar-chart", "line-chart", "pie-chart", "donut-chart", "radar-chart", "scatter-chart"]) {
     document.getElementById(id).data = series;
   }
 </script>
 ```
 
-## Custom Colors per Segment
+`radar` plots each point around a circle (best with 3+ points) and connects them into a
+filled shape — good for comparing several metrics on the same scale. `scatter` plots each
+point as a standalone marker on the same axes as `bar`/`line`, with no connecting line.
 
-For `bar`/`pie`/`donut` charts, set `color` on individual data points to override the
-single accent color.
+## Accent Color
+
+`color` sets the chart's single accent: the bar fill, the line/dot stroke, the radar
+polygon, and the scatter marker fill. Always assign `data` — an empty chart has nothing
+to color.
 
 ```html
-<loomi-chart id="colorway" type="pie" show-legend></loomi-chart>
+<loomi-chart id="trend" type="line" color="violet"></loomi-chart>
+
+<script type="module">
+  document.getElementById("trend").data = [
+    { label: "Jan", value: 30 },
+    { label: "Feb", value: 55 },
+    { label: "Mar", value: 42 },
+    { label: "Apr", value: 60 },
+  ];
+</script>
+```
+
+## Custom Colors per Segment
+
+`pie`/`donut` automatically cycle a built-in palette per slice, since distinguishing
+slices is the point of a proportional chart. `bar`/`scatter`/`radar` use the single
+accent `color` by default, since they're more often a single series. Either way, set
+`color` on individual data points to override the default for that point only.
+
+```html
+<loomi-chart id="colorway" type="bar" color="primary"></loomi-chart>
 
 <script type="module">
   document.getElementById("colorway").data = [
@@ -64,13 +91,53 @@ single accent color.
 </script>
 ```
 
-## Accent Color (Line Charts)
+## Shade Mode
 
-`color` on the `<loomi-chart>` element itself sets the line/stroke color for `line`
-charts (and the default fill when points don't set their own `color`).
+`shade="light"` renders paler fills (and a paler line/radar stroke) instead of the
+default, more saturated `dark` look. Useful on busy dashboards where bold colors compete
+for attention.
 
 ```html
-<loomi-chart id="trend" type="line" color="violet"></loomi-chart>
+<loomi-chart id="soft-bars" type="bar" color="blue" shade="light"></loomi-chart>
+<loomi-chart id="soft-donut" type="donut" shade="light" show-legend></loomi-chart>
+```
+
+### Borders
+
+In `shade="light"`, shapes get a border in a higher (darker) shade of their own color by
+default, so pale fills stay well-defined. Turn it off with `show-border="false"` for a
+flatter, monochrome look. Borders have no effect in `shade="dark"` (the default fill is
+already saturated enough to read without one).
+
+```html
+<loomi-chart id="bordered" type="bar" color="orange" shade="light"></loomi-chart>
+<loomi-chart id="borderless" type="bar" color="orange" shade="light" show-border="false"></loomi-chart>
+```
+
+## Showing the Y-Axis
+
+`show-y-axis` draws a value axis with min/max labels, for `bar`, `line` and `scatter`.
+
+```html
+<loomi-chart id="with-axis" type="line" color="primary" show-y-axis></loomi-chart>
+```
+
+## Vertical Line Charts
+
+`vertical` (only on `type="line"`) flips the axes so categories run top-to-bottom and the
+value runs left-to-right — handy when category labels are long, or to match a
+horizontal-bar-style layout next to other vertical content.
+
+```html
+<loomi-chart id="vertical-trend" type="line" color="primary" vertical show-y-axis></loomi-chart>
+
+<script type="module">
+  document.getElementById("vertical-trend").data = [
+    { label: "Engineering", value: 40 },
+    { label: "Design", value: 25 },
+    { label: "Sales", value: 35 },
+  ];
+</script>
 ```
 
 ## Showing the Legend
@@ -102,15 +169,20 @@ Most useful for `pie`/`donut` charts where labels can't fit directly on the char
 
 | Attribute | Default | Description |
 | --- | --- | --- |
-| `type` | `bar` | `bar` \| `line` \| `pie` \| `donut` |
+| `type` | `bar` | `bar` \| `line` \| `pie` \| `donut` \| `radar` \| `scatter` |
 | `data` | `[]` | Series — `{ label, value, color? }[]` (property or JSON). |
-| `color` | `primary` | Accent color for line charts, and the default for points without their own `color`. |
+| `color` | `primary` | Single accent color. Fill for bar/scatter/radar, line/dot stroke for line, and the default for points without their own `color` (pie/donut cycle a built-in palette instead). |
+| `shade` | `dark` | `dark` \| `light` — lighter fills/strokes in `light` mode. |
+| `show-border` | `true` | In `shade="light"`, outline shapes in a higher shade of their own color. No effect in `shade="dark"`. _(boolean)_ |
+| `show-y-axis` | `false` | Show a value axis with min/max labels (`bar`/`line`/`scatter`). _(boolean)_ |
+| `vertical` | `false` | `type="line"` only — flips the axes so categories run top-to-bottom. _(boolean)_ |
 | `show-legend` | `false` | Show a legend (most useful for pie/donut). _(boolean)_ |
+| `donut-radius` | `44` | Inner-hole radius (SVG units) for `type="donut"`. |
 
 > A compact, dependency-free chart for dashboards — single series only, no mixed chart
 > types, no Chart.js-style configuration objects. For heavier analytical charting
-> (multiple datasets, bubble/radar/scatter, fine-grained axis control), pair LoomiUI with
-> a dedicated charting library like Chart.js instead.
+> (multiple datasets per chart, bubble charts, fine-grained axis control), pair LoomiUI
+> with a dedicated charting library like Chart.js instead.
 
 ## Full Example
 

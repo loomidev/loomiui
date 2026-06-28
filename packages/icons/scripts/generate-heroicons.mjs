@@ -74,7 +74,7 @@ export type LoomiIconVariant = "outline" | "solid";
  * Shared loomi icon registry generated from Heroicons 24px outline and solid sets.
  * Icons render with currentColor, so they inherit the host's text color.
  *
- * Regenerate with: pnpm --filter @loomi/icons generate
+ * Regenerate with: pnpm --filter @loomidev/icons generate
  */
 ${emitMap("OUTLINE_ICONS", outline)}
 

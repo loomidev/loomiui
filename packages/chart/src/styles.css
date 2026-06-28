@@ -36,6 +36,13 @@
   fill: var(--_loomi-accent-softer);
   opacity: 0.6;
 }
+.loomi-radar-area {
+  fill: var(--_loomi-accent-softer);
+  stroke: var(--_loomi-accent);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  opacity: 0.85;
+}
 .loomi-dot {
   fill: var(--loomi-white);
   stroke: var(--_loomi-accent);

@@ -1,8 +1,8 @@
 import { LitElement, type CSSResultGroup, type PropertyValues } from "lit";
-import { themeStyles, type LoomiColor } from "@loomi/theme";
+import { themeStyles, type LoomiColor } from "@loomidev/theme";
 export * from "./i18n.js";
 
-// Re-export the shared theme surface so components import everything from @loomi/core.
+// Re-export the shared theme surface so components import everything from @loomidev/core.
 export {
   themeStyles,
   LOOMI_COLORS,
@@ -10,7 +10,7 @@ export {
   isLoomiColor,
   type LoomiColor,
   type LoomiShade,
-} from "@loomi/theme";
+} from "@loomidev/theme";
 
 /**
  * Prepend the shared theme tokens to a component's own styles. Use it in

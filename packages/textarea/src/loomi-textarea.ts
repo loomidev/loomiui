@@ -1,6 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
-import { LoomiElement, loomiT, themeStyles } from "@loomi/core";
+import { LoomiElement, loomiT, themeStyles } from "@loomidev/core";
 import type Quill from "quill";
 import { componentStyles, quillStyles } from "./generated/styles.css.js";
 

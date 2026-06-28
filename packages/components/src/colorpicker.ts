@@ -1,2 +1,2 @@
-// Per-component entry: import "@loomi/components/colorpicker";
-export * from "@loomi/colorpicker";
+// Per-component entry: import "@loomidev/components/colorpicker";
+export * from "@loomidev/colorpicker";

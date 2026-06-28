@@ -1,2 +1,2 @@
-// Per-component entry: import "@loomi/components/textarea";
-export * from "@loomi/textarea";
+// Per-component entry: import "@loomidev/components/textarea";
+export * from "@loomidev/textarea";

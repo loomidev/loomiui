@@ -1,2 +1,2 @@
-// Per-component entry: import "@loomi/components/toggle";
-export * from "@loomi/toggle";
+// Per-component entry: import "@loomidev/components/toggle";
+export * from "@loomidev/toggle";

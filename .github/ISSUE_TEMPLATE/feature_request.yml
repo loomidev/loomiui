@@ -7,7 +7,7 @@ body:
     attributes:
       label: Related package (if any)
       description: Leave blank if this is a request for a brand-new component.
-      placeholder: "@loomi/select"
+      placeholder: "@loomidev/select"
     validations:
       required: false
 

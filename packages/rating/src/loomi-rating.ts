@@ -1,6 +1,6 @@
 import { html, svg, type TemplateResult, type SVGTemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomi/core";
+import { LoomiElement, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiRatingType = "star" | "heart" | "thumbsup";

@@ -1,2 +1,2 @@
-// Per-component entry: import "@loomi/components/slider";
-export * from "@loomi/slider";
+// Per-component entry: import "@loomidev/components/slider";
+export * from "@loomidev/slider";

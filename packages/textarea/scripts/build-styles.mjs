@@ -21,7 +21,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const pkgRoot = resolve(__dirname, "..");
 
 const palette = JSON.parse(
-  readFileSync(require.resolve("@loomi/theme/palette.json"), "utf8"),
+  readFileSync(require.resolve("@loomidev/theme/palette.json"), "utf8"),
 );
 const { colors, shades } = palette;
 const prefix = palette.prefix ?? "loomi";
@@ -57,7 +57,7 @@ passthrough = passthrough.replace(
 // don't need a color-utility safelist. If a component uses static utility classes
 // in its template, the @source scan below picks them up; if you need
 // runtime-interpolated color utilities, add an `@source inline(...)` safelist here
-// (see @loomi/button for an example).
+// (see @loomidev/button for an example).
 const input = `@layer theme, base, components, utilities;
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);

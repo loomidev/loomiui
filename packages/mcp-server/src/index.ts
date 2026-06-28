@@ -19,7 +19,7 @@ const components = manifest.components as LoomiComponentDoc[];
 function find(name: string): LoomiComponentDoc | undefined {
   const q = name.trim().toLowerCase().replace(/^<|>$/g, "").replace(/^loomi-/, "");
   return components.find(
-    (c) => c.name === q || c.tag.toLowerCase() === `<loomi-${q}>` || c.package === `@loomi/${q}`,
+    (c) => c.name === q || c.tag.toLowerCase() === `<loomi-${q}>` || c.package === `@loomidev/${q}`,
   );
 }
 

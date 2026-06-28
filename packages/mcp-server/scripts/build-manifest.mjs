@@ -1,5 +1,5 @@
 // Scrapes every sibling component package's README.md + package.json into a single
-// JSON manifest bundled into this package. This is what lets @loomi/mcp-server work
+// JSON manifest bundled into this package. This is what lets @loomidev/mcp-server work
 // standalone once published — it never reads from the monorepo at runtime, only from
 // this generated, self-contained manifest.
 
@@ -11,7 +11,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const packagesRoot = resolve(__dirname, "../..");
 const selfDir = resolve(__dirname, "..");
 
-// Category membership mirrors the @loomi/forms, @loomi/content and @loomi/navigation
+// Category membership mirrors the @loomidev/forms, @loomidev/content and @loomidev/navigation
 // grouping packages. Keep these lists in sync if a new component is added.
 const CATEGORY = {
   standalone: ["button", "icon", "spinner", "alert", "bell", "modal", "notification", "table"],
@@ -86,4 +86,4 @@ writeFileSync(
   JSON.stringify({ generatedAt: new Date().toISOString(), components }, null, 2),
 );
 
-console.log(`[@loomi/mcp-server] bundled docs for ${components.length} components.`);
+console.log(`[@loomidev/mcp-server] bundled docs for ${components.length} components.`);

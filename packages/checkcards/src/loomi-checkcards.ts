@@ -1,10 +1,9 @@
-import { html, nothing, svg, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomi/core";
-import { getLoomiIcon } from "@loomi/icons";
+import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomidev/core";
+import { getLoomiIcon } from "@loomidev/icons";
+import "@loomidev/icon/loomi-icon.js";
 import { componentStyles } from "./generated/styles.css.js";
-
-const CHECK = svg`<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />`;
 
 /**
  * `<loomi-checkcard>` — a single selectable card. Use inside `<loomi-checkcards>`.
@@ -30,7 +29,7 @@ export class LoomiCheckcard extends LoomiElement {
         : html`<img class="loomi-avatar" src=${this.avatar} alt="" />`;
     }
     if (this.icon && getLoomiIcon(this.icon)) {
-      return html`<span class="loomi-media"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${getLoomiIcon(this.icon)}</svg></span>`;
+      return html`<span class="loomi-media"><loomi-icon name=${this.icon} stroke-width="1.6"></loomi-icon></span>`;
     }
     return nothing;
   }
@@ -42,7 +41,7 @@ export class LoomiCheckcard extends LoomiElement {
       aria-checked=${this.selected ? "true" : "false"}
       @click=${() => this.dispatchEvent(new CustomEvent("loomi-checkcard-click", { bubbles: true, composed: true, detail: { value: this.value } }))}
     >
-      <svg class="loomi-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">${CHECK}</svg>
+      <loomi-icon class="loomi-check" name="check" stroke-width="3"></loomi-icon>
       ${this.media()}
       <div class="loomi-body">
         ${this.title ? html`<div class="loomi-title">${this.title}</div>` : nothing}
