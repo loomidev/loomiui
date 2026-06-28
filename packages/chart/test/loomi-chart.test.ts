@@ -118,4 +118,23 @@ describe("loomi-chart", () => {
     expect(el.shadowRoot!.querySelectorAll(".loomi-chart svg circle")).to.have.length(4);
     expect(el.shadowRoot!.querySelector("polyline")).to.not.exist;
   });
+
+  it("accepts data as a JSON-encoded attribute, with no property assignment needed", async () => {
+    const el = await fixture<LoomiChart>(
+      html`<loomi-chart type="bar" color="green" data='[{"label":"Jan","value":30},{"label":"Feb","value":55}]'></loomi-chart>`,
+    );
+
+    expect(el.data).to.deep.equal([
+      { label: "Jan", value: 30 },
+      { label: "Feb", value: 55 },
+    ]);
+    expect(el.shadowRoot!.querySelectorAll(".loomi-chart svg path")).to.have.length(2);
+  });
+
+  it("falls back to an empty series instead of crashing on malformed JSON in the data attribute", async () => {
+    const el = await fixture<LoomiChart>(html`<loomi-chart type="bar" data="not valid json"></loomi-chart>`);
+
+    expect(el.data).to.deep.equal([]);
+    expect(el.shadowRoot!.querySelector("svg")).to.exist;
+  });
 });

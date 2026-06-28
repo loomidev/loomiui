@@ -24,6 +24,24 @@ const booleanAttribute = {
   },
 };
 
+// Lit's default `type: Array` converter falls back to `null` (not `[]`) when the `data`
+// attribute is missing or fails to parse — hand-written JSON in an attribute is an easy
+// place to typo, and `null` would crash every render method's `this.data.map(...)`.
+const dataAttribute = {
+  fromAttribute(value: string | null): LoomiChartPoint[] {
+    if (!value) return [];
+    try {
+      const parsed = JSON.parse(value);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  },
+  toAttribute(value: LoomiChartPoint[]): string {
+    return JSON.stringify(value);
+  },
+};
+
 /** Draws a rect-like path with rounded top corners and square bottom corners. */
 function roundedTopRectPath(x: number, y: number, w: number, h: number, r: number): string {
   const rr = Math.max(0, Math.min(r, w / 2, h));
@@ -49,7 +67,8 @@ export class LoomiChart extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() type: LoomiChartType = "bar";
-  @property({ type: Array }) data: LoomiChartPoint[] = [];
+  /** Property or a JSON-encoded `data` attribute, e.g. `data='[{"label":"Jan","value":30}]'`. */
+  @property({ type: Array, converter: dataAttribute }) data: LoomiChartPoint[] = [];
   @property() color: LoomiColor = "primary" as LoomiColor;
   @property({ type: Boolean, attribute: "show-legend" }) showLegend = false;
   /** Inner-hole radius (SVG units, viewBox is 180x180 with outer radius 80) for `type="donut"`. */

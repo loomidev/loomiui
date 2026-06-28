@@ -1,7 +1,8 @@
 # @loomidev/chart
 
-`<loomi-chart>` — a lightweight, dependency-free SVG chart: `bar`, `line`, `pie`, `donut`,
-`radar` or `scatter`. Provide a single series via `data`.
+`<loomi-chart>` is a lightweight, dependency-free SVG chart component for quick visuals.
+Choose from `bar`, `line`, `pie`, `donut`, `radar`, or `scatter`, and pass a single
+data series through its `data` property.
 
 ```bash
 npm install @loomidev/chart lit
@@ -13,11 +14,16 @@ import "@loomidev/chart";
 
 ## Basic Usage
 
-```html
-<loomi-chart id="c"></loomi-chart>
+You need to define either  a unique `id` or `class` attribute on the chart element, then assign the `data` property in JavaScript. The `data` property is an array of objects, each with a `label`, a `value`, and an optional `color`.
+`data` can either be loaded from an API or updated at runtime.
 
+```js
+<loomi-chart id="basic"></loomi-chart>
+```
+
+```js
 <script type="module">
-  document.getElementById("c").data = [
+  document.getElementById("basic").data = [
     { label: "Jan", value: 30 },
     { label: "Feb", value: 55 },
     { label: "Mar", value: 42 },
@@ -26,7 +32,42 @@ import "@loomidev/chart";
 </script>
 ```
 
+```html
+<loomi-chart id="basic"></loomi-chart>
+
+<script type="module">
+  document.getElementById("basic").data = [
+    { label: "Jan", value: 30 },
+    { label: "Feb", value: 55 },
+    { label: "Mar", value: 42 },
+    { label: "Apr", value: 60 },
+  ];
+</script>
+```
+
+`data` also accepts a JSON-encoded string as a plain HTML attribute, for static charts
+with no JavaScript at all — handy in Markdown, CMS content, or server-rendered HTML.
+Malformed JSON falls back to an empty series rather than breaking the chart.
+
+```html
+<loomi-chart type="bar" data='[{"label":"Jan","value":30},{"label":"Feb","value":55}]'></loomi-chart>
+```
+
 ## Chart Types
+The chart component exposes a `type` attribute that lets you choose from a variety of
+chart types. The `type` you choose depends on the data you're trying to visualize. 
+Default `type` is `bar`. The available chart types are:
+
+| Type | Description |
+| --- | --- |
+| `bar` | Compares values across categories. |
+| `line` | Shows trends across ordered labels (for example, months). |
+| `pie` | Displays part-to-whole distribution in a full circle. |
+| `donut` | Displays part-to-whole distribution with a center hole (often paired with a legend). |
+| `radar` | Compares multiple metrics in a radial layout (recommended with 3+ points). |
+| `scatter` | Plots independent points on shared axes without connecting lines. |
+
+All chart types use the same `data` shape, so you can change `type` without reshaping the dataset.
 
 ```html
 <loomi-chart id="bar-chart" type="bar"></loomi-chart>
@@ -98,8 +139,11 @@ default, more saturated `dark` look. Useful on busy dashboards where bold colors
 for attention.
 
 ```html
-<loomi-chart id="soft-bars" type="bar" color="blue" shade="light"></loomi-chart>
-<loomi-chart id="soft-donut" type="donut" shade="light" show-legend></loomi-chart>
+<loomi-chart type="bar" color="blue" shade="light"
+  data='[{"label":"Jan","value":30},{"label":"Feb","value":55},{"label":"Mar","value":42},{"label":"Apr","value":60}]'></loomi-chart>
+
+<loomi-chart type="donut" shade="light" show-legend
+  data='[{"label":"Direct","value":45},{"label":"Search","value":30},{"label":"Social","value":25}]'></loomi-chart>
 ```
 
 ### Borders
@@ -110,8 +154,11 @@ flatter, monochrome look. Borders have no effect in `shade="dark"` (the default 
 already saturated enough to read without one).
 
 ```html
-<loomi-chart id="bordered" type="bar" color="orange" shade="light"></loomi-chart>
-<loomi-chart id="borderless" type="bar" color="orange" shade="light" show-border="false"></loomi-chart>
+<loomi-chart type="bar" color="orange" shade="light"
+  data='[{"label":"Jan","value":30},{"label":"Feb","value":55},{"label":"Mar","value":42},{"label":"Apr","value":60}]'></loomi-chart>
+
+<loomi-chart type="bar" color="orange" shade="light" show-border="false"
+  data='[{"label":"Jan","value":30},{"label":"Feb","value":55},{"label":"Mar","value":42},{"label":"Apr","value":60}]'></loomi-chart>
 ```
 
 ## Showing the Y-Axis
@@ -119,7 +166,8 @@ already saturated enough to read without one).
 `show-y-axis` draws a value axis with min/max labels, for `bar`, `line` and `scatter`.
 
 ```html
-<loomi-chart id="with-axis" type="line" color="primary" show-y-axis></loomi-chart>
+<loomi-chart type="line" color="primary" show-y-axis
+  data='[{"label":"Jan","value":30},{"label":"Feb","value":55},{"label":"Mar","value":42},{"label":"Apr","value":60}]'></loomi-chart>
 ```
 
 ## Vertical Line Charts
@@ -145,7 +193,8 @@ horizontal-bar-style layout next to other vertical content.
 Most useful for `pie`/`donut` charts where labels can't fit directly on the chart.
 
 ```html
-<loomi-chart id="with-legend" type="donut" show-legend></loomi-chart>
+<loomi-chart type="donut" show-legend
+  data='[{"label":"Direct","value":45},{"label":"Search","value":30},{"label":"Social","value":25}]'></loomi-chart>
 ```
 
 ## Practical Example: Dashboard Card
@@ -243,11 +292,15 @@ import "@loomidev/chart";
 ```
 
 
-This component accepts `data` as a JavaScript property. Use an HTML attribute only for simple strings; use a property when you pass arrays, objects, or functions.
+This component accepts `data` either as a JavaScript property or as a JSON-encoded HTML attribute. Prefer the property when the series comes from an API or changes at runtime; the attribute is enough for static content with no JavaScript at all.
 
 ```js
 const el = document.querySelector("loomi-chart");
 el.data = [{ label: "Jan", value: 30 }, { label: "Feb", value: 55 }];
+```
+
+```html
+<loomi-chart data='[{"label":"Jan","value":30},{"label":"Feb","value":55}]'></loomi-chart>
 ```
 
 ### Laravel Blade
