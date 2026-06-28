@@ -1,8 +1,9 @@
 # @loomidev/chart
 
-`<loomi-chart>` is a lightweight, dependency-free SVG chart component for quick visuals.
-Choose from `bar`, `line`, `pie`, `donut`, `radar`, or `scatter`, and pass a single
-data series through its `data` property.
+`<loomi-chart>` is a lightweight SVG chart component for quick visuals. Choose from
+`bar`, `line`, `pie`, `donut`, `radar`, or `scatter`, and pass a single data series
+through its `data` property. Hovering any bar, point, or slice shows its label and value
+in a `<loomi-tooltip>` — no setup required.
 
 ```bash
 npm install @loomidev/chart lit
@@ -68,6 +69,18 @@ so the chart remains stable and the page does not break.
 <loomi-chart 
     type="bar" 
     data='[{"label":"Jan","value":30},{"label":"Feb","value":55}]'></loomi-chart>
+```
+
+## Hover Tooltips
+
+Every chart type shows a `<loomi-tooltip>` with the point's `label: value` on hover, by
+default — there's no attribute to turn it on, and none to turn it off. Bars get an exact
+hit area; lines, scatter points, radar vertices, and pie/donut slices get a small hit
+area centered on the point/slice.
+
+```html
+<loomi-chart type="line" color="primary"
+  data='[{"label":"Jan","value":30},{"label":"Feb","value":55},{"label":"Mar","value":42},{"label":"Apr","value":60}]'></loomi-chart>
 ```
 
 ## Chart Types
@@ -214,6 +227,17 @@ Most useful for `pie`/`donut` charts where labels can't fit directly on the char
   data='[{"label":"Direct","value":45},{"label":"Search","value":30},{"label":"Social","value":25}]'></loomi-chart>
 ```
 
+### Legend Position
+
+`legend-position` places the legend relative to the chart canvas: `top`, `bottom`
+(default), `left`, or `right`. `left`/`right` lay the legend out in a column alongside
+the chart instead of wrapping below it.
+
+```html
+<loomi-chart type="donut" show-legend legend-position="right"
+  data='[{"label":"Direct","value":45},{"label":"Search","value":30},{"label":"Social","value":25}]'></loomi-chart>
+```
+
 ## Practical Example: Dashboard Card
 
 ```html
@@ -243,12 +267,14 @@ Most useful for `pie`/`donut` charts where labels can't fit directly on the char
 | `show-y-axis` | `false` | Show a value axis with min/max labels (`bar`/`line`/`scatter`). _(boolean)_ |
 | `vertical` | `false` | `type="line"` only — flips the axes so categories run top-to-bottom. _(boolean)_ |
 | `show-legend` | `false` | Show a legend (most useful for pie/donut). _(boolean)_ |
+| `legend-position` | `bottom` | `top` \| `bottom` \| `left` \| `right` — where the legend renders when `show-legend` is on. |
 | `donut-radius` | `44` | Inner-hole radius (SVG units) for `type="donut"`. |
 
-> A compact, dependency-free chart for dashboards — single series only, no mixed chart
-> types, no Chart.js-style configuration objects. For heavier analytical charting
-> (multiple datasets per chart, bubble charts, fine-grained axis control), pair LoomiUI
-> with a dedicated charting library like Chart.js instead.
+> A compact chart for dashboards — single series only, no mixed chart types, no
+> Chart.js-style configuration objects. Its only runtime dependency is `@loomidev/tooltip`,
+> used for the built-in hover labels. For heavier analytical charting (multiple datasets
+> per chart, bubble charts, fine-grained axis control), pair LoomiUI with a dedicated
+> charting library like Chart.js instead.
 
 ## Full Example
 

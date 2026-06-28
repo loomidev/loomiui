@@ -72,6 +72,31 @@ describe("loomi-notification", () => {
     expect(updatedStyle.right).to.equal("16px");
   });
 
+  it("centers the stack horizontally for top-center and bottom-center", async () => {
+    // `left`/`translate` resolve to used pixel values in getComputedStyle (not the
+    // authored "50%"/"-50% 0"), so centering is verified geometrically instead: the
+    // stack's own horizontal midpoint should land on the viewport's horizontal midpoint.
+    const isCentered = (stack: HTMLElement) => {
+      const rect = stack.getBoundingClientRect();
+      return Math.abs(rect.left + rect.width / 2 - window.innerWidth / 2) < 1;
+    };
+
+    const el = await mountNotification(html`<loomi-notification position="top-center"></loomi-notification>`);
+
+    el.notify({ title: "Saved", message: "Your changes were saved.", dismissIn: 0 });
+    await el.updateComplete;
+
+    const stack = el.shadowRoot!.querySelector(".loomi-stack") as HTMLElement;
+    expect(getComputedStyle(stack).top).to.equal("16px");
+    expect(isCentered(stack)).to.be.true;
+
+    el.position = "bottom-center";
+    await el.updateComplete;
+
+    expect(getComputedStyle(stack).bottom).to.equal("16px");
+    expect(isCentered(stack)).to.be.true;
+  });
+
   it("moves to document.body to escape nested stacking contexts", async () => {
     const wrapper = await fixture<HTMLDivElement>(html`
       <div style="position: relative; z-index: 1; transform: translateZ(0)">

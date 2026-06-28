@@ -5,12 +5,38 @@
   display: none;
 }
 .loomi-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   width: 100%;
 }
+.loomi-chart.pos-left,
+.loomi-chart.pos-right {
+  flex-direction: row;
+  align-items: flex-start;
+}
+.loomi-canvas {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+}
 .loomi-chart svg {
+  display: block;
   width: 100%;
   height: auto;
   overflow: visible;
+}
+.loomi-hits {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.loomi-hit {
+  position: absolute;
+  pointer-events: auto;
+}
+.loomi-hit-point {
+  transform: translate(-50%, -50%);
 }
 .loomi-axis {
   stroke: var(--loomi-gray-200);
@@ -52,7 +78,12 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.25rem 1rem;
-  margin-top: 0.75rem;
+}
+.loomi-chart.pos-left .loomi-legend,
+.loomi-chart.pos-right .loomi-legend {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  flex: none;
 }
 .loomi-key {
   display: inline-flex;

@@ -15,8 +15,10 @@
   pointer-events: none;
 }
 .pos-top-right { top: 1rem; right: 1rem; }
-.pos-bottom-right { bottom: 1rem; right: 1rem; flex-direction: column-reverse; }
+.pos-top-center { top: 1rem; left: 50%; translate: -50% 0; }
 .pos-top-left { top: 1rem; left: 1rem; }
+.pos-bottom-right { bottom: 1rem; right: 1rem; flex-direction: column-reverse; }
+.pos-bottom-center { bottom: 1rem; left: 50%; translate: -50% 0; flex-direction: column-reverse; }
 .pos-bottom-left { bottom: 1rem; left: 1rem; flex-direction: column-reverse; }
 
 .loomi-toast {

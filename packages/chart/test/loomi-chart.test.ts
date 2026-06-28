@@ -64,21 +64,36 @@ describe("loomi-chart", () => {
     const dark = await fixture<LoomiChart>(html`<loomi-chart type="bar" color="orange"></loomi-chart>`);
     dark.data = series;
     await dark.updateComplete;
-    expect(dark.shadowRoot!.querySelector(".loomi-chart svg path")!.getAttribute("stroke-width")).to.equal("0");
+    expect(dark.shadowRoot!.querySelector(".loomi-bar-border")).to.not.exist;
 
     const light = await fixture<LoomiChart>(html`<loomi-chart type="bar" color="orange" shade="light"></loomi-chart>`);
     light.data = series;
     await light.updateComplete;
-    const lightPath = light.shadowRoot!.querySelector(".loomi-chart svg path")!;
-    expect(lightPath.getAttribute("stroke-width")).to.equal("1.5");
-    expect(lightPath.getAttribute("stroke")).to.include("--loomi-orange-600");
+    expect(light.shadowRoot!.querySelector(".loomi-bar-fill")!.getAttribute("fill")).to.include("--loomi-orange-50");
+    const border = light.shadowRoot!.querySelector(".loomi-bar-border")!;
+    expect(border.getAttribute("stroke-width")).to.equal("1.5");
+    expect(border.getAttribute("stroke")).to.include("--loomi-orange-200");
 
     const noBorder = await fixture<LoomiChart>(
       html`<loomi-chart type="bar" color="orange" shade="light" show-border="false"></loomi-chart>`,
     );
     noBorder.data = series;
     await noBorder.updateComplete;
-    expect(noBorder.shadowRoot!.querySelector(".loomi-chart svg path")!.getAttribute("stroke-width")).to.equal("0");
+    expect(noBorder.shadowRoot!.querySelector(".loomi-bar-border")).to.not.exist;
+  });
+
+  it("leaves the bottom edge of a bar's border open, unlike its (closed) fill", async () => {
+    const el = await fixture<LoomiChart>(html`<loomi-chart type="bar" color="orange" shade="light"></loomi-chart>`);
+    el.data = series;
+    await el.updateComplete;
+
+    const fillD = el.shadowRoot!.querySelector(".loomi-bar-fill")!.getAttribute("d") || "";
+    expect(fillD).to.include("Z");
+
+    const borderD = el.shadowRoot!.querySelector(".loomi-bar-border")!.getAttribute("d") || "";
+    expect(borderD).to.not.include("Z");
+    expect(borderD).to.match(/^M[\d.]+,[\d.]+ V[\d.]+ A/);
+    expect(borderD).to.match(/V[\d.]+$/);
   });
 
   it("shows a y-axis with min/max labels when show-y-axis is set", async () => {
@@ -136,5 +151,80 @@ describe("loomi-chart", () => {
 
     expect(el.data).to.deep.equal([]);
     expect(el.shadowRoot!.querySelector("svg")).to.exist;
+  });
+
+  it("shows a loomi-tooltip with the label and value on hover, for every data point, with no opt-in attribute", async () => {
+    const el = await fixture<LoomiChart>(html`<loomi-chart type="bar"></loomi-chart>`);
+    el.data = series;
+    await el.updateComplete;
+
+    const tips = el.shadowRoot!.querySelectorAll("loomi-tooltip.loomi-hit");
+    expect(tips).to.have.length(4);
+    expect(tips[0].getAttribute("content")).to.equal("Jan: 30");
+    expect(tips[3].getAttribute("content")).to.equal("Apr: 60");
+  });
+
+  it("sizes a bar's hover target to the bar's own rect rather than a fixed point", async () => {
+    const el = await fixture<LoomiChart>(html`<loomi-chart type="bar"></loomi-chart>`);
+    el.data = series;
+    await el.updateComplete;
+
+    const tip = el.shadowRoot!.querySelector("loomi-tooltip.loomi-hit") as HTMLElement;
+    expect(tip.classList.contains("loomi-hit-point")).to.be.false;
+    expect(tip.style.left).to.not.equal("");
+    expect(tip.style.width).to.not.equal("");
+  });
+
+  it("centers point-style hover targets (line/scatter/radar/pie) on the data point", async () => {
+    for (const type of ["line", "scatter", "radar", "pie", "donut"] as const) {
+      const el = await fixture<LoomiChart>(html`<loomi-chart .type=${type}></loomi-chart>`);
+      el.data = series;
+      await el.updateComplete;
+
+      const tip = el.shadowRoot!.querySelector("loomi-tooltip.loomi-hit") as HTMLElement;
+      expect(tip.classList.contains("loomi-hit-point"), `type=${type}`).to.be.true;
+    }
+  });
+
+  it("renders no hover layer when there is no data", async () => {
+    const el = await fixture<LoomiChart>(html`<loomi-chart type="bar"></loomi-chart>`);
+    await el.updateComplete;
+
+    expect(el.shadowRoot!.querySelector(".loomi-hits")).to.not.exist;
+  });
+
+  it("places the legend after the canvas by default (bottom)", async () => {
+    const el = await fixture<LoomiChart>(html`<loomi-chart type="bar" show-legend></loomi-chart>`);
+    el.data = series;
+    await el.updateComplete;
+
+    const children = [...el.shadowRoot!.querySelector(".loomi-chart")!.children];
+    const canvasIndex = children.findIndex((c) => c.classList.contains("loomi-canvas"));
+    const legendIndex = children.findIndex((c) => c.classList.contains("loomi-legend"));
+    expect(canvasIndex).to.be.lessThan(legendIndex);
+    expect(el.shadowRoot!.querySelector(".loomi-chart")!.classList.contains("pos-bottom")).to.be.true;
+  });
+
+  it("moves the legend before the canvas for legend-position=\"top\" or \"left\"", async () => {
+    for (const position of ["top", "left"] as const) {
+      const el = await fixture<LoomiChart>(
+        html`<loomi-chart type="bar" show-legend legend-position=${position}></loomi-chart>`,
+      );
+      el.data = series;
+      await el.updateComplete;
+
+      const children = [...el.shadowRoot!.querySelector(".loomi-chart")!.children];
+      const canvasIndex = children.findIndex((c) => c.classList.contains("loomi-canvas"));
+      const legendIndex = children.findIndex((c) => c.classList.contains("loomi-legend"));
+      expect(legendIndex, `position=${position}`).to.be.lessThan(canvasIndex);
+    }
+  });
+
+  it("reflects legend-position as a pos-<position> class for CSS layout", async () => {
+    const el = await fixture<LoomiChart>(html`<loomi-chart type="bar" show-legend legend-position="right"></loomi-chart>`);
+    el.data = series;
+    await el.updateComplete;
+
+    expect(el.shadowRoot!.querySelector(".loomi-chart")!.classList.contains("pos-right")).to.be.true;
   });
 });

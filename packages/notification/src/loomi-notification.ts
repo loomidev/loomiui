@@ -5,7 +5,13 @@ import "@loomidev/icon/loomi-icon.js";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiNotificationType = "success" | "info" | "warning" | "error";
-export type LoomiNotificationPosition = "top-right" | "bottom-right" | "top-left" | "bottom-left";
+export type LoomiNotificationPosition =
+  | "top-right"
+  | "top-center"
+  | "top-left"
+  | "bottom-right"
+  | "bottom-center"
+  | "bottom-left";
 
 export interface LoomiNotifyOptions {
   title?: string;

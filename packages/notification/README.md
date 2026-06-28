@@ -110,7 +110,7 @@ document.querySelector("loomi-notification").notify({
 
 | Attribute | Default | Description |
 | --- | --- | --- |
-| `position` | `top-right` | `top-right` \| `bottom-right` \| `top-left` \| `bottom-left` |
+| `position` | `top-right` | `top-right` \| `top-center` \| `top-left` \| `bottom-right` \| `bottom-center` \| `bottom-left` |
 
 **Helper:** `showLoomiNotification(title, message, type?, dismissIn?, name?)`.
 **Method:** `notify({ title, message, type, dismissIn, name })`.

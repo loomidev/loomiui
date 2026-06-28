@@ -195,6 +195,9 @@ importers:
       '@loomidev/core':
         specifier: workspace:^
         version: link:../core
+      '@loomidev/tooltip':
+        specifier: workspace:^
+        version: link:../tooltip
     devDependencies:
       '@loomidev/theme':
         specifier: workspace:^
@@ -775,6 +778,9 @@ importers:
       '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons
+      '@loomidev/notification':
+        specifier: workspace:^
+        version: link:../notification
       '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme

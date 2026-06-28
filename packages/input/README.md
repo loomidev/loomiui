@@ -109,12 +109,34 @@ Need full control? Use the `prefix` / `suffix` slots.
 
 ## Validation
 
+A `required` field shows a red border as soon as it's invalid, whether or not
+`error-message` is set — the border doesn't depend on having a message to show.
+`error-message` controls what (if anything) is displayed *in addition to* that border:
+
 ```html
 <loomi-input required label="Full name" error-message="Your name is required" show-error-inline></loomi-input>
 ```
 
 ```js
-const ok = document.querySelector("loomi-input").validate(); // toggles `invalid`, returns boolean
+const input = document.querySelector("loomi-input");
+const ok = input.validate();
+```
+
+`validate()` runs the required-field check immediately, independent of `blur` (a `blur`
+on the field already triggers the same check automatically — call `validate()` yourself
+before a manual submit or API call). It:
+
+- Returns `true` if the field passes (or isn't `required`), `false` otherwise.
+- Sets the reflected `invalid` attribute to match, which is what actually drives the red
+  border in CSS — this happens regardless of `error-message`.
+- When the field just became invalid, shows `error-message` (if set): inline below the
+  field when `show-error-inline` is set, otherwise as a `loomi-notification` toast (see
+  [`@loomidev/notification`](../notification)) so the message isn't silently dropped.
+
+```html
+<loomi-input required label="Full name" error-message="Your name is required"></loomi-input>
+<!-- show-error-inline omitted (false): a failed validate()/blur shows this message as a
+     toast instead of inline text, but the red border still appears either way -->
 ```
 
 ## Attributes
@@ -140,8 +162,8 @@ const ok = document.querySelector("loomi-input").validate(); // toggles `invalid
 | `transparent-prefix` / `transparent-suffix` | `true` | Transparent (vs solid) affix. _(boolean)_ |
 | `viewable` | `false` | Show a reveal eye when `type="password"`. _(boolean)_ |
 | `clearable` | `false` | Show a clear (✕) button when the field has a value. _(boolean)_ |
-| `error-message` | _(blank)_ | Message shown when validation fails. |
-| `show-error-inline` | `false` | Render the error beneath the field. _(boolean)_ |
+| `error-message` | _(blank)_ | Message shown when validation fails. The red invalid border shows either way, even if this is left blank. |
+| `show-error-inline` | `false` | Render `error-message` beneath the field. When `false`, a failed validation shows it as a `loomi-notification` toast instead. _(boolean)_ |
 | `show-placeholder-always` | `false` | Keep the placeholder visible even with a label. _(boolean)_ |
 | `no-clearing` | `false` | Remove the default bottom margin. _(boolean, attribute on host)_ |
 
@@ -152,7 +174,7 @@ const ok = document.querySelector("loomi-input").validate(); // toggles `invalid
 | `.value` | Get/set the current value. |
 | `.dynamicMask` | Set a custom dynamic mask function, or a named built-in such as `"creditcard"`. |
 | `focus()` / `clear()` | Focus or clear the field. |
-| `validate()` | Validate required state; returns boolean. |
+| `validate()` | Run the required check now (independent of `blur`); sets `invalid` and surfaces `error-message` inline or via toast. Returns `true` when valid. |
 | `input` / `change` | Native events (composed). |
 
 ### Slots & parts

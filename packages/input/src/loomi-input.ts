@@ -1,6 +1,7 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
 import { LoomiElement, loomiT, themeStyles } from "@loomidev/core";
+import { showLoomiNotification } from "@loomidev/notification";
 import { getLoomiIcon } from "./icons.js";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -40,6 +41,8 @@ export class LoomiInput extends LoomiElement {
 
   private internals = this.attachInternals();
   private validationVisible = false;
+  /** Falls back to a stable per-instance id when `name` is blank, so a `loomi-notification` toast (see `syncValidity`) re-renders in place across repeated validation failures instead of stacking. */
+  private readonly instanceId = Math.random().toString(36).slice(2, 8);
 
   @property({ reflect: true }) name = "";
   @property() type: LoomiInputType = "text";
@@ -103,7 +106,15 @@ export class LoomiInput extends LoomiElement {
     this.focus();
   }
 
-  /** Validate required state; toggles `invalid`. Returns true when valid. */
+  /**
+   * Run the required-field check right now, independent of blur. Sets the reflected
+   * `invalid` attribute to match — which drives the red field border in CSS regardless of
+   * whether `error-message` is set — and, when it just became invalid, surfaces
+   * `error-message` (if any): inline below the field when `show-error-inline` is set,
+   * otherwise as a `loomi-notification` toast. Returns `true` when the field passes (or
+   * isn't `required`), `false` otherwise. Call this yourself before a manual submit or API
+   * call; a `blur` on the field already triggers the same check automatically.
+   */
   validate(): boolean {
     this.validationVisible = true;
     return this.syncValidity(true);
@@ -122,11 +133,20 @@ export class LoomiInput extends LoomiElement {
 
   private syncValidity(showInvalid = this.validationVisible): boolean {
     const empty = this.required && !this.disabled && !this.readonly && this.value.trim() === "";
+    const wasInvalid = this.invalid;
     this.invalid = empty && showInvalid;
     const validity = empty ? { valueMissing: true } : {};
     const message = empty ? this.errorMessage || loomiT("validation.requiredField", {}, this.locale) : "";
     if (this.inputEl) this.internals.setValidity(validity, message, this.inputEl);
     else this.internals.setValidity(validity, message);
+
+    // Inline display (`.loomi-error`, in render()) only covers `show-error-inline`. When
+    // it's off, surface the same message as a toast instead of silently dropping it — only
+    // on the valid→invalid transition, so re-validating while already invalid (e.g. typing
+    // into an empty required field) doesn't spam a new toast on every keystroke.
+    if (this.invalid && !wasInvalid && !this.showErrorInline && this.errorMessage) {
+      showLoomiNotification(this.label, this.errorMessage, "error", undefined, `loomi-input-validation-${this.name || this.instanceId}`);
+    }
     return !empty;
   }
 
