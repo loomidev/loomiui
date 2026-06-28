@@ -1,6 +1,19 @@
 import { html, fixture, expect } from "@open-wc/testing";
+import type { TemplateResult } from "lit";
 import "../dist/loomi-notification.js";
 import type { LoomiNotification } from "../dist/index.js";
+
+// `<loomi-notification>` relocates itself to `document.body` synchronously in
+// `connectedCallback` (see the "moves to document.body" test below), which happens
+// *during* `fixture()`'s own render call. Fixturing the tag directly would have
+// `fixture()` hand back `wrapper.firstElementChild` — but by then the element has
+// already moved itself out of that wrapper, so it would resolve to `null`. Fixturing a
+// plain wrapper div and reading the relocated element back off `document.body` sidesteps
+// that, the same way the dedicated relocation test (and `loomi-modal`'s tests) do.
+async function mountNotification(template: TemplateResult): Promise<LoomiNotification> {
+  await fixture(html`<div>${template}</div>`);
+  return document.body.querySelector("loomi-notification") as LoomiNotification;
+}
 
 describe("loomi-notification", () => {
   afterEach(() => {
@@ -8,7 +21,7 @@ describe("loomi-notification", () => {
   });
 
   it("renders notification icons through loomi-icon", async () => {
-    const el = await fixture<LoomiNotification>(html`<loomi-notification></loomi-notification>`);
+    const el = await mountNotification(html`<loomi-notification></loomi-notification>`);
 
     el.notify({ title: "Saved", message: "Your changes were saved.", type: "success", dismissIn: 0 });
     await el.updateComplete;
@@ -18,7 +31,7 @@ describe("loomi-notification", () => {
   });
 
   it("dismisses a notification from the close button", async () => {
-    const el = await fixture<LoomiNotification>(html`<loomi-notification></loomi-notification>`);
+    const el = await mountNotification(html`<loomi-notification></loomi-notification>`);
 
     el.notify({ title: "Saved", message: "Your changes were saved.", type: "success", dismissIn: 0 });
     await el.updateComplete;
@@ -32,7 +45,7 @@ describe("loomi-notification", () => {
   });
 
   it("renders above app chrome by default", async () => {
-    const el = await fixture<LoomiNotification>(html`<loomi-notification></loomi-notification>`);
+    const el = await mountNotification(html`<loomi-notification></loomi-notification>`);
 
     el.notify({ title: "Saved", message: "Your changes were saved.", dismissIn: 0 });
     await el.updateComplete;
@@ -41,7 +54,7 @@ describe("loomi-notification", () => {
   });
 
   it("positions the stack from the selected corner", async () => {
-    const el = await fixture<LoomiNotification>(html`<loomi-notification position="bottom-left"></loomi-notification>`);
+    const el = await mountNotification(html`<loomi-notification position="bottom-left"></loomi-notification>`);
 
     el.notify({ title: "Saved", message: "Your changes were saved.", dismissIn: 0 });
     await el.updateComplete;
