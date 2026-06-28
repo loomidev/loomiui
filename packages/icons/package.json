@@ -2,6 +2,11 @@
   "name": "@loomidev/icons",
   "version": "0.1.0",
   "description": "Shared icon registry for loomi components (a Heroicons outline subset) with a runtime register API.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/icons"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

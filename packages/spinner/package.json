@@ -2,6 +2,11 @@
   "name": "@loomidev/spinner",
   "version": "0.1.0",
   "description": "<loomi-spinner> — a themeable loading spinner in the full palette.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/spinner"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

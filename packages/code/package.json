@@ -2,6 +2,11 @@
   "name": "@loomidev/code",
   "version": "0.1.0",
   "description": "<loomi-code> — a verification-code (PIN) input.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/code"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

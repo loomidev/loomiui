@@ -2,6 +2,11 @@
   "name": "@loomidev/icon",
   "version": "0.1.0",
   "description": "<loomi-icon> — render a registered icon or raw SVG, themeable via currentColor.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/icon"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

@@ -2,6 +2,11 @@
   "name": "@loomidev/modal",
   "version": "0.1.0",
   "description": "<loomi-modal> — overlay dialog with types, sizes and action buttons.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/modal"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

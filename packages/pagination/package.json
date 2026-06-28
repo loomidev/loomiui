@@ -2,6 +2,11 @@
   "name": "@loomidev/pagination",
   "version": "0.1.0",
   "description": "<loomi-pagination> — page controls (arrows/numbers/dropdown).",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/pagination"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

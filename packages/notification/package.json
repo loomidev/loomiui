@@ -2,6 +2,11 @@
   "name": "@loomidev/notification",
   "version": "0.1.0",
   "description": "<loomi-notification> — stacked, auto-dismissing toast notifications.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/notification"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

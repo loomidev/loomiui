@@ -2,6 +2,11 @@
   "name": "@loomidev/timeline",
   "version": "0.1.0",
   "description": "<loomi-timeline>/<loomi-timelines> — a chronological feed.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/timeline"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

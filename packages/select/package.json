@@ -2,6 +2,11 @@
   "name": "@loomidev/select",
   "version": "0.1.0",
   "description": "<loomi-select> — a themeable custom select web component (searchable, multiple, form-ready).",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/select"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

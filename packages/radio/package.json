@@ -2,6 +2,11 @@
   "name": "@loomidev/radio",
   "version": "0.1.0",
   "description": "<loomi-radio> — a themeable radio-button web component with name-based grouping.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/radio"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

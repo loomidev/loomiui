@@ -7,7 +7,7 @@ that aren't obvious from the code alone.
 
 > **Status note:** this is a single git repository — see
 > [§10](#10-should-each-component-be-its-own-git-repository) for why components aren't
-> split into separate repos. It's pushed to `github.com/loomiui/loomiui` (`main` and
+> split into separate repos. It's pushed to `github.com/loomidev/loomiui` (`main` and
 > `development` are both live there) — see
 > [§9.7](#97-how-this-ties-to-the-github-repo) for how that connects to the CI/release
 > workflows in [§9](#9-publishing-to-npm), which only run on GitHub Actions and still
@@ -742,14 +742,20 @@ keep doing dependencies-first anyway.
 
 Neither workflow can actually run until two things exist: the repo is pushed to a GitHub
 remote, and these two repo secrets are set —
-- `NPM_TOKEN` — an npm **automation** token with publish rights on the `@loomidev` org
-  (create one at npmjs.com under your account's Access Tokens, scoped to "Automation").
+- `NPM_TOKEN` — an npm **automation** token with publish rights on the `@loomidev` org.
+  Create one at npmjs.com → avatar → **Access Tokens** → **Generate New Token** →
+  **Granular Access Token** (or **Classic Token** → **Automation**, on older accounts).
+  npm shows the token **once**, at creation time, and never again — copy it immediately
+  and paste it straight into the GitHub repo secret (`github.com/loomidev/loomiui` →
+  Settings → Secrets and variables → Actions → New repository secret → name it
+  `NPM_TOKEN`). If you navigated away before copying it, the token can't be retrieved;
+  delete the unusable one from npm's Access Tokens list and generate a new one.
 - `GITHUB_TOKEN` is provided automatically by Actions; no setup needed.
 
 ### 9.7 How this ties to the GitHub repo
 
 Everything in [§9.6](#96-ci) is GitHub-Actions-driven, so it only works against the
-actual GitHub repo (`origin` is `github.com/loomiui/loomiui`; `main` and `development`
+actual GitHub repo (`origin` is `github.com/loomidev/loomiui`; `main` and `development`
 are both pushed there). Concretely, here's the loop from "merge a PR" to "package shows
 up on npm":
 
@@ -772,7 +778,7 @@ up on npm":
    published through this CI path get that badge; a manual `pnpm publish` from a local
    machine ([§9.4](#94-manual-publish-no-tooling-one-off-release)) never does.
 5. The repo secrets from [§9.6](#96-ci) live on GitHub itself —
-   `github.com/loomiui/loomiui` → Settings → Secrets and variables → Actions — not
+   `github.com/loomidev/loomiui` → Settings → Secrets and variables → Actions — not
    anywhere in this codebase. Until `NPM_TOKEN` is set there, `release.yml` still runs
    and will still open the "Version Packages" PR, but the `pnpm changeset publish` step
    fails for lack of registry credentials.
@@ -780,7 +786,7 @@ up on npm":
 One thing not wired up yet: no package's `package.json` declares a `"repository"`
 field. Worth adding per package — e.g.
 ```json
-"repository": { "type": "git", "url": "https://github.com/loomiui/loomiui.git", "directory": "packages/button" }
+"repository": { "type": "git", "url": "https://github.com/loomidev/loomiui.git", "directory": "packages/button" }
 ```
 npm renders this as a link on the package's registry page, and the `directory` field is
 what lets someone land on `@loomidev/button`'s npm listing and get back to
@@ -835,7 +841,7 @@ place, push as a single repository.
   (`bug_report.yml`, `feature_request.yml`) and a PR template.
 - **npm publish provenance**: wired into `release.yml` (`id-token: write` +
   Changesets' action), see [§9.7](#97-how-this-ties-to-the-github-repo) — will take
-  effect once the `NPM_TOKEN` repo secret is set on `github.com/loomiui/loomiui`;
+  effect once the `NPM_TOKEN` repo secret is set on `github.com/loomidev/loomiui`;
   can't be exercised before that.
 - **Versioning/changelog automation** via Changesets — see [§9.3](#93-versioning-strategy).
 - **Explicit browser support matrix**, a **React/Vue/Angular interop note**, a
@@ -859,7 +865,7 @@ place, push as a single repository.
   `aria-activedescendant` pattern).
 - **Test coverage** for the other ~39 components — extend opportunistically per
   [§8a](#8a-automated-smoke-tests), not as a dedicated backlog effort.
-- **Repo secrets on GitHub.** The repo itself is pushed (`github.com/loomiui/loomiui`,
+- **Repo secrets on GitHub.** The repo itself is pushed (`github.com/loomidev/loomiui`,
   see [§9.7](#97-how-this-ties-to-the-github-repo)), but the workflows can't actually
   publish until `NPM_TOKEN` is set there.
 

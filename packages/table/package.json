@@ -2,6 +2,11 @@
   "name": "@loomidev/table",
   "version": "0.1.0",
   "description": "<loomi-table> — data table with sorting, search, pagination, checkable rows and action icons.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/table"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

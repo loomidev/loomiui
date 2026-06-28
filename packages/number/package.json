@@ -2,6 +2,11 @@
   "name": "@loomidev/number",
   "version": "0.1.0",
   "description": "<loomi-number> — a themeable number stepper input with increment/decrement buttons.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/number"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

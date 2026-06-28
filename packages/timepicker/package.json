@@ -2,6 +2,11 @@
   "name": "@loomidev/timepicker",
   "version": "0.1.0",
   "description": "<loomi-timepicker> — a time picker (popup or inline, 12/24h).",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/timepicker"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

@@ -2,6 +2,11 @@
   "name": "@loomidev/components",
   "version": "0.1.0",
   "description": "The whole loomi component library in one install. Re-exports every individual @loomidev/* component package.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/components"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

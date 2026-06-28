@@ -2,6 +2,11 @@
   "name": "@loomidev/button",
   "version": "0.1.0",
   "description": "<loomi-button> — a themeable, framework-agnostic button web component built with Lit.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/button"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

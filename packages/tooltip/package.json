@@ -2,6 +2,11 @@
   "name": "@loomidev/tooltip",
   "version": "0.1.0",
   "description": "<loomi-tooltip> — a hover/focus tooltip with four positions.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/tooltip"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

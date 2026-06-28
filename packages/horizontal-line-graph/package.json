@@ -2,6 +2,11 @@
   "name": "@loomidev/horizontal-line-graph",
   "version": "0.1.0",
   "description": "<loomi-horizontal-line-graph> — a labeled proportion bar.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/horizontal-line-graph"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

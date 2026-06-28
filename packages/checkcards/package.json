@@ -2,6 +2,11 @@
   "name": "@loomidev/checkcards",
   "version": "0.1.0",
   "description": "<loomi-checkcards>/<loomi-checkcard> — selectable cards (prettier checkboxes).",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/checkcards"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

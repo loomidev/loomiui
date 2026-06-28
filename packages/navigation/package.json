@@ -2,6 +2,11 @@
   "name": "@loomidev/navigation",
   "version": "0.1.0",
   "description": "All loomi navigation components in one install.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/navigation"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

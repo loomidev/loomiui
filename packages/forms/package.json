@@ -2,6 +2,11 @@
   "name": "@loomidev/forms",
   "version": "0.1.0",
   "description": "All loomi form components in one install.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/forms"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

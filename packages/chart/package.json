@@ -2,6 +2,11 @@
   "name": "@loomidev/chart",
   "version": "0.1.0",
   "description": "<loomi-chart> — line / bar / pie / donut charts (SVG).",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/chart"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

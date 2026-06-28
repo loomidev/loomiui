@@ -2,6 +2,11 @@
   "name": "@loomidev/datepicker",
   "version": "0.1.0",
   "description": "<loomi-datepicker> — a calendar date picker (single or range).",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/datepicker"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

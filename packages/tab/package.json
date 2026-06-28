@@ -2,6 +2,11 @@
   "name": "@loomidev/tab",
   "version": "0.1.0",
   "description": "<loomi-tabs>/<loomi-tab> — tabbed content (simple/system/pills styles).",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/tab"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

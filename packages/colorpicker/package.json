@@ -2,6 +2,11 @@
   "name": "@loomidev/colorpicker",
   "version": "0.1.0",
   "description": "<loomi-colorpicker> — a color picker (native or swatch palette).",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/colorpicker"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

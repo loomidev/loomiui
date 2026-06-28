@@ -2,6 +2,11 @@
   "name": "@loomidev/listview",
   "version": "0.1.0",
   "description": "<loomi-listview>/<loomi-listview-item> — a divided list.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/listview"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

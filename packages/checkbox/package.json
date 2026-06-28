@@ -2,6 +2,11 @@
   "name": "@loomidev/checkbox",
   "version": "0.1.0",
   "description": "<loomi-checkbox> — a themeable checkbox web component in the full loomi palette.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/checkbox"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

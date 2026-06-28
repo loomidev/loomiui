@@ -2,6 +2,11 @@
   "name": "@loomidev/filepicker",
   "version": "0.1.0",
   "description": "<loomi-filepicker> — a drag-and-drop file picker with previews.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/filepicker"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

@@ -2,6 +2,11 @@
   "name": "@loomidev/contact-card",
   "version": "0.1.0",
   "description": "<loomi-contact-card> — a ready-made contact card.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/contact-card"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

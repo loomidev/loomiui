@@ -2,6 +2,11 @@
   "name": "@loomidev/statistic",
   "version": "0.1.0",
   "description": "<loomi-statistic> — a dashboard stat with label, number, currency and icon.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/statistic"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

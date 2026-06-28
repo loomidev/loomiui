@@ -2,6 +2,11 @@
   "name": "@loomidev/dropmenu",
   "version": "0.1.0",
   "description": "<loomi-dropmenu> — a dropdown action menu.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/dropmenu"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

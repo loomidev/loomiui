@@ -2,6 +2,11 @@
   "name": "@loomidev/tag",
   "version": "0.1.0",
   "description": "<loomi-tag>/<loomi-tags> — themeable labels/badges, faint or dark, closable, selectable.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/tag"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

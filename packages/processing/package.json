@@ -2,6 +2,11 @@
   "name": "@loomidev/processing",
   "version": "0.1.0",
   "description": "<loomi-processing> — a process indicator (working / success / failed).",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/processing"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

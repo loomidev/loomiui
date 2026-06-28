@@ -2,6 +2,11 @@
   "name": "@loomidev/centered-content",
   "version": "0.1.0",
   "description": "<loomi-centered-content> — center content vertically and horizontally.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/centered-content"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"

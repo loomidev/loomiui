@@ -2,6 +2,11 @@
   "name": "@loomidev/popover",
   "version": "0.1.0",
   "description": "<loomi-popover> — a floating rich-content panel on click/hover.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/popover"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"
