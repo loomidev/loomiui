@@ -2,8 +2,9 @@
 
 `<loomi-filepicker>` — a drag-and-drop file picker with previews. Keeps a real
 `<input type="file">` in sync, so it submits inside a `<form>` with
-`enctype="multipart/form-data"`. A lightweight, dependency-free take on BladewindUI's
-Filepond wrapper.
+`enctype="multipart/form-data"`. A lightweight take on BladewindUI's Filepond wrapper —
+the crop dialog is a `<loomi-modal>` and oversized-file errors surface through
+`<loomi-notification>`.
 
 ```bash
 npm install @loomidev/filepicker lit
@@ -79,6 +80,9 @@ Built-in locales: `en`, `ar`, `de`, `es`, `fr`, `it`, `ml`, `pt_BR`, `tr`, and
 
 ## File Size Limits
 
+Files over `max-file-size` are skipped and reported with a `<loomi-notification>` error
+toast (auto-created on `document.body` if one isn't already on the page).
+
 ```html
 <loomi-filepicker max-file-size="15kb"></loomi-filepicker>
 ```
@@ -110,11 +114,15 @@ just file names.
 ## Image Cropping
 
 Set `crop` to launch a crop dialog as soon as the user selects or drops an image. Drag
-the box to reposition it and drag the handle on its corner to resize; the file added to
-the picker is the cropped result. Non-image files skip the dialog entirely.
+the box to reposition it (in any direction) and drag the handle on its corner to resize;
+the file added to the picker is the cropped result. Non-image files skip the dialog
+entirely.
 
 Constrain the crop box with `crop-aspect-ratio`: `16:9` (default), `4:3`, `2:3`, `1:1`, or
 `free` (no fixed ratio — drag the handle to any width/height).
+
+The dialog itself is a `<loomi-modal>`, so Escape and backdrop clicks cancel it the same
+way they would any other Loomi modal.
 
 ```html
 <loomi-filepicker crop crop-aspect-ratio="1:1" accepted-file-types="image/*"></loomi-filepicker>

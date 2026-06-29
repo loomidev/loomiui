@@ -1,0 +1,102 @@
+/* Component-scoped plain CSS for <loomi-text-editor>. */
+:host {
+  display: block;
+  margin-bottom: 1rem;
+}
+:host([no-clearing]) {
+  margin-bottom: 0;
+}
+:host([hidden]) {
+  display: none;
+}
+
+.loomi-field {
+  position: relative;
+  display: block;
+  width: 100%;
+  background: var(--loomi-surface);
+  border: 1px solid var(--loomi-surface-border);
+  border-radius: 0.5rem;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.loomi-field:focus-within {
+  border-color: var(--loomi-primary-500);
+  box-shadow: 0 0 0 3px var(--loomi-primary-100);
+}
+:host([invalid]) .loomi-field {
+  border-color: var(--loomi-red-400);
+}
+:host([invalid]) .loomi-field:focus-within {
+  box-shadow: 0 0 0 3px var(--loomi-red-100);
+}
+:host([disabled]) .loomi-field {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--loomi-surface-muted);
+}
+
+.loomi-label {
+  color: var(--loomi-text-faint);
+  pointer-events: none;
+  max-width: calc(100% - 1rem);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.loomi-label-static {
+  position: static;
+  display: block;
+  margin-bottom: 0.35rem;
+  background: transparent;
+  padding: 0;
+}
+.loomi-req {
+  color: var(--loomi-red-500);
+  margin-left: 0.15rem;
+}
+
+.loomi-error {
+  margin: 0.35rem 0 0;
+  font-size: 0.8rem;
+  color: var(--loomi-red-500);
+}
+
+.loomi-field-quill {
+  overflow: hidden;
+}
+.loomi-field-quill .ql-toolbar.ql-snow {
+  border: 0;
+  border-bottom: 1px solid var(--loomi-surface-border);
+  background: var(--loomi-surface-muted);
+}
+.loomi-field-quill .ql-container.ql-snow {
+  border: 0;
+  font-family: inherit;
+}
+.loomi-field-quill .ql-editor {
+  color: var(--loomi-text);
+  padding: 0.625rem 1rem;
+}
+.loomi-field-quill .ql-editor.ql-blank::before {
+  color: var(--loomi-text-faint);
+  font-style: normal;
+}
+.loomi-field-quill .ql-snow .ql-stroke {
+  stroke: var(--loomi-text-secondary);
+}
+.loomi-field-quill .ql-snow .ql-fill {
+  fill: var(--loomi-text-secondary);
+}
+.loomi-field-quill .ql-snow.ql-toolbar button:hover .ql-stroke,
+.loomi-field-quill .ql-snow.ql-toolbar button.ql-active .ql-stroke {
+  stroke: var(--loomi-primary-600, var(--_loomi-primary-600-default));
+}
+.loomi-field-quill .ql-snow.ql-toolbar button:hover .ql-fill,
+.loomi-field-quill .ql-snow.ql-toolbar button.ql-active .ql-fill {
+  fill: var(--loomi-primary-600, var(--_loomi-primary-600-default));
+}
+:host([disabled]) .loomi-field-quill .ql-toolbar {
+  pointer-events: none;
+}

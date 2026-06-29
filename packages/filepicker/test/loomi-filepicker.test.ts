@@ -1,6 +1,8 @@
 import { html, fixture, expect, waitUntil } from "@open-wc/testing";
 import "../dist/loomi-filepicker.js";
 import type { LoomiFilepicker } from "../dist/index.js";
+import type { LoomiModal } from "@loomidev/modal";
+import type { LoomiNotification } from "@loomidev/notification";
 
 const PNG_1X1_BASE64 =
   "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
@@ -27,6 +29,13 @@ function selectFiles(el: LoomiFilepicker, files: File[]): void {
 }
 
 describe("loomi-filepicker", () => {
+  afterEach(() => {
+    // The crop dialog is a real <loomi-modal> that relocates itself to document.body
+    // while open, and toasts mount their own <loomi-notification> host there too.
+    document.querySelectorAll<LoomiModal>(".loomi-crop-modal").forEach((el) => el.hide());
+    document.querySelectorAll("loomi-notification").forEach((el) => el.remove());
+  });
+
   it('honors show-image-preview="false", can-browse="false", and can-drop="false"', async () => {
     const el = await fixture<LoomiFilepicker>(
       html`<loomi-filepicker show-image-preview="false" can-browse="false" can-drop="false"></loomi-filepicker>`,
@@ -49,23 +58,41 @@ describe("loomi-filepicker", () => {
     expect(detail?.files).to.have.lengthOf(1);
   });
 
+  it("shows a loomi-notification toast and skips files over max-file-size", async () => {
+    const el = await fixture<LoomiFilepicker>(html`<loomi-filepicker max-file-size="1kb"></loomi-filepicker>`);
+    const bigFile = new File([new Uint8Array(2048)], "big.bin", { type: "application/octet-stream" });
+
+    selectFiles(el, [bigFile]);
+    await el.updateComplete;
+
+    expect(el.selectedFiles).to.have.lengthOf(0);
+    const host = document.body.querySelector("loomi-notification") as LoomiNotification;
+    expect(host).to.exist;
+    await host.updateComplete;
+    expect(host.shadowRoot!.querySelector(".loomi-title")!.textContent).to.equal("File too large");
+    expect(host.shadowRoot!.querySelector(".loomi-message")!.textContent).to.include("big.bin");
+  });
+
   it("skips the crop dialog for non-image files even when crop is enabled", async () => {
     const el = await fixture<LoomiFilepicker>(html`<loomi-filepicker crop></loomi-filepicker>`);
 
     selectFiles(el, [textFile()]);
     await waitUntil(() => el.selectedFiles.length > 0);
 
-    expect(el.shadowRoot!.querySelector(".loomi-crop-backdrop")).to.not.exist;
+    const modal = el.shadowRoot!.querySelector(".loomi-crop-modal") as LoomiModal;
+    expect(modal.open).to.be.false;
   });
 
   it("launches a crop dialog for images and discards the file on cancel", async () => {
     const el = await fixture<LoomiFilepicker>(html`<loomi-filepicker crop></loomi-filepicker>`);
 
     selectFiles(el, [pngFile()]);
-    await waitUntil(() => el.shadowRoot!.querySelector(".loomi-crop-backdrop"));
+    await waitUntil(() => (document.querySelector(".loomi-crop-modal") as LoomiModal | null)?.open);
+    const modal = document.querySelector(".loomi-crop-modal") as LoomiModal;
 
-    el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-crop-btn.cancel")!.click();
-    await waitUntil(() => !el.shadowRoot!.querySelector(".loomi-crop-backdrop"));
+    const cancelBtn = modal.shadowRoot!.querySelector(".loomi-footer loomi-button[type='secondary']") as HTMLElement;
+    cancelBtn.click();
+    await waitUntil(() => !modal.open);
 
     expect(el.selectedFiles).to.have.lengthOf(0);
   });
@@ -76,12 +103,14 @@ describe("loomi-filepicker", () => {
     );
 
     selectFiles(el, [pngFile()]);
-    await waitUntil(() => el.shadowRoot!.querySelector(".loomi-crop-rect"));
+    await waitUntil(() => document.querySelector(".loomi-crop-rect"));
+    const modal = document.querySelector(".loomi-crop-modal") as LoomiModal;
 
-    el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-crop-btn.apply")!.click();
+    const okBtn = modal.shadowRoot!.querySelector(".loomi-footer loomi-button:not([type='secondary'])") as HTMLElement;
+    okBtn.click();
     await waitUntil(() => el.selectedFiles.length > 0);
 
-    expect(el.shadowRoot!.querySelector(".loomi-crop-backdrop")).to.not.exist;
+    expect(modal.open).to.be.false;
     expect(el.selectedFiles[0].type).to.equal("image/png");
   });
 
@@ -93,7 +122,7 @@ describe("loomi-filepicker", () => {
     selectFiles(el, [pngFile()]);
     await waitUntil(() => el.selectedFiles.length > 0);
 
-    expect(el.shadowRoot!.querySelector(".loomi-crop-backdrop")).to.not.exist;
+    expect(document.querySelector(".loomi-crop-modal[open]")).to.not.exist;
     expect(el.selectedFiles[0].type).to.equal("image/png");
   });
 });

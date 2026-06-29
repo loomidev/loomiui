@@ -91,6 +91,18 @@ stacking a duplicate — handy for a repeating error you don't want to spam the 
 <loomi-notification position="bottom-right"></loomi-notification>
 ```
 
+## Full Width
+
+Add `full-width` to span the entire width of the page instead of floating as a corner
+card. The banner anchors to the top or bottom edge based on `position` — any `top-*`
+value anchors top, any `bottom-*` value anchors bottom.
+
+```html
+<loomi-button onclick="showLoomiNotification('Maintenance', 'We\'re deploying in 10 minutes.', 'warning')">Notify</loomi-button>
+
+<loomi-notification position="top-center" full-width></loomi-notification>
+```
+
 ## Using the Element Directly
 
 If you already have a reference to the `<loomi-notification>` element, its `notify()`
@@ -111,6 +123,7 @@ document.querySelector("loomi-notification").notify({
 | Attribute | Default | Description |
 | --- | --- | --- |
 | `position` | `top-right` | `top-right` \| `top-center` \| `top-left` \| `bottom-right` \| `bottom-center` \| `bottom-left` |
+| `full-width` | `false` | Spans the entire page width, anchored top or bottom per `position`. _(boolean)_ |
 
 **Helper:** `showLoomiNotification(title, message, type?, dismissIn?, name?)`.
 **Method:** `notify({ title, message, type, dismissIn, name })`.

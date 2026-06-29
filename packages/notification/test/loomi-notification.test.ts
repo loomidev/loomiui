@@ -97,6 +97,36 @@ describe("loomi-notification", () => {
     expect(isCentered(stack)).to.be.true;
   });
 
+  it("spans the full viewport width and anchors flush to the top edge", async () => {
+    const el = await mountNotification(html`<loomi-notification position="top-left" full-width></loomi-notification>`);
+
+    el.notify({ title: "Saved", message: "Your changes were saved.", dismissIn: 0 });
+    await el.updateComplete;
+
+    const stack = el.shadowRoot!.querySelector(".loomi-stack") as HTMLElement;
+    const style = getComputedStyle(stack);
+    expect(style.top).to.equal("0px");
+    expect(style.left).to.equal("0px");
+    expect(style.right).to.equal("0px");
+    expect(stack.getBoundingClientRect().width).to.equal(window.innerWidth);
+  });
+
+  it("anchors flush to the bottom edge when full-width with a bottom position", async () => {
+    const el = await mountNotification(html`<loomi-notification position="bottom-center" full-width></loomi-notification>`);
+
+    el.notify({ title: "Saved", message: "Your changes were saved.", dismissIn: 0 });
+    await el.updateComplete;
+
+    const stack = el.shadowRoot!.querySelector(".loomi-stack") as HTMLElement;
+    expect(getComputedStyle(stack).bottom).to.equal("0px");
+  });
+
+  it("treats full-width=\"false\" as off, matching other boolean attributes", async () => {
+    const el = await mountNotification(html`<loomi-notification full-width="false"></loomi-notification>`);
+
+    expect(el.fullWidth).to.be.false;
+  });
+
   it("moves to document.body to escape nested stacking contexts", async () => {
     const wrapper = await fixture<HTMLDivElement>(html`
       <div style="position: relative; z-index: 1; transform: translateZ(0)">

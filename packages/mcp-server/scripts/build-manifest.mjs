@@ -14,10 +14,10 @@ const selfDir = resolve(__dirname, "..");
 // Category membership mirrors the @loomidev/forms, @loomidev/content and @loomidev/navigation
 // grouping packages. Keep these lists in sync if a new component is added.
 const CATEGORY = {
-  standalone: ["button", "icon", "spinner", "alert", "bell", "modal", "notification", "table"],
+  standalone: ["button", "icon", "spinner", "alert", "bell", "modal", "drawer", "notification", "table"],
   forms: [
-    "input", "textarea", "select", "checkbox", "radio", "toggle", "number", "slider",
-    "code", "checkcards", "datepicker", "timepicker", "colorpicker", "filepicker",
+    "input", "textarea", "text-editor", "select", "checkbox", "radio", "toggle", "number", "slider",
+    "code", "checkcards", "datepicker", "timepicker", "colorpicker", "filepicker", "countries",
   ],
   content: [
     "card", "avatar", "accordion", "tag", "tooltip", "popover", "empty-state", "statistic",

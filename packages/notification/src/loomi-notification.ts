@@ -35,6 +35,15 @@ const TYPE: Record<LoomiNotificationType, { color: LoomiColor; icon: string }> =
 
 let uid = 0;
 
+const booleanAttribute = {
+  fromAttribute(value: string | null): boolean {
+    return value !== null && value.toLowerCase() !== "false";
+  },
+  toAttribute(value: boolean): string | null {
+    return value ? "" : null;
+  },
+};
+
 /**
  * `<loomi-notification>` — a container for stacked, auto-dismissing toasts. Trigger via
  * the `notify()` method or the global `showLoomiNotification()` helper.
@@ -45,6 +54,9 @@ export class LoomiNotification extends LoomiElement {
 
   @property() position: LoomiNotificationPosition = "top-right";
   @property() locale = "";
+  /** Spans the full viewport width, anchored to the top or bottom edge from `position`. */
+  @property({ type: Boolean, attribute: "full-width", converter: booleanAttribute })
+  fullWidth = false;
   @state() private toasts: Toast[] = [];
   private timers = new Map<number, ReturnType<typeof setTimeout>>();
 
@@ -97,7 +109,7 @@ export class LoomiNotification extends LoomiElement {
   }
 
   override render(): TemplateResult {
-    return html`<div class="loomi-stack pos-${this.position}">
+    return html`<div class="loomi-stack pos-${this.position} ${this.fullWidth ? "full-width" : ""}">
       ${this.toasts.map((t) => {
         const meta = TYPE[t.type];
         return html`<div class="loomi-toast" role="status" style=${accentVars(meta.color)}>

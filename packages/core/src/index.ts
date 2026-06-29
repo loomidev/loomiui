@@ -137,3 +137,32 @@ export function onClickOutside(el: Element, handler: () => void): () => void {
   document.addEventListener("click", listener, true);
   return () => document.removeEventListener("click", listener, true);
 }
+
+let scrollLockCount = 0;
+let previousBodyOverflow = "";
+let previousDocumentOverflow = "";
+
+/**
+ * Refcounted document scroll lock shared by every overlay component (modal, drawer,
+ * …). A single counter — rather than one per component package — so e.g. closing a
+ * confirm modal opened from within an open drawer doesn't prematurely unlock the page.
+ */
+export function lockBodyScroll(): void {
+  if (scrollLockCount === 0) {
+    previousBodyOverflow = document.body.style.overflow;
+    previousDocumentOverflow = document.documentElement.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+  }
+  scrollLockCount += 1;
+}
+
+/** Releases one `lockBodyScroll()` call; only restores `overflow` once every caller has released. */
+export function unlockBodyScroll(): void {
+  if (scrollLockCount === 0) return;
+  scrollLockCount -= 1;
+  if (scrollLockCount === 0) {
+    document.body.style.overflow = previousBodyOverflow;
+    document.documentElement.style.overflow = previousDocumentOverflow;
+  }
+}

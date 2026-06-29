@@ -19,11 +19,13 @@
     <script type="module">
       import "../packages/input/dist/loomi-input.js";
       import "../packages/textarea/dist/loomi-textarea.js";
+      import "../packages/text-editor/dist/loomi-text-editor.js";
       import "../packages/checkbox/dist/loomi-checkbox.js";
       import "../packages/radio/dist/loomi-radio.js";
       import "../packages/toggle/dist/loomi-toggle.js";
       import "../packages/number/dist/loomi-number.js";
       import "../packages/select/dist/loomi-select.js";
+      import "../packages/countries/dist/loomi-countries.js";
     </script>
     <style>
       body {
@@ -60,8 +62,10 @@
 
     <h2>Textarea</h2>
     <loomi-textarea label="Describe yourself" rows="3"></loomi-textarea>
-    <loomi-textarea label="Notes (rich text)" toolbar rows="4" value="<p>Hello <strong>world</strong></p>"></loomi-textarea>
-    <loomi-textarea label="Disabled rich text" toolbar disabled value="<p>Locked content.</p>"></loomi-textarea>
+
+    <h2>Text Editor</h2>
+    <loomi-text-editor label="Notes (rich text)" rows="4" value="<p>Hello <strong>world</strong></p>"></loomi-text-editor>
+    <loomi-text-editor label="Disabled rich text" disabled value="<p>Locked content.</p>"></loomi-text-editor>
 
     <h2>Select</h2>
     <div class="grid2">
@@ -79,6 +83,17 @@
         <option value="other">Prefer not to say</option>
       </loomi-select>
       <loomi-select placeholder="Disabled" disabled></loomi-select>
+    </div>
+
+    <h2>Countries</h2>
+    <div class="grid2">
+      <loomi-countries label="Country" selection="gh"></loomi-countries>
+      <loomi-countries placeholder="What is your nationality"></loomi-countries>
+      <loomi-countries mode="phone" label="Phone number" selection="GH"></loomi-countries>
+      <loomi-countries mode="phone" label="Phone number"></loomi-countries>
+      <loomi-countries mode="phone" label="Phone number (masked)" selection="US" mask="(999) 999-9999"></loomi-countries>
+      <loomi-countries label="Disabled" disabled selection="ng"></loomi-countries>
+      <loomi-countries label="Country" required></loomi-countries>
     </div>
 
     <h2>Number</h2>
@@ -118,6 +133,8 @@
       <loomi-input name="city" label="City" value="Accra"></loomi-input>
       <loomi-select name="role" placeholder="Role" selected-value="dev"
         data='[{"label":"Developer","value":"dev"},{"label":"Designer","value":"design"}]'></loomi-select>
+      <loomi-countries name="country" selection="gh"></loomi-countries>
+      <loomi-countries mode="phone" name="phone" selection="gh"></loomi-countries>
     </form>
     <pre id="out" style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:1rem;"></pre>
 
@@ -127,7 +144,7 @@
       const dump = () => { out.textContent = JSON.stringify(Object.fromEntries(new FormData(f)), null, 2); };
       f.addEventListener("input", dump);
       f.addEventListener("change", dump);
-      customElements.whenDefined("loomi-select").then(() => setTimeout(dump, 50));
+      Promise.all([customElements.whenDefined("loomi-select"), customElements.whenDefined("loomi-countries")]).then(() => setTimeout(dump, 50));
     </script>
   </body>
 </html>

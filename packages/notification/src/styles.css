@@ -21,6 +21,26 @@
 .pos-bottom-center { bottom: 1rem; left: 50%; translate: -50% 0; flex-direction: column-reverse; }
 .pos-bottom-left { bottom: 1rem; left: 1rem; flex-direction: column-reverse; }
 
+.loomi-stack.full-width {
+  left: 0;
+  right: 0;
+  width: auto;
+  translate: none;
+}
+.loomi-stack.full-width.pos-top-left,
+.loomi-stack.full-width.pos-top-center,
+.loomi-stack.full-width.pos-top-right {
+  top: 0;
+}
+.loomi-stack.full-width.pos-bottom-left,
+.loomi-stack.full-width.pos-bottom-center,
+.loomi-stack.full-width.pos-bottom-right {
+  bottom: 0;
+}
+.loomi-stack.full-width .loomi-toast {
+  border-radius: 0;
+}
+
 .loomi-toast {
   pointer-events: auto;
   display: flex;

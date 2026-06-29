@@ -35,8 +35,7 @@
   },
   "dependencies": {
     "@loomidev/core": "workspace:^",
-    "@loomidev/theme": "workspace:^",
-    "quill": "^2.0.3"
+    "@loomidev/theme": "workspace:^"
   },
   "peerDependencies": {
     "lit": "^3.0.0"

@@ -2,6 +2,7 @@
 export * from "@loomidev/button";
 export * from "@loomidev/input";
 export * from "@loomidev/textarea";
+export * from "@loomidev/text-editor";
 export * from "@loomidev/checkbox";
 export * from "@loomidev/radio";
 export * from "@loomidev/toggle";
@@ -19,6 +20,7 @@ export * from "@loomidev/tooltip";
 export * from "@loomidev/pagination";
 export * from "@loomidev/table";
 export * from "@loomidev/modal";
+export * from "@loomidev/drawer";
 export * from "@loomidev/notification";
 export * from "@loomidev/bell";
 export * from "@loomidev/dropmenu";
@@ -43,6 +45,7 @@ export * from "@loomidev/processing";
 export * from "@loomidev/horizontal-line-graph";
 export * from "@loomidev/chart";
 export * from "@loomidev/filepicker";
+export * from "@loomidev/countries";
 
 export { registerLoomiIcon, getLoomiIcon, loomiIconNames } from "@loomidev/icons";
 

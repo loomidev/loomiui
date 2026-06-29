@@ -14,6 +14,7 @@ import "@loomidev/forms"; // registers all form elements
 | --- |
 | [`@loomidev/input`](../input) |
 | [`@loomidev/textarea`](../textarea) |
+| [`@loomidev/text-editor`](../text-editor) |
 | [`@loomidev/select`](../select) |
 | [`@loomidev/checkbox`](../checkbox) |
 | [`@loomidev/radio`](../radio) |

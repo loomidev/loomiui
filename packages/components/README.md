@@ -46,6 +46,7 @@ import "@loomidev/components/select";
 | `<loomi-button>` | [`@loomidev/button`](../button) |
 | `<loomi-input>` | [`@loomidev/input`](../input) |
 | `<loomi-textarea>` | [`@loomidev/textarea`](../textarea) |
+| `<loomi-text-editor>` | [`@loomidev/text-editor`](../text-editor) |
 | `<loomi-checkbox>` | [`@loomidev/checkbox`](../checkbox) |
 | `<loomi-radio>` | [`@loomidev/radio`](../radio) |
 | `<loomi-toggle>` | [`@loomidev/toggle`](../toggle) |

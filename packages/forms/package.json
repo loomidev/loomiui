@@ -32,6 +32,7 @@
   "dependencies": {
     "@loomidev/input": "workspace:^",
     "@loomidev/textarea": "workspace:^",
+    "@loomidev/text-editor": "workspace:^",
     "@loomidev/select": "workspace:^",
     "@loomidev/checkbox": "workspace:^",
     "@loomidev/radio": "workspace:^",
@@ -43,7 +44,8 @@
     "@loomidev/datepicker": "workspace:^",
     "@loomidev/timepicker": "workspace:^",
     "@loomidev/colorpicker": "workspace:^",
-    "@loomidev/filepicker": "workspace:^"
+    "@loomidev/filepicker": "workspace:^",
+    "@loomidev/countries": "workspace:^"
   },
   "peerDependencies": {
     "lit": "^3.0.0"

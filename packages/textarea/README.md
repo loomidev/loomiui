@@ -106,7 +106,8 @@ document.querySelector("loomi-textarea").addEventListener("input", (e) => {
 **Methods:** `focus()`, `validate()`. **Events:** `input`, `change` (composed).
 **Parts:** `field`, `textarea`.
 
-> Not ported from BladewindUI: the Quill rich-text toolbar.
+> Looking for a rich-text editor? See [`@loomidev/text-editor`](../text-editor),
+> split out from this component's former `toolbar` mode.
 
 ## Full Example
 

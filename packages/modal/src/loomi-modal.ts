@@ -1,6 +1,6 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomidev/core";
+import { LoomiElement, loomiStyles, loomiT, accentVars, lockBodyScroll, unlockBodyScroll, type LoomiColor } from "@loomidev/core";
 import "@loomidev/button/loomi-button.js";
 import "@loomidev/icon/loomi-icon.js";
 import { componentStyles } from "./generated/styles.css.js";
@@ -37,28 +37,6 @@ function deepActiveElement(): Element | null {
 }
 
 const registry = new Map<string, LoomiModal>();
-let scrollLockCount = 0;
-let previousBodyOverflow = "";
-let previousDocumentOverflow = "";
-
-function lockDocumentScroll(): void {
-  if (scrollLockCount === 0) {
-    previousBodyOverflow = document.body.style.overflow;
-    previousDocumentOverflow = document.documentElement.style.overflow;
-    document.body.style.overflow = "hidden";
-    document.documentElement.style.overflow = "hidden";
-  }
-  scrollLockCount += 1;
-}
-
-function unlockDocumentScroll(): void {
-  if (scrollLockCount === 0) return;
-  scrollLockCount -= 1;
-  if (scrollLockCount === 0) {
-    document.body.style.overflow = previousBodyOverflow;
-    document.documentElement.style.overflow = previousDocumentOverflow;
-  }
-}
 
 /** Open a modal by its `name`. */
 export function showLoomiModal(name: string): void {
@@ -196,7 +174,7 @@ export class LoomiModal extends LoomiElement {
   private syncScrollLock(): void {
     if (this.open && this.preventScroll) {
       if (!this.hasScrollLock) {
-        lockDocumentScroll();
+        lockBodyScroll();
         this.hasScrollLock = true;
       }
     } else {
@@ -206,7 +184,7 @@ export class LoomiModal extends LoomiElement {
 
   private releaseScrollLock(): void {
     if (!this.hasScrollLock) return;
-    unlockDocumentScroll();
+    unlockBodyScroll();
     this.hasScrollLock = false;
   }
 

@@ -35,6 +35,10 @@
       "types": "./dist/textarea.d.ts",
       "import": "./dist/textarea.js"
     },
+    "./text-editor": {
+      "types": "./dist/text-editor.d.ts",
+      "import": "./dist/text-editor.js"
+    },
     "./checkbox": {
       "types": "./dist/checkbox.d.ts",
       "import": "./dist/checkbox.js"
@@ -102,6 +106,10 @@
     "./modal": {
       "types": "./dist/modal.d.ts",
       "import": "./dist/modal.js"
+    },
+    "./drawer": {
+      "types": "./dist/drawer.d.ts",
+      "import": "./dist/drawer.js"
     },
     "./notification": {
       "types": "./dist/notification.d.ts",
@@ -198,6 +206,10 @@
     "./filepicker": {
       "types": "./dist/filepicker.d.ts",
       "import": "./dist/filepicker.js"
+    },
+    "./countries": {
+      "types": "./dist/countries.d.ts",
+      "import": "./dist/countries.js"
     }
   },
   "scripts": {
@@ -220,7 +232,9 @@
     "@loomidev/colorpicker": "workspace:^",
     "@loomidev/contact-card": "workspace:^",
     "@loomidev/core": "workspace:^",
+    "@loomidev/countries": "workspace:^",
     "@loomidev/datepicker": "workspace:^",
+    "@loomidev/drawer": "workspace:^",
     "@loomidev/dropmenu": "workspace:^",
     "@loomidev/empty-state": "workspace:^",
     "@loomidev/filepicker": "workspace:^",
@@ -246,6 +260,7 @@
     "@loomidev/tab": "workspace:^",
     "@loomidev/table": "workspace:^",
     "@loomidev/tag": "workspace:^",
+    "@loomidev/text-editor": "workspace:^",
     "@loomidev/textarea": "workspace:^",
     "@loomidev/theme": "workspace:^",
     "@loomidev/theme-switcher": "workspace:^",

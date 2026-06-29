@@ -1,6 +1,9 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
 import { LoomiElement, loomiDefaultText, loomiStyles, loomiT } from "@loomidev/core";
+import "@loomidev/modal/loomi-modal.js";
+import type { LoomiModal } from "@loomidev/modal";
+import { showLoomiNotification } from "@loomidev/notification";
 import { componentStyles } from "./generated/styles.css.js";
 
 const UPLOAD = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 7.5 7.5 12M12 7.5v9" />`;
@@ -9,6 +12,18 @@ const X = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6
 const DEFAULT_PLACEHOLDER_LINE1 = "Choose files or drag and drop to upload";
 const DEFAULT_PLACEHOLDER_LINE2 = "%s up to %s";
 const MIN_CROP_SIZE = 24;
+
+// Inline rather than in styles.css: this markup is slotted into <loomi-modal>, which
+// relocates itself to document.body on show(). Once moved, it's no longer a descendant
+// of loomi-filepicker's shadow root, so that stylesheet (scoped to the shadow root) stops
+// applying — the crop box would silently lose its position/spotlight/cursor styling.
+const CROP_STAGE_STYLE =
+  "position:relative;display:inline-block;line-height:0;max-width:100%;max-height:55vh;overflow:hidden;border-radius:0.4rem;";
+const CROP_IMG_STYLE = "display:block;max-width:100%;max-height:55vh;-webkit-user-drag:none;user-select:none;";
+const CROP_RECT_STYLE =
+  "position:absolute;box-shadow:0 0 0 9999px rgba(15,23,42,.55);border:1px solid #fff;cursor:move;touch-action:none;";
+const CROP_HANDLE_STYLE =
+  "position:absolute;right:-0.4rem;bottom:-0.4rem;width:0.85rem;height:0.85rem;border-radius:9999px;background:#fff;border:1px solid #1d4ed8;cursor:nwse-resize;touch-action:none;";
 
 export type LoomiCropAspectRatio = "16:9" | "4:3" | "2:3" | "1:1" | "free";
 
@@ -63,8 +78,9 @@ function loadImageElement(file: File): Promise<HTMLImageElement> {
 /**
  * `<loomi-filepicker>` — a drag-and-drop file picker with previews. Keeps a real
  * `<input type="file">` in sync (set `name` and submit inside a `<form>` with
- * `enctype="multipart/form-data"`). A lightweight, dependency-free take on BladewindUI's
- * Filepond wrapper.
+ * `enctype="multipart/form-data"`). A lightweight take on BladewindUI's Filepond
+ * wrapper — the crop dialog is a `<loomi-modal>` and oversized-file errors surface
+ * through `<loomi-notification>`.
  *
  * @fires change - `detail: { files }` whenever the selection changes.
  */
@@ -76,7 +92,7 @@ export class LoomiFilepicker extends LoomiElement {
   private internals = this.attachInternals();
   private validationVisible = false;
   private cropResolve: ((file: File | null) => void) | null = null;
-  private cropPreviouslyFocused: HTMLElement | null = null;
+  private cropImgRef: HTMLImageElement | null = null;
   private cropDrag: { mode: "move" | "resize"; startX: number; startY: number; rect: CropRect } | null = null;
 
   @property({ reflect: true }) name = "";
@@ -104,21 +120,17 @@ export class LoomiFilepicker extends LoomiElement {
   @state() private cropping: CropSession | null = null;
   @state() private cropRect: CropRect = { x: 0, y: 0, w: 0, h: 0 };
   @query("input") private input!: HTMLInputElement;
-  @query(".loomi-crop-img") private cropImgEl?: HTMLImageElement;
+  // Cached: `loomi-modal.show()` relocates the element to `document.body`, after which a
+  // live (uncached) query against this shadow root would never find it again.
+  @query(".loomi-crop-modal", true) private cropModalEl?: LoomiModal;
 
   /** Currently selected files. */
   get selectedFiles(): File[] {
     return this.files;
   }
 
-  override connectedCallback(): void {
-    super.connectedCallback();
-    document.addEventListener("keydown", this.onKeyDown);
-  }
-
   override disconnectedCallback(): void {
     super.disconnectedCallback();
-    document.removeEventListener("keydown", this.onKeyDown);
     window.removeEventListener("pointermove", this.onCropPointerMove);
     window.removeEventListener("pointerup", this.onCropPointerUp);
   }
@@ -132,12 +144,6 @@ export class LoomiFilepicker extends LoomiElement {
     ) {
       this.syncFormValue();
       this.syncValidity();
-    }
-  }
-
-  protected override updated(changed: Map<string, unknown>): void {
-    if (changed.has("cropping") && this.cropping && !changed.get("cropping")) {
-      this.shadowRoot?.querySelector<HTMLButtonElement>(".loomi-crop-btn.apply")?.focus();
     }
   }
 
@@ -199,7 +205,14 @@ export class LoomiFilepicker extends LoomiElement {
     const candidates: File[] = [];
     let count = this.files.length;
     for (const f of Array.from(list)) {
-      if (f.size > limit) continue;
+      if (f.size > limit) {
+        showLoomiNotification(
+          loomiT("filepicker.fileTooLargeTitle", {}, this.locale),
+          loomiT("filepicker.fileTooLarge", { name: f.name, limit: human(limit) }, this.locale),
+          "error",
+        );
+        continue;
+      }
       if (count >= this.maxFiles) break;
       candidates.push(f);
       count++;
@@ -263,17 +276,22 @@ export class LoomiFilepicker extends LoomiElement {
     return ratio > 0 ? ratio : 16 / 9;
   }
 
+  /**
+   * Sized to ~80% of the image in both modes (not just "free") so the box never touches
+   * all 4 edges at once — otherwise the box can't be dragged in whichever axis it's
+   * already maxed out in.
+   */
   private defaultCropRect(dispW: number, dispH: number): CropRect {
     const ratio = this.aspectRatioValue();
+    const maxW = dispW * 0.8;
+    const maxH = dispH * 0.8;
     if (ratio === null) {
-      const w = dispW * 0.8;
-      const h = dispH * 0.8;
-      return { x: (dispW - w) / 2, y: (dispH - h) / 2, w, h };
+      return { x: (dispW - maxW) / 2, y: (dispH - maxH) / 2, w: maxW, h: maxH };
     }
-    let w = dispW;
+    let w = maxW;
     let h = w / ratio;
-    if (h > dispH) {
-      h = dispH;
+    if (h > maxH) {
+      h = maxH;
       w = h * ratio;
     }
     return { x: (dispW - w) / 2, y: (dispH - h) / 2, w, h };
@@ -281,7 +299,6 @@ export class LoomiFilepicker extends LoomiElement {
 
   private cropImage(file: File): Promise<File | null> {
     return new Promise((resolve) => {
-      this.cropPreviouslyFocused = document.activeElement as HTMLElement | null;
       this.cropResolve = resolve;
       this.cropping = {
         file,
@@ -291,12 +308,15 @@ export class LoomiFilepicker extends LoomiElement {
         naturalW: 0,
         naturalH: 0,
       };
+      // The modal element only exists in the DOM once `cropping` has rendered it.
+      this.updateComplete.then(() => this.cropModalEl?.show());
     });
   }
 
   private onCropImageLoad(e: Event): void {
     if (!this.cropping) return;
     const img = e.target as HTMLImageElement;
+    this.cropImgRef = img;
     const rect = img.getBoundingClientRect();
     this.cropping = {
       ...this.cropping,
@@ -311,6 +331,10 @@ export class LoomiFilepicker extends LoomiElement {
   private onCropPointerDown(e: PointerEvent, mode: "move" | "resize"): void {
     e.preventDefault();
     e.stopPropagation();
+    // Without capture, a fast drag can carry the pointer onto the bare <img>, which
+    // browsers treat as a native "drag this image" gesture — that hijacks the move/up
+    // events the crop box needs and stalls the drag mid-gesture.
+    (e.currentTarget as Element).setPointerCapture(e.pointerId);
     this.cropDrag = { mode, startX: e.clientX, startY: e.clientY, rect: { ...this.cropRect } };
     window.addEventListener("pointermove", this.onCropPointerMove);
     window.addEventListener("pointerup", this.onCropPointerUp);
@@ -352,21 +376,20 @@ export class LoomiFilepicker extends LoomiElement {
     window.removeEventListener("pointerup", this.onCropPointerUp);
   };
 
-  private onCropBackdropClick = (e: MouseEvent): void => {
-    if (e.target === e.currentTarget) this.cancelCrop();
-  };
-
-  private onKeyDown = (e: KeyboardEvent): void => {
-    if (e.key === "Escape" && this.cropping) this.cancelCrop();
-  };
-
+  /** Cancel button — closes the modal itself since `close-after-action` is off. */
   private cancelCrop(): void {
     this.finishCrop(null);
+    this.cropModalEl?.hide();
   }
+
+  /** Backdrop click / Escape — `loomi-modal` has already hidden itself by the time this fires. */
+  private onCropModalDismiss = (): void => {
+    this.finishCrop(null);
+  };
 
   private async applyCrop(): Promise<void> {
     const session = this.cropping;
-    const img = this.cropImgEl;
+    const img = this.cropImgRef;
     if (!session || !img || !session.displayW || !session.naturalW) return;
 
     const scaleX = session.naturalW / session.displayW;
@@ -382,23 +405,26 @@ export class LoomiFilepicker extends LoomiElement {
     const ctx = canvas.getContext("2d");
     if (!ctx) {
       this.finishCrop(session.file);
+      this.cropModalEl?.hide();
       return;
     }
     ctx.drawImage(img, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
     const type = session.file.type || "image/png";
     const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, type));
     this.finishCrop(blob ? new File([blob], session.file.name, { type: blob.type, lastModified: Date.now() }) : session.file);
+    this.cropModalEl?.hide();
   }
 
+  /** Pure state cleanup — never closes the modal itself, so it's safe to call from a
+   * "the modal already closed" handler without recursing back into `hide()`. */
   private finishCrop(file: File | null): void {
     const resolve = this.cropResolve;
     const session = this.cropping;
     this.cropResolve = null;
     this.cropping = null;
     this.cropDrag = null;
+    this.cropImgRef = null;
     if (session) URL.revokeObjectURL(session.url);
-    this.cropPreviouslyFocused?.focus();
-    this.cropPreviouslyFocused = null;
     resolve?.(file);
   }
 
@@ -433,39 +459,50 @@ export class LoomiFilepicker extends LoomiElement {
     return blob ? new File([blob], file.name, { type: blob.type, lastModified: Date.now() }) : file;
   }
 
-  private renderCropModal(session: CropSession): TemplateResult {
-    const title = loomiT("filepicker.cropTitle", {}, this.locale);
-    return html`<div class="loomi-crop-backdrop" @click=${this.onCropBackdropClick}>
-      <div class="loomi-crop-dialog" role="dialog" aria-modal="true" aria-label=${title} tabindex="-1">
-        <div class="loomi-crop-title">${title}</div>
-        <div class="loomi-crop-stage">
-          <img
-            class="loomi-crop-img"
-            src=${session.url}
-            alt=""
-            @load=${(e: Event) => this.onCropImageLoad(e)}
-            @error=${() => this.finishCrop(session.file)}
-          />
-          ${session.displayW
-            ? html`<div
-                class="loomi-crop-rect"
-                style=${`left:${this.cropRect.x}px;top:${this.cropRect.y}px;width:${this.cropRect.w}px;height:${this.cropRect.h}px;`}
-                @pointerdown=${(e: PointerEvent) => this.onCropPointerDown(e, "move")}
-              >
-                <span class="loomi-crop-handle" @pointerdown=${(e: PointerEvent) => this.onCropPointerDown(e, "resize")}></span>
-              </div>`
-            : nothing}
-        </div>
-        <div class="loomi-crop-actions">
-          <button type="button" class="loomi-crop-btn cancel" @click=${() => this.cancelCrop()}>
-            ${loomiT("filepicker.cropCancel", {}, this.locale)}
-          </button>
-          <button type="button" class="loomi-crop-btn apply" ?disabled=${!session.displayW} @click=${() => this.applyCrop()}>
-            ${loomiT("filepicker.cropApply", {}, this.locale)}
-          </button>
-        </div>
-      </div>
-    </div>`;
+  /**
+   * Always rendered (even while `cropping` is null) so `@query(".loomi-crop-modal")`
+   * reliably resolves and `show()`/`hide()` can be called imperatively — `loomi-modal`
+   * portals itself to `document.body` on `show()`, so the dialog chrome, focus trap,
+   * Escape-to-close and backdrop click are all delegated to it rather than hand-rolled here.
+   */
+  private renderCropModal(): TemplateResult {
+    const session = this.cropping;
+    return html`<loomi-modal
+      class="loomi-crop-modal"
+      size="large"
+      locale=${this.locale}
+      title=${loomiT("filepicker.cropTitle", {}, this.locale)}
+      ok-button-label=${loomiT("filepicker.cropApply", {}, this.locale)}
+      cancel-button-label=${loomiT("filepicker.cropCancel", {}, this.locale)}
+      close-after-action="false"
+      @ok=${() => this.applyCrop()}
+      @cancel=${() => this.cancelCrop()}
+      @close=${this.onCropModalDismiss}
+    >
+      ${session
+        ? html`<div class="loomi-crop-stage" style=${CROP_STAGE_STYLE}>
+            <img
+              class="loomi-crop-img"
+              src=${session.url}
+              alt=""
+              draggable="false"
+              style=${CROP_IMG_STYLE}
+              @load=${(e: Event) => this.onCropImageLoad(e)}
+              @error=${() => this.finishCrop(session.file)}
+              @dragstart=${(e: Event) => e.preventDefault()}
+            />
+            ${session.displayW
+              ? html`<div
+                  class="loomi-crop-rect"
+                  style="${CROP_RECT_STYLE}left:${this.cropRect.x}px;top:${this.cropRect.y}px;width:${this.cropRect.w}px;height:${this.cropRect.h}px;"
+                  @pointerdown=${(e: PointerEvent) => this.onCropPointerDown(e, "move")}
+                >
+                  <span class="loomi-crop-handle" style=${CROP_HANDLE_STYLE} @pointerdown=${(e: PointerEvent) => this.onCropPointerDown(e, "resize")}></span>
+                </div>`
+              : nothing}
+          </div>`
+        : nothing}
+    </loomi-modal>`;
   }
 
   override render(): TemplateResult {
@@ -483,9 +520,13 @@ export class LoomiFilepicker extends LoomiElement {
         @dragleave=${() => (this.over = false)}
         @drop=${(e: DragEvent) => this.onDrop(e)}
       >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${UPLOAD}</svg>
-        <div class="loomi-l1">${placeholderLine1}${this.required ? html`<span class="loomi-req"> *</span>` : nothing}</div>
-        <div class="loomi-l2">${this.placeholder2()}</div>
+        <span class="loomi-drop-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${UPLOAD}</svg>
+        </span>
+        <div class="loomi-drop-text">
+          <div class="loomi-l1">${placeholderLine1}${this.required ? html`<span class="loomi-req"> *</span>` : nothing}</div>
+          <div class="loomi-l2">${this.placeholder2()}</div>
+        </div>
         <input
           class="loomi-native"
           type="file"
@@ -515,7 +556,7 @@ export class LoomiFilepicker extends LoomiElement {
             </div>`)}
           </div>`
         : nothing}
-      ${this.cropping ? this.renderCropModal(this.cropping) : nothing}
+      ${this.renderCropModal()}
     </div>`;
   }
 }
