@@ -26,7 +26,7 @@ export class LoomiRating extends LoomiElement {
 
   @property({ reflect: true }) name = "";
   @property() type: LoomiRatingType = "star";
-  @property() color: LoomiColor = "orange" as LoomiColor;
+  @property() color: LoomiColor = "warning" as LoomiColor;
   @property() size: LoomiRatingSize = "small";
   @property({ type: Number }) rating = 0;
   @property({ type: Boolean }) clickable = true;

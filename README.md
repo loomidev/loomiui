@@ -10,7 +10,7 @@ custom elements that work in any framework, or none at all.
 📖 **Full docs, live previews and every component's API → [loomiui.com](https://loomiui.com)**
 
 ```html
-<loomi-button color="red" outline radius="full" icon="trash">Delete</loomi-button>
+<loomi-button color="error" outline radius="full" icon="trash">Delete</loomi-button>
 ```
 
 ## Why LoomiUI
@@ -109,8 +109,8 @@ That's the whole theming API. Every component resolves its colors through
 `--loomi-<color>-<shade>` custom properties, which inherit through the Shadow DOM
 boundary — one `:root` declaration restyles the entire library instantly.
 
-**Supported colors:** `primary` `secondary` `red` `blue` `green` `purple` `pink`
-`orange` `black` `cyan` `violet` `indigo` `fuchsia` `gray` — each with the full
+**Supported colors:** `primary` `secondary` `success` `error` `warning` `gray`
+`purple` `cyan` `pink` `blue` — each with the full
 `50`–`950` tonal scale (e.g. `--loomi-cyan-500`).
 
 Curious how the override mechanism avoids the usual Shadow DOM custom-property pitfalls?

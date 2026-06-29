@@ -28,7 +28,7 @@ is just a couple of child elements.
       </div>
     </loomi-listview-item>
     <loomi-listview-item>
-      <loomi-avatar size="small" label="AJ" bg-color="orange"></loomi-avatar>
+      <loomi-avatar size="small" label="AJ" bg-color="warning"></loomi-avatar>
       <div>
         <div style="font-weight:500">Anonymous Jackson</div>
         <div style="font-size:0.875rem;opacity:0.7">fake@person.com</div>

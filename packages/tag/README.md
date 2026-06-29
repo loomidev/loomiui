@@ -28,8 +28,8 @@ related to dark mode).
 <loomi-tag label="pending" color="blue" shade="dark"></loomi-tag>
 ```
 
-Any loomi color works: `primary` `red` `yellow` `green` `blue` `pink` `cyan` `orange`
-`gray` `purple` `violet` `indigo` `fuchsia`.
+Any loomi color works: `primary` `secondary` `success` `error` `warning` `gray`
+`purple` `cyan` `pink` `blue`.
 
 ## With Close Icons
 
@@ -83,7 +83,7 @@ checkbox group — give each `<loomi-tag>` a `value`, and the parent submits the
 values (comma-joined) under `name`.
 
 ```html
-<loomi-tags name="stack" color="orange" max="3">
+<loomi-tags name="stack" color="warning" max="3">
   <loomi-tag label="laravel" value="laravel"></loomi-tag>
   <loomi-tag label="javascript" value="js"></loomi-tag>
   <loomi-tag label="node js" value="node"></loomi-tag>
@@ -94,7 +94,7 @@ values (comma-joined) under `name`.
 ### Pre-Selected Values
 
 ```html
-<loomi-tags name="fridays" color="red" selected-value="hangout,sleep">
+<loomi-tags name="fridays" color="error" selected-value="hangout,sleep">
   <loomi-tag label="hangout with friends" value="hangout"></loomi-tag>
   <loomi-tag label="watch movies" value="movies"></loomi-tag>
   <loomi-tag label="sleeeeep" value="sleep"></loomi-tag>
@@ -142,7 +142,7 @@ unless prevented).
 ## Full Example
 
 ```html
-<loomi-tags name="stack" color="orange" max="3" required>
+<loomi-tags name="stack" color="warning" max="3" required>
   <loomi-tag label="accounting" value="accounting" can-close rounded outline shade="dark"></loomi-tag>
   <loomi-tag label="marketing" value="marketing"></loomi-tag>
   <loomi-tag label="tech" value="tech"></loomi-tag>
@@ -183,8 +183,8 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="module" src="https://esm.sh/@loomidev/tag"></script>
 
 <loomi-tags>
-  <loomi-tag color="green" label="Active"></loomi-tag>
-  <loomi-tag color="orange" outline>Pending review</loomi-tag>
+  <loomi-tag color="success" label="Active"></loomi-tag>
+  <loomi-tag color="warning" outline>Pending review</loomi-tag>
 </loomi-tags>
 ```
 
@@ -214,8 +214,8 @@ import "@loomidev/tag";
 
 ```blade
 <loomi-tags>
-  <loomi-tag color="green" label="Active"></loomi-tag>
-  <loomi-tag color="orange" outline>Pending review</loomi-tag>
+  <loomi-tag color="success" label="Active"></loomi-tag>
+  <loomi-tag color="warning" outline>Pending review</loomi-tag>
 </loomi-tags>
 ```
 
@@ -229,8 +229,8 @@ import "@loomidev/tag";
 export function LoomiExample() {
   return (
     <loomi-tags>
-      <loomi-tag color="green" label="Active"></loomi-tag>
-      <loomi-tag color="orange" outline>Pending review</loomi-tag>
+      <loomi-tag color="success" label="Active"></loomi-tag>
+      <loomi-tag color="warning" outline>Pending review</loomi-tag>
     </loomi-tags>
   );
 }
@@ -249,8 +249,8 @@ import "@loomidev/tag";
 
 <template>
   <loomi-tags>
-    <loomi-tag color="green" label="Active"></loomi-tag>
-    <loomi-tag color="orange" outline>Pending review</loomi-tag>
+    <loomi-tag color="success" label="Active"></loomi-tag>
+    <loomi-tag color="warning" outline>Pending review</loomi-tag>
   </loomi-tags>
 </template>
 ```
@@ -272,8 +272,8 @@ import "@loomidev/tag";
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
     <loomi-tags>
-      <loomi-tag color="green" label="Active"></loomi-tag>
-      <loomi-tag color="orange" outline>Pending review</loomi-tag>
+      <loomi-tag color="success" label="Active"></loomi-tag>
+      <loomi-tag color="warning" outline>Pending review</loomi-tag>
     </loomi-tags>
   `,
 })
@@ -290,8 +290,8 @@ Svelte can import the package inside a component script. Astro can import it in 
 </script>
 
 <loomi-tags>
-  <loomi-tag color="green" label="Active"></loomi-tag>
-  <loomi-tag color="orange" outline>Pending review</loomi-tag>
+  <loomi-tag color="success" label="Active"></loomi-tag>
+  <loomi-tag color="warning" outline>Pending review</loomi-tag>
 </loomi-tags>
 ```
 
@@ -301,8 +301,8 @@ import "@loomidev/tag";
 ---
 
 <loomi-tags>
-  <loomi-tag color="green" label="Active"></loomi-tag>
-  <loomi-tag color="orange" outline>Pending review</loomi-tag>
+  <loomi-tag color="success" label="Active"></loomi-tag>
+  <loomi-tag color="warning" outline>Pending review</loomi-tag>
 </loomi-tags>
 ```
 

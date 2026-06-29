@@ -101,7 +101,7 @@ All chart types use the same `data` shape, so you can change `type` without resh
 
 ```html
 <loomi-chart id="bar-chart" type="bar"></loomi-chart>
-<loomi-chart id="line-chart" type="line" color="green"></loomi-chart>
+<loomi-chart id="line-chart" type="line" color="success"></loomi-chart>
 <loomi-chart id="pie-chart" type="pie" show-legend></loomi-chart>
 <loomi-chart id="donut-chart" type="donut" show-legend></loomi-chart>
 <loomi-chart id="radar-chart" type="radar" color="purple"></loomi-chart>
@@ -131,7 +131,7 @@ polygon, and the scatter marker fill. Always assign `data` — an empty chart ha
 to color.
 
 ```html
-<loomi-chart id="trend" type="line" color="violet"></loomi-chart>
+<loomi-chart id="trend" type="line" color="purple"></loomi-chart>
 
 <script type="module">
   document.getElementById("trend").data = [
@@ -157,7 +157,7 @@ accent `color` by default, since they're more often a single series. Either way,
   document.getElementById("colorway").data = [
     { label: "Engineering", value: 40, color: "primary" },
     { label: "Design", value: 25, color: "pink" },
-    { label: "Sales", value: 35, color: "orange" },
+    { label: "Sales", value: 35, color: "warning" },
   ];
 </script>
 ```
@@ -184,10 +184,10 @@ flatter, monochrome look. Borders have no effect in `shade="dark"` (the default 
 already saturated enough to read without one).
 
 ```html
-<loomi-chart type="bar" color="orange" shade="light"
+<loomi-chart type="bar" color="warning" shade="light"
   data='[{"label":"Jan","value":30},{"label":"Feb","value":55},{"label":"Mar","value":42},{"label":"Apr","value":60}]'></loomi-chart>
 
-<loomi-chart type="bar" color="orange" shade="light" show-border="false"
+<loomi-chart type="bar" color="warning" shade="light" show-border="false"
   data='[{"label":"Jan","value":30},{"label":"Feb","value":55},{"label":"Mar","value":42},{"label":"Apr","value":60}]'></loomi-chart>
 ```
 
@@ -284,8 +284,8 @@ the chart instead of wrapping below it.
 <script type="module">
   document.getElementById("full-chart").data = [
     { label: "Direct", value: 45, color: "primary" },
-    { label: "Search", value: 30, color: "green" },
-    { label: "Social", value: 25, color: "orange" },
+    { label: "Search", value: 30, color: "success" },
+    { label: "Social", value: 25, color: "warning" },
   ];
 </script>
 ```
@@ -323,7 +323,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 </script>
 <script type="module" src="https://esm.sh/@loomidev/chart"></script>
 
-<loomi-chart id="sales-chart" type="bar" color="green"></loomi-chart>
+<loomi-chart id="sales-chart" type="bar" color="success"></loomi-chart>
 ```
 
 ### Bundlers and single-page apps
@@ -362,7 +362,7 @@ import "@loomidev/chart";
 ```
 
 ```blade
-<loomi-chart id="sales-chart" type="bar" color="green"></loomi-chart>
+<loomi-chart id="sales-chart" type="bar" color="success"></loomi-chart>
 ```
 
 ### React
@@ -459,7 +459,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 import "@loomidev/chart";
 ---
 
-<loomi-chart id="sales-chart" type="bar" color="green"></loomi-chart>
+<loomi-chart id="sales-chart" type="bar" color="success"></loomi-chart>
 ```
 
 ### Server-side rendering notes

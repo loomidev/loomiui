@@ -104,7 +104,7 @@ label) can be set directly on `<loomi-checkcard>`. The `color` attribute on the 
 selected-state checkmark color. Both accept any LoomiUI color.
 
 ```html
-<loomi-checkcards name="hosting-colors" color="orange" border-color="orange">
+<loomi-checkcards name="hosting-colors" color="warning" border-color="warning">
   <loomi-checkcard value="aws" title="AWS" icon="cloud-arrow-up"></loomi-checkcard>
 </loomi-checkcards>
 ```

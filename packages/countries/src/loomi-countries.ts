@@ -109,8 +109,9 @@ function resolveCountry(input: string): LoomiCountryRecord | undefined {
  *
  * Form-associated: submits the alpha-2 code under `name` in `names` mode, or
  * `<dial code><number>` in `phone` mode. The phone-mode number field always accepts
- * digits only; set `mask` (same Alpine-style `9`/`a`/`*` syntax as `<loomi-input>`'s
- * `mask`) to format it as the user types, e.g. `mask="(999) 999-9999"`.
+ * digits only, and auto-formats them using the selected country's typical national
+ * number layout (e.g. picking Ghana formats "241234567" as `(241)234-567`) — set
+ * `mask` (same Alpine-style `9`/`a`/`*` syntax as `<loomi-input>`'s `mask`) to override it.
  *
  * @csspart field - The bordered container (`phone` mode only).
  * @csspart trigger - The clickable trigger / flag button.
@@ -136,7 +137,7 @@ export class LoomiCountries extends LoomiElement {
   @property() selection = "";
   /** The phone-mode number portion, excluding the dial code. */
   @property() value = "";
-  /** Phone-mode-only formatting mask, e.g. `"(999) 999-9999"` — same syntax as `<loomi-input>`'s `mask`. */
+  /** Phone-mode-only formatting mask, e.g. `"(999) 999-9999"` — same syntax as `<loomi-input>`'s `mask`. Overrides the selected country's auto-detected mask; leave blank to use that default. */
   @property() mask = "";
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) readonly = false;
@@ -169,11 +170,17 @@ export class LoomiCountries extends LoomiElement {
     if (changed.has("selection")) {
       this.selectedCode = resolveCountry(this.selection)?.code ?? "";
     }
-    if (this.mode === "phone" && (changed.has("value") || changed.has("mask"))) {
-      this.value = normalizePhoneValue(this.value, this.mask);
+    if (this.mode === "phone" && (changed.has("value") || changed.has("mask") || changed.has("selection"))) {
+      this.value = normalizePhoneValue(this.value, this.effectiveMask);
     }
     this.internals.setFormValue(this.formValue);
     this.syncValidity();
+  }
+
+  /** An explicit `mask` always wins; otherwise fall back to the selected country's own
+   * typical national-number format (empty for the ~20 territories with no known one). */
+  private get effectiveMask(): string {
+    return this.mask || this.selectedRecord?.mask || "";
   }
 
   private get formValue(): string {
@@ -291,7 +298,7 @@ export class LoomiCountries extends LoomiElement {
 
   private onPhoneInput = (e: Event): void => {
     const el = e.target as HTMLInputElement;
-    const clean = normalizePhoneValue(el.value, this.mask);
+    const clean = normalizePhoneValue(el.value, this.effectiveMask);
     if (clean !== el.value) el.value = clean;
     this.value = el.value;
     if (this.invalid) this.validate();

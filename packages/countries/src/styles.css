@@ -77,25 +77,26 @@
   width: 100%;
   min-height: var(--loomi-control-height);
   background: var(--loomi-surface);
-  border: 1px solid var(--loomi-surface-border);
+  border: 2px solid var(--loomi-surface-border);
   border-radius: 0.5rem;
   padding: 0 var(--loomi-control-pad-x);
   font: inherit;
   color: var(--loomi-text);
   text-align: left;
   cursor: pointer;
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
+  transition: border-color 0.15s ease;
 }
 .loomi-trigger:focus-visible,
 .loomi-countries.open .loomi-trigger {
   outline: none;
-  border-color: var(--loomi-primary-500);
-  box-shadow: 0 0 0 3px var(--loomi-primary-100);
+  border-color: var(--loomi-primary-600);
 }
 :host([invalid]) .loomi-trigger {
-  border-color: var(--loomi-red-400);
+  border-color: var(--loomi-error-400);
+}
+:host([invalid]) .loomi-trigger:focus-visible,
+:host([invalid]) .loomi-countries.open .loomi-trigger {
+  border-color: var(--loomi-error-500);
 }
 :host([disabled]) .loomi-trigger,
 :host([readonly]) .loomi-trigger {
@@ -160,7 +161,7 @@
   color: var(--loomi-primary-600);
 }
 .loomi-req {
-  color: var(--loomi-red-500);
+  color: var(--loomi-error-500);
   margin-left: 0.15rem;
 }
 
@@ -172,19 +173,20 @@
   width: 100%;
   min-height: var(--loomi-control-height);
   background: var(--loomi-surface);
-  border: 1px solid var(--loomi-surface-border);
+  border: 2px solid var(--loomi-surface-border);
   border-radius: 0.5rem;
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
+  transition: border-color 0.15s ease;
 }
 .loomi-phone-field:focus-within,
 .loomi-countries.mode-phone.open .loomi-phone-field {
-  border-color: var(--loomi-primary-500);
-  box-shadow: 0 0 0 3px var(--loomi-primary-100);
+  border-color: var(--loomi-primary-600);
 }
 :host([invalid]) .loomi-phone-field {
-  border-color: var(--loomi-red-400);
+  border-color: var(--loomi-error-400);
+}
+:host([invalid]) .loomi-phone-field:focus-within,
+:host([invalid]) .loomi-countries.mode-phone.open .loomi-phone-field {
+  border-color: var(--loomi-error-500);
 }
 :host([disabled]) .loomi-phone-field,
 :host([readonly]) .loomi-phone-field {
@@ -250,7 +252,7 @@
 }
 :host([invalid]) .loomi-phone-input:focus ~ .loomi-label,
 :host([invalid]) .loomi-phone-input:not(:placeholder-shown) ~ .loomi-label {
-  color: var(--loomi-red-500);
+  color: var(--loomi-error-500);
 }
 
 /* ---- dropdown panel (shared) ---- */

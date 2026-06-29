@@ -40,8 +40,8 @@
         tbl.data = staff;
         tbl.excludeColumns = "id";
         tbl.actionIcons = [
-          { icon: "paper-airplane", name: "message", tip: "Message", color: "green" },
-          { icon: "trash", name: "delete", tip: "Delete", color: "red" },
+          { icon: "paper-airplane", name: "message", tip: "Message", color: "success" },
+          { icon: "trash", name: "delete", tip: "Delete", color: "error" },
         ];
         tbl.addEventListener("action", (e) => showLoomiNotification("Action", `${e.detail.name} → ${e.detail.row.first_name}`, "info", 4));
         tbl.addEventListener("selection-change", (e) => { document.getElementById("sel").textContent = e.detail.ids.join(", ") || "(none)"; });
@@ -65,8 +65,8 @@
     <h2>Bell</h2>
     <div class="row">
       <loomi-bell></loomi-bell>
-      <loomi-bell color="red" animate-dot></loomi-bell>
-      <loomi-bell color="green" size="big"></loomi-bell>
+      <loomi-bell color="error" animate-dot></loomi-bell>
+      <loomi-bell color="success" size="big"></loomi-bell>
       <loomi-bell show-dot="false"></loomi-bell>
     </div>
 

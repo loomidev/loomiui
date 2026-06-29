@@ -4,34 +4,26 @@
   "colors": [
     "primary",
     "secondary",
-    "red",
-    "blue",
-    "green",
+    "success",
+    "error",
+    "warning",
+    "gray",
     "purple",
-    "pink",
-    "orange",
-    "black",
     "cyan",
-    "violet",
-    "indigo",
-    "fuchsia",
-    "gray"
+    "pink",
+    "blue"
   ],
   "shades": [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
   "ramps": {
-    "primary": "blue",
-    "secondary": "slate",
-    "red": "red",
-    "blue": "blue",
-    "green": "green",
+    "primary": "indigo",
+    "secondary": "gray",
+    "success": "green",
+    "error": "red",
+    "warning": "orange",
+    "gray": "gray",
     "purple": "purple",
-    "pink": "pink",
-    "orange": "orange",
-    "black": "neutral",
     "cyan": "cyan",
-    "violet": "violet",
-    "indigo": "indigo",
-    "fuchsia": "fuchsia",
-    "gray": "gray"
+    "pink": "pink",
+    "blue": "blue"
   }
 }

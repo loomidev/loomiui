@@ -44,7 +44,7 @@ Available `percentage-label-position` values: `top-left` `top-center` `top-right
 Two shades per color: `faint` (default) and `dark`.
 
 ```html
-<loomi-progress-bar percentage="30" color="green"></loomi-progress-bar>
+<loomi-progress-bar percentage="30" color="success"></loomi-progress-bar>
 <loomi-progress-bar percentage="40" color="pink"></loomi-progress-bar>
 <loomi-progress-bar percentage="50" color="cyan" shade="dark"></loomi-progress-bar>
 <loomi-progress-bar percentage="60" color="purple" shade="dark"></loomi-progress-bar>
@@ -53,8 +53,8 @@ Two shades per color: `faint` (default) and `dark`.
 ### Striped and Animated
 
 ```html
-<loomi-progress-bar percentage="60" color="red" shade="dark" striped></loomi-progress-bar>
-<loomi-progress-bar percentage="50" color="violet" shade="dark" striped animated></loomi-progress-bar>
+<loomi-progress-bar percentage="60" color="error" shade="dark" striped></loomi-progress-bar>
+<loomi-progress-bar percentage="50" color="purple" shade="dark" striped animated></loomi-progress-bar>
 ```
 
 ## Progress Circle — Basic Usage
@@ -74,9 +74,9 @@ The label is hidden by default. Show it with `show-label`; add the `%` sign with
 ### Different Colors
 
 ```html
-<loomi-progress-circle percentage="65" color="red"></loomi-progress-circle>
-<loomi-progress-circle percentage="65" color="green" shade="dark"></loomi-progress-circle>
-<loomi-progress-circle percentage="65" color="violet"></loomi-progress-circle>
+<loomi-progress-circle percentage="65" color="error"></loomi-progress-circle>
+<loomi-progress-circle percentage="65" color="success" shade="dark"></loomi-progress-circle>
+<loomi-progress-circle percentage="65" color="purple"></loomi-progress-circle>
 ```
 
 ### Different Sizes
@@ -130,7 +130,7 @@ The label is hidden by default. Show it with `show-label`; add the `%` sign with
 ```html
 <loomi-progress-bar
   percentage="50"
-  color="red"
+  color="error"
   show-percentage-label
   show-percentage-label-inline="false"
   percentage-label-position="top-left"
@@ -142,7 +142,7 @@ The label is hidden by default. Show it with `show-label`; add the `%` sign with
 
 <loomi-progress-circle
   percentage="50"
-  color="red"
+  color="error"
   size="medium"
   circle-width="12"
   show-label
@@ -183,8 +183,8 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 </script>
 <script type="module" src="https://esm.sh/@loomidev/progress"></script>
 
-<loomi-progress-bar percentage="65" color="green" show-percent></loomi-progress-bar>
-<loomi-progress-circle percentage="65" color="green"></loomi-progress-circle>
+<loomi-progress-bar percentage="65" color="success" show-percent></loomi-progress-bar>
+<loomi-progress-circle percentage="65" color="success"></loomi-progress-circle>
 ```
 
 ### Bundlers and single-page apps
@@ -212,8 +212,8 @@ import "@loomidev/progress";
 ```
 
 ```blade
-<loomi-progress-bar percentage="65" color="green" show-percent></loomi-progress-bar>
-<loomi-progress-circle percentage="65" color="green"></loomi-progress-circle>
+<loomi-progress-bar percentage="65" color="success" show-percent></loomi-progress-bar>
+<loomi-progress-circle percentage="65" color="success"></loomi-progress-circle>
 ```
 
 ### React
@@ -226,8 +226,8 @@ import "@loomidev/progress";
 export function LoomiExample() {
   return (
     <>
-      <loomi-progress-bar percentage="65" color="green" show-percent></loomi-progress-bar>
-      <loomi-progress-circle percentage="65" color="green"></loomi-progress-circle>
+      <loomi-progress-bar percentage="65" color="success" show-percent></loomi-progress-bar>
+      <loomi-progress-circle percentage="65" color="success"></loomi-progress-circle>
     </>
   );
 }
@@ -245,8 +245,8 @@ import "@loomidev/progress";
 </script>
 
 <template>
-  <loomi-progress-bar percentage="65" color="green" show-percent></loomi-progress-bar>
-  <loomi-progress-circle percentage="65" color="green"></loomi-progress-circle>
+  <loomi-progress-bar percentage="65" color="success" show-percent></loomi-progress-bar>
+  <loomi-progress-circle percentage="65" color="success"></loomi-progress-circle>
 </template>
 ```
 
@@ -266,8 +266,8 @@ import "@loomidev/progress";
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
-    <loomi-progress-bar percentage="65" color="green" show-percent></loomi-progress-bar>
-    <loomi-progress-circle percentage="65" color="green"></loomi-progress-circle>
+    <loomi-progress-bar percentage="65" color="success" show-percent></loomi-progress-bar>
+    <loomi-progress-circle percentage="65" color="success"></loomi-progress-circle>
   `,
 })
 export class AppComponent {}
@@ -282,8 +282,8 @@ Svelte can import the package inside a component script. Astro can import it in 
   import "@loomidev/progress";
 </script>
 
-<loomi-progress-bar percentage="65" color="green" show-percent></loomi-progress-bar>
-<loomi-progress-circle percentage="65" color="green"></loomi-progress-circle>
+<loomi-progress-bar percentage="65" color="success" show-percent></loomi-progress-bar>
+<loomi-progress-circle percentage="65" color="success"></loomi-progress-circle>
 ```
 
 ```astro
@@ -291,8 +291,8 @@ Svelte can import the package inside a component script. Astro can import it in 
 import "@loomidev/progress";
 ---
 
-<loomi-progress-bar percentage="65" color="green" show-percent></loomi-progress-bar>
-<loomi-progress-circle percentage="65" color="green"></loomi-progress-circle>
+<loomi-progress-bar percentage="65" color="success" show-percent></loomi-progress-bar>
+<loomi-progress-circle percentage="65" color="success"></loomi-progress-circle>
 ```
 
 ### Server-side rendering notes

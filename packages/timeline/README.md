@@ -107,7 +107,7 @@ does this automatically for its own last child.
 ```html
 <loomi-timelines>
   <loomi-timeline date="10 days ago" content="You signed up" color="pink" completed></loomi-timeline>
-  <loomi-timeline date="8 days ago" content="Customer rep assigned" color="orange"></loomi-timeline>
+  <loomi-timeline date="8 days ago" content="Customer rep assigned" color="warning"></loomi-timeline>
   <loomi-timeline content="Account is being reviewed" color="purple"></loomi-timeline>
 </loomi-timelines>
 ```

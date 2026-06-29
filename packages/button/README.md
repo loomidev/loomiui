@@ -35,8 +35,8 @@ installed automatically.
 
 ## Button Types
 
-`type` selects the structural treatment. `primary` is a bold fill; `secondary` is a soft,
-tinted variant.
+`type` selects the default hue when `color` is unset — both render as a bold fill.
+`primary` uses the primary palette; `secondary` uses the secondary palette.
 
 ```html
 <loomi-button>Primary Button</loomi-button>
@@ -51,7 +51,7 @@ tinted variant.
 Set `outline` on any button to drop the fill and keep a colored border + text.
 
 ```html
-<loomi-button outline color="cyan" radius="full">Cyan Outline</loomi-button>
+<loomi-button outline color="error" radius="full">Error Outline</loomi-button>
 <loomi-button type="secondary" outline radius="full">Secondary Outline</loomi-button>
 
 <!-- custom border width (default is 2) -->
@@ -82,17 +82,17 @@ Available sizes: `tiny`, `small`, `regular` (default), `medium`, `big`.
 
 ## Colors
 
-`color` overrides the palette independently of `type`. Useful when you need a hue that
-differs from your project's primary (e.g. a red delete button).
+`color` overrides the palette independently of `type`. Useful for semantic actions that
+shouldn't use the brand colors (e.g. a destructive delete button).
 
 ```html
-<loomi-button color="red">Red Button</loomi-button>
-<loomi-button color="red" outline>Red Outline</loomi-button>
-<loomi-button type="secondary" color="green">Soft Green</loomi-button>
+<loomi-button color="error">Delete Account</loomi-button>
+<loomi-button color="error" outline>Error Outline</loomi-button>
+<loomi-button color="success">Confirm</loomi-button>
+<loomi-button color="warning" outline>Proceed with Caution</loomi-button>
 ```
 
-Available colors: `primary` `secondary` `red` `blue` `green` `purple` `pink` `orange`
-`black` `cyan` `violet` `indigo` `fuchsia` `gray`
+Available colors: `primary` `secondary` `success` `error` `warning`
 
 > Leaving `color` unset derives it from `type`: `primary` → the `primary` palette,
 > `secondary` → the `secondary` palette.
@@ -106,7 +106,7 @@ showing.
 ```html
 <loomi-button icon="arrow-path">Refresh Page</loomi-button>
 <loomi-button icon="arrow-small-right" icon-right>Next Chapter</loomi-button>
-<loomi-button icon="trash" color="red" outline>Delete</loomi-button>
+<loomi-button icon="trash" color="error" outline>Delete</loomi-button>
 ```
 
 Built-in icons (a subset of Heroicons outline): `arrow-path`, `bell-alert`,

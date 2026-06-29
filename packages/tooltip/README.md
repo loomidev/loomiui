@@ -70,7 +70,7 @@ The trigger can be anything — an icon, a button, plain text, an avatar.
 ```html
 <loomi-tooltip position="right">
   <span slot="content">Your subscription renews on <b>July 1</b>.</span>
-  <loomi-tag label="Pro plan" color="violet"></loomi-tag>
+  <loomi-tag label="Pro plan" color="purple"></loomi-tag>
 </loomi-tooltip>
 ```
 

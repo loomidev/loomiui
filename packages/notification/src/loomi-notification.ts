@@ -27,10 +27,10 @@ interface Toast extends LoomiNotifyOptions {
 }
 
 const TYPE: Record<LoomiNotificationType, { color: LoomiColor; icon: string }> = {
-  success: { color: "green" as LoomiColor, icon: "check-circle" },
-  info: { color: "blue" as LoomiColor, icon: "information-circle" },
-  warning: { color: "orange" as LoomiColor, icon: "exclamation-triangle" },
-  error: { color: "red" as LoomiColor, icon: "exclamation-circle" },
+  success: { color: "success" as LoomiColor, icon: "check-circle" },
+  info: { color: "primary" as LoomiColor, icon: "information-circle" },
+  warning: { color: "warning" as LoomiColor, icon: "exclamation-triangle" },
+  error: { color: "error" as LoomiColor, icon: "exclamation-circle" },
 };
 
 let uid = 0;

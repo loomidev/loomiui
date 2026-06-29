@@ -33,20 +33,20 @@ Checked and disabled, by default:
 
 ## Colored Checkboxes
 
-Any loomi color works: `primary` `secondary` `red` `blue` `green` `purple` `pink`
-`orange` `black` `cyan` `violet` `indigo` `fuchsia` `gray`.
+Any loomi color works: `primary` `secondary` `success` `error` `warning` `gray`
+`purple` `cyan` `pink` `blue`.
 
 ```html
-<loomi-checkbox color="red" checked>Red</loomi-checkbox>
+<loomi-checkbox color="error" checked>Red</loomi-checkbox>
 <loomi-checkbox color="yellow" checked>Yellow</loomi-checkbox>
-<loomi-checkbox color="green" checked>Green</loomi-checkbox>
+<loomi-checkbox color="success" checked>Green</loomi-checkbox>
 <loomi-checkbox color="pink" checked>Pink</loomi-checkbox>
 <loomi-checkbox color="cyan" checked>Cyan</loomi-checkbox>
 <loomi-checkbox color="purple" checked>Purple</loomi-checkbox>
-<loomi-checkbox color="orange" checked>Orange</loomi-checkbox>
-<loomi-checkbox color="violet" checked>Violet</loomi-checkbox>
-<loomi-checkbox color="indigo" checked>Indigo</loomi-checkbox>
-<loomi-checkbox color="fuchsia" checked>Fuchsia</loomi-checkbox>
+<loomi-checkbox color="warning" checked>Orange</loomi-checkbox>
+<loomi-checkbox color="purple" checked>Violet</loomi-checkbox>
+<loomi-checkbox color="blue" checked>Indigo</loomi-checkbox>
+<loomi-checkbox color="pink" checked>Fuchsia</loomi-checkbox>
 ```
 
 The color is applied through a per-instance `--loomi-accent` property, so a global theme

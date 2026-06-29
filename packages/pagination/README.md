@@ -53,7 +53,7 @@ or hide it entirely.
 `color` sets the active-page color in the `numbers` style.
 
 ```html
-<loomi-pagination total="240" page-size="25" pagination-style="numbers" color="violet"></loomi-pagination>
+<loomi-pagination total="240" page-size="25" pagination-style="numbers" color="purple"></loomi-pagination>
 ```
 
 ## Reacting to Page Changes
@@ -120,7 +120,7 @@ results you render yourself).
   page-size="25"
   page="1"
   pagination-style="numbers"
-  color="violet"
+  color="purple"
   total-label="Showing :a–:b of :c results"
 ></loomi-pagination>
 ```

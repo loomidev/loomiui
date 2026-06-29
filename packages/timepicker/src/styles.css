@@ -18,7 +18,7 @@
   width: 100%;
   min-height: var(--loomi-control-height);
   background: var(--loomi-surface);
-  border: 1px solid var(--loomi-surface-border);
+  border: 2px solid var(--loomi-surface-border);
   border-radius: 0.5rem;
   padding: 0 var(--loomi-control-pad-x);
   font-size: var(--loomi-control-font-size);
@@ -31,15 +31,14 @@
 .size-big { --loomi-control-height: 3rem; --loomi-control-pad-x: 1.25rem; --loomi-control-font-size: 1.125rem; }
 .loomi-field:focus-within,
 .loomi-tp.open .loomi-field {
-  border-color: var(--loomi-primary-500);
-  box-shadow: 0 0 0 3px var(--loomi-primary-100);
+  border-color: var(--loomi-primary-600);
 }
 :host([invalid]) .loomi-field {
-  border-color: var(--loomi-red-400);
+  border-color: var(--loomi-error-400);
 }
 :host([invalid]) .loomi-field:focus-within,
 :host([invalid]) .loomi-tp.open .loomi-field {
-  box-shadow: 0 0 0 3px var(--loomi-red-100);
+  border-color: var(--loomi-error-500);
 }
 .loomi-field svg {
   width: 1.15rem;
@@ -55,7 +54,7 @@
   color: var(--loomi-text-faint);
 }
 .loomi-req {
-  color: var(--loomi-red-500);
+  color: var(--loomi-error-500);
 }
 
 .loomi-selects {
@@ -89,7 +88,7 @@ select:focus {
   border-color: var(--loomi-primary-400);
 }
 :host([invalid]) select {
-  border-color: var(--loomi-red-400);
+  border-color: var(--loomi-error-400);
 }
 .loomi-colon {
   color: var(--loomi-text-faint);

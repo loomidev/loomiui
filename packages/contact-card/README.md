@@ -65,7 +65,7 @@ action buttons.
 
 ```html
 <loomi-contact-card name="Michael K. Ocansey" position="Senior Developer">
-  <loomi-tag label="On leave" color="orange"></loomi-tag>
+  <loomi-tag label="On leave" color="warning"></loomi-tag>
 </loomi-contact-card>
 ```
 
@@ -105,7 +105,7 @@ action buttons.
   centered
   url="/team/mike"
 >
-  <loomi-tag label="Available" color="green"></loomi-tag>
+  <loomi-tag label="Available" color="success"></loomi-tag>
 </loomi-contact-card>
 ```
 

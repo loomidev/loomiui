@@ -27,8 +27,8 @@
         { label: "Apr", value: 70 }, { label: "May", value: 60 }, { label: "Jun", value: 88 },
       ];
       const share = [
-        { label: "Direct", value: 45, color: "primary" }, { label: "Search", value: 30, color: "green" },
-        { label: "Social", value: 15, color: "orange" }, { label: "Email", value: 10, color: "purple" },
+        { label: "Direct", value: 45, color: "primary" }, { label: "Search", value: 30, color: "success" },
+        { label: "Social", value: 15, color: "warning" }, { label: "Email", value: 10, color: "purple" },
       ];
       customElements.whenDefined("loomi-chart").then(() => {
         document.querySelectorAll("loomi-chart").forEach((c) => (c.data = sales));
@@ -81,7 +81,7 @@
     <h2>Charts</h2>
     <div class="row">
       <div class="box"><loomi-chart type="bar" color="primary"></loomi-chart></div>
-      <div class="box"><loomi-chart type="line" color="green"></loomi-chart></div>
+      <div class="box"><loomi-chart type="line" color="success"></loomi-chart></div>
       <div class="box"><loomi-chart id="pie" type="pie" show-legend></loomi-chart></div>
       <div class="box"><loomi-chart id="donut" type="donut" show-legend></loomi-chart></div>
       <div class="box"><loomi-chart id="donut2" type="donut" donut-radius="65" show-legend></loomi-chart></div>

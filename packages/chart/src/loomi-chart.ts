@@ -24,7 +24,7 @@ interface LoomiChartHoverTarget {
   centered?: boolean;
 }
 
-const PALETTE = ["primary", "green", "orange", "red", "purple", "cyan", "pink", "indigo"];
+const PALETTE = ["primary", "success", "warning", "error", "purple", "cyan", "pink", "blue"];
 
 // `show-border` defaults to `true`, so it needs the "false" string to actually disable it —
 // Lit's built-in Boolean converter treats any present attribute (including `="false"`) as true.

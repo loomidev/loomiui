@@ -15,21 +15,18 @@
   display: block;
   width: 100%;
   background: var(--loomi-surface);
-  border: 1px solid var(--loomi-surface-border);
+  border: 2px solid var(--loomi-surface-border);
   border-radius: 0.5rem;
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
+  transition: border-color 0.15s ease;
 }
 .loomi-field:focus-within {
-  border-color: var(--loomi-primary-500);
-  box-shadow: 0 0 0 3px var(--loomi-primary-100);
+  border-color: var(--loomi-primary-600);
 }
 :host([invalid]) .loomi-field {
-  border-color: var(--loomi-red-400);
+  border-color: var(--loomi-error-400);
 }
 :host([invalid]) .loomi-field:focus-within {
-  box-shadow: 0 0 0 3px var(--loomi-red-100);
+  border-color: var(--loomi-error-500);
 }
 :host([disabled]) .loomi-field {
   opacity: 0.6;
@@ -78,15 +75,15 @@
 }
 :host([invalid]) .loomi-textarea:focus ~ .loomi-label,
 :host([invalid]) .loomi-textarea:not(:placeholder-shown) ~ .loomi-label {
-  color: var(--loomi-red-500);
+  color: var(--loomi-error-500);
 }
 .loomi-req {
-  color: var(--loomi-red-500);
+  color: var(--loomi-error-500);
   margin-left: 0.15rem;
 }
 
 .loomi-error {
   margin: 0.35rem 0 0;
   font-size: 0.8rem;
-  color: var(--loomi-red-500);
+  color: var(--loomi-error-500);
 }

@@ -30,8 +30,8 @@
 }
 .loomi-spin circle { opacity: 0.25; }
 .loomi-spin path { opacity: 0.9; }
-.state-success .loomi-icon { color: var(--loomi-green-500, var(--_loomi-green-500-default)); }
-.state-failed .loomi-icon { color: var(--loomi-red-500, var(--_loomi-red-500-default)); }
+.state-success .loomi-icon { color: var(--loomi-success-500, var(--_loomi-success-500-default)); }
+.state-failed .loomi-icon { color: var(--loomi-error-500, var(--_loomi-error-500-default)); }
 .loomi-title {
   font-weight: 600;
   color: var(--loomi-gray-900);

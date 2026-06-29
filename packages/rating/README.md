@@ -29,14 +29,14 @@ Where there are multiple ratings on the same page, give each a unique `name`.
 Any loomi color works — the default is `orange`.
 
 ```html
-<loomi-rating rating="1" color="red" name="red-rating"></loomi-rating>
+<loomi-rating rating="1" color="error" name="error-rating"></loomi-rating>
 <loomi-rating rating="2" color="yellow" name="yellow-rating"></loomi-rating>
-<loomi-rating rating="3" color="green" name="green-rating"></loomi-rating>
+<loomi-rating rating="3" color="success" name="success-rating"></loomi-rating>
 <loomi-rating rating="4" color="blue" name="blue-rating"></loomi-rating>
 <loomi-rating rating="5" color="pink" name="pink-rating"></loomi-rating>
 <loomi-rating rating="3" color="purple" name="purple-rating"></loomi-rating>
-<loomi-rating rating="4" color="violet" name="violet-rating"></loomi-rating>
-<loomi-rating rating="4" color="indigo" name="indigo-rating"></loomi-rating>
+<loomi-rating rating="4" color="purple" name="violet-rating"></loomi-rating>
+<loomi-rating rating="4" color="blue" name="indigo-rating"></loomi-rating>
 ```
 
 ## Different Sizes

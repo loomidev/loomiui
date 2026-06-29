@@ -1,7 +1,7 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { LoomiElement, themeStyles, isLoomiColor, type LoomiColor } from "@loomidev/core";
+import { LoomiElement, themeStyles } from "@loomidev/core";
 import { getLoomiIcon } from "./icons.js";
 import { buttonStyles } from "./generated/styles.css.js";
 
@@ -9,6 +9,17 @@ export type LoomiButtonType = "primary" | "secondary";
 export type LoomiButtonSize = "tiny" | "small" | "regular" | "medium" | "big";
 export type LoomiButtonRadius = "none" | "small" | "medium" | "full";
 export type LoomiButtonTag = "button" | "a";
+
+/** Closed palette for buttons: brand primary/secondary, plus semantic state colors. */
+const BUTTON_COLORS = ["primary", "secondary", "success", "error", "warning"] as const;
+export type LoomiButtonColor = (typeof BUTTON_COLORS)[number];
+
+function isLoomiButtonColor(value: unknown): value is LoomiButtonColor {
+  return (
+    typeof value === "string" &&
+    (BUTTON_COLORS as readonly string[]).includes(value)
+  );
+}
 
 /** Padding + font-size per size. Literal strings so Tailwind's scanner picks them up. */
 const SIZE: Record<LoomiButtonSize, string> = {
@@ -50,11 +61,11 @@ const BORDER_WIDTH: Record<number, string> = {
 export class LoomiButton extends LoomiElement {
   static override styles = [themeStyles, buttonStyles];
 
-  /** Structural variant: `primary` (bold fill) or `secondary` (soft). */
+  /** Structural variant: both are a bold fill; `type` only picks the default hue (`color` overrides it). */
   @property({ reflect: true }) type: LoomiButtonType = "primary";
 
-  /** Palette override. Empty = derive from `type`. One of the loomi color names. */
-  @property() color: LoomiColor | "" = "";
+  /** Palette override. Empty = derive from `type`. `primary` | `secondary` | `success` | `error` | `warning`. */
+  @property() color: LoomiButtonColor | "" = "";
 
   /** Size preset. */
   @property({ reflect: true }) size: LoomiButtonSize = "regular";
@@ -111,27 +122,22 @@ export class LoomiButton extends LoomiElement {
     this.showSpinner = false;
   }
 
-  private get effectiveColor(): LoomiColor {
-    if (this.color && isLoomiColor(this.color)) return this.color;
-    return this.type === "secondary"
-      ? ("secondary" as LoomiColor)
-      : ("primary" as LoomiColor);
+  private get effectiveColor(): LoomiButtonColor {
+    if (this.color && isLoomiButtonColor(this.color)) return this.color;
+    return this.type === "secondary" ? "secondary" : "primary";
   }
 
   private get spinning(): boolean {
     return this.hasSpinner && this.showSpinner;
   }
 
-  private treatmentClasses(c: LoomiColor): string[] {
+  /** `type` only switches solid-fill vs. outline; `color` is the only thing that picks the hue. */
+  private treatmentClasses(c: LoomiButtonColor): string[] {
     const w = BORDER_WIDTH[this.borderWidth] ?? BORDER_WIDTH[2];
     if (this.outline) {
-      return this.type === "secondary"
-        ? ["bg-transparent", `text-${c}-700`, w, "border-solid", `border-${c}-300`, `hover:bg-${c}-50`]
-        : ["bg-transparent", `text-${c}-600`, w, "border-solid", `border-${c}-600`, `hover:bg-${c}-50`];
+      return ["bg-transparent", `text-${c}-600`, w, "border-solid", `border-${c}-600`, `hover:bg-${c}-50`];
     }
-    return this.type === "secondary"
-      ? [`bg-${c}-100`, `text-${c}-700`, `hover:bg-${c}-200`, "border", "border-transparent"]
-      : [`bg-${c}-600`, "text-white", `hover:bg-${c}-700`, "border", "border-transparent"];
+    return [`bg-${c}-600`, "text-white", `hover:bg-${c}-700`, "border", "border-transparent"];
   }
 
   private computeClasses(): string {

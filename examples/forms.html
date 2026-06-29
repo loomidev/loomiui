@@ -89,9 +89,9 @@
     <div class="grid2">
       <loomi-countries label="Country" selection="gh"></loomi-countries>
       <loomi-countries placeholder="What is your nationality"></loomi-countries>
-      <loomi-countries mode="phone" label="Phone number" selection="GH"></loomi-countries>
+      <loomi-countries mode="phone" label="Phone number (auto-formatted)" selection="GH"></loomi-countries>
       <loomi-countries mode="phone" label="Phone number"></loomi-countries>
-      <loomi-countries mode="phone" label="Phone number (masked)" selection="US" mask="(999) 999-9999"></loomi-countries>
+      <loomi-countries mode="phone" label="Phone number (mask override)" selection="US" mask="999.999.9999"></loomi-countries>
       <loomi-countries label="Disabled" disabled selection="ng"></loomi-countries>
       <loomi-countries label="Country" required></loomi-countries>
     </div>
@@ -106,9 +106,9 @@
     <h2>Checkbox</h2>
     <div class="row">
       <loomi-checkbox checked>Default</loomi-checkbox>
-      <loomi-checkbox color="red" checked>Red</loomi-checkbox>
-      <loomi-checkbox color="green" checked>Green</loomi-checkbox>
-      <loomi-checkbox color="orange" checked>Orange</loomi-checkbox>
+      <loomi-checkbox color="error" checked>Error</loomi-checkbox>
+      <loomi-checkbox color="success" checked>Success</loomi-checkbox>
+      <loomi-checkbox color="warning" checked>Warning</loomi-checkbox>
       <loomi-checkbox disabled>Disabled</loomi-checkbox>
     </div>
 
@@ -117,14 +117,14 @@
       <loomi-radio name="genre" value="action" checked>Action</loomi-radio>
       <loomi-radio name="genre" value="comedy">Comedy</loomi-radio>
       <loomi-radio name="genre" value="drama" color="purple">Drama</loomi-radio>
-      <loomi-radio name="genre" value="thriller" color="red">Thriller</loomi-radio>
+      <loomi-radio name="genre" value="thriller" color="error">Thriller</loomi-radio>
     </div>
 
     <h2>Toggle</h2>
     <div class="row" style="flex-direction:column;align-items:flex-start">
       <loomi-toggle checked>Default (thick)</loomi-toggle>
-      <loomi-toggle bar="thin" color="green" checked>Thin · green</loomi-toggle>
-      <loomi-toggle bar="thicker" color="orange" label-position="right" checked>Thicker · label right</loomi-toggle>
+      <loomi-toggle bar="thin" color="success" checked>Thin · success</loomi-toggle>
+      <loomi-toggle bar="thicker" color="warning" label-position="right" checked>Thicker · label right</loomi-toggle>
       <loomi-toggle disabled checked>Disabled</loomi-toggle>
     </div>
 

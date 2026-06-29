@@ -50,19 +50,19 @@ default. Set `color` on `<loomi-tabs>` to pick a different one; it applies to ev
 child tab.
 
 ```html
-<loomi-tabs color="red">
+<loomi-tabs color="error">
   <loomi-tab label="Red Tab" active>…</loomi-tab>
   <loomi-tab label="The Other Tab">…</loomi-tab>
 </loomi-tabs>
 
-<loomi-tabs color="green">
+<loomi-tabs color="success">
   <loomi-tab label="Green Tab" active>…</loomi-tab>
   <loomi-tab label="The Other Tab">…</loomi-tab>
 </loomi-tabs>
 ```
 
-Available colors: `primary` `secondary` `red` `blue` `green` `purple` `pink` `orange`
-`black` `cyan` `violet` `indigo` `fuchsia` `gray`.
+Available colors: `primary` `secondary` `success` `error` `warning` `gray` `purple`
+`cyan` `pink` `blue`.
 
 ## Other Tab Styles
 

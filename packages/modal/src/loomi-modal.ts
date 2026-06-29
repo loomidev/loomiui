@@ -9,10 +9,10 @@ export type LoomiModalType = "" | "info" | "error" | "warning" | "success";
 export type LoomiModalSize = "tiny" | "small" | "medium" | "large" | "xl" | "omg";
 
 const TYPE: Record<string, { color: LoomiColor; icon: string }> = {
-  info: { color: "blue" as LoomiColor, icon: "information-circle" },
-  error: { color: "red" as LoomiColor, icon: "exclamation-circle" },
-  warning: { color: "orange" as LoomiColor, icon: "exclamation-triangle" },
-  success: { color: "green" as LoomiColor, icon: "check-circle" },
+  info: { color: "primary" as LoomiColor, icon: "information-circle" },
+  error: { color: "error" as LoomiColor, icon: "exclamation-circle" },
+  warning: { color: "warning" as LoomiColor, icon: "exclamation-triangle" },
+  success: { color: "success" as LoomiColor, icon: "check-circle" },
 };
 const DEFAULT_OK_LABEL = "Okay";
 const DEFAULT_CANCEL_LABEL = "Cancel";

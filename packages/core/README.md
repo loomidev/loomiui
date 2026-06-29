@@ -101,7 +101,7 @@ These are two different layers — this is the answer to "why `--loomi-accent` w
   `:root { --loomi-primary-600: #16a34a }`) re-skins **every** component that uses that
   color. This is your global theming knob.
 - **`--_loomi-accent*`** are **private, per-instance** variables (note the leading `_`).
-  A `<loomi-checkbox color="red">` and a `<loomi-checkbox color="green">` on the same page
+  A `<loomi-checkbox color="error">` and a `<loomi-checkbox color="success">` on the same page
   need *different* active colors, so each instance sets its own `--_loomi-accent` from its
   `color` attribute, and the component's CSS paints with `var(--_loomi-accent)`.
 

@@ -24,7 +24,7 @@ export class LoomiTimeline extends LoomiElement {
   @property() icon = "";
   @property() avatar = "";
   @property({ type: Boolean, reflect: true }) last = false;
-  @property() color: LoomiColor = "blue" as LoomiColor;
+  @property() color: LoomiColor = "primary" as LoomiColor;
 
   private renderDot(): TemplateResult {
     const big = this.anchor === "big";
@@ -69,7 +69,7 @@ export class LoomiTimelines extends LoomiElement {
   @property() anchor: "small" | "big" = "small";
   @property() icon = "";
   @property() position: "left" | "center" = "center";
-  @property() color: LoomiColor = "blue" as LoomiColor;
+  @property() color: LoomiColor = "primary" as LoomiColor;
 
   private sync = (): void => {
     const items = Array.from(this.querySelectorAll("loomi-timeline"));
@@ -78,7 +78,7 @@ export class LoomiTimelines extends LoomiElement {
       if (this.completed) item.completed = true;
       if (this.anchor === "big") item.anchor = "big";
       if (this.icon && !item.icon) item.icon = this.icon;
-      if (this.color && item.color === ("blue" as LoomiColor)) item.color = this.color;
+      if (this.color && item.color === ("primary" as LoomiColor)) item.color = this.color;
       if (i === items.length - 1) item.last = true;
     });
   };

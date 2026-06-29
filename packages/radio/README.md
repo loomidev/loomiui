@@ -44,20 +44,20 @@ Radios can also be disabled:
 
 ## Colored Radio Buttons
 
-Any loomi color works: `primary` `secondary` `red` `blue` `green` `purple` `pink`
-`orange` `black` `cyan` `violet` `indigo` `fuchsia` `gray`.
+Any loomi color works: `primary` `secondary` `success` `error` `warning` `gray`
+`purple` `cyan` `pink` `blue`.
 
 ```html
-<loomi-radio color="red" checked label="Red"></loomi-radio>
+<loomi-radio color="error" checked label="Red"></loomi-radio>
 <loomi-radio color="yellow" label="Yellow"></loomi-radio>
-<loomi-radio color="green" label="Green"></loomi-radio>
+<loomi-radio color="success" label="Green"></loomi-radio>
 <loomi-radio color="pink" label="Pink"></loomi-radio>
 <loomi-radio color="cyan" label="Cyan"></loomi-radio>
 <loomi-radio color="purple" label="Purple"></loomi-radio>
-<loomi-radio color="orange" label="Orange"></loomi-radio>
-<loomi-radio color="violet" label="Violet"></loomi-radio>
-<loomi-radio color="indigo" label="Indigo"></loomi-radio>
-<loomi-radio color="fuchsia" label="Fuchsia"></loomi-radio>
+<loomi-radio color="warning" label="Orange"></loomi-radio>
+<loomi-radio color="purple" label="Violet"></loomi-radio>
+<loomi-radio color="blue" label="Indigo"></loomi-radio>
+<loomi-radio color="pink" label="Fuchsia"></loomi-radio>
 ```
 
 ## Radio Buttons and Forms

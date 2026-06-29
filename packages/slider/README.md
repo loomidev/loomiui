@@ -29,7 +29,7 @@ The default color is `primary`. Any loomi color works, and themes the native tra
 ```html
 <loomi-slider selected="50" color="cyan"></loomi-slider>
 <loomi-slider selected="30" color="pink"></loomi-slider>
-<loomi-slider selected="70" color="indigo"></loomi-slider>
+<loomi-slider selected="70" color="blue"></loomi-slider>
 ```
 
 `selected` is also how you pre-populate the slider in edit mode.
@@ -106,7 +106,7 @@ new FormData(form).get("age"); // "34"
   max="100"
   step="5"
   selected="65"
-  color="violet"
+  color="purple"
 ></loomi-slider>
 ```
 

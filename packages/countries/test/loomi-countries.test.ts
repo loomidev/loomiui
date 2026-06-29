@@ -139,7 +139,7 @@ describe("loomi-countries", () => {
       expect(el.shadowRoot!.querySelector(".loomi-dial-code")!.textContent).to.equal("+233");
     });
 
-    it("typing a number updates .value and the form-submitted value includes the dial code", async () => {
+    it("typing a number updates .value (auto-masked) and the form-submitted value includes the dial code", async () => {
       const form = await fixture<HTMLFormElement>(html`
         <form><loomi-countries mode="phone" selection="GH" name="phone"></loomi-countries></form>
       `);
@@ -149,12 +149,12 @@ describe("loomi-countries", () => {
       input.dispatchEvent(new Event("input"));
       await el.updateComplete;
 
-      expect(el.value).to.equal("241234567");
-      expect(new FormData(form).get("phone")).to.equal("+233241234567");
+      expect(el.value).to.equal("(241)234-567");
+      expect(new FormData(form).get("phone")).to.equal("+233(241)234-567");
     });
 
-    it("strips non-digit characters as the user types", async () => {
-      const el = await fixture<LoomiCountries>(html`<loomi-countries mode="phone" selection="GH"></loomi-countries>`);
+    it("strips non-digit characters as the user types, independent of masking", async () => {
+      const el = await fixture<LoomiCountries>(html`<loomi-countries mode="phone"></loomi-countries>`);
       const input = el.shadowRoot!.querySelector(".loomi-phone-input") as HTMLInputElement;
       input.value = "24abc 12-34!567";
       input.dispatchEvent(new Event("input"));
@@ -194,6 +194,54 @@ describe("loomi-countries", () => {
         html`<loomi-countries mode="phone" mask="999-999" value="241234"></loomi-countries>`,
       );
       expect(el.value).to.equal("241-234");
+    });
+
+    it("auto-formats using the selected country's own mask when none is set explicitly", async () => {
+      const el = await fixture<LoomiCountries>(html`<loomi-countries mode="phone" selection="US"></loomi-countries>`);
+      const input = el.shadowRoot!.querySelector(".loomi-phone-input") as HTMLInputElement;
+      input.value = "2125551234";
+      input.dispatchEvent(new Event("input"));
+      await el.updateComplete;
+
+      expect(el.value).to.equal("(212) 555-1234");
+    });
+
+    it("lets an explicit mask override the selected country's auto-detected one", async () => {
+      const el = await fixture<LoomiCountries>(
+        html`<loomi-countries mode="phone" selection="US" mask="999.999.9999"></loomi-countries>`,
+      );
+      const input = el.shadowRoot!.querySelector(".loomi-phone-input") as HTMLInputElement;
+      input.value = "2125551234";
+      input.dispatchEvent(new Event("input"));
+      await el.updateComplete;
+
+      expect(el.value).to.equal("212.555.1234");
+    });
+
+    it("leaves the number unformatted for territories with no known national format", async () => {
+      // Åland Islands shares Finland's dial code but country-telephone-data has no
+      // national-number format for it, so its generated `mask` is "".
+      const el = await fixture<LoomiCountries>(html`<loomi-countries mode="phone" selection="AX"></loomi-countries>`);
+      const input = el.shadowRoot!.querySelector(".loomi-phone-input") as HTMLInputElement;
+      input.value = "123456789";
+      input.dispatchEvent(new Event("input"));
+      await el.updateComplete;
+
+      expect(el.value).to.equal("123456789");
+    });
+
+    it("re-formats an already-typed number when the country changes", async () => {
+      const el = await fixture<LoomiCountries>(html`<loomi-countries mode="phone" selection="US"></loomi-countries>`);
+      const input = el.shadowRoot!.querySelector(".loomi-phone-input") as HTMLInputElement;
+      input.value = "2125551234";
+      input.dispatchEvent(new Event("input"));
+      await el.updateComplete;
+      expect(el.value).to.equal("(212) 555-1234");
+
+      el.selection = "GH";
+      await el.updateComplete;
+
+      expect(el.value).to.equal("(212)555-123");
     });
 
     it("strips non-digit characters set programmatically via the .value property", async () => {

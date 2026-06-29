@@ -77,27 +77,34 @@ Pre-select the country the same way as in `names` mode:
 
 Picking a country from the panel automatically focuses the number field. The number
 field always accepts digits only — letters and punctuation are stripped as you type,
-the same way `<loomi-input numeric>` behaves. The form-submitted value is the dial code
-and number concatenated (e.g. `+233241234567`); read `.value` for just what the user
-typed.
+the same way `<loomi-input numeric>` behaves. It also auto-formats those digits using
+the selected country's typical national number layout — pick Ghana and type
+`241234567` and the field shows `(241)234-567`. The form-submitted value is the dial
+code and the (formatted) number concatenated, e.g. `+233(241)234-567`; read `.value`
+for just what's in the field.
 
 ```js
 const el = document.querySelector("loomi-countries");
-el.addEventListener("input", () => console.log(el.value)); // "241234567"
+el.addEventListener("input", () => console.log(el.value)); // "(241)234-567"
 ```
 
-### Formatting With a Mask
+About 20 territories (mostly ones that share a dial code with a parent country, like
+Åland Islands) have no typical format in the underlying dataset — for those, the field
+just accepts plain digits with no formatting.
 
-Set `mask` to format the number as the user types — the same Alpine-style wildcards as
-`<loomi-input>`'s `mask`: `9` any digit, `a` any letter, `*` any alphanumeric (in
+### Overriding the Format With a Mask
+
+Set `mask` to override the country's auto-detected format — same Alpine-style wildcards
+as `<loomi-input>`'s `mask`: `9` any digit, `a` any letter, `*` any alphanumeric (in
 practice only `9` is reachable here, since the field is already digit-only). Every
 other character in the template is a literal inserted automatically.
 
 ```html
-<loomi-countries mode="phone" mask="(999) 999-9999" label="Phone number"></loomi-countries>
+<loomi-countries mode="phone" mask="999.999.9999" label="Phone number"></loomi-countries>
 ```
 
-`mask` only applies in `phone` mode; it's ignored in `names` mode.
+`mask` only applies in `phone` mode; it's ignored in `names` mode. Leave it unset to use
+the selected country's own format.
 
 ## Searching
 
@@ -157,7 +164,7 @@ document.querySelector("loomi-countries").reset();
 | `label` | _(blank)_ | Floating label (takes precedence over placeholder). |
 | `selection` | _(blank)_ | Country name, ISO alpha-2 code, or dial code. Resolves to the alpha-2 code. |
 | `value` | _(blank)_ | The phone number portion, excluding the dial code (`phone` mode, digits only). |
-| `mask` | _(blank)_ | Formatting mask for the number field — `9`/`a`/`*` wildcards, same as `<loomi-input>` (`phone` mode only). |
+| `mask` | _(blank)_ | Overrides the selected country's auto-detected formatting mask — `9`/`a`/`*` wildcards, same as `<loomi-input>` (`phone` mode only). |
 | `disabled` | `false` | Disable the control. _(boolean)_ |
 | `readonly` | `false` | Read-only (cannot open). _(boolean)_ |
 | `required` | `false` | Marks the field required. _(boolean)_ |

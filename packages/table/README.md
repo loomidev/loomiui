@@ -83,8 +83,8 @@ of icon buttons. Listen for the `action` event to handle clicks — `e.detail` i
   const t = document.getElementById("t3");
   t.data = [{ first_name: "Ada", department: "Engineering" }];
   t.actionIcons = [
-    { icon: "paper-airplane", name: "message", tip: "Message", color: "green" },
-    { icon: "trash", name: "delete", tip: "Delete", color: "red" },
+    { icon: "paper-airplane", name: "message", tip: "Message", color: "success" },
+    { icon: "trash", name: "delete", tip: "Delete", color: "error" },
   ];
   t.addEventListener("action", (e) => {
     console.log(e.detail.name, e.detail.row); // "delete", { first_name: "Ada", ... }
@@ -240,7 +240,7 @@ same table:
     // …
   ];
   t.excludeColumns = "id";
-  t.actionIcons = [{ icon: "trash", name: "delete", color: "red", tip: "Delete" }];
+  t.actionIcons = [{ icon: "trash", name: "delete", color: "error", tip: "Delete" }];
   t.addEventListener("action", (e) => console.log(e.detail));
   t.addEventListener("selection-change", (e) => console.log(e.detail.ids));
 </script>
@@ -325,7 +325,7 @@ same table:
   t.columnAliases = { first_name: "First Name", last_name: "Last Name" };
   t.actionIcons = [
     { icon: "pencil-square", name: "edit", tip: "Edit" },
-    { icon: "trash", name: "delete", color: "red", tip: "Delete" },
+    { icon: "trash", name: "delete", color: "error", tip: "Delete" },
   ];
 </script>
 ```

@@ -82,7 +82,7 @@ The dot accepts any loomi color via `dot-color`:
 <loomi-avatars dotted>
   <loomi-avatar image="/avatars/female2.jpg" dot-color="primary"></loomi-avatar>
   <loomi-avatar image="/avatars/male2.jpg" dot-color="gray"></loomi-avatar>
-  <loomi-avatar image="/avatars/female.jpg" dot-color="red"></loomi-avatar>
+  <loomi-avatar image="/avatars/female.jpg" dot-color="error"></loomi-avatar>
 </loomi-avatars>
 ```
 
@@ -90,7 +90,7 @@ The dot accepts any loomi color via `dot-color`:
 
 ```html
 <loomi-avatars dotted>
-  <loomi-avatar label="SF" bg-color="orange" dot-color="orange"></loomi-avatar>
+  <loomi-avatar label="SF" bg-color="warning" dot-color="warning"></loomi-avatar>
   <loomi-avatar label="ZH" bg-color="blue" dot-color="blue"></loomi-avatar>
   <loomi-avatar label="RB" bg-color="purple" dot-color="purple"></loomi-avatar>
 </loomi-avatars>
@@ -134,7 +134,7 @@ By default avatars show a ring around them. Turn it off for a flatter look.
 ## Full Example
 
 ```html
-<loomi-avatars size="big" dotted dot-color="red" dot-position="top" plus="33" stacked>
+<loomi-avatars size="big" dotted dot-color="error" dot-position="top" plus="33" stacked>
   <loomi-avatar image="/avatars/robert.svg"></loomi-avatar>
   <loomi-avatar image="/avatars/female.jpg"></loomi-avatar>
   <loomi-avatar label="ZH" bg-color="cyan"></loomi-avatar>
@@ -175,7 +175,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="module" src="https://esm.sh/@loomidev/avatar"></script>
 
 <loomi-avatars>
-  <loomi-avatar label="AO" bg-color="green"></loomi-avatar>
+  <loomi-avatar label="AO" bg-color="success"></loomi-avatar>
   <loomi-avatar image="/avatars/female.jpg" alt="Ama" show-ring></loomi-avatar>
 </loomi-avatars>
 ```
@@ -206,7 +206,7 @@ import "@loomidev/avatar";
 
 ```blade
 <loomi-avatars>
-  <loomi-avatar label="AO" bg-color="green"></loomi-avatar>
+  <loomi-avatar label="AO" bg-color="success"></loomi-avatar>
   <loomi-avatar image="/images/team/jdoe.jpg" alt="Ama" show-ring></loomi-avatar>
 </loomi-avatars>
 ```
@@ -221,7 +221,7 @@ import "@loomidev/avatar";
 export function LoomiExample() {
   return (
     <loomi-avatars>
-      <loomi-avatar label="AO" bg-color="green"></loomi-avatar>
+      <loomi-avatar label="AO" bg-color="success"></loomi-avatar>
       <loomi-avatar image="/images/team/jdoe.jpg" alt="Ama"></loomi-avatar>
     </loomi-avatars>
   );
@@ -241,7 +241,7 @@ import "@loomidev/avatar";
 
 <template>
   <loomi-avatars>
-    <loomi-avatar label="AO" bg-color="green"></loomi-avatar>
+    <loomi-avatar label="AO" bg-color="success"></loomi-avatar>
     <loomi-avatar image="/images/team/jdoe.jpg" alt="Ama" show-ring></loomi-avatar>
   </loomi-avatars>
 </template>
@@ -264,7 +264,7 @@ import "@loomidev/avatar";
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
     <loomi-avatars>
-      <loomi-avatar label="AO" bg-color="green"></loomi-avatar>
+      <loomi-avatar label="AO" bg-color="success"></loomi-avatar>
       <loomi-avatar image="/images/team/jdoe.jpg" alt="Ama" show-ring></loomi-avatar>
     </loomi-avatars>
   `,
@@ -282,7 +282,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 </script>
 
 <loomi-avatars>
-  <loomi-avatar label="AO" bg-color="green"></loomi-avatar>
+  <loomi-avatar label="AO" bg-color="success"></loomi-avatar>
   <loomi-avatar image="/images/team/jdoe.jpg" alt="Ama" show-ring></loomi-avatar>
 </loomi-avatars>
 ```
@@ -293,7 +293,7 @@ import "@loomidev/avatar";
 ---
 
 <loomi-avatars>
-  <loomi-avatar label="AO" bg-color="green"></loomi-avatar>
+  <loomi-avatar label="AO" bg-color="success"></loomi-avatar>
   <loomi-avatar image="/images/team/jdoe.jpg" alt="Ama" show-ring></loomi-avatar>
 </loomi-avatars>
 ```

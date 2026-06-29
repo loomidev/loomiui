@@ -22,12 +22,12 @@ The default color is `gray`. Any loomi color works.
 
 ```html
 <loomi-spinner color="primary"></loomi-spinner>
-<loomi-spinner color="red"></loomi-spinner>
-<loomi-spinner color="green"></loomi-spinner>
+<loomi-spinner color="error"></loomi-spinner>
+<loomi-spinner color="success"></loomi-spinner>
 <loomi-spinner color="blue"></loomi-spinner>
 <loomi-spinner color="purple"></loomi-spinner>
 <loomi-spinner color="pink"></loomi-spinner>
-<loomi-spinner color="orange"></loomi-spinner>
+<loomi-spinner color="warning"></loomi-spinner>
 <loomi-spinner color="cyan"></loomi-spinner>
 ```
 

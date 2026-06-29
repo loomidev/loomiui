@@ -31,7 +31,7 @@ import "@loomidev/processing";
 The spinner color (only relevant in the `processing` state) accepts any loomi color.
 
 ```html
-<loomi-processing color="violet" title="Uploading…"></loomi-processing>
+<loomi-processing color="purple" title="Uploading…"></loomi-processing>
 ```
 
 ## Full Flow Example
@@ -84,7 +84,7 @@ then swaps `state` based on the result.
   state="processing"
   title="Deleting pending payment"
   message="This will only take a moment."
-  color="red"
+  color="error"
 ></loomi-processing>
 ```
 

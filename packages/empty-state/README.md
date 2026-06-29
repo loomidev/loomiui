@@ -73,7 +73,7 @@ built-in image/heading/message/button layout.
 <loomi-empty-state show-image="false">
   <loomi-icon name="finger-print" style="width: 3rem; height: 3rem"></loomi-icon>
   <p>You have no biometric data available</p>
-  <loomi-button color="red" size="small">Add biometric info</loomi-button>
+  <loomi-button color="error" size="small">Add biometric info</loomi-button>
 </loomi-empty-state>
 ```
 

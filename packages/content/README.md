@@ -61,8 +61,8 @@ pnpm --filter @loomidev/content typecheck
 <script type="module" src="https://esm.sh/@loomidev/content"></script>
 
 <loomi-card title="Team member">
-  <loomi-avatar label="AM" bg-color="green"></loomi-avatar>
-  <loomi-tag color="green">Active</loomi-tag>
+  <loomi-avatar label="AM" bg-color="success"></loomi-avatar>
+  <loomi-tag color="success">Active</loomi-tag>
 </loomi-card>
 ```
 
@@ -81,8 +81,8 @@ import "@loomidev/content";
 
 ```blade
 <loomi-card title="Team member">
-  <loomi-avatar label="AM" bg-color="green"></loomi-avatar>
-  <loomi-tag color="green">Active</loomi-tag>
+  <loomi-avatar label="AM" bg-color="success"></loomi-avatar>
+  <loomi-tag color="success">Active</loomi-tag>
 </loomi-card>
 ```
 
@@ -94,8 +94,8 @@ import "@loomidev/content";
 export function LoomiBundleExample() {
   return (
     <loomi-card title="Team member">
-      <loomi-avatar label="AM" bg-color="green"></loomi-avatar>
-      <loomi-tag color="green">Active</loomi-tag>
+      <loomi-avatar label="AM" bg-color="success"></loomi-avatar>
+      <loomi-tag color="success">Active</loomi-tag>
     </loomi-card>
   );
 }
@@ -112,8 +112,8 @@ import "@loomidev/content";
 
 <template>
   <loomi-card title="Team member">
-    <loomi-avatar label="AM" bg-color="green"></loomi-avatar>
-    <loomi-tag color="green">Active</loomi-tag>
+    <loomi-avatar label="AM" bg-color="success"></loomi-avatar>
+    <loomi-tag color="success">Active</loomi-tag>
   </loomi-card>
 </template>
 ```
@@ -132,8 +132,8 @@ import "@loomidev/content";
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
     <loomi-card title="Team member">
-      <loomi-avatar label="AM" bg-color="green"></loomi-avatar>
-      <loomi-tag color="green">Active</loomi-tag>
+      <loomi-avatar label="AM" bg-color="success"></loomi-avatar>
+      <loomi-tag color="success">Active</loomi-tag>
     </loomi-card>
   `,
 })
@@ -148,8 +148,8 @@ export class AppComponent {}
 </script>
 
 <loomi-card title="Team member">
-  <loomi-avatar label="AM" bg-color="green"></loomi-avatar>
-  <loomi-tag color="green">Active</loomi-tag>
+  <loomi-avatar label="AM" bg-color="success"></loomi-avatar>
+  <loomi-tag color="success">Active</loomi-tag>
 </loomi-card>
 ```
 
@@ -159,8 +159,8 @@ import "@loomidev/content";
 ---
 
 <loomi-card title="Team member">
-  <loomi-avatar label="AM" bg-color="green"></loomi-avatar>
-  <loomi-tag color="green">Active</loomi-tag>
+  <loomi-avatar label="AM" bg-color="success"></loomi-avatar>
+  <loomi-tag color="success">Active</loomi-tag>
 </loomi-card>
 ```
 

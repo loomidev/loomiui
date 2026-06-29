@@ -57,7 +57,7 @@ The type icon and the dismiss (×) icon can each be hidden independently.
 <loomi-alert color="pink">I am a pink alert.</loomi-alert>
 <loomi-alert color="pink" shade="dark">I am a pink alert. Dark version.</loomi-alert>
 <loomi-alert color="cyan">I am a cyan alert.</loomi-alert>
-<loomi-alert color="violet">I am a violet alert.</loomi-alert>
+<loomi-alert color="purple">I am a violet alert.</loomi-alert>
 <loomi-alert color="transparent">I am a transparent alert.</loomi-alert>
 ```
 
@@ -68,8 +68,8 @@ The four prebuilt types already have default icons (`information-circle`, `x-cir
 shared [`@loomidev/icons`](../icons) registry — most useful together with a custom `color`.
 
 ```html
-<loomi-alert color="indigo" icon="bell-alert">No more snoozing. Wake up!</loomi-alert>
-<loomi-alert color="indigo" shade="dark" icon="key">Your subscription is expiring soon.</loomi-alert>
+<loomi-alert color="blue" icon="bell-alert">No more snoozing. Wake up!</loomi-alert>
+<loomi-alert color="blue" shade="dark" icon="key">Your subscription is expiring soon.</loomi-alert>
 ```
 
 ## Avatars
@@ -77,7 +77,7 @@ shared [`@loomidev/icons`](../icons) registry — most useful together with a cu
 Use an image as the prefix instead of an icon by setting `avatar` to an image URL.
 
 ```html
-<loomi-alert color="violet" shade="dark" avatar="/images/jane.jpg">
+<loomi-alert color="purple" shade="dark" avatar="/images/jane.jpg">
   Jane has been added to your friends list.
 </loomi-alert>
 

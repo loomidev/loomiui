@@ -25,11 +25,11 @@
     background-color 0.12s ease;
 }
 .loomi-drop.over {
-  border-color: var(--loomi-primary-500, var(--_loomi-primary-500-default));
+  border-color: var(--loomi-primary-600, var(--_loomi-primary-600-default));
   background: var(--loomi-primary-50, var(--_loomi-primary-50-default));
 }
 :host([invalid]) .loomi-drop {
-  border-color: var(--loomi-red-400);
+  border-color: var(--loomi-error-400);
 }
 .loomi-drop.disabled {
   opacity: 0.6;
@@ -63,7 +63,7 @@
 .loomi-l2 {
   font-size: 0.85rem;
 }
-.loomi-req { color: var(--loomi-red-500); }
+.loomi-req { color: var(--loomi-error-500); }
 .loomi-native {
   position: absolute;
   width: 1px;
@@ -117,7 +117,7 @@
   padding: 0.25rem;
   line-height: 0;
 }
-.loomi-remove:hover { color: var(--loomi-red-500); }
+.loomi-remove:hover { color: var(--loomi-error-500); }
 .loomi-remove svg { width: 1.1rem; height: 1.1rem; }
 
 /* .loomi-crop-stage / -img / -rect / -handle are styled inline in loomi-filepicker.ts,

@@ -60,9 +60,9 @@ Two sizes are available; the default is `small`.
 The status dot is `primary`-colored by default. Set `color` to any loomi color.
 
 ```html
-<loomi-bell color="red" animate-dot></loomi-bell>
-<loomi-bell color="green" animate-dot></loomi-bell>
-<loomi-bell color="orange" animate-dot></loomi-bell>
+<loomi-bell color="error" animate-dot></loomi-bell>
+<loomi-bell color="success" animate-dot></loomi-bell>
+<loomi-bell color="warning" animate-dot></loomi-bell>
 <loomi-bell color="purple" animate-dot></loomi-bell>
 ```
 

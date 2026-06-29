@@ -20,8 +20,8 @@ import "@loomidev/horizontal-line-graph";
 <script type="module">
   document.getElementById("g").data = [
     { label: "Direct", value: 45, color: "primary" },
-    { label: "Search", value: 30, color: "green" },
-    { label: "Social", value: 25, color: "orange" },
+    { label: "Search", value: 30, color: "success" },
+    { label: "Social", value: 25, color: "warning" },
   ];
 </script>
 ```
@@ -64,7 +64,7 @@ import "@loomidev/horizontal-line-graph";
 <script type="module">
   document.getElementById("mm").data = [
     { label: "MTN", value: 55, color: "yellow" },
-    { label: "Vodafone", value: 30, color: "red" },
+    { label: "Vodafone", value: 30, color: "error" },
     { label: "AirtelTigo", value: 15, color: "blue" },
   ];
   document.getElementById("age").data = [
@@ -145,7 +145,7 @@ This component accepts `data` as a JavaScript property. Use an HTML attribute on
 
 ```js
 const el = document.querySelector("loomi-horizontal-line-graph");
-el.data = [{ label: "Direct", value: 45, color: "primary" }, { label: "Search", value: 30, color: "green" }];
+el.data = [{ label: "Direct", value: 45, color: "primary" }, { label: "Search", value: 30, color: "success" }];
 ```
 
 ### Laravel Blade
@@ -179,7 +179,7 @@ export function LoomiExample() {
   const el = useRef(null);
 
   useEffect(() => {
-    el.current.data = [{ label: "Direct", value: 45, color: "primary" }, { label: "Search", value: 30, color: "green" }];
+    el.current.data = [{ label: "Direct", value: 45, color: "primary" }, { label: "Search", value: 30, color: "success" }];
   }, []);
 
   return <loomi-horizontal-line-graph ref={el}></loomi-horizontal-line-graph>;
@@ -200,7 +200,7 @@ import "@loomidev/horizontal-line-graph";
 const el = ref(null);
 
 onMounted(() => {
-  el.value.data = [{ label: "Direct", value: 45, color: "primary" }, { label: "Search", value: 30, color: "green" }];
+  el.value.data = [{ label: "Direct", value: 45, color: "primary" }, { label: "Search", value: 30, color: "success" }];
 });
 </script>
 
@@ -232,7 +232,7 @@ export class AppComponent implements AfterViewInit {
   @ViewChild("el") el!: ElementRef<any>;
 
   ngAfterViewInit() {
-    this.el.nativeElement.data = [{ label: "Direct", value: 45, color: "primary" }, { label: "Search", value: 30, color: "green" }];
+    this.el.nativeElement.data = [{ label: "Direct", value: 45, color: "primary" }, { label: "Search", value: 30, color: "success" }];
   }
 }
 ```
@@ -249,7 +249,7 @@ Svelte can import the package inside a component script. Astro can import it in 
   let el;
 
   onMount(() => {
-    el.data = [{ label: "Direct", value: 45, color: "primary" }, { label: "Search", value: 30, color: "green" }];
+    el.data = [{ label: "Direct", value: 45, color: "primary" }, { label: "Search", value: 30, color: "success" }];
   });
 </script>
 

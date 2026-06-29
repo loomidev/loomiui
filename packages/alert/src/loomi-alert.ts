@@ -7,10 +7,10 @@ import { componentStyles } from "./generated/styles.css.js";
 export type LoomiAlertType = "info" | "error" | "warning" | "success";
 
 const TYPE_COLOR: Record<LoomiAlertType, LoomiColor> = {
-  info: "blue" as LoomiColor,
-  error: "red" as LoomiColor,
-  warning: "orange" as LoomiColor,
-  success: "green" as LoomiColor,
+  info: "primary" as LoomiColor,
+  error: "error" as LoomiColor,
+  warning: "warning" as LoomiColor,
+  success: "success" as LoomiColor,
 };
 const TYPE_ICON: Record<LoomiAlertType, string> = {
   info: "information-circle",

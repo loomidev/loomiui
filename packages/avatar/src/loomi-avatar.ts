@@ -19,7 +19,7 @@ export class LoomiAvatar extends LoomiElement {
   @property() label = "";
   @property({ reflect: true }) size: LoomiAvatarSize = "regular";
   @property({ type: Boolean }) dotted = false;
-  @property({ attribute: "dot-color" }) dotColor: LoomiColor = "green" as LoomiColor;
+  @property({ attribute: "dot-color" }) dotColor: LoomiColor = "success" as LoomiColor;
   @property({ attribute: "dot-position" }) dotPosition: "top" | "bottom" = "bottom";
   @property({ attribute: "bg-color" }) bgColor: LoomiColor = "gray" as LoomiColor;
   @property({ type: Boolean, attribute: "show-ring" }) showRing = true;
@@ -53,14 +53,14 @@ export class LoomiAvatars extends LoomiElement {
 
   @property({ type: Boolean, reflect: true }) stacked = false;
   @property({ type: Boolean }) dotted = false;
-  @property({ attribute: "dot-color" }) dotColor: LoomiColor = "green" as LoomiColor;
+  @property({ attribute: "dot-color" }) dotColor: LoomiColor = "success" as LoomiColor;
   @property({ attribute: "dot-position" }) dotPosition: "top" | "bottom" = "bottom";
   @property({ type: Number }) plus = 0;
   @property({ reflect: true }) size: LoomiAvatarSize = "regular";
 
   private syncChildren = (): void => {
     if (this.plus > 0) this.stacked = true;
-    const hasGroupDotColor = this.hasAttribute("dot-color") || this.dotColor !== "green";
+    const hasGroupDotColor = this.hasAttribute("dot-color") || this.dotColor !== "success";
     const hasGroupDotPosition = this.hasAttribute("dot-position") || this.dotPosition !== "bottom";
 
     this.querySelectorAll("loomi-avatar").forEach((avatar) => {
