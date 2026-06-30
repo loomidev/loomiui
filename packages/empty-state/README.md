@@ -92,6 +92,24 @@ plain-text empty states rather than a full `<loomi-empty-state>` — see those p
 READMEs for their respective `empty-placeholder` / `no-data-message` attributes. Use
 `<loomi-empty-state>` directly wherever you need the richer illustration + CTA version.
 
+## Replacing the Built-in Illustration
+
+The default illustration (shown whenever `image` is left blank) is a PNG bundled with
+the package and inlined as a data URI at build time, so it works the same whether the
+package is loaded from npm, a bundler, or a CDN — no extra network request and no
+asset-path resolution for consumers to configure.
+
+If you're contributing to LoomiUI itself and want to change it, replace
+`src/assets/default-image.png` with a same-named PNG and rebuild:
+
+```bash
+cd /path/to/your-copy-of-loomiui/components
+pnpm --filter @loomidev/empty-state build
+```
+
+`scripts/build-assets.mjs` re-encodes whatever PNG is at that path into
+`src/generated/default-image.ts` on every build — no code changes needed.
+
 ## Attributes
 
 | Attribute | Default | Description |

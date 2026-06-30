@@ -17,8 +17,7 @@
 .loomi-img {
   color: var(--loomi-gray-300);
 }
-.loomi-img img,
-.loomi-img svg {
+.loomi-img img {
   width: var(--loomi-empty-size, 8rem);
   height: auto;
 }

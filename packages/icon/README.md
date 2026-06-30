@@ -19,13 +19,44 @@ import "@loomidev/icon";
 <loomi-icon name="trash"></loomi-icon>
 ```
 
-## Outline and Solid Icons
+## Icon Sources
 
-Icons come from Heroicons' 24px outline and solid sets. Outline is the default.
+`source` picks which icon set `name` is looked up in. `heroicons` is the default.
+
+```html
+<loomi-icon name="bell-alert"></loomi-icon>
+<!-- same as source="heroicons" -->
+
+<loomi-icon source="iconsax" name="add"></loomi-icon>
+<loomi-icon source="untitledui" name="user-02"></loomi-icon>
+```
+
+`heroicons` is inlined into `@loomidev/icon` at build time, so it renders instantly.
+`iconsax` and `untitledui` are disk-based: the first time a page uses a given icon, it's
+fetched as a real `.svg` file and cached in memory — every later use of that same icon,
+anywhere on the page, is instant. Until that first fetch resolves, `<loomi-icon>` renders
+a correctly-sized empty placeholder, so there's no layout jump.
+
+### Outline, Solid, and Twotone
+
+`variant` picks the visual style. Not every source ships every style:
+
+| Source | Available `variant` values |
+| --- | --- |
+| `heroicons` | `outline` (default), `solid` |
+| `iconsax` | `outline` (default), `solid`, `twotone` |
+| `untitledui` | `outline` (default; the only style it ships) |
+
+Requesting a `variant` a source doesn't have (e.g. `source="untitledui" variant="solid"`)
+falls back to `outline` rather than rendering nothing.
 
 ```html
 <loomi-icon name="bell-alert" variant="outline"></loomi-icon>
 <loomi-icon name="bell-alert" variant="solid"></loomi-icon>
+
+<loomi-icon source="iconsax" name="add" variant="outline"></loomi-icon>
+<loomi-icon source="iconsax" name="add" variant="solid"></loomi-icon>
+<loomi-icon source="iconsax" name="add" variant="twotone"></loomi-icon>
 ```
 
 ## Icons From a Directory
@@ -125,13 +156,14 @@ registerLoomiIcon("rocket", svg`<path d="…" />`);
 | Attribute | Default | Description |
 | --- | --- | --- |
 | `name` | _(blank)_ | Registered icon name (see [`@loomidev/icons`](../icons)). |
-| `variant` | `outline` | Heroicons style. `outline` \| `solid`. Ignored when `directory` is set. |
+| `source` | `heroicons` | Icon set. `heroicons` \| `iconsax` \| `untitledui`. Ignored when `directory` is set. |
+| `variant` | `outline` | Visual style. `outline` \| `solid` \| `twotone` — availability depends on `source` (see [Outline, Solid, and Twotone](#outline-solid-and-twotone)). Ignored when `directory` is set. |
 | `directory` | _(blank)_ | Directory URL for file-based icons. Written directly to `<img src>`, so relative paths resolve from the current page URL; `.svg` is added when `name` has no extension. |
 | `size` | _(blank)_ | CSS size, e.g. `1.5rem`, `32px`. Sets `--loomi-icon-size`. |
-| `stroke-width` | `1.5` | Stroke width for outline registry icons. Ignored for solid icons. |
+| `stroke-width` | `1.5` | Stroke width. Heroicons `outline` only — `iconsax` and `untitledui` ship a fixed weight per icon. |
 | `label` | _(blank)_ | Accessible label; when omitted the icon is `aria-hidden`. |
 
-**Slot:** default (custom `<svg>`, used when no registered icon matches `name`).
+**Slot:** default (custom `<svg>`, used when no registered icon matches `name`/`source`).
 
 ## Full Example
 
@@ -139,6 +171,15 @@ registerLoomiIcon("rocket", svg`<path d="…" />`);
 <loomi-icon
   name="bell-alert"
   variant="solid"
+  size="2rem"
+  label="Notifications"
+  style="color:#7c3aed"
+></loomi-icon>
+
+<loomi-icon
+  source="iconsax"
+  name="notification"
+  variant="twotone"
   size="2rem"
   label="Notifications"
   style="color:#7c3aed"

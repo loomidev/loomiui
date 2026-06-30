@@ -29,8 +29,8 @@
     }
   },
   "scripts": {
-    "build": "node scripts/build-styles.mjs && tsc -p tsconfig.json",
-    "dev": "node scripts/build-styles.mjs && tsc -p tsconfig.json --watch",
+    "build": "node scripts/build-styles.mjs && node scripts/build-assets.mjs && tsc -p tsconfig.json",
+    "dev": "node scripts/build-styles.mjs && node scripts/build-assets.mjs && tsc -p tsconfig.json --watch",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {

@@ -1,17 +1,10 @@
-import { html, nothing, svg, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { LoomiElement, loomiStyles } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
+import { DEFAULT_IMAGE } from "./generated/default-image.js";
 
 export type LoomiEmptyImageSize = "small" | "medium" | "large" | "xl" | "omg";
-
-const DEFAULT_ART = svg`<svg viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <rect x="18" y="28" width="84" height="56" rx="6" stroke="currentColor" stroke-width="3" />
-  <path d="M18 44h84" stroke="currentColor" stroke-width="3" />
-  <circle cx="27" cy="36" r="2.2" fill="currentColor" />
-  <circle cx="35" cy="36" r="2.2" fill="currentColor" />
-  <path d="M40 60h40M40 70h26" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-</svg>`;
 
 /**
  * `<loomi-empty-state>` — a friendly placeholder for empty content with an optional
@@ -37,7 +30,7 @@ export class LoomiEmptyState extends LoomiElement {
     }
     return html`<div class="loomi-empty">
       <div class="loomi-img size-${this.imageSize}">
-        ${this.image ? html`<img src=${this.image} alt="" />` : DEFAULT_ART}
+        <img src=${this.image || DEFAULT_IMAGE} alt="" />
       </div>
       ${this.heading ? html`<div class="loomi-heading">${this.heading}</div>` : nothing}
       ${this.message ? html`<div class="loomi-message">${this.message}</div>` : nothing}

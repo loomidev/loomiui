@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 const root = dirname(fileURLToPath(import.meta.url));
 const pkgRoot = join(root, "..");
 const heroRoot = join(pkgRoot, "node_modules", "@heroicons", "react", "24");
-const outFile = join(pkgRoot, "src", "index.ts");
+const outFile = join(pkgRoot, "src", "heroicons.ts");
 
 const kebab = (name) =>
   name
