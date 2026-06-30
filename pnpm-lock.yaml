@@ -85,6 +85,12 @@ importers:
       '@loomidev/core':
         specifier: workspace:^
         version: link:../core
+      '@loomidev/filepicker':
+        specifier: workspace:^
+        version: link:../filepicker
+      '@loomidev/icon':
+        specifier: workspace:^
+        version: link:../icon
     devDependencies:
       '@loomidev/theme':
         specifier: workspace:^

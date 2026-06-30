@@ -82,6 +82,11 @@ function loadImageElement(file: File): Promise<HTMLImageElement> {
  * wrapper — the crop dialog is a `<loomi-modal>` and oversized-file errors surface
  * through `<loomi-notification>`.
  *
+ * Set `stealth` to hide the drop-zone and file list entirely — the native input and
+ * crop dialog still work, driven imperatively via `open()`/`clear()` from your own
+ * trigger element (e.g. `<loomi-avatar editable>` uses this to launch a crop dialog
+ * straight from an avatar click).
+ *
  * @fires change - `detail: { files }` whenever the selection changes.
  */
 @customElement("loomi-filepicker")
@@ -114,6 +119,7 @@ export class LoomiFilepicker extends LoomiElement {
   @property({ type: Boolean, converter: booleanAttribute }) resize = false;
   @property({ type: Number, attribute: "resize-width" }) resizeWidth = 0;
   @property({ type: Number, attribute: "resize-height" }) resizeHeight = 0;
+  @property({ type: Boolean, reflect: true, converter: booleanAttribute }) stealth = false;
 
   @state() private files: File[] = [];
   @state() private over = false;
@@ -127,6 +133,26 @@ export class LoomiFilepicker extends LoomiElement {
   /** Currently selected files. */
   get selectedFiles(): File[] {
     return this.files;
+  }
+
+  /**
+   * Opens the native file picker programmatically. Pairs with `stealth`, where there's
+   * no visible drop-zone for the user to click directly.
+   */
+  open(): void {
+    if (this.disabled || this.cropping) return;
+    this.input?.click();
+  }
+
+  /**
+   * Clears the current selection and resyncs the underlying `<input>`/form value. Call
+   * this before `open()` when re-picking should replace rather than append — `add()`
+   * stops accepting new files once `max-files` is reached, so a `max-files="1"` picker
+   * (the common case for `stealth`) would otherwise ignore a second pick.
+   */
+  clear(): void {
+    this.files = [];
+    this.syncInput();
   }
 
   override disconnectedCallback(): void {

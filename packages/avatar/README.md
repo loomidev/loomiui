@@ -96,6 +96,97 @@ The dot accepts any loomi color via `dot-color`:
 </loomi-avatars>
 ```
 
+## Verified Badge
+
+Set `verified` to show a primary-colored check badge in the bottom-right corner —
+useful for confirmed accounts, identity-verified users, etc.
+
+```html
+<loomi-avatar image="/avatars/ada.svg" verified></loomi-avatar>
+```
+
+It sits in the same corner as the default (`bottom`) status dot. If you're also using
+`dotted` on a verified avatar, move the dot to the top so the two don't overlap:
+
+```html
+<loomi-avatar image="/avatars/sara.svg" verified dotted dot-position="top"></loomi-avatar>
+```
+
+## Editable Avatars
+
+Set `editable` to let the user replace the picture themselves. Clicking the avatar (or
+focusing it and pressing Enter/Space — it's a real `role="button"`) launches a crop
+dialog; applying the crop swaps the avatar's image immediately.
+
+```html
+<loomi-avatar image="/avatars/john.svg" editable></loomi-avatar>
+```
+
+Hovering or focusing an editable avatar shows a camera icon over a dark overlay as a
+visual affordance. Customize the screen-reader label (and the overlay's `aria-label`)
+with `edit-label`:
+
+```html
+<loomi-avatar label="JD" editable edit-label="Change profile photo"></loomi-avatar>
+```
+
+### How it works
+
+Internally, `editable` launches a [`<loomi-filepicker>`](https://www.npmjs.com/package/@loomidev/filepicker)
+in `stealth` mode (`crop`, `crop-aspect-ratio="1:1"`, `accepted-file-types="image/*"`) —
+the same filepicker package, just with its drop-zone UI hidden and driven imperatively
+by the avatar's click handler instead of a visible drag-and-drop box. `@loomidev/filepicker`
+is only loaded (via a dynamic `import()`) the first time an `<loomi-avatar editable>` is
+actually used, so avatars that don't need editing don't pay for the filepicker/modal/notification
+bundle.
+
+Once a crop is applied, the avatar:
+
+1. Creates an object URL for the cropped `File` and sets it as `image`, so the new
+   picture shows immediately (no network round-trip needed for the UI to update).
+2. Fires a `change` event with `detail: { file, image }` — `file` is the cropped
+   `File`, `image` is the object URL now showing in the avatar.
+
+`<loomi-avatar>` itself never uploads anything — saving the file is your app's job. See
+below.
+
+### Saving the picked file in the background
+
+Listen for `change` and upload `detail.file` however your backend expects it (typically
+`FormData` to a REST/upload endpoint). The avatar has already swapped to the new image
+optimistically, so the UI doesn't need to wait on the request:
+
+```html
+<loomi-avatar id="profile-pic" image="/avatars/me.jpg" editable></loomi-avatar>
+
+<script type="module">
+  const avatar = document.getElementById("profile-pic");
+
+  avatar.addEventListener("change", async (e) => {
+    const { file } = e.detail;
+    const formData = new FormData();
+    formData.append("avatar", file);
+
+    try {
+      const res = await fetch("/api/profile/avatar", { method: "POST", body: formData });
+      if (!res.ok) throw new Error(`Upload failed: ${res.status}`);
+      // Optionally swap `image` to the server's final URL once it's known, e.g.
+      // const { url } = await res.json();
+      // avatar.image = url;
+    } catch (err) {
+      // The avatar is already showing the new picture locally (via the object URL) —
+      // on failure, revert it and let the user know.
+      avatar.image = "/avatars/me.jpg";
+      console.error(err);
+    }
+  });
+</script>
+```
+
+If you'd rather drive the same crop-and-pick flow from your own button instead of the
+avatar's built-in click target, see `<loomi-filepicker>`'s `stealth` mode — it's the
+exact same mechanism `editable` uses under the hood.
+
 ## Hiding the Ring
 
 By default avatars show a ring around them. Turn it off for a flatter look.
@@ -116,6 +207,11 @@ By default avatars show a ring around them. Turn it off for a flatter look.
 | `dot-color` | `green` | Status dot color. |
 | `dot-position` | `bottom` | `top` \| `bottom` |
 | `show-ring` | `true` | Show the ring around the avatar. _(boolean)_ |
+| `verified` | `false` | Show a primary-colored check badge in the bottom-right corner. _(boolean)_ |
+| `editable` | `false` | Clicking (or Enter/Space) launches a crop dialog to replace the image. _(boolean)_ |
+| `edit-label` | `Edit avatar` | Accessible label for the editable avatar's button role. |
+
+**Event:** `change` (fires after `editable` applies a crop) — `detail: { file, image }`.
 
 ### `<loomi-avatars>` (group)
 

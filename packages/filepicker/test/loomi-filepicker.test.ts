@@ -114,6 +114,33 @@ describe("loomi-filepicker", () => {
     expect(el.selectedFiles[0].type).to.equal("image/png");
   });
 
+  it("stealth hides the drop-zone but open() still triggers the native input", async () => {
+    const el = await fixture<LoomiFilepicker>(html`<loomi-filepicker stealth></loomi-filepicker>`);
+    const input = nativeInput(el);
+    let clicked = false;
+    input.addEventListener("click", () => (clicked = true));
+
+    expect(getComputedStyle(el.shadowRoot!.querySelector(".loomi-drop")!).position).to.equal("absolute");
+
+    el.open();
+    expect(clicked).to.be.true;
+  });
+
+  it("clear() resets the selection so a re-pick replaces it at max-files", async () => {
+    const el = await fixture<LoomiFilepicker>(html`<loomi-filepicker stealth></loomi-filepicker>`);
+
+    selectFiles(el, [textFile("first.txt")]);
+    await waitUntil(() => el.selectedFiles.length > 0);
+    expect(el.selectedFiles[0].name).to.equal("first.txt");
+
+    el.clear();
+    expect(el.selectedFiles).to.have.lengthOf(0);
+
+    selectFiles(el, [textFile("second.txt")]);
+    await waitUntil(() => el.selectedFiles.length > 0);
+    expect(el.selectedFiles[0].name).to.equal("second.txt");
+  });
+
   it("resizes images to fit resize-width/resize-height with no dialog", async () => {
     const el = await fixture<LoomiFilepicker>(
       html`<loomi-filepicker resize resize-width="1" resize-height="1"></loomi-filepicker>`,

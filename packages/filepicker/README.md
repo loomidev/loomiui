@@ -139,6 +139,34 @@ Runs after cropping when both are enabled.
 <loomi-filepicker resize resize-width="800" resize-height="600"></loomi-filepicker>
 ```
 
+## Stealth Mode
+
+Set `stealth` to hide the drop-zone and file list entirely. The native `<input>` and
+crop dialog still work — drive them imperatively from your own trigger element with
+`open()` (opens the native file picker) and `clear()` (resets the current selection, so
+the next `open()` replaces rather than appends — relevant for `max-files="1"`, which
+otherwise stops accepting new files once a pick has been made).
+
+```html
+<button id="trigger">Change photo</button>
+<loomi-filepicker id="fp" stealth crop crop-aspect-ratio="1:1" accepted-file-types="image/*"></loomi-filepicker>
+
+<script type="module">
+  const fp = document.getElementById("fp");
+  document.getElementById("trigger").addEventListener("click", () => {
+    fp.clear();
+    fp.open();
+  });
+  fp.addEventListener("change", (e) => {
+    const file = e.detail.files[0];
+    // upload `file` …
+  });
+</script>
+```
+
+`<loomi-avatar editable>` is built on exactly this pattern — see its README for a
+complete example, including how to upload the picked file in the background.
+
 ## Disabled & Required
 
 ```html
@@ -190,8 +218,9 @@ form submit with `enctype="multipart/form-data"` just works.
 | `crop-aspect-ratio` | `16:9` | `16:9`, `4:3`, `2:3`, `1:1`, or `free`. |
 | `resize` | `false` | Resize uploaded images to fit `resize-width`/`resize-height`. _(boolean)_ |
 | `resize-width` / `resize-height` | _(unset)_ | Target box in pixels; aspect ratio is preserved. |
+| `stealth` | `false` | Hide the drop-zone/file list; drive selection via `open()`/`clear()`. _(boolean)_ |
 
-**Property:** `selectedFiles`. **Event:** `change` (`detail: { files }`).
+**Property:** `selectedFiles`. **Methods:** `open()`, `clear()`. **Event:** `change` (`detail: { files }`).
 
 > Not ported from BladewindUI's Filepond wrapper: auto-upload-to-route. Use the `change`
 > event with your own upload logic, or submit the form for manual upload.

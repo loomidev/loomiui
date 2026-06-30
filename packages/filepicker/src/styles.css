@@ -124,3 +124,23 @@
 /* .loomi-crop-stage / -img / -rect / -handle are styled inline in loomi-filepicker.ts,
    not here — that markup is slotted into <loomi-modal>, which moves to document.body on
    show() and would carry it outside this shadow-scoped stylesheet's reach. */
+
+/* stealth: visually hide the drop-zone and file list the same way .loomi-native already
+   hides the bare <input> — clipped to 0 rather than display:none, since the input lives
+   inside .loomi-drop and a hidden-but-not-display:none input is the proven-safe way to
+   keep a synthetic .click() (from open()) opening the native file dialog. */
+:host([stealth]) .loomi-drop {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  pointer-events: none;
+}
+:host([stealth]) .loomi-files {
+  display: none;
+}
