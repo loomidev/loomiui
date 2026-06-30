@@ -137,6 +137,13 @@ export class LoomiButton extends LoomiElement {
     if (this.outline) {
       return ["bg-transparent", `text-${c}-600`, w, "border-solid", `border-${c}-600`, `hover:bg-${c}-50`];
     }
+    // Secondary's solid fill is lighter than the other colors' shared 600/700 fill —
+    // dark text instead of white keeps it readable on the lighter background. The
+    // disabled state (global opacity:0.5 on .loomi-btn) lands a couple shades lighter
+    // still, since it's blending this lighter base toward the page background.
+    if (c === "secondary") {
+      return ["bg-secondary-400", "text-secondary-900", "hover:bg-secondary-500", "border", "border-transparent"];
+    }
     return [`bg-${c}-600`, "text-white", `hover:bg-${c}-700`, "border", "border-transparent"];
   }
 
