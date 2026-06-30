@@ -15,7 +15,7 @@ export type LoomiCardBrand =
   | "unknown";
 
 const VISA = `<svg viewBox="0 0 40 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Visa">
-  <text x="20" y="17" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-weight="700" font-size="13" letter-spacing="0.5" fill="#1A1F71">VISA</text>
+  <text x="20" y="17" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-weight="700" font-size="13" letter-spacing="0.5" fill="white">VISA</text>
 </svg>`;
 
 const MASTERCARD = `<svg viewBox="0 0 40 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mastercard">
@@ -29,9 +29,8 @@ const AMEX = `<svg viewBox="0 0 40 24" xmlns="http://www.w3.org/2000/svg" role="
 </svg>`;
 
 const DISCOVER = `<svg viewBox="0 0 40 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Discover">
-  <rect x="1" y="2" width="38" height="20" rx="3" fill="#f4f4f5"/>
   <circle cx="31" cy="12" r="7" fill="#FF6000"/>
-  <text x="17" y="15" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-style="italic" font-weight="700" font-size="7.5" fill="#1b1b1b">Discover</text>
+  <text x="17" y="15" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-style="italic" font-weight="700" font-size="7.5" fill="white">Discover</text>
 </svg>`;
 
 const DINERS = `<svg viewBox="0 0 40 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diners Club">
@@ -40,10 +39,9 @@ const DINERS = `<svg viewBox="0 0 40 24" xmlns="http://www.w3.org/2000/svg" role
 </svg>`;
 
 const JCB = `<svg viewBox="0 0 40 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="JCB">
-  <rect x="1" y="2" width="38" height="20" rx="3" fill="#0b0b0b"/>
-  <rect x="3" y="4" width="11" height="16" rx="2" fill="#0E4C96"/>
-  <rect x="14.5" y="4" width="11" height="16" fill="#0a8f3c"/>
-  <rect x="26" y="4" width="11" height="16" rx="2" fill="#D6232A"/>
+  <rect x="3" y="3" width="11" height="18" rx="2" fill="#0E4C96"/>
+  <rect x="14.5" y="3" width="11" height="18" fill="#0a8f3c"/>
+  <rect x="26" y="3" width="11" height="18" rx="2" fill="#D6232A"/>
   <text x="8.5" y="15.5" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-weight="700" font-size="7" fill="#ffffff">J</text>
   <text x="20" y="15.5" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-weight="700" font-size="7" fill="#ffffff">C</text>
   <text x="31.5" y="15.5" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-weight="700" font-size="7" fill="#ffffff">B</text>
@@ -53,7 +51,6 @@ const UNIONPAY = `<svg viewBox="0 0 40 24" xmlns="http://www.w3.org/2000/svg" ro
   <rect x="3" y="3" width="11" height="18" rx="2" fill="#E21836"/>
   <rect x="14.5" y="3" width="11" height="18" fill="#00447C"/>
   <rect x="26" y="3" width="11" height="18" rx="2" fill="#039B4F"/>
-  <text x="20" y="29" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-weight="700" font-size="6" fill="currentColor">UnionPay</text>
 </svg>`;
 
 const MAESTRO = `<svg viewBox="0 0 40 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Maestro">

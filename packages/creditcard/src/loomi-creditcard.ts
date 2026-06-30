@@ -273,9 +273,9 @@ export class LoomiCreditcard extends LoomiElement {
     return html`
       <div class="loomi-cc-face loomi-cc-front" part="front" ?inert=${this.flipped}>
         <div class="loomi-cc-top">
-          <div class="loomi-cc-chip" aria-hidden="true"></div>
           <svg class="loomi-cc-contactless" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${CONTACTLESS}</svg>
         </div>
+        <div class="loomi-cc-chip" aria-hidden="true"></div>
         <input
           class="loomi-cc-number"
           part="number"
