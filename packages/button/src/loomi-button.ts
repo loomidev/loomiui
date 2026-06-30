@@ -142,7 +142,7 @@ export class LoomiButton extends LoomiElement {
     // disabled state (global opacity:0.5 on .loomi-btn) lands a couple shades lighter
     // still, since it's blending this lighter base toward the page background.
     if (c === "secondary") {
-      return ["bg-secondary-400", "text-secondary-900", "hover:bg-secondary-500", "border", "border-transparent"];
+      return ["bg-secondary-300", "text-secondary-600", "hover:bg-secondary-400", "border", "border-transparent"];
     }
     return [`bg-${c}-600`, "text-white", `hover:bg-${c}-700`, "border", "border-transparent"];
   }

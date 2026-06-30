@@ -23,36 +23,54 @@ attribute). Column headings are generated automatically from the first row's key
 
 <script type="module">
   document.getElementById("t").data = [
-    { first_name: "Ada", department: "Engineering", email: "ada@loomiui.dev" },
-    { first_name: "Sara", department: "Design", email: "sara@loomiui.dev" },
+    { first_name: "Ada", last_name: "Quint", department: "Engineering", email: "ada@loomiui.dev" },
+    { first_name: "Sara", last_name: "Field", department: "Design", email: "sara@loomiui.dev" },
+    { first_name: "Zane", last_name: "Hart", department: "Engineering", email: "zane@loomiui.dev" },
+    { first_name: "Rita", last_name: "Boon", department: "Marketing", email: "rita@loomiui.dev" },
+    { first_name: "Joe", last_name: "Diaz", department: "Design", email: "joe@loomiui.dev" },
+    { first_name: "Wren", last_name: "Ortiz", department: "Finance", email: "wren@loomiui.dev" },
   ];
 </script>
 ```
 
 ## Styling Options
 
+These toggles only show up once a table has enough rows to fill out — the same six-row
+staff list is reused across every variant below.
+
 ```html
-<!-- alternating row backgrounds -->
-<loomi-table striped></loomi-table>
+<loomi-table id="s1" striped></loomi-table>
+<loomi-table id="s2" divided="false"></loomi-table>
+<loomi-table id="s3" divider="thin"></loomi-table>
+<loomi-table id="s4" has-hover></loomi-table>
+<loomi-table id="s5" compact></loomi-table>
+<loomi-table id="s6" celled></loomi-table>
+<loomi-table id="s7" has-border has-shadow></loomi-table>
 
-<!-- remove row divider lines -->
-<loomi-table divided="false"></loomi-table>
-
-<!-- thinner dividers -->
-<loomi-table divider="thin"></loomi-table>
-
-<!-- highlight rows on hover -->
-<loomi-table has-hover></loomi-table>
-
-<!-- tighter row padding -->
-<loomi-table compact></loomi-table>
-
-<!-- borders on every cell, like a spreadsheet -->
-<loomi-table celled></loomi-table>
-
-<!-- outer border / drop shadow -->
-<loomi-table has-border has-shadow></loomi-table>
+<script type="module">
+  const staff = [
+    { first_name: "Ada", last_name: "Quint", department: "Engineering", email: "ada@loomiui.dev" },
+    { first_name: "Sara", last_name: "Field", department: "Design", email: "sara@loomiui.dev" },
+    { first_name: "Zane", last_name: "Hart", department: "Engineering", email: "zane@loomiui.dev" },
+    { first_name: "Rita", last_name: "Boon", department: "Marketing", email: "rita@loomiui.dev" },
+    { first_name: "Joe", last_name: "Diaz", department: "Design", email: "joe@loomiui.dev" },
+    { first_name: "Wren", last_name: "Ortiz", department: "Finance", email: "wren@loomiui.dev" },
+  ];
+  for (const id of ["s1", "s2", "s3", "s4", "s5", "s6", "s7"]) {
+    document.getElementById(id).data = staff;
+  }
+</script>
 ```
+
+| Toggle | Effect |
+| --- | --- |
+| `striped` | Alternating row backgrounds. |
+| `divided="false"` | Removes row divider lines. |
+| `divider="thin"` | Thinner dividers. |
+| `has-hover` | Highlights rows on hover. |
+| `compact` | Tighter row padding. |
+| `celled` | Borders on every cell, like a spreadsheet. |
+| `has-border has-shadow` | Outer border and drop shadow. |
 
 ## Choosing & Renaming Columns
 
@@ -65,7 +83,12 @@ By default every key on the first row becomes a column. Narrow that down with
 
 <script type="module">
   const t = document.getElementById("t2");
-  t.data = [{ id: 1, first_name: "Ada", department: "Engineering", email: "ada@loomiui.dev" }];
+  t.data = [
+    { id: 1, first_name: "Ada", department: "Engineering", email: "ada@loomiui.dev" },
+    { id: 2, first_name: "Sara", department: "Design", email: "sara@loomiui.dev" },
+    { id: 3, first_name: "Zane", department: "Engineering", email: "zane@loomiui.dev" },
+    { id: 4, first_name: "Rita", department: "Marketing", email: "rita@loomiui.dev" },
+  ];
   t.columnAliases = { first_name: "Name", department: "Team" };
 </script>
 ```
@@ -81,7 +104,12 @@ of icon buttons. Listen for the `action` event to handle clicks — `e.detail` i
 
 <script type="module">
   const t = document.getElementById("t3");
-  t.data = [{ first_name: "Ada", department: "Engineering" }];
+  t.data = [
+    { first_name: "Ada", department: "Engineering" },
+    { first_name: "Sara", department: "Design" },
+    { first_name: "Zane", department: "Engineering" },
+    { first_name: "Rita", department: "Marketing" },
+  ];
   t.actionIcons = [
     { icon: "paper-airplane", name: "message", tip: "Message", color: "success" },
     { icon: "trash", name: "delete", tip: "Delete", color: "error" },
@@ -109,15 +137,37 @@ selection store as checkboxes, so `selectedIds`, `selectedValue`, and
 
 ```html
 <loomi-table id="selectable-staff" selectable></loomi-table>
+
+<script type="module">
+  document.getElementById("selectable-staff").data = [
+    { id: 1, first_name: "Ada", department: "Engineering", email: "ada@loomiui.dev" },
+    { id: 2, first_name: "Sara", department: "Design", email: "sara@loomiui.dev" },
+    { id: 3, first_name: "Zane", department: "Engineering", email: "zane@loomiui.dev" },
+    { id: 4, first_name: "Rita", department: "Marketing", email: "rita@loomiui.dev" },
+    { id: 5, first_name: "Joe", department: "Design", email: "joe@loomiui.dev" },
+  ];
+</script>
 ```
 
 ## Searchable
 
 ```html
 <loomi-table id="t4" searchable search-placeholder="Find staff members by name…"></loomi-table>
+
+<script type="module">
+  document.getElementById("t4").data = [
+    { first_name: "Ada", last_name: "Quint", department: "Engineering", email: "ada@loomiui.dev" },
+    { first_name: "Sara", last_name: "Field", department: "Design", email: "sara@loomiui.dev" },
+    { first_name: "Zane", last_name: "Hart", department: "Engineering", email: "zane@loomiui.dev" },
+    { first_name: "Rita", last_name: "Boon", department: "Marketing", email: "rita@loomiui.dev" },
+    { first_name: "Joe", last_name: "Diaz", department: "Design", email: "joe@loomiui.dev" },
+    { first_name: "Nia", last_name: "Cole", department: "Marketing", email: "nia@loomiui.dev" },
+  ];
+</script>
 ```
 
-The search box filters across every visible column's stringified value, client-side.
+The search box filters across every visible column's stringified value, client-side —
+typing "design" above narrows the six rows down to Sara and Joe.
 
 ## Sortable
 
@@ -126,6 +176,19 @@ The search box filters across every visible column's stringified value, client-s
 
 <!-- restrict which columns can be sorted -->
 <loomi-table id="t6" sortable sortable-columns="first_name,department"></loomi-table>
+
+<script type="module">
+  const staff = [
+    { first_name: "Zane", last_name: "Hart", department: "Engineering", email: "zane@loomiui.dev" },
+    { first_name: "Ada", last_name: "Quint", department: "Engineering", email: "ada@loomiui.dev" },
+    { first_name: "Rita", last_name: "Boon", department: "Marketing", email: "rita@loomiui.dev" },
+    { first_name: "Joe", last_name: "Diaz", department: "Design", email: "joe@loomiui.dev" },
+    { first_name: "Nia", last_name: "Cole", department: "Marketing", email: "nia@loomiui.dev" },
+    { first_name: "Sara", last_name: "Field", department: "Design", email: "sara@loomiui.dev" },
+  ];
+  document.getElementById("t5").data = staff;
+  document.getElementById("t6").data = staff;
+</script>
 ```
 
 Click a sortable column heading to sort by it; click again to reverse direction.
@@ -139,7 +202,15 @@ listen for `selection-change`.
 <loomi-table id="t7" checkable></loomi-table>
 
 <script type="module">
-  document.getElementById("t7").addEventListener("selection-change", (e) => {
+  const t7 = document.getElementById("t7");
+  t7.data = [
+    { id: 1, first_name: "Ada", department: "Engineering", email: "ada@loomiui.dev" },
+    { id: 2, first_name: "Sara", department: "Design", email: "sara@loomiui.dev" },
+    { id: 3, first_name: "Zane", department: "Engineering", email: "zane@loomiui.dev" },
+    { id: 4, first_name: "Rita", department: "Marketing", email: "rita@loomiui.dev" },
+    { id: 5, first_name: "Joe", department: "Design", email: "joe@loomiui.dev" },
+  ];
+  t7.addEventListener("selection-change", (e) => {
     console.log(e.detail.ids); // every checked row's id
   });
 </script>
@@ -154,24 +225,63 @@ attributes listed below.
 
 ## Grouping Rows
 
-Group dynamic rows by any key in your data with `groupby`.
+Group dynamic rows by any key in your data with `groupby`. Rows that share a value are
+collected under a heading row for that value, in the order the groups first appear.
 
 ```html
 <loomi-table id="staff-by-team" groupby="department"></loomi-table>
+
+<script type="module">
+  document.getElementById("staff-by-team").data = [
+    { first_name: "Ada", last_name: "Quint", department: "Engineering", email: "ada@loomiui.dev" },
+    { first_name: "Zane", last_name: "Hart", department: "Engineering", email: "zane@loomiui.dev" },
+    { first_name: "Leo", last_name: "Mensah", department: "Engineering", email: "leo@loomiui.dev" },
+    { first_name: "Priya", last_name: "Nair", department: "Engineering", email: "priya@loomiui.dev" },
+    { first_name: "Sara", last_name: "Field", department: "Design", email: "sara@loomiui.dev" },
+    { first_name: "Joe", last_name: "Diaz", department: "Design", email: "joe@loomiui.dev" },
+    { first_name: "Rita", last_name: "Boon", department: "Marketing", email: "rita@loomiui.dev" },
+    { first_name: "Nia", last_name: "Cole", department: "Marketing", email: "nia@loomiui.dev" },
+    { first_name: "Wren", last_name: "Ortiz", department: "Finance", email: "wren@loomiui.dev" },
+    { first_name: "Tom", last_name: "Brandt", department: "Finance", email: "tom@loomiui.dev" },
+  ];
+</script>
 ```
+
+This renders four group headings — Engineering, Design, Marketing, Finance — each
+followed by its rows.
 
 ## Pagination
 
 ```html
-<loomi-table id="t8" paginated page-size="25"></loomi-table>
+<loomi-table id="t8" paginated page-size="5"></loomi-table>
 
 <!-- show page numbers instead of prev/next arrows -->
-<loomi-table id="t9" paginated page-size="10" pagination-style="numbers"></loomi-table>
+<loomi-table id="t9" paginated page-size="5" pagination-style="numbers"></loomi-table>
 
 <!-- leading row-number column -->
-<loomi-table id="t10" paginated page-size="10" show-row-numbers></loomi-table>
+<loomi-table id="t10" paginated page-size="5" show-row-numbers></loomi-table>
+
+<script type="module">
+  const staff = [
+    { id: 1, first_name: "Ada", department: "Engineering", email: "ada@loomiui.dev" },
+    { id: 2, first_name: "Sara", department: "Design", email: "sara@loomiui.dev" },
+    { id: 3, first_name: "Zane", department: "Engineering", email: "zane@loomiui.dev" },
+    { id: 4, first_name: "Rita", department: "Marketing", email: "rita@loomiui.dev" },
+    { id: 5, first_name: "Joe", department: "Design", email: "joe@loomiui.dev" },
+    { id: 6, first_name: "Nia", department: "Marketing", email: "nia@loomiui.dev" },
+    { id: 7, first_name: "Leo", department: "Engineering", email: "leo@loomiui.dev" },
+    { id: 8, first_name: "Wren", department: "Finance", email: "wren@loomiui.dev" },
+    { id: 9, first_name: "Priya", department: "Engineering", email: "priya@loomiui.dev" },
+    { id: 10, first_name: "Tom", department: "Finance", email: "tom@loomiui.dev" },
+    { id: 11, first_name: "Maya", department: "Support", email: "maya@loomiui.dev" },
+    { id: 12, first_name: "Owen", department: "Support", email: "owen@loomiui.dev" },
+  ];
+  for (const id of ["t8", "t9", "t10"]) document.getElementById(id).data = staff;
+</script>
 ```
 
+With `page-size="5"` and twelve rows, each table above paginates across three pages —
+enough to see the arrow, numbers, and row-number variants actually flip between pages.
 Pagination styles: `arrows` (default), `numbers`, `dropdown` — same options as
 [`<loomi-pagination>`](../pagination), since that's exactly what renders underneath.
 You can also use Bladewind-compatible `default_page`, `limit`, `show_total`,
@@ -208,6 +318,8 @@ the default slot:
   <th slot="header">Item</th>
   <th slot="header">Quantity</th>
   <tr><td>Office furniture</td><td>2</td></tr>
+  <tr><td>Standing desks</td><td>6</td></tr>
+  <tr><td>Monitor arms</td><td>10</td></tr>
 </loomi-table>
 ```
 
@@ -222,6 +334,18 @@ pagination still works from the `data` array.
     <tr><td>{id}</td><td><strong>{name}</strong><br>{email}</td></tr>
   </template>
 </loomi-table>
+
+<script type="module">
+  document.getElementById("custom-users").data = [
+    { id: 1, name: "Ada Quint", email: "ada@loomiui.dev" },
+    { id: 2, name: "Sara Field", email: "sara@loomiui.dev" },
+    { id: 3, name: "Zane Hart", email: "zane@loomiui.dev" },
+    { id: 4, name: "Rita Boon", email: "rita@loomiui.dev" },
+    { id: 5, name: "Joe Diaz", email: "joe@loomiui.dev" },
+    { id: 6, name: "Nia Cole", email: "nia@loomiui.dev" },
+    { id: 7, name: "Leo Mensah", email: "leo@loomiui.dev" },
+  ];
+</script>
 ```
 
 ## Putting It Together
@@ -237,7 +361,11 @@ same table:
   t.data = [
     { id: 1, first_name: "Ada", department: "Engineering" },
     { id: 2, first_name: "Sara", department: "Design" },
-    // …
+    { id: 3, first_name: "Zane", department: "Engineering" },
+    { id: 4, first_name: "Rita", department: "Marketing" },
+    { id: 5, first_name: "Joe", department: "Design" },
+    { id: 6, first_name: "Nia", department: "Marketing" },
+    { id: 7, first_name: "Leo", department: "Engineering" },
   ];
   t.excludeColumns = "id";
   t.actionIcons = [{ icon: "trash", name: "delete", color: "error", tip: "Delete" }];
@@ -320,7 +448,18 @@ same table:
 
 <script type="module">
   const t = document.getElementById("staff-table");
-  t.data = staffData;
+  t.data = [
+    { id: 1, first_name: "Ada", last_name: "Quint", department: "Engineering", email: "ada@loomiui.dev" },
+    { id: 2, first_name: "Sara", last_name: "Field", department: "Design", email: "sara@loomiui.dev" },
+    { id: 3, first_name: "Zane", last_name: "Hart", department: "Engineering", email: "zane@loomiui.dev" },
+    { id: 4, first_name: "Rita", last_name: "Boon", department: "Marketing", email: "rita@loomiui.dev" },
+    { id: 5, first_name: "Joe", last_name: "Diaz", department: "Design", email: "joe@loomiui.dev" },
+    { id: 6, first_name: "Nia", last_name: "Cole", department: "Marketing", email: "nia@loomiui.dev" },
+    { id: 7, first_name: "Leo", last_name: "Mensah", department: "Engineering", email: "leo@loomiui.dev" },
+    { id: 8, first_name: "Wren", last_name: "Ortiz", department: "Finance", email: "wren@loomiui.dev" },
+    { id: 9, first_name: "Priya", last_name: "Nair", department: "Engineering", email: "priya@loomiui.dev" },
+    { id: 10, first_name: "Tom", last_name: "Brandt", department: "Finance", email: "tom@loomiui.dev" },
+  ];
   t.excludeColumns = "id";
   t.columnAliases = { first_name: "First Name", last_name: "Last Name" };
   t.actionIcons = [

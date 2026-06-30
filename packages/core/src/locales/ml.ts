@@ -34,7 +34,10 @@ export const ml: LoomiTranslations = {
   sortable: { dropHere: "ഇവിടെ ഇടുക" },
   themeSwitcher: { light: "ലൈറ്റ്", dark: "ഡാർക്ക്", system: "സിസ്റ്റം", theme: "തീം", selectedTheme: "തീം: :theme" },
   timepicker: { placeholder: "HH:MM", hour: "മണിക്കൂർ", minute: "മിനിറ്റ്", ampm: "AM/PM" },
+  timezonepicker: { placeholder: "ഒരു സമയ മേഖല തിരഞ്ഞെടുക്കുക", emptyPlaceholder: "സമയ മേഖലകളൊന്നും കണ്ടെത്തിയില്ല", searchPlaceholder: "സമയ മേഖലകൾ തിരയുക...", detectLabel: "എന്റെ സമയ മേഖല ഉപയോഗിക്കുക" },
+  creditcard: { cardholderLabel: "കാർഡ് ഉടമ", expiresLabel: "കാലഹരണ തീയതി", namePlaceholder: "മുഴുവൻ പേര്", numberLabel: "കാർഡ് നമ്പർ", cvcLabel: "സുരക്ഷാ കോഡ്", flipToBack: "സുരക്ഷാ കോഡ് കാണിക്കുക", flipToFront: "കാർഡിലേക്ക് മടങ്ങുക" },
   rating: { label: "റേറ്റിംഗ്", valueLabel: "റേറ്റിംഗ് :value / :max" },
+  mention: { emptyPlaceholder: "പൊരുത്തങ്ങളൊന്നുമില്ല" },
 };
 
 export default ml;

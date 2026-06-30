@@ -46,6 +46,7 @@ export * from "@loomidev/horizontal-line-graph";
 export * from "@loomidev/chart";
 export * from "@loomidev/filepicker";
 export * from "@loomidev/countries";
+export * from "@loomidev/creditcard";
 
 export { registerLoomiIcon, getLoomiIcon, loomiIconNames } from "@loomidev/icons";
 

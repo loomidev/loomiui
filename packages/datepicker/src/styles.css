@@ -56,6 +56,9 @@
   color: var(--loomi-text-faint);
 }
 
+.loomi-dp-inline {
+  display: inline-block;
+}
 .loomi-cal {
   position: absolute;
   z-index: 70;
@@ -69,6 +72,10 @@
     0 4px 6px -4px rgba(0, 0, 0, 0.1);
   padding: 0.85rem;
   width: 17rem;
+}
+.loomi-cal.inline {
+  position: static;
+  box-shadow: none;
 }
 .loomi-head {
   display: flex;

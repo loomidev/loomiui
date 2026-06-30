@@ -34,7 +34,10 @@ export const ar: LoomiTranslations = {
   sortable: { dropHere: "أفلت هنا" },
   themeSwitcher: { light: "فاتح", dark: "داكن", system: "النظام", theme: "السمة", selectedTheme: "السمة: :theme" },
   timepicker: { placeholder: "س س:د د", hour: "الساعة", minute: "الدقيقة", ampm: "ص/م" },
+  timezonepicker: { placeholder: "اختر منطقة زمنية", emptyPlaceholder: "لم يتم العثور على مناطق زمنية", searchPlaceholder: "بحث عن المناطق الزمنية...", detectLabel: "استخدام منطقتي الزمنية" },
+  creditcard: { cardholderLabel: "حامل البطاقة", expiresLabel: "تاريخ الانتهاء", namePlaceholder: "الاسم الكامل", numberLabel: "رقم البطاقة", cvcLabel: "رمز الأمان", flipToBack: "إظهار رمز الأمان", flipToFront: "العودة إلى البطاقة" },
   rating: { label: "التقييم", valueLabel: "التقييم :value من :max" },
+  mention: { emptyPlaceholder: "لا توجد تطابقات" },
 };
 
 export default ar;

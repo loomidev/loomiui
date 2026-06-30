@@ -34,7 +34,10 @@ export const tr: LoomiTranslations = {
   sortable: { dropHere: "Buraya bırak" },
   themeSwitcher: { light: "Açık", dark: "Koyu", system: "Sistem", theme: "Tema", selectedTheme: "Tema: :theme" },
   timepicker: { placeholder: "SS:DD", hour: "Saat", minute: "Dakika", ampm: "ÖÖ/ÖS" },
+  timezonepicker: { placeholder: "Bir saat dilimi seçin", emptyPlaceholder: "Saat dilimi bulunamadı", searchPlaceholder: "Saat dilimi ara...", detectLabel: "Saat dilimimi kullan" },
+  creditcard: { cardholderLabel: "Kart Sahibi", expiresLabel: "Son Kullanma", namePlaceholder: "Ad Soyad", numberLabel: "Kart numarası", cvcLabel: "Güvenlik kodu", flipToBack: "Güvenlik kodunu göster", flipToFront: "Karta geri dön" },
   rating: { label: "Puan", valueLabel: ":max üzerinden :value puan" },
+  mention: { emptyPlaceholder: "Eşleşme yok" },
 };
 
 export default tr;

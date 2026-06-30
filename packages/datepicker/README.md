@@ -26,6 +26,16 @@ the width.
 </div>
 ```
 
+## Inline Calendar
+
+By default the calendar is a popup triggered by clicking the field (`dp-style="popup"`).
+Set `dp-style="inline"` to render the calendar directly in the page — always visible,
+with no triggering input.
+
+```html
+<loomi-datepicker dp-style="inline"></loomi-datepicker>
+```
+
 ## Range Calendar
 
 Set `range` to select a start and end date. The field shows both dates separated by a
@@ -141,6 +151,7 @@ document.querySelector("loomi-datepicker").addEventListener("change", (e) => {
 | Attribute | Default | Description |
 | --- | --- | --- |
 | `name` | _(blank)_ | Submitted with the form. |
+| `dp-style` | `popup` | `popup` (input + panel) \| `inline` (calendar always visible, no triggering input). |
 | `range` | `false` | Select a start/end range. _(boolean)_ |
 | `selected-value` | _(blank)_ | Default ISO date, or `"start - end"` for range. |
 | `min-date` / `max-date` | _(blank)_ | ISO bounds; out-of-range days are disabled. |

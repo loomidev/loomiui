@@ -64,4 +64,23 @@ describe("loomi-datepicker", () => {
     expect(el.shadowRoot!.querySelector(".loomi-head")!.textContent).to.include("September");
     expect(el.shadowRoot!.querySelector(".loomi-head")!.textContent).to.include("2024");
   });
+
+  it("renders the calendar inline without a triggering field when dp-style is inline", async () => {
+    const el = await fixture<LoomiDatepicker>(html`<loomi-datepicker dp-style="inline" selected-value="2026-06-22"></loomi-datepicker>`);
+
+    expect(el.shadowRoot!.querySelector(".loomi-field")).to.not.exist;
+    expect(el.shadowRoot!.querySelector(".loomi-cal.inline")).to.exist;
+    expect(el.shadowRoot!.querySelector(".loomi-grid")).to.exist;
+
+    const selectedDay = el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-day.selected")!;
+    expect(selectedDay.textContent?.trim()).to.equal("22");
+
+    const day23 = Array.from(el.shadowRoot!.querySelectorAll<HTMLButtonElement>(".loomi-day"))
+      .find((button) => button.textContent?.trim() === "23")!;
+    day23.click();
+    await el.updateComplete;
+
+    expect(el.value).to.equal("2026-06-23");
+    expect(el.shadowRoot!.querySelector(".loomi-cal.inline")).to.exist;
+  });
 });

@@ -19,6 +19,7 @@
       import "../packages/datepicker/dist/loomi-datepicker.js";
       import "../packages/timepicker/dist/loomi-timepicker.js";
       import "../packages/colorpicker/dist/loomi-colorpicker.js";
+      import "../packages/timezonepicker/dist/loomi-timezonepicker.js";
       const out = (id, ev) => customElements.whenDefined(ev.tag).then(() => {
         document.querySelector(ev.sel).addEventListener("change", (e) =>
           document.getElementById(id).textContent = JSON.stringify(e.detail));
@@ -55,5 +56,13 @@
       <loomi-colorpicker show-value colors="#ef4444,#f97316,#eab308,#22c55e,#06b6d4,#3b82f6,#8b5cf6,#ec4899" selected-value="#3b82f6"></loomi-colorpicker>
       <loomi-colorpicker size="big"></loomi-colorpicker>
     </div>
+
+    <h2>Timezonepicker</h2>
+    <div class="row">
+      <div class="col"><loomi-timezonepicker id="tz1" label="Timezone"></loomi-timezonepicker></div>
+      <div class="col"><loomi-timezonepicker id="tz2" label="With default" selection="Africa/Accra"></loomi-timezonepicker></div>
+      <div class="col"><loomi-timezonepicker id="tz3" label="Required" required size="big"></loomi-timezonepicker></div>
+    </div>
+    <p class="mut" id="tz-out"></p>
   </body>
 </html>

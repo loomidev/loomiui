@@ -1,1 +1,1 @@
-export { LoomiTextarea } from "./loomi-textarea.js";
+export { LoomiTextarea, type LoomiMentionItem } from "./loomi-textarea.js";

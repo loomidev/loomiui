@@ -15,3 +15,4 @@ export * from "@loomidev/timepicker";
 export * from "@loomidev/colorpicker";
 export * from "@loomidev/filepicker";
 export * from "@loomidev/countries";
+export * from "@loomidev/creditcard";

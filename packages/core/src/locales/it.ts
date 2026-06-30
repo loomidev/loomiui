@@ -34,7 +34,10 @@ export const it: LoomiTranslations = {
   sortable: { dropHere: "Rilascia qui" },
   themeSwitcher: { light: "Chiaro", dark: "Scuro", system: "Sistema", theme: "Tema", selectedTheme: "Tema: :theme" },
   timepicker: { placeholder: "HH:MM", hour: "Ora", minute: "Minuto", ampm: "AM/PM" },
+  timezonepicker: { placeholder: "Seleziona un fuso orario", emptyPlaceholder: "Nessun fuso orario trovato", searchPlaceholder: "Cerca fusi orari...", detectLabel: "Usa il mio fuso orario" },
+  creditcard: { cardholderLabel: "Titolare della carta", expiresLabel: "Scadenza", namePlaceholder: "Nome completo", numberLabel: "Numero della carta", cvcLabel: "Codice di sicurezza", flipToBack: "Mostra codice di sicurezza", flipToFront: "Torna alla carta" },
   rating: { label: "Valutazione", valueLabel: "Valutazione :value di :max" },
+  mention: { emptyPlaceholder: "Nessuna corrispondenza" },
 };
 
 export default it;

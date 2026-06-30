@@ -1,0 +1,309 @@
+/* Component-scoped plain CSS for <loomi-creditcard>. */
+:host {
+  display: block;
+  width: 100%;
+  max-width: 22rem;
+  margin-bottom: 1rem;
+  --loomi-cc-radius: 1rem;
+}
+:host([no-clearing]) {
+  margin-bottom: 0;
+}
+:host([hidden]) {
+  display: none;
+}
+:host([disabled]) .loomi-cc-face {
+  opacity: 0.7;
+}
+
+.loomi-creditcard {
+  position: relative;
+  width: 100%;
+}
+
+.loomi-cc-scene {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.5858;
+  perspective: 1200px;
+}
+
+.loomi-cc-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+.loomi-cc-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.loomi-cc-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--loomi-cc-radius);
+  backface-visibility: hidden;
+  color: var(--loomi-white);
+  background: linear-gradient(
+    135deg,
+    var(--_loomi-accent-strong) 0%,
+    var(--_loomi-accent) 45%,
+    color-mix(in oklab, var(--_loomi-accent-strong) 65%, black) 100%
+  );
+  box-shadow:
+    0 20px 35px -10px rgba(0, 0, 0, 0.35),
+    0 8px 12px -6px rgba(0, 0, 0, 0.25);
+}
+
+.loomi-cc-front {
+  justify-content: space-between;
+  padding: 1.1rem 1.25rem;
+}
+.loomi-cc-back {
+  padding: 1.35rem 0 1.25rem;
+  transform: rotateY(180deg);
+}
+
+/* ---- front: chip + contactless ---- */
+.loomi-cc-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.loomi-cc-chip {
+  position: relative;
+  width: 2.5rem;
+  height: 1.85rem;
+  border-radius: 0.3rem;
+  background: linear-gradient(135deg, #f4e7c1 0%, #d8c178 45%, #f4e7c1 100%);
+}
+.loomi-cc-chip::before,
+.loomi-cc-chip::after {
+  content: "";
+  position: absolute;
+  left: 0.3rem;
+  right: 0.3rem;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.25);
+}
+.loomi-cc-chip::before {
+  top: 0.6rem;
+}
+.loomi-cc-chip::after {
+  top: 1.15rem;
+}
+.loomi-cc-contactless {
+  width: 1.65rem;
+  height: 1.65rem;
+  opacity: 0.9;
+}
+
+/* ---- front: number ---- */
+.loomi-cc-number {
+  appearance: none;
+  width: 100%;
+  margin: 0.4rem 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  outline: none;
+  color: var(--loomi-white);
+  font-family: ui-monospace, "Courier New", monospace;
+  font-size: clamp(1rem, 5.2vw, 1.35rem);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+}
+.loomi-cc-number::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+.loomi-cc-number:disabled {
+  cursor: not-allowed;
+}
+
+/* ---- front: name + expiry ---- */
+.loomi-cc-bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.loomi-cc-field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.2rem;
+  cursor: text;
+}
+.loomi-cc-name-field {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.loomi-cc-expiry-field {
+  flex: none;
+}
+.loomi-cc-field-label {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.loomi-cc-name,
+.loomi-cc-expiry {
+  appearance: none;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  outline: none;
+  color: var(--loomi-white);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.loomi-cc-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.loomi-cc-expiry {
+  width: 3.4rem;
+  font-family: ui-monospace, monospace;
+}
+.loomi-cc-expiry.expired {
+  color: var(--loomi-error-300, #fca5a5);
+}
+.loomi-cc-name::placeholder,
+.loomi-cc-expiry::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: none;
+}
+
+/* ---- network logo (both faces) ---- */
+.loomi-cc-brand {
+  position: absolute;
+  right: 1.1rem;
+  bottom: 1rem;
+  display: block;
+  width: 2.6rem;
+  height: auto;
+  line-height: 0;
+  padding: 0.15rem 0.25rem;
+  border-radius: 0.25rem;
+  background: rgba(255, 255, 255, 0.92);
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+}
+.loomi-cc-brand.back-brand {
+  bottom: 0.9rem;
+}
+
+/* ---- back: magnetic stripe + signature/cvc strip ---- */
+.loomi-cc-stripe {
+  margin-top: 0.5rem;
+  width: 100%;
+  height: 2.5rem;
+  background: #1c1c1c;
+}
+.loomi-cc-signature-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin: 1.1rem 1.25rem 0;
+}
+.loomi-cc-signature {
+  flex: 1 1 auto;
+  height: 2.1rem;
+  border-radius: 0.2rem;
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.85) 0 6px,
+    rgba(255, 255, 255, 0.7) 6px 12px
+  );
+}
+.loomi-cc-cvc-box {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 3.6rem;
+  height: 2.1rem;
+  border-radius: 0.2rem;
+  background: var(--loomi-white);
+}
+.loomi-cc-cvc {
+  appearance: none;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  outline: none;
+  color: #1c1c1c;
+  font-family: ui-monospace, monospace;
+  font-size: 0.95rem;
+  letter-spacing: 0.2em;
+  text-align: center;
+}
+.loomi-cc-cvc::placeholder {
+  color: var(--loomi-gray-400, #9ca3af);
+}
+
+/* ---- flip button ---- */
+.loomi-cc-flip-btn {
+  position: absolute;
+  top: 50%;
+  right: -0.85rem;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border: 2px solid var(--loomi-surface, var(--loomi-white));
+  border-radius: 999px;
+  background: var(--_loomi-accent);
+  color: var(--loomi-white);
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.loomi-cc-flip-btn svg {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+.loomi-cc-flip-btn:hover {
+  background: var(--_loomi-accent-strong);
+}
+.loomi-cc-flip-btn:focus-visible {
+  outline: 2px solid var(--_loomi-accent);
+  outline-offset: 2px;
+}
+.loomi-cc-flip-btn:active {
+  transform: translateY(-50%) scale(0.92);
+}
+.loomi-cc-flip-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+:host([invalid]) .loomi-cc-face {
+  box-shadow:
+    0 0 0 2px var(--loomi-error-400),
+    0 20px 35px -10px rgba(0, 0, 0, 0.35);
+}
+
+.loomi-error {
+  margin: 0.5rem 0 0;
+  color: var(--loomi-error-600);
+  font-size: 0.8rem;
+}
+
+@media (max-width: 360px) {
+  .loomi-cc-flip-btn {
+    right: -0.6rem;
+    width: 1.9rem;
+    height: 1.9rem;
+  }
+}

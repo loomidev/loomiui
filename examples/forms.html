@@ -26,6 +26,7 @@
       import "../packages/number/dist/loomi-number.js";
       import "../packages/select/dist/loomi-select.js";
       import "../packages/countries/dist/loomi-countries.js";
+      import "../packages/creditcard/dist/loomi-creditcard.js";
     </script>
     <style>
       body {
@@ -63,6 +64,15 @@
     <h2>Textarea</h2>
     <loomi-textarea label="Describe yourself" rows="3"></loomi-textarea>
 
+    <h2>Textarea · mention picker</h2>
+    <loomi-textarea
+      id="mention-demo"
+      label="Write a comment — try @, # or /"
+      rows="4"
+      mention-triggers='["@", "#", "/"]'
+    ></loomi-textarea>
+    <pre id="mention-out" style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:1rem;font-size:0.8rem;"></pre>
+
     <h2>Text Editor</h2>
     <loomi-text-editor label="Notes (rich text)" rows="4" value="<p>Hello <strong>world</strong></p>"></loomi-text-editor>
     <loomi-text-editor label="Disabled rich text" disabled value="<p>Locked content.</p>"></loomi-text-editor>
@@ -95,6 +105,21 @@
       <loomi-countries label="Disabled" disabled selection="ng"></loomi-countries>
       <loomi-countries label="Country" required></loomi-countries>
     </div>
+
+    <h2>Credit Card</h2>
+    <div class="row" style="align-items:flex-start">
+      <loomi-creditcard
+        id="cc-demo"
+        cardholder-name="Ama Osei"
+        number="4242424242424242"
+        expiry-month="07"
+        expiry-year="28"
+      ></loomi-creditcard>
+      <loomi-creditcard color="purple" cardholder-name="Kwame Boateng" number="378282246310005"></loomi-creditcard>
+      <loomi-creditcard color="success"></loomi-creditcard>
+      <loomi-creditcard disabled cardholder-name="Disabled Card" number="5555555555554444" expiry-month="12" expiry-year="25"></loomi-creditcard>
+    </div>
+    <pre id="cc-out" style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:1rem;font-size:0.8rem;max-width:22rem;"></pre>
 
     <h2>Number</h2>
     <div class="row">
@@ -145,6 +170,46 @@
       f.addEventListener("input", dump);
       f.addEventListener("change", dump);
       Promise.all([customElements.whenDefined("loomi-select"), customElements.whenDefined("loomi-countries")]).then(() => setTimeout(dump, 50));
+    </script>
+
+    <script type="module">
+      const ccDemo = document.getElementById("cc-demo");
+      const ccOut = document.getElementById("cc-out");
+      const dumpCc = () => { ccOut.textContent = JSON.stringify(ccDemo.value, null, 2); };
+      ccDemo.addEventListener("input", dumpCc);
+      ccDemo.addEventListener("change", dumpCc);
+      ccDemo.addEventListener("flip", (e) => console.log("flip:", e.detail));
+      customElements.whenDefined("loomi-creditcard").then(() => setTimeout(dumpCc, 50));
+    </script>
+
+    <script type="module">
+      const MENTION_DATA = {
+        "@": [
+          { label: "ama.osei", description: "Ama Osei" },
+          { label: "kwame.b", description: "Kwame Boateng" },
+          { label: "jane.doe", description: "Jane Doe" },
+        ],
+        "#": [
+          { label: "bug" },
+          { label: "design" },
+          { label: "feature-request" },
+        ],
+        "/": [
+          { label: "assign", description: "Assign to someone" },
+          { label: "close", description: "Close this thread" },
+          { label: "remind", description: "Set a reminder" },
+        ],
+      };
+
+      const demo = document.getElementById("mention-demo");
+      const mentionOut = document.getElementById("mention-out");
+      demo.mentionData = MENTION_DATA;
+      demo.addEventListener("mention-search", (e) => {
+        mentionOut.textContent = `mention-search: ${JSON.stringify(e.detail)}`;
+      });
+      demo.addEventListener("mention-select", (e) => {
+        mentionOut.textContent = `mention-select: ${JSON.stringify(e.detail)}`;
+      });
     </script>
   </body>
 </html>

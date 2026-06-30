@@ -210,6 +210,10 @@
     "./countries": {
       "types": "./dist/countries.d.ts",
       "import": "./dist/countries.js"
+    },
+    "./creditcard": {
+      "types": "./dist/creditcard.d.ts",
+      "import": "./dist/creditcard.js"
     }
   },
   "scripts": {
@@ -233,6 +237,7 @@
     "@loomidev/contact-card": "workspace:^",
     "@loomidev/core": "workspace:^",
     "@loomidev/countries": "workspace:^",
+    "@loomidev/creditcard": "workspace:^",
     "@loomidev/datepicker": "workspace:^",
     "@loomidev/drawer": "workspace:^",
     "@loomidev/dropmenu": "workspace:^",

@@ -97,9 +97,27 @@ export const en: LoomiTranslations = {
     minute: "Minute",
     ampm: "AM/PM",
   },
+  timezonepicker: {
+    placeholder: "Select a timezone",
+    emptyPlaceholder: "No timezones found",
+    searchPlaceholder: "Search timezones…",
+    detectLabel: "Use my timezone",
+  },
+  creditcard: {
+    cardholderLabel: "Card Holder",
+    expiresLabel: "Expires",
+    namePlaceholder: "Full Name",
+    numberLabel: "Card number",
+    cvcLabel: "Security code",
+    flipToBack: "Show security code",
+    flipToFront: "Back to card",
+  },
   rating: {
     label: "Rating",
     valueLabel: "Rating :value of :max",
+  },
+  mention: {
+    emptyPlaceholder: "No matches",
   },
 };
 

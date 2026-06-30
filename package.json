@@ -23,8 +23,10 @@
     "@changesets/cli": "^2.31.0",
     "@open-wc/testing": "^4.0.0",
     "@web/dev-server-esbuild": "^1.0.5",
+    "@web/dev-server-rollup": "^0.6.4",
     "@web/test-runner": "^0.20.2",
     "@web/test-runner-puppeteer": "^0.18.0",
+    "esbuild": "^0.28.1",
     "typescript": "^5.6.3"
   }
 }

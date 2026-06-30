@@ -21,9 +21,21 @@
     },
     {
       "name": "loomi-forms-preview",
-      "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["--package=@web/dev-server", "dlx", "wds", "--root-dir", ".", "--node-resolve", "--port", "8733"],
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "./node_modules/.pnpm/@web+dev-server@0.4.6/node_modules/@web/dev-server/dist/bin.js",
+        "--root-dir", ".", "--config", "web-dev-server.config.mjs", "--port", "8733"
+      ],
       "port": 8733
+    },
+    {
+      "name": "loomi-forms-preview-cc",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "./node_modules/.pnpm/@web+dev-server@0.4.6/node_modules/@web/dev-server/dist/bin.js",
+        "--root-dir", ".", "--config", "web-dev-server.config.mjs", "--port", "8739"
+      ],
+      "port": 8739
     }
   ]
 }

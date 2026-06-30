@@ -506,7 +506,7 @@ export class LoomiTable extends LoomiElement {
           <thead>
             <tr>
               ${this.checkable && hasData
-                ? html`<th class="loomi-check-col"><loomi-checkbox .checked=${this.allChecked} @change=${(e: Event) => this.toggleAll((e.target as HTMLInputElement & { checked: boolean }).checked)}></loomi-checkbox></th>`
+                ? html`<th class="loomi-check-col"><loomi-checkbox no-clearing .checked=${this.allChecked} @change=${(e: Event) => this.toggleAll((e.target as HTMLInputElement & { checked: boolean }).checked)}></loomi-checkbox></th>`
                 : nothing}
               ${(this.showRowNumbersAlias ?? this.showRowNumbers) && hasData ? html`<th class="loomi-num-col ${this.uppercasing ? "uppercasing" : ""}">#</th>` : nothing}
               ${hasTemplateHeader

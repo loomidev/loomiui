@@ -1,6 +1,7 @@
 import { LitElement, type CSSResultGroup, type PropertyValues } from "lit";
 import { themeStyles, type LoomiColor } from "@loomidev/theme";
 export * from "./i18n.js";
+export * from "./mention.js";
 
 // Re-export the shared theme surface so components import everything from @loomidev/core.
 export {
