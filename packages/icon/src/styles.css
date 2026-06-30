@@ -19,3 +19,20 @@ img,
 img {
   object-fit: contain;
 }
+
+.loomi-icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--loomi-icon-size, 1.5rem) * 0.4);
+}
+/* light (default): soft primary tint behind a darker primary icon */
+.loomi-icon-badge.light {
+  background: var(--_loomi-accent-soft);
+  color: var(--_loomi-accent-fg);
+}
+/* dark: solid primary fill behind a white icon */
+.loomi-icon-badge.dark {
+  background: var(--_loomi-accent);
+  color: var(--loomi-white);
+}

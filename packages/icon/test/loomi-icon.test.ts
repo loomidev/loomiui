@@ -99,4 +99,60 @@ describe("loomi-icon", () => {
 
     expect(svg.querySelector("path")).to.exist;
   });
+
+  it("renders unbranded by default (no badge wrapper)", async () => {
+    const el = await fixture<LoomiIcon>(html`<loomi-icon name="bell-alert"></loomi-icon>`);
+
+    expect(el.shadowRoot!.querySelector(".loomi-icon-badge")).to.not.exist;
+    expect(el.shadowRoot!.querySelector("svg")).to.exist;
+  });
+
+  it("wraps the icon in a light badge by default when branded", async () => {
+    const el = await fixture<LoomiIcon>(html`<loomi-icon name="bell-alert" branded></loomi-icon>`);
+    const badge = el.shadowRoot!.querySelector(".loomi-icon-badge")!;
+
+    expect(badge).to.exist;
+    expect(badge.classList.contains("light")).to.equal(true);
+    expect(badge.classList.contains("rounded-lg")).to.equal(true); // default radius="medium"
+    expect(badge.getAttribute("style")).to.include("--_loomi-accent-soft");
+    expect(badge.querySelector("svg")).to.exist;
+  });
+
+  it("switches the badge to a dark fill when shade is dark", async () => {
+    const el = await fixture<LoomiIcon>(
+      html`<loomi-icon name="bell-alert" branded shade="dark"></loomi-icon>`,
+    );
+    const badge = el.shadowRoot!.querySelector(".loomi-icon-badge")!;
+
+    expect(badge.classList.contains("dark")).to.equal(true);
+    expect(badge.classList.contains("light")).to.equal(false);
+  });
+
+  it("maps radius to the matching Tailwind rounding class", async () => {
+    const cases: Array<[string, string]> = [
+      ["none", "rounded-none"],
+      ["small", "rounded"],
+      ["medium", "rounded-lg"],
+      ["full", "rounded-full"],
+    ];
+    for (const [radius, expectedClass] of cases) {
+      const el = await fixture<LoomiIcon>(
+        html`<loomi-icon name="bell-alert" branded radius=${radius}></loomi-icon>`,
+      );
+      const badge = el.shadowRoot!.querySelector(".loomi-icon-badge")!;
+      expect(badge.classList.contains(expectedClass), `radius="${radius}" -> ${expectedClass}`).to.equal(true);
+    }
+  });
+
+  it("applies branded badging to disk-based icon sources too", async () => {
+    const el = await fixture<LoomiIcon>(
+      html`<loomi-icon source="iconsax" name="add" branded shade="dark"></loomi-icon>`,
+    );
+    await diskIconReady(el);
+    const badge = el.shadowRoot!.querySelector(".loomi-icon-badge")!;
+
+    expect(badge).to.exist;
+    expect(badge.classList.contains("dark")).to.equal(true);
+    expect(badge.querySelector("svg path")).to.exist;
+  });
 });

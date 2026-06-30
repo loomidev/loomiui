@@ -108,6 +108,31 @@ icon itself, or on a parent, like any other inline element.
 </span>
 ```
 
+This doesn't apply to `branded` badges (below) — those always use the theme's `primary`
+color, not the inherited/inline `color`.
+
+## Branded Badges
+
+Set `branded` to sit the icon on a rounded, primary-colored background instead of
+rendering it bare — a common "featured icon" treatment for empty states, onboarding
+steps, or notification list items.
+
+```html
+<loomi-icon source="iconsax" name="gift" variant="solid" branded shade="dark"></loomi-icon>
+<loomi-icon source="untitledui" name="file-02" branded shade="light"></loomi-icon>
+```
+
+| Attribute | Default | Description |
+| --- | --- | --- |
+| `branded` | `false` | Renders the icon on a background badge instead of bare. |
+| `shade` | `light` | `light` (soft primary tint behind a darker primary icon) \| `dark` (solid primary fill behind a white icon). Only applies when `branded`. |
+| `radius` | `medium` | Badge corner rounding: `none` \| `small` \| `medium` \| `full`. Only applies when `branded`. |
+
+The badge always uses the theme's `primary` color (the same `--loomi-primary-*` slots
+every other component reads), so a single `:root { --loomi-primary-600: ...; }` override
+re-skins every branded icon on the page along with everything else. Padding and the icon
+itself both scale with `size`/`--loomi-icon-size`, so a bigger badge stays proportional.
+
 ## Accessible Labels
 
 By default an icon is purely decorative (`aria-hidden="true"`) — appropriate when it
@@ -162,6 +187,9 @@ registerLoomiIcon("rocket", svg`<path d="…" />`);
 | `size` | _(blank)_ | CSS size, e.g. `1.5rem`, `32px`. Sets `--loomi-icon-size`. |
 | `stroke-width` | `1.5` | Stroke width. Heroicons `outline` only — `iconsax` and `untitledui` ship a fixed weight per icon. |
 | `label` | _(blank)_ | Accessible label; when omitted the icon is `aria-hidden`. |
+| `branded` | `false` | Renders the icon on a primary-colored background badge (see [Branded Badges](#branded-badges)). |
+| `shade` | `light` | Badge background: `light` \| `dark`. Only applies when `branded`. |
+| `radius` | `medium` | Badge corner radius: `none` \| `small` \| `medium` \| `full`. Only applies when `branded`. |
 
 **Slot:** default (custom `<svg>`, used when no registered icon matches `name`/`source`).
 
