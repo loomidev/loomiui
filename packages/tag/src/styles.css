@@ -5,6 +5,9 @@
 :host([hidden]) {
   display: none;
 }
+:host([selectable]) {
+  cursor: pointer;
+}
 
 .loomi-tag {
   display: inline-flex;
@@ -16,9 +19,10 @@
   line-height: 1.2;
   border-radius: 0.375rem;
   border: 1px solid transparent;
+  user-select: none;
 }
 .loomi-tag.tiny {
-  padding: 0.05rem 0.4rem;
+  padding: 0.15rem 0.4rem;
   font-size: 0.65rem;
 }
 .loomi-tag.rounded {
@@ -48,9 +52,31 @@
 .loomi-tag.outline.faint {
   border-color: var(--_loomi-accent-ring);
 }
+.loomi-tag.outline.dark {
+  border-color: var(--_loomi-accent-strong);
+  color: var(--_loomi-accent-strong);
+}
+
+/* selected state (set by loomi-tags) */
+.loomi-tag.selected {
+  background: var(--_loomi-accent);
+  color: var(--loomi-white);
+  border-color: var(--_loomi-accent);
+}
+.loomi-tag.outline.selected {
+  background: var(--_loomi-accent-soft);
+  color: var(--_loomi-accent-strong);
+  border-color: var(--_loomi-accent);
+}
+
+/* hover for selectable tags */
+:host([selectable]) .loomi-tag:not(.selected):hover {
+  filter: brightness(0.94);
+}
 
 .loomi-close {
   display: inline-flex;
+  align-items: center;
   border: 0;
   background: transparent;
   color: currentColor;
@@ -58,6 +84,7 @@
   cursor: pointer;
   padding: 0;
   line-height: 0;
+  flex-shrink: 0;
 }
 .loomi-close:hover {
   opacity: 1;
@@ -67,9 +94,16 @@
   height: 0.85em;
 }
 
+/* icon sizing */
+loomi-icon.loomi-tag-icon {
+  --loomi-icon-size: 0.9em;
+  flex-shrink: 0;
+}
+
 /* group container */
 :host([data-group]) {
   display: inline-flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.5rem;
 }

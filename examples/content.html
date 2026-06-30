@@ -11,7 +11,8 @@
           "lit/": "https://esm.sh/lit@3.3.3/",
           "@loomidev/theme": "../packages/theme/dist/index.js",
           "@loomidev/icons": "../packages/icons/dist/index.js",
-          "@loomidev/core": "../packages/core/dist/index.js"
+          "@loomidev/core": "../packages/core/dist/index.js",
+          "@loomidev/icon/": "../packages/icon/dist/"
         }
       }
     </script>
@@ -56,15 +57,48 @@
       </loomi-avatars>
     </div>
 
-    <h2>Tags</h2>
+    <h2>Tags — Colors (faint / dark)</h2>
     <div class="row">
-      <loomi-tag label="pending"></loomi-tag>
-      <loomi-tag label="active" color="success"></loomi-tag>
-      <loomi-tag label="urgent" color="error" shade="dark"></loomi-tag>
-      <loomi-tag label="design" color="purple" outline rounded></loomi-tag>
-      <loomi-tag label="closable" color="cyan" can-close></loomi-tag>
-      <loomi-tag label="new" color="pink" tiny shade="dark"></loomi-tag>
+      <loomi-tag label="primary"></loomi-tag>
+      <loomi-tag label="primary" shade="dark"></loomi-tag>
+      <loomi-tag label="success" color="success"></loomi-tag>
+      <loomi-tag label="success" color="success" shade="dark"></loomi-tag>
+      <loomi-tag label="error" color="error"></loomi-tag>
+      <loomi-tag label="error" color="error" shade="dark"></loomi-tag>
+      <loomi-tag label="warning" color="warning"></loomi-tag>
+      <loomi-tag label="warning" color="warning" shade="dark"></loomi-tag>
+      <loomi-tag label="info" color="info"></loomi-tag>
+      <loomi-tag label="info" color="info" shade="dark"></loomi-tag>
+      <loomi-tag label="gray" color="gray"></loomi-tag>
+      <loomi-tag label="gray" color="gray" shade="dark"></loomi-tag>
     </div>
+
+    <h2>Tags — Variations</h2>
+    <div class="row">
+      <loomi-tag label="outline" color="primary" outline></loomi-tag>
+      <loomi-tag label="outline dark" color="primary" outline shade="dark"></loomi-tag>
+      <loomi-tag label="rounded" color="success" rounded></loomi-tag>
+      <loomi-tag label="closable" color="error" can-close></loomi-tag>
+      <loomi-tag label="prefix icon" color="warning" icon="bell-alert"></loomi-tag>
+      <loomi-tag label="suffix icon" color="info" icon="check-circle" icon-position="suffix"></loomi-tag>
+      <loomi-tag label="tiny" color="gray" tiny></loomi-tag>
+      <loomi-tag label="tiny dark" color="primary" tiny shade="dark"></loomi-tag>
+      <loomi-tag label="uppercase" color="success" uppercasing tiny></loomi-tag>
+    </div>
+
+    <h2>Tags — Full Example (selectable, max 3)</h2>
+    <loomi-tags name="stack" color="primary" max="3" id="demo-tags">
+      <loomi-tag label="laravel" value="laravel"></loomi-tag>
+      <loomi-tag label="javascript" value="js"></loomi-tag>
+      <loomi-tag label="node js" value="node"></loomi-tag>
+      <loomi-tag label="tailwind" value="tailwind"></loomi-tag>
+      <loomi-tag label="vue" value="vue"></loomi-tag>
+    </loomi-tags>
+    <script type="module">
+      document.getElementById("demo-tags")?.addEventListener("change", (e) => {
+        console.log("selected:", e.detail.values);
+      });
+    </script>
 
     <h2>Alerts</h2>
     <loomi-alert>Your subscription expires in 19 days. <a href="#">Renew now</a></loomi-alert>
