@@ -1,8 +1,8 @@
 # @loomidev/dropmenu
 
-`<loomi-dropmenu>` — a dropdown action menu. Different from [`<loomi-select>`](../select)
-in purpose: select submits a value with a form, dropmenu doesn't carry a value at all —
-it's for quick actions, like "Edit / Delete" on a row.
+`<loomi-dropmenu>` is for quick actions: profile menus, row actions, account menus,
+and small command lists. It is different from [`<loomi-select>`](../select): a select
+stores a value for a form, while a dropmenu simply shows actions the user can choose.
 
 ```bash
 npm install @loomidev/dropmenu lit
@@ -14,7 +14,8 @@ import "@loomidev/dropmenu";
 
 ## Basic Usage
 
-The default trigger is a horizontal-ellipsis icon.
+Import the package once, then place `<loomi-dropmenu-item>` elements inside the menu.
+The default trigger is a horizontal ellipsis.
 
 ```html
 <loomi-dropmenu>
@@ -26,7 +27,8 @@ The default trigger is a horizontal-ellipsis icon.
 
 ## Trigger Icon
 
-Swap the trigger for any icon from [`@loomidev/icons`](../icons).
+Swap the default ellipsis for any icon from [`@loomidev/icons`](../icons). You can
+write the icon name with or without the `-icon` suffix.
 
 ```html
 <loomi-dropmenu trigger="musical-note">
@@ -42,7 +44,8 @@ Swap the trigger for any icon from [`@loomidev/icons`](../icons).
 
 ## Trigger on Hover
 
-Opens on `click` by default; switch to `mouseover` for a hover-activated menu.
+Menus open on `click` by default. Use `trigger-on="mouseover"` when the surrounding UI
+already behaves like a hover menu.
 
 ```html
 <loomi-dropmenu trigger="musical-note" trigger-on="mouseover">
@@ -53,12 +56,13 @@ Opens on `click` by default; switch to `mouseover` for a hover-activated menu.
 
 ## Custom Trigger Markup
 
-Use the `trigger` slot to make a button, avatar, or any other element the trigger
-instead of an icon.
+Use the `trigger` slot when the trigger should look like text, an avatar row, or a
+custom control. The component wraps this slot in its own button, so keep the slotted
+markup non-interactive.
 
 ```html
 <loomi-dropmenu>
-  <loomi-button slot="trigger" type="secondary" size="tiny">Options</loomi-button>
+  <span slot="trigger" style="font-weight:600">Options</span>
   <loomi-dropmenu-item>Add to playlist</loomi-dropmenu-item>
   <loomi-dropmenu-item>Play again</loomi-dropmenu-item>
 </loomi-dropmenu>
@@ -79,8 +83,8 @@ instead of an icon.
 
 ## Item Actions
 
-Each `<loomi-dropmenu-item>` can contain any markup — a link, a button, or just text —
-and you're free to attach a regular `click` listener.
+Each `<loomi-dropmenu-item>` can be plain text, a link, or markup that you handle with
+a regular `click` listener.
 
 ```html
 <loomi-dropmenu trigger="light-bulb">
@@ -98,8 +102,8 @@ and you're free to attach a regular `click` listener.
 
 ### Headers
 
-A header is still a `<loomi-dropmenu-item>`, just without hover styling or a pointer
-cursor, and with a divider line separating it from the items below.
+Use `header` for a non-clickable section label. It keeps the same spacing as the rest
+of the menu but does not get pointer or hover behavior.
 
 ```html
 <loomi-dropmenu>
@@ -115,8 +119,8 @@ cursor, and with a divider line separating it from the items below.
 <loomi-dropmenu-item icon="pencil-square">Edit Profile</loomi-dropmenu-item>
 ```
 
-By default an item's icon sits on the left. Set `icon-right` on the menu (applies to
-every item) or on an individual item to flip it.
+By default an item's icon sits on the left. Set `icon-right` on the menu to flip every
+item, or set it on one item to flip just that row.
 
 ```html
 <loomi-dropmenu icon-right>
@@ -134,8 +138,7 @@ every item) or on an individual item to flip it.
 </loomi-dropmenu>
 ```
 
-Use `divided` on the menu itself for a thin line between every item instead, regardless
-of explicit divider items.
+Use `divided` on the menu itself when every row should have a thin separator.
 
 ```html
 <loomi-dropmenu divided>
@@ -144,11 +147,49 @@ of explicit divider items.
 </loomi-dropmenu>
 ```
 
+## Keyboard Shortcut Hints
+
+Use `shortcut` to show a keyboard shortcut or command hint on the right side of an
+item, like `⌘S` or `⌘K>P`.
+
+```html
+<loomi-dropmenu>
+  <loomi-dropmenu-item icon="user" shortcut="⌘K>P">View profile</loomi-dropmenu-item>
+  <loomi-dropmenu-item icon="cog-6-tooth" shortcut="⌘S">Settings</loomi-dropmenu-item>
+  <loomi-dropmenu-item icon="moon">Dark mode</loomi-dropmenu-item>
+</loomi-dropmenu>
+```
+
+The shortcut text is a visual hint. Wire the actual keyboard command in your app, then
+trigger the same action you use for the item click.
+
+## Multi-level Menus
+
+Add submenu items with `slot="submenu"` inside the parent item. The parent keeps the
+menu open and shows a chevron automatically.
+
+```html
+<loomi-dropmenu>
+  <loomi-dropmenu-item icon="user" shortcut="⌘K>P">View profile</loomi-dropmenu-item>
+  <loomi-dropmenu-item icon="cog-6-tooth" shortcut="⌘S">Settings</loomi-dropmenu-item>
+  <loomi-dropmenu-item icon="question-mark-circle">
+    Support
+    <loomi-dropmenu-item slot="submenu">Documentation</loomi-dropmenu-item>
+    <loomi-dropmenu-item slot="submenu">Contact support</loomi-dropmenu-item>
+    <loomi-dropmenu-item slot="submenu">System status</loomi-dropmenu-item>
+  </loomi-dropmenu-item>
+  <loomi-dropmenu-item icon="cube">
+    API
+    <loomi-dropmenu-item slot="submenu">API keys</loomi-dropmenu-item>
+    <loomi-dropmenu-item slot="submenu">Webhooks</loomi-dropmenu-item>
+  </loomi-dropmenu-item>
+</loomi-dropmenu>
+```
+
 ## Menu Position
 
-By default the menu chooses the side with the most visible space. This helps menus
-inside documentation shells, tables and sidebars avoid opening underneath nearby page
-chrome.
+By default the menu chooses the side with the most visible space. This helps menus in
+tables, sidebars, and documentation shells stay on screen.
 
 ```html
 <loomi-dropmenu position="auto">…</loomi-dropmenu>
@@ -158,8 +199,7 @@ chrome.
 
 ## Scrollable Menus
 
-For long item lists, cap the menu's height and let it scroll instead of growing
-indefinitely.
+For long lists, cap the menu's height and let the menu body scroll.
 
 ```html
 <loomi-dropmenu scrollable height="150">
@@ -171,8 +211,8 @@ indefinitely.
 
 ## Keeping the Menu Open After a Click
 
-By default clicking any item closes the menu. Set `hide-after-click="false"` to keep it
-open — useful when items are themselves toggles or checkboxes.
+By default, clicking an item closes the menu. Set `hide-after-click="false"` when the
+items contain controls such as toggles or checkboxes.
 
 ```html
 <loomi-dropmenu hide-after-click="false">
@@ -192,8 +232,8 @@ See [`<loomi-bell>`'s README](../bell#wrapping-it-in-a-trigger) for a worked exa
 
 | Attribute | Default | Description |
 | --- | --- | --- |
-| `trigger` | _(ellipsis)_ | Icon name (with `-icon` suffix) for the trigger. |
-| `trigger-on` | `click` | `click` \| `mouseover` |
+| `trigger` | _(ellipsis)_ | Icon name for the trigger. The `-icon` suffix is optional. |
+| `trigger-on` | `click` | Open interaction: `click` or `mouseover`. |
 | `position` | `auto` | Menu alignment. `auto` \| `left` \| `right` |
 | `divided` | `false` | Divider lines between items. _(boolean)_ |
 | `scrollable` | `false` | Scroll items past `height`. _(boolean)_ |
@@ -206,21 +246,29 @@ See [`<loomi-bell>`'s README](../bell#wrapping-it-in-a-trigger) for a worked exa
 | Attribute | Default | Description |
 | --- | --- | --- |
 | `icon` | _(blank)_ | Leading icon name. |
+| `shortcut` | _(blank)_ | Right-aligned keyboard shortcut hint. |
 | `icon-right` | `false` | Place the icon after the label. _(boolean)_ |
 | `header` | `false` | Non-clickable section header. _(boolean)_ |
 | `divider` | `false` | Render a divider line. _(boolean)_ |
+| `hover` | `true` | Enable hover styling for a normal item. _(boolean)_ |
 
-**Slots:** default (items), `trigger` (custom trigger markup).
+**Slots:** default (items), `trigger` (custom trigger markup), `submenu` (nested
+`<loomi-dropmenu-item>` children on an item).
 
 ## Full Example
 
 ```html
-<loomi-dropmenu trigger="pencil-square" trigger-on="mouseover" divided scrollable height="150" position="left">
+<loomi-dropmenu position="right">
   <loomi-dropmenu-item header>Profile</loomi-dropmenu-item>
-  <loomi-dropmenu-item icon="user">View Profile</loomi-dropmenu-item>
-  <loomi-dropmenu-item icon="pencil-square">Edit Profile</loomi-dropmenu-item>
+  <loomi-dropmenu-item icon="user" shortcut="⌘K>P">View profile</loomi-dropmenu-item>
+  <loomi-dropmenu-item icon="cog-6-tooth" shortcut="⌘S">Settings</loomi-dropmenu-item>
+  <loomi-dropmenu-item icon="question-mark-circle">
+    Support
+    <loomi-dropmenu-item slot="submenu">Documentation</loomi-dropmenu-item>
+    <loomi-dropmenu-item slot="submenu">Contact support</loomi-dropmenu-item>
+  </loomi-dropmenu-item>
   <loomi-dropmenu-item divider></loomi-dropmenu-item>
-  <loomi-dropmenu-item icon="trash">Delete Account</loomi-dropmenu-item>
+  <loomi-dropmenu-item icon="log-out-01">Sign out</loomi-dropmenu-item>
 </loomi-dropmenu>
 ```
 
@@ -258,7 +306,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="module" src="https://esm.sh/@loomidev/dropmenu"></script>
 
 <loomi-dropmenu>
-  <loomi-button slot="trigger">Actions</loomi-button>
+  <span slot="trigger" style="font-weight:600">Actions</span>
   <loomi-dropmenu-item icon="pencil-square">Edit</loomi-dropmenu-item>
   <loomi-dropmenu-item icon="trash">Delete</loomi-dropmenu-item>
 </loomi-dropmenu>
@@ -290,7 +338,7 @@ import "@loomidev/dropmenu";
 
 ```blade
 <loomi-dropmenu>
-  <loomi-button slot="trigger">Actions</loomi-button>
+  <span slot="trigger" style="font-weight:600">Actions</span>
   <loomi-dropmenu-item icon="pencil-square">Edit</loomi-dropmenu-item>
   <loomi-dropmenu-item icon="trash">Delete</loomi-dropmenu-item>
 </loomi-dropmenu>
@@ -306,7 +354,7 @@ import "@loomidev/dropmenu";
 export function LoomiExample() {
   return (
     <loomi-dropmenu>
-      <loomi-button slot="trigger">Actions</loomi-button>
+      <span slot="trigger" style="font-weight:600">Actions</span>
       <loomi-dropmenu-item icon="pencil-square">Edit</loomi-dropmenu-item>
       <loomi-dropmenu-item icon="trash">Delete</loomi-dropmenu-item>
     </loomi-dropmenu>
@@ -327,7 +375,7 @@ import "@loomidev/dropmenu";
 
 <template>
   <loomi-dropmenu>
-    <loomi-button slot="trigger">Actions</loomi-button>
+    <span slot="trigger" style="font-weight:600">Actions</span>
     <loomi-dropmenu-item icon="pencil-square">Edit</loomi-dropmenu-item>
     <loomi-dropmenu-item icon="trash">Delete</loomi-dropmenu-item>
   </loomi-dropmenu>
@@ -351,7 +399,7 @@ import "@loomidev/dropmenu";
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
     <loomi-dropmenu>
-      <loomi-button slot="trigger">Actions</loomi-button>
+      <span slot="trigger" style="font-weight:600">Actions</span>
       <loomi-dropmenu-item icon="pencil-square">Edit</loomi-dropmenu-item>
       <loomi-dropmenu-item icon="trash">Delete</loomi-dropmenu-item>
     </loomi-dropmenu>
@@ -370,7 +418,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 </script>
 
 <loomi-dropmenu>
-  <loomi-button slot="trigger">Actions</loomi-button>
+  <span slot="trigger" style="font-weight:600">Actions</span>
   <loomi-dropmenu-item icon="pencil-square">Edit</loomi-dropmenu-item>
   <loomi-dropmenu-item icon="trash">Delete</loomi-dropmenu-item>
 </loomi-dropmenu>
@@ -382,7 +430,7 @@ import "@loomidev/dropmenu";
 ---
 
 <loomi-dropmenu>
-  <loomi-button slot="trigger">Actions</loomi-button>
+  <span slot="trigger" style="font-weight:600">Actions</span>
   <loomi-dropmenu-item icon="pencil-square">Edit</loomi-dropmenu-item>
   <loomi-dropmenu-item icon="trash">Delete</loomi-dropmenu-item>
 </loomi-dropmenu>

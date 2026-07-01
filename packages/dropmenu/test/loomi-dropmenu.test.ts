@@ -53,4 +53,55 @@ describe("loomi-dropmenu", () => {
 
     expect(menu.classList.contains("right")).to.equal(true);
   });
+
+  it("renders item keyboard shortcuts", async () => {
+    const el = await fixture<LoomiDropmenu>(html`
+      <loomi-dropmenu>
+        <loomi-dropmenu-item shortcut="⌘S">Settings</loomi-dropmenu-item>
+      </loomi-dropmenu>
+    `);
+
+    await open(el);
+    const item = el.querySelector("loomi-dropmenu-item")!;
+    await item.updateComplete;
+
+    expect(item.shadowRoot!.querySelector(".loomi-shortcut")!.textContent).to.equal("⌘S");
+  });
+
+  it("applies menu-level icon-right to child items", async () => {
+    const el = await fixture<LoomiDropmenu>(html`
+      <loomi-dropmenu icon-right>
+        <loomi-dropmenu-item icon="user">Profile</loomi-dropmenu-item>
+      </loomi-dropmenu>
+    `);
+
+    await open(el);
+    const item = el.querySelector("loomi-dropmenu-item")!;
+    await nextFrame();
+    await item.updateComplete;
+
+    expect(item.shadowRoot!.querySelector(".loomi-item")!.classList.contains("right")).to.equal(true);
+  });
+
+  it("supports nested submenu items", async () => {
+    const el = await fixture<LoomiDropmenu>(html`
+      <loomi-dropmenu>
+        <loomi-dropmenu-item id="support" icon="question-mark-circle">
+          Support
+          <loomi-dropmenu-item slot="submenu">Documentation</loomi-dropmenu-item>
+          <loomi-dropmenu-item slot="submenu">Contact us</loomi-dropmenu-item>
+        </loomi-dropmenu-item>
+      </loomi-dropmenu>
+    `);
+
+    await open(el);
+    const item = el.querySelector("loomi-dropmenu-item")!;
+    await nextFrame();
+    await item.updateComplete;
+    item.shadowRoot!.querySelector<HTMLElement>(".loomi-item")!.click();
+    await item.updateComplete;
+
+    expect(item.shadowRoot!.querySelector(".loomi-submenu-icon")).not.to.equal(null);
+    expect(item.shadowRoot!.querySelector(".loomi-submenu")!.classList.contains("open")).to.equal(true);
+  });
 });
