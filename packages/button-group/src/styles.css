@@ -92,7 +92,7 @@
      border at the lighter 300 shade (same as the secondary solid button's background). */
   background: transparent;
   color: var(--_loomi-accent);
-  border: 1px solid var(--loomi-bg-border, var(--_loomi-accent));
+  border: 2px solid var(--loomi-bg-border, var(--_loomi-accent));
   border-radius: 0;
 
   transition:
