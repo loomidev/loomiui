@@ -31,6 +31,10 @@
       "types": "./dist/button-group.d.ts",
       "import": "./dist/button-group.js"
     },
+    "./calendar": {
+      "types": "./dist/calendar.d.ts",
+      "import": "./dist/calendar.js"
+    },
     "./input": {
       "types": "./dist/input.d.ts",
       "import": "./dist/input.js"
@@ -191,6 +195,10 @@
       "types": "./dist/checkcards.d.ts",
       "import": "./dist/checkcards.js"
     },
+    "./command-palette": {
+      "types": "./dist/command-palette.d.ts",
+      "import": "./dist/command-palette.js"
+    },
     "./listview": {
       "types": "./dist/listview.d.ts",
       "import": "./dist/listview.js"
@@ -243,9 +251,21 @@
       "types": "./dist/filepicker.d.ts",
       "import": "./dist/filepicker.js"
     },
+    "./filter-builder": {
+      "types": "./dist/filter-builder.d.ts",
+      "import": "./dist/filter-builder.js"
+    },
     "./countries": {
       "types": "./dist/countries.d.ts",
       "import": "./dist/countries.js"
+    },
+    "./data-table": {
+      "types": "./dist/data-table.d.ts",
+      "import": "./dist/data-table.js"
+    },
+    "./date-range-picker": {
+      "types": "./dist/date-range-picker.d.ts",
+      "import": "./dist/date-range-picker.js"
     },
     "./creditcard": {
       "types": "./dist/creditcard.d.ts",
@@ -264,11 +284,13 @@
     "@loomidev/bell": "workspace:^",
     "@loomidev/button": "workspace:^",
     "@loomidev/button-group": "workspace:^",
+    "@loomidev/calendar": "workspace:^",
     "@loomidev/card": "workspace:^",
     "@loomidev/centered-content": "workspace:^",
     "@loomidev/chart": "workspace:^",
     "@loomidev/checkbox": "workspace:^",
     "@loomidev/checkcards": "workspace:^",
+    "@loomidev/command-palette": "workspace:^",
     "@loomidev/pin": "workspace:^",
     "@loomidev/colorpicker": "workspace:^",
     "@loomidev/contact-card": "workspace:^",
@@ -277,6 +299,8 @@
     "@loomidev/copy-to-clipboard": "workspace:^",
     "@loomidev/countries": "workspace:^",
     "@loomidev/creditcard": "workspace:^",
+    "@loomidev/data-table": "workspace:^",
+    "@loomidev/date-range-picker": "workspace:^",
     "@loomidev/datepicker": "workspace:^",
     "@loomidev/divider": "workspace:^",
     "@loomidev/drawer": "workspace:^",
@@ -284,6 +308,7 @@
     "@loomidev/emoji-picker": "workspace:^",
     "@loomidev/empty-state": "workspace:^",
     "@loomidev/filepicker": "workspace:^",
+    "@loomidev/filter-builder": "workspace:^",
     "@loomidev/horizontal-line-graph": "workspace:^",
     "@loomidev/icon": "workspace:^",
     "@loomidev/icons": "workspace:^",
