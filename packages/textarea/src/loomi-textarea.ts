@@ -131,7 +131,13 @@ export class LoomiTextarea extends LoomiElement {
     this.mentionActiveIndex = 0;
     if (!this.mentionOpen) {
       this.mentionOpen = true;
-      this.cleanupMentionOutside = onClickOutside(this, () => this.closeMention());
+      const cleanupOutside = onClickOutside(this, () => this.closeMention());
+      const onScroll = () => this.closeMention();
+      window.addEventListener("scroll", onScroll, { capture: true, passive: true });
+      this.cleanupMentionOutside = () => {
+        cleanupOutside();
+        window.removeEventListener("scroll", onScroll, { capture: true });
+      };
     }
     this.dispatchEvent(
       new CustomEvent("mention-search", {
@@ -161,10 +167,12 @@ export class LoomiTextarea extends LoomiElement {
     const marker = document.createElement("span");
     marker.textContent = this.value.slice(caret) || ".";
     mirror.appendChild(marker);
+    const taRect = this.textareaEl.getBoundingClientRect();
     const lineHeight = parseFloat(getComputedStyle(this.textareaEl).lineHeight) || 20;
-    const top = marker.offsetTop - this.textareaEl.scrollTop + lineHeight;
-    const maxLeft = Math.max(0, this.textareaEl.clientWidth - 220);
-    const left = Math.min(marker.offsetLeft - this.textareaEl.scrollLeft, maxLeft);
+    const top = taRect.top + marker.offsetTop - this.textareaEl.scrollTop + lineHeight;
+    const vw = window.innerWidth || document.documentElement.clientWidth || 800;
+    const rawLeft = taRect.left + marker.offsetLeft - this.textareaEl.scrollLeft;
+    const left = Math.min(rawLeft, Math.max(0, vw - 220));
     mirror.textContent = "";
     this.mentionPos = { top, left };
   }

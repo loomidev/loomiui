@@ -104,8 +104,8 @@
 }
 
 .loomi-mention-panel {
-  position: absolute;
-  z-index: 50;
+  position: fixed;
+  z-index: 9999;
   width: 220px;
   max-height: 14rem;
   overflow-y: auto;

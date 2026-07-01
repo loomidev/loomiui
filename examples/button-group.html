@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>loomi — &lt;loomi-button-group&gt;</title>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "lit": "https://esm.sh/lit@3.3.3",
+          "lit/": "https://esm.sh/lit@3.3.3/",
+          "@loomidev/theme": "../packages/theme/dist/index.js",
+          "@loomidev/core": "../packages/core/dist/index.js",
+          "@loomidev/icons": "../packages/icons/dist/index.js"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import "../packages/button-group/dist/loomi-button-group.js";
+
+      document.querySelectorAll("loomi-button-group").forEach((group) => {
+        group.addEventListener("button-group-change", (e) => {
+          const out = group.closest("section")?.querySelector(".out");
+          if (out) out.textContent = JSON.stringify(e.detail);
+        });
+      });
+    </script>
+
+    <style>
+      body {
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        margin: 0;
+        padding: 2.5rem clamp(1rem, 5vw, 4rem);
+        color: #0f172a;
+        background: #f8fafc;
+      }
+      h1 { margin: 0 0 0.25rem; }
+      p.lead { color: #475569; margin-top: 0; }
+      section { margin: 2.5rem 0; }
+      h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin: 0 0 0.75rem; }
+      .row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+      .out { margin-top: 0.5rem; font-size: 0.8rem; color: #64748b; font-family: monospace; }
+    </style>
+  </head>
+  <body>
+    <h1>&lt;loomi-button-group&gt;</h1>
+    <p class="lead">Horizontal outline button groups with selection, icons, sizes, colors, and disabled states.</p>
+
+    <!-- Basic -->
+    <section>
+      <h2>Basic — label only</h2>
+      <loomi-button-group>
+        <loomi-button-group-item label="Day"   value="day"   selected></loomi-button-group-item>
+        <loomi-button-group-item label="Week"  value="week"></loomi-button-group-item>
+        <loomi-button-group-item label="Month" value="month"></loomi-button-group-item>
+      </loomi-button-group>
+      <div class="out"></div>
+    </section>
+
+    <!-- Icons leading -->
+    <section>
+      <h2>Icons — leading (default)</h2>
+      <div class="row">
+        <loomi-button-group>
+          <loomi-button-group-item label="List"   value="list"   icon="list"    selected></loomi-button-group-item>
+          <loomi-button-group-item label="Grid"   value="grid"   icon="grid-2x2"></loomi-button-group-item>
+          <loomi-button-group-item label="Table"  value="table"  icon="table"></loomi-button-group-item>
+        </loomi-button-group>
+        <div class="out"></div>
+      </div>
+    </section>
+
+    <!-- Icons trailing -->
+    <section>
+      <h2>Icons — trailing (icon-right)</h2>
+      <loomi-button-group color="secondary">
+        <loomi-button-group-item label="Left"   value="left"   icon="align-left"    icon-right selected></loomi-button-group-item>
+        <loomi-button-group-item label="Center" value="center" icon="align-center"  icon-right></loomi-button-group-item>
+        <loomi-button-group-item label="Right"  value="right"  icon="align-right"   icon-right></loomi-button-group-item>
+      </loomi-button-group>
+    </section>
+
+    <!-- Icon only -->
+    <section>
+      <h2>Icon-only</h2>
+      <div class="row">
+        <loomi-button-group color="primary">
+          <loomi-button-group-item value="bold"      icon="bold"      selected></loomi-button-group-item>
+          <loomi-button-group-item value="italic"    icon="italic"></loomi-button-group-item>
+          <loomi-button-group-item value="underline" icon="underline"></loomi-button-group-item>
+        </loomi-button-group>
+
+        <loomi-button-group color="error">
+          <loomi-button-group-item value="minus" icon="minus"></loomi-button-group-item>
+          <loomi-button-group-item value="plus"  icon="plus"></loomi-button-group-item>
+        </loomi-button-group>
+      </div>
+    </section>
+
+    <!-- Sizes -->
+    <section>
+      <h2>Sizes</h2>
+      <div class="row" style="align-items:flex-end">
+        <loomi-button-group size="tiny">
+          <loomi-button-group-item label="Tiny" value="a" selected></loomi-button-group-item>
+          <loomi-button-group-item label="Group" value="b"></loomi-button-group-item>
+        </loomi-button-group>
+
+        <loomi-button-group size="small">
+          <loomi-button-group-item label="Small" value="a" selected></loomi-button-group-item>
+          <loomi-button-group-item label="Group" value="b"></loomi-button-group-item>
+        </loomi-button-group>
+
+        <loomi-button-group size="regular">
+          <loomi-button-group-item label="Regular" value="a" selected></loomi-button-group-item>
+          <loomi-button-group-item label="Group" value="b"></loomi-button-group-item>
+        </loomi-button-group>
+
+        <loomi-button-group size="medium">
+          <loomi-button-group-item label="Medium" value="a" selected></loomi-button-group-item>
+          <loomi-button-group-item label="Group" value="b"></loomi-button-group-item>
+        </loomi-button-group>
+
+        <loomi-button-group size="big">
+          <loomi-button-group-item label="Big" value="a" selected></loomi-button-group-item>
+          <loomi-button-group-item label="Group" value="b"></loomi-button-group-item>
+        </loomi-button-group>
+      </div>
+    </section>
+
+    <!-- Colors -->
+    <section>
+      <h2>Colors</h2>
+      <div class="row">
+        <loomi-button-group color="primary">
+          <loomi-button-group-item label="Primary" selected></loomi-button-group-item>
+          <loomi-button-group-item label="Group"></loomi-button-group-item>
+        </loomi-button-group>
+
+        <loomi-button-group color="secondary">
+          <loomi-button-group-item label="Secondary" selected></loomi-button-group-item>
+          <loomi-button-group-item label="Group"></loomi-button-group-item>
+        </loomi-button-group>
+
+        <loomi-button-group color="success">
+          <loomi-button-group-item label="Success" selected></loomi-button-group-item>
+          <loomi-button-group-item label="Group"></loomi-button-group-item>
+        </loomi-button-group>
+
+        <loomi-button-group color="error">
+          <loomi-button-group-item label="Error" selected></loomi-button-group-item>
+          <loomi-button-group-item label="Group"></loomi-button-group-item>
+        </loomi-button-group>
+
+        <loomi-button-group color="warning">
+          <loomi-button-group-item label="Warning" selected></loomi-button-group-item>
+          <loomi-button-group-item label="Group"></loomi-button-group-item>
+        </loomi-button-group>
+      </div>
+    </section>
+
+    <!-- Individual item disabled -->
+    <section>
+      <h2>Individual item disabled</h2>
+      <loomi-button-group>
+        <loomi-button-group-item label="Enabled" value="a" selected></loomi-button-group-item>
+        <loomi-button-group-item label="Disabled" value="b" disabled></loomi-button-group-item>
+        <loomi-button-group-item label="Enabled" value="c"></loomi-button-group-item>
+      </loomi-button-group>
+    </section>
+
+    <!-- Entire group disabled -->
+    <section>
+      <h2>Entire group disabled</h2>
+      <loomi-button-group disabled>
+        <loomi-button-group-item label="Day"   value="day"   icon="calendar" selected></loomi-button-group-item>
+        <loomi-button-group-item label="Week"  value="week"  icon="calendar-days"></loomi-button-group-item>
+        <loomi-button-group-item label="Month" value="month"></loomi-button-group-item>
+      </loomi-button-group>
+    </section>
+
+    <!-- Single item -->
+    <section>
+      <h2>Single item (fully rounded)</h2>
+      <loomi-button-group>
+        <loomi-button-group-item label="Solo" icon="star" selected></loomi-button-group-item>
+      </loomi-button-group>
+    </section>
+  </body>
+</html>

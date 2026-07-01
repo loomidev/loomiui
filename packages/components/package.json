@@ -27,6 +27,10 @@
       "types": "./dist/button.d.ts",
       "import": "./dist/button.js"
     },
+    "./button-group": {
+      "types": "./dist/button-group.d.ts",
+      "import": "./dist/button-group.js"
+    },
     "./input": {
       "types": "./dist/input.d.ts",
       "import": "./dist/input.js"
@@ -227,6 +231,7 @@
     "@loomidev/avatar": "workspace:^",
     "@loomidev/bell": "workspace:^",
     "@loomidev/button": "workspace:^",
+    "@loomidev/button-group": "workspace:^",
     "@loomidev/card": "workspace:^",
     "@loomidev/centered-content": "workspace:^",
     "@loomidev/chart": "workspace:^",

@@ -68,6 +68,66 @@ Increase `rows` to make the textarea taller by default.
 </script>
 ```
 
+## Mention Picker
+
+Set `mention-triggers` (JSON array of trigger characters) and the `mentionData` property
+(a map of trigger → items) to enable an inline `@mention`-style autocomplete picker.
+The panel opens when the user types a trigger character at a word boundary —
+so `foo@bar.com` does **not** open it, but `hi @bar` does.
+
+```html
+<loomi-textarea
+  id="comments"
+  label="Write a comment — try @, # or /"
+  rows="4"
+  mention-triggers='["@","#","/"]'
+></loomi-textarea>
+
+<script type="module">
+  const el = document.getElementById("comments");
+
+  // Supply items per trigger character.
+  el.mentionData = {
+    "@": [
+      { label: "ama.osei",   description: "Ama Osei" },
+      { label: "kwame.b",    description: "Kwame Boateng" },
+    ],
+    "#": [
+      { label: "bug" },
+      { label: "design" },
+    ],
+    "/": [
+      { label: "assign", description: "Assign to someone" },
+      { label: "close",  description: "Close this thread" },
+    ],
+  };
+
+  // Fired while the user types after a trigger — use to load items asynchronously.
+  el.addEventListener("mention-search", (e) => {
+    const { trigger, query } = e.detail;
+    // fetch and reassign el.mentionData[trigger] if needed
+  });
+
+  // Fired when the user picks an item.
+  el.addEventListener("mention-select", (e) => {
+    const { trigger, item } = e.detail;
+    console.log("selected", trigger, item);
+  });
+</script>
+```
+
+Each item in `mentionData` accepts these fields:
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `label` | `string` | **Required.** Inserted into the textarea as `trigger + label + " "`. |
+| `value` | `string?` | Opaque value included in `mention-select` detail. |
+| `description` | `string?` | Secondary text shown on the right of the item. |
+| `image` | `string?` | URL of an avatar/icon shown on the left. |
+
+**Keyboard navigation:** ↑/↓ to move, Enter or Tab to confirm, Escape to close.
+The picker closes automatically when clicking outside or scrolling.
+
 ## Events
 
 ```html
@@ -102,9 +162,12 @@ document.querySelector("loomi-textarea").addEventListener("input", (e) => {
 | `error-message` | _(blank)_ | Message shown when validation fails. |
 | `show-error-inline` | `false` | Render the error beneath the field. _(boolean)_ |
 | `no-clearing` | `false` | Remove the default bottom margin. _(boolean)_ |
+| `mention-triggers` | `[]` | JSON array of trigger characters, e.g. `'["@","#","/"]'`. |
 
-**Methods:** `focus()`, `validate()`. **Events:** `input`, `change` (composed).
-**Parts:** `field`, `textarea`.
+**Properties (JS only):** `mentionData` — `Record<string, { label, value?, description?, image? }[]>`.
+
+**Methods:** `focus()`, `validate()`. **Events:** `input`, `change`, `mention-search`, `mention-select` (all composed).
+**Parts:** `field`, `textarea`, `mention-panel`.
 
 > Looking for a rich-text editor? See [`@loomidev/text-editor`](../text-editor),
 > split out from this component's former `toolbar` mode.

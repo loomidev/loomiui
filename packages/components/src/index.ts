@@ -1,5 +1,6 @@
 // Umbrella entry: re-exports every loomi component and registers all custom elements.
 export * from "@loomidev/button";
+export * from "@loomidev/button-group";
 export * from "@loomidev/input";
 export * from "@loomidev/textarea";
 export * from "@loomidev/text-editor";
