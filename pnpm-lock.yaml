@@ -787,9 +787,15 @@ importers:
 
   packages/date-range-picker:
     dependencies:
+      '@loomidev/button':
+        specifier: workspace:^
+        version: link:../button
       '@loomidev/core':
         specifier: workspace:^
         version: link:../core
+      '@loomidev/datepicker':
+        specifier: workspace:^
+        version: link:../datepicker
     devDependencies:
       lit:
         specifier: ^3.3.3

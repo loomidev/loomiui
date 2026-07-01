@@ -34,7 +34,9 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@loomidev/core": "workspace:^"
+    "@loomidev/button": "workspace:^",
+    "@loomidev/core": "workspace:^",
+    "@loomidev/datepicker": "workspace:^"
   },
   "peerDependencies": {
     "lit": "^3.0.0"
