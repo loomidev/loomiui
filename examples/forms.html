@@ -18,6 +18,7 @@
     </script>
     <script type="module">
       import "../packages/input/dist/loomi-input.js";
+      import "../packages/tag-input/dist/loomi-tag-input.js";
       import "../packages/textarea/dist/loomi-textarea.js";
       import "../packages/text-editor/dist/loomi-text-editor.js";
       import "../packages/checkbox/dist/loomi-checkbox.js";
@@ -59,6 +60,12 @@
       <loomi-input placeholder="workspace" suffix=".loomi.dev" transparent-suffix="false"></loomi-input>
       <loomi-input label="Age" numeric required size="small"></loomi-input>
       <loomi-input label="Disabled" disabled value="nope"></loomi-input>
+    </div>
+
+    <h2>Tag Input</h2>
+    <div class="grid2">
+      <loomi-tag-input placeholder="Add tag" value="Design,Engineering,hello" suffix-icon="question-mark-circle"></loomi-tag-input>
+      <loomi-tag-input mode="below" placeholder="Add tag" value="Marketing,mike" suffix-icon="question-mark-circle"></loomi-tag-input>
     </div>
 
     <h2>Textarea</h2>

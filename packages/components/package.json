@@ -79,6 +79,10 @@
       "types": "./dist/tag.d.ts",
       "import": "./dist/tag.js"
     },
+    "./tag-input": {
+      "types": "./dist/tag-input.d.ts",
+      "import": "./dist/tag-input.js"
+    },
     "./card": {
       "types": "./dist/card.d.ts",
       "import": "./dist/card.js"
@@ -270,6 +274,7 @@
     "@loomidev/tab": "workspace:^",
     "@loomidev/table": "workspace:^",
     "@loomidev/tag": "workspace:^",
+    "@loomidev/tag-input": "workspace:^",
     "@loomidev/text-editor": "workspace:^",
     "@loomidev/textarea": "workspace:^",
     "@loomidev/theme": "workspace:^",

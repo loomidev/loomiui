@@ -480,6 +480,9 @@ importers:
       '@loomidev/tag':
         specifier: workspace:^
         version: link:../tag
+      '@loomidev/tag-input':
+        specifier: workspace:^
+        version: link:../tag-input
       '@loomidev/text-editor':
         specifier: workspace:^
         version: link:../text-editor
@@ -1394,6 +1397,31 @@ importers:
       '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
+      '@tailwindcss/cli':
+        specifier: ^4.0.0
+        version: 4.3.1
+      lit:
+        specifier: ^3.3.3
+        version: 3.3.3
+      tailwindcss:
+        specifier: ^4.0.0
+        version: 4.3.1
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+
+  packages/tag-input:
+    dependencies:
+      '@loomidev/core':
+        specifier: workspace:^
+        version: link:../core
+      '@loomidev/icons':
+        specifier: workspace:^
+        version: link:../icons
+      '@loomidev/theme':
+        specifier: workspace:^
+        version: link:../theme
+    devDependencies:
       '@tailwindcss/cli':
         specifier: ^4.0.0
         version: 4.3.1

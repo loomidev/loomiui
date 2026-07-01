@@ -13,6 +13,7 @@ export * from "@loomidev/icon";
 export * from "@loomidev/spinner";
 export * from "@loomidev/avatar";
 export * from "@loomidev/tag";
+export * from "@loomidev/tag-input";
 export * from "@loomidev/card";
 export * from "@loomidev/alert";
 export * from "@loomidev/accordion";

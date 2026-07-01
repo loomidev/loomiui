@@ -13,6 +13,7 @@ import "../../rating/dist/loomi-rating.js";
 import "../../select/dist/loomi-select.js";
 import "../../slider/dist/loomi-slider.js";
 import "../../sortable/dist/loomi-sortable.js";
+import "../../tag-input/dist/loomi-tag-input.js";
 import "../../timepicker/dist/loomi-timepicker.js";
 import "../../toggle/dist/loomi-toggle.js";
 
@@ -31,6 +32,7 @@ const NAMED_FORM_TAGS = [
   "loomi-select",
   "loomi-slider",
   "loomi-sortable",
+  "loomi-tag-input",
   "loomi-timepicker",
   "loomi-toggle",
 ];
