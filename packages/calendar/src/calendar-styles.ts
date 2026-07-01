@@ -43,6 +43,342 @@ export const calendarStyles = css`
     box-shadow: var(--loomi-calendar-shadow);
   }
 
+  .layout {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .main {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .sidebar {
+    width: 280px;
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    border-right: 1px solid var(--loomi-calendar-border-subtle);
+    background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 55%, var(--loomi-calendar-surface));
+    overflow: auto;
+    transition:
+      width var(--loomi-calendar-transition),
+      padding var(--loomi-calendar-transition),
+      opacity var(--loomi-calendar-transition);
+  }
+
+  .shell.sidebar-closed .sidebar {
+    width: 0;
+    padding: 0;
+    opacity: 0;
+    overflow: hidden;
+    border-right: 0;
+  }
+
+  .sidebar-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .sidebar-events {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .sidebar-heading {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--loomi-calendar-text-faint);
+  }
+
+  .mini-calendar {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    border: 1px solid var(--loomi-calendar-border-subtle);
+    border-radius: var(--loomi-calendar-radius-sm);
+    background: var(--loomi-calendar-surface);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  }
+
+  .mini-calendar-header {
+    display: grid;
+    grid-template-columns: 28px 1fr 28px;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .mini-calendar-title {
+    border: 0;
+    background: transparent;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--loomi-calendar-text);
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .mini-nav {
+    width: 28px;
+    min-height: 28px;
+    padding: 0;
+  }
+
+  .mini-weekdays,
+  .mini-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 2px;
+  }
+
+  .mini-weekday {
+    text-align: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--loomi-calendar-text-faint);
+    text-transform: uppercase;
+  }
+
+  .mini-day {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    aspect-ratio: 1;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--loomi-calendar-text-secondary);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .mini-day:hover {
+    background: var(--loomi-calendar-surface-hover);
+  }
+
+  .mini-day.other-month {
+    color: var(--loomi-calendar-text-faint);
+  }
+
+  .mini-day.today {
+    box-shadow: inset 0 0 0 1px var(--loomi-calendar-accent-soft);
+    color: var(--loomi-calendar-accent-strong);
+  }
+
+  .mini-day.selected {
+    background: var(--loomi-calendar-accent);
+    color: var(--loomi-white, #ffffff);
+  }
+
+  .sidebar-event-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow: auto;
+  }
+
+  .sidebar-event {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--loomi-calendar-border-subtle);
+    border-radius: var(--loomi-calendar-radius-sm);
+    background: var(--loomi-calendar-surface);
+    text-align: left;
+    cursor: pointer;
+    color: inherit;
+    font: inherit;
+  }
+
+  .sidebar-event-time {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--loomi-calendar-text-muted);
+  }
+
+  .sidebar-event-title {
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .sidebar-empty {
+    padding: 12px;
+    border-radius: var(--loomi-calendar-radius-sm);
+    background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 70%, transparent);
+    color: var(--loomi-calendar-text-muted);
+    font-size: 13px;
+  }
+
+  .btn-primary {
+    background: var(--loomi-calendar-accent);
+    border-color: var(--loomi-calendar-accent);
+    color: var(--loomi-white, #ffffff);
+    font-weight: 600;
+  }
+
+  .btn-primary:hover {
+    background: var(--loomi-calendar-accent-strong);
+    border-color: var(--loomi-calendar-accent-strong);
+    color: var(--loomi-white, #ffffff);
+  }
+
+  .event-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .form-field,
+  .form-check {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .form-check {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+  }
+
+  .form-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--loomi-calendar-text-muted);
+  }
+
+  .form-input {
+    width: 100%;
+    min-height: 38px;
+    padding: 8px 12px;
+    border: 1px solid var(--loomi-calendar-border);
+    border-radius: var(--loomi-calendar-radius-sm);
+    background: var(--loomi-calendar-surface);
+    color: inherit;
+    font: inherit;
+  }
+
+  .month-weeks {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .month-week {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    border-bottom: 1px solid var(--loomi-calendar-border-subtle);
+  }
+
+  .month-week:last-child {
+    border-bottom: 0;
+  }
+
+  .month-week-lanes {
+    position: relative;
+    min-height: calc(var(--lane-count, 1) * 24px + 8px);
+    border-bottom: 1px solid var(--loomi-calendar-border-subtle);
+    background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 40%, transparent);
+  }
+
+  .month-week-days {
+    flex: 1;
+  }
+
+  .spanning-event {
+    position: absolute;
+    box-sizing: border-box;
+    min-height: 20px;
+    padding: 2px 8px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .spanning-event.draggable {
+    cursor: grab;
+  }
+
+  .spanning-event.dragging {
+    cursor: grabbing;
+    opacity: 0.92;
+    z-index: 5;
+  }
+
+  .all-day-track {
+    position: relative;
+    min-height: calc(var(--lane-count, 1) * 28px + 8px);
+    padding: 4px 0;
+  }
+
+  .all-day-columns {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(var(--day-count, 7), minmax(0, 1fr));
+  }
+
+  .all-day-column {
+    border-right: 1px solid var(--loomi-calendar-border-subtle);
+  }
+
+  .all-day-column:last-child {
+    border-right: 0;
+  }
+
+  .resize-handle.resize-start,
+  .resize-handle.resize-end {
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    height: auto;
+    cursor: ew-resize;
+  }
+
+  .resize-handle.resize-start {
+    left: 0;
+    right: auto;
+  }
+
+  .resize-handle.resize-end {
+    right: 0;
+    left: auto;
+  }
+
+  .resize-handle.resize-bottom {
+    top: auto;
+    bottom: 0;
+    height: 8px;
+    cursor: ns-resize;
+  }
+
   .toolbar {
     display: flex;
     flex-wrap: wrap;

@@ -56,3 +56,11 @@ export interface CalendarSlotSelectDetail {
   resourceId?: string;
   allDay?: boolean;
 }
+
+export interface CalendarEventCreateDetail {
+  event: CalendarEvent;
+}
+
+export interface CalendarSidebarToggleDetail {
+  open: boolean;
+}

@@ -188,6 +188,9 @@ importers:
       '@loomidev/core':
         specifier: workspace:^
         version: link:../core
+      '@loomidev/modal':
+        specifier: workspace:^
+        version: link:../modal
     devDependencies:
       lit:
         specifier: ^3.3.3

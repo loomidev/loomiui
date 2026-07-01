@@ -1,7 +1,7 @@
 {
   "name": "@loomidev/card",
   "version": "0.1.0",
-  "description": "<loomi-card> — a content card with optional title, header and footer slots.",
+  "description": "shadcn/ui-style card primitives: loomi-card and loomi-card-* composition parts.",
   "repository": {
     "type": "git",
     "url": "https://github.com/loomidev/loomiui.git",

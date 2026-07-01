@@ -114,12 +114,19 @@
 
     <h2>Card</h2>
     <div class="row">
-      <loomi-card title="recent activity" style="width:260px">
-        Nothing to see here yet. Check back later.
+      <loomi-card style="width:260px">
+        <loomi-card-header>
+          <loomi-card-title>Recent activity</loomi-card-title>
+        </loomi-card-header>
+        <loomi-card-content>
+          Nothing to see here yet. Check back later.
+        </loomi-card-content>
       </loomi-card>
       <loomi-card has-hover url="https://example.com" style="width:260px">
-        <strong>Clickable card</strong>
-        <div style="color:#64748b;font-size:.9rem">Opens example.com</div>
+        <loomi-card-content>
+          <strong>Clickable card</strong>
+          <div style="color:#64748b;font-size:.9rem">Opens example.com</div>
+        </loomi-card-content>
       </loomi-card>
     </div>
 

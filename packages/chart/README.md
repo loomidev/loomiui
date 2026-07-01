@@ -1,9 +1,8 @@
 # @loomidev/chart
 
 `<loomi-chart>` is a lightweight SVG chart component for quick visuals. Choose from
-`bar`, `line`, `pie`, `donut`, `radar`, or `scatter`, and pass a single data series
-through its `data` property. Hovering any bar, point, or slice shows its label and value
-in a `<loomi-tooltip>` — no setup required.
+`bar`, `line`, `area`, `pie`, `donut`, `radar`, `radial`, or `scatter`, and pass a single data series
+through its `data` property. Set `show-tooltip` to reveal label/value tooltips while hovering chart points.
 
 ```bash
 npm install @loomidev/chart lit
@@ -73,13 +72,13 @@ so the chart remains stable and the page does not break.
 
 ## Hover Tooltips
 
-Every chart type shows a `<loomi-tooltip>` with the point's `label: value` on hover, by
-default — there's no attribute to turn it on, and none to turn it off. Bars get an exact
-hit area; lines, scatter points, radar vertices, and pie/donut slices get a small hit
-area centered on the point/slice.
+Set `show-tooltip` to show label/value tooltips while hovering chart points. On cartesian
+charts (`bar`, `line`, `area`, `scatter`), the nearest point is tracked as you move across
+the plot — with a crosshair and active dot/bar highlight. Polar charts (`pie`, `donut`,
+`radar`, `radial`) show a tooltip per slice/segment.
 
 ```html
-<loomi-chart type="line" color="primary"
+<loomi-chart type="line" color="primary" show-tooltip
   data='[{"label":"Jan","value":30},{"label":"Feb","value":55},{"label":"Mar","value":42},{"label":"Apr","value":60}]'></loomi-chart>
 ```
 
@@ -91,10 +90,12 @@ Default `type` is `bar`. The available chart types are:
 | Type | Description |
 | --- | --- |
 | `bar` | Compares values across categories. |
-| `line` | Shows trends across ordered labels (for example, months). |
+| `line` | Shows trends with a stroke, area fill, and dots. |
+| `area` | Like `line` but emphasizes the filled region (no dots). |
 | `pie` | Displays part-to-whole distribution in a full circle. |
-| `donut` | Displays part-to-whole distribution with a center hole (often paired with a legend). |
+| `donut` | Part-to-whole with a center hole and total label. |
 | `radar` | Compares multiple metrics in a radial layout (recommended with 3+ points). |
+| `radial` | Stacked radial bars around a center total (shadcn-style radial chart). |
 | `scatter` | Plots independent points on shared axes without connecting lines. |
 
 All chart types use the same `data` shape, so you can change `type` without reshaping the dataset.
@@ -259,12 +260,14 @@ the chart instead of wrapping below it.
 
 | Attribute | Default | Description |
 | --- | --- | --- |
-| `type` | `bar` | `bar` \| `line` \| `pie` \| `donut` \| `radar` \| `scatter` |
+| `type` | `bar` | `bar` \| `line` \| `area` \| `pie` \| `donut` \| `radar` \| `radial` \| `scatter` |
 | `data` | `[]` | Series — `{ label, value, color? }[]` (property or JSON). |
 | `color` | `primary` | Single accent color. Fill for bar/scatter/radar, line/dot stroke for line, and the default for points without their own `color` (pie/donut cycle a built-in palette instead). |
 | `shade` | `dark` | `dark` \| `light` — lighter fills/strokes in `light` mode. |
 | `show-border` | `true` | In `shade="light"`, outline shapes in a higher shade of their own color. No effect in `shade="dark"`. _(boolean)_ |
-| `show-y-axis` | `false` | Show a value axis with min/max labels (`bar`/`line`/`scatter`). _(boolean)_ |
+| `show-grid` | `true` | Horizontal dashed grid lines on cartesian charts. _(boolean)_ |
+| `show-tooltip` | `false` | Show label/value tooltips while hovering chart points. _(boolean)_ |
+| `show-y-axis` | `false` | Show a value axis with min/max labels (`bar`/`line`/`area`/`scatter`). _(boolean)_ |
 | `vertical` | `false` | `type="line"` only — flips the axes so categories run top-to-bottom. _(boolean)_ |
 | `show-legend` | `false` | Show a legend (most useful for pie/donut). _(boolean)_ |
 | `legend-position` | `bottom` | `top` \| `bottom` \| `left` \| `right` — where the legend renders when `show-legend` is on. |

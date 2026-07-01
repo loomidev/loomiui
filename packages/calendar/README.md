@@ -92,11 +92,13 @@ calendar.events = [
 
 ## Editing
 
-Enable `editable` to allow slot selection, drag-to-move, and resize handles. The component emits events; the parent owns persistence.
+Enable `editable` to show the **Add event** button, open the create modal, drag events across days, and resize multi-day events horizontally.
 
 ```html
-<loomi-calendar view="week" editable week-starts="monday"></loomi-calendar>
+<loomi-calendar view="week" editable week-starts="monday" show-sidebar sidebar-open></loomi-calendar>
 ```
+
+Listen for `loomi-event-create` when users save a new event from the modal.
 
 ## Properties
 
@@ -111,7 +113,9 @@ Enable `editable` to allow slot selection, drag-to-move, and resize handles. The
 | `timezone` | `string` | browser timezone | IANA timezone used for labels. |
 | `show-timezone` | `boolean` | `false` | Shows a timezone badge in the toolbar. |
 | `show-weekends` | `boolean` | `true` | Hides Saturday/Sunday in week view when false. |
-| `editable` | `boolean` | `false` | Enables slot create, drag, and resize. |
+| `show-sidebar` | `boolean` | `true` | Shows the left pane with mini calendar and upcoming list. |
+| `sidebar-open` | `boolean` | `true` | Toggles the left pane visibility. Reflected attribute. |
+| `editable` | `boolean` | `false` | Enables create modal, drag, and resize. |
 | `loading` | `boolean` | `false` | Shows a loading overlay. |
 | `start-hour` | `number` | `6` | First visible hour in timed views. |
 | `end-hour` | `number` | `18` | Last visible hour in timed views. |
@@ -124,7 +128,9 @@ Enable `editable` to allow slot selection, drag-to-move, and resize handles. The
 | `loomi-view-change` | `{ view }` |
 | `loomi-date-change` | `{ date }` |
 | `loomi-event-click` | `{ event }` |
+| `loomi-event-create` | `{ event }` |
 | `loomi-event-change` | `{ event, previousStart, previousEnd, previousResourceId? }` |
+| `loomi-sidebar-toggle` | `{ open }` |
 | `loomi-slot-select` | `{ start, end, resourceId?, allDay? }` |
 
 ## Keyboard Shortcuts
@@ -138,6 +144,6 @@ Enable `editable` to allow slot selection, drag-to-move, and resize handles. The
 ## Design Notes
 
 - Styling follows Loomi surface, border, text, and palette tokens used by `@loomidev/datepicker`, `@loomidev/tab`, and other Pro components.
-- The component renders and interacts with events but does not persist them. Listen for `loomi-event-change` and `loomi-slot-select`, then update your app state or API.
+- The component renders and interacts with events but does not persist them. Listen for `loomi-event-create`, `loomi-event-change`, and `loomi-slot-select`, then update your app state or API.
 - Drag-and-drop emits change events only; the parent should update the `events` array.
 - Recurrence is display metadata for now (`event.recurrence.label`).
