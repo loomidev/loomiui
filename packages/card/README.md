@@ -1,7 +1,7 @@
 # @loomidev/card
 
-`<loomi-card>` — a content card with an optional title and header/footer slots. Content
-is entirely up to you; the card just provides the frame.
+shadcn/ui-style card primitives for LoomiUI. Compose a card from `<loomi-card>` and its
+`loomi-card-*` parts — the same structure as [shadcn/ui Card](https://ui.shadcn.com/docs/components/radix/card).
 
 ```bash
 npm install @loomidev/card lit
@@ -11,151 +11,139 @@ npm install @loomidev/card lit
 import "@loomidev/card";
 ```
 
+## Composition
+
+```text
+loomi-card
+├── loomi-card-header
+│   ├── loomi-card-title
+│   ├── loomi-card-description
+│   └── loomi-card-action
+├── loomi-card-content
+└── loomi-card-footer
+```
+
 ## Basic Usage
 
 ```html
-<loomi-card>Card content goes here.</loomi-card>
-<loomi-card title="Recent activity">Card content goes here.</loomi-card>
+<loomi-card>
+  <loomi-card-header>
+    <loomi-card-title>Card Title</loomi-card-title>
+    <loomi-card-description>Card Description</loomi-card-description>
+  </loomi-card-header>
+  <loomi-card-content>
+    <p>Card Content</p>
+  </loomi-card-content>
+  <loomi-card-footer>
+    <p>Card Footer</p>
+  </loomi-card-footer>
+</loomi-card>
 ```
 
-## Different Radii
+## Login Example
 
 ```html
-<loomi-card radius="none">No rounding.</loomi-card>
-<loomi-card radius="small">Small (default).</loomi-card>
-<loomi-card radius="medium">Medium.</loomi-card>
-<loomi-card radius="large">Large.</loomi-card>
-<loomi-card radius="xl">Extra large.</loomi-card>
+<loomi-card style="max-width: 24rem">
+  <loomi-card-header>
+    <loomi-card-title>Login to your account</loomi-card-title>
+    <loomi-card-description>
+      Enter your email below to login to your account
+    </loomi-card-description>
+    <loomi-card-action>
+      <loomi-button variant="link">Sign Up</loomi-button>
+    </loomi-card-action>
+  </loomi-card-header>
+  <loomi-card-content>
+    <form><!-- fields --></form>
+  </loomi-card-content>
+  <loomi-card-footer style="flex-direction: column; gap: 0.5rem">
+    <loomi-button block>Login</loomi-button>
+    <loomi-button block outline>Login with Google</loomi-button>
+  </loomi-card-footer>
+</loomi-card>
+```
+
+## Small Size
+
+Use `size="sm"` on `<loomi-card>` for tighter spacing (matches shadcn's `size="sm"`).
+
+```html
+<loomi-card size="sm" style="max-width: 24rem">
+  <loomi-card-header>
+    <loomi-card-title>Small Card</loomi-card-title>
+    <loomi-card-description>This card uses the small size variant.</loomi-card-description>
+  </loomi-card-header>
+  <loomi-card-content>
+    <p>More compact spacing between sections.</p>
+  </loomi-card-content>
+  <loomi-card-footer>
+    <loomi-button size="small" outline block>Action</loomi-button>
+  </loomi-card-footer>
+</loomi-card>
 ```
 
 ## Clickable Cards
 
 Set `url` to make the whole card act as a link — a path, a full URL, or a JS function
-call (evaluated as `javascript:`). Pair it with `has-hover` for a hover-shadow cue.
+call. Pair it with `has-hover` for a hover-shadow cue.
 
 ```html
-<loomi-card has-hover url="/dashboard">Click anywhere on me</loomi-card>
-<loomi-card has-hover url="https://loomiui.com">Opens in a new context via window.open</loomi-card>
-```
-
-## Compact & No-Padding
-
-`compact` tightens the padding; `no-padding` removes it entirely so content touches the
-card's edges (useful for an `<img>` filling the card).
-
-```html
-<loomi-card compact>Tighter padding all around.</loomi-card>
-<loomi-card no-padding><img src="/photo.jpg" alt="" /></loomi-card>
-```
-
-## Practical Example: Grid of Nav Cards
-
-```html
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem">
-  <loomi-card has-hover url="/projects">
-    <loomi-icon name="folder"></loomi-icon>
-    <span>Projects</span>
-  </loomi-card>
-  <loomi-card has-hover url="/tasks">
-    <loomi-icon name="check-circle"></loomi-icon>
-    <span>Tasks</span>
-  </loomi-card>
-  <loomi-card has-hover url="/ideas">
-    <loomi-icon name="light-bulb"></loomi-icon>
-    <span>Ideas</span>
-  </loomi-card>
-</div>
-```
-
-## Practical Example: Compact Contact List
-
-```html
-<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:0.75rem">
-  <loomi-card compact>
-    <div style="display:flex;align-items:center;gap:0.5rem">
-      <loomi-avatar image="/mike.jpg"></loomi-avatar>
-      <div>
-        <b>Michael K. Ocansey</b>
-        <div style="font-size:0.875rem">Senior Developer</div>
-      </div>
-    </div>
-  </loomi-card>
-  <loomi-card compact>
-    <div style="display:flex;align-items:center;gap:0.5rem">
-      <loomi-avatar label="SA"></loomi-avatar>
-      <div>
-        <b>Sara Appiah</b>
-        <div style="font-size:0.875rem">Designer</div>
-      </div>
-    </div>
-  </loomi-card>
-</div>
-```
-
-## Header and Footer
-
-Headers and footers are slots, so there's no restriction on what goes in them. They're
-independent — set either one without the other. When `header` is set, the card body
-loses its default padding, so style the body yourself.
-
-```html
-<loomi-card>
-  <div slot="header" style="display:flex;align-items:center;gap:0.5rem;padding:0.75rem 1rem">
-    <loomi-avatar size="small" image="/mike.jpg"></loomi-avatar>
-    <span>mkocansey · Greater Accra</span>
-  </div>
-
-  <img src="/photo.jpg" alt="" />
-
-  <div slot="footer" style="display:flex;justify-content:space-between;padding:1rem">
-    <div style="display:flex;gap:1rem">
-      <loomi-icon name="heart"></loomi-icon>
-      <loomi-icon name="chat-bubble-oval-left-ellipsis"></loomi-icon>
-    </div>
-  </div>
+<loomi-card has-hover url="/dashboard">
+  <loomi-card-content>Click anywhere on me</loomi-card-content>
 </loomi-card>
 ```
 
-## Using It in the Docs Site
+## Image Cards
 
-This very documentation site dogfoods `<loomi-card>` for its own previous/next page
-navigation at the bottom of every page — see the [architecture
-guide](../../../docs/src/content/docs/architecture.mdx) for how that's wired up.
+Place an `<img>` as the first child of `<loomi-card>` to get a flush top image with rounded
+top corners (same pattern as shadcn's image example).
+
+```html
+<loomi-card style="max-width: 24rem">
+  <img src="/cover.jpg" alt="Event cover" />
+  <loomi-card-header>
+    <loomi-card-action>
+      <loomi-tag label="Featured" color="secondary"></loomi-tag>
+    </loomi-card-action>
+    <loomi-card-title>Design systems meetup</loomi-card-title>
+    <loomi-card-description>A practical talk on component APIs.</loomi-card-description>
+  </loomi-card-header>
+  <loomi-card-footer>
+    <loomi-button block>View Event</loomi-button>
+  </loomi-card-footer>
+</loomi-card>
+```
+
+## Spacing
+
+Section spacing is controlled by the `--loomi-card-spacing` custom property on
+`<loomi-card>` (defaults to `1rem`, `0.75rem` when `size="sm"`). Override it for custom
+layouts:
+
+```html
+<loomi-card style="--loomi-card-spacing: 1.5rem">...</loomi-card>
+```
 
 ## Attributes
 
+### `<loomi-card>`
+
 | Attribute | Default | Description |
 | --- | --- | --- |
-| `title` | _(blank)_ | Card heading (ignored when a header slot is present). |
-| `radius` | `small` | `none` \| `small` \| `medium` \| `large` \| `xl` |
-| `compact` | `false` | Reduce padding. _(boolean)_ |
-| `no-padding` | `false` | Remove padding. _(boolean)_ |
-| `has-shadow` | `true` | Drop shadow. _(boolean)_ |
+| `size` | `default` | `default` \| `sm` — controls section spacing. |
 | `has-hover` | `false` | Extra shadow on hover. _(boolean)_ |
 | `url` | _(blank)_ | Navigate on click (path, `fn()` call, or full URL). |
 
-**Slots:** default (body), `header`, `footer`. When a `header` slot is set, the body
-padding is removed.
+### Parts
 
-> Not (yet) ported from BladewindUI: the dedicated Contact Card variant — compose
-> [`<loomi-avatar>`](../avatar) inside a compact `<loomi-card>` instead, as shown above.
-
-## Full Example
-
-```html
-<loomi-card
-  title="Recent updates"
-  has-shadow
-  has-hover="false"
-  no-padding
-  radius="large"
-  url="/user"
->
-  <div slot="header">...</div>
-  ...
-  <div slot="footer">...</div>
-</loomi-card>
-```
+| Element | Description |
+| --- | --- |
+| `<loomi-card-header>` | Title, description, and optional action. |
+| `<loomi-card-title>` | Card heading. |
+| `<loomi-card-description>` | Muted helper text under the title. |
+| `<loomi-card-action>` | Top-right header action (button, badge, link). |
+| `<loomi-card-content>` | Main card body. |
+| `<loomi-card-footer>` | Bottom actions; gets a muted background and top border. |
 
 <!-- BEGIN loomi-framework-guide -->
 
@@ -190,8 +178,13 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 </script>
 <script type="module" src="https://esm.sh/@loomidev/card"></script>
 
-<loomi-card title="Billing">
-  <p>Your next invoice is due on Friday.</p>
+<loomi-card>
+  <loomi-card-header>
+    <loomi-card-title>Billing</loomi-card-title>
+  </loomi-card-header>
+  <loomi-card-content>
+    <p>Your next invoice is due on Friday.</p>
+  </loomi-card-content>
 </loomi-card>
 ```
 
@@ -220,8 +213,13 @@ import "@loomidev/card";
 ```
 
 ```blade
-<loomi-card title="Billing">
-  <p>Your next invoice is due on Friday.</p>
+<loomi-card>
+  <loomi-card-header>
+    <loomi-card-title>Billing</loomi-card-title>
+  </loomi-card-header>
+  <loomi-card-content>
+    <p>Your next invoice is due on Friday.</p>
+  </loomi-card-content>
 </loomi-card>
 ```
 
@@ -234,8 +232,13 @@ import "@loomidev/card";
 
 export function LoomiExample() {
   return (
-    <loomi-card title="Billing">
-      <p>Your next invoice is due on Friday.</p>
+    <loomi-card>
+      <loomi-card-header>
+        <loomi-card-title>Billing</loomi-card-title>
+      </loomi-card-header>
+      <loomi-card-content>
+        <p>Your next invoice is due on Friday.</p>
+      </loomi-card-content>
     </loomi-card>
   );
 }
@@ -253,8 +256,13 @@ import "@loomidev/card";
 </script>
 
 <template>
-  <loomi-card title="Billing">
-    <p>Your next invoice is due on Friday.</p>
+  <loomi-card>
+    <loomi-card-header>
+      <loomi-card-title>Billing</loomi-card-title>
+    </loomi-card-header>
+    <loomi-card-content>
+      <p>Your next invoice is due on Friday.</p>
+    </loomi-card-content>
   </loomi-card>
 </template>
 ```
@@ -275,8 +283,13 @@ import "@loomidev/card";
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
-    <loomi-card title="Billing">
-      <p>Your next invoice is due on Friday.</p>
+    <loomi-card>
+      <loomi-card-header>
+        <loomi-card-title>Billing</loomi-card-title>
+      </loomi-card-header>
+      <loomi-card-content>
+        <p>Your next invoice is due on Friday.</p>
+      </loomi-card-content>
     </loomi-card>
   `,
 })
@@ -292,8 +305,13 @@ Svelte can import the package inside a component script. Astro can import it in 
   import "@loomidev/card";
 </script>
 
-<loomi-card title="Billing">
-  <p>Your next invoice is due on Friday.</p>
+<loomi-card>
+  <loomi-card-header>
+    <loomi-card-title>Billing</loomi-card-title>
+  </loomi-card-header>
+  <loomi-card-content>
+    <p>Your next invoice is due on Friday.</p>
+  </loomi-card-content>
 </loomi-card>
 ```
 
@@ -302,8 +320,13 @@ Svelte can import the package inside a component script. Astro can import it in 
 import "@loomidev/card";
 ---
 
-<loomi-card title="Billing">
-  <p>Your next invoice is due on Friday.</p>
+<loomi-card>
+  <loomi-card-header>
+    <loomi-card-title>Billing</loomi-card-title>
+  </loomi-card-header>
+  <loomi-card-content>
+    <p>Your next invoice is due on Friday.</p>
+  </loomi-card-content>
 </loomi-card>
 ```
 

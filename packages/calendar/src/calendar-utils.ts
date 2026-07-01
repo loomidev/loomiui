@@ -371,3 +371,100 @@ export function dateFromResourcePosition(
   next.setHours(startHour, minutes, 0, 0);
   return next;
 }
+
+export interface SpanningEventLayout {
+  event: CalendarEvent;
+  startIndex: number;
+  endIndex: number;
+  lane: number;
+}
+
+export function isMultiDayEvent(event: CalendarEvent) {
+  return event.isAllDay || !isSameDay(startOfDay(event.start), startOfDay(event.end));
+}
+
+export function getDayIndex(days: Date[], date: Date) {
+  return days.findIndex((day) => isSameDay(day, date));
+}
+
+export function layoutSpanningEvents(days: Date[], events: CalendarEvent[]): SpanningEventLayout[] {
+  if (!days.length) {
+    return [];
+  }
+
+  const rangeStart = startOfDay(days[0]);
+  const rangeEnd = endOfDay(days[days.length - 1]);
+  const candidates = events
+    .filter((event) => event.start <= rangeEnd && event.end >= rangeStart && isMultiDayEvent(event))
+    .sort((left, right) => left.start.getTime() - right.start.getTime() || right.end.getTime() - left.end.getTime());
+
+  const lanes: Array<Array<{ startIndex: number; endIndex: number }>> = [];
+  const positioned: SpanningEventLayout[] = [];
+
+  for (const event of candidates) {
+    const visibleStart = event.start < rangeStart ? rangeStart : startOfDay(event.start);
+    const visibleEnd = event.end > rangeEnd ? rangeEnd : startOfDay(event.end);
+    let startIndex = getDayIndex(days, visibleStart);
+    let endIndex = getDayIndex(days, visibleEnd);
+    if (startIndex === -1) {
+      startIndex = 0;
+    }
+    if (endIndex === -1) {
+      endIndex = days.length - 1;
+    }
+    if (startIndex > endIndex) {
+      continue;
+    }
+
+    let laneIndex = lanes.findIndex((lane) =>
+      lane.every((segment) => endIndex < segment.startIndex || startIndex > segment.endIndex)
+    );
+    if (laneIndex === -1) {
+      laneIndex = lanes.length;
+      lanes.push([]);
+    }
+    lanes[laneIndex].push({ startIndex, endIndex });
+    positioned.push({ event, startIndex, endIndex, lane: laneIndex });
+  }
+
+  return positioned;
+}
+
+export function getUpcomingEvents(events: CalendarEvent[], from: Date, limit = 20) {
+  const anchor = startOfDay(from).getTime();
+  return [...events]
+    .filter((event) => event.end.getTime() >= anchor)
+    .sort((left, right) => left.start.getTime() - right.start.getTime())
+    .slice(0, limit);
+}
+
+export function toInputDateTime(date: Date) {
+  const pad = (value: number) => String(value).padStart(2, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
+export function fromInputDateTime(value: string): Date | null {
+  const match = value.trim().match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/);
+  if (!match) {
+    return null;
+  }
+  return new Date(+match[1], +match[2] - 1, +match[3], +match[4], +match[5], 0, 0);
+}
+
+export function toInputDate(date: Date) {
+  const pad = (value: number) => String(value).padStart(2, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+}
+
+export function chunkMonthWeeks(date: Date, weekStarts: CalendarWeekStarts) {
+  const cells = getMonthGridDays(date, weekStarts);
+  const weeks: Date[][] = [];
+  for (let index = 0; index < cells.length; index += 7) {
+    weeks.push(cells.slice(index, index + 7).map((cell) => cell.date));
+  }
+  return weeks;
+}
+
+export function getSingleDayEventsForDate(events: CalendarEvent[], date: Date) {
+  return getEventsForDate(events, date).filter((event) => !isMultiDayEvent(event));
+}

@@ -7,14 +7,17 @@ import {
   loomiStyles,
   loomiWeekdayNames
 } from "@loomidev/core";
+import "@loomidev/modal/loomi-modal.js";
 import { calendarStyles } from "./calendar-styles.js";
 import {
   ALL_DAY_HEIGHT,
   HOUR_HEIGHT,
   RESOURCE_LABEL_WIDTH,
+  addDays,
   addMinutes,
   buildAgendaGroups,
   canDragEvent,
+  chunkMonthWeeks,
   cloneDate,
   dateFromGridPosition,
   dateFromResourcePosition,
@@ -22,24 +25,30 @@ import {
   formatEventRange,
   formatTime,
   formatTimezoneLabel,
-  getAllDayEventsForDate,
-  getEventsForDate,
+  fromInputDateTime,
   getMonthGridDays,
   getNowOffset,
+  getSingleDayEventsForDate,
+  getUpcomingEvents,
   getVisibleWeekDays,
   isSameDay,
   isToday,
   layoutResourceDayEvents,
+  layoutSpanningEvents,
   layoutTimedEvents,
   minutesFromDayStart,
-  startOfDay
+  startOfDay,
+  toInputDateTime,
+  type SpanningEventLayout
 } from "./calendar-utils.js";
 import type {
   CalendarEvent,
   CalendarEventChangeDetail,
   CalendarEventClickDetail,
   CalendarEventColor,
+  CalendarEventCreateDetail,
   CalendarResource,
+  CalendarSidebarToggleDetail,
   CalendarSlotSelectDetail,
   CalendarView,
   CalendarViewChangeDetail,
@@ -49,6 +58,8 @@ import type {
 
 const PREV = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />`;
 const NEXT = svg`<path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />`;
+const PLUS = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />`;
+const PANEL = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />`;
 
 const VIEW_OPTIONS: Array<{ id: CalendarView; label: string; shortcut: string }> = [
   { id: "month", label: "Month", shortcut: "M" },
@@ -58,19 +69,32 @@ const VIEW_OPTIONS: Array<{ id: CalendarView; label: string; shortcut: string }>
   { id: "resource", label: "Resources", shortcut: "R" }
 ];
 
-type DragMode = "move" | "resize";
+type DragMode = "move" | "resize" | "resize-start" | "resize-end";
 
 interface DragState {
   eventId: string;
   mode: DragMode;
   pointerId: number;
+  startPointerX: number;
   startPointerY: number;
+  currentDeltaX: number;
   currentDeltaY: number;
   originalStart: Date;
   originalEnd: Date;
   originalResourceId?: string;
   day: Date;
   resourceId?: string;
+  visibleDays: Date[];
+  columnWidth: number;
+  spanning?: boolean;
+}
+
+interface EventDraft {
+  title: string;
+  start: string;
+  end: string;
+  allDay: boolean;
+  color: CalendarEventColor;
 }
 
 interface SlotDragState {
@@ -99,8 +123,12 @@ export class LoomiCalendar extends LoomiElement {
     startHour: { attribute: "start-hour", type: Number },
     endHour: { attribute: "end-hour", type: Number },
     slotMinutes: { attribute: "slot-minutes", type: Number },
+    showSidebar: { attribute: "show-sidebar", type: Boolean },
+    sidebarOpen: { attribute: "sidebar-open", type: Boolean, reflect: true },
     _dragState: { state: true },
-    _slotDragState: { state: true }
+    _slotDragState: { state: true },
+    _miniCalendarDate: { state: true },
+    _eventDraft: { state: true }
   };
 
   static override styles = loomiStyles(calendarStyles, css`
@@ -125,8 +153,14 @@ export class LoomiCalendar extends LoomiElement {
   startHour = 6;
   endHour = 18;
   slotMinutes = 30;
+  showSidebar = true;
+  sidebarOpen = true;
   declare _dragState?: DragState;
   declare _slotDragState?: SlotDragState;
+  declare _miniCalendarDate?: Date;
+  declare _eventDraft?: EventDraft;
+
+  private createModalName = "loomi-calendar-create-event";
 
   private boundPointerMove = (event: PointerEvent) => this.handlePointerMove(event);
   private boundPointerUp = (event: PointerEvent) => this.handlePointerUp(event);
@@ -150,16 +184,164 @@ export class LoomiCalendar extends LoomiElement {
     this.style.setProperty("--loomi-calendar-hour-count", String(hourCount));
 
     return html`
-      <div class="shell" @keydown=${this.handleKeydown}>
-        ${this.renderToolbar()}
-        <div class="body">
-          ${this.loading ? html`<div class="loading-overlay">Loading calendar…</div>` : nothing}
-          ${this.view === "month" ? this.renderMonthView() : nothing}
-          ${this.view === "agenda" ? this.renderAgendaView() : nothing}
-          ${this.view === "resource" ? this.renderResourceView() : nothing}
-          ${this.view === "week" || this.view === "day" ? this.renderTimeView() : nothing}
+      <div class="shell ${this.showSidebar ? "has-sidebar" : ""} ${this.sidebarOpen ? "sidebar-open" : "sidebar-closed"}" @keydown=${this.handleKeydown}>
+        <div class="layout">
+          ${this.showSidebar ? this.renderSidebar() : nothing}
+          <div class="main">
+            ${this.renderToolbar()}
+            <div class="body">
+              ${this.loading ? html`<div class="loading-overlay">Loading calendar…</div>` : nothing}
+              ${this.view === "month" ? this.renderMonthView() : nothing}
+              ${this.view === "agenda" ? this.renderAgendaView() : nothing}
+              ${this.view === "resource" ? this.renderResourceView() : nothing}
+              ${this.view === "week" || this.view === "day" ? this.renderTimeView() : nothing}
+            </div>
+          </div>
+        </div>
+        ${this.renderEventModal()}
+      </div>
+    `;
+  }
+
+  private renderSidebar() {
+    const miniDate = this._miniCalendarDate ?? this.date;
+    const upcoming = getUpcomingEvents(this.events, this.date, 12);
+
+    return html`
+      <aside class="sidebar" aria-label="Calendar sidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-heading">Navigate</div>
+          ${this.renderMiniCalendar(miniDate)}
+        </div>
+        <div class="sidebar-section sidebar-events">
+          <div class="sidebar-heading">Upcoming</div>
+          ${upcoming.length
+            ? html`
+              <div class="sidebar-event-list">
+                ${upcoming.map((event) => html`
+                  <button
+                    class="sidebar-event ${event.color ? `event-${event.color}` : "event-primary"}"
+                    @click=${(clickEvent: Event) => this.handleEventClick(clickEvent, event)}
+                  >
+                    <span class="sidebar-event-time">${formatEventRange(event, this.resolvedLocale, this.displayTimezone)}</span>
+                    <span class="sidebar-event-title">${event.title}</span>
+                  </button>
+                `)}
+              </div>
+            `
+            : html`<div class="sidebar-empty">No upcoming events</div>`}
+        </div>
+      </aside>
+    `;
+  }
+
+  private renderMiniCalendar(miniDate: Date) {
+    const cells = getMonthGridDays(miniDate, this.weekStarts);
+    const weekdays = loomiWeekdayNames(this.resolvedLocale, this.weekStarts);
+
+    return html`
+      <div class="mini-calendar">
+        <div class="mini-calendar-header">
+          <button class="btn icon mini-nav" aria-label="Previous month" @click=${() => this.shiftMiniCalendar(-1)}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${PREV}</svg>
+          </button>
+          <button class="mini-calendar-title" @click=${() => this.updateDate(cloneDate(miniDate))}>
+            ${loomiMonthName(this.resolvedLocale, miniDate.getMonth(), "short")} ${miniDate.getFullYear()}
+          </button>
+          <button class="btn icon mini-nav" aria-label="Next month" @click=${() => this.shiftMiniCalendar(1)}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${NEXT}</svg>
+          </button>
+        </div>
+        <div class="mini-weekdays">
+          ${weekdays.map((label) => html`<div class="mini-weekday">${label.slice(0, 2)}</div>`)}
+        </div>
+        <div class="mini-grid">
+          ${cells.map(({ date, isOtherMonth }) => {
+            const selected = isSameDay(date, this.date);
+            const today = isToday(date);
+            return html`
+              <button
+                class="mini-day ${isOtherMonth ? "other-month" : ""} ${today ? "today" : ""} ${selected ? "selected" : ""}"
+                @click=${() => this.updateDate(startOfDay(date))}
+                aria-label=${loomiDateFormatter(this.resolvedLocale, { dateStyle: "full" }).format(date)}
+              >${date.getDate()}</button>
+            `;
+          })}
         </div>
       </div>
+    `;
+  }
+
+  private renderEventModal() {
+    const draft = this._eventDraft;
+    if (!draft) {
+      return nothing;
+    }
+
+    return html`
+      <loomi-modal
+        name=${this.createModalName}
+        title="New event"
+        ok-button-label="Save"
+        cancel-button-label="Cancel"
+        size="medium"
+        ?open=${true}
+        @ok=${this.handleCreateEventSave}
+        @cancel=${this.handleCreateEventCancel}
+        @close=${this.handleCreateEventCancel}
+      >
+        <div class="event-form">
+          <label class="form-field">
+            <span class="form-label">Title</span>
+            <input
+              class="form-input"
+              name="title"
+              .value=${draft.title}
+              @input=${(event: Event) => this.updateEventDraft("title", (event.target as HTMLInputElement).value)}
+            />
+          </label>
+          <label class="form-field">
+            <span class="form-label">Start</span>
+            <input
+              class="form-input"
+              type=${draft.allDay ? "date" : "datetime-local"}
+              .value=${draft.start}
+              @input=${(event: Event) => this.updateEventDraft("start", (event.target as HTMLInputElement).value)}
+            />
+          </label>
+          <label class="form-field">
+            <span class="form-label">End</span>
+            <input
+              class="form-input"
+              type=${draft.allDay ? "date" : "datetime-local"}
+              .value=${draft.end}
+              @input=${(event: Event) => this.updateEventDraft("end", (event.target as HTMLInputElement).value)}
+            />
+          </label>
+          <label class="form-check">
+            <input
+              type="checkbox"
+              .checked=${draft.allDay}
+              @change=${(event: Event) => this.updateEventDraft("allDay", (event.target as HTMLInputElement).checked)}
+            />
+            All day
+          </label>
+          <label class="form-field">
+            <span class="form-label">Color</span>
+            <select
+              class="form-input"
+              .value=${draft.color}
+              @change=${(event: Event) => this.updateEventDraft("color", (event.target as HTMLSelectElement).value as CalendarEventColor)}
+            >
+              <option value="primary">Primary</option>
+              <option value="secondary">Secondary</option>
+              <option value="success">Success</option>
+              <option value="warning">Warning</option>
+              <option value="error">Error</option>
+            </select>
+          </label>
+        </div>
+      </loomi-modal>
     `;
   }
 
@@ -167,12 +349,28 @@ export class LoomiCalendar extends LoomiElement {
     return html`
       <div class="toolbar">
         <div class="toolbar-group">
+          ${this.showSidebar ? html`
+            <button
+              class="btn icon"
+              aria-label=${this.sidebarOpen ? "Hide calendar list" : "Show calendar list"}
+              title=${this.sidebarOpen ? "Hide calendar list" : "Show calendar list"}
+              @click=${this.toggleSidebar}
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${PANEL}</svg>
+            </button>
+          ` : nothing}
           <div class="title">${this.getFormattedTitle()}</div>
           ${this.showTimezone && this.displayTimezone
             ? html`<span class="timezone-badge">${formatTimezoneLabel(this.displayTimezone, this.resolvedLocale)}</span>`
             : nothing}
         </div>
         <div class="toolbar-group">
+          ${this.editable ? html`
+            <button class="btn btn-primary" aria-label="Add event" @click=${() => this.openCreateEventModal()}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${PLUS}</svg>
+              Add event
+            </button>
+          ` : nothing}
           <button class="btn" @click=${this.goToToday}>Today</button>
           <button class="btn icon" aria-label="Previous" @click=${this.goPrev}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${PREV}</svg>
@@ -197,23 +395,40 @@ export class LoomiCalendar extends LoomiElement {
   }
 
   private renderMonthView() {
-    const cells = getMonthGridDays(this.date, this.weekStarts);
     const weekdays = loomiWeekdayNames(this.resolvedLocale, this.weekStarts);
+    const weeks = chunkMonthWeeks(this.date, this.weekStarts);
+    const cells = getMonthGridDays(this.date, this.weekStarts);
+    const isOtherMonthMap = new Map(cells.map((cell) => [cell.date.toDateString(), cell.isOtherMonth]));
 
     return html`
       <div class="month-view">
         <div class="weekdays" style=${`grid-template-columns: repeat(7, minmax(0, 1fr))`}>
           ${weekdays.map((label) => html`<div class="weekday">${label}</div>`)}
         </div>
-        <div class="month-grid">
-          ${cells.map(({ date, isOtherMonth }) => this.renderMonthCell(date, isOtherMonth))}
+        <div class="month-weeks">
+          ${weeks.map((weekDays) => {
+            const spanning = layoutSpanningEvents(weekDays, this.events);
+            const laneCount = spanning.reduce((max, entry) => Math.max(max, entry.lane + 1), 0);
+            return html`
+              <section class="month-week">
+                ${laneCount > 0 ? html`
+                  <div class="month-week-lanes" style=${`--lane-count: ${laneCount}; --day-count: ${weekDays.length}`}>
+                    ${spanning.map((entry) => this.renderSpanningEvent(entry, weekDays.length))}
+                  </div>
+                ` : nothing}
+                <div class="month-grid month-week-days">
+                  ${weekDays.map((date) => this.renderMonthCell(date, isOtherMonthMap.get(date.toDateString()) ?? false))}
+                </div>
+              </section>
+            `;
+          })}
         </div>
       </div>
     `;
   }
 
   private renderMonthCell(date: Date, isOtherMonth: boolean) {
-    const dayEvents = getEventsForDate(this.events, date);
+    const dayEvents = getSingleDayEventsForDate(this.events, date);
     const today = isToday(date);
     const hiddenCount = Math.max(0, dayEvents.length - 3);
 
@@ -243,6 +458,30 @@ export class LoomiCalendar extends LoomiElement {
           `
           : nothing}
       </div>
+    `;
+  }
+
+  private renderSpanningEvent(entry: SpanningEventLayout, dayCount: number) {
+    const { event, startIndex, endIndex, lane } = entry;
+    const preview = this.getSpanningDragPreview(event, dayCount);
+    const left = preview?.left ?? ((startIndex / dayCount) * 100);
+    const width = preview?.width ?? (((endIndex - startIndex + 1) / dayCount) * 100);
+    const draggable = canDragEvent(event, this.editable);
+    const dragging = this._dragState?.eventId === event.id;
+
+    return html`
+      <button
+        class="spanning-event event-${event.color || "primary"} ${draggable ? "draggable" : ""} ${dragging ? "dragging" : ""}"
+        style=${`left: calc(${left}% + 4px); width: calc(${width}% - 8px); top: calc(${lane * 24}px + 4px);`}
+        @click=${(clickEvent: Event) => this.handleEventClick(clickEvent, event)}
+        @pointerdown=${(pointerEvent: PointerEvent) => this.handleSpanningPointerDown(pointerEvent, event, entry)}
+      >
+        ${event.title}
+        ${draggable ? html`
+          <span class="resize-handle resize-start" @pointerdown=${(pointerEvent: PointerEvent) => this.handleSpanningResizePointerDown(pointerEvent, event, entry, "resize-start")}></span>
+          <span class="resize-handle resize-end" @pointerdown=${(pointerEvent: PointerEvent) => this.handleSpanningResizePointerDown(pointerEvent, event, entry, "resize-end")}></span>
+        ` : nothing}
+      </button>
     `;
   }
 
@@ -285,7 +524,7 @@ export class LoomiCalendar extends LoomiElement {
             })}
           </div>
           <div class="time-grid-wrap">
-            ${days.map((day) => this.renderDayColumn(day))}
+            ${days.map((day) => this.renderDayColumn(day, days))}
           </div>
         </div>
       </div>
@@ -293,28 +532,35 @@ export class LoomiCalendar extends LoomiElement {
   }
 
   private renderAllDayRow(days: Date[]) {
+    const spanning = layoutSpanningEvents(days, this.events);
+    const laneCount = Math.max(1, spanning.reduce((max, entry) => Math.max(max, entry.lane + 1), 0));
+
     return html`
       <div
         class="all-day-row"
         style=${`grid-template-columns: 64px repeat(${days.length}, minmax(0, 1fr))`}
       >
         <div class="all-day-label">All day</div>
-        ${days.map((day) => html`
-          <div class="all-day-cell">
-            ${getAllDayEventsForDate(this.events, day).map((event) => this.renderEventPill(event))}
+        <div
+          class="all-day-track"
+          style=${`grid-column: span ${days.length}; --lane-count: ${laneCount}; --day-count: ${days.length}`}
+        >
+          <div class="all-day-columns">
+            ${days.map(() => html`<div class="all-day-column"></div>`)}
           </div>
-        `)}
+          ${spanning.map((entry) => this.renderSpanningEvent(entry, days.length))}
+        </div>
       </div>
     `;
   }
 
-  private renderDayColumn(day: Date) {
+  private renderDayColumn(day: Date, visibleDays: Date[]) {
     const positioned = layoutTimedEvents(this.events, day, this.startHour, this.endHour);
     const nowOffset = isToday(day) ? getNowOffset(this.startHour, this.endHour, HOUR_HEIGHT) : null;
     const hourCount = this.endHour - this.startHour;
 
     return html`
-      <div class="day-column">
+      <div class="day-column" data-day=${day.toISOString()}>
         <div
           class="time-slots ${this.editable ? "editable" : ""}"
           style=${`height: ${hourCount * HOUR_HEIGHT}px`}
@@ -323,7 +569,7 @@ export class LoomiCalendar extends LoomiElement {
           ${Array.from({ length: hourCount }, () => html`<div class="time-slot"></div>`)}
           ${this.renderSlotSelection(day)}
           ${nowOffset !== null ? html`<div class="now-line" style=${`top: ${nowOffset}px`}></div>` : nothing}
-          ${positioned.map((entry) => this.renderTimedEvent(entry.event, day, entry.top, entry.height, entry.left, entry.width))}
+          ${positioned.map((entry) => this.renderTimedEvent(entry.event, day, visibleDays, entry.top, entry.height, entry.left, entry.width))}
         </div>
       </div>
     `;
@@ -441,7 +687,7 @@ export class LoomiCalendar extends LoomiElement {
               class="timed-event event-${event.color || resource.color || "primary"} ${canDragEvent(event, this.editable) ? "draggable" : ""}"
               style=${`left: ${left}%; width: ${width}%; top: 8px; height: calc(100% - 16px);`}
               @click=${(clickEvent: Event) => this.handleEventClick(clickEvent, event)}
-              @pointerdown=${(pointerEvent: PointerEvent) => this.handleEventPointerDown(pointerEvent, event, day, resource.id)}
+              @pointerdown=${(pointerEvent: PointerEvent) => this.handleResourceEventPointerDown(pointerEvent, event, day, resource.id)}
             >
               <div class="timed-event-title">${event.title}</div>
               <div class="timed-event-meta">${formatEventRange(event, this.resolvedLocale, this.displayTimezone)}</div>
@@ -469,23 +715,25 @@ export class LoomiCalendar extends LoomiElement {
   private renderTimedEvent(
     event: CalendarEvent,
     day: Date,
+    visibleDays: Date[],
     top: number,
     height: number,
     left: number,
     width: number
   ) {
-    const preview = this.getDragPreview(event);
+    const preview = this.getDragPreview(event, visibleDays.length);
     const displayTop = preview?.top ?? top;
     const displayHeight = preview?.height ?? height;
+    const displayTransform = preview?.transform;
     const draggable = canDragEvent(event, this.editable);
     const dragging = this._dragState?.eventId === event.id;
 
     return html`
       <button
         class="timed-event event-${event.color || "primary"} ${draggable ? "draggable" : ""} ${dragging ? "dragging" : ""}"
-        style=${`top: ${displayTop}px; height: ${displayHeight}px; left: calc(${left}% + 2px); width: calc(${width}% - 4px);`}
+        style=${`top: ${displayTop}px; height: ${displayHeight}px; left: calc(${left}% + 2px); width: calc(${width}% - 4px);${displayTransform ? ` transform: ${displayTransform};` : ""}`}
         @click=${(clickEvent: Event) => this.handleEventClick(clickEvent, event)}
-        @pointerdown=${(pointerEvent: PointerEvent) => this.handleEventPointerDown(pointerEvent, event, day)}
+        @pointerdown=${(pointerEvent: PointerEvent) => this.handleEventPointerDown(pointerEvent, event, day, visibleDays)}
       >
         <div class="timed-event-title">${event.title}</div>
         ${displayHeight >= 40
@@ -494,17 +742,68 @@ export class LoomiCalendar extends LoomiElement {
         ${event.recurrence?.label && displayHeight >= 56
           ? html`<div class="timed-event-meta">${event.recurrence.label}</div>`
           : nothing}
-        ${draggable ? html`<span class="resize-handle" @pointerdown=${(pointerEvent: PointerEvent) => this.handleResizePointerDown(pointerEvent, event, day)}></span>` : nothing}
+        ${draggable ? html`<span class="resize-handle resize-bottom" @pointerdown=${(pointerEvent: PointerEvent) => this.handleResizePointerDown(pointerEvent, event, day, visibleDays)}></span>` : nothing}
       </button>
     `;
   }
 
-  private getDragPreview(event: CalendarEvent): { top: number; height: number } | null {
-    if (!this._dragState || this._dragState.eventId !== event.id) {
+  private getSpanningDragPreview(event: CalendarEvent, dayCount: number): { left: number; width: number } | null {
+    if (!this._dragState || this._dragState.eventId !== event.id || !this._dragState.spanning) {
+      return null;
+    }
+
+    const dayOffset = Math.round(this._dragState.currentDeltaX / this._dragState.columnWidth);
+    const originalStartDay = startOfDay(this._dragState.originalStart);
+    const originalEndDay = startOfDay(this._dragState.originalEnd);
+    const durationDays = Math.max(0, Math.round((originalEndDay.getTime() - originalStartDay.getTime()) / 86400000));
+
+    if (this._dragState.mode === "move") {
+      const nextStart = addDays(originalStartDay, dayOffset);
+      const nextEnd = addDays(nextStart, durationDays);
+      const startIndex = Math.max(0, this._dragState.visibleDays.findIndex((day) => isSameDay(day, nextStart)));
+      const endIndex = Math.max(startIndex, this._dragState.visibleDays.findIndex((day) => isSameDay(day, nextEnd)));
+      if (startIndex === -1) {
+        return null;
+      }
+      const resolvedEnd = endIndex === -1 ? dayCount - 1 : endIndex;
+      return {
+        left: (startIndex / dayCount) * 100,
+        width: ((resolvedEnd - startIndex + 1) / dayCount) * 100
+      };
+    }
+
+    if (this._dragState.mode === "resize-start") {
+      const nextStart = addDays(originalStartDay, dayOffset);
+      const endIndex = this._dragState.visibleDays.findIndex((day) => isSameDay(day, originalEndDay));
+      const startIndex = this._dragState.visibleDays.findIndex((day) => isSameDay(day, nextStart));
+      if (startIndex === -1 || endIndex === -1 || startIndex > endIndex) {
+        return null;
+      }
+      return {
+        left: (startIndex / dayCount) * 100,
+        width: ((endIndex - startIndex + 1) / dayCount) * 100
+      };
+    }
+
+    const nextEnd = addDays(originalEndDay, dayOffset);
+    const startIndex = this._dragState.visibleDays.findIndex((day) => isSameDay(day, originalStartDay));
+    const endIndex = this._dragState.visibleDays.findIndex((day) => isSameDay(day, nextEnd));
+    if (startIndex === -1 || endIndex === -1 || endIndex < startIndex) {
+      return null;
+    }
+    return {
+      left: (startIndex / dayCount) * 100,
+      width: ((endIndex - startIndex + 1) / dayCount) * 100
+    };
+  }
+
+  private getDragPreview(event: CalendarEvent, dayCount: number): { top: number; height: number; transform?: string } | null {
+    if (!this._dragState || this._dragState.eventId !== event.id || this._dragState.spanning) {
       return null;
     }
 
     const deltaMinutes = Math.round(((this._dragState.currentDeltaY / HOUR_HEIGHT) * 60) / this.slotMinutes) * this.slotMinutes;
+    const dayOffset = dayCount > 1 ? Math.round(this._dragState.currentDeltaX / this._dragState.columnWidth) : 0;
 
     if (this._dragState.mode === "resize") {
       const nextEnd = addMinutes(this._dragState.originalEnd, deltaMinutes);
@@ -512,7 +811,8 @@ export class LoomiCalendar extends LoomiElement {
       const endMinutes = Math.max(startMinutes + this.slotMinutes, (nextEnd.getHours() - this.startHour) * 60 + nextEnd.getMinutes());
       return {
         top: (startMinutes / 60) * HOUR_HEIGHT,
-        height: Math.max(22, ((endMinutes - startMinutes) / 60) * HOUR_HEIGHT)
+        height: Math.max(22, ((endMinutes - startMinutes) / 60) * HOUR_HEIGHT),
+        transform: dayOffset ? `translateX(${dayOffset * this._dragState.columnWidth}px)` : undefined
       };
     }
 
@@ -523,53 +823,143 @@ export class LoomiCalendar extends LoomiElement {
     const endMinutes = Math.max(startMinutes + this.slotMinutes, (nextEnd.getHours() - this.startHour) * 60 + nextEnd.getMinutes());
     return {
       top: (startMinutes / 60) * HOUR_HEIGHT,
-      height: Math.max(22, ((endMinutes - startMinutes) / 60) * HOUR_HEIGHT)
+      height: Math.max(22, ((endMinutes - startMinutes) / 60) * HOUR_HEIGHT),
+      transform: dayOffset ? `translateX(${dayOffset * this._dragState.columnWidth}px)` : undefined
     };
   }
 
-  private handleEventPointerDown(pointerEvent: PointerEvent, event: CalendarEvent, day: Date, resourceId?: string) {
+  private handleEventPointerDown(pointerEvent: PointerEvent, event: CalendarEvent, day: Date, visibleDays: Date[]) {
     if (!canDragEvent(event, this.editable)) {
       return;
     }
 
     pointerEvent.stopPropagation();
+    const grid = pointerEvent.currentTarget as HTMLElement;
+    const column = grid.closest(".day-column") as HTMLElement | null;
+    const columnWidth = column?.getBoundingClientRect().width ?? 0;
+
     this._dragState = {
       eventId: event.id,
       mode: "move",
       pointerId: pointerEvent.pointerId,
+      startPointerX: pointerEvent.clientX,
       startPointerY: pointerEvent.clientY,
+      currentDeltaX: 0,
       currentDeltaY: 0,
       originalStart: cloneDate(event.start),
       originalEnd: cloneDate(event.end),
       originalResourceId: event.resourceId,
       day,
-      resourceId
+      resourceId: event.resourceId,
+      visibleDays,
+      columnWidth
     };
 
     this.attachPointerListeners();
-    (pointerEvent.currentTarget as HTMLElement).setPointerCapture(pointerEvent.pointerId);
+    grid.setPointerCapture(pointerEvent.pointerId);
   }
 
-  private handleResizePointerDown(pointerEvent: PointerEvent, event: CalendarEvent, day: Date) {
+  private handleSpanningPointerDown(pointerEvent: PointerEvent, event: CalendarEvent, _entry: SpanningEventLayout) {
     if (!canDragEvent(event, this.editable)) {
       return;
     }
 
     pointerEvent.stopPropagation();
+    const track = pointerEvent.currentTarget as HTMLElement;
+    const container = track.closest(".all-day-track, .month-week-lanes") as HTMLElement | null;
+    const visibleDays = this.view === "month"
+      ? chunkMonthWeeks(this.date, this.weekStarts).find((week) => week.some((day) => isSameDay(day, startOfDay(event.start)))) ?? [startOfDay(event.start)]
+      : getVisibleWeekDays(this.date, this.weekStarts, this.showWeekends);
+    const columnWidth = container ? container.clientWidth / visibleDays.length : 1;
+
     this._dragState = {
       eventId: event.id,
-      mode: "resize",
+      mode: "move",
       pointerId: pointerEvent.pointerId,
+      startPointerX: pointerEvent.clientX,
       startPointerY: pointerEvent.clientY,
+      currentDeltaX: 0,
       currentDeltaY: 0,
       originalStart: cloneDate(event.start),
       originalEnd: cloneDate(event.end),
       originalResourceId: event.resourceId,
-      day
+      day: startOfDay(event.start),
+      visibleDays,
+      columnWidth,
+      spanning: true
     };
 
     this.attachPointerListeners();
-    (pointerEvent.currentTarget as HTMLElement).setPointerCapture(pointerEvent.pointerId);
+    track.setPointerCapture(pointerEvent.pointerId);
+  }
+
+  private handleSpanningResizePointerDown(
+    pointerEvent: PointerEvent,
+    event: CalendarEvent,
+    _entry: SpanningEventLayout,
+    mode: "resize-start" | "resize-end"
+  ) {
+    if (!canDragEvent(event, this.editable)) {
+      return;
+    }
+
+    pointerEvent.stopPropagation();
+    const handle = pointerEvent.currentTarget as HTMLElement;
+    const container = handle.closest(".all-day-track, .month-week-lanes") as HTMLElement | null;
+    const visibleDays = this.view === "month"
+      ? chunkMonthWeeks(this.date, this.weekStarts).find((week) => week.some((day) => isSameDay(day, startOfDay(event.start)))) ?? [startOfDay(event.start)]
+      : getVisibleWeekDays(this.date, this.weekStarts, this.showWeekends);
+    const columnWidth = container ? container.clientWidth / visibleDays.length : 1;
+
+    this._dragState = {
+      eventId: event.id,
+      mode,
+      pointerId: pointerEvent.pointerId,
+      startPointerX: pointerEvent.clientX,
+      startPointerY: pointerEvent.clientY,
+      currentDeltaX: 0,
+      currentDeltaY: 0,
+      originalStart: cloneDate(event.start),
+      originalEnd: cloneDate(event.end),
+      originalResourceId: event.resourceId,
+      day: startOfDay(event.start),
+      visibleDays,
+      columnWidth,
+      spanning: true
+    };
+
+    this.attachPointerListeners();
+    handle.setPointerCapture(pointerEvent.pointerId);
+  }
+
+  private handleResizePointerDown(pointerEvent: PointerEvent, event: CalendarEvent, day: Date, visibleDays: Date[]) {
+    if (!canDragEvent(event, this.editable)) {
+      return;
+    }
+
+    pointerEvent.stopPropagation();
+    const handle = pointerEvent.currentTarget as HTMLElement;
+    const column = handle.closest(".day-column") as HTMLElement | null;
+    const columnWidth = column?.getBoundingClientRect().width ?? 0;
+
+    this._dragState = {
+      eventId: event.id,
+      mode: "resize",
+      pointerId: pointerEvent.pointerId,
+      startPointerX: pointerEvent.clientX,
+      startPointerY: pointerEvent.clientY,
+      currentDeltaX: 0,
+      currentDeltaY: 0,
+      originalStart: cloneDate(event.start),
+      originalEnd: cloneDate(event.end),
+      originalResourceId: event.resourceId,
+      day,
+      visibleDays,
+      columnWidth
+    };
+
+    this.attachPointerListeners();
+    handle.setPointerCapture(pointerEvent.pointerId);
   }
 
   private handlePointerMove(pointerEvent: PointerEvent) {
@@ -597,6 +987,7 @@ export class LoomiCalendar extends LoomiElement {
 
     this._dragState = {
       ...this._dragState,
+      currentDeltaX: pointerEvent.clientX - this._dragState.startPointerX,
       currentDeltaY: pointerEvent.clientY - this._dragState.startPointerY
     };
     this.requestUpdate();
@@ -610,7 +1001,7 @@ export class LoomiCalendar extends LoomiElement {
       if (nextEnd.getTime() - nextStart.getTime() < this.slotMinutes * 60 * 1000) {
         nextEnd = addMinutes(nextStart, this.slotMinutes);
       }
-      this.dispatchSlotSelect({ start: nextStart, end: nextEnd, allDay: false });
+      this.openCreateEventModal(nextStart, nextEnd, false);
       this._slotDragState = undefined;
       this.detachPointerListeners();
       this.requestUpdate();
@@ -623,18 +1014,55 @@ export class LoomiCalendar extends LoomiElement {
 
     const event = this.events.find((entry) => entry.id === this._dragState!.eventId);
     if (event) {
-      const deltaMinutes = Math.round(((this._dragState.currentDeltaY / HOUR_HEIGHT) * 60) / this.slotMinutes) * this.slotMinutes;
-      const durationMs = this._dragState.originalEnd.getTime() - this._dragState.originalStart.getTime();
-      let nextStart = this._dragState.originalStart;
-      let nextEnd = this._dragState.originalEnd;
+      let nextStart = cloneDate(this._dragState.originalStart);
+      let nextEnd = cloneDate(this._dragState.originalEnd);
 
-      if (this._dragState.mode === "move") {
+      if (this._dragState.spanning) {
+        const dayOffset = Math.round(this._dragState.currentDeltaX / this._dragState.columnWidth);
+        const originalStartDay = startOfDay(this._dragState.originalStart);
+        const originalEndDay = startOfDay(this._dragState.originalEnd);
+        const durationDays = Math.max(0, Math.round((originalEndDay.getTime() - originalStartDay.getTime()) / 86400000));
+
+        if (this._dragState.mode === "move") {
+          nextStart = startOfDay(addDays(originalStartDay, dayOffset));
+          nextStart.setHours(this._dragState.originalStart.getHours(), this._dragState.originalStart.getMinutes(), 0, 0);
+          nextEnd = startOfDay(addDays(originalStartDay, dayOffset + durationDays));
+          nextEnd.setHours(this._dragState.originalEnd.getHours(), this._dragState.originalEnd.getMinutes(), 0, 0);
+          if (event.isAllDay) {
+            nextStart = startOfDay(nextStart);
+            nextEnd = endOfDay(nextEnd);
+          }
+        } else if (this._dragState.mode === "resize-start") {
+          const resizedStart = startOfDay(addDays(originalStartDay, dayOffset));
+          if (resizedStart.getTime() <= originalEndDay.getTime()) {
+            nextStart = event.isAllDay ? startOfDay(resizedStart) : addDays(this._dragState.originalStart, dayOffset);
+          }
+        } else if (this._dragState.mode === "resize-end") {
+          const resizedEnd = startOfDay(addDays(originalEndDay, dayOffset));
+          if (resizedEnd.getTime() >= originalStartDay.getTime()) {
+            nextEnd = event.isAllDay ? endOfDay(resizedEnd) : addDays(this._dragState.originalEnd, dayOffset);
+          }
+        }
+      } else if (this._dragState.resourceId) {
+        const deltaMinutes = Math.round((this._dragState.currentDeltaX / this._dragState.columnWidth) / this.slotMinutes) * this.slotMinutes;
+        const durationMs = this._dragState.originalEnd.getTime() - this._dragState.originalStart.getTime();
         nextStart = addMinutes(this._dragState.originalStart, deltaMinutes);
         nextEnd = new Date(nextStart.getTime() + durationMs);
       } else {
-        nextEnd = addMinutes(this._dragState.originalEnd, deltaMinutes);
-        if (nextEnd <= nextStart) {
-          nextEnd = addMinutes(nextStart, this.slotMinutes);
+        const deltaMinutes = Math.round(((this._dragState.currentDeltaY / HOUR_HEIGHT) * 60) / this.slotMinutes) * this.slotMinutes;
+        const dayOffset = this._dragState.visibleDays.length > 1
+          ? Math.round(this._dragState.currentDeltaX / this._dragState.columnWidth)
+          : 0;
+        const durationMs = this._dragState.originalEnd.getTime() - this._dragState.originalStart.getTime();
+
+        if (this._dragState.mode === "move") {
+          nextStart = addMinutes(addDays(this._dragState.originalStart, dayOffset), deltaMinutes);
+          nextEnd = new Date(nextStart.getTime() + durationMs);
+        } else {
+          nextEnd = addMinutes(this._dragState.originalEnd, deltaMinutes);
+          if (nextEnd <= nextStart) {
+            nextEnd = addMinutes(nextStart, this.slotMinutes);
+          }
         }
       }
 
@@ -708,11 +1136,7 @@ export class LoomiCalendar extends LoomiElement {
     }
 
     if (this.editable) {
-      this.dispatchSlotSelect({
-        start: startOfDay(date),
-        end: endOfDay(date),
-        allDay: true
-      });
+      this.openCreateEventModal(startOfDay(date), endOfDay(date), true);
       return;
     }
 
@@ -828,11 +1252,132 @@ export class LoomiCalendar extends LoomiElement {
 
   private updateDate(date: Date) {
     this.date = date;
+    this._miniCalendarDate = cloneDate(date);
     this.dispatchEvent(new CustomEvent<CalendarDateChangeDetail>("loomi-date-change", {
       detail: { date },
       bubbles: true,
       composed: true
     }));
+  }
+
+  private handleResourceEventPointerDown(pointerEvent: PointerEvent, event: CalendarEvent, day: Date, resourceId: string) {
+    if (!canDragEvent(event, this.editable)) {
+      return;
+    }
+
+    pointerEvent.stopPropagation();
+    const track = pointerEvent.currentTarget as HTMLElement;
+    const timeline = track.closest(".resource-timeline") as HTMLElement | null;
+    const columnWidth = timeline ? timeline.clientWidth / Math.max(1, this.endHour - this.startHour) : 0;
+
+    this._dragState = {
+      eventId: event.id,
+      mode: "move",
+      pointerId: pointerEvent.pointerId,
+      startPointerX: pointerEvent.clientX,
+      startPointerY: pointerEvent.clientY,
+      currentDeltaX: 0,
+      currentDeltaY: 0,
+      originalStart: cloneDate(event.start),
+      originalEnd: cloneDate(event.end),
+      originalResourceId: event.resourceId,
+      day,
+      resourceId,
+      visibleDays: [day],
+      columnWidth
+    };
+
+    this.attachPointerListeners();
+    track.setPointerCapture(pointerEvent.pointerId);
+  }
+
+  private toggleSidebar() {
+    this.sidebarOpen = !this.sidebarOpen;
+    this.dispatchEvent(new CustomEvent<CalendarSidebarToggleDetail>("loomi-sidebar-toggle", {
+      detail: { open: this.sidebarOpen },
+      bubbles: true,
+      composed: true
+    }));
+  }
+
+  private shiftMiniCalendar(deltaMonths: number) {
+    const next = cloneDate(this._miniCalendarDate ?? this.date);
+    next.setMonth(next.getMonth() + deltaMonths);
+    this._miniCalendarDate = next;
+  }
+
+  private openCreateEventModal(start?: Date, end?: Date, allDay = false) {
+    const defaultStart = start ?? this.getDefaultEventStart();
+    const defaultEnd = end ?? addMinutes(defaultStart, this.slotMinutes);
+    this._eventDraft = {
+      title: "",
+      start: allDay ? toInputDateTime(startOfDay(defaultStart)).slice(0, 10) : toInputDateTime(defaultStart),
+      end: allDay ? toInputDateTime(startOfDay(defaultEnd)).slice(0, 10) : toInputDateTime(defaultEnd),
+      allDay,
+      color: "primary"
+    };
+  }
+
+  private getDefaultEventStart() {
+    const next = cloneDate(this.date);
+    const now = new Date();
+    next.setHours(now.getHours(), Math.ceil(now.getMinutes() / this.slotMinutes) * this.slotMinutes, 0, 0);
+    return next;
+  }
+
+  private updateEventDraft<K extends keyof EventDraft>(key: K, value: EventDraft[K]) {
+    if (!this._eventDraft) {
+      return;
+    }
+    this._eventDraft = { ...this._eventDraft, [key]: value };
+  }
+
+  private handleCreateEventSave(event: Event) {
+    event.preventDefault();
+    const draft = this._eventDraft;
+    if (!draft || !draft.title.trim()) {
+      return;
+    }
+
+    let start = draft.allDay
+      ? fromInputDateTime(`${draft.start}T00:00`)
+      : fromInputDateTime(draft.start);
+    let end = draft.allDay
+      ? fromInputDateTime(`${draft.end}T23:59`)
+      : fromInputDateTime(draft.end);
+
+    if (!start || !end) {
+      return;
+    }
+
+    if (draft.allDay) {
+      start = startOfDay(start);
+      end = endOfDay(end);
+    }
+
+    if (end <= start) {
+      end = draft.allDay ? endOfDay(start) : addMinutes(start, this.slotMinutes);
+    }
+
+    const created: CalendarEvent = {
+      id: `evt_${Date.now()}`,
+      title: draft.title.trim(),
+      start,
+      end,
+      color: draft.color,
+      isAllDay: draft.allDay
+    };
+
+    this.dispatchEvent(new CustomEvent<CalendarEventCreateDetail>("loomi-event-create", {
+      detail: { event: created },
+      bubbles: true,
+      composed: true
+    }));
+    this._eventDraft = undefined;
+  }
+
+  private handleCreateEventCancel() {
+    this._eventDraft = undefined;
   }
 
   private getFormattedTitle() {

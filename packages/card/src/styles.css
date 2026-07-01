@@ -1,67 +1,144 @@
-:host {
+:host(loomi-card) {
   display: block;
+  --loomi-card-spacing: 1rem;
 }
-:host([hidden]) {
+
+:host(loomi-card[hidden]) {
   display: none;
 }
 
-.loomi-card {
-  background: var(--loomi-surface);
-  border: 1px solid var(--loomi-surface-border-subtle);
+:host(loomi-card[size="sm"]) {
+  --loomi-card-spacing: 0.75rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--loomi-card-spacing);
   overflow: hidden;
+  border-radius: 0.75rem;
+  background: var(--loomi-surface);
+  padding-block: var(--loomi-card-spacing);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
   color: var(--loomi-text);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--loomi-text) 10%, transparent);
 }
-.loomi-card.shadow {
-  box-shadow:
-    0 1px 3px 0 rgba(0, 0, 0, 0.1),
-    0 1px 2px -1px rgba(0, 0, 0, 0.1);
+
+:host(loomi-card:has(loomi-card-footer)) .card {
+  padding-bottom: 0;
 }
-.loomi-card.hover {
-  transition: box-shadow 0.15s ease;
+
+:host(loomi-card:has(> img:first-child)) .card {
+  padding-top: 0;
 }
-.loomi-card.hover:hover {
-  box-shadow:
-    0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+
+:host(loomi-card:has(> img:first-child)) ::slotted(img) {
+  display: block;
+  width: 100%;
+  border-radius: 0.75rem 0.75rem 0 0;
 }
-.loomi-card.clickable {
+
+.card.clickable {
   cursor: pointer;
 }
 
-/* radius */
-.r-none {
-  border-radius: 0;
-}
-.r-small {
-  border-radius: 0.5rem;
-}
-.r-medium {
-  border-radius: 0.75rem;
-}
-.r-large {
-  border-radius: 1rem;
-}
-.r-xl {
-  border-radius: 1.5rem;
+.card.hover {
+  transition:
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
 }
 
-.loomi-title {
+.card.hover:hover {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--loomi-text) 10%, transparent),
+    0 4px 6px -1px rgba(0, 0, 0, 0.08),
+    0 2px 4px -2px rgba(0, 0, 0, 0.06);
+}
+
+/* ---- header ---- */
+
+:host(loomi-card-header) {
+  display: block;
+}
+
+.header {
+  display: grid;
+  grid-auto-rows: min-content;
+  align-items: start;
+  gap: 0.25rem;
+  padding-inline: var(--loomi-card-spacing);
+  border-radius: 0.75rem 0.75rem 0 0;
+}
+
+:host(loomi-card-header:has(loomi-card-action)) .header {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+:host(loomi-card-header:has(loomi-card-description)) .header {
+  grid-template-rows: auto auto;
+}
+
+:host(loomi-card-header) .header.border-b {
+  padding-bottom: var(--loomi-card-spacing);
+}
+
+/* ---- title ---- */
+
+:host(loomi-card-title) {
+  display: block;
+}
+
+.title {
   font-weight: 600;
-  padding: 1rem 1.25rem 0;
-  text-transform: capitalize;
+  line-height: 1;
+  letter-spacing: -0.025em;
 }
-.loomi-body {
-  padding: 1.25rem;
+
+/* ---- description ---- */
+
+:host(loomi-card-description) {
+  display: block;
 }
-.loomi-body.compact {
-  padding: 0.75rem;
+
+.description {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--loomi-text-muted);
 }
-.loomi-body.flush {
-  padding: 0;
+
+/* ---- action ---- */
+
+:host(loomi-card-action) {
+  display: block;
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: start;
+  justify-self: end;
 }
-.loomi-header {
-  border-bottom: 1px solid var(--loomi-surface-border-subtle);
+
+/* ---- content ---- */
+
+:host(loomi-card-content) {
+  display: block;
 }
-.loomi-footer {
+
+.content {
+  padding-inline: var(--loomi-card-spacing);
+}
+
+/* ---- footer ---- */
+
+:host(loomi-card-footer) {
+  display: block;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   border-top: 1px solid var(--loomi-surface-border-subtle);
+  border-radius: 0 0 0.75rem 0.75rem;
+  background: color-mix(in srgb, var(--loomi-surface-muted) 50%, transparent);
+  padding: var(--loomi-card-spacing);
 }
