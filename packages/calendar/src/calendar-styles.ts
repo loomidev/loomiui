@@ -16,10 +16,15 @@ export const calendarStyles = css`
     --loomi-calendar-accent-soft: var(--loomi-primary-100, var(--_loomi-primary-100-default, #dbeafe));
     --loomi-calendar-accent-softer: var(--loomi-primary-50, var(--_loomi-primary-50-default, #eff6ff));
     --loomi-calendar-now: var(--loomi-error-500, #ef4444);
+    --loomi-calendar-radius: 12px;
+    --loomi-calendar-radius-sm: 8px;
+    --loomi-calendar-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 23, 42, 0.06);
+    --loomi-calendar-transition: 160ms cubic-bezier(0.4, 0, 0.2, 1);
     display: block;
     color: var(--loomi-calendar-text);
     font-family: Inter, ui-sans-serif, system-ui, sans-serif;
     font-size: 14px;
+    line-height: 1.4;
   }
 
   :host([hidden]) {
@@ -32,9 +37,10 @@ export const calendarStyles = css`
     min-height: 420px;
     height: 100%;
     overflow: hidden;
-    border: 1px solid var(--loomi-calendar-border);
-    border-radius: 8px;
+    border: 1px solid color-mix(in srgb, var(--loomi-calendar-border) 88%, transparent);
+    border-radius: var(--loomi-calendar-radius);
     background: var(--loomi-calendar-surface);
+    box-shadow: var(--loomi-calendar-shadow);
   }
 
   .toolbar {
@@ -43,9 +49,14 @@ export const calendarStyles = css`
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 12px;
-    border-bottom: 1px solid var(--loomi-calendar-border);
-    background: var(--loomi-calendar-surface);
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--loomi-calendar-border-subtle);
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--loomi-calendar-surface) 92%, var(--loomi-calendar-accent-softer)) 0%,
+      var(--loomi-calendar-surface) 100%
+    );
+    backdrop-filter: blur(8px);
   }
 
   .toolbar-group {
@@ -56,8 +67,9 @@ export const calendarStyles = css`
   }
 
   .title {
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 600;
+    letter-spacing: -0.02em;
     color: var(--loomi-calendar-text);
     min-width: 0;
   }
@@ -68,10 +80,22 @@ export const calendarStyles = css`
     min-height: 28px;
     padding: 0 10px;
     border-radius: 999px;
-    background: var(--loomi-calendar-surface-muted);
+    border: 1px solid var(--loomi-calendar-border-subtle);
+    background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 80%, transparent);
     color: var(--loomi-calendar-text-muted);
     font-size: 12px;
     font-weight: 600;
+  }
+
+  .btn,
+  .seg-btn,
+  .weekday-btn {
+    transition:
+      border-color var(--loomi-calendar-transition),
+      background var(--loomi-calendar-transition),
+      color var(--loomi-calendar-transition),
+      box-shadow var(--loomi-calendar-transition),
+      transform var(--loomi-calendar-transition);
   }
 
   .btn,
@@ -81,9 +105,9 @@ export const calendarStyles = css`
     justify-content: center;
     gap: 6px;
     min-height: 34px;
-    padding: 0 10px;
+    padding: 0 12px;
     border: 1px solid var(--loomi-calendar-border);
-    border-radius: 6px;
+    border-radius: var(--loomi-calendar-radius-sm);
     background: var(--loomi-calendar-surface);
     color: inherit;
     font: inherit;
@@ -92,8 +116,19 @@ export const calendarStyles = css`
 
   .btn:hover,
   .seg-btn:hover {
-    border-color: var(--loomi-calendar-accent);
+    border-color: color-mix(in srgb, var(--loomi-calendar-accent) 35%, var(--loomi-calendar-border));
     background: var(--loomi-calendar-surface-hover);
+  }
+
+  .btn:focus-visible,
+  .seg-btn:focus-visible,
+  .weekday-btn:focus-visible,
+  .day-num:focus-visible,
+  .event-pill:focus-visible,
+  .timed-event:focus-visible,
+  .agenda-item:focus-visible {
+    outline: 2px solid var(--loomi-calendar-accent);
+    outline-offset: 2px;
   }
 
   .btn.icon {
@@ -109,17 +144,19 @@ export const calendarStyles = css`
 
   .segmented {
     display: inline-flex;
-    padding: 2px;
-    border: 1px solid var(--loomi-calendar-border);
-    border-radius: 8px;
-    background: var(--loomi-calendar-surface-muted);
+    padding: 3px;
+    border: 1px solid var(--loomi-calendar-border-subtle);
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 88%, transparent);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
   }
 
   .seg-btn {
     border: 0;
     background: transparent;
     min-height: 30px;
-    border-radius: 6px;
+    padding: 0 11px;
+    border-radius: 7px;
     color: var(--loomi-calendar-text-muted);
     font-size: 13px;
     font-weight: 600;
@@ -128,7 +165,7 @@ export const calendarStyles = css`
   .seg-btn.active {
     background: var(--loomi-calendar-surface);
     color: var(--loomi-calendar-accent-strong);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
   }
 
   .body {
@@ -136,6 +173,7 @@ export const calendarStyles = css`
     flex: 1;
     min-height: 0;
     position: relative;
+    background: linear-gradient(180deg, var(--loomi-calendar-surface) 0%, color-mix(in srgb, var(--loomi-calendar-surface-muted) 28%, transparent) 100%);
   }
 
   .loading-overlay {
@@ -144,7 +182,8 @@ export const calendarStyles = css`
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.72);
+    background: color-mix(in srgb, var(--loomi-calendar-surface) 78%, transparent);
+    backdrop-filter: blur(2px);
     z-index: 20;
     color: var(--loomi-calendar-text-muted);
     font-weight: 600;
@@ -161,27 +200,73 @@ export const calendarStyles = css`
 
   .weekdays {
     display: grid;
-    border-bottom: 1px solid var(--loomi-calendar-border);
-    background: var(--loomi-calendar-surface-muted);
+    border-bottom: 1px solid var(--loomi-calendar-border-subtle);
+    background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 72%, transparent);
   }
 
   .weekday {
-    padding: 8px;
+    padding: 10px 8px;
     text-align: center;
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
     color: var(--loomi-calendar-text-faint);
     text-transform: uppercase;
   }
 
-  .weekday.is-today {
+  .weekday-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    width: 100%;
+    padding: 8px 6px;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .weekday-btn:hover {
+    background: color-mix(in srgb, var(--loomi-calendar-accent-softer) 65%, transparent);
+  }
+
+  .weekday-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--loomi-calendar-text-faint);
+  }
+
+  .weekday-date {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    min-height: 28px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--loomi-calendar-text-secondary);
+  }
+
+  .weekday-btn.is-today .weekday-label {
     color: var(--loomi-calendar-accent);
+  }
+
+  .weekday-btn.is-today .weekday-date {
+    background: var(--loomi-calendar-accent);
+    color: var(--loomi-white, #ffffff);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--loomi-calendar-accent-soft) 70%, transparent);
   }
 
   .month-grid {
     display: grid;
     grid-template-columns: repeat(7, minmax(0, 1fr));
-    grid-auto-rows: minmax(108px, 1fr);
+    grid-auto-rows: minmax(112px, 1fr);
     flex: 1;
     min-height: 0;
   }
@@ -191,10 +276,21 @@ export const calendarStyles = css`
     flex-direction: column;
     gap: 4px;
     min-width: 0;
-    padding: 4px;
+    padding: 6px;
     border-right: 1px solid var(--loomi-calendar-border-subtle);
     border-bottom: 1px solid var(--loomi-calendar-border-subtle);
     background: var(--loomi-calendar-surface);
+    transition: background var(--loomi-calendar-transition);
+  }
+
+  .month-cell.interactive,
+  .month-cell.editable {
+    cursor: pointer;
+  }
+
+  .month-cell.interactive:hover,
+  .month-cell.editable:hover {
+    background: color-mix(in srgb, var(--loomi-calendar-accent-softer) 55%, var(--loomi-calendar-surface));
   }
 
   .month-cell:nth-child(7n) {
@@ -202,7 +298,12 @@ export const calendarStyles = css`
   }
 
   .month-cell.other-month {
-    background: var(--loomi-calendar-surface-muted);
+    background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 72%, transparent);
+  }
+
+  .month-cell.today {
+    background: color-mix(in srgb, var(--loomi-calendar-accent-softer) 42%, var(--loomi-calendar-surface));
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--loomi-calendar-accent-soft) 70%, transparent);
   }
 
   .day-num {
@@ -218,8 +319,12 @@ export const calendarStyles = css`
     color: var(--loomi-calendar-text-secondary);
     font: inherit;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
+    transition:
+      background var(--loomi-calendar-transition),
+      color var(--loomi-calendar-transition),
+      box-shadow var(--loomi-calendar-transition);
   }
 
   .day-num:hover {
@@ -230,6 +335,7 @@ export const calendarStyles = css`
   .day-num.today {
     background: var(--loomi-calendar-accent);
     color: var(--loomi-white, #ffffff);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--loomi-calendar-accent-soft) 75%, transparent);
   }
 
   .month-cell.other-month .day-num {
@@ -237,12 +343,13 @@ export const calendarStyles = css`
   }
 
   .event-pill {
+    position: relative;
     display: block;
     width: 100%;
     min-width: 0;
-    padding: 2px 6px;
+    padding: 3px 8px 3px 10px;
     border: 0;
-    border-radius: 4px;
+    border-radius: 6px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -251,13 +358,47 @@ export const calendarStyles = css`
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
+    box-shadow: 0 1px 1px rgba(15, 23, 42, 0.04);
+    transition:
+      transform var(--loomi-calendar-transition),
+      box-shadow var(--loomi-calendar-transition),
+      filter var(--loomi-calendar-transition);
+  }
+
+  .event-pill::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 4px;
+    bottom: 4px;
+    width: 3px;
+    border-radius: 999px;
+    background: currentColor;
+    opacity: 0.55;
+  }
+
+  .event-pill:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(15, 23, 42, 0.08);
+    filter: saturate(1.05);
   }
 
   .event-pill.more {
     background: transparent;
-    color: var(--loomi-calendar-text-muted);
-    cursor: default;
-    font-weight: 500;
+    color: var(--loomi-calendar-accent-strong);
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: none;
+    padding-left: 8px;
+  }
+
+  .event-pill.more::before {
+    display: none;
+  }
+
+  .event-pill.more:hover {
+    background: color-mix(in srgb, var(--loomi-calendar-accent-softer) 70%, transparent);
+    transform: none;
   }
 
   .time-layout {
@@ -270,8 +411,8 @@ export const calendarStyles = css`
   .time-axis {
     width: 64px;
     flex: none;
-    border-right: 1px solid var(--loomi-calendar-border);
-    background: var(--loomi-calendar-surface);
+    border-right: 1px solid var(--loomi-calendar-border-subtle);
+    background: color-mix(in srgb, var(--loomi-calendar-surface) 90%, transparent);
     position: sticky;
     left: 0;
     z-index: 3;
@@ -286,6 +427,7 @@ export const calendarStyles = css`
     transform: translateY(-8px);
     color: var(--loomi-calendar-text-faint);
     font-size: 11px;
+    font-weight: 600;
   }
 
   .time-grid-wrap {
@@ -307,8 +449,8 @@ export const calendarStyles = css`
 
   .all-day-row {
     display: grid;
-    border-bottom: 1px solid var(--loomi-calendar-border);
-    background: var(--loomi-calendar-surface-muted);
+    border-bottom: 1px solid var(--loomi-calendar-border-subtle);
+    background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 72%, transparent);
   }
 
   .all-day-label {
@@ -318,7 +460,8 @@ export const calendarStyles = css`
     padding: 0 8px;
     color: var(--loomi-calendar-text-faint);
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
   }
 
@@ -339,24 +482,26 @@ export const calendarStyles = css`
     position: relative;
   }
 
+  .time-slots.editable {
+    cursor: crosshair;
+  }
+
   .time-slot {
     height: var(--loomi-calendar-hour-height, 48px);
     border-bottom: 1px solid var(--loomi-calendar-border-subtle);
     box-sizing: border-box;
   }
 
-  .time-slot-button {
-    display: block;
-    width: 100%;
-    height: 100%;
-    border: 0;
-    padding: 0;
-    background: transparent;
-    cursor: pointer;
-  }
-
-  .time-slot-button:hover {
-    background: color-mix(in srgb, var(--loomi-calendar-accent-softer) 70%, transparent);
+  .slot-selection {
+    position: absolute;
+    left: 4px;
+    right: 4px;
+    border-radius: 8px;
+    border: 1px dashed color-mix(in srgb, var(--loomi-calendar-accent) 55%, transparent);
+    background: color-mix(in srgb, var(--loomi-calendar-accent-softer) 78%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--loomi-calendar-accent-soft) 45%, transparent);
+    pointer-events: none;
+    z-index: 3;
   }
 
   .now-line {
@@ -365,6 +510,7 @@ export const calendarStyles = css`
     right: 0;
     height: 2px;
     background: var(--loomi-calendar-now);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--loomi-calendar-now) 20%, transparent), 0 0 8px color-mix(in srgb, var(--loomi-calendar-now) 35%, transparent);
     z-index: 4;
     pointer-events: none;
   }
@@ -378,19 +524,40 @@ export const calendarStyles = css`
     height: 8px;
     border-radius: 999px;
     background: var(--loomi-calendar-now);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--loomi-calendar-now) 18%, transparent);
   }
 
   .timed-event {
     position: absolute;
     box-sizing: border-box;
-    padding: 4px 6px;
-    border-radius: 6px;
+    padding: 5px 8px 5px 11px;
+    border-radius: 8px;
     overflow: hidden;
     border: 1px solid transparent;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 4px 12px rgba(15, 23, 42, 0.04);
     cursor: pointer;
     z-index: 2;
     text-align: left;
+    transition:
+      transform var(--loomi-calendar-transition),
+      box-shadow var(--loomi-calendar-transition);
+  }
+
+  .timed-event::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 3px;
+    border-radius: 999px;
+    background: currentColor;
+    opacity: 0.5;
+  }
+
+  .timed-event:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08), 0 8px 18px rgba(15, 23, 42, 0.06);
   }
 
   .timed-event.draggable {
@@ -399,21 +566,22 @@ export const calendarStyles = css`
 
   .timed-event.dragging {
     cursor: grabbing;
-    opacity: 0.88;
+    opacity: 0.92;
     z-index: 10;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
   }
 
   .timed-event-title {
     font-size: 12px;
     font-weight: 700;
-    line-height: 1.2;
+    line-height: 1.25;
   }
 
   .timed-event-meta {
     margin-top: 2px;
     font-size: 11px;
     opacity: 0.85;
-    line-height: 1.2;
+    line-height: 1.25;
   }
 
   .resize-handle {
@@ -421,7 +589,7 @@ export const calendarStyles = css`
     left: 0;
     right: 0;
     bottom: 0;
-    height: 6px;
+    height: 8px;
     cursor: ns-resize;
   }
 
@@ -431,13 +599,14 @@ export const calendarStyles = css`
   }
 
   .agenda-day {
-    border-bottom: 1px solid var(--loomi-calendar-border);
+    border-bottom: 1px solid var(--loomi-calendar-border-subtle);
   }
 
   .agenda-day-header {
-    padding: 10px 12px;
-    background: var(--loomi-calendar-surface-muted);
+    padding: 12px 16px;
+    background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 72%, transparent);
     font-weight: 700;
+    letter-spacing: -0.01em;
     color: var(--loomi-calendar-text-secondary);
   }
 
@@ -446,7 +615,7 @@ export const calendarStyles = css`
     grid-template-columns: 120px 1fr;
     gap: 12px;
     width: 100%;
-    padding: 12px;
+    padding: 14px 16px;
     border: 0;
     border-top: 1px solid var(--loomi-calendar-border-subtle);
     background: var(--loomi-calendar-surface);
@@ -454,10 +623,11 @@ export const calendarStyles = css`
     cursor: pointer;
     color: inherit;
     font: inherit;
+    transition: background var(--loomi-calendar-transition);
   }
 
   .agenda-item:hover {
-    background: var(--loomi-calendar-surface-hover);
+    background: color-mix(in srgb, var(--loomi-calendar-accent-softer) 45%, var(--loomi-calendar-surface-hover));
   }
 
   .agenda-time {
@@ -468,6 +638,7 @@ export const calendarStyles = css`
 
   .agenda-title {
     font-weight: 700;
+    letter-spacing: -0.01em;
   }
 
   .agenda-description,
@@ -495,8 +666,9 @@ export const calendarStyles = css`
     position: sticky;
     top: 0;
     z-index: 5;
-    background: var(--loomi-calendar-surface-muted);
-    border-bottom: 1px solid var(--loomi-calendar-border);
+    background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 82%, transparent);
+    border-bottom: 1px solid var(--loomi-calendar-border-subtle);
+    backdrop-filter: blur(6px);
   }
 
   .resource-label,
@@ -504,8 +676,8 @@ export const calendarStyles = css`
     display: flex;
     align-items: center;
     padding: 10px 12px;
-    border-right: 1px solid var(--loomi-calendar-border);
-    background: var(--loomi-calendar-surface-muted);
+    border-right: 1px solid var(--loomi-calendar-border-subtle);
+    background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 72%, transparent);
     font-weight: 600;
   }
 
@@ -518,6 +690,7 @@ export const calendarStyles = css`
     position: relative;
     min-height: calc(var(--loomi-calendar-hour-height, 48px) * var(--loomi-calendar-hour-count, 12));
     border-bottom: 1px solid var(--loomi-calendar-border-subtle);
+    cursor: crosshair;
   }
 
   .resource-hours {
@@ -558,9 +731,62 @@ export const calendarStyles = css`
     text-align: center;
   }
 
-  .event-primary { background: var(--loomi-primary-100, #dbeafe); color: var(--loomi-primary-800, #1e40af); border-color: var(--loomi-primary-200, #bfdbfe); }
-  .event-secondary { background: var(--loomi-secondary-100, #f3f4f6); color: var(--loomi-secondary-800, #1f2937); border-color: var(--loomi-secondary-200, #e5e7eb); }
-  .event-success { background: var(--loomi-success-100, #d1fae5); color: var(--loomi-success-800, #065f46); border-color: var(--loomi-success-200, #a7f3d0); }
-  .event-warning { background: var(--loomi-warning-100, #fef3c7); color: var(--loomi-warning-800, #92400e); border-color: var(--loomi-warning-200, #fde68a); }
-  .event-error { background: var(--loomi-error-100, #fee2e2); color: var(--loomi-error-800, #991b1b); border-color: var(--loomi-error-200, #fecaca); }
+  .event-primary {
+    background: color-mix(in srgb, var(--loomi-primary-100, #dbeafe) 88%, white);
+    color: var(--loomi-primary-800, #1e40af);
+    border-color: color-mix(in srgb, var(--loomi-primary-200, #bfdbfe) 80%, transparent);
+  }
+
+  .event-secondary {
+    background: color-mix(in srgb, var(--loomi-secondary-100, #f3f4f6) 88%, white);
+    color: var(--loomi-secondary-800, #1f2937);
+    border-color: color-mix(in srgb, var(--loomi-secondary-200, #e5e7eb) 80%, transparent);
+  }
+
+  .event-success {
+    background: color-mix(in srgb, var(--loomi-success-100, #d1fae5) 88%, white);
+    color: var(--loomi-success-800, #065f46);
+    border-color: color-mix(in srgb, var(--loomi-success-200, #a7f3d0) 80%, transparent);
+  }
+
+  .event-warning {
+    background: color-mix(in srgb, var(--loomi-warning-100, #fef3c7) 88%, white);
+    color: var(--loomi-warning-800, #92400e);
+    border-color: color-mix(in srgb, var(--loomi-warning-200, #fde68a) 80%, transparent);
+  }
+
+  .event-error {
+    background: color-mix(in srgb, var(--loomi-error-100, #fee2e2) 88%, white);
+    color: var(--loomi-error-800, #991b1b);
+    border-color: color-mix(in srgb, var(--loomi-error-200, #fecaca) 80%, transparent);
+  }
+
+  @media (max-width: 720px) {
+    .toolbar {
+      padding: 12px;
+    }
+
+    .title {
+      font-size: 1rem;
+    }
+
+    .segmented {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .seg-btn {
+      flex: 1 0 auto;
+      padding-inline: 9px;
+    }
+
+    .month-grid {
+      grid-auto-rows: minmax(96px, 1fr);
+    }
+
+    .agenda-item {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+  }
 `;
