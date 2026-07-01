@@ -35,7 +35,10 @@
   },
   "dependencies": {
     "@loomidev/core": "workspace:^",
+    "@loomidev/filepicker": "workspace:^",
     "@loomidev/icon": "workspace:^",
+    "@loomidev/input": "workspace:^",
+    "@loomidev/modal": "workspace:^",
     "@loomidev/theme": "workspace:^",
     "@loomidev/tooltip": "workspace:^"
   },

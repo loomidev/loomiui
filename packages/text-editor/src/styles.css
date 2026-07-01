@@ -239,7 +239,8 @@
 }
 
 .loomi-editor img,
-.loomi-editor iframe {
+.loomi-editor iframe,
+.loomi-editor video {
   display: block;
   max-width: 100%;
   border-radius: 0.35rem;
@@ -249,6 +250,10 @@
   width: min(100%, 42rem);
   aspect-ratio: 16 / 9;
   border: 0;
+}
+
+.loomi-editor video {
+  width: min(100%, 42rem);
 }
 
 :host([disabled]) .loomi-toolbar {

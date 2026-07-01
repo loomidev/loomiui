@@ -1620,9 +1620,18 @@ importers:
       '@loomidev/core':
         specifier: workspace:^
         version: link:../core
+      '@loomidev/filepicker':
+        specifier: workspace:^
+        version: link:../filepicker
       '@loomidev/icon':
         specifier: workspace:^
         version: link:../icon
+      '@loomidev/input':
+        specifier: workspace:^
+        version: link:../input
+      '@loomidev/modal':
+        specifier: workspace:^
+        version: link:../modal
       '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme

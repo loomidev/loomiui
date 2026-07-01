@@ -91,9 +91,10 @@ use the editor as a plain rich-text field.
 | `subscript` | Subscript text. |
 | `blockquote` | Blockquote formatting. |
 | `code-block` | Preformatted code block. |
-| `link` | Prompt for a link URL and insert a link. |
-| `image` | Prompt for an image URL and alt text. |
-| `video` | Prompt for a video URL and insert an iframe embed. YouTube and Vimeo URLs are normalized to embed URLs. |
+| `link` | Opens a Loomi modal with URL and display text inputs. |
+| `image` | Opens a Loomi modal with URL, alt text, and a `loomi-filepicker` image option. |
+| `video` | Opens a Loomi modal with URL and a `loomi-filepicker` video option. YouTube and Vimeo URLs are normalized to embed URLs. |
+| `ai` | Shows an AI generate button and dispatches `loomi-ai-generate` for your app to handle. `generate` and `ai-generate` are accepted aliases. |
 
 ## Tool Groups
 
@@ -114,7 +115,7 @@ Groups let you keep templates readable.
 | `blocks` | `blockquote`, `code-block` |
 | `embed` | `link`, `image`, `video` |
 | `media` | `image`, `video` |
-| `all` | Everything listed above |
+| `all` | Everything listed above, including `ai` |
 | `none` | No toolbar |
 
 You can mix groups and individual values:
@@ -191,11 +192,11 @@ editor.addEventListener("input", () => {
 Example value:
 
 ```html
-<h2>Shipping notes</h2>
-<p>Use <strong>insured delivery</strong> for fragile items.</p>
+<h2>Project update</h2>
+<p>The <strong>new dashboard</strong> is ready for review.</p>
 <ul>
-  <li>Pack the glass separately.</li>
-  <li>Add a delivery phone number.</li>
+  <li>Confirm the final copy.</li>
+  <li>Share feedback before Friday.</li>
 </ul>
 ```
 
@@ -261,9 +262,20 @@ function htmlToText(html) {
 
 ## Links, Images, and Videos
 
-The `link`, `image`, and `video` tools use browser prompts for URLs. Links are hardened
-with `target="_blank"` and `rel="noopener noreferrer"`. Image and video tools accept HTTP,
-HTTPS, and relative URLs; video embeds render as iframes.
+The `link`, `image`, and `video` tools open a `<loomi-modal>` instead of using browser
+prompts.
+
+- Link inserts use `<loomi-input>` fields for the URL and optional display text.
+- Image inserts use `<loomi-input>` for an image URL and alt text, plus
+  `<loomi-filepicker>` for choosing an image file.
+- Video inserts use `<loomi-input>` for a video URL, plus `<loomi-filepicker>` for choosing
+  a video file.
+
+Links are hardened with `target="_blank"` and `rel="noopener noreferrer"`. Image and video
+URL fields accept HTTP, HTTPS, and relative URLs. YouTube and Vimeo links render as iframe
+embeds. Files chosen through `loomi-filepicker` are inserted as data URLs, which works
+well for immediate previews and simple forms; production upload flows should upload the
+file first and insert the returned CDN or storage URL.
 
 If your product needs a media library, upload flow, or custom link picker, keep `image`,
 `video`, or `link` out of `tools` and provide your own buttons outside the editor. Those
@@ -271,25 +283,14 @@ buttons can update `editor.value` or use your own app-level insertion flow.
 
 ## AI Generate Option
 
-I did not add an AI generate toolbar item in this refactor.
-
-The recommended design is an app-owned integration:
-
-- The editor exposes an `ai` or `generate` tool only when the host app opts in.
-- Clicking it dispatches a composed custom event, for example `loomi-ai-generate`.
-- The event detail includes the current HTML, selected text if any, and an insertion mode
-  such as `replace-selection`, `append`, or `replace-all`.
-- The host app handles authentication, provider choice, prompts, moderation, rate limits,
-  billing, and streaming.
-- When generation completes, the host app passes the generated HTML or text back to the
-  editor.
-
-That shape keeps LoomiUI provider-neutral and avoids putting API keys or model-specific
-behavior inside a UI component package. A future implementation could look like:
+Add `ai` to `tools` to show a sparkles button in the toolbar:
 
 ```html
 <loomi-text-editor tools="basic,lists,ai"></loomi-text-editor>
 ```
+
+When clicked, the editor dispatches `loomi-ai-generate`. Your app handles the AI request
+and can insert the result through `event.detail.insert(html)`.
 
 ```js
 editor.addEventListener("loomi-ai-generate", async (event) => {
@@ -301,6 +302,16 @@ editor.addEventListener("loomi-ai-generate", async (event) => {
   event.detail.insert(result.html);
 });
 ```
+
+The event detail contains:
+
+| Detail | Description |
+| --- | --- |
+| `html` | The editor's current HTML value. |
+| `selection` | The selected text, if any. |
+| `insert(html)` | Helper that inserts generated HTML back into the editor at the saved selection. |
+
+This keeps LoomiUI provider-neutral while still giving users a real toolbar affordance.
 
 ## Attributes and Properties
 
@@ -321,7 +332,7 @@ editor.addEventListener("loomi-ai-generate", async (event) => {
 
 **Methods:** `focus()`, `validate()`, `checkValidity()`, `reportValidity()`.
 
-**Events:** `input`, `change`.
+**Events:** `input`, `change`, `loomi-ai-generate`.
 
 **CSS parts:** `field`, `toolbar`, `editor`.
 

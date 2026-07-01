@@ -1,7 +1,11 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { LoomiElement, loomiT, themeStyles } from "@loomidev/core";
+import "@loomidev/filepicker/loomi-filepicker.js";
 import "@loomidev/icon/loomi-icon.js";
+import "@loomidev/input/loomi-input.js";
+import "@loomidev/modal/loomi-modal.js";
+import type { LoomiModal } from "@loomidev/modal";
 import "@loomidev/tooltip/loomi-tooltip.js";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -29,10 +33,12 @@ const TOOL_ORDER = [
   "link",
   "image",
   "video",
+  "ai",
 ] as const;
 
 export type LoomiTextEditorTool = (typeof TOOL_ORDER)[number];
 export type LoomiTextEditorTools = string | readonly string[];
+export type LoomiTextEditorEmbedTool = "link" | "image" | "video";
 
 const TOOL_SET = new Set<string>(TOOL_ORDER);
 
@@ -84,6 +90,8 @@ const TOOL_ALIASES: Record<string, string> = {
   quote: "blockquote",
   embeds: "embed",
   media: "media",
+  "ai-generate": "ai",
+  generate: "ai",
   full: "all",
 };
 
@@ -103,7 +111,7 @@ const TOOL_GROUPS: Record<string, readonly string[]> = {
   blocks: ["blockquote", "code-block"],
   embed: ["link", "image", "video"],
   media: ["image", "video"],
-  all: ["typography", "basic", "lists", "align", "script", "blocks", "embed"],
+  all: ["typography", "basic", "lists", "align", "script", "blocks", "embed", "ai"],
 };
 
 const ACTIVE_COMMANDS: Partial<Record<LoomiTextEditorTool, string>> = {
@@ -143,6 +151,7 @@ const TOOL_LABELS: Record<LoomiTextEditorTool, string> = {
   link: "Link",
   image: "Image",
   video: "Video",
+  ai: "AI generate",
 };
 
 const TOOL_ICONS: Partial<Record<LoomiTextEditorTool, IconSpec>> = {
@@ -165,6 +174,7 @@ const TOOL_ICONS: Partial<Record<LoomiTextEditorTool, IconSpec>> = {
   link: { name: "link" },
   image: { name: "photo" },
   video: { name: "video-camera" },
+  ai: { name: "sparkles" },
 };
 
 const FONT_FAMILIES = [
@@ -179,6 +189,9 @@ const FONT_SIZES = [
   { label: "Large", value: "5" },
   { label: "Huge", value: "7" },
 ];
+const EMBED_FORM_STYLE = "display:grid;gap:0.85rem;min-width:min(28rem,100%);";
+const EMBED_CONTROL_STYLE = "margin-bottom:0;";
+const EMBED_SEPARATOR_STYLE = "color:var(--loomi-text-faint);font-size:0.82rem;";
 
 function normalizeToken(value: string): string {
   return value.trim().toLowerCase().replace(/[\s_]+/g, "-");
@@ -239,6 +252,15 @@ function videoEmbedUrl(value: string): string {
   return url;
 }
 
+function readFileAsDataUrl(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ""));
+    reader.onerror = () => reject(reader.error ?? new Error("Unable to read file"));
+    reader.readAsDataURL(file);
+  });
+}
+
 /**
  * `<loomi-text-editor>` - a themeable rich-text editor with a native
  * contenteditable surface, configurable toolbar groups, floating label, inline
@@ -258,6 +280,8 @@ export class LoomiTextEditor extends LoomiElement {
   private internals = this.attachInternals();
   private validationVisible = false;
   private valueSetFromEditor = false;
+  private savedRange: Range | null = null;
+  private embedFiles: File[] = [];
   private readonly onSelectionChange = (): void => this.updateToolbarState();
 
   @property({ reflect: true }) name = "";
@@ -276,8 +300,13 @@ export class LoomiTextEditor extends LoomiElement {
 
   @state() private activeTools: readonly string[] = [];
   @state() private currentBlock = "p";
+  @state() private embedTool: LoomiTextEditorEmbedTool | "" = "";
+  @state() private embedUrl = "";
+  @state() private embedText = "";
+  @state() private embedAlt = "";
 
   @query(".loomi-editor") private editorEl!: HTMLElement;
+  @query(".loomi-embed-modal", true) private embedModalEl?: LoomiModal;
 
   private get resolvedTools(): readonly LoomiTextEditorTool[] {
     const rawTools = Array.isArray(this.tools)
@@ -403,7 +432,13 @@ export class LoomiTextEditor extends LoomiElement {
     this.dispatchEvent(new Event(type, { bubbles: true, composed: true }));
   }
 
+  private captureSelection(): void {
+    const range = this.currentRange();
+    this.savedRange = range ? range.cloneRange() : null;
+  }
+
   private keepToolbarFocus(event: MouseEvent): void {
+    this.captureSelection();
     event.preventDefault();
   }
 
@@ -464,13 +499,16 @@ export class LoomiTextEditor extends LoomiElement {
         this.formatBlock("pre");
         break;
       case "link":
-        this.insertLink();
+        this.openEmbedDialog("link");
         break;
       case "image":
-        this.insertImage();
+        this.openEmbedDialog("image");
         break;
       case "video":
-        this.insertVideo();
+        this.openEmbedDialog("video");
+        break;
+      case "ai":
+        this.requestAiGeneration();
         break;
       default:
         break;
@@ -478,21 +516,25 @@ export class LoomiTextEditor extends LoomiElement {
   }
 
   private setHeading(value: string): void {
+    this.restoreSavedSelection();
     this.formatBlock(value || "p");
   }
 
   private setFontFamily(value: string): void {
     if (!value) return;
+    this.restoreSavedSelection();
     this.command("fontName", value);
   }
 
   private setFontSize(value: string): void {
     if (!value) return;
+    this.restoreSavedSelection();
     this.command("fontSize", value);
   }
 
   private setColor(command: "foreColor" | "hiliteColor", value: string): void {
     if (!value) return;
+    this.restoreSavedSelection();
     this.command(command, value);
   }
 
@@ -527,28 +569,122 @@ export class LoomiTextEditor extends LoomiElement {
     this.emit("input");
   }
 
-  private insertLink(): void {
-    const href = safeUrl(window.prompt("Link URL") ?? "", ["http:", "https:", "mailto:", "tel:"]);
-    if (!href) return;
+  private async openEmbedDialog(tool: LoomiTextEditorEmbedTool): Promise<void> {
+    if (this.disabled || this.readonly) return;
+    const range = this.currentRange();
+    this.savedRange = range ? range.cloneRange() : this.savedRange;
+    this.embedFiles = [];
+    this.embedTool = tool;
+    this.embedUrl = "";
+    this.embedAlt = "";
+    this.embedText = tool === "link" ? this.currentSelectionText() : "";
+    await this.updateComplete;
+    this.embedModalEl?.show();
+  }
 
+  private closeEmbedDialog(): void {
+    this.resetEmbedDialog();
+    this.embedModalEl?.hide();
+  }
+
+  private resetEmbedDialog(): void {
+    this.embedTool = "";
+    this.embedUrl = "";
+    this.embedText = "";
+    this.embedAlt = "";
+    this.embedFiles = [];
+    this.savedRange = null;
+  }
+
+  private restoreSavedSelection(): void {
+    this.focus();
+    if (!this.savedRange) return;
+    const root = this.getRootNode() as Document | ShadowRoot;
+    const rootSelection = (root as Document & { getSelection?: () => Selection | null }).getSelection;
+    const selection = rootSelection ? rootSelection.call(root) : document.getSelection();
+    selection?.removeAllRanges();
+    selection?.addRange(this.savedRange);
+  }
+
+  private onEmbedFileChange(event: CustomEvent<{ files: File[] }>): void {
+    this.embedFiles = event.detail.files;
+  }
+
+  private async confirmEmbedDialog(): Promise<void> {
+    const tool = this.embedTool;
+    if (!tool) return;
+
+    const inserted =
+      tool === "link"
+        ? this.confirmLink()
+        : tool === "image"
+          ? await this.confirmImage()
+          : await this.confirmVideo();
+    if (inserted) this.closeEmbedDialog();
+  }
+
+  private confirmLink(): boolean {
+    const href = safeUrl(this.embedUrl, ["http:", "https:", "mailto:", "tel:"]);
+    if (!href) return false;
+
+    this.restoreSavedSelection();
     const selection = this.currentSelectionText();
-    if (!selection) this.insertHtml(`<a href="${escapeHtml(href)}">${escapeHtml(href)}</a>`);
-    else this.command("createLink", href);
+    const label = this.embedText.trim() || selection || href;
+    if (!selection || this.embedText.trim()) {
+      this.insertHtml(`<a href="${escapeHtml(href)}">${escapeHtml(label)}</a>`);
+    } else {
+      this.command("createLink", href);
+    }
     this.hardenLinks();
+    return true;
   }
 
-  private insertImage(): void {
-    const src = safeUrl(window.prompt("Image URL") ?? "");
-    if (!src) return;
-    const alt = window.prompt("Image description") ?? "";
-    this.insertHtml(`<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}">`);
+  private async confirmImage(): Promise<boolean> {
+    const file = this.embedFiles.find((item) => item.type.startsWith("image/"));
+    const src = file ? await readFileAsDataUrl(file) : safeUrl(this.embedUrl);
+    if (!src) return false;
+    this.restoreSavedSelection();
+    this.insertHtml(`<img src="${escapeHtml(src)}" alt="${escapeHtml(this.embedAlt)}">`);
+    return true;
   }
 
-  private insertVideo(): void {
-    const src = videoEmbedUrl(window.prompt("Video URL") ?? "");
-    if (!src) return;
+  private async confirmVideo(): Promise<boolean> {
+    const file = this.embedFiles.find((item) => item.type.startsWith("video/"));
+    if (file) {
+      const src = await readFileAsDataUrl(file);
+      if (!src) return false;
+      this.restoreSavedSelection();
+      this.insertHtml(`<video controls src="${escapeHtml(src)}"></video>`);
+      return true;
+    }
+
+    const src = videoEmbedUrl(this.embedUrl);
+    if (!src) return false;
+    this.restoreSavedSelection();
     this.insertHtml(
       `<iframe src="${escapeHtml(src)}" title="Embedded video" loading="lazy" allowfullscreen></iframe>`,
+    );
+    return true;
+  }
+
+  private requestAiGeneration(): void {
+    if (this.disabled || this.readonly) return;
+    const range = this.currentRange();
+    this.savedRange = range ? range.cloneRange() : this.savedRange;
+    const selection = this.currentSelectionText();
+    this.dispatchEvent(
+      new CustomEvent("loomi-ai-generate", {
+        bubbles: true,
+        composed: true,
+        detail: {
+          html: this.value,
+          selection,
+          insert: (htmlValue: string) => {
+            this.restoreSavedSelection();
+            this.insertHtml(htmlValue);
+          },
+        },
+      }),
     );
   }
 
@@ -666,7 +802,7 @@ export class LoomiTextEditor extends LoomiElement {
           aria-label=${TOOL_LABELS[tool]}
           .value=${this.currentBlock}
           ?disabled=${this.disabled || this.readonly}
-          @mousedown=${this.keepToolbarFocus}
+          @pointerdown=${this.captureSelection}
           @change=${(event: Event) => this.setHeading((event.target as HTMLSelectElement).value)}
         >
           <option value="p">Body</option>
@@ -687,7 +823,7 @@ export class LoomiTextEditor extends LoomiElement {
           class="loomi-tool-select"
           aria-label=${TOOL_LABELS[tool]}
           ?disabled=${this.disabled || this.readonly}
-          @mousedown=${this.keepToolbarFocus}
+          @pointerdown=${this.captureSelection}
           @change=${(event: Event) => this.setFontFamily((event.target as HTMLSelectElement).value)}
         >
           <option value="">Font</option>
@@ -702,7 +838,7 @@ export class LoomiTextEditor extends LoomiElement {
         class="loomi-tool-select loomi-tool-select-narrow"
         aria-label=${TOOL_LABELS[tool]}
         ?disabled=${this.disabled || this.readonly}
-        @mousedown=${this.keepToolbarFocus}
+        @pointerdown=${this.captureSelection}
         @change=${(event: Event) => this.setFontSize((event.target as HTMLSelectElement).value)}
       >
         <option value="">Size</option>
@@ -721,7 +857,7 @@ export class LoomiTextEditor extends LoomiElement {
       html`<label
         class=${`loomi-color-tool${this.disabled || this.readonly ? " disabled" : ""}`}
         aria-label=${label}
-        @mousedown=${this.keepToolbarFocus}
+        @pointerdown=${this.captureSelection}
       >
         ${this.renderIcon(tool)}
         <input
@@ -733,6 +869,78 @@ export class LoomiTextEditor extends LoomiElement {
         />
       </label>`,
     );
+  }
+
+  private renderEmbedInput(label: string, value: string, onInput: (value: string) => void): TemplateResult {
+    return html`<loomi-input
+      class="loomi-embed-input"
+      style=${EMBED_CONTROL_STYLE}
+      label=${label}
+      .value=${value}
+      @input=${(event: Event) => onInput((event.target as HTMLInputElement & { value: string }).value)}
+    ></loomi-input>`;
+  }
+
+  private renderEmbedFilepicker(kind: "image" | "video"): TemplateResult {
+    const accepted = kind === "image" ? "image/*" : "video/*";
+    return html`<loomi-filepicker
+      class="loomi-embed-filepicker"
+      style=${EMBED_CONTROL_STYLE}
+      accepted-file-types=${accepted}
+      max-files="1"
+      max-file-size=${kind === "image" ? "10mb" : "50mb"}
+      .showImagePreview=${kind === "image"}
+      @change=${(event: Event) => this.onEmbedFileChange(event as CustomEvent<{ files: File[] }>)}
+    ></loomi-filepicker>`;
+  }
+
+  private renderEmbedDialogBody(): TemplateResult {
+    if (!this.embedTool) return html``;
+
+    if (this.embedTool === "link") {
+      return html`<div class="loomi-embed-form" style=${EMBED_FORM_STYLE}>
+        ${this.renderEmbedInput("URL", this.embedUrl, (value) => (this.embedUrl = value))}
+        ${this.renderEmbedInput("Display text", this.embedText, (value) => (this.embedText = value))}
+      </div>`;
+    }
+
+    if (this.embedTool === "image") {
+      return html`<div class="loomi-embed-form" style=${EMBED_FORM_STYLE}>
+        ${this.renderEmbedInput("Image URL", this.embedUrl, (value) => (this.embedUrl = value))}
+        ${this.renderEmbedInput("Image description", this.embedAlt, (value) => (this.embedAlt = value))}
+        <div class="loomi-embed-separator" style=${EMBED_SEPARATOR_STYLE}>Or choose an image file</div>
+        ${this.renderEmbedFilepicker("image")}
+      </div>`;
+    }
+
+    return html`<div class="loomi-embed-form" style=${EMBED_FORM_STYLE}>
+      ${this.renderEmbedInput("Video URL", this.embedUrl, (value) => (this.embedUrl = value))}
+      <div class="loomi-embed-separator" style=${EMBED_SEPARATOR_STYLE}>Or choose a video file</div>
+      ${this.renderEmbedFilepicker("video")}
+    </div>`;
+  }
+
+  private renderEmbedDialog(): TemplateResult {
+    const title =
+      this.embedTool === "image"
+        ? "Insert image"
+        : this.embedTool === "video"
+          ? "Insert video"
+          : "Insert link";
+    return html`<loomi-modal
+      class="loomi-embed-modal"
+      title=${title}
+      size="small"
+      ok-button-label="Insert"
+      cancel-button-label="Cancel"
+      close-after-action="false"
+      show-close-icon
+      @ok=${this.confirmEmbedDialog}
+      @cancel=${this.closeEmbedDialog}
+      @close=${this.resetEmbedDialog}
+    >
+      ${this.renderEmbedDialogBody()}
+    </loomi-modal>`;
   }
 
   private renderTool(tool: LoomiTextEditorTool): TemplateResult {
@@ -783,6 +991,7 @@ export class LoomiTextEditor extends LoomiElement {
         ></div>
       </div>
       ${showError ? html`<p class="loomi-error">${this.errorMessage}</p>` : nothing}
+      ${this.renderEmbedDialog()}
     `;
   }
 }
