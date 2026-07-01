@@ -72,6 +72,17 @@
   background-image: none;
 }
 
+/* Secondary: transparent fill with a neutral border (Cancel-style). */
+.loomi-btn.loomi-btn--secondary {
+  background: transparent;
+  border-color: var(--loomi-surface-border, #d9dee3);
+  color: var(--loomi-text, inherit);
+}
+
+.loomi-btn.loomi-btn--secondary:hover {
+  background: var(--loomi-surface-hover, #f9fbfc);
+}
+
 /* Disabled state (reflected from the `disabled` attribute on the host). */
 :host([disabled]) .loomi-btn,
 .loomi-btn[aria-disabled="true"] {

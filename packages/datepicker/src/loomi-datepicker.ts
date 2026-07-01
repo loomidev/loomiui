@@ -1,4 +1,4 @@
-import { html, nothing, svg, type TemplateResult } from "lit";
+import { html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { LoomiElement, loomiDateFormatter,
   loomiDefaultText,
@@ -66,11 +66,11 @@ export class LoomiDatepicker extends LoomiElement {
   @state() private yearRangeStart = Math.floor(new Date().getFullYear() / 12) * 12;
   private cleanup?: () => void;
 
-  override willUpdate(): void {
-    if (!this.parsed && this.selectedValue) {
+  override willUpdate(changed: PropertyValues<this>): void {
+    if (changed.has("selectedValue") || (!this.parsed && this.selectedValue)) {
       const parts = this.selectedValue.split(" - ");
-      this.start = parseISO(parts[0]) ?? null;
-      this.end = parts[1] ? parseISO(parts[1]) : null;
+      this.start = parts[0] ? parseISO(parts[0]) ?? null : null;
+      this.end = parts[1] ? parseISO(parts[1]) ?? null : null;
       if (this.start) this.view = new Date(this.start);
       this.parsed = true;
     }

@@ -1,6 +1,8 @@
 import { css, html, nothing } from "lit";
 import { customElement } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, onClickOutside } from "@loomidev/core";
+import "@loomidev/button/loomi-button.js";
+import "@loomidev/datepicker/loomi-datepicker.js";
 import type {
   DateRangeApplyDetail,
   DateRangeChangeDetail,
@@ -104,6 +106,10 @@ export class LoomiDateRangePicker extends LoomiElement {
       position: relative;
     }
 
+    :host([open]) {
+      z-index: var(--loomi-date-range-picker-z-index, 1000);
+    }
+
     .field {
       display: grid;
       gap: 6px;
@@ -144,11 +150,11 @@ export class LoomiDateRangePicker extends LoomiElement {
 
     .popover {
       position: absolute;
-      z-index: 100;
+      z-index: var(--loomi-date-range-picker-z-index, 1000);
       top: calc(100% + 8px);
       right: 0;
       width: min(640px, calc(100vw - 32px));
-      overflow: hidden;
+      overflow: visible;
       border: 1px solid var(--loomi-date-border);
       border-radius: 8px;
       background: var(--loomi-date-surface);
@@ -172,8 +178,7 @@ export class LoomiDateRangePicker extends LoomiElement {
       padding: 8px;
     }
 
-    .preset,
-    .footer button {
+    .preset {
       min-height: 34px;
       border: 1px solid transparent;
       border-radius: 6px;
@@ -215,21 +220,15 @@ export class LoomiDateRangePicker extends LoomiElement {
       font-weight: 600;
     }
 
-    input[type="date"] {
-      min-height: 36px;
-      border: 1px solid var(--loomi-date-border);
-      border-radius: 6px;
-      background: var(--loomi-date-surface);
-      color: inherit;
-      padding: 0 10px;
-      font: inherit;
-    }
-
     .compare-toggle {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       width: fit-content;
+    }
+
+    .range-grid loomi-datepicker {
+      width: 100%;
     }
 
     .footer {
@@ -238,17 +237,6 @@ export class LoomiDateRangePicker extends LoomiElement {
       gap: 8px;
       border-top: 1px solid var(--loomi-date-border);
       padding: 12px;
-    }
-
-    .footer button {
-      border-color: var(--loomi-date-border);
-      text-align: center;
-    }
-
-    .footer .apply {
-      border-color: var(--loomi-date-accent);
-      background: var(--loomi-date-accent);
-      color: #ffffff;
     }
 
     @media (max-width: 640px) {
@@ -330,8 +318,8 @@ export class LoomiDateRangePicker extends LoomiElement {
           </div>
         </div>
         <div class="footer">
-          <button type="button" @click=${this.closePicker}>Cancel</button>
-          <button class="apply" type="button" @click=${this.applyRange}>Apply</button>
+          <loomi-button type="secondary" size="small" @click=${this.closePicker}>Cancel</loomi-button>
+          <loomi-button size="small" @click=${this.applyRange}>Apply</loomi-button>
         </div>
       </section>
     `;
@@ -364,23 +352,27 @@ export class LoomiDateRangePicker extends LoomiElement {
         <div class="range-grid">
           <label class="input-field">
             <span>Start</span>
-            <input
-              type="date"
-              .value=${this[startProperty]}
-              min=${this.min || nothing}
-              max=${this.max || nothing}
-              @input=${(event: Event) => this.handleDateInput(event, startProperty)}
-            />
+            <loomi-datepicker
+              size="small"
+              format="yyyy-mm-dd"
+              placeholder="Select start date"
+              .selectedValue=${this[startProperty]}
+              min-date=${this.min || nothing}
+              max-date=${this.max || nothing}
+              @change=${(event: Event) => this.handleDatepickerChange(event, startProperty)}
+            ></loomi-datepicker>
           </label>
           <label class="input-field">
             <span>End</span>
-            <input
-              type="date"
-              .value=${this[endProperty]}
-              min=${this.min || nothing}
-              max=${this.max || nothing}
-              @input=${(event: Event) => this.handleDateInput(event, endProperty)}
-            />
+            <loomi-datepicker
+              size="small"
+              format="yyyy-mm-dd"
+              placeholder="Select end date"
+              .selectedValue=${this[endProperty]}
+              min-date=${this.min || nothing}
+              max-date=${this.max || nothing}
+              @change=${(event: Event) => this.handleDatepickerChange(event, endProperty)}
+            ></loomi-datepicker>
           </label>
         </div>
       </section>
@@ -413,8 +405,17 @@ export class LoomiDateRangePicker extends LoomiElement {
     this.applyPresetValue(preset, true);
   }
 
-  private handleDateInput(event: Event, property: "startDate" | "endDate" | "compareStartDate" | "compareEndDate") {
-    this[property] = (event.target as HTMLInputElement).value;
+  private handleDatepickerChange(
+    event: Event,
+    property: "startDate" | "endDate" | "compareStartDate" | "compareEndDate"
+  ) {
+    const detail = (event as CustomEvent<{ dates?: string[] }>).detail;
+    const isoDate = detail?.dates?.[0];
+    if (!isoDate) {
+      return;
+    }
+
+    this[property] = isoDate;
     this.presetId = "custom";
     this.normalizeRange();
     this.dispatchChange();
