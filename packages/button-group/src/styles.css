@@ -2,9 +2,9 @@
  * Shared Shadow-DOM styles for <loomi-button-group> and <loomi-button-group-item>.
  *
  * Colors are referenced exclusively through the --_loomi-accent* custom properties
- * set by accentVars() on the parent's container. Those properties inherit down through
- * the composed document tree (across the shadow boundary) so items see them without
- * any extra wiring.
+ * set by accentVars() on the host element. Slotted items live in the light DOM as
+ * children of the host, so theme and size vars must be applied to :host — not an inner
+ * shadow wrapper — for items to inherit them into their own shadow trees.
  *
  * Size (padding, font-size) flows in the same way via --loomi-bg-pad-* and --loomi-bg-font
  * custom properties set on the parent container at render time.
