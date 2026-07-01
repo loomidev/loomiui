@@ -3,10 +3,19 @@ import { customElement, property } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
-export type LoomiSpinnerType = "line-simple" | "line-spinner" | "dot-circle";
+export type LoomiSpinnerType = "simple" | "spinner" | "dot";
 export type LoomiSpinnerSize = "sm" | "md" | "lg" | "small" | "medium" | "big" | "xl" | "omg";
 
 type NormalizedSpinnerSize = "small" | "medium" | "big" | "xl" | "omg";
+
+const TYPE_ALIASES: Record<string, LoomiSpinnerType> = {
+  simple: "simple",
+  spinner: "spinner",
+  dot: "dot",
+  "line-simple": "simple",
+  "line-spinner": "spinner",
+  "dot-circle": "dot",
+};
 
 const SIZE_ALIASES: Record<LoomiSpinnerSize, NormalizedSpinnerSize> = {
   sm: "small",
@@ -27,13 +36,17 @@ export class LoomiSpinner extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() size: LoomiSpinnerSize = "small";
-  @property() type: LoomiSpinnerType = "line-simple";
+  @property() type: LoomiSpinnerType = "simple";
   @property() color: LoomiColor = "gray" as LoomiColor;
   @property() label = "";
   @property() locale = "";
 
   private get normalizedSize(): NormalizedSpinnerSize {
     return SIZE_ALIASES[this.size] ?? "small";
+  }
+
+  private get normalizedType(): LoomiSpinnerType {
+    return TYPE_ALIASES[this.type] ?? "simple";
   }
 
   override render(): TemplateResult {
@@ -50,8 +63,8 @@ export class LoomiSpinner extends LoomiElement {
   }
 
   private renderIndicator(): TemplateResult {
-    switch (this.type) {
-      case "line-spinner":
+    switch (this.normalizedType) {
+      case "spinner":
         return html`<svg class="loomi-spinner loomi-spinner-lines" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           ${Array.from({ length: 8 }, (_, index) => {
             const rotation = index * 45;
@@ -69,7 +82,7 @@ export class LoomiSpinner extends LoomiElement {
             ></line>`;
           })}
         </svg>`;
-      case "dot-circle":
+      case "dot":
         return html`<svg class="loomi-spinner loomi-spinner-dots" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           ${Array.from({ length: 8 }, (_, index) => {
             const rotation = index * 45;
@@ -84,7 +97,7 @@ export class LoomiSpinner extends LoomiElement {
             ></circle>`;
           })}
         </svg>`;
-      case "line-simple":
+      case "simple":
       default:
         return html`<svg class="loomi-spinner loomi-spinner-simple" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="3"></circle>

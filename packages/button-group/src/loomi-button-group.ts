@@ -1,4 +1,4 @@
-import { html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult, type PropertyValues } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, accentVars, cssColor, type LoomiColor } from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
@@ -133,8 +133,47 @@ export class LoomiButtonGroup extends LoomiElement {
     );
   }
 
+  private get groupStyleVars(): string {
+    const sizeVars = SIZE_VARS[this.size] ?? SIZE_VARS.regular;
+    const borderVar = `--loomi-bg-border:${cssColor(this.color, 300)}`;
+
+    // Secondary uses a lighter fill (matching the solid secondary button) with dark text.
+    // Every other color uses the full accent-600 fill with white text.
+    const isSec = this.color === "secondary";
+    const selVars = [
+      `--loomi-bg-sel-bg:${isSec ? cssColor("secondary", 200) : "var(--_loomi-accent)"}`,
+      `--loomi-bg-sel-color:${isSec ? cssColor("secondary", 600) : "var(--loomi-white,#fff)"}`,
+      `--loomi-bg-sel-border:${isSec ? cssColor("secondary", 300) : "var(--_loomi-accent)"}`,
+      `--loomi-bg-sel-hover:${isSec ? cssColor("secondary", 300) : "var(--_loomi-accent-strong)"}`,
+    ].join(";");
+
+    return `${accentVars(this.color)};${sizeVars};${borderVar};${selVars}`;
+  }
+
+  private applyGroupStyleVars(): void {
+    for (const decl of this.groupStyleVars.split(";")) {
+      if (!decl) continue;
+      const idx = decl.indexOf(":");
+      if (idx === -1) continue;
+      this.style.setProperty(decl.slice(0, idx).trim(), decl.slice(idx + 1).trim());
+    }
+  }
+
+  override willUpdate(changed: PropertyValues<this>): void {
+    if (changed.has("color") || changed.has("size")) {
+      this.applyGroupStyleVars();
+    }
+  }
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.applyGroupStyleVars();
+  }
+
   private onItemClick = (e: Event): void => {
-    const clicked = e.target as LoomiButtonGroupItem;
+    const clicked = e
+      .composedPath()
+      .find((el): el is LoomiButtonGroupItem => el instanceof LoomiButtonGroupItem);
     if (!clicked || this.disabled || clicked.disabled) return;
 
     const items = this.items;
@@ -155,24 +194,10 @@ export class LoomiButtonGroup extends LoomiElement {
   };
 
   override render(): TemplateResult {
-    const sizeVars = SIZE_VARS[this.size] ?? SIZE_VARS.regular;
-    const borderVar = `--loomi-bg-border:${cssColor(this.color, 300)}`;
-
-    // Secondary uses a lighter fill (matching the solid secondary button) with dark text.
-    // Every other color uses the full accent-600 fill with white text.
-    const isSec = this.color === "secondary";
-    const selVars = [
-      `--loomi-bg-sel-bg:${isSec ? cssColor("secondary", 200) : "var(--_loomi-accent)"}`,
-      `--loomi-bg-sel-color:${isSec ? cssColor("secondary", 600) : "var(--loomi-white,#fff)"}`,
-      `--loomi-bg-sel-border:${isSec ? cssColor("secondary", 300) : "var(--_loomi-accent)"}`,
-      `--loomi-bg-sel-hover:${isSec ? cssColor("secondary", 300) : "var(--_loomi-accent-strong)"}`,
-    ].join(";");
-
     return html`
       <div
         class="loomi-bg-group${this.disabled ? " disabled" : ""}"
         role="group"
-        style="${accentVars(this.color)};${sizeVars};${borderVar};${selVars}"
         @loomi-bg-click=${this.onItemClick}
       >
         <slot></slot>

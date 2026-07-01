@@ -7,26 +7,38 @@ describe("loomi-spinner", () => {
     const el = await fixture<LoomiSpinner>(html`<loomi-spinner></loomi-spinner>`);
     const indicator = el.shadowRoot!.querySelector(".loomi-spinner-simple");
 
-    expect(el.type).to.equal("line-simple");
+    expect(el.type).to.equal("simple");
     expect(indicator).to.exist;
     expect(indicator!.getAttribute("aria-hidden")).to.equal("true");
     expect(el.shadowRoot!.querySelector('[role="status"]')!.getAttribute("aria-label")).to.equal("Loading");
   });
 
-  it("renders the line spinner option", async () => {
-    const el = await fixture<LoomiSpinner>(html`<loomi-spinner type="line-spinner"></loomi-spinner>`);
+  it("renders the spinner option", async () => {
+    const el = await fixture<LoomiSpinner>(html`<loomi-spinner type="spinner"></loomi-spinner>`);
 
     expect(el.shadowRoot!.querySelectorAll(".loomi-spinner-lines line")).to.have.length(8);
   });
 
-  it("renders the dot circle option with a visible label", async () => {
+  it("renders the dot option with a visible label", async () => {
     const el = await fixture<LoomiSpinner>(
-      html`<loomi-spinner type="dot-circle" label="Saving"></loomi-spinner>`,
+      html`<loomi-spinner type="dot" label="Saving"></loomi-spinner>`,
     );
 
     expect(el.shadowRoot!.querySelectorAll(".loomi-spinner-dots circle")).to.have.length(8);
     expect(el.shadowRoot!.querySelector(".loomi-spinner-label")!.textContent).to.equal("Saving");
     expect(el.shadowRoot!.querySelector('[role="status"]')!.getAttribute("aria-label")).to.equal("Saving");
+  });
+
+  it("accepts legacy type aliases", async () => {
+    const lineSpinner = await fixture<LoomiSpinner>(
+      html`<loomi-spinner type="line-spinner"></loomi-spinner>`,
+    );
+    const dotCircle = await fixture<LoomiSpinner>(
+      html`<loomi-spinner type="dot-circle"></loomi-spinner>`,
+    );
+
+    expect(lineSpinner.shadowRoot!.querySelectorAll(".loomi-spinner-lines line")).to.have.length(8);
+    expect(dotCircle.shadowRoot!.querySelectorAll(".loomi-spinner-dots circle")).to.have.length(8);
   });
 
   it("accepts Untitled UI size aliases", async () => {
