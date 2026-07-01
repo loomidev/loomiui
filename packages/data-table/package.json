@@ -1,0 +1,53 @@
+{
+  "name": "@loomidev/data-table",
+  "version": "0.1.0",
+  "description": "<loomi-data-table> — an advanced data table for admin, SaaS, CRM, and analytics workflows.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/data-table"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./loomi-data-table.ts": {
+      "types": "./dist/loomi-data-table.d.ts",
+      "import": "./dist/loomi-data-table.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@loomidev/core": "workspace:^"
+  },
+  "peerDependencies": {
+    "lit": "^3.0.0"
+  },
+  "devDependencies": {
+    "lit": "^3.3.3",
+    "typescript": "^5.6.3"
+  },
+  "keywords": [
+    "web-components",
+    "lit",
+    "loomiui",
+    "data",
+    "table"
+  ]
+}

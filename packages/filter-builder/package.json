@@ -1,0 +1,53 @@
+{
+  "name": "@loomidev/filter-builder",
+  "version": "0.1.0",
+  "description": "<loomi-filter-builder> — a structured filter editor for tables, reports, and server-side query workflows.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/filter-builder"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./loomi-filter-builder.ts": {
+      "types": "./dist/loomi-filter-builder.d.ts",
+      "import": "./dist/loomi-filter-builder.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@loomidev/core": "workspace:^"
+  },
+  "peerDependencies": {
+    "lit": "^3.0.0"
+  },
+  "devDependencies": {
+    "lit": "^3.3.3",
+    "typescript": "^5.6.3"
+  },
+  "keywords": [
+    "web-components",
+    "lit",
+    "loomiui",
+    "filter",
+    "builder"
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "name": "@loomidev/calendar",
+  "version": "0.1.0",
+  "description": "<loomi-calendar> — a production calendar and resource scheduler for admin and SaaS templates.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/calendar"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./loomi-calendar.ts": {
+      "types": "./dist/loomi-calendar.d.ts",
+      "import": "./dist/loomi-calendar.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@loomidev/core": "workspace:^"
+  },
+  "peerDependencies": {
+    "lit": "^3.0.0"
+  },
+  "devDependencies": {
+    "lit": "^3.3.3",
+    "typescript": "^5.6.3"
+  },
+  "keywords": [
+    "web-components",
+    "lit",
+    "loomiui",
+    "calendar"
+  ]
+}
