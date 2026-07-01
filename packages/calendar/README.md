@@ -2,10 +2,9 @@
 
 `<loomi-calendar>` — a production calendar and resource scheduler for admin and SaaS templates.
 
-Month, week, day, agenda, and resource views with all-day rows, overlapping timed events, drag-and-drop editing, timezone display, and Loomi token styling aligned with `@loomidev/*` components.
+Month, week, day, agenda, and resource views with a collapsible sidebar (mini calendar + next-event detail), drag-and-drop editing, timezone display, and Loomi token styling aligned with `@loomidev/*` components.
 
 ## Installation
-
 
 ```sh
 npm install @loomidev/calendar
@@ -15,42 +14,163 @@ npm install @loomidev/calendar
 
 ```js
 import "@loomidev/calendar";
-
 ```
 
-```
+The calendar bundles its own UI dependencies (`loomi-modal`). Importing `@loomidev/calendar` registers those elements automatically.
 
 ## Basic Usage
 
-Assign `events` as a JavaScript property. Each event uses `Date` objects for `start` and `end`.
+Mount the element, then assign `events` as a JavaScript property. Each event uses native `Date` objects for `start` and `end`.
+
+The calendar is **display-only by default**. It renders whatever you pass in; your app is responsible for fetching data from an API, normalizing it into `CalendarEvent` objects, and writing changes back when the user creates, edits, drags, or deletes events.
+
+```html
+<loomi-calendar view="week" editable show-sidebar></loomi-calendar>
+```
 
 ```js
 const calendar = document.querySelector("loomi-calendar");
 
-calendar.events = [
-  {
-    id: "evt_001",
-    title: "Product review",
-    start: new Date("2026-07-01T10:00:00"),
-    end: new Date("2026-07-01T11:00:00"),
-    color: "primary",
-    description: "Quarterly roadmap review",
-  },
-  {
-    id: "evt_002",
-    title: "Team offsite",
-    start: new Date("2026-07-03T00:00:00"),
-    end: new Date("2026-07-05T23:59:59"),
-    color: "success",
-    isAllDay: true,
-    recurrence: { frequency: "yearly", label: "Repeats yearly" },
-  },
-];
+// 1. Load events from your backend
+const response = await fetch("/api/events?from=2026-07-01&to=2026-07-31");
+const payload = await response.json();
+
+// 2. Map API records into CalendarEvent objects
+calendar.events = payload.map((record) => ({
+  id: record.id,
+  title: record.title,
+  start: new Date(record.startsAt),
+  end: new Date(record.endsAt),
+  color: record.category, // "primary" | "secondary" | "success" | "warning" | "error"
+  description: record.notes,
+  isAllDay: record.allDay,
+  resourceId: record.roomId,
+  recurrence: record.recurrenceRule
+    ? { frequency: record.recurrenceRule.frequency, label: record.recurrenceRule.label }
+    : undefined,
+  reminder: record.reminderText ? { label: record.reminderText } : undefined,
+  invitees: record.attendees?.map((person) => ({
+    id: person.id,
+    name: person.name,
+    avatarUrl: person.avatarUrl,
+    status: person.rsvp, // "yes" | "no" | "awaiting"
+  })),
+}));
+
+// 3. Persist user changes
+calendar.addEventListener("loomi-event-create", async (event) => {
+  const saved = await fetch("/api/events", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(event.detail.event),
+  }).then((res) => res.json());
+
+  calendar.events = [...calendar.events, { ...event.detail.event, id: saved.id }];
+});
+
+calendar.addEventListener("loomi-event-change", async (event) => {
+  const { event: updated } = event.detail;
+  await fetch(`/api/events/${updated.id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(updated),
+  });
+  calendar.events = calendar.events.map((entry) => (entry.id === updated.id ? updated : entry));
+});
+
+calendar.addEventListener("loomi-event-delete", async (event) => {
+  await fetch(`/api/events/${event.detail.event.id}`, { method: "DELETE" });
+  calendar.events = calendar.events.filter((entry) => entry.id !== event.detail.event.id);
+});
 ```
 
-```html
-<loomi-calendar view="month"></loomi-calendar>
+## Event colors
+
+Event color is controlled by the optional `color` field on each `CalendarEvent`. The calendar does **not** infer colors automatically — you choose the token when mapping data from your API.
+
+| `color` value | Typical use | Visual |
+| --- | --- | --- |
+| `primary` | Default meetings, internal events | Blue palette |
+| `secondary` | Neutral blocks, focus time | Gray palette |
+| `success` | Confirmed client meetings, completed milestones | Green palette |
+| `warning` | Pending reviews, travel, deadlines | Amber palette |
+| `error` | Critical incidents, cancellations | Red palette |
+
+If `color` is omitted, events render with the **primary** palette. In the resource view, an event can also inherit color from its assigned `CalendarResource.color` when the event itself has no color.
+
+Colors follow Loomi theme tokens (`--loomi-primary-*`, `--loomi-success-*`, etc.), so they stay consistent with buttons, alerts, and tags in the rest of your app.
+
+## Data model
+
+### `CalendarEvent`
+
+| Field | Type | Required | Notes |
+| --- | --- | --- | --- |
+| `id` | `string` | yes | Stable unique id from your system |
+| `title` | `string` | yes | Shown on pills, timed blocks, and sidebar detail |
+| `start` | `Date` | yes | Event start |
+| `end` | `Date` | yes | Event end (must be after `start`) |
+| `color` | `CalendarEventColor` | no | Semantic palette token (see above) |
+| `description` | `string` | no | Long-form notes; shown in sidebar “About this event” |
+| `isAllDay` | `boolean` | no | Renders in all-day / spanning lanes |
+| `resourceId` | `string` | no | Links to `CalendarResource.id` for resource view |
+| `recurrence` | `{ frequency, label? }` | no | Display metadata (`daily` / `weekly` / `monthly` / `yearly`) |
+| `reminder` | `{ label, minutesBefore? }` | no | e.g. `{ label: "10 min before" }` |
+| `invitees` | `CalendarEventInvitee[]` | no | Guest list with RSVP status for sidebar avatars |
+| `timezone` | `string` | no | IANA zone for per-event time labels |
+| `editable` | `boolean` | no | Override global `editable` for this event |
+| `draggable` | `boolean` | no | Override drag behavior for this event |
+
+### `CalendarEventInvitee`
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `id` | `string` | Optional stable id |
+| `name` | `string` | Display name |
+| `email` | `string` | Optional |
+| `avatarUrl` | `string` | Optional image URL |
+| `initials` | `string` | Optional override when no avatar |
+| `status` | `"yes" \| "no" \| "awaiting"` | Drives sidebar RSVP summary |
+
+### `CalendarResource`
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `id` | `string` | Referenced by `event.resourceId` |
+| `label` | `string` | Room / person / asset name |
+| `color` | `CalendarEventColor` | Default color for events on this resource |
+| `description` | `string` | Optional |
+
+### Example: fully populated event
+
+```js
+{
+  id: "evt_demo",
+  title: "Product demo",
+  start: new Date("2027-01-10T13:30:00"),
+  end: new Date("2027-01-10T15:30:00"),
+  color: "primary",
+  description: "Sienna is inviting you to a scheduled Zoom meeting.\n\nJoin Zoom Meeting: https://example.com/zoom",
+  reminder: { label: "10 min before", minutesBefore: 10 },
+  recurrence: { frequency: "weekly", label: "Repeats weekly" },
+  resourceId: "room-a",
+  invitees: [
+    { id: "u1", name: "Sienna Reed", avatarUrl: "/avatars/sienna.jpg", status: "yes" },
+    { id: "u2", name: "Alex Kim", initials: "AK", status: "yes" },
+    { id: "u3", name: "Jordan Lee", initials: "JL", status: "awaiting" },
+  ],
+}
 ```
+
+## Sidebar
+
+When `show-sidebar` is enabled (default):
+
+- **Mini calendar** — navigate months; dates with events show a dot; click a date to focus the main view
+- **Upcoming** — detail card for the **next** upcoming event only (title, date/time, reminder, guests, description)
+- **Toggle** — toolbar button sets `sidebar-open` to show/hide the pane
+
+The sidebar reads from the same `events` array as the main grid. Populate invitees, reminder, and description on the next upcoming event to fill the detail card.
 
 ## Week View
 
@@ -92,13 +212,13 @@ calendar.events = [
 
 ## Editing
 
-Enable `editable` to show the **Add event** button, open the create modal, drag events across days, and resize multi-day events horizontally.
+Enable `editable` to show the **Add event** button, open the create modal (title, schedule, color, resource, recurrence, reminder, invitees, description), drag events across days, and resize multi-day events horizontally.
 
 ```html
 <loomi-calendar view="week" editable week-starts="monday" show-sidebar sidebar-open></loomi-calendar>
 ```
 
-Listen for `loomi-event-create` when users save a new event from the modal.
+The create modal emits `loomi-event-create`. Drag/resize emits `loomi-event-change`. Sidebar actions emit `loomi-event-duplicate` and `loomi-event-delete`.
 
 ## Properties
 
@@ -113,7 +233,7 @@ Listen for `loomi-event-create` when users save a new event from the modal.
 | `timezone` | `string` | browser timezone | IANA timezone used for labels. |
 | `show-timezone` | `boolean` | `false` | Shows a timezone badge in the toolbar. |
 | `show-weekends` | `boolean` | `true` | Hides Saturday/Sunday in week view when false. |
-| `show-sidebar` | `boolean` | `true` | Shows the left pane with mini calendar and upcoming list. |
+| `show-sidebar` | `boolean` | `true` | Shows the left pane with mini calendar and upcoming detail. |
 | `sidebar-open` | `boolean` | `true` | Toggles the left pane visibility. Reflected attribute. |
 | `editable` | `boolean` | `false` | Enables create modal, drag, and resize. |
 | `loading` | `boolean` | `false` | Shows a loading overlay. |
@@ -130,6 +250,8 @@ Listen for `loomi-event-create` when users save a new event from the modal.
 | `loomi-event-click` | `{ event }` |
 | `loomi-event-create` | `{ event }` |
 | `loomi-event-change` | `{ event, previousStart, previousEnd, previousResourceId? }` |
+| `loomi-event-delete` | `{ event }` |
+| `loomi-event-duplicate` | `{ event }` |
 | `loomi-sidebar-toggle` | `{ open }` |
 | `loomi-slot-select` | `{ start, end, resourceId?, allDay? }` |
 
@@ -143,7 +265,7 @@ Listen for `loomi-event-create` when users save a new event from the modal.
 
 ## Design Notes
 
-- Styling follows Loomi surface, border, text, and palette tokens used by `@loomidev/datepicker`, `@loomidev/tab`, and other Pro components.
-- The component renders and interacts with events but does not persist them. Listen for `loomi-event-create`, `loomi-event-change`, and `loomi-slot-select`, then update your app state or API.
+- Styling follows Loomi surface, border, text, and palette tokens used by `@loomidev/datepicker`, `@loomidev/tab`, and other components.
+- The component renders and interacts with events but does not persist them. Listen for `loomi-event-create`, `loomi-event-change`, `loomi-event-delete`, and `loomi-event-duplicate`, then update your app state or API.
 - Drag-and-drop emits change events only; the parent should update the `events` array.
-- Recurrence is display metadata for now (`event.recurrence.label`).
+- Recurrence is display metadata for now — expand instances server-side before passing events in, or store the rule on create and re-fetch.

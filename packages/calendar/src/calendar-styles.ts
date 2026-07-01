@@ -113,26 +113,31 @@ export const calendarStyles = css`
 
   .mini-calendar-header {
     display: grid;
-    grid-template-columns: 28px 1fr 28px;
+    grid-template-columns: 34px 1fr 34px;
     align-items: center;
     gap: 4px;
   }
 
   .mini-calendar-title {
-    border: 0;
-    background: transparent;
+    justify-self: stretch;
+    min-height: 34px;
+    padding: 0 8px;
+    border: 1px solid var(--loomi-calendar-border-subtle);
+    border-radius: var(--loomi-calendar-radius-sm);
+    background: var(--loomi-calendar-surface);
+    color: inherit;
     font: inherit;
     font-size: 13px;
     font-weight: 700;
-    color: var(--loomi-calendar-text);
     cursor: pointer;
-    text-align: center;
+    transition:
+      border-color var(--loomi-calendar-transition),
+      background var(--loomi-calendar-transition);
   }
 
-  .mini-nav {
-    width: 28px;
-    min-height: 28px;
-    padding: 0;
+  .mini-calendar-title:hover {
+    border-color: color-mix(in srgb, var(--loomi-calendar-accent) 35%, var(--loomi-calendar-border));
+    background: var(--loomi-calendar-surface-hover);
   }
 
   .mini-weekdays,
@@ -152,8 +157,10 @@ export const calendarStyles = css`
 
   .mini-day {
     display: inline-flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 2px;
     width: 100%;
     aspect-ratio: 1;
     border: 0;
@@ -164,6 +171,26 @@ export const calendarStyles = css`
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
+    padding: 2px 0 0;
+  }
+
+  .mini-day-num {
+    line-height: 1;
+  }
+
+  .mini-day-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--loomi-calendar-accent);
+  }
+
+  .mini-day.other-month .mini-day-dot {
+    background: var(--loomi-calendar-text-faint);
+  }
+
+  .mini-day.selected .mini-day-dot {
+    background: var(--loomi-white, #ffffff);
   }
 
   .mini-day:hover {
@@ -223,6 +250,207 @@ export const calendarStyles = css`
     background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 70%, transparent);
     color: var(--loomi-calendar-text-muted);
     font-size: 13px;
+  }
+
+  .upcoming-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 4px 2px 8px;
+  }
+
+  .upcoming-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .upcoming-title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--loomi-calendar-text);
+  }
+
+  .upcoming-actions {
+    display: flex;
+    gap: 2px;
+    flex: none;
+  }
+
+  .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--loomi-calendar-text-faint);
+    cursor: pointer;
+    transition:
+      color var(--loomi-calendar-transition),
+      background var(--loomi-calendar-transition);
+  }
+
+  .icon-btn:hover {
+    color: var(--loomi-calendar-text-muted);
+    background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 80%, transparent);
+  }
+
+  .icon-btn:focus-visible {
+    outline: 2px solid var(--loomi-calendar-accent);
+    outline-offset: 2px;
+  }
+
+  .icon-btn svg {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+
+  .upcoming-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .upcoming-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--loomi-calendar-text-muted);
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .upcoming-meta-icon {
+    flex: none;
+    width: 1.125rem;
+    height: 1.125rem;
+    color: var(--loomi-calendar-text-faint);
+  }
+
+  .upcoming-guests {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .guest-avatars {
+    display: flex;
+    align-items: center;
+  }
+
+  .guest-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin-left: -10px;
+    border: 2px solid var(--loomi-calendar-surface);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--loomi-calendar-accent-soft) 75%, white);
+    color: var(--loomi-calendar-accent-strong);
+    font-size: 11px;
+    font-weight: 700;
+    overflow: hidden;
+  }
+
+  .guest-avatar:first-child {
+    margin-left: 0;
+  }
+
+  .guest-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .guest-initials {
+    background: var(--loomi-calendar-surface-muted);
+    color: var(--loomi-calendar-text-muted);
+  }
+
+  .guest-add {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin-left: -10px;
+    border: 1.5px dashed var(--loomi-calendar-border);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--loomi-calendar-text-faint);
+    cursor: pointer;
+    transition:
+      border-color var(--loomi-calendar-transition),
+      color var(--loomi-calendar-transition),
+      background var(--loomi-calendar-transition);
+  }
+
+  .guest-add:hover {
+    border-color: var(--loomi-calendar-accent-soft);
+    color: var(--loomi-calendar-accent-strong);
+    background: color-mix(in srgb, var(--loomi-calendar-accent-softer) 40%, transparent);
+  }
+
+  .guest-add svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .guest-summary {
+    margin: 0;
+    font-size: 13px;
+    color: var(--loomi-calendar-text-muted);
+  }
+
+  .guest-summary strong {
+    color: var(--loomi-calendar-text);
+    font-weight: 700;
+  }
+
+  .upcoming-about-title {
+    margin: 0 0 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--loomi-calendar-text);
+  }
+
+  .upcoming-description {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: var(--loomi-calendar-text-secondary);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .upcoming-description p {
+    margin: 0;
+  }
+
+  .upcoming-link {
+    color: var(--loomi-calendar-text);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .upcoming-meeting-id {
+    color: var(--loomi-calendar-text-faint);
+    font-size: 12px;
+  }
+
+  .form-textarea {
+    min-height: 96px;
+    resize: vertical;
   }
 
   .btn-primary {
@@ -400,6 +628,11 @@ export const calendarStyles = css`
     flex-wrap: wrap;
     align-items: center;
     gap: 8px;
+  }
+
+  .view-switcher {
+    max-width: 100%;
+    overflow-x: auto;
   }
 
   .title {
@@ -745,18 +978,20 @@ export const calendarStyles = css`
   }
 
   .time-axis {
-    width: 64px;
+    width: var(--loomi-calendar-time-axis-width, 72px);
     flex: none;
     border-right: 1px solid var(--loomi-calendar-border-subtle);
     background: color-mix(in srgb, var(--loomi-calendar-surface) 90%, transparent);
     position: sticky;
     left: 0;
     z-index: 3;
+    padding-left: 10px;
+    box-sizing: border-box;
   }
 
   .time-axis-label {
     height: var(--loomi-calendar-hour-height, 48px);
-    padding: 0 8px;
+    padding: 0 10px 0 0;
     display: flex;
     align-items: flex-start;
     justify-content: flex-end;
@@ -764,6 +999,14 @@ export const calendarStyles = css`
     color: var(--loomi-calendar-text-faint);
     font-size: 11px;
     font-weight: 600;
+  }
+
+  .shell.sidebar-closed .body {
+    padding-left: 4px;
+  }
+
+  .shell.sidebar-closed .time-layout {
+    padding-left: 6px;
   }
 
   .time-grid-wrap {

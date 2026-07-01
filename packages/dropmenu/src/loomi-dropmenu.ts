@@ -52,33 +52,59 @@ export class LoomiDropmenuItem extends LoomiElement {
     if (this.hasSubmenuItems) this.submenuOpen = !this.submenuOpen;
   }
 
+  private get itemClass(): string {
+    const iconRight = this.iconRight || this.menuIconRight;
+    return [
+      "loomi-item",
+      iconRight && "right",
+      this.hasSubmenuItems && "has-submenu",
+      this.header ? "header" : this.hover && "hoverable",
+    ]
+      .filter(Boolean)
+      .join(" ");
+  }
+
   override render(): TemplateResult {
     if (this.divider) return html`<div class="loomi-divider"></div>`;
-    const iconRight = this.iconRight || this.menuIconRight;
+
     const path = this.icon ? getLoomiIcon(this.icon) : undefined;
-    const cls = `loomi-item ${iconRight ? "right" : ""} ${this.hasSubmenuItems ? "has-submenu" : ""} ${
-      this.header ? "header" : this.hover ? "hoverable" : ""
-    }`;
-    return html`<div
-        class=${cls}
+
+    return html`
+      <div
+        class=${this.itemClass}
         role=${this.header ? "presentation" : "menuitem"}
         tabindex=${this.header ? nothing : "-1"}
         aria-haspopup=${this.hasSubmenuItems ? "menu" : nothing}
         aria-expanded=${this.hasSubmenuItems ? (this.submenuOpen ? "true" : "false") : nothing}
         @click=${this.onItemClick}
       >
-      ${path ? html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${path}</svg>` : nothing}
-      <span class="loomi-label"><slot></slot></span>
-      ${this.shortcut ? html`<kbd class="loomi-shortcut">${this.shortcut}</kbd>` : nothing}
-      ${this.hasSubmenuItems
-        ? html`<svg class="loomi-submenu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-            ${CHEVRON_RIGHT}
-          </svg>`
-        : nothing}
-    </div>
-    <div class="loomi-submenu ${this.hasSubmenuItems ? "ready" : ""} ${this.submenuOpen ? "open" : ""}" role="menu">
-      <slot name="submenu" @slotchange=${this.onSubmenuSlotChange}></slot>
-    </div>`;
+        ${path
+          ? html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+              ${path}
+            </svg>`
+          : nothing}
+        <span class="loomi-label"><slot></slot></span>
+        ${this.shortcut ? html`<kbd class="loomi-shortcut">${this.shortcut}</kbd>` : nothing}
+        ${this.hasSubmenuItems
+          ? html`<svg
+              class="loomi-submenu-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              ${CHEVRON_RIGHT}
+            </svg>`
+          : nothing}
+      </div>
+      <div
+        class="loomi-submenu ${this.hasSubmenuItems ? "ready" : ""} ${this.submenuOpen ? "open" : ""}"
+        role="menu"
+      >
+        <slot name="submenu" @slotchange=${this.onSubmenuSlotChange}></slot>
+      </div>
+    `;
   }
 }
 
@@ -271,33 +297,47 @@ export class LoomiDropmenu extends LoomiElement {
     if (changedProperties.has("iconRight")) this.applyItemDefaults();
   }
 
+  private get menuClass(): string {
+    return [
+      "loomi-menu",
+      this.resolvedPosition,
+      this.divided && "divided",
+      this.scrollable && "scrollable",
+    ]
+      .filter(Boolean)
+      .join(" ");
+  }
+
   override render(): TemplateResult {
     const triggerPath = this.trigger ? getLoomiIcon(this.trigger.replace(/-icon$/, "")) : undefined;
-    return html`<button
-      class="loomi-trigger"
-      aria-haspopup="menu"
-      aria-expanded=${this.open ? "true" : "false"}
-      @click=${this.triggerOn === "click" ? () => this.toggle() : nothing}
-      @mouseenter=${this.triggerOn === "mouseover" ? () => this.openMenu() : nothing}
-      @keydown=${this.onTriggerKeyDown}
-    >
-      <slot name="trigger">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-          ${triggerPath ?? ELLIPSIS}
-        </svg>
-      </slot>
-    </button>
-    ${this.open
-      ? html`<div
-          class="loomi-menu ${this.resolvedPosition} ${this.scrollable ? "scrollable" : ""}"
-          style=${this.scrollable ? `--loomi-menu-height:${this.height}px` : nothing}
-          role="menu"
-          @click=${this.onItemsClick}
-          @keydown=${this.onMenuKeyDown}
-        >
-          <slot @slotchange=${this.onSlotChange}></slot>
-        </div>`
-      : nothing}`;
+
+    return html`
+      <button
+        class="loomi-trigger"
+        aria-haspopup="menu"
+        aria-expanded=${this.open ? "true" : "false"}
+        @click=${this.triggerOn === "click" ? () => this.toggle() : nothing}
+        @mouseenter=${this.triggerOn === "mouseover" ? () => this.openMenu() : nothing}
+        @keydown=${this.onTriggerKeyDown}
+      >
+        <slot name="trigger">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            ${triggerPath ?? ELLIPSIS}
+          </svg>
+        </slot>
+      </button>
+      ${this.open
+        ? html`<div
+            class=${this.menuClass}
+            style=${this.scrollable ? `--loomi-menu-height:${this.height}px` : nothing}
+            role="menu"
+            @click=${this.onItemsClick}
+            @keydown=${this.onMenuKeyDown}
+          >
+            <slot @slotchange=${this.onSlotChange}></slot>
+          </div>`
+        : nothing}
+    `;
   }
 }
 
