@@ -45,6 +45,7 @@ import "@loomidev/components/select";
 | --- | --- |
 | `<loomi-button>` | [`@loomidev/button`](../button) |
 | `<loomi-input>` | [`@loomidev/input`](../input) |
+| `<loomi-password>` | [`@loomidev/password`](../password) |
 | `<loomi-textarea>` | [`@loomidev/textarea`](../textarea) |
 | `<loomi-text-editor>` | [`@loomidev/text-editor`](../text-editor) |
 | `<loomi-checkbox>` | [`@loomidev/checkbox`](../checkbox) |
@@ -52,6 +53,11 @@ import "@loomidev/components/select";
 | `<loomi-toggle>` | [`@loomidev/toggle`](../toggle) |
 | `<loomi-number>` | [`@loomidev/number`](../number) |
 | `<loomi-select>` | [`@loomidev/select`](../select) |
+| `<loomi-divider>` | [`@loomidev/divider`](../divider) |
+| `<loomi-qrcode>` | [`@loomidev/qrcode`](../qrcode) |
+| `<loomi-copy-to-clipboard>` | [`@loomidev/copy-to-clipboard`](../copy-to-clipboard) |
+| `<loomi-context-menu>` | [`@loomidev/context-menu`](../context-menu) |
+| `<loomi-timer>` | [`@loomidev/timer`](../timer) |
 
 <!-- BEGIN loomi-framework-guide -->
 

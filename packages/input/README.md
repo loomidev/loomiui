@@ -1,7 +1,7 @@
 # @loomidev/input
 
 `<loomi-input>` — a themeable text input with a floating label, text/icon prefixes &
-suffixes, password reveal, a clearable field, numeric filtering and inline validation.
+suffixes, contextual hints, selectable affixes, a clearable field, numeric filtering and inline validation.
 It is **form-associated**: its value submits with the surrounding `<form>` under `name`.
 
 ## Installation
@@ -22,12 +22,15 @@ import "@loomidev/input"; // registers <loomi-input>
 <loomi-input type="email" label="Email"></loomi-input>
 ```
 
-## Password & Reveal
+## Passwords
 
 ```html
-<loomi-input type="password" label="Password"></loomi-input>
-<loomi-input type="password" label="Password" viewable></loomi-input>
+<loomi-password label="Password" strength="Aa1#"></loomi-password>
 ```
+
+Use [`@loomidev/password`](../password) for password reveal and strength requirements.
+`<loomi-input type="password">` remains a native password input, but password-specific
+features live in `<loomi-password>`.
 
 ## Numeric
 
@@ -91,6 +94,33 @@ Use text or a built-in [icon](../icons) (set `prefix-icon` / `suffix-icon`). Set
 ```
 
 Need full control? Use the `prefix` / `suffix` slots.
+
+### Dropdown affixes
+
+Use `prefix-options` or `suffix-options` for selectable affixes. Values can be comma
+separated, pipe separated, or a JSON array.
+
+```html
+<loomi-input prefix-options="http://,https://,ftp://" prefix-value="https://" placeholder="example.com"></loomi-input>
+<loomi-input suffix-options="kg,g,tons" suffix-value="kg" placeholder="0" numeric></loomi-input>
+```
+
+The selected values are exposed as `.prefixValue` / `.suffixValue`. Changing a dropdown
+also emits `prefix-change` or `suffix-change` with `{ value }`.
+
+## Hints
+
+Set `hint` to show a help icon in the suffix. Clicking it opens a `loomi-popover`.
+When the hint points to a named DOM hint like `career.html`, the input looks for
+`[data-hint="career"]` and renders that element's HTML inside the popover.
+
+```html
+<loomi-input label="Career path" hint="career.html"></loomi-input>
+
+<div data-hint="career" hidden>
+  Add the role family this person is growing toward.
+</div>
+```
 
 ## Clearable
 
@@ -158,10 +188,13 @@ before a manual submit or API call). It:
 | `min` / `max` | _(blank)_ | Clamp numeric values on change. |
 | `size` | `medium` | `small` \| `regular` \| `medium` \| `big` |
 | `prefix` / `suffix` | _(blank)_ | Text affix. |
+| `prefix-options` / `suffix-options` | _(blank)_ | Comma, pipe, or JSON array of dropdown options. |
+| `prefix-value` / `suffix-value` | _(blank)_ | Selected dropdown affix value. |
 | `prefix-icon` / `suffix-icon` | _(blank)_ | Icon-name affix (see `@loomidev/icons`). |
 | `transparent-prefix` / `transparent-suffix` | `true` | Transparent (vs solid) affix. _(boolean)_ |
-| `viewable` | `false` | Show a reveal eye when `type="password"`. _(boolean)_ |
+| `viewable` | `false` | Deprecated on `<loomi-input>`; use `<loomi-password>` for reveal. _(boolean)_ |
 | `clearable` | `false` | Show a clear (✕) button when the field has a value. _(boolean)_ |
+| `hint` | _(blank)_ | Show a suffix help icon and render a `loomi-popover`; `career.html` resolves `[data-hint="career"]`. |
 | `error-message` | _(blank)_ | Message shown when validation fails. The red invalid border shows either way, even if this is left blank. |
 | `show-error-inline` | `false` | Render `error-message` beneath the field. When `false`, a failed validation shows it as a `loomi-notification` toast instead. _(boolean)_ |
 | `show-placeholder-always` | `false` | Keep the placeholder visible even with a label. _(boolean)_ |

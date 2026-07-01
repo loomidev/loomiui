@@ -1,7 +1,7 @@
 {
   "name": "@loomidev/text-editor",
   "version": "0.1.0",
-  "description": "<loomi-text-editor> — a themeable rich-text editor web component (powered by Quill) with a floating label and inline validation.",
+  "description": "<loomi-text-editor> — a themeable rich-text editor web component with configurable tools, a floating label, and inline validation.",
   "repository": {
     "type": "git",
     "url": "https://github.com/loomidev/loomiui.git",
@@ -35,8 +35,9 @@
   },
   "dependencies": {
     "@loomidev/core": "workspace:^",
+    "@loomidev/icon": "workspace:^",
     "@loomidev/theme": "workspace:^",
-    "quill": "^2.0.3"
+    "@loomidev/tooltip": "workspace:^"
   },
   "peerDependencies": {
     "lit": "^3.0.0"
@@ -53,7 +54,6 @@
     "loomiui",
     "form",
     "rich-text",
-    "editor",
-    "quill"
+    "editor"
   ]
 }

@@ -1,7 +1,9 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
-import { customElement, property, state, query } from "lit/decorators.js";
+import { customElement, property, query } from "lit/decorators.js";
+import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { LoomiElement, loomiT, themeStyles } from "@loomidev/core";
 import { showLoomiNotification } from "@loomidev/notification";
+import "@loomidev/popover";
 import { getLoomiIcon } from "./icons.js";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -24,7 +26,7 @@ const AMEX_CARD_MASK = "9999 999999 99999";
 
 /**
  * `<loomi-input>` — a themeable text input with a floating label, text/icon
- * prefixes & suffixes, password reveal, clearable field, numeric filtering and
+ * prefixes & suffixes, contextual hints, clearable field, numeric filtering and
  * inline validation. Form-associated: its value submits with the surrounding form.
  *
  * @slot prefix - Custom prefix content (overrides the `prefix`/`prefix-icon` attributes).
@@ -62,18 +64,22 @@ export class LoomiInput extends LoomiElement {
   @property() size: LoomiInputSize = "medium";
   @property() prefix = "";
   @property() suffix = "";
+  @property({ attribute: "prefix-options" }) prefixOptions = "";
+  @property({ attribute: "suffix-options" }) suffixOptions = "";
+  @property({ attribute: "prefix-value" }) prefixValue = "";
+  @property({ attribute: "suffix-value" }) suffixValue = "";
   @property({ attribute: "prefix-icon" }) prefixIcon = "";
   @property({ attribute: "suffix-icon" }) suffixIcon = "";
   @property({ type: Boolean, attribute: "transparent-prefix" }) transparentPrefix = true;
   @property({ type: Boolean, attribute: "transparent-suffix" }) transparentSuffix = true;
   @property({ type: Boolean }) viewable = false;
   @property({ type: Boolean }) clearable = false;
+  @property() hint = "";
   @property({ attribute: "error-message" }) errorMessage = "";
   @property({ type: Boolean, attribute: "show-error-inline" }) showErrorInline = false;
   @property({ type: Boolean, attribute: "show-placeholder-always" }) showPlaceholderAlways = false;
 
   @property({ type: Boolean, reflect: true }) invalid = false;
-  @state() private revealed = false;
 
   @query("input") private inputEl!: HTMLInputElement;
 
@@ -252,30 +258,108 @@ export class LoomiInput extends LoomiElement {
     return html`<svg class=${cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${path}</svg>`;
   }
 
+  private parseOptions(options: string): string[] {
+    const trimmed = options.trim();
+    if (!trimmed) return [];
+
+    if (trimmed.startsWith("[")) {
+      try {
+        const parsed = JSON.parse(trimmed);
+        if (Array.isArray(parsed)) return parsed.map((option) => String(option).trim()).filter(Boolean);
+      } catch {
+        // Fall through to simple delimited parsing.
+      }
+    }
+
+    return trimmed
+      .split(/[|,]/)
+      .map((option) => option.trim())
+      .filter(Boolean);
+  }
+
+  private selectedAffix(kind: "prefix" | "suffix", options: string[]): string {
+    const explicit = kind === "prefix" ? this.prefixValue : this.suffixValue;
+    const text = kind === "prefix" ? this.prefix : this.suffix;
+    return explicit || text || options[0] || "";
+  }
+
+  private onAffixChange(kind: "prefix" | "suffix", e: Event): void {
+    const value = (e.target as HTMLSelectElement).value;
+    if (kind === "prefix") {
+      this.prefixValue = value;
+      this.prefix = value;
+    } else {
+      this.suffixValue = value;
+      this.suffix = value;
+    }
+
+    this.dispatchEvent(
+      new CustomEvent(`${kind}-change`, {
+        detail: { value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
+  private renderAffixSelect(kind: "prefix" | "suffix", options: string[]): TemplateResult {
+    const value = this.selectedAffix(kind, options);
+    return html`<select class="loomi-affix-select" .value=${value} aria-label=${kind} @change=${(e: Event) => this.onAffixChange(kind, e)}>
+      ${options.map((option) => html`<option value=${option} ?selected=${option === value}>${option}</option>`)}
+    </select>`;
+  }
+
+  private hintKey(): string {
+    const value = this.hint.trim();
+    return value.endsWith(".html") ? value.slice(0, -5) : value.replace(/^#/, "");
+  }
+
+  private escapeSelector(value: string): string {
+    return globalThis.CSS?.escape ? globalThis.CSS.escape(value) : value.replace(/["\\]/g, "\\$&");
+  }
+
+  private hintSourceHtml(): string | undefined {
+    const key = this.hintKey();
+    if (!key) return undefined;
+    const source = document.querySelector<HTMLElement>(`[data-hint="${this.escapeSelector(key)}"]`);
+    return source?.innerHTML;
+  }
+
+  private renderHint(): TemplateResult | typeof nothing {
+    if (!this.hint.trim()) return nothing;
+    const helpIcon = this.renderIcon("help-circle");
+    const sourceHtml = this.hintSourceHtml();
+
+    return html`<loomi-popover class="loomi-hint-popover" position="top" .width=${280}>
+      <button type="button" slot="trigger" class="loomi-iconbtn" aria-label="Show hint">
+        ${helpIcon === nothing ? this.renderIcon("information-circle") : helpIcon}
+      </button>
+      <span class="loomi-hint-content">${sourceHtml === undefined ? this.hint : unsafeHTML(sourceHtml)}</span>
+    </loomi-popover>`;
+  }
+
   private renderPrefix(): TemplateResult | typeof nothing {
-    const hasPrefix = this.prefix || this.prefixIcon;
+    const options = this.parseOptions(this.prefixOptions);
+    const hasPrefix = this.prefix || this.prefixIcon || options.length > 0;
     if (!hasPrefix) return nothing;
     const cls = `loomi-prefix${this.transparentPrefix ? "" : " loomi-affix-solid"}`;
     return html`<span class=${cls}>
-      <slot name="prefix">${this.prefixIcon ? this.renderIcon(this.prefixIcon) : this.prefix}</slot>
+      <slot name="prefix">${options.length > 0 ? this.renderAffixSelect("prefix", options) : this.prefixIcon ? this.renderIcon(this.prefixIcon) : this.prefix}</slot>
     </span>`;
   }
 
   private renderSuffix(): TemplateResult | typeof nothing {
-    const isPassword = this.type === "password";
-    const showReveal = isPassword && this.viewable;
+    const options = this.parseOptions(this.suffixOptions);
     const showClear = this.clearable && this.value !== "" && !this.disabled && !this.readonly;
-    const hasSuffix = this.suffix || this.suffixIcon || showReveal || showClear;
+    const hasSuffix = this.suffix || this.suffixIcon || options.length > 0 || showClear || this.hint;
     if (!hasSuffix) return nothing;
     const cls = `loomi-suffix${this.transparentSuffix ? "" : " loomi-affix-solid"}`;
     return html`<span class=${cls}>
       ${showClear
         ? html`<button type="button" class="loomi-iconbtn" aria-label=${loomiT("common.clear", {}, this.locale)} @click=${this.clear}>${this.renderIcon("x-circle")}</button>`
         : nothing}
-      ${showReveal
-        ? html`<button type="button" class="loomi-iconbtn" aria-label=${loomiT("input.togglePassword", {}, this.locale)} @click=${() => (this.revealed = !this.revealed)}>${this.renderIcon(this.revealed ? "eye-slash" : "eye")}</button>`
-        : nothing}
-      <slot name="suffix">${this.suffixIcon ? this.renderIcon(this.suffixIcon) : this.suffix}</slot>
+      <slot name="suffix">${options.length > 0 ? this.renderAffixSelect("suffix", options) : this.suffixIcon ? this.renderIcon(this.suffixIcon) : this.suffix}</slot>
+      ${this.renderHint()}
     </span>`;
   }
 
@@ -284,7 +368,6 @@ export class LoomiInput extends LoomiElement {
     const forceFloat = hasLabel && this.showPlaceholderAlways;
     const placeholderAttr =
       hasLabel && !this.showPlaceholderAlways ? " " : this.placeholder || " ";
-    const effType = this.type === "password" && this.revealed ? "text" : this.type;
     const showError = this.invalid && this.showErrorInline && this.errorMessage;
 
     return html`
@@ -295,7 +378,7 @@ export class LoomiInput extends LoomiElement {
             class="loomi-input"
             part="input"
             .value=${this.value}
-            type=${effType}
+            type=${this.type}
             name=${this.name || nothing}
             placeholder=${placeholderAttr}
             inputmode=${this.numeric ? "decimal" : nothing}

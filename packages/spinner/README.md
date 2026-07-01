@@ -16,6 +16,25 @@ import "@loomidev/spinner";
 <loomi-spinner></loomi-spinner>
 ```
 
+## Different Spin Types
+
+Use `type` to pick the indicator style. The type names match Untitled UI's
+loading indicator options.
+
+```html
+<loomi-spinner type="line-simple"></loomi-spinner>
+<loomi-spinner type="line-spinner"></loomi-spinner>
+<loomi-spinner type="dot-circle"></loomi-spinner>
+```
+
+Add a label when the indicator needs visible loading text.
+
+```html
+<loomi-spinner type="line-simple" size="md" label="Loading..."></loomi-spinner>
+<loomi-spinner type="line-spinner" size="md" label="Loading..."></loomi-spinner>
+<loomi-spinner type="dot-circle" size="md" label="Loading..."></loomi-spinner>
+```
+
 ## Different Colors
 
 The default color is `gray`. Any loomi color works.
@@ -33,9 +52,13 @@ The default color is `gray`. Any loomi color works.
 
 ## Different Sizes
 
-There are five sizes available. The default is `small`.
+There are five sizes available. The default is `small`. The `sm`, `md`, and
+`lg` aliases are also accepted for compatibility with Untitled UI examples.
 
 ```html
+<loomi-spinner size="sm"></loomi-spinner>
+<loomi-spinner size="md"></loomi-spinner>
+<loomi-spinner size="lg"></loomi-spinner>
 <loomi-spinner size="small"></loomi-spinner>
 <loomi-spinner size="medium"></loomi-spinner>
 <loomi-spinner size="big"></loomi-spinner>
@@ -60,13 +83,15 @@ table mid-fetch, a full-page overlay.
 
 | Attribute | Default | Description |
 | --- | --- | --- |
-| `size` | `small` | `small` \| `medium` \| `big` \| `xl` \| `omg` |
+| `type` | `line-simple` | `line-simple` \| `line-spinner` \| `dot-circle` |
+| `size` | `small` | `sm` \| `md` \| `lg` \| `small` \| `medium` \| `big` \| `xl` \| `omg` |
 | `color` | `gray` | Any loomi color. |
+| `label` | `""` | Optional visible loading label. |
 
 ## Full Example
 
 ```html
-<loomi-spinner size="medium" color="blue"></loomi-spinner>
+<loomi-spinner type="line-spinner" size="md" color="blue" label="Loading..."></loomi-spinner>
 ```
 
 <!-- BEGIN loomi-framework-guide -->

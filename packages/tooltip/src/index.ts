@@ -1,1 +1,1 @@
-export { LoomiTooltip, type LoomiTooltipPosition } from "./loomi-tooltip.js";
+export { LoomiTooltip, type LoomiTooltipPosition, type LoomiTooltipShade } from "./loomi-tooltip.js";

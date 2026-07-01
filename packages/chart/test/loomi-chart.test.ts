@@ -60,6 +60,40 @@ describe("loomi-chart", () => {
     expect(d).to.match(/V[\d.]+ H[\d.]+ V/);
   });
 
+  it("renders bars as thin centered columns", async () => {
+    const el = await fixture<LoomiChart>(html`<loomi-chart type="bar"></loomi-chart>`);
+    el.data = series;
+    await el.updateComplete;
+
+    const d = el.shadowRoot!.querySelector(".loomi-bar-fill")!.getAttribute("d") || "";
+    const xValues = [
+      ...[...d.matchAll(/(?:M|H)\s*(-?\d+(?:\.\d+)?)(?:,-?\d+(?:\.\d+)?)?/g)].map((m) => Number(m[1])),
+      ...[...d.matchAll(/A-?\d+(?:\.\d+)?,-?\d+(?:\.\d+)? 0 0 1 (-?\d+(?:\.\d+)?),/g)].map((m) => Number(m[1])),
+    ];
+    const width = Math.max(...xValues) - Math.min(...xValues);
+    const categoryWidth = (320 - 24 - 24) / series.length;
+
+    expect(width).to.be.lessThan(categoryWidth * 0.4);
+  });
+
+  it("rounds line joins and caps at data points", async () => {
+    const horizontal = await fixture<LoomiChart>(html`<loomi-chart type="line"></loomi-chart>`);
+    horizontal.data = series;
+    await horizontal.updateComplete;
+
+    const horizontalLine = horizontal.shadowRoot!.querySelector(".loomi-line")!;
+    expect(horizontalLine.getAttribute("stroke-linecap")).to.equal("round");
+    expect(horizontalLine.getAttribute("stroke-linejoin")).to.equal("round");
+
+    const vertical = await fixture<LoomiChart>(html`<loomi-chart type="line" vertical></loomi-chart>`);
+    vertical.data = series;
+    await vertical.updateComplete;
+
+    const verticalLine = vertical.shadowRoot!.querySelector(".loomi-line")!;
+    expect(verticalLine.getAttribute("stroke-linecap")).to.equal("round");
+    expect(verticalLine.getAttribute("stroke-linejoin")).to.equal("round");
+  });
+
   it("draws a higher-shade border only in shade=\"light\", and only when show-border is on", async () => {
     const dark = await fixture<LoomiChart>(html`<loomi-chart type="bar" color="orange"></loomi-chart>`);
     dark.data = series;

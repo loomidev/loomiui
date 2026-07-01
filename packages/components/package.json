@@ -35,6 +35,10 @@
       "types": "./dist/input.d.ts",
       "import": "./dist/input.js"
     },
+    "./password": {
+      "types": "./dist/password.d.ts",
+      "import": "./dist/password.js"
+    },
     "./textarea": {
       "types": "./dist/textarea.d.ts",
       "import": "./dist/textarea.js"
@@ -103,6 +107,10 @@
       "types": "./dist/tooltip.d.ts",
       "import": "./dist/tooltip.js"
     },
+    "./copy-to-clipboard": {
+      "types": "./dist/copy-to-clipboard.d.ts",
+      "import": "./dist/copy-to-clipboard.js"
+    },
     "./pagination": {
       "types": "./dist/pagination.d.ts",
       "import": "./dist/pagination.js"
@@ -119,6 +127,14 @@
       "types": "./dist/drawer.d.ts",
       "import": "./dist/drawer.js"
     },
+    "./divider": {
+      "types": "./dist/divider.d.ts",
+      "import": "./dist/divider.js"
+    },
+    "./qrcode": {
+      "types": "./dist/qrcode.d.ts",
+      "import": "./dist/qrcode.js"
+    },
     "./notification": {
       "types": "./dist/notification.d.ts",
       "import": "./dist/notification.js"
@@ -130,6 +146,10 @@
     "./dropmenu": {
       "types": "./dist/dropmenu.d.ts",
       "import": "./dist/dropmenu.js"
+    },
+    "./context-menu": {
+      "types": "./dist/context-menu.d.ts",
+      "import": "./dist/context-menu.js"
     },
     "./popover": {
       "types": "./dist/popover.d.ts",
@@ -155,13 +175,17 @@
       "types": "./dist/progress.d.ts",
       "import": "./dist/progress.js"
     },
+    "./timer": {
+      "types": "./dist/timer.d.ts",
+      "import": "./dist/timer.js"
+    },
     "./slider": {
       "types": "./dist/slider.d.ts",
       "import": "./dist/slider.js"
     },
-    "./code": {
-      "types": "./dist/code.d.ts",
-      "import": "./dist/code.js"
+    "./pin": {
+      "types": "./dist/pin.d.ts",
+      "import": "./dist/pin.js"
     },
     "./checkcards": {
       "types": "./dist/checkcards.d.ts",
@@ -194,6 +218,10 @@
     "./colorpicker": {
       "types": "./dist/colorpicker.d.ts",
       "import": "./dist/colorpicker.js"
+    },
+    "./emoji-picker": {
+      "types": "./dist/emoji-picker.d.ts",
+      "import": "./dist/emoji-picker.js"
     },
     "./sortable": {
       "types": "./dist/sortable.d.ts",
@@ -241,15 +269,19 @@
     "@loomidev/chart": "workspace:^",
     "@loomidev/checkbox": "workspace:^",
     "@loomidev/checkcards": "workspace:^",
-    "@loomidev/code": "workspace:^",
+    "@loomidev/pin": "workspace:^",
     "@loomidev/colorpicker": "workspace:^",
     "@loomidev/contact-card": "workspace:^",
+    "@loomidev/context-menu": "workspace:^",
     "@loomidev/core": "workspace:^",
+    "@loomidev/copy-to-clipboard": "workspace:^",
     "@loomidev/countries": "workspace:^",
     "@loomidev/creditcard": "workspace:^",
     "@loomidev/datepicker": "workspace:^",
+    "@loomidev/divider": "workspace:^",
     "@loomidev/drawer": "workspace:^",
     "@loomidev/dropmenu": "workspace:^",
+    "@loomidev/emoji-picker": "workspace:^",
     "@loomidev/empty-state": "workspace:^",
     "@loomidev/filepicker": "workspace:^",
     "@loomidev/horizontal-line-graph": "workspace:^",
@@ -261,9 +293,11 @@
     "@loomidev/notification": "workspace:^",
     "@loomidev/number": "workspace:^",
     "@loomidev/pagination": "workspace:^",
+    "@loomidev/password": "workspace:^",
     "@loomidev/popover": "workspace:^",
     "@loomidev/processing": "workspace:^",
     "@loomidev/progress": "workspace:^",
+    "@loomidev/qrcode": "workspace:^",
     "@loomidev/radio": "workspace:^",
     "@loomidev/rating": "workspace:^",
     "@loomidev/select": "workspace:^",
@@ -280,6 +314,7 @@
     "@loomidev/theme": "workspace:^",
     "@loomidev/theme-switcher": "workspace:^",
     "@loomidev/timeline": "workspace:^",
+    "@loomidev/timer": "workspace:^",
     "@loomidev/timepicker": "workspace:^",
     "@loomidev/toggle": "workspace:^",
     "@loomidev/tooltip": "workspace:^"

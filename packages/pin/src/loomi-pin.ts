@@ -5,13 +5,13 @@ import { componentStyles } from "./generated/styles.css.js";
 const DEFAULT_ERROR_MESSAGE = "Verification code is invalid";
 
 /**
- * `<loomi-code>` — a verification-code (PIN) input of N boxes. Form-associated: submits
- * the joined code under `name`.
+ * `<loomi-pin>` — a verification-code (PIN) input of N boxes. Form-associated: submits
+ * the joined PIN under `name`.
  *
- * @fires verify - `detail: { code }` when the last box is filled.
+ * @fires verify - `detail: { pin, code }` when the last box is filled.
  */
-@customElement("loomi-code")
-export class LoomiCode extends LoomiElement {
+@customElement("loomi-pin")
+export class LoomiPin extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
   static formAssociated = true;
   private internals = this.attachInternals();
@@ -19,6 +19,8 @@ export class LoomiCode extends LoomiElement {
   @property({ reflect: true }) name = "";
   @property({ type: Number, attribute: "total-digits" }) totalDigits = 4;
   @property() size: "small" | "big" = "small";
+  @property({ type: Boolean, reflect: true }) separator = false;
+  @property({ type: Boolean, attribute: "hide-digits" }) hideDigits = false;
   @property({ type: Boolean }) mask = false;
   @property({ attribute: "error-message" }) errorMessage = DEFAULT_ERROR_MESSAGE;
   @property() locale = "";
@@ -32,9 +34,14 @@ export class LoomiCode extends LoomiElement {
     this.digits = Array(this.totalDigits).fill("");
   }
 
-  /** The current code. */
-  get code(): string {
+  /** The current PIN. */
+  get pin(): string {
     return this.digits.join("");
+  }
+
+  /** @deprecated Use `pin` instead. */
+  get code(): string {
+    return this.pin;
   }
 
   /** Clear all boxes and focus the first. */
@@ -51,10 +58,35 @@ export class LoomiCode extends LoomiElement {
   }
 
   private commit(): void {
-    this.internals.setFormValue(this.code);
-    if (this.code.length === this.totalDigits) {
-      this.dispatchEvent(new CustomEvent("verify", { bubbles: true, composed: true, detail: { code: this.code } }));
+    this.internals.setFormValue(this.pin);
+    if (this.pin.length === this.totalDigits) {
+      this.dispatchEvent(new CustomEvent("verify", { bubbles: true, composed: true, detail: { pin: this.pin, code: this.pin } }));
     }
+  }
+
+  private get masked(): boolean {
+    return this.mask || this.hideDigits;
+  }
+
+  private get separatorIndex(): number {
+    return Math.floor(this.totalDigits / 2);
+  }
+
+  private renderBox(i: number): TemplateResult {
+    const value = this.digits[i] ?? "";
+    return html`<span class="loomi-box-wrap">
+      <input
+        class="loomi-box ${this.masked && value ? "is-masked" : ""}"
+        type="text"
+        inputmode="numeric"
+        maxlength="1"
+        aria-label=${loomiT("pin.digitLabel", { number: i + 1 }, this.locale)}
+        .value=${value}
+        @input=${(e: Event) => this.onInput(i, e)}
+        @keydown=${(e: KeyboardEvent) => this.onKeydown(i, e)}
+      />
+      ${this.masked && value ? html`<span class="loomi-dot" aria-hidden="true"></span>` : nothing}
+    </span>`;
   }
 
   private onInput(i: number, e: Event): void {
@@ -84,24 +116,18 @@ export class LoomiCode extends LoomiElement {
   }
 
   override render(): TemplateResult {
-    return html`<div class="loomi-code size-${this.size}" @paste=${(e: ClipboardEvent) => this.onPaste(e)}>
-      ${Array.from({ length: this.totalDigits }, (_, i) => html`<input
-        class="loomi-box"
-        type=${this.mask ? "password" : "text"}
-        inputmode="numeric"
-        maxlength="1"
-        aria-label=${loomiT("code.digitLabel", { number: i + 1 }, this.locale)}
-        .value=${this.digits[i] ?? ""}
-        @input=${(e: Event) => this.onInput(i, e)}
-        @keydown=${(e: KeyboardEvent) => this.onKeydown(i, e)}
-      />`)}
+    return html`<div class="loomi-pin size-${this.size}" @paste=${(e: ClipboardEvent) => this.onPaste(e)}>
+      ${Array.from({ length: this.totalDigits }, (_, i) => html`
+        ${this.renderBox(i)}
+        ${this.separator && this.totalDigits > 1 && i === this.separatorIndex - 1 ? html`<span class="loomi-separator" aria-hidden="true">-</span>` : nothing}
+      `)}
     </div>
-    ${this.invalid ? html`<p class="loomi-error">${loomiDefaultText(this.errorMessage, DEFAULT_ERROR_MESSAGE, "code.errorMessage", this.locale)}</p>` : nothing}`;
+    ${this.invalid ? html`<p class="loomi-error">${loomiDefaultText(this.errorMessage, DEFAULT_ERROR_MESSAGE, "pin.errorMessage", this.locale)}</p>` : nothing}`;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    "loomi-code": LoomiCode;
+    "loomi-pin": LoomiPin;
   }
 }

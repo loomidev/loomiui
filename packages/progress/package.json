@@ -1,7 +1,7 @@
 {
   "name": "@loomidev/progress",
   "version": "0.1.0",
-  "description": "<loomi-progress-bar>/<loomi-progress-circle> — progress indicators.",
+  "description": "<loomi-progress-bar>/<loomi-progress-circle>/<loomi-progress-steps> — progress indicators.",
   "repository": {
     "type": "git",
     "url": "https://github.com/loomidev/loomiui.git",

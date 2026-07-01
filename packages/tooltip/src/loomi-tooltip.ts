@@ -4,6 +4,7 @@ import { LoomiElement, loomiStyles } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiTooltipPosition = "top" | "bottom" | "left" | "right";
+export type LoomiTooltipShade = "dark" | "light";
 
 /**
  * `<loomi-tooltip>` — shows a tooltip on hover/focus of its trigger content.
@@ -17,6 +18,7 @@ export class LoomiTooltip extends LoomiElement {
 
   @property() content = "";
   @property() position: LoomiTooltipPosition = "top";
+  @property({ reflect: true }) shade: LoomiTooltipShade = "dark";
 
   override render(): TemplateResult {
     return html`

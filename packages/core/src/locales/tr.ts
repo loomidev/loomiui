@@ -26,7 +26,7 @@ export const tr: LoomiTranslations = {
   pagination: { totalLabel: ":c kayıttan :a ile :b arası gösteriliyor", noRecords: "Kayıt yok", pageOf: "Sayfa :page / :pages" },
   modal: { ok: "Tamam", cancel: "İptal", dialog: "İletişim kutusu" },
   drawer: { dialog: "Yan panel" },
-  code: { errorMessage: "Doğrulama kodu geçersiz", digitLabel: "Rakam :number" },
+  pin: { errorMessage: "Doğrulama kodu geçersiz", digitLabel: "Rakam :number" },
   colorpicker: { pickColor: "Renk seç" },
   input: { togglePassword: "Parola görünürlüğünü değiştir" },
   number: { increment: "Artır", decrement: "Azalt" },

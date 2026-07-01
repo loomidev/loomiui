@@ -44,6 +44,27 @@ function digitsOnly(raw: string): string {
   return raw.replace(/\D/g, "");
 }
 
+function hasMaskedCardNumber(raw: string): boolean {
+  return /[•●*xX]/.test(raw);
+}
+
+function formatMaskedCardNumber(raw: string, brand: LoomiCardBrand): string {
+  const groups = LOOMI_CARD_BRAND_GROUPS[brand];
+  const max = LOOMI_CARD_BRAND_LENGTH[brand];
+  const clipped = raw
+    .replace(/[•●*xX]/g, "•")
+    .replace(/[^\d•]/g, "")
+    .slice(0, max);
+  const parts: string[] = [];
+  let i = 0;
+  for (const size of groups) {
+    if (i >= clipped.length) break;
+    parts.push(clipped.slice(i, i + size));
+    i += size;
+  }
+  return parts.join(" ");
+}
+
 function formatCardNumber(digits: string, brand: LoomiCardBrand): string {
   const groups = LOOMI_CARD_BRAND_GROUPS[brand];
   const max = LOOMI_CARD_BRAND_LENGTH[brand];
@@ -134,7 +155,9 @@ export class LoomiCreditcard extends LoomiElement {
   override willUpdate(changed: PropertyValues<this>): void {
     if (changed.has("number") || changed.has("brand")) {
       const brand = this.brand || detectCardBrand(digitsOnly(this.number));
-      this.number = formatCardNumber(digitsOnly(this.number), brand);
+      this.number = hasMaskedCardNumber(this.number)
+        ? formatMaskedCardNumber(this.number, brand)
+        : formatCardNumber(digitsOnly(this.number), brand);
     }
   }
 

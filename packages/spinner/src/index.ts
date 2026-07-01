@@ -1,1 +1,1 @@
-export { LoomiSpinner, type LoomiSpinnerSize } from "./loomi-spinner.js";
+export { LoomiSpinner, type LoomiSpinnerSize, type LoomiSpinnerType } from "./loomi-spinner.js";

@@ -1,0 +1,227 @@
+/* Component-scoped plain CSS for <loomi-password>. Colors resolve via --loomi-* tokens. */
+:host {
+  display: block;
+  margin-bottom: 1rem;
+  --loomi-control-height: 2.75rem;
+  --loomi-control-pad-x: 1rem;
+  --loomi-control-font-size: 1rem;
+}
+:host([no-clearing]) {
+  margin-bottom: 0;
+}
+:host([hidden]) {
+  display: none;
+}
+
+.loomi-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: var(--loomi-control-height);
+  background: var(--loomi-surface);
+  border: 2px solid var(--loomi-surface-border);
+  border-radius: 0.5rem;
+  transition: border-color 0.15s ease;
+}
+.loomi-field:focus-within {
+  border-color: var(--loomi-primary-600);
+}
+:host([invalid]) .loomi-field {
+  border-color: var(--loomi-error-400);
+}
+:host([invalid]) .loomi-field:focus-within {
+  border-color: var(--loomi-error-500);
+}
+:host([disabled]) .loomi-field {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--loomi-surface-muted);
+}
+
+.size-tiny {
+  --loomi-control-height: 2rem;
+  --loomi-control-pad-x: 0.625rem;
+  --loomi-control-font-size: 0.75rem;
+  font-size: var(--loomi-control-font-size);
+}
+.size-small {
+  --loomi-control-height: 2.25rem;
+  --loomi-control-pad-x: 0.75rem;
+  --loomi-control-font-size: 0.875rem;
+  font-size: var(--loomi-control-font-size);
+}
+.size-regular {
+  --loomi-control-height: 2.5rem;
+  --loomi-control-pad-x: 0.875rem;
+  --loomi-control-font-size: 0.875rem;
+  font-size: var(--loomi-control-font-size);
+}
+.size-medium {
+  --loomi-control-height: 2.75rem;
+  --loomi-control-pad-x: 1rem;
+  --loomi-control-font-size: 1rem;
+  font-size: var(--loomi-control-font-size);
+}
+.size-big {
+  --loomi-control-height: 3rem;
+  --loomi-control-pad-x: 1.25rem;
+  --loomi-control-font-size: 1.125rem;
+  font-size: var(--loomi-control-font-size);
+}
+
+.loomi-prefix,
+.loomi-suffix {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--loomi-text-muted);
+  white-space: nowrap;
+  flex: none;
+}
+.loomi-prefix {
+  padding-left: var(--loomi-control-pad-x);
+}
+.loomi-suffix {
+  padding-right: var(--loomi-control-pad-x);
+}
+.loomi-affix-solid {
+  align-self: stretch;
+  background: var(--loomi-surface-hover);
+  padding-left: var(--loomi-control-pad-x);
+  padding-right: var(--loomi-control-pad-x);
+  color: var(--loomi-text-secondary);
+}
+.loomi-prefix.loomi-affix-solid {
+  border-right: 1px solid var(--loomi-surface-border);
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+.loomi-affix-select {
+  appearance: none;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: 1;
+  max-width: 9rem;
+  min-width: 3.25rem;
+  cursor: pointer;
+}
+
+.loomi-inputwrap {
+  position: relative;
+  display: flex;
+  align-self: stretch;
+  align-items: center;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.loomi-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: inherit;
+  color: var(--loomi-text);
+  padding: 0 var(--loomi-control-pad-x);
+}
+.loomi-input::placeholder {
+  color: var(--loomi-text-faint);
+}
+.loomi-input:disabled {
+  cursor: not-allowed;
+}
+
+.loomi-label {
+  position: absolute;
+  left: var(--loomi-control-pad-x);
+  top: 50%;
+  transform: translateY(-50%);
+  transform-origin: left center;
+  color: var(--loomi-text-faint);
+  line-height: 1;
+  pointer-events: none;
+  transition: all 0.15s ease;
+  background: var(--loomi-surface);
+  padding-block: 0;
+  padding-inline: 0.25rem;
+  max-width: calc(100% - var(--loomi-control-pad-x));
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.loomi-input:focus ~ .loomi-label,
+.loomi-input:not(:placeholder-shown) ~ .loomi-label,
+.force-float .loomi-label {
+  top: 0;
+  transform: translateY(-50%) scale(0.85);
+  color: var(--loomi-primary-600);
+}
+:host([invalid]) .loomi-input:focus ~ .loomi-label,
+:host([invalid]) .loomi-input:not(:placeholder-shown) ~ .loomi-label {
+  color: var(--loomi-error-500);
+}
+.loomi-req {
+  color: var(--loomi-error-500);
+  margin-left: 0.15rem;
+}
+
+.loomi-iconbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: var(--loomi-text-faint);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.375rem;
+}
+.loomi-iconbtn:hover {
+  color: var(--loomi-text-secondary);
+}
+.loomi-icon {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+}
+
+.loomi-strength {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0.45rem 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--loomi-text-muted);
+  font-size: 0.8rem;
+}
+.loomi-strength-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.loomi-strength-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  color: var(--loomi-gray-400);
+  flex: none;
+}
+.loomi-strength-item.met {
+  color: var(--loomi-text-secondary);
+}
+.loomi-strength-item.met .loomi-strength-check {
+  color: var(--loomi-success-500);
+}
+
+.loomi-error {
+  margin: 0.35rem 0 0;
+  font-size: 0.8rem;
+  color: var(--loomi-error-500);
+}

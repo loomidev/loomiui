@@ -2,12 +2,13 @@ import { expect } from "@open-wc/testing";
 import "../../button/dist/loomi-button.js";
 import "../../checkbox/dist/loomi-checkbox.js";
 import "../../checkcards/dist/loomi-checkcards.js";
-import "../../code/dist/loomi-code.js";
+import "../../pin/dist/loomi-pin.js";
 import "../../colorpicker/dist/loomi-colorpicker.js";
 import "../../datepicker/dist/loomi-datepicker.js";
 import "../../filepicker/dist/loomi-filepicker.js";
 import "../../input/dist/loomi-input.js";
 import "../../number/dist/loomi-number.js";
+import "../../password/dist/loomi-password.js";
 import "../../radio/dist/loomi-radio.js";
 import "../../rating/dist/loomi-rating.js";
 import "../../select/dist/loomi-select.js";
@@ -21,12 +22,13 @@ const NAMED_FORM_TAGS = [
   "loomi-button",
   "loomi-checkbox",
   "loomi-checkcards",
-  "loomi-code",
+  "loomi-pin",
   "loomi-colorpicker",
   "loomi-datepicker",
   "loomi-filepicker",
   "loomi-input",
   "loomi-number",
+  "loomi-password",
   "loomi-radio",
   "loomi-rating",
   "loomi-select",

@@ -64,12 +64,18 @@ export const en: LoomiTranslations = {
   drawer: {
     dialog: "Drawer",
   },
-  code: {
+  pin: {
     errorMessage: "Verification code is invalid",
     digitLabel: "Digit :number",
   },
   colorpicker: {
     pickColor: "Pick color",
+  },
+  emojiPicker: {
+    placeholder: "Pick an emoji",
+    searchPlaceholder: "Search emoji",
+    emptyText: "No emoji found",
+    dialog: "Emoji",
   },
   input: {
     togglePassword: "Toggle password visibility",

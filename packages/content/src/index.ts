@@ -1,5 +1,7 @@
 // @loomidev/content grouping. Importing this registers the category's elements.
 export * from "@loomidev/card";
+export * from "@loomidev/divider";
+export * from "@loomidev/qrcode";
 export * from "@loomidev/avatar";
 export * from "@loomidev/accordion";
 export * from "@loomidev/tag";

@@ -1,8 +1,11 @@
 # @loomidev/text-editor
 
-`<loomi-text-editor>` — a themeable rich-text editor with a floating label and inline
-validation, powered by [Quill](https://quilljs.com) (bold/italic/lists/links). `value`
-holds HTML. **Form-associated**: its value submits with the surrounding form.
+`<loomi-text-editor>` is a themeable rich-text editor web component with a native
+browser editing surface, a configurable toolbar, Loomi icons, Loomi tooltips, floating
+labels, inline validation, and native form submission.
+
+The editor stores its value as HTML. That means users can format text visually, and your
+form or application receives markup such as `<p>Hello <strong>world</strong></p>`.
 
 ```bash
 npm install @loomidev/text-editor lit
@@ -15,130 +18,320 @@ import "@loomidev/text-editor";
 ## Basic Usage
 
 ```html
-<loomi-text-editor placeholder="Comment"></loomi-text-editor>
+<loomi-text-editor name="comment" label="Comment"></loomi-text-editor>
 ```
 
-## With Labels
-
-Set `label` instead of (or together with) `placeholder` for a label that sits above
-the editor.
-
-```html
-<loomi-text-editor label="Comment"></loomi-text-editor>
-```
-
-## Required Fields
-
-Marks the field with a red asterisk next to the label, and fails `validate()` while
-empty.
-
-```html
-<loomi-text-editor required label="Comment"></loomi-text-editor>
-```
-
-## Initial Height
-
-`rows` sets the editor's minimum height (in text rows) before content pushes it taller.
-
-```html
-<loomi-text-editor label="Bio" rows="6"></loomi-text-editor>
-```
-
-## Validation
-
-`validate()` returns `true`/`false` and, with `show-error-inline`, renders
-`error-message` directly beneath the field instead of you wiring up your own error UI.
+Use `placeholder` for a hint inside the editing area:
 
 ```html
 <loomi-text-editor
-  required
-  label="Bio"
-  error-message="Write something about yourself"
-  show-error-inline
+  name="comment"
+  label="Comment"
+  placeholder="Write a thoughtful response"
 ></loomi-text-editor>
+```
+
+## Choosing Toolbar Tools
+
+The `tools` prop controls what appears in the toolbar.
+
+For plain HTML, pass a comma-separated list:
+
+```html
+<loomi-text-editor
+  label="Release notes"
+  tools="basic,headings,lists,link"
+></loomi-text-editor>
+```
+
+For JavaScript frameworks, you can also assign an array property. This is nicer when the
+tools come from configuration:
+
+```js
+const editor = document.querySelector("loomi-text-editor");
+editor.tools = ["basic", "colors", "lists", "embed"];
+```
+
+Both forms are supported on purpose:
+
+- Use a comma-separated string for HTML, Blade, Astro, or server-rendered templates.
+- Use an array when you are already in JavaScript, React refs, Vue refs, Svelte actions,
+  or another framework layer.
+
+If `tools` is not set, the editor uses:
+
+```txt
+default = basic, headings, lists, align, embed
+```
+
+Use `tools="all"` for the complete toolbar, or `tools="none"` to hide the toolbar and
+use the editor as a plain rich-text field.
+
+## Individual Tools
+
+| Tool value | What it shows |
+| --- | --- |
+| `heading` | A block style picker with Body and H1-H6. |
+| `font-family` | Font family picker. |
+| `font-size` | Relative font size picker. |
+| `bold` | Bold text. |
+| `italic` | Italic text. `italics` is accepted as an alias. |
+| `underline` | Underlined text. |
+| `strikethrough` | Struck-through text. `strike` is accepted as an alias. |
+| `font-color` | Text color picker. `color`, `text-color`, and `font-colour` are accepted aliases. |
+| `highlight-color` | Highlight/background color picker. `highlight` and `highlight-colour` are accepted aliases. |
+| `bullet-list` | Dotted list. `bullets`, `dots`, and `unordered-list` are accepted aliases. |
+| `ordered-list` | Numbered list. `numbers` and `numbered-list` are accepted aliases. |
+| `align-left` | Left alignment. |
+| `align-center` | Center alignment. `centre` and `align-centre` are accepted aliases. |
+| `align-right` | Right alignment. |
+| `align-justify` | Justified alignment. |
+| `inline-code` | Inline code formatting. |
+| `superscript` | Superscript text. |
+| `subscript` | Subscript text. |
+| `blockquote` | Blockquote formatting. |
+| `code-block` | Preformatted code block. |
+| `link` | Prompt for a link URL and insert a link. |
+| `image` | Prompt for an image URL and alt text. |
+| `video` | Prompt for a video URL and insert an iframe embed. YouTube and Vimeo URLs are normalized to embed URLs. |
+
+## Tool Groups
+
+Groups let you keep templates readable.
+
+| Group | Expands to |
+| --- | --- |
+| `default` | `basic`, `heading`, `lists`, `align`, `embed` |
+| `basic` | `bold`, `italic`, `underline`, `strikethrough` |
+| `marks` | `basic`, `inline-code`, `superscript`, `subscript` |
+| `colors` | `font-color`, `highlight-color` |
+| `font` | `font-family`, `font-size` |
+| `typography` | `heading`, `font-family`, `font-size`, `font-color`, `highlight-color` |
+| `lists` | `bullet-list`, `ordered-list` |
+| `align` | `align-left`, `align-center`, `align-right`, `align-justify` |
+| `script` | `superscript`, `subscript` |
+| `code` | `inline-code`, `code-block` |
+| `blocks` | `blockquote`, `code-block` |
+| `embed` | `link`, `image`, `video` |
+| `media` | `image`, `video` |
+| `all` | Everything listed above |
+| `none` | No toolbar |
+
+You can mix groups and individual values:
+
+```html
+<loomi-text-editor
+  label="Article body"
+  tools="typography,basic,lists,blockquote,link,image"
+></loomi-text-editor>
+```
+
+Duplicate tools are ignored, and the toolbar keeps a consistent Loomi order.
+
+## Headings vs Font Size
+
+The editor includes H1-H6 through the `heading` tool, even though `font-size` also exists.
+They are not the same thing:
+
+- Use headings when the text has document structure, such as article titles, section
+  headings, or email headings.
+- Use font size when you only want visual emphasis inside otherwise normal content.
+
+This keeps submitted HTML more useful for accessibility, search, server-side rendering,
+and later content processing.
+
+## Icons and Tooltips
+
+Toolbar buttons use `<loomi-icon>` where the shared icon registry has a suitable icon.
+Every toolbar icon control is wrapped in `<loomi-tooltip>`, so compact controls still
+explain themselves on hover or keyboard focus.
+
+Some text-formatting controls, such as superscript and subscript, use short text labels
+when that is clearer than forcing an unrelated icon.
+
+## Labels, Height, and Validation
+
+`label` renders above the editor. `rows` controls the minimum editor height before content
+pushes it taller.
+
+```html
+<loomi-text-editor
+  name="bio"
+  label="Bio"
+  rows="6"
+  required
+  show-error-inline
+  error-message="Tell us a little about yourself"
+></loomi-text-editor>
+```
+
+`validate()` returns `true` or `false`:
+
+```js
+const editor = document.querySelector("loomi-text-editor");
+
+saveButton.addEventListener("click", () => {
+  if (!editor.validate()) return;
+  // continue with a valid value
+});
+```
+
+## Reading Values
+
+`value` is always HTML:
+
+```js
+const editor = document.querySelector("loomi-text-editor");
+
+editor.addEventListener("input", () => {
+  console.log(editor.value);
+});
+```
+
+Example value:
+
+```html
+<h2>Shipping notes</h2>
+<p>Use <strong>insured delivery</strong> for fragile items.</p>
+<ul>
+  <li>Pack the glass separately.</li>
+  <li>Add a delivery phone number.</li>
+</ul>
+```
+
+## Submitting Values
+
+`<loomi-text-editor>` is form-associated. Give it a `name`, and it submits with native
+`FormData` just like an input:
+
+```html
+<form id="post-form">
+  <loomi-text-editor
+    name="body"
+    label="Post body"
+    tools="all"
+    required
+  ></loomi-text-editor>
+
+  <button>Publish</button>
+</form>
 
 <script type="module">
-  const el = document.querySelector("loomi-text-editor");
-  submitButton.addEventListener("click", () => {
-    if (!el.validate()) return;
-    // proceed
+  import "@loomidev/text-editor";
+
+  const form = document.querySelector("#post-form");
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const data = new FormData(form);
+    const html = data.get("body");
+
+    console.log(html);
   });
 </script>
 ```
 
-## Events
+## Handling Submitted HTML Safely
+
+Because the value is HTML, treat it as user-generated HTML.
+
+Recommended flow:
+
+1. Validate that required content exists in the browser with `required`, `validate()`, or
+   your form library.
+2. Submit `value` or `new FormData(form).get(name)` to your server.
+3. Sanitize the HTML on the server with your platform's trusted HTML sanitizer.
+4. Store the sanitized HTML, or store both the original and sanitized versions if your
+   moderation workflow needs that.
+5. When rendering saved content, render only sanitized HTML.
+
+Do not trust client-side sanitizing as your only protection. The browser can be modified,
+requests can be replayed, and `value` can be assigned directly from JavaScript.
+
+For simple previews where you only need plain text, convert HTML to text in your app:
 
 ```js
-document.querySelector("loomi-text-editor").addEventListener("input", (e) => {
-  console.log(e.target.value); // HTML
+function htmlToText(html) {
+  const div = document.createElement("div");
+  div.innerHTML = html;
+  return div.textContent || "";
+}
+```
+
+## Links, Images, and Videos
+
+The `link`, `image`, and `video` tools use browser prompts for URLs. Links are hardened
+with `target="_blank"` and `rel="noopener noreferrer"`. Image and video tools accept HTTP,
+HTTPS, and relative URLs; video embeds render as iframes.
+
+If your product needs a media library, upload flow, or custom link picker, keep `image`,
+`video`, or `link` out of `tools` and provide your own buttons outside the editor. Those
+buttons can update `editor.value` or use your own app-level insertion flow.
+
+## AI Generate Option
+
+I did not add an AI generate toolbar item in this refactor.
+
+The recommended design is an app-owned integration:
+
+- The editor exposes an `ai` or `generate` tool only when the host app opts in.
+- Clicking it dispatches a composed custom event, for example `loomi-ai-generate`.
+- The event detail includes the current HTML, selected text if any, and an insertion mode
+  such as `replace-selection`, `append`, or `replace-all`.
+- The host app handles authentication, provider choice, prompts, moderation, rate limits,
+  billing, and streaming.
+- When generation completes, the host app passes the generated HTML or text back to the
+  editor.
+
+That shape keeps LoomiUI provider-neutral and avoids putting API keys or model-specific
+behavior inside a UI component package. A future implementation could look like:
+
+```html
+<loomi-text-editor tools="basic,lists,ai"></loomi-text-editor>
+```
+
+```js
+editor.addEventListener("loomi-ai-generate", async (event) => {
+  const result = await generateText({
+    html: event.detail.html,
+    selection: event.detail.selection,
+  });
+
+  event.detail.insert(result.html);
 });
 ```
 
-Like any element, you can attach standard listeners (`input`, `focus`, `blur`)
-directly, or use the exported `field` CSS part to style focus/blur states from
-outside the shadow root.
+## Attributes and Properties
 
-## Attributes
-
-| Attribute | Default | Description |
+| Attribute / property | Default | Description |
 | --- | --- | --- |
-| `name` | _(blank)_ | Submitted with the form. |
+| `name` | _(blank)_ | Submitted with the nearest form. |
 | `label` | _(blank)_ | Label above the editor. |
-| `placeholder` | _(blank)_ | Placeholder text. |
-| `value` | _(blank)_ | Current value as HTML (also a property). |
+| `placeholder` | _(blank)_ | Placeholder text shown when the editor is empty. |
+| `value` | _(blank)_ | Current value as HTML. |
+| `tools` | `default` | Comma-separated string attribute, or string array property. |
 | `rows` | `3` | Minimum height in text rows. |
-| `required` | `false` | Marks the field required. _(boolean)_ |
-| `disabled` | `false` | Disable the field. _(boolean)_ |
-| `readonly` | `false` | Read-only field. _(boolean)_ |
-| `error-message` | _(blank)_ | Message shown when validation fails. |
-| `show-error-inline` | `false` | Render the error beneath the field. _(boolean)_ |
-| `no-clearing` | `false` | Remove the default bottom margin. _(boolean)_ |
+| `required` | `false` | Marks the editor required. |
+| `disabled` | `false` | Disables editing and toolbar controls. |
+| `readonly` | `false` | Makes content readable but not editable. |
+| `error-message` | _(blank)_ | Message used when validation fails. |
+| `show-error-inline` | `false` | Shows `error-message` under the field. |
+| `no-clearing` | `false` | Removes the default bottom margin. |
 
-**Methods:** `focus()`, `validate()`. **Events:** `input`, `change` (composed).
-**Parts:** `field`.
+**Methods:** `focus()`, `validate()`, `checkValidity()`, `reportValidity()`.
 
-> Split out of `@loomidev/textarea`'s former `toolbar` mode, which was itself not
-> ported from BladewindUI.
+**Events:** `input`, `change`.
 
-## Full Example
+**CSS parts:** `field`, `toolbar`, `editor`.
 
-```html
-<loomi-text-editor
-  name="message"
-  label="Enter message"
-  required
-  rows="5"
-  show-error-inline
-  error-message="A comment is required"
-></loomi-text-editor>
-```
+## Framework Integration
 
-<!-- BEGIN loomi-framework-guide -->
-
-## Framework integration
-
-`<loomi-text-editor>` is a standard custom element, so the browser can use it in plain HTML, Blade, React, Vue, Angular, Svelte, Astro, and most other frameworks. The important beginner rule is: install the package, import it once before the tag is rendered, then write the Loomi tag in your template.
-
-### Where to run commands
-
-Run install commands from the app where you want to use this component. That means the folder that contains that app's `package.json`. Do not run these install commands from `packages/text-editor` unless you are editing LoomiUI itself.
-
-```bash
-cd /path/to/your-app
-npm install @loomidev/text-editor lit
-```
-
-If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
-
-```bash
-cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomidev/text-editor build
-pnpm --filter @loomidev/text-editor typecheck
-```
+`<loomi-text-editor>` is a standard custom element, so it works in plain HTML, Blade,
+React, Vue, Angular, Svelte, Astro, and most other frameworks. Import the package once
+before the tag renders.
 
 ### Plain HTML
-
-Use the CDN version for prototypes, documentation pages, or a quick reproduction. The import map tells the browser where to find Lit, which Loomi components use internally.
 
 ```html
 <script type="importmap">
@@ -146,58 +339,30 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 </script>
 <script type="module" src="https://esm.sh/@loomidev/text-editor"></script>
 
-<loomi-text-editor name="notes" label="Notes" rows="4"></loomi-text-editor>
-```
-
-### Bundlers and single-page apps
-
-In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
-
-```js
-import "@loomidev/text-editor";
-```
-
-
-Because this is a form-capable component, give it a `name` when it should submit with a native `<form>`. Read its value with `new FormData(form).get("the-name")` just like you would for a built-in input.
-
-### Laravel Blade
-
-Run the install command from your Laravel project root, then import the component in `resources/js/app.js`. If your project uses Laravel Vite, `npm run dev` and `npm run build` should also be run from the Laravel project root.
-
-```bash
-cd /path/to/your-laravel-app
-npm install @loomidev/text-editor lit
-npm run dev
-```
-
-```js
-// resources/js/app.js
-import "@loomidev/text-editor";
-```
-
-```blade
-<loomi-text-editor name="notes" label="Notes" rows="4"></loomi-text-editor>
+<loomi-text-editor name="notes" label="Notes" tools="basic,lists,embed"></loomi-text-editor>
 ```
 
 ### React
 
-React can render Loomi tags directly. If you are on React 18, or if you need to pass arrays, objects, or functions, use a ref and assign those values after the component mounts.
+React can render the custom element directly. If you want to pass an array to `tools`,
+assign it with a ref after mount.
 
 ```jsx
+import { useEffect, useRef } from "react";
 import "@loomidev/text-editor";
 
-export function LoomiExample() {
-  return (
-    <loomi-text-editor name="notes" label="Notes" rows="4"></loomi-text-editor>
-  );
+export function Editor() {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    ref.current.tools = ["basic", "colors", "lists", "embed"];
+  }, []);
+
+  return <loomi-text-editor ref={ref} name="body" label="Body" />;
 }
 ```
 
-If TypeScript does not recognize the Loomi tag in JSX, add it to your app's JSX type declarations.
-
 ### Vue
-
-Import the package in the component that uses it, or once in your main Vue file. Vue templates can use Loomi tags directly. For arrays, objects, or functions, pass the value as a JavaScript property instead of as plain text.
 
 ```vue
 <script setup>
@@ -205,18 +370,15 @@ import "@loomidev/text-editor";
 </script>
 
 <template>
-  <loomi-text-editor name="notes" label="Notes" rows="4"></loomi-text-editor>
+  <loomi-text-editor name="body" label="Body" tools="all" />
 </template>
 ```
 
-If Vue warns that the tag is an unknown component, configure `compilerOptions.isCustomElement` for tags that start with `loomi-` in your Vite or Vue config.
-
 ### Angular
 
-Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_ELEMENTS_SCHEMA`. For NgModule apps, add the schema to the module instead of the standalone component.
+Add `CUSTOM_ELEMENTS_SCHEMA`, then use the tag in your template.
 
 ```ts
-// app.component.ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
 import "@loomidev/text-editor";
 
@@ -224,23 +386,19 @@ import "@loomidev/text-editor";
   selector: "app-root",
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  template: `
-    <loomi-text-editor name="notes" label="Notes" rows="4"></loomi-text-editor>
-  `,
+  template: `<loomi-text-editor name="body" label="Body" tools="all"></loomi-text-editor>`,
 })
 export class AppComponent {}
 ```
 
 ### Svelte and Astro
 
-Svelte can import the package inside a component script. Astro can import it in the frontmatter of the page or layout where the tag appears.
-
 ```svelte
 <script>
   import "@loomidev/text-editor";
 </script>
 
-<loomi-text-editor name="notes" label="Notes" rows="4"></loomi-text-editor>
+<loomi-text-editor name="body" label="Body" tools="typography,basic,embed"></loomi-text-editor>
 ```
 
 ```astro
@@ -248,11 +406,21 @@ Svelte can import the package inside a component script. Astro can import it in 
 import "@loomidev/text-editor";
 ---
 
-<loomi-text-editor name="notes" label="Notes" rows="4"></loomi-text-editor>
+<loomi-text-editor name="body" label="Body" tools="typography,basic,embed"></loomi-text-editor>
 ```
 
-### Server-side rendering notes
+### Server-Side Rendering Notes
 
-Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on the server before browser-only code runs. If your framework complains, move the Loomi import to client-side code. In Next.js, that usually means a component with `"use client"`; in Nuxt, it often means a `.client.ts` plugin.
+Frameworks such as Next.js, Nuxt, SvelteKit, and Astro may render HTML before browser-only
+custom elements run. If a framework complains, move the import to client-side code. In
+Next.js that usually means a component with `"use client"`; in Nuxt it often means a
+`.client.ts` plugin.
 
-<!-- END loomi-framework-guide -->
+## Developing This Package
+
+Run commands from the top-level `components` workspace:
+
+```bash
+pnpm --filter @loomidev/text-editor build
+pnpm --filter @loomidev/text-editor typecheck
+```

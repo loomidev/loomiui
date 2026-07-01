@@ -1,15 +1,15 @@
-# @loomidev/code
+# @loomidev/pin
 
-`<loomi-code>` — a verification-code (PIN) input of N boxes with auto-advance and paste
+`<loomi-pin>` — a verification-code (PIN) input of N boxes with auto-advance and paste
 support. It's common to send users a 4–6 digit code via email or SMS for them to enter
-here. **Form-associated**: submits the joined code under `name`.
+here. **Form-associated**: submits the joined PIN under `name`.
 
 ```bash
-npm install @loomidev/code lit
+npm install @loomidev/pin lit
 ```
 
 ```js
-import "@loomidev/code";
+import "@loomidev/pin";
 ```
 
 ## Basic Usage
@@ -17,38 +17,49 @@ import "@loomidev/code";
 The default number of boxes is four.
 
 ```html
-<loomi-code></loomi-code>
+<loomi-pin></loomi-pin>
 ```
 
 ```html
-<loomi-code size="big"></loomi-code>
+<loomi-pin size="big"></loomi-pin>
 ```
 
 Set `total-digits` to show more or fewer boxes — there's no upper limit, so this also
 works well for collecting longer numeric codes like account numbers.
 
 ```html
-<loomi-code total-digits="6"></loomi-code>
+<loomi-pin total-digits="6"></loomi-pin>
 ```
 
 ## Masking
 
-Hide the entered characters, like a password field.
+Hide the entered characters and show large dots, like a password field.
 
 ```html
-<loomi-code mask></loomi-code>
+<loomi-pin mask></loomi-pin>
+<loomi-pin hide-digits></loomi-pin>
 ```
 
-## Reacting to a Completed Code
+## Dash Separator
 
-The `verify` event fires once every box is filled. `e.detail.code` is the joined string.
+Add `separator` to split the inputs around a dash. Even counts split equally. Odd counts
+put the smaller group on the left and the larger group on the right.
 
 ```html
-<loomi-code></loomi-code>
+<loomi-pin total-digits="6" separator></loomi-pin>
+<loomi-pin total-digits="7" separator></loomi-pin>
+```
+
+## Reacting to a Completed PIN
+
+The `verify` event fires once every box is filled. `e.detail.pin` is the joined string.
+
+```html
+<loomi-pin></loomi-pin>
 
 <script type="module">
-  document.querySelector("loomi-code").addEventListener("verify", (e) => {
-    console.log(e.detail.code); // "1234"
+  document.querySelector("loomi-pin").addEventListener("verify", (e) => {
+    console.log(e.detail.pin); // "1234"
   });
 </script>
 ```
@@ -59,12 +70,12 @@ Call `showError()` on the element to display `error-message` and shake the boxes
 call `clear()` to empty them so the user can try again.
 
 ```html
-<loomi-code error-message="Yikes, check your code"></loomi-code>
+<loomi-pin error-message="Yikes, check your code"></loomi-pin>
 
 <script type="module">
-  const el = document.querySelector("loomi-code");
+  const el = document.querySelector("loomi-pin");
   el.addEventListener("verify", (e) => {
-    if (e.detail.code !== "1234") {
+    if (e.detail.pin !== "1234") {
       el.showError();
       el.clear();
     }
@@ -79,11 +90,13 @@ call `clear()` to empty them so the user can try again.
 | `name` | _(blank)_ | Submitted with the form. |
 | `total-digits` | `4` | Number of input boxes. |
 | `size` | `small` | `small` \| `big` |
-| `mask` | `false` | Hide entered characters. _(boolean)_ |
+| `separator` | `false` | Show a dash separator between the left and right input groups. _(boolean)_ |
+| `hide-digits` | `false` | Hide entered characters and show large dots. _(boolean)_ |
+| `mask` | `false` | Alias for hiding entered characters. _(boolean)_ |
 | `error-message` | `Verification code is invalid` | Shown when `showError()` is called. |
 
-**Methods:** `clear()`, `showError()`. **Property:** `code`. **Event:** `verify`
-(`detail: { code }`, fired when all boxes are filled).
+**Methods:** `clear()`, `showError()`. **Property:** `pin`. **Event:** `verify`
+(`detail: { pin }`, fired when all boxes are filled).
 
 > Not (yet) ported from BladewindUI: the built-in resend countdown timer, spinner and
 > success-checkmark helpers — wire those up yourself from the `verify` event and your own
@@ -92,16 +105,16 @@ call `clear()` to empty them so the user can try again.
 ## Full Example
 
 ```html
-<loomi-code
+<loomi-pin
   name="pin-code"
   total-digits="5"
   error-message="Please enter the correct code"
-></loomi-code>
+></loomi-pin>
 
 <script type="module">
-  const el = document.querySelector("loomi-code");
+  const el = document.querySelector("loomi-pin");
   el.addEventListener("verify", async (e) => {
-    const ok = await verifyPin(e.detail.code);
+    const ok = await verifyPin(e.detail.pin);
     if (!ok) {
       el.showError();
       el.clear();
@@ -114,23 +127,23 @@ call `clear()` to empty them so the user can try again.
 
 ## Framework integration
 
-`<loomi-code>` is a standard custom element, so the browser can use it in plain HTML, Blade, React, Vue, Angular, Svelte, Astro, and most other frameworks. The important beginner rule is: install the package, import it once before the tag is rendered, then write the Loomi tag in your template.
+`<loomi-pin>` is a standard custom element, so the browser can use it in plain HTML, Blade, React, Vue, Angular, Svelte, Astro, and most other frameworks. The important beginner rule is: install the package, import it once before the tag is rendered, then write the Loomi tag in your template.
 
 ### Where to run commands
 
-Run install commands from the app where you want to use this component. That means the folder that contains that app's `package.json`. Do not run these install commands from `packages/code` unless you are editing LoomiUI itself.
+Run install commands from the app where you want to use this component. That means the folder that contains that app's `package.json`. Do not run these install commands from `packages/pin` unless you are editing LoomiUI itself.
 
 ```bash
 cd /path/to/your-app
-npm install @loomidev/code lit
+npm install @loomidev/pin lit
 ```
 
 If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomidev/code build
-pnpm --filter @loomidev/code typecheck
+pnpm --filter @loomidev/pin build
+pnpm --filter @loomidev/pin typecheck
 ```
 
 ### Plain HTML
@@ -141,9 +154,9 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomidev/code"></script>
+<script type="module" src="https://esm.sh/@loomidev/pin"></script>
 
-<loomi-code name="otp" total-digits="6" mask="number"></loomi-code>
+<loomi-pin name="otp" total-digits="6" hide-digits separator></loomi-pin>
 ```
 
 ### Bundlers and single-page apps
@@ -151,7 +164,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
 ```js
-import "@loomidev/code";
+import "@loomidev/pin";
 ```
 
 
@@ -163,17 +176,17 @@ Run the install command from your Laravel project root, then import the componen
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomidev/code lit
+npm install @loomidev/pin lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomidev/code";
+import "@loomidev/pin";
 ```
 
 ```blade
-<loomi-code name="otp" total-digits="6" mask="number"></loomi-code>
+<loomi-pin name="otp" total-digits="6" hide-digits separator></loomi-pin>
 ```
 
 ### React
@@ -181,12 +194,10 @@ import "@loomidev/code";
 React can render Loomi tags directly. If you are on React 18, or if you need to pass arrays, objects, or functions, use a ref and assign those values after the component mounts.
 
 ```jsx
-import "@loomidev/code";
+import "@loomidev/pin";
 
 export function LoomiExample() {
-  return (
-    <loomi-code name="otp" total-digits="6" mask="number"></loomi-code>
-  );
+  return <loomi-pin name="otp" total-digits="6" hide-digits separator></loomi-pin>;
 }
 ```
 
@@ -198,11 +209,11 @@ Import the package in the component that uses it, or once in your main Vue file.
 
 ```vue
 <script setup>
-import "@loomidev/code";
+import "@loomidev/pin";
 </script>
 
 <template>
-  <loomi-code name="otp" total-digits="6" mask="number"></loomi-code>
+  <loomi-pin name="otp" total-digits="6" hide-digits separator></loomi-pin>
 </template>
 ```
 
@@ -215,14 +226,14 @@ Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_
 ```ts
 // app.component.ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
-import "@loomidev/code";
+import "@loomidev/pin";
 
 @Component({
   selector: "app-root",
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
-    <loomi-code name="otp" total-digits="6" mask="number"></loomi-code>
+  <loomi-pin name="otp" total-digits="6" hide-digits separator></loomi-pin>
   `,
 })
 export class AppComponent {}
@@ -234,18 +245,18 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```svelte
 <script>
-  import "@loomidev/code";
+  import "@loomidev/pin";
 </script>
 
-<loomi-code name="otp" total-digits="6" mask="number"></loomi-code>
+<loomi-pin name="otp" total-digits="6" hide-digits separator></loomi-pin>
 ```
 
 ```astro
 ---
-import "@loomidev/code";
+import "@loomidev/pin";
 ---
 
-<loomi-code name="otp" total-digits="6" mask="number"></loomi-code>
+<loomi-pin name="otp" total-digits="6" hide-digits separator></loomi-pin>
 ```
 
 ### Server-side rendering notes

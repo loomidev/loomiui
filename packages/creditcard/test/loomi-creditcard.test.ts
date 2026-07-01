@@ -13,6 +13,15 @@ describe("loomi-creditcard", () => {
     expect(el.number).to.equal("4242 4242 4242 4242");
   });
 
+  it("preserves masked card numbers passed for edit mode", async () => {
+    const el = await fixture<LoomiCreditcard>(html`<loomi-creditcard brand="visa" number="************4242"></loomi-creditcard>`);
+    const input = el.shadowRoot!.querySelector(".loomi-cc-number") as HTMLInputElement;
+
+    expect(el.activeBrand).to.equal("visa");
+    expect(el.number).to.equal("•••• •••• •••• 4242");
+    expect(input.value).to.equal("•••• •••• •••• 4242");
+  });
+
   it("groups Amex numbers 4-6-5 and caps the CVC at 4 digits", async () => {
     const el = await fixture<LoomiCreditcard>(html`<loomi-creditcard></loomi-creditcard>`);
     const numberInput = el.shadowRoot!.querySelector(".loomi-cc-number") as HTMLInputElement;

@@ -1,11 +1,11 @@
 {
-  "name": "@loomidev/code",
+  "name": "@loomidev/qrcode",
   "version": "0.1.0",
-  "description": "<loomi-code> — a verification-code (PIN) input.",
+  "description": "<loomi-qrcode> — a themeable QR code web component with corner brackets and scan effects.",
   "repository": {
     "type": "git",
     "url": "https://github.com/loomidev/loomiui.git",
-    "directory": "packages/code"
+    "directory": "packages/qrcode"
   },
   "license": "MIT",
   "publishConfig": {
@@ -23,9 +23,9 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./loomi-code.js": {
-      "types": "./dist/loomi-code.d.ts",
-      "import": "./dist/loomi-code.js"
+    "./loomi-qrcode.js": {
+      "types": "./dist/loomi-qrcode.d.ts",
+      "import": "./dist/loomi-qrcode.js"
     }
   },
   "scripts": {
@@ -50,8 +50,8 @@
     "web-components",
     "lit",
     "loomiui",
-    "verification-code",
-    "otp",
-    "pin"
+    "qrcode",
+    "qr-code",
+    "scan"
   ]
 }

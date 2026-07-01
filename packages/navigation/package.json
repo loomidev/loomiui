@@ -33,6 +33,7 @@
     "@loomidev/tab": "workspace:^",
     "@loomidev/pagination": "workspace:^",
     "@loomidev/dropmenu": "workspace:^",
+    "@loomidev/context-menu": "workspace:^",
     "@loomidev/theme-switcher": "workspace:^"
   },
   "peerDependencies": {

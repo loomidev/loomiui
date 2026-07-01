@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@loomidev/input": "workspace:^",
+    "@loomidev/password": "workspace:^",
     "@loomidev/textarea": "workspace:^",
     "@loomidev/text-editor": "workspace:^",
     "@loomidev/select": "workspace:^",
@@ -39,7 +40,7 @@
     "@loomidev/toggle": "workspace:^",
     "@loomidev/number": "workspace:^",
     "@loomidev/slider": "workspace:^",
-    "@loomidev/code": "workspace:^",
+    "@loomidev/pin": "workspace:^",
     "@loomidev/checkcards": "workspace:^",
     "@loomidev/datepicker": "workspace:^",
     "@loomidev/timepicker": "workspace:^",

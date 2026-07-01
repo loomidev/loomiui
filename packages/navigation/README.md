@@ -15,6 +15,7 @@ import "@loomidev/navigation"; // registers all navigation elements
 | [`@loomidev/tab`](../tab) |
 | [`@loomidev/pagination`](../pagination) |
 | [`@loomidev/dropmenu`](../dropmenu) |
+| [`@loomidev/context-menu`](../context-menu) |
 | [`@loomidev/theme-switcher`](../theme-switcher) |
 
 See the [root README](../../README.md) for the install/theming model.

@@ -22,7 +22,7 @@ custom elements that work in any framework, or none at all.
   instantly — no Tailwind install, no rebuild, on the consumer's side.
 - **Zero runtime Tailwind.** Tailwind is compiled once at *our* build time and inlined
   into each component's Shadow DOM styles. Nothing Tailwind-related ships to you.
-- **Install only what you need.** 44 components, each its own npm package — pull in a
+- **Install only what you need.** 46 components, each its own npm package — pull in a
   single button or the entire library.
 - **Real form participation.** Every form control is form-associated via
   `ElementInternals` — they submit inside a native `<form>` like any built-in input.
@@ -148,9 +148,9 @@ Default locales: `en`, `ar`, `de`, `es`, `fr`, `it`, `ml`, `pt_BR`, `tr`, and
 | Category | Packages |
 | --- | --- |
 | Standalone | [`button`](packages/button) · [`icon`](packages/icon) · [`spinner`](packages/spinner) · [`alert`](packages/alert) · [`bell`](packages/bell) · [`modal`](packages/modal) · [`drawer`](packages/drawer) · [`notification`](packages/notification) · [`table`](packages/table) |
-| **Forms** | [`input`](packages/input) · [`textarea`](packages/textarea) · [`text-editor`](packages/text-editor) · [`select`](packages/select) · [`checkbox`](packages/checkbox) · [`radio`](packages/radio) · [`toggle`](packages/toggle) · [`number`](packages/number) · [`slider`](packages/slider) · [`code`](packages/code) · [`checkcards`](packages/checkcards) · [`datepicker`](packages/datepicker) · [`timepicker`](packages/timepicker) · [`colorpicker`](packages/colorpicker) · [`filepicker`](packages/filepicker) · [`creditcard`](packages/creditcard) |
-| **Content** | [`card`](packages/card) · [`avatar`](packages/avatar) · [`accordion`](packages/accordion) · [`tag`](packages/tag) · [`tooltip`](packages/tooltip) · [`popover`](packages/popover) · [`empty-state`](packages/empty-state) · [`statistic`](packages/statistic) · [`rating`](packages/rating) · [`timeline`](packages/timeline) · [`progress`](packages/progress) · [`listview`](packages/listview) · [`contact-card`](packages/contact-card) · [`centered-content`](packages/centered-content) · [`sortable`](packages/sortable) · [`processing`](packages/processing) · [`horizontal-line-graph`](packages/horizontal-line-graph) · [`chart`](packages/chart) |
-| **Navigation** | [`tab`](packages/tab) · [`pagination`](packages/pagination) · [`dropmenu`](packages/dropmenu) · [`theme-switcher`](packages/theme-switcher) |
+| **Forms** | [`input`](packages/input) · [`textarea`](packages/textarea) · [`text-editor`](packages/text-editor) · [`select`](packages/select) · [`checkbox`](packages/checkbox) · [`radio`](packages/radio) · [`toggle`](packages/toggle) · [`number`](packages/number) · [`slider`](packages/slider) · [`pin`](packages/pin) · [`checkcards`](packages/checkcards) · [`datepicker`](packages/datepicker) · [`timepicker`](packages/timepicker) · [`colorpicker`](packages/colorpicker) · [`filepicker`](packages/filepicker) · [`creditcard`](packages/creditcard) |
+| **Content** | [`card`](packages/card) · [`divider`](packages/divider) · [`qrcode`](packages/qrcode) · [`avatar`](packages/avatar) · [`accordion`](packages/accordion) · [`tag`](packages/tag) · [`tooltip`](packages/tooltip) · [`popover`](packages/popover) · [`empty-state`](packages/empty-state) · [`statistic`](packages/statistic) · [`rating`](packages/rating) · [`timeline`](packages/timeline) · [`progress`](packages/progress) · [`timer`](packages/timer) · [`listview`](packages/listview) · [`contact-card`](packages/contact-card) · [`centered-content`](packages/centered-content) · [`sortable`](packages/sortable) · [`processing`](packages/processing) · [`horizontal-line-graph`](packages/horizontal-line-graph) · [`chart`](packages/chart) |
+| **Navigation** | [`tab`](packages/tab) · [`pagination`](packages/pagination) · [`dropmenu`](packages/dropmenu) · [`context-menu`](packages/context-menu) · [`theme-switcher`](packages/theme-switcher) |
 
 Each package's README has a full usage guide and attribute table. Or browse them all
 rendered live at [loomiui.com](https://loomiui.com).

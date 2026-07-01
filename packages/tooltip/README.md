@@ -30,6 +30,17 @@ simple text.
 <loomi-tooltip content="To the right" position="right"><loomi-icon name="information-circle"></loomi-icon></loomi-tooltip>
 ```
 
+## Shade
+
+Tooltips default to the dark shade. Use `shade="light"` for a white tooltip with dark
+text.
+
+```html
+<loomi-tooltip content="Light tooltip" shade="light">
+  <loomi-button type="secondary">Hover me</loomi-button>
+</loomi-tooltip>
+```
+
 ## Rich Content
 
 For more than a line of text, use the `content` slot instead of the `content` attribute
@@ -62,6 +73,7 @@ The trigger can be anything — an icon, a button, plain text, an avatar.
 | --- | --- | --- |
 | `content` | _(blank)_ | Tooltip text (or use the `content` slot). |
 | `position` | `top` | `top` \| `bottom` \| `left` \| `right` |
+| `shade` | `dark` | `dark` \| `light` |
 
 **Slots:** default (trigger), `content` (rich tooltip body).
 

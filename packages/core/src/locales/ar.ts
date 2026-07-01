@@ -26,7 +26,7 @@ export const ar: LoomiTranslations = {
   pagination: { totalLabel: "عرض :a إلى :b من :c", noRecords: "لا توجد سجلات", pageOf: "الصفحة :page من :pages" },
   modal: { ok: "موافق", cancel: "إلغاء", dialog: "مربع حوار" },
   drawer: { dialog: "اللوحة الجانبية" },
-  code: { errorMessage: "رمز التحقق غير صالح", digitLabel: "الرقم :number" },
+  pin: { errorMessage: "رمز التحقق غير صالح", digitLabel: "الرقم :number" },
   colorpicker: { pickColor: "اختر لونا" },
   input: { togglePassword: "تبديل إظهار كلمة المرور" },
   number: { increment: "زيادة", decrement: "إنقاص" },

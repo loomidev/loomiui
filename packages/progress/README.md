@@ -1,7 +1,7 @@
 # @loomidev/progress
 
-`<loomi-progress-bar>` and `<loomi-progress-circle>` — horizontal and circular progress
-indicators, with a subtle fill animation.
+`<loomi-progress-bar>`, `<loomi-progress-circle>`, and `<loomi-progress-steps>` —
+horizontal, circular, and stepped progress indicators.
 
 ```bash
 npm install @loomidev/progress lit
@@ -96,9 +96,66 @@ The label is hidden by default. Show it with `show-label`; add the `%` sign with
 <loomi-progress-circle size="400" circle-width="50" percentage="89" show-label show-percent></loomi-progress-circle>
 ```
 
+## Progress Steps — Basic Usage
+
+Use `<loomi-progress-steps>` with `<loomi-progress-step>` children for checkout,
+onboarding, setup, approval, and other multi-step workflows. `current` is 1-based.
+
+```html
+<loomi-progress-steps current="2">
+  <loomi-progress-step label="Cart" description="Review items"></loomi-progress-step>
+  <loomi-progress-step label="Shipping" description="Address and delivery"></loomi-progress-step>
+  <loomi-progress-step label="Payment" description="Card details"></loomi-progress-step>
+  <loomi-progress-step label="Done" description="Confirmation"></loomi-progress-step>
+</loomi-progress-steps>
+```
+
+### Clickable Steps
+
+Add `clickable` to let users jump between steps. The wrapper updates `current` and
+emits `progress-steps-change` with `detail: { current, step }`.
+
+```html
+<loomi-progress-steps current="1" clickable color="success">
+  <loomi-progress-step label="Profile"></loomi-progress-step>
+  <loomi-progress-step label="Team"></loomi-progress-step>
+  <loomi-progress-step label="Billing"></loomi-progress-step>
+</loomi-progress-steps>
+```
+
+Individual steps can also be links:
+
+```html
+<loomi-progress-step label="Plan" href="/billing/plan"></loomi-progress-step>
+```
+
+### Vertical Steps
+
+```html
+<loomi-progress-steps current="3" orientation="vertical">
+  <loomi-progress-step label="Submitted" description="Request received"></loomi-progress-step>
+  <loomi-progress-step label="Review" description="Manager approval"></loomi-progress-step>
+  <loomi-progress-step label="Processing" description="Work in progress"></loomi-progress-step>
+  <loomi-progress-step label="Complete" description="Ready for pickup"></loomi-progress-step>
+</loomi-progress-steps>
+```
+
+### Explicit Step States
+
+The wrapper derives `complete`, `current`, and `upcoming` states from `current`
+unless a step declares its own state or boolean status.
+
+```html
+<loomi-progress-steps>
+  <loomi-progress-step label="Account" completed></loomi-progress-step>
+  <loomi-progress-step label="Verification" state="error" description="Needs attention"></loomi-progress-step>
+  <loomi-progress-step label="Finish"></loomi-progress-step>
+</loomi-progress-steps>
+```
+
 ## Attributes
 
-### Shared (both)
+### Shared (bar and circle)
 
 | Attribute | Default | Description |
 | --- | --- | --- |
@@ -125,6 +182,30 @@ The label is hidden by default. Show it with `show-label`; add the `%` sign with
 | `show-label` | `false` | Show the percentage in the center. _(boolean)_ |
 | `show-percent` | `false` | Append a `%` sign. _(boolean)_ |
 
+### `<loomi-progress-steps>`
+
+| Attribute | Default | Description |
+| --- | --- | --- |
+| `current` | `1` | Current step number, starting at 1. |
+| `color` | `primary` | Any loomi color. |
+| `orientation` | `horizontal` | `horizontal` \| `vertical` |
+| `size` | `regular` | `regular` \| `small` |
+| `clickable` | `false` | Lets child steps update `current` when selected. _(boolean)_ |
+
+### `<loomi-progress-step>`
+
+| Attribute | Default | Description |
+| --- | --- | --- |
+| `label` | _(blank)_ | Step label. |
+| `description` | _(blank)_ | Secondary step text. |
+| `href` | _(blank)_ | Renders the step as a link. |
+| `state` | `upcoming` | `complete` \| `current` \| `upcoming` \| `error` |
+| `value` | `0` | Optional value included in `progress-step-select` events. |
+| `active` / `completed` / `error` | `false` | Boolean state aliases. |
+| `disabled` | `false` | Prevents selection. _(boolean)_ |
+| `clickable` | `false` | Renders a selectable button when not using `href`. _(boolean)_ |
+| `hide-index` | `false` | Hides the step number in incomplete markers. _(boolean)_ |
+
 ## Full Example
 
 ```html
@@ -148,13 +229,23 @@ The label is hidden by default. Show it with `show-label`; add the `%` sign with
   show-label
   show-percent
 ></loomi-progress-circle>
+
+<loomi-progress-steps current="2" color="error" clickable>
+  <loomi-progress-step label="Details" description="Basic information"></loomi-progress-step>
+  <loomi-progress-step label="Upload" description="Attach files"></loomi-progress-step>
+  <loomi-progress-step label="Review" description="Confirm and submit"></loomi-progress-step>
+</loomi-progress-steps>
 ```
 
 <!-- BEGIN loomi-framework-guide -->
 
 ## Framework integration
 
-`<loomi-progress-bar>` and `<loomi-progress-circle>` are standard custom elements, so the browser can use them in plain HTML, Blade, React, Vue, Angular, Svelte, Astro, and most other frameworks. The important beginner rule is: install the package, import it once before the tag is rendered, then write the Loomi tag in your template.
+`<loomi-progress-bar>`, `<loomi-progress-circle>`, `<loomi-progress-steps>`, and
+`<loomi-progress-step>` are standard custom elements, so the browser can use them
+in plain HTML, Blade, React, Vue, Angular, Svelte, Astro, and most other
+frameworks. The important beginner rule is: install the package, import it once
+before the tag is rendered, then write the Loomi tag in your template.
 
 ### Where to run commands
 

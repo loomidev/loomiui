@@ -2,4 +2,5 @@
 export * from "@loomidev/tab";
 export * from "@loomidev/pagination";
 export * from "@loomidev/dropmenu";
+export * from "@loomidev/context-menu";
 export * from "@loomidev/theme-switcher";

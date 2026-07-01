@@ -3,6 +3,12 @@ import { customElement, property } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
+const booleanAttribute = {
+  fromAttribute(value: string | null): boolean {
+    return value !== null && value.toLowerCase() !== "false" && value !== "0";
+  },
+};
+
 /**
  * `<loomi-slider>` — select a numeric value or numeric range with a slider.
  * Form-associated: submits the value under `name`.
@@ -24,7 +30,8 @@ export class LoomiSlider extends LoomiElement {
   @property({ type: Number }) selected = 0;
   @property({ type: Number, attribute: "selected-end" }) selectedEnd = 100;
   @property({ type: Boolean, reflect: true }) range = false;
-  @property({ type: Boolean, attribute: "show-values" }) showValues = true;
+  @property({ type: Boolean, attribute: "show-values", converter: booleanAttribute })
+  showValues = true;
 
   override willUpdate(): void {
     this.internals.setFormValue(this.value);
@@ -64,13 +71,30 @@ export class LoomiSlider extends LoomiElement {
   }
 
   private get progressStyle(): string {
-    const span = this.upperBound - this.lowerBound;
     const start = this.range ? this.startValue : this.lowerBound;
     const end = this.range ? this.endValue : this.startValue;
-    const startPercent = span ? ((start - this.lowerBound) / span) * 100 : 0;
-    const endPercent = span ? ((end - this.lowerBound) / span) * 100 : 0;
+    const startPercent = this.valuePercent(start);
+    const endPercent = this.valuePercent(end);
 
     return `${accentVars(this.color)} --loomi-range-start: ${startPercent}%; --loomi-range-end: ${endPercent}%;`;
+  }
+
+  private valuePercent(value: number): number {
+    const span = this.upperBound - this.lowerBound;
+    return span ? ((value - this.lowerBound) / span) * 100 : 0;
+  }
+
+  private tooltipStyle(value: number): string {
+    const percent = this.valuePercent(value);
+    const translate = percent <= 0 ? "0%" : percent >= 100 ? "-100%" : "-50%";
+    const arrowPosition =
+      percent <= 0 ? "0.65rem" : percent >= 100 ? "calc(100% - 0.65rem)" : "50%";
+
+    return [
+      `--loomi-value-position: ${percent}%`,
+      `--loomi-value-translate: ${translate}`,
+      `--loomi-value-arrow-position: ${arrowPosition}`,
+    ].join("; ");
   }
 
   private onInput(handle: "start" | "end", e: Event): void {
@@ -120,8 +144,23 @@ export class LoomiSlider extends LoomiElement {
               @change=${this.onChange}
             />`
           : nothing}
+        ${this.showValues
+          ? html`<span
+                class="loomi-value-tooltip loomi-value-tooltip-start"
+                style=${this.tooltipStyle(this.startValue)}
+                aria-hidden="true"
+                >${this.startValue}</span
+              >
+              ${this.range
+                ? html`<span
+                    class="loomi-value-tooltip loomi-value-tooltip-end"
+                    style=${this.tooltipStyle(this.endValue)}
+                    aria-hidden="true"
+                    >${this.endValue}</span
+                  >`
+                : nothing}`
+          : nothing}
       </div>
-      ${this.showValues ? html`<span class="loomi-value">${this.value}</span>` : nothing}
     </div>`;
   }
 }

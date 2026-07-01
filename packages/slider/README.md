@@ -50,6 +50,8 @@ Default bounds are `0`–`100`.
 <loomi-slider min="18" max="65" selected="25"></loomi-slider>
 ```
 
+The current value is shown in a tooltip above the slider handle and moves with it.
+
 ## Range Selection
 
 Add `range` for a dual-handle slider. `selected` controls the start value and
@@ -66,7 +68,7 @@ When submitted in a form, a range slider submits the ordered values joined with
 new FormData(form).get("budget"); // "20 - 80"
 ```
 
-## Hiding the Value Bubble
+## Hiding the Value Tooltip
 
 ```html
 <loomi-slider show-values="false"></loomi-slider>
@@ -93,7 +95,7 @@ new FormData(form).get("age"); // "34"
 | `min` / `max` | `0` / `100` | Range bounds. |
 | `step` | `1` | Increment. |
 | `color` | `primary` | Any loomi color (themes the track via `accent-color`). |
-| `show-values` | `true` | Show the value bubble. _(boolean)_ |
+| `show-values` | `true` | Show the handle value tooltip. _(boolean)_ |
 
 **Events:** `input`, `change` (composed).
 

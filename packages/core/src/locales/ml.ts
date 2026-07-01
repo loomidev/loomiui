@@ -26,7 +26,7 @@ export const ml: LoomiTranslations = {
   pagination: { totalLabel: ":c ൽ :a മുതൽ :b വരെ കാണിക്കുന്നു", noRecords: "രേഖകളില്ല", pageOf: "പേജ് :page / :pages" },
   modal: { ok: "ശരി", cancel: "റദ്ദാക്കുക", dialog: "ഡയലോഗ്" },
   drawer: { dialog: "ഡ്രോയർ" },
-  code: { errorMessage: "സ്ഥിരീകരണ കോഡ് അസാധുവാണ്", digitLabel: "അക്കം :number" },
+  pin: { errorMessage: "സ്ഥിരീകരണ കോഡ് അസാധുവാണ്", digitLabel: "അക്കം :number" },
   colorpicker: { pickColor: "നിറം തിരഞ്ഞെടുക്കുക" },
   input: { togglePassword: "പാസ്‌വേഡ് ദൃശ്യമാക്കൽ മാറ്റുക" },
   number: { increment: "കൂട്ടുക", decrement: "കുറയ്ക്കുക" },

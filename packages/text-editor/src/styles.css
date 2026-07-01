@@ -18,6 +18,7 @@
   border: 2px solid var(--loomi-surface-border);
   border-radius: 0.5rem;
   transition: border-color 0.15s ease;
+  overflow: hidden;
 }
 .loomi-field:focus-within {
   border-color: var(--loomi-primary-600);
@@ -60,40 +61,196 @@
   color: var(--loomi-error-500);
 }
 
-.loomi-field-quill {
-  overflow: hidden;
-}
-.loomi-field-quill .ql-toolbar.ql-snow {
-  border: 0;
+.loomi-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  align-items: center;
+  padding: 0.45rem;
   border-bottom: 1px solid var(--loomi-surface-border);
   background: var(--loomi-surface-muted);
 }
-.loomi-field-quill .ql-container.ql-snow {
-  border: 0;
-  font-family: inherit;
+
+.loomi-toolbar loomi-tooltip {
+  display: inline-flex;
 }
-.loomi-field-quill .ql-editor {
+
+.loomi-tool-button,
+.loomi-color-tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid transparent;
+  border-radius: 0.35rem;
+  background: transparent;
+  color: var(--loomi-text-secondary);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 0.12s ease,
+    border-color 0.12s ease,
+    color 0.12s ease;
+}
+
+.loomi-tool-button:hover,
+.loomi-color-tool:hover,
+.loomi-tool-button.active {
+  background: var(--loomi-surface);
+  border-color: var(--loomi-primary-300);
+  color: var(--loomi-primary-700);
+}
+
+.loomi-tool-button:focus-visible,
+.loomi-tool-select:focus-visible,
+.loomi-color-tool:focus-within {
+  outline: 2px solid var(--loomi-primary-500);
+  outline-offset: 2px;
+}
+
+.loomi-tool-button:disabled,
+.loomi-tool-select:disabled,
+.loomi-color-tool.disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.loomi-tool-select {
+  height: 2rem;
+  max-width: 7.5rem;
+  border: 1px solid var(--loomi-surface-border);
+  border-radius: 0.35rem;
+  background: var(--loomi-surface);
   color: var(--loomi-text);
-  padding: 0.625rem 1rem;
+  font: inherit;
+  font-size: 0.82rem;
+  line-height: 1;
+  padding: 0 1.65rem 0 0.55rem;
+  cursor: pointer;
 }
-.loomi-field-quill .ql-editor.ql-blank::before {
+
+.loomi-tool-select-narrow {
+  max-width: 6rem;
+}
+
+.loomi-color-tool {
+  position: relative;
+}
+
+.loomi-color-tool input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.loomi-color-tool input:disabled {
+  cursor: not-allowed;
+}
+
+.loomi-editor {
+  min-height: var(--loomi-editor-min-height, 4.5em);
+  padding: 0.75rem 1rem;
+  color: var(--loomi-text);
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+  outline: none;
+}
+
+.loomi-editor[data-empty="true"]::before {
+  content: attr(data-placeholder);
   color: var(--loomi-text-faint);
-  font-style: normal;
+  pointer-events: none;
 }
-.loomi-field-quill .ql-snow .ql-stroke {
-  stroke: var(--loomi-text-secondary);
+
+.loomi-editor :is(p, h1, h2, h3, h4, h5, h6, blockquote, pre, ul, ol) {
+  margin: 0 0 0.75rem;
 }
-.loomi-field-quill .ql-snow .ql-fill {
-  fill: var(--loomi-text-secondary);
+
+.loomi-editor :is(p, h1, h2, h3, h4, h5, h6, blockquote, pre, ul, ol):last-child {
+  margin-bottom: 0;
 }
-.loomi-field-quill .ql-snow.ql-toolbar button:hover .ql-stroke,
-.loomi-field-quill .ql-snow.ql-toolbar button.ql-active .ql-stroke {
-  stroke: var(--loomi-primary-600, var(--_loomi-primary-600-default));
+
+.loomi-editor h1 {
+  font-size: 2rem;
+  line-height: 1.2;
 }
-.loomi-field-quill .ql-snow.ql-toolbar button:hover .ql-fill,
-.loomi-field-quill .ql-snow.ql-toolbar button.ql-active .ql-fill {
-  fill: var(--loomi-primary-600, var(--_loomi-primary-600-default));
+
+.loomi-editor h2 {
+  font-size: 1.5rem;
+  line-height: 1.25;
 }
-:host([disabled]) .loomi-field-quill .ql-toolbar {
+
+.loomi-editor h3 {
+  font-size: 1.25rem;
+  line-height: 1.3;
+}
+
+.loomi-editor h4,
+.loomi-editor h5,
+.loomi-editor h6 {
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.loomi-editor a {
+  color: var(--loomi-primary-700);
+  text-decoration: underline;
+}
+
+.loomi-editor blockquote {
+  border-left: 3px solid var(--loomi-primary-300);
+  color: var(--loomi-text-secondary);
+  padding-left: 0.85rem;
+}
+
+.loomi-editor code {
+  border-radius: 0.25rem;
+  background: var(--loomi-surface-muted);
+  padding: 0.1rem 0.25rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.9em;
+}
+
+.loomi-editor pre {
+  border-radius: 0.45rem;
+  background: var(--loomi-gray-950);
+  color: var(--loomi-gray-50);
+  padding: 0.75rem;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+
+.loomi-editor pre code {
+  background: transparent;
+  padding: 0;
+  color: inherit;
+}
+
+.loomi-editor ul,
+.loomi-editor ol {
+  padding-left: 1.35rem;
+}
+
+.loomi-editor img,
+.loomi-editor iframe {
+  display: block;
+  max-width: 100%;
+  border-radius: 0.35rem;
+}
+
+.loomi-editor iframe {
+  width: min(100%, 42rem);
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+
+:host([disabled]) .loomi-toolbar {
   pointer-events: none;
 }

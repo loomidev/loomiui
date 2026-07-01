@@ -22,6 +22,7 @@
       import "../packages/avatar/dist/loomi-avatar.js";
       import "../packages/tag/dist/loomi-tag.js";
       import "../packages/card/dist/loomi-card.js";
+      import "../packages/divider/dist/loomi-divider.js";
       import "../packages/alert/dist/loomi-alert.js";
       import "../packages/accordion/dist/loomi-accordion.js";
       import "../packages/tab/dist/loomi-tab.js";
@@ -31,6 +32,8 @@
       body { font-family: ui-sans-serif, system-ui, sans-serif; margin: 0; padding: 2.5rem clamp(1rem,5vw,4rem); color: #0f172a; background: #f8fafc; max-width: 820px; }
       h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin: 2rem 0 0.75rem; }
       .row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+      .split-demo { display: flex; gap: 1rem; min-height: 7rem; align-items: stretch; }
+      .split-demo > section { flex: 1; background: #fff; border: 1px solid #e2e8f0; border-radius: .5rem; padding: 1rem; }
     </style>
   </head>
   <body>
@@ -44,6 +47,8 @@
       <loomi-spinner></loomi-spinner>
       <loomi-spinner color="primary" size="medium"></loomi-spinner>
       <loomi-spinner color="error" size="big"></loomi-spinner>
+      <loomi-spinner type="line-spinner" color="blue" size="md"></loomi-spinner>
+      <loomi-spinner type="dot-circle" color="purple" size="md" label="Loading..."></loomi-spinner>
     </div>
 
     <h2>Avatars</h2>
@@ -116,6 +121,17 @@
         <strong>Clickable card</strong>
         <div style="color:#64748b;font-size:.9rem">Opens example.com</div>
       </loomi-card>
+    </div>
+
+    <h2>Divider</h2>
+    <loomi-divider label="Today"></loomi-divider>
+    <div style="height:1rem"></div>
+    <loomi-divider label="Archived" align="start" variant="dashed" color="primary"></loomi-divider>
+    <div style="height:1rem"></div>
+    <div class="split-demo">
+      <section>Left content</section>
+      <loomi-divider orientation="vertical" label="or"></loomi-divider>
+      <section>Right content</section>
     </div>
 
     <h2>Accordion</h2>

@@ -4,17 +4,35 @@
 :host([hidden]) {
   display: none;
 }
-.loomi-spinner {
+.loomi-spinner-wrap {
+  --loomi-spinner-size: 1rem;
+  align-items: center;
   color: var(--_loomi-accent);
-  animation: loomi-spin 0.7s linear infinite;
+  display: inline-flex;
+  gap: var(--loomi-spinner-label-gap, 0.5rem);
+  line-height: 1;
+}
+.loomi-spinner {
+  animation: loomi-spin var(--loomi-spinner-speed, 0.7s) linear infinite;
+  display: block;
+  flex: 0 0 auto;
   width: var(--loomi-spinner-size, 1.5rem);
   height: var(--loomi-spinner-size, 1.5rem);
 }
-.loomi-spinner circle {
+.loomi-spinner-simple circle {
   opacity: 0.25;
 }
-.loomi-spinner path {
+.loomi-spinner-simple path {
   opacity: 0.9;
+}
+.loomi-spinner-lines,
+.loomi-spinner-dots {
+  --loomi-spinner-speed: 0.8s;
+}
+.loomi-spinner-label {
+  color: var(--loomi-spinner-label-color, currentColor);
+  font: inherit;
+  line-height: 1.25;
 }
 .size-small {
   --loomi-spinner-size: 1rem;

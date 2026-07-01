@@ -2,6 +2,7 @@ import { html, fixture, expect } from "@open-wc/testing";
 import "../../filepicker/dist/loomi-filepicker.js";
 import "../../input/dist/loomi-input.js";
 import "../../number/dist/loomi-number.js";
+import "../../password/dist/loomi-password.js";
 import "../../select/dist/loomi-select.js";
 import "../../textarea/dist/loomi-textarea.js";
 import "../../timepicker/dist/loomi-timepicker.js";
@@ -19,6 +20,7 @@ const REQUIRED_FIELDS: Array<{ tag: string; blurTarget: string }> = [
   { tag: "loomi-timepicker", blurTarget: ".loomi-field" },
   { tag: "loomi-textarea", blurTarget: "textarea" },
   { tag: "loomi-number", blurTarget: "input" },
+  { tag: "loomi-password", blurTarget: "input" },
 ] as const;
 
 describe("required form validation", () => {
@@ -66,6 +68,7 @@ describe("required form validation", () => {
         <loomi-timepicker required name="time"></loomi-timepicker>
         <loomi-textarea required name="textarea"></loomi-textarea>
         <loomi-number required name="number"></loomi-number>
+        <loomi-password required name="password"></loomi-password>
       </form>
     `);
     await Promise.all(

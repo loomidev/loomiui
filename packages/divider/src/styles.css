@@ -1,0 +1,93 @@
+:host {
+  display: block;
+}
+:host([hidden]) {
+  display: none;
+}
+:host([orientation="vertical"]) {
+  display: inline-flex;
+  align-self: stretch;
+  min-height: 2rem;
+}
+
+.loomi-divider {
+  color: var(--loomi-text-faint);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  width: 100%;
+}
+
+.loomi-divider.horizontal {
+  display: flex;
+  align-items: center;
+  gap: var(--_loomi-divider-spacing, 0.75rem);
+}
+
+.loomi-divider.vertical {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+  gap: var(--_loomi-divider-spacing, 0.75rem);
+  height: 100%;
+  min-height: inherit;
+}
+
+.loomi-line {
+  flex: 1 1 auto;
+  background: var(--_loomi-accent-border);
+}
+
+.horizontal .loomi-line {
+  height: var(--_loomi-divider-thickness, 1px);
+  min-width: 0;
+}
+
+.vertical .loomi-line {
+  width: var(--_loomi-divider-thickness, 1px);
+  min-height: 0;
+}
+
+.solid .loomi-line {
+  background: var(--_loomi-accent-border);
+}
+
+.dashed .loomi-line,
+.dotted .loomi-line {
+  background: transparent;
+}
+
+.horizontal.dashed .loomi-line {
+  border-top: var(--_loomi-divider-thickness, 1px) dashed var(--_loomi-accent-border);
+}
+.horizontal.dotted .loomi-line {
+  border-top: var(--_loomi-divider-thickness, 1px) dotted var(--_loomi-accent-border);
+}
+.vertical.dashed .loomi-line {
+  border-left: var(--_loomi-divider-thickness, 1px) dashed var(--_loomi-accent-border);
+}
+.vertical.dotted .loomi-line {
+  border-left: var(--_loomi-divider-thickness, 1px) dotted var(--_loomi-accent-border);
+}
+
+.loomi-divider.empty {
+  gap: 0;
+}
+
+.loomi-content {
+  color: var(--loomi-text-secondary);
+  flex: 0 0 auto;
+  font-weight: 500;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.horizontal.align-start .loomi-line:first-child,
+.vertical.align-start .loomi-line:first-child {
+  flex: 0 0 2rem;
+}
+
+.horizontal.align-end .loomi-line:last-child,
+.vertical.align-end .loomi-line:last-child {
+  flex: 0 0 2rem;
+}

@@ -9,6 +9,20 @@
 .loomi-panel[hidden] {
   display: none;
 }
+.loomi-panel:not([hidden]) {
+  animation: loomi-tab-panel-in 0.16s ease-out;
+}
+
+@keyframes loomi-tab-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 /* headings bar */
 .loomi-headings {
@@ -84,4 +98,13 @@
 
 .loomi-body {
   padding-top: 1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loomi-panel:not([hidden]) {
+    animation: none;
+  }
+  .loomi-head {
+    transition: none;
+  }
 }

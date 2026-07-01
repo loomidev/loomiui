@@ -12,12 +12,16 @@
           "@loomidev/theme": "../packages/theme/dist/index.js",
           "@loomidev/core": "../packages/core/dist/index.js",
           "@loomidev/icons": "../packages/icons/dist/index.js",
-          "quill": "https://esm.sh/quill@2.0.3"
+          "@loomidev/notification": "../packages/notification/dist/index.js",
+          "@loomidev/popover": "../packages/popover/dist/index.js",
+          "@loomidev/icon/": "../packages/icon/dist/",
+          "@loomidev/tooltip/": "../packages/tooltip/dist/"
         }
       }
     </script>
     <script type="module">
       import "../packages/input/dist/loomi-input.js";
+      import "../packages/password/dist/loomi-password.js";
       import "../packages/tag-input/dist/loomi-tag-input.js";
       import "../packages/textarea/dist/loomi-textarea.js";
       import "../packages/text-editor/dist/loomi-text-editor.js";
@@ -54,12 +58,16 @@
     <div class="grid2">
       <loomi-input label="Full name"></loomi-input>
       <loomi-input label="Email" type="email" prefix-icon="envelope"></loomi-input>
-      <loomi-input type="password" label="Password" viewable prefix-icon="key"></loomi-input>
+      <loomi-password label="Password" strength="Aa1#" prefix-icon="key"></loomi-password>
       <loomi-input label="Search" prefix-icon="magnifying-glass" clearable value="clear me"></loomi-input>
-      <loomi-input placeholder="0.00" prefix="USD" transparent-prefix="false" numeric></loomi-input>
-      <loomi-input placeholder="workspace" suffix=".loomi.dev" transparent-suffix="false"></loomi-input>
+      <loomi-input placeholder="example.com" prefix-options="http://,https://,ftp://" prefix-value="https://"></loomi-input>
+      <loomi-input placeholder="0.00" suffix-options="kg,g,tons" suffix-value="kg" transparent-suffix="false" numeric></loomi-input>
+      <loomi-input label="Career path" hint="career.html"></loomi-input>
       <loomi-input label="Age" numeric required size="small"></loomi-input>
       <loomi-input label="Disabled" disabled value="nope"></loomi-input>
+    </div>
+    <div data-hint="career" hidden>
+      Add the role family this person is growing toward.
     </div>
 
     <h2>Tag Input</h2>

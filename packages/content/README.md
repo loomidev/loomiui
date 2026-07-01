@@ -13,6 +13,8 @@ import "@loomidev/content"; // registers all content elements
 | Package |
 | --- |
 | [`@loomidev/card`](../card) |
+| [`@loomidev/divider`](../divider) |
+| [`@loomidev/qrcode`](../qrcode) |
 | [`@loomidev/avatar`](../avatar) |
 | [`@loomidev/accordion`](../accordion) |
 | [`@loomidev/tag`](../tag) |

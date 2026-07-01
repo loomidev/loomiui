@@ -25,6 +25,7 @@ interface LoomiChartHoverTarget {
 }
 
 const PALETTE = ["primary", "success", "warning", "error", "purple", "cyan", "pink", "blue"];
+const BAR_WIDTH_RATIO = 0.3;
 
 // `show-border` defaults to `true`, so it needs the "false" string to actually disable it —
 // Lit's built-in Boolean converter treats any present attribute (including `="false"`) as true.
@@ -187,9 +188,10 @@ export class LoomiChart extends LoomiElement {
       const bw = (W - padLeft - pad) / n;
       return this.data.map((d, i) => {
         const h = (d.value / max) * (H - pad * 2);
-        const x = padLeft + i * bw + bw * 0.15;
+        const w = bw * BAR_WIDTH_RATIO;
+        const x = padLeft + i * bw + (bw - w) / 2;
         const y = H - pad - h;
-        return { left: (x / W) * 100, top: (y / H) * 100, width: ((bw * 0.7) / W) * 100, height: (h / H) * 100, label: d.label, value: d.value };
+        return { left: (x / W) * 100, top: (y / H) * 100, width: (w / W) * 100, height: (h / H) * 100, label: d.label, value: d.value };
       });
     }
 
@@ -275,13 +277,14 @@ export class LoomiChart extends LoomiElement {
         : nothing}
       ${this.data.map((d, i) => {
         const h = (d.value / max) * (H - pad * 2);
-        const x = padLeft + i * bw + bw * 0.15;
+        const w = bw * BAR_WIDTH_RATIO;
+        const x = padLeft + i * bw + (bw - w) / 2;
         const y = H - pad - h;
-        const w = bw * 0.7;
+        const r = w / 2;
         const border = this.resolveBorder(d, i, false);
-        return svg`<path class="loomi-bar-fill" d=${roundedTopRectPath(x, y, w, h, 3)} fill=${this.resolveFill(d, i, false)}></path>
+        return svg`<path class="loomi-bar-fill" d=${roundedTopRectPath(x, y, w, h, r)} fill=${this.resolveFill(d, i, false)}></path>
           ${border
-            ? svg`<path class="loomi-bar-border" d=${roundedTopRectBorderPath(x, y, w, h, 3)} fill="none" stroke=${border} stroke-width="1.5" stroke-linejoin="round"></path>`
+            ? svg`<path class="loomi-bar-border" d=${roundedTopRectBorderPath(x, y, w, h, r)} fill="none" stroke=${border} stroke-width="1.5" stroke-linejoin="round"></path>`
             : nothing}
           <text class="loomi-xlabel" x=${padLeft + i * bw + bw / 2} y=${H - pad + 12} text-anchor="middle">${d.label}</text>`;
       })}`;
@@ -304,7 +307,7 @@ export class LoomiChart extends LoomiElement {
           <text class="loomi-ylabel" x=${padLeft - 6} y=${H - pad} text-anchor="end">0</text>`
         : nothing}
       <polygon class="loomi-area" points=${area}></polygon>
-      <polyline class="loomi-line" points=${line}></polyline>
+      <polyline class="loomi-line" points=${line} stroke-linecap="round" stroke-linejoin="round"></polyline>
       ${pts.map((p, i) => svg`<circle class="loomi-dot" cx=${p[0]} cy=${p[1]} r="3.5"></circle>
         <text class="loomi-xlabel" x=${p[0]} y=${H - pad + 12} text-anchor="middle">${this.data[i].label}</text>`)}`;
   }
@@ -326,7 +329,7 @@ export class LoomiChart extends LoomiElement {
           <text class="loomi-ylabel" x=${W - padRight} y=${H - padBottom + 12} text-anchor="middle">${max}</text>`
         : nothing}
       <polygon class="loomi-area" points=${area}></polygon>
-      <polyline class="loomi-line" points=${line}></polyline>
+      <polyline class="loomi-line" points=${line} stroke-linecap="round" stroke-linejoin="round"></polyline>
       ${pts.map((p, i) => svg`<circle class="loomi-dot" cx=${p[0]} cy=${p[1]} r="3.5"></circle>
         <text class="loomi-xlabel" x=${padLeft - 6} y=${p[1] + 3} text-anchor="end">${this.data[i].label}</text>`)}`;
   }

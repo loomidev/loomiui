@@ -58,7 +58,8 @@ console.log(el.value); // same shape, read on demand
 ## Pre-filling fields
 
 `number`, `cardholder-name`, `expiry-month`, `expiry-year`, and `cvc` are all plain
-attributes/properties:
+attributes/properties. `number` accepts either raw digits or a masked saved-card value
+such as `**** **** **** 4242`:
 
 ```html
 <loomi-creditcard
@@ -122,7 +123,7 @@ is set, and returns whether it passed:
 | --- | --- | --- |
 | `name` | _(blank)_ | Targeting class only (see `LoomiElement`) — not a form field, since this component doesn't submit. |
 | `cardholder-name` | _(blank)_ | Name printed on the card. |
-| `number` | _(blank)_ | Card number, auto-grouped per network as the user types. |
+| `number` | _(blank)_ | Card number, auto-grouped per network as the user types. Masked saved-card values like `**** **** **** 4242` are preserved for edit screens. |
 | `expiry-month` | _(blank)_ | Two-digit month, `"01"`–`"12"`. |
 | `expiry-year` | _(blank)_ | Two-digit year. |
 | `cvc` | _(blank)_ | Security code (3 digits, 4 for Amex). |

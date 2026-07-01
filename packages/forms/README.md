@@ -13,6 +13,7 @@ import "@loomidev/forms"; // registers all form elements
 | Package |
 | --- |
 | [`@loomidev/input`](../input) |
+| [`@loomidev/password`](../password) |
 | [`@loomidev/textarea`](../textarea) |
 | [`@loomidev/text-editor`](../text-editor) |
 | [`@loomidev/select`](../select) |
@@ -21,7 +22,7 @@ import "@loomidev/forms"; // registers all form elements
 | [`@loomidev/toggle`](../toggle) |
 | [`@loomidev/number`](../number) |
 | [`@loomidev/slider`](../slider) |
-| [`@loomidev/code`](../code) |
+| [`@loomidev/pin`](../pin) |
 | [`@loomidev/checkcards`](../checkcards) |
 | [`@loomidev/datepicker`](../datepicker) |
 | [`@loomidev/timepicker`](../timepicker) |

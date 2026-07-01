@@ -23,6 +23,7 @@
       import "../packages/rating/dist/loomi-rating.js";
       import "../packages/timeline/dist/loomi-timeline.js";
       import "../packages/progress/dist/loomi-progress.js";
+      import "../packages/qrcode/dist/loomi-qrcode.js";
     </script>
     <style>
       body { font-family: ui-sans-serif, system-ui, sans-serif; margin: 0; padding: 2.5rem clamp(1rem,5vw,4rem); color: #0f172a; background: #f8fafc; max-width: 880px; }
@@ -78,6 +79,19 @@
       <loomi-progress-circle percentage="65" show-label show-percent></loomi-progress-circle>
       <loomi-progress-circle percentage="80" color="warning" shade="dark" size="small" show-label show-percent></loomi-progress-circle>
       <loomi-progress-circle percentage="45" color="purple" size="tiny"></loomi-progress-circle>
+    </div>
+
+    <h2>QR Code</h2>
+    <div class="row">
+      <loomi-qrcode url="https://loomiui.com" corner-borders gradient gradient-scan></loomi-qrcode>
+      <loomi-qrcode
+        url="https://loomiui.com/docs"
+        size="180"
+        error-correction="H"
+        foreground="var(--loomi-success-700)"
+        corner-borders
+        corner-border-color="var(--loomi-success-600)"
+      ></loomi-qrcode>
     </div>
 
     <h2>Timeline</h2>

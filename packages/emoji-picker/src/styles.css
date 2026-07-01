@@ -1,0 +1,209 @@
+:host {
+  display: inline-block;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+.loomi-emoji-picker {
+  --loomi-emoji-trigger-h: 2.75rem;
+  --loomi-emoji-panel-w: 21rem;
+  --loomi-emoji-cell: 2.25rem;
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  color: var(--loomi-text);
+  font-family: var(--loomi-font-sans);
+  font-size: 0.95rem;
+}
+
+.loomi-emoji-picker.size-small {
+  --loomi-emoji-trigger-h: 2.25rem;
+  --loomi-emoji-panel-w: 18rem;
+  --loomi-emoji-cell: 2rem;
+  font-size: 0.86rem;
+}
+
+.loomi-emoji-picker.size-regular {
+  --loomi-emoji-trigger-h: 2.5rem;
+}
+
+.loomi-emoji-picker.size-big {
+  --loomi-emoji-trigger-h: 3.2rem;
+  --loomi-emoji-panel-w: 24rem;
+  --loomi-emoji-cell: 2.55rem;
+  font-size: 1rem;
+}
+
+.loomi-label {
+  color: var(--loomi-text-secondary);
+  font-size: 0.82em;
+  font-weight: 600;
+}
+
+.loomi-req {
+  color: var(--loomi-error-600);
+}
+
+.loomi-trigger {
+  min-width: 11rem;
+  height: var(--loomi-emoji-trigger-h);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  border: 1px solid var(--loomi-surface-border);
+  border-radius: 0.5rem;
+  background: var(--loomi-surface);
+  color: var(--loomi-text);
+  cursor: pointer;
+  padding: 0 0.75rem;
+  text-align: left;
+}
+
+.loomi-trigger:hover {
+  background: var(--loomi-surface-hover);
+}
+
+.loomi-trigger:focus-visible,
+.loomi-search:focus {
+  outline: 2px solid var(--loomi-primary-300);
+  outline-offset: 2px;
+}
+
+.loomi-trigger[disabled] {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.loomi-selected-emoji {
+  width: 1.65rem;
+  flex: 0 0 auto;
+  font-size: 1.35rem;
+  line-height: 1;
+  text-align: center;
+}
+
+.loomi-value {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  color: var(--loomi-text);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.loomi-value.placeholder {
+  color: var(--loomi-text-muted);
+}
+
+.loomi-chevron {
+  flex: 0 0 auto;
+  color: var(--loomi-text-muted);
+  font-size: 0.8rem;
+}
+
+.loomi-panel {
+  width: min(var(--loomi-emoji-panel-w), calc(100vw - 2rem));
+  max-width: 100%;
+  border: 1px solid var(--loomi-surface-border);
+  border-radius: 0.5rem;
+  background: var(--loomi-surface);
+  box-shadow:
+    0 12px 18px -8px rgba(15, 23, 42, 0.24),
+    0 4px 8px -6px rgba(15, 23, 42, 0.18);
+  padding: 0.65rem;
+}
+
+.loomi-panel.floating {
+  position: absolute;
+  z-index: 80;
+  top: calc(100% + 0.4rem);
+  left: 0;
+}
+
+.loomi-panel.inline {
+  position: static;
+  box-shadow: none;
+}
+
+.loomi-search {
+  width: 100%;
+  height: 2.35rem;
+  border: 1px solid var(--loomi-surface-border);
+  border-radius: 0.45rem;
+  background: var(--loomi-surface);
+  color: var(--loomi-text);
+  font: inherit;
+  padding: 0 0.7rem;
+}
+
+.loomi-categories {
+  display: flex;
+  gap: 0.25rem;
+  margin: 0.55rem 0 0.45rem;
+  overflow-x: auto;
+  padding-bottom: 0.1rem;
+}
+
+.loomi-category {
+  min-width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: 0.45rem;
+  background: transparent;
+  color: var(--loomi-text-muted);
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.loomi-category:hover,
+.loomi-category.active {
+  background: var(--loomi-surface-hover);
+  color: var(--loomi-text);
+}
+
+.loomi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--loomi-emoji-cell), 1fr));
+  gap: 0.2rem;
+  max-height: 16rem;
+  overflow: auto;
+  padding: 0.1rem;
+}
+
+.loomi-option {
+  width: 100%;
+  aspect-ratio: 1;
+  border: 0;
+  border-radius: 0.45rem;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.loomi-option:hover,
+.loomi-option.active {
+  background: var(--loomi-surface-hover);
+}
+
+.loomi-option.selected {
+  background: var(--loomi-primary-100);
+  box-shadow: inset 0 0 0 1px var(--loomi-primary-300);
+}
+
+.loomi-empty,
+.loomi-error {
+  color: var(--loomi-text-muted);
+  font-size: 0.9rem;
+  padding: 1.5rem 0.5rem;
+  text-align: center;
+}
+
+.loomi-error {
+  color: var(--loomi-error-600);
+  padding: 0.15rem 0.05rem 0;
+  text-align: left;
+}
