@@ -1,17 +1,13 @@
 # Contributing to LoomiUI
 
-This is the maintainer's guide: what's been built, how the pieces fit together, how to
-get a dev environment running, how to add a component, and how to publish. Read this
-before touching the codebase — it answers "why is it built this way" for the decisions
-that aren't obvious from the code alone.
+This is the contributor guide: how to set up the repo, change packages, add components,
+test the work, and prepare releases. For the system-design overview, read
+[`architecture.md`](architecture.md) first; this file is the procedural companion.
 
-> **Status note:** this is a single git repository — see
-> [§10](#10-should-each-component-be-its-own-git-repository) for why components aren't
-> split into separate repos. It's pushed to `github.com/loomidev/loomiui` (`main` and
-> `development` are both live there) — see
-> [§9.7](#97-how-this-ties-to-the-github-repo) for how that connects to the CI/release
-> workflows in [§9](#9-publishing-to-npm), which only run on GitHub Actions and still
-> need their repo secrets configured before a real publish can happen.
+> **Repo note:** this is one monorepo, not one git repository per component. See
+> [§10](#10-should-each-component-be-its-own-git-repository) for the reasoning, and
+> [§9.7](#97-how-this-ties-to-the-github-repo) for how GitHub Actions handles CI and
+> releases.
 
 ## Table of contents
 
@@ -34,14 +30,13 @@ that aren't obvious from the code alone.
 
 ## 1. What this is, in one paragraph
 
-`loomi` is a **monorepo** containing **52 independent npm packages** that together make
-up a Lit-based web component library — the spiritual equivalent of BladewindUI, but for
-plain web components instead of Laravel Blade. Every component is shadow-DOM-encapsulated,
-authored with Tailwind utility classes for speed, but **Tailwind itself never ships to
-consumers** — it's compiled once at build time per-package and the resulting CSS is
-inlined into the component's `static styles`. Theming happens entirely through CSS custom
-properties (`--loomi-*`), so a consumer can re-skin every component from their own page
-CSS with zero build step and zero Tailwind dependency.
+LoomiUI is a **monorepo** containing many independently publishable npm packages that
+together make up a Lit-based web component library. Every component is
+Shadow-DOM-encapsulated and authored with Tailwind utility classes for speed, but
+**Tailwind itself never ships to consumers** — it is compiled once at build time
+per-package and the resulting CSS is inlined into the component's `static styles`.
+Theming happens through CSS custom properties (`--loomi-*`), so a consumer can re-skin
+components from their own page CSS with zero build step and zero Tailwind dependency.
 
 ---
 
@@ -55,9 +50,9 @@ before, here's what's different and why it matters for this specific repo.
 - **Single content-addressable store, not duplicated copies.** npm and Yarn Classic copy
   every dependency into every project's `node_modules`. pnpm downloads each exact
   package version **once** to a global store (`~/.pnpm-store`) and links it into every
-  project that needs it via hard links. In a monorepo with 52 packages that mostly share
-  `lit`, `typescript`, and `tailwindcss` as dependencies, this is the difference between
-  52 copies of those packages on disk and effectively one.
+  project that needs it via hard links. In a monorepo with many packages that mostly
+  share `lit`, `typescript`, and `tailwindcss` as dependencies, this is the difference
+  between many duplicate copies of those packages on disk and effectively one.
 - **Strict, non-flat `node_modules` by default.** npm "hoists" transitive dependencies
   into a flat top-level `node_modules`, which means your code can accidentally `import`
   a package you never declared as a dependency, just because some *other* dependency
@@ -142,7 +137,8 @@ components/                          (repo root)
 ├─ LICENSE                            MIT
 ├─ SECURITY.md                        private vulnerability disclosure policy
 ├─ README.md                          user-facing docs: what it is, quick start, theming
-├─ CONTRIBUTING.md                    this file — architecture, workflow, publishing
+├─ architecture.md                    system design: how the packages fit together
+├─ CONTRIBUTING.md                    this file — setup, workflow, publishing
 ├─ examples/                          hand-written HTML demo pages (not published)
 └─ packages/                          every package lives here, one folder each
 ```
@@ -181,7 +177,7 @@ Without this file, `workspace:^` ranges wouldn't resolve.
 ### `tsconfig.base.json`
 Shared `compilerOptions`. Every package's own `tsconfig.json` is two lines —
 `"extends": "../../tsconfig.base.json"` plus its own `rootDir`/`outDir`. Changing a
-compiler flag for the whole library is a one-file edit, not 52.
+compiler flag for the whole library is a one-file edit, not a package-by-package chore.
 
 ### `.npmrc`
 ```
@@ -208,8 +204,7 @@ files are not part of any published package; you need `pnpm build` to have run f
 
 ## 4. Anatomy of one component package
 
-This is the shape **every** one of the 44 individual components follows exactly (using
-`button` as the example):
+Most individual component packages follow this shape, using `button` as the example:
 
 ```
 packages/button/
@@ -249,6 +244,7 @@ packages/button/
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@loomidev/core": "workspace:^",
     "@loomidev/icons": "workspace:^",
     "@loomidev/theme": "workspace:^"
   },
@@ -276,7 +272,7 @@ Things worth understanding line by line:
     dedup logic ensures only one copy of each ends up installed even if five different
     `@loomidev/*` packages all depend on them.
   - `peerDependencies`: `lit`. We deliberately do **not** bundle Lit or list it as a
-    regular dependency — if every one of the 44 packages bundled its own copy, a consumer
+    regular dependency — if every component package bundled its own copy, a consumer
     installing three LoomiUI components could end up with three copies of Lit on the page
     (multiple custom element registries, broken reactivity, bloated bundle). A peer
     dependency means "I need *a* copy of Lit ^3.0.0 to exist somewhere in your tree, you
@@ -329,7 +325,7 @@ export class LoomiButton extends LoomiElement {
   // properties, render()...
 }
 ```
-Every one of the 44 components extends `LoomiElement` (from `@loomidev/core`), never bare
+Every component should extend `LoomiElement` (from `@loomidev/core`), never bare
 `LitElement` — see [§8, step 6](#8-adding-a-new-component-step-by-step) for what that
 buys you and why.
 
@@ -406,10 +402,10 @@ Two similarly-named things, easy to conflate:
 - **`packages/`** — the *folder*. Not itself a package; pnpm just uses it as the
   location for every workspace package per `pnpm-workspace.yaml`. No `package.json` of
   its own.
-- **`packages/components/`** — **one ordinary sibling package** among the other 51, whose
-  npm name happens to be `@loomidev/components`. It's the "install everything" umbrella
-  package: it depends on all 44 component packages plus `core`/`icons`/`theme`, and
-  re-exports every one of them:
+- **`packages/components/`** — **one ordinary sibling package** among the other packages,
+  whose npm name happens to be `@loomidev/components`. It's the "install everything"
+  umbrella package: it depends on the component packages plus the foundation packages,
+  and re-exports them:
 
 ```json
 // packages/components/package.json (abridged)
@@ -423,7 +419,7 @@ Two similarly-named things, easy to conflate:
 }
 ```
 ```ts
-// packages/components/src/button.ts — one of 44 tiny re-export files
+// packages/components/src/button.ts — one tiny re-export file
 export * from "@loomidev/button";
 ```
 That last pattern is what makes `import "@loomidev/components/button"` work — it points at
@@ -436,11 +432,11 @@ living in `packages/button/`. The folder name colliding visually with its parent
 `package.json`, never by folder name, so renaming the folder to e.g. `packages/all/` is
 safe if the similarity keeps confusing people.
 
-Two more "bundle" packages work identically but for a subset, with no styles of their own
-and no per-component subpaths:
-- `packages/forms/` → `@loomidev/forms` (14 form controls)
-- `packages/content/` → `@loomidev/content` (18 content/display components)
-- `packages/navigation/` → `@loomidev/navigation` (4 navigation components)
+Three more "bundle" packages work identically but for smaller subsets, with no styles of
+their own and no per-component subpaths:
+- `packages/forms/` → `@loomidev/forms`
+- `packages/content/` → `@loomidev/content`
+- `packages/navigation/` → `@loomidev/navigation`
 
 Their `"build"` script is just `tsc -p tsconfig.json` — nothing to compile.
 
@@ -519,8 +515,8 @@ reinvent it.**
    }
    ```
    **Extend `LoomiElement`, not `LitElement`.** `LoomiElement`
-   (`packages/core/src/index.ts`) is a thin `LitElement` subclass that every one of the
-   44 components extends, and it's what every component's `name` attribute is built on:
+   (`packages/core/src/index.ts`) is a thin `LitElement` subclass that every component
+   should extend, and it's what every component's `name` attribute is built on:
    ```ts
    export class LoomiElement extends LitElement {
      static override properties = { name: { type: String, reflect: true } };
@@ -533,8 +529,8 @@ reinvent it.**
    (`<loomi-button name="submit-btn">` → class `submit-btn`), or, if not, a generated
    fallback (`loomi-button-a1b2c` style: `loomi-<component-type>-<random-suffix>`),
    swapping the old class out if `name` changes later. This gives every component a
-   **stable selector to hook external CSS or test/automation code to**, without each of
-   the 44 components reimplementing the same `name`-to-class logic individually. If you
+   **stable selector to hook external CSS or test/automation code to**, without each
+   component reimplementing the same `name`-to-class logic individually. If you
    extend bare `LitElement` instead, your component silently loses this — there's no
    compiler error, it just won't have a `name` attribute or the class-sync behavior every
    sibling component has.
@@ -595,23 +591,21 @@ deliberate, not defaults:
   will still run; catch type issues by eye or add `test/**/*.ts` to a package's
   `tsconfig.json` `include` if you want stricter coverage.
 
-### Current coverage (a starting point, not full coverage)
+### Current coverage
 
-Smoke tests exist today for **button**, **checkbox**, **modal**, **tab**, and
-**select** — chosen to cover the recurring patterns every other component reuses:
+Smoke tests now exist across many packages. The table below shows useful patterns to copy
+when adding or improving tests:
 
 | Pattern | Covered by | What to copy for a new component |
 | --- | --- | --- |
 | Plain attributes/properties, slotted content | `button` | Any standalone component. |
-| Form association (`ElementInternals`) | `checkbox` | Any form control — `input`, `radio`, `toggle`, `slider`, `code`, `checkcards`, `rating`, the pickers, etc. all follow the same `willUpdate() { this.internals.setFormValue(...) }` shape. |
+| Form association (`ElementInternals`) | `checkbox`, `input`, `slider` | Any form control — `radio`, `toggle`, `checkcards`, `rating`, the pickers, etc. all follow the same `willUpdate() { this.internals.setFormValue(...) }` shape. |
 | Focus management on an overlay (trap, restore, global open/close registry) | `modal` | `dropmenu`, `popover` — anything that opens a floating panel and should trap/restore focus. |
 | Roving-tabindex keyboard navigation (WAI-ARIA APG) | `tab` | Any component with a row of selectable headings. |
 | Listbox-button keyboard pattern (`aria-activedescendant`, Arrow/Home/End/Enter) | `select` | `dropmenu`'s menu items, `colorpicker`'s swatch grid — anything presenting a list of choices in a popup. |
 
-The other ~39 components do **not** have smoke tests yet — they've been verified
-manually via the `examples/*.html` pages only. Extending coverage as you touch a
-component (step 14 above) is the expected way this fills in over time, not a dedicated
-backlog effort.
+Coverage is still not exhaustive. Extend it as you touch a component, especially around
+form behavior, keyboard interaction, generated CSS, and events that cross Shadow DOM.
 
 ---
 
@@ -669,9 +663,9 @@ you want it shipped as a built-in default.
 ### 9.1 One-time account setup
 1. Create an npm account: https://www.npmjs.com/signup
 2. **Decide who owns the `@loomidev` scope.** Scoped packages require *someone* own the
-   `loomi` organization on npm. Either create a free npm org at
+   `loomidev` organization on npm. Either create a free npm org at
    https://www.npmjs.com/org/create (free orgs publish unlimited **public** scoped
-   packages — what we need), or, if `loomi` is taken, rename the scope everywhere
+   packages — what we need), or, if `loomidev` is taken, rename the scope everywhere
    (every `package.json` + every internal `@loomidev/...` import) *before* the first
    publish — not after.
 3. `npm login` (shared auth token, also used by `pnpm publish`).
@@ -740,8 +734,8 @@ keep doing dependencies-first anyway.
   (`id-token: write` permission, so npm can cryptographically attest the package was
   built from this exact commit in CI rather than someone's laptop) once that PR merges.
 
-Neither workflow can actually run until two things exist: the repo is pushed to a GitHub
-remote, and these two repo secrets are set —
+CI can run without npm credentials. The publish step in `release.yml` needs:
+
 - `NPM_TOKEN` — an npm **automation** token with publish rights on the `@loomidev` org.
   Create one at npmjs.com → avatar → **Access Tokens** → **Generate New Token** →
   **Granular Access Token** (or **Classic Token** → **Automation**, on older accounts).
@@ -750,7 +744,8 @@ remote, and these two repo secrets are set —
   Settings → Secrets and variables → Actions → New repository secret → name it
   `NPM_TOKEN`). If you navigated away before copying it, the token can't be retrieved;
   delete the unusable one from npm's Access Tokens list and generate a new one.
-- `GITHUB_TOKEN` is provided automatically by Actions; no setup needed.
+
+`GITHUB_TOKEN` is provided automatically by Actions; no setup is needed for it.
 
 ### 9.7 How this ties to the GitHub repo
 
@@ -783,8 +778,8 @@ up on npm":
    and will still open the "Version Packages" PR, but the `pnpm changeset publish` step
    fails for lack of registry credentials.
 
-One thing not wired up yet: no package's `package.json` declares a `"repository"`
-field. Worth adding per package — e.g.
+Each package should keep its `"repository"` metadata pointed at the monorepo and its own
+package directory, e.g.
 ```json
 "repository": { "type": "git", "url": "https://github.com/loomidev/loomiui.git", "directory": "packages/button" }
 ```
@@ -810,21 +805,21 @@ an optional, purely informational `"repository"` field that npm displays as a li
 never validates. `npm publish` works identically whether run from inside a folder that's
 part of a huge monorepo or from no repo at all.
 
-Splitting into 52 repos here would be pure overhead with no benefit, and would actively
+Splitting into many repos here would be pure overhead with no benefit, and would actively
 hurt this project specifically:
 - **Cross-cutting changes are common and need to be atomic.** Renaming the
   `--loomi-accent` mechanism touched `core`, `checkbox`, `radio`, and `toggle` in one
   change; making the CSS prefix configurable touched `theme`'s `palette.json` plus every
-  component's build script. In one repo that's one reviewable commit. Across 52 repos
-  that's 52 PRs that all need to land together, with real risk of drift.
+  component's build script. In one repo that's one reviewable commit. Across many repos
+  that becomes many PRs that all need to land together, with real risk of drift.
 - **This is the standard pattern** for many small, independently-versioned, interdependent
   npm packages maintained by one team — Babel, Jest, Vite's first-party plugins, MUI, and
   Changesets itself all ship this way.
 - **You lose nothing at scale.** GitHub issue templates/labels can route "this is about
   the button" without a dedicated repo per component.
 
-Concretely: `git init` at the repo root, commit the tree with the existing `.gitignore` in
-place, push as a single repository.
+Concretely: keep changes in this single repository and let npm packages be separated at
+publish time, not by splitting the source into many git repos.
 
 ---
 
@@ -836,7 +831,8 @@ place, push as a single repository.
 - **CI**: `.github/workflows/ci.yml` (build + typecheck + test on every push/PR) and
   `release.yml` (Changesets-driven publish with npm provenance) — see [§9.6](#96-ci).
 - **Smoke-level automated tests** via `@web/test-runner` — see [§8a](#8a-automated-smoke-tests).
-  Covers 5 of 44 components today (the recurring patterns), not all of them.
+  Coverage spans many packages and recurring patterns, but it is not a full behavioral
+  test suite for every component.
 - **`SECURITY.md`** with a private disclosure path, plus GitHub issue templates
   (`bug_report.yml`, `feature_request.yml`) and a PR template.
 - **npm publish provenance**: wired into `release.yml` (`id-token: write` +
@@ -863,8 +859,9 @@ place, push as a single repository.
   `select` had. These are the next-most-valuable targets, using the exact same patterns
   already implemented (copy `modal`'s focus-trap helpers; copy `select`'s
   `aria-activedescendant` pattern).
-- **Test coverage** for the other ~39 components — extend opportunistically per
-  [§8a](#8a-automated-smoke-tests), not as a dedicated backlog effort.
+- **Deeper test coverage** for component-specific edge cases — extend opportunistically
+  per [§8a](#8a-automated-smoke-tests), especially when changing form controls,
+  overlays, keyboard navigation, or generated styles.
 - **Repo secrets on GitHub.** The repo itself is pushed (`github.com/loomidev/loomiui`,
   see [§9.7](#97-how-this-ties-to-the-github-repo)), but the workflows can't actually
   publish until `NPM_TOKEN` is set there.
