@@ -588,6 +588,9 @@ importers:
       '@loomidev/avatar':
         specifier: workspace:^
         version: link:../avatar
+      '@loomidev/calendar':
+        specifier: workspace:^
+        version: link:../calendar
       '@loomidev/card':
         specifier: workspace:^
         version: link:../card
@@ -600,6 +603,9 @@ importers:
       '@loomidev/contact-card':
         specifier: workspace:^
         version: link:../contact-card
+      '@loomidev/data-table':
+        specifier: workspace:^
+        version: link:../data-table
       '@loomidev/divider':
         specifier: workspace:^
         version: link:../divider
@@ -991,12 +997,18 @@ importers:
       '@loomidev/creditcard':
         specifier: workspace:^
         version: link:../creditcard
+      '@loomidev/date-range-picker':
+        specifier: workspace:^
+        version: link:../date-range-picker
       '@loomidev/datepicker':
         specifier: workspace:^
         version: link:../datepicker
       '@loomidev/filepicker':
         specifier: workspace:^
         version: link:../filepicker
+      '@loomidev/filter-builder':
+        specifier: workspace:^
+        version: link:../filter-builder
       '@loomidev/input':
         specifier: workspace:^
         version: link:../input
@@ -1193,6 +1205,9 @@ importers:
 
   packages/navigation:
     dependencies:
+      '@loomidev/command-palette':
+        specifier: workspace:^
+        version: link:../command-palette
       '@loomidev/context-menu':
         specifier: workspace:^
         version: link:../context-menu

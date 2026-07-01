@@ -49,7 +49,9 @@
     "@loomidev/sortable": "workspace:^",
     "@loomidev/processing": "workspace:^",
     "@loomidev/horizontal-line-graph": "workspace:^",
-    "@loomidev/chart": "workspace:^"
+    "@loomidev/chart": "workspace:^",
+    "@loomidev/calendar": "workspace:^",
+    "@loomidev/data-table": "workspace:^"
   },
   "peerDependencies": {
     "lit": "^3.0.0"

@@ -47,7 +47,9 @@
     "@loomidev/colorpicker": "workspace:^",
     "@loomidev/filepicker": "workspace:^",
     "@loomidev/countries": "workspace:^",
-    "@loomidev/creditcard": "workspace:^"
+    "@loomidev/creditcard": "workspace:^",
+    "@loomidev/date-range-picker": "workspace:^",
+    "@loomidev/filter-builder": "workspace:^"
   },
   "peerDependencies": {
     "lit": "^3.0.0"

@@ -18,6 +18,7 @@ import {
   cloneDate,
   dateFromGridPosition,
   dateFromResourcePosition,
+  endOfDay,
   formatEventRange,
   formatTime,
   formatTimezoneLabel,
@@ -30,6 +31,7 @@ import {
   isToday,
   layoutResourceDayEvents,
   layoutTimedEvents,
+  minutesFromDayStart,
   startOfDay
 } from "./calendar-utils.js";
 import type {
@@ -71,6 +73,14 @@ interface DragState {
   resourceId?: string;
 }
 
+interface SlotDragState {
+  pointerId: number;
+  day: Date;
+  start: Date;
+  end: Date;
+  container: HTMLElement;
+}
+
 @customElement("loomi-calendar")
 export class LoomiCalendar extends LoomiElement {
   static properties = {
@@ -89,7 +99,8 @@ export class LoomiCalendar extends LoomiElement {
     startHour: { attribute: "start-hour", type: Number },
     endHour: { attribute: "end-hour", type: Number },
     slotMinutes: { attribute: "slot-minutes", type: Number },
-    _dragState: { state: true }
+    _dragState: { state: true },
+    _slotDragState: { state: true }
   };
 
   static override styles = loomiStyles(calendarStyles, css`
@@ -115,6 +126,7 @@ export class LoomiCalendar extends LoomiElement {
   endHour = 18;
   slotMinutes = 30;
   declare _dragState?: DragState;
+  declare _slotDragState?: SlotDragState;
 
   private boundPointerMove = (event: PointerEvent) => this.handlePointerMove(event);
   private boundPointerUp = (event: PointerEvent) => this.handlePointerUp(event);
@@ -128,6 +140,8 @@ export class LoomiCalendar extends LoomiElement {
 
   override disconnectedCallback() {
     super.disconnectedCallback();
+    this._dragState = undefined;
+    this._slotDragState = undefined;
     this.detachPointerListeners();
   }
 
@@ -201,17 +215,32 @@ export class LoomiCalendar extends LoomiElement {
   private renderMonthCell(date: Date, isOtherMonth: boolean) {
     const dayEvents = getEventsForDate(this.events, date);
     const today = isToday(date);
+    const hiddenCount = Math.max(0, dayEvents.length - 3);
 
     return html`
-      <div class="month-cell ${isOtherMonth ? "other-month" : ""} ${today ? "today" : ""}">
+      <div
+        class="month-cell ${isOtherMonth ? "other-month" : ""} ${today ? "today" : ""} ${this.editable ? "editable" : "interactive"}"
+        @click=${(event: MouseEvent) => this.handleMonthCellClick(event, date)}
+      >
         <button
           class="day-num ${today ? "today" : ""}"
-          @click=${() => this.openDayView(date)}
+          @click=${(event: Event) => {
+            event.stopPropagation();
+            this.openDayView(date);
+          }}
           aria-label=${loomiDateFormatter(this.resolvedLocale, { dateStyle: "full" }).format(date)}
         >${date.getDate()}</button>
         ${dayEvents.slice(0, 3).map((event) => this.renderEventPill(event))}
-        ${dayEvents.length > 3
-          ? html`<span class="event-pill more">+${dayEvents.length - 3} more</span>`
+        ${hiddenCount > 0
+          ? html`
+            <button
+              class="event-pill more"
+              @click=${(event: Event) => {
+                event.stopPropagation();
+                this.openDayView(date);
+              }}
+            >+${hiddenCount} more</button>
+          `
           : nothing}
       </div>
     `;
@@ -234,9 +263,15 @@ export class LoomiCalendar extends LoomiElement {
             const weekdayIndex = (day.getDay() - (this.weekStarts === "monday" ? 1 : 0) + 7) % 7;
             const weekdayLabel = loomiWeekdayNames(this.resolvedLocale, this.weekStarts)[weekdayIndex];
             return html`
-            <div class="weekday ${isToday(day) ? "is-today" : ""}">
-              ${weekdayLabel} ${day.getDate()}
-            </div>
+            <button
+              type="button"
+              class="weekday weekday-btn ${isToday(day) ? "is-today" : ""}"
+              @click=${() => this.openDayView(day)}
+              aria-label=${loomiDateFormatter(this.resolvedLocale, { weekday: "long", month: "long", day: "numeric" }).format(day)}
+            >
+              <span class="weekday-label">${weekdayLabel}</span>
+              <span class="weekday-date">${day.getDate()}</span>
+            </button>
           `;
           })}
         </div>
@@ -280,23 +315,46 @@ export class LoomiCalendar extends LoomiElement {
 
     return html`
       <div class="day-column">
-        <div class="time-slots" style=${`height: ${hourCount * HOUR_HEIGHT}px`}>
-          ${Array.from({ length: hourCount }, (_, index) => html`
-            <div class="time-slot">
-              ${this.editable ? html`
-                <button
-                  class="time-slot-button"
-                  aria-label="Create event"
-                  @click=${(event: MouseEvent) => this.handleSlotClick(event, day, index)}
-                ></button>
-              ` : nothing}
-            </div>
-          `)}
+        <div
+          class="time-slots ${this.editable ? "editable" : ""}"
+          style=${`height: ${hourCount * HOUR_HEIGHT}px`}
+          @pointerdown=${this.editable ? (event: PointerEvent) => this.handleTimeSlotsPointerDown(event, day) : nothing}
+        >
+          ${Array.from({ length: hourCount }, () => html`<div class="time-slot"></div>`)}
+          ${this.renderSlotSelection(day)}
           ${nowOffset !== null ? html`<div class="now-line" style=${`top: ${nowOffset}px`}></div>` : nothing}
           ${positioned.map((entry) => this.renderTimedEvent(entry.event, day, entry.top, entry.height, entry.left, entry.width))}
         </div>
       </div>
     `;
+  }
+
+  private renderSlotSelection(day: Date) {
+    const preview = this.getSlotSelectionPreview(day);
+    if (!preview) {
+      return nothing;
+    }
+
+    return html`
+      <div
+        class="slot-selection"
+        style=${`top: ${preview.top}px; height: ${preview.height}px`}
+      ></div>
+    `;
+  }
+
+  private getSlotSelectionPreview(day: Date): { top: number; height: number } | null {
+    if (!this._slotDragState || !isSameDay(this._slotDragState.day, day)) {
+      return null;
+    }
+
+    const { start, end } = this.normalizeSlotRange(this._slotDragState.start, this._slotDragState.end);
+    const startMinutes = Math.max(0, minutesFromDayStart(start, this.startHour));
+    const endMinutes = Math.max(startMinutes + this.slotMinutes, minutesFromDayStart(end, this.startHour));
+    return {
+      top: (startMinutes / 60) * HOUR_HEIGHT,
+      height: Math.max(22, ((endMinutes - startMinutes) / 60) * HOUR_HEIGHT)
+    };
   }
 
   private renderAgendaView() {
@@ -515,6 +573,24 @@ export class LoomiCalendar extends LoomiElement {
   }
 
   private handlePointerMove(pointerEvent: PointerEvent) {
+    if (this._slotDragState && pointerEvent.pointerId === this._slotDragState.pointerId) {
+      const rect = this._slotDragState.container.getBoundingClientRect();
+      const offsetY = pointerEvent.clientY - rect.top;
+      const end = dateFromGridPosition(
+        this._slotDragState.day,
+        offsetY,
+        this.startHour,
+        HOUR_HEIGHT,
+        this.slotMinutes
+      );
+      this._slotDragState = {
+        ...this._slotDragState,
+        end
+      };
+      this.requestUpdate();
+      return;
+    }
+
     if (!this._dragState || pointerEvent.pointerId !== this._dragState.pointerId) {
       return;
     }
@@ -527,6 +603,20 @@ export class LoomiCalendar extends LoomiElement {
   }
 
   private handlePointerUp(pointerEvent: PointerEvent) {
+    if (this._slotDragState && pointerEvent.pointerId === this._slotDragState.pointerId) {
+      const { start, end } = this.normalizeSlotRange(this._slotDragState.start, this._slotDragState.end);
+      let nextStart = start;
+      let nextEnd = end;
+      if (nextEnd.getTime() - nextStart.getTime() < this.slotMinutes * 60 * 1000) {
+        nextEnd = addMinutes(nextStart, this.slotMinutes);
+      }
+      this.dispatchSlotSelect({ start: nextStart, end: nextEnd, allDay: false });
+      this._slotDragState = undefined;
+      this.detachPointerListeners();
+      this.requestUpdate();
+      return;
+    }
+
     if (!this._dragState || pointerEvent.pointerId !== this._dragState.pointerId) {
       return;
     }
@@ -584,17 +674,56 @@ export class LoomiCalendar extends LoomiElement {
     window.removeEventListener("pointerup", this.boundPointerUp);
   }
 
-  private handleSlotClick(event: MouseEvent, day: Date, hourIndex: number) {
-    if (!this.editable) {
+  private handleTimeSlotsPointerDown(pointerEvent: PointerEvent, day: Date) {
+    if (!this.editable || pointerEvent.button !== 0) {
       return;
     }
 
-    const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
-    const offsetY = event.clientY - rect.top;
-    const start = dateFromGridPosition(day, offsetY + hourIndex * HOUR_HEIGHT, this.startHour, HOUR_HEIGHT, this.slotMinutes);
-    const end = addMinutes(start, this.slotMinutes);
+    const target = pointerEvent.target as HTMLElement;
+    if (target.closest(".timed-event") || target.closest(".resize-handle")) {
+      return;
+    }
 
-    this.dispatchSlotSelect({ start, end, allDay: false });
+    const container = pointerEvent.currentTarget as HTMLElement;
+    const rect = container.getBoundingClientRect();
+    const offsetY = pointerEvent.clientY - rect.top;
+    const start = dateFromGridPosition(day, offsetY, this.startHour, HOUR_HEIGHT, this.slotMinutes);
+
+    pointerEvent.preventDefault();
+    this._slotDragState = {
+      pointerId: pointerEvent.pointerId,
+      day,
+      start,
+      end: start,
+      container
+    };
+    this.attachPointerListeners();
+    container.setPointerCapture(pointerEvent.pointerId);
+  }
+
+  private handleMonthCellClick(event: MouseEvent, date: Date) {
+    const target = event.target as HTMLElement;
+    if (target.closest(".event-pill:not(.more)") || target.closest(".day-num")) {
+      return;
+    }
+
+    if (this.editable) {
+      this.dispatchSlotSelect({
+        start: startOfDay(date),
+        end: endOfDay(date),
+        allDay: true
+      });
+      return;
+    }
+
+    this.openDayView(date);
+  }
+
+  private normalizeSlotRange(start: Date, end: Date) {
+    if (start.getTime() <= end.getTime()) {
+      return { start, end };
+    }
+    return { start: end, end: start };
   }
 
   private handleResourceTrackClick(event: MouseEvent, day: Date, resourceId: string) {
