@@ -13,6 +13,7 @@ import {
   ALL_DAY_HEIGHT,
   HOUR_HEIGHT,
   RESOURCE_LABEL_WIDTH,
+  TIME_AXIS_WIDTH,
   addDays,
   addMinutes,
   buildAgendaGroups,
@@ -26,10 +27,12 @@ import {
   formatTime,
   formatTimezoneLabel,
   fromInputDateTime,
+  getInviteeInitials,
   getMonthGridDays,
+  getNextUpcomingEvent,
   getNowOffset,
   getSingleDayEventsForDate,
-  getUpcomingEvents,
+  hasEventsOnDate,
   getVisibleWeekDays,
   isSameDay,
   isToday,
@@ -38,6 +41,7 @@ import {
   layoutTimedEvents,
   minutesFromDayStart,
   startOfDay,
+  summarizeInvitees,
   toInputDateTime,
   type SpanningEventLayout
 } from "./calendar-utils.js";
@@ -47,6 +51,8 @@ import type {
   CalendarEventClickDetail,
   CalendarEventColor,
   CalendarEventCreateDetail,
+  CalendarEventDeleteDetail,
+  CalendarEventDuplicateDetail,
   CalendarResource,
   CalendarSidebarToggleDetail,
   CalendarSlotSelectDetail,
@@ -60,6 +66,12 @@ const PREV = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 
 const NEXT = svg`<path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />`;
 const PLUS = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />`;
 const PANEL = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />`;
+const ICON_CALENDAR = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />`;
+const ICON_CLOCK = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />`;
+const ICON_BELL = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />`;
+const ICON_COPY = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9.75a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />`;
+const ICON_TRASH = svg`<path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />`;
+const ICON_EDIT = svg`<path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />`;
 
 const VIEW_OPTIONS: Array<{ id: CalendarView; label: string; shortcut: string }> = [
   { id: "month", label: "Month", shortcut: "M" },
@@ -95,6 +107,12 @@ interface EventDraft {
   end: string;
   allDay: boolean;
   color: CalendarEventColor;
+  description: string;
+  resourceId: string;
+  recurrenceFrequency: "" | "daily" | "weekly" | "monthly" | "yearly";
+  recurrenceLabel: string;
+  reminderLabel: string;
+  inviteesText: string;
 }
 
 interface SlotDragState {
@@ -136,6 +154,7 @@ export class LoomiCalendar extends LoomiElement {
       --loomi-calendar-hour-height: ${HOUR_HEIGHT}px;
       --loomi-calendar-hour-count: 12;
       --loomi-calendar-resource-label-width: ${RESOURCE_LABEL_WIDTH}px;
+      --loomi-calendar-time-axis-width: ${TIME_AXIS_WIDTH}px;
     }
   `);
 
@@ -205,34 +224,128 @@ export class LoomiCalendar extends LoomiElement {
 
   private renderSidebar() {
     const miniDate = this._miniCalendarDate ?? this.date;
-    const upcoming = getUpcomingEvents(this.events, this.date, 12);
+    const nextEvent = getNextUpcomingEvent(this.events, new Date());
 
     return html`
       <aside class="sidebar" aria-label="Calendar sidebar">
         <div class="sidebar-section">
-          <div class="sidebar-heading">Navigate</div>
           ${this.renderMiniCalendar(miniDate)}
         </div>
         <div class="sidebar-section sidebar-events">
           <div class="sidebar-heading">Upcoming</div>
-          ${upcoming.length
-            ? html`
-              <div class="sidebar-event-list">
-                ${upcoming.map((event) => html`
-                  <button
-                    class="sidebar-event ${event.color ? `event-${event.color}` : "event-primary"}"
-                    @click=${(clickEvent: Event) => this.handleEventClick(clickEvent, event)}
-                  >
-                    <span class="sidebar-event-time">${formatEventRange(event, this.resolvedLocale, this.displayTimezone)}</span>
-                    <span class="sidebar-event-title">${event.title}</span>
-                  </button>
-                `)}
-              </div>
-            `
-            : html`<div class="sidebar-empty">No upcoming events</div>`}
+          ${nextEvent ? this.renderUpcomingDetail(nextEvent) : html`<div class="sidebar-empty">No upcoming events</div>`}
         </div>
       </aside>
     `;
+  }
+
+  private renderUpcomingDetail(event: CalendarEvent) {
+    const invitees = event.invitees ?? [];
+    const summary = summarizeInvitees(invitees);
+    const visibleInvitees = invitees.slice(0, 5);
+    const overflowInvitee = invitees[5];
+    const extraCount = Math.max(0, invitees.length - 6);
+    const startDate = new Date(event.start);
+    const dateLabel = loomiDateFormatter(this.resolvedLocale, {
+      weekday: "long",
+      month: "short",
+      day: "numeric",
+      year: "numeric"
+    }).format(startDate);
+
+    return html`
+      <article class="upcoming-detail">
+        <header class="upcoming-header">
+          <h3 class="upcoming-title">${event.title}</h3>
+          ${this.editable ? html`
+            <div class="upcoming-actions">
+              <button class="icon-btn" type="button" aria-label="Duplicate event" title="Duplicate" @click=${() => this.handleDuplicateEvent(event)}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${ICON_COPY}</svg>
+              </button>
+              <button class="icon-btn" type="button" aria-label="Delete event" title="Delete" @click=${() => this.handleDeleteEvent(event)}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${ICON_TRASH}</svg>
+              </button>
+              <button class="icon-btn" type="button" aria-label="Edit event" title="Edit" @click=${(clickEvent: Event) => this.handleEventClick(clickEvent, event)}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${ICON_EDIT}</svg>
+              </button>
+            </div>
+          ` : nothing}
+        </header>
+
+        <div class="upcoming-meta">
+          <div class="upcoming-meta-row">
+            <svg class="upcoming-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${ICON_CALENDAR}</svg>
+            <span>${dateLabel}</span>
+          </div>
+          <div class="upcoming-meta-row">
+            <svg class="upcoming-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${ICON_CLOCK}</svg>
+            <span>${formatEventRange(event, this.resolvedLocale, this.displayTimezone)}</span>
+          </div>
+          ${event.reminder?.label ? html`
+            <div class="upcoming-meta-row">
+              <svg class="upcoming-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${ICON_BELL}</svg>
+              <span>${event.reminder.label}</span>
+            </div>
+          ` : nothing}
+        </div>
+
+        ${invitees.length ? html`
+          <section class="upcoming-guests">
+            <div class="guest-avatars">
+              ${visibleInvitees.map((invitee) => html`
+                <span class="guest-avatar" title=${invitee.name}>
+                  ${invitee.avatarUrl
+                    ? html`<img src=${invitee.avatarUrl} alt=${invitee.name} />`
+                    : getInviteeInitials(invitee)}
+                </span>
+              `)}
+              ${overflowInvitee ? html`
+                <span class="guest-avatar guest-initials" title=${overflowInvitee.name}>
+                  ${extraCount > 0 ? `+${extraCount + 1}` : getInviteeInitials(overflowInvitee)}
+                </span>
+              ` : nothing}
+              ${this.editable ? html`
+                <button class="guest-add" type="button" aria-label="Add guest" title="Add guest">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${PLUS}</svg>
+                </button>
+              ` : nothing}
+            </div>
+            <p class="guest-summary">
+              <strong>${summary.total} guest${summary.total === 1 ? "" : "s"}</strong>
+              ${summary.yes ? html` | ${summary.yes} yes` : nothing}
+              ${summary.awaiting ? html` | ${summary.awaiting} awaiting` : nothing}
+            </p>
+          </section>
+        ` : nothing}
+
+        ${event.description ? html`
+          <section class="upcoming-about">
+            <h4 class="upcoming-about-title">About this event</h4>
+            <div class="upcoming-description">${this.renderEventDescription(event.description)}</div>
+          </section>
+        ` : nothing}
+      </article>
+    `;
+  }
+
+  private renderEventDescription(description: string) {
+    const lines = description.split(/\n+/).filter((line) => line.trim().length > 0);
+    return lines.map((line) => {
+      const meetingMatch = line.match(/^Meeting ID:\s*(.+)$/i);
+      if (meetingMatch) {
+        return html`<p class="upcoming-meeting-id">Meeting ID: ${meetingMatch[1]}</p>`;
+      }
+
+      const urlMatch = line.match(/(https?:\/\/[^\s]+)/);
+      if (urlMatch) {
+        const url = urlMatch[1];
+        const prefix = line.slice(0, urlMatch.index);
+        const suffix = line.slice((urlMatch.index ?? 0) + url.length);
+        return html`<p>${prefix}<a class="upcoming-link" href=${url} target="_blank" rel="noopener noreferrer">${url}</a>${suffix}</p>`;
+      }
+
+      return html`<p>${line}</p>`;
+    });
   }
 
   private renderMiniCalendar(miniDate: Date) {
@@ -242,14 +355,14 @@ export class LoomiCalendar extends LoomiElement {
     return html`
       <div class="mini-calendar">
         <div class="mini-calendar-header">
-          <button class="btn icon mini-nav" aria-label="Previous month" @click=${() => this.shiftMiniCalendar(-1)}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${PREV}</svg>
+          <button class="icon-btn" type="button" aria-label="Previous month" @click=${() => this.shiftMiniCalendar(-1)}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${PREV}</svg>
           </button>
-          <button class="mini-calendar-title" @click=${() => this.updateDate(cloneDate(miniDate))}>
+          <button class="mini-calendar-title" type="button" @click=${() => this.updateDate(cloneDate(miniDate))}>
             ${loomiMonthName(this.resolvedLocale, miniDate.getMonth(), "short")} ${miniDate.getFullYear()}
           </button>
-          <button class="btn icon mini-nav" aria-label="Next month" @click=${() => this.shiftMiniCalendar(1)}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${NEXT}</svg>
+          <button class="icon-btn" type="button" aria-label="Next month" @click=${() => this.shiftMiniCalendar(1)}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${NEXT}</svg>
           </button>
         </div>
         <div class="mini-weekdays">
@@ -259,12 +372,16 @@ export class LoomiCalendar extends LoomiElement {
           ${cells.map(({ date, isOtherMonth }) => {
             const selected = isSameDay(date, this.date);
             const today = isToday(date);
+            const hasEvents = hasEventsOnDate(this.events, date);
             return html`
               <button
-                class="mini-day ${isOtherMonth ? "other-month" : ""} ${today ? "today" : ""} ${selected ? "selected" : ""}"
+                class="mini-day ${isOtherMonth ? "other-month" : ""} ${today ? "today" : ""} ${selected ? "selected" : ""} ${hasEvents ? "has-events" : ""}"
                 @click=${() => this.updateDate(startOfDay(date))}
                 aria-label=${loomiDateFormatter(this.resolvedLocale, { dateStyle: "full" }).format(date)}
-              >${date.getDate()}</button>
+              >
+                <span class="mini-day-num">${date.getDate()}</span>
+                ${hasEvents ? html`<span class="mini-day-dot" aria-hidden="true"></span>` : nothing}
+              </button>
             `;
           })}
         </div>
@@ -340,6 +457,73 @@ export class LoomiCalendar extends LoomiElement {
               <option value="error">Error</option>
             </select>
           </label>
+          ${this.resources.length ? html`
+            <label class="form-field">
+              <span class="form-label">Resource</span>
+              <select
+                class="form-input"
+                .value=${draft.resourceId}
+                @change=${(event: Event) => this.updateEventDraft("resourceId", (event.target as HTMLSelectElement).value)}
+              >
+                <option value="">None</option>
+                ${this.resources.map((resource) => html`
+                  <option value=${resource.id}>${resource.label}</option>
+                `)}
+              </select>
+            </label>
+          ` : nothing}
+          <label class="form-field">
+            <span class="form-label">Recurrence</span>
+            <select
+              class="form-input"
+              .value=${draft.recurrenceFrequency}
+              @change=${(event: Event) => this.updateEventDraft("recurrenceFrequency", (event.target as HTMLSelectElement).value as EventDraft["recurrenceFrequency"])}
+            >
+              <option value="">Does not repeat</option>
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+              <option value="yearly">Yearly</option>
+            </select>
+          </label>
+          ${draft.recurrenceFrequency ? html`
+            <label class="form-field">
+              <span class="form-label">Recurrence label</span>
+              <input
+                class="form-input"
+                .value=${draft.recurrenceLabel}
+                placeholder="Repeats weekly"
+                @input=${(event: Event) => this.updateEventDraft("recurrenceLabel", (event.target as HTMLInputElement).value)}
+              />
+            </label>
+          ` : nothing}
+          <label class="form-field">
+            <span class="form-label">Reminder</span>
+            <input
+              class="form-input"
+              .value=${draft.reminderLabel}
+              placeholder="10 min before"
+              @input=${(event: Event) => this.updateEventDraft("reminderLabel", (event.target as HTMLInputElement).value)}
+            />
+          </label>
+          <label class="form-field">
+            <span class="form-label">Invitees</span>
+            <input
+              class="form-input"
+              .value=${draft.inviteesText}
+              placeholder="Ada Lovelace, Grace Hopper"
+              @input=${(event: Event) => this.updateEventDraft("inviteesText", (event.target as HTMLInputElement).value)}
+            />
+          </label>
+          <label class="form-field">
+            <span class="form-label">Description</span>
+            <textarea
+              class="form-input form-textarea"
+              .value=${draft.description}
+              rows="4"
+              @input=${(event: Event) => this.updateEventDraft("description", (event.target as HTMLTextAreaElement).value)}
+            ></textarea>
+          </label>
         </div>
       </loomi-modal>
     `;
@@ -351,12 +535,13 @@ export class LoomiCalendar extends LoomiElement {
         <div class="toolbar-group">
           ${this.showSidebar ? html`
             <button
-              class="btn icon"
+              class="icon-btn"
+              type="button"
               aria-label=${this.sidebarOpen ? "Hide calendar list" : "Show calendar list"}
               title=${this.sidebarOpen ? "Hide calendar list" : "Show calendar list"}
               @click=${this.toggleSidebar}
             >
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${PANEL}</svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${PANEL}</svg>
             </button>
           ` : nothing}
           <div class="title">${this.getFormattedTitle()}</div>
@@ -366,24 +551,23 @@ export class LoomiCalendar extends LoomiElement {
         </div>
         <div class="toolbar-group">
           ${this.editable ? html`
-            <button class="btn btn-primary" aria-label="Add event" @click=${() => this.openCreateEventModal()}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${PLUS}</svg>
+            <button class="btn btn-primary" type="button" @click=${() => this.openCreateEventModal()}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${PLUS}</svg>
               Add event
             </button>
           ` : nothing}
-          <button class="btn" @click=${this.goToToday}>Today</button>
-          <button class="btn icon" aria-label="Previous" @click=${this.goPrev}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${PREV}</svg>
+          <button class="btn" type="button" @click=${this.goToToday}>Today</button>
+          <button class="icon-btn" type="button" aria-label="Previous" @click=${this.goPrev}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${PREV}</svg>
           </button>
-          <button class="btn icon" aria-label="Next" @click=${this.goNext}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${NEXT}</svg>
+          <button class="icon-btn" type="button" aria-label="Next" @click=${this.goNext}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${NEXT}</svg>
           </button>
-          <div class="segmented" role="tablist" aria-label="Calendar view">
+          <div class="view-switcher segmented" role="group" aria-label="Calendar view">
             ${VIEW_OPTIONS.map((option) => html`
               <button
                 class="seg-btn ${this.view === option.id ? "active" : ""}"
-                role="tab"
-                aria-selected=${this.view === option.id ? "true" : "false"}
+                type="button"
                 title=${`Shortcut: ${option.shortcut}`}
                 @click=${() => this.changeView(option.id)}
               >${option.label}</button>
@@ -495,7 +679,7 @@ export class LoomiCalendar extends LoomiElement {
       <div class="month-view">
         <div
           class="weekdays"
-          style=${`grid-template-columns: 64px repeat(${days.length}, minmax(0, 1fr))`}
+          style=${`grid-template-columns: var(--loomi-calendar-time-axis-width, ${TIME_AXIS_WIDTH}px) repeat(${days.length}, minmax(0, 1fr))`}
         >
           <div class="weekday"></div>
           ${days.map((day) => {
@@ -538,7 +722,7 @@ export class LoomiCalendar extends LoomiElement {
     return html`
       <div
         class="all-day-row"
-        style=${`grid-template-columns: 64px repeat(${days.length}, minmax(0, 1fr))`}
+        style=${`grid-template-columns: var(--loomi-calendar-time-axis-width, ${TIME_AXIS_WIDTH}px) repeat(${days.length}, minmax(0, 1fr))`}
       >
         <div class="all-day-label">All day</div>
         <div
@@ -1314,7 +1498,13 @@ export class LoomiCalendar extends LoomiElement {
       start: allDay ? toInputDateTime(startOfDay(defaultStart)).slice(0, 10) : toInputDateTime(defaultStart),
       end: allDay ? toInputDateTime(startOfDay(defaultEnd)).slice(0, 10) : toInputDateTime(defaultEnd),
       allDay,
-      color: "primary"
+      color: "primary",
+      description: "",
+      resourceId: "",
+      recurrenceFrequency: "",
+      recurrenceLabel: "",
+      reminderLabel: "",
+      inviteesText: ""
     };
   }
 
@@ -1365,7 +1555,27 @@ export class LoomiCalendar extends LoomiElement {
       start,
       end,
       color: draft.color,
-      isAllDay: draft.allDay
+      isAllDay: draft.allDay,
+      description: draft.description.trim() || undefined,
+      resourceId: draft.resourceId || undefined,
+      recurrence: draft.recurrenceFrequency
+        ? {
+            frequency: draft.recurrenceFrequency,
+            label: draft.recurrenceLabel.trim() || undefined
+          }
+        : undefined,
+      reminder: draft.reminderLabel.trim()
+        ? { label: draft.reminderLabel.trim() }
+        : undefined,
+      invitees: draft.inviteesText
+        .split(",")
+        .map((name) => name.trim())
+        .filter(Boolean)
+        .map((name, index) => ({
+          id: `inv_${Date.now()}_${index}`,
+          name,
+          status: "awaiting" as const
+        }))
     };
 
     this.dispatchEvent(new CustomEvent<CalendarEventCreateDetail>("loomi-event-create", {
@@ -1378,6 +1588,29 @@ export class LoomiCalendar extends LoomiElement {
 
   private handleCreateEventCancel() {
     this._eventDraft = undefined;
+  }
+
+  private handleDeleteEvent(event: CalendarEvent) {
+    this.dispatchEvent(new CustomEvent<CalendarEventDeleteDetail>("loomi-event-delete", {
+      detail: { event },
+      bubbles: true,
+      composed: true
+    }));
+  }
+
+  private handleDuplicateEvent(event: CalendarEvent) {
+    const duplicate: CalendarEvent = {
+      ...event,
+      id: `evt_${Date.now()}`,
+      title: `${event.title} (copy)`,
+      start: addMinutes(cloneDate(event.start), this.slotMinutes),
+      end: addMinutes(cloneDate(event.end), this.slotMinutes)
+    };
+    this.dispatchEvent(new CustomEvent<CalendarEventDuplicateDetail>("loomi-event-duplicate", {
+      detail: { event: duplicate },
+      bubbles: true,
+      composed: true
+    }));
   }
 
   private getFormattedTitle() {

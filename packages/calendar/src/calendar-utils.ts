@@ -1,9 +1,10 @@
-import type { CalendarEvent, CalendarWeekStarts } from "./types.js";
+import type { CalendarEvent, CalendarEventInvitee, CalendarWeekStarts } from "./types.js";
 
 export const HOUR_HEIGHT = 48;
 export const MIN_EVENT_HEIGHT = 22;
 export const ALL_DAY_HEIGHT = 36;
 export const RESOURCE_LABEL_WIDTH = 160;
+export const TIME_AXIS_WIDTH = 72;
 
 export interface PositionedEvent {
   event: CalendarEvent;
@@ -436,6 +437,33 @@ export function getUpcomingEvents(events: CalendarEvent[], from: Date, limit = 2
     .filter((event) => event.end.getTime() >= anchor)
     .sort((left, right) => left.start.getTime() - right.start.getTime())
     .slice(0, limit);
+}
+
+export function getNextUpcomingEvent(events: CalendarEvent[], from: Date) {
+  return getUpcomingEvents(events, from, 1)[0] ?? null;
+}
+
+export function hasEventsOnDate(events: CalendarEvent[], date: Date) {
+  return getEventsForDate(events, date).length > 0;
+}
+
+export function summarizeInvitees(invitees: CalendarEventInvitee[] = []) {
+  const total = invitees.length;
+  const yes = invitees.filter((invitee) => invitee.status === "yes").length;
+  const awaiting = invitees.filter((invitee) => invitee.status === "awaiting" || !invitee.status).length;
+  const no = invitees.filter((invitee) => invitee.status === "no").length;
+  return { total, yes, awaiting, no };
+}
+
+export function getInviteeInitials(invitee: CalendarEventInvitee) {
+  if (invitee.initials) {
+    return invitee.initials.slice(0, 2).toUpperCase();
+  }
+  const parts = invitee.name.trim().split(/\s+/);
+  if (parts.length >= 2) {
+    return `${parts[0][0] ?? ""}${parts[1][0] ?? ""}`.toUpperCase();
+  }
+  return invitee.name.slice(0, 2).toUpperCase();
 }
 
 export function toInputDateTime(date: Date) {

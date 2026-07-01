@@ -16,6 +16,22 @@ export interface CalendarEventRecurrence {
   label?: string;
 }
 
+export type CalendarInviteeStatus = "yes" | "no" | "awaiting";
+
+export interface CalendarEventInvitee {
+  id?: string;
+  name: string;
+  email?: string;
+  avatarUrl?: string;
+  initials?: string;
+  status?: CalendarInviteeStatus;
+}
+
+export interface CalendarEventReminder {
+  label: string;
+  minutesBefore?: number;
+}
+
 export interface CalendarEvent {
   id: string;
   title: string;
@@ -26,6 +42,8 @@ export interface CalendarEvent {
   isAllDay?: boolean;
   resourceId?: string;
   recurrence?: CalendarEventRecurrence;
+  reminder?: CalendarEventReminder;
+  invitees?: CalendarEventInvitee[];
   timezone?: string;
   editable?: boolean;
   draggable?: boolean;
@@ -58,6 +76,14 @@ export interface CalendarSlotSelectDetail {
 }
 
 export interface CalendarEventCreateDetail {
+  event: CalendarEvent;
+}
+
+export interface CalendarEventDeleteDetail {
+  event: CalendarEvent;
+}
+
+export interface CalendarEventDuplicateDetail {
   event: CalendarEvent;
 }
 
