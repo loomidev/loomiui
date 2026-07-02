@@ -1,11 +1,11 @@
 {
-  "name": "@loomidev/navigation",
+  "name": "@loomidev/sidebar",
   "version": "0.1.0",
-  "description": "All loomi navigation components in one install.",
+  "description": "shadcn/ui-style sidebar primitives: loomi-sidebar and loomi-sidebar-* composition parts.",
   "repository": {
     "type": "git",
     "url": "https://github.com/loomidev/loomiui.git",
-    "directory": "packages/navigation"
+    "directory": "packages/sidebar"
   },
   "license": "MIT",
   "publishConfig": {
@@ -22,33 +22,36 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./loomi-sidebar.js": {
+      "types": "./dist/loomi-sidebar.d.ts",
+      "import": "./dist/loomi-sidebar.js"
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "dev": "tsc -p tsconfig.json --watch",
+    "build": "node scripts/build-styles.mjs && tsc -p tsconfig.json",
+    "dev": "node scripts/build-styles.mjs && tsc -p tsconfig.json --watch",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@loomidev/command-palette": "workspace:^",
-    "@loomidev/context-menu": "workspace:^",
-    "@loomidev/dropmenu": "workspace:^",
-    "@loomidev/pagination": "workspace:^",
-    "@loomidev/sidebar": "workspace:^",
-    "@loomidev/tab": "workspace:^",
-    "@loomidev/theme-switcher": "workspace:^"
+    "@loomidev/core": "workspace:^",
+    "@loomidev/tooltip": "workspace:^"
   },
   "peerDependencies": {
     "lit": "^3.0.0"
   },
   "devDependencies": {
+    "@loomidev/theme": "workspace:^",
+    "@tailwindcss/cli": "^4.0.0",
     "lit": "^3.3.3",
+    "tailwindcss": "^4.0.0",
     "typescript": "^5.6.3"
   },
   "keywords": [
     "web-components",
     "lit",
     "loomiui",
+    "sidebar",
     "navigation"
   ]
 }
