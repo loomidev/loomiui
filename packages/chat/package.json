@@ -1,0 +1,67 @@
+{
+  "name": "@loomidev/chat",
+  "version": "0.1.0",
+  "description": "Chat transcript scroller and chat window with shadcn/ui-style message scrolling.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/chat"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./loomi-chat.js": {
+      "types": "./dist/loomi-chat.d.ts",
+      "import": "./dist/loomi-chat.js"
+    },
+    "./loomi-chat-window.js": {
+      "types": "./dist/loomi-chat-window.d.ts",
+      "import": "./dist/loomi-chat-window.js"
+    }
+  },
+  "scripts": {
+    "build": "node scripts/build-styles.mjs && tsc -p tsconfig.json",
+    "dev": "node scripts/build-styles.mjs && tsc -p tsconfig.json --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@loomidev/button": "workspace:^",
+    "@loomidev/card": "workspace:^",
+    "@loomidev/core": "workspace:^",
+    "@loomidev/empty-state": "workspace:^",
+    "@loomidev/icon": "workspace:^",
+    "@loomidev/spinner": "workspace:^",
+    "@loomidev/textarea": "workspace:^",
+    "@loomidev/tooltip": "workspace:^"
+  },
+  "peerDependencies": {
+    "lit": "^3.0.0"
+  },
+  "devDependencies": {
+    "@loomidev/theme": "workspace:^",
+    "@tailwindcss/cli": "^4.0.0",
+    "lit": "^3.3.3",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.6.3"
+  },
+  "keywords": [
+    "web-components",
+    "lit",
+    "loomiui",
+    "chat",
+    "message-scroller"
+  ]
+}

@@ -22,7 +22,7 @@ const CATEGORY = {
   content: [
     "card", "avatar", "accordion", "tag", "tooltip", "popover", "empty-state", "statistic",
     "rating", "timeline", "progress", "listview", "contact-card", "centered-content",
-    "sortable", "processing", "horizontal-line-graph", "chart",
+    "sortable", "processing", "horizontal-line-graph", "chart", "chat",
   ],
   navigation: ["tab", "pagination", "dropmenu", "theme-switcher"],
 };
