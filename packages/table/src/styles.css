@@ -1,5 +1,7 @@
 :host {
   display: block;
+  color: var(--loomi-text-secondary);
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
 }
 :host([hidden]) {
   display: none;
@@ -8,65 +10,66 @@
 .loomi-wrap {
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
 }
 
-.loomi-searchbar {
-  align-self: flex-start;
-  position: relative;
-  min-width: 16rem;
+.loomi-shell {
+  overflow: hidden;
+  border-radius: 0.625rem;
+  background: var(--loomi-surface);
 }
-.loomi-search {
-  width: 100%;
+.loomi-shell.bordered {
   border: 1px solid var(--loomi-surface-border);
-  border-radius: 0.5rem;
-  padding: 0.5rem 0.75rem 0.5rem 2.1rem;
-  font: inherit;
-  outline: none;
 }
-.loomi-search:focus {
-  border-color: var(--loomi-primary-500);
-  box-shadow: 0 0 0 3px var(--loomi-primary-100);
+.loomi-shell.shadow {
+  box-shadow:
+    0 1px 3px rgba(15, 23, 42, 0.06),
+    0 8px 24px rgba(15, 23, 42, 0.06);
 }
-.loomi-search-ico {
-  position: absolute;
-  left: 0.6rem;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 1.1rem;
-  height: 1.1rem;
-  color: var(--loomi-text-faint);
+
+.loomi-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--loomi-surface-border-subtle);
+  background: var(--loomi-surface);
+}
+.loomi-search-input {
+  display: block;
+  width: 100%;
+  max-width: 18rem;
 }
 
 .loomi-scroll {
   overflow-x: auto;
-  border-radius: 0.6rem;
 }
-.loomi-scroll.bordered {
-  border: 1px solid var(--loomi-surface-border);
+
+.loomi-footer {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--loomi-surface-border-subtle);
+  background: var(--loomi-surface);
 }
-.loomi-scroll.shadow {
-  box-shadow:
-    0 1px 3px 0 rgba(0, 0, 0, 0.1),
-    0 1px 2px -1px rgba(0, 0, 0, 0.1);
-}
-.loomi-scroll.bordered.shadow {
-  box-shadow:
-    inset 0 1px 0 0 var(--loomi-surface-border),
-    0 1px 3px 0 rgba(0, 0, 0, 0.1),
-    0 1px 2px -1px rgba(0, 0, 0, 0.1);
+.loomi-footer loomi-pagination {
+  width: 100%;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   background: var(--loomi-surface);
-  font-size: 0.9rem;
+  font-size: 0.875rem;
+  line-height: 1.45;
   color: var(--loomi-text-secondary);
 }
 :host([transparent]) table,
 table.transparent {
   background: transparent;
+}
+
+thead {
+  background: var(--loomi-surface-muted);
 }
 thead th {
   text-align: left;
@@ -78,22 +81,28 @@ thead th {
 }
 thead th.uppercasing {
   text-transform: uppercase;
-  font-size: 0.75rem;
-  letter-spacing: 0.03em;
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
 }
 thead th.sortable {
   cursor: pointer;
   user-select: none;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+thead th.sortable:hover {
+  background: var(--loomi-surface-hover);
+  color: var(--loomi-text);
 }
 .loomi-th-inner {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.35rem;
 }
 .loomi-sort-ico {
-  width: 0.9rem;
-  height: 0.9rem;
-  opacity: 0.5;
+  width: 0.875rem;
+  height: 0.875rem;
+  opacity: 0.45;
+  transition: opacity 0.12s ease, color 0.12s ease;
 }
 .loomi-sort-ico.active {
   opacity: 1;
@@ -102,10 +111,11 @@ thead th.sortable {
 
 tbody td {
   padding: 0.75rem 1rem;
+  vertical-align: middle;
 }
 .compact tbody td,
 .compact thead th {
-  padding: 0.4rem 0.6rem;
+  padding: 0.45rem 0.75rem;
 }
 .divided tbody tr:not(:last-child) td {
   border-bottom: 1px solid var(--loomi-surface-border-subtle);
@@ -120,6 +130,9 @@ tbody td {
 .striped tbody tr:nth-child(even) {
   background: var(--loomi-surface-muted);
 }
+.hoverable tbody tr {
+  transition: background-color 0.12s ease;
+}
 .hoverable tbody tr:hover {
   background: var(--loomi-surface-hover);
 }
@@ -133,11 +146,13 @@ tbody tr.selected {
   background: var(--loomi-primary-100, var(--loomi-surface-hover));
 }
 .loomi-group-row td {
-  padding: 0.55rem 1rem;
+  padding: 0.625rem 1rem;
   background: var(--loomi-surface-muted);
   color: var(--loomi-text-muted);
+  font-size: 0.8125rem;
   font-weight: 700;
   text-transform: none;
+  border-bottom: 1px solid var(--loomi-surface-border-subtle);
 }
 
 .loomi-check-col,
@@ -145,21 +160,34 @@ tbody tr.selected {
   width: 1%;
   white-space: nowrap;
 }
+.loomi-num-col {
+  color: var(--loomi-text-faint);
+  font-variant-numeric: tabular-nums;
+}
 .loomi-actions {
   display: inline-flex;
-  gap: 0.4rem;
+  gap: 0.25rem;
 }
 .loomi-action {
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 0;
   background: transparent;
   cursor: pointer;
-  padding: 0.2rem;
-  border-radius: 0.35rem;
+  padding: 0.35rem;
+  border-radius: 0.375rem;
   color: var(--_loomi-accent, var(--loomi-text-muted));
+  transition:
+    background-color 0.12s ease,
+    color 0.12s ease;
 }
 .loomi-action:hover {
   background: var(--loomi-surface-hover);
+}
+.loomi-action:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--loomi-primary-200);
 }
 .loomi-action.filled {
   background: var(--_loomi-accent-bg, var(--loomi-primary-600));
@@ -169,12 +197,12 @@ tbody tr.selected {
   filter: brightness(0.96);
 }
 .loomi-action svg {
-  width: 1.1rem;
-  height: 1.1rem;
+  width: 1.125rem;
+  height: 1.125rem;
 }
 
 .loomi-empty {
-  padding: 2.5rem 1rem;
+  padding: 3rem 1rem;
   text-align: center;
   color: var(--loomi-text-faint);
 }
@@ -182,7 +210,7 @@ tbody tr.selected {
 .loomi-empty-state {
   display: grid;
   justify-items: center;
-  gap: 0.5rem;
+  gap: 0.625rem;
 }
 .loomi-empty-state img {
   width: 9rem;
@@ -195,15 +223,20 @@ tbody tr.selected {
 }
 .loomi-empty-button {
   border: 0;
-  border-radius: 0.45rem;
+  border-radius: 0.5rem;
   background: var(--loomi-primary-600);
   color: #fff;
   cursor: pointer;
   font: inherit;
   font-weight: 600;
-  margin-top: 0.3rem;
-  padding: 0.45rem 0.8rem;
+  margin-top: 0.35rem;
+  padding: 0.5rem 0.875rem;
+  transition: background-color 0.12s ease;
 }
 .loomi-empty-button:hover {
   background: var(--loomi-primary-700);
+}
+.loomi-empty-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--loomi-primary-200);
 }

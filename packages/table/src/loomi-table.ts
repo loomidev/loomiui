@@ -4,6 +4,7 @@ import { customElement, property, state } from "lit/decorators.js";
 import { LoomiElement, loomiDefaultText, loomiStyles, cssColor } from "@loomidev/core";
 import { getLoomiIcon, type LoomiIconVariant } from "@loomidev/icons";
 import "@loomidev/checkbox/loomi-checkbox.js";
+import "@loomidev/input/loomi-input.js";
 import "@loomidev/pagination/loomi-pagination.js";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -23,7 +24,6 @@ export interface LoomiActionIcon {
 }
 
 const SORT = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />`;
-const SEARCH = svg`<path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />`;
 const DEFAULT_SEARCH_PLACEHOLDER = "Search table below...";
 const DEFAULT_ACTIONS_TITLE = "actions";
 const DEFAULT_NO_DATA_MESSAGE = "No records to display";
@@ -491,52 +491,72 @@ export class LoomiTable extends LoomiElement {
     const hasData = this.data.length > 0;
     const hasTemplateHeader = !!this.headerTemplateHtml;
 
+    const shellCls = [
+      (this.hasBorderAlias ?? this.hasBorder) ? "bordered" : "",
+      (this.hasShadowAlias ?? this.hasShadow) ? "shadow" : "",
+    ].join(" ");
+
     return html`<div class="loomi-wrap">
-      ${this.searchable
-        ? html`<div class="loomi-searchbar">
-            <svg class="loomi-search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${SEARCH}</svg>
-            <input class="loomi-search" type="text" placeholder=${searchPlaceholder}
-              .value=${this.query}
-              @input=${(e: Event) => { this.query = (e.target as HTMLInputElement).value; this.page = 1; }} />
-          </div>`
-        : nothing}
+      <div class="loomi-shell ${shellCls}">
+        ${this.searchable
+          ? html`<div class="loomi-toolbar">
+              <loomi-input
+                class="loomi-search-input"
+                type="search"
+                size="small"
+                no-clearing
+                clearable
+                prefix-icon="magnifying-glass"
+                .placeholder=${searchPlaceholder}
+                .value=${this.query}
+                .locale=${this.locale}
+                @input=${(e: Event) => {
+                  this.query = (e.target as HTMLElement & { value: string }).value;
+                  this.page = 1;
+                }}
+              ></loomi-input>
+            </div>`
+          : nothing}
 
-      <div class="loomi-scroll ${(this.hasBorderAlias ?? this.hasBorder) ? "bordered" : ""} ${(this.hasShadowAlias ?? this.hasShadow) ? "shadow" : ""}">
-        <table class=${tableCls} data-current-page=${this.page}>
-          <thead>
-            <tr>
-              ${this.checkable && hasData
-                ? html`<th class="loomi-check-col"><loomi-checkbox no-clearing .checked=${this.allChecked} @change=${(e: Event) => this.toggleAll((e.target as HTMLInputElement & { checked: boolean }).checked)}></loomi-checkbox></th>`
-                : nothing}
-              ${(this.showRowNumbersAlias ?? this.showRowNumbers) && hasData ? html`<th class="loomi-num-col ${this.uppercasing ? "uppercasing" : ""}">#</th>` : nothing}
-              ${hasTemplateHeader
-                ? unsafeHTML(this.headerTemplateHtml)
-                : cols.length
-                  ? cols.map((c) => this.renderHeadingCell(c))
-                  : html`<slot name="header"></slot>`}
-              ${this.effectiveActions.length && hasData ? html`<th class="${this.uppercasing ? "uppercasing" : ""}">${actionsTitle}</th>` : nothing}
-            </tr>
-          </thead>
-          <tbody>
-            ${this.renderBody(colSpan, noDataMessage)}
-          </tbody>
-        </table>
+        <div class="loomi-scroll">
+          <table class=${tableCls} data-current-page=${this.page}>
+            <thead>
+              <tr>
+                ${this.checkable && hasData
+                  ? html`<th class="loomi-check-col"><loomi-checkbox no-clearing .checked=${this.allChecked} @change=${(e: Event) => this.toggleAll((e.target as HTMLInputElement & { checked: boolean }).checked)}></loomi-checkbox></th>`
+                  : nothing}
+                ${(this.showRowNumbersAlias ?? this.showRowNumbers) && hasData ? html`<th class="loomi-num-col ${this.uppercasing ? "uppercasing" : ""}">#</th>` : nothing}
+                ${hasTemplateHeader
+                  ? unsafeHTML(this.headerTemplateHtml)
+                  : cols.length
+                    ? cols.map((c) => this.renderHeadingCell(c))
+                    : html`<slot name="header"></slot>`}
+                ${this.effectiveActions.length && hasData ? html`<th class="${this.uppercasing ? "uppercasing" : ""}">${actionsTitle}</th>` : nothing}
+              </tr>
+            </thead>
+            <tbody>
+              ${this.renderBody(colSpan, noDataMessage)}
+            </tbody>
+          </table>
+        </div>
+
+        ${this.paginated && this.processed.length > this.effectivePageSize
+          ? html`<div class="loomi-footer">
+              <loomi-pagination
+                .total=${this.processed.length}
+                .pageSize=${this.effectivePageSize}
+                .page=${this.page}
+                .locale=${this.locale}
+                .paginationStyle=${this.paginationStyleAlias || this.paginationStyle}
+                .showTotal=${this.showTotalAlias ?? this.showTotal}
+                .showPageNumber=${this.showPageNumberAlias ?? this.showPageNumber}
+                .showTotalPages=${this.showTotalPagesAlias ?? this.showTotalPages}
+                .totalLabel=${this.totalLabelAlias || this.totalLabel}
+                @page-change=${(e: CustomEvent) => { this.page = e.detail.page; this.dispatchEvent(new CustomEvent("page-change", { bubbles: true, composed: true, detail: e.detail })); }}
+              ></loomi-pagination>
+            </div>`
+          : nothing}
       </div>
-
-      ${this.paginated && this.processed.length > this.effectivePageSize
-        ? html`<loomi-pagination
-            .total=${this.processed.length}
-            .pageSize=${this.effectivePageSize}
-            .page=${this.page}
-            .locale=${this.locale}
-            .paginationStyle=${this.paginationStyleAlias || this.paginationStyle}
-            .showTotal=${this.showTotalAlias ?? this.showTotal}
-            .showPageNumber=${this.showPageNumberAlias ?? this.showPageNumber}
-            .showTotalPages=${this.showTotalPagesAlias ?? this.showTotalPages}
-            .totalLabel=${this.totalLabelAlias || this.totalLabel}
-            @page-change=${(e: CustomEvent) => { this.page = e.detail.page; this.dispatchEvent(new CustomEvent("page-change", { bubbles: true, composed: true, detail: e.detail })); }}
-          ></loomi-pagination>`
-        : nothing}
     </div>`;
   }
 }

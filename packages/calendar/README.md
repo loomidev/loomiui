@@ -16,7 +16,7 @@ npm install @loomidev/calendar
 import "@loomidev/calendar";
 ```
 
-The calendar bundles its own UI dependencies (`loomi-modal`). Importing `@loomidev/calendar` registers those elements automatically.
+The calendar bundles its own UI dependencies (`loomi-datepicker`, `loomi-input`, `loomi-modal`, `loomi-select`, `loomi-tag-input`, `loomi-textarea`, `loomi-timepicker`, `loomi-toggle`, `loomi-tooltip`). Importing `@loomidev/calendar` registers those elements automatically.
 
 ## Basic Usage
 
@@ -168,7 +168,7 @@ When `show-sidebar` is enabled (default):
 
 - **Mini calendar** — navigate months; dates with events show a dot; click a date to focus the main view
 - **Upcoming** — detail card for the **next** upcoming event only (title, date/time, reminder, guests, description)
-- **Toggle** — toolbar button sets `sidebar-open` to show/hide the pane
+- **Toggle** — toolbar button sets `sidebar-open` to show/hide the pane (closed by default; the choice is remembered in `localStorage` across reloads)
 
 The sidebar reads from the same `events` array as the main grid. Populate invitees, reminder, and description on the next upcoming event to fill the detail card.
 
@@ -234,7 +234,7 @@ The create modal emits `loomi-event-create`. Drag/resize emits `loomi-event-chan
 | `show-timezone` | `boolean` | `false` | Shows a timezone badge in the toolbar. |
 | `show-weekends` | `boolean` | `true` | Hides Saturday/Sunday in week view when false. |
 | `show-sidebar` | `boolean` | `true` | Shows the left pane with mini calendar and upcoming detail. |
-| `sidebar-open` | `boolean` | `true` | Toggles the left pane visibility. Reflected attribute. |
+| `sidebar-open` | `boolean` | `false` | Toggles the left pane visibility. Reflected attribute. When unset, restores the last choice from `localStorage` (`loomi-calendar-sidebar-open`). |
 | `editable` | `boolean` | `false` | Enables create modal, drag, and resize. |
 | `loading` | `boolean` | `false` | Shows a loading overlay. |
 | `start-hour` | `number` | `6` | First visible hour in timed views. |

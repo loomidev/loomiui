@@ -13,7 +13,7 @@ describe("loomi-table", () => {
     ];
     await el.updateComplete;
 
-    const scroll = el.shadowRoot!.querySelector(".loomi-scroll")!;
+    const scroll = el.shadowRoot!.querySelector(".loomi-shell")!;
     const headings = [...el.shadowRoot!.querySelectorAll("thead th")].map((th) => th.textContent!.trim());
     expect(scroll.classList.contains("bordered")).to.equal(true);
     expect(scroll.classList.contains("shadow")).to.equal(false);
@@ -41,6 +41,28 @@ describe("loomi-table", () => {
     expect(event.detail.ids).to.deep.equal(["1"]);
     expect(el.selectedValue).to.equal("1");
     expect(selectedRow.classList.contains("selected")).to.equal(true);
+  });
+
+  it("filters rows through a loomi-input search field", async () => {
+    const el = await fixture<LoomiTable>(html`<loomi-table searchable search-placeholder="Find staff"></loomi-table>`);
+    el.data = [
+      { id: 1, name: "Ada", department: "Engineering" },
+      { id: 2, name: "Sara", department: "Design" },
+      { id: 3, name: "Zane", department: "Engineering" },
+    ];
+    await el.updateComplete;
+
+    const search = el.shadowRoot!.querySelector("loomi-input.loomi-search-input")!;
+    expect(search).to.exist;
+    expect(search.getAttribute("prefix-icon")).to.equal("magnifying-glass");
+
+    (search as HTMLElement & { value: string }).value = "design";
+    search.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
+    await el.updateComplete;
+
+    const rows = [...el.shadowRoot!.querySelectorAll("tbody tr")];
+    expect(rows.length).to.equal(1);
+    expect(rows[0].textContent).to.contain("Sara");
   });
 
   it("renders an empty state with CTA support", async () => {

@@ -75,6 +75,18 @@ describe("loomi-chart", () => {
     expect(el.shadowRoot!.querySelectorAll(".loomi-radar-spoke").length).to.equal(4);
   });
 
+  it("renders grouped bars when value2 is present", async () => {
+    const el = await fixture<LoomiChart>(html`<loomi-chart type="bar" color="primary" color2="success"></loomi-chart>`);
+    el.data = [
+      { label: "Jan", value: 30, value2: 22 },
+      { label: "Feb", value: 55, value2: 40 },
+    ];
+    await el.updateComplete;
+
+    expect(el.shadowRoot!.querySelectorAll(".loomi-bar-fill")).to.have.length(4);
+    expect(el.shadowRoot!.querySelector(".loomi-bar-fill-2")).to.exist;
+  });
+
   it("accepts data as a JSON attribute", async () => {
     const el = await fixture<LoomiChart>(
       html`<loomi-chart type="bar" data='[{"label":"Jan","value":30},{"label":"Feb","value":55}]'></loomi-chart>`,

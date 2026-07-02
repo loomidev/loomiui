@@ -39,3 +39,14 @@ export function writeSidebarPreference(open: boolean): void {
   if (typeof localStorage === "undefined") return;
   localStorage.setItem(SIDEBAR_STORAGE_KEY, String(open));
 }
+
+export const SIDEBAR_ICON_COLLAPSED_ATTR = "data-icon-collapsed";
+
+export function isSidebarIconCollapsed(node: Node | null): boolean {
+  const provider = findSidebarProvider(node);
+  return provider?.collapsible === "icon" && provider?.state === "collapsed";
+}
+
+export function syncSidebarIconCollapsed(el: HTMLElement): void {
+  el.toggleAttribute(SIDEBAR_ICON_COLLAPSED_ATTR, isSidebarIconCollapsed(el));
+}

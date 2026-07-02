@@ -33,6 +33,17 @@ picker.data = [
 <loomi-emoji-picker emojis="😀, 😎, 🚀, ❤️"></loomi-emoji-picker>
 ```
 
+## Emoji-only trigger
+
+Set `show-text="false"` to hide the name/placeholder text next to the trigger emoji,
+useful for compact toolbars where only the icon should show. Unlike most boolean HTML
+attributes, `show-text` (along with `show-categories` and `searchable`) understands the
+literal string `"false"`, so writing it out in markup like this works as expected:
+
+```html
+<loomi-emoji-picker show-text="false" selected-value="🚀"></loomi-emoji-picker>
+```
+
 ## Events
 
 `change` fires with `detail: { value, emoji, item }` after selection.
@@ -50,6 +61,7 @@ picker.data = [
 | `inline` | `false` | Render the panel directly instead of a trigger popover. |
 | `searchable` | `true` | Show the search input. |
 | `show-categories` | `true` | Show category tabs. |
+| `show-text` | `true` | Show the selected emoji's name (or placeholder) next to the trigger emoji. |
 | `required` | `false` | Mark the picker invalid until a value is selected. |
 | `disabled` | `false` | Disable the trigger. |
 | `readonly` | `false` | Prevent changes while keeping the current value readable. |

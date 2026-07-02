@@ -95,6 +95,13 @@ recolors instantly from plain page CSS — no rebuild:
 }
 ```
 
+Set `variant="outline"` for a bare card silhouette instead of the full-color gradient
+face — a soft gray border with no background fill, for light or minimal UIs:
+
+```html
+<loomi-creditcard variant="outline" cardholder-name="Ama Osei"></loomi-creditcard>
+```
+
 ## Validation
 
 `validate()` checks that every field is complete (full-length number for the detected
@@ -128,7 +135,8 @@ is set, and returns whether it passed:
 | `expiry-year` | _(blank)_ | Two-digit year. |
 | `cvc` | _(blank)_ | Security code (3 digits, 4 for Amex). |
 | `brand` | _(auto-detected)_ | Force a network logo: `visa`, `mastercard`, `amex`, `discover`, `diners`, `jcb`, `unionpay`, `maestro`. |
-| `color` | `"primary"` | Gradient color, from the shared loomi palette. |
+| `color` | `"primary"` | Gradient color, from the shared loomi palette. Ignored in `outline` variant. |
+| `variant` | `"gradient"` | `"gradient"` for the full-color accent face, or `"outline"` for a bare silhouette — soft gray border, no background fill. |
 | `locale` | _(blank)_ | Overrides the global locale for this instance. |
 | `flipped` | `false` | Shows the back face. _(boolean)_ |
 | `disabled` | `false` | Disables every field and the flip button. _(boolean)_ |

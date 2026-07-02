@@ -19,22 +19,22 @@ You need to define either  a unique `id` or `class` attribute on the chart eleme
 `data` can either be loaded from an API or updated at runtime.
 
 ```html.skip
-<loomi-chart id="basic"></loomi-chart>
+<loomi-chart id="basic" color="primary" color2="success" series-label="Revenue" series2-label="Target"></loomi-chart>
 
 <script type="module">
   document.getElementById("basic").data = [
-    { label: "Jan", value: 42 },
-    { label: "Feb", value: 38 },
-    { label: "Mar", value: 55 },
-    { label: "Apr", value: 48 },
-    { label: "May", value: 62 },
-    { label: "Jun", value: 58 },
-    { label: "Jul", value: 71 },
-    { label: "Aug", value: 65 },
-    { label: "Sep", value: 52 },
-    { label: "Oct", value: 60 },
-    { label: "Nov", value: 47 },
-    { label: "Dec", value: 54 },
+    { label: "Jan", value: 42, value2: 35 },
+    { label: "Feb", value: 38, value2: 40 },
+    { label: "Mar", value: 55, value2: 48 },
+    { label: "Apr", value: 48, value2: 52 },
+    { label: "May", value: 62, value2: 58 },
+    { label: "Jun", value: 58, value2: 61 },
+    { label: "Jul", value: 71, value2: 65 },
+    { label: "Aug", value: 65, value2: 68 },
+    { label: "Sep", value: 52, value2: 50 },
+    { label: "Oct", value: 60, value2: 57 },
+    { label: "Nov", value: 47, value2: 49 },
+    { label: "Dec", value: 54, value2: 58 },
   ];
 </script>
 ```
@@ -50,18 +50,18 @@ You need to define either  a unique `id` or `class` attribute on the chart eleme
 ```js
 <script type="module">
     let chartData = [
-        { label: "Jan", value: 42 },
-        { label: "Feb", value: 38 },
-        { label: "Mar", value: 55 },
-        { label: "Apr", value: 48 },
-        { label: "May", value: 62 },
-        { label: "Jun", value: 58 },
-        { label: "Jul", value: 71 },
-        { label: "Aug", value: 65 },
-        { label: "Sep", value: 52 },
-        { label: "Oct", value: 60 },
-        { label: "Nov", value: 47 },
-        { label: "Dec", value: 54 },
+        { label: "Jan", value: 42, value2: 35 },
+        { label: "Feb", value: 38, value2: 40 },
+        { label: "Mar", value: 55, value2: 48 },
+        { label: "Apr", value: 48, value2: 52 },
+        { label: "May", value: 62, value2: 58 },
+        { label: "Jun", value: 58, value2: 61 },
+        { label: "Jul", value: 71, value2: 65 },
+        { label: "Aug", value: 65, value2: 68 },
+        { label: "Sep", value: 52, value2: 50 },
+        { label: "Oct", value: 60, value2: 57 },
+        { label: "Nov", value: 47, value2: 49 },
+        { label: "Dec", value: 54, value2: 58 },
     ];
     
     document.getElementById("basic").data = chartData;
@@ -92,8 +92,8 @@ the plot — with a crosshair and active dot/bar highlight. Polar charts (`pie`,
 `radar`, `radial`) show a tooltip per slice/segment. Turn them off with `show-tooltip="false"`.
 
 ```html
-<loomi-chart type="line" color="primary"
-  data='[{"label":"Jan","value":42},{"label":"Feb","value":38},{"label":"Mar","value":55},{"label":"Apr","value":48},{"label":"May","value":62},{"label":"Jun","value":58},{"label":"Jul","value":71},{"label":"Aug","value":65},{"label":"Sep","value":52},{"label":"Oct","value":60},{"label":"Nov","value":47},{"label":"Dec","value":54}]'></loomi-chart>
+<loomi-chart type="line" color="primary" color2="success" series-label="Revenue" series2-label="Target"
+  data='[{"label":"Jan","value":42,"value2":35},{"label":"Feb","value":38,"value2":40},{"label":"Mar","value":55,"value2":48},{"label":"Apr","value":48,"value2":52},{"label":"May","value":62,"value2":58},{"label":"Jun","value":58,"value2":61},{"label":"Jul","value":71,"value2":65},{"label":"Aug","value":65,"value2":68},{"label":"Sep","value":52,"value2":50},{"label":"Oct","value":60,"value2":57},{"label":"Nov","value":47,"value2":49},{"label":"Dec","value":54,"value2":58}]'></loomi-chart>
 ```
 
 ## Chart Types
@@ -115,8 +115,8 @@ Default `type` is `bar`. The available chart types are:
 All chart types use the same `data` shape, so you can change `type` without reshaping the dataset.
 
 ```html
-<loomi-chart id="bar-chart" type="bar"></loomi-chart>
-<loomi-chart id="line-chart" type="line" color="success"></loomi-chart>
+<loomi-chart id="bar-chart" type="bar" color="primary" color2="success" series-label="Revenue" series2-label="Target"></loomi-chart>
+<loomi-chart id="line-chart" type="line" color="primary" color2="success" series-label="Revenue" series2-label="Target"></loomi-chart>
 <loomi-chart id="pie-chart" type="pie" show-legend></loomi-chart>
 <loomi-chart id="donut-chart" type="donut" show-legend></loomi-chart>
 <loomi-chart id="radar-chart" type="radar" color="purple"></loomi-chart>
@@ -124,18 +124,18 @@ All chart types use the same `data` shape, so you can change `type` without resh
 
 <script type="module">
   const yearSeries = [
-    { label: "Jan", value: 42 },
-    { label: "Feb", value: 38 },
-    { label: "Mar", value: 55 },
-    { label: "Apr", value: 48 },
-    { label: "May", value: 62 },
-    { label: "Jun", value: 58 },
-    { label: "Jul", value: 71 },
-    { label: "Aug", value: 65 },
-    { label: "Sep", value: 52 },
-    { label: "Oct", value: 60 },
-    { label: "Nov", value: 47 },
-    { label: "Dec", value: 54 },
+    { label: "Jan", value: 42, value2: 35 },
+    { label: "Feb", value: 38, value2: 40 },
+    { label: "Mar", value: 55, value2: 48 },
+    { label: "Apr", value: 48, value2: 52 },
+    { label: "May", value: 62, value2: 58 },
+    { label: "Jun", value: 58, value2: 61 },
+    { label: "Jul", value: 71, value2: 65 },
+    { label: "Aug", value: 65, value2: 68 },
+    { label: "Sep", value: 52, value2: 50 },
+    { label: "Oct", value: 60, value2: 57 },
+    { label: "Nov", value: 47, value2: 49 },
+    { label: "Dec", value: 54, value2: 58 },
   ];
   document.getElementById("bar-chart").data = yearSeries;
   document.getElementById("line-chart").data = yearSeries;
@@ -148,6 +148,17 @@ All chart types use the same `data` shape, so you can change `type` without resh
     ];
   }
 </script>
+```
+
+## Dual series (bar & line)
+
+Add an optional `value2` on each data point to compare two metrics per category — grouped
+bars on `type="bar"` and a second line on `type="line"`. Set `color2`, `series-label`, and
+`series2-label` to style and label each series in the tooltip.
+
+```html
+<loomi-chart type="bar" color="primary" color2="success" series-label="Revenue" series2-label="Target"
+  data='[{"label":"Jan","value":42,"value2":35},{"label":"Feb","value":38,"value2":40},{"label":"Mar","value":55,"value2":48}]'></loomi-chart>
 ```
 
 `radar` plots each point around a circle (best with 3+ points) and connects them into a
@@ -281,24 +292,29 @@ the chart instead of wrapping below it.
 
 ```html
 <loomi-card title="Monthly Revenue">
-  <loomi-chart id="revenue" type="bar" color="primary"></loomi-chart>
+  <div class="loomi-chart-grid">
+    <loomi-chart id="revenue-bar" type="bar" color="primary" color2="success" series-label="Revenue" series2-label="Target"></loomi-chart>
+    <loomi-chart id="revenue-line" type="line" color="primary" color2="success" series-label="Revenue" series2-label="Target"></loomi-chart>
+  </div>
 </loomi-card>
 
 <script type="module">
-  document.getElementById("revenue").data = [
-    { label: "Jan", value: 12000 },
-    { label: "Feb", value: 15400 },
-    { label: "Mar", value: 13900 },
-    { label: "Apr", value: 18200 },
-    { label: "May", value: 16800 },
-    { label: "Jun", value: 19500 },
-    { label: "Jul", value: 21000 },
-    { label: "Aug", value: 18700 },
-    { label: "Sep", value: 17200 },
-    { label: "Oct", value: 19800 },
-    { label: "Nov", value: 16500 },
-    { label: "Dec", value: 22400 },
+  const revenue = [
+    { label: "Jan", value: 12000, value2: 11000 },
+    { label: "Feb", value: 15400, value2: 14000 },
+    { label: "Mar", value: 13900, value2: 14500 },
+    { label: "Apr", value: 18200, value2: 17000 },
+    { label: "May", value: 16800, value2: 17500 },
+    { label: "Jun", value: 19500, value2: 18800 },
+    { label: "Jul", value: 21000, value2: 20000 },
+    { label: "Aug", value: 18700, value2: 19200 },
+    { label: "Sep", value: 17200, value2: 16800 },
+    { label: "Oct", value: 19800, value2: 20500 },
+    { label: "Nov", value: 16500, value2: 17000 },
+    { label: "Dec", value: 22400, value2: 21500 },
   ];
+  document.getElementById("revenue-bar").data = revenue;
+  document.getElementById("revenue-line").data = revenue;
 </script>
 ```
 
@@ -307,8 +323,11 @@ the chart instead of wrapping below it.
 | Attribute | Default | Description |
 | --- | --- | --- |
 | `type` | `bar` | `bar` \| `line` \| `area` \| `pie` \| `donut` \| `radar` \| `radial` \| `scatter` |
-| `data` | `[]` | Series — `{ label, value, color? }[]` (property or JSON). |
-| `color` | `primary` | Single accent color. Fill for bar/scatter/radar, line/dot stroke for line, and the default for points without their own `color` (pie/donut cycle a built-in palette instead). |
+| `data` | `[]` | Series — `{ label, value, value2?, color?, color2? }[]` (property or JSON). |
+| `color` | `primary` | Primary series color. |
+| `color2` | `success` | Second series color when points include `value2`. |
+| `series-label` | `Series 1` | Tooltip label for the primary series. |
+| `series2-label` | `Series 2` | Tooltip label for the second series. |
 | `shade` | `dark` | `dark` \| `light` — lighter fills/strokes in `light` mode. |
 | `show-border` | `true` | In `shade="light"`, outline shapes in a higher shade of their own color. No effect in `shade="dark"`. _(boolean)_ |
 | `show-grid` | `true` | Horizontal dashed grid lines on cartesian charts. _(boolean)_ |
@@ -319,11 +338,8 @@ the chart instead of wrapping below it.
 | `legend-position` | `bottom` | `top` \| `bottom` \| `left` \| `right` — where the legend renders when `show-legend` is on. |
 | `donut-radius` | `44` | Inner-hole radius (SVG units) for `type="donut"`. |
 
-> A compact chart for dashboards — single series only, no mixed chart types, no
-> Chart.js-style configuration objects. Its only runtime dependency is `@loomidev/tooltip`,
-> used for the built-in hover labels. For heavier analytical charting (multiple datasets
-> per chart, bubble charts, fine-grained axis control), pair LoomiUI with a dedicated
-> charting library like Chart.js instead.
+> A compact chart for dashboards — supports a second series on `bar`/`line` via `value2`.
+> Its only runtime dependency is `@loomidev/tooltip`, used for polar-chart hover labels.
 
 ## Full Example
 

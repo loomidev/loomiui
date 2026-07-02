@@ -1,4 +1,4 @@
-import { html, type TemplateResult } from "lit";
+import { html, svg, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
@@ -69,7 +69,10 @@ export class LoomiSpinner extends LoomiElement {
           ${Array.from({ length: 8 }, (_, index) => {
             const rotation = index * 45;
             const opacity = 0.22 + index * 0.09;
-            return html`<line
+            // Nested fragments inserted into an existing <svg> must use the `svg` tag
+            // function — `html` parses them outside any SVG context, so the browser
+            // creates them in the HTML namespace and silently drops them.
+            return svg`<line
               x1="12"
               y1="3"
               x2="12"
@@ -87,7 +90,7 @@ export class LoomiSpinner extends LoomiElement {
           ${Array.from({ length: 8 }, (_, index) => {
             const rotation = index * 45;
             const opacity = 0.2 + index * 0.1;
-            return html`<circle
+            return svg`<circle
               cx="12"
               cy="4"
               r="1.7"

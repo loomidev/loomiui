@@ -66,7 +66,7 @@ The `verify` event fires once every box is filled. `e.detail.pin` is the joined 
 
 ## Showing an Error & Clearing
 
-Call `showError()` on the element to display `error-message` and shake the boxes red;
+Call `showError()` on the element to display `error-message` and turn every box red;
 call `clear()` to empty them so the user can try again.
 
 ```html
@@ -83,24 +83,77 @@ call `clear()` to empty them so the user can try again.
 </script>
 ```
 
+`error-message` controls what (if anything) is displayed *in addition to* the red
+border — the border shows either way, even if `error-message` is left blank.
+
+## Async Validation: Spinner → Checkmark or Red Boxes
+
+Call `startValidating()` as soon as the `verify` event fires to show a spinner in the
+status slot (next to the boxes) while you check the code with your server. Then call
+either `showSuccess()` (spinner → green checkmark, green boxes) or `showError()`
+(spinner → red boxes, plus the error message) once the check resolves. The boxes are
+disabled while `validating` is true so the user can't edit mid-check; typing again after
+a success/error clears all three states back to idle.
+
+```html
+<loomi-pin
+  label="Verification code"
+  error-message="That code didn't work, try again"
+></loomi-pin>
+
+<script type="module">
+  const el = document.querySelector("loomi-pin");
+  el.addEventListener("verify", async (e) => {
+    el.startValidating();
+    const ok = await verifyPin(e.detail.pin);
+    if (ok) {
+      el.showSuccess();
+    } else {
+      el.showError();
+      el.clear();
+    }
+  });
+</script>
+```
+
+Same as [`<loomi-input>`](../input): when the code just became invalid, `error-message`
+surfaces inline below the boxes if `show-error-inline` is set, otherwise as a
+`loomi-notification` toast (see [`@loomidev/notification`](../notification)) titled with
+`label`, so the message isn't silently dropped.
+
+```html
+<loomi-pin error-message="That code didn't work, try again" show-error-inline></loomi-pin>
+<!-- show-error-inline omitted (false): a failed showError() shows this message as a
+     toast instead of inline text, but the red boxes still appear either way -->
+```
+
+`showError()` also accepts a one-off message that overrides `error-message` for that
+call, handy for server-provided errors (e.g. "Too many attempts, try again in 30s"):
+
+```js
+el.showError("Too many attempts, try again in 30s");
+```
+
 ## Attributes
 
 | Attribute | Default | Description |
 | --- | --- | --- |
 | `name` | _(blank)_ | Submitted with the form. |
+| `label` | _(blank)_ | Used as the title of the `loomi-notification` toast (see below); has no visible effect otherwise. |
 | `total-digits` | `4` | Number of input boxes. |
 | `size` | `small` | `small` \| `big` |
 | `separator` | `false` | Show a dash separator between the left and right input groups. _(boolean)_ |
 | `hide-digits` | `false` | Hide entered characters and show large dots. _(boolean)_ |
 | `mask` | `false` | Alias for hiding entered characters. _(boolean)_ |
-| `error-message` | `Verification code is invalid` | Shown when `showError()` is called. |
+| `error-message` | `Verification code is invalid` | Shown when `showError()` is called. The red border shows either way, even if this is left blank. |
+| `show-error-inline` | `false` | Render `error-message` beneath the boxes. When `false`, a failed validation shows it as a `loomi-notification` toast instead. _(boolean)_ |
 
-**Methods:** `clear()`, `showError()`. **Property:** `pin`. **Event:** `verify`
-(`detail: { pin }`, fired when all boxes are filled).
+**Methods:** `clear()`, `startValidating()`, `showSuccess()`, `showError(message?)`.
+**Properties:** `pin`, `validating` (reflected), `valid` (reflected), `invalid`
+(reflected). **Event:** `verify` (`detail: { pin }`, fired when all boxes are filled).
 
-> Not (yet) ported from BladewindUI: the built-in resend countdown timer, spinner and
-> success-checkmark helpers — wire those up yourself from the `verify` event and your own
-> async verification call.
+> Not (yet) ported from BladewindUI: the built-in resend countdown timer — wire that up
+> yourself from the `verify` event and a `setInterval`/`setTimeout`.
 
 ## Full Example
 
@@ -108,14 +161,18 @@ call `clear()` to empty them so the user can try again.
 <loomi-pin
   name="pin-code"
   total-digits="5"
+  label="Verification code"
   error-message="Please enter the correct code"
 ></loomi-pin>
 
 <script type="module">
   const el = document.querySelector("loomi-pin");
   el.addEventListener("verify", async (e) => {
+    el.startValidating();
     const ok = await verifyPin(e.detail.pin);
-    if (!ok) {
+    if (ok) {
+      el.showSuccess();
+    } else {
       el.showError();
       el.clear();
     }

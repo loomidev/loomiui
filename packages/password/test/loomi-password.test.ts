@@ -59,15 +59,21 @@ describe("loomi-password", () => {
     const el = await fixture<LoomiPassword>(
       html`<loomi-password prefix-options="personal,admin,service" prefix-value="admin"></loomi-password>`,
     );
-    const select = el.shadowRoot!.querySelector(".loomi-prefix select") as HTMLSelectElement;
     let detail: { value: string } | undefined;
     el.addEventListener("prefix-change", (event) => {
       detail = (event as CustomEvent<{ value: string }>).detail;
     });
 
-    expect(select.value).to.equal("admin");
-    select.value = "service";
-    select.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
+    expect(el.shadowRoot!.querySelector(".loomi-prefix select")).to.equal(null);
+    const trigger = el.shadowRoot!.querySelector(".loomi-affix-trigger") as HTMLButtonElement;
+    expect(trigger.textContent?.trim()).to.equal("admin");
+
+    trigger.click();
+    await el.updateComplete;
+    const options = Array.from(el.shadowRoot!.querySelectorAll(".loomi-affix-option"));
+    expect(options.map((option) => option.textContent?.trim())).to.deep.equal(["personal", "admin", "service"]);
+
+    (options[2] as HTMLElement).click();
     await el.updateComplete;
 
     expect(el.prefixValue).to.equal("service");

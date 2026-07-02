@@ -72,6 +72,12 @@ describe("loomi-creditcard", () => {
     expect(back.inert).to.be.false;
   });
 
+  it("reflects the `variant` attribute so outline styling can be targeted from CSS", async () => {
+    const el = await fixture<LoomiCreditcard>(html`<loomi-creditcard variant="outline"></loomi-creditcard>`);
+    expect(el.variant).to.equal("outline");
+    expect(el.getAttribute("variant")).to.equal("outline");
+  });
+
   it("validate() fails when required fields are incomplete and passes once they're filled", async () => {
     const el = await fixture<LoomiCreditcard>(html`<loomi-creditcard required></loomi-creditcard>`);
     expect(el.validate()).to.be.false;

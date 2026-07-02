@@ -96,17 +96,85 @@
   border-right: 1px solid var(--loomi-surface-border);
   border-radius: 0.5rem 0 0 0.5rem;
 }
-.loomi-affix-select {
-  appearance: none;
+.loomi-affix-dropdown {
+  position: relative;
+  display: inline-flex;
+}
+.loomi-affix-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   border: 0;
   outline: 0;
   background: transparent;
+  padding: 0;
   color: inherit;
   font: inherit;
   line-height: 1;
   max-width: 9rem;
   min-width: 3.25rem;
   cursor: pointer;
+}
+.loomi-affix-trigger:disabled {
+  cursor: not-allowed;
+}
+.loomi-affix-value {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.loomi-affix-chevron {
+  width: 0.85em;
+  height: 0.85em;
+  flex: none;
+  color: var(--loomi-text-faint);
+  transition: transform 0.15s ease;
+}
+.loomi-affix-dropdown.open .loomi-affix-chevron {
+  transform: rotate(180deg);
+}
+.loomi-affix-panel {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  min-width: 100%;
+  width: max-content;
+  max-width: 12rem;
+  background: var(--loomi-surface);
+  border: 1px solid var(--loomi-surface-border);
+  border-radius: 0.5rem;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 0.25rem;
+}
+.loomi-affix-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--loomi-text);
+  white-space: nowrap;
+}
+.loomi-affix-option:hover {
+  background: var(--loomi-surface-hover);
+}
+.loomi-affix-option.selected {
+  background: var(--loomi-primary-50);
+  color: var(--loomi-primary-700);
+  font-weight: 500;
+}
+.loomi-affix-check {
+  width: 0.95em;
+  height: 0.95em;
+  color: var(--loomi-primary-600);
+  flex: none;
 }
 
 .loomi-inputwrap {
@@ -194,7 +262,7 @@
   display: grid;
   gap: 0.25rem;
   margin: 0.45rem 0 0;
-  padding: 0;
+  padding: 0 0 0 10px;
   list-style: none;
   color: var(--loomi-text-muted);
   font-size: 0.8rem;
@@ -214,7 +282,7 @@
   flex: none;
 }
 .loomi-strength-item.met {
-  color: var(--loomi-text-secondary);
+  color: var(--loomi-success-500);
 }
 .loomi-strength-item.met .loomi-strength-check {
   color: var(--loomi-success-500);

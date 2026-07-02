@@ -27,6 +27,14 @@ export class LoomiQrCode extends LoomiElement {
   @property() url = "";
   @property() value = "";
   @property({ type: Number }) size = 220;
+  /**
+   * QR error correction level, trading data density for resilience to damage or overlays:
+   * - `L` (Low): recovers ~7% of the code. Highest data capacity, use for clean digital display.
+   * - `M` (Medium): recovers ~15% of the code. Balanced default for most use cases.
+   * - `Q` (Quartile): recovers ~25% of the code. Good when printing on materials that may wear or get dirty.
+   * - `H` (High): recovers ~30% of the code. Most resilient; recommended when overlaying a logo or using
+   *   visual effects (`corner-borders`, `gradient`) on top of the modules.
+   */
   @property({ attribute: "error-correction" }) errorCorrection: LoomiQrErrorCorrection = "M";
   @property({ type: Number, attribute: "quiet-zone" }) quietZone = 4;
   @property() foreground = "var(--loomi-text)";
@@ -43,6 +51,11 @@ export class LoomiQrCode extends LoomiElement {
   @property({ type: Boolean, attribute: "gradient-scan" }) gradientScan = false;
   @property({ attribute: "scan-color" }) scanColor = "rgba(14, 165, 233, 0.72)";
   @property({ attribute: "scan-duration" }) scanDuration = "2.4s";
+  /**
+   * Number of times the scan beam sweeps down and back up. Accepts a positive integer, or
+   * `"infinite"` (default) to loop forever.
+   */
+  @property({ attribute: "scan-count" }) scanCount: number | "infinite" = "infinite";
   @property({ attribute: "aria-label" }) accessibilityLabel = "";
 
   private readonly gradientId = `loomi-qrcode-gradient-${++nextGradientId}`;
@@ -61,6 +74,12 @@ export class LoomiQrCode extends LoomiElement {
     return this.radius in RADIUS_CLASS ? this.radius : "medium";
   }
 
+  private get normalizedScanCount(): string {
+    if (this.scanCount === "infinite") return "infinite";
+    const parsed = Number(this.scanCount);
+    return Number.isFinite(parsed) && parsed > 0 ? String(Math.floor(parsed)) : "infinite";
+  }
+
   private get wrapperStyle(): string {
     return [
       `--_loomi-qrcode-size:${Math.max(96, this.size)}px`,
@@ -70,6 +89,7 @@ export class LoomiQrCode extends LoomiElement {
       `--_loomi-qrcode-corner-length:${this.cornerBorderLength}`,
       `--_loomi-qrcode-scan-color:${this.scanColor}`,
       `--_loomi-qrcode-scan-duration:${this.scanDuration}`,
+      `--_loomi-qrcode-scan-count:${this.normalizedScanCount}`,
     ].join(";");
   }
 

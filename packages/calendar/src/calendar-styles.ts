@@ -448,11 +448,6 @@ export const calendarStyles = css`
     font-size: 12px;
   }
 
-  .form-textarea {
-    min-height: 96px;
-    resize: vertical;
-  }
-
   .btn-primary {
     background: var(--loomi-calendar-accent);
     border-color: var(--loomi-calendar-accent);
@@ -469,38 +464,38 @@ export const calendarStyles = css`
   .event-form {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 16px;
   }
 
-  .form-field,
-  .form-check {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+  .event-form-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
   }
 
-  .form-check {
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-  }
-
-  .form-label {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--loomi-calendar-text-muted);
-  }
-
-  .form-input {
+  .event-form loomi-input,
+  .event-form loomi-select,
+  .event-form loomi-datepicker,
+  .event-form loomi-timepicker,
+  .event-form loomi-tag-input,
+  .event-form loomi-textarea,
+  .event-form loomi-toggle {
     width: 100%;
-    min-height: 38px;
-    padding: 8px 12px;
-    border: 1px solid var(--loomi-calendar-border);
-    border-radius: var(--loomi-calendar-radius-sm);
-    background: var(--loomi-calendar-surface);
-    color: inherit;
-    font: inherit;
+  }
+
+  .event-form loomi-select {
+    position: relative;
+    z-index: 1;
+  }
+
+  .event-form loomi-select::part(panel) {
+    z-index: 200;
+  }
+
+  @media (max-width: 560px) {
+    .event-form-row {
+      grid-template-columns: 1fr;
+    }
   }
 
   .month-weeks {
@@ -508,6 +503,7 @@ export const calendarStyles = css`
     flex-direction: column;
     flex: 1;
     min-height: 0;
+    overflow: auto;
   }
 
   .month-week {
@@ -609,7 +605,7 @@ export const calendarStyles = css`
 
   .toolbar {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
@@ -621,18 +617,107 @@ export const calendarStyles = css`
       var(--loomi-calendar-surface) 100%
     );
     backdrop-filter: blur(8px);
+    position: relative;
+    z-index: 100;
+    overflow: visible;
+    flex: none;
   }
 
-  .toolbar-group {
+  .toolbar-start,
+  .toolbar-end {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     gap: 8px;
+    min-width: 0;
   }
 
-  .view-switcher {
-    max-width: 100%;
-    overflow-x: auto;
+  .toolbar-end {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    overflow: visible;
+  }
+
+  .toolbar-end loomi-tooltip {
+    display: inline-flex;
+    align-items: center;
+    line-height: 0;
+  }
+
+  .toolbar-end loomi-select,
+  .toolbar-end loomi-tooltip {
+    flex: none;
+    position: relative;
+    z-index: 101;
+    margin: 0;
+  }
+
+  .toolbar-view-select {
+    min-width: 7.5rem;
+  }
+
+  .toolbar-view-select::part(trigger) {
+    min-height: 34px;
+    height: 34px;
+    border-width: 1px;
+    border-radius: var(--loomi-calendar-radius-sm);
+    padding: 0 12px;
+    font-size: 13px;
+    font-weight: 600;
+    box-sizing: border-box;
+  }
+
+  .toolbar-view-select::part(panel) {
+    z-index: 200;
+  }
+
+  .toolbar-start {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .toolbar-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 34px;
+    height: 34px;
+    padding: 0 12px;
+    border: 1px solid var(--loomi-calendar-border);
+    border-radius: var(--loomi-calendar-radius-sm);
+    background: var(--loomi-calendar-surface);
+    color: inherit;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition:
+      border-color var(--loomi-calendar-transition),
+      background var(--loomi-calendar-transition),
+      color var(--loomi-calendar-transition);
+  }
+
+  .toolbar-btn:hover {
+    border-color: color-mix(in srgb, var(--loomi-calendar-accent) 35%, var(--loomi-calendar-border));
+    background: var(--loomi-calendar-surface-hover);
+  }
+
+  .toolbar-btn:focus-visible {
+    outline: 2px solid var(--loomi-calendar-accent);
+    outline-offset: 2px;
+  }
+
+  .toolbar-btn.icon-only {
+    width: 34px;
+    padding: 0;
+  }
+
+  .toolbar-btn svg {
+    width: 1.1rem;
+    height: 1.1rem;
   }
 
   .title {
@@ -739,10 +824,40 @@ export const calendarStyles = css`
 
   .body {
     display: flex;
+    flex-direction: column;
     flex: 1;
     min-height: 0;
     position: relative;
+    z-index: 0;
+    overflow: hidden;
     background: linear-gradient(180deg, var(--loomi-calendar-surface) 0%, color-mix(in srgb, var(--loomi-calendar-surface-muted) 28%, transparent) 100%);
+  }
+
+  .month-view,
+  .agenda-view,
+  .resource-view {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .time-view {
+    overflow: hidden;
+  }
+
+  .time-view-header {
+    flex: none;
+    position: relative;
+    z-index: 10;
+    background: var(--loomi-calendar-surface);
+  }
+
+  .time-view-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
   }
 
   .loading-overlay {
@@ -756,15 +871,6 @@ export const calendarStyles = css`
     z-index: 20;
     color: var(--loomi-calendar-text-muted);
     font-weight: 600;
-  }
-
-  .month-view,
-  .agenda-view,
-  .resource-view {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    min-height: 0;
   }
 
   .weekdays {
@@ -972,19 +1078,22 @@ export const calendarStyles = css`
 
   .time-layout {
     display: flex;
-    flex: 1;
-    min-height: 0;
-    overflow: auto;
+    align-items: flex-start;
+    flex: none;
+    width: 100%;
+    padding-top: 6px;
+    box-sizing: border-box;
   }
 
   .time-axis {
     width: var(--loomi-calendar-time-axis-width, 72px);
     flex: none;
+    align-self: flex-start;
     border-right: 1px solid var(--loomi-calendar-border-subtle);
-    background: color-mix(in srgb, var(--loomi-calendar-surface) 90%, transparent);
+    background: var(--loomi-calendar-surface);
     position: sticky;
     left: 0;
-    z-index: 3;
+    z-index: 5;
     padding-left: 10px;
     box-sizing: border-box;
   }
@@ -995,10 +1104,11 @@ export const calendarStyles = css`
     display: flex;
     align-items: flex-start;
     justify-content: flex-end;
-    transform: translateY(-8px);
+    transform: translateY(-6px);
     color: var(--loomi-calendar-text-faint);
     font-size: 11px;
     font-weight: 600;
+    line-height: 1;
   }
 
   .shell.sidebar-closed .body {

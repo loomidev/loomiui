@@ -88,7 +88,7 @@
 }
 
 .loomi-scan {
-  animation: loomi-qrcode-scan var(--_loomi-qrcode-scan-duration, 2.4s) ease-in-out infinite;
+  animation: loomi-qrcode-scan var(--_loomi-qrcode-scan-duration, 2.4s) ease-in-out var(--_loomi-qrcode-scan-count, infinite);
   background:
     linear-gradient(
       to bottom,
@@ -98,13 +98,13 @@
       color-mix(in srgb, var(--_loomi-qrcode-scan-color) 18%, transparent) 68%,
       transparent 100%
     );
-  filter: drop-shadow(0 0 10px var(--_loomi-qrcode-scan-color));
-  height: 32%;
+  filter: drop-shadow(0 0 6px var(--_loomi-qrcode-scan-color));
+  height: 14%;
   left: 0;
   pointer-events: none;
   position: absolute;
   right: 0;
-  top: -36%;
+  top: -16%;
   z-index: 2;
 }
 
@@ -154,13 +154,13 @@
     transform: translateY(0);
   }
   50% {
-    transform: translateY(425%);
+    transform: translateY(830%);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .loomi-scan {
     animation: none;
-    top: 34%;
+    top: 43%;
   }
 }

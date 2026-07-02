@@ -9,7 +9,6 @@
 .loomi-emoji-picker {
   --loomi-emoji-trigger-h: 2.75rem;
   --loomi-emoji-panel-w: 21rem;
-  --loomi-emoji-cell: 2.25rem;
   position: relative;
   display: inline-flex;
   flex-direction: column;
@@ -22,7 +21,6 @@
 .loomi-emoji-picker.size-small {
   --loomi-emoji-trigger-h: 2.25rem;
   --loomi-emoji-panel-w: 18rem;
-  --loomi-emoji-cell: 2rem;
   font-size: 0.86rem;
 }
 
@@ -33,7 +31,6 @@
 .loomi-emoji-picker.size-big {
   --loomi-emoji-trigger-h: 3.2rem;
   --loomi-emoji-panel-w: 24rem;
-  --loomi-emoji-cell: 2.55rem;
   font-size: 1rem;
 }
 
@@ -75,6 +72,12 @@
 .loomi-trigger[disabled] {
   cursor: not-allowed;
   opacity: 0.6;
+}
+
+.loomi-trigger.no-text {
+  min-width: 0;
+  gap: 0.35rem;
+  padding: 0 0.6rem;
 }
 
 .loomi-selected-emoji {
@@ -166,7 +169,7 @@
 
 .loomi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--loomi-emoji-cell), 1fr));
+  grid-template-columns: repeat(6, 1fr);
   gap: 0.2rem;
   max-height: 16rem;
   overflow: auto;

@@ -65,6 +65,58 @@ describe("loomi-emoji-picker", () => {
     expect(trigger.textContent).to.include("Red status");
   });
 
+  it("hides the trigger text when show-text is set to false via property binding", async () => {
+    const el = await fixture<LoomiEmojiPicker>(
+      html`<loomi-emoji-picker .showText=${false} selected-value="🚀"></loomi-emoji-picker>`,
+    );
+
+    const trigger = el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!;
+    expect(trigger.classList.contains("no-text")).to.be.true;
+    expect(trigger.querySelector(".loomi-value")).to.not.exist;
+    expect(trigger.querySelector(".loomi-selected-emoji")!.textContent).to.equal("🚀");
+  });
+
+  it("hides the trigger text when show-text=\"false\" is written as a plain HTML attribute", async () => {
+    // Lit's default Boolean converter treats ANY attribute presence (including the
+    // literal string "false") as true, so this exercises the custom converter that
+    // makes `show-text="false"` work when authored as real HTML markup, not just
+    // via `.showText=${false}` property binding.
+    const el = await fixture<LoomiEmojiPicker>(
+      html`<loomi-emoji-picker show-text="false" selected-value="🚀"></loomi-emoji-picker>`,
+    );
+
+    expect(el.showText).to.be.false;
+    const trigger = el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!;
+    expect(trigger.classList.contains("no-text")).to.be.true;
+    expect(trigger.querySelector(".loomi-value")).to.not.exist;
+    expect(trigger.querySelector(".loomi-selected-emoji")!.textContent).to.equal("🚀");
+  });
+
+  it("also fixes show-categories and searchable literal \"false\" attributes", async () => {
+    const el = await fixture<LoomiEmojiPicker>(
+      html`<loomi-emoji-picker show-categories="false" searchable="false"></loomi-emoji-picker>`,
+    );
+
+    expect(el.showCategories).to.be.false;
+    expect(el.searchable).to.be.false;
+
+    el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!.click();
+    await el.updateComplete;
+
+    expect(el.shadowRoot!.querySelector(".loomi-categories")).to.not.exist;
+    expect(el.shadowRoot!.querySelector(".loomi-search")).to.not.exist;
+  });
+
+  it("renders 6 emojis per row", async () => {
+    const el = await fixture<LoomiEmojiPicker>(html`<loomi-emoji-picker></loomi-emoji-picker>`);
+    el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!.click();
+    await el.updateComplete;
+
+    const grid = el.shadowRoot!.querySelector<HTMLElement>(".loomi-grid")!;
+    const columns = getComputedStyle(grid).gridTemplateColumns.split(" ").length;
+    expect(columns).to.equal(6);
+  });
+
   it("renders the picker inline without a trigger", async () => {
     const el = await fixture<LoomiEmojiPicker>(html`<loomi-emoji-picker inline></loomi-emoji-picker>`);
 

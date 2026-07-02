@@ -484,6 +484,51 @@ export function toInputDate(date: Date) {
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
 }
 
+export function parseInputDate(value: string): Date | null {
+  const match = value.trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match) {
+    return null;
+  }
+  return new Date(+match[1], +match[2] - 1, +match[3], 0, 0, 0, 0);
+}
+
+export function formatTimepickerValue(date: Date, format: "12" | "24" = "12") {
+  const pad = (value: number) => String(value).padStart(2, "0");
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  if (format === "24") {
+    return `${pad(hours)}:${pad(minutes)}`;
+  }
+  const ampm = hours >= 12 ? "PM" : "AM";
+  const hour = hours % 12 || 12;
+  return `${hour}:${pad(minutes)}${ampm}`;
+}
+
+export function combineDateAndTime(dateValue: string, timeValue: string): Date | null {
+  const date = parseInputDate(dateValue);
+  if (!date) {
+    return null;
+  }
+
+  const match = timeValue.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)?$/i);
+  if (!match) {
+    return null;
+  }
+
+  let hours = Number(match[1]);
+  const minutes = Number(match[2]);
+  const meridiem = match[3]?.toUpperCase();
+  if (meridiem === "PM" && hours < 12) {
+    hours += 12;
+  }
+  if (meridiem === "AM" && hours === 12) {
+    hours = 0;
+  }
+
+  date.setHours(hours, minutes, 0, 0);
+  return date;
+}
+
 export function chunkMonthWeeks(date: Date, weekStarts: CalendarWeekStarts) {
   const cells = getMonthGridDays(date, weekStarts);
   const weeks: Date[][] = [];

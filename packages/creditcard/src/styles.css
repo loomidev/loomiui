@@ -16,6 +16,67 @@
   opacity: 0.7;
 }
 
+/* ---- outline variant: bare silhouette, soft gray border, no fill ---- */
+:host([variant="outline"]) .loomi-cc-face {
+  background: transparent;
+  border: 1px solid var(--loomi-gray-200, #e5e7eb);
+  box-shadow: none;
+  color: var(--loomi-gray-700, #374151);
+}
+:host([variant="outline"]) .loomi-cc-chip {
+  background: linear-gradient(135deg, var(--loomi-gray-100, #f3f4f6) 0%, var(--loomi-gray-300, #d1d5db) 45%, var(--loomi-gray-100, #f3f4f6) 100%);
+}
+:host([variant="outline"]) .loomi-cc-chip::before,
+:host([variant="outline"]) .loomi-cc-chip::after {
+  background: rgba(0, 0, 0, 0.15);
+}
+:host([variant="outline"]) .loomi-cc-number,
+:host([variant="outline"]) .loomi-cc-name,
+:host([variant="outline"]) .loomi-cc-expiry {
+  color: var(--loomi-gray-700, #374151);
+}
+:host([variant="outline"]) .loomi-cc-number::placeholder,
+:host([variant="outline"]) .loomi-cc-name::placeholder,
+:host([variant="outline"]) .loomi-cc-expiry::placeholder {
+  color: var(--loomi-gray-400, #9ca3af);
+}
+:host([variant="outline"]) .loomi-cc-field-label {
+  color: var(--loomi-gray-500, #6b7280);
+}
+:host([variant="outline"]) .loomi-cc-expiry.expired {
+  color: var(--loomi-error-600, #dc2626);
+}
+:host([variant="outline"]) .loomi-cc-brand {
+  filter: none;
+}
+:host([variant="outline"]) .loomi-cc-stripe {
+  background: var(--loomi-gray-200, #e5e7eb);
+}
+:host([variant="outline"]) .loomi-cc-signature {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--loomi-gray-300, #d1d5db) 0 6px,
+    var(--loomi-gray-200, #e5e7eb) 6px 12px
+  );
+}
+:host([variant="outline"]) .loomi-cc-cvc-box {
+  border: 1px solid var(--loomi-gray-200, #e5e7eb);
+}
+:host([variant="outline"][invalid]) .loomi-cc-face {
+  box-shadow: 0 0 0 2px var(--loomi-error-400);
+}
+:host([variant="outline"]) .loomi-cc-flip-btn {
+  background: var(--loomi-gray-100, #f3f4f6);
+  color: var(--loomi-gray-600, #4b5563);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+:host([variant="outline"]) .loomi-cc-flip-btn:hover {
+  background: var(--loomi-gray-200, #e5e7eb);
+}
+:host([variant="outline"]) .loomi-cc-flip-btn:focus-visible {
+  outline-color: var(--loomi-gray-400, #9ca3af);
+}
+
 .loomi-creditcard {
   position: relative;
   width: 100%;

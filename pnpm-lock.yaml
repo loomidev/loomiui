@@ -1305,6 +1305,9 @@ importers:
       '@loomidev/pagination':
         specifier: workspace:^
         version: link:../pagination
+      '@loomidev/sidebar':
+        specifier: workspace:^
+        version: link:../sidebar
       '@loomidev/tab':
         specifier: workspace:^
         version: link:../tab
