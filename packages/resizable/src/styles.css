@@ -1,0 +1,127 @@
+:host([data-resizable="group"]) {
+  display: block;
+  height: 100%;
+  width: 100%;
+  min-height: 0;
+  min-width: 0;
+}
+
+:host([data-resizable="group"][hidden]) {
+  display: none;
+}
+
+.loomi-group {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  min-height: 0;
+  min-width: 0;
+}
+
+:host([data-resizable="group"][orientation="vertical"]) .loomi-group {
+  flex-direction: column;
+}
+
+:host([data-resizable="panel"]) {
+  display: block;
+  overflow: hidden;
+  min-width: 0;
+  min-height: 0;
+}
+
+:host([data-resizable="panel"][hidden]) {
+  display: none;
+}
+
+.loomi-panel {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+:host([data-resizable="handle"]) {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+  user-select: none;
+  outline: none;
+}
+
+:host([data-resizable="handle"][hidden]) {
+  display: none;
+}
+
+:host([data-resizable="handle"][disabled]) {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+:host([data-resizable="handle"][data-orientation="horizontal"]) {
+  width: 1px;
+  cursor: col-resize;
+}
+
+:host([data-resizable="handle"][data-orientation="vertical"]) {
+  height: 1px;
+  cursor: row-resize;
+}
+
+.loomi-handle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: var(--_loomi-accent-border);
+}
+
+:host([data-resizable="handle"][data-orientation="horizontal"]) .loomi-handle::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 0.25rem;
+  transform: translateX(-50%);
+}
+
+:host([data-resizable="handle"][data-orientation="vertical"]) .loomi-handle::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 0.25rem;
+  transform: translateY(-50%);
+}
+
+:host([data-resizable="handle"]:focus-visible) .loomi-handle::after {
+  outline: 2px solid var(--loomi-accent, var(--loomi-blue-500));
+  outline-offset: 1px;
+}
+
+.loomi-grip {
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.75rem;
+  height: 1rem;
+  border-radius: 0.125rem;
+  border: 1px solid var(--_loomi-accent-border);
+  background: var(--loomi-surface);
+  color: var(--loomi-text-secondary);
+}
+
+:host([data-resizable="handle"][data-orientation="horizontal"]) .loomi-grip {
+  transform: rotate(90deg);
+}
+
+.loomi-grip svg {
+  width: 0.625rem;
+  height: 0.625rem;
+}

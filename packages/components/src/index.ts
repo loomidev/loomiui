@@ -35,6 +35,7 @@ export * from "@loomidev/context-menu";
 export * from "@loomidev/popover";
 export * from "@loomidev/empty-state";
 export * from "@loomidev/statistic";
+export * from "@loomidev/resizable";
 export * from "@loomidev/rating";
 export * from "@loomidev/timeline";
 export * from "@loomidev/progress";
