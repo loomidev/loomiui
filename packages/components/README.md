@@ -91,7 +91,10 @@ pnpm --filter @loomidev/components build
 pnpm --filter @loomidev/components typecheck
 ```
 
-### Plain HTML
+### Choose your framework
+
+<loomi-tabs>
+<loomi-tab label="Plain HTML" active>
 
 ```html
 <script type="importmap">
@@ -104,7 +107,8 @@ pnpm --filter @loomidev/components typecheck
 <loomi-card title="Account">Ready to go.</loomi-card>
 ```
 
-### Laravel Blade
+</loomi-tab>
+<loomi-tab label="Laravel Blade">
 
 ```bash
 cd /path/to/your-laravel-app
@@ -123,7 +127,8 @@ import "@loomidev/components";
 <loomi-card title="Account">Ready to go.</loomi-card>
 ```
 
-### React
+</loomi-tab>
+<loomi-tab label="React">
 
 ```jsx
 import "@loomidev/components";
@@ -141,7 +146,8 @@ export function LoomiBundleExample() {
 
 For array or object properties such as select `data` or table `columns`, assign the value with a ref after mount when using React 18.
 
-### Vue
+</loomi-tab>
+<loomi-tab label="Vue">
 
 ```vue
 <script setup>
@@ -157,7 +163,8 @@ import "@loomidev/components";
 
 Configure Vue's `compilerOptions.isCustomElement` for tags that start with `loomi-` if your tooling warns about unknown components.
 
-### Angular
+</loomi-tab>
+<loomi-tab label="Angular">
 
 ```ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
@@ -176,7 +183,8 @@ import "@loomidev/components";
 export class AppComponent {}
 ```
 
-### Svelte and Astro
+</loomi-tab>
+<loomi-tab label="Svelte and Astro">
 
 ```svelte
 <script>
@@ -197,6 +205,9 @@ import "@loomidev/components";
 <loomi-input name="email" label="Email"></loomi-input>
 <loomi-card title="Account">Ready to go.</loomi-card>
 ```
+
+</loomi-tab>
+</loomi-tabs>
 
 ### Server-side rendering notes
 

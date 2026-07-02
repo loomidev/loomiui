@@ -236,7 +236,10 @@ pnpm --filter @loomidev/countries build
 pnpm --filter @loomidev/countries typecheck
 ```
 
-### Plain HTML
+### Choose your framework
+
+<loomi-tabs>
+<loomi-tab label="Plain HTML" active>
 
 Use the CDN version for prototypes, documentation pages, or a quick reproduction. The import map tells the browser where to find Lit, which Loomi components use internally.
 
@@ -249,7 +252,8 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <loomi-countries name="country" label="Country"></loomi-countries>
 ```
 
-### Bundlers and single-page apps
+</loomi-tab>
+<loomi-tab label="Bundlers and SPAs">
 
 In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
@@ -259,7 +263,8 @@ import "@loomidev/countries";
 
 Because this is a form-capable component, give it a `name` when it should submit with a native `<form>`. Read its value with `new FormData(form).get("the-name")` just like you would for a built-in input.
 
-### Laravel Blade
+</loomi-tab>
+<loomi-tab label="Laravel Blade">
 
 Run the install command from your Laravel project root, then import the component in `resources/js/app.js`. If your project uses Laravel Vite, `npm run dev` and `npm run build` should also be run from the Laravel project root.
 
@@ -281,7 +286,8 @@ import "@loomidev/countries";
 ></loomi-countries>
 ```
 
-### React
+</loomi-tab>
+<loomi-tab label="React">
 
 React can render Loomi tags directly. If you need to set `selection` or `value` after mount, use a ref.
 
@@ -302,7 +308,8 @@ export function LoomiExample() {
 
 If TypeScript does not recognize the Loomi tag in JSX, add it to your app's JSX type declarations.
 
-### Vue
+</loomi-tab>
+<loomi-tab label="Vue">
 
 Import the package in the component that uses it, or once in your main Vue file. Vue templates can use Loomi tags directly.
 
@@ -325,7 +332,8 @@ onMounted(() => {
 
 If Vue warns that the tag is an unknown component, configure `compilerOptions.isCustomElement` for tags that start with `loomi-` in your Vite or Vue config.
 
-### Angular
+</loomi-tab>
+<loomi-tab label="Angular">
 
 Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_ELEMENTS_SCHEMA`. For NgModule apps, add the schema to the module instead of the standalone component.
 
@@ -351,7 +359,8 @@ export class AppComponent implements AfterViewInit {
 }
 ```
 
-### Svelte and Astro
+</loomi-tab>
+<loomi-tab label="Svelte and Astro">
 
 Svelte can import the package inside a component script. Astro can import it in the frontmatter of the page or layout where the tag appears.
 
@@ -380,6 +389,9 @@ import "@loomidev/countries";
   label="Country"
 ></loomi-countries>
 ```
+
+</loomi-tab>
+</loomi-tabs>
 
 ### Server-side rendering notes
 

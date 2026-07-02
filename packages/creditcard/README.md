@@ -201,7 +201,10 @@ pnpm --filter @loomidev/creditcard build
 pnpm --filter @loomidev/creditcard typecheck
 ```
 
-### Plain HTML
+### Choose your framework
+
+<loomi-tabs>
+<loomi-tab label="Plain HTML" active>
 
 Use the CDN version for prototypes, documentation pages, or a quick reproduction. The import map tells the browser where to find Lit, which Loomi components use internally.
 
@@ -214,7 +217,8 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <loomi-creditcard cardholder-name="Ama Osei"></loomi-creditcard>
 ```
 
-### Bundlers and single-page apps
+</loomi-tab>
+<loomi-tab label="Bundlers and SPAs">
 
 In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
@@ -224,7 +228,8 @@ import "@loomidev/creditcard";
 
 This component does not submit through a native `<form>` — read its `value` getter or listen for `input`/`change` instead (see "Reading the value" above).
 
-### Laravel Blade
+</loomi-tab>
+<loomi-tab label="Laravel Blade">
 
 Run the install command from your Laravel project root, then import the component in `resources/js/app.js`. If your project uses Laravel Vite, `npm run dev` and `npm run build` should also be run from the Laravel project root.
 
@@ -243,7 +248,8 @@ import "@loomidev/creditcard";
 <loomi-creditcard cardholder-name="{{ $name }}"></loomi-creditcard>
 ```
 
-### React
+</loomi-tab>
+<loomi-tab label="React">
 
 React can render Loomi tags directly. If you are on React 18, or if you need to pass arrays, objects, or functions, use a ref and assign those values after the component mounts.
 
@@ -259,7 +265,8 @@ export function LoomiExample() {
 
 If TypeScript does not recognize the Loomi tag in JSX, add it to your app's JSX type declarations.
 
-### Vue
+</loomi-tab>
+<loomi-tab label="Vue">
 
 Import the package in the component that uses it, or once in your main Vue file. Vue templates can use Loomi tags directly. For arrays, objects, or functions, pass the value as a JavaScript property instead of as plain text.
 
@@ -275,7 +282,8 @@ import "@loomidev/creditcard";
 
 If Vue warns that the tag is an unknown component, configure `compilerOptions.isCustomElement` for tags that start with `loomi-` in your Vite or Vue config.
 
-### Angular
+</loomi-tab>
+<loomi-tab label="Angular">
 
 Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_ELEMENTS_SCHEMA`. For NgModule apps, add the schema to the module instead of the standalone component.
 
@@ -295,7 +303,8 @@ import "@loomidev/creditcard";
 export class AppComponent {}
 ```
 
-### Svelte and Astro
+</loomi-tab>
+<loomi-tab label="Svelte and Astro">
 
 Svelte can import the package inside a component script. Astro can import it in the frontmatter of the page or layout where the tag appears.
 
@@ -314,6 +323,9 @@ import "@loomidev/creditcard";
 
 <loomi-creditcard cardholder-name="Ama Osei"></loomi-creditcard>
 ```
+
+</loomi-tab>
+</loomi-tabs>
 
 ### Server-side rendering notes
 

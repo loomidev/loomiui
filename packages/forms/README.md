@@ -63,7 +63,10 @@ pnpm --filter @loomidev/forms build
 pnpm --filter @loomidev/forms typecheck
 ```
 
-### Plain HTML
+### Choose your framework
+
+<loomi-tabs>
+<loomi-tab label="Plain HTML" active>
 
 ```html
 <script type="importmap">
@@ -78,7 +81,8 @@ pnpm --filter @loomidev/forms typecheck
 </form>
 ```
 
-### Laravel Blade
+</loomi-tab>
+<loomi-tab label="Laravel Blade">
 
 ```bash
 cd /path/to/your-laravel-app
@@ -99,7 +103,8 @@ import "@loomidev/forms";
 </form>
 ```
 
-### React
+</loomi-tab>
+<loomi-tab label="React">
 
 ```jsx
 import "@loomidev/forms";
@@ -117,7 +122,8 @@ export function LoomiBundleExample() {
 
 For array or object properties such as select `data` or table `columns`, assign the value with a ref after mount when using React 18.
 
-### Vue
+</loomi-tab>
+<loomi-tab label="Vue">
 
 ```vue
 <script setup>
@@ -135,7 +141,8 @@ import "@loomidev/forms";
 
 Configure Vue's `compilerOptions.isCustomElement` for tags that start with `loomi-` if your tooling warns about unknown components.
 
-### Angular
+</loomi-tab>
+<loomi-tab label="Angular">
 
 ```ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
@@ -156,7 +163,8 @@ import "@loomidev/forms";
 export class AppComponent {}
 ```
 
-### Svelte and Astro
+</loomi-tab>
+<loomi-tab label="Svelte and Astro">
 
 ```svelte
 <script>
@@ -181,6 +189,9 @@ import "@loomidev/forms";
   <loomi-button can-submit>Submit</loomi-button>
 </form>
 ```
+
+</loomi-tab>
+</loomi-tabs>
 
 ### Server-side rendering notes
 
