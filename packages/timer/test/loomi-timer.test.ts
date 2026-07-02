@@ -2,26 +2,42 @@ import { html, fixture, expect, oneEvent } from "@open-wc/testing";
 import "../dist/loomi-timer.js";
 import type { LoomiTimer } from "../dist/index.js";
 
+const segmentText = (el: LoomiTimer) =>
+  Array.from(el.shadowRoot!.querySelectorAll(".loomi-time")).map((node) => node.textContent);
+
 describe("loomi-timer", () => {
-  it("renders a countdown from duration by default", async () => {
-    const el = await fixture<LoomiTimer>(html`<loomi-timer duration="90"></loomi-timer>`);
+  it("renders a countdown from days/hours/mins by default", async () => {
+    const el = await fixture<LoomiTimer>(html`<loomi-timer mins="1" hours="0" days="0"></loomi-timer>`);
 
     expect(el.direction).to.equal("down");
-    expect(el.shadowRoot!.querySelector(".loomi-time")!.textContent).to.equal("01:30");
+    expect(segmentText(el)).to.deep.equal(["00", "00", "01", "00"]);
   });
 
-  it("renders unbounded count-up mode from zero when duration is omitted", async () => {
+  it("combines days, hours, and mins into a single countdown", async () => {
+    const el = await fixture<LoomiTimer>(html`<loomi-timer days="1" hours="2" mins="3"></loomi-timer>`);
+
+    expect(segmentText(el)).to.deep.equal(["01", "02", "03", "00"]);
+  });
+
+  it("renders unbounded count-up mode from zero when days/hours/mins are omitted", async () => {
     const el = await fixture<LoomiTimer>(html`<loomi-timer direction="up"></loomi-timer>`);
 
-    expect(el.shadowRoot!.querySelector(".loomi-time")!.textContent).to.equal("00:00");
+    expect(segmentText(el)).to.deep.equal(["00", "00", "00", "00"]);
   });
 
-  it("supports seconds format", async () => {
-    const el = await fixture<LoomiTimer>(
-      html`<loomi-timer format="seconds" direction="down" duration="42"></loomi-timer>`,
-    );
+  it("shows a label under each digit segment", async () => {
+    const el = await fixture<LoomiTimer>(html`<loomi-timer></loomi-timer>`);
+    const units = Array.from(el.shadowRoot!.querySelectorAll(".loomi-unit")).map((node) => node.textContent);
 
-    expect(el.shadowRoot!.querySelector(".loomi-time")!.textContent).to.equal("42");
+    expect(units).to.deep.equal(["Days", "Hours", "Mins", "Secs"]);
+  });
+
+  it("hides the background and border by default, and shows them with show-border", async () => {
+    const plain = await fixture<LoomiTimer>(html`<loomi-timer></loomi-timer>`);
+    const bordered = await fixture<LoomiTimer>(html`<loomi-timer show-border></loomi-timer>`);
+
+    expect(plain.shadowRoot!.querySelector(".loomi-face")!.classList.contains("bordered")).to.equal(false);
+    expect(bordered.shadowRoot!.querySelector(".loomi-face")!.classList.contains("bordered")).to.equal(true);
   });
 
   it("renders optional controls", async () => {

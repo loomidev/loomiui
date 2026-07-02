@@ -1,7 +1,8 @@
 # @loomidev/timer
 
-`<loomi-timer>` is an animated count up/down timer with a progress halo, subtle
-tick motion, and optional controls.
+`<loomi-timer>` is an animated count up/down timer that displays separate
+day/hour/minute/second digit segments, each labeled underneath, with a
+progress halo, subtle tick motion, and optional controls.
 
 ```bash
 npm install @loomidev/timer lit
@@ -17,32 +18,50 @@ import "@loomidev/timer";
 <loomi-timer auto-start></loomi-timer>
 ```
 
-The default timer counts down from 60 seconds.
+The default timer counts down from 1 minute (`mins="1"`).
 
 ## Count Down
+
+Set any combination of `days`, `hours`, and `mins` — they're summed together
+to form the countdown length.
 
 ```html
 <loomi-timer
   direction="down"
-  duration="300"
+  hours="1"
+  mins="30"
   label="Focus"
   auto-start
   show-controls
 ></loomi-timer>
 ```
 
+```html
+<loomi-timer direction="down" days="2" hours="6" label="Sale ends in" auto-start></loomi-timer>
+```
+
 ## Count Up
 
-Without `duration`, count-up mode behaves like a stopwatch.
+Without `days`/`hours`/`mins`, count-up mode behaves like a stopwatch and
+counts unbounded.
 
 ```html
 <loomi-timer direction="up" auto-start show-controls></loomi-timer>
 ```
 
-Add `duration` to stop at a target.
+Set `days`/`hours`/`mins` to stop the count-up at a target.
 
 ```html
-<loomi-timer direction="up" duration="90" label="Sprint" auto-start></loomi-timer>
+<loomi-timer direction="up" mins="90" label="Sprint" auto-start></loomi-timer>
+```
+
+## Border & Background
+
+By default the timer renders as plain digits with no background or border.
+Add `show-border` to render the card-style background and progress border.
+
+```html
+<loomi-timer show-border direction="down" mins="5" auto-start></loomi-timer>
 ```
 
 ## Font Size
@@ -51,7 +70,7 @@ The display scales from the host element's normal `font-size`, so plain HTML
 styling works.
 
 ```html
-<loomi-timer style="font-size: 28px" duration="120"></loomi-timer>
+<loomi-timer style="font-size: 28px" mins="2"></loomi-timer>
 
 <style>
   .large-timer {
@@ -67,15 +86,20 @@ styling works.
 | Attribute | Default | Description |
 | --- | --- | --- |
 | `direction` | `down` | `down` counts to zero; `up` counts upward. |
-| `duration` | `60` | Timer length in seconds. In count-up mode, omitted `duration` means unbounded. |
-| `start-value` | `0` | Initial displayed seconds. In countdown mode, `0` falls back to `duration`. |
-| `format` | `clock` | `clock` or `seconds`. |
-| `label` | _(blank)_ | Optional label above the time. |
+| `days` | `0` | Days added to the timer's length. |
+| `hours` | `0` | Hours added to the timer's length. |
+| `mins` | `1` | Minutes added to the timer's length. In count-up mode, `days`/`hours`/`mins` are unbounded unless at least one is explicitly set. |
+| `start-value` | `0` | Initial displayed seconds. In countdown mode, `0` falls back to the `days`/`hours`/`mins` total. |
+| `label` | _(blank)_ | Optional label above the digit segments. |
 | `color` | `primary` | Any loomi color. |
 | `auto-start` | `false` | Starts when connected. _(boolean)_ |
 | `show-controls` | `false` | Shows Start/Pause and Reset controls. _(boolean)_ |
+| `show-border` | `false` | Shows the background and border around the timer face. _(boolean)_ |
 | `animated` | `true` | Enables subtle tick animation. _(boolean)_ |
 | `running` | `false` | Reflects the current running state. |
+
+Each digit segment (Days, Hours, Mins, Secs) is always shown, with its label
+rendered directly underneath.
 
 ## Methods
 
@@ -96,7 +120,9 @@ bubble and include:
 {
   value: number;
   direction: "up" | "down";
-  duration: number;
+  days: number;
+  hours: number;
+  mins: number;
   progress: number;
   complete: boolean;
 }

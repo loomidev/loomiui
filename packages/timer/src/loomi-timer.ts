@@ -4,12 +4,22 @@ import { LoomiElement, accentVars, loomiStyles, type LoomiColor } from "@loomide
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiTimerDirection = "up" | "down";
-export type LoomiTimerFormat = "clock" | "seconds";
+
+interface LoomiTimerSegments {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
 
 const SECOND_MS = 1000;
+const MINUTE_MS = 60 * SECOND_MS;
+const HOUR_MS = 60 * MINUTE_MS;
+const DAY_MS = 24 * HOUR_MS;
 
 /**
- * `<loomi-timer>` - an animated count up/down timer.
+ * `<loomi-timer>` - an animated count up/down timer with day/hour/minute/second
+ * digit segments, each labeled underneath.
  *
  * @fires timer-start - Fired when the timer starts.
  * @fires timer-pause - Fired when the timer pauses.
@@ -22,13 +32,15 @@ export class LoomiTimer extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() direction: LoomiTimerDirection = "down";
-  @property({ type: Number }) duration = 60;
+  @property({ type: Number }) days = 0;
+  @property({ type: Number }) hours = 0;
+  @property({ type: Number }) mins = 1;
   @property({ type: Number, attribute: "start-value" }) startValue = 0;
-  @property() format: LoomiTimerFormat = "clock";
   @property() label = "";
   @property() color: LoomiColor = "primary" as LoomiColor;
   @property({ type: Boolean, attribute: "auto-start" }) autoStart = false;
   @property({ type: Boolean, attribute: "show-controls" }) showControls = false;
+  @property({ type: Boolean, attribute: "show-border" }) showBorder = false;
   @property({ type: Boolean }) animated = true;
   @property({ type: Boolean, reflect: true }) running = false;
 
@@ -55,7 +67,9 @@ export class LoomiTimer extends LoomiElement {
   protected override updated(changedProperties: PropertyValues): void {
     if (
       (changedProperties.has("direction") ||
-        changedProperties.has("duration") ||
+        changedProperties.has("days") ||
+        changedProperties.has("hours") ||
+        changedProperties.has("mins") ||
         changedProperties.has("startValue")) &&
       !this.running
     ) {
@@ -98,19 +112,28 @@ export class LoomiTimer extends LoomiElement {
     return this.direction === "up" ? "up" : "down";
   }
 
-  private get durationMs(): number {
-    return Math.max(0, Number(this.duration) || 0) * SECOND_MS;
+  /** Whether the countdown length was explicitly configured via `days`/`hours`/`mins`. */
+  private get hasExplicitBound(): boolean {
+    return this.hasAttribute("days") || this.hasAttribute("hours") || this.hasAttribute("mins");
+  }
+
+  /** Total time described by the `days`/`hours`/`mins` props, in milliseconds. */
+  private get boundMs(): number {
+    const days = Math.max(0, Number(this.days) || 0);
+    const hours = Math.max(0, Number(this.hours) || 0);
+    const mins = Math.max(0, Number(this.mins) || 0);
+    return days * DAY_MS + hours * HOUR_MS + mins * MINUTE_MS;
   }
 
   private get boundedCountUpMs(): number {
     if (this.normalizedDirection !== "up") return 0;
-    return this.hasAttribute("duration") ? this.durationMs : 0;
+    return this.hasExplicitBound ? this.boundMs : 0;
   }
 
   private get initialDisplayMs(): number {
     const startMs = Math.max(0, Number(this.startValue) || 0) * SECOND_MS;
     if (this.normalizedDirection === "up") return startMs;
-    return startMs > 0 ? startMs : this.durationMs;
+    return startMs > 0 ? startMs : this.boundMs;
   }
 
   private get wholeSeconds(): number {
@@ -120,24 +143,24 @@ export class LoomiTimer extends LoomiElement {
   }
 
   private get progressPercent(): number {
-    const total = this.normalizedDirection === "up" ? this.boundedCountUpMs : this.durationMs;
+    const total = this.normalizedDirection === "up" ? this.boundedCountUpMs : this.boundMs;
     if (total <= 0) return this.running ? 100 : 0;
     const value = this.normalizedDirection === "up" ? this.displayMs : total - this.displayMs;
     return Math.min(100, Math.max(0, (value / total) * 100));
   }
 
-  private get displayText(): string {
-    const seconds = Math.max(0, this.wholeSeconds);
-    if (this.format === "seconds") return String(seconds);
+  private get segments(): LoomiTimerSegments {
+    const totalSeconds = Math.max(0, this.wholeSeconds);
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    return { days, hours, minutes, seconds };
+  }
 
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const remainingSeconds = seconds % 60;
-    const pad = (value: number) => String(value).padStart(2, "0");
-
-    return hours > 0
-      ? `${pad(hours)}:${pad(minutes)}:${pad(remainingSeconds)}`
-      : `${pad(minutes)}:${pad(remainingSeconds)}`;
+  private get srText(): string {
+    const { days, hours, minutes, seconds } = this.segments;
+    return `${days}d ${hours}h ${minutes}m ${seconds}s`;
   }
 
   private scheduleFrame(): void {
@@ -199,7 +222,9 @@ export class LoomiTimer extends LoomiElement {
         detail: {
           value: this.wholeSeconds,
           direction: this.normalizedDirection,
-          duration: this.duration,
+          days: this.days,
+          hours: this.hours,
+          mins: this.mins,
           progress: this.progressPercent,
           complete: this.complete,
         },
@@ -210,15 +235,17 @@ export class LoomiTimer extends LoomiElement {
   private animateTick(): void {
     if (!this.animated) return;
     if (globalThis.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
-    const time = this.renderRoot.querySelector<HTMLElement>(".loomi-time");
-    time?.animate(
-      [
-        { transform: "translateY(0) scale(1)", opacity: 1 },
-        { transform: "translateY(-0.04em) scale(1.015)", opacity: 0.86 },
-        { transform: "translateY(0) scale(1)", opacity: 1 },
-      ],
-      { duration: 260, easing: "cubic-bezier(0.2, 0.8, 0.2, 1)" },
-    );
+    const digits = this.renderRoot.querySelectorAll<HTMLElement>(".loomi-time");
+    digits.forEach((digit) => {
+      digit.animate(
+        [
+          { transform: "translateY(0) scale(1)", opacity: 1 },
+          { transform: "translateY(-0.04em) scale(1.015)", opacity: 0.86 },
+          { transform: "translateY(0) scale(1)", opacity: 1 },
+        ],
+        { duration: 260, easing: "cubic-bezier(0.2, 0.8, 0.2, 1)" },
+      );
+    });
   }
 
   private onToggle = (): void => {
@@ -228,10 +255,39 @@ export class LoomiTimer extends LoomiElement {
 
   override render(): TemplateResult {
     const timerStyle = `${accentVars(this.color)}--loomi-progress:${this.progressPercent};`;
+    const { days, hours, minutes, seconds } = this.segments;
+    const pad = (value: number) => String(value).padStart(2, "0");
+    const ariaLabel = this.label ? `${this.label}: ${this.srText}` : this.srText;
+
     return html`<div class="loomi-timer ${this.running ? "is-running" : ""}" style=${timerStyle}>
-      <div class="loomi-face" role="timer" aria-live="polite" aria-label=${this.label || nothing}>
+      <div
+        class="loomi-face ${this.showBorder ? "bordered" : ""}"
+        role="timer"
+        aria-live="polite"
+        aria-label=${ariaLabel}
+      >
         ${this.label ? html`<div class="loomi-label">${this.label}</div>` : nothing}
-        <div class="loomi-time">${this.displayText}</div>
+        <div class="loomi-segments">
+          <div class="loomi-segment">
+            <div class="loomi-time">${pad(days)}</div>
+            <div class="loomi-unit">Days</div>
+          </div>
+          <div class="loomi-sep" aria-hidden="true">:</div>
+          <div class="loomi-segment">
+            <div class="loomi-time">${pad(hours)}</div>
+            <div class="loomi-unit">Hours</div>
+          </div>
+          <div class="loomi-sep" aria-hidden="true">:</div>
+          <div class="loomi-segment">
+            <div class="loomi-time">${pad(minutes)}</div>
+            <div class="loomi-unit">Mins</div>
+          </div>
+          <div class="loomi-sep" aria-hidden="true">:</div>
+          <div class="loomi-segment">
+            <div class="loomi-time">${pad(seconds)}</div>
+            <div class="loomi-unit">Secs</div>
+          </div>
+        </div>
         <div class="loomi-status" aria-hidden="true">
           <span class="loomi-pulse"></span>
           <span>${this.running ? "Running" : this.complete ? "Complete" : "Paused"}</span>

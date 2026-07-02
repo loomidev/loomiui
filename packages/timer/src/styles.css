@@ -17,7 +17,11 @@
 .loomi-face {
   position: relative;
   display: grid;
-  gap: 0.22em;
+  gap: 0.32em;
+  min-width: min-content;
+}
+
+.loomi-face.bordered {
   min-width: 4.6em;
   overflow: hidden;
   border: 1px solid transparent;
@@ -35,7 +39,7 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.56);
 }
 
-.loomi-face::before {
+.loomi-face.bordered::before {
   content: "";
   position: absolute;
   inset: 1px;
@@ -48,7 +52,7 @@
 }
 
 .loomi-label,
-.loomi-time,
+.loomi-segments,
 .loomi-status {
   position: relative;
 }
@@ -62,16 +66,46 @@
   letter-spacing: 0.08em;
 }
 
+.loomi-segments {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.3em;
+}
+
+.loomi-segment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.16em;
+}
+
+.loomi-sep {
+  align-self: flex-start;
+  color: var(--loomi-text-faint);
+  font-size: 1.9em;
+  font-weight: 750;
+  line-height: 1.05;
+}
+
 .loomi-time {
   color: var(--loomi-text);
   font-family: var(--loomi-font-sans, ui-sans-serif, system-ui, sans-serif);
-  font-size: 2.5em;
+  font-size: 1.9em;
   font-variant-numeric: tabular-nums;
   font-weight: 750;
   letter-spacing: 0;
   line-height: 0.95;
   white-space: nowrap;
   transform-origin: center;
+}
+
+.loomi-unit {
+  color: var(--loomi-text-muted);
+  font-size: 0.22em;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .loomi-status {
