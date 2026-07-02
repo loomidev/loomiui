@@ -50,6 +50,7 @@
     "@loomidev/processing": "workspace:^",
     "@loomidev/horizontal-line-graph": "workspace:^",
     "@loomidev/chart": "workspace:^",
+    "@loomidev/chat": "workspace:^",
     "@loomidev/calendar": "workspace:^",
     "@loomidev/data-grid": "workspace:^"
   },

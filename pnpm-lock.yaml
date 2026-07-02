@@ -292,6 +292,49 @@ importers:
         specifier: ^5.6.3
         version: 5.9.3
 
+  packages/chat:
+    dependencies:
+      '@loomidev/button':
+        specifier: workspace:^
+        version: link:../button
+      '@loomidev/card':
+        specifier: workspace:^
+        version: link:../card
+      '@loomidev/core':
+        specifier: workspace:^
+        version: link:../core
+      '@loomidev/empty-state':
+        specifier: workspace:^
+        version: link:../empty-state
+      '@loomidev/icon':
+        specifier: workspace:^
+        version: link:../icon
+      '@loomidev/spinner':
+        specifier: workspace:^
+        version: link:../spinner
+      '@loomidev/textarea':
+        specifier: workspace:^
+        version: link:../textarea
+      '@loomidev/tooltip':
+        specifier: workspace:^
+        version: link:../tooltip
+    devDependencies:
+      '@loomidev/theme':
+        specifier: workspace:^
+        version: link:../theme
+      '@tailwindcss/cli':
+        specifier: ^4.0.0
+        version: 4.3.1
+      lit:
+        specifier: ^3.3.3
+        version: 3.3.3
+      tailwindcss:
+        specifier: ^4.0.0
+        version: 4.3.1
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+
   packages/checkbox:
     dependencies:
       '@loomidev/core':
@@ -526,6 +569,9 @@ importers:
       '@loomidev/select':
         specifier: workspace:^
         version: link:../select
+      '@loomidev/sidebar':
+        specifier: workspace:^
+        version: link:../sidebar
       '@loomidev/slider':
         specifier: workspace:^
         version: link:../slider
@@ -630,6 +676,9 @@ importers:
       '@loomidev/chart':
         specifier: workspace:^
         version: link:../chart
+      '@loomidev/chat':
+        specifier: workspace:^
+        version: link:../chat
       '@loomidev/contact-card':
         specifier: workspace:^
         version: link:../contact-card
@@ -1564,6 +1613,31 @@ importers:
         specifier: workspace:^
         version: link:../theme
     devDependencies:
+      '@tailwindcss/cli':
+        specifier: ^4.0.0
+        version: 4.3.1
+      lit:
+        specifier: ^3.3.3
+        version: 3.3.3
+      tailwindcss:
+        specifier: ^4.0.0
+        version: 4.3.1
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+
+  packages/sidebar:
+    dependencies:
+      '@loomidev/core':
+        specifier: workspace:^
+        version: link:../core
+      '@loomidev/tooltip':
+        specifier: workspace:^
+        version: link:../tooltip
+    devDependencies:
+      '@loomidev/theme':
+        specifier: workspace:^
+        version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
         version: 4.3.1
