@@ -22,6 +22,17 @@ It also re-exports the theming utilities from `@loomidev/theme`:
 import { LOOMI_COLORS, isLoomiColor, type LoomiColor } from "@loomidev/components";
 ```
 
+
+## Accessibility
+- Prefer native HTML elements; add labels in your app shell where needed.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 ## Want a smaller footprint?
 
 Install only the components you use — each is a standalone package:

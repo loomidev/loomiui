@@ -8,12 +8,17 @@ import {
   CARTESIAN,
   POLAR,
   accentStyle,
+  barSeriesCount,
+  barValueAt,
   booleanAttribute,
   cartesianLayout,
   dataAttribute,
   formatValue,
   gridLineYs,
+  groupedSeriesLabels,
+  hasGroupedValues,
   hasSecondarySeries,
+  hasTertiarySeries,
   hoverTargets,
   isPolarType,
   maxValue,
@@ -22,6 +27,8 @@ import {
   polar,
   resolveBorder,
   resolveFill,
+  resolveGroupedSeriesBorder,
+  resolveGroupedSeriesFill,
   roundedTopRectBorderPath,
   roundedTopRectPath,
   showXLabel,
@@ -51,8 +58,11 @@ export class LoomiChart extends LoomiElement {
   @property() color: LoomiColor = "primary" as LoomiColor;
   /** Second series color when points include `value2`. */
   @property() color2: LoomiColor = "success" as LoomiColor;
+  /** Third series color when points include `value3`. */
+  @property() color3: LoomiColor = "warning" as LoomiColor;
   @property({ attribute: "series-label" }) seriesLabel = "Series 1";
   @property({ attribute: "series2-label" }) series2Label = "Series 2";
+  @property({ attribute: "series3-label" }) series3Label = "Series 3";
   @property({ type: Boolean, attribute: "show-legend" }) showLegend = false;
   @property({ attribute: "legend-position" }) legendPosition: LoomiChartLegendPosition = "bottom";
   @property({ type: Number, attribute: "donut-radius" }) donutRadius = 44;
@@ -67,7 +77,13 @@ export class LoomiChart extends LoomiElement {
   @state() private hoverIndex = -1;
 
   private get colorCtx(): ChartColorContext {
-    return { color: this.color, color2: this.color2, shade: this.shade, showBorder: this.showBorder };
+    return {
+      color: this.color,
+      color2: this.color2,
+      color3: this.color3,
+      shade: this.shade,
+      showBorder: this.showBorder,
+    };
   }
 
   private dualSeries(): boolean {
@@ -165,20 +181,46 @@ export class LoomiChart extends LoomiElement {
     const layout = cartesianLayout(this.data, this.layoutOpts());
     const { height: H, padLeft, padTop, padBottom, bandWidth, max } = layout;
     const palette = usesPalette(this.type);
-    const dual = this.dualSeries();
-    const groupW = bandWidth * (dual ? 0.72 : BAR_WIDTH_RATIO);
-    const barGap = dual ? 2 : 0;
-    const barW = dual ? (groupW - barGap) / 2 : groupW;
+    const multi = hasGroupedValues(this.data);
+    const seriesLabels = multi ? groupedSeriesLabels(this.data) : [];
+    const seriesCount = barSeriesCount(this.data);
+    const groupRatio = seriesCount > 1 ? Math.min(0.88, 0.68 + seriesCount * 0.04) : BAR_WIDTH_RATIO;
+    const groupW = bandWidth * groupRatio;
+    const barGap = seriesCount > 1 ? 2 : 0;
+    const barW = seriesCount > 1 ? (groupW - barGap * (seriesCount - 1)) / seriesCount : groupW;
 
-    const barAt = (i: number, secondary: boolean) => {
+    const barAt = (i: number, seriesIndex: number) => {
       const d = this.data[i];
-      const val = secondary ? d.value2! : d.value;
+      const val = barValueAt(d, seriesIndex, seriesLabels);
+      if (val == null) return null;
       const h = (val / max) * (H - padTop - padBottom);
       const groupX = padLeft + i * bandWidth + (bandWidth - groupW) / 2;
-      const x = secondary ? groupX + barW + barGap : groupX;
+      const x = groupX + seriesIndex * (barW + barGap);
       const y = H - padBottom - h;
       const r = Math.min(4, barW / 2);
       return { d, h, x, y, w: barW, r };
+    };
+
+    const renderBar = (i: number, seriesIndex: number, active: boolean) => {
+      const bar = barAt(i, seriesIndex);
+      if (!bar) return nothing;
+      const seriesLabel = seriesLabels[seriesIndex];
+      const fill = multi
+        ? resolveGroupedSeriesFill(this.colorCtx, this.data, seriesLabel, seriesIndex)
+        : resolveFill(this.colorCtx, bar.d, i, palette, seriesIndex);
+      const border = multi
+        ? resolveGroupedSeriesBorder(this.colorCtx, this.data, seriesLabel, seriesIndex)
+        : resolveBorder(this.colorCtx, bar.d, i, palette, seriesIndex);
+      return svg`
+        <path
+          class="loomi-bar-fill${!multi && seriesIndex > 0 ? ` loomi-bar-fill-${seriesIndex + 1}` : ""}${active ? " is-active" : ""}"
+          d=${roundedTopRectPath(bar.x, bar.y, bar.w, bar.h, bar.r)}
+          fill=${fill}
+        ></path>
+        ${border
+          ? svg`<path class="loomi-bar-border" d=${roundedTopRectBorderPath(bar.x, bar.y, bar.w, bar.h, bar.r)} fill="none" stroke=${border} stroke-width="1.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>`
+          : nothing}
+      `;
     };
 
     return svg`
@@ -188,34 +230,7 @@ export class LoomiChart extends LoomiElement {
       ${this.renderCrosshair(layout)}
       ${this.data.map((d, i) => {
         const active = this.hoverIndex === i;
-        const primary = barAt(i, false);
-        const border = resolveBorder(this.colorCtx, d, i, palette, false);
-        const bars = [
-          svg`
-            <path
-              class="loomi-bar-fill${active ? " is-active" : ""}"
-              d=${roundedTopRectPath(primary.x, primary.y, primary.w, primary.h, primary.r)}
-              fill=${resolveFill(this.colorCtx, d, i, palette, false)}
-            ></path>
-            ${border
-              ? svg`<path class="loomi-bar-border" d=${roundedTopRectBorderPath(primary.x, primary.y, primary.w, primary.h, primary.r)} fill="none" stroke=${border} stroke-width="1.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>`
-              : nothing}
-          `,
-        ];
-        if (dual && d.value2 != null) {
-          const secondary = barAt(i, true);
-          const border2 = resolveBorder(this.colorCtx, d, i, palette, true);
-          bars.push(svg`
-            <path
-              class="loomi-bar-fill loomi-bar-fill-2${active ? " is-active" : ""}"
-              d=${roundedTopRectPath(secondary.x, secondary.y, secondary.w, secondary.h, secondary.r)}
-              fill=${resolveFill(this.colorCtx, d, i, palette, true)}
-            ></path>
-            ${border2
-              ? svg`<path class="loomi-bar-border" d=${roundedTopRectBorderPath(secondary.x, secondary.y, secondary.w, secondary.h, secondary.r)} fill="none" stroke=${border2} stroke-width="1.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>`
-              : nothing}
-          `);
-        }
+        const bars = Array.from({ length: seriesCount }, (_, s) => renderBar(i, s, active));
         return svg`
           ${bars}
           ${showXLabel(i, bandWidth)
@@ -455,6 +470,20 @@ export class LoomiChart extends LoomiElement {
   }
 
   private renderTooltipRows(point: LoomiChartPoint): TemplateResult {
+    if (point.values?.length) {
+      const labels = groupedSeriesLabels(this.data);
+      return html`${labels.map((label, seriesIndex) => {
+        const sub = point.values!.find((v) => v.label === label);
+        if (sub == null) return nothing;
+        const dotColor = resolveGroupedSeriesFill(this.colorCtx, this.data, label, seriesIndex);
+        return html`<div class="loomi-chart-tip-row">
+          <span class="loomi-chart-tip-dot" style="background:${dotColor}"></span>
+          <span class="loomi-chart-tip-series">${label}</span>
+          <span class="loomi-chart-tip-value">${formatValue(sub.value)}</span>
+        </div>`;
+      })}`;
+    }
+
     const rows = [
       html`<div class="loomi-chart-tip-row">
         <span class="loomi-chart-tip-dot"></span>
@@ -469,7 +498,47 @@ export class LoomiChart extends LoomiElement {
         <span class="loomi-chart-tip-value">${formatValue(point.value2)}</span>
       </div>`);
     }
+    if (point.value3 != null) {
+      rows.push(html`<div class="loomi-chart-tip-row is-tertiary">
+        <span class="loomi-chart-tip-dot"></span>
+        <span class="loomi-chart-tip-series">${this.series3Label}</span>
+        <span class="loomi-chart-tip-value">${formatValue(point.value3)}</span>
+      </div>`);
+    }
     return html`${rows}`;
+  }
+
+  private renderLegend(): TemplateResult | typeof nothing {
+    if (!this.showLegend || !this.data.length) return nothing;
+
+    if (this.type === "bar" && hasGroupedValues(this.data)) {
+      const labels = groupedSeriesLabels(this.data);
+      return html`<div class="loomi-legend">
+        ${labels.map(
+          (label, i) => html`
+            <span class="loomi-key">
+              <span
+                class="loomi-keydot"
+                style="background:${resolveGroupedSeriesFill(this.colorCtx, this.data, label, i)}"
+              ></span>
+              ${label}
+            </span>
+          `,
+        )}
+      </div>`;
+    }
+
+    const palette = usesPalette(this.type);
+    return html`<div class="loomi-legend">
+      ${this.data.map(
+        (d, i) => html`
+          <span class="loomi-key">
+            <span class="loomi-keydot" style="background:${resolveFill(this.colorCtx, d, i, palette)}"></span>
+            ${d.label}
+          </span>
+        `,
+      )}
+    </div>`;
   }
 
   private renderFloatingTooltip(): TemplateResult | typeof nothing {
@@ -506,8 +575,8 @@ export class LoomiChart extends LoomiElement {
     else if (this.type === "radial") body = this.renderRadial();
     else body = this.renderPie(this.type === "donut");
 
-    const palette = usesPalette(this.type);
     const interactive = this.showTooltip && this.isBandTooltipType();
+    const legend = this.renderLegend();
 
     const canvas = html`
       <div
@@ -521,19 +590,6 @@ export class LoomiChart extends LoomiElement {
       </div>
     `;
 
-    const legend = this.showLegend
-      ? html`<div class="loomi-legend">
-          ${this.data.map(
-            (d, i) => html`
-              <span class="loomi-key">
-                <span class="loomi-keydot" style="background:${resolveFill(this.colorCtx, d, i, palette)}"></span>
-                ${d.label}
-              </span>
-            `,
-          )}
-        </div>`
-      : nothing;
-
     const legendFirst = this.legendPosition === "top" || this.legendPosition === "left";
 
     return html`
@@ -544,7 +600,8 @@ export class LoomiChart extends LoomiElement {
           this.shade,
           this.showBorder,
           this.type === "radar" || this.type === "area",
-          this.dualSeries() ? this.color2 : undefined,
+          hasSecondarySeries(this.data) ? this.color2 : undefined,
+          hasTertiarySeries(this.data) ? this.color3 : undefined,
         )}
       >
         ${legendFirst ? legend : nothing}
@@ -561,4 +618,10 @@ declare global {
   }
 }
 
-export type { LoomiChartType, LoomiChartShade, LoomiChartPoint, LoomiChartLegendPosition } from "./types.js";
+export type {
+  LoomiChartType,
+  LoomiChartShade,
+  LoomiChartPoint,
+  LoomiChartSubValue,
+  LoomiChartLegendPosition,
+} from "./types.js";

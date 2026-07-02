@@ -13,6 +13,16 @@ npm install @loomidev/chart lit
 import "@loomidev/chart";
 ```
 
+
+## Accessibility
+- SVG root exposes `role="img"` with a descriptive `aria-label`.
+- Interactive hits remain pointer-driven; provide a text summary nearby for critical data.
+
+## Responsive behavior
+- SVG scales to container width; legend wraps below `640px` when positioned horizontally.
+
+## Dark mode
+- Grid lines and axis labels use `--loomi-surface-border` and `--loomi-text-muted` instead of raw gray ramps.
 ## Basic Usage
 
 You need to define either  a unique `id` or `class` attribute on the chart element, then assign the `data` property in JavaScript. The `data` property is an array of objects, each with a `label`, a `value`, and an optional `color`.

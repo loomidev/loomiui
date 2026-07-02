@@ -4,6 +4,17 @@
 
 Month, week, day, agenda, and resource views with a collapsible sidebar (mini calendar + next-event detail), drag-and-drop editing, timezone display, and Loomi token styling aligned with `@loomidev/*` components.
 
+## Accessibility
+- Calendar grid with `aria-selected` days and roving focus.
+- Previous/next month buttons are labelled; Escape closes popover parents.
+
+## Responsive behavior
+- Minimum width scales down; day cells shrink on small screens.
+
+## Dark mode
+- Day cells and chrome use `--loomi-calendar-*` aliases tied to semantic tokens.
+- Selected days and primary actions use `--loomi-text-on-primary` on accent fills.
+
 ## Installation
 
 ```sh

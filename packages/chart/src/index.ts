@@ -6,4 +6,4 @@ export {
   type LoomiChartLegendPosition,
 } from "./loomi-chart.js";
 
-export type { ChartHoverTarget, CartesianLayout } from "./types.js";
+export type { ChartHoverTarget, CartesianLayout, LoomiChartSubValue } from "./types.js";

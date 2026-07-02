@@ -380,4 +380,21 @@ export const dataGridStyles = css`
     border: 0 !important;
     height: var(--loomi-data-grid-spacer-height, 0px);
   }
+
+  @media (max-width: 768px) {
+    .toolbar,
+    .footer {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .toolbar-group,
+    .pagination {
+      width: 100%;
+    }
+
+    .grid-wrap {
+      -webkit-overflow-scrolling: touch;
+    }
+  }
 `;

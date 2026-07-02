@@ -14,13 +14,25 @@ export type LoomiChartShade = "light" | "dark";
 
 export type LoomiChartLegendPosition = "top" | "bottom" | "left" | "right";
 
+/** One bar in a grouped category — e.g. a single dev's task count for Monday. */
+export interface LoomiChartSubValue {
+  label: string;
+  value: number;
+  color?: string;
+}
+
 export interface LoomiChartPoint {
   label: string;
   value: number;
   /** Optional second series value — renders grouped bars or a second line. */
   value2?: number;
+  /** Optional third series value — renders a third grouped bar. */
+  value3?: number;
+  /** Named grouped bars for `type="bar"` — compare several metrics per x-axis category. */
+  values?: LoomiChartSubValue[];
   color?: string;
   color2?: string;
+  color3?: string;
 }
 
 /** Resolved layout for cartesian charts (bar, line, area, scatter). */
@@ -55,6 +67,7 @@ export interface ChartHoverTarget {
 export interface ChartColorContext {
   color: LoomiColor;
   color2?: LoomiColor;
+  color3?: LoomiColor;
   shade: LoomiChartShade;
   showBorder: boolean;
 }

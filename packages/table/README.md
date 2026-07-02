@@ -13,6 +13,15 @@ npm install @loomidev/table lit
 import "@loomidev/table";
 ```
 
+
+## Accessibility
+- Uses native table semantics; sortable headers are buttons with state.
+
+## Responsive behavior
+- Horizontal scroll wrapper when columns exceed viewport.
+
+## Dark mode
+- Row and header backgrounds use semantic surface tokens.
 ## Basic Usage
 
 Pass an array of row objects via the `.data` property (or a JSON-string `data`

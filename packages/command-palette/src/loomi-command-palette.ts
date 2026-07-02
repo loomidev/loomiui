@@ -174,6 +174,24 @@ export class LoomiCommandPalette extends LoomiElement {
       color: var(--loomi-command-text);
       font-size: 16px;
     }
+
+    @media (max-width: 640px) {
+      .backdrop {
+        padding: 0;
+        place-items: stretch;
+      }
+
+      .dialog {
+        width: 100%;
+        min-height: 100dvh;
+        border-radius: 0;
+      }
+
+      .list {
+        max-height: none;
+        flex: 1 1 auto;
+      }
+    }
   `);
 
   items: CommandPaletteItem[] = [];

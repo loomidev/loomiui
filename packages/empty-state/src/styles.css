@@ -12,10 +12,10 @@
   text-align: center;
   gap: 0.5rem;
   padding: 2rem 1rem;
-  color: var(--loomi-gray-500);
+  color: var(--loomi-text-muted);
 }
 .loomi-img {
-  color: var(--loomi-gray-300);
+  color: var(--loomi-text-faint);
 }
 .loomi-img img {
   width: var(--loomi-empty-size, 8rem);
@@ -29,7 +29,7 @@
 
 .loomi-heading {
   font-weight: 600;
-  color: var(--loomi-gray-800);
+  color: var(--loomi-text);
   font-size: 1.05rem;
   margin-top: 0.5rem;
 }
@@ -42,7 +42,7 @@
   border: 0;
   border-radius: 0.5rem;
   background: var(--loomi-primary-600, var(--_loomi-primary-600-default));
-  color: var(--loomi-white);
+  color: var(--loomi-text-on-primary, var(--loomi-white));
   padding: 0.5rem 1.1rem;
   font: inherit;
   font-weight: 500;
@@ -50,4 +50,20 @@
 }
 .loomi-btn:hover {
   background: var(--loomi-primary-700, var(--_loomi-primary-700-default));
+}
+.loomi-btn:focus-visible {
+  outline: 2px solid var(--loomi-primary-600, var(--_loomi-primary-600-default));
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .loomi-empty {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .size-large,
+  .size-xl,
+  .size-omg {
+    --loomi-empty-size: 9rem;
+  }
 }

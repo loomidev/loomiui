@@ -8,6 +8,14 @@ easy-to-combine attributes: `type` controls the style, `color` controls the pale
 and match than one long variant string. All colors resolve through `--loomi-*` custom
 properties, so the whole button can be re-skinned from your page with no rebuild.
 
+## Accessibility
+- Native `<button>`; visible `:focus-visible` ring.
+
+## Responsive behavior
+- Inline-flex; wraps with parent flex containers.
+
+## Dark mode
+- Filled variants use primary palette; secondary uses semantic surfaces.
 ## Installation
 
 ```bash

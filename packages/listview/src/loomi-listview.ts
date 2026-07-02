@@ -14,7 +14,7 @@ export class LoomiListviewItem extends LoomiElement {
   @property({ type: Boolean, reflect: true }) compact = false;
 
   override render(): TemplateResult {
-    return html`<div class="loomi-li"><slot></slot></div>`;
+    return html`<div class="loomi-li" role="listitem"><slot></slot></div>`;
   }
 }
 
@@ -38,7 +38,7 @@ export class LoomiListview extends LoomiElement {
   }
 
   override render(): TemplateResult {
-    return html`<div class="loomi-listview"><slot @slotchange=${this.sync}></slot></div>`;
+    return html`<div class="loomi-listview" role="list"><slot @slotchange=${this.sync}></slot></div>`;
   }
 }
 

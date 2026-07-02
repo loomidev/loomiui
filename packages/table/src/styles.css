@@ -191,7 +191,7 @@ tbody tr.selected {
 }
 .loomi-action.filled {
   background: var(--_loomi-accent-bg, var(--loomi-primary-600));
-  color: #fff;
+  color: var(--loomi-text-on-primary, var(--loomi-white));
 }
 .loomi-action.filled:hover {
   filter: brightness(0.96);
@@ -225,7 +225,7 @@ tbody tr.selected {
   border: 0;
   border-radius: 0.5rem;
   background: var(--loomi-primary-600);
-  color: #fff;
+  color: var(--loomi-text-on-primary, var(--loomi-white));
   cursor: pointer;
   font: inherit;
   font-weight: 600;

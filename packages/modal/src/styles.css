@@ -126,8 +126,8 @@
   display: flex;
   gap: 0.6rem;
   padding: 0.75rem 1.5rem;
-  background: var(--loomi-gray-50);
-  border-top: 1px solid var(--loomi-gray-200);
+  background: var(--loomi-surface-muted);
+  border-top: 1px solid var(--loomi-surface-border);
 }
 .loomi-footer.right { justify-content: flex-end; }
 .loomi-footer.center { justify-content: center; }

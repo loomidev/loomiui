@@ -19,12 +19,17 @@
 /* ---- outline variant: bare silhouette, soft gray border, no fill ---- */
 :host([variant="outline"]) .loomi-cc-face {
   background: transparent;
-  border: 1px solid var(--loomi-gray-200, #e5e7eb);
+  border: 1px solid var(--loomi-surface-border);
   box-shadow: none;
-  color: var(--loomi-gray-700, #374151);
+  color: var(--loomi-text-secondary);
 }
 :host([variant="outline"]) .loomi-cc-chip {
-  background: linear-gradient(135deg, var(--loomi-gray-100, #f3f4f6) 0%, var(--loomi-gray-300, #d1d5db) 45%, var(--loomi-gray-100, #f3f4f6) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--loomi-surface-muted) 0%,
+    var(--loomi-surface-border) 45%,
+    var(--loomi-surface-muted) 100%
+  );
 }
 :host([variant="outline"]) .loomi-cc-chip::before,
 :host([variant="outline"]) .loomi-cc-chip::after {
@@ -33,15 +38,15 @@
 :host([variant="outline"]) .loomi-cc-number,
 :host([variant="outline"]) .loomi-cc-name,
 :host([variant="outline"]) .loomi-cc-expiry {
-  color: var(--loomi-gray-700, #374151);
+  color: var(--loomi-text-secondary);
 }
 :host([variant="outline"]) .loomi-cc-number::placeholder,
 :host([variant="outline"]) .loomi-cc-name::placeholder,
 :host([variant="outline"]) .loomi-cc-expiry::placeholder {
-  color: var(--loomi-gray-400, #9ca3af);
+  color: var(--loomi-text-faint);
 }
 :host([variant="outline"]) .loomi-cc-field-label {
-  color: var(--loomi-gray-500, #6b7280);
+  color: var(--loomi-text-muted);
 }
 :host([variant="outline"]) .loomi-cc-expiry.expired {
   color: var(--loomi-error-600, #dc2626);
@@ -50,31 +55,31 @@
   filter: none;
 }
 :host([variant="outline"]) .loomi-cc-stripe {
-  background: var(--loomi-gray-200, #e5e7eb);
+  background: var(--loomi-text);
 }
 :host([variant="outline"]) .loomi-cc-signature {
   background: repeating-linear-gradient(
     135deg,
-    var(--loomi-gray-300, #d1d5db) 0 6px,
-    var(--loomi-gray-200, #e5e7eb) 6px 12px
+    var(--loomi-surface-border) 0 6px,
+    var(--loomi-surface-muted) 6px 12px
   );
 }
 :host([variant="outline"]) .loomi-cc-cvc-box {
-  border: 1px solid var(--loomi-gray-200, #e5e7eb);
+  border: 1px solid var(--loomi-surface-border);
 }
 :host([variant="outline"][invalid]) .loomi-cc-face {
   box-shadow: 0 0 0 2px var(--loomi-error-400);
 }
 :host([variant="outline"]) .loomi-cc-flip-btn {
-  background: var(--loomi-gray-100, #f3f4f6);
-  color: var(--loomi-gray-600, #4b5563);
+  background: var(--loomi-surface-muted);
+  color: var(--loomi-text-secondary);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 :host([variant="outline"]) .loomi-cc-flip-btn:hover {
-  background: var(--loomi-gray-200, #e5e7eb);
+  background: var(--loomi-surface-hover);
 }
 :host([variant="outline"]) .loomi-cc-flip-btn:focus-visible {
-  outline-color: var(--loomi-gray-400, #9ca3af);
+  outline-color: var(--loomi-text-faint);
 }
 
 .loomi-creditcard {
@@ -110,7 +115,7 @@
   overflow: hidden;
   border-radius: var(--loomi-cc-radius);
   backface-visibility: hidden;
-  color: var(--loomi-white);
+  color: var(--loomi-text-on-primary, var(--loomi-white));
   background: linear-gradient(
     135deg,
     var(--_loomi-accent-strong) 0%,
@@ -173,7 +178,7 @@
   border: 0;
   background: transparent;
   outline: none;
-  color: var(--loomi-white);
+  color: var(--loomi-text-on-primary, var(--loomi-white));
   font-family: ui-monospace, "Courier New", monospace;
   font-size: clamp(1rem, 5.2vw, 1.35rem);
   font-weight: 500;
@@ -222,7 +227,7 @@
   border: 0;
   background: transparent;
   outline: none;
-  color: var(--loomi-white);
+  color: var(--loomi-text-on-primary, var(--loomi-white));
   font-size: 0.95rem;
   font-weight: 500;
   letter-spacing: 0.03em;
@@ -292,7 +297,7 @@
   width: 3.6rem;
   height: 2.1rem;
   border-radius: 0.2rem;
-  background: var(--loomi-white);
+  background: var(--loomi-surface);
 }
 .loomi-cc-cvc {
   appearance: none;
@@ -300,14 +305,14 @@
   border: 0;
   background: transparent;
   outline: none;
-  color: #1c1c1c;
+  color: var(--loomi-text);
   font-family: ui-monospace, monospace;
   font-size: 0.95rem;
   letter-spacing: 0.2em;
   text-align: center;
 }
 .loomi-cc-cvc::placeholder {
-  color: var(--loomi-gray-400, #9ca3af);
+  color: var(--loomi-text-faint);
 }
 
 /* ---- flip button ---- */
@@ -324,7 +329,7 @@
   border: none;
   border-radius: 999px;
   background: var(--_loomi-accent);
-  color: var(--loomi-white);
+  color: var(--loomi-text-on-primary, var(--loomi-white));
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
   transition: background 0.15s ease, transform 0.15s ease;

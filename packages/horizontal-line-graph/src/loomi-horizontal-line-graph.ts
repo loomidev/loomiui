@@ -32,8 +32,13 @@ export class LoomiHorizontalLineGraph extends LoomiElement {
 
   override render(): TemplateResult {
     const total = this.data.reduce((s, d) => s + (d.value || 0), 0) || 1;
-    return html`<div class="loomi-hlg">
-      <div class="loomi-bar">
+    const summary = this.data
+      .map((seg) => `${seg.label} ${Math.round(((seg.value || 0) / total) * 100)}%`)
+      .join(", ");
+    const ariaLabel = summary ? `Segment breakdown: ${summary}` : "Segment breakdown";
+
+    return html`<div class="loomi-hlg" role="img" aria-label=${ariaLabel}>
+      <div class="loomi-bar" aria-hidden="true">
         ${this.data.map((seg, i) => html`<div
           class="loomi-seg"
           style="width:${((seg.value || 0) / total) * 100}%;background:${this.color(seg, i)}"

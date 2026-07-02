@@ -444,6 +444,9 @@ Their `"build"` script is just `tsc -p tsconfig.json` — nothing to compile.
 
 ## 7. The theming model (so you don't break it)
 
+For semantic surface/text tokens, dark mode, and responsive layout expectations, read
+[`docs/COMPONENT_QUALITY.md`](docs/COMPONENT_QUALITY.md).
+
 **The rule:** never declare the *public* `--loomi-<color>-<shade>` custom property on
 `:host`. Only ever declare the *private* `--_loomi-<color>-<shade>-default` (leading
 underscore) on `:host`, and reference colors everywhere else as

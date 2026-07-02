@@ -51,28 +51,28 @@
   border-radius: 50%;
 }
 .loomi-grid-line {
-  stroke: var(--loomi-gray-200, #e2e8f0);
+  stroke: var(--loomi-surface-border, #e2e8f0);
   stroke-width: 1;
   stroke-dasharray: 3 3;
 }
 .loomi-axis {
-  stroke: var(--loomi-gray-300, #cbd5e1);
+  stroke: var(--loomi-surface-border, #cbd5e1);
   stroke-width: 1.25;
 }
 .loomi-grid {
-  stroke: var(--loomi-gray-200, #e2e8f0);
+  stroke: var(--loomi-surface-border, #e2e8f0);
   stroke-width: 1;
 }
 .loomi-radar-grid {
-  stroke: var(--loomi-gray-300, #cbd5e1);
+  stroke: var(--loomi-surface-border, #cbd5e1);
   stroke-width: 1;
 }
 .loomi-radar-spoke {
-  stroke: var(--loomi-gray-300, #cbd5e1);
+  stroke: var(--loomi-surface-border, #cbd5e1);
   stroke-width: 1.25;
 }
 .loomi-crosshair {
-  stroke: var(--loomi-gray-300, #cbd5e1);
+  stroke: var(--loomi-surface-border, #cbd5e1);
   stroke-width: 1;
   stroke-dasharray: 3 3;
   pointer-events: none;
@@ -80,12 +80,12 @@
 .loomi-xlabel,
 .loomi-ylabel {
   font-size: 8px;
-  fill: var(--loomi-gray-500, #64748b);
+  fill: var(--loomi-text-muted, #64748b);
   font-family: inherit;
 }
 .loomi-ylabel {
   font-size: 8px;
-  fill: var(--loomi-gray-600, #475569);
+  fill: var(--loomi-text-secondary, #475569);
 }
 .loomi-line {
   fill: none;
@@ -141,17 +141,17 @@
   opacity: 0.9;
 }
 .loomi-radial-track {
-  stroke: var(--loomi-gray-200, #e2e8f0);
+  stroke: var(--loomi-surface-border, #e2e8f0);
 }
 .loomi-radial-total {
   font-size: 16px;
   font-weight: 600;
-  fill: var(--loomi-gray-700, #334155);
+  fill: var(--loomi-text, #334155);
   font-family: inherit;
 }
 .loomi-radial-label {
   font-size: 8px;
-  fill: var(--loomi-gray-500, #64748b);
+  fill: var(--loomi-text-muted, #64748b);
   font-family: inherit;
 }
 .loomi-floating-tip {
@@ -176,9 +176,9 @@
   gap: 0.2rem;
   min-width: 5rem;
   padding: 0.4rem 0.55rem;
-  border: 1px solid var(--loomi-gray-200, #e2e8f0);
+  border: 1px solid var(--loomi-surface-border, #e2e8f0);
   border-radius: 0.375rem;
-  background: var(--loomi-white, #fff);
+  background: var(--loomi-surface, #fff);
   box-shadow:
     0 4px 6px -1px rgb(15 23 42 / 0.08),
     0 2px 4px -2px rgb(15 23 42 / 0.06);
@@ -186,7 +186,7 @@
   line-height: 1.25;
 }
 .loomi-chart-tip-label {
-  color: var(--loomi-gray-500, #64748b);
+  color: var(--loomi-text-muted, #64748b);
   font-weight: 500;
 }
 .loomi-chart-tip-row {
@@ -204,13 +204,16 @@
 .loomi-chart-tip-row.is-secondary .loomi-chart-tip-dot {
   background: var(--_loomi-accent-2, var(--_loomi-accent));
 }
+.loomi-chart-tip-row.is-tertiary .loomi-chart-tip-dot {
+  background: var(--_loomi-accent-3, var(--_loomi-accent));
+}
 .loomi-chart-tip-series {
-  color: var(--loomi-gray-500, #64748b);
+  color: var(--loomi-text-muted, #64748b);
 }
 .loomi-chart-tip-value {
   font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--loomi-gray-900, #0f172a);
+  color: var(--loomi-text, #0f172a);
   font-variant-numeric: tabular-nums;
 }
 .loomi-legend {
@@ -229,11 +232,25 @@
   align-items: center;
   gap: 0.4rem;
   font-size: 0.75rem;
-  color: var(--loomi-gray-600, #475569);
+  color: var(--loomi-text-secondary, #475569);
 }
 .loomi-keydot {
   width: 0.6rem;
   height: 0.6rem;
   border-radius: 0.15rem;
   flex: none;
+}
+
+@media (max-width: 640px) {
+  .loomi-chart.pos-left,
+  .loomi-chart.pos-right {
+    flex-direction: column;
+  }
+
+  .loomi-chart.pos-left .loomi-legend,
+  .loomi-chart.pos-right .loomi-legend {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+  }
 }

@@ -7,6 +7,17 @@ row grouping, tree data, export, inline editing, virtual scrolling, pivot
 tables, charts integration, spreadsheet features, and state persistence — is
 an opt-in **module** you attach only when you need it.
 
+## Accessibility
+- Grid uses native `<table>` semantics with sortable column headers.
+- Roving cell focus: Arrow keys, Home/End, Page Up/Down; Space toggles row selection; Enter fires `loomi-row-action`.
+- Module toolbars expose labelled controls (`aria-label` on filters and actions).
+
+## Responsive behavior
+- Horizontal scroll inside `.grid-wrap` on narrow viewports; table keeps a minimum width.
+- Toolbar and footer groups stack below `768px`.
+
+## Dark mode
+- Shell, headers, and cells use `--loomi-data-grid-*` aliases mapped to semantic surface/text tokens.
 ## Installation
 
 ```sh

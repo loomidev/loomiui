@@ -10,6 +10,15 @@ npm install @loomidev/modal lit
 import "@loomidev/modal";
 ```
 
+
+## Accessibility
+- `aria-modal="true"`, focus trap, Escape to close, body scroll lock via `@loomidev/core`.
+
+## Responsive behavior
+- Dialog width capped with `min()`; footer actions wrap on small screens.
+
+## Dark mode
+- Dialog, header, and footer backgrounds use semantic surface tokens.
 ## Default Modal
 
 Modals are usually triggered by an action — a button click, say. Every LoomiUI modal is

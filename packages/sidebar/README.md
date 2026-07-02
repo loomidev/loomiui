@@ -2,6 +2,17 @@
 
 shadcn/ui-style sidebar primitives for LoomiUI. Composable Lit web components with collapsible icon mode, mobile sheet, keyboard shortcut (⌘/Ctrl+B), and persisted open state.
 
+
+## Accessibility
+- Primary navigation landmark with labelled groups.
+- Keyboard shortcut to collapse (document in README).
+- Mobile sheet traps focus while open.
+
+## Responsive behavior
+- Fixed sidebar from `768px`; below that, off-canvas drawer with overlay.
+
+## Dark mode
+- Sidebar chrome maps to `--loomi-sidebar-*` semantic aliases.
 ## Install
 
 ```bash

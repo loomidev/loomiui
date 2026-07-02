@@ -25,17 +25,22 @@ export class LoomiEmptyState extends LoomiElement {
   @property({ attribute: "image-size" }) imageSize: LoomiEmptyImageSize = "medium";
 
   override render(): TemplateResult {
+    const headingId = this.heading ? "loomi-empty-heading" : undefined;
+
     if (!this.showImage) {
-      return html`<div class="loomi-empty"><slot></slot></div>`;
+      return html`<div class="loomi-empty" role="status" aria-live="polite">
+        <slot></slot>
+      </div>`;
     }
-    return html`<div class="loomi-empty">
-      <div class="loomi-img size-${this.imageSize}">
+
+    return html`<div class="loomi-empty" role="status" aria-live="polite" aria-labelledby=${headingId ?? nothing}>
+      <div class="loomi-img size-${this.imageSize}" aria-hidden="true">
         <img src=${this.image || DEFAULT_IMAGE} alt="" />
       </div>
-      ${this.heading ? html`<div class="loomi-heading">${this.heading}</div>` : nothing}
+      ${this.heading ? html`<div class="loomi-heading" id="loomi-empty-heading">${this.heading}</div>` : nothing}
       ${this.message ? html`<div class="loomi-message">${this.message}</div>` : nothing}
       ${this.buttonLabel
-        ? html`<button class="loomi-btn" @click=${() => this.dispatchEvent(new Event("action", { bubbles: true, composed: true }))}>${this.buttonLabel}</button>`
+        ? html`<button class="loomi-btn" type="button" @click=${() => this.dispatchEvent(new Event("action", { bubbles: true, composed: true }))}>${this.buttonLabel}</button>`
         : nothing}
     </div>`;
   }

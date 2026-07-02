@@ -19,6 +19,17 @@ import "@loomidev/qrcode";
 ></loomi-qrcode>
 ```
 
+
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Includes layout breakpoints for narrow viewports (see component CSS).
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 ## Examples
 
 ```html
