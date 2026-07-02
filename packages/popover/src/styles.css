@@ -19,6 +19,14 @@
   width: 1.4rem;
   height: 1.4rem;
 }
+.loomi-trigger:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--loomi-primary-200);
+}
+.loomi-trigger[disabled] {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
 
 .loomi-panel {
   position: absolute;

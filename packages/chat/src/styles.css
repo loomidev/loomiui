@@ -288,7 +288,7 @@
   border: 0;
   background: transparent;
   color: var(--loomi-text);
-  padding: 0.625rem 0.75rem 0;
+  padding: 0.5rem 0.75rem 0;
   font: inherit;
   line-height: 1.5;
   resize: none;

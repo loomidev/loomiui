@@ -58,7 +58,7 @@ export class LoomiChatWindow extends LoomiElement {
   @property({ attribute: "current-user-id" }) currentUserId = "you";
   @property({ type: Array }) participants: LoomiChatParticipant[] = [];
   @property({ type: Array }) messages: LoomiChatWindowMessage[] = [];
-  @property({ type: Number, attribute: "input-rows" }) inputRows = 2;
+  @property({ type: Number, attribute: "input-rows" }) inputRows = 1;
   @property({ type: Number, attribute: "input-max-rows" }) inputMaxRows = 5;
   @property({ type: Boolean, reflect: true }) busy = false;
   @property({ type: Boolean, attribute: "auto-scroll", converter: booleanAttribute })
@@ -180,16 +180,17 @@ export class LoomiChatWindow extends LoomiElement {
   private syncComposerHeight(): void {
     const input = this.inputEl;
     if (!input) return;
-    input.style.height = "auto";
+    input.style.height = "0px";
     const styles = getComputedStyle(input);
     const lineHeight = Number.parseFloat(styles.lineHeight) || 20;
     const padding =
       Number.parseFloat(styles.paddingTop) + Number.parseFloat(styles.paddingBottom);
     const minHeight = lineHeight * this.inputRows + padding;
     const maxHeight = lineHeight * this.inputMaxRows + padding;
-    const nextHeight = Math.min(Math.max(input.scrollHeight, minHeight), maxHeight);
+    const contentHeight = input.scrollHeight;
+    const nextHeight = Math.min(Math.max(contentHeight, minHeight), maxHeight);
     input.style.height = `${nextHeight}px`;
-    input.style.overflowY = input.scrollHeight > maxHeight ? "auto" : "hidden";
+    input.style.overflowY = contentHeight > maxHeight ? "auto" : "hidden";
   }
 
   private onSubmit = (event?: Event): void => {

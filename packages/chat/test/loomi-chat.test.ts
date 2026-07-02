@@ -63,11 +63,19 @@ describe("loomi-chat-window", () => {
     expect(el.shadowRoot!.querySelector("loomi-chat-message")).to.exist;
   });
 
-  it("grows the composer up to input-max-rows", async () => {
+  it("starts the composer at one row and grows up to input-max-rows", async () => {
     const el = await fixture<LoomiChatWindow>(html`
-      <loomi-chat-window input-rows="2" input-max-rows="4"></loomi-chat-window>
+      <loomi-chat-window input-max-rows="4"></loomi-chat-window>
     `);
     const textarea = el.shadowRoot!.querySelector("textarea") as HTMLTextAreaElement;
+    const lineHeight = Number.parseFloat(getComputedStyle(textarea).lineHeight) || 20;
+    const padding =
+      Number.parseFloat(getComputedStyle(textarea).paddingTop) +
+      Number.parseFloat(getComputedStyle(textarea).paddingBottom);
+    const oneRowHeight = lineHeight + padding;
+
+    expect(Number.parseFloat(textarea.style.height)).to.be.closeTo(oneRowHeight, 2);
+
     textarea.value = "Line one\nLine two\nLine three\nLine four\nLine five";
     textarea.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
     await el.updateComplete;

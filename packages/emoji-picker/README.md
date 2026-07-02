@@ -1,8 +1,10 @@
 # @loomidev/emoji-picker
 
 `<loomi-emoji-picker>` is a searchable, keyboard-friendly emoji picker web component.
-It is form-associated, so a selected emoji submits under `name` like a native form
-control.
+The trigger is the emoji itself — clicking it opens a dropdown (built on
+[`@loomidev/popover`](../popover)) with a search box, category tabs, and a 7-per-row
+emoji grid. It is form-associated, so a selected emoji submits under `name` like a
+native form control.
 
 ```bash
 npm install @loomidev/emoji-picker lit
@@ -44,15 +46,34 @@ picker.data = [
 <loomi-emoji-picker emojis="😀, 😎, 🚀, ❤️"></loomi-emoji-picker>
 ```
 
-## Emoji-only trigger
+## Dropdown, search, and categories
 
-Set `show-text="false"` to hide the name/placeholder text next to the trigger emoji,
-useful for compact toolbars where only the icon should show. Unlike most boolean HTML
-attributes, `show-text` (along with `show-categories` and `searchable`) understands the
-literal string `"false"`, so writing it out in markup like this works as expected:
+Clicking the trigger opens a dropdown containing a search box, a row of category
+tabs, and a grid of emoji (7 per row). Set `searchable="false"` or
+`show-categories="false"` to drop either piece; `inline` renders the same body
+permanently in place of a trigger, with no dropdown at all.
 
 ```html
-<loomi-emoji-picker show-text="false" selected-value="🚀"></loomi-emoji-picker>
+<loomi-emoji-picker searchable="false" show-categories="false"></loomi-emoji-picker>
+<loomi-emoji-picker inline></loomi-emoji-picker>
+```
+
+## Trigger label
+
+By default the trigger shows only the selected emoji (or a placeholder face) — nothing
+else. Set `show-text` to also show the name/placeholder text next to it, useful when
+the picker needs to read clearly as a labeled field rather than a compact icon button.
+
+```html
+<loomi-emoji-picker show-text selected-value="🚀"></loomi-emoji-picker>
+```
+
+Unlike most boolean HTML attributes, `show-text` (along with `show-categories` and
+`searchable`) understands the literal string `"false"`, so turning it back off in
+markup works as expected too:
+
+```html
+<loomi-emoji-picker show-text="false"></loomi-emoji-picker>
 ```
 
 ## Events
@@ -69,10 +90,10 @@ literal string `"false"`, so writing it out in markup like this works as expecte
 | `selected-value` | `""` | Current submitted value. Defaults to the emoji itself. |
 | `label` | `""` | Optional field label. |
 | `placeholder` | `Pick an emoji` | Closed trigger placeholder. |
-| `inline` | `false` | Render the panel directly instead of a trigger popover. |
+| `inline` | `false` | Render the panel directly instead of a trigger dropdown. |
 | `searchable` | `true` | Show the search input. |
 | `show-categories` | `true` | Show category tabs. |
-| `show-text` | `true` | Show the selected emoji's name (or placeholder) next to the trigger emoji. |
+| `show-text` | `false` | Show the selected emoji's name (or placeholder) next to the trigger emoji. |
 | `required` | `false` | Mark the picker invalid until a value is selected. |
 | `disabled` | `false` | Disable the trigger. |
 | `readonly` | `false` | Prevent changes while keeping the current value readable. |
