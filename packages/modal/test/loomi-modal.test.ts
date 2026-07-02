@@ -172,4 +172,20 @@ describe("loomi-modal", () => {
     expect(el.shadowRoot!.querySelector('.loomi-close loomi-icon[name="x-mark"]')).to.exist;
     expect(el.shadowRoot!.querySelectorAll('.loomi-footer loomi-button[size="small"]')).to.have.length(2);
   });
+
+  it('defaults the icon to "heroicons" and honors a custom icon-source', async () => {
+    const defaultEl = await fixture<LoomiModal>(html`<loomi-modal icon="cloud-download"></loomi-modal>`);
+    defaultEl.show();
+    await defaultEl.updateComplete;
+    const defaultIcon = defaultEl.shadowRoot!.querySelector(".loomi-icon-wrap loomi-icon")!;
+    expect(defaultIcon.getAttribute("source")).to.equal("heroicons");
+
+    const el = await fixture<LoomiModal>(
+      html`<loomi-modal icon="home" icon-source="iconsax"></loomi-modal>`,
+    );
+    el.show();
+    await el.updateComplete;
+    const icon = el.shadowRoot!.querySelector('.loomi-icon-wrap loomi-icon[name="home"]')!;
+    expect(icon.getAttribute("source")).to.equal("iconsax");
+  });
 });
