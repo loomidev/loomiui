@@ -283,33 +283,67 @@ buttons can update `editor.value` or use your own app-level insertion flow.
 
 ## AI Generate Option
 
-Add `ai` to `tools` to show a sparkles button in the toolbar:
+Add `ai` to `tools` to show a sparkles button in the toolbar. Aliases `generate` and
+`ai-generate` are also accepted when configuring `tools`.
 
 ```html
 <loomi-text-editor tools="basic,lists,ai"></loomi-text-editor>
 ```
 
-When clicked, the editor dispatches `loomi-ai-generate`. Your app handles the AI request
-and can insert the result through `event.detail.insert(html)`.
+When clicked, the editor dispatches `loomi-ai-generate`. LoomiUI does not call any AI
+provider itself — your app listens for the event, runs the request against OpenAI,
+Anthropic, a local model, or your own backend, then inserts the returned HTML through
+`event.detail.insert(html)`.
 
 ```js
 editor.addEventListener("loomi-ai-generate", async (event) => {
+  const { html, selection, insert } = event.detail;
+
+  const prompt = selection
+    ? `Improve this selected text while keeping the same meaning:\n\n${selection}`
+    : "Write a short introduction paragraph for this document.";
+
   const result = await generateText({
-    html: event.detail.html,
-    selection: event.detail.selection,
+    html,
+    selection,
+    prompt,
   });
 
-  event.detail.insert(result.html);
+  insert(result.html);
 });
 ```
 
-The event detail contains:
+### Event detail
 
 | Detail | Description |
 | --- | --- |
-| `html` | The editor's current HTML value. |
-| `selection` | The selected text, if any. |
-| `insert(html)` | Helper that inserts generated HTML back into the editor at the saved selection. |
+| `html` | The editor's current HTML value. Use this for full-document prompts such as summarize, expand, or rewrite. |
+| `selection` | The plain-text selection at click time, if any. Empty when the caret is collapsed or nothing is selected. |
+| `insert(html)` | Helper that restores the saved selection and inserts generated HTML at that point. If the user had text selected, replace or wrap that range in your handler before calling `insert`. |
+
+### Selection behavior
+
+The editor saves the current range when the sparkles button is clicked. Call
+`event.detail.insert(html)` after your async request finishes and the generated markup
+will land at that saved position. This works whether the user selected a sentence,
+placed the caret mid-paragraph, or clicked with no selection (insertion happens at the
+caret).
+
+Typical flows:
+
+- **Selection present:** send `selection` (and optionally surrounding `html`) to your model,
+  then call `insert()` with the rewritten fragment.
+- **No selection:** treat `html` as document context and insert new content at the caret.
+- **Replace vs append:** `insert()` uses `document.execCommand("insertHTML")` under the hood.
+  Pass only the fragment you want added or swapped in.
+
+### Integration notes
+
+- The button is disabled when the editor is `disabled` or `readonly`.
+- Handle errors in your listener — the editor will not show a built-in AI error state.
+- Sanitize model output before insertion if your provider can return raw HTML.
+- Keep prompts, API keys, and rate limiting in application code so the component stays
+  provider-neutral.
 
 This keeps LoomiUI provider-neutral while still giving users a real toolbar affordance.
 

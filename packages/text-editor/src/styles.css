@@ -18,7 +18,7 @@
   border: 2px solid var(--loomi-surface-border);
   border-radius: 0.5rem;
   transition: border-color 0.15s ease;
-  overflow: hidden;
+  overflow: visible;
 }
 .loomi-field:focus-within {
   border-color: var(--loomi-primary-600);
@@ -69,6 +69,14 @@
   padding: 0.45rem;
   border-bottom: 1px solid var(--loomi-surface-border);
   background: var(--loomi-surface-muted);
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  overflow: visible;
+}
+
+.loomi-toolbar loomi-select {
+  position: relative;
+  z-index: 3;
 }
 
 .loomi-toolbar loomi-tooltip {
@@ -106,35 +114,51 @@
 }
 
 .loomi-tool-button:focus-visible,
-.loomi-tool-select:focus-visible,
+.loomi-tool-select-custom:focus-within,
 .loomi-color-tool:focus-within {
   outline: 2px solid var(--loomi-primary-500);
   outline-offset: 2px;
 }
 
 .loomi-tool-button:disabled,
-.loomi-tool-select:disabled,
+.loomi-tool-select-custom[disabled],
 .loomi-color-tool.disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }
 
-.loomi-tool-select {
-  height: 2rem;
+.loomi-tool-select-custom {
+  display: inline-flex;
+  min-width: 5.5rem;
   max-width: 7.5rem;
-  border: 1px solid var(--loomi-surface-border);
-  border-radius: 0.35rem;
-  background: var(--loomi-surface);
-  color: var(--loomi-text);
-  font: inherit;
-  font-size: 0.82rem;
-  line-height: 1;
-  padding: 0 1.65rem 0 0.55rem;
-  cursor: pointer;
+}
+
+.loomi-tool-select-heading {
+  min-width: 4.75rem;
+  max-width: 5.75rem;
 }
 
 .loomi-tool-select-narrow {
+  min-width: 4.5rem;
   max-width: 6rem;
+}
+
+.loomi-embed-form {
+  display: grid;
+  gap: 0.85rem;
+  width: 100%;
+}
+
+.loomi-embed-input,
+.loomi-embed-filepicker {
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.loomi-embed-separator {
+  color: var(--loomi-text-faint);
+  font-size: 0.82rem;
 }
 
 .loomi-color-tool {
@@ -161,6 +185,8 @@
   line-height: 1.55;
   overflow-wrap: anywhere;
   outline: none;
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
 }
 
 .loomi-editor[data-empty="true"]::before {

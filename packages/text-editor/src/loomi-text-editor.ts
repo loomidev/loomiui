@@ -6,6 +6,7 @@ import "@loomidev/icon/loomi-icon.js";
 import "@loomidev/input/loomi-input.js";
 import "@loomidev/modal/loomi-modal.js";
 import type { LoomiModal } from "@loomidev/modal";
+import "@loomidev/select/loomi-select.js";
 import "@loomidev/tooltip/loomi-tooltip.js";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -189,9 +190,16 @@ const FONT_SIZES = [
   { label: "Large", value: "5" },
   { label: "Huge", value: "7" },
 ];
-const EMBED_FORM_STYLE = "display:grid;gap:0.85rem;min-width:min(28rem,100%);";
-const EMBED_CONTROL_STYLE = "margin-bottom:0;";
-const EMBED_SEPARATOR_STYLE = "color:var(--loomi-text-faint);font-size:0.82rem;";
+
+const HEADING_OPTIONS = [
+  { label: "Body", value: "p" },
+  { label: "H1", value: "h1" },
+  { label: "H2", value: "h2" },
+  { label: "H3", value: "h3" },
+  { label: "H4", value: "h4" },
+  { label: "H5", value: "h5" },
+  { label: "H6", value: "h6" },
+];
 
 function normalizeToken(value: string): string {
   return value.trim().toLowerCase().replace(/[\s_]+/g, "-");
@@ -795,55 +803,57 @@ export class LoomiTextEditor extends LoomiElement {
 
   private renderSelectTool(tool: LoomiTextEditorTool): TemplateResult {
     if (tool === "heading") {
-      return this.renderTooltip(
-        TOOL_LABELS[tool],
-        html`<select
-          class="loomi-tool-select"
-          aria-label=${TOOL_LABELS[tool]}
-          .value=${this.currentBlock}
-          ?disabled=${this.disabled || this.readonly}
-          @pointerdown=${this.captureSelection}
-          @change=${(event: Event) => this.setHeading((event.target as HTMLSelectElement).value)}
-        >
-          <option value="p">Body</option>
-          <option value="h1">H1</option>
-          <option value="h2">H2</option>
-          <option value="h3">H3</option>
-          <option value="h4">H4</option>
-          <option value="h5">H5</option>
-          <option value="h6">H6</option>
-        </select>`,
+      return this.renderToolbarSelect(
+        tool,
+        HEADING_OPTIONS,
+        "Body",
+        this.currentBlock,
+        (value) => this.setHeading(value),
+        "loomi-tool-select-heading",
       );
     }
 
     if (tool === "font-family") {
-      return this.renderTooltip(
-        TOOL_LABELS[tool],
-        html`<select
-          class="loomi-tool-select"
-          aria-label=${TOOL_LABELS[tool]}
-          ?disabled=${this.disabled || this.readonly}
-          @pointerdown=${this.captureSelection}
-          @change=${(event: Event) => this.setFontFamily((event.target as HTMLSelectElement).value)}
-        >
-          <option value="">Font</option>
-          ${FONT_FAMILIES.map((font) => html`<option value=${font.value}>${font.label}</option>`)}
-        </select>`,
+      return this.renderToolbarSelect(
+        tool,
+        FONT_FAMILIES,
+        "Font",
+        "",
+        (value) => this.setFontFamily(value),
       );
     }
 
+    return this.renderToolbarSelect(
+      tool,
+      FONT_SIZES,
+      "Size",
+      "",
+      (value) => this.setFontSize(value),
+      "loomi-tool-select-narrow",
+    );
+  }
+
+  private renderToolbarSelect(
+    tool: LoomiTextEditorTool,
+    options: ReadonlyArray<{ label: string; value: string }>,
+    placeholder: string,
+    selectedValue: string,
+    onSelect: (value: string) => void,
+    className = "",
+  ): TemplateResult {
     return this.renderTooltip(
       TOOL_LABELS[tool],
-      html`<select
-        class="loomi-tool-select loomi-tool-select-narrow"
-        aria-label=${TOOL_LABELS[tool]}
+      html`<loomi-select
+        class=${`loomi-tool-select-custom ${className}`.trim()}
+        size="tiny"
+        no-clearing
+        placeholder=${placeholder}
+        selected-value=${selectedValue}
+        .data=${options}
         ?disabled=${this.disabled || this.readonly}
         @pointerdown=${this.captureSelection}
-        @change=${(event: Event) => this.setFontSize((event.target as HTMLSelectElement).value)}
-      >
-        <option value="">Size</option>
-        ${FONT_SIZES.map((size) => html`<option value=${size.value}>${size.label}</option>`)}
-      </select>`,
+        @select=${(event: CustomEvent<{ value: string }>) => onSelect(event.detail.value)}
+      ></loomi-select>`,
     );
   }
 
@@ -871,11 +881,17 @@ export class LoomiTextEditor extends LoomiElement {
     );
   }
 
-  private renderEmbedInput(label: string, value: string, onInput: (value: string) => void): TemplateResult {
+  private renderEmbedInput(
+    label: string,
+    value: string,
+    prefixIcon: string,
+    onInput: (value: string) => void,
+  ): TemplateResult {
     return html`<loomi-input
       class="loomi-embed-input"
-      style=${EMBED_CONTROL_STYLE}
+      no-clearing
       label=${label}
+      prefix-icon=${prefixIcon}
       .value=${value}
       @input=${(event: Event) => onInput((event.target as HTMLInputElement & { value: string }).value)}
     ></loomi-input>`;
@@ -885,7 +901,6 @@ export class LoomiTextEditor extends LoomiElement {
     const accepted = kind === "image" ? "image/*" : "video/*";
     return html`<loomi-filepicker
       class="loomi-embed-filepicker"
-      style=${EMBED_CONTROL_STYLE}
       accepted-file-types=${accepted}
       max-files="1"
       max-file-size=${kind === "image" ? "10mb" : "50mb"}
@@ -898,24 +913,24 @@ export class LoomiTextEditor extends LoomiElement {
     if (!this.embedTool) return html``;
 
     if (this.embedTool === "link") {
-      return html`<div class="loomi-embed-form" style=${EMBED_FORM_STYLE}>
-        ${this.renderEmbedInput("URL", this.embedUrl, (value) => (this.embedUrl = value))}
-        ${this.renderEmbedInput("Display text", this.embedText, (value) => (this.embedText = value))}
+      return html`<div class="loomi-embed-form">
+        ${this.renderEmbedInput("URL", this.embedUrl, "link", (value) => (this.embedUrl = value))}
+        ${this.renderEmbedInput("Display text", this.embedText, "document-text", (value) => (this.embedText = value))}
       </div>`;
     }
 
     if (this.embedTool === "image") {
-      return html`<div class="loomi-embed-form" style=${EMBED_FORM_STYLE}>
-        ${this.renderEmbedInput("Image URL", this.embedUrl, (value) => (this.embedUrl = value))}
-        ${this.renderEmbedInput("Image description", this.embedAlt, (value) => (this.embedAlt = value))}
-        <div class="loomi-embed-separator" style=${EMBED_SEPARATOR_STYLE}>Or choose an image file</div>
+      return html`<div class="loomi-embed-form">
+        ${this.renderEmbedInput("Image URL", this.embedUrl, "photo", (value) => (this.embedUrl = value))}
+        ${this.renderEmbedInput("Image description", this.embedAlt, "tag", (value) => (this.embedAlt = value))}
+        <div class="loomi-embed-separator">Or choose an image file</div>
         ${this.renderEmbedFilepicker("image")}
       </div>`;
     }
 
-    return html`<div class="loomi-embed-form" style=${EMBED_FORM_STYLE}>
-      ${this.renderEmbedInput("Video URL", this.embedUrl, (value) => (this.embedUrl = value))}
-      <div class="loomi-embed-separator" style=${EMBED_SEPARATOR_STYLE}>Or choose a video file</div>
+    return html`<div class="loomi-embed-form">
+      ${this.renderEmbedInput("Video URL", this.embedUrl, "video-camera", (value) => (this.embedUrl = value))}
+      <div class="loomi-embed-separator">Or choose a video file</div>
       ${this.renderEmbedFilepicker("video")}
     </div>`;
   }
@@ -930,7 +945,7 @@ export class LoomiTextEditor extends LoomiElement {
     return html`<loomi-modal
       class="loomi-embed-modal"
       title=${title}
-      size="small"
+      size="medium"
       ok-button-label="Insert"
       cancel-button-label="Cancel"
       close-after-action="false"
