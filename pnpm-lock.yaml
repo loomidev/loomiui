@@ -520,6 +520,9 @@ importers:
       '@loomidev/rating':
         specifier: workspace:^
         version: link:../rating
+      '@loomidev/resizable':
+        specifier: workspace:^
+        version: link:../resizable
       '@loomidev/select':
         specifier: workspace:^
         version: link:../select
@@ -1530,6 +1533,28 @@ importers:
         specifier: ^5.6.3
         version: 5.9.3
 
+  packages/resizable:
+    dependencies:
+      '@loomidev/core':
+        specifier: workspace:^
+        version: link:../core
+    devDependencies:
+      '@loomidev/theme':
+        specifier: workspace:^
+        version: link:../theme
+      '@tailwindcss/cli':
+        specifier: ^4.0.0
+        version: 4.3.1
+      lit:
+        specifier: ^3.3.3
+        version: 3.3.3
+      tailwindcss:
+        specifier: ^4.0.0
+        version: 4.3.1
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+
   packages/select:
     dependencies:
       '@loomidev/core':
@@ -1769,6 +1794,9 @@ importers:
       '@loomidev/modal':
         specifier: workspace:^
         version: link:../modal
+      '@loomidev/select':
+        specifier: workspace:^
+        version: link:../select
       '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme

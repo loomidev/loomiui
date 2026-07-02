@@ -171,6 +171,10 @@
       "types": "./dist/rating.d.ts",
       "import": "./dist/rating.js"
     },
+    "./resizable": {
+      "types": "./dist/resizable.d.ts",
+      "import": "./dist/resizable.js"
+    },
     "./timeline": {
       "types": "./dist/timeline.d.ts",
       "import": "./dist/timeline.js"
@@ -325,6 +329,7 @@
     "@loomidev/qrcode": "workspace:^",
     "@loomidev/radio": "workspace:^",
     "@loomidev/rating": "workspace:^",
+    "@loomidev/resizable": "workspace:^",
     "@loomidev/select": "workspace:^",
     "@loomidev/slider": "workspace:^",
     "@loomidev/sortable": "workspace:^",
