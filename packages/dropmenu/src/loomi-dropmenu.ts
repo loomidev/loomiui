@@ -6,11 +6,16 @@ import { componentStyles } from "./generated/styles.css.js";
 
 const ELLIPSIS = svg`<path d="M6 12a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM13.5 12a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM21 12a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" fill="currentColor" />`;
 const CHEVRON_RIGHT = svg`<path d="m9 18 6-6-6-6" />`;
+const CHECK = svg`<path d="M20 6 9 17l-5-5" />`;
+
+export type LoomiDropmenuItemVariant = "default" | "destructive";
 
 /**
  * `<loomi-dropmenu-item>` — a single menu line. Put links/handlers inside, or set `icon`.
+ * Set `checkbox` or `radio` to turn it into a toggle row (see `checked`, `group`).
  * @slot - Item content.
  * @slot submenu - Nested `<loomi-dropmenu-item>` children.
+ * @fires change - Fired when a `checkbox` or `radio` item's `checked` state changes (composed).
  */
 @customElement("loomi-dropmenu-item")
 export class LoomiDropmenuItem extends LoomiElement {
@@ -22,6 +27,13 @@ export class LoomiDropmenuItem extends LoomiElement {
   @property({ type: Boolean }) header = false;
   @property({ type: Boolean }) divider = false;
   @property({ type: Boolean }) hover = true;
+  @property({ type: Boolean, reflect: true }) disabled = false;
+  @property() variant: LoomiDropmenuItemVariant = "default";
+  @property({ type: Boolean }) checkbox = false;
+  @property({ type: Boolean }) radio = false;
+  @property() group = "";
+  @property() value = "";
+  @property({ type: Boolean, reflect: true }) checked = false;
 
   @state() private hasSubmenuItems = false;
   @state() private menuIconRight = false;
@@ -31,8 +43,13 @@ export class LoomiDropmenuItem extends LoomiElement {
     return this.hasSubmenuItems;
   }
 
+  /** `true` for `checkbox`/`radio` items — clicking one shouldn't auto-close the menu. */
+  get isToggle(): boolean {
+    return this.checkbox || this.radio;
+  }
+
   get selectable(): boolean {
-    return !this.header && !this.divider;
+    return !this.header && !this.divider && !this.disabled;
   }
 
   setMenuIconRight(value: boolean): void {
@@ -48,9 +65,35 @@ export class LoomiDropmenuItem extends LoomiElement {
     this.hasSubmenuItems = slot.assignedElements({ flatten: true }).length > 0;
   };
 
-  private onItemClick(): void {
-    if (this.hasSubmenuItems) this.submenuOpen = !this.submenuOpen;
+  private uncheckRadioSiblings(): void {
+    const root = (this.getRootNode() as Document | ShadowRoot) ?? document;
+    for (const sibling of root.querySelectorAll<LoomiDropmenuItem>("loomi-dropmenu-item[radio]")) {
+      if (sibling !== this && sibling.group === this.group) sibling.checked = false;
+    }
   }
+
+  private onItemClick = (event: Event): void => {
+    if (this.disabled) {
+      event.stopPropagation();
+      event.preventDefault();
+      return;
+    }
+    if (this.hasSubmenuItems) {
+      this.submenuOpen = !this.submenuOpen;
+      return;
+    }
+    if (this.checkbox) {
+      this.checked = !this.checked;
+      this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
+      return;
+    }
+    if (this.radio) {
+      if (this.checked) return;
+      this.uncheckRadioSiblings();
+      this.checked = true;
+      this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
+    }
+  };
 
   private get itemClass(): string {
     const iconRight = this.iconRight || this.menuIconRight;
@@ -58,10 +101,19 @@ export class LoomiDropmenuItem extends LoomiElement {
       "loomi-item",
       iconRight && "right",
       this.hasSubmenuItems && "has-submenu",
+      this.variant === "destructive" && "destructive",
+      this.disabled && "disabled",
       this.header ? "header" : this.hover && "hoverable",
     ]
       .filter(Boolean)
       .join(" ");
+  }
+
+  private get itemRole(): string {
+    if (this.header) return "presentation";
+    if (this.checkbox) return "menuitemcheckbox";
+    if (this.radio) return "menuitemradio";
+    return "menuitem";
   }
 
   override render(): TemplateResult {
@@ -72,12 +124,25 @@ export class LoomiDropmenuItem extends LoomiElement {
     return html`
       <div
         class=${this.itemClass}
-        role=${this.header ? "presentation" : "menuitem"}
-        tabindex=${this.header ? nothing : "-1"}
+        role=${this.itemRole}
+        tabindex=${this.header || this.disabled ? nothing : "-1"}
         aria-haspopup=${this.hasSubmenuItems ? "menu" : nothing}
         aria-expanded=${this.hasSubmenuItems ? (this.submenuOpen ? "true" : "false") : nothing}
+        aria-checked=${this.isToggle ? (this.checked ? "true" : "false") : nothing}
+        aria-disabled=${this.disabled ? "true" : nothing}
         @click=${this.onItemClick}
       >
+        ${this.isToggle
+          ? html`<span class="loomi-indicator" aria-hidden="true">
+              ${this.checked
+                ? this.radio
+                  ? html`<span class="loomi-radio-dot"></span>`
+                  : html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                      ${CHECK}
+                    </svg>`
+                : nothing}
+            </span>`
+          : nothing}
         ${path
           ? html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
               ${path}
@@ -253,7 +318,7 @@ export class LoomiDropmenu extends LoomiElement {
 
   private onItemsClick = (e: Event): void => {
     const item = e.composedPath().find((target): target is LoomiDropmenuItem => target instanceof LoomiDropmenuItem);
-    if (item && item.selectable && !item.hasSubmenu && this.hideAfterClick) this.closeMenu();
+    if (item && item.selectable && !item.hasSubmenu && !item.isToggle && this.hideAfterClick) this.closeMenu();
   };
 
   private onTriggerKeyDown = (event: KeyboardEvent): void => {

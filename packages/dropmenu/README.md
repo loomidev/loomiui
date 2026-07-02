@@ -147,6 +147,74 @@ Use `divided` on the menu itself when every row should have a thin separator.
 </loomi-dropmenu>
 ```
 
+## Checkboxes
+
+Set `checkbox` on an item to turn it into a toggle row. It shows a checkmark when
+`checked`, keeps the menu open on click (unlike a normal item), and fires a `change`
+event you can use to sync application state.
+
+```html
+<loomi-dropmenu>
+  <loomi-dropmenu-item header>Appearance</loomi-dropmenu-item>
+  <loomi-dropmenu-item checkbox checked>Status Bar</loomi-dropmenu-item>
+  <loomi-dropmenu-item checkbox>Activity Bar</loomi-dropmenu-item>
+  <loomi-dropmenu-item checkbox>Panel</loomi-dropmenu-item>
+</loomi-dropmenu>
+
+<script type="module">
+  document.querySelectorAll("loomi-dropmenu-item[checkbox]").forEach((item) => {
+    item.addEventListener("change", () => console.log(item.textContent.trim(), item.checked));
+  });
+</script>
+```
+
+## Radio Groups
+
+Set `radio` plus a shared `group` name to make a set of items mutually exclusive,
+similar to a native radio group. Give each item a `value`; the previously checked
+item in the same `group` is unchecked automatically.
+
+```html
+<loomi-dropmenu>
+  <loomi-dropmenu-item header>Panel Position</loomi-dropmenu-item>
+  <loomi-dropmenu-item radio group="position" value="top">Top</loomi-dropmenu-item>
+  <loomi-dropmenu-item radio group="position" value="bottom" checked>Bottom</loomi-dropmenu-item>
+  <loomi-dropmenu-item radio group="position" value="right">Right</loomi-dropmenu-item>
+</loomi-dropmenu>
+
+<script type="module">
+  document.querySelectorAll("loomi-dropmenu-item[radio]").forEach((item) => {
+    item.addEventListener("change", () => console.log("position:", item.value));
+  });
+</script>
+```
+
+## Disabled Items
+
+Set `disabled` on an item to make it non-interactive: it's skipped by arrow-key
+navigation, dimmed, and clicks on it are blocked.
+
+```html
+<loomi-dropmenu>
+  <loomi-dropmenu-item>GitHub</loomi-dropmenu-item>
+  <loomi-dropmenu-item>Support</loomi-dropmenu-item>
+  <loomi-dropmenu-item disabled>API</loomi-dropmenu-item>
+</loomi-dropmenu>
+```
+
+## Destructive Items
+
+Set `variant="destructive"` for irreversible actions like deleting a resource. It
+tints the label, icon, and hover state red.
+
+```html
+<loomi-dropmenu>
+  <loomi-dropmenu-item icon="pencil-square">Edit</loomi-dropmenu-item>
+  <loomi-dropmenu-item divider></loomi-dropmenu-item>
+  <loomi-dropmenu-item variant="destructive" icon="trash">Delete</loomi-dropmenu-item>
+</loomi-dropmenu>
+```
+
 ## Keyboard Shortcut Hints
 
 Use `shortcut` to show a keyboard shortcut or command hint on the right side of an
@@ -251,6 +319,16 @@ See [`<loomi-bell>`'s README](../bell#wrapping-it-in-a-trigger) for a worked exa
 | `header` | `false` | Non-clickable section header. _(boolean)_ |
 | `divider` | `false` | Render a divider line. _(boolean)_ |
 | `hover` | `true` | Enable hover styling for a normal item. _(boolean)_ |
+| `disabled` | `false` | Skip navigation/clicks and dim the row. _(boolean)_ |
+| `variant` | `default` | `default` \| `destructive` (tints the row red). |
+| `checkbox` | `false` | Render as a checkbox row; toggles `checked` on click. _(boolean)_ |
+| `radio` | `false` | Render as a radio row; use with `group` and `value`. _(boolean)_ |
+| `group` | _(blank)_ | Shared name that makes `radio` items mutually exclusive. |
+| `value` | _(blank)_ | Value carried by a `radio` item. |
+| `checked` | `false` | Current state of a `checkbox`/`radio` item. _(boolean)_ |
+
+**Events:** `change` — fired on a `checkbox`/`radio` item when its `checked` state
+changes (bubbles, composed).
 
 **Slots:** default (items), `trigger` (custom trigger markup), `submenu` (nested
 `<loomi-dropmenu-item>` children on an item).
