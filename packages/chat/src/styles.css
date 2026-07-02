@@ -62,11 +62,10 @@
   border-radius: 1rem;
   background: var(--loomi-chat-bubble-bg, var(--loomi-primary-50));
   color: var(--loomi-chat-bubble-text, var(--loomi-text));
-  padding: 10px;
+  padding: 6px 15px;
   text-align: left;
   font-size: 0.875rem;
   line-height: 1.5;
-  white-space: pre-wrap;
   word-break: break-word;
   box-shadow: 0 1px 2px color-mix(in srgb, var(--loomi-text) 6%, transparent);
 }
@@ -229,7 +228,7 @@
 
 .loomi-chat-composer {
   border-top: 1px solid var(--loomi-surface-border-subtle);
-  background: color-mix(in srgb, var(--loomi-surface-muted) 50%, transparent);
+  background: var(--loomi-surface-muted);
   padding: var(--loomi-card-spacing, 1rem);
 }
 
@@ -273,8 +272,13 @@
   gap: 0.375rem;
   border: 1px solid var(--loomi-surface-border-subtle);
   border-radius: 0.75rem;
-  background: var(--loomi-surface-muted);
+  background: var(--loomi-surface);
   overflow: hidden;
+  transition: border-color 0.15s ease;
+}
+
+.loomi-chat-input-group:focus-within {
+  border-color: var(--loomi-primary-600);
 }
 
 .loomi-chat-input {
