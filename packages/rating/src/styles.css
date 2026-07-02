@@ -14,7 +14,7 @@
   background: transparent;
   padding: 0;
   line-height: 0;
-  color: var(--loomi-gray-300);
+  color: var(--loomi-text-faint);
   cursor: pointer;
 }
 .loomi-rating.readonly .loomi-star {

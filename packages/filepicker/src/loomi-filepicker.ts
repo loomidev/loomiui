@@ -21,9 +21,9 @@ const CROP_STAGE_STYLE =
   "position:relative;display:inline-block;line-height:0;max-width:100%;max-height:55vh;overflow:hidden;border-radius:0.4rem;";
 const CROP_IMG_STYLE = "display:block;max-width:100%;max-height:55vh;-webkit-user-drag:none;user-select:none;";
 const CROP_RECT_STYLE =
-  "position:absolute;box-shadow:0 0 0 9999px rgba(15,23,42,.55);border:1px solid #fff;cursor:move;touch-action:none;";
+  "position:absolute;box-shadow:0 0 0 9999px rgba(15,23,42,.55);border:1px solid var(--loomi-surface-border);cursor:move;touch-action:none;";
 const CROP_HANDLE_STYLE =
-  "position:absolute;right:-0.4rem;bottom:-0.4rem;width:0.85rem;height:0.85rem;border-radius:9999px;background:#fff;border:1px solid #1d4ed8;cursor:nwse-resize;touch-action:none;";
+  "position:absolute;right:-0.4rem;bottom:-0.4rem;width:0.85rem;height:0.85rem;border-radius:9999px;background:var(--loomi-surface);border:1px solid var(--loomi-primary-600,#1d4ed8);cursor:nwse-resize;touch-action:none;";
 
 export type LoomiCropAspectRatio = "16:9" | "4:3" | "2:3" | "1:1" | "free";
 

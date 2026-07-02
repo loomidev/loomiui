@@ -246,8 +246,8 @@
 
 .loomi-editor pre {
   border-radius: 0.45rem;
-  background: var(--loomi-gray-950);
-  color: var(--loomi-gray-50);
+  background: var(--loomi-text);
+  color: var(--loomi-surface);
   padding: 0.75rem;
   overflow: auto;
   white-space: pre-wrap;

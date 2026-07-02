@@ -108,24 +108,24 @@
   opacity: 0.85;
 }
 .loomi-dot {
-  fill: var(--loomi-white, #fff);
+  fill: var(--loomi-surface);
   stroke: var(--_loomi-accent);
   stroke-width: 2;
   transition: r 120ms ease;
 }
 .loomi-dot.is-active {
   fill: var(--_loomi-accent);
-  stroke: var(--loomi-white, #fff);
+  stroke: var(--loomi-surface);
   stroke-width: 2;
 }
 .loomi-dot-2 {
-  fill: var(--loomi-white, #fff);
+  fill: var(--loomi-surface);
   stroke: var(--_loomi-accent-2, var(--_loomi-accent));
   stroke-width: 2;
 }
 .loomi-dot-2.is-active {
   fill: var(--_loomi-accent-2, var(--_loomi-accent));
-  stroke: var(--loomi-white, #fff);
+  stroke: var(--loomi-surface);
 }
 .loomi-bar-fill {
   transition: opacity 120ms ease;
@@ -178,7 +178,7 @@
   padding: 0.4rem 0.55rem;
   border: 1px solid var(--loomi-surface-border, #e2e8f0);
   border-radius: 0.375rem;
-  background: var(--loomi-surface, #fff);
+  background: var(--loomi-surface);
   box-shadow:
     0 4px 6px -1px rgb(15 23 42 / 0.08),
     0 2px 4px -2px rgb(15 23 42 / 0.06);

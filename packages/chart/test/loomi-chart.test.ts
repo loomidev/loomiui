@@ -87,6 +87,38 @@ describe("loomi-chart", () => {
     expect(el.shadowRoot!.querySelector(".loomi-bar-fill-2")).to.exist;
   });
 
+  it("renders multiple named bars per category via values", async () => {
+    const el = await fixture<LoomiChart>(html`<loomi-chart type="bar" show-legend></loomi-chart>`);
+    el.data = [
+      {
+        label: "Mon",
+        value: 0,
+        values: [
+          { label: "Mike", value: 4 },
+          { label: "Sam", value: 6 },
+          { label: "Fred", value: 3 },
+          { label: "Sara", value: 8 },
+        ],
+      },
+      {
+        label: "Tue",
+        value: 0,
+        values: [
+          { label: "Mike", value: 5 },
+          { label: "Sam", value: 4 },
+          { label: "Fred", value: 7 },
+          { label: "Sara", value: 6 },
+        ],
+      },
+    ];
+    await el.updateComplete;
+
+    expect(el.shadowRoot!.querySelectorAll(".loomi-bar-fill")).to.have.length(8);
+    const legend = el.shadowRoot!.querySelector(".loomi-legend")!;
+    expect(legend.textContent).to.include("Mike");
+    expect(legend.textContent).to.include("Sara");
+  });
+
   it("accepts data as a JSON attribute", async () => {
     const el = await fixture<LoomiChart>(
       html`<loomi-chart type="bar" data='[{"label":"Jan","value":30},{"label":"Feb","value":55}]'></loomi-chart>`,

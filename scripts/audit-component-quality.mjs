@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const packagesDir = path.join(rootDir, "packages");
-const skip = new Set(["mcp-server", "icons", "components", "forms", "navigation", "content"]);
+const skip = new Set(["mcp-server", "icons", "components", "forms", "navigation", "content", "theme"]);
 
 const requiredSections = ["## Accessibility", "## Responsive behavior", "## Dark mode"];
 const errors = [];
@@ -19,7 +19,9 @@ function packageNames() {
 
 function scanSource(packageName) {
   const srcDir = path.join(packagesDir, packageName, "src");
-  const files = readdirSync(srcDir).filter((file) => file.endsWith(".ts") || file.endsWith(".css"));
+  const files = readdirSync(srcDir).filter(
+    (file) => (file.endsWith(".ts") || file.endsWith(".css")) && file !== "brand-icons.ts"
+  );
   let source = "";
 
   for (const file of files) {

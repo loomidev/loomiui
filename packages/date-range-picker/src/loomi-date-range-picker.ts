@@ -93,7 +93,7 @@ export class LoomiDateRangePicker extends LoomiElement {
     :host {
       --loomi-date-border: var(--loomi-surface-border, #d9dee3);
       --loomi-date-muted: var(--loomi-text-muted, #62717d);
-      --loomi-date-surface: var(--loomi-surface, #ffffff);
+      --loomi-date-surface: var(--loomi-surface);
       --loomi-date-surface-active: var(--loomi-primary-50, var(--_loomi-primary-50-default, #eff6ff));
       --loomi-date-surface-hover: var(--loomi-surface-hover, #f9fbfc);
       --loomi-date-text: var(--loomi-text, #172026);

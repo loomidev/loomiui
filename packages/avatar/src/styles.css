@@ -19,7 +19,7 @@
   flex: none;
 }
 .loomi-av.ring {
-  box-shadow: 0 0 0 2px var(--loomi-white), 0 0 0 4px var(--_loomi-accent-ring, var(--loomi-gray-200, #e5e7eb));
+  box-shadow: 0 0 0 2px var(--loomi-surface), 0 0 0 4px var(--_loomi-accent-ring, var(--loomi-surface-border));
 }
 .loomi-av img {
   width: 100%;
@@ -37,8 +37,8 @@
   justify-content: center;
   font-weight: 600;
   text-transform: uppercase;
-  background: var(--_loomi-accent-soft, var(--loomi-gray-100));
-  color: var(--_loomi-accent-fg, var(--loomi-gray-600));
+  background: var(--_loomi-accent-soft, var(--loomi-surface-muted));
+  color: var(--_loomi-accent-fg, var(--loomi-text-secondary));
   font-size: calc(var(--loomi-av-size) * 0.4);
 }
 .loomi-dot {
@@ -166,8 +166,8 @@ slot {
   width: var(--loomi-av-size);
   height: var(--loomi-av-size);
   border-radius: 9999px;
-  background: var(--loomi-gray-200, #e5e7eb);
-  color: var(--loomi-gray-700, #374151);
+  background: var(--loomi-surface-hover);
+  color: var(--loomi-text-secondary);
   font-weight: 600;
   font-size: calc(var(--loomi-av-size) * 0.3);
   margin-left: var(--loomi-av-stack-offset);
