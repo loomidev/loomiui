@@ -1,6 +1,6 @@
 # @loomidev/chat
 
-`<loomi-chat-window>` and message scroller primitives for streaming chat transcripts.
+`<loomi-chat-window>` and `<loomi-chat-message>` for one-to-one and group chat UIs.
 
 ```bash
 npm install @loomidev/chat lit
@@ -12,59 +12,64 @@ import "@loomidev/chat";
 
 ## Chat Window
 
-Use `<loomi-chat-window>` for a ready-made chat card with header, transcript, and composer:
-
 ```html
 <loomi-chat-window
-  title="New Chat"
-  description="How can I help you today?"
-  auto-scroll
+  title="Design review"
+  description="Product, design, and eng"
+  current-user-id="you"
+  show-avatars
+  input-rows="2"
+  input-max-rows="5"
 ></loomi-chat-window>
 ```
 
 ```js
 const chat = document.querySelector("loomi-chat-window");
 
-chat.addEventListener("send", (event) => {
-  const assistant = chat.appendMessage({
-    role: "assistant",
-    text: "I'll keep the viewport pinned while you stay at the bottom.",
-  });
+chat.participants = [
+  { id: "you", name: "You", label: "YO", color: "primary" },
+  { id: "sara", name: "Sara", label: "SA", color: "purple", image: "/avatars/sara.png" },
+  { id: "alex", name: "Alex", label: "AL", color: "cyan" },
+];
 
-  // Update in place while streaming:
-  chat.updateMessageText(
-    assistant.id,
-    "Done. Scroll up and the jump button appears.",
-  );
+chat.addEventListener("send", (event) => {
+  const sender = chat.participants.find((person) => person.id !== "you");
+  if (!sender) return;
+
+  chat.appendMessage({
+    senderId: sender.id,
+    text: "Got it — I'll follow up after standup.",
+  });
 });
 ```
 
-## Message Scroller Composition
+Each participant gets a distinct bubble color automatically. Messages from `current-user-id` align to the right; everyone else aligns left with optional avatars and sender labels in group chats.
 
-For full control, compose the scroller primitives directly:
+## Message Bubble
+
+Use `<loomi-chat-message>` directly when building a custom transcript:
 
 ```html
-<loomi-chat-scroller auto-scroll scroll-previous-item-peek="64" style="height: 24rem">
-  <loomi-chat-viewport>
-    <loomi-chat-content>
-      <loomi-chat-item message-id="turn-1" scroll-anchor>
-        <loomi-chat-message message-role="user" text="Anchor my turn near the top"></loomi-chat-message>
-      </loomi-chat-item>
-      <loomi-chat-item message-id="turn-2">
-        <loomi-chat-message message-role="assistant" text="Replies stream below the anchor."></loomi-chat-message>
-      </loomi-chat-item>
-    </loomi-chat-content>
-  </loomi-chat-viewport>
-  <loomi-chat-scroll-button direction="end"></loomi-chat-scroll-button>
-</loomi-chat-scroller>
+<loomi-chat-message
+  text="Can we ship this today?"
+  sender="Sara"
+  sender-id="sara"
+  bubble-color="purple"
+  show-avatar
+  show-sender
+></loomi-chat-message>
+
+<loomi-chat-message
+  text="Yes — I'll push the release branch now."
+  sender="You"
+  sender-id="you"
+  bubble-color="primary"
+  outgoing
+  show-avatar
+></loomi-chat-message>
 ```
 
-### Scroll behavior
-
-- `auto-scroll` follows new content only while the reader is already at the bottom.
-- `scroll-anchor` on `<loomi-chat-item>` anchors a new turn near the top and keeps a
-  peek of the previous row visible (`scroll-previous-item-peek`, default `64`).
-- `<loomi-chat-scroll-button>` jumps back to the latest message when the reader scrolls up.
+Bubbles include a directional tail and a visible tinted background per participant color.
 
 ## Attributes
 
@@ -72,59 +77,69 @@ For full control, compose the scroller primitives directly:
 
 | Attribute | Default | Description |
 | --- | --- | --- |
-| `title` | `New Chat` | Card heading. |
-| `description` | `How can I help you today?` | Card subheading. |
+| `title` | `New Chat` | Header title. |
+| `description` | `How can I help you today?` | Header subtitle. |
+| `current-user-id` | `you` | Outgoing messages use this sender id. |
+| `participants` | `[]` | Group roster with `id`, `name`, optional `image`, `label`, `color`. |
 | `empty-title` | `Morning!` | Empty-state heading. |
 | `empty-description` | … | Empty-state body copy. |
 | `input-placeholder` | `Message…` | Composer placeholder. |
-| `footer-note` | `""` | Optional note under the card. |
-| `window-height` | `35rem` | Card height (`--loomi-chat-window-height`). |
-| `auto-scroll` | `true` | Pin to bottom while the reader is at the live edge. |
-| `busy` | `false` | Shows a spinner and sets `aria-busy` on the transcript. |
+| `input-rows` | `2` | Initial composer height in rows. |
+| `input-max-rows` | `5` | Maximum composer growth in rows. |
+| `window-height` | `35rem` | Card height. |
+| `auto-scroll` | `true` | Follow new messages while pinned to the bottom. |
+| `show-avatars` | `false` | Show avatars beside transcript messages. Auto-enabled when there are more than two participants. |
+| `show-header-avatars` | `true` | Show stacked participant avatars in the header. |
+| `busy` | `false` | Disables composer and marks transcript busy. |
 | `read-only` | `false` | Disables the composer. |
-| `show-reset` | `true` | Shows the reset button in the header. |
+| `show-reset` | `true` | Shows the reset button. |
 
-### `<loomi-chat-scroller>`
+### `<loomi-chat-message>`
 
 | Attribute | Default | Description |
 | --- | --- | --- |
-| `auto-scroll` | `false` | Follow streamed output at the bottom edge. |
-| `default-scroll-position` | `end` | `start` \| `end` \| `last-anchor` |
-| `scroll-previous-item-peek` | `64` | Pixels of previous row kept visible when anchoring. |
-| `scroll-margin` | `0` | Extra offset for scroll commands. |
+| `text` | `""` | Message body. |
+| `sender` | `""` | Display name shown above the bubble. |
+| `sender-id` | `""` | Used to pick a fallback bubble color. |
+| `bubble-color` | auto | Any loomi palette color (`primary`, `purple`, `cyan`, …). |
+| `image` | `""` | Avatar image URL. |
+| `avatar-label` | initials | Avatar fallback label. |
+| `outgoing` | `false` | Right-align the bubble with a trailing tail. |
+| `show-avatar` | `false` | Render an avatar beside the bubble. |
+| `show-sender` | `false` | Render the sender name above the bubble. |
 
 ## Events
 
 | Event | Detail | Description |
 | --- | --- | --- |
-| `send` | `{ message }` | User submitted the composer. |
-| `reset` | — | Transcript cleared via reset. |
+| `send` | `{ message }` | Current user submitted the composer. |
+| `reset` | — | Transcript cleared. |
 
 ## Methods
 
 | Method | Description |
 | --- | --- |
 | `appendMessage(message)` | Push a message onto the transcript. |
-| `updateMessageText(id, text)` | Replace message text (streaming). |
+| `updateMessageText(id, text)` | Replace message text while streaming. |
 | `reset()` | Clear messages and composer. |
-| `scrollToEnd()` / `scrollToStart()` / `scrollToMessage(id)` | Imperative scroll controls on `<loomi-chat-scroller>`. |
+| `scrollToBottom()` | Jump to the latest message. |
 
 <!-- BEGIN loomi-framework-guide -->
 
 ## Framework integration
 
-`<loomi-chat-window>` is a standard custom element. Install the package, import it once before the tag is rendered, then compose it in your template.
+`<loomi-chat-window>` and `<loomi-chat-message>` are standard custom elements, so the browser can use them in plain HTML, Blade, React, Vue, Angular, Svelte, Astro, and most other frameworks. The important beginner rule is: install the package, import it once before the tag is rendered, then write the Loomi tag in your template.
 
 ### Where to run commands
 
-Run install commands from the app where you want to use this component — the folder that contains that app's `package.json`.
+Run install commands from the app where you want to use this component. That means the folder that contains that app's `package.json`. Do not run these install commands from `packages/chat` unless you are editing LoomiUI itself.
 
 ```bash
 cd /path/to/your-app
 npm install @loomidev/chat lit
 ```
 
-If you are contributing to LoomiUI itself:
+If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
@@ -132,10 +147,198 @@ pnpm --filter @loomidev/chat build
 pnpm --filter @loomidev/chat typecheck
 ```
 
+### Plain HTML
+
+Use the CDN version for prototypes, documentation pages, or a quick reproduction. The import map tells the browser where to find Lit, which Loomi components use internally.
+
+```html
+<script type="importmap">
+  { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
+</script>
+<script type="module" src="https://esm.sh/@loomidev/chat"></script>
+
+<loomi-chat-window
+  id="team-chat"
+  current-user-id="you"
+  show-avatars
+  input-rows="2"
+  input-max-rows="5"
+></loomi-chat-window>
+<script type="module">
+  const chat = document.getElementById("team-chat");
+  chat.participants = [
+    { id: "you", name: "You", label: "YO", color: "primary" },
+    { id: "sara", name: "Sara", label: "SA", color: "purple" },
+  ];
+  chat.addEventListener("send", (event) => {
+    chat.appendMessage({
+      senderId: "sara",
+      text: `Reply to: ${event.detail.message.text}`,
+    });
+  });
+</script>
+```
+
 ### Bundlers and single-page apps
+
+In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
 ```js
 import "@loomidev/chat";
 ```
+
+
+`<loomi-chat-window>` accepts `participants` and `messages` as JavaScript properties. Use HTML attributes only for simple strings; use a property when you pass arrays, objects, or functions.
+
+```js
+const chat = document.querySelector("loomi-chat-window");
+chat.participants = [
+  { id: "you", name: "You", label: "YO", color: "primary" },
+  { id: "alex", name: "Alex", label: "AL", color: "cyan" },
+];
+chat.addEventListener("send", (event) => {
+  console.log(event.detail.message);
+});
+```
+
+### Laravel Blade
+
+Run the install command from your Laravel project root, then import the component in `resources/js/app.js`. If your project uses Laravel Vite, `npm run dev` and `npm run build` should also be run from the Laravel project root.
+
+```bash
+cd /path/to/your-laravel-app
+npm install @loomidev/chat lit
+npm run dev
+```
+
+```js
+// resources/js/app.js
+import "@loomidev/chat";
+```
+
+```blade
+<loomi-chat-window id="team-chat" current-user-id="you" show-avatars></loomi-chat-window>
+```
+
+### React
+
+React can render Loomi tags directly. If you are on React 18, or if you need to pass arrays, objects, or functions, use a ref and assign those values after the component mounts.
+
+```jsx
+import { useEffect, useRef } from "react";
+import "@loomidev/chat";
+
+export function LoomiExample() {
+  const chat = useRef(null);
+
+  useEffect(() => {
+    chat.current.participants = [
+      { id: "you", name: "You", label: "YO", color: "primary" },
+      { id: "sara", name: "Sara", label: "SA", color: "purple" },
+    ];
+    chat.current.addEventListener("send", (event) => {
+      chat.current.appendMessage({
+        senderId: "sara",
+        text: `Reply to: ${event.detail.message.text}`,
+      });
+    });
+  }, []);
+
+  return (
+    <loomi-chat-window ref={chat} current-user-id="you" show-avatars></loomi-chat-window>
+  );
+}
+```
+
+If TypeScript does not recognize the Loomi tag in JSX, add it to your app's JSX type declarations.
+
+### Vue
+
+Import the package in the component that uses it, or once in your main Vue file. Vue templates can use Loomi tags directly. For arrays, objects, or functions, pass the value as a JavaScript property instead of as plain text.
+
+```vue
+<script setup>
+import { ref } from "vue";
+import "@loomidev/chat";
+
+const participants = ref([
+  { id: "you", name: "You", label: "YO", color: "primary" },
+  { id: "sara", name: "Sara", label: "SA", color: "purple" },
+]);
+</script>
+
+<template>
+  <loomi-chat-window
+    :participants="participants"
+    current-user-id="you"
+    show-avatars
+  ></loomi-chat-window>
+</template>
+```
+
+If Vue warns that the tag is an unknown component, configure `compilerOptions.isCustomElement` for tags that start with `loomi-` in your Vite or Vue config.
+
+### Angular
+
+Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_ELEMENTS_SCHEMA`. For NgModule apps, add the schema to the module instead of the standalone component.
+
+```ts
+// app.component.ts
+import { AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, Component, ElementRef, ViewChild } from "@angular/core";
+import "@loomidev/chat";
+
+@Component({
+  selector: "app-root",
+  standalone: true,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  template: `
+    <loomi-chat-window #chat current-user-id="you" show-avatars></loomi-chat-window>
+  `,
+})
+export class AppComponent implements AfterViewInit {
+  @ViewChild("chat") chat!: ElementRef<any>;
+
+  ngAfterViewInit() {
+    this.chat.nativeElement.participants = [
+      { id: "you", name: "You", label: "YO", color: "primary" },
+      { id: "sara", name: "Sara", label: "SA", color: "purple" },
+    ];
+  }
+}
+```
+
+### Svelte and Astro
+
+Svelte can import the package inside a component script. Astro can import it in the frontmatter of the page or layout where the tag appears.
+
+```svelte
+<script>
+  import "@loomidev/chat";
+
+  const participants = [
+    { id: "you", name: "You", label: "YO", color: "primary" },
+    { id: "sara", name: "Sara", label: "SA", color: "purple" },
+  ];
+</script>
+
+<loomi-chat-window {participants} current-user-id="you" show-avatars></loomi-chat-window>
+```
+
+```astro
+---
+import "@loomidev/chat";
+
+const participants = [
+  { id: "you", name: "You", label: "YO", color: "primary" },
+  { id: "sara", name: "Sara", label: "SA", color: "purple" },
+];
+---
+
+<loomi-chat-window participants={participants} current-user-id="you" show-avatars client:load />
+```
+
+### Server-side rendering notes
+
+Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on the server before browser-only code runs. If your framework complains, move the Loomi import to client-side code. In Next.js, that usually means a component with `"use client"`; in Nuxt, it often means a `.client.ts` plugin.
 
 <!-- END loomi-framework-guide -->

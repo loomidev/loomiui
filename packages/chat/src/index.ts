@@ -1,25 +1,19 @@
-import "./loomi-chat.js";
+import "./loomi-chat-message.js";
 import "./loomi-chat-window.js";
 
-export {
-  LoomiChatScroller,
-  LoomiChatViewport,
-  LoomiChatContent,
-  LoomiChatItem,
-  LoomiChatScrollButton,
-  LoomiChatMessage,
-  type LoomiChatMessageRole,
-  type LoomiChatMessageVariant,
-} from "./loomi-chat.js";
+export { LoomiChatMessage } from "./loomi-chat-message.js";
 export {
   LoomiChatWindow,
   type LoomiChatWindowMessage,
 } from "./loomi-chat-window.js";
 export {
-  ChatScrollerController,
-  getChatScrollerController,
-  findChatScrollerHost,
-  type LoomiChatScrollPosition,
-  type LoomiChatScrollerOptions,
-  type LoomiChatScrollToOptions,
-} from "./chat-scroller-controller.js";
+  PARTICIPANT_COLORS,
+  bubbleVars,
+  colorForParticipant,
+  initialsFor,
+  resolveParticipant,
+  resolveSenderId,
+  type LoomiChatMessageData,
+  type LoomiChatParticipant,
+  type LoomiChatParticipantColor,
+} from "./chat-utils.js";

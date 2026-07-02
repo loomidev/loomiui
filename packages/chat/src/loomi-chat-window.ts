@@ -1,21 +1,23 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
-import { LoomiElement, loomiStyles } from "@loomidev/core";
+import { LoomiElement, loomiStyles, type LoomiColor } from "@loomidev/core";
+import "@loomidev/avatar/loomi-avatar.js";
 import "@loomidev/button/loomi-button.js";
 import "@loomidev/icon/loomi-icon.js";
 import "@loomidev/spinner/loomi-spinner.js";
-import "@loomidev/textarea/loomi-textarea.js";
 import "@loomidev/tooltip/loomi-tooltip.js";
-import type { LoomiTextarea } from "@loomidev/textarea";
-import "./loomi-chat.js";
+import "./loomi-chat-message.js";
+import {
+  colorForParticipant,
+  initialsFor,
+  resolveParticipant,
+  resolveSenderId,
+  type LoomiChatMessageData,
+  type LoomiChatParticipant,
+} from "./chat-utils.js";
 import { componentStyles } from "./generated/styles.css.js";
 
-export interface LoomiChatWindowMessage {
-  id: string;
-  role: "user" | "assistant";
-  text: string;
-  sender?: string;
-}
+export type LoomiChatWindowMessage = LoomiChatMessageData;
 
 const booleanAttribute = {
   fromAttribute(value: string | null): boolean {
@@ -33,11 +35,12 @@ function createMessageId(): string {
   return `loomi-chat-${messageUid}`;
 }
 
+const SCROLL_THRESHOLD = 24;
+
 /**
- * `<loomi-chat-window>` — a chat card with message scroller, empty state, reset
- * control, and composer footer.
+ * `<loomi-chat-window>` — a chat card with transcript, participant avatars, and composer.
  *
- * @fires send - `detail: { message: LoomiChatWindowMessage }` when the user sends.
+ * @fires send - `detail: { message: LoomiChatWindowMessage }` when the current user sends.
  * @fires reset - when the conversation is reset.
  */
 @customElement("loomi-chat-window")
@@ -52,22 +55,50 @@ export class LoomiChatWindow extends LoomiElement {
   @property({ attribute: "input-placeholder" }) inputPlaceholder = "Message…";
   @property({ attribute: "footer-note" }) footerNote = "";
   @property({ attribute: "window-height" }) windowHeight = "35rem";
+  @property({ attribute: "current-user-id" }) currentUserId = "you";
+  @property({ type: Array }) participants: LoomiChatParticipant[] = [];
+  @property({ type: Array }) messages: LoomiChatWindowMessage[] = [];
+  @property({ type: Number, attribute: "input-rows" }) inputRows = 2;
+  @property({ type: Number, attribute: "input-max-rows" }) inputMaxRows = 5;
   @property({ type: Boolean, reflect: true }) busy = false;
   @property({ type: Boolean, attribute: "auto-scroll", converter: booleanAttribute })
   autoScroll = true;
   @property({ type: Boolean, attribute: "show-reset", converter: booleanAttribute })
   showReset = true;
+  @property({ type: Boolean, attribute: "show-avatars", converter: booleanAttribute })
+  showAvatars = false;
+  @property({ type: Boolean, attribute: "show-header-avatars", converter: booleanAttribute })
+  showHeaderAvatars = true;
   @property({ type: Boolean, attribute: "read-only", converter: booleanAttribute })
   readOnly = false;
 
-  @property({ type: Array }) messages: LoomiChatWindowMessage[] = [];
-
   @state() private draft = "";
-  @query("loomi-textarea") private textareaEl?: LoomiTextarea;
+  @state() private showJumpButton = false;
+  @query(".loomi-chat-transcript") private transcriptEl?: HTMLElement;
+  @query(".loomi-chat-input") private inputEl?: HTMLTextAreaElement;
+
+  private pinnedToBottom = true;
+  private resizeObserver?: ResizeObserver;
 
   override connectedCallback(): void {
     super.connectedCallback();
     this.style.setProperty("--loomi-chat-window-height", this.windowHeight);
+  }
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.resizeObserver?.disconnect();
+  }
+
+  override firstUpdated(): void {
+    const transcript = this.transcriptEl;
+    if (!transcript) return;
+    transcript.addEventListener("scroll", this.onTranscriptScroll, { passive: true });
+    this.resizeObserver = new ResizeObserver(() => {
+      if (this.pinnedToBottom && this.autoScroll) this.scrollToBottom("instant");
+    });
+    this.resizeObserver.observe(transcript);
+    this.syncComposerHeight();
   }
 
   protected override updated(changed: PropertyValues<this>): void {
@@ -75,46 +106,100 @@ export class LoomiChatWindow extends LoomiElement {
     if (changed.has("windowHeight")) {
       this.style.setProperty("--loomi-chat-window-height", this.windowHeight);
     }
+    if (changed.has("messages") && this.pinnedToBottom && this.autoScroll) {
+      this.updateComplete.then(() => this.scrollToBottom("instant"));
+    }
+    if (changed.has("inputRows") || changed.has("inputMaxRows")) {
+      this.updateComplete.then(() => this.syncComposerHeight());
+    }
   }
 
   /** Append a message to the transcript. */
-  appendMessage(message: Omit<LoomiChatWindowMessage, "id"> & { id?: string }): LoomiChatWindowMessage {
+  appendMessage(
+    message: Omit<LoomiChatWindowMessage, "id"> & { id?: string },
+  ): LoomiChatWindowMessage {
+    const senderId = resolveSenderId(message, this.currentUserId);
     const next: LoomiChatWindowMessage = {
       id: message.id ?? createMessageId(),
-      role: message.role,
       text: message.text,
-      sender: message.sender,
+      senderId,
+      role: message.role,
     };
     this.messages = [...this.messages, next];
     return next;
   }
 
-  /** Replace the text of an existing message (for streaming). */
   updateMessageText(id: string, text: string): void {
     this.messages = this.messages.map((message) =>
       message.id === id ? { ...message, text } : message,
     );
   }
 
-  /** Clear the transcript and composer. */
   reset(): void {
     this.messages = [];
     this.draft = "";
+    this.pinnedToBottom = true;
+    this.showJumpButton = false;
     this.dispatchEvent(new CustomEvent("reset", { bubbles: true, composed: true }));
+    this.updateComplete.then(() => this.syncComposerHeight());
   }
 
-  private onDraftInput = (event: Event): void => {
-    const target = event.target as LoomiTextarea;
-    this.draft = target.value;
+  scrollToBottom(behavior: ScrollBehavior = "smooth"): void {
+    const transcript = this.transcriptEl;
+    if (!transcript) return;
+    transcript.scrollTo({ top: transcript.scrollHeight, behavior });
+    this.pinnedToBottom = true;
+    this.showJumpButton = false;
+  }
+
+  private get roster(): LoomiChatParticipant[] {
+    if (this.participants.length) return this.participants;
+    return [
+      { id: this.currentUserId, name: "You", label: "YO", color: "primary" },
+      { id: "assistant", name: "Assistant", label: "AI", color: "blue" },
+    ];
+  }
+
+  private get showMessageAvatars(): boolean {
+    return this.showAvatars || this.roster.length > 2;
+  }
+
+  private onTranscriptScroll = (): void => {
+    const transcript = this.transcriptEl;
+    if (!transcript) return;
+    const distance = transcript.scrollHeight - transcript.scrollTop - transcript.clientHeight;
+    this.pinnedToBottom = distance <= SCROLL_THRESHOLD;
+    this.showJumpButton = !this.pinnedToBottom;
   };
+
+  private onDraftInput = (): void => {
+    this.draft = this.inputEl?.value ?? "";
+    this.syncComposerHeight();
+  };
+
+  private syncComposerHeight(): void {
+    const input = this.inputEl;
+    if (!input) return;
+    input.style.height = "auto";
+    const styles = getComputedStyle(input);
+    const lineHeight = Number.parseFloat(styles.lineHeight) || 20;
+    const padding =
+      Number.parseFloat(styles.paddingTop) + Number.parseFloat(styles.paddingBottom);
+    const minHeight = lineHeight * this.inputRows + padding;
+    const maxHeight = lineHeight * this.inputMaxRows + padding;
+    const nextHeight = Math.min(Math.max(input.scrollHeight, minHeight), maxHeight);
+    input.style.height = `${nextHeight}px`;
+    input.style.overflowY = input.scrollHeight > maxHeight ? "auto" : "hidden";
+  }
 
   private onSubmit = (event?: Event): void => {
     event?.preventDefault();
     const text = this.draft.trim();
     if (!text || this.busy || this.readOnly) return;
-    const message = this.appendMessage({ role: "user", text });
+    const message = this.appendMessage({ senderId: this.currentUserId, text, role: "user" });
     this.draft = "";
-    if (this.textareaEl) this.textareaEl.value = "";
+    if (this.inputEl) this.inputEl.value = "";
+    this.syncComposerHeight();
     this.dispatchEvent(
       new CustomEvent("send", {
         bubbles: true,
@@ -135,31 +220,43 @@ export class LoomiChatWindow extends LoomiElement {
     this.onSubmit();
   };
 
-  private renderMessages(): TemplateResult {
-    return html`${this.messages.map(
-      (message) => html`<loomi-chat-item
-        message-id=${message.id}
-        ?scroll-anchor=${message.role === "user"}
-      >
-        <loomi-chat-message
-          message-role=${message.role}
-          .variant=${message.role === "user" ? "muted" : "ghost"}
-          sender=${message.sender ?? ""}
-          text=${message.text}
-        ></loomi-chat-message>
-      </loomi-chat-item>`,
-    )}`;
+  private renderHeaderAvatars(): TemplateResult {
+    const roster = this.roster.slice(0, 5);
+    const overflow = this.roster.length - roster.length;
+    return html`<loomi-avatars stacked size="small" plus=${overflow > 0 ? overflow : nothing}>
+      ${roster.map(
+        (participant) => html`<loomi-avatar
+          image=${participant.image ?? ""}
+          label=${participant.label ?? initialsFor(participant.name)}
+          alt=${participant.name}
+          bg-color=${(participant.color ?? colorForParticipant(participant.id)) as LoomiColor}
+        ></loomi-avatar>`,
+      )}
+    </loomi-avatars>`;
   }
 
-  private renderEmptyState(): TemplateResult {
-    return html`<div class="loomi-chat-empty">
-      <loomi-icon
-        name="chat-bubble-left-ellipsis"
-        class="loomi-chat-empty-icon"
-      ></loomi-icon>
-      <div class="loomi-chat-empty-title">${this.emptyTitle}</div>
-      <div class="loomi-chat-empty-copy">${this.emptyDescription}</div>
-    </div>`;
+  private renderMessages(): TemplateResult {
+    const showAvatars = this.showMessageAvatars;
+    const showSender = this.roster.length > 2;
+
+    return html`${this.messages.map((message) => {
+      const senderId = resolveSenderId(message, this.currentUserId);
+      const participant = resolveParticipant(this.roster, senderId);
+      const outgoing = senderId === this.currentUserId;
+      const color = participant.color ?? colorForParticipant(senderId);
+
+      return html`<loomi-chat-message
+        text=${message.text}
+        sender=${participant.name}
+        sender-id=${senderId}
+        image=${participant.image ?? ""}
+        avatar-label=${participant.label ?? initialsFor(participant.name)}
+        bubble-color=${color}
+        ?outgoing=${outgoing}
+        ?show-avatar=${showAvatars}
+        ?show-sender=${showSender && !outgoing}
+      ></loomi-chat-message>`;
+    })}`;
   }
 
   override render(): TemplateResult {
@@ -169,6 +266,9 @@ export class LoomiChatWindow extends LoomiElement {
       <div class="loomi-chat-card-wrap">
         <div class="loomi-chat-shell">
           <header class="loomi-chat-header">
+            ${this.showHeaderAvatars && this.roster.length > 1
+              ? html`<div class="loomi-chat-header-avatars">${this.renderHeaderAvatars()}</div>`
+              : nothing}
             <div class="loomi-chat-header-copy">
               <div class="loomi-chat-title">${this.title}</div>
               <div class="loomi-chat-description">${this.description}</div>
@@ -192,34 +292,46 @@ export class LoomiChatWindow extends LoomiElement {
 
           <div class="loomi-chat-body">
             ${hasMessages
-              ? html`<loomi-chat-scroller
-                  ?auto-scroll=${this.autoScroll}
-                  default-scroll-position="end"
-                  scroll-previous-item-peek="64"
-                >
-                  <loomi-chat-viewport>
-                    <loomi-chat-content ?transcript-busy=${this.busy}>
-                      ${this.renderMessages()}
-                    </loomi-chat-content>
-                  </loomi-chat-viewport>
-                  <loomi-chat-scroll-button direction="end"></loomi-chat-scroll-button>
-                </loomi-chat-scroller>`
-              : this.renderEmptyState()}
+              ? html`<div class="loomi-chat-transcript-wrap">
+                  <div
+                    class="loomi-chat-transcript"
+                    role="log"
+                    aria-live="polite"
+                    aria-relevant="additions"
+                    aria-busy=${this.busy ? "true" : "false"}
+                  >
+                    ${this.renderMessages()}
+                  </div>
+                  <button
+                    type="button"
+                    class="loomi-chat-jump-btn"
+                    data-active=${this.showJumpButton ? "true" : "false"}
+                    ?hidden=${!this.showJumpButton}
+                    aria-label="Jump to latest message"
+                    @click=${() => this.scrollToBottom("smooth")}
+                  >
+                    <loomi-icon name="arrow-down"></loomi-icon>
+                  </button>
+                </div>`
+              : html`<div class="loomi-chat-empty">
+                  <loomi-icon name="chat-bubble-left-ellipsis" class="loomi-chat-empty-icon"></loomi-icon>
+                  <div class="loomi-chat-empty-title">${this.emptyTitle}</div>
+                  <div class="loomi-chat-empty-copy">${this.emptyDescription}</div>
+                </div>`}
           </div>
 
           <footer class="loomi-chat-composer">
             <form class="loomi-chat-input-wrap" @submit=${this.onSubmit}>
               <div class="loomi-chat-input-group">
-                <div class="loomi-chat-input-body">
-                  <loomi-textarea
-                    .value=${this.draft}
-                    placeholder=${this.inputPlaceholder}
-                    rows="2"
-                    ?disabled=${this.busy || this.readOnly}
-                    @input=${this.onDraftInput}
-                    @keydown=${this.onComposerKeydown}
-                  ></loomi-textarea>
-                </div>
+                <textarea
+                  class="loomi-chat-input"
+                  .value=${this.draft}
+                  placeholder=${this.inputPlaceholder}
+                  rows=${this.inputRows}
+                  ?disabled=${this.busy || this.readOnly}
+                  @input=${this.onDraftInput}
+                  @keydown=${this.onComposerKeydown}
+                ></textarea>
                 <div class="loomi-chat-input-actions">
                   ${this.busy
                     ? html`<loomi-spinner type="dot" size="small" color="gray"></loomi-spinner>`
