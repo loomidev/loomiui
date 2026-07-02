@@ -12,6 +12,15 @@ npm install @loomidev/select lit
 import "@loomidev/select";
 ```
 
+
+## Accessibility
+- WAI-ARIA combobox pattern: `aria-expanded`, `aria-activedescendant`, typeahead, Arrow/Enter/Escape.
+
+## Responsive behavior
+- Dropdown width matches trigger; long lists scroll inside the panel.
+
+## Dark mode
+- Trigger and menu surfaces use `--loomi-surface` / `--loomi-text` tokens.
 ## Basic Usage (Data-Driven)
 
 Pass an array via the `.data` property, or a JSON string via the `data` attribute. Keys

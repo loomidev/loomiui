@@ -181,7 +181,7 @@ export class LoomiFilterBuilder extends LoomiElement {
     .apply {
       border-radius: 6px;
       background: var(--loomi-filter-accent);
-      color: #ffffff;
+      color: var(--loomi-text-on-primary, var(--loomi-white));
       font-weight: 700;
     }
 

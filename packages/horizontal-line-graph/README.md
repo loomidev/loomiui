@@ -12,6 +12,16 @@ npm install @loomidev/horizontal-line-graph lit
 import "@loomidev/horizontal-line-graph";
 ```
 
+
+## Accessibility
+- `role="img"` with an `aria-label` summarizing segment percentages.
+- Legend repeats segment labels for sighted users.
+
+## Responsive behavior
+- Legend wraps on narrow viewports.
+
+## Dark mode
+- Track and legend text use semantic muted/text tokens.
 ## Basic Usage
 
 ```html

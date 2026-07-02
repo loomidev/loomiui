@@ -4,7 +4,7 @@ export const calendarStyles = css`
   :host {
     --loomi-calendar-border: var(--loomi-surface-border, #d9dee3);
     --loomi-calendar-border-subtle: var(--loomi-surface-border-subtle, #edf0f2);
-    --loomi-calendar-surface: var(--loomi-surface, #ffffff);
+    --loomi-calendar-surface: var(--loomi-surface);
     --loomi-calendar-surface-muted: var(--loomi-surface-muted, #f6f8fa);
     --loomi-calendar-surface-hover: var(--loomi-surface-hover, #f9fbfc);
     --loomi-calendar-text: var(--loomi-text, #172026);
@@ -190,7 +190,7 @@ export const calendarStyles = css`
   }
 
   .mini-day.selected .mini-day-dot {
-    background: var(--loomi-white, #ffffff);
+    background: var(--loomi-text-on-primary, var(--loomi-white));
   }
 
   .mini-day:hover {
@@ -208,7 +208,7 @@ export const calendarStyles = css`
 
   .mini-day.selected {
     background: var(--loomi-calendar-accent);
-    color: var(--loomi-white, #ffffff);
+    color: var(--loomi-text-on-primary, var(--loomi-white));
   }
 
   .sidebar-event-list {
@@ -451,14 +451,14 @@ export const calendarStyles = css`
   .btn-primary {
     background: var(--loomi-calendar-accent);
     border-color: var(--loomi-calendar-accent);
-    color: var(--loomi-white, #ffffff);
+    color: var(--loomi-text-on-primary, var(--loomi-white));
     font-weight: 600;
   }
 
   .btn-primary:hover {
     background: var(--loomi-calendar-accent-strong);
     border-color: var(--loomi-calendar-accent-strong);
-    color: var(--loomi-white, #ffffff);
+    color: var(--loomi-text-on-primary, var(--loomi-white));
   }
 
   .event-form {
@@ -934,7 +934,7 @@ export const calendarStyles = css`
 
   .weekday-btn.is-today .weekday-date {
     background: var(--loomi-calendar-accent);
-    color: var(--loomi-white, #ffffff);
+    color: var(--loomi-text-on-primary, var(--loomi-white));
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--loomi-calendar-accent-soft) 70%, transparent);
   }
 
@@ -1009,7 +1009,7 @@ export const calendarStyles = css`
   .month-cell.today .day-num,
   .day-num.today {
     background: var(--loomi-calendar-accent);
-    color: var(--loomi-white, #ffffff);
+    color: var(--loomi-text-on-primary, var(--loomi-white));
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--loomi-calendar-accent-soft) 75%, transparent);
   }
 

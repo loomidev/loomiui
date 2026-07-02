@@ -4,6 +4,16 @@
 
 Typed fields, field-specific operators, `and` / `or` logic, and API-friendly `{ logic, rules }` output.
 
+## Accessibility
+- Filter logic toggle uses `aria-pressed`.
+- Each rule row exposes labelled field, operator, and value controls.
+- Remove actions include an accessible name.
+
+## Responsive behavior
+- Rule rows stack vertically below `720px`.
+
+## Dark mode
+- Panel background and text use `--loomi-filter-*` semantic aliases.
 ## Installation
 
 

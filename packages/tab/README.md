@@ -14,6 +14,16 @@ npm install @loomidev/tab lit
 import "@loomidev/tab";
 ```
 
+
+## Accessibility
+- WAI-ARIA tabs pattern with `role="tablist"`, roving tabindex, Arrow/Home/End keys.
+- See APG link in README.
+
+## Responsive behavior
+- Tab list scrolls horizontally when tabs overflow.
+
+## Dark mode
+- Active tab indicator uses primary tokens on semantic surfaces.
 ## Basic Usage
 
 Wrap any number of `<loomi-tab>` elements in a `<loomi-tabs>`. The tab marked `active`

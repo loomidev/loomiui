@@ -17,7 +17,9 @@
     "clean": "pnpm -r exec rm -rf dist tsconfig.tsbuildinfo && rm -rf node_modules/.cache",
     "dev": "pnpm -r --parallel dev",
     "typecheck": "pnpm -r typecheck",
-    "test": "web-test-runner"
+    "test": "web-test-runner",
+    "audit:quality": "node scripts/audit-component-quality.mjs",
+    "quality:readmes": "node scripts/ensure-quality-readmes.mjs"
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",

@@ -7,8 +7,8 @@
 }
 
 .loomi-tip {
-  --_loomi-tooltip-bg: var(--loomi-gray-900, #111827);
-  --_loomi-tooltip-color: var(--loomi-white);
+  --_loomi-tooltip-bg: var(--loomi-text);
+  --_loomi-tooltip-color: var(--loomi-surface);
 
   position: absolute;
   z-index: 60;
@@ -29,10 +29,10 @@
     transform 0.12s ease;
 }
 :host([shade="light"]) .loomi-tip {
-  --_loomi-tooltip-bg: var(--loomi-white);
-  --_loomi-tooltip-color: var(--loomi-gray-900, #111827);
+  --_loomi-tooltip-bg: var(--loomi-surface);
+  --_loomi-tooltip-color: var(--loomi-text);
 
-  border-color: var(--loomi-gray-200, #e5e7eb);
+  border-color: var(--loomi-surface-border);
   box-shadow: 0 0.5rem 1.25rem rgb(17 24 39 / 0.12);
 }
 :host(:hover) .loomi-tip,

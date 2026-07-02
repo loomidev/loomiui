@@ -4,6 +4,16 @@
 
 Grouped commands, fuzzy search, keyboard selection, optional `href` navigation, and typed select/query/open-change events. Opens with `Cmd K` or `Ctrl K`.
 
+## Accessibility
+- Modal dialog with `aria-modal`, labelled search field, and listbox-style results.
+- Arrow keys move selection; Enter runs command; Escape closes and restores focus.
+- Global shortcut (default ⌘K / Ctrl+K) documented for power users.
+
+## Responsive behavior
+- Dialog uses full viewport width below `640px` with reduced top padding.
+
+## Dark mode
+- Dialog surfaces use `--loomi-command-*` aliases bound to semantic tokens.
 ## Installation
 
 

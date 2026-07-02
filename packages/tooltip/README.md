@@ -10,6 +10,18 @@ npm install @loomidev/tooltip lit
 import "@loomidev/tooltip";
 ```
 
+
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Default tooltip inverts `--loomi-text` / `--loomi-surface` for contrast in both themes.
+- `shade="light"` uses raised surface, border, and text tokens.
+
 ## Basic Usage
 
 Wrap whatever should trigger the tooltip in the default slot, and set `content` for

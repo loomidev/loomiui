@@ -12,6 +12,16 @@ npm install @loomidev/empty-state lit
 import "@loomidev/empty-state";
 ```
 
+
+## Accessibility
+- `role="status"` region labelled by the heading.
+- Decorative illustration is hidden from assistive tech; action button is a native `<button>`.
+
+## Responsive behavior
+- Centered column with reduced padding below `640px`.
+
+## Dark mode
+- Text uses `--loomi-text` / `--loomi-text-muted`; not raw gray ramps.
 ## Basic Usage
 
 ```html

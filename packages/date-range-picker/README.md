@@ -4,6 +4,15 @@
 
 ISO date strings, presets, optional comparison ranges, apply/change events, and a responsive popover layout.
 
+## Accessibility
+- Popover pairs with calendar keyboard navigation.
+- Preset and comparison controls are labelled.
+
+## Responsive behavior
+- Popover layout reflows on narrow viewports (single-column presets).
+
+## Dark mode
+- Popover shell uses `--loomi-date-*` semantic aliases.
 ## Installation
 
 

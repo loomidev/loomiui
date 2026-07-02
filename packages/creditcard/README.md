@@ -14,6 +14,18 @@ npm install @loomidev/creditcard lit
 import "@loomidev/creditcard";
 ```
 
+
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Includes layout breakpoints for narrow viewports (see component CSS).
+
+## Dark mode
+- Outline variant uses semantic surface, border, and text tokens.
+- Filled card faces keep brand accent gradients with `--loomi-text-on-primary` labels.
+
 ## Basic Usage
 
 ```html

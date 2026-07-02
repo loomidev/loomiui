@@ -25,11 +25,25 @@ export class LoomiCard extends LoomiElement {
     else location.href = this.url;
   };
 
+  private onKeydown = (event: KeyboardEvent): void => {
+    if (!this.url) return;
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      this.onClick();
+    }
+  };
+
   override render(): TemplateResult {
     const cls = ["card", this.url ? "clickable" : "", this.hasHover ? "hover" : ""]
       .filter(Boolean)
       .join(" ");
-    return html`<div class=${cls} @click=${this.url ? this.onClick : nothing}><slot></slot></div>`;
+    return html`<div
+      class=${cls}
+      role=${this.url ? "link" : nothing}
+      tabindex=${this.url ? "0" : nothing}
+      @click=${this.url ? this.onClick : nothing}
+      @keydown=${this.url ? this.onKeydown : nothing}
+    ><slot></slot></div>`;
   }
 }
 

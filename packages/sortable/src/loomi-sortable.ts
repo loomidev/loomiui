@@ -9,6 +9,10 @@ export interface LoomiSortableItem {
   label: string;
   /** Optional secondary line rendered beneath the label (plain text, no markup). */
   meta?: string;
+  /** Initials shown in a trailing `<loomi-avatar>` when `avatarImage` is unset. */
+  avatarLabel?: string;
+  /** Image URL for a trailing `<loomi-avatar>`. */
+  avatarImage?: string;
   /** Additional classes applied to the rendered row, useful with selector filters. */
   className?: string;
   /** Excluded from dragging, equivalent to SortableJS's selector-based `filter`. */
@@ -413,6 +417,15 @@ export class LoomiSortable extends LoomiElement {
             <span class="loomi-label">${item.label}</span>
             ${item.meta ? html`<span class="loomi-meta">${item.meta}</span>` : nothing}
           </span>
+          ${item.avatarLabel || item.avatarImage
+            ? html`<span class="loomi-avatar-slot"
+                ><loomi-avatar
+                  size="tiny"
+                  label=${item.avatarLabel ?? ""}
+                  image=${item.avatarImage ?? ""}
+                ></loomi-avatar
+              ></span>`
+            : nothing}
           ${item.locked || filtered
             ? html`<svg class="loomi-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 ${getLoomiIcon("lock-closed")}

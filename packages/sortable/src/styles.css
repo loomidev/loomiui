@@ -79,6 +79,11 @@
   font-size: 0.8rem;
   color: var(--loomi-text-faint);
 }
+.loomi-avatar-slot {
+  flex: none;
+  margin-left: auto;
+  display: inline-flex;
+}
 .loomi-empty-hint {
   border: 1px dashed var(--loomi-surface-border);
   border-radius: 0.5rem;

@@ -35,6 +35,17 @@ import "@loomidev/content"; // registers all content elements
 
 <!-- BEGIN loomi-framework-guide -->
 
+
+## Accessibility
+- Prefer native HTML elements; add labels in your app shell where needed.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 ## Framework integration
 
 `@loomidev/content` registers all LoomiUI content/display components. Use it when you want one import for a whole category instead of installing each component separately.
