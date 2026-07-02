@@ -8,10 +8,10 @@
 .loomi-bell {
   position: relative;
   display: inline-flex;
-  color: var(--loomi-gray-600);
+  color: var(--loomi-text-secondary);
 }
 .loomi-bell.invert {
-  color: var(--loomi-white);
+  color: var(--loomi-text-on-primary, var(--loomi-white));
 }
 .loomi-bell svg {
   width: var(--loomi-bell-size, 1.5rem);
@@ -32,10 +32,10 @@
   height: 0.55rem;
   border-radius: 9999px;
   background: var(--_loomi-accent);
-  box-shadow: 0 0 0 2px var(--loomi-white);
+  box-shadow: 0 0 0 2px var(--loomi-surface);
 }
 .loomi-bell.invert .loomi-dot {
-  box-shadow: 0 0 0 2px var(--loomi-gray-900, #111827);
+  box-shadow: 0 0 0 2px var(--loomi-text);
 }
 .loomi-ping {
   position: absolute;

@@ -58,7 +58,7 @@ export class LoomiFilterBuilder extends LoomiElement {
     :host {
       --loomi-filter-border: var(--loomi-surface-border, #d9dee3);
       --loomi-filter-muted: var(--loomi-text-muted, #62717d);
-      --loomi-filter-surface: var(--loomi-surface, #ffffff);
+      --loomi-filter-surface: var(--loomi-surface);
       --loomi-filter-surface-muted: var(--loomi-surface-muted, #f6f8fa);
       --loomi-filter-surface-hover: var(--loomi-surface-hover, #f9fbfc);
       --loomi-filter-text: var(--loomi-text, #172026);

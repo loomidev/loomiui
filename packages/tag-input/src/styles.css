@@ -183,7 +183,7 @@
   line-height: 1.2;
   color: var(--loomi-text-secondary);
   background: transparent;
-  border: 1px solid var(--loomi-gray-300);
+  border: 1px solid var(--loomi-surface-border);
   border-radius: 0.375rem;
   user-select: none;
 }

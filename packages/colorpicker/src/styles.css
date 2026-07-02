@@ -64,6 +64,6 @@
   padding: 0;
 }
 .loomi-chip.selected {
-  outline: 2px solid var(--loomi-gray-900, #111827);
+  outline: 2px solid var(--loomi-text);
   outline-offset: 1px;
 }

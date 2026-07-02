@@ -6,7 +6,7 @@ export const dataGridStyles = css`
     --loomi-data-grid-border-subtle: var(--loomi-surface-border-subtle, #edf0f2);
     --loomi-data-grid-muted: var(--loomi-text-muted, #62717d);
     --loomi-data-grid-faint: var(--loomi-text-faint, #8a97a3);
-    --loomi-data-grid-surface: var(--loomi-surface, #ffffff);
+    --loomi-data-grid-surface: var(--loomi-surface);
     --loomi-data-grid-surface-muted: var(--loomi-surface-muted, #f6f8fa);
     --loomi-data-grid-surface-hover: var(--loomi-surface-hover, #f9fbfc);
     --loomi-data-grid-text: var(--loomi-text, #172026);

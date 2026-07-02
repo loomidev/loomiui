@@ -113,7 +113,7 @@ Default `type` is `bar`. The available chart types are:
 
 | Type | Description |
 | --- | --- |
-| `bar` | Compares values across categories. |
+| `bar` | Compares values across categories — supports grouped bars via `value2`/`value3` or a `values` array. |
 | `line` | Shows trends with a stroke, area fill, and dots. |
 | `area` | Like `line` but emphasizes the filled region (no dots). |
 | `pie` | Displays part-to-whole distribution in a full circle. |
@@ -160,6 +160,10 @@ All chart types use the same `data` shape, so you can change `type` without resh
 </script>
 ```
 
+`radar` plots each point around a circle (best with 3+ points) and connects them into a
+filled shape — good for comparing several metrics on the same scale. `scatter` plots each
+point as a standalone marker on the same axes as `bar`/`line`, with no connecting line.
+
 ## Dual series (bar & line)
 
 Add an optional `value2` on each data point to compare two metrics per category — grouped
@@ -171,9 +175,87 @@ bars on `type="bar"` and a second line on `type="line"`. Set `color2`, `series-l
   data='[{"label":"Jan","value":42,"value2":35},{"label":"Feb","value":38,"value2":40},{"label":"Mar","value":55,"value2":48}]'></loomi-chart>
 ```
 
-`radar` plots each point around a circle (best with 3+ points) and connects them into a
-filled shape — good for comparing several metrics on the same scale. `scatter` plots each
-point as a standalone marker on the same axes as `bar`/`line`, with no connecting line.
+## Grouped bars (multiple series per category)
+
+Use grouped bars when **one x-axis label maps to several bars** — e.g. tasks completed
+by each developer across the week. The point's `label` is the category on the x-axis;
+each entry in `values` is one bar with its own name and height.
+
+| Field | Role |
+| --- | --- |
+| `label` | X-axis category (`Mon`, `Tue`, …) |
+| `values[].label` | Series name in the legend and tooltip (`Mike`, `Sam`, …) |
+| `values[].value` | Bar height |
+| `values[].color` | Optional — overrides the palette for that series |
+
+Series order follows first-seen labels across the dataset. Turn on `show-legend` so the
+legend lists developers, not days. Hover a category to see every series value in the
+tooltip.
+
+`value` is still required on each point but ignored when `values` is present. For two or
+three fixed series, `value2` / `value3` still work — use `values` when you need four or
+more bars per category or labels that differ from `series-label`.
+
+```html
+<loomi-card title="Weekly Task Completions">
+  <loomi-chart id="tasks" type="bar" show-legend shade="dark"></loomi-chart>
+</loomi-card>
+
+<script type="module">
+  document.getElementById("tasks").data = [
+    {
+      label: "Mon",
+      value: 0,
+      values: [
+        { label: "Mike", value: 4, color: "primary" },
+        { label: "Sam", value: 6, color: "success" },
+        { label: "Fred", value: 3, color: "warning" },
+        { label: "Sara", value: 8, color: "purple" },
+      ],
+    },
+    {
+      label: "Tue",
+      value: 0,
+      values: [
+        { label: "Mike", value: 5, color: "primary" },
+        { label: "Sam", value: 4, color: "success" },
+        { label: "Fred", value: 7, color: "warning" },
+        { label: "Sara", value: 6, color: "purple" },
+      ],
+    },
+    {
+      label: "Wed",
+      value: 0,
+      values: [
+        { label: "Mike", value: 3, color: "primary" },
+        { label: "Sam", value: 8, color: "success" },
+        { label: "Fred", value: 5, color: "warning" },
+        { label: "Sara", value: 7, color: "purple" },
+      ],
+    },
+    {
+      label: "Thu",
+      value: 0,
+      values: [
+        { label: "Mike", value: 6, color: "primary" },
+        { label: "Sam", value: 5, color: "success" },
+        { label: "Fred", value: 4, color: "warning" },
+        { label: "Sara", value: 9, color: "purple" },
+      ],
+    },
+    {
+      label: "Fri",
+      value: 0,
+      values: [
+        { label: "Mike", value: 7, color: "primary" },
+        { label: "Sam", value: 6, color: "success" },
+        { label: "Fred", value: 8, color: "warning" },
+        { label: "Sara", value: 5, color: "purple" },
+      ],
+    },
+  ];
+</script>
+```
 
 ## Accent Color
 
@@ -333,7 +415,7 @@ the chart instead of wrapping below it.
 | Attribute | Default | Description |
 | --- | --- | --- |
 | `type` | `bar` | `bar` \| `line` \| `area` \| `pie` \| `donut` \| `radar` \| `radial` \| `scatter` |
-| `data` | `[]` | Series — `{ label, value, value2?, color?, color2? }[]` (property or JSON). |
+| `data` | `[]` | Series — `{ label, value, value2?, value3?, values?, color?, color2?, color3? }[]`. Use `values: [{ label, value, color? }]` on bar charts for 4+ grouped series per category. |
 | `color` | `primary` | Primary series color. |
 | `color2` | `success` | Second series color when points include `value2`. |
 | `series-label` | `Series 1` | Tooltip label for the primary series. |

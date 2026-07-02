@@ -25,7 +25,6 @@ import "@loomidev/filepicker";
 ## Dark mode
 - Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
 - Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
-- ⚠️ Audit raw `--loomi-gray-*` / hex fills and migrate to semantic tokens.
 ## Basic Usage
 
 Supports both click-to-browse and drag-and-drop out of the box.

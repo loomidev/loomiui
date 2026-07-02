@@ -11,7 +11,7 @@
   text-align: center;
   gap: 0.6rem;
   padding: 1.5rem;
-  color: var(--loomi-gray-600);
+  color: var(--loomi-text-muted);
 }
 .loomi-icon {
   width: 3.5rem;
@@ -34,7 +34,7 @@
 .state-failed .loomi-icon { color: var(--loomi-error-500, var(--_loomi-error-500-default)); }
 .loomi-title {
   font-weight: 600;
-  color: var(--loomi-gray-900);
+  color: var(--loomi-text);
   font-size: 1.05rem;
 }
 .loomi-message {

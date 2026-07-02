@@ -17,7 +17,7 @@
 }
 .loomi-bar-label-out {
   font-size: 0.8rem;
-  color: var(--loomi-gray-500);
+  color: var(--loomi-text-muted);
   margin-bottom: 0.25rem;
   display: flex;
 }
@@ -41,7 +41,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  color: var(--loomi-white);
+  color: var(--loomi-text-on-primary, var(--loomi-white));
   font-size: 0.65rem;
   font-weight: 600;
   padding-right: 0.4rem;
@@ -97,7 +97,7 @@
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  color: var(--loomi-gray-700);
+  color: var(--loomi-text-secondary);
 }
 
 /* ---- progress steps ---- */
@@ -197,7 +197,7 @@ a.loomi-step-control {
 .loomi-step-marker.complete {
   border-color: var(--_loomi-accent);
   background: var(--_loomi-accent);
-  color: var(--loomi-white);
+  color: var(--loomi-text-on-primary, var(--loomi-white));
 }
 .loomi-step-marker.current {
   border-color: var(--_loomi-accent);
@@ -207,7 +207,7 @@ a.loomi-step-control {
 .loomi-step-marker.error {
   border-color: var(--loomi-red-600);
   background: var(--loomi-red-600);
-  color: var(--loomi-white);
+  color: var(--loomi-text-on-primary, var(--loomi-white));
 }
 .loomi-step-copy {
   display: grid;

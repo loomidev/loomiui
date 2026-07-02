@@ -14,11 +14,11 @@
   justify-content: center;
   gap: 1rem;
   text-align: center;
-  border: 2px dashed var(--loomi-gray-300);
+  border: 2px dashed var(--loomi-surface-border);
   border-radius: 0.75rem;
   padding: 0.85rem 1.25rem;
-  color: var(--loomi-gray-500);
-  background: var(--loomi-gray-50);
+  color: var(--loomi-text-muted);
+  background: var(--loomi-surface-muted);
   cursor: pointer;
   transition:
     border-color 0.12s ease,
@@ -43,12 +43,12 @@
   width: 3rem;
   height: 3rem;
   border-radius: 9999px;
-  background: var(--loomi-gray-100);
+  background: var(--loomi-surface-hover);
 }
 .loomi-drop-icon svg {
   width: 1.5rem;
   height: 1.5rem;
-  color: var(--loomi-gray-500);
+  color: var(--loomi-text-muted);
 }
 .loomi-drop-text {
   display: flex;
@@ -59,7 +59,7 @@
 }
 .loomi-l1 {
   font-weight: 600;
-  color: var(--loomi-gray-700);
+  color: var(--loomi-text-secondary);
 }
 .loomi-l2 {
   font-size: 0.85rem;
@@ -83,7 +83,7 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  border: 1px solid var(--loomi-gray-200);
+  border: 1px solid var(--loomi-surface-border);
   border-radius: 0.5rem;
   padding: 0.5rem 0.75rem;
 }
@@ -92,28 +92,28 @@
   height: 2.5rem;
   border-radius: 0.4rem;
   object-fit: cover;
-  background: var(--loomi-gray-100);
+  background: var(--loomi-surface-hover);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--loomi-gray-400);
+  color: var(--loomi-text-faint);
   flex: none;
 }
 .loomi-thumb svg { width: 1.4rem; height: 1.4rem; }
 .loomi-meta { flex: 1 1 auto; min-width: 0; }
 .loomi-fname {
-  color: var(--loomi-gray-800);
+  color: var(--loomi-text);
   font-size: 0.875rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.loomi-fsize { color: var(--loomi-gray-400); font-size: 0.75rem; }
+.loomi-fsize { color: var(--loomi-text-faint); font-size: 0.75rem; }
 .loomi-remove {
   flex: none;
   border: 0;
   background: transparent;
-  color: var(--loomi-gray-400);
+  color: var(--loomi-text-faint);
   cursor: pointer;
   padding: 0.25rem;
   line-height: 0;

@@ -38,8 +38,8 @@
 }
 
 .loomi-copy-button:hover {
-  background: var(--loomi-gray-100);
-  color: var(--loomi-text-primary);
+  background: var(--loomi-surface-hover);
+  color: var(--loomi-text);
 }
 
 .loomi-copy-button:focus-visible {
