@@ -1,13 +1,11 @@
 /*
  * Shared Shadow-DOM styles for <loomi-button-group> and <loomi-button-group-item>.
  *
- * Colors are referenced exclusively through the --_loomi-accent* custom properties
- * set by accentVars() on the host element. Slotted items live in the light DOM as
- * children of the host, so theme and size vars must be applied to :host — not an inner
- * shadow wrapper — for items to inherit them into their own shadow trees.
- *
- * Size (padding, font-size) flows in the same way via --loomi-bg-pad-* and --loomi-bg-font
- * custom properties set on the parent container at render time.
+ * Unselected items mirror <loomi-button type="secondary">: transparent fill, neutral
+ * border, and surface-hover on hover. The selected item always uses a calm neutral gray
+ * fill (--loomi-bg-sel-*, set by the group host) rather than the group's accent color;
+ * `color` only tints the focus ring (--_loomi-accent-ring). Size tokens align with
+ * loomi-button control sizing.
  */
 
 /* ------------------------------------------------------------------ */
@@ -28,7 +26,6 @@
   align-items: stretch;
 }
 
-/* Group-level disabled: mute the whole strip and swallow pointer events. */
 .loomi-bg-group.disabled {
   opacity: 0.5;
   pointer-events: none;
@@ -40,10 +37,8 @@
 /* ------------------------------------------------------------------ */
 
 :host(loomi-button-group-item) {
-  /* flex child of the parent group */
   display: inline-flex;
   align-items: stretch;
-  /* needed so z-index on :hover/:focus-within takes effect */
   position: relative;
   z-index: 0;
 }
@@ -52,12 +47,10 @@
   display: none;
 }
 
-/* Collapse the shared border between adjacent items. */
 :host(loomi-button-group-item:not(:first-of-type)) {
   margin-left: -2px;
 }
 
-/* Lift hovered / focused / selected items so their full border is visible. */
 :host(loomi-button-group-item:hover),
 :host(loomi-button-group-item:focus-within),
 :host(loomi-button-group-item[selected]) {
@@ -74,8 +67,9 @@
   justify-content: center;
   gap: 0.4rem;
   width: 100%;
-  /* Size vars are set by the parent via inline style; fall back to "regular". */
-  padding: var(--loomi-bg-pad-y, 0.5rem) var(--loomi-bg-pad-x, 1rem);
+  min-height: var(--loomi-bg-height, 2.5rem);
+  padding-block: 0;
+  padding-inline: var(--loomi-bg-pad-x, 1rem);
   font-family: inherit;
   font-size: var(--loomi-bg-font, 0.875rem);
   font-weight: 500;
@@ -87,12 +81,12 @@
   appearance: none;
   -webkit-appearance: none;
   box-sizing: border-box;
+  background-image: none;
 
-  /* Outline style: matches <loomi-button outline> — transparent fill, text at accent-600,
-     border at the lighter 300 shade (same as the secondary solid button's background). */
+  /* Secondary ghost: matches .loomi-btn--secondary on <loomi-button>. */
   background: transparent;
-  color: var(--_loomi-accent);
-  border: 2px solid var(--loomi-bg-border, var(--_loomi-accent));
+  color: var(--loomi-text, inherit);
+  border: 2px solid var(--loomi-surface-border, #d9dee3);
   border-radius: 0;
 
   transition:
@@ -100,8 +94,6 @@
     color 0.15s ease,
     border-color 0.15s ease;
 }
-
-/* ---- Border radius: only the outer ends get rounded. ---- */
 
 :host(:first-of-type) .loomi-bg-btn {
   border-radius: 0.5rem 0 0 0.5rem;
@@ -111,18 +103,13 @@
   border-radius: 0 0.5rem 0.5rem 0;
 }
 
-/* Single item in a group: fully rounded. Declared last so it wins. */
 :host(:first-of-type:last-of-type) .loomi-bg-btn {
   border-radius: 0.5rem;
 }
 
-/* ---- Hover ---- */
-
-.loomi-bg-btn:not(:disabled):hover {
-  background: var(--_loomi-accent-softer);
+.loomi-bg-btn:not(:disabled):not(.selected):hover {
+  background: var(--loomi-surface-hover, #f9fbfc);
 }
-
-/* ---- Selected (active) state ---- */
 
 .loomi-bg-btn.selected {
   background: var(--loomi-bg-sel-bg);
@@ -135,8 +122,6 @@
   border-color: var(--loomi-bg-sel-hover);
 }
 
-/* ---- Item-level disabled ---- */
-
 :host(loomi-button-group-item[disabled]) .loomi-bg-btn,
 .loomi-bg-btn:disabled {
   opacity: 0.5;
@@ -144,21 +129,20 @@
   pointer-events: none;
 }
 
-/* ---- Focus ring ---- */
-
 .loomi-bg-btn:focus {
   outline: none;
 }
 
 .loomi-bg-btn:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--_loomi-accent-ring);
-  /* Ensure the ring is above adjacent items. */
+  box-shadow: 0 0 0 2px var(--loomi-primary-200, var(--_loomi-primary-200-default, #bfdbfe));
   position: relative;
   z-index: 1;
 }
 
-/* ---- Icon ---- */
+.loomi-bg-btn.selected:focus-visible {
+  box-shadow: 0 0 0 2px var(--_loomi-accent-ring);
+}
 
 .loomi-bg-icon {
   width: 1.1em;

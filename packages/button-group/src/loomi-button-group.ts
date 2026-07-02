@@ -6,13 +6,13 @@ import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiButtonGroupSize = "tiny" | "small" | "regular" | "medium" | "big";
 
-/** Padding/font-size CSS vars injected by the parent for each size. Items inherit them. */
+/** Size CSS vars aligned with `<loomi-button>` control tokens. */
 const SIZE_VARS: Record<LoomiButtonGroupSize, string> = {
-  tiny:    "--loomi-bg-pad-x:0.625rem;--loomi-bg-pad-y:0.25rem;--loomi-bg-font:0.75rem",
-  small:   "--loomi-bg-pad-x:0.75rem;--loomi-bg-pad-y:0.375rem;--loomi-bg-font:0.875rem",
-  regular: "--loomi-bg-pad-x:1rem;--loomi-bg-pad-y:0.5rem;--loomi-bg-font:0.875rem",
-  medium:  "--loomi-bg-pad-x:1.25rem;--loomi-bg-pad-y:0.625rem;--loomi-bg-font:1rem",
-  big:     "--loomi-bg-pad-x:1.5rem;--loomi-bg-pad-y:0.75rem;--loomi-bg-font:1.125rem",
+  tiny:    "--loomi-bg-height:2rem;--loomi-bg-pad-x:0.625rem;--loomi-bg-font:0.75rem",
+  small:   "--loomi-bg-height:2.25rem;--loomi-bg-pad-x:0.75rem;--loomi-bg-font:0.875rem",
+  regular: "--loomi-bg-height:2.5rem;--loomi-bg-pad-x:1rem;--loomi-bg-font:0.875rem",
+  medium:  "--loomi-bg-height:2.75rem;--loomi-bg-pad-x:1.25rem;--loomi-bg-font:1rem",
+  big:     "--loomi-bg-height:3rem;--loomi-bg-pad-x:1.5rem;--loomi-bg-font:1.125rem",
 };
 
 /**
@@ -96,11 +96,13 @@ export class LoomiButtonGroupItem extends LoomiElement {
 }
 
 /**
- * `<loomi-button-group>` — a horizontal row of outline-style toggle buttons.
+ * `<loomi-button-group>` — a horizontal row of secondary-style toggle buttons.
  *
- * Place `<loomi-button-group-item>` elements as children. Only the first and last items
- * carry rounded corners; adjacent borders collapse. Clicking an item selects it and
- * deselects the rest. Set `disabled` to disable all items at once.
+ * Place `<loomi-button-group-item>` elements as children. Unselected items use the same
+ * neutral bordered ghost treatment as `<loomi-button type="secondary">`; the selected
+ * item uses a calm neutral gray fill (never the group `color`, which only tints the
+ * focus ring). Only the first and last items carry rounded corners; adjacent borders
+ * collapse.
  *
  * @slot - `<loomi-button-group-item>` children.
  * @fires button-group-change - `detail: { value, label, index }` when selection changes.
@@ -118,7 +120,7 @@ export class LoomiButtonGroupItem extends LoomiElement {
 export class LoomiButtonGroup extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
-  /** Color palette for the group. Accepts any loomi color name. */
+  /** Accent used for the focus ring on the selected item. Accepts any loomi color name. */
   @property() color: LoomiColor = "primary" as LoomiColor;
 
   /** Size preset — controls padding and font-size of all items. */
@@ -135,19 +137,18 @@ export class LoomiButtonGroup extends LoomiElement {
 
   private get groupStyleVars(): string {
     const sizeVars = SIZE_VARS[this.size] ?? SIZE_VARS.regular;
-    const borderVar = `--loomi-bg-border:${cssColor(this.color, 300)}`;
 
-    // Secondary uses a lighter fill (matching the solid secondary button) with dark text.
-    // Every other color uses the full accent-600 fill with white text.
-    const isSec = this.color === "secondary";
+    // Selected items always use a calm neutral gray — never the group's accent color —
+    // so the active item reads as "chosen" without competing for attention like a
+    // primary-colored call-to-action would. `color` only tints the focus ring below.
     const selVars = [
-      `--loomi-bg-sel-bg:${isSec ? cssColor("secondary", 200) : "var(--_loomi-accent)"}`,
-      `--loomi-bg-sel-color:${isSec ? cssColor("secondary", 600) : "var(--loomi-white,#fff)"}`,
-      `--loomi-bg-sel-border:${isSec ? cssColor("secondary", 300) : "var(--_loomi-accent)"}`,
-      `--loomi-bg-sel-hover:${isSec ? cssColor("secondary", 300) : "var(--_loomi-accent-strong)"}`,
+      `--loomi-bg-sel-bg:${cssColor("gray", 200)}`,
+      `--loomi-bg-sel-color:${cssColor("gray", 800)}`,
+      `--loomi-bg-sel-border:${cssColor("gray", 300)}`,
+      `--loomi-bg-sel-hover:${cssColor("gray", 300)}`,
     ].join(";");
 
-    return `${accentVars(this.color)};${sizeVars};${borderVar};${selVars}`;
+    return `${accentVars(this.color)};${sizeVars};${selVars}`;
   }
 
   private applyGroupStyleVars(): void {
