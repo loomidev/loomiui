@@ -1,0 +1,662 @@
+/* ---- sidebar design tokens (map to Loomi theme) ---- */
+
+:host(loomi-sidebar-provider) {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  --loomi-sidebar-width: 16rem;
+  --loomi-sidebar-width-icon: 3rem;
+  --loomi-sidebar-width-mobile: 18rem;
+  --loomi-sidebar-background: var(--loomi-surface);
+  --loomi-sidebar-foreground: var(--loomi-text);
+  --loomi-sidebar-primary: var(--loomi-primary-700, var(--_loomi-primary-700-default, #174ea6));
+  --loomi-sidebar-primary-foreground: var(--loomi-surface);
+  --loomi-sidebar-accent: var(--loomi-surface-hover, #f9fbfc);
+  --loomi-sidebar-accent-foreground: var(--loomi-text);
+  --loomi-sidebar-border: var(--loomi-surface-border, #d9dee3);
+  --loomi-sidebar-ring: var(--loomi-primary-400, var(--_loomi-primary-400-default, #4285f4));
+}
+
+:host(loomi-sidebar-provider[data-state="collapsed"]) {
+  --loomi-sidebar-current-width: var(--loomi-sidebar-width-icon);
+}
+
+:host(loomi-sidebar-provider[data-state="expanded"]) {
+  --loomi-sidebar-current-width: var(--loomi-sidebar-width);
+}
+
+:host(loomi-sidebar-provider[data-collapsible="offcanvas"][data-state="collapsed"]) {
+  --loomi-sidebar-current-width: 0px;
+}
+
+:host(loomi-sidebar-provider[data-mobile="true"]) {
+  --loomi-sidebar-current-width: 0px;
+}
+
+.provider-inner {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* ---- mobile sheet ---- */
+
+.mobile-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(15, 23, 42, 0.45);
+  animation: loomi-sidebar-fade-in 0.2s ease;
+}
+
+.mobile-sheet {
+  position: fixed;
+  inset-block: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  width: var(--loomi-sidebar-width-mobile);
+  max-width: 100vw;
+  background: var(--loomi-sidebar-background);
+  color: var(--loomi-sidebar-foreground);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.15),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  transform: translateX(calc(var(--slide-from, -100%) * 1));
+  transition: transform 0.25s cubic-bezier(0.32, 0.72, 0, 1);
+  pointer-events: none;
+}
+
+.mobile-sheet[data-open="true"] {
+  transform: translateX(0);
+  pointer-events: auto;
+  animation: loomi-sidebar-slide-in 0.25s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.mobile-sheet[data-side="left"] {
+  left: 0;
+}
+
+.mobile-sheet[data-side="right"] {
+  right: 0;
+}
+
+@keyframes loomi-sidebar-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes loomi-sidebar-slide-in {
+  from {
+    transform: translateX(calc(var(--slide-from, -100%) * 1));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.mobile-sheet[data-side="right"] {
+  --slide-from: 100%;
+}
+
+/* ---- sidebar shell ---- */
+
+:host(loomi-sidebar) {
+  display: contents;
+}
+
+.sidebar-gap {
+  width: var(--loomi-sidebar-current-width, var(--loomi-sidebar-width));
+  flex-shrink: 0;
+  transition: width 0.2s ease-linear;
+}
+
+.sidebar-container {
+  position: fixed;
+  inset-block: 0;
+  z-index: 10;
+  display: none;
+  height: 100svh;
+  width: var(--loomi-sidebar-current-width, var(--loomi-sidebar-width));
+  transition:
+    width 0.2s ease-linear,
+    left 0.2s ease-linear,
+    right 0.2s ease-linear;
+}
+
+@media (min-width: 768px) {
+  .sidebar-container {
+    display: flex;
+  }
+}
+
+.sidebar-container[data-side="left"] {
+  left: 0;
+}
+
+.sidebar-container[data-side="right"] {
+  right: 0;
+}
+
+.sidebar-container[data-collapsible="offcanvas"][data-state="collapsed"][data-side="left"] {
+  left: calc(var(--loomi-sidebar-width) * -1);
+}
+
+.sidebar-container[data-collapsible="offcanvas"][data-state="collapsed"][data-side="right"] {
+  right: calc(var(--loomi-sidebar-width) * -1);
+}
+
+.sidebar-inner {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: var(--loomi-sidebar-background);
+  color: var(--loomi-sidebar-foreground);
+}
+
+.sidebar-container[data-variant="sidebar"] .sidebar-inner {
+  border-right: 1px solid var(--loomi-sidebar-border);
+}
+
+.sidebar-container[data-variant="sidebar"][data-side="right"] .sidebar-inner {
+  border-right: none;
+  border-left: 1px solid var(--loomi-sidebar-border);
+}
+
+.sidebar-container[data-variant="floating"] .sidebar-inner,
+.sidebar-container[data-variant="inset"] .sidebar-inner {
+  margin: 0.5rem;
+  height: calc(100% - 1rem);
+  border: 1px solid var(--loomi-sidebar-border);
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* ---- header / footer / content ---- */
+
+:host(loomi-sidebar-header),
+:host(loomi-sidebar-footer) {
+  display: block;
+  flex-shrink: 0;
+}
+
+.header,
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+:host(loomi-sidebar-content) {
+  display: block;
+  flex: 1;
+  min-height: 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow: auto;
+  padding: 0.5rem;
+}
+
+:host(loomi-sidebar-separator) {
+  display: block;
+}
+
+.separator {
+  margin-inline: 0.5rem;
+  height: 1px;
+  background: var(--loomi-sidebar-border);
+}
+
+/* ---- groups ---- */
+
+:host(loomi-sidebar-group) {
+  display: block;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  position: relative;
+}
+
+:host(loomi-sidebar-group-label) {
+  display: block;
+}
+
+.group-label {
+  display: flex;
+  align-items: center;
+  min-height: 2rem;
+  padding-inline: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--loomi-sidebar-foreground) 70%, transparent);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+:host(loomi-sidebar-group-action) {
+  display: block;
+}
+
+.group-action {
+  position: absolute;
+  top: 0.875rem;
+  right: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: none;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.group-action:hover {
+  background: var(--loomi-sidebar-accent);
+}
+
+:host(loomi-sidebar-group-content) {
+  display: block;
+}
+
+.group-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+/* ---- menu ---- */
+
+:host(loomi-sidebar-menu) {
+  display: block;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+:host(loomi-sidebar-menu-item) {
+  display: block;
+}
+
+.menu-item {
+  position: relative;
+  list-style: none;
+}
+
+:host(loomi-sidebar-menu-button) {
+  display: block;
+}
+
+.menu-button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.5rem;
+  overflow: hidden;
+  border: none;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    width 0.2s ease,
+    padding 0.2s ease;
+}
+
+.menu-button[data-size="default"] {
+  min-height: 2rem;
+  padding: 0.375rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+.menu-button[data-size="sm"] {
+  min-height: 1.75rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+.menu-button[data-size="lg"] {
+  min-height: 3rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.menu-button:hover,
+.menu-button[data-active="true"] {
+  background: var(--loomi-sidebar-accent);
+  color: var(--loomi-sidebar-accent-foreground);
+}
+
+.menu-button[data-active="true"] {
+  font-weight: 600;
+}
+
+.menu-button:focus-visible {
+  outline: 2px solid var(--loomi-sidebar-ring);
+  outline-offset: 1px;
+}
+
+.menu-button ::slotted(a),
+.menu-button ::slotted(button) {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.5rem;
+  overflow: hidden;
+  border: none;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+}
+
+.menu-button.as-child ::slotted(a:hover),
+.menu-button.as-child ::slotted(button:hover),
+.menu-button.as-child[data-active="true"] ::slotted(a),
+.menu-button.as-child[data-active="true"] ::slotted(button) {
+  background: var(--loomi-sidebar-accent);
+  color: var(--loomi-sidebar-accent-foreground);
+}
+
+.menu-button ::slotted(*) {
+  flex-shrink: 0;
+}
+
+.menu-button-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+:host(loomi-sidebar-menu-action) {
+  display: block;
+}
+
+.menu-action {
+  position: absolute;
+  top: 0.375rem;
+  right: 0.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: none;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.menu-item:hover .menu-action,
+.menu-action[data-show-on-hover="false"] {
+  opacity: 1;
+}
+
+.menu-action:hover {
+  background: var(--loomi-sidebar-accent);
+}
+
+:host(loomi-sidebar-menu-badge) {
+  display: block;
+}
+
+.menu-badge {
+  position: absolute;
+  top: 0.375rem;
+  right: 0.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding-inline: 0.25rem;
+  border-radius: 999px;
+  background: var(--loomi-sidebar-primary);
+  color: var(--loomi-sidebar-primary-foreground);
+  font-size: 0.625rem;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+/* ---- sub menu ---- */
+
+:host(loomi-sidebar-menu-sub) {
+  display: block;
+}
+
+.menu-sub {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  margin: 0.125rem 0 0;
+  padding: 0.125rem 0 0.125rem 0.75rem;
+  border-left: 1px solid var(--loomi-sidebar-border);
+  list-style: none;
+}
+
+:host(loomi-sidebar-menu-sub-item) {
+  display: block;
+}
+
+.menu-sub-item {
+  list-style: none;
+}
+
+:host(loomi-sidebar-menu-sub-button) {
+  display: block;
+}
+
+.menu-sub-button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 1.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  color: inherit;
+  font-size: 0.8125rem;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.menu-sub-button:hover,
+.menu-sub-button[data-active="true"] {
+  background: var(--loomi-sidebar-accent);
+  color: var(--loomi-sidebar-accent-foreground);
+}
+
+.menu-sub-button[data-active="true"] {
+  font-weight: 600;
+}
+
+/* ---- inset ---- */
+
+:host(loomi-sidebar-inset) {
+  display: block;
+  flex: 1;
+  min-width: 0;
+}
+
+.inset {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-width: 0;
+  flex: 1;
+  background: var(--loomi-surface-muted, #f6f7f8);
+}
+
+:host(loomi-sidebar-provider[data-variant="inset"]) .inset {
+  margin: 0.5rem;
+  margin-left: 0;
+  min-height: calc(100vh - 1rem);
+  border: 1px solid var(--loomi-sidebar-border);
+  border-radius: 0.75rem;
+  background: var(--loomi-surface);
+}
+
+/* ---- rail ---- */
+
+:host(loomi-sidebar-rail) {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  :host(loomi-sidebar-rail) {
+    display: block;
+  }
+}
+
+.rail {
+  position: absolute;
+  inset-block: 0;
+  z-index: 20;
+  width: 1rem;
+  transform: translateX(-50%);
+  border: none;
+  background: transparent;
+  cursor: w-resize;
+}
+
+.rail[data-side="left"] {
+  right: -1rem;
+}
+
+.rail[data-side="right"] {
+  left: 0;
+}
+
+.rail::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  transition: background 0.15s ease;
+}
+
+.rail:hover::after {
+  background: var(--loomi-sidebar-border);
+}
+
+/* ---- trigger ---- */
+
+:host(loomi-sidebar-trigger) {
+  display: inline-block;
+}
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--loomi-sidebar-border);
+  border-radius: 0.375rem;
+  background: var(--loomi-sidebar-background);
+  color: var(--loomi-sidebar-foreground);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.trigger:hover {
+  background: var(--loomi-sidebar-accent);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--loomi-sidebar-ring);
+  outline-offset: 1px;
+}
+
+.trigger svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---- icon-collapsed mode (:host-context pierces shadow boundaries) ---- */
+
+:host-context(loomi-sidebar-provider[data-collapsible="icon"][data-state="collapsed"]) .group-label {
+  opacity: 0;
+  height: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+:host-context(loomi-sidebar-provider[data-collapsible="icon"][data-state="collapsed"]) .menu-button-label {
+  display: none;
+}
+
+:host-context(loomi-sidebar-provider[data-collapsible="icon"][data-state="collapsed"]) .menu-button {
+  justify-content: center;
+  width: 2rem;
+  min-width: 2rem;
+  padding-inline: 0.5rem;
+}
+
+:host-context(loomi-sidebar-provider[data-collapsible="icon"][data-state="collapsed"]) .menu-sub {
+  display: none;
+}
+
+:host-context(loomi-sidebar-provider[data-collapsible="icon"][data-state="collapsed"]) .menu-action,
+:host-context(loomi-sidebar-provider[data-collapsible="icon"][data-state="collapsed"]) .menu-badge {
+  display: none;
+}
+
+:host-context(loomi-sidebar-provider[data-collapsible="icon"][data-state="collapsed"]) .group[data-hide-collapsed] {
+  display: none;
+}
+
+:host-context(loomi-sidebar-provider[data-collapsible="icon"][data-state="collapsed"]) .menu-button[data-size="lg"] {
+  min-height: 2rem;
+  padding: 0.5rem;
+}

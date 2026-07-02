@@ -175,6 +175,10 @@
       "types": "./dist/resizable.d.ts",
       "import": "./dist/resizable.js"
     },
+    "./sidebar": {
+      "types": "./dist/sidebar.d.ts",
+      "import": "./dist/sidebar.js"
+    },
     "./timeline": {
       "types": "./dist/timeline.d.ts",
       "import": "./dist/timeline.js"
@@ -330,6 +334,7 @@
     "@loomidev/radio": "workspace:^",
     "@loomidev/rating": "workspace:^",
     "@loomidev/resizable": "workspace:^",
+    "@loomidev/sidebar": "workspace:^",
     "@loomidev/select": "workspace:^",
     "@loomidev/slider": "workspace:^",
     "@loomidev/sortable": "workspace:^",
