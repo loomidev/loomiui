@@ -17,7 +17,7 @@ const CATEGORY = {
   standalone: ["button", "icon", "spinner", "alert", "bell", "modal", "drawer", "notification", "table"],
   forms: [
     "input", "textarea", "text-editor", "select", "checkbox", "radio", "toggle", "number", "slider",
-    "code", "checkcards", "datepicker", "timepicker", "colorpicker", "filepicker", "countries",
+    "checkcards", "datepicker", "timepicker", "colorpicker", "filepicker", "countries",
   ],
   content: [
     "card", "avatar", "accordion", "tag", "tooltip", "popover", "empty-state", "statistic",

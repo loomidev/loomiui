@@ -21,7 +21,14 @@ export const PALETTE = [
 export const BAR_WIDTH_RATIO = 0.45;
 export const HOVER_HIT_PCT = 9;
 
-export const CARTESIAN = { width: 320, height: 180, pad: 24 } as const;
+export const CARTESIAN = { width: 320, height: 132, pad: 18 } as const;
+
+/** Skip crowded x-axis labels so month names stay legible without overlapping. */
+export function showXLabel(index: number, bandWidth: number): boolean {
+  if (bandWidth >= 20) return true;
+  if (bandWidth >= 14) return index % 2 === 0;
+  return index % 3 === 0;
+}
 export const POLAR = { size: 180, cx: 90, cy: 90, radius: 80, radarRadius: 64 } as const;
 
 export const booleanAttribute = {

@@ -56,6 +56,25 @@ describe("loomi-chart", () => {
     expect(el.shadowRoot!.querySelectorAll(".loomi-grid-line").length).to.be.greaterThan(0);
   });
 
+  it("renders line dots with a 2px stroke and a compact radius", async () => {
+    const el = await fixture<LoomiChart>(html`<loomi-chart type="line"></loomi-chart>`);
+    el.data = series;
+    await el.updateComplete;
+
+    const dot = el.shadowRoot!.querySelector(".loomi-dot")!;
+    expect(dot.getAttribute("r")).to.equal("2.5");
+    expect(getComputedStyle(dot).strokeWidth).to.equal("2px");
+  });
+
+  it("renders radar grid spokes with dedicated classes", async () => {
+    const el = await fixture<LoomiChart>(html`<loomi-chart type="radar" color="purple"></loomi-chart>`);
+    el.data = series;
+    await el.updateComplete;
+
+    expect(el.shadowRoot!.querySelectorAll(".loomi-radar-grid").length).to.be.greaterThan(0);
+    expect(el.shadowRoot!.querySelectorAll(".loomi-radar-spoke").length).to.equal(4);
+  });
+
   it("accepts data as a JSON attribute", async () => {
     const el = await fixture<LoomiChart>(
       html`<loomi-chart type="bar" data='[{"label":"Jan","value":30},{"label":"Feb","value":55}]'></loomi-chart>`,

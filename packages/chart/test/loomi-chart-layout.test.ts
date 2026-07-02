@@ -10,12 +10,19 @@ const series: LoomiChartPoint[] = [
 ];
 
 describe("loomi-chart layout", () => {
-  it("shows a y-axis with min and max labels", async () => {
-    const el = await fixture<LoomiChart>(html`<loomi-chart type="bar" show-y-axis></loomi-chart>`);
+  it("shows a y-axis with min and max labels by default", async () => {
+    const el = await fixture<LoomiChart>(html`<loomi-chart type="bar"></loomi-chart>`);
     el.data = series;
     await el.updateComplete;
     const labels = [...el.shadowRoot!.querySelectorAll(".loomi-ylabel")].map((l) => l.textContent);
     expect(labels).to.deep.equal(["60", "0"]);
+  });
+
+  it("hides the y-axis when show-y-axis is false", async () => {
+    const el = await fixture<LoomiChart>(html`<loomi-chart type="bar" show-y-axis="false"></loomi-chart>`);
+    el.data = series;
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector(".loomi-ylabel")).to.not.exist;
   });
 
   it("places the legend after the canvas by default", async () => {

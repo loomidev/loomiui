@@ -2,7 +2,8 @@
 
 `<loomi-chart>` is a lightweight SVG chart component for quick visuals. Choose from
 `bar`, `line`, `area`, `pie`, `donut`, `radar`, `radial`, or `scatter`, and pass a single data series
-through its `data` property. Set `show-tooltip` to reveal label/value tooltips while hovering chart points.
+through its `data` property. Tooltips and the y-axis are on by default — disable either with
+`show-tooltip="false"` or `show-y-axis="false"`.
 
 ```bash
 npm install @loomidev/chart lit
@@ -22,11 +23,18 @@ You need to define either  a unique `id` or `class` attribute on the chart eleme
 
 <script type="module">
   document.getElementById("basic").data = [
-    { label: "Jan", value: 30 },
-    { label: "Feb", value: 55 },
-    { label: "Mar", value: 42 },
-    { label: "Apr", value: 60 },
-    { label: "Jun", value: 70 },
+    { label: "Jan", value: 42 },
+    { label: "Feb", value: 38 },
+    { label: "Mar", value: 55 },
+    { label: "Apr", value: 48 },
+    { label: "May", value: 62 },
+    { label: "Jun", value: 58 },
+    { label: "Jul", value: 71 },
+    { label: "Aug", value: 65 },
+    { label: "Sep", value: 52 },
+    { label: "Oct", value: 60 },
+    { label: "Nov", value: 47 },
+    { label: "Dec", value: 54 },
   ];
 </script>
 ```
@@ -42,12 +50,18 @@ You need to define either  a unique `id` or `class` attribute on the chart eleme
 ```js
 <script type="module">
     let chartData = [
-        { label: "Jan", value: 30 },
-        { label: "Feb", value: 55 },
-        { label: "Mar", value: 42 },
-        { label: "Apr", value: 60 },
-        { label: "May", value: 52 },
-        { label: "Jun", value: 70 },
+        { label: "Jan", value: 42 },
+        { label: "Feb", value: 38 },
+        { label: "Mar", value: 55 },
+        { label: "Apr", value: 48 },
+        { label: "May", value: 62 },
+        { label: "Jun", value: 58 },
+        { label: "Jul", value: 71 },
+        { label: "Aug", value: 65 },
+        { label: "Sep", value: 52 },
+        { label: "Oct", value: 60 },
+        { label: "Nov", value: 47 },
+        { label: "Dec", value: 54 },
     ];
     
     document.getElementById("basic").data = chartData;
@@ -72,14 +86,14 @@ so the chart remains stable and the page does not break.
 
 ## Hover Tooltips
 
-Set `show-tooltip` to show label/value tooltips while hovering chart points. On cartesian
+Label/value tooltips are shown by default while hovering chart points. On cartesian
 charts (`bar`, `line`, `area`, `scatter`), the nearest point is tracked as you move across
 the plot — with a crosshair and active dot/bar highlight. Polar charts (`pie`, `donut`,
-`radar`, `radial`) show a tooltip per slice/segment.
+`radar`, `radial`) show a tooltip per slice/segment. Turn them off with `show-tooltip="false"`.
 
 ```html
-<loomi-chart type="line" color="primary" show-tooltip
-  data='[{"label":"Jan","value":30},{"label":"Feb","value":55},{"label":"Mar","value":42},{"label":"Apr","value":60}]'></loomi-chart>
+<loomi-chart type="line" color="primary"
+  data='[{"label":"Jan","value":42},{"label":"Feb","value":38},{"label":"Mar","value":55},{"label":"Apr","value":48},{"label":"May","value":62},{"label":"Jun","value":58},{"label":"Jul","value":71},{"label":"Aug","value":65},{"label":"Sep","value":52},{"label":"Oct","value":60},{"label":"Nov","value":47},{"label":"Dec","value":54}]'></loomi-chart>
 ```
 
 ## Chart Types
@@ -109,14 +123,29 @@ All chart types use the same `data` shape, so you can change `type` without resh
 <loomi-chart id="scatter-chart" type="scatter" color="cyan"></loomi-chart>
 
 <script type="module">
-  const series = [
-    { label: "Red", value: 12 },
-    { label: "Blue", value: 19 },
-    { label: "Yellow", value: 13 },
-    { label: "Green", value: 15 },
+  const yearSeries = [
+    { label: "Jan", value: 42 },
+    { label: "Feb", value: 38 },
+    { label: "Mar", value: 55 },
+    { label: "Apr", value: 48 },
+    { label: "May", value: 62 },
+    { label: "Jun", value: 58 },
+    { label: "Jul", value: 71 },
+    { label: "Aug", value: 65 },
+    { label: "Sep", value: 52 },
+    { label: "Oct", value: 60 },
+    { label: "Nov", value: 47 },
+    { label: "Dec", value: 54 },
   ];
-  for (const id of ["bar-chart", "line-chart", "pie-chart", "donut-chart", "radar-chart", "scatter-chart"]) {
-    document.getElementById(id).data = series;
+  document.getElementById("bar-chart").data = yearSeries;
+  document.getElementById("line-chart").data = yearSeries;
+  for (const id of ["pie-chart", "donut-chart", "radar-chart", "scatter-chart"]) {
+    document.getElementById(id).data = [
+      { label: "Direct", value: 45 },
+      { label: "Search", value: 30 },
+      { label: "Social", value: 15 },
+      { label: "Email", value: 10 },
+    ];
   }
 </script>
 ```
@@ -136,10 +165,18 @@ to color.
 
 <script type="module">
   document.getElementById("trend").data = [
-    { label: "Jan", value: 30 },
-    { label: "Feb", value: 55 },
-    { label: "Mar", value: 42 },
-    { label: "Apr", value: 60 },
+    { label: "Jan", value: 42 },
+    { label: "Feb", value: 38 },
+    { label: "Mar", value: 55 },
+    { label: "Apr", value: 48 },
+    { label: "May", value: 62 },
+    { label: "Jun", value: 58 },
+    { label: "Jul", value: 71 },
+    { label: "Aug", value: 65 },
+    { label: "Sep", value: 52 },
+    { label: "Oct", value: 60 },
+    { label: "Nov", value: 47 },
+    { label: "Dec", value: 54 },
   ];
 </script>
 ```
@@ -194,11 +231,12 @@ already saturated enough to read without one).
 
 ## Showing the Y-Axis
 
-`show-y-axis` draws a value axis with min/max labels, for `bar`, `line` and `scatter`.
+The y-axis with min/max value labels is shown by default on `bar`, `line`, `area`, and
+`scatter` charts. Hide it with `show-y-axis="false"`.
 
 ```html
-<loomi-chart type="line" color="primary" show-y-axis
-  data='[{"label":"Jan","value":30},{"label":"Feb","value":55},{"label":"Mar","value":42},{"label":"Apr","value":60}]'></loomi-chart>
+<loomi-chart type="line" color="primary" show-y-axis="false"
+  data='[{"label":"Jan","value":42},{"label":"Feb","value":38},{"label":"Mar","value":55},{"label":"Apr","value":48},{"label":"May","value":62},{"label":"Jun","value":58},{"label":"Jul","value":71},{"label":"Aug","value":65},{"label":"Sep","value":52},{"label":"Oct","value":60},{"label":"Nov","value":47},{"label":"Dec","value":54}]'></loomi-chart>
 ```
 
 ## Vertical Line Charts
@@ -252,6 +290,14 @@ the chart instead of wrapping below it.
     { label: "Feb", value: 15400 },
     { label: "Mar", value: 13900 },
     { label: "Apr", value: 18200 },
+    { label: "May", value: 16800 },
+    { label: "Jun", value: 19500 },
+    { label: "Jul", value: 21000 },
+    { label: "Aug", value: 18700 },
+    { label: "Sep", value: 17200 },
+    { label: "Oct", value: 19800 },
+    { label: "Nov", value: 16500 },
+    { label: "Dec", value: 22400 },
   ];
 </script>
 ```
@@ -266,8 +312,8 @@ the chart instead of wrapping below it.
 | `shade` | `dark` | `dark` \| `light` — lighter fills/strokes in `light` mode. |
 | `show-border` | `true` | In `shade="light"`, outline shapes in a higher shade of their own color. No effect in `shade="dark"`. _(boolean)_ |
 | `show-grid` | `true` | Horizontal dashed grid lines on cartesian charts. _(boolean)_ |
-| `show-tooltip` | `false` | Show label/value tooltips while hovering chart points. _(boolean)_ |
-| `show-y-axis` | `false` | Show a value axis with min/max labels (`bar`/`line`/`area`/`scatter`). _(boolean)_ |
+| `show-tooltip` | `true` | Show label/value tooltips while hovering chart points. _(boolean)_ |
+| `show-y-axis` | `true` | Show a value axis with min/max labels (`bar`/`line`/`area`/`scatter`). _(boolean)_ |
 | `vertical` | `false` | `type="line"` only — flips the axes so categories run top-to-bottom. _(boolean)_ |
 | `show-legend` | `false` | Show a legend (most useful for pie/donut). _(boolean)_ |
 | `legend-position` | `bottom` | `top` \| `bottom` \| `left` \| `right` — where the legend renders when `show-legend` is on. |
