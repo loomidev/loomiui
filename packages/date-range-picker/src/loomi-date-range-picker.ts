@@ -1,5 +1,5 @@
-import { css, html, nothing } from "lit";
-import { customElement } from "lit/decorators.js";
+import { css, html, nothing, type PropertyValues } from "lit";
+import { customElement, state } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, onClickOutside } from "@loomidev/core";
 import "@loomidev/button/loomi-button.js";
 import "@loomidev/datepicker/loomi-datepicker.js";
@@ -106,10 +106,6 @@ export class LoomiDateRangePicker extends LoomiElement {
       position: relative;
     }
 
-    :host([open]) {
-      z-index: var(--loomi-date-range-picker-z-index, 1000);
-    }
-
     .field {
       display: grid;
       gap: 6px;
@@ -149,10 +145,10 @@ export class LoomiDateRangePicker extends LoomiElement {
     }
 
     .popover {
-      position: absolute;
+      position: fixed;
       z-index: var(--loomi-date-range-picker-z-index, 1000);
-      top: calc(100% + 8px);
-      right: 0;
+      top: var(--loomi-date-range-picker-y, 0px);
+      left: var(--loomi-date-range-picker-x, 0px);
       width: min(640px, calc(100vw - 32px));
       overflow: visible;
       border: 1px solid var(--loomi-date-border);
@@ -240,11 +236,6 @@ export class LoomiDateRangePicker extends LoomiElement {
     }
 
     @media (max-width: 640px) {
-      .popover {
-        left: 0;
-        right: auto;
-      }
-
       .content,
       .range-grid {
         grid-template-columns: 1fr;
@@ -270,7 +261,11 @@ export class LoomiDateRangePicker extends LoomiElement {
   max = "";
   comparison = false;
   showPresets = true;
+  @state() private popoverX = 0;
+  @state() private popoverY = 0;
   private cleanupOutside?: () => void;
+  private cleanupPlacement?: () => void;
+  private placementFrame = 0;
 
   connectedCallback() {
     super.connectedCallback();
@@ -287,7 +282,15 @@ export class LoomiDateRangePicker extends LoomiElement {
   disconnectedCallback() {
     document.removeEventListener("keydown", this.handleDocumentKeydown);
     this.cleanupOutside?.();
+    this.cleanupPlacement?.();
+    cancelAnimationFrame(this.placementFrame);
     super.disconnectedCallback();
+  }
+
+  override updated(changed: PropertyValues<this>): void {
+    if (changed.has("open")) {
+      this.syncPlacement();
+    }
   }
 
   render() {
@@ -305,7 +308,11 @@ export class LoomiDateRangePicker extends LoomiElement {
 
   private renderPopover() {
     return html`
-      <section class="popover" @click=${(event: Event) => event.stopPropagation()}>
+      <section
+        class="popover"
+        style=${`--loomi-date-range-picker-x:${this.popoverX}px;--loomi-date-range-picker-y:${this.popoverY}px`}
+        @click=${(event: Event) => event.stopPropagation()}
+      >
         <div class="content">
           ${this.showPresets ? this.renderPresets() : nothing}
           <div class="ranges">
@@ -432,6 +439,7 @@ export class LoomiDateRangePicker extends LoomiElement {
     }
 
     this.dispatchChange();
+    this.schedulePlacement();
   };
 
   private handleDocumentKeydown = (event: KeyboardEvent) => {
@@ -445,6 +453,57 @@ export class LoomiDateRangePicker extends LoomiElement {
   private syncOutsideClick() {
     this.cleanupOutside?.();
     this.cleanupOutside = this.open ? onClickOutside(this, () => this.closePicker()) : undefined;
+  }
+
+  private syncPlacement() {
+    this.cleanupPlacement?.();
+    cancelAnimationFrame(this.placementFrame);
+    if (!this.open) {
+      this.cleanupPlacement = undefined;
+      return;
+    }
+
+    const reposition = (): void => this.schedulePlacement();
+    window.addEventListener("resize", reposition);
+    window.addEventListener("scroll", reposition, true);
+    this.cleanupPlacement = () => {
+      window.removeEventListener("resize", reposition);
+      window.removeEventListener("scroll", reposition, true);
+    };
+    this.schedulePlacement();
+  }
+
+  private schedulePlacement(): void {
+    cancelAnimationFrame(this.placementFrame);
+    this.placementFrame = requestAnimationFrame(() => {
+      void this.updateComplete.then(() => this.resolvePlacement());
+    });
+  }
+
+  private resolvePlacement(): void {
+    if (!this.open) return;
+
+    const popover = this.renderRoot.querySelector<HTMLElement>(".popover");
+    const trigger = this.renderRoot.querySelector<HTMLElement>(".trigger");
+    if (!popover || !trigger) return;
+
+    const triggerRect = trigger.getBoundingClientRect();
+    const popoverRect = popover.getBoundingClientRect();
+    const margin = 8;
+    const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
+    const viewportHeight = document.documentElement.clientHeight || window.innerHeight;
+    const popoverWidth = popoverRect.width || Math.min(640, viewportWidth - margin * 2);
+    const popoverHeight = popoverRect.height || 420;
+    const alignLeft = viewportWidth <= 640;
+
+    let x = alignLeft ? triggerRect.left : triggerRect.right - popoverWidth;
+    let y = triggerRect.bottom + margin;
+
+    x = Math.min(Math.max(margin, x), Math.max(margin, viewportWidth - margin - popoverWidth));
+    y = Math.min(Math.max(margin, y), Math.max(margin, viewportHeight - margin - popoverHeight));
+
+    this.popoverX = x;
+    this.popoverY = y;
   }
 
   private applyPresetValue(preset: DateRangePreset, emitChange: boolean) {
