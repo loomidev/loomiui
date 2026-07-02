@@ -11,6 +11,7 @@ import {
   SIDEBAR_WIDTH,
   SIDEBAR_WIDTH_ICON,
   SIDEBAR_WIDTH_MOBILE,
+  syncSidebarIconCollapsed,
   writeSidebarPreference,
   type SidebarCollapsible,
   type SidebarProviderElement,
@@ -18,6 +19,23 @@ import {
   type SidebarState,
   type SidebarVariant,
 } from "./sidebar-context.js";
+
+class SidebarPartElement extends LoomiElement {
+  private onSidebarStateChange = (): void => {
+    syncSidebarIconCollapsed(this);
+  };
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    syncSidebarIconCollapsed(this);
+    findSidebarProvider(this)?.addEventListener("loomi-sidebar-state-change", this.onSidebarStateChange);
+  }
+
+  override disconnectedCallback(): void {
+    findSidebarProvider(this)?.removeEventListener("loomi-sidebar-state-change", this.onSidebarStateChange);
+    super.disconnectedCallback();
+  }
+}
 
 const booleanAttribute = {
   fromAttribute(value: string | null): boolean {
@@ -108,7 +126,14 @@ export class LoomiSidebarProvider extends LoomiElement {
     super.updated(changed);
     if (changed.has("open") && changed.get("open") !== undefined) writeSidebarPreference(this.open);
     this.syncHostAttributes();
-    if (changed.has("open") || changed.has("openMobile") || changed.has("isMobile")) this.notifyStateChange();
+    if (
+      changed.has("open") ||
+      changed.has("openMobile") ||
+      changed.has("isMobile") ||
+      changed.has("collapsible")
+    ) {
+      this.notifyStateChange();
+    }
   }
 
   private syncHostAttributes(): void {
@@ -140,7 +165,7 @@ export class LoomiSidebarProvider extends LoomiElement {
  * @slot mobile - Optional mobile-only content (defaults to the default slot).
  */
 @customElement("loomi-sidebar")
-export class LoomiSidebar extends LoomiElement {
+export class LoomiSidebar extends SidebarPartElement {
   static override styles = loomiStyles(componentStyles);
 
   @property({ reflect: true }) side: SidebarSide = "left";
@@ -239,7 +264,7 @@ export class LoomiSidebar extends LoomiElement {
 
 /** `<loomi-sidebar-header>` — sticky top region for branding or workspace switchers. */
 @customElement("loomi-sidebar-header")
-export class LoomiSidebarHeader extends LoomiElement {
+export class LoomiSidebarHeader extends SidebarPartElement {
   static override styles = loomiStyles(componentStyles);
   override render(): TemplateResult {
     return html`<div class="header" data-sidebar="header"><slot></slot></div>`;
@@ -248,7 +273,7 @@ export class LoomiSidebarHeader extends LoomiElement {
 
 /** `<loomi-sidebar-footer>` — sticky bottom region for user menus or actions. */
 @customElement("loomi-sidebar-footer")
-export class LoomiSidebarFooter extends LoomiElement {
+export class LoomiSidebarFooter extends SidebarPartElement {
   static override styles = loomiStyles(componentStyles);
   override render(): TemplateResult {
     return html`<div class="footer" data-sidebar="footer"><slot></slot></div>`;
@@ -257,7 +282,7 @@ export class LoomiSidebarFooter extends LoomiElement {
 
 /** `<loomi-sidebar-content>` — scrollable region between header and footer. */
 @customElement("loomi-sidebar-content")
-export class LoomiSidebarContent extends LoomiElement {
+export class LoomiSidebarContent extends SidebarPartElement {
   static override styles = loomiStyles(componentStyles);
   override render(): TemplateResult {
     return html`<div class="content" data-sidebar="content"><slot></slot></div>`;
@@ -266,7 +291,7 @@ export class LoomiSidebarContent extends LoomiElement {
 
 /** `<loomi-sidebar-separator>` — horizontal divider. */
 @customElement("loomi-sidebar-separator")
-export class LoomiSidebarSeparator extends LoomiElement {
+export class LoomiSidebarSeparator extends SidebarPartElement {
   static override styles = loomiStyles(componentStyles);
   override render(): TemplateResult {
     return html`<div class="separator" data-sidebar="separator" role="separator"></div>`;
@@ -275,7 +300,7 @@ export class LoomiSidebarSeparator extends LoomiElement {
 
 /** `<loomi-sidebar-group>` — section within the sidebar. Set `hide-collapsed` to hide in icon mode. */
 @customElement("loomi-sidebar-group")
-export class LoomiSidebarGroup extends LoomiElement {
+export class LoomiSidebarGroup extends SidebarPartElement {
   static override styles = loomiStyles(componentStyles);
 
   @property({ type: Boolean, attribute: "hide-collapsed", converter: booleanAttribute })
@@ -288,7 +313,7 @@ export class LoomiSidebarGroup extends LoomiElement {
 
 /** `<loomi-sidebar-group-label>` — label for a sidebar group. */
 @customElement("loomi-sidebar-group-label")
-export class LoomiSidebarGroupLabel extends LoomiElement {
+export class LoomiSidebarGroupLabel extends SidebarPartElement {
   static override styles = loomiStyles(componentStyles);
   override render(): TemplateResult {
     return html`<div class="group-label" data-sidebar="group-label"><slot></slot></div>`;
@@ -297,7 +322,7 @@ export class LoomiSidebarGroupLabel extends LoomiElement {
 
 /** `<loomi-sidebar-group-action>` — optional action button for a group header. */
 @customElement("loomi-sidebar-group-action")
-export class LoomiSidebarGroupAction extends LoomiElement {
+export class LoomiSidebarGroupAction extends SidebarPartElement {
   static override styles = loomiStyles(componentStyles);
   override render(): TemplateResult {
     return html`<button type="button" class="group-action" data-sidebar="group-action"><slot></slot></button>`;
@@ -306,7 +331,7 @@ export class LoomiSidebarGroupAction extends LoomiElement {
 
 /** `<loomi-sidebar-group-content>` — content wrapper inside a group. */
 @customElement("loomi-sidebar-group-content")
-export class LoomiSidebarGroupContent extends LoomiElement {
+export class LoomiSidebarGroupContent extends SidebarPartElement {
   static override styles = loomiStyles(componentStyles);
   override render(): TemplateResult {
     return html`<div class="group-content" data-sidebar="group-content"><slot></slot></div>`;
@@ -315,7 +340,7 @@ export class LoomiSidebarGroupContent extends LoomiElement {
 
 /** `<loomi-sidebar-menu>` — menu list within a group. */
 @customElement("loomi-sidebar-menu")
-export class LoomiSidebarMenu extends LoomiElement {
+export class LoomiSidebarMenu extends SidebarPartElement {
   static override styles = loomiStyles(componentStyles);
   override render(): TemplateResult {
     return html`<ul class="menu" data-sidebar="menu"><slot></slot></ul>`;
@@ -324,7 +349,7 @@ export class LoomiSidebarMenu extends LoomiElement {
 
 /** `<loomi-sidebar-menu-item>` — single menu entry. */
 @customElement("loomi-sidebar-menu-item")
-export class LoomiSidebarMenuItem extends LoomiElement {
+export class LoomiSidebarMenuItem extends SidebarPartElement {
   static override styles = loomiStyles(componentStyles);
   override render(): TemplateResult {
     return html`<li class="menu-item" data-sidebar="menu-item"><slot></slot></li>`;
@@ -336,7 +361,7 @@ export class LoomiSidebarMenuItem extends LoomiElement {
  * Use `tooltip` for a label when the sidebar is collapsed to icons.
  */
 @customElement("loomi-sidebar-menu-button")
-export class LoomiSidebarMenuButton extends LoomiElement {
+export class LoomiSidebarMenuButton extends SidebarPartElement {
   static override styles = loomiStyles(componentStyles);
 
   @property({ type: Boolean, attribute: "is-active", converter: booleanAttribute }) isActive = false;
@@ -395,7 +420,7 @@ export class LoomiSidebarMenuButton extends LoomiElement {
 
 /** `<loomi-sidebar-menu-action>` — secondary action on a menu item. */
 @customElement("loomi-sidebar-menu-action")
-export class LoomiSidebarMenuAction extends LoomiElement {
+export class LoomiSidebarMenuAction extends SidebarPartElement {
   static override styles = loomiStyles(componentStyles);
 
   @property({ type: Boolean, attribute: "show-on-hover", converter: booleanAttribute })
@@ -413,7 +438,7 @@ export class LoomiSidebarMenuAction extends LoomiElement {
 
 /** `<loomi-sidebar-menu-badge>` — badge overlay on a menu item. */
 @customElement("loomi-sidebar-menu-badge")
-export class LoomiSidebarMenuBadge extends LoomiElement {
+export class LoomiSidebarMenuBadge extends SidebarPartElement {
   static override styles = loomiStyles(componentStyles);
   override render(): TemplateResult {
     return html`<span class="menu-badge" data-sidebar="menu-badge"><slot></slot></span>`;
@@ -422,7 +447,7 @@ export class LoomiSidebarMenuBadge extends LoomiElement {
 
 /** `<loomi-sidebar-menu-sub>` — nested submenu list. */
 @customElement("loomi-sidebar-menu-sub")
-export class LoomiSidebarMenuSub extends LoomiElement {
+export class LoomiSidebarMenuSub extends SidebarPartElement {
   static override styles = loomiStyles(componentStyles);
   override render(): TemplateResult {
     return html`<ul class="menu-sub" data-sidebar="menu-sub"><slot></slot></ul>`;
@@ -431,7 +456,7 @@ export class LoomiSidebarMenuSub extends LoomiElement {
 
 /** `<loomi-sidebar-menu-sub-item>` — single submenu entry. */
 @customElement("loomi-sidebar-menu-sub-item")
-export class LoomiSidebarMenuSubItem extends LoomiElement {
+export class LoomiSidebarMenuSubItem extends SidebarPartElement {
   static override styles = loomiStyles(componentStyles);
   override render(): TemplateResult {
     return html`<li class="menu-sub-item" data-sidebar="menu-sub-item"><slot></slot></li>`;
@@ -440,7 +465,7 @@ export class LoomiSidebarMenuSubItem extends LoomiElement {
 
 /** `<loomi-sidebar-menu-sub-button>` — link/button for a submenu entry. */
 @customElement("loomi-sidebar-menu-sub-button")
-export class LoomiSidebarMenuSubButton extends LoomiElement {
+export class LoomiSidebarMenuSubButton extends SidebarPartElement {
   static override styles = loomiStyles(componentStyles);
 
   @property({ type: Boolean, attribute: "is-active", converter: booleanAttribute }) isActive = false;
@@ -461,7 +486,7 @@ export class LoomiSidebarMenuSubButton extends LoomiElement {
 
 /** `<loomi-sidebar-inset>` — wraps the main content area beside the sidebar. */
 @customElement("loomi-sidebar-inset")
-export class LoomiSidebarInset extends LoomiElement {
+export class LoomiSidebarInset extends SidebarPartElement {
   static override styles = loomiStyles(componentStyles);
   override render(): TemplateResult {
     return html`<main class="inset" data-sidebar="inset"><slot></slot></main>`;
@@ -470,7 +495,7 @@ export class LoomiSidebarInset extends LoomiElement {
 
 /** `<loomi-sidebar-rail>` — edge control to toggle the sidebar. */
 @customElement("loomi-sidebar-rail")
-export class LoomiSidebarRail extends LoomiElement {
+export class LoomiSidebarRail extends SidebarPartElement {
   static override styles = loomiStyles(componentStyles);
 
   private toggle = (): void => {
@@ -492,7 +517,7 @@ export class LoomiSidebarRail extends LoomiElement {
 
 /** `<loomi-sidebar-trigger>` — button that toggles the sidebar (desktop and mobile). */
 @customElement("loomi-sidebar-trigger")
-export class LoomiSidebarTrigger extends LoomiElement {
+export class LoomiSidebarTrigger extends SidebarPartElement {
   static override styles = loomiStyles(componentStyles);
 
   private toggle = (): void => {

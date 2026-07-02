@@ -23,6 +23,33 @@ describe("loomi-qrcode", () => {
     expect(el.shadowRoot!.querySelector(".loomi-scan")).to.exist;
   });
 
+  it("defaults the scan animation to loop infinitely", async () => {
+    const el = await fixture<LoomiQrCode>(
+      html`<loomi-qrcode url="https://loomiui.com" gradient-scan></loomi-qrcode>`,
+    );
+
+    const wrapper = el.shadowRoot!.querySelector<HTMLElement>(".loomi-qrcode")!;
+    expect(wrapper.style.getPropertyValue("--_loomi-qrcode-scan-count").trim()).to.equal("infinite");
+  });
+
+  it("passes through a finite scan-count as the iteration count", async () => {
+    const el = await fixture<LoomiQrCode>(
+      html`<loomi-qrcode url="https://loomiui.com" gradient-scan scan-count="3"></loomi-qrcode>`,
+    );
+
+    const wrapper = el.shadowRoot!.querySelector<HTMLElement>(".loomi-qrcode")!;
+    expect(wrapper.style.getPropertyValue("--_loomi-qrcode-scan-count").trim()).to.equal("3");
+  });
+
+  it("falls back to infinite for an invalid scan-count", async () => {
+    const el = await fixture<LoomiQrCode>(
+      html`<loomi-qrcode url="https://loomiui.com" gradient-scan scan-count="not-a-number"></loomi-qrcode>`,
+    );
+
+    const wrapper = el.shadowRoot!.querySelector<HTMLElement>(".loomi-qrcode")!;
+    expect(wrapper.style.getPropertyValue("--_loomi-qrcode-scan-count").trim()).to.equal("infinite");
+  });
+
   it("uses value when url is absent", async () => {
     const el = await fixture<LoomiQrCode>(html`<loomi-qrcode value="hello"></loomi-qrcode>`);
 

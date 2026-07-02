@@ -35,8 +35,8 @@ Set `strength` with any combination of these optional tokens:
 <loomi-password label="Password" strength="Aa1#"></loomi-password>
 ```
 
-The matching requirements render beneath the field with gray check marks. A check mark
-turns green when the current value satisfies that requirement.
+The matching requirements render beneath the field with gray check marks. A requirement's
+check mark and label turn green once the current value satisfies it.
 
 ## Prefixes
 

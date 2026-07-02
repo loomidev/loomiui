@@ -20,9 +20,9 @@
   border-radius: 999px;
   background: linear-gradient(
     to right,
-    var(--loomi-gray-200) 0 var(--loomi-range-start, 0%),
+    var(--loomi-surface-border) 0 var(--loomi-range-start, 0%),
     var(--_loomi-accent) var(--loomi-range-start, 0%) var(--loomi-range-end, 0%),
-    var(--loomi-gray-200) var(--loomi-range-end, 0%) 100%
+    var(--loomi-surface-border) var(--loomi-range-end, 0%) 100%
   );
   pointer-events: none;
 }
@@ -66,8 +66,8 @@
   appearance: none;
   border: 2px solid var(--_loomi-accent);
   border-radius: 999px;
-  background: var(--loomi-white);
-  box-shadow: 0 1px 2px color-mix(in srgb, var(--loomi-black) 18%, transparent);
+  background: var(--loomi-surface);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--loomi-text) 18%, transparent);
   pointer-events: auto;
 }
 .loomi-range::-moz-range-track {
@@ -79,20 +79,25 @@
   height: 1rem;
   border: 2px solid var(--_loomi-accent);
   border-radius: 999px;
-  background: var(--loomi-white);
-  box-shadow: 0 1px 2px color-mix(in srgb, var(--loomi-black) 18%, transparent);
+  background: var(--loomi-surface);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--loomi-text) 18%, transparent);
   pointer-events: auto;
 }
 .loomi-value-tooltip {
+  --_loomi-value-tooltip-bg: var(--loomi-surface);
+  --_loomi-value-tooltip-color: var(--loomi-text);
+
   position: absolute;
   inset-block-start: 0;
   inset-inline-start: var(--loomi-value-position, 0%);
   z-index: 3;
   min-width: 2rem;
   padding: 0.2rem 0.5rem;
+  border: 1px solid var(--loomi-surface-border);
   border-radius: 0.35rem;
-  background: var(--loomi-gray-900);
-  color: var(--loomi-white);
+  background: var(--_loomi-value-tooltip-bg);
+  color: var(--_loomi-value-tooltip-color);
+  box-shadow: 0 0.5rem 1.25rem color-mix(in srgb, var(--loomi-text) 12%, transparent);
   font-size: 0.75rem;
   font-weight: 700;
   line-height: 1.2;
@@ -109,6 +114,6 @@
   width: 0;
   height: 0;
   border-inline: 0.25rem solid transparent;
-  border-block-start: 0.25rem solid var(--loomi-gray-900);
+  border-block-start: 0.25rem solid var(--_loomi-value-tooltip-bg);
   transform: translateX(-50%);
 }

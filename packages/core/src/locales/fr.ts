@@ -26,7 +26,7 @@ export const fr: LoomiTranslations = {
   pagination: { totalLabel: "Affichage de :a à :b sur :c", noRecords: "Aucun enregistrement", pageOf: "Page :page sur :pages" },
   modal: { ok: "OK", cancel: "Annuler", dialog: "Dialogue" },
   drawer: { dialog: "Tiroir" },
-  pin: { errorMessage: "Le code de vérification est invalide", digitLabel: "Chiffre :number" },
+  pin: { errorMessage: "Le code de vérification est invalide", digitLabel: "Chiffre :number", validating: "Vérification du code…", valid: "Code vérifié" },
   colorpicker: { pickColor: "Choisir une couleur" },
   input: { togglePassword: "Afficher ou masquer le mot de passe" },
   number: { increment: "Augmenter", decrement: "Diminuer" },

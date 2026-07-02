@@ -58,8 +58,19 @@ export class LoomiPassword extends LoomiElement {
   @property({ type: Boolean, reflect: true }) invalid = false;
 
   @state() private revealed = false;
+  @state() private prefixOpen = false;
 
   @query("input") private inputEl!: HTMLInputElement;
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    document.addEventListener("click", this.onDocClick, true);
+  }
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    document.removeEventListener("click", this.onDocClick, true);
+  }
 
   override willUpdate(_changed: PropertyValues<this>): void {
     this.internals.setFormValue(this.value);
@@ -69,6 +80,10 @@ export class LoomiPassword extends LoomiElement {
   override focus(): void {
     this.inputEl?.focus();
   }
+
+  private onDocClick = (e: MouseEvent): void => {
+    if (this.prefixOpen && !e.composedPath().includes(this)) this.prefixOpen = false;
+  };
 
   clear(): void {
     this.value = "";
@@ -163,18 +178,54 @@ export class LoomiPassword extends LoomiElement {
     return this.prefixValue || this.prefix || options[0] || "";
   }
 
-  private onPrefixChange(e: Event): void {
-    const value = (e.target as HTMLSelectElement).value;
+  private togglePrefixOpen(): void {
+    if (this.disabled || this.readonly) return;
+    this.prefixOpen = !this.prefixOpen;
+  }
+
+  private choosePrefix(value: string): void {
     this.prefixValue = value;
     this.prefix = value;
+    this.prefixOpen = false;
     this.dispatchEvent(new CustomEvent("prefix-change", { detail: { value }, bubbles: true, composed: true }));
   }
 
-  private renderPrefixSelect(options: string[]): TemplateResult {
+  private onPrefixTriggerKeydown = (e: KeyboardEvent): void => {
+    if (e.key === "Escape") this.prefixOpen = false;
+  };
+
+  private renderPrefixDropdown(options: string[]): TemplateResult {
     const value = this.selectedPrefix(options);
-    return html`<select class="loomi-affix-select" .value=${value} aria-label="prefix" @change=${this.onPrefixChange}>
-      ${options.map((option) => html`<option value=${option} ?selected=${option === value}>${option}</option>`)}
-    </select>`;
+    return html`<span class="loomi-affix-dropdown ${this.prefixOpen ? "open" : ""}">
+      <button
+        type="button"
+        class="loomi-affix-trigger"
+        aria-haspopup="listbox"
+        aria-expanded=${this.prefixOpen ? "true" : "false"}
+        aria-label="prefix"
+        ?disabled=${this.disabled || this.readonly}
+        @click=${() => this.togglePrefixOpen()}
+        @keydown=${this.onPrefixTriggerKeydown}
+      >
+        <span class="loomi-affix-value">${value}</span>
+        ${this.renderIcon("chevron-down", "loomi-affix-chevron")}
+      </button>
+      ${this.prefixOpen
+        ? html`<div class="loomi-affix-panel" role="listbox">
+            ${options.map(
+              (option) => html`<div
+                class="loomi-affix-option ${option === value ? "selected" : ""}"
+                role="option"
+                aria-selected=${option === value ? "true" : "false"}
+                @click=${() => this.choosePrefix(option)}
+              >
+                <span>${option}</span>
+                ${option === value ? this.renderIcon("check", "loomi-affix-check") : nothing}
+              </div>`,
+            )}
+          </div>`
+        : nothing}
+    </span>`;
   }
 
   private renderPrefix(): TemplateResult | typeof nothing {
@@ -183,7 +234,7 @@ export class LoomiPassword extends LoomiElement {
     if (!hasPrefix) return nothing;
     const cls = `loomi-prefix${this.transparentPrefix ? "" : " loomi-affix-solid"}`;
     return html`<span class=${cls}>
-      <slot name="prefix">${options.length > 0 ? this.renderPrefixSelect(options) : this.prefixIcon ? this.renderIcon(this.prefixIcon) : this.prefix}</slot>
+      <slot name="prefix">${options.length > 0 ? this.renderPrefixDropdown(options) : this.prefixIcon ? this.renderIcon(this.prefixIcon) : this.prefix}</slot>
     </span>`;
   }
 

@@ -26,7 +26,7 @@ export const de: LoomiTranslations = {
   pagination: { totalLabel: "Zeige :a bis :b von :c", noRecords: "Keine Einträge", pageOf: "Seite :page von :pages" },
   modal: { ok: "OK", cancel: "Abbrechen", dialog: "Dialog" },
   drawer: { dialog: "Seitenleiste" },
-  pin: { errorMessage: "Der Bestätigungscode ist ungültig", digitLabel: "Ziffer :number" },
+  pin: { errorMessage: "Der Bestätigungscode ist ungültig", digitLabel: "Ziffer :number", validating: "Code wird überprüft…", valid: "Code bestätigt" },
   colorpicker: { pickColor: "Farbe wählen" },
   input: { togglePassword: "Passwortsichtbarkeit umschalten" },
   number: { increment: "Erhöhen", decrement: "Verringern" },

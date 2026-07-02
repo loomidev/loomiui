@@ -35,7 +35,15 @@
   },
   "dependencies": {
     "@loomidev/core": "workspace:^",
-    "@loomidev/modal": "workspace:^"
+    "@loomidev/datepicker": "workspace:^",
+    "@loomidev/input": "workspace:^",
+    "@loomidev/modal": "workspace:^",
+    "@loomidev/select": "workspace:^",
+    "@loomidev/tag-input": "workspace:^",
+    "@loomidev/textarea": "workspace:^",
+    "@loomidev/timepicker": "workspace:^",
+    "@loomidev/toggle": "workspace:^",
+    "@loomidev/tooltip": "workspace:^"
   },
   "peerDependencies": {
     "lit": "^3.0.0"

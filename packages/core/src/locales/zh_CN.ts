@@ -26,7 +26,7 @@ export const zh_CN: LoomiTranslations = {
   pagination: { totalLabel: "显示第 :a 到 :b 条，共 :c 条", noRecords: "没有记录", pageOf: "第 :page 页，共 :pages 页" },
   modal: { ok: "确定", cancel: "取消", dialog: "对话框" },
   drawer: { dialog: "抽屉" },
-  pin: { errorMessage: "验证码无效", digitLabel: "第 :number 位" },
+  pin: { errorMessage: "验证码无效", digitLabel: "第 :number 位", validating: "正在验证代码…", valid: "验证码已通过" },
   colorpicker: { pickColor: "选择颜色" },
   input: { togglePassword: "切换密码可见性" },
   number: { increment: "增加", decrement: "减少" },

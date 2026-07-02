@@ -14,6 +14,10 @@ import {
 
 export type { LoomiCardBrand } from "./brand-icons.js";
 
+/** `"gradient"` (default) is the full-color accent gradient face. `"outline"` is a bare
+ * card silhouette — soft gray border, no background fill — for light, minimal UIs. */
+export type LoomiCreditcardVariant = "gradient" | "outline";
+
 export interface LoomiCreditcardValue {
   /** Formatted card number, grouped per network (e.g. `"4242 4242 4242 4242"`). */
   number: string;
@@ -136,6 +140,9 @@ export class LoomiCreditcard extends LoomiElement {
   /** Force a specific network logo instead of auto-detecting it from `number`. Leave unset to auto-detect. */
   @property() brand: LoomiCardBrand | "" = "";
   @property() color: LoomiColor = "primary" as LoomiColor;
+  /** `"gradient"` (default) for the full-color accent face, or `"outline"` for a bare
+   * silhouette — soft gray border, no background fill. */
+  @property({ reflect: true }) variant: LoomiCreditcardVariant = "gradient";
   @property() locale = "";
   @property({ type: Boolean, reflect: true }) flipped = false;
   @property({ type: Boolean, reflect: true }) disabled = false;

@@ -63,8 +63,15 @@ export function usesPalette(type: LoomiChartType): boolean {
   return type === "pie" || type === "donut" || type === "radial";
 }
 
+export function hasSecondarySeries(data: LoomiChartPoint[]): boolean {
+  return data.some((d) => d.value2 != null);
+}
+
 export function maxValue(data: LoomiChartPoint[]): number {
-  return Math.max(1, ...data.map((d) => d.value));
+  return Math.max(
+    1,
+    ...data.flatMap((d) => [d.value, d.value2].filter((v): v is number => v != null)),
+  );
 }
 
 export function segmentFillShade(shade: "light" | "dark"): number {
@@ -76,8 +83,11 @@ export function resolveFill(
   p: LoomiChartPoint,
   i: number,
   usePalette: boolean,
+  secondary = false,
 ): string {
-  const c = p.color || (usePalette ? PALETTE[i % PALETTE.length] : ctx.color);
+  const c = secondary
+    ? p.color2 || ctx.color2 || ctx.color
+    : p.color || (usePalette ? PALETTE[i % PALETTE.length] : ctx.color);
   return /^[a-z]+$/.test(c) ? cssColor(c, segmentFillShade(ctx.shade)) : c;
 }
 
@@ -86,9 +96,12 @@ export function resolveBorder(
   p: LoomiChartPoint,
   i: number,
   usePalette: boolean,
+  secondary = false,
 ): string | null {
   if (ctx.shade !== "light" || !ctx.showBorder) return null;
-  const c = p.color || (usePalette ? PALETTE[i % PALETTE.length] : ctx.color);
+  const c = secondary
+    ? p.color2 || ctx.color2 || ctx.color
+    : p.color || (usePalette ? PALETTE[i % PALETTE.length] : ctx.color);
   return /^[a-z]+$/.test(c) ? cssColor(c, 200) : null;
 }
 
@@ -97,11 +110,41 @@ export function accentStyle(
   shade: "light" | "dark",
   showBorder: boolean,
   withBorder = false,
+  color2?: LoomiColor,
 ): string {
   const light = shade === "light";
   const strokeShade = light ? (withBorder && showBorder ? 600 : 400) : 600;
   const fillShade = light ? 100 : 50;
-  return `${accentVars(color)}--_loomi-accent:${cssColor(color, strokeShade)};--_loomi-accent-softer:${cssColor(color, fillShade)};`;
+  let style = `${accentVars(color)}--_loomi-accent:${cssColor(color, strokeShade)};--_loomi-accent-softer:${cssColor(color, fillShade)};`;
+  if (color2) {
+    style += `--_loomi-accent-2:${cssColor(color2, strokeShade)};--_loomi-accent-2-softer:${cssColor(color2, fillShade)};`;
+  }
+  return style;
+}
+
+/** Pixel anchor for a cartesian tooltip — band center x, top of the hovered category. */
+export function tooltipAnchor(
+  type: LoomiChartType,
+  data: LoomiChartPoint[],
+  index: number,
+  opts: { showYAxis: boolean; vertical: boolean },
+): [number, number] {
+  const layout = cartesianLayout(data, opts);
+  const { height: H, padLeft, padTop, padBottom, bandWidth, max, points } = layout;
+  const d = data[index];
+  if (!d) return [0, 0];
+
+  if (type === "bar") {
+    const x = padLeft + index * bandWidth + bandWidth / 2;
+    const topVal = Math.max(d.value, d.value2 ?? 0);
+    const y = H - padBottom - (topVal / max) * (H - padTop - padBottom);
+    return [x, y];
+  }
+
+  const [x, y1] = points[index] ?? [0, 0];
+  if (d.value2 == null) return [x, y1];
+  const y2 = H - padBottom - (d.value2 / max) * (H - padTop - padBottom);
+  return [x, Math.min(y1, y2)];
 }
 
 export function polar(cx: number, cy: number, deg: number, radius: number): [number, number] {
@@ -337,11 +380,50 @@ export function nearestIndex(
   if (n === 1) return 0;
 
   if (type === "line" && opts.vertical) {
-    return Math.max(0, Math.min(n - 1, Math.round(clamped * (n - 1))));
+    const layout = verticalLineLayout(data, opts.showYAxis);
+    const y = clamped * layout.height;
+    let best = 0;
+    let bestDist = Infinity;
+    for (let i = 0; i < n; i++) {
+      const cy = layout.padTop + i * layout.bandWidth + layout.bandWidth / 2;
+      const dist = Math.abs(cy - y);
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = i;
+      }
+    }
+    return best;
   }
 
   if (type === "bar" || type === "line" || type === "area" || type === "scatter") {
-    return Math.max(0, Math.min(n - 1, Math.round(clamped * (n - 1))));
+    const layout = cartesianLayout(data, opts);
+    const x = clamped * layout.width;
+
+    if (type === "bar") {
+      let best = 0;
+      let bestDist = Infinity;
+      for (let i = 0; i < n; i++) {
+        const cx = layout.padLeft + i * layout.bandWidth + layout.bandWidth / 2;
+        const dist = Math.abs(cx - x);
+        if (dist < bestDist) {
+          bestDist = dist;
+          best = i;
+        }
+      }
+      return best;
+    }
+
+    let best = 0;
+    let bestDist = Infinity;
+    for (let i = 0; i < n; i++) {
+      const cx = layout.points[i]?.[0] ?? 0;
+      const dist = Math.abs(cx - x);
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = i;
+      }
+    }
+    return best;
   }
 
   return -1;

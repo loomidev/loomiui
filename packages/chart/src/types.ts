@@ -17,7 +17,10 @@ export type LoomiChartLegendPosition = "top" | "bottom" | "left" | "right";
 export interface LoomiChartPoint {
   label: string;
   value: number;
+  /** Optional second series value — renders grouped bars or a second line. */
+  value2?: number;
   color?: string;
+  color2?: string;
 }
 
 /** Resolved layout for cartesian charts (bar, line, area, scatter). */
@@ -51,6 +54,7 @@ export interface ChartHoverTarget {
 
 export interface ChartColorContext {
   color: LoomiColor;
+  color2?: LoomiColor;
   shade: LoomiChartShade;
   showBorder: boolean;
 }

@@ -621,9 +621,9 @@
   border: 0;
 }
 
-/* ---- icon-collapsed mode (:host-context pierces shadow boundaries) ---- */
+/* ---- icon-collapsed mode (synced to :host via data-icon-collapsed) ---- */
 
-:host-context(loomi-sidebar-provider[data-collapsible="icon"][data-state="collapsed"]) .group-label {
+:host([data-icon-collapsed]) .group-label {
   opacity: 0;
   height: 0;
   min-height: 0;
@@ -632,31 +632,32 @@
   overflow: hidden;
 }
 
-:host-context(loomi-sidebar-provider[data-collapsible="icon"][data-state="collapsed"]) .menu-button-label {
+:host([data-icon-collapsed]) .menu-button-label,
+:host([data-icon-collapsed]) ::slotted(.menu-button-label) {
   display: none;
 }
 
-:host-context(loomi-sidebar-provider[data-collapsible="icon"][data-state="collapsed"]) .menu-button {
+:host([data-icon-collapsed]) .menu-button {
   justify-content: center;
   width: 2rem;
   min-width: 2rem;
   padding-inline: 0.5rem;
 }
 
-:host-context(loomi-sidebar-provider[data-collapsible="icon"][data-state="collapsed"]) .menu-sub {
+:host([data-icon-collapsed]) .menu-sub {
   display: none;
 }
 
-:host-context(loomi-sidebar-provider[data-collapsible="icon"][data-state="collapsed"]) .menu-action,
-:host-context(loomi-sidebar-provider[data-collapsible="icon"][data-state="collapsed"]) .menu-badge {
+:host([data-icon-collapsed]) .menu-action,
+:host([data-icon-collapsed]) .menu-badge {
   display: none;
 }
 
-:host-context(loomi-sidebar-provider[data-collapsible="icon"][data-state="collapsed"]) .group[data-hide-collapsed] {
+:host([data-icon-collapsed]) .group[data-hide-collapsed] {
   display: none;
 }
 
-:host-context(loomi-sidebar-provider[data-collapsible="icon"][data-state="collapsed"]) .menu-button[data-size="lg"] {
+:host([data-icon-collapsed]) .menu-button[data-size="lg"] {
   min-height: 2rem;
   padding: 0.5rem;
 }
