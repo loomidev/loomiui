@@ -37,11 +37,20 @@
 
     <h2>Dropmenu &amp; Popover</h2>
     <div class="row">
-      <loomi-dropmenu divided>
-        <loomi-dropmenu-item header>Project actions</loomi-dropmenu-item>
-        <loomi-dropmenu-item icon="paper-airplane">Invite to project</loomi-dropmenu-item>
-        <loomi-dropmenu-item icon="check">Assign task</loomi-dropmenu-item>
-        <loomi-dropmenu-item icon="trash">Delete</loomi-dropmenu-item>
+      <loomi-dropmenu>
+        <loomi-dropmenu-item shortcut="⌘X">Cut</loomi-dropmenu-item>
+        <loomi-dropmenu-item shortcut="⌘C">Copy</loomi-dropmenu-item>
+        <loomi-dropmenu-item shortcut="⌘V">Paste</loomi-dropmenu-item>
+        <loomi-dropmenu-item divider></loomi-dropmenu-item>
+        <loomi-dropmenu-item>Edit</loomi-dropmenu-item>
+        <loomi-dropmenu-item>Duplicate</loomi-dropmenu-item>
+        <loomi-dropmenu-item>Delete</loomi-dropmenu-item>
+        <loomi-dropmenu-item divider></loomi-dropmenu-item>
+        <loomi-dropmenu-item>
+          View details
+          <loomi-dropmenu-item slot="submenu">Summary</loomi-dropmenu-item>
+          <loomi-dropmenu-item slot="submenu">Activity</loomi-dropmenu-item>
+        </loomi-dropmenu-item>
       </loomi-dropmenu>
       <loomi-popover title="Account">
         <ul style="margin:0;padding-left:1rem;line-height:1.8">

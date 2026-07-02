@@ -23,6 +23,7 @@ import {
   resolveFill,
   roundedTopRectBorderPath,
   roundedTopRectPath,
+  showXLabel,
   usesPalette,
   verticalLineLayout,
 } from "./chart-utils.js";
@@ -51,10 +52,10 @@ export class LoomiChart extends LoomiElement {
   @property({ type: Number, attribute: "donut-radius" }) donutRadius = 44;
   @property() shade: LoomiChartShade = "dark";
   @property({ type: Boolean, attribute: "show-border", converter: booleanAttribute }) showBorder = true;
-  @property({ type: Boolean, attribute: "show-y-axis" }) showYAxis = false;
+  @property({ type: Boolean, attribute: "show-y-axis", converter: booleanAttribute }) showYAxis = true;
   @property({ type: Boolean, attribute: "show-grid" }) showGrid = true;
   /** Show a tooltip while hovering chart points. Cartesian charts track the nearest point as you move across the plot. */
-  @property({ type: Boolean, attribute: "show-tooltip" }) showTooltip = false;
+  @property({ type: Boolean, attribute: "show-tooltip", converter: booleanAttribute }) showTooltip = true;
   @property({ type: Boolean }) vertical = false;
 
   @state() private hoverIndex = -1;
@@ -164,7 +165,9 @@ export class LoomiChart extends LoomiElement {
           ${border
             ? svg`<path class="loomi-bar-border" d=${roundedTopRectBorderPath(x, y, w, h, r)} fill="none" stroke=${border} stroke-width="1.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>`
             : nothing}
-          <text class="loomi-xlabel" x=${padLeft + i * bandWidth + bandWidth / 2} y=${H - padBottom + 14} text-anchor="middle">${d.label}</text>
+          ${showXLabel(i, bandWidth)
+            ? svg`<text class="loomi-xlabel" x=${padLeft + i * bandWidth + bandWidth / 2} y=${H - padBottom + 12} text-anchor="middle">${d.label}</text>`
+            : nothing}
         `;
       })}
     `;
@@ -207,17 +210,18 @@ export class LoomiChart extends LoomiElement {
         ? points.map(([x, y], i) => {
             const active = this.hoverIndex === i;
             return svg`
-              <circle class="loomi-dot${active ? " is-active" : ""}" cx=${x} cy=${y} r=${active ? 5 : 3.5} vector-effect="non-scaling-stroke"></circle>
-              <text
-                class="loomi-xlabel"
-                x=${vertical ? padLeft - 8 : x}
-                y=${vertical ? y + 4 : H - padBottom + 14}
-                text-anchor=${vertical ? "end" : "middle"}
-              >${this.data[i].label}</text>
+              <circle class="loomi-dot${active ? " is-active" : ""}" cx=${x} cy=${y} r=${active ? 3.5 : 2.5} vector-effect="non-scaling-stroke"></circle>
+              ${!vertical && showXLabel(i, layout.bandWidth)
+                ? svg`<text class="loomi-xlabel" x=${x} y=${H - padBottom + 12} text-anchor="middle">${this.data[i].label}</text>`
+                : vertical
+                  ? svg`<text class="loomi-xlabel" x=${padLeft - 8} y=${y + 4} text-anchor="end">${this.data[i].label}</text>`
+                  : nothing}
             `;
           })
         : points.map(([x], i) =>
-            svg`<text class="loomi-xlabel" x=${x} y=${H - padBottom + 14} text-anchor="middle">${this.data[i].label}</text>`,
+            showXLabel(i, layout.bandWidth)
+              ? svg`<text class="loomi-xlabel" x=${x} y=${H - padBottom + 12} text-anchor="middle">${this.data[i].label}</text>`
+              : svg``,
           )}
     `;
   }
@@ -244,7 +248,9 @@ export class LoomiChart extends LoomiElement {
             stroke-width=${border ? 1.5 : 0}
             vector-effect="non-scaling-stroke"
           ></circle>
-          <text class="loomi-xlabel" x=${padLeft + i * bandWidth + bandWidth / 2} y=${H - padBottom + 14} text-anchor="middle">${d.label}</text>
+          ${showXLabel(i, bandWidth)
+            ? svg`<text class="loomi-xlabel" x=${padLeft + i * bandWidth + bandWidth / 2} y=${H - padBottom + 12} text-anchor="middle">${d.label}</text>`
+            : nothing}
         `;
       })}
     `;
@@ -261,10 +267,10 @@ export class LoomiChart extends LoomiElement {
       `${cx},${cy - R * frac} ${cx + R * frac},${cy} ${cx},${cy + R * frac} ${cx - R * frac},${cy}`;
     const dataPts = this.data.map((d, i) => polar(cx, cy, i * step, (d.value / max) * R));
     return svg`
-      ${rings.map((frac) => svg`<polygon class="loomi-grid" points=${ring(frac)} fill="none" vector-effect="non-scaling-stroke"></polygon>`)}
+      ${rings.map((frac) => svg`<polygon class="loomi-radar-grid" points=${ring(frac)} fill="none" vector-effect="non-scaling-stroke"></polygon>`)}
       ${this.data.map((_, i) => {
         const [x, y] = polar(cx, cy, i * step, R);
-        return svg`<line class="loomi-axis" x1=${cx} y1=${cy} x2=${x} y2=${y} vector-effect="non-scaling-stroke"></line>`;
+        return svg`<line class="loomi-radar-spoke" x1=${cx} y1=${cy} x2=${x} y2=${y} vector-effect="non-scaling-stroke"></line>`;
       })}
       <polygon class="loomi-radar-area" points=${dataPts.map((p) => p.join(",")).join(" ")} vector-effect="non-scaling-stroke"></polygon>
       ${dataPts.map(([x, y], i) => {

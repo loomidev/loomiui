@@ -298,14 +298,7 @@ export class LoomiDropmenu extends LoomiElement {
   }
 
   private get menuClass(): string {
-    return [
-      "loomi-menu",
-      this.resolvedPosition,
-      this.divided && "divided",
-      this.scrollable && "scrollable",
-    ]
-      .filter(Boolean)
-      .join(" ");
+    return ["loomi-menu", this.resolvedPosition, this.scrollable && "scrollable"].filter(Boolean).join(" ");
   }
 
   override render(): TemplateResult {

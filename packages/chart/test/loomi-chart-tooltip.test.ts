@@ -10,8 +10,8 @@ const series: LoomiChartPoint[] = [
 ];
 
 describe("loomi-chart tooltips", () => {
-  it("shows point tooltips for polar charts when show-tooltip is set", async () => {
-    const el = await fixture<LoomiChart>(html`<loomi-chart type="pie" show-tooltip></loomi-chart>`);
+  it("shows point tooltips for polar charts by default", async () => {
+    const el = await fixture<LoomiChart>(html`<loomi-chart type="pie"></loomi-chart>`);
     el.data = series;
     await el.updateComplete;
 
@@ -22,8 +22,15 @@ describe("loomi-chart tooltips", () => {
     expect(tipContent!.textContent).to.include("30");
   });
 
+  it("hides tooltips when show-tooltip is false", async () => {
+    const el = await fixture<LoomiChart>(html`<loomi-chart type="pie" show-tooltip="false"></loomi-chart>`);
+    el.data = series;
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector(".loomi-hits")).to.not.exist;
+  });
+
   it("tracks the nearest cartesian point while moving across the chart", async () => {
-    const el = await fixture<LoomiChart>(html`<loomi-chart type="line" show-tooltip></loomi-chart>`);
+    const el = await fixture<LoomiChart>(html`<loomi-chart type="line"></loomi-chart>`);
     el.data = series;
     await el.updateComplete;
 
