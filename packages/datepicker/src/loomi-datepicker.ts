@@ -254,8 +254,8 @@ export class LoomiDatepicker extends LoomiElement {
     return html`<div class="loomi-dp ${this.open ? "open" : ""}">
       ${this.label ? html`<span class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req"> *</span>` : nothing}</span>` : nothing}
       <div class="loomi-field size-${this.size}" @click=${() => this.toggle()}>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${CAL}</svg>
         <span class="loomi-text ${this.value ? "" : "placeholder"}">${this.value || placeholder}${!this.value && this.required ? html`<span class="loomi-req"> *</span>` : nothing}</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${CAL}</svg>
       </div>
       ${this.open
         ? html`<div class="loomi-cal" @click=${(e: Event) => e.stopPropagation()}>${calendarBody}</div>`
