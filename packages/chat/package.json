@@ -1,7 +1,7 @@
 {
   "name": "@loomidev/chat",
   "version": "0.1.0",
-  "description": "Chat transcript scroller and chat window for streaming conversations.",
+  "description": "Chat window and message bubbles for one-to-one and group conversations.",
   "repository": {
     "type": "git",
     "url": "https://github.com/loomidev/loomiui.git",
@@ -23,9 +23,9 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./loomi-chat.js": {
-      "types": "./dist/loomi-chat.d.ts",
-      "import": "./dist/loomi-chat.js"
+    "./loomi-chat-message.js": {
+      "types": "./dist/loomi-chat-message.d.ts",
+      "import": "./dist/loomi-chat-message.js"
     },
     "./loomi-chat-window.js": {
       "types": "./dist/loomi-chat-window.d.ts",
@@ -38,11 +38,11 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@loomidev/avatar": "workspace:^",
     "@loomidev/button": "workspace:^",
     "@loomidev/core": "workspace:^",
     "@loomidev/icon": "workspace:^",
     "@loomidev/spinner": "workspace:^",
-    "@loomidev/textarea": "workspace:^",
     "@loomidev/tooltip": "workspace:^"
   },
   "peerDependencies": {
@@ -60,6 +60,6 @@
     "lit",
     "loomiui",
     "chat",
-    "message-scroller"
+    "message"
   ]
 }
