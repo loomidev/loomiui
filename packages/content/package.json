@@ -51,7 +51,7 @@
     "@loomidev/horizontal-line-graph": "workspace:^",
     "@loomidev/chart": "workspace:^",
     "@loomidev/calendar": "workspace:^",
-    "@loomidev/data-table": "workspace:^"
+    "@loomidev/data-grid": "workspace:^"
   },
   "peerDependencies": {
     "lit": "^3.0.0"

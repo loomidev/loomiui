@@ -20,4 +20,4 @@ export * from "@loomidev/processing";
 export * from "@loomidev/horizontal-line-graph";
 export * from "@loomidev/chart";
 export * from "@loomidev/calendar";
-export * from "@loomidev/data-table";
+export * from "@loomidev/data-grid";

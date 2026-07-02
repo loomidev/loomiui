@@ -1,40 +1,42 @@
-import { css, html, nothing } from "lit";
+import { html, nothing, type PropertyValues } from "lit";
 import { customElement } from "lit/decorators.js";
 import { LoomiElement, loomiStyles } from "@loomidev/core";
+import { dataGridStyles } from "./data-grid-styles.js";
+import type { DataGridHost, GridCellCoordinates, GridModule, GridModuleContext } from "./grid-module.js";
+import { formatCellValue, getRowMeta, resolveRowKey, orderPinnedColumns, computeColumnPinLayout, SELECTION_COLUMN_WIDTH_PX, type ColumnPinLayout } from "./grid-utils.js";
 import type {
-  DataTableColumn,
-  DataTableColumnVisibilityChangeDetail,
-  DataTableDensity,
-  DataTableExportRequestDetail,
-  DataTableFilter,
-  DataTablePageChangeDetail,
-  DataTableRecord,
-  DataTableRowActionDetail,
-  DataTableSavedView,
-  DataTableSelectionChangeDetail,
-  DataTableSort,
-  DataTableSortChangeDetail,
-  DataTableViewChangeDetail
+  DataGridActiveCell,
+  DataGridCellEditDetail,
+  DataGridColumn,
+  DataGridColumnResizeDetail,
+  DataGridDensity,
+  DataGridPageChangeDetail,
+  DataGridRecord,
+  DataGridRowActionDetail,
+  DataGridSelectionChangeDetail,
+  DataGridSort,
+  DataGridSortChangeDetail
 } from "./types.js";
 
 const DEFAULT_PAGE_SIZE = 10;
+const DEFAULT_MIN_COLUMN_WIDTH = 60;
 
-@customElement("loomi-data-table")
-export class LoomiDataTable<TRecord extends DataTableRecord = DataTableRecord> extends LoomiElement {
+@customElement("loomi-data-grid")
+export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
+  extends LoomiElement
+  implements DataGridHost<TRecord>
+{
   static properties = {
     ...LoomiElement.properties,
     columns: { attribute: false },
     data: { attribute: false },
-    filters: { attribute: false },
-    savedViews: { attribute: false },
+    modules: { attribute: false },
     selectedKeys: { attribute: false },
-    visibleColumns: { attribute: false },
     rowKey: { attribute: "row-key" },
-    currentViewId: { attribute: "current-view-id" },
     density: { reflect: true },
     emptyTitle: { attribute: "empty-title" },
     emptyDescription: { attribute: "empty-description" },
-    globalSearch: { attribute: "global-search" },
+    maxHeight: { attribute: "max-height" },
     page: { type: Number },
     pageSize: { attribute: "page-size", type: Number },
     totalRows: { attribute: "total-rows", type: Number },
@@ -42,246 +44,26 @@ export class LoomiDataTable<TRecord extends DataTableRecord = DataTableRecord> e
     loading: { type: Boolean, reflect: true },
     pagination: { type: Boolean, reflect: true },
     serverSide: { attribute: "server-side", type: Boolean, reflect: true },
-    showColumnManager: { attribute: "show-column-manager", type: Boolean },
-    showExport: { attribute: "show-export", type: Boolean },
-    showViewManager: { attribute: "show-view-manager", type: Boolean },
     stickyHeader: { attribute: "sticky-header", type: Boolean, reflect: true },
-    _sort: { state: true }
+    sort: { attribute: false },
+    columnWidths: { attribute: false },
+    _activeCell: { state: true },
+    _resizingKey: { state: true }
   };
 
-  static override styles = loomiStyles(css`
-    :host {
-      --loomi-data-table-border: var(--loomi-surface-border, #d9dee3);
-      --loomi-data-table-border-subtle: var(--loomi-surface-border-subtle, #edf0f2);
-      --loomi-data-table-muted: var(--loomi-text-muted, #62717d);
-      --loomi-data-table-faint: var(--loomi-text-faint, #8a97a3);
-      --loomi-data-table-surface: var(--loomi-surface, #ffffff);
-      --loomi-data-table-surface-muted: var(--loomi-surface-muted, #f6f8fa);
-      --loomi-data-table-surface-hover: var(--loomi-surface-hover, #f9fbfc);
-      --loomi-data-table-text: var(--loomi-text, #172026);
-      --loomi-data-table-text-secondary: var(--loomi-text-secondary, #33424f);
-      --loomi-data-table-accent: var(--loomi-primary-600, var(--_loomi-primary-600-default, #2563eb));
-      --loomi-data-table-accent-strong: var(--loomi-primary-700, var(--_loomi-primary-700-default, #174ea6));
-      --loomi-data-table-accent-soft: var(--loomi-primary-100, var(--_loomi-primary-100-default, #dbeafe));
-      --loomi-data-table-accent-softer: var(--loomi-primary-50, var(--_loomi-primary-50-default, #eff6ff));
-      display: block;
-      color: var(--loomi-data-table-text);
-      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-    }
+  static override styles = loomiStyles(dataGridStyles);
 
-    .shell {
-      overflow: hidden;
-      border: 1px solid var(--loomi-data-table-border);
-      border-radius: 8px;
-      background: var(--loomi-data-table-surface);
-    }
-
-    .toolbar,
-    .footer {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 12px;
-      border-bottom: 1px solid var(--loomi-data-table-border);
-      background: var(--loomi-data-table-surface);
-    }
-
-    .footer {
-      border-top: 1px solid var(--loomi-data-table-border);
-      border-bottom: 0;
-    }
-
-    .toolbar-group,
-    .pagination {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 8px;
-    }
-
-    input,
-    select,
-    button {
-      min-height: 34px;
-      border: 1px solid var(--loomi-data-table-border);
-      border-radius: 6px;
-      background: var(--loomi-data-table-surface);
-      color: inherit;
-      font: inherit;
-    }
-
-    input,
-    select {
-      padding: 0 10px;
-    }
-
-    button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 0 10px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      border-color: var(--loomi-data-table-accent);
-    }
-
-    button[disabled] {
-      cursor: not-allowed;
-      opacity: 0.5;
-    }
-
-    .selection-count {
-      min-height: 28px;
-      display: inline-flex;
-      align-items: center;
-      border-radius: 999px;
-      background: var(--loomi-data-table-accent-soft);
-      color: var(--loomi-data-table-accent-strong);
-      padding: 0 10px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    details {
-      position: relative;
-    }
-
-    summary {
-      min-height: 34px;
-      display: inline-flex;
-      align-items: center;
-      border: 1px solid var(--loomi-data-table-border);
-      border-radius: 6px;
-      padding: 0 10px;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .column-menu {
-      position: absolute;
-      z-index: 20;
-      min-width: 220px;
-      margin-top: 8px;
-      padding: 8px;
-      border: 1px solid var(--loomi-data-table-border);
-      border-radius: 8px;
-      background: var(--loomi-data-table-surface);
-      box-shadow: 0 16px 40px rgb(15 23 42 / 0.14);
-    }
-
-    .column-menu label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px;
-      font-size: 14px;
-    }
-
-    .table-wrap {
-      overflow: auto;
-    }
-
-    table {
-      width: 100%;
-      min-width: 720px;
-      border-collapse: separate;
-      border-spacing: 0;
-      font-size: 14px;
-    }
-
-    th,
-    td {
-      border-bottom: 1px solid var(--loomi-data-table-border);
-      padding: 12px;
-      text-align: left;
-      vertical-align: middle;
-      white-space: nowrap;
-    }
-
-    :host([density="compact"]) th,
-    :host([density="compact"]) td {
-      padding: 8px 10px;
-    }
-
-    :host([density="spacious"]) th,
-    :host([density="spacious"]) td {
-      padding: 16px;
-    }
-
-    th {
-      position: relative;
-      background: var(--loomi-data-table-surface-subtle);
-      color: var(--loomi-data-table-text-secondary);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0;
-      text-transform: uppercase;
-    }
-
-    :host([sticky-header]) th {
-      position: sticky;
-      top: 0;
-      z-index: 5;
-    }
-
-    tbody tr {
-      cursor: default;
-    }
-
-    tbody tr:hover {
-      background: var(--loomi-data-table-surface-hover);
-    }
-
-    tbody tr[data-selected="true"] {
-      background: var(--loomi-data-table-accent-softer);
-    }
-
-    .align-center {
-      text-align: center;
-    }
-
-    .align-end {
-      text-align: right;
-    }
-
-    .empty,
-    .loading {
-      padding: 48px 24px;
-      text-align: center;
-      color: var(--loomi-data-table-muted);
-    }
-
-    .empty strong,
-    .loading strong {
-      display: block;
-      margin-bottom: 4px;
-      color: var(--loomi-data-table-text);
-      font-size: 16px;
-    }
-
-    .row-count {
-      color: var(--loomi-data-table-muted);
-      font-size: 13px;
-    }
-  `);
-
-  columns: DataTableColumn<TRecord>[] = [];
+  columns: DataGridColumn<TRecord>[] = [];
   data: TRecord[] = [];
-  filters: DataTableFilter[] = [];
-  savedViews: DataTableSavedView[] = [];
+  /** Opt-in feature modules — filtering, row grouping, tree data, export, and more. See `@loomidev/data-grid/modules/*`. */
+  modules: GridModule<TRecord>[] = [];
   selectedKeys: string[] = [];
-  visibleColumns: string[] = [];
   rowKey = "id";
-  currentViewId = "default";
-  density: DataTableDensity = "comfortable";
+  density: DataGridDensity = "comfortable";
   emptyTitle = "No rows found";
   emptyDescription = "Try changing the filters or search term.";
-  globalSearch = "";
+  /** CSS max-height for the scroll container, e.g. `"420px"`. Pairs with `sticky-header` and virtual scrolling. */
+  maxHeight = "";
   page = 1;
   pageSize = DEFAULT_PAGE_SIZE;
   totalRows = 0;
@@ -289,91 +71,135 @@ export class LoomiDataTable<TRecord extends DataTableRecord = DataTableRecord> e
   loading = false;
   pagination = true;
   serverSide = false;
-  showColumnManager = true;
-  showExport = true;
-  showViewManager = true;
   stickyHeader = true;
-  private _sort: DataTableSort | null = null;
+
+  /** Current sort. Settable up front for an initial sort, or externally for a controlled grid. */
+  sort: DataGridSort | null = null;
+  /** Per-column widths (px strings), keyed by column key. Populated by drag-resize; settable to restore saved widths. */
+  columnWidths: Record<string, string> = {};
+  private _activeCell: DataGridActiveCell | null = null;
+  private _resizingKey: string | null = null;
+
+  /** Modules currently attached (`attach()` called); reconciled against `modules` on every update. */
+  private attachedModules: GridModule<TRecord>[] = [];
+  /** Snapshot of the rows/columns from the most recent render, for handlers outside the template. */
+  private renderedRows: TRecord[] = [];
+  private renderedColumns: DataGridColumn<TRecord>[] = [];
+  /** Full processed row set (post filter + sort + shape), exposed to modules via `ctx.rows`. */
+  private processedRowsSnapshot: TRecord[] = [];
+  private focusPending = false;
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.setAttribute("role", "table");
+  }
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    for (const module of this.attachedModules) {
+      module.detach?.(this.moduleContext);
+    }
+    this.attachedModules = [];
+  }
+
+  protected override willUpdate(changed: PropertyValues<this>): void {
+    super.willUpdate(changed);
+    this.reconcileModules();
+  }
+
+  protected override updated(changed: PropertyValues<this>): void {
+    super.updated(changed);
+    if (this.focusPending) {
+      this.focusPending = false;
+      this.focusActiveCell();
+    }
+  }
+
+  private reconcileModules(): void {
+    if (this.modules === this.attachedModules) {
+      return;
+    }
+    for (const module of this.attachedModules) {
+      module.detach?.(this.moduleContext);
+    }
+    this.attachedModules = this.modules;
+    for (const module of this.attachedModules) {
+      module.attach?.(this.moduleContext);
+    }
+  }
+
+  private get moduleContext(): GridModuleContext<TRecord> {
+    return {
+      grid: this,
+      columns: this.renderedColumns.length > 0 ? this.renderedColumns : this.columns,
+      rows: this.processedRowsSnapshot,
+      requestUpdate: () => this.requestUpdate(),
+      dispatch: (name, detail) => this.dispatchGridEvent(name, detail),
+      getRowKey: (row) => this.getRowKey(row)
+    };
+  }
 
   render() {
-    const visibleColumns = this.getVisibleColumns();
-    const rows = this.getPageRows();
-    const totalRows = this.getTotalRows();
+    const processedRows = this.getProcessedRows(this.moduleContext);
+    this.processedRowsSnapshot = processedRows;
+    const columns = this.getVisibleColumns(this.moduleContext);
+    this.renderedColumns = columns;
+    // Rebuild after the snapshots above are current, so toolbar/cell/body hooks see final rows+columns.
+    const ctx = this.moduleContext;
+
+    const bodyModule = this.attachedModules.find((module) => module.renderBody);
+    const rows = bodyModule ? processedRows : this.getPageRows(processedRows);
+    this.renderedRows = rows;
+
+    const totalRows = this.getTotalRows(processedRows);
     const totalPages = this.getTotalPages(totalRows);
     const selectedCount = this.selectedKeys.length;
+    const showPagination = this.pagination && !bodyModule;
+    const belowTable = this.attachedModules
+      .map((module) => module.renderBelowTable?.(processedRows, ctx))
+      .filter((content) => content !== undefined);
+    const pinLayout = computeColumnPinLayout(
+      columns,
+      this.columnWidths,
+      this.selectable ? SELECTION_COLUMN_WIDTH_PX : 0
+    );
 
     return html`
       <section class="shell" aria-busy=${this.loading ? "true" : "false"}>
-        ${this.renderToolbar(visibleColumns, selectedCount)}
-        <div class="table-wrap">
+        ${this.renderToolbar(selectedCount, ctx)}
+        <div class="grid-wrap" style=${this.maxHeight ? `max-height:${this.maxHeight}` : ""}>
           ${this.loading
             ? this.renderLoading()
-            : rows.length === 0
+            : processedRows.length === 0
               ? this.renderEmpty()
-              : this.renderTable(visibleColumns, rows)}
+              : this.renderTable(columns, rows, bodyModule, ctx, pinLayout)}
         </div>
-        ${this.pagination ? this.renderFooter(totalRows, totalPages) : nothing}
+        ${belowTable.length > 0 ? html`<div class="below-table">${belowTable}</div>` : nothing}
+        ${showPagination ? this.renderFooter(totalRows, totalPages) : nothing}
       </section>
     `;
   }
 
-  private renderToolbar(columns: DataTableColumn<TRecord>[], selectedCount: number) {
+  private renderToolbar(selectedCount: number, ctx: GridModuleContext<TRecord>) {
+    const startExtras = this.attachedModules
+      .map((module) => module.renderToolbarStart?.(ctx))
+      .filter((content) => content !== undefined);
+    const endExtras = this.attachedModules
+      .map((module) => module.renderToolbarEnd?.(ctx))
+      .filter((content) => content !== undefined);
+
+    if (startExtras.length === 0 && endExtras.length === 0 && selectedCount === 0) {
+      return nothing;
+    }
+
     return html`
       <div class="toolbar">
+        <div class="toolbar-group">${startExtras}</div>
         <div class="toolbar-group">
-          <input
-            type="search"
-            aria-label="Search rows"
-            placeholder="Search rows"
-            .value=${this.globalSearch}
-            @input=${this.handleSearchInput}
-          />
-          ${this.showViewManager && this.savedViews.length > 0 ? this.renderViewSelect() : nothing}
-          ${this.showColumnManager ? this.renderColumnManager() : nothing}
-        </div>
-        <div class="toolbar-group">
-          ${selectedCount > 0
-            ? html`<span class="selection-count">${selectedCount} selected</span>`
-            : nothing}
-          ${this.showExport
-            ? html`<button type="button" @click=${() => this.handleExport(columns)}>Export</button>`
-            : nothing}
+          ${selectedCount > 0 ? html`<span class="selection-count">${selectedCount} selected</span>` : nothing}
+          ${endExtras}
         </div>
       </div>
-    `;
-  }
-
-  private renderViewSelect() {
-    return html`
-      <select aria-label="Saved table view" .value=${this.currentViewId} @change=${this.handleViewChange}>
-        <option value="default">Default view</option>
-        ${this.savedViews.map((view) => html`<option value=${view.id}>${view.label}</option>`)}
-      </select>
-    `;
-  }
-
-  private renderColumnManager() {
-    return html`
-      <details>
-        <summary>Columns</summary>
-        <div class="column-menu">
-          ${this.columns
-            .filter((column) => column.hideable !== false)
-            .map((column) => {
-              const checked = this.getVisibleColumnKeys().includes(column.key);
-              return html`
-                <label>
-                  <input
-                    type="checkbox"
-                    .checked=${checked}
-                    @change=${(event: Event) => this.handleColumnToggle(event, column.key)}
-                  />
-                  <span>${column.label}</span>
-                </label>
-              `;
-            })}
-        </div>
-      </details>
     `;
   }
 
@@ -381,7 +207,7 @@ export class LoomiDataTable<TRecord extends DataTableRecord = DataTableRecord> e
     return html`
       <div class="loading" role="status">
         <strong>Loading rows</strong>
-        <span>Fetching the latest table data.</span>
+        <span>Fetching the latest grid data.</span>
       </div>
     `;
   }
@@ -395,14 +221,26 @@ export class LoomiDataTable<TRecord extends DataTableRecord = DataTableRecord> e
     `;
   }
 
-  private renderTable(columns: DataTableColumn<TRecord>[], rows: TRecord[]) {
+  private renderTable(
+    columns: DataGridColumn<TRecord>[],
+    rows: TRecord[],
+    bodyModule: GridModule<TRecord> | undefined,
+    ctx: GridModuleContext<TRecord>,
+    pinLayout: ColumnPinLayout
+  ) {
+    const renderRow = (row: TRecord, rowIndex: number) => this.renderRow(columns, row, rowIndex, pinLayout);
+
     return html`
-      <table>
+      <table @keydown=${this.handleGridKeydown}>
+        <colgroup>
+          ${this.selectable ? html`<col style="width: ${SELECTION_COLUMN_WIDTH_PX}px" />` : nothing}
+          ${columns.map((column) => html`<col style=${this.getColumnWidthStyle(column)} />`)}
+        </colgroup>
         <thead>
           <tr>
             ${this.selectable
               ? html`
-                  <th>
+                  <th class="pin-select-column">
                     <input
                       type="checkbox"
                       aria-label="Select all rows"
@@ -412,41 +250,85 @@ export class LoomiDataTable<TRecord extends DataTableRecord = DataTableRecord> e
                   </th>
                 `
               : nothing}
-            ${columns.map((column) => this.renderHeaderCell(column))}
+            ${columns.map((column) => this.renderHeaderCell(column, pinLayout))}
           </tr>
         </thead>
         <tbody>
-          ${rows.map((row) => this.renderRow(columns, row))}
+          ${bodyModule ? bodyModule.renderBody!(rows, columns, renderRow, ctx) : rows.map(renderRow)}
         </tbody>
       </table>
     `;
   }
 
-  private renderHeaderCell(column: DataTableColumn<TRecord>) {
-    const sortIndicator = this._sort?.key === column.key ? (this._sort.direction === "asc" ? "^" : "v") : "";
-    const className = this.getAlignClass(column);
+  private renderHeaderCell(column: DataGridColumn<TRecord>, pinLayout: ColumnPinLayout) {
+    const sortIndicator = this.sort?.key === column.key ? (this.sort.direction === "asc" ? "▲" : "▼") : "";
+    const className = [this.getAlignClass(column), this.getPinCellClass(column, pinLayout)].filter(Boolean).join(" ");
+    const pinStyle = this.getPinCellStyle(column, pinLayout);
+    const resizable = column.resizable !== false;
+    const extra = this.attachedModules
+      .map((module) => module.renderHeaderExtra?.(column, this.moduleContext))
+      .filter((content) => content !== undefined);
 
     return html`
-      <th class=${className} style=${this.getColumnStyle(column)}>
-        ${column.sortable
-          ? html`<button type="button" @click=${() => this.handleSort(column)}>${column.label} ${sortIndicator}</button>`
-          : column.label}
+      <th
+        class=${className || nothing}
+        style=${[this.getColumnWidthStyle(column), pinStyle].filter(Boolean).join("; ")}
+        title=${column.description ?? nothing}
+      >
+        <div class="th-content">
+          ${column.sortable
+            ? html`
+                <button type="button" class="sort-button" @click=${() => this.handleSort(column)}>
+                  <span>${column.label}</span>
+                  <span class="sort-indicator">${sortIndicator}</span>
+                </button>
+              `
+            : html`<span>${column.label}</span>`}
+        </div>
+        ${extra}
+        ${resizable
+          ? html`
+              <div
+                class=${`resize-handle${this._resizingKey === column.key ? " resizing" : ""}`}
+                @pointerdown=${(event: PointerEvent) => this.startResize(event, column)}
+              ></div>
+            `
+          : nothing}
       </th>
     `;
   }
 
-  private renderRow(columns: DataTableColumn<TRecord>[], row: TRecord) {
-    const rowKey = this.getRowKey(row);
-    const selected = this.selectedKeys.includes(rowKey);
+  private renderRow(
+    columns: DataGridColumn<TRecord>[],
+    row: TRecord,
+    rowIndex: number,
+    pinLayout: ColumnPinLayout
+  ) {
+    const meta = getRowMeta(row);
+
+    if (meta?.type === "group" || meta?.type === "pivot-header") {
+      return this.renderGroupRow(row, columns.length + (this.selectable ? 1 : 0));
+    }
+
+    const rowKeyValue = this.getRowKey(row);
+    const selected = this.selectedKeys.includes(rowKeyValue);
+    const extraRowClass = this.attachedModules
+      .map((module) => module.getRowClass?.(row, rowIndex, this.moduleContext))
+      .filter((value): value is string => Boolean(value))
+      .join(" ");
 
     return html`
-      <tr data-selected=${selected ? "true" : "false"} @click=${() => this.emitRowAction(row, rowKey)}>
+      <tr
+        class=${extraRowClass || nothing}
+        data-selected=${selected ? "true" : "false"}
+        @click=${() => this.emitRowAction(row, rowKeyValue)}
+      >
         ${this.selectable
           ? html`
-              <td>
+              <td class="pin-select-column">
                 <input
                   type="checkbox"
-                  aria-label=${`Select row ${rowKey}`}
+                  aria-label=${`Select row ${rowKeyValue}`}
                   .checked=${selected}
                   @click=${(event: Event) => event.stopPropagation()}
                   @change=${(event: Event) => this.handleRowSelect(event, row)}
@@ -454,16 +336,127 @@ export class LoomiDataTable<TRecord extends DataTableRecord = DataTableRecord> e
               </td>
             `
           : nothing}
-        ${columns.map((column) => {
-          const value = row[column.key];
-          return html`
-            <td class=${this.getAlignClass(column)}>
-              ${column.formatter ? column.formatter(value, row) : this.formatCellValue(value)}
-            </td>
-          `;
-        })}
+        ${columns.map((column, columnIndex) => this.renderDataCell(column, row, rowIndex, columnIndex, pinLayout))}
       </tr>
     `;
+  }
+
+  private renderGroupRow(row: TRecord, columnCount: number) {
+    const meta = getRowMeta(row)!;
+    const aggregateEntries = meta.aggregates ? Object.entries(meta.aggregates) : [];
+
+    return html`
+      <tr class="loomi-grid-row-group">
+        <td colspan=${columnCount} style=${`padding-left: ${12 + (meta.depth ?? 0) * 16}px`}>
+          ${meta.hasChildren !== false
+            ? html`
+                <button
+                  type="button"
+                  class="group-toggle"
+                  aria-expanded=${meta.expanded ? "true" : "false"}
+                  @click=${() => this.toggleRow(row)}
+                >
+                  ${meta.expanded ? "▾" : "▸"}
+                </button>
+              `
+            : nothing}
+          <strong>${meta.groupLabel}</strong>
+          ${meta.count != null ? html`<span class="row-count">(${meta.count})</span>` : nothing}
+          ${aggregateEntries.map(
+            ([key, value]) => html`<span class="row-count">&nbsp;· ${key}: ${formatCellValue(value)}</span>`
+          )}
+        </td>
+      </tr>
+    `;
+  }
+
+  private renderDataCell(
+    column: DataGridColumn<TRecord>,
+    row: TRecord,
+    rowIndex: number,
+    columnIndex: number,
+    pinLayout: ColumnPinLayout
+  ) {
+    const cell: GridCellCoordinates<TRecord> = { row, rowIndex, columnIndex, column };
+    const activeCell = this._activeCell ?? { rowIndex: 0, columnIndex: 0 };
+    const isActive = activeCell.rowIndex === rowIndex && activeCell.columnIndex === columnIndex;
+    const extraCellClass = this.attachedModules
+      .map((module) => module.getCellClass?.(cell, this.moduleContext))
+      .filter((value): value is string => Boolean(value))
+      .join(" ");
+    const className = [this.getAlignClass(column), extraCellClass, this.getPinCellClass(column, pinLayout)]
+      .filter(Boolean)
+      .join(" ");
+    const pinStyle = this.getPinCellStyle(column, pinLayout);
+
+    return html`
+      <td
+        class=${className || nothing}
+        style=${pinStyle || nothing}
+        tabindex=${isActive ? 0 : -1}
+        data-row-index=${rowIndex}
+        data-col-index=${columnIndex}
+        data-active-cell=${isActive ? "true" : "false"}
+        @focus=${() => this.setActiveCell(rowIndex, columnIndex)}
+        @pointerdown=${(event: PointerEvent) => this.handleCellPointerDown(cell, event)}
+        @pointerenter=${(event: PointerEvent) => this.handleCellPointerEnter(cell, event)}
+        @dblclick=${(event: MouseEvent) => {
+          for (const module of this.attachedModules) {
+            module.onCellDblClick?.(cell, event, this.moduleContext);
+          }
+        }}
+      >
+        ${columnIndex === 0 ? this.renderFirstCellContent(column, row, rowIndex) : this.renderCellContent(column, cell)}
+      </td>
+    `;
+  }
+
+  private renderFirstCellContent(column: DataGridColumn<TRecord>, row: TRecord, rowIndex: number) {
+    const meta = getRowMeta(row);
+    const content = this.renderCellContent(column, { row, rowIndex, columnIndex: 0, column });
+
+    if (!meta || meta.depth == null) {
+      return content;
+    }
+
+    return html`
+      <span class="tree-indent" style=${`width: ${meta.depth * 16}px`}></span>
+      ${meta.hasChildren
+        ? html`
+            <button
+              type="button"
+              class="group-toggle"
+              aria-expanded=${meta.expanded ? "true" : "false"}
+              @click=${(event: Event) => {
+                event.stopPropagation();
+                this.toggleRow(row);
+              }}
+            >
+              ${meta.expanded ? "▾" : "▸"}
+            </button>
+          `
+        : nothing}
+      ${content}
+    `;
+  }
+
+  private renderCellContent(column: DataGridColumn<TRecord>, cell: GridCellCoordinates<TRecord>) {
+    for (const module of this.attachedModules) {
+      const rendered = module.renderCell?.(cell.row[column.key], cell, this.moduleContext);
+      if (rendered !== undefined) {
+        return rendered;
+      }
+    }
+
+    if (column.cellRenderer) {
+      return column.cellRenderer({ value: cell.row[column.key], row: cell.row, rowIndex: cell.rowIndex, column });
+    }
+
+    if (column.formatter) {
+      return column.formatter(cell.row[column.key] as TRecord[keyof TRecord], cell.row);
+    }
+
+    return formatCellValue(cell.row[column.key]);
   }
 
   private renderFooter(totalRows: number, totalPages: number) {
@@ -486,91 +479,211 @@ export class LoomiDataTable<TRecord extends DataTableRecord = DataTableRecord> e
     `;
   }
 
-  private handleSearchInput = (event: Event) => {
-    this.globalSearch = (event.target as HTMLInputElement).value;
-    this.page = 1;
-    this.emitPageChange();
-  };
+  // ---- Column resizing ----------------------------------------------------
 
-  private handleViewChange = (event: Event) => {
-    const viewId = (event.target as HTMLSelectElement).value;
-    const view = this.savedViews.find((savedView) => savedView.id === viewId) ?? null;
-
-    this.currentViewId = viewId;
-
-    if (view) {
-      this.visibleColumns = view.visibleColumns ?? this.visibleColumns;
-      this.filters = view.filters ?? this.filters;
-      this._sort = view.sort ?? this._sort;
-      this.pageSize = view.pageSize ?? this.pageSize;
-      this.page = 1;
+  private getColumnWidthStyle(column: DataGridColumn<TRecord>) {
+    const width = this.columnWidths[column.key] ?? column.width;
+    const styles: string[] = [];
+    if (width) {
+      styles.push(`width: ${width}`);
     }
-
-    this.dispatchTableEvent<DataTableViewChangeDetail>("loomi-view-change", { viewId, view });
-  };
-
-  private handleColumnToggle(event: Event, columnKey: string) {
-    const checked = (event.target as HTMLInputElement).checked;
-    const visibleKeys = new Set(this.getVisibleColumnKeys());
-
-    if (checked) {
-      visibleKeys.add(columnKey);
-    } else {
-      visibleKeys.delete(columnKey);
+    if (column.minWidth) {
+      styles.push(`min-width: ${column.minWidth}`);
     }
-
-    this.visibleColumns = this.columns.map((column) => column.key).filter((key) => visibleKeys.has(key));
-
-    const detail: DataTableColumnVisibilityChangeDetail = {
-      visibleColumns: this.visibleColumns,
-      hiddenColumns: this.columns.map((column) => column.key).filter((key) => !visibleKeys.has(key))
-    };
-
-    this.dispatchTableEvent("loomi-column-visibility-change", detail);
+    if (column.maxWidth) {
+      styles.push(`max-width: ${column.maxWidth}`);
+    }
+    return styles.join("; ");
   }
 
-  private handleSort(column: DataTableColumn<TRecord>) {
+  private startResize = (event: PointerEvent, column: DataGridColumn<TRecord>): void => {
+    event.preventDefault();
+    event.stopPropagation();
+    const handle = event.currentTarget as HTMLElement;
+    const headerCell = handle.closest("th") as HTMLElement | null;
+    const startX = event.clientX;
+    const startWidth = headerCell?.getBoundingClientRect().width ?? DEFAULT_MIN_COLUMN_WIDTH;
+    const minWidth = column.minWidth ? parseFloat(column.minWidth) : DEFAULT_MIN_COLUMN_WIDTH;
+
+    this._resizingKey = column.key;
+    handle.setPointerCapture(event.pointerId);
+
+    const onMove = (moveEvent: PointerEvent) => {
+      const nextWidth = Math.max(minWidth, startWidth + (moveEvent.clientX - startX));
+      this.columnWidths = { ...this.columnWidths, [column.key]: `${nextWidth}px` };
+    };
+
+    const onUp = () => {
+      handle.removeEventListener("pointermove", onMove);
+      handle.removeEventListener("pointerup", onUp);
+      this._resizingKey = null;
+      const width = parseFloat(this.columnWidths[column.key] ?? String(startWidth));
+      this.dispatchGridEvent<DataGridColumnResizeDetail>("loomi-column-resize", { key: column.key, width });
+    };
+
+    handle.addEventListener("pointermove", onMove);
+    handle.addEventListener("pointerup", onUp);
+  };
+
+  // ---- Keyboard navigation -------------------------------------------------
+
+  private handleGridKeydown = (event: KeyboardEvent): void => {
+    if (!this._activeCell) {
+      return;
+    }
+
+    const { rowIndex, columnIndex } = this._activeCell;
+    const row = this.renderedRows[rowIndex];
+    const column = this.renderedColumns[columnIndex];
+    if (!row || !column) {
+      return;
+    }
+
+    const cell: GridCellCoordinates<TRecord> = { row, rowIndex, columnIndex, column };
+    for (const module of this.attachedModules) {
+      if (module.onCellKeydown?.(event, cell, this.moduleContext)) {
+        event.preventDefault();
+        return;
+      }
+    }
+
+    switch (event.key) {
+      case "ArrowUp":
+        event.preventDefault();
+        this.moveActiveCell(-1, 0);
+        break;
+      case "ArrowDown":
+        event.preventDefault();
+        this.moveActiveCell(1, 0);
+        break;
+      case "ArrowLeft":
+        event.preventDefault();
+        this.moveActiveCell(0, -1);
+        break;
+      case "ArrowRight":
+        event.preventDefault();
+        this.moveActiveCell(0, 1);
+        break;
+      case "Home":
+        event.preventDefault();
+        this.setActiveCell(rowIndex, 0);
+        break;
+      case "End":
+        event.preventDefault();
+        this.setActiveCell(rowIndex, this.renderedColumns.length - 1);
+        break;
+      case "PageUp":
+        event.preventDefault();
+        this.setPage(this.page - 1);
+        break;
+      case "PageDown":
+        event.preventDefault();
+        this.setPage(this.page + 1);
+        break;
+      case " ":
+        if (this.selectable) {
+          event.preventDefault();
+          this.toggleRowSelection(row);
+        }
+        break;
+      case "Enter":
+        event.preventDefault();
+        this.emitRowAction(row, this.getRowKey(row));
+        break;
+      default:
+        break;
+    }
+  };
+
+  private moveActiveCell(rowDelta: number, columnDelta: number): void {
+    const current = this._activeCell ?? { rowIndex: 0, columnIndex: 0 };
+    const nextRow = Math.max(0, Math.min(this.renderedRows.length - 1, current.rowIndex + rowDelta));
+    const nextColumn = Math.max(0, Math.min(this.renderedColumns.length - 1, current.columnIndex + columnDelta));
+    this.setActiveCell(nextRow, nextColumn);
+  }
+
+  private setActiveCell(rowIndex: number, columnIndex: number): void {
+    this._activeCell = { rowIndex, columnIndex };
+    this.focusPending = true;
+  }
+
+  private focusActiveCell(): void {
+    if (!this._activeCell) {
+      return;
+    }
+    const selector = `td[data-row-index="${this._activeCell.rowIndex}"][data-col-index="${this._activeCell.columnIndex}"]`;
+    const cell = this.shadowRoot?.querySelector<HTMLElement>(selector);
+    cell?.focus();
+  }
+
+  // ---- Pointer hooks (spreadsheet range selection etc.) --------------------
+
+  private handleCellPointerDown(cell: GridCellCoordinates<TRecord>, event: PointerEvent): void {
+    this.setActiveCell(cell.rowIndex, cell.columnIndex);
+    for (const module of this.attachedModules) {
+      module.onCellPointerDown?.(cell, event, this.moduleContext);
+    }
+  }
+
+  private handleCellPointerEnter(cell: GridCellCoordinates<TRecord>, event: PointerEvent): void {
+    for (const module of this.attachedModules) {
+      module.onCellPointerEnter?.(cell, event, this.moduleContext);
+    }
+  }
+
+  // ---- Sorting --------------------------------------------------------------
+
+  private handleSort(column: DataGridColumn<TRecord>): void {
     if (!column.sortable) {
       return;
     }
 
-    if (this._sort?.key !== column.key) {
-      this._sort = { key: column.key, direction: "asc" };
-    } else if (this._sort.direction === "asc") {
-      this._sort = { key: column.key, direction: "desc" };
+    if (this.sort?.key !== column.key) {
+      this.sort = { key: column.key, direction: "asc" };
+    } else if (this.sort.direction === "asc") {
+      this.sort = { key: column.key, direction: "desc" };
     } else {
-      this._sort = null;
+      this.sort = null;
     }
 
     this.page = 1;
-    this.dispatchTableEvent<DataTableSortChangeDetail>("loomi-sort-change", { sort: this._sort });
+    this.dispatchGridEvent<DataGridSortChangeDetail>("loomi-sort-change", { sort: this.sort });
   }
 
-  private handleRowSelect(event: Event, row: TRecord) {
+  // ---- Selection --------------------------------------------------------------
+
+  private handleRowSelect(event: Event, row: TRecord): void {
     const checked = (event.target as HTMLInputElement).checked;
-    const rowKey = this.getRowKey(row);
+    this.setRowSelected(row, checked);
+  }
+
+  private toggleRowSelection(row: TRecord): void {
+    const rowKeyValue = this.getRowKey(row);
+    this.setRowSelected(row, !this.selectedKeys.includes(rowKeyValue));
+  }
+
+  private setRowSelected(row: TRecord, isSelected: boolean): void {
+    const rowKeyValue = this.getRowKey(row);
     const selected = new Set(this.selectedKeys);
-
-    if (checked) {
-      selected.add(rowKey);
+    if (isSelected) {
+      selected.add(rowKeyValue);
     } else {
-      selected.delete(rowKey);
+      selected.delete(rowKeyValue);
     }
-
     this.selectedKeys = [...selected];
     this.emitSelectionChange();
   }
 
-  private handleSelectAll(event: Event, rows: TRecord[]) {
+  private handleSelectAll(event: Event, rows: TRecord[]): void {
     const checked = (event.target as HTMLInputElement).checked;
     const selected = new Set(this.selectedKeys);
 
     for (const row of rows) {
-      const rowKey = this.getRowKey(row);
+      const rowKeyValue = this.getRowKey(row);
       if (checked) {
-        selected.add(rowKey);
+        selected.add(rowKeyValue);
       } else {
-        selected.delete(rowKey);
+        selected.delete(rowKeyValue);
       }
     }
 
@@ -578,138 +691,89 @@ export class LoomiDataTable<TRecord extends DataTableRecord = DataTableRecord> e
     this.emitSelectionChange();
   }
 
-  private handlePageSizeChange = (event: Event) => {
+  private areAllVisibleRowsSelected(rows: TRecord[]): boolean {
+    const selectableRows = rows.filter((row) => getRowMeta(row)?.type == null || getRowMeta(row)?.type === "data");
+    return selectableRows.length > 0 && selectableRows.every((row) => this.selectedKeys.includes(this.getRowKey(row)));
+  }
+
+  // ---- Pagination --------------------------------------------------------------
+
+  private setPage(page: number): void {
+    const totalPages = this.getTotalPages(this.getTotalRows(this.getProcessedRows(this.moduleContext)));
+    this.page = Math.max(1, Math.min(page, totalPages));
+    this.emitPageChange();
+  }
+
+  private handlePageSizeChange = (event: Event): void => {
     this.pageSize = Number((event.target as HTMLSelectElement).value);
     this.page = 1;
     this.emitPageChange();
   };
 
-  private handleExport(columns: DataTableColumn<TRecord>[]) {
-    const detail: DataTableExportRequestDetail<TRecord> = {
-      rows: this.getProcessedRows(),
-      columns,
-      selectedKeys: this.selectedKeys,
-      viewId: this.currentViewId
-    };
-
-    this.dispatchTableEvent("loomi-export-request", detail);
+  private emitPageChange(): void {
+    this.dispatchGridEvent<DataGridPageChangeDetail>("loomi-page-change", { page: this.page, pageSize: this.pageSize });
   }
 
-  private setPage(page: number) {
-    const totalPages = this.getTotalPages(this.getTotalRows());
-    this.page = Math.max(1, Math.min(page, totalPages));
-    this.emitPageChange();
-  }
+  // ---- Row grouping / tree toggling (generic; modules react via onGridEvent) --
 
-  private emitPageChange() {
-    this.dispatchTableEvent<DataTablePageChangeDetail>("loomi-page-change", {
-      page: this.page,
-      pageSize: this.pageSize
+  private toggleRow(row: TRecord): void {
+    const meta = getRowMeta(row);
+    this.dispatchGridEvent("loomi-grid-toggle-row", {
+      rowKey: this.getRowKey(row),
+      row,
+      expanded: !(meta?.expanded ?? false)
     });
   }
 
-  private emitSelectionChange() {
-    const selectedRows = this.data.filter((row) => this.selectedKeys.includes(this.getRowKey(row)));
-
-    this.dispatchTableEvent<DataTableSelectionChangeDetail<TRecord>>("loomi-selection-change", {
-      selectedKeys: this.selectedKeys,
-      selectedRows
-    });
-  }
-
-  private emitRowAction(row: TRecord, rowKey: string) {
-    this.dispatchTableEvent<DataTableRowActionDetail<TRecord>>("loomi-row-action", { row, rowKey });
-  }
-
-  private dispatchTableEvent<TDetail>(name: string, detail: TDetail) {
-    this.dispatchEvent(
-      new CustomEvent<TDetail>(name, {
-        bubbles: true,
-        composed: true,
-        detail
-      })
-    );
-  }
-
-  private getVisibleColumns() {
-    const visibleKeys = this.getVisibleColumnKeys();
-    return this.columns.filter((column) => visibleKeys.includes(column.key));
-  }
-
-  private getVisibleColumnKeys() {
-    if (this.visibleColumns.length > 0) {
-      return this.visibleColumns;
+  private emitRowAction(row: TRecord, rowKeyValue: string): void {
+    if (getRowMeta(row)) {
+      return;
     }
-
-    return this.columns.filter((column) => !column.hidden).map((column) => column.key);
+    this.dispatchGridEvent<DataGridRowActionDetail<TRecord>>("loomi-row-action", { row, rowKey: rowKeyValue });
   }
 
-  private getPageRows() {
-    if (this.serverSide || !this.pagination) {
-      return this.getProcessedRows();
+  // ---- Row processing pipeline --------------------------------------------
+
+  private getVisibleColumns(ctx: GridModuleContext<TRecord>): DataGridColumn<TRecord>[] {
+    let columns = this.columns.filter((column) => !column.hidden);
+    for (const module of this.attachedModules) {
+      if (module.transformColumns) {
+        columns = module.transformColumns(columns, ctx);
+      }
     }
-
-    const start = (this.page - 1) * this.pageSize;
-    return this.getProcessedRows().slice(start, start + this.pageSize);
+    return orderPinnedColumns(columns);
   }
 
-  private getProcessedRows() {
+  private getProcessedRows(ctx: GridModuleContext<TRecord>): TRecord[] {
     if (this.serverSide) {
       return this.data;
     }
 
-    return this.sortRows(this.filterRows(this.data));
-  }
-
-  private filterRows(rows: TRecord[]) {
-    const search = this.globalSearch.trim().toLowerCase();
-
-    return rows.filter((row) => {
-      const matchesSearch =
-        search.length === 0 ||
-        this.columns.some((column) => this.formatCellValue(row[column.key]).toLowerCase().includes(search));
-
-      const matchesFilters = this.filters.every((filter) => this.matchesFilter(row, filter));
-
-      return matchesSearch && matchesFilters;
-    });
-  }
-
-  private matchesFilter(row: TRecord, filter: DataTableFilter) {
-    const rawValue = row[filter.key];
-    const value = this.formatCellValue(rawValue).toLowerCase();
-    const filterValue = String(filter.value).toLowerCase();
-    const numericValue = Number(rawValue);
-    const numericFilter = Number(filter.value);
-
-    switch (filter.operator) {
-      case "equals":
-        return value === filterValue;
-      case "startsWith":
-        return value.startsWith(filterValue);
-      case "endsWith":
-        return value.endsWith(filterValue);
-      case "gt":
-        return numericValue > numericFilter;
-      case "gte":
-        return numericValue >= numericFilter;
-      case "lt":
-        return numericValue < numericFilter;
-      case "lte":
-        return numericValue <= numericFilter;
-      case "contains":
-      default:
-        return value.includes(filterValue);
+    let rows = this.data;
+    for (const module of this.attachedModules) {
+      if ((module.stage ?? "filter") === "filter" && module.transformRows) {
+        rows = module.transformRows(rows, ctx);
+      }
     }
+
+    rows = this.sortRows(rows);
+
+    for (const module of this.attachedModules) {
+      if (module.stage === "shape" && module.transformRows) {
+        rows = module.transformRows(rows, ctx);
+      }
+    }
+
+    return rows;
   }
 
-  private sortRows(rows: TRecord[]) {
-    if (!this._sort) {
+  private sortRows(rows: TRecord[]): TRecord[] {
+    if (!this.sort) {
       return rows;
     }
 
-    const direction = this._sort.direction === "asc" ? 1 : -1;
-    const sortKey = this._sort.key;
+    const direction = this.sort.direction === "asc" ? 1 : -1;
+    const sortKey = this.sort.key;
 
     return [...rows].sort((first, second) => {
       const firstValue = first[sortKey];
@@ -719,72 +783,110 @@ export class LoomiDataTable<TRecord extends DataTableRecord = DataTableRecord> e
         return (firstValue - secondValue) * direction;
       }
 
-      return this.formatCellValue(firstValue).localeCompare(this.formatCellValue(secondValue)) * direction;
+      return formatCellValue(firstValue).localeCompare(formatCellValue(secondValue)) * direction;
     });
   }
 
-  private getTotalRows() {
-    return this.serverSide ? this.totalRows || this.data.length : this.getProcessedRows().length;
+  private getPageRows(rows: TRecord[]): TRecord[] {
+    if (this.serverSide || !this.pagination) {
+      return rows;
+    }
+    const start = (this.page - 1) * this.pageSize;
+    return rows.slice(start, start + this.pageSize);
   }
 
-  private getTotalPages(totalRows: number) {
+  private getTotalRows(processedRows: TRecord[]): number {
+    return this.serverSide ? this.totalRows || this.data.length : processedRows.length;
+  }
+
+  private getTotalPages(totalRows: number): number {
     return Math.max(1, Math.ceil(totalRows / this.pageSize));
   }
 
-  private getRowKey(row: TRecord) {
-    const value = row[this.rowKey];
-    return value == null ? JSON.stringify(row) : String(value);
-  }
-
-  private getColumnStyle(column: DataTableColumn<TRecord>) {
-    const styles: string[] = [];
-
-    if (column.width) {
-      styles.push(`width: ${column.width}`);
-    }
-
-    if (column.minWidth) {
-      styles.push(`min-width: ${column.minWidth}`);
-    }
-
-    return styles.join("; ");
-  }
-
-  private getAlignClass(column: DataTableColumn<TRecord>) {
+  private getAlignClass(column: DataGridColumn<TRecord>): string {
     if (column.align === "center") {
       return "align-center";
     }
-
     if (column.align === "end") {
       return "align-end";
     }
-
     return "";
   }
 
-  private formatCellValue(value: unknown) {
-    if (value == null) {
-      return "";
+  private getPinCellClass(column: DataGridColumn<TRecord>, pinLayout: ColumnPinLayout): string {
+    const classes: string[] = [];
+    if (column.pinned === "start") {
+      classes.push("pinned-start");
+      if (column.key === pinLayout.lastStartKey) {
+        classes.push("pin-edge-start");
+      }
     }
-
-    if (value instanceof Date) {
-      return value.toLocaleDateString();
+    if (column.pinned === "end") {
+      classes.push("pinned-end");
+      if (column.key === pinLayout.firstEndKey) {
+        classes.push("pin-edge-end");
+      }
     }
-
-    if (typeof value === "object") {
-      return JSON.stringify(value);
-    }
-
-    return String(value);
+    return classes.join(" ");
   }
 
-  private areAllVisibleRowsSelected(rows: TRecord[]) {
-    return rows.length > 0 && rows.every((row) => this.selectedKeys.includes(this.getRowKey(row)));
+  private getPinCellStyle(column: DataGridColumn<TRecord>, pinLayout: ColumnPinLayout): string {
+    const start = pinLayout.startOffsets.get(column.key);
+    if (start != null) {
+      return `left: ${start}px`;
+    }
+    const end = pinLayout.endOffsets.get(column.key);
+    if (end != null) {
+      return `right: ${end}px`;
+    }
+    return "";
+  }
+
+  // ---- DataGridHost surface (used by modules) ------------------------------
+
+  getRowKey(row: TRecord): string {
+    return resolveRowKey(row, this.rowKey);
+  }
+
+  dispatchGridEvent<TDetail>(name: string, detail: TDetail): void {
+    this.dispatchEvent(new CustomEvent<TDetail>(name, { bubbles: true, composed: true, detail }));
+    for (const module of this.attachedModules) {
+      module.onGridEvent?.(name, detail, this.moduleContext);
+    }
+  }
+
+  updateCellValue(rowKeyValue: string, columnKey: string, value: unknown): void {
+    const index = this.data.findIndex((row) => this.getRowKey(row) === rowKeyValue);
+    if (index === -1) {
+      return;
+    }
+
+    const previousValue = (this.data[index] as DataGridRecord)[columnKey];
+    const nextRow = { ...this.data[index], [columnKey]: value } as TRecord;
+    const nextData = [...this.data];
+    nextData[index] = nextRow;
+    this.data = nextData;
+
+    this.dispatchGridEvent<DataGridCellEditDetail<TRecord>>("loomi-cell-edit", {
+      row: nextRow,
+      rowKey: rowKeyValue,
+      columnKey,
+      previousValue,
+      value
+    });
+  }
+
+  private emitSelectionChange(): void {
+    const selectedRows = this.data.filter((row) => this.selectedKeys.includes(this.getRowKey(row)));
+    this.dispatchGridEvent<DataGridSelectionChangeDetail<TRecord>>("loomi-selection-change", {
+      selectedKeys: this.selectedKeys,
+      selectedRows
+    });
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    "loomi-data-table": LoomiDataTable;
+    "loomi-data-grid": LoomiDataGrid;
   }
 }

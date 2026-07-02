@@ -1,11 +1,11 @@
 {
-  "name": "@loomidev/data-table",
+  "name": "@loomidev/data-grid",
   "version": "0.1.0",
-  "description": "<loomi-data-table> — an advanced data table for admin, SaaS, CRM, and analytics workflows.",
+  "description": "<loomi-data-grid> — a modular data grid with a lean core (rendering, sorting, pagination, selection, column resizing, sticky headers, keyboard navigation, custom cell rendering) plus opt-in modules for filtering, row grouping, tree data, export, inline editing, virtual scrolling, pivot tables, charts integration, spreadsheet features, and state persistence.",
   "repository": {
     "type": "git",
     "url": "https://github.com/loomidev/loomiui.git",
-    "directory": "packages/data-table"
+    "directory": "packages/data-grid"
   },
   "license": "MIT",
   "publishConfig": {
@@ -23,9 +23,53 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./loomi-data-table.ts": {
-      "types": "./dist/loomi-data-table.d.ts",
-      "import": "./dist/loomi-data-table.js"
+    "./loomi-data-grid.js": {
+      "types": "./dist/loomi-data-grid.d.ts",
+      "import": "./dist/loomi-data-grid.js"
+    },
+    "./modules/filtering.js": {
+      "types": "./dist/modules/filtering.d.ts",
+      "import": "./dist/modules/filtering.js"
+    },
+    "./modules/row-grouping.js": {
+      "types": "./dist/modules/row-grouping.d.ts",
+      "import": "./dist/modules/row-grouping.js"
+    },
+    "./modules/tree-data.js": {
+      "types": "./dist/modules/tree-data.d.ts",
+      "import": "./dist/modules/tree-data.js"
+    },
+    "./modules/export.js": {
+      "types": "./dist/modules/export.d.ts",
+      "import": "./dist/modules/export.js"
+    },
+    "./modules/inline-editing.js": {
+      "types": "./dist/modules/inline-editing.d.ts",
+      "import": "./dist/modules/inline-editing.js"
+    },
+    "./modules/virtual-scrolling.js": {
+      "types": "./dist/modules/virtual-scrolling.d.ts",
+      "import": "./dist/modules/virtual-scrolling.js"
+    },
+    "./modules/pivot.js": {
+      "types": "./dist/modules/pivot.d.ts",
+      "import": "./dist/modules/pivot.js"
+    },
+    "./modules/charts.js": {
+      "types": "./dist/modules/charts.d.ts",
+      "import": "./dist/modules/charts.js"
+    },
+    "./modules/spreadsheet.js": {
+      "types": "./dist/modules/spreadsheet.d.ts",
+      "import": "./dist/modules/spreadsheet.js"
+    },
+    "./modules/state-persistence.js": {
+      "types": "./dist/modules/state-persistence.d.ts",
+      "import": "./dist/modules/state-persistence.js"
+    },
+    "./modules/saved-views.js": {
+      "types": "./dist/modules/saved-views.d.ts",
+      "import": "./dist/modules/saved-views.js"
     }
   },
   "scripts": {
@@ -34,6 +78,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@loomidev/chart": "workspace:^",
     "@loomidev/core": "workspace:^"
   },
   "peerDependencies": {
@@ -48,6 +93,8 @@
     "lit",
     "loomiui",
     "data",
-    "table"
+    "data-grid",
+    "table",
+    "grid"
   ]
 }

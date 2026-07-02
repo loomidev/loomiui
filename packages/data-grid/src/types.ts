@@ -1,87 +1,131 @@
-export type DataTableRecord = Record<string, unknown>;
+/**
+ * Core types for `<loomi-data-grid>`.
+ *
+ * The grid ships a lean, always-on core (rendering, sorting, pagination,
+ * selection, column resizing, sticky headers, keyboard navigation, custom
+ * cell rendering) and a set of opt-in modules (see `grid-module.ts` and
+ * `modules/*`) for everything else. This file only declares the shapes the
+ * core needs; module-specific option types live next to their module.
+ */
 
-export type DataTableDensity = "compact" | "comfortable" | "spacious";
+export type DataGridRecord = Record<string, unknown>;
 
-export type DataTableSortDirection = "asc" | "desc";
+export type DataGridDensity = "compact" | "comfortable" | "spacious";
 
-export type DataTableFilterOperator =
-  | "contains"
-  | "equals"
-  | "startsWith"
-  | "endsWith"
-  | "gt"
-  | "gte"
-  | "lt"
-  | "lte";
+export type DataGridSortDirection = "asc" | "desc";
 
-export interface DataTableColumn<TRecord extends DataTableRecord = DataTableRecord> {
+export type DataGridAlign = "start" | "center" | "end";
+
+export type DataGridAggregate = "sum" | "avg" | "count" | "min" | "max";
+
+/**
+ * Reserved metadata a module can stamp onto a synthetic row (group headers,
+ * tree branches, pivot summaries, …) so the core renderer knows how to draw
+ * it. Modules produce plain `TRecord`-shaped objects with this key attached;
+ * regular data rows simply don't have it.
+ */
+export interface DataGridRowMeta {
+  type: "data" | "group" | "tree" | "pivot-header";
+  depth?: number;
+  expanded?: boolean;
+  groupKey?: string;
+  groupLabel?: string;
+  count?: number;
+  aggregates?: Record<string, unknown>;
+  hasChildren?: boolean;
+  parentKey?: string;
+  /** Marks the row as non-selectable / non-editable / non-focusable for cell nav. */
+  structural?: boolean;
+}
+
+export type DataGridRowWithMeta<TRecord extends DataGridRecord = DataGridRecord> = TRecord & {
+  __gridMeta?: DataGridRowMeta;
+};
+
+export interface DataGridCellContext<TRecord extends DataGridRecord = DataGridRecord> {
+  value: unknown;
+  row: TRecord;
+  rowIndex: number;
+  column: DataGridColumn<TRecord>;
+}
+
+export interface DataGridColumn<TRecord extends DataGridRecord = DataGridRecord> {
   key: keyof TRecord & string;
   label: string;
   description?: string;
   width?: string;
   minWidth?: string;
-  align?: "start" | "center" | "end";
+  maxWidth?: string;
+  align?: DataGridAlign;
   sortable?: boolean;
+  /** Defaults to `true`; set `false` to lock a column's width. */
+  resizable?: boolean;
   filterable?: boolean;
-  hideable?: boolean;
+  editable?: boolean;
   hidden?: boolean;
   pinned?: "start" | "end";
+  /** Used by the row-grouping / pivot modules when summarizing this column. */
+  aggregate?: DataGridAggregate;
   formatter?: (value: TRecord[keyof TRecord], row: TRecord) => string;
+  /** Full control over a cell's rendered content (return a lit template, string, or nothing). */
+  cellRenderer?: (ctx: DataGridCellContext<TRecord>) => unknown;
 }
 
-export interface DataTableSort {
+export interface DataGridSort {
   key: string;
-  direction: DataTableSortDirection;
+  direction: DataGridSortDirection;
 }
 
-export interface DataTableFilter {
-  key: string;
-  operator: DataTableFilterOperator;
-  value: string | number | boolean;
-}
-
-export interface DataTableSavedView {
-  id: string;
-  label: string;
-  description?: string;
-  visibleColumns?: string[];
-  filters?: DataTableFilter[];
-  sort?: DataTableSort;
-  pageSize?: number;
-}
-
-export interface DataTablePageChangeDetail {
+export interface DataGridPageChangeDetail {
   page: number;
   pageSize: number;
 }
 
-export interface DataTableSortChangeDetail {
-  sort: DataTableSort | null;
+export interface DataGridSortChangeDetail {
+  sort: DataGridSort | null;
 }
 
-export interface DataTableSelectionChangeDetail<TRecord extends DataTableRecord = DataTableRecord> {
+export interface DataGridSelectionChangeDetail<TRecord extends DataGridRecord = DataGridRecord> {
   selectedKeys: string[];
   selectedRows: TRecord[];
 }
 
-export interface DataTableRowActionDetail<TRecord extends DataTableRecord = DataTableRecord> {
+export interface DataGridRowActionDetail<TRecord extends DataGridRecord = DataGridRecord> {
   row: TRecord;
   rowKey: string;
 }
 
-export interface DataTableExportRequestDetail<TRecord extends DataTableRecord = DataTableRecord> {
-  rows: TRecord[];
-  columns: DataTableColumn<TRecord>[];
-  selectedKeys: string[];
-  viewId: string;
+export interface DataGridColumnResizeDetail {
+  key: string;
+  width: number;
 }
 
-export interface DataTableViewChangeDetail {
-  viewId: string;
-  view: DataTableSavedView | null;
+export interface DataGridSavedViewChangeDetail {
+  viewId: string | null;
+  view: DataGridSavedView | null;
 }
 
-export interface DataTableColumnVisibilityChangeDetail {
-  visibleColumns: string[];
-  hiddenColumns: string[];
+/** A named preset of grid state (sort, filters, page size, column visibility, …). */
+export interface DataGridSavedView {
+  id: string;
+  label: string;
+  sort?: DataGridSort | null;
+  pageSize?: number;
+  globalSearch?: string;
+  filters?: Array<{ key: string; value: string; operator?: string }>;
+  hiddenColumns?: string[];
+  columnWidths?: Record<string, string>;
+}
+
+export interface DataGridCellEditDetail<TRecord extends DataGridRecord = DataGridRecord> {
+  row: TRecord;
+  rowKey: string;
+  columnKey: string;
+  previousValue: unknown;
+  value: unknown;
+}
+
+export interface DataGridActiveCell {
+  rowIndex: number;
+  columnIndex: number;
 }

@@ -1,1 +1,1 @@
-export * from "@loomidev/data-table";
+export * from "@loomidev/data-grid";
