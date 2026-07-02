@@ -1,7 +1,7 @@
 {
   "name": "@loomidev/chat",
   "version": "0.1.0",
-  "description": "Chat transcript scroller and chat window with shadcn/ui-style message scrolling.",
+  "description": "Chat transcript scroller and chat window for streaming conversations.",
   "repository": {
     "type": "git",
     "url": "https://github.com/loomidev/loomiui.git",
@@ -39,9 +39,7 @@
   },
   "dependencies": {
     "@loomidev/button": "workspace:^",
-    "@loomidev/card": "workspace:^",
     "@loomidev/core": "workspace:^",
-    "@loomidev/empty-state": "workspace:^",
     "@loomidev/icon": "workspace:^",
     "@loomidev/spinner": "workspace:^",
     "@loomidev/textarea": "workspace:^",

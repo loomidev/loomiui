@@ -2,8 +2,6 @@ import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { LoomiElement, loomiStyles } from "@loomidev/core";
 import "@loomidev/button/loomi-button.js";
-import "@loomidev/card/loomi-card.js";
-import "@loomidev/empty-state/loomi-empty-state.js";
 import "@loomidev/icon/loomi-icon.js";
 import "@loomidev/spinner/loomi-spinner.js";
 import "@loomidev/textarea/loomi-textarea.js";
@@ -36,8 +34,8 @@ function createMessageId(): string {
 }
 
 /**
- * `<loomi-chat-window>` — a shadcn/ui-style chat card with message scroller, empty
- * state, reset control, and composer footer.
+ * `<loomi-chat-window>` — a chat card with message scroller, empty state, reset
+ * control, and composer footer.
  *
  * @fires send - `detail: { message: LoomiChatWindowMessage }` when the user sends.
  * @fires reset - when the conversation is reset.
@@ -153,35 +151,46 @@ export class LoomiChatWindow extends LoomiElement {
     )}`;
   }
 
+  private renderEmptyState(): TemplateResult {
+    return html`<div class="loomi-chat-empty">
+      <loomi-icon
+        name="chat-bubble-left-ellipsis"
+        class="loomi-chat-empty-icon"
+      ></loomi-icon>
+      <div class="loomi-chat-empty-title">${this.emptyTitle}</div>
+      <div class="loomi-chat-empty-copy">${this.emptyDescription}</div>
+    </div>`;
+  }
+
   override render(): TemplateResult {
     const hasMessages = this.messages.length > 0;
 
     return html`<div class="loomi-chat-window">
       <div class="loomi-chat-card-wrap">
-        <loomi-card size="sm" class="card-host">
-          <loomi-card-header>
-            <loomi-card-title>${this.title}</loomi-card-title>
-            <loomi-card-description>${this.description}</loomi-card-description>
+        <div class="loomi-chat-shell">
+          <header class="loomi-chat-header">
+            <div class="loomi-chat-header-copy">
+              <div class="loomi-chat-title">${this.title}</div>
+              <div class="loomi-chat-description">${this.description}</div>
+            </div>
             ${this.showReset
-              ? html`<loomi-card-action>
-                  <loomi-tooltip content="Reset">
-                    <loomi-button
-                      class="loomi-chat-reset-btn"
-                      type="secondary"
-                      size="small"
-                      radius="medium"
-                      aria-label="Reset conversation"
-                      ?disabled=${this.busy || !hasMessages}
-                      @click=${this.onReset}
-                    >
-                      <loomi-icon name="arrow-path" slot="prefix"></loomi-icon>
-                    </loomi-button>
-                  </loomi-tooltip>
-                </loomi-card-action>`
+              ? html`<loomi-tooltip content="Reset">
+                  <loomi-button
+                    class="loomi-chat-reset-btn"
+                    type="secondary"
+                    size="small"
+                    radius="medium"
+                    aria-label="Reset conversation"
+                    ?disabled=${this.busy || !hasMessages}
+                    @click=${this.onReset}
+                  >
+                    <loomi-icon name="arrow-path" slot="prefix"></loomi-icon>
+                  </loomi-button>
+                </loomi-tooltip>`
               : nothing}
-          </loomi-card-header>
+          </header>
 
-          <loomi-card-content>
+          <div class="loomi-chat-body">
             ${hasMessages
               ? html`<loomi-chat-scroller
                   ?auto-scroll=${this.autoScroll}
@@ -195,19 +204,10 @@ export class LoomiChatWindow extends LoomiElement {
                   </loomi-chat-viewport>
                   <loomi-chat-scroll-button direction="end"></loomi-chat-scroll-button>
                 </loomi-chat-scroller>`
-              : html`<div class="loomi-chat-empty">
-                  <loomi-empty-state show-image="false">
-                    <loomi-icon
-                      name="chat-bubble-left-ellipsis"
-                      style="width:2rem;height:2rem;color:var(--loomi-text-muted)"
-                    ></loomi-icon>
-                    <div class="loomi-heading">${this.emptyTitle}</div>
-                    <div class="loomi-message">${this.emptyDescription}</div>
-                  </loomi-empty-state>
-                </div>`}
-          </loomi-card-content>
+              : this.renderEmptyState()}
+          </div>
 
-          <loomi-card-footer>
+          <footer class="loomi-chat-composer">
             <form class="loomi-chat-input-wrap" @submit=${this.onSubmit}>
               <div class="loomi-chat-input-group">
                 <div class="loomi-chat-input-body">
@@ -237,8 +237,8 @@ export class LoomiChatWindow extends LoomiElement {
                 </div>
               </div>
             </form>
-          </loomi-card-footer>
-        </loomi-card>
+          </footer>
+        </div>
       </div>
       ${this.footerNote
         ? html`<div class="loomi-chat-footer-note">${this.footerNote}</div>`

@@ -33,7 +33,7 @@ describe("loomi-chat-window", () => {
       <loomi-chat-window empty-title="Morning!" empty-description="Start chatting"></loomi-chat-window>
     `);
 
-    expect(el.shadowRoot!.querySelector("loomi-empty-state")).to.exist;
+    expect(el.shadowRoot!.querySelector(".loomi-chat-shell")).to.exist;
     expect(el.shadowRoot!.textContent).to.contain("Morning!");
   });
 
@@ -64,6 +64,6 @@ describe("loomi-chat-window", () => {
     await el.updateComplete;
 
     expect(el.messages).to.have.length(0);
-    expect(el.shadowRoot!.querySelector("loomi-empty-state")).to.exist;
+    expect(el.shadowRoot!.querySelector(".loomi-chat-shell")).to.exist;
   });
 });

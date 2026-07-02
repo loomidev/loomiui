@@ -1,7 +1,6 @@
 # @loomidev/chat
 
-`<loomi-chat-window>` and message scroller primitives inspired by shadcn/ui's
-[Message Scroller](https://ui.shadcn.com/docs/components/radix/message-scroller).
+`<loomi-chat-window>` and message scroller primitives for streaming chat transcripts.
 
 ```bash
 npm install @loomidev/chat lit
@@ -11,20 +10,9 @@ npm install @loomidev/chat lit
 import "@loomidev/chat";
 ```
 
-
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Includes layout breakpoints for narrow viewports (see component CSS).
-
-## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 ## Chat Window
 
-The quickest way to get a shadcn-style chat card is `<loomi-chat-window>`:
+Use `<loomi-chat-window>` for a ready-made chat card with header, transcript, and composer:
 
 ```html
 <loomi-chat-window
@@ -38,15 +26,16 @@ The quickest way to get a shadcn-style chat card is `<loomi-chat-window>`:
 const chat = document.querySelector("loomi-chat-window");
 
 chat.addEventListener("send", (event) => {
-  const userMessage = event.detail.message;
-
   const assistant = chat.appendMessage({
     role: "assistant",
     text: "I'll keep the viewport pinned while you stay at the bottom.",
   });
 
   // Update in place while streaming:
-  chat.updateMessageText(assistant.id, "Done. Scroll up and the jump button appears.");
+  chat.updateMessageText(
+    assistant.id,
+    "Done. Scroll up and the jump button appears.",
+  );
 });
 ```
 

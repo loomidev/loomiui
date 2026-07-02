@@ -1,3 +1,6 @@
+import "./loomi-chat.js";
+import "./loomi-chat-window.js";
+
 export {
   LoomiChatScroller,
   LoomiChatViewport,
