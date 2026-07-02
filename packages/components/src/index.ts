@@ -23,6 +23,7 @@ export * from "@loomidev/tooltip";
 export * from "@loomidev/copy-to-clipboard";
 export * from "@loomidev/pagination";
 export * from "@loomidev/table";
+export * from "@loomidev/data-grid";
 export * from "@loomidev/modal";
 export * from "@loomidev/drawer";
 export * from "@loomidev/divider";

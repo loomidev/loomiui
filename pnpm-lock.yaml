@@ -188,9 +188,33 @@ importers:
       '@loomidev/core':
         specifier: workspace:^
         version: link:../core
+      '@loomidev/datepicker':
+        specifier: workspace:^
+        version: link:../datepicker
+      '@loomidev/input':
+        specifier: workspace:^
+        version: link:../input
       '@loomidev/modal':
         specifier: workspace:^
         version: link:../modal
+      '@loomidev/select':
+        specifier: workspace:^
+        version: link:../select
+      '@loomidev/tag-input':
+        specifier: workspace:^
+        version: link:../tag-input
+      '@loomidev/textarea':
+        specifier: workspace:^
+        version: link:../textarea
+      '@loomidev/timepicker':
+        specifier: workspace:^
+        version: link:../timepicker
+      '@loomidev/toggle':
+        specifier: workspace:^
+        version: link:../toggle
+      '@loomidev/tooltip':
+        specifier: workspace:^
+        version: link:../tooltip
     devDependencies:
       lit:
         specifier: ^3.3.3
@@ -415,9 +439,9 @@ importers:
       '@loomidev/creditcard':
         specifier: workspace:^
         version: link:../creditcard
-      '@loomidev/data-table':
+      '@loomidev/data-grid':
         specifier: workspace:^
-        version: link:../data-table
+        version: link:../data-grid
       '@loomidev/date-range-picker':
         specifier: workspace:^
         version: link:../date-range-picker
@@ -606,9 +630,9 @@ importers:
       '@loomidev/contact-card':
         specifier: workspace:^
         version: link:../contact-card
-      '@loomidev/data-table':
+      '@loomidev/data-grid':
         specifier: workspace:^
-        version: link:../data-table
+        version: link:../data-grid
       '@loomidev/divider':
         specifier: workspace:^
         version: link:../divider
@@ -772,8 +796,11 @@ importers:
         specifier: ^5.6.3
         version: 5.9.3
 
-  packages/data-table:
+  packages/data-grid:
     dependencies:
+      '@loomidev/chart':
+        specifier: workspace:^
+        version: link:../chart
       '@loomidev/core':
         specifier: workspace:^
         version: link:../core
@@ -1345,6 +1372,9 @@ importers:
       '@loomidev/core':
         specifier: workspace:^
         version: link:../core
+      '@loomidev/notification':
+        specifier: workspace:^
+        version: link:../notification
     devDependencies:
       '@loomidev/theme':
         specifier: workspace:^
@@ -1649,6 +1679,9 @@ importers:
       '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons
+      '@loomidev/input':
+        specifier: workspace:^
+        version: link:../input
       '@loomidev/pagination':
         specifier: workspace:^
         version: link:../pagination

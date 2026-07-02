@@ -259,9 +259,9 @@
       "types": "./dist/countries.d.ts",
       "import": "./dist/countries.js"
     },
-    "./data-table": {
-      "types": "./dist/data-table.d.ts",
-      "import": "./dist/data-table.js"
+    "./data-grid": {
+      "types": "./dist/data-grid.d.ts",
+      "import": "./dist/data-grid.js"
     },
     "./date-range-picker": {
       "types": "./dist/date-range-picker.d.ts",
@@ -299,7 +299,7 @@
     "@loomidev/copy-to-clipboard": "workspace:^",
     "@loomidev/countries": "workspace:^",
     "@loomidev/creditcard": "workspace:^",
-    "@loomidev/data-table": "workspace:^",
+    "@loomidev/data-grid": "workspace:^",
     "@loomidev/date-range-picker": "workspace:^",
     "@loomidev/datepicker": "workspace:^",
     "@loomidev/divider": "workspace:^",
