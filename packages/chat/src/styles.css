@@ -23,6 +23,7 @@
   flex-direction: column;
   flex: 1;
   min-height: 0;
+  height: 100%;
   overflow: hidden;
 }
 
@@ -216,65 +217,91 @@
   margin-inline: auto;
 }
 
-.loomi-chat-card-wrap loomi-card {
-  display: flex;
-  flex: 1;
-  min-height: 0;
-}
-
-.loomi-chat-card-wrap .card-host {
+.loomi-chat-shell {
   display: flex;
   flex: 1;
   flex-direction: column;
   min-height: 0;
-  gap: 0;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background: var(--loomi-surface);
+  color: var(--loomi-text);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--loomi-text) 10%, transparent);
 }
 
-.loomi-chat-card-wrap loomi-card-header .header {
-  gap: 0.25rem;
+.loomi-chat-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
   border-bottom: 1px solid var(--loomi-surface-border-subtle);
-  padding-bottom: var(--loomi-card-spacing);
+  padding: var(--loomi-card-spacing, 1rem);
 }
 
-.loomi-chat-card-wrap loomi-card-content .content {
+.loomi-chat-header-copy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.loomi-chat-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+
+.loomi-chat-description {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--loomi-text-muted);
+}
+
+.loomi-chat-body {
   display: flex;
   flex: 1;
   flex-direction: column;
   min-height: 0;
-  padding: 0;
   overflow: hidden;
 }
 
-.loomi-chat-card-wrap loomi-chat-scroller {
+.loomi-chat-body loomi-chat-scroller {
   flex: 1;
   min-height: 0;
 }
 
-.loomi-chat-card-wrap loomi-card-footer .footer {
-  flex-direction: column;
-  align-items: stretch;
-  gap: 0.5rem;
+.loomi-chat-composer {
   border-top: 1px solid var(--loomi-surface-border-subtle);
+  background: color-mix(in srgb, var(--loomi-surface-muted) 50%, transparent);
+  padding: var(--loomi-card-spacing, 1rem);
 }
 
 .loomi-chat-empty {
   display: flex;
+  flex: 1;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  padding: var(--loomi-card-spacing);
+  gap: 0.75rem;
+  padding: var(--loomi-card-spacing, 1rem);
   text-align: center;
 }
 
-.loomi-chat-empty .loomi-heading {
-  margin-top: 0.75rem;
+.loomi-chat-empty-icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--loomi-text-muted);
+}
+
+.loomi-chat-empty-title {
   font-size: 1rem;
   font-weight: 600;
   color: var(--loomi-text);
 }
 
-.loomi-chat-empty .loomi-message {
-  margin-top: 0.375rem;
+.loomi-chat-empty-copy {
+  max-width: 16rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
   color: var(--loomi-text-muted);
