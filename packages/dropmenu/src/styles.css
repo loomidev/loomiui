@@ -112,12 +112,51 @@
   border-bottom: none;
   border-radius: 0;
 }
+.loomi-item.disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.5;
+}
+.loomi-item.destructive {
+  color: var(--loomi-error-600);
+}
+.loomi-item.destructive svg {
+  color: var(--loomi-error-600);
+}
+.loomi-item.destructive.hoverable:hover,
+.loomi-item.destructive.hoverable:focus-visible {
+  background: color-mix(in srgb, var(--loomi-error-500) 10%, transparent);
+  color: var(--loomi-error-600);
+}
 .loomi-item svg,
 .loomi-submenu-icon {
   width: 1rem;
   height: 1rem;
   flex: none;
   color: var(--loomi-text-muted);
+}
+.loomi-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 0.875rem;
+  height: 0.875rem;
+  color: currentColor;
+}
+.loomi-indicator svg {
+  width: 0.875rem;
+  height: 0.875rem;
+  color: currentColor;
+}
+.loomi-radio-dot {
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 9999px;
+  background: currentColor;
+}
+.loomi-item.right .loomi-indicator {
+  order: 1;
 }
 .loomi-label {
   flex: 1 1 auto;

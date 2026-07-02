@@ -83,6 +83,108 @@ describe("loomi-dropmenu", () => {
     expect(item.shadowRoot!.querySelector(".loomi-item")!.classList.contains("right")).to.equal(true);
   });
 
+  it("toggles a checkbox item and keeps the menu open", async () => {
+    const el = await fixture<LoomiDropmenu>(html`
+      <loomi-dropmenu>
+        <loomi-dropmenu-item checkbox>Show Sidebar</loomi-dropmenu-item>
+      </loomi-dropmenu>
+    `);
+
+    const menu = await open(el);
+    const item = el.querySelector("loomi-dropmenu-item")!;
+    await item.updateComplete;
+
+    let changed = 0;
+    item.addEventListener("change", () => changed++);
+    item.shadowRoot!.querySelector<HTMLElement>(".loomi-item")!.click();
+    await item.updateComplete;
+
+    expect(item.checked).to.equal(true);
+    expect(changed).to.equal(1);
+    expect(item.shadowRoot!.querySelector(".loomi-radio-dot")).to.equal(null);
+    expect(item.shadowRoot!.querySelector(".loomi-indicator svg")).not.to.equal(null);
+    expect(menu.isConnected).to.equal(true);
+    expect(el.shadowRoot!.querySelector(".loomi-menu")).not.to.equal(null);
+  });
+
+  it("keeps radio items in the same group mutually exclusive", async () => {
+    const el = await fixture<LoomiDropmenu>(html`
+      <loomi-dropmenu>
+        <loomi-dropmenu-item radio group="position" value="top">Top</loomi-dropmenu-item>
+        <loomi-dropmenu-item radio group="position" value="bottom">Bottom</loomi-dropmenu-item>
+      </loomi-dropmenu>
+    `);
+
+    await open(el);
+    const [top, bottom] = Array.from(el.querySelectorAll("loomi-dropmenu-item"));
+    await top.updateComplete;
+    await bottom.updateComplete;
+
+    top.shadowRoot!.querySelector<HTMLElement>(".loomi-item")!.click();
+    await top.updateComplete;
+    expect(top.checked).to.equal(true);
+    expect(bottom.checked).to.equal(false);
+
+    bottom.shadowRoot!.querySelector<HTMLElement>(".loomi-item")!.click();
+    await top.updateComplete;
+    await bottom.updateComplete;
+    expect(top.checked).to.equal(false);
+    expect(bottom.checked).to.equal(true);
+    expect(bottom.shadowRoot!.querySelector(".loomi-radio-dot")).not.to.equal(null);
+  });
+
+  it("blocks clicks on a disabled item", async () => {
+    const el = await fixture<LoomiDropmenu>(html`
+      <loomi-dropmenu>
+        <loomi-dropmenu-item disabled>API</loomi-dropmenu-item>
+      </loomi-dropmenu>
+    `);
+
+    await open(el);
+    const item = el.querySelector("loomi-dropmenu-item")!;
+    await item.updateComplete;
+
+    let clicked = false;
+    item.addEventListener("click", () => (clicked = true));
+    item.shadowRoot!.querySelector<HTMLElement>(".loomi-item")!.click();
+
+    expect(clicked).to.equal(false);
+    expect(item.shadowRoot!.querySelector(".loomi-item")!.getAttribute("aria-disabled")).to.equal("true");
+  });
+
+  it("excludes disabled items from arrow-key navigation", async () => {
+    const el = await fixture<LoomiDropmenu>(html`
+      <loomi-dropmenu>
+        <loomi-dropmenu-item disabled>Profile</loomi-dropmenu-item>
+        <loomi-dropmenu-item>Settings</loomi-dropmenu-item>
+      </loomi-dropmenu>
+    `);
+
+    const menu = await open(el);
+    const [profile, settings] = Array.from(el.querySelectorAll("loomi-dropmenu-item"));
+    await profile.updateComplete;
+    await settings.updateComplete;
+
+    menu.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, composed: true }));
+    await settings.updateComplete;
+
+    expect(settings.shadowRoot!.activeElement).not.to.equal(null);
+  });
+
+  it("renders the destructive variant", async () => {
+    const el = await fixture<LoomiDropmenu>(html`
+      <loomi-dropmenu>
+        <loomi-dropmenu-item variant="destructive">Delete</loomi-dropmenu-item>
+      </loomi-dropmenu>
+    `);
+
+    await open(el);
+    const item = el.querySelector("loomi-dropmenu-item")!;
+    await item.updateComplete;
+
+    expect(item.shadowRoot!.querySelector(".loomi-item")!.classList.contains("destructive")).to.equal(true);
+  });
+
   it("supports nested submenu items", async () => {
     const el = await fixture<LoomiDropmenu>(html`
       <loomi-dropmenu>
