@@ -91,7 +91,6 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
 
   override connectedCallback(): void {
     super.connectedCallback();
-    this.setAttribute("role", "table");
   }
 
   override disconnectedCallback(): void {
