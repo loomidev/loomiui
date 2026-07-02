@@ -8,7 +8,7 @@
 
 .loomi-emoji-picker {
   --loomi-emoji-trigger-h: 2.75rem;
-  --loomi-emoji-panel-w: 21rem;
+  --loomi-emoji-panel-w: 22rem;
   position: relative;
   display: inline-flex;
   flex-direction: column;
@@ -20,7 +20,7 @@
 
 .loomi-emoji-picker.size-small {
   --loomi-emoji-trigger-h: 2.25rem;
-  --loomi-emoji-panel-w: 18rem;
+  --loomi-emoji-panel-w: 20rem;
   font-size: 0.86rem;
 }
 
@@ -30,7 +30,7 @@
 
 .loomi-emoji-picker.size-big {
   --loomi-emoji-trigger-h: 3.2rem;
-  --loomi-emoji-panel-w: 24rem;
+  --loomi-emoji-panel-w: 25rem;
   font-size: 1rem;
 }
 
@@ -44,48 +44,29 @@
   color: var(--loomi-error-600);
 }
 
-.loomi-trigger {
-  min-width: 11rem;
-  height: var(--loomi-emoji-trigger-h);
+.loomi-emoji-trigger {
   display: inline-flex;
   align-items: center;
-  gap: 0.65rem;
-  border: 1px solid var(--loomi-surface-border);
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: var(--loomi-emoji-trigger-h);
+  height: var(--loomi-emoji-trigger-h);
+  padding: 0 0.5rem;
   border-radius: 0.5rem;
-  background: var(--loomi-surface);
-  color: var(--loomi-text);
-  cursor: pointer;
-  padding: 0 0.75rem;
-  text-align: left;
+  font-size: 1.5rem;
+  line-height: 1;
+  transition: background-color 0.12s ease;
 }
 
-.loomi-trigger:hover {
+.loomi-emoji-popover:not([disabled]) .loomi-emoji-trigger:hover {
   background: var(--loomi-surface-hover);
 }
 
-.loomi-trigger:focus-visible,
-.loomi-search:focus {
-  outline: 2px solid var(--loomi-primary-300);
-  outline-offset: 2px;
-}
-
-.loomi-trigger[disabled] {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.loomi-trigger.no-text {
-  min-width: 0;
-  gap: 0.35rem;
-  padding: 0 0.6rem;
-}
-
-.loomi-selected-emoji {
-  width: 1.65rem;
-  flex: 0 0 auto;
-  font-size: 1.35rem;
-  line-height: 1;
-  text-align: center;
+.loomi-emoji-trigger.with-text {
+  justify-content: flex-start;
+  min-width: 8rem;
+  padding: 0 0.75rem;
+  font-size: 1.15rem;
 }
 
 .loomi-value {
@@ -93,6 +74,7 @@
   flex: 1 1 auto;
   overflow: hidden;
   color: var(--loomi-text);
+  font-size: 0.72em;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -101,34 +83,13 @@
   color: var(--loomi-text-muted);
 }
 
-.loomi-chevron {
-  flex: 0 0 auto;
-  color: var(--loomi-text-muted);
-  font-size: 0.8rem;
-}
-
-.loomi-panel {
+.loomi-emoji-panel {
   width: min(var(--loomi-emoji-panel-w), calc(100vw - 2rem));
   max-width: 100%;
   border: 1px solid var(--loomi-surface-border);
   border-radius: 0.5rem;
   background: var(--loomi-surface);
-  box-shadow:
-    0 12px 18px -8px rgba(15, 23, 42, 0.24),
-    0 4px 8px -6px rgba(15, 23, 42, 0.18);
   padding: 0.65rem;
-}
-
-.loomi-panel.floating {
-  position: absolute;
-  z-index: 80;
-  top: calc(100% + 0.4rem);
-  left: 0;
-}
-
-.loomi-panel.inline {
-  position: static;
-  box-shadow: none;
 }
 
 .loomi-search {
@@ -140,6 +101,11 @@
   color: var(--loomi-text);
   font: inherit;
   padding: 0 0.7rem;
+}
+
+.loomi-search:focus {
+  outline: 2px solid var(--loomi-primary-300);
+  outline-offset: 2px;
 }
 
 .loomi-categories {
@@ -169,7 +135,7 @@
 
 .loomi-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   gap: 0.2rem;
   max-height: 16rem;
   overflow: auto;
@@ -183,7 +149,7 @@
   border-radius: 0.45rem;
   background: transparent;
   cursor: pointer;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   line-height: 1;
 }
 

@@ -979,6 +979,9 @@ importers:
       '@loomidev/core':
         specifier: workspace:^
         version: link:../core
+      '@loomidev/popover':
+        specifier: workspace:^
+        version: link:../popover
     devDependencies:
       '@loomidev/theme':
         specifier: workspace:^

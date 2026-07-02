@@ -108,6 +108,17 @@ Opens on `click` by default; set `trigger-on="mouseover"` to open on hover inste
 </loomi-popover>
 ```
 
+## Disabled
+
+Set `disabled` to stop the trigger from opening the panel — useful when embedding a
+popover inside a form control that has its own disabled state.
+
+```html
+<loomi-popover disabled>
+  <p>You won't see this until disabled is removed.</p>
+</loomi-popover>
+```
+
 ## JavaScript API
 
 ```js
@@ -115,6 +126,16 @@ const popover = document.querySelector("loomi-popover");
 popover.show();
 popover.hide();
 popover.toggle();
+popover.isOpen; // current open state
+```
+
+Listen for `loomi-toggle` to react to open/close changes triggered by the user (e.g. a
+click on the trigger or an outside click):
+
+```js
+popover.addEventListener("loomi-toggle", (event) => {
+  console.log(event.detail.open); // true | false
+});
 ```
 
 ## Attributes
@@ -126,8 +147,10 @@ popover.toggle();
 | `position` | `bottom` | `top` \| `bottom` \| `left` \| `right` |
 | `title` | _(blank)_ | Optional heading above the content. |
 | `width` | `280` | Panel width in pixels. |
+| `disabled` | `false` | Disable the trigger. |
 
-**Methods:** `show()`, `hide()`, `toggle()`. **Slots:** default (content), `trigger`
+**Methods:** `show()`, `hide()`, `toggle()`. **Getters:** `isOpen`. **Events:**
+`loomi-toggle` (`detail: { open }`). **Slots:** default (content), `trigger`
 (custom trigger).
 
 ## Full Example

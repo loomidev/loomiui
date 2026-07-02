@@ -18,7 +18,6 @@ import "@loomidev/chat";
   description="Product, design, and eng"
   current-user-id="you"
   show-avatars
-  input-rows="2"
   input-max-rows="5"
 ></loomi-chat-window>
 ```
@@ -84,7 +83,7 @@ Bubbles include a directional tail and a visible tinted background per participa
 | `empty-title` | `Morning!` | Empty-state heading. |
 | `empty-description` | … | Empty-state body copy. |
 | `input-placeholder` | `Message…` | Composer placeholder. |
-| `input-rows` | `2` | Initial composer height in rows. |
+| `input-rows` | `1` | Initial composer height in rows. |
 | `input-max-rows` | `5` | Maximum composer growth in rows. |
 | `window-height` | `35rem` | Card height. |
 | `auto-scroll` | `true` | Follow new messages while pinned to the bottom. |
@@ -161,7 +160,6 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
   id="team-chat"
   current-user-id="you"
   show-avatars
-  input-rows="2"
   input-max-rows="5"
 ></loomi-chat-window>
 <script type="module">

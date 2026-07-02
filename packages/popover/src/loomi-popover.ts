@@ -11,6 +11,7 @@ export type LoomiPopoverPosition = "top" | "bottom" | "left" | "right";
  *
  * @slot - Panel content (rich markup allowed).
  * @slot trigger - Custom trigger markup (overrides the `trigger` icon).
+ * @fires loomi-toggle - `detail: { open }` whenever the panel opens or closes.
  */
 @customElement("loomi-popover")
 export class LoomiPopover extends LoomiElement {
@@ -21,6 +22,7 @@ export class LoomiPopover extends LoomiElement {
   @property() position: LoomiPopoverPosition = "bottom";
   @property() title = "";
   @property({ type: Number }) width = 280;
+  @property({ type: Boolean, reflect: true }) disabled = false;
 
   @state() private open = false;
   private cleanup?: () => void;
@@ -30,13 +32,24 @@ export class LoomiPopover extends LoomiElement {
     this.cleanup?.();
   }
 
+  /** Whether the panel is currently open. */
+  get isOpen(): boolean {
+    return this.open;
+  }
+
+  private setOpen(open: boolean): void {
+    if (this.open === open) return;
+    this.open = open;
+    this.dispatchEvent(new CustomEvent("loomi-toggle", { bubbles: true, composed: true, detail: { open } }));
+  }
+
   show(): void {
-    if (this.open) return;
-    this.open = true;
-    if (this.triggerOn === "click") this.cleanup = onClickOutside(this, () => (this.open = false));
+    if (this.open || this.disabled) return;
+    this.setOpen(true);
+    if (this.triggerOn === "click") this.cleanup = onClickOutside(this, () => this.setOpen(false));
   }
   hide(): void {
-    this.open = false;
+    this.setOpen(false);
     this.cleanup?.();
   }
   toggle(): void {
@@ -49,8 +62,9 @@ export class LoomiPopover extends LoomiElement {
       class="loomi-trigger"
       aria-haspopup="dialog"
       aria-expanded=${this.open ? "true" : "false"}
-      @click=${this.triggerOn === "click" ? () => this.toggle() : nothing}
-      @mouseenter=${this.triggerOn === "mouseover" ? () => this.show() : nothing}
+      ?disabled=${this.disabled}
+      @click=${this.triggerOn === "click" && !this.disabled ? () => this.toggle() : nothing}
+      @mouseenter=${this.triggerOn === "mouseover" && !this.disabled ? () => this.show() : nothing}
       @mouseleave=${this.triggerOn === "mouseover" ? () => this.hide() : nothing}
     >
       <slot name="trigger">
