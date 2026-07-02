@@ -3,6 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, loomiT, accentVars, lockBodyScroll, unlockBodyScroll, type LoomiColor } from "@loomidev/core";
 import "@loomidev/button/loomi-button.js";
 import "@loomidev/icon/loomi-icon.js";
+import type { LoomiIconSource } from "@loomidev/icon";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiModalType = "" | "info" | "error" | "warning" | "success";
@@ -74,6 +75,7 @@ export class LoomiModal extends LoomiElement {
   @property() title = "";
   @property() type: LoomiModalType = "";
   @property() icon = "";
+  @property({ attribute: "icon-source" }) iconSource: LoomiIconSource = "heroicons";
   @property() size: LoomiModalSize = "medium";
   @property() locale = "";
   @property({ type: Boolean, reflect: true }) open = false;
@@ -284,7 +286,7 @@ export class LoomiModal extends LoomiElement {
         <div class="loomi-content">
           ${iconName
             ? html`<div class="loomi-icon-wrap">
-                <loomi-icon class="loomi-ico" name=${iconName} size="1.5rem"></loomi-icon>
+                <loomi-icon class="loomi-ico" name=${iconName} source=${this.iconSource} size="1.5rem"></loomi-icon>
               </div>`
             : nothing}
           <div class="loomi-main">

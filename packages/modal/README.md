@@ -82,6 +82,18 @@ a prebuilt `type`'s default icon. Modal icons render through `<loomi-icon>`.
 </loomi-modal>
 ```
 
+### Icon Source
+
+`icon` renders from `heroicons` by default. Set `icon-source` to pull from a different
+set instead — `iconsax` or `untitledui` — matching `<loomi-icon>`'s own `source` attribute.
+
+```html
+<loomi-button onclick="showLoomiModal('iconsax-modal')">Iconsax Icon</loomi-button>
+<loomi-modal icon="home" icon-source="iconsax" title="Iconsax Icon" name="iconsax-modal">
+  This modal's icon comes from the iconsax set.
+</loomi-modal>
+```
+
 ## Different Sizes
 
 ```html
@@ -205,6 +217,7 @@ needed.
 | `title` | _(blank)_ | Modal heading. |
 | `type` | _(blank)_ | `info` \| `error` \| `warning` \| `success` (sets icon + color). |
 | `icon` | _(blank)_ | Custom icon name (overrides the type icon). |
+| `icon-source` | `heroicons` | Icon set for `icon` — `heroicons` \| `iconsax` \| `untitledui`. |
 | `size` | `medium` | `tiny` \| `small` \| `medium` \| `large` \| `xl` \| `omg` |
 | `open` | `false` | Open state (reflected). _(boolean)_ |
 | `ok-button-label` | `Okay` | Primary button text (blank hides it). |
