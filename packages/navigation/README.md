@@ -52,7 +52,10 @@ pnpm --filter @loomidev/navigation build
 pnpm --filter @loomidev/navigation typecheck
 ```
 
-### Plain HTML
+### Choose your framework
+
+<loomi-tabs>
+<loomi-tab label="Plain HTML" active>
 
 ```html
 <script type="importmap">
@@ -66,7 +69,8 @@ pnpm --filter @loomidev/navigation typecheck
 </loomi-tabs>
 ```
 
-### Laravel Blade
+</loomi-tab>
+<loomi-tab label="Laravel Blade">
 
 ```bash
 cd /path/to/your-laravel-app
@@ -86,7 +90,8 @@ import "@loomidev/navigation";
 </loomi-tabs>
 ```
 
-### React
+</loomi-tab>
+<loomi-tab label="React">
 
 ```jsx
 import "@loomidev/navigation";
@@ -103,7 +108,8 @@ export function LoomiBundleExample() {
 
 For array or object properties such as select `data` or table `columns`, assign the value with a ref after mount when using React 18.
 
-### Vue
+</loomi-tab>
+<loomi-tab label="Vue">
 
 ```vue
 <script setup>
@@ -120,7 +126,8 @@ import "@loomidev/navigation";
 
 Configure Vue's `compilerOptions.isCustomElement` for tags that start with `loomi-` if your tooling warns about unknown components.
 
-### Angular
+</loomi-tab>
+<loomi-tab label="Angular">
 
 ```ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
@@ -140,7 +147,8 @@ import "@loomidev/navigation";
 export class AppComponent {}
 ```
 
-### Svelte and Astro
+</loomi-tab>
+<loomi-tab label="Svelte and Astro">
 
 ```svelte
 <script>
@@ -163,6 +171,9 @@ import "@loomidev/navigation";
   <loomi-tab label="Billing">Billing content</loomi-tab>
 </loomi-tabs>
 ```
+
+</loomi-tab>
+</loomi-tabs>
 
 ### Server-side rendering notes
 

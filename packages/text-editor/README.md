@@ -382,13 +382,16 @@ This keeps LoomiUI provider-neutral while still giving users a real toolbar affo
 
 **CSS parts:** `field`, `toolbar`, `editor`.
 
-## Framework Integration
+## Framework integration
 
 `<loomi-text-editor>` is a standard custom element, so it works in plain HTML, Blade,
 React, Vue, Angular, Svelte, Astro, and most other frameworks. Import the package once
 before the tag renders.
 
-### Plain HTML
+### Choose your framework
+
+<loomi-tabs>
+<loomi-tab label="Plain HTML" active>
 
 ```html
 <script type="importmap">
@@ -399,7 +402,8 @@ before the tag renders.
 <loomi-text-editor name="notes" label="Notes" tools="basic,lists,embed"></loomi-text-editor>
 ```
 
-### React
+</loomi-tab>
+<loomi-tab label="React">
 
 React can render the custom element directly. If you want to pass an array to `tools`,
 assign it with a ref after mount.
@@ -419,7 +423,8 @@ export function Editor() {
 }
 ```
 
-### Vue
+</loomi-tab>
+<loomi-tab label="Vue">
 
 ```vue
 <script setup>
@@ -431,7 +436,8 @@ import "@loomidev/text-editor";
 </template>
 ```
 
-### Angular
+</loomi-tab>
+<loomi-tab label="Angular">
 
 Add `CUSTOM_ELEMENTS_SCHEMA`, then use the tag in your template.
 
@@ -448,7 +454,8 @@ import "@loomidev/text-editor";
 export class AppComponent {}
 ```
 
-### Svelte and Astro
+</loomi-tab>
+<loomi-tab label="Svelte and Astro">
 
 ```svelte
 <script>
@@ -466,7 +473,10 @@ import "@loomidev/text-editor";
 <loomi-text-editor name="body" label="Body" tools="typography,basic,embed"></loomi-text-editor>
 ```
 
-### Server-Side Rendering Notes
+</loomi-tab>
+</loomi-tabs>
+
+### Server-side rendering notes
 
 Frameworks such as Next.js, Nuxt, SvelteKit, and Astro may render HTML before browser-only
 custom elements run. If a framework complains, move the import to client-side code. In
