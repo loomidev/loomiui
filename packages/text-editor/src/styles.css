@@ -114,7 +114,6 @@
 }
 
 .loomi-tool-button:focus-visible,
-.loomi-tool-select-custom:focus-within,
 .loomi-color-tool:focus-within {
   outline: 2px solid var(--loomi-primary-500);
   outline-offset: 2px;

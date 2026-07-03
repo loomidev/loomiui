@@ -11,14 +11,6 @@ import "@loomidev/modal";
 ```
 
 
-## Accessibility
-- `aria-modal="true"`, focus trap, Escape to close, body scroll lock via `@loomidev/core`.
-
-## Responsive behavior
-- Dialog width capped with `min()`; footer actions wrap on small screens.
-
-## Dark mode
-- Dialog, header, and footer backgrounds use semantic surface tokens.
 ## Default Modal
 
 Modals are usually triggered by an action — a button click, say. Every LoomiUI modal is
@@ -80,13 +72,13 @@ a prebuilt `type`'s default icon. Modal icons render through `<loomi-icon>`.
 
 ```html
 <loomi-button onclick="showLoomiModal('big-file')">Custom Icon</loomi-button>
-<loomi-modal icon="cloud-download" title="Large File Size" name="big-file">
+<loomi-modal icon="cloud-arrow-down" title="Large File Size" name="big-file">
   This file is quite large. Continue with the download?
 </loomi-modal>
 
 <!-- combine a custom icon with a predefined color -->
 <loomi-button onclick="showLoomiModal('big-file-warn')">Custom Icon + Type</loomi-button>
-<loomi-modal type="warning" icon="cloud-download" title="Large File Size" name="big-file-warn">
+<loomi-modal type="warning" icon="cloud-arrow-down" title="Large File Size" name="big-file-warn">
   This file is quite large. Continue with the download?
 </loomi-modal>
 ```
@@ -132,6 +124,21 @@ set instead — `iconsax` or `untitledui` — matching `<loomi-icon>`'s own `sou
 <loomi-modal blur-size="none" title="See Through Me" name="no-blur">
   The backdrop behind this modal isn't blurred at all.
 </loomi-modal>
+
+<loomi-button onclick="showLoomiModal('small-blur')">Small Blur</loomi-button>
+<loomi-modal blur-size="small" title="Small Blur" name="small-blur">A light blur.</loomi-modal>
+
+<loomi-button onclick="showLoomiModal('medium-blur')">Medium Blur</loomi-button>
+<loomi-modal blur-size="medium" title="Medium Blur" name="medium-blur">The default blur.</loomi-modal>
+
+<loomi-button onclick="showLoomiModal('large-blur')">Large Blur</loomi-button>
+<loomi-modal blur-size="large" title="Large Blur" name="large-blur">A stronger blur.</loomi-modal>
+
+<loomi-button onclick="showLoomiModal('xl-blur')">XL Blur</loomi-button>
+<loomi-modal blur-size="xl" title="XL Blur" name="xl-blur">A very soft backdrop.</loomi-modal>
+
+<loomi-button onclick="showLoomiModal('omg-blur')">OMG Blur</loomi-button>
+<loomi-modal blur-size="omg" title="OMG Blur" name="omg-blur">The strongest blur preset.</loomi-modal>
 ```
 
 Available: `none` `small` `medium` `large` `xl` `omg`.
@@ -162,8 +169,7 @@ an empty string to hide that button entirely. Footer actions render as
 
 ### Reacting to Action Buttons
 
-Unlike BladewindUI's inline `ok_button_action`/`cancel_button_action` strings, loomi
-modals fire real DOM events — listen for `ok`/`cancel` on the modal element:
+Loomi modals fire real DOM events — listen for `ok`/`cancel` on the modal element:
 
 ```html
 <loomi-button onclick="showLoomiModal('confirm-delete')">Delete User</loomi-button>
@@ -217,6 +223,15 @@ Opening a modal moves focus into it (the close icon if shown, otherwise the firs
 focusable element, otherwise the dialog itself) and traps <kbd>Tab</kbd> inside it while
 open. Closing it restores focus to whatever was focused before — all automatic, no setup
 needed.
+
+## Accessibility
+- `aria-modal="true"`, focus trap, Escape to close, body scroll lock via `@loomidev/core`.
+
+## Responsive behavior
+- Dialog width capped with `min()`; footer actions wrap on small screens.
+
+## Dark mode
+- Dialog, header, and footer backgrounds use semantic surface tokens.
 
 ## Attributes
 

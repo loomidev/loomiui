@@ -13,17 +13,6 @@ import "@loomidev/avatar";
 ```
 
 
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
-
-## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
-- ⚠️ Audit raw `--loomi-gray-*` / hex fills and migrate to semantic tokens.
 ## Basic Usage
 
 ```html
@@ -103,8 +92,8 @@ The dot accepts any loomi color via `dot-color`:
 ```html
 <loomi-avatars dotted>
   <loomi-avatar label="SF" bg-color="warning" dot-color="warning"></loomi-avatar>
-  <loomi-avatar label="ZH" bg-color="blue" dot-color="blue"></loomi-avatar>
-  <loomi-avatar label="RB" bg-color="purple" dot-color="purple"></loomi-avatar>
+  <loomi-avatar label="ZH" bg-color="primary" dot-color="primary"></loomi-avatar>
+  <loomi-avatar label="RB" bg-color="success" dot-color="success"></loomi-avatar>
 </loomi-avatars>
 ```
 
@@ -170,12 +159,16 @@ optimistically, so the UI doesn't need to wait on the request:
 
 ```html
 <loomi-avatar id="profile-pic" image="/avatars/me.jpg" editable></loomi-avatar>
+<img id="selected-avatar-preview" src="/avatars/me.jpg" alt="Selected avatar preview" width="96" height="96" />
 
 <script type="module">
   const avatar = document.getElementById("profile-pic");
+  const preview = document.getElementById("selected-avatar-preview");
 
   avatar.addEventListener("change", async (e) => {
-    const { file } = e.detail;
+    const { file, image } = e.detail;
+    preview.src = image;
+
     const formData = new FormData();
     formData.append("avatar", file);
 
@@ -185,10 +178,12 @@ optimistically, so the UI doesn't need to wait on the request:
       // Optionally swap `image` to the server's final URL once it's known, e.g.
       // const { url } = await res.json();
       // avatar.image = url;
+      // preview.src = url;
     } catch (err) {
       // The avatar is already showing the new picture locally (via the object URL) —
       // on failure, revert it and let the user know.
       avatar.image = "/avatars/me.jpg";
+      preview.src = "/avatars/me.jpg";
       console.error(err);
     }
   });
@@ -206,6 +201,18 @@ By default avatars show a ring around them. Turn it off for a flatter look.
 ```html
 <loomi-avatar image="/avatars/sara.svg" show-ring="false"></loomi-avatar>
 ```
+
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
+- ⚠️ Audit raw `--loomi-gray-*` / hex fills and migrate to semantic tokens.
 
 ## Attributes
 
@@ -232,20 +239,19 @@ By default avatars show a ring around them. Turn it off for a flatter look.
 | `stacked` | `false` | Overlap children. _(boolean)_ |
 | `plus` | `0` | Append a `+N` bubble (also forces stacking). |
 | `size` | `regular` | Propagated to children. |
+| `stack-space` | _(blank)_ | Custom overlap/spacing for stacked avatars, for example `-0.75rem`. |
 | `dotted` | `false` | Show a status dot on each child. _(boolean)_ |
 | `dot-color` | `green` | Propagated to children without their own `dot-color`. |
 | `dot-position` | `bottom` | Propagated to children without their own `dot-position`. |
 
-> Not (yet) ported from BladewindUI: a clickable `plus_action` callback on the `+N`
-> bubble — listen for a `click` on the avatars group element instead.
 
 ## Full Example
 
 ```html
-<loomi-avatars size="big" dotted dot-color="error" dot-position="top" plus="33" stacked>
+<loomi-avatars size="big" dotted dot-color="error" dot-position="top" plus="33" stacked stack-space="-1rem">
   <loomi-avatar image="/avatars/robert.svg"></loomi-avatar>
   <loomi-avatar image="/avatars/female.jpg"></loomi-avatar>
-  <loomi-avatar label="ZH" bg-color="cyan"></loomi-avatar>
+  <loomi-avatar label="ZH" bg-color="warning"></loomi-avatar>
 </loomi-avatars>
 ```
 

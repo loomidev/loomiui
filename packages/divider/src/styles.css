@@ -45,7 +45,7 @@
 
 .vertical .loomi-line {
   width: var(--_loomi-divider-thickness, 1px);
-  min-height: 0;
+  min-height: 2rem;
 }
 
 .solid .loomi-line {

@@ -12,17 +12,6 @@ import "@loomidev/progress";
 ```
 
 
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
-
-## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
-- ⚠️ Audit raw `--loomi-gray-*` / hex fills and migrate to semantic tokens.
 ## Progress Bar — Basic Usage
 
 ```html
@@ -37,6 +26,9 @@ import "@loomidev/progress";
 
 <!-- label outside the bar (default position: top-left) -->
 <loomi-progress-bar percentage="36" show-percentage-label show-percentage-label-inline="false"></loomi-progress-bar>
+
+<!-- label as a tooltip above the fill -->
+<loomi-progress-bar percentage="36" show-percentage-tooltip></loomi-progress-bar>
 
 <!-- positioned top-center, with a suffix -->
 <loomi-progress-bar
@@ -57,16 +49,16 @@ Two shades per color: `faint` (default) and `dark`.
 
 ```html
 <loomi-progress-bar percentage="30" color="success"></loomi-progress-bar>
-<loomi-progress-bar percentage="40" color="pink"></loomi-progress-bar>
-<loomi-progress-bar percentage="50" color="cyan" shade="dark"></loomi-progress-bar>
-<loomi-progress-bar percentage="60" color="purple" shade="dark"></loomi-progress-bar>
+<loomi-progress-bar percentage="40" color="warning"></loomi-progress-bar>
+<loomi-progress-bar percentage="50" color="error" shade="dark"></loomi-progress-bar>
+<loomi-progress-bar percentage="60" color="gray" shade="dark"></loomi-progress-bar>
 ```
 
 ### Striped and Animated
 
 ```html
 <loomi-progress-bar percentage="60" color="error" shade="dark" striped></loomi-progress-bar>
-<loomi-progress-bar percentage="50" color="purple" shade="dark" striped animated></loomi-progress-bar>
+<loomi-progress-bar percentage="50" color="success" shade="dark" striped animated></loomi-progress-bar>
 ```
 
 ## Progress Circle — Basic Usage
@@ -88,7 +80,7 @@ The label is hidden by default. Show it with `show-label`; add the `%` sign with
 ```html
 <loomi-progress-circle percentage="65" color="error"></loomi-progress-circle>
 <loomi-progress-circle percentage="65" color="success" shade="dark"></loomi-progress-circle>
-<loomi-progress-circle percentage="65" color="purple"></loomi-progress-circle>
+<loomi-progress-circle percentage="65" color="warning"></loomi-progress-circle>
 ```
 
 ### Different Sizes
@@ -165,6 +157,18 @@ unless a step declares its own state or boolean status.
 </loomi-progress-steps>
 ```
 
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
+- ⚠️ Audit raw `--loomi-gray-*` / hex fills and migrate to semantic tokens.
+
 ## Attributes
 
 ### Shared (bar and circle)
@@ -180,6 +184,7 @@ unless a step declares its own state or boolean status.
 | Attribute | Default | Description |
 | --- | --- | --- |
 | `show-percentage-label` | `false` | Show the % label. _(boolean)_ |
+| `show-percentage-tooltip` | `false` | Show the percentage in a tooltip above the bar. _(boolean)_ |
 | `show-percentage-label-inline` | `true` | Inside the bar vs. outside. _(boolean)_ |
 | `percentage-label-position` | `top-left` | Outside-label placement. |
 | `percentage-prefix` / `percentage-suffix` | _(blank)_ | Label affixes. |

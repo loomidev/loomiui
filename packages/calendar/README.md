@@ -101,7 +101,7 @@ Event color is controlled by the optional `color` field on each `CalendarEvent`.
 
 | `color` value | Typical use | Visual |
 | --- | --- | --- |
-| `primary` | Default meetings, internal events | Blue palette |
+| `primary` | Default meetings, internal events | Primary palette |
 | `secondary` | Neutral blocks, focus time | Gray palette |
 | `success` | Confirmed client meetings, completed milestones | Green palette |
 | `warning` | Pending reviews, travel, deadlines | Amber palette |

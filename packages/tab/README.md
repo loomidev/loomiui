@@ -1,8 +1,7 @@
 # @loomidev/tab
 
 `<loomi-tabs>` builds a heading bar from its `<loomi-tab>` children and toggles which
-panel is visible. Unlike BladewindUI's tab component, there's no separate
-heading/body/content wiring to keep in sync — each `<loomi-tab>` carries its own
+panel is visible. There is no separate heading/body/content wiring to keep in sync — each `<loomi-tab>` carries its own
 heading (`label`/`icon`) **and** its own panel content together, so there's nothing to
 name-match by hand.
 
@@ -15,15 +14,6 @@ import "@loomidev/tab";
 ```
 
 
-## Accessibility
-- WAI-ARIA tabs pattern with `role="tablist"`, roving tabindex, Arrow/Home/End keys.
-- See APG link in README.
-
-## Responsive behavior
-- Tab list scrolls horizontally when tabs overflow.
-
-## Dark mode
-- Active tab indicator uses primary tokens on semantic surfaces.
 ## Basic Usage
 
 Wrap any number of `<loomi-tab>` elements in a `<loomi-tabs>`. The tab marked `active`
@@ -33,13 +23,19 @@ is selected by default — it doesn't have to be the first one. If none is marke
 ```html
 <loomi-tabs>
   <loomi-tab label="Profile" active>
-    <p>Profile settings go here.</p>
+    <h3>Account profile</h3>
+    <p>Update the public name, team role, and contact email shown across the workspace.</p>
+    <loomi-button size="small">Save profile</loomi-button>
   </loomi-tab>
   <loomi-tab label="Security">
-    <p>Security settings go here.</p>
+    <h3>Security</h3>
+    <p>Require two-step verification and review the devices that are currently signed in.</p>
+    <loomi-button size="small" type="secondary">Manage devices</loomi-button>
   </loomi-tab>
   <loomi-tab label="Notifications">
-    <p>Notification preferences go here.</p>
+    <h3>Notifications</h3>
+    <p>Choose which product updates, approvals, and billing alerts should send email.</p>
+    <loomi-toggle label="Weekly summary" checked></loomi-toggle>
   </loomi-tab>
 </loomi-tabs>
 ```
@@ -55,7 +51,7 @@ document.querySelector("loomi-tabs").addEventListener("tab-change", (e) => {
 
 ## Different Colors
 
-The active tab's underline (or background, depending on style — see below) is blue by
+The active tab's underline (or background, depending on style — see below) uses the
 default. Set `color` on `<loomi-tabs>` to pick a different one; it applies to every
 child tab.
 
@@ -71,8 +67,7 @@ child tab.
 </loomi-tabs>
 ```
 
-Available colors: `primary` `secondary` `success` `error` `warning` `gray` `purple`
-`cyan` `pink` `blue`.
+Common semantic colors: `primary` `secondary` `success` `error` `warning` `gray`.
 
 ## Other Tab Styles
 
@@ -95,10 +90,10 @@ A segmented-control look — the active tab gets a raised pill inside a tinted t
 Each tab is its own independent pill; the active one fills with `color`.
 
 ```html
-<loomi-tabs tab-style="pills" color="purple">
-  <loomi-tab label="All" active>…</loomi-tab>
-  <loomi-tab label="Unread">…</loomi-tab>
-  <loomi-tab label="Archived">…</loomi-tab>
+<loomi-tabs tab-style="pills" color="success">
+  <loomi-tab label="All" active>24 open conversations</loomi-tab>
+  <loomi-tab label="Unread">5 conversations need a reply</loomi-tab>
+  <loomi-tab label="Archived">128 resolved conversations</loomi-tab>
 </loomi-tabs>
 ```
 
@@ -159,6 +154,16 @@ out of the box: once a tab heading has focus, <kbd>←</kbd>/<kbd>→</kbd> (or
 enabled tab. Disabled tabs are skipped. No setup required — this works the same in
 every style.
 
+## Accessibility
+- WAI-ARIA tabs pattern with `role="tablist"`, roving tabindex, Arrow/Home/End keys.
+- See APG link in README.
+
+## Responsive behavior
+- Tab list scrolls horizontally when tabs overflow.
+
+## Dark mode
+- Active tab indicator uses primary tokens on semantic surfaces.
+
 ## Attributes
 
 ### `<loomi-tabs>`
@@ -184,12 +189,12 @@ tab changes by click or keyboard.
 ## Full Example
 
 ```html
-<loomi-tabs color="purple" tab-style="pills">
+<loomi-tabs color="success" tab-style="pills">
   <loomi-tab label="Overview" icon="information-circle" active>
-    <p>Everything looks good.</p>
+    <p>Revenue is up 12% this month and all scheduled payouts have cleared.</p>
   </loomi-tab>
   <loomi-tab label="Activity" icon="bell-alert">
-    <p>3 new notifications.</p>
+    <p>Three payment disputes need a response before Friday.</p>
   </loomi-tab>
   <loomi-tab label="Archived" disabled>
     <p>Nothing archived yet.</p>

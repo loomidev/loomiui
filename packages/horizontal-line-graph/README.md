@@ -13,15 +13,6 @@ import "@loomidev/horizontal-line-graph";
 ```
 
 
-## Accessibility
-- `role="img"` with an `aria-label` summarizing segment percentages.
-- Legend repeats segment labels for sighted users.
-
-## Responsive behavior
-- Legend wraps on narrow viewports.
-
-## Dark mode
-- Track and legend text use semantic muted/text tokens.
 ## Basic Usage
 
 ```html
@@ -45,7 +36,7 @@ import "@loomidev/horizontal-line-graph";
 
 <script type="module">
   document.getElementById("ages").data = [
-    { label: "Under 40", value: 24, color: "cyan" },
+    { label: "Under 40", value: 24, color: "warning" },
     { label: "40–60", value: 43, color: "#a855f7" },
     { label: "Above 60", value: 33, color: "gray" },
   ];
@@ -75,15 +66,25 @@ import "@loomidev/horizontal-line-graph";
   document.getElementById("mm").data = [
     { label: "MTN", value: 55, color: "yellow" },
     { label: "Vodafone", value: 30, color: "error" },
-    { label: "AirtelTigo", value: 15, color: "blue" },
+    { label: "AirtelTigo", value: 15, color: "primary" },
   ];
   document.getElementById("age").data = [
-    { label: "Above 60", value: 33, color: "cyan" },
-    { label: "40–60", value: 43, color: "purple" },
+    { label: "Above 60", value: 33, color: "warning" },
+    { label: "40–60", value: 43, color: "success" },
     { label: "Under 40", value: 24, color: "gray" },
   ];
 </script>
 ```
+
+## Accessibility
+- `role="img"` with an `aria-label` summarizing segment percentages.
+- Legend repeats segment labels for sighted users.
+
+## Responsive behavior
+- Legend wraps on narrow viewports.
+
+## Dark mode
+- Track and legend text use semantic muted/text tokens.
 
 ## Attributes
 
@@ -100,8 +101,8 @@ import "@loomidev/horizontal-line-graph";
 
 <script type="module">
   document.getElementById("full-graph").data = [
-    { label: "Women Farmers", value: 55.8, color: "pink" },
-    { label: "Men Farmers", value: 44.2, color: "blue" },
+    { label: "Women Farmers", value: 55.8, color: "error" },
+    { label: "Men Farmers", value: 44.2, color: "primary" },
   ];
 </script>
 ```

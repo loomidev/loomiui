@@ -1,12 +1,13 @@
 import { html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { live } from "lit/directives/live.js";
-import { LoomiElement, loomiT, themeStyles } from "@loomidev/core";
+import { LoomiElement, accentVars, loomiT, themeStyles, type LoomiColor } from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiTagInputSize = "tiny" | "small" | "regular" | "medium" | "big";
 export type LoomiTagInputMode = "inside" | "below";
+export type LoomiTagInputShade = "faint" | "dark" | "light";
 
 const X = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />`;
 
@@ -36,6 +37,8 @@ export class LoomiTagInput extends LoomiElement {
   @property() placeholder = "";
   @property() value = "";
   @property() size: LoomiTagInputSize = "medium";
+  @property() color: LoomiColor | string = "primary";
+  @property() shade: LoomiTagInputShade = "light";
   @property({ reflect: true }) mode: LoomiTagInputMode = "inside";
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
@@ -190,7 +193,7 @@ export class LoomiTagInput extends LoomiElement {
   }
 
   private renderTag(tag: string, index: number): TemplateResult {
-    return html`<span class="loomi-tag" part="tag">
+    return html`<span class=${`loomi-tag ${this.shade}`} part="tag">
       <span class="loomi-tag-label">${tag}</span>
       ${this.disabled || this.readonly
         ? nothing
@@ -228,12 +231,17 @@ export class LoomiTagInput extends LoomiElement {
       `size-${this.size}`,
       belowMode ? "mode-below" : "mode-inside",
       this.tagValues.length > 0 ? "has-tags" : "",
+      this.draft ? "has-draft" : "",
     ]
       .filter(Boolean)
       .join(" ");
+    const labelEl = hasLabel
+      ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
+      : nothing;
 
     return html`
-      <div class=${fieldClasses} part="field" @click=${() => this.focus()}>
+      <div class=${fieldClasses} part="field" style=${accentVars(this.color)} @click=${() => this.focus()}>
+        ${belowMode ? nothing : labelEl}
         ${belowMode ? nothing : this.renderTags()}
         <span class="loomi-inputwrap">
           <input
@@ -251,9 +259,7 @@ export class LoomiTagInput extends LoomiElement {
             @keydown=${this.onKeydown}
             @blur=${this.showValidation}
           />
-          ${hasLabel
-            ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
-            : nothing}
+          ${belowMode ? labelEl : nothing}
         </span>
         ${this.renderSuffix()}
       </div>

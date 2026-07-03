@@ -27,8 +27,8 @@ const chat = document.querySelector("loomi-chat-window");
 
 chat.participants = [
   { id: "you", name: "You", label: "YO", color: "primary" },
-  { id: "sara", name: "Sara", label: "SA", color: "purple", image: "/avatars/sara.png" },
-  { id: "alex", name: "Alex", label: "AL", color: "cyan" },
+  { id: "sara", name: "Sara", label: "SA", color: "success", image: "/avatars/sara.png" },
+  { id: "alex", name: "Alex", label: "AL", color: "warning" },
 ];
 
 chat.addEventListener("send", (event) => {
@@ -53,7 +53,7 @@ Use `<loomi-chat-message>` directly when building a custom transcript:
   text="Can we ship this today?"
   sender="Sara"
   sender-id="sara"
-  bubble-color="purple"
+  bubble-color="success"
   show-avatar
   show-sender
 ></loomi-chat-message>
@@ -69,6 +69,37 @@ Use `<loomi-chat-message>` directly when building a custom transcript:
 ```
 
 Bubbles include a directional tail and a visible tinted background per participant color.
+
+## Typing and Loading State
+
+Set `typing` to show the default three-dot typing indicator. If you want a branded
+loading row instead, combine `busy` with `loading-icon`, `loading-text`, or both; the
+custom content gets a subtle shimmer treatment while the composer is disabled.
+
+```html
+<loomi-chat-window
+  current-user-id="you"
+  typing
+></loomi-chat-window>
+
+<loomi-chat-window
+  current-user-id="you"
+  busy
+  loading-icon="sparkles"
+  loading-text="Drafting a reply"
+></loomi-chat-window>
+```
+
+## Accessibility
+- Transcript messages use readable text content and can show sender names and times.
+- The composer keeps native textarea keyboard behavior and disables itself during `busy`.
+
+## Responsive behavior
+- The chat window fills its configured height and keeps the transcript scrollable.
+- Message bubbles cap their width so long messages remain readable on narrow screens.
+
+## Dark mode
+- Bubbles, shell borders, loading rows, and muted text use Loomi surface and text tokens.
 
 ## Attributes
 
@@ -90,6 +121,9 @@ Bubbles include a directional tail and a visible tinted background per participa
 | `show-avatars` | `false` | Show avatars beside transcript messages. Auto-enabled when there are more than two participants. |
 | `show-header-avatars` | `true` | Show stacked participant avatars in the header. |
 | `busy` | `false` | Disables composer and marks transcript busy. |
+| `typing` | `false` | Shows a three-dot typing indicator, or the custom loading row when loading content is provided. |
+| `loading-icon` | `""` | Icon name to show in the typing/loading row. |
+| `loading-text` | `""` | Text to show in the typing/loading row. |
 | `read-only` | `false` | Disables the composer. |
 | `show-reset` | `true` | Shows the reset button. |
 
@@ -99,8 +133,9 @@ Bubbles include a directional tail and a visible tinted background per participa
 | --- | --- | --- |
 | `text` | `""` | Message body. |
 | `sender` | `""` | Display name shown above the bubble. |
+| `time` | `""` | Optional message time label shown beneath the bubble text. |
 | `sender-id` | `""` | Used to pick a fallback bubble color. |
-| `bubble-color` | auto | Any loomi palette color (`primary`, `purple`, `cyan`, …). |
+| `bubble-color` | auto | Any loomi palette color (`primary`, `success`, `warning`, …). |
 | `image` | `""` | Avatar image URL. |
 | `avatar-label` | initials | Avatar fallback label. |
 | `outgoing` | `false` | Right-align the bubble with a trailing tail. |
@@ -169,7 +204,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
   const chat = document.getElementById("team-chat");
   chat.participants = [
     { id: "you", name: "You", label: "YO", color: "primary" },
-    { id: "sara", name: "Sara", label: "SA", color: "purple" },
+    { id: "sara", name: "Sara", label: "SA", color: "success" },
   ];
   chat.addEventListener("send", (event) => {
     chat.appendMessage({
@@ -196,7 +231,7 @@ import "@loomidev/chat";
 const chat = document.querySelector("loomi-chat-window");
 chat.participants = [
   { id: "you", name: "You", label: "YO", color: "primary" },
-  { id: "alex", name: "Alex", label: "AL", color: "cyan" },
+  { id: "alex", name: "Alex", label: "AL", color: "warning" },
 ];
 chat.addEventListener("send", (event) => {
   console.log(event.detail.message);
@@ -238,7 +273,7 @@ export function LoomiExample() {
   useEffect(() => {
     chat.current.participants = [
       { id: "you", name: "You", label: "YO", color: "primary" },
-      { id: "sara", name: "Sara", label: "SA", color: "purple" },
+      { id: "sara", name: "Sara", label: "SA", color: "success" },
     ];
     chat.current.addEventListener("send", (event) => {
       chat.current.appendMessage({
@@ -268,7 +303,7 @@ import "@loomidev/chat";
 
 const participants = ref([
   { id: "you", name: "You", label: "YO", color: "primary" },
-  { id: "sara", name: "Sara", label: "SA", color: "purple" },
+  { id: "sara", name: "Sara", label: "SA", color: "success" },
 ]);
 </script>
 
@@ -307,7 +342,7 @@ export class AppComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.chat.nativeElement.participants = [
       { id: "you", name: "You", label: "YO", color: "primary" },
-      { id: "sara", name: "Sara", label: "SA", color: "purple" },
+      { id: "sara", name: "Sara", label: "SA", color: "success" },
     ];
   }
 }
@@ -324,7 +359,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
   const participants = [
     { id: "you", name: "You", label: "YO", color: "primary" },
-    { id: "sara", name: "Sara", label: "SA", color: "purple" },
+    { id: "sara", name: "Sara", label: "SA", color: "success" },
   ];
 </script>
 
@@ -337,7 +372,7 @@ import "@loomidev/chat";
 
 const participants = [
   { id: "you", name: "You", label: "YO", color: "primary" },
-  { id: "sara", name: "Sara", label: "SA", color: "purple" },
+  { id: "sara", name: "Sara", label: "SA", color: "success" },
 ];
 ---
 

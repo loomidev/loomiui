@@ -11,16 +11,6 @@ import "@loomidev/spinner";
 ```
 
 
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Includes layout breakpoints for narrow viewports (see component CSS).
-
-## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 ## Basic Usage
 
 ```html
@@ -54,11 +44,11 @@ The default color is `gray`. Any loomi color works.
 <loomi-spinner color="primary"></loomi-spinner>
 <loomi-spinner color="error"></loomi-spinner>
 <loomi-spinner color="success"></loomi-spinner>
-<loomi-spinner color="blue"></loomi-spinner>
-<loomi-spinner color="purple"></loomi-spinner>
-<loomi-spinner color="pink"></loomi-spinner>
+<loomi-spinner color="primary"></loomi-spinner>
+<loomi-spinner color="success"></loomi-spinner>
+<loomi-spinner color="error"></loomi-spinner>
 <loomi-spinner color="warning"></loomi-spinner>
-<loomi-spinner color="cyan"></loomi-spinner>
+<loomi-spinner color="warning"></loomi-spinner>
 ```
 
 ## Different Sizes
@@ -90,6 +80,17 @@ table mid-fetch, a full-page overlay.
 </div>
 ```
 
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Includes layout breakpoints for narrow viewports (see component CSS).
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
+
 ## Attributes
 
 | Attribute | Default | Description |
@@ -102,7 +103,7 @@ table mid-fetch, a full-page overlay.
 ## Full Example
 
 ```html
-<loomi-spinner type="spinner" size="md" color="blue" label="Loading..."></loomi-spinner>
+<loomi-spinner type="spinner" size="md" color="primary" label="Loading..."></loomi-spinner>
 ```
 
 <!-- BEGIN loomi-framework-guide -->

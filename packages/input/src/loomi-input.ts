@@ -365,6 +365,7 @@ export class LoomiInput extends LoomiElement {
 
   override render(): TemplateResult {
     const hasLabel = !!this.label;
+    const hasPrefix = !!(this.prefix || this.prefixIcon || this.parseOptions(this.prefixOptions).length > 0);
     const forceFloat = hasLabel && this.showPlaceholderAlways;
     const placeholderAttr =
       hasLabel && !this.showPlaceholderAlways ? " " : this.placeholder || " ";
@@ -372,6 +373,9 @@ export class LoomiInput extends LoomiElement {
 
     return html`
       <div class="loomi-field size-${this.size} ${forceFloat ? "force-float" : ""}" part="field">
+        ${hasLabel && hasPrefix
+          ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
+          : nothing}
         ${this.renderPrefix()}
         <span class="loomi-inputwrap">
           <input
@@ -391,7 +395,7 @@ export class LoomiInput extends LoomiElement {
             @change=${this.onChange}
             @blur=${this.showValidation}
           />
-          ${hasLabel
+          ${hasLabel && !hasPrefix
             ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
             : nothing}
         </span>

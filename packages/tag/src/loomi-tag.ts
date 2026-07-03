@@ -22,7 +22,7 @@ export class LoomiTag extends LoomiElement {
   @property() locale = "";
   /** Any loomi color plus `info` (maps to blue). */
   @property() color = "primary";
-  @property() shade: "faint" | "dark" = "faint";
+  @property() shade: "faint" | "dark" | "light" = "faint";
   @property({ type: Boolean, attribute: "can-close" }) canClose = false;
   @property({ type: Boolean }) outline = false;
   @property({ type: Boolean }) rounded = false;

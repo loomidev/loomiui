@@ -1,7 +1,6 @@
 # @loomidev/core
 
-Shared runtime assets for loomi components — the loomi analogue of BladewindUI's `core`
-package. Every component imports its theme styles and helpers from here, so the shared
+Shared runtime assets for loomi components — the shared runtime for Loomi components package. Every component imports its theme styles and helpers from here, so the shared
 plumbing lives in exactly one place.
 
 ```bash

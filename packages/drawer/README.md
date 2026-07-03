@@ -12,14 +12,6 @@ import "@loomidev/drawer";
 ```
 
 
-## Accessibility
-- Same overlay contract as modal; labelled close control.
-
-## Responsive behavior
-- Full-width sheet on mobile; side inset from `768px`.
-
-## Dark mode
-- Panel uses `--loomi-surface` and border tokens.
 ## Default Drawer
 
 Drawers are usually triggered by an action — a button click, say. Every LoomiUI drawer is
@@ -159,6 +151,15 @@ selector:
 
 `prefers-reduced-motion: reduce` is honored automatically — the animation still runs (so
 `hide()` resolves promptly) but at a near-instant duration.
+
+## Accessibility
+- Same overlay contract as modal; labelled close control.
+
+## Responsive behavior
+- Full-width sheet on mobile; side inset from `768px`.
+
+## Dark mode
+- Panel uses `--loomi-surface` and border tokens.
 
 ## Attributes
 

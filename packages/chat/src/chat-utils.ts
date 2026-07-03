@@ -1,13 +1,10 @@
 import type { LoomiColor } from "@loomidev/core";
 
 export const PARTICIPANT_COLORS = [
-  "primary",
-  "blue",
-  "purple",
-  "pink",
   "success",
   "warning",
-  "cyan",
+  "error",
+  "gray",
   "secondary",
 ] as const satisfies readonly LoomiColor[];
 
@@ -26,6 +23,7 @@ export interface LoomiChatMessageData {
   id: string;
   text: string;
   senderId: string;
+  time?: string;
   /** @deprecated Prefer `senderId`. Kept for simple user/assistant demos. */
   role?: "user" | "assistant";
 }

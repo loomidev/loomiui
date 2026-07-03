@@ -12,17 +12,6 @@ import "@loomidev/colorpicker";
 ```
 
 
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
-
-## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
-- ⚠️ Audit raw `--loomi-gray-*` / hex fills and migrate to semantic tokens.
 ## Basic Usage
 
 ```html
@@ -87,6 +76,18 @@ document.querySelector("loomi-colorpicker").addEventListener("change", (e) => {
   console.log(e.detail.value); // "#3b82f6"
 });
 ```
+
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
+- ⚠️ Audit raw `--loomi-gray-*` / hex fills and migrate to semantic tokens.
 
 ## Attributes
 

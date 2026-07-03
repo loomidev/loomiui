@@ -13,16 +13,6 @@ import "@loomidev/slider";
 ```
 
 
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
-
-## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 ## Basic Usage
 
 ```html
@@ -38,9 +28,9 @@ The default color is `primary`. Any loomi color works, and themes the native tra
 `accent-color`.
 
 ```html
-<loomi-slider selected="50" color="cyan"></loomi-slider>
-<loomi-slider selected="30" color="pink"></loomi-slider>
-<loomi-slider selected="70" color="blue"></loomi-slider>
+<loomi-slider selected="50" color="success"></loomi-slider>
+<loomi-slider selected="30" color="warning"></loomi-slider>
+<loomi-slider selected="70" color="error"></loomi-slider>
 ```
 
 `selected` is also how you pre-populate the slider in edit mode.
@@ -63,6 +53,12 @@ Default bounds are `0`–`100`.
 
 The current value is shown in a tooltip above the slider handle and moves with it.
 
+Add comma-separated `marks` for scale stops, such as a thermometer or scoring scale.
+
+```html
+<loomi-slider min="-20" max="50" selected="22" marks="-20,0,20,37,50"></loomi-slider>
+```
+
 ## Range Selection
 
 Add `range` for a dual-handle slider. `selected` controls the start value and
@@ -83,6 +79,24 @@ new FormData(form).get("budget"); // "20 - 80"
 
 ```html
 <loomi-slider show-values="false"></loomi-slider>
+<loomi-slider show-tooltip="false"></loomi-slider>
+```
+
+## Vertical and Custom Handles
+
+```html
+<loomi-slider vertical selected="40" marks="0,25,50,75,100"></loomi-slider>
+<loomi-slider selected="55" handle-width="1.4rem" handle-variant="square"></loomi-slider>
+<loomi-slider selected="55" track-radius="0.25rem" handle-variant="line"></loomi-slider>
+```
+
+## Updating Another Field
+
+Set `value-target` to a DOM selector when another field should mirror the slider value.
+
+```html
+<loomi-slider selected="36" value-target="#temperature"></loomi-slider>
+<input id="temperature" value="36" />
 ```
 
 ## Form Submission
@@ -94,6 +108,17 @@ new FormData(form).get("budget"); // "20 - 80"
 ```js
 new FormData(form).get("age"); // "34"
 ```
+
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 
 ## Attributes
 
@@ -107,6 +132,13 @@ new FormData(form).get("age"); // "34"
 | `step` | `1` | Increment. |
 | `color` | `primary` | Any loomi color (themes the track via `accent-color`). |
 | `show-values` | `true` | Show the handle value tooltip. _(boolean)_ |
+| `show-tooltip` | `true` | Show or hide the tooltip while keeping the value behavior. _(boolean)_ |
+| `marks` | _(blank)_ | Comma-separated mark values or a JS number array. |
+| `vertical` | `false` | Render a vertical slider. _(boolean)_ |
+| `handle-width` | _(blank)_ | Custom handle width, for example `1.25rem`. |
+| `handle-variant` | `default` | `default`, `square`, or `line`. |
+| `track-radius` | `999px` | Slider bar roundness. |
+| `value-target` | _(blank)_ | Selector for an input/output field to update as the slider moves. |
 
 **Events:** `input`, `change` (composed).
 
@@ -119,7 +151,7 @@ new FormData(form).get("age"); // "34"
   max="100"
   step="5"
   selected="65"
-  color="purple"
+  color="success"
 ></loomi-slider>
 ```
 

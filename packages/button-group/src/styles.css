@@ -48,7 +48,7 @@
 }
 
 :host(loomi-button-group-item:not(:first-of-type)) {
-  margin-left: -2px;
+  margin-left: -1px;
 }
 
 :host(loomi-button-group-item:hover),
@@ -86,7 +86,7 @@
   /* Secondary ghost: matches .loomi-btn--secondary on <loomi-button>. */
   background: transparent;
   color: var(--loomi-text, inherit);
-  border: 2px solid var(--loomi-surface-border, #d9dee3);
+  border: 1px solid var(--loomi-surface-border, #d9dee3);
   border-radius: 0;
 
   transition:

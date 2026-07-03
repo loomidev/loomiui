@@ -14,20 +14,17 @@ import "@loomidev/theme-switcher";
 ```
 
 
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
-
-## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 ## Basic Usage
 
 ```html
 <loomi-theme-switcher></loomi-theme-switcher>
+```
+
+The default switcher shows icons only. Add `show-labels` when you want the Light,
+Dark, and System text visible beside the icons.
+
+```html
+<loomi-theme-switcher show-labels></loomi-theme-switcher>
 ```
 
 ## Variants
@@ -37,6 +34,7 @@ The default `horizontal` variant renders the compact segmented control. Use
 
 ```html
 <loomi-theme-switcher></loomi-theme-switcher>
+<loomi-theme-switcher show-labels></loomi-theme-switcher>
 <loomi-theme-switcher variant="dropmenu"></loomi-theme-switcher>
 ```
 
@@ -71,7 +69,7 @@ blocking `<script>` in `<head>`, before first paint.
 Icons sit before the label by default; flip them with `icon-right`.
 
 ```html
-<loomi-theme-switcher icon-right></loomi-theme-switcher>
+<loomi-theme-switcher show-labels icon-right></loomi-theme-switcher>
 ```
 
 ## Custom Labels
@@ -80,13 +78,13 @@ Useful for translating the switcher into another language, or for different word
 (e.g. "Auto" instead of "System").
 
 ```html
-<loomi-theme-switcher light-text="Light Mode" dark-text="Dark Mode" system-text="Auto"></loomi-theme-switcher>
+<loomi-theme-switcher show-labels light-text="Light Mode" dark-text="Dark Mode" system-text="Auto"></loomi-theme-switcher>
 ```
 
 ## Custom Icons
 
 ```html
-<loomi-theme-switcher light-icon="sun" dark-icon="moon" system-icon="computer-desktop"></loomi-theme-switcher>
+<loomi-theme-switcher show-labels light-icon="sun" dark-icon="moon" system-icon="computer-desktop"></loomi-theme-switcher>
 ```
 
 ## Reacting to a Theme Change
@@ -106,12 +104,24 @@ getLoomiTheme(); // "light" | "dark" | "system"
 applyLoomiTheme("dark"); // switch programmatically, e.g. from a settings page
 ```
 
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
+
 ## Attributes
 
 | Attribute | Default | Description |
 | --- | --- | --- |
 | `light-text` / `dark-text` / `system-text` | `Light` / `Dark` / `System` | Option labels (translatable). |
 | `light-icon` / `dark-icon` / `system-icon` | `sun` / `moon` / `computer-desktop` | Option icon names. |
+| `show-labels` | `false` | Show visible text labels beside the icons. _(boolean)_ |
 | `icon-right` | `false` | Place icons after the text. _(boolean)_ |
 | `variant` | `horizontal` | Render style: `horizontal` or `dropmenu`. |
 

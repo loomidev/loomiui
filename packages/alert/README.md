@@ -13,16 +13,6 @@ import "@loomidev/alert";
 ```
 
 
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
-
-## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 ## Basic Usage
 
 Four prebuilt types, each with its own default icon and color:
@@ -65,10 +55,10 @@ The type icon and the dismiss (×) icon can each be hidden independently.
 `transparent` background for a borderless, no-fill look.
 
 ```html
-<loomi-alert color="pink">I am a pink alert.</loomi-alert>
-<loomi-alert color="pink" shade="dark">I am a pink alert. Dark version.</loomi-alert>
-<loomi-alert color="cyan">I am a cyan alert.</loomi-alert>
-<loomi-alert color="purple">I am a violet alert.</loomi-alert>
+<loomi-alert color="error">I am a error alert.</loomi-alert>
+<loomi-alert color="error" shade="dark">I am a error alert. Dark version.</loomi-alert>
+<loomi-alert color="warning">I am a warning alert.</loomi-alert>
+<loomi-alert color="success">I am a violet alert.</loomi-alert>
 <loomi-alert color="transparent">I am a transparent alert.</loomi-alert>
 ```
 
@@ -79,8 +69,8 @@ The four prebuilt types already have default icons (`information-circle`, `x-cir
 shared [`@loomidev/icons`](../icons) registry — most useful together with a custom `color`.
 
 ```html
-<loomi-alert color="blue" icon="bell-alert">No more snoozing. Wake up!</loomi-alert>
-<loomi-alert color="blue" shade="dark" icon="key">Your subscription is expiring soon.</loomi-alert>
+<loomi-alert color="primary" icon="bell-alert">No more snoozing. Wake up!</loomi-alert>
+<loomi-alert color="primary" shade="dark" icon="key">Your subscription is expiring soon.</loomi-alert>
 ```
 
 ## Avatars
@@ -88,12 +78,12 @@ shared [`@loomidev/icons`](../icons) registry — most useful together with a cu
 Use an image as the prefix instead of an icon by setting `avatar` to an image URL.
 
 ```html
-<loomi-alert color="purple" shade="dark" avatar="/images/jane.jpg">
+<loomi-alert color="success" shade="dark" avatar="/images/jane.jpg">
   Jane has been added to your friends list.
 </loomi-alert>
 
 <!-- with a ring -->
-<loomi-alert color="cyan" shade="dark" avatar="/images/jane.jpg" show-ring>
+<loomi-alert color="warning" shade="dark" avatar="/images/jane.jpg" show-ring>
   <strong>New friend request</strong><br />
   Jane C. Doe wants to connect.
 </loomi-alert>
@@ -111,6 +101,17 @@ document.querySelector("loomi-alert").addEventListener("close", (e) => {
   console.log("dismissed");
 });
 ```
+
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 
 ## Attributes
 
@@ -133,7 +134,7 @@ document.querySelector("loomi-alert").addEventListener("close", (e) => {
 <loomi-alert
   type="warning"
   shade="dark"
-  color="pink"
+  color="error"
   icon="key"
   show-close-icon="true"
 >

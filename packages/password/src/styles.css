@@ -282,10 +282,10 @@
   flex: none;
 }
 .loomi-strength-item.met {
-  color: var(--loomi-success-500);
+  color: var(--loomi-password-strength-color, var(--loomi-success-700));
 }
 .loomi-strength-item.met .loomi-strength-check {
-  color: var(--loomi-success-500);
+  color: var(--loomi-password-strength-color, var(--loomi-success-700));
 }
 
 .loomi-error {

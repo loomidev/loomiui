@@ -12,16 +12,6 @@ import "@loomidev/checkbox";
 ```
 
 
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
-
-## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 ## Basic Usage
 
 ```html
@@ -45,23 +35,23 @@ Checked and disabled, by default:
 ## Colored Checkboxes
 
 Any loomi color works: `primary` `secondary` `success` `error` `warning` `gray`
-`purple` `cyan` `pink` `blue`.
+`success` `warning` `error` `primary`.
 
 ```html
 <loomi-checkbox color="error" checked>Red</loomi-checkbox>
 <loomi-checkbox color="yellow" checked>Yellow</loomi-checkbox>
 <loomi-checkbox color="success" checked>Green</loomi-checkbox>
-<loomi-checkbox color="pink" checked>Pink</loomi-checkbox>
-<loomi-checkbox color="cyan" checked>Cyan</loomi-checkbox>
-<loomi-checkbox color="purple" checked>Purple</loomi-checkbox>
+<loomi-checkbox color="error" checked>Error</loomi-checkbox>
+<loomi-checkbox color="warning" checked>Warning</loomi-checkbox>
+<loomi-checkbox color="success" checked>Success</loomi-checkbox>
 <loomi-checkbox color="warning" checked>Orange</loomi-checkbox>
-<loomi-checkbox color="purple" checked>Violet</loomi-checkbox>
-<loomi-checkbox color="blue" checked>Indigo</loomi-checkbox>
-<loomi-checkbox color="pink" checked>Fuchsia</loomi-checkbox>
+<loomi-checkbox color="success" checked>Violet</loomi-checkbox>
+<loomi-checkbox color="primary" checked>Indigo</loomi-checkbox>
+<loomi-checkbox color="error" checked>Fuchsia</loomi-checkbox>
 ```
 
 The color is applied through a per-instance `--loomi-accent` property, so a global theme
-override (e.g. redefining `--loomi-pink-600` at `:root`) applies automatically — no need
+override (e.g. redefining `--loomi-error-600` at `:root`) applies automatically — no need
 to touch the component.
 
 ## Checkboxes and Forms
@@ -73,6 +63,17 @@ behavior).
 ```html
 <loomi-checkbox name="notify_me" value="1">Send me weekly newsletters</loomi-checkbox>
 ```
+
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 
 ## Attributes
 
@@ -94,7 +95,7 @@ behavior).
 <loomi-checkbox
   name="tnc"
   value="yes"
-  color="pink"
+  color="error"
   checked
 >
   I agree to the terms and conditions

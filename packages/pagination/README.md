@@ -15,16 +15,6 @@ import "@loomidev/pagination";
 ```
 
 
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
-
-## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 ## Basic Usage
 
 ```html
@@ -64,7 +54,7 @@ or hide it entirely.
 `color` sets the active-page color in the `numbers` style.
 
 ```html
-<loomi-pagination total="240" page-size="25" pagination-style="numbers" color="purple"></loomi-pagination>
+<loomi-pagination total="240" page-size="25" pagination-style="numbers" color="success"></loomi-pagination>
 ```
 
 ## Reacting to Page Changes
@@ -109,6 +99,17 @@ results you render yourself).
 </script>
 ```
 
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
+
 ## Attributes
 
 | Attribute | Default | Description |
@@ -131,7 +132,7 @@ results you render yourself).
   page-size="25"
   page="1"
   pagination-style="numbers"
-  color="purple"
+  color="success"
   total-label="Showing :a–:b of :c results"
 ></loomi-pagination>
 ```

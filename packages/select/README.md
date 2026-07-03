@@ -13,14 +13,6 @@ import "@loomidev/select";
 ```
 
 
-## Accessibility
-- WAI-ARIA combobox pattern: `aria-expanded`, `aria-activedescendant`, typeahead, Arrow/Enter/Escape.
-
-## Responsive behavior
-- Dropdown width matches trigger; long lists scroll inside the panel.
-
-## Dark mode
-- Trigger and menu surfaces use `--loomi-surface` / `--loomi-text` tokens.
 ## Basic Usage (Data-Driven)
 
 Pass an array via the `.data` property, or a JSON string via the `data` attribute. Keys
@@ -186,6 +178,29 @@ new FormData(form).get("tags");     // "pop,jazz" (multiple)
 <loomi-select size="big" data="..."></loomi-select>
 ```
 
+## Empty State CTA
+
+When there are no options, `empty-placeholder` shows the empty message. Add
+`empty-action-label` for a small CTA; clicking it emits `empty-action`, and
+`empty-action-url` can navigate directly.
+
+```html
+<loomi-select
+  label="Project"
+  empty-placeholder="No projects yet"
+  empty-action-label="Create project"
+></loomi-select>
+```
+
+## Accessibility
+- WAI-ARIA combobox pattern: `aria-expanded`, `aria-activedescendant`, typeahead, Arrow/Enter/Escape.
+
+## Responsive behavior
+- Dropdown width matches trigger; long lists scroll inside the panel.
+
+## Dark mode
+- Trigger and menu surfaces use `--loomi-surface` / `--loomi-text` tokens.
+
 ## Attributes
 
 | Attribute | Default | Description |
@@ -205,14 +220,14 @@ new FormData(form).get("tags");     // "pop,jazz" (multiple)
 | `required` | `false` | Marks the field required. _(boolean)_ |
 | `size` | `medium` | `small` \| `regular` \| `medium` \| `big` |
 | `empty-placeholder` | `No options available` | Text shown when there are no options. |
+| `empty-action-label` | _(blank)_ | CTA label shown in the empty state. |
+| `empty-action-url` | _(blank)_ | Optional URL to navigate to when the empty CTA is clicked. |
 | `no-clearing` | `false` | Remove the default bottom margin. _(boolean)_ |
 
 **Slot:** default (manual `<option>` children). **Parts:** `trigger`, `panel`.
 **Methods:** `reset()`, `validate()`. **Events:** `select` (`detail: { value, label, values }`),
-`change` (composed).
+`change` (composed), `empty-action` (`detail: { url }`).
 
-> Not (yet) ported from BladewindUI: country flags, empty-state integration and
-> cross-select filtering.
 
 ## Full Example
 

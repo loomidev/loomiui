@@ -14,16 +14,6 @@ import "@loomidev/sortable";
 ```
 
 
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
-
-## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 ## Basic Usage
 
 ```html
@@ -89,23 +79,34 @@ drag a row from one straight into another — exactly what a "To Do / In Progres
 board needs. Lists with no `group` (or a different one) stay independent.
 
 ```html
-<div>
-  <h3>To Do</h3>
-  <loomi-sortable id="todo" group="board"></loomi-sortable>
-</div>
-<div>
-  <h3>In Progress</h3>
-  <loomi-sortable id="in-progress" group="board"></loomi-sortable>
-</div>
-<div>
-  <h3>Done</h3>
-  <loomi-sortable id="done" group="board"></loomi-sortable>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem">
+  <section style="display: grid; gap: 0.75rem; background: #f3f4f6; border-radius: 0.5rem; padding: 1rem">
+    <h3>To Do</h3>
+    <loomi-sortable id="todo" group="board"></loomi-sortable>
+  </section>
+  <section style="display: grid; gap: 0.75rem; background: #f3f4f6; border-radius: 0.5rem; padding: 1rem">
+    <h3>In Progress</h3>
+    <loomi-sortable id="in-progress" group="board"></loomi-sortable>
+  </section>
+  <section style="display: grid; gap: 0.75rem; background: #f3f4f6; border-radius: 0.5rem; padding: 1rem">
+    <h3>Done</h3>
+    <loomi-sortable id="done" group="board"></loomi-sortable>
+  </section>
 </div>
 
 <script type="module">
-  document.getElementById("todo").items = [{ id: "1", label: "Wireframe the hero" }];
-  document.getElementById("in-progress").items = [];
-  document.getElementById("done").items = [];
+  document.getElementById("todo").items = [
+    { id: "brief", label: "Write project brief", meta: "Product · Today" },
+    { id: "assets", label: "Collect launch assets", meta: "Marketing · Tomorrow" },
+    { id: "pricing", label: "Review pricing copy", meta: "Growth · Thursday" },
+    { id: "handoff", label: "Prepare dev handoff notes", meta: "Design · Friday" },
+  ];
+  document.getElementById("in-progress").items = [
+    { id: "checkout", label: "QA checkout flow", meta: "Engineering · Ada" },
+  ];
+  document.getElementById("done").items = [
+    { id: "copy", label: "Approve homepage copy", meta: "Content · Done" },
+  ];
 </script>
 ```
 
@@ -330,6 +331,17 @@ event.
 ```js
 console.log(savedList.order); // current ids, top to bottom
 ```
+
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 
 ## Attributes
 

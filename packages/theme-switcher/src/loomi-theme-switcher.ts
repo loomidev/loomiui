@@ -51,6 +51,7 @@ export class LoomiThemeSwitcher extends LoomiElement {
   @property({ attribute: "dark-icon" }) darkIcon = "moon";
   @property({ attribute: "system-icon" }) systemIcon = "computer-desktop";
   @property({ type: Boolean, attribute: "icon-right" }) iconRight = false;
+  @property({ type: Boolean, attribute: "show-labels" }) showLabels = false;
   @property() variant: LoomiThemeSwitcherVariant = "horizontal";
 
   @state() private mode: LoomiTheme = getLoomiTheme();
@@ -99,7 +100,7 @@ export class LoomiThemeSwitcher extends LoomiElement {
       @click=${() => this.select(mode)}
     >
       ${this.icon(iconName)}
-      <span>${text}</span>
+      <span class=${this.showLabels ? "" : "loomi-sr-only"}>${text}</span>
     </button>`;
   }
 

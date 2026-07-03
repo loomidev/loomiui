@@ -61,7 +61,7 @@
 }
 .loomi-cal {
   position: absolute;
-  z-index: 70;
+  z-index: var(--loomi-datepicker-z-index, 1000);
   top: calc(100% + 0.4rem);
   left: 0;
   background: var(--loomi-surface);

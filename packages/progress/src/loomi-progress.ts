@@ -22,6 +22,7 @@ export class LoomiProgressBar extends LoomiElement {
   @property() color: LoomiColor = "primary" as LoomiColor;
   @property() shade: "faint" | "dark" = "faint";
   @property({ type: Boolean, attribute: "show-percentage-label" }) showLabel = false;
+  @property({ type: Boolean, attribute: "show-percentage-tooltip" }) showTooltip = false;
   @property({ type: Boolean, attribute: "show-percentage-label-inline" }) inline = true;
   @property({ attribute: "percentage-label-position" }) labelPosition: LoomiProgressLabelPosition = "top-left";
   @property({ attribute: "percentage-prefix" }) prefix = "";
@@ -48,6 +49,7 @@ export class LoomiProgressBar extends LoomiElement {
         <div class="loomi-fill ${this.shade === "dark" ? "dark" : ""} ${this.striped ? "striped" : ""} ${this.animated ? "animated" : ""}" style="width:${this.pct}%">
           ${this.showLabel && this.inline ? html`<span>${this.pct}%</span>` : nothing}
         </div>
+        ${this.showTooltip ? html`<span class="loomi-bar-tooltip" style="left:${this.pct}%">${this.text}</span>` : nothing}
       </div>
       ${vpos === "bottom" ? labelEl : nothing}
     </div>`;

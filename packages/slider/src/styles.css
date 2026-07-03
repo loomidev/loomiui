@@ -12,12 +12,20 @@
   min-width: 0;
   height: 3.25rem;
 }
+.loomi-slider.vertical {
+  height: var(--loomi-slider-vertical-height, 12rem);
+}
+.loomi-slider.vertical .loomi-control {
+  width: 3.25rem;
+  height: 100%;
+  min-height: 0;
+}
 .loomi-track {
   position: absolute;
   inset-inline: 0;
   bottom: 0.575rem;
   height: 0.35rem;
-  border-radius: 999px;
+  border-radius: var(--loomi-slider-radius, 999px);
   background: linear-gradient(
     to right,
     var(--loomi-surface-border) 0 var(--loomi-range-start, 0%),
@@ -25,6 +33,29 @@
     var(--loomi-surface-border) var(--loomi-range-end, 0%) 100%
   );
   pointer-events: none;
+}
+:host([dir="rtl"]) .loomi-slider.horizontal .loomi-track,
+:host(:dir(rtl)) .loomi-slider.horizontal .loomi-track {
+  background: linear-gradient(
+    to left,
+    var(--loomi-surface-border) 0 var(--loomi-range-start, 0%),
+    var(--_loomi-accent) var(--loomi-range-start, 0%) var(--loomi-range-end, 0%),
+    var(--loomi-surface-border) var(--loomi-range-end, 0%) 100%
+  );
+}
+.loomi-slider.vertical .loomi-track {
+  inset-block: 0;
+  inset-inline: auto;
+  inset-inline-start: 50%;
+  width: 0.35rem;
+  height: auto;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    to top,
+    var(--loomi-surface-border) 0 var(--loomi-range-start, 0%),
+    var(--_loomi-accent) var(--loomi-range-start, 0%) var(--loomi-range-end, 0%),
+    var(--loomi-surface-border) var(--loomi-range-end, 0%) 100%
+  );
 }
 .loomi-range {
   position: absolute;
@@ -37,6 +68,13 @@
   background: transparent;
   cursor: pointer;
   z-index: 1;
+}
+.loomi-slider.vertical .loomi-range {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  writing-mode: vertical-lr;
+  direction: rtl;
 }
 .loomi-control-range .loomi-range {
   pointer-events: none;
@@ -60,12 +98,12 @@
   background: transparent;
 }
 .loomi-range::-webkit-slider-thumb {
-  width: 1rem;
+  width: var(--loomi-slider-thumb-width, 1rem);
   height: 1rem;
   margin-top: -0.325rem;
   appearance: none;
   border: 2px solid var(--_loomi-accent);
-  border-radius: 999px;
+  border-radius: var(--loomi-slider-thumb-radius, 999px);
   background: var(--loomi-surface);
   box-shadow: 0 1px 2px color-mix(in srgb, var(--loomi-text) 18%, transparent);
   pointer-events: auto;
@@ -75,13 +113,52 @@
   background: transparent;
 }
 .loomi-range::-moz-range-thumb {
-  width: 1rem;
+  width: var(--loomi-slider-thumb-width, 1rem);
   height: 1rem;
   border: 2px solid var(--_loomi-accent);
-  border-radius: 999px;
+  border-radius: var(--loomi-slider-thumb-radius, 999px);
   background: var(--loomi-surface);
   box-shadow: 0 1px 2px color-mix(in srgb, var(--loomi-text) 18%, transparent);
   pointer-events: auto;
+}
+.handle-square {
+  --loomi-slider-thumb-radius: 0.25rem;
+}
+.handle-line {
+  --loomi-slider-thumb-width: 0.35rem;
+  --loomi-slider-thumb-radius: 999px;
+}
+.loomi-marks {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0.575rem;
+  height: 0.35rem;
+  pointer-events: none;
+  z-index: 0;
+}
+.loomi-slider.vertical .loomi-marks {
+  inset-block: 0;
+  inset-inline: auto;
+  inset-inline-start: 50%;
+  width: 0.35rem;
+  height: auto;
+  transform: translateX(-50%);
+}
+.loomi-mark {
+  position: absolute;
+  top: 50%;
+  width: 0.25rem;
+  height: 0.75rem;
+  border-radius: 999px;
+  background: var(--loomi-surface);
+  box-shadow: 0 0 0 1px var(--loomi-surface-border);
+  transform: translate(-50%, -50%);
+}
+.loomi-slider.vertical .loomi-mark {
+  top: auto;
+  inset-inline-start: 50%;
+  width: 0.75rem;
+  height: 0.25rem;
 }
 .loomi-value-tooltip {
   --_loomi-value-tooltip-bg: var(--loomi-surface);

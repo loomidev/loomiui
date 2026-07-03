@@ -22,8 +22,8 @@
   user-select: none;
 }
 .loomi-tag.tiny {
-  padding: 0.15rem 0.4rem;
-  font-size: 0.65rem;
+  padding: 0.18rem 0.46rem;
+  font-size: 0.72rem;
 }
 .loomi-tag.rounded {
   border-radius: 9999px;
@@ -36,6 +36,12 @@
 /* faint (default) */
 .loomi-tag.faint {
   background: var(--_loomi-accent-soft);
+  color: var(--_loomi-accent-fg);
+}
+/* light */
+.loomi-tag.light {
+  background: var(--_loomi-accent-softer);
+  border-color: var(--_loomi-accent-border);
   color: var(--_loomi-accent-fg);
 }
 /* dark */
