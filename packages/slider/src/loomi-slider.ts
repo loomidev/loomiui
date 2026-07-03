@@ -30,6 +30,14 @@ export class LoomiSlider extends LoomiElement {
   @property({ type: Number }) selected = 0;
   @property({ type: Number, attribute: "selected-end" }) selectedEnd = 100;
   @property({ type: Boolean, reflect: true }) range = false;
+  @property({ type: Boolean, reflect: true }) vertical = false;
+  @property() marks: string | number[] = "";
+  @property({ attribute: "handle-width" }) handleWidth = "";
+  @property({ attribute: "track-radius" }) trackRadius = "999px";
+  @property({ attribute: "handle-variant" }) handleVariant: "default" | "square" | "line" = "default";
+  @property({ attribute: "value-target" }) valueTarget = "";
+  @property({ type: Boolean, attribute: "show-tooltip", converter: booleanAttribute })
+  showTooltip = true;
   @property({ type: Boolean, attribute: "show-values", converter: booleanAttribute })
   showValues = true;
 
@@ -76,7 +84,8 @@ export class LoomiSlider extends LoomiElement {
     const startPercent = this.valuePercent(start);
     const endPercent = this.valuePercent(end);
 
-    return `${accentVars(this.color)} --loomi-range-start: ${startPercent}%; --loomi-range-end: ${endPercent}%;`;
+    const handleWidth = this.handleWidth ? ` --loomi-slider-thumb-width: ${this.handleWidth};` : "";
+    return `${accentVars(this.color)} --loomi-range-start: ${startPercent}%; --loomi-range-end: ${endPercent}%; --loomi-slider-radius: ${this.trackRadius};${handleWidth}`;
   }
 
   private valuePercent(value: number): number {
@@ -108,17 +117,55 @@ export class LoomiSlider extends LoomiElement {
       if (next < this.selected) this.selected = next;
     }
 
+    this.syncValueTarget();
     this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
   }
 
   private onChange(): void {
+    this.syncValueTarget();
     this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
   }
 
+  private syncValueTarget(): void {
+    if (!this.valueTarget) return;
+    const target = document.querySelector<HTMLInputElement | HTMLTextAreaElement | HTMLOutputElement>(this.valueTarget);
+    if (!target) return;
+    target.value = this.value;
+    target.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+
+  private parsedMarks(): number[] {
+    const raw = Array.isArray(this.marks)
+      ? this.marks
+      : String(this.marks)
+          .split(",")
+          .map((mark) => mark.trim())
+          .filter(Boolean);
+    return raw
+      .map((mark) => Number(mark))
+      .filter((mark) => Number.isFinite(mark))
+      .map((mark) => this.clamp(mark));
+  }
+
+  private renderMarks(): TemplateResult | typeof nothing {
+    const marks = this.parsedMarks();
+    if (marks.length === 0) return nothing;
+    return html`<div class="loomi-marks" aria-hidden="true">
+      ${marks.map((mark) => html`<span class="loomi-mark" style=${this.markStyle(mark)}></span>`)}
+    </div>`;
+  }
+
+  private markStyle(value: number): string {
+    return this.vertical
+      ? `bottom: ${this.valuePercent(value)}%`
+      : `inset-inline-start: ${this.valuePercent(value)}%`;
+  }
+
   override render(): TemplateResult {
-    return html`<div class="loomi-slider" style=${this.progressStyle}>
-      <div class="loomi-control ${this.range ? "loomi-control-range" : ""}">
+    return html`<div class="loomi-slider ${this.vertical ? "vertical" : "horizontal"}" style=${this.progressStyle}>
+      <div class="loomi-control ${this.range ? "loomi-control-range" : ""} handle-${this.handleVariant}">
         <span class="loomi-track" aria-hidden="true"></span>
+        ${this.renderMarks()}
         <input
           class="loomi-range ${this.range ? "loomi-range-start" : ""}"
           type="range"
@@ -144,7 +191,7 @@ export class LoomiSlider extends LoomiElement {
               @change=${this.onChange}
             />`
           : nothing}
-        ${this.showValues
+        ${this.showValues && this.showTooltip
           ? html`<span
                 class="loomi-value-tooltip loomi-value-tooltip-start"
                 style=${this.tooltipStyle(this.startValue)}

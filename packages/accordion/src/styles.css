@@ -25,6 +25,9 @@
 .loomi-shell {
   background: transparent;
 }
+:host(:not([standalone]):not(:first-of-type)) .loomi-shell {
+  border-top: 1px solid var(--loomi-surface-border);
+}
 :host([standalone]) .loomi-shell {
   border: 1px solid var(--_loomi-accent-border, var(--loomi-surface-border));
   border-radius: 0.6rem;
@@ -43,7 +46,7 @@
   background: transparent;
   font: inherit;
   font-weight: 600;
-  text-align: left;
+  text-align: start;
   color: var(--loomi-text);
   cursor: pointer;
 }

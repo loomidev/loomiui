@@ -13,16 +13,6 @@ import "@loomidev/accordion";
 ```
 
 
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
-
-## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 ## Basic Usage
 
 Each item needs a `title` for its clickable header; the body is its default slot.
@@ -113,8 +103,8 @@ It can also be set per-item to mix colors within one ungrouped accordion:
 
 ```html
 <loomi-accordion grouped="false">
-  <loomi-accordion-item title="Blue item" color="blue">…</loomi-accordion-item>
-  <loomi-accordion-item title="Pink item" color="pink">…</loomi-accordion-item>
+  <loomi-accordion-item title="Primary item" color="primary">…</loomi-accordion-item>
+  <loomi-accordion-item title="Error item" color="error">…</loomi-accordion-item>
 </loomi-accordion>
 ```
 
@@ -125,6 +115,17 @@ It can also be set per-item to mix colors within one ungrouped accordion:
   <img src="/banner.jpg" alt="" />
 </loomi-accordion-item>
 ```
+
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 
 ## Attributes
 
@@ -150,7 +151,7 @@ It can also be set per-item to mix colors within one ungrouped accordion:
 ## Full Example
 
 ```html
-<loomi-accordion grouped="false" can-open-multiple color="pink">
+<loomi-accordion grouped="false" can-open-multiple color="error">
   <loomi-accordion-item title="What is loomi?" open>
     <p>A framework-agnostic Lit web component library.</p>
   </loomi-accordion-item>

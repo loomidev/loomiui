@@ -3,17 +3,6 @@
 `<loomi-password>` — a form-associated password field with reveal, prefixes, validation
 and neutral strength hints.
 
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
-
-## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
-- ⚠️ Audit raw `--loomi-gray-*` / hex fills and migrate to semantic tokens.
 ## Installation
 
 ```bash
@@ -49,6 +38,12 @@ Set `strength` with any combination of these optional tokens:
 The matching requirements render beneath the field with gray check marks. A requirement's
 check mark and label turn green once the current value satisfies it.
 
+Set `strength-color` to customize that met-state label color.
+
+```html
+<loomi-password label="Password" strength="Aa1#" strength-color="#14532d"></loomi-password>
+```
+
 ## Prefixes
 
 Use text, a built-in icon, a slot, or a prefix dropdown.
@@ -77,6 +72,18 @@ validity when `strength` is set.
 ></loomi-password>
 ```
 
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
+- ⚠️ Audit raw `--loomi-gray-*` / hex fills and migrate to semantic tokens.
+
 ## Attributes
 
 | Attribute | Default | Description |
@@ -97,6 +104,7 @@ validity when `strength` is set.
 | `viewable` | `true` | Show a reveal eye. _(boolean)_ |
 | `clearable` | `false` | Show a clear button when the field has a value. _(boolean)_ |
 | `strength` | _(blank)_ | Requirement tokens: `A`, `a`, `1`, `#`. |
+| `strength-color` | _(blank)_ | Custom color for met strength labels. Defaults to a darker success green. |
 | `error-message` | _(blank)_ | Message shown when validation fails. |
 | `show-error-inline` | `false` | Render `error-message` beneath the field. _(boolean)_ |
 | `show-placeholder-always` | `false` | Keep the placeholder visible even with a label. _(boolean)_ |

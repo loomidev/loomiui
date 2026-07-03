@@ -28,6 +28,7 @@ export class LoomiChatMessage extends LoomiElement {
 
   @property() text = "";
   @property() sender = "";
+  @property() time = "";
   @property({ attribute: "sender-id" }) senderId = "";
   @property() image = "";
   @property({ attribute: "avatar-label" }) avatarLabel = "";
@@ -61,6 +62,7 @@ export class LoomiChatMessage extends LoomiElement {
         <div class="loomi-chat-bubble ${tail}" style=${bubbleVars(color)}>
           <slot>${this.text}</slot>
         </div>
+        ${this.time ? html`<div class="loomi-chat-time">${this.time}</div>` : nothing}
       </div>
       ${this.showAvatar && this.outgoing
         ? html`<loomi-avatar

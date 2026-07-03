@@ -15,17 +15,6 @@ import "@loomidev/creditcard";
 ```
 
 
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Includes layout breakpoints for narrow viewports (see component CSS).
-
-## Dark mode
-- Outline variant uses semantic surface, border, and text tokens.
-- Filled card faces keep brand accent gradients with `--loomi-text-on-primary` labels.
-
 ## Basic Usage
 
 ```html
@@ -97,13 +86,13 @@ Like every loomi component, `color` picks the gradient from the shared palette a
 recolors instantly from plain page CSS — no rebuild:
 
 ```html
-<loomi-creditcard color="purple"></loomi-creditcard>
+<loomi-creditcard color="success"></loomi-creditcard>
 ```
 
 ```css
 :root {
-  --loomi-purple-600: #7c3aed;
-  --loomi-purple-700: #6d28d9;
+  --loomi-success-600: #15803d;
+  --loomi-success-700: #166534;
 }
 ```
 
@@ -112,6 +101,15 @@ face — a soft gray border with no background fill, for light or minimal UIs:
 
 ```html
 <loomi-creditcard variant="outline" cardholder-name="Ama Osei"></loomi-creditcard>
+```
+
+## Inline Card Information
+
+Use `variant="inline"` for the compact card-information layout: card number on the
+first row, expiry and CVC on the second row, with no cardholder-name field.
+
+```html
+<loomi-creditcard variant="inline"></loomi-creditcard>
 ```
 
 ## Validation
@@ -136,6 +134,17 @@ is set, and returns whether it passed:
 </script>
 ```
 
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Includes layout breakpoints for narrow viewports (see component CSS).
+
+## Dark mode
+- Outline variant uses semantic surface, border, and text tokens.
+- Filled card faces keep brand accent gradients with `--loomi-text-on-primary` labels.
+
 ## Attributes
 
 | Attribute | Default | Description |
@@ -148,7 +157,7 @@ is set, and returns whether it passed:
 | `cvc` | _(blank)_ | Security code (3 digits, 4 for Amex). |
 | `brand` | _(auto-detected)_ | Force a network logo: `visa`, `mastercard`, `amex`, `discover`, `diners`, `jcb`, `unionpay`, `maestro`. |
 | `color` | `"primary"` | Gradient color, from the shared loomi palette. Ignored in `outline` variant. |
-| `variant` | `"gradient"` | `"gradient"` for the full-color accent face, or `"outline"` for a bare silhouette — soft gray border, no background fill. |
+| `variant` | `"gradient"` | `"gradient"` for the full-color accent face, `"outline"` for a bare silhouette, or `"inline"` for card number, expiry, and CVC fields only. |
 | `locale` | _(blank)_ | Overrides the global locale for this instance. |
 | `flipped` | `false` | Shows the back face. _(boolean)_ |
 | `disabled` | `false` | Disables every field and the flip button. _(boolean)_ |

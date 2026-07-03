@@ -12,16 +12,6 @@ import "@loomidev/timeline";
 ```
 
 
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
-
-## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 ## Basic Usage
 
 ```html
@@ -117,11 +107,22 @@ does this automatically for its own last child.
 
 ```html
 <loomi-timelines>
-  <loomi-timeline date="10 days ago" content="You signed up" color="pink" completed></loomi-timeline>
+  <loomi-timeline date="10 days ago" content="You signed up" color="error" completed></loomi-timeline>
   <loomi-timeline date="8 days ago" content="Customer rep assigned" color="warning"></loomi-timeline>
-  <loomi-timeline content="Account is being reviewed" color="purple"></loomi-timeline>
+  <loomi-timeline content="Account is being reviewed" color="success"></loomi-timeline>
 </loomi-timelines>
 ```
+
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 
 ## Attributes
 
@@ -137,7 +138,7 @@ does this automatically for its own last child.
 | `avatar` | _(blank)_ | Anchor image URL (big anchor). |
 | `stacked` | `false` | Date above content vs. in a left column. _(boolean)_ |
 | `last` | `false` | Remove the trailing connector line. _(boolean)_ |
-| `color` | `blue` | Any loomi color. |
+| `color` | `primary` | Any loomi color. |
 
 ### `<loomi-timelines>` (wrapper)
 
@@ -148,7 +149,7 @@ automatically.
 ## Full Example
 
 ```html
-<loomi-timelines stacked anchor="big" color="pink" position="left" completed>
+<loomi-timelines stacked anchor="big" color="error" position="left" completed>
   <loomi-timeline
     date="9 days ago"
     avatar="/avatars/me.jpg"

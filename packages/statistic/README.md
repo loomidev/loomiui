@@ -12,16 +12,6 @@ import "@loomidev/statistic";
 ```
 
 
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
-
-## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 ## Basic Usage
 
 Numbers render as-is — format thousand separators and decimals yourself before setting
@@ -44,11 +34,19 @@ Icons sit on the left by default; flip them with `icon-position="right"`.
 
 ```html
 <loomi-statistic number="34,500,100" label="Total payments">
-  <loomi-icon slot="icon" name="banknotes" style="background: #3b82f6; color: white; border-radius: 9999px; padding: 0.5rem"></loomi-icon>
+  <loomi-icon slot="icon" name="banknotes" style="background: #15803d; color: white; border-radius: 9999px; padding: 0.5rem"></loomi-icon>
 </loomi-statistic>
 
 <loomi-statistic icon-position="right" number="1,204" label="Active users">
   <loomi-icon slot="icon" name="users" style="background: #f97316; color: white; border-radius: 9999px; padding: 0.5rem"></loomi-icon>
+</loomi-statistic>
+```
+
+You can also style the icon from the statistic host with `icon-color` and `icon-size`.
+
+```html
+<loomi-statistic number="1,204" label="Active users" icon-color="#15803d" icon-size="2rem">
+  <loomi-icon slot="icon" name="users"></loomi-icon>
 </loomi-statistic>
 ```
 
@@ -81,8 +79,8 @@ el.showSpinner = false;
 
 ## Card Styling
 
-`has-shadow`, `has-border` and `radius` control the surrounding card, same vocabulary as
-[`<loomi-card>`](../card).
+`<loomi-statistic>` is wrapped with [`<loomi-card>`](../card), so it shares the same
+card frame and hover behavior.
 
 ```html
 <loomi-statistic number="92" label="Score" has-shadow="false" has-border="false"></loomi-statistic>
@@ -95,6 +93,17 @@ el.showSpinner = false;
 <loomi-statistic number="34,500" label="Total payments" url="/reports/payments"></loomi-statistic>
 ```
 
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
+
 ## Attributes
 
 | Attribute | Default | Description |
@@ -105,6 +114,8 @@ el.showSpinner = false;
 | `currency` | _(blank)_ | Currency symbol shown beside the number. |
 | `currency-position` | `left` | `left` \| `right` |
 | `icon-position` | `left` | `left` \| `right` |
+| `icon-color` | _(blank)_ | CSS color applied to the icon slot wrapper. |
+| `icon-size` | _(blank)_ | CSS size applied to slotted icons. |
 | `has-shadow` / `has-border` | `true` | Card styling. _(boolean)_ |
 | `radius` | `small` | `none` \| `small` \| `medium` \| `large` \| `xl` |
 | `show-spinner` | `false` | Show a loading spinner instead of the number. _(boolean)_ |

@@ -188,7 +188,7 @@ export class LoomiCalendar extends LoomiElement {
   editable = false;
   loading = false;
   startHour = 6;
-  endHour = 18;
+  endHour = 17;
   slotMinutes = 30;
   showSidebar = true;
   sidebarOpen = false;

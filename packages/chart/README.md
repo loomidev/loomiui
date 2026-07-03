@@ -14,15 +14,6 @@ import "@loomidev/chart";
 ```
 
 
-## Accessibility
-- SVG root exposes `role="img"` with a descriptive `aria-label`.
-- Interactive hits remain pointer-driven; provide a text summary nearby for critical data.
-
-## Responsive behavior
-- SVG scales to container width; legend wraps below `640px` when positioned horizontally.
-
-## Dark mode
-- Grid lines and axis labels use `--loomi-surface-border` and `--loomi-text-muted` instead of raw gray ramps.
 ## Basic Usage
 
 You need to define either  a unique `id` or `class` attribute on the chart element, then assign the `data` property in JavaScript. The `data` property is an array of objects, each with a `label`, a `value`, and an optional `color`.
@@ -129,8 +120,8 @@ All chart types use the same `data` shape, so you can change `type` without resh
 <loomi-chart id="line-chart" type="line" color="primary" color2="success" series-label="Revenue" series2-label="Target"></loomi-chart>
 <loomi-chart id="pie-chart" type="pie" show-legend></loomi-chart>
 <loomi-chart id="donut-chart" type="donut" show-legend></loomi-chart>
-<loomi-chart id="radar-chart" type="radar" color="purple"></loomi-chart>
-<loomi-chart id="scatter-chart" type="scatter" color="cyan"></loomi-chart>
+<loomi-chart id="radar-chart" type="radar" color="success"></loomi-chart>
+<loomi-chart id="scatter-chart" type="scatter" color="warning"></loomi-chart>
 
 <script type="module">
   const yearSeries = [
@@ -210,7 +201,7 @@ more bars per category or labels that differ from `series-label`.
         { label: "Mike", value: 4, color: "primary" },
         { label: "Sam", value: 6, color: "success" },
         { label: "Fred", value: 3, color: "warning" },
-        { label: "Sara", value: 8, color: "purple" },
+        { label: "Sara", value: 8, color: "success" },
       ],
     },
     {
@@ -220,7 +211,7 @@ more bars per category or labels that differ from `series-label`.
         { label: "Mike", value: 5, color: "primary" },
         { label: "Sam", value: 4, color: "success" },
         { label: "Fred", value: 7, color: "warning" },
-        { label: "Sara", value: 6, color: "purple" },
+        { label: "Sara", value: 6, color: "success" },
       ],
     },
     {
@@ -230,7 +221,7 @@ more bars per category or labels that differ from `series-label`.
         { label: "Mike", value: 3, color: "primary" },
         { label: "Sam", value: 8, color: "success" },
         { label: "Fred", value: 5, color: "warning" },
-        { label: "Sara", value: 7, color: "purple" },
+        { label: "Sara", value: 7, color: "success" },
       ],
     },
     {
@@ -240,7 +231,7 @@ more bars per category or labels that differ from `series-label`.
         { label: "Mike", value: 6, color: "primary" },
         { label: "Sam", value: 5, color: "success" },
         { label: "Fred", value: 4, color: "warning" },
-        { label: "Sara", value: 9, color: "purple" },
+        { label: "Sara", value: 9, color: "success" },
       ],
     },
     {
@@ -250,7 +241,7 @@ more bars per category or labels that differ from `series-label`.
         { label: "Mike", value: 7, color: "primary" },
         { label: "Sam", value: 6, color: "success" },
         { label: "Fred", value: 8, color: "warning" },
-        { label: "Sara", value: 5, color: "purple" },
+        { label: "Sara", value: 5, color: "success" },
       ],
     },
   ];
@@ -264,7 +255,7 @@ polygon, and the scatter marker fill. Always assign `data` — an empty chart ha
 to color.
 
 ```html
-<loomi-chart id="trend" type="line" color="purple"></loomi-chart>
+<loomi-chart id="trend" type="line" color="success"></loomi-chart>
 
 <script type="module">
   document.getElementById("trend").data = [
@@ -297,10 +288,21 @@ accent `color` by default, since they're more often a single series. Either way,
 <script type="module">
   document.getElementById("colorway").data = [
     { label: "Engineering", value: 40, color: "primary" },
-    { label: "Design", value: 25, color: "pink" },
+    { label: "Design", value: 25, color: "error" },
     { label: "Sales", value: 35, color: "warning" },
   ];
 </script>
+```
+
+## Gapped Pie and Donut Slices
+
+Add `with-gap` when pie or donut segments need visible breathing room between slices.
+The component draws a surface-colored stroke between pieces, so each slice stays
+separate in light and dark themes.
+
+```html
+<loomi-chart type="donut" with-gap show-legend
+  data='[{"label":"Direct","value":45},{"label":"Search","value":30},{"label":"Social","value":25}]'></loomi-chart>
 ```
 
 ## Shade Mode
@@ -310,7 +312,7 @@ default, more saturated `dark` look. Useful on busy dashboards where bold colors
 for attention.
 
 ```html
-<loomi-chart type="bar" color="blue" shade="light"
+<loomi-chart type="bar" color="primary" shade="light"
   data='[{"label":"Jan","value":30},{"label":"Feb","value":55},{"label":"Mar","value":42},{"label":"Apr","value":60}]'></loomi-chart>
 
 <loomi-chart type="donut" shade="light" show-legend
@@ -410,6 +412,16 @@ the chart instead of wrapping below it.
 </script>
 ```
 
+## Accessibility
+- SVG root exposes `role="img"` with a descriptive `aria-label`.
+- Interactive hits remain pointer-driven; provide a text summary nearby for critical data.
+
+## Responsive behavior
+- SVG scales to container width; legend wraps below `640px` when positioned horizontally.
+
+## Dark mode
+- Grid lines and axis labels use `--loomi-surface-border` and `--loomi-text-muted` instead of raw gray ramps.
+
 ## Attributes
 
 | Attribute | Default | Description |
@@ -429,6 +441,7 @@ the chart instead of wrapping below it.
 | `show-legend` | `false` | Show a legend (most useful for pie/donut). _(boolean)_ |
 | `legend-position` | `bottom` | `top` \| `bottom` \| `left` \| `right` — where the legend renders when `show-legend` is on. |
 | `donut-radius` | `44` | Inner-hole radius (SVG units) for `type="donut"`. |
+| `with-gap` | `false` | Adds visible separation between `pie` and `donut` slices. _(boolean)_ |
 
 > A compact chart for dashboards — supports a second series on `bar`/`line` via `value2`.
 > Its only runtime dependency is `@loomidev/tooltip`, used for polar-chart hover labels.

@@ -31,8 +31,10 @@ import "@loomidev/emoji-picker";
 - Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 ## Custom emoji data
 
-Use the built-in emoji set by default, or assign `.data` with your own objects. Each item
-accepts `emoji`, `name` or `label`, `value`, `category`, and `keywords`.
+The built-in emoji set is a compact curated list, not the full operating-system emoji
+keyboard. Assign `.data` with your own larger set when your product needs every emoji,
+skin-tone variant, or newer platform-specific symbol. Each item accepts `emoji`, `name`
+or `label`, `value`, `category`, and `keywords`.
 
 ```js
 const picker = document.querySelector("loomi-emoji-picker");

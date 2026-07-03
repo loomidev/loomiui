@@ -78,6 +78,7 @@
 .loomi-date-top {
   color: var(--loomi-text-faint);
   font-size: 0.8rem;
+  margin-top: 0.25rem;
 }
 .loomi-content {
   color: var(--loomi-text-secondary);

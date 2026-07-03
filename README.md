@@ -1,10 +1,10 @@
 # LoomiUI
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 **Themeable, framework-agnostic web components built with Lit.** Pick a color palette,
 override it from your own CSS, compose components from independent attributes — the
-BladewindUI developer experience, translated from Laravel Blade to standards-based
+Laravel Blade-style component ergonomics translated to standards-based
 custom elements that work in any framework, or none at all.
 
 📖 **Full docs, live previews and every component's API → [loomiui.com](https://loomiui.com)**
@@ -109,9 +109,8 @@ That's the whole theming API. Every component resolves its colors through
 `--loomi-<color>-<shade>` custom properties, which inherit through the Shadow DOM
 boundary — one `:root` declaration restyles the entire library instantly.
 
-**Supported colors:** `primary` `secondary` `success` `error` `warning` `gray`
-`purple` `cyan` `pink` `blue` — each with the full
-`50`–`950` tonal scale (e.g. `--loomi-cyan-500`).
+**Supported colors:** `primary` `secondary` `success` `error` `warning` `gray` — each with the full
+`50`–`950` tonal scale (e.g. `--loomi-warning-500`).
 
 Curious how the override mechanism avoids the usual Shadow DOM custom-property pitfalls?
 See [`@loomidev/core`'s README](packages/core#--loomi--public-theme-vs---_loomi-accent-private-per-instance).

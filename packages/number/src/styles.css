@@ -133,7 +133,7 @@
 
 .loomi-label {
   position: absolute;
-  left: var(--loomi-control-pad-x);
+  left: calc(var(--loomi-control-pad-x) - var(--loomi-control-height));
   top: 50%;
   transform: translateY(-50%);
   transform-origin: left center;

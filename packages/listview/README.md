@@ -13,14 +13,6 @@ import "@loomidev/listview";
 ```
 
 
-## Accessibility
-- `role="list"` container with `role="listitem"` rows.
-
-## Responsive behavior
-- Rows span full width; compact density reduces vertical padding.
-
-## Dark mode
-- Dividers and text use semantic surface/text tokens.
 ## Basic Usage
 
 Each `<loomi-listview-item>` is a flex container, so laying out an avatar next to text
@@ -70,6 +62,15 @@ Tightens the gap between rows — useful for dense sidebars or dropdown-style li
   <loomi-listview-item>Settings</loomi-listview-item>
 </loomi-listview>
 ```
+
+## Accessibility
+- `role="list"` container with `role="listitem"` rows.
+
+## Responsive behavior
+- Rows span full width; compact density reduces vertical padding.
+
+## Dark mode
+- Dividers and text use semantic surface/text tokens.
 
 ## Attributes
 

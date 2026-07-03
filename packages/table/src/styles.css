@@ -37,7 +37,6 @@
 .loomi-search-input {
   display: block;
   width: 100%;
-  max-width: 18rem;
 }
 
 .loomi-scroll {
@@ -72,7 +71,7 @@ thead {
   background: var(--loomi-surface-muted);
 }
 thead th {
-  text-align: left;
+  text-align: start;
   font-weight: 600;
   color: var(--loomi-text-muted);
   padding: 0.75rem 1rem;
@@ -165,8 +164,15 @@ tbody tr.selected {
   font-variant-numeric: tabular-nums;
 }
 .loomi-actions {
-  display: inline-flex;
+  display: flex;
+  justify-content: flex-end;
   gap: 0.25rem;
+}
+.loomi-actions-col {
+  text-align: end;
+}
+.loomi-actions-col .loomi-th-inner {
+  justify-content: flex-end;
 }
 .loomi-action {
   display: inline-flex;

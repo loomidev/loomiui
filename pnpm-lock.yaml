@@ -1722,6 +1722,9 @@ importers:
 
   packages/statistic:
     dependencies:
+      '@loomidev/card':
+        specifier: workspace:^
+        version: link:../card
       '@loomidev/core':
         specifier: workspace:^
         version: link:../core

@@ -174,7 +174,7 @@ describe("loomi-modal", () => {
   });
 
   it('defaults the icon to "heroicons" and honors a custom icon-source', async () => {
-    const defaultEl = await fixture<LoomiModal>(html`<loomi-modal icon="cloud-download"></loomi-modal>`);
+    const defaultEl = await fixture<LoomiModal>(html`<loomi-modal icon="cloud-arrow-down"></loomi-modal>`);
     defaultEl.show();
     await defaultEl.updateComplete;
     const defaultIcon = defaultEl.shadowRoot!.querySelector(".loomi-icon-wrap loomi-icon")!;

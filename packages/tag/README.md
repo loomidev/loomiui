@@ -13,34 +13,24 @@ import "@loomidev/tag";
 ```
 
 
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
-
-## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 ## Basic Usage
 
 ```html
 <loomi-tag label="pending"></loomi-tag>
 ```
 
-## Faint vs Dark Shade
+## Light, Faint, and Dark Shades
 
-Tags default to a faint tint. Set `shade="dark"` for a deeper, solid-fill version (not
-related to dark mode).
+Tags default to a faint tint. Set `shade="light"` for a paler chip with a border one
+shade stronger than the tag color, or `shade="dark"` for a deeper solid fill.
 
 ```html
-<loomi-tag label="pending" color="blue"></loomi-tag>
-<loomi-tag label="pending" color="blue" shade="dark"></loomi-tag>
+<loomi-tag label="pending" color="success" shade="light"></loomi-tag>
+<loomi-tag label="pending" color="success"></loomi-tag>
+<loomi-tag label="pending" color="success" shade="dark"></loomi-tag>
 ```
 
-Any loomi color works: `primary` `secondary` `success` `error` `warning` `gray`
-`purple` `cyan` `pink` `blue`.
+Common semantic colors: `primary` `secondary` `success` `error` `warning` `gray`.
 
 ## With Close Icons
 
@@ -49,7 +39,7 @@ from the DOM on click by default.
 
 ```html
 <loomi-tag label="pending" can-close></loomi-tag>
-<loomi-tag label="pending" can-close color="pink"></loomi-tag>
+<loomi-tag label="pending" can-close color="warning"></loomi-tag>
 ```
 
 Intercept the removal by listening for the cancelable `close` event:
@@ -66,15 +56,15 @@ document.querySelector("loomi-tag").addEventListener("close", (e) => {
 Handy as a small hint next to a menu item — e.g. flagging what's new.
 
 ```html
-<loomi-tag label="just added" tiny color="pink"></loomi-tag>
-<loomi-tag label="new" tiny color="purple" shade="dark"></loomi-tag>
+<loomi-tag label="just added" tiny color="success"></loomi-tag>
+<loomi-tag label="new" tiny color="warning" shade="dark"></loomi-tag>
 ```
 
 ## Rounded Tags
 
 ```html
 <loomi-tag label="pending" rounded></loomi-tag>
-<loomi-tag label="pending" can-close rounded color="pink"></loomi-tag>
+<loomi-tag label="pending" can-close rounded color="warning"></loomi-tag>
 ```
 
 ## Outline Tags
@@ -83,8 +73,8 @@ No background fill — just a border in `color`. The shade still affects how lig
 dark the outline is.
 
 ```html
-<loomi-tag label="pending" outline color="pink"></loomi-tag>
-<loomi-tag label="pending" can-close outline color="pink" shade="dark"></loomi-tag>
+<loomi-tag label="pending" outline color="warning"></loomi-tag>
+<loomi-tag label="pending" can-close outline color="warning" shade="dark"></loomi-tag>
 ```
 
 ## Selectable Tags
@@ -120,6 +110,17 @@ document.querySelector("loomi-tags").addEventListener("change", (e) => {
 });
 ```
 
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
+
 ## Attributes
 
 ### `<loomi-tag>`
@@ -128,7 +129,7 @@ document.querySelector("loomi-tags").addEventListener("change", (e) => {
 | --- | --- | --- |
 | `label` | _(blank)_ | Tag text (or use the default slot). |
 | `color` | `primary` | Any loomi color. |
-| `shade` | `faint` | `faint` \| `dark` |
+| `shade` | `faint` | `light` \| `faint` \| `dark` |
 | `outline` | `false` | Outline only, no fill. _(boolean)_ |
 | `rounded` | `false` | Fully rounded. _(boolean)_ |
 | `tiny` | `false` | Tiny size. _(boolean)_ |

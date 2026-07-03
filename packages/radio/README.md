@@ -13,16 +13,6 @@ import "@loomidev/radio";
 ```
 
 
-## Accessibility
-- Prefer native HTML elements; add labels in your app shell where needed.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
-
-## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 ## Basic Usage
 
 ```html
@@ -56,19 +46,19 @@ Radios can also be disabled:
 ## Colored Radio Buttons
 
 Any loomi color works: `primary` `secondary` `success` `error` `warning` `gray`
-`purple` `cyan` `pink` `blue`.
+`success` `warning` `error` `primary`.
 
 ```html
 <loomi-radio color="error" checked label="Red"></loomi-radio>
 <loomi-radio color="yellow" label="Yellow"></loomi-radio>
 <loomi-radio color="success" label="Green"></loomi-radio>
-<loomi-radio color="pink" label="Pink"></loomi-radio>
-<loomi-radio color="cyan" label="Cyan"></loomi-radio>
-<loomi-radio color="purple" label="Purple"></loomi-radio>
+<loomi-radio color="error" label="Error"></loomi-radio>
+<loomi-radio color="warning" label="Warning"></loomi-radio>
+<loomi-radio color="success" label="Success"></loomi-radio>
 <loomi-radio color="warning" label="Orange"></loomi-radio>
-<loomi-radio color="purple" label="Violet"></loomi-radio>
-<loomi-radio color="blue" label="Indigo"></loomi-radio>
-<loomi-radio color="pink" label="Fuchsia"></loomi-radio>
+<loomi-radio color="success" label="Violet"></loomi-radio>
+<loomi-radio color="primary" label="Indigo"></loomi-radio>
+<loomi-radio color="error" label="Fuchsia"></loomi-radio>
 ```
 
 ## Radio Buttons and Forms
@@ -79,6 +69,17 @@ Give every radio in a group a `value` so the right one is submitted under the sh
 ```html
 <loomi-radio name="notify_me" value="1" label="Send me weekly newsletters"></loomi-radio>
 ```
+
+## Accessibility
+- Prefer native HTML elements; add labels in your app shell where needed.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 
 ## Attributes
 
@@ -100,7 +101,7 @@ radio that becomes checked).
 ```html
 <loomi-radio
   label="I agree to the terms and conditions"
-  color="pink"
+  color="error"
   name="tnc"
   value="yes"
 ></loomi-radio>

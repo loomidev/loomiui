@@ -42,8 +42,8 @@ export class LoomiTimeline extends LoomiElement {
 
   override render(): TemplateResult {
     const body = html`<div class="loomi-body">
-      ${this.stacked && this.date ? html`<div class="loomi-date-top">${this.date}</div>` : nothing}
       <div class="loomi-content"><slot name="content"><slot>${this.content}</slot></slot></div>
+      ${this.stacked && this.date ? html`<div class="loomi-date-top">${this.date}</div>` : nothing}
     </div>`;
     return html`<div class="loomi-item" style=${accentVars(this.color)}>
       ${!this.stacked ? html`<div class="loomi-date-col">${this.date}</div>` : nothing}

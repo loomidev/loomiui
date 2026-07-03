@@ -20,16 +20,6 @@ import "@loomidev/qrcode";
 ```
 
 
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Includes layout breakpoints for narrow viewports (see component CSS).
-
-## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 ## Examples
 
 ```html
@@ -43,7 +33,7 @@ import "@loomidev/qrcode";
   corner-border-color="var(--loomi-success-600)"
   gradient
   gradient-from="var(--loomi-success-600)"
-  gradient-to="var(--loomi-cyan-500)"
+  gradient-to="var(--loomi-warning-500)"
   gradient-scan
 ></loomi-qrcode>
 
@@ -53,6 +43,17 @@ import "@loomidev/qrcode";
   scan-count="2"
 ></loomi-qrcode>
 ```
+
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Includes layout breakpoints for narrow viewports (see component CSS).
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 
 ## Attributes
 
@@ -68,7 +69,7 @@ import "@loomidev/qrcode";
 | `radius` | `"none" \| "small" \| "medium" \| "large" \| "full"` | `"medium"` | Outer frame radius. |
 | `gradient` | `boolean` | `false` | Fill QR modules with a diagonal gradient. |
 | `gradient-from` | `string` | `var(--loomi-primary-600)` | Gradient start color. |
-| `gradient-to` | `string` | `var(--loomi-cyan-500)` | Gradient end color. |
+| `gradient-to` | `string` | `var(--loomi-warning-500)` | Gradient end color. |
 | `module-radius` | `number` | `0` | Radius for each dark module, from `0` to `0.5`. |
 | `corner-borders` | `boolean` | `false` | Show scanner-style corner brackets. |
 | `corner-border-color` | `string` | `var(--loomi-primary-600)` | Corner bracket color. |

@@ -3,7 +3,7 @@
 An [MCP](https://modelcontextprotocol.io) server that exposes loomi's component
 documentation to AI coding tools (Claude Code, Cursor, Claude Desktop, etc.) — so the
 assistant can look up real attribute tables and usage examples instead of guessing.
-Mirrors the shape of BladewindUI's own MCP connector: a `list_components` /
+Mirrors the shape of the familiar component-docs MCP connector: a `list_components` /
 `search_components` / `get_component_docs` tool set, plus one readable resource per
 component at `loomi://docs/<name>`.
 

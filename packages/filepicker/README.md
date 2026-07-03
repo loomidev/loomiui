@@ -2,7 +2,7 @@
 
 `<loomi-filepicker>` — a drag-and-drop file picker with previews. Keeps a real
 `<input type="file">` in sync, so it submits inside a `<form>` with
-`enctype="multipart/form-data"`. A lightweight take on BladewindUI's Filepond wrapper —
+`enctype="multipart/form-data"`. A lightweight take on the older Filepond-style wrapper —
 the crop dialog is a `<loomi-modal>` and oversized-file errors surface through
 `<loomi-notification>`.
 
@@ -15,16 +15,6 @@ import "@loomidev/filepicker";
 ```
 
 
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
-
-## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 ## Basic Usage
 
 Supports both click-to-browse and drag-and-drop out of the box.
@@ -212,6 +202,17 @@ form submit with `enctype="multipart/form-data"` just works.
 </form>
 ```
 
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
+
 ## Attributes
 
 | Attribute | Default | Description |
@@ -233,7 +234,7 @@ form submit with `enctype="multipart/form-data"` just works.
 
 **Property:** `selectedFiles`. **Methods:** `open()`, `clear()`. **Event:** `change` (`detail: { files }`).
 
-> Not ported from BladewindUI's Filepond wrapper: auto-upload-to-route. Use the `change`
+> Not ported from the older Filepond-style wrapper: auto-upload-to-route. Use the `change`
 > event with your own upload logic, or submit the form for manual upload.
 
 ## Full Example

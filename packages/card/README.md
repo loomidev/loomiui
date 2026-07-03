@@ -12,15 +12,6 @@ import "@loomidev/card";
 ```
 
 
-## Accessibility
-- When `url` is set, the card behaves as a link: `role="link"`, keyboard activation, focus ring.
-- Compose headings with `loomi-card-title` for page structure.
-
-## Responsive behavior
-- Block-level; padding tightens on narrow viewports.
-
-## Dark mode
-- Card surface and border use semantic tokens.
 ## Composition
 
 ```text
@@ -133,6 +124,16 @@ layouts:
 ```html
 <loomi-card style="--loomi-card-spacing: 1.5rem">...</loomi-card>
 ```
+
+## Accessibility
+- When `url` is set, the card behaves as a link: `role="link"`, keyboard activation, focus ring.
+- Compose headings with `loomi-card-title` for page structure.
+
+## Responsive behavior
+- Block-level; padding tightens on narrow viewports.
+
+## Dark mode
+- Card surface and border use semantic tokens.
 
 ## Attributes
 

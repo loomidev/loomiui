@@ -10,7 +10,6 @@
   align-items: center;
   gap: 1rem;
   width: 100%;
-  background: var(--loomi-surface);
   padding: 1.25rem 1.5rem;
   color: var(--loomi-text-secondary);
 }
@@ -36,6 +35,13 @@
 
 .loomi-ico {
   flex: none;
+  color: var(--loomi-stat-icon-color, var(--loomi-text-muted));
+  font-size: var(--loomi-stat-icon-size, 1.75rem);
+  line-height: 0;
+}
+.loomi-ico ::slotted(*) {
+  width: var(--loomi-stat-icon-size, 1.75rem);
+  height: var(--loomi-stat-icon-size, 1.75rem);
 }
 .loomi-body {
   flex: 1 1 auto;

@@ -61,6 +61,9 @@ export class LoomiChatWindow extends LoomiElement {
   @property({ type: Number, attribute: "input-rows" }) inputRows = 1;
   @property({ type: Number, attribute: "input-max-rows" }) inputMaxRows = 5;
   @property({ type: Boolean, reflect: true }) busy = false;
+  @property({ type: Boolean, reflect: true }) typing = false;
+  @property({ attribute: "loading-text" }) loadingText = "";
+  @property({ attribute: "loading-icon" }) loadingIcon = "";
   @property({ type: Boolean, attribute: "auto-scroll", converter: booleanAttribute })
   autoScroll = true;
   @property({ type: Boolean, attribute: "show-reset", converter: booleanAttribute })
@@ -123,6 +126,7 @@ export class LoomiChatWindow extends LoomiElement {
       id: message.id ?? createMessageId(),
       text: message.text,
       senderId,
+      time: message.time ?? new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
       role: message.role,
     };
     this.messages = [...this.messages, next];
@@ -253,15 +257,35 @@ export class LoomiChatWindow extends LoomiElement {
         image=${participant.image ?? ""}
         avatar-label=${participant.label ?? initialsFor(participant.name)}
         bubble-color=${color}
+        time=${message.time ?? ""}
         ?outgoing=${outgoing}
         ?show-avatar=${showAvatars}
         ?show-sender=${showSender && !outgoing}
       ></loomi-chat-message>`;
-    })}`;
+    })}
+    ${this.renderTypingIndicator()}`;
+  }
+
+  private renderTypingIndicator(): TemplateResult | typeof nothing {
+    if (!this.typing && !this.busy) return nothing;
+    const custom = this.loadingText || this.loadingIcon;
+    return html`<div class="loomi-chat-row incoming loomi-chat-loading-row" role="status" aria-live="polite">
+      <div class="loomi-chat-row-body">
+        <div class="loomi-chat-loading ${custom ? "custom" : ""}">
+          ${this.loadingIcon ? html`<loomi-icon name=${this.loadingIcon}></loomi-icon>` : nothing}
+          ${this.loadingText ? html`<span>${this.loadingText}</span>` : nothing}
+          ${custom
+            ? nothing
+            : html`<span class="loomi-typing-dots" aria-label="Typing">
+                <span></span><span></span><span></span>
+              </span>`}
+        </div>
+      </div>
+    </div>`;
   }
 
   override render(): TemplateResult {
-    const hasMessages = this.messages.length > 0;
+    const hasMessages = this.messages.length > 0 || this.typing || this.busy;
 
     return html`<div class="loomi-chat-window">
       <div class="loomi-chat-card-wrap">

@@ -12,17 +12,6 @@ import "@loomidev/bell";
 ```
 
 
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
-
-## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
-- ⚠️ Audit raw `--loomi-gray-*` / hex fills and migrate to semantic tokens.
 ## Basic Usage
 
 By default the bell shows its status dot — meaning there's something unread.
@@ -75,7 +64,7 @@ The status dot is `primary`-colored by default. Set `color` to any loomi color.
 <loomi-bell color="error" animate-dot></loomi-bell>
 <loomi-bell color="success" animate-dot></loomi-bell>
 <loomi-bell color="warning" animate-dot></loomi-bell>
-<loomi-bell color="purple" animate-dot></loomi-bell>
+<loomi-bell color="success" animate-dot></loomi-bell>
 ```
 
 ## Wrapping It in a Trigger
@@ -100,6 +89,18 @@ notifications page:
 <loomi-bell onclick="location.href='/notifications'"></loomi-bell>
 ```
 
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
+- ⚠️ Audit raw `--loomi-gray-*` / hex fills and migrate to semantic tokens.
+
 ## Attributes
 
 | Attribute | Default | Description |
@@ -113,7 +114,7 @@ notifications page:
 ## Full Example
 
 ```html
-<loomi-bell color="pink" show-dot="false" animate-dot size="big"></loomi-bell>
+<loomi-bell color="error" show-dot="false" animate-dot size="big"></loomi-bell>
 ```
 
 <!-- BEGIN loomi-framework-guide -->

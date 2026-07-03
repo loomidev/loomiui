@@ -15,6 +15,9 @@
 :host([disabled]) .loomi-cc-face {
   opacity: 0.7;
 }
+:host([variant="inline"]) {
+  max-width: 24rem;
+}
 
 /* ---- outline variant: bare silhouette, soft gray border, no fill ---- */
 :host([variant="outline"]) .loomi-cc-face {
@@ -86,6 +89,112 @@
   position: relative;
   width: 100%;
 }
+.loomi-creditcard.inline {
+  color: var(--loomi-text-secondary);
+}
+
+.loomi-cc-inline {
+  display: grid;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--loomi-surface-border);
+  border-radius: 0.45rem;
+  background: var(--loomi-surface);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--loomi-text) 8%, transparent);
+}
+.loomi-cc-inline:focus-within {
+  border-color: var(--_loomi-accent);
+  box-shadow: 0 0 0 2px var(--_loomi-accent-ring);
+}
+:host([invalid]) .loomi-cc-inline {
+  border-color: var(--loomi-error-500);
+  box-shadow: 0 0 0 2px var(--loomi-error-200, var(--_loomi-accent-ring));
+}
+.loomi-cc-inline-number {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+  padding: 0.6rem 0.75rem;
+}
+.loomi-cc-inline .loomi-cc-number {
+  margin: 0;
+  color: var(--loomi-text-secondary);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.loomi-cc-inline .loomi-cc-number::placeholder,
+.loomi-cc-inline .loomi-cc-expiry::placeholder,
+.loomi-cc-inline .loomi-cc-cvc::placeholder {
+  color: var(--loomi-text-faint);
+}
+.loomi-cc-inline-brands {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  flex: none;
+}
+.loomi-cc-inline-brands span {
+  display: inline-flex;
+  width: 1.5rem;
+  line-height: 0;
+}
+.loomi-cc-inline-brands svg {
+  width: 100%;
+  height: auto;
+}
+.loomi-cc-inline-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--loomi-surface-border);
+}
+.loomi-cc-inline-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 0.6rem 0.75rem;
+}
+.loomi-cc-inline-field + .loomi-cc-inline-field {
+  border-inline-start: 1px solid var(--loomi-surface-border);
+}
+.loomi-cc-inline .loomi-cc-expiry,
+.loomi-cc-inline .loomi-cc-cvc {
+  appearance: none;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  outline: none;
+  color: var(--loomi-text-secondary);
+  font: inherit;
+}
+.loomi-cc-cvc-glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 1.35rem;
+  height: 1rem;
+  border: 1px solid currentColor;
+  border-radius: 0.15rem;
+  color: var(--loomi-text-muted);
+  font-size: 0.45rem;
+  line-height: 1;
+}
+.loomi-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
 .loomi-cc-scene {
   position: relative;
@@ -152,8 +261,7 @@
 .loomi-cc-chip::after {
   content: "";
   position: absolute;
-  left: 0.3rem;
-  right: 0.3rem;
+  inset-inline: 0.3rem;
   height: 1px;
   background: rgba(0, 0, 0, 0.25);
 }
@@ -197,7 +305,7 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 0.75rem;
-  padding-right: 4.5rem; /* leave room for the absolute brand logo */
+  padding-inline-end: 4.5rem; /* leave room for the absolute brand logo */
 }
 .loomi-cc-field {
   display: flex;
@@ -254,7 +362,7 @@
 /* ---- network logo (both faces) ---- */
 .loomi-cc-brand {
   position: absolute;
-  right: 1rem;
+  inset-inline-end: 1rem;
   bottom: 0.9rem;
   display: block;
   width: 3.2rem;
@@ -319,7 +427,7 @@
 .loomi-cc-flip-btn {
   position: absolute;
   top: 50%;
-  right: -0.75rem;
+  inset-inline-end: -0.75rem;
   transform: translateY(-50%);
   display: flex;
   align-items: center;
@@ -367,7 +475,7 @@
 
 @media (max-width: 360px) {
   .loomi-cc-flip-btn {
-    right: -0.6rem;
+    inset-inline-end: -0.6rem;
     width: 1.9rem;
     height: 1.9rem;
   }

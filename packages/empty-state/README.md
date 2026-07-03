@@ -13,15 +13,6 @@ import "@loomidev/empty-state";
 ```
 
 
-## Accessibility
-- `role="status"` region labelled by the heading.
-- Decorative illustration is hidden from assistive tech; action button is a native `<button>`.
-
-## Responsive behavior
-- Centered column with reduced padding below `640px`.
-
-## Dark mode
-- Text uses `--loomi-text` / `--loomi-text-muted`; not raw gray ramps.
 ## Basic Usage
 
 ```html
@@ -119,6 +110,16 @@ pnpm --filter @loomidev/empty-state build
 
 `scripts/build-assets.mjs` re-encodes whatever PNG is at that path into
 `src/generated/default-image.ts` on every build — no code changes needed.
+
+## Accessibility
+- `role="status"` region labelled by the heading.
+- Decorative illustration is hidden from assistive tech; action button is a native `<button>`.
+
+## Responsive behavior
+- Centered column with reduced padding below `640px`.
+
+## Dark mode
+- Text uses `--loomi-text` / `--loomi-text-muted`; not raw gray ramps.
 
 ## Attributes
 

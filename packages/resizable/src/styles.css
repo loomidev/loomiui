@@ -60,12 +60,12 @@
 }
 
 :host([data-resizable="handle"][data-orientation="horizontal"]) {
-  width: 1px;
+  width: 0.625rem;
   cursor: col-resize;
 }
 
 :host([data-resizable="handle"][data-orientation="vertical"]) {
-  height: 1px;
+  height: 0.625rem;
   cursor: row-resize;
 }
 
@@ -76,7 +76,7 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  background: var(--_loomi-accent-border);
+  background: transparent;
 }
 
 :host([data-resizable="handle"][data-orientation="horizontal"]) .loomi-handle::after {
@@ -85,7 +85,8 @@
   top: 0;
   bottom: 0;
   left: 50%;
-  width: 0.25rem;
+  width: 0.125rem;
+  background: var(--loomi-surface-border);
   transform: translateX(-50%);
 }
 
@@ -95,7 +96,8 @@
   left: 0;
   right: 0;
   top: 50%;
-  height: 0.25rem;
+  height: 0.125rem;
+  background: var(--loomi-surface-border);
   transform: translateY(-50%);
 }
 
@@ -112,9 +114,10 @@
   width: 0.75rem;
   height: 1rem;
   border-radius: 0.125rem;
-  border: 1px solid var(--_loomi-accent-border);
+  border: 1px solid var(--loomi-surface-border);
   background: var(--loomi-surface);
   color: var(--loomi-text-secondary);
+  box-shadow: 0 1px 4px color-mix(in srgb, var(--loomi-text) 12%, transparent);
 }
 
 :host([data-resizable="handle"][data-orientation="horizontal"]) .loomi-grip {

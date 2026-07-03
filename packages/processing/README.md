@@ -13,17 +13,6 @@ import "@loomidev/processing";
 ```
 
 
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
-
-## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
-- ⚠️ Audit raw `--loomi-gray-*` / hex fills and migrate to semantic tokens.
 ## Basic Usage
 
 ```html
@@ -43,7 +32,7 @@ import "@loomidev/processing";
 The spinner color (only relevant in the `processing` state) accepts any loomi color.
 
 ```html
-<loomi-processing color="purple" title="Uploading…"></loomi-processing>
+<loomi-processing color="success" title="Uploading…"></loomi-processing>
 ```
 
 ## Full Flow Example
@@ -78,6 +67,18 @@ then swaps `state` based on the result.
   }
 </script>
 ```
+
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
+- ⚠️ Audit raw `--loomi-gray-*` / hex fills and migrate to semantic tokens.
 
 ## Attributes
 

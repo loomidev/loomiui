@@ -11,17 +11,6 @@ import "@loomidev/tooltip";
 ```
 
 
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
-
-## Dark mode
-- Default tooltip inverts `--loomi-text` / `--loomi-surface` for contrast in both themes.
-- `shade="light"` uses raised surface, border, and text tokens.
-
 ## Basic Usage
 
 Wrap whatever should trigger the tooltip in the default slot, and set `content` for
@@ -79,6 +68,17 @@ The trigger can be anything — an icon, a button, plain text, an avatar.
 </loomi-tooltip>
 ```
 
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Default tooltip inverts `--loomi-text` / `--loomi-surface` for contrast in both themes.
+- `shade="light"` uses raised surface, border, and text tokens.
+
 ## Attributes
 
 | Attribute | Default | Description |
@@ -94,7 +94,7 @@ The trigger can be anything — an icon, a button, plain text, an avatar.
 ```html
 <loomi-tooltip position="right">
   <span slot="content">Your subscription renews on <b>July 1</b>.</span>
-  <loomi-tag label="Pro plan" color="purple"></loomi-tag>
+  <loomi-tag label="Pro plan" color="success"></loomi-tag>
 </loomi-tooltip>
 ```
 

@@ -4,17 +4,6 @@
 `<loomi-input>`. Type a word or phrase, press Enter, and it becomes a removable
 gray outline tag.
 
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
-
-## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
-- ⚠️ Audit raw `--loomi-gray-*` / hex fills and migrate to semantic tokens.
 ## Installation
 
 ```bash
@@ -35,6 +24,26 @@ import "@loomidev/tag-input";
 Use `mode="inside"` (default) to keep tags inside the field, or `mode="below"` to
 write tags beneath the field.
 
+Set `color` to tint the chips. The default `shade="light"` uses a pale fill with a
+border one shade stronger than the chip color.
+
+```html
+<loomi-tag-input label="Skills" color="success" value="Design,Research"></loomi-tag-input>
+<loomi-tag-input label="Risks" color="warning" shade="dark" value="Blocked"></loomi-tag-input>
+```
+
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
+- ⚠️ Audit raw `--loomi-gray-*` / hex fills and migrate to semantic tokens.
+
 ## Attributes
 
 | Attribute | Default | Description |
@@ -45,6 +54,8 @@ write tags beneath the field.
 | `value` | _(blank)_ | Comma-separated tag value. |
 | `mode` | `inside` | `inside` or `below`. |
 | `size` | `medium` | `tiny`, `small`, `regular`, `medium`, or `big`. |
+| `color` | `primary` | Chip color. |
+| `shade` | `light` | `light`, `faint`, or `dark`. |
 | `required` | `false` | Requires at least one tag. |
 | `disabled` | `false` | Disables input and tag removal. |
 | `readonly` | `false` | Prevents editing and tag removal. |

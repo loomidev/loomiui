@@ -12,16 +12,6 @@ import "@loomidev/toggle";
 ```
 
 
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
-
-## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 ## Basic Usage
 
 ```html
@@ -68,17 +58,28 @@ Three bar thicknesses are available — `thin` (Android-style), `thick` (default
 ## Different Colors
 
 Any loomi color works for the active/checked state: `primary` `secondary` `success`
-`error` `warning` `gray` `purple` `cyan` `pink` `blue`.
+`error` `warning` `gray` `success` `warning` `error` `primary`.
 
 ```html
 <loomi-toggle color="error" checked>Red</loomi-toggle>
 <loomi-toggle color="yellow" checked>Yellow</loomi-toggle>
 <loomi-toggle color="success" checked>Green</loomi-toggle>
-<loomi-toggle color="pink" checked>Pink</loomi-toggle>
-<loomi-toggle color="cyan" checked>Cyan</loomi-toggle>
-<loomi-toggle color="purple" checked>Purple</loomi-toggle>
+<loomi-toggle color="error" checked>Error</loomi-toggle>
+<loomi-toggle color="warning" checked>Warning</loomi-toggle>
+<loomi-toggle color="success" checked>Success</loomi-toggle>
 <loomi-toggle color="warning" checked>Orange</loomi-toggle>
 ```
+
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 
 ## Attributes
 
@@ -102,7 +103,7 @@ Any loomi color works for the active/checked state: `primary` `secondary` `succe
 ```html
 <loomi-toggle
   name="subscribe"
-  color="purple"
+  color="success"
   label-position="right"
   bar="thin"
 >

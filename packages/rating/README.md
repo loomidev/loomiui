@@ -12,17 +12,6 @@ import "@loomidev/rating";
 ```
 
 
-## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
-
-## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
-- ⚠️ Audit raw `--loomi-gray-*` / hex fills and migrate to semantic tokens.
 ## Basic Usage
 
 ```html
@@ -44,11 +33,11 @@ Any loomi color works — the default is `orange`.
 <loomi-rating rating="1" color="error" name="error-rating"></loomi-rating>
 <loomi-rating rating="2" color="yellow" name="yellow-rating"></loomi-rating>
 <loomi-rating rating="3" color="success" name="success-rating"></loomi-rating>
-<loomi-rating rating="4" color="blue" name="blue-rating"></loomi-rating>
-<loomi-rating rating="5" color="pink" name="pink-rating"></loomi-rating>
-<loomi-rating rating="3" color="purple" name="purple-rating"></loomi-rating>
-<loomi-rating rating="4" color="purple" name="violet-rating"></loomi-rating>
-<loomi-rating rating="4" color="blue" name="indigo-rating"></loomi-rating>
+<loomi-rating rating="4" color="primary" name="primary-rating"></loomi-rating>
+<loomi-rating rating="5" color="error" name="error-rating"></loomi-rating>
+<loomi-rating rating="3" color="success" name="success-rating"></loomi-rating>
+<loomi-rating rating="4" color="success" name="violet-rating"></loomi-rating>
+<loomi-rating rating="4" color="primary" name="indigo-rating"></loomi-rating>
 ```
 
 ## Different Sizes
@@ -90,6 +79,18 @@ read-only by setting `clickable="false"`.
 ```js
 new FormData(form).get("album_rating"); // "3"
 ```
+
+## Accessibility
+- Implements ARIA roles/states for custom interaction surfaces.
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+## Dark mode
+- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
+- ⚠️ Audit raw `--loomi-gray-*` / hex fills and migrate to semantic tokens.
 
 ## Attributes
 

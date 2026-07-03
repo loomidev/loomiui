@@ -1,6 +1,6 @@
 # @loomidev/table
 
-`<loomi-table>` — a BladewindUI-inspired table with manual rows, dynamic data,
+`<loomi-table>` — a Loomi data table with manual rows, dynamic data,
 search, sorting, pagination (via [`<loomi-pagination>`](../pagination)), selectable
 and checkable rows (via [`<loomi-checkbox>`](../checkbox)), row grouping, empty-state
 options, custom row templates and action icons.
@@ -14,14 +14,6 @@ import "@loomidev/table";
 ```
 
 
-## Accessibility
-- Uses native table semantics; sortable headers are buttons with state.
-
-## Responsive behavior
-- Horizontal scroll wrapper when columns exceed viewport.
-
-## Dark mode
-- Row and header backgrounds use semantic surface tokens.
 ## Basic Usage
 
 Pass an array of row objects via the `.data` property (or a JSON-string `data`
@@ -228,7 +220,7 @@ listen for `selection-change`.
 Pre-check rows on load with `selected-value` (comma-separated ids), and control which
 field counts as the row's id with `id-key` (defaults to `id`).
 
-Bladewind-style aliases also work: `selected_value`, `id_key`, `include_columns`,
+Underscore aliases also work: `selected_value`, `id_key`, `include_columns`,
 `exclude_columns`, `column_aliases`, `action_icons`, and the other underscore
 attributes listed below.
 
@@ -267,6 +259,9 @@ followed by its rows.
 <!-- show page numbers instead of prev/next arrows -->
 <loomi-table id="t9" paginated page-size="5" pagination-style="numbers"></loomi-table>
 
+<!-- use a page dropdown -->
+<loomi-table id="t9-dropdown" paginated page-size="5" pagination-style="dropdown"></loomi-table>
+
 <!-- leading row-number column -->
 <loomi-table id="t10" paginated page-size="5" show-row-numbers></loomi-table>
 
@@ -285,7 +280,7 @@ followed by its rows.
     { id: 11, first_name: "Maya", department: "Support", email: "maya@loomiui.dev" },
     { id: 12, first_name: "Owen", department: "Support", email: "owen@loomiui.dev" },
   ];
-  for (const id of ["t8", "t9", "t10"]) document.getElementById(id).data = staff;
+  for (const id of ["t8", "t9", "t9-dropdown", "t10"]) document.getElementById(id).data = staff;
 </script>
 ```
 
@@ -293,8 +288,28 @@ With `page-size="5"` and twelve rows, each table above paginates across three pa
 enough to see the arrow, numbers, and row-number variants actually flip between pages.
 Pagination styles: `arrows` (default), `numbers`, `dropdown` — same options as
 [`<loomi-pagination>`](../pagination), since that's exactly what renders underneath.
-You can also use Bladewind-compatible `default_page`, `limit`, `show_total`,
+You can also use Underscore-compatible `default_page`, `limit`, `show_total`,
 `show_page_number`, `show_total_pages`, and `total_label`.
+
+Customize the total text with `:a`, `:b`, and `:c` placeholders:
+
+```html
+<loomi-table paginated page-size="5" total-label=":a - :b of :c"></loomi-table>
+<loomi-table paginated page-size="5" total-label="Showing :a - :b"></loomi-table>
+```
+
+Those render as `1 - 5 of 50` and `Showing 1 - 5`.
+
+## Search Placement
+
+`searchable` renders a full-width search field above the table by default. Set
+`search-container` to a DOM selector when the search field should live somewhere else
+on the page.
+
+```html
+<div id="staff-search"></div>
+<loomi-table id="staff-table" searchable search-container="#staff-search"></loomi-table>
+```
 
 ## No Data Message
 
@@ -314,7 +329,7 @@ Render the message as an empty-state panel with optional image, heading, and but
 ></loomi-table>
 ```
 
-Listen for `empty-action` to handle the empty-state button. The Bladewind `onclick`
+Listen for `empty-action` to handle the empty-state button. The `onclick`
 attribute is accepted and included in the event detail.
 
 ## Manual and Custom Layouts
@@ -383,11 +398,20 @@ same table:
 </script>
 ```
 
+## Accessibility
+- Uses native table semantics; sortable headers are buttons with state.
+
+## Responsive behavior
+- Horizontal scroll wrapper when columns exceed viewport.
+
+## Dark mode
+- Row and header backgrounds use semantic surface tokens.
+
 ## Attributes
 
 | Attribute | Default | Description |
 | --- | --- | --- |
-| `name` | auto | Stable class/name hook, matching Bladewind's targeting pattern. |
+| `name` | auto | Stable class/name hook, matching Loomi targeting patterns. |
 | `data` | `[]` | Row objects — property (`.data`) or JSON-string attribute. |
 | `columns` | _(auto)_ | Column keys (defaults to the first row's keys). |
 | `layout` | `auto` | `auto` \| `custom`; custom uses row/header templates or slotted rows. |
@@ -396,6 +420,7 @@ same table:
 | `exclude-columns` / `exclude_columns` | _(blank)_ | Comma-separated key deny list (`include` wins if both are set). |
 | `column-aliases` / `column_aliases` | `{}` | Map of `key -> display name` (property or JSON). |
 | `searchable` | `false` | Show a search box. _(boolean)_ |
+| `search-container` | _(blank)_ | DOM selector where the search input should be rendered. |
 | `search-placeholder` / `search_placeholder` | `Search table below...` | Search input placeholder. |
 | `sortable` | `false` | Enable column sorting. _(boolean)_ |
 | `sortable-columns` / `sortable_columns` | _(all)_ | Comma-separated sortable keys. |
@@ -417,7 +442,7 @@ same table:
 | `show-row-numbers` / `show_row_numbers` | `false` | Show a leading `#` column. _(boolean)_ |
 | `groupby` / `group-by` | _(blank)_ | Key used to render group heading rows. |
 | `striped` / `divided` / `celled` / `compact` / `transparent` | — | Styling toggles. _(boolean)_ |
-| `has-hover` / `has_hover`, `has-shadow` / `has_shadow`, `has-border` / `has_border` | — | Bladewind-compatible styling toggles. _(boolean)_ |
+| `has-hover` / `has_hover`, `has-shadow` / `has_shadow`, `has-border` / `has_border` | — | Underscore-compatible styling toggles. _(boolean)_ |
 | `divider` | `regular` | `regular` \| `thin` |
 | `no-data-message` / `no_data_message` | `No records to display` | Shown when there are no rows. |
 | `message-as-empty-state` / `message_as_empty_state` | `false` | Render no-data content as an empty state. _(boolean)_ |
@@ -425,8 +450,8 @@ same table:
 | `heading` | _(blank)_ | Empty-state heading. |
 | `button-label` / `button_label` | _(blank)_ | Empty-state CTA label. |
 | `show-image` / `show_image` | `true` | Show empty-state image. _(boolean)_ |
-| `onclick` | _(blank)_ | Bladewind-style empty-state action string, also emitted in `empty-action`. |
-| `nonce` | _(blank)_ | Accepted for Bladewind API compatibility. |
+| `onclick` | _(blank)_ | empty-state action string, also emitted in `empty-action`. |
+| `nonce` | _(blank)_ | Accepted as a no-op compatibility attribute. |
 
 **Events:** `row-click` (`{ row }`), `action` (`{ name, row }`),
 `action-call`, `selection-change` (`{ ids, rows, selectedValue }`), `empty-action`,

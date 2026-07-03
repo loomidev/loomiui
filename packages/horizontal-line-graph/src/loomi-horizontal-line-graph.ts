@@ -10,7 +10,7 @@ export interface LoomiGraphSegment {
   color?: string;
 }
 
-const FALLBACK = ["primary", "green", "orange", "red", "purple", "cyan", "pink", "indigo"];
+const FALLBACK = ["#16a34a", "#eab308", "#f97316", "#ef4444", "#64748b", "#84cc16", "#a16207"];
 
 /**
  * `<loomi-horizontal-line-graph>` — a single proportion bar split into colored segments,

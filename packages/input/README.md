@@ -4,14 +4,6 @@
 suffixes, contextual hints, selectable affixes, a clearable field, numeric filtering and inline validation.
 It is **form-associated**: its value submits with the surrounding `<form>` under `name`.
 
-## Accessibility
-- Native input with associated label slot / `aria-*` from form context.
-
-## Responsive behavior
-- `width: 100%` within flex layouts.
-
-## Dark mode
-- Field background `--loomi-surface`; border `--loomi-surface-border`.
 ## Installation
 
 ```bash
@@ -67,6 +59,10 @@ Amex grouping (`34`/`37` prefixes).
 ```
 
 `mask="creditcard"` is also accepted as a shortcut.
+
+For a complete payment-card field with brand detection, expiry, CVC, and validation,
+use [`<loomi-creditcard>`](../creditcard) instead of wiring several masked inputs by
+hand.
 
 For custom dynamic masks, assign a function to the `dynamicMask` property in JavaScript.
 The function receives the current input value before the next mask is applied and must
@@ -176,6 +172,15 @@ before a manual submit or API call). It:
 <!-- show-error-inline omitted (false): a failed validate()/blur shows this message as a
      toast instead of inline text, but the red border still appears either way -->
 ```
+
+## Accessibility
+- Native input with associated label slot / `aria-*` from form context.
+
+## Responsive behavior
+- `width: 100%` within flex layouts.
+
+## Dark mode
+- Field background `--loomi-surface`; border `--loomi-surface-border`.
 
 ## Attributes
 

@@ -24,6 +24,11 @@
   border-radius: 0.45rem;
   cursor: pointer;
 }
+.loomi-opt:has(.loomi-sr-only) {
+  width: 2rem;
+  justify-content: center;
+  padding-inline: 0;
+}
 .loomi-opt.icon-right {
   flex-direction: row-reverse;
 }
@@ -81,5 +86,5 @@ loomi-dropmenu-item.selected {
   color: var(--loomi-primary-600, var(--_loomi-primary-600-default));
 }
 .loomi-menu-check {
-  margin-left: 0.75rem;
+  margin-inline-start: 0.75rem;
 }

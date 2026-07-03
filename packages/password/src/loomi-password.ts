@@ -52,6 +52,7 @@ export class LoomiPassword extends LoomiElement {
   @property({ type: Boolean }) viewable = true;
   @property({ type: Boolean }) clearable = false;
   @property() strength = "";
+  @property({ attribute: "strength-color" }) strengthColor = "";
   @property({ attribute: "error-message" }) errorMessage = "";
   @property({ type: Boolean, attribute: "show-error-inline" }) showErrorInline = false;
   @property({ type: Boolean, attribute: "show-placeholder-always" }) showPlaceholderAlways = false;
@@ -267,7 +268,8 @@ export class LoomiPassword extends LoomiElement {
     const requirements = this.strengthRequirements();
     if (requirements.length === 0) return nothing;
 
-    return html`<ul class="loomi-strength" aria-label="Password requirements">
+    const style = this.strengthColor ? `--loomi-password-strength-color:${this.strengthColor}` : "";
+    return html`<ul class="loomi-strength" aria-label="Password requirements" style=${style}>
       ${requirements.map(
         (requirement) => html`<li class="loomi-strength-item ${requirement.met ? "met" : ""}">
           <span class="loomi-strength-check">${this.renderIcon("check-circle")}</span>

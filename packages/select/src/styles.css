@@ -208,6 +208,22 @@
   text-align: center;
   color: var(--loomi-text-faint);
   font-size: 0.875rem;
+  display: grid;
+  justify-items: center;
+  gap: 0.5rem;
+}
+.loomi-empty-action {
+  border: 0;
+  border-radius: 0.4rem;
+  background: var(--loomi-primary-600);
+  color: var(--loomi-text-on-primary, var(--loomi-white));
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  padding: 0.4rem 0.7rem;
+}
+.loomi-empty-action:hover {
+  background: var(--loomi-primary-700);
 }
 
 /* hide light-DOM <option> children used for manual building */

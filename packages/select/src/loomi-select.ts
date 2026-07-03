@@ -52,6 +52,8 @@ export class LoomiSelect extends LoomiElement {
   @property({ type: Boolean, reflect: true }) required = false;
   @property() size: LoomiSelectSize = "medium";
   @property({ attribute: "empty-placeholder" }) emptyPlaceholder = DEFAULT_EMPTY_PLACEHOLDER;
+  @property({ attribute: "empty-action-label" }) emptyActionLabel = "";
+  @property({ attribute: "empty-action-url" }) emptyActionUrl = "";
   @property({ type: Boolean, reflect: true }) invalid = false;
 
   @state() private open = false;
@@ -172,6 +174,17 @@ export class LoomiSelect extends LoomiElement {
       }),
     );
     this.emitChange();
+  }
+
+  private onEmptyAction(): void {
+    this.dispatchEvent(
+      new CustomEvent("empty-action", {
+        bubbles: true,
+        composed: true,
+        detail: { url: this.emptyActionUrl },
+      }),
+    );
+    if (this.emptyActionUrl) location.href = this.emptyActionUrl;
   }
 
   validate(): boolean {
@@ -317,7 +330,12 @@ export class LoomiSelect extends LoomiElement {
                           : nothing}
                       </div>`;
                     })
-                  : html`<div class="loomi-empty">${loomiDefaultText(this.emptyPlaceholder, DEFAULT_EMPTY_PLACEHOLDER, "select.emptyPlaceholder", this.locale)}</div>`}
+                  : html`<div class="loomi-empty">
+                      <span>${loomiDefaultText(this.emptyPlaceholder, DEFAULT_EMPTY_PLACEHOLDER, "select.emptyPlaceholder", this.locale)}</span>
+                      ${this.emptyActionLabel
+                        ? html`<button type="button" class="loomi-empty-action" @click=${this.onEmptyAction}>${this.emptyActionLabel}</button>`
+                        : nothing}
+                    </div>`}
               </div>
             </div>`
           : nothing}
