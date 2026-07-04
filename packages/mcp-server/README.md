@@ -71,3 +71,7 @@ Plus one MCP **resource** per component at `loomi://docs/<name>` (e.g.
 `packages/*/README.md` in this LoomiUI source checkout and bundles them into
 `src/generated/manifest.json` before compiling. Re-run it whenever a component's README
 changes.
+
+## Dependencies
+
+- No LoomiUI package dependencies.

@@ -5,14 +5,26 @@
 Month, week, day, agenda, and resource views with a collapsible sidebar (mini calendar + next-event detail), drag-and-drop editing, timezone display, and Loomi token styling aligned with `@loomidev/*` components.
 
 ## Accessibility
-- Calendar grid with `aria-selected` days and roving focus.
+
+loomi-calendar is built on semantic markup where the browser gives us the right behavior, and it adds ARIA only where the component has custom interaction. Keyboard users should be able to reach the same controls as pointer users, with visible focus treatment unless you explicitly turn it off on controls that support `show-focus-ring="false"`.
+
+When the component displays status, progress, validation, or temporary feedback, pair it with clear labels or nearby text in your app so assistive technology users get the same context a sighted user gets from the visual treatment.
+
 - Previous/next month buttons are labelled; Escape closes popover parents.
 
 ## Responsive behavior
-- Minimum width scales down; day cells shrink on small screens.
+
+loomi-calendar is designed to fit the layout you place it in. It uses fluid widths, `min-width: 0`, wrapping, truncation, or stacked layouts where that keeps the component usable in cards, forms, sidebars, and mobile screens.
+
+For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
+
 
 ## Dark mode
-- Day cells and chrome use `--loomi-calendar-*` aliases tied to semantic tokens.
+
+loomi-calendar uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
+
+Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
+
 - Selected days and primary actions use `--loomi-text-on-primary` on accent fills.
 
 ## Installation
@@ -280,3 +292,16 @@ The create modal emits `loomi-event-create`. Drag/resize emits `loomi-event-chan
 - The component renders and interacts with events but does not persist them. Listen for `loomi-event-create`, `loomi-event-change`, `loomi-event-delete`, and `loomi-event-duplicate`, then update your app state or API.
 - Drag-and-drop emits change events only; the parent should update the `events` array.
 - Recurrence is display metadata for now — expand instances server-side before passing events in, or store the rule on create and re-fetch.
+
+## Dependencies
+
+- `@loomidev/core`
+- `@loomidev/datepicker`
+- `@loomidev/input`
+- `@loomidev/modal`
+- `@loomidev/select`
+- `@loomidev/tag-input`
+- `@loomidev/textarea`
+- `@loomidev/timepicker`
+- `@loomidev/toggle`
+- `@loomidev/tooltip`

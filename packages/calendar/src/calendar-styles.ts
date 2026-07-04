@@ -464,13 +464,13 @@ export const calendarStyles = css`
   .event-form {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 10px;
   }
 
   .event-form-row {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
+    gap: 10px;
   }
 
   .event-form loomi-input,
@@ -485,11 +485,12 @@ export const calendarStyles = css`
 
   .event-form loomi-select {
     position: relative;
-    z-index: 1;
+    z-index: 2;
+    --loomi-select-panel-z-index: 1000;
   }
 
   .event-form loomi-select::part(panel) {
-    z-index: 200;
+    z-index: 1000;
   }
 
   @media (max-width: 560px) {

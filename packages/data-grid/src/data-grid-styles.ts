@@ -131,7 +131,7 @@ export const dataGridStyles = css`
   th,
   td {
     border-bottom: 1px solid var(--loomi-data-grid-border);
-    padding: 12px;
+    padding: 8px 10px;
     text-align: left;
     vertical-align: middle;
     overflow: hidden;
@@ -141,7 +141,7 @@ export const dataGridStyles = css`
 
   :host([density="compact"]) th,
   :host([density="compact"]) td {
-    padding: 8px 10px;
+    padding: 6px 8px;
   }
 
   :host([density="spacious"]) th,
@@ -205,6 +205,8 @@ export const dataGridStyles = css`
     min-width: 42px;
     max-width: 42px;
     text-align: center;
+    overflow: visible;
+    text-overflow: clip;
   }
 
   .pin-edge-start {

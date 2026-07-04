@@ -2,6 +2,7 @@ import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { LoomiElement, loomiStyles } from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
+import "@loomidev/card/loomi-card.js";
 import { componentStyles } from "./generated/styles.css.js";
 
 function icon(name: string): TemplateResult {
@@ -49,21 +50,25 @@ export class LoomiContactCard extends LoomiElement {
       this.noPadding ? "flush" : "",
       this.url ? "clickable" : "",
     ].join(" ");
-    return html`<div class=${cls} @click=${this.url ? this.onClick : nothing}>
-      ${this.image
-        ? html`<img class="loomi-avatar" src=${this.image} alt=${this.name} />`
-        : html`<span class="loomi-avatar">${this.initials()}</span>`}
-      <div class="loomi-body">
-        <div class="loomi-name">${this.name}</div>
-        ${this.position || this.department
-          ? html`<div class="loomi-position">${[this.position, this.department].filter(Boolean).join(" · ")}</div>`
-          : nothing}
-        ${this.email ? html`<div class="loomi-row">${icon("envelope")}<a href="mailto:${this.email}">${this.email}</a></div>` : nothing}
-        ${this.mobile ? html`<div class="loomi-row">${icon("phone")}<a href="tel:${this.mobile}">${this.mobile}</a></div>` : nothing}
-        ${this.birthday ? html`<div class="loomi-row">${icon("cake")}<span>${this.birthday}</span></div>` : nothing}
-        <slot></slot>
-      </div>
-    </div>`;
+    return html`<loomi-card size="sm" .url=${this.url} ?has-hover=${this.hasHover}>
+      <loomi-card-content>
+        <div class=${cls} @click=${this.url ? this.onClick : nothing}>
+          ${this.image
+            ? html`<img class="loomi-avatar" src=${this.image} alt=${this.name} />`
+            : html`<span class="loomi-avatar">${this.initials()}</span>`}
+          <div class="loomi-body">
+            <div class="loomi-name">${this.name}</div>
+            ${this.position || this.department
+              ? html`<div class="loomi-position">${[this.position, this.department].filter(Boolean).join(" · ")}</div>`
+              : nothing}
+            ${this.email ? html`<div class="loomi-row">${icon("envelope")}<a href="mailto:${this.email}">${this.email}</a></div>` : nothing}
+            ${this.mobile ? html`<div class="loomi-row">${icon("phone")}<a href="tel:${this.mobile}">${this.mobile}</a></div>` : nothing}
+            ${this.birthday ? html`<div class="loomi-row">${icon("cake")}<span>${this.birthday}</span></div>` : nothing}
+            <slot></slot>
+          </div>
+        </div>
+      </loomi-card-content>
+    </loomi-card>`;
   }
 }
 

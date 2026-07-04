@@ -100,74 +100,34 @@ The label is hidden by default. Show it with `show-label`; add the `%` sign with
 <loomi-progress-circle size="400" circle-width="50" percentage="89" show-label show-percent></loomi-progress-circle>
 ```
 
-## Progress Steps — Basic Usage
+## Progress Steps
 
-Use `<loomi-progress-steps>` with `<loomi-progress-step>` children for checkout,
-onboarding, setup, approval, and other multi-step workflows. `current` is 1-based.
-
-```html
-<loomi-progress-steps current="2">
-  <loomi-progress-step label="Cart" description="Review items"></loomi-progress-step>
-  <loomi-progress-step label="Shipping" description="Address and delivery"></loomi-progress-step>
-  <loomi-progress-step label="Payment" description="Card details"></loomi-progress-step>
-  <loomi-progress-step label="Done" description="Confirmation"></loomi-progress-step>
-</loomi-progress-steps>
-```
-
-### Clickable Steps
-
-Add `clickable` to let users jump between steps. The wrapper updates `current` and
-emits `progress-steps-change` with `detail: { current, step }`.
-
-```html
-<loomi-progress-steps current="1" clickable color="success">
-  <loomi-progress-step label="Profile"></loomi-progress-step>
-  <loomi-progress-step label="Team"></loomi-progress-step>
-  <loomi-progress-step label="Billing"></loomi-progress-step>
-</loomi-progress-steps>
-```
-
-Individual steps can also be links:
-
-```html
-<loomi-progress-step label="Plan" href="/billing/plan"></loomi-progress-step>
-```
-
-### Vertical Steps
-
-```html
-<loomi-progress-steps current="3" orientation="vertical">
-  <loomi-progress-step label="Submitted" description="Request received"></loomi-progress-step>
-  <loomi-progress-step label="Review" description="Manager approval"></loomi-progress-step>
-  <loomi-progress-step label="Processing" description="Work in progress"></loomi-progress-step>
-  <loomi-progress-step label="Complete" description="Ready for pickup"></loomi-progress-step>
-</loomi-progress-steps>
-```
-
-### Explicit Step States
-
-The wrapper derives `complete`, `current`, and `upcoming` states from `current`
-unless a step declares its own state or boolean status.
-
-```html
-<loomi-progress-steps>
-  <loomi-progress-step label="Account" completed></loomi-progress-step>
-  <loomi-progress-step label="Verification" state="error" description="Needs attention"></loomi-progress-step>
-  <loomi-progress-step label="Finish"></loomi-progress-step>
-</loomi-progress-steps>
-```
+Progress steps now have their own package: [`@loomidev/progress-steps`](../progress-steps).
+Use that package when you only need the stepper, or keep using `@loomidev/progress`
+when you want the bar, circle, and stepper from one install.
 
 ## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
+
+loomi-progress-bar is built on semantic markup where the browser gives us the right behavior, and it adds ARIA only where the component has custom interaction. Keyboard users should be able to reach the same controls as pointer users, with visible focus treatment unless you explicitly turn it off on controls that support `show-focus-ring="false"`.
+
+When the component displays status, progress, validation, or temporary feedback, pair it with clear labels or nearby text in your app so assistive technology users get the same context a sighted user gets from the visual treatment.
+
 - Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
 
 ## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+loomi-progress-bar is designed to fit the layout you place it in. It uses fluid widths, `min-width: 0`, wrapping, truncation, or stacked layouts where that keeps the component usable in cards, forms, sidebars, and mobile screens.
+
+For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
+
 
 ## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+
+loomi-progress-bar uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
+
+Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
+
 - Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
-- ⚠️ Audit raw `--loomi-gray-*` / hex fills and migrate to semantic tokens.
 
 ## Attributes
 
@@ -419,3 +379,7 @@ import "@loomidev/progress";
 Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on the server before browser-only code runs. If your framework complains, move the Loomi import to client-side code. In Next.js, that usually means a component with `"use client"`; in Nuxt, it often means a `.client.ts` plugin.
 
 <!-- END loomi-framework-guide -->
+
+## Dependencies
+
+- `@loomidev/core`

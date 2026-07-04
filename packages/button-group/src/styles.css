@@ -23,7 +23,12 @@
 
 .loomi-bg-group {
   display: inline-flex;
-  align-items: stretch;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border: 1px solid var(--loomi-surface-border);
+  border-radius: calc(var(--loomi-bg-radius, 0.5rem) + 0.25rem);
+  background: var(--loomi-surface-muted);
 }
 
 .loomi-bg-group.disabled {
@@ -48,7 +53,7 @@
 }
 
 :host(loomi-button-group-item:not(:first-of-type)) {
-  margin-left: -1px;
+  margin-left: 0;
 }
 
 :host(loomi-button-group-item:hover),
@@ -67,6 +72,7 @@
   justify-content: center;
   gap: 0.4rem;
   width: 100%;
+  height: var(--loomi-bg-height, 2.5rem);
   min-height: var(--loomi-bg-height, 2.5rem);
   padding-block: 0;
   padding-inline: var(--loomi-bg-pad-x, 1rem);
@@ -86,8 +92,8 @@
   /* Secondary ghost: matches .loomi-btn--secondary on <loomi-button>. */
   background: transparent;
   color: var(--loomi-text, inherit);
-  border: 1px solid var(--loomi-surface-border, #d9dee3);
-  border-radius: 0;
+  border: 1px solid transparent;
+  border-radius: var(--loomi-bg-radius, 0.5rem);
 
   transition:
     background-color 0.15s ease,
@@ -96,15 +102,15 @@
 }
 
 :host(:first-of-type) .loomi-bg-btn {
-  border-radius: 0.5rem 0 0 0.5rem;
+  border-radius: var(--loomi-bg-radius, 0.5rem);
 }
 
 :host(:last-of-type) .loomi-bg-btn {
-  border-radius: 0 0.5rem 0.5rem 0;
+  border-radius: var(--loomi-bg-radius, 0.5rem);
 }
 
 :host(:first-of-type:last-of-type) .loomi-bg-btn {
-  border-radius: 0.5rem;
+  border-radius: var(--loomi-bg-radius, 0.5rem);
 }
 
 .loomi-bg-btn:not(:disabled):not(.selected):hover {
@@ -115,6 +121,7 @@
   background: var(--loomi-bg-sel-bg);
   color: var(--loomi-bg-sel-color);
   border-color: var(--loomi-bg-sel-border);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
 }
 
 .loomi-bg-btn.selected:not(:disabled):hover {
@@ -141,7 +148,7 @@
 }
 
 .loomi-bg-btn.selected:focus-visible {
-  box-shadow: 0 0 0 2px var(--_loomi-accent-ring);
+  box-shadow: 0 0 0 2px var(--loomi-bg-accent-soft), 0 1px 2px rgba(15, 23, 42, 0.08);
 }
 
 .loomi-bg-icon {

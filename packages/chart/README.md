@@ -157,12 +157,13 @@ point as a standalone marker on the same axes as `bar`/`line`, with no connectin
 
 ## Dual series (bar & line)
 
-Add an optional `value2` on each data point to compare two metrics per category — grouped
-bars on `type="bar"` and a second line on `type="line"`. Set `color2`, `series-label`, and
-`series2-label` to style and label each series in the tooltip.
+Add an optional `value2` on each data point to compare two metrics per category. Bar
+charts render grouped bars by default; set `series2-type="line"` to draw `value2` as a
+line over the bars. Line charts draw `value2` as a second line. Set `color2`,
+`series-label`, and `series2-label` to style and label each series in the tooltip.
 
 ```html
-<loomi-chart type="bar" color="primary" color2="success" series-label="Revenue" series2-label="Target"
+<loomi-chart type="bar" series2-type="line" color="primary" color2="success" series-label="Revenue" series2-label="Target"
   data='[{"label":"Jan","value":42,"value2":35},{"label":"Feb","value":38,"value2":40},{"label":"Mar","value":55,"value2":48}]'></loomi-chart>
 ```
 
@@ -413,14 +414,26 @@ the chart instead of wrapping below it.
 ```
 
 ## Accessibility
-- SVG root exposes `role="img"` with a descriptive `aria-label`.
+
+loomi-chart is built on semantic markup where the browser gives us the right behavior, and it adds ARIA only where the component has custom interaction. Keyboard users should be able to reach the same controls as pointer users, with visible focus treatment unless you explicitly turn it off on controls that support `show-focus-ring="false"`.
+
+When the component displays status, progress, validation, or temporary feedback, pair it with clear labels or nearby text in your app so assistive technology users get the same context a sighted user gets from the visual treatment.
+
 - Interactive hits remain pointer-driven; provide a text summary nearby for critical data.
 
 ## Responsive behavior
-- SVG scales to container width; legend wraps below `640px` when positioned horizontally.
+
+loomi-chart is designed to fit the layout you place it in. It uses fluid widths, `min-width: 0`, wrapping, truncation, or stacked layouts where that keeps the component usable in cards, forms, sidebars, and mobile screens.
+
+For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
+
 
 ## Dark mode
-- Grid lines and axis labels use `--loomi-surface-border` and `--loomi-text-muted` instead of raw gray ramps.
+
+loomi-chart uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
+
+Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
+
 
 ## Attributes
 
@@ -430,6 +443,7 @@ the chart instead of wrapping below it.
 | `data` | `[]` | Series — `{ label, value, value2?, value3?, values?, color?, color2?, color3? }[]`. Use `values: [{ label, value, color? }]` on bar charts for 4+ grouped series per category. |
 | `color` | `primary` | Primary series color. |
 | `color2` | `success` | Second series color when points include `value2`. |
+| `series2-type` | `bar` | On `type="bar"`, set `line` to draw `value2` over the bars. |
 | `series-label` | `Series 1` | Tooltip label for the primary series. |
 | `series2-label` | `Series 2` | Tooltip label for the second series. |
 | `shade` | `dark` | `dark` \| `light` — lighter fills/strokes in `light` mode. |
@@ -442,6 +456,7 @@ the chart instead of wrapping below it.
 | `legend-position` | `bottom` | `top` \| `bottom` \| `left` \| `right` — where the legend renders when `show-legend` is on. |
 | `donut-radius` | `44` | Inner-hole radius (SVG units) for `type="donut"`. |
 | `with-gap` | `false` | Adds visible separation between `pie` and `donut` slices. _(boolean)_ |
+| `exportable` | `false` | Shows a compact export menu for PNG, PDF, SVG, CSV, and JSON. _(boolean)_ |
 
 > A compact chart for dashboards — supports a second series on `bar`/`line` via `value2`.
 > Its only runtime dependency is `@loomidev/tooltip`, used for polar-chart hover labels.
@@ -649,3 +664,8 @@ import "@loomidev/chart";
 Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on the server before browser-only code runs. If your framework complains, move the Loomi import to client-side code. In Next.js, that usually means a component with `"use client"`; in Nuxt, it often means a `.client.ts` plugin.
 
 <!-- END loomi-framework-guide -->
+
+## Dependencies
+
+- `@loomidev/core`
+- `@loomidev/tooltip`

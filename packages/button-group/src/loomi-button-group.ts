@@ -8,11 +8,11 @@ export type LoomiButtonGroupSize = "tiny" | "small" | "regular" | "medium" | "bi
 
 /** Size CSS vars aligned with `<loomi-button>` control tokens. */
 const SIZE_VARS: Record<LoomiButtonGroupSize, string> = {
-  tiny:    "--loomi-bg-height:2rem;--loomi-bg-pad-x:0.625rem;--loomi-bg-font:0.75rem",
-  small:   "--loomi-bg-height:2.25rem;--loomi-bg-pad-x:0.75rem;--loomi-bg-font:0.875rem",
-  regular: "--loomi-bg-height:2.5rem;--loomi-bg-pad-x:1rem;--loomi-bg-font:0.875rem",
-  medium:  "--loomi-bg-height:2.75rem;--loomi-bg-pad-x:1.25rem;--loomi-bg-font:1rem",
-  big:     "--loomi-bg-height:3rem;--loomi-bg-pad-x:1.5rem;--loomi-bg-font:1.125rem",
+  tiny:    "--loomi-bg-height:2rem;--loomi-bg-pad-x:0.625rem;--loomi-bg-font:0.75rem;--loomi-bg-radius:0.4rem",
+  small:   "--loomi-bg-height:2.25rem;--loomi-bg-pad-x:0.75rem;--loomi-bg-font:0.875rem;--loomi-bg-radius:0.45rem",
+  regular: "--loomi-bg-height:2.5rem;--loomi-bg-pad-x:1rem;--loomi-bg-font:0.875rem;--loomi-bg-radius:0.5rem",
+  medium:  "--loomi-bg-height:2.75rem;--loomi-bg-pad-x:1.25rem;--loomi-bg-font:1rem;--loomi-bg-radius:0.55rem",
+  big:     "--loomi-bg-height:3rem;--loomi-bg-pad-x:1.5rem;--loomi-bg-font:1.125rem;--loomi-bg-radius:0.6rem",
 };
 
 /**
@@ -142,10 +142,11 @@ export class LoomiButtonGroup extends LoomiElement {
     // so the active item reads as "chosen" without competing for attention like a
     // primary-colored call-to-action would. `color` only tints the focus ring below.
     const selVars = [
-      `--loomi-bg-sel-bg:${cssColor("gray", 200)}`,
-      `--loomi-bg-sel-color:${cssColor("gray", 800)}`,
-      `--loomi-bg-sel-border:${cssColor("gray", 300)}`,
-      `--loomi-bg-sel-hover:${cssColor("gray", 300)}`,
+      `--loomi-bg-sel-bg:var(--loomi-surface)`,
+      `--loomi-bg-sel-color:var(--loomi-text)`,
+      `--loomi-bg-sel-border:${cssColor(this.color, 500)}`,
+      `--loomi-bg-sel-hover:var(--loomi-surface-hover)`,
+      `--loomi-bg-accent-soft:${cssColor(this.color, 100)}`,
     ].join(";");
 
     return `${accentVars(this.color)};${sizeVars};${selVars}`;

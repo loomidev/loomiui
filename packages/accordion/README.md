@@ -20,13 +20,13 @@ Each item needs a `title` for its clickable header; the body is its default slot
 ```html
 <loomi-accordion>
   <loomi-accordion-item title="What is loomi?">
-    <p>A framework-agnostic Lit web component library.</p>
+    <p>Little panels bloom,<br />quiet answers fold open,<br />one click finds the sun.</p>
   </loomi-accordion-item>
   <loomi-accordion-item title="How do I install it?">
-    <p>npm install the package for whichever component you need.</p>
+    <p>Run the install line,<br />import once before rendering,<br />then let tags appear.</p>
   </loomi-accordion-item>
   <loomi-accordion-item title="Can I theme it?">
-    <p>Yes — override the public CSS custom properties at :root.</p>
+    <p>Tokens change their clothes,<br />light and dark both know the path,<br />your brand sets the tone.</p>
   </loomi-accordion-item>
 </loomi-accordion>
 ```
@@ -71,8 +71,8 @@ let items stay open independently.
 
 ```html
 <loomi-accordion can-open-multiple>
-  <loomi-accordion-item title="Section A" open>…</loomi-accordion-item>
-  <loomi-accordion-item title="Section B" open>…</loomi-accordion-item>
+  <loomi-accordion-item title="Dawn" open>Morning lifts the blinds and paints the room in gold.</loomi-accordion-item>
+  <loomi-accordion-item title="Rain" open>Soft rain counts the roofs while the garden learns its song.</loomi-accordion-item>
 </loomi-accordion>
 ```
 
@@ -83,28 +83,8 @@ By default items sit inside one shared card, separated by divider lines. Set
 
 ```html
 <loomi-accordion grouped="false">
-  <loomi-accordion-item title="Standalone item one">…</loomi-accordion-item>
-  <loomi-accordion-item title="Standalone item two">…</loomi-accordion-item>
-</loomi-accordion>
-```
-
-## Colorful Accordions
-
-`color` only applies when `grouped="false"`, since grouped accordions share one
-container background.
-
-```html
-<loomi-accordion grouped="false" color="yellow">
-  <loomi-accordion-item title="A pop of color">…</loomi-accordion-item>
-</loomi-accordion>
-```
-
-It can also be set per-item to mix colors within one ungrouped accordion:
-
-```html
-<loomi-accordion grouped="false">
-  <loomi-accordion-item title="Primary item" color="primary">…</loomi-accordion-item>
-  <loomi-accordion-item title="Error item" color="error">…</loomi-accordion-item>
+  <loomi-accordion-item title="Standalone breeze">A small wind signs its name across the lake.</loomi-accordion-item>
+  <loomi-accordion-item title="Standalone moon">The moon keeps watch while city windows blink.</loomi-accordion-item>
 </loomi-accordion>
 ```
 
@@ -117,14 +97,26 @@ It can also be set per-item to mix colors within one ungrouped accordion:
 ```
 
 ## Accessibility
-- Implements ARIA roles/states for custom interaction surfaces.
+
+loomi-accordion is built on semantic markup where the browser gives us the right behavior, and it adds ARIA only where the component has custom interaction. Keyboard users should be able to reach the same controls as pointer users, with visible focus treatment unless you explicitly turn it off on controls that support `show-focus-ring="false"`.
+
+When the component displays status, progress, validation, or temporary feedback, pair it with clear labels or nearby text in your app so assistive technology users get the same context a sighted user gets from the visual treatment.
+
 - Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
 
 ## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+loomi-accordion is designed to fit the layout you place it in. It uses fluid widths, `min-width: 0`, wrapping, truncation, or stacked layouts where that keeps the component usable in cards, forms, sidebars, and mobile screens.
+
+For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
+
 
 ## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+
+loomi-accordion uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
+
+Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
+
 - Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 
 ## Attributes
@@ -153,10 +145,10 @@ It can also be set per-item to mix colors within one ungrouped accordion:
 ```html
 <loomi-accordion grouped="false" can-open-multiple color="error">
   <loomi-accordion-item title="What is loomi?" open>
-    <p>A framework-agnostic Lit web component library.</p>
+    <p>Small pieces of UI,<br />stitched lightly to any app,<br />ready when called.</p>
   </loomi-accordion-item>
   <loomi-accordion-item title="How do I install it?">
-    <p>npm install the package for whichever component you need.</p>
+    <p>Install what you need,<br />import once at the app edge,<br />then write the element.</p>
   </loomi-accordion-item>
 </loomi-accordion>
 ```
@@ -334,3 +326,7 @@ import "@loomidev/accordion";
 Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on the server before browser-only code runs. If your framework complains, move the Loomi import to client-side code. In Next.js, that usually means a component with `"use client"`; in Nuxt, it often means a `.client.ts` plugin.
 
 <!-- END loomi-framework-guide -->
+
+## Dependencies
+
+- `@loomidev/core`

@@ -41,6 +41,7 @@
     "@loomidev/avatar": "workspace:^",
     "@loomidev/button": "workspace:^",
     "@loomidev/core": "workspace:^",
+    "@loomidev/dropmenu": "workspace:^",
     "@loomidev/icon": "workspace:^",
     "@loomidev/spinner": "workspace:^",
     "@loomidev/tooltip": "workspace:^"

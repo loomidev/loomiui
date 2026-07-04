@@ -95,9 +95,10 @@
 }
 
 .title {
+  font-size: 0.875rem;
   font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.025em;
+  line-height: 1.25rem;
+  letter-spacing: 0;
 }
 
 /* ---- description ---- */
@@ -144,6 +145,6 @@
   gap: 0.5rem;
   border-top: 1px solid var(--loomi-surface-border-subtle);
   border-radius: 0 0 0.75rem 0.75rem;
-  background: color-mix(in srgb, var(--loomi-surface-muted) 50%, transparent);
+  background: var(--loomi-surface-muted);
   padding: var(--loomi-card-spacing);
 }

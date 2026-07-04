@@ -14,17 +14,6 @@ export const qualityOverrides = {
       "Shell, headers, and cells use `--loomi-data-grid-*` aliases mapped to semantic surface/text tokens."
     ]
   },
-  sidebar: {
-    accessibility: [
-      "Primary navigation landmark with labelled groups.",
-      "Keyboard shortcut to collapse (document in README).",
-      "Mobile sheet traps focus while open."
-    ],
-    responsive: [
-      "Fixed sidebar from `768px`; below that, off-canvas drawer with overlay."
-    ],
-    darkMode: ["Sidebar chrome maps to `--loomi-sidebar-*` semantic aliases."]
-  },
   "command-palette": {
     accessibility: [
       "Modal dialog with `aria-modal`, labelled search field, and listbox-style results.",

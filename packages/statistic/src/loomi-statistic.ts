@@ -1,7 +1,6 @@
-import { html, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, loomiT } from "@loomidev/core";
-import "@loomidev/card/loomi-card.js";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiStatRadius = "none" | "small" | "medium" | "large" | "xl";
@@ -48,13 +47,13 @@ export class LoomiStatistic extends LoomiElement {
       this.iconColor ? `--loomi-stat-icon-color:${this.iconColor}` : "",
       this.iconSize ? `--loomi-stat-icon-size:${this.iconSize}` : "",
     ].filter(Boolean).join(";");
-    return html`<loomi-card
-      class="loomi-stat-card"
-      size="sm"
-      .url=${this.url}
-      ?has-hover=${!!this.url}
-    >
-      <div class=${cls}>
+    return html`
+      <div
+        class=${cls}
+        role=${this.url ? "link" : nothing}
+        tabindex=${this.url ? "0" : nothing}
+        @click=${this.url ? () => (location.href = this.url) : nothing}
+      >
         ${this.hasIcon ? html`<div class="loomi-ico" part="icon" style=${iconStyle}><slot name="icon"></slot></div>` : null}
         <div class="loomi-body ${this.labelPosition}">
           <div class="loomi-label">${this.label}</div>
@@ -65,8 +64,7 @@ export class LoomiStatistic extends LoomiElement {
                 <span>${this.number}</span>
               </div>`}
         </div>
-      </div>
-    </loomi-card>`;
+      </div>`;
   }
 }
 

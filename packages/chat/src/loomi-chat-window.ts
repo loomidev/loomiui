@@ -3,6 +3,7 @@ import { customElement, property, query, state } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, type LoomiColor } from "@loomidev/core";
 import "@loomidev/avatar/loomi-avatar.js";
 import "@loomidev/button/loomi-button.js";
+import "@loomidev/dropmenu/loomi-dropmenu.js";
 import "@loomidev/icon/loomi-icon.js";
 import "@loomidev/spinner/loomi-spinner.js";
 import "@loomidev/tooltip/loomi-tooltip.js";
@@ -79,6 +80,8 @@ export class LoomiChatWindow extends LoomiElement {
   @state() private showJumpButton = false;
   @query(".loomi-chat-transcript") private transcriptEl?: HTMLElement;
   @query(".loomi-chat-input") private inputEl?: HTMLTextAreaElement;
+  @query(".loomi-chat-file-input") private fileInputEl?: HTMLInputElement;
+  @query(".loomi-chat-picture-input") private pictureInputEl?: HTMLInputElement;
 
   private pinnedToBottom = true;
   private resizeObserver?: ResizeObserver;
@@ -160,7 +163,7 @@ export class LoomiChatWindow extends LoomiElement {
     if (this.participants.length) return this.participants;
     return [
       { id: this.currentUserId, name: "You", label: "YO", color: "primary" },
-      { id: "assistant", name: "Assistant", label: "AI", color: "blue" },
+      { id: "assistant", name: "Assistant", label: "AI", color: "secondary" },
     ];
   }
 
@@ -217,6 +220,37 @@ export class LoomiChatWindow extends LoomiElement {
   private onReset = (): void => {
     if (this.busy) return;
     this.reset();
+  };
+
+  private chooseAttachment(type: "file" | "picture" | "user"): void {
+    if (this.busy || this.readOnly) return;
+    if (type === "file") this.fileInputEl?.click();
+    else if (type === "picture") this.pictureInputEl?.click();
+    else this.dispatchEvent(new CustomEvent("add-user", { bubbles: true, composed: true }));
+  }
+
+  private onAttachmentPicked = (type: "file" | "picture") => (event: Event): void => {
+    const input = event.currentTarget as HTMLInputElement;
+    const files = Array.from(input.files ?? []);
+    if (!files.length) return;
+    this.dispatchEvent(
+      new CustomEvent(type === "file" ? "attach-file" : "attach-picture", {
+        bubbles: true,
+        composed: true,
+        detail: { files },
+      }),
+    );
+    input.value = "";
+  };
+
+  private onRecord = async (): Promise<void> => {
+    if (this.busy || this.readOnly) return;
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      this.dispatchEvent(new CustomEvent("record", { bubbles: true, composed: true, detail: { stream } }));
+    } catch (error) {
+      this.dispatchEvent(new CustomEvent("record-error", { bubbles: true, composed: true, detail: { error } }));
+    }
   };
 
   private onComposerKeydown = (event: KeyboardEvent): void => {
@@ -305,12 +339,11 @@ export class LoomiChatWindow extends LoomiElement {
                     type="secondary"
                     size="small"
                     radius="medium"
+                    icon="arrow-path"
                     aria-label="Reset conversation"
                     ?disabled=${this.busy || !hasMessages}
                     @click=${this.onReset}
-                  >
-                    <loomi-icon name="arrow-path" slot="prefix"></loomi-icon>
-                  </loomi-button>
+                  ></loomi-button>
                 </loomi-tooltip>`
               : nothing}
           </header>
@@ -361,16 +394,51 @@ export class LoomiChatWindow extends LoomiElement {
                   ${this.busy
                     ? html`<loomi-spinner type="dot" size="small" color="gray"></loomi-spinner>`
                     : nothing}
+                  <input
+                    class="loomi-chat-file-input"
+                    type="file"
+                    tabindex="-1"
+                    @change=${this.onAttachmentPicked("file")}
+                  />
+                  <input
+                    class="loomi-chat-picture-input"
+                    type="file"
+                    accept="image/*"
+                    tabindex="-1"
+                    @change=${this.onAttachmentPicked("picture")}
+                  />
+                  <div class="loomi-chat-send-tools">
+                    <loomi-dropmenu position="right">
+                      <span slot="trigger" class="loomi-chat-attach-trigger" title="Attach">
+                        <loomi-icon name="plus"></loomi-icon>
+                      </span>
+                      <loomi-dropmenu-item icon="paper-clip" @click=${() => this.chooseAttachment("file")}>Attach file</loomi-dropmenu-item>
+                      <loomi-dropmenu-item icon="photo" @click=${() => this.chooseAttachment("picture")}>Attach picture</loomi-dropmenu-item>
+                      <loomi-dropmenu-item icon="user-plus" @click=${() => this.chooseAttachment("user")}>Add user to chat</loomi-dropmenu-item>
+                    </loomi-dropmenu>
+                    <loomi-tooltip content="Record voice message">
+                      <loomi-button
+                        class="loomi-chat-mic-btn"
+                        type="secondary"
+                        size="small"
+                        radius="full"
+                        icon="microphone"
+                        aria-label="Record voice message"
+                        ?disabled=${this.busy || this.readOnly}
+                        @click=${this.onRecord}
+                      ></loomi-button>
+                    </loomi-tooltip>
+                  </div>
                   <loomi-button
+                    class="loomi-chat-send-btn"
                     type="primary"
                     size="small"
                     radius="full"
+                    icon="arrow-up"
                     aria-label="Send message"
                     ?disabled=${!this.draft.trim() || this.busy || this.readOnly}
                     @click=${this.onSubmit}
-                  >
-                    <loomi-icon name="arrow-up" slot="prefix"></loomi-icon>
-                  </loomi-button>
+                  ></loomi-button>
                 </div>
               </div>
             </form>

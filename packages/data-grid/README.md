@@ -8,16 +8,28 @@ tables, charts integration, spreadsheet features, and state persistence — is
 an opt-in **module** you attach only when you need it.
 
 ## Accessibility
-- Grid uses native `<table>` semantics with sortable column headers.
+
+loomi-data-grid is built on semantic markup where the browser gives us the right behavior, and it adds ARIA only where the component has custom interaction. Keyboard users should be able to reach the same controls as pointer users, with visible focus treatment unless you explicitly turn it off on controls that support `show-focus-ring="false"`.
+
+When the component displays status, progress, validation, or temporary feedback, pair it with clear labels or nearby text in your app so assistive technology users get the same context a sighted user gets from the visual treatment.
+
 - Roving cell focus: Arrow keys, Home/End, Page Up/Down; Space toggles row selection; Enter fires `loomi-row-action`.
 - Module toolbars expose labelled controls (`aria-label` on filters and actions).
 
 ## Responsive behavior
-- Horizontal scroll inside `.grid-wrap` on narrow viewports; table keeps a minimum width.
+
+loomi-data-grid is designed to fit the layout you place it in. It uses fluid widths, `min-width: 0`, wrapping, truncation, or stacked layouts where that keeps the component usable in cards, forms, sidebars, and mobile screens.
+
+For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
+
 - Toolbar and footer groups stack below `768px`.
 
 ## Dark mode
-- Shell, headers, and cells use `--loomi-data-grid-*` aliases mapped to semantic surface/text tokens.
+
+loomi-data-grid uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
+
+Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
+
 ## Installation
 
 ```sh
@@ -336,3 +348,8 @@ package. Changes to account for:
 - Types are renamed `DataTable*` → `DataGrid*`, and filter-related types
   (`DataGridFilter`, `DataGridFilterOperator`) now live in
   `modules/filtering.js`.
+
+## Dependencies
+
+- `@loomidev/chart`
+- `@loomidev/core`

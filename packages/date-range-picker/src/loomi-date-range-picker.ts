@@ -146,7 +146,7 @@ export class LoomiDateRangePicker extends LoomiElement {
 
     .popover {
       position: fixed;
-      z-index: var(--loomi-date-range-picker-z-index, 1000);
+      z-index: var(--loomi-date-range-picker-z-index, 2147480000);
       top: var(--loomi-date-range-picker-y, 0px);
       left: var(--loomi-date-range-picker-x, 0px);
       width: min(640px, calc(100vw - 32px));

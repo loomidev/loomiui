@@ -5,15 +5,27 @@
 Typed fields, field-specific operators, `and` / `or` logic, and API-friendly `{ logic, rules }` output.
 
 ## Accessibility
-- Filter logic toggle uses `aria-pressed`.
+
+loomi-filter-builder is built on semantic markup where the browser gives us the right behavior, and it adds ARIA only where the component has custom interaction. Keyboard users should be able to reach the same controls as pointer users, with visible focus treatment unless you explicitly turn it off on controls that support `show-focus-ring="false"`.
+
+When the component displays status, progress, validation, or temporary feedback, pair it with clear labels or nearby text in your app so assistive technology users get the same context a sighted user gets from the visual treatment.
+
 - Each rule row exposes labelled field, operator, and value controls.
 - Remove actions include an accessible name.
 
 ## Responsive behavior
-- Rule rows stack vertically below `720px`.
+
+loomi-filter-builder is designed to fit the layout you place it in. It uses fluid widths, `min-width: 0`, wrapping, truncation, or stacked layouts where that keeps the component usable in cards, forms, sidebars, and mobile screens.
+
+For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
+
 
 ## Dark mode
-- Panel background and text use `--loomi-filter-*` semantic aliases.
+
+loomi-filter-builder uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
+
+Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
+
 ## Installation
 
 
@@ -85,3 +97,7 @@ builder.rules = [
 - The value shape is intentionally API-friendly: `{ logic, rules }`.
 - Apps should translate the emitted rules into SQL, API query params, GraphQL variables, or table-local filters.
 - Server-side tables should listen for `loomi-filter-apply` and refresh data from the backend.
+
+## Dependencies
+
+- `@loomidev/core`

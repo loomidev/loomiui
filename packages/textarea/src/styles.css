@@ -21,6 +21,10 @@
 }
 .loomi-field:focus-within {
   border-color: var(--loomi-primary-600);
+  box-shadow: 0 0 0 3px var(--loomi-primary-100);
+}
+.loomi-field.no-focus-ring:focus-within {
+  box-shadow: none;
 }
 :host([invalid]) .loomi-field {
   border-color: var(--loomi-error-400);

@@ -6,6 +6,7 @@ export const PARTICIPANT_COLORS = [
   "error",
   "gray",
   "secondary",
+  "primary",
 ] as const satisfies readonly LoomiColor[];
 
 export type LoomiChatParticipantColor = (typeof PARTICIPANT_COLORS)[number];

@@ -24,14 +24,26 @@ import { LOOMI_COLORS, isLoomiColor, type LoomiColor } from "@loomidev/component
 
 
 ## Accessibility
-- Prefer native HTML elements; add labels in your app shell where needed.
+
+loomi-button is built on semantic markup where the browser gives us the right behavior, and it adds ARIA only where the component has custom interaction. Keyboard users should be able to reach the same controls as pointer users, with visible focus treatment unless you explicitly turn it off on controls that support `show-focus-ring="false"`.
+
+When the component displays status, progress, validation, or temporary feedback, pair it with clear labels or nearby text in your app so assistive technology users get the same context a sighted user gets from the visual treatment.
+
 - Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
 
 ## Responsive behavior
-- Fluid width (`width: 100%`, `min-width: 0`) within flex and grid layouts.
+
+loomi-button is designed to fit the layout you place it in. It uses fluid widths, `min-width: 0`, wrapping, truncation, or stacked layouts where that keeps the component usable in cards, forms, sidebars, and mobile screens.
+
+For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
+
 
 ## Dark mode
-- Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.
+
+loomi-button uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
+
+Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
+
 - Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 ## Want a smaller footprint?
 
@@ -214,3 +226,74 @@ import "@loomidev/components";
 In Next.js, Nuxt, SvelteKit, and other SSR frameworks, put the bundle import in client-side code if the server build complains about browser-only APIs. The rendered HTML can still contain the `<loomi-*>` tags; the browser upgrades them after the JavaScript loads.
 
 <!-- END loomi-framework-guide -->
+
+## Dependencies
+
+- `@loomidev/accordion`
+- `@loomidev/alert`
+- `@loomidev/autocomplete`
+- `@loomidev/avatar`
+- `@loomidev/bell`
+- `@loomidev/button`
+- `@loomidev/button-group`
+- `@loomidev/calendar`
+- `@loomidev/card`
+- `@loomidev/centered-content`
+- `@loomidev/chart`
+- `@loomidev/checkbox`
+- `@loomidev/checkcards`
+- `@loomidev/colorpicker`
+- `@loomidev/command-palette`
+- `@loomidev/contact-card`
+- `@loomidev/context-menu`
+- `@loomidev/copy-to-clipboard`
+- `@loomidev/core`
+- `@loomidev/countries`
+- `@loomidev/creditcard`
+- `@loomidev/data-grid`
+- `@loomidev/date-range-picker`
+- `@loomidev/datepicker`
+- `@loomidev/divider`
+- `@loomidev/drawer`
+- `@loomidev/dropmenu`
+- `@loomidev/emoji-picker`
+- `@loomidev/empty-state`
+- `@loomidev/filepicker`
+- `@loomidev/filter-builder`
+- `@loomidev/horizontal-line-graph`
+- `@loomidev/icon`
+- `@loomidev/icons`
+- `@loomidev/input`
+- `@loomidev/listview`
+- `@loomidev/modal`
+- `@loomidev/notification`
+- `@loomidev/number`
+- `@loomidev/pagination`
+- `@loomidev/password`
+- `@loomidev/pin`
+- `@loomidev/popover`
+- `@loomidev/processing`
+- `@loomidev/progress`
+- `@loomidev/progress-steps`
+- `@loomidev/qrcode`
+- `@loomidev/radio`
+- `@loomidev/rating`
+- `@loomidev/resizable`
+- `@loomidev/select`
+- `@loomidev/slider`
+- `@loomidev/sortable`
+- `@loomidev/spinner`
+- `@loomidev/statistic`
+- `@loomidev/tab`
+- `@loomidev/table`
+- `@loomidev/tag`
+- `@loomidev/tag-input`
+- `@loomidev/text-editor`
+- `@loomidev/textarea`
+- `@loomidev/theme`
+- `@loomidev/theme-switcher`
+- `@loomidev/timeline`
+- `@loomidev/timepicker`
+- `@loomidev/timer`
+- `@loomidev/toggle`
+- `@loomidev/tooltip`

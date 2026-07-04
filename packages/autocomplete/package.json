@@ -1,11 +1,11 @@
 {
-  "name": "@loomidev/sidebar",
+  "name": "@loomidev/autocomplete",
   "version": "0.1.0",
-  "description": "shadcn/ui-style sidebar primitives: loomi-sidebar and loomi-sidebar-* composition parts.",
+  "description": "<loomi-autocomplete> — a text input with suggestions, styled like Loomi form controls.",
   "repository": {
     "type": "git",
     "url": "https://github.com/loomidev/loomiui.git",
-    "directory": "packages/sidebar"
+    "directory": "packages/autocomplete"
   },
   "license": "MIT",
   "publishConfig": {
@@ -23,35 +23,31 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./loomi-sidebar.js": {
-      "types": "./dist/loomi-sidebar.d.ts",
-      "import": "./dist/loomi-sidebar.js"
+    "./loomi-autocomplete.js": {
+      "types": "./dist/loomi-autocomplete.d.ts",
+      "import": "./dist/loomi-autocomplete.js"
     }
   },
   "scripts": {
-    "build": "node scripts/build-styles.mjs && tsc -p tsconfig.json",
-    "dev": "node scripts/build-styles.mjs && tsc -p tsconfig.json --watch",
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@loomidev/core": "workspace:^",
-    "@loomidev/tooltip": "workspace:^"
+    "@loomidev/core": "workspace:^"
   },
   "peerDependencies": {
     "lit": "^3.0.0"
   },
   "devDependencies": {
     "@loomidev/theme": "workspace:^",
-    "@tailwindcss/cli": "^4.0.0",
     "lit": "^3.3.3",
-    "tailwindcss": "^4.0.0",
     "typescript": "^5.6.3"
   },
   "keywords": [
     "web-components",
     "lit",
     "loomiui",
-    "sidebar",
-    "navigation"
+    "autocomplete"
   ]
 }

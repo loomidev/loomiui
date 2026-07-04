@@ -3,7 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
-export type LoomiSpinnerType = "simple" | "spinner" | "dot";
+export type LoomiSpinnerType = "simple" | "spinner" | "dot" | "typing";
 export type LoomiSpinnerSize = "sm" | "md" | "lg" | "small" | "medium" | "big" | "xl" | "omg";
 
 type NormalizedSpinnerSize = "small" | "medium" | "big" | "xl" | "omg";
@@ -12,6 +12,7 @@ const TYPE_ALIASES: Record<string, LoomiSpinnerType> = {
   simple: "simple",
   spinner: "spinner",
   dot: "dot",
+  typing: "typing",
   "line-simple": "simple",
   "line-spinner": "spinner",
   "dot-circle": "dot",
@@ -100,6 +101,8 @@ export class LoomiSpinner extends LoomiElement {
             ></circle>`;
           })}
         </svg>`;
+      case "typing":
+        return html`<span class="loomi-spinner-typing" aria-hidden="true"><span></span><span></span><span></span></span>`;
       case "simple":
       default:
         return html`<svg class="loomi-spinner loomi-spinner-simple" viewBox="0 0 24 24" fill="none" aria-hidden="true">

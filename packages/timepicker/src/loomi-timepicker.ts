@@ -7,6 +7,14 @@ const CLOCK = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v
 const pad = (n: number) => String(n).padStart(2, "0");
 export type LoomiTimepickerSize = "tiny" | "small" | "regular" | "medium" | "big";
 const DEFAULT_PLACEHOLDER = "HH:MM";
+const booleanAttribute = {
+  fromAttribute(value: string | null): boolean {
+    return value !== null && value.toLowerCase() !== "false";
+  },
+  toAttribute(value: boolean): string | null {
+    return value ? "" : null;
+  },
+};
 
 /**
  * `<loomi-timepicker>` — pick a time. `popup` (input + panel) or `inline`. 12/24-hour.
@@ -23,7 +31,7 @@ export class LoomiTimepicker extends LoomiElement {
 
   @property({ reflect: true }) name = "";
   /** `popup` (input + panel) or `inline`. Attribute is `tp-style` (`style` is reserved). */
-  @property({ attribute: "tp-style" }) tpStyle: "popup" | "inline" = "popup";
+  @property({ attribute: "tp-style" }) tpStyle: "popup" | "inline" | "clock" = "popup";
   @property() format: "12" | "24" = "12";
   @property({ attribute: "selected-value" }) selectedValue = "";
   @property() label = "";
@@ -32,6 +40,7 @@ export class LoomiTimepicker extends LoomiElement {
   @property() size: LoomiTimepickerSize = "medium";
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) invalid = false;
+  @property({ type: Boolean, attribute: "show-focus-ring", converter: booleanAttribute }) showFocusRing = true;
 
   @state() private hour: number | null = null;
   @state() private minute: number | null = null;
@@ -151,17 +160,60 @@ export class LoomiTimepicker extends LoomiElement {
     </div>`;
   }
 
+  private selectClockHour(hour: number): void {
+    this.hour = hour;
+    if (this.minute === null) this.minute = 0;
+    this.commit();
+  }
+
+  private selectClockMinute(minute: number): void {
+    if (this.hour === null) this.hour = this.format === "24" ? 0 : 12;
+    this.minute = minute;
+    this.commit();
+  }
+
+  private renderClock(): TemplateResult {
+    const hours = this.format === "24"
+      ? Array.from({ length: 24 }, (_, i) => i)
+      : Array.from({ length: 12 }, (_, i) => i + 1);
+    return html`<div class="loomi-clock">
+      <div class="loomi-clock-face" aria-label="Choose hour">
+        ${hours.map((hour, index) => {
+          const angle = ((index / hours.length) * 360) - 90;
+          return html`<button
+            type="button"
+            class=${this.hour === hour ? "active" : ""}
+            style=${`--loomi-clock-angle:${angle}deg`}
+            @click=${() => this.selectClockHour(hour)}
+          >${this.format === "24" ? pad(hour) : hour}</button>`;
+        })}
+      </div>
+      <div class="loomi-clock-minutes" aria-label="Choose minute">
+        ${[0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55].map((minute) => html`<button
+          type="button"
+          class=${this.minute === minute ? "active" : ""}
+          @click=${() => this.selectClockMinute(minute)}
+        >${pad(minute)}</button>`)}
+      </div>
+      ${this.format === "12"
+        ? html`<div class="loomi-clock-ampm">
+            ${(["AM", "PM"] as const).map((period) => html`<button type="button" class=${this.ampm === period ? "active" : ""} @click=${() => { this.ampm = period; this.commit(); }}>${period}</button>`)}
+          </div>`
+        : nothing}
+    </div>`;
+  }
+
   override render(): TemplateResult {
     if (this.tpStyle === "inline") {
       return html`${this.label ? html`<span class="loomi-label">${this.label}</span>` : nothing}${this.renderSelects()}`;
     }
-    return html`<div class="loomi-tp size-${this.size} ${this.open ? "open" : ""}">
+    return html`<div class="loomi-tp size-${this.size} ${this.open ? "open" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}">
       ${this.label ? html`<span class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req"> *</span>` : nothing}</span>` : nothing}
       <div class="loomi-field" tabindex="0" @blur=${this.showValidation} @click=${() => this.toggle()}>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${CLOCK}</svg>
         <span class="loomi-text ${this.value ? "" : "placeholder"}">${this.value || loomiDefaultText(this.placeholder, DEFAULT_PLACEHOLDER, "timepicker.placeholder", this.locale)}${!this.value && this.required ? html`<span class="loomi-req"> *</span>` : nothing}</span>
       </div>
-      ${this.open ? html`<div class="loomi-panel" @click=${(e: Event) => e.stopPropagation()}>${this.renderSelects()}</div>` : nothing}
+      ${this.open ? html`<div class="loomi-panel ${this.tpStyle === "clock" ? "clock-panel" : ""}" @click=${(e: Event) => e.stopPropagation()}>${this.tpStyle === "clock" ? this.renderClock() : this.renderSelects()}</div>` : nothing}
     </div>`;
   }
 }

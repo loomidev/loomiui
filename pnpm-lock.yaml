@@ -10,7 +10,7 @@ importers:
     devDependencies:
       '@changesets/cli':
         specifier: ^2.31.0
-        version: 2.31.0
+        version: 2.31.0(@types/node@26.1.0)
       '@open-wc/testing':
         specifier: ^4.0.0
         version: 4.0.0
@@ -44,13 +44,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -69,13 +69,29 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+
+  packages/autocomplete:
+    dependencies:
+      '@loomidev/core':
+        specifier: workspace:^
+        version: link:../core
+    devDependencies:
+      '@loomidev/theme':
+        specifier: workspace:^
+        version: link:../theme
+      lit:
+        specifier: ^3.3.3
+        version: 3.3.3
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -97,13 +113,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -122,13 +138,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -147,13 +163,13 @@ importers:
     devDependencies:
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -172,13 +188,13 @@ importers:
     devDependencies:
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -234,13 +250,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -256,13 +272,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -281,13 +297,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -303,6 +319,9 @@ importers:
       '@loomidev/core':
         specifier: workspace:^
         version: link:../core
+      '@loomidev/dropmenu':
+        specifier: workspace:^
+        version: link:../dropmenu
       '@loomidev/icon':
         specifier: workspace:^
         version: link:../icon
@@ -318,13 +337,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -340,13 +359,13 @@ importers:
     devDependencies:
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -368,13 +387,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -390,13 +409,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -422,6 +441,9 @@ importers:
       '@loomidev/alert':
         specifier: workspace:^
         version: link:../alert
+      '@loomidev/autocomplete':
+        specifier: workspace:^
+        version: link:../autocomplete
       '@loomidev/avatar':
         specifier: workspace:^
         version: link:../avatar
@@ -548,6 +570,9 @@ importers:
       '@loomidev/progress':
         specifier: workspace:^
         version: link:../progress
+      '@loomidev/progress-steps':
+        specifier: workspace:^
+        version: link:../progress-steps
       '@loomidev/qrcode':
         specifier: workspace:^
         version: link:../qrcode
@@ -563,9 +588,6 @@ importers:
       '@loomidev/select':
         specifier: workspace:^
         version: link:../select
-      '@loomidev/sidebar':
-        specifier: workspace:^
-        version: link:../sidebar
       '@loomidev/slider':
         specifier: workspace:^
         version: link:../slider
@@ -627,6 +649,9 @@ importers:
 
   packages/contact-card:
     dependencies:
+      '@loomidev/card':
+        specifier: workspace:^
+        version: link:../card
       '@loomidev/core':
         specifier: workspace:^
         version: link:../core
@@ -639,13 +664,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -743,13 +768,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -768,13 +793,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -803,7 +828,7 @@ importers:
     devDependencies:
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       circle-flags:
         specifier: ^2.8.3
         version: 2.8.3
@@ -815,7 +840,7 @@ importers:
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -831,13 +856,13 @@ importers:
     devDependencies:
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -891,13 +916,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -913,13 +938,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -938,13 +963,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -963,13 +988,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -988,13 +1013,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1010,13 +1035,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1041,13 +1066,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1146,13 +1171,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1171,13 +1196,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1214,13 +1239,13 @@ importers:
     devDependencies:
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1236,13 +1261,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1277,13 +1302,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1302,9 +1327,6 @@ importers:
       '@loomidev/pagination':
         specifier: workspace:^
         version: link:../pagination
-      '@loomidev/sidebar':
-        specifier: workspace:^
-        version: link:../sidebar
       '@loomidev/tab':
         specifier: workspace:^
         version: link:../tab
@@ -1333,13 +1355,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1355,13 +1377,13 @@ importers:
     devDependencies:
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1380,13 +1402,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1408,13 +1430,13 @@ importers:
     devDependencies:
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1433,13 +1455,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1458,13 +1480,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1483,13 +1505,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1505,13 +1527,26 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+
+  packages/progress-steps:
+    dependencies:
+      '@loomidev/progress':
+        specifier: workspace:^
+        version: link:../progress
+    devDependencies:
+      lit:
+        specifier: ^3.3.3
+        version: 3.3.3
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1527,13 +1562,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1549,13 +1584,13 @@ importers:
     devDependencies:
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1571,13 +1606,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1593,13 +1628,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1615,38 +1650,13 @@ importers:
     devDependencies:
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
-      typescript:
-        specifier: ^5.6.3
-        version: 5.9.3
-
-  packages/sidebar:
-    dependencies:
-      '@loomidev/core':
-        specifier: workspace:^
-        version: link:../core
-      '@loomidev/tooltip':
-        specifier: workspace:^
-        version: link:../tooltip
-    devDependencies:
-      '@loomidev/theme':
-        specifier: workspace:^
-        version: link:../theme
-      '@tailwindcss/cli':
-        specifier: ^4.0.0
-        version: 4.3.1
-      lit:
-        specifier: ^3.3.3
-        version: 3.3.3
-      tailwindcss:
-        specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1662,13 +1672,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1687,13 +1697,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1709,13 +1719,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1734,13 +1744,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1759,13 +1769,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1793,13 +1803,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1818,13 +1828,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1843,13 +1853,13 @@ importers:
     devDependencies:
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1883,13 +1893,13 @@ importers:
     devDependencies:
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1905,13 +1915,13 @@ importers:
     devDependencies:
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1920,13 +1930,13 @@ importers:
     devDependencies:
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1951,13 +1961,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -1976,13 +1986,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -2001,13 +2011,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -2023,13 +2033,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -2045,13 +2055,13 @@ importers:
     devDependencies:
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -2067,13 +2077,13 @@ importers:
     devDependencies:
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -2089,13 +2099,13 @@ importers:
         version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       lit:
         specifier: ^3.3.3
         version: 3.3.3
       tailwindcss:
         specifier: ^4.0.0
-        version: 4.3.1
+        version: 4.3.2
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -2805,69 +2815,69 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@tailwindcss/cli@4.3.1':
-    resolution: {integrity: sha512-ZWPy20rF+TBfTImxDMG3Wr75Y3RpaPlo9lc+oJbInlMyjT+XPkTVKVIL5RZ7JirXuIahcfHoLNFRmDorKi+JQQ==}
+  '@tailwindcss/cli@4.3.2':
+    resolution: {integrity: sha512-Fzt+HrIZHDlkRYKdLMBeufaroaPvwCBG70sMLdmurdeadNMO/LxbmT8Sbb+P83ep0iAlAImettb7Y+rO+37rXw==}
     hasBin: true
 
-  '@tailwindcss/node@4.3.1':
-    resolution: {integrity: sha512-6NDaqRoAMSXD1mr/RXu0HBvNE9a2n5tHPsxu9XHLws8o4Twes5rBM2205SUUiJ9goAtadrN6xTGX0UDEwp/N4A==}
+  '@tailwindcss/node@4.3.2':
+    resolution: {integrity: sha512-yWP/sqEcBLaD8JuA6zNwxoYKr75qxTioYwlRwekj5Jr/I5GXnoJfjetH/psLUIv74cYTH2lBUEzBkinthoYcBg==}
 
-  '@tailwindcss/oxide-android-arm64@4.3.1':
-    resolution: {integrity: sha512-SVlyf61g374l5cHyg8x9kf5xmLcOaxvOTsbsqDnSsDJaKOEFZ7GCvi84VAVGpxojYOs1+3K6M0UjXfqPU8vmOQ==}
+  '@tailwindcss/oxide-android-arm64@4.3.2':
+    resolution: {integrity: sha512-WHxqIuHpvZ5VtdX6GTl1Ik/Vp2YuN42Et+0CdeaVd/frQ9jAvGmvR8vLT+jk3e8/Q3x8kECB9+R17pgpp2BulA==}
     engines: {node: '>= 20'}
     cpu: [arm64]
     os: [android]
 
-  '@tailwindcss/oxide-darwin-arm64@4.3.1':
-    resolution: {integrity: sha512-hVnWLwv+e/l7c4WKyVtHVrIPvYdqWHjRB3MDIqARynzFtnQg85kmQEFCbV9Ja0VVx4xXTIiDWY60Y7iz/iNoDA==}
+  '@tailwindcss/oxide-darwin-arm64@4.3.2':
+    resolution: {integrity: sha512-GZypeUY/IDJW3877KeM+O67vbXr3MBnbtEL4aYhNErv/JWZhye2vGSWWG9tB6iiqR2MqRNkY8IOUy4NdSZV26w==}
     engines: {node: '>= 20'}
     cpu: [arm64]
     os: [darwin]
 
-  '@tailwindcss/oxide-darwin-x64@4.3.1':
-    resolution: {integrity: sha512-Cf7abu0WVgbhU7ANgPUnSAvm7nCvMweusHb8FnaHlLfv/Caq4GYaEZg7ZImzzmjx4lIAfuS8q+eLIS7A7IzxIg==}
+  '@tailwindcss/oxide-darwin-x64@4.3.2':
+    resolution: {integrity: sha512-UIIzmefR6KO1sDU7MzRqAxC8iBpft/VhkGjTjnhoS6k7Z3rQ9wEgA1ODSiyH/tcSYssulNm4Ci3hOeK1jH7ccQ==}
     engines: {node: '>= 20'}
     cpu: [x64]
     os: [darwin]
 
-  '@tailwindcss/oxide-freebsd-x64@4.3.1':
-    resolution: {integrity: sha512-ZZqzX2Y+GXtXXfqSfpJhDm60OoZfvLHLCgm+J7NVqgHHJjG/m9ugZI77RwTsVd4fnBJuCFP6Ae6kTJb71UdS8g==}
+  '@tailwindcss/oxide-freebsd-x64@4.3.2':
+    resolution: {integrity: sha512-GN+uAmcI6DNspnCDwtOAZrTz6oukJnp337qZvxqCGLd3BHBzJpO0ZbTLRvJNdztOeAmTzewewGIMPb0tk2R4WA==}
     engines: {node: '>= 20'}
     cpu: [x64]
     os: [freebsd]
 
-  '@tailwindcss/oxide-linux-arm-gnueabihf@4.3.1':
-    resolution: {integrity: sha512-/Ah/xik0LaMYfv9DZ0S/t4pBlBNYOcqtRwusjgovHkvT8ixueWCLyJjsaF5kQIckjb4IT8Q6K6p/iPmZMixYgg==}
+  '@tailwindcss/oxide-linux-arm-gnueabihf@4.3.2':
+    resolution: {integrity: sha512-4ABn7qSbdHRwTiDiuWNegCyb5+2FJ4vKIKc3DmKrvAFw7MU1Lm11dIkTPwUaFdTzc7IsOpDbqBrlh0x6y36U/w==}
     engines: {node: '>= 20'}
     cpu: [arm]
     os: [linux]
 
-  '@tailwindcss/oxide-linux-arm64-gnu@4.3.1':
-    resolution: {integrity: sha512-gqdFoVJlw444GvpnheZLHmvTzSxI/cOUUh2KSNejQjTcYkW062SVD+En0rUgD+QV91bz1XGIGtt1HJd48xUGbQ==}
+  '@tailwindcss/oxide-linux-arm64-gnu@4.3.2':
+    resolution: {integrity: sha512-wDgEIGwoM8w8pufh9LVt1PahDgNdKXrLC2qfAnV3vAmococ9RWbxeAw4pxPttd/TsJfwjyLf90Dg1y9y8I6Emw==}
     engines: {node: '>= 20'}
     cpu: [arm64]
     os: [linux]
 
-  '@tailwindcss/oxide-linux-arm64-musl@4.3.1':
-    resolution: {integrity: sha512-Bwv9KwOvE0VKa86xPFif9b9c3Y1NxOV1P0gLti/IYaWEsQYZXDlxfGEtA8mdDZ7SG3wyNXAWYT5SIn3giL57oA==}
+  '@tailwindcss/oxide-linux-arm64-musl@4.3.2':
+    resolution: {integrity: sha512-J5Nuk0uZQIiMTJj3LEx4sAA9tMFUoXQZFv1J6An+QGYe53HKRJuFDi0rpq/tuouCZeAbOBY3kQ6g8qeD4TUjtA==}
     engines: {node: '>= 20'}
     cpu: [arm64]
     os: [linux]
 
-  '@tailwindcss/oxide-linux-x64-gnu@4.3.1':
-    resolution: {integrity: sha512-Ymi8O8T15HYQdOUWUtTI6ldN0neHP85FC+Qz32xTcZ7iJXtem/x8ITev0o1e9e5rkqj4lONZfTRLvkmin1+tKg==}
+  '@tailwindcss/oxide-linux-x64-gnu@4.3.2':
+    resolution: {integrity: sha512-kqCZpSKOBEJO4mz7OqWoofBZeXTAwaVGPj0ErAj7CojmhKpWVWVOnrt9dE8odoIraZq4oj3ausM37kXi+Tow8w==}
     engines: {node: '>= 20'}
     cpu: [x64]
     os: [linux]
 
-  '@tailwindcss/oxide-linux-x64-musl@4.3.1':
-    resolution: {integrity: sha512-M+P/91qJ6uILLw4k2G93GMDRAXj61SMvFQYt39AqvUqYgExXpLL5aepfns7sj4HiAQeolirQF9E0lzRvdf4zPQ==}
+  '@tailwindcss/oxide-linux-x64-musl@4.3.2':
+    resolution: {integrity: sha512-cixpqbh2toJDmkuCRI68nXA8ZxNmdK9Y+9v5h3MC3ZQKy/0BO8AWzlkWyRM7JAFSGBlfig4YVTPsK6MVgqz1uw==}
     engines: {node: '>= 20'}
     cpu: [x64]
     os: [linux]
 
-  '@tailwindcss/oxide-wasm32-wasi@4.3.1':
-    resolution: {integrity: sha512-zsM8uOeqvVGHsAXsJxsT28ttosFahLJKCLOTUBqRAtKnVgGSRitds9T432QiT8b77Yga7JIBkulIRRlJPtYhRA==}
+  '@tailwindcss/oxide-wasm32-wasi@4.3.2':
+    resolution: {integrity: sha512-4ec2Z/LOmRsAgU23CS4xeJfcJlmRg94A/XrbGRCF1gyU/zdDfRLYDVsS+ynSZCmGNxQ1jQriQOKMQeQxBA3Isw==}
     engines: {node: '>=14.0.0'}
     cpu: [wasm32]
     bundledDependencies:
@@ -2878,20 +2888,20 @@ packages:
       - '@emnapi/wasi-threads'
       - tslib
 
-  '@tailwindcss/oxide-win32-arm64-msvc@4.3.1':
-    resolution: {integrity: sha512-aiNvSq9BsVk8V513lDKlrCFAgf8qBMPZTpgEhInL+NwQqs97mYmupVMrPrgBBSL8Pv/0zXu9MrMF9rMun1ZeNg==}
+  '@tailwindcss/oxide-win32-arm64-msvc@4.3.2':
+    resolution: {integrity: sha512-Zyr/M0+XcYZu3bZrUytc7TXvrk0ftWfl8gN2MwekNDzhqhKRUucMPSeOzM0o0wH5AWOU49BsKRrfKxI2atCPMQ==}
     engines: {node: '>= 20'}
     cpu: [arm64]
     os: [win32]
 
-  '@tailwindcss/oxide-win32-x64-msvc@4.3.1':
-    resolution: {integrity: sha512-xDEyu1rg290472FEGaKHnzyDyh5QH+AlWvsU5hMoMtPpzmKlRI0jaYKCgSHDYtaQWZOYbMaduSyCwFwY4n1HmA==}
+  '@tailwindcss/oxide-win32-x64-msvc@4.3.2':
+    resolution: {integrity: sha512-QI9BO7KlNZsp2GuO0jwAAj5jCDABOKXRkCk2XuKTSaNEFSdfzqswYVTtCHBNKHLsqyjFyFkqlDiwkNbTYSssMQ==}
     engines: {node: '>= 20'}
     cpu: [x64]
     os: [win32]
 
-  '@tailwindcss/oxide@4.3.1':
-    resolution: {integrity: sha512-yVPyo8RNkabVr3O2EhHEE0Rewu7YKzc1DhIqfL46LKveFrmu9XbDazNOJY7/GRuvw1h6u3utWnR29H/p5JPlgA==}
+  '@tailwindcss/oxide@4.3.2':
+    resolution: {integrity: sha512-z8ZgnzX8gdNoWLBLqBPoh/sjnxkwvf9ZuWjnO0l0yIzbLa5/9S+eC5QxGZKRobVHIC3/1BoMWjHblqWjcgFgag==}
     engines: {node: '>= 20'}
 
   '@tootallnate/quickjs-emscripten@0.23.0':
@@ -2975,6 +2985,9 @@ packages:
   '@types/node@12.20.55':
     resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
 
+  '@types/node@26.1.0':
+    resolution: {integrity: sha512-O0A1G3xPGy4w7AgQdAQYUlQ+BKk2Oovw8eRpofyp5KdBZULnbe+WqaOVNrm705SHphCiG4XHsACrSmPu1f+Kgw==}
+
   '@types/parse5@6.0.3':
     resolution: {integrity: sha512-SuT16Q1K51EAVPz1K29DJ/sXjhSQ0zjvsypYJ6tlwVsRV9jwW5Adq2ch8Dq8kDBCkYnELS7N7VNCSB5nC56t/g==}
 
@@ -2996,8 +3009,8 @@ packages:
   '@types/sinon-chai@3.2.12':
     resolution: {integrity: sha512-9y0Gflk3b0+NhQZ/oxGtaAJDvRywCa5sIyaVnounqLvmf93yBF4EgIRspePtkMs3Tr844nCclYMlcCNmLCvjuQ==}
 
-  '@types/sinon@21.0.1':
-    resolution: {integrity: sha512-5yoJSqLbjH8T9V2bksgRayuhpZy+723/z6wBOR+Soe4ZlXC0eW8Na71TeaZPUWDQvM7LYKa9UGFc6LRqxiR5fQ==}
+  '@types/sinon@22.0.0':
+    resolution: {integrity: sha512-TDbVpbccc2HfiqHR09Argj3mHV1KMW7sCCKj52fsl8lbRLkEn7fB1966EWhOKWUBcqfBueZuPoA7/OK1CKiy3g==}
 
   '@types/sinonjs__fake-timers@15.0.1':
     resolution: {integrity: sha512-Ko2tjWJq8oozHzHV+reuvS5KYIRAokHnGbDwGh/J64LntgpbuylF74ipEL24HCyRjf9FOlBiBHWBR1RlVKsI1w==}
@@ -3161,8 +3174,8 @@ packages:
       bare-abort-controller:
         optional: true
 
-  bare-fs@4.7.2:
-    resolution: {integrity: sha512-aTvMFUWkBmjzKtEQMDGGDNF8bkfpD5N1b/FCwt7A3wrU4t1o/e/85Wzkluh6JlODCjqVESYCkQCdTXqZ9G7VFg==}
+  bare-fs@4.7.3:
+    resolution: {integrity: sha512-xRgplks8SvcKkdlv2M6Z2LZmRsmqd+x0nXXGXeMEjwdibj1HSDrlnqBRLeYdMvsgCox7Bq0e+DHwfczOfsn6IA==}
     engines: {bare: '>=1.16.0'}
     peerDependencies:
       bare-buffer: '*'
@@ -3170,8 +3183,8 @@ packages:
       bare-buffer:
         optional: true
 
-  bare-os@3.9.1:
-    resolution: {integrity: sha512-6M5XjcnsygQNPMCMPXSK379xrJFiZ/AEMNBmFEmQW8d/789VQATvriyi5r0HYTL9TkQ26rn3kgdTG3aisbrXkQ==}
+  bare-os@3.9.3:
+    resolution: {integrity: sha512-fF4Q7QsyKVF5Rj0qvI8BgUNjqzC2JvQlpTaPLjVJVxYVUX5Zr9un+y3w1HmA4nNKdFmRBT8z/WmrjvXzXVerKQ==}
     engines: {bare: '>=1.14.0'}
 
   bare-path@3.0.1:
@@ -3592,8 +3605,8 @@ packages:
     resolution: {integrity: sha512-7MptL8U0cqcFdzIzwOTHoilX9x5BrNqye7Z/LuC7kCMRio1EMSyqRK3BEAUD7sXRq4iT4AzTVuZdhgQ2TCvYLg==}
     engines: {node: '>=8.6.0'}
 
-  fast-uri@3.1.2:
-    resolution: {integrity: sha512-rVjf7ArG3LTk+FS6Yw81V1DLuZl1bRbNrev6Tmd/9RaroeeRRJhAt7jg/6YFxbvAQXUCavSoZhPPj6oOx+5KjQ==}
+  fast-uri@3.1.3:
+    resolution: {integrity: sha512-i70LwGWUduXqzicKXWshooq+sWL1K3WUU5rKZNG/0i3a1OSoX3HqhH5WbWwTmqWfor4urUakGPiRQcleRZTwOg==}
 
   fastq@1.20.1:
     resolution: {integrity: sha512-GGToxJ/w1x32s/D2EKND7kTil4n8OVk/9mycTc4VDza13lOvpUZTGX3mFSCtV9ksdGBVzvsyAVLM6mHFThxXxw==}
@@ -3747,8 +3760,8 @@ packages:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
     engines: {node: '>=0.10.0'}
 
-  iconv-lite@0.7.2:
-    resolution: {integrity: sha512-im9DjEDQ55s9fL4EYzOAv0yMqmMBSZp6G0VvFyTMPKWxiSBHUj9NW/qqLmXUwXrrM7AvqSlTCfvqRb0cM8yYqw==}
+  iconv-lite@0.7.3:
+    resolution: {integrity: sha512-IKXpvIzjnC9XTAUbVBcMfGS0EPaIXtW6v+zr+RRp+hqULEpo0owZax6wyRwPOJbWbzjYspQwusTsfVr0ifh4uQ==}
     engines: {node: '>=0.10.0'}
 
   ignore@5.3.2:
@@ -3876,12 +3889,12 @@ packages:
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
 
-  js-yaml@3.14.2:
-    resolution: {integrity: sha512-PMSmkqxr106Xa156c2M265Z+FTrPl+oxd/rgOQy2tijQeK5TxQ43psO1ZCwhVOSdnn+RzkzlRz/eY4BgJBYVpg==}
+  js-yaml@3.15.0:
+    resolution: {integrity: sha512-ttBQIIQPDeLjpPOohtUdXuXUVoA2uIB6fEH9HyJ7234s5mBJ5wTx20njxplLZQgLaOfpmPQA7X2t5AX6tIPbog==}
     hasBin: true
 
-  js-yaml@4.2.0:
-    resolution: {integrity: sha512-ePWsvanv0DWuDRsW8dnt+R4jQ31SCRCQ7hhNcPXZPsoBZiemuZNYGf7adZdqX2D86j6rvKp3RpCxVTSb8WQlOw==}
+  js-yaml@4.3.0:
+    resolution: {integrity: sha512-1td788aAnnZ5qs7V2QIRl1owjtYpbKt749Y3xauqQgwIIGF/xXWz1wMTEBx5O3LK3lXLVuqXPdPxj2BoFHaW9Q==}
     hasBin: true
 
   json-parse-even-better-errors@2.3.1:
@@ -4250,8 +4263,8 @@ packages:
     resolution: {integrity: sha512-V7+vQEJ06Z+c5tSye8S+nHUfI51xoXIXjHQ99cQtKUkQqqO1kO/KCJUfZXuB47h/YBlDhah2H3hdUGXn8ie0oA==}
     engines: {node: '>=8.6'}
 
-  picomatch@4.0.4:
-    resolution: {integrity: sha512-QP88BAKvMam/3NxH6vj2o21R6MjxZUAd6nlwAS/pnGvN9IVLocLHxGYIzFhg6fUQ+5th6P4dv4eW9jX3DSIj7A==}
+  picomatch@4.0.5:
+    resolution: {integrity: sha512-RvwwcruNjI1ncT5xRakeyS9Lf8lcItv34KD+aif+VH9kduAyfYBipGh12274xtenIPZ119/R9BdTBa8gAwSh0A==}
     engines: {node: '>=12'}
 
   pify@4.0.1:
@@ -4302,8 +4315,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  qs@6.15.2:
-    resolution: {integrity: sha512-Rzq0KEyX/w/tEybncDgdkZrJgVUsUMk3xjh3t5bv3S1HTAtg+uOYt72+ZfwiQwKdysThkTBdL/rTi6HDmX9Ddw==}
+  qs@6.15.3:
+    resolution: {integrity: sha512-O9gl3zCl5h5blw1KGUzQKhA5oUXSl8rwUIM5o0S3nCXMliSvy5Dzx7/DJcI+SwgICv+IneSZwhBh1oSyEHA71A==}
     engines: {node: '>=0.6'}
 
   quansync@0.2.11:
@@ -4312,8 +4325,8 @@ packages:
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
-  range-parser@1.2.1:
-    resolution: {integrity: sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==}
+  range-parser@1.3.0:
+    resolution: {integrity: sha512-hek2mFQpPuI4E1BBKrSto+BU3e3x4xuarsbiwr3+lf7p44juvFMV0XFWQAP3xUyqXA4RrXLIoaSUGbSt056ZMw==}
     engines: {node: '>= 0.6'}
 
   raw-body@2.5.3:
@@ -4518,15 +4531,15 @@ packages:
     resolution: {integrity: sha512-iK5/YhZxq5GO5z8wb0bY1317uDF3Zjpha0QFFLA8/trAoiLbQD0HUbMesEaxyzUgDxi2QlcbM8IvqOlEjgoXBA==}
     engines: {node: '>=12.17'}
 
-  tailwindcss@4.3.1:
-    resolution: {integrity: sha512-hk+TB1m+K8CYNrP6rjQaq/Y+4Zylwpa87mLYBKCunwnnQ9p+fHb7kmSfGqyEJoxF/O6CDyABWVFEafNSYKll+Q==}
+  tailwindcss@4.3.2:
+    resolution: {integrity: sha512-WtctNNSH8A9jlMIqxzuYumOHU5uGZyRv0Q5svQl+oEPy5w84YpBxdb7MdqyiSPQge5jTJ6zFQLq0PFygdccSBA==}
 
   tapable@2.3.3:
     resolution: {integrity: sha512-uxc/zpqFg6x7C8vOE7lh6Lbda8eEL9zmVm/PLeTPBRhh1xCgdWaQ+J1CUieGpIfm2HdtsUpRv+HshiasBMcc6A==}
     engines: {node: '>=6'}
 
-  tar-fs@3.1.2:
-    resolution: {integrity: sha512-QGxxTxxyleAdyM3kpFs14ymbYmNFrfY+pHj7Z8FgtbZ7w2//VAgLMac7sT6nRpIHjppXO2AwwEOg0bPFVRcmXw==}
+  tar-fs@3.1.3:
+    resolution: {integrity: sha512-/hU4AXnIdZu+Gvl1pk0oI5f5HxWsCJRtY2aFaJdk9VvyL48DWU6iU5WAIPG+wIi1YvWA6eTJvIviP/tMAZZNwQ==}
 
   tar-stream@3.2.0:
     resolution: {integrity: sha512-ojzvCvVaNp6aOTFmG7jaRD0meowIAuPc3cMMhSgKiVWws1GyHbGd/xvnyuRKcKlMpt3qvxx6r0hreCNITP9hIg==}
@@ -4591,6 +4604,9 @@ packages:
   ua-parser-js@1.0.41:
     resolution: {integrity: sha512-LbBDqdIC5s8iROCUjMbW1f5dJQTEFB1+KO9ogbvlb3nm9n4YHa5p4KTvFPWvh2Hs8gZMBuiB1/8+pdfe/tDPug==}
     hasBin: true
+
+  undici-types@8.3.0:
+    resolution: {integrity: sha512-j375ScV60dom+YkPFIfTLcOiPxkN/buHz5GobjLhixFuANaNs3C9l4GmrWqejgXWJ7BbJcFYpTEUkS1Ge8bpZQ==}
 
   universalify@0.1.2:
     resolution: {integrity: sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==}
@@ -4734,7 +4750,7 @@ snapshots:
     dependencies:
       '@changesets/types': 6.1.0
 
-  '@changesets/cli@2.31.0':
+  '@changesets/cli@2.31.0(@types/node@26.1.0)':
     dependencies:
       '@changesets/apply-release-plan': 7.1.1
       '@changesets/assemble-release-plan': 6.0.10
@@ -4750,7 +4766,7 @@ snapshots:
       '@changesets/should-skip-package': 0.1.2
       '@changesets/types': 6.1.0
       '@changesets/write': 0.4.0
-      '@inquirer/external-editor': 1.0.3
+      '@inquirer/external-editor': 1.0.3(@types/node@26.1.0)
       '@manypkg/get-packages': 1.1.3
       ansi-colors: 4.1.3
       enquirer: 2.4.1
@@ -4813,7 +4829,7 @@ snapshots:
   '@changesets/parse@0.4.3':
     dependencies:
       '@changesets/types': 6.1.0
-      js-yaml: 4.2.0
+      js-yaml: 4.3.0
 
   '@changesets/pre@2.0.2':
     dependencies:
@@ -5018,10 +5034,12 @@ snapshots:
     dependencies:
       hono: 4.12.27
 
-  '@inquirer/external-editor@1.0.3':
+  '@inquirer/external-editor@1.0.3(@types/node@26.1.0)':
     dependencies:
       chardet: 2.2.0
-      iconv-lite: 0.7.2
+      iconv-lite: 0.7.3
+    optionalDependencies:
+      '@types/node': 26.1.0
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
@@ -5202,7 +5220,7 @@ snapshots:
       progress: 2.0.3
       proxy-agent: 6.5.0
       semver: 7.8.5
-      tar-fs: 3.1.2
+      tar-fs: 3.1.3
       yargs: 17.7.3
     transitivePeerDependencies:
       - bare-abort-controller
@@ -5224,7 +5242,7 @@ snapshots:
     dependencies:
       '@types/estree': 1.0.9
       estree-walker: 2.0.2
-      picomatch: 4.0.4
+      picomatch: 4.0.5
     optionalDependencies:
       rollup: 4.62.2
 
@@ -5303,17 +5321,17 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.62.2':
     optional: true
 
-  '@tailwindcss/cli@4.3.1':
+  '@tailwindcss/cli@4.3.2':
     dependencies:
       '@parcel/watcher': 2.5.1
-      '@tailwindcss/node': 4.3.1
-      '@tailwindcss/oxide': 4.3.1
+      '@tailwindcss/node': 4.3.2
+      '@tailwindcss/oxide': 4.3.2
       enhanced-resolve: 5.21.6
       mri: 1.2.0
       picocolors: 1.1.1
-      tailwindcss: 4.3.1
+      tailwindcss: 4.3.2
 
-  '@tailwindcss/node@4.3.1':
+  '@tailwindcss/node@4.3.2':
     dependencies:
       '@jridgewell/remapping': 2.3.5
       enhanced-resolve: 5.21.6
@@ -5321,71 +5339,71 @@ snapshots:
       lightningcss: 1.32.0
       magic-string: 0.30.21
       source-map-js: 1.2.1
-      tailwindcss: 4.3.1
+      tailwindcss: 4.3.2
 
-  '@tailwindcss/oxide-android-arm64@4.3.1':
+  '@tailwindcss/oxide-android-arm64@4.3.2':
     optional: true
 
-  '@tailwindcss/oxide-darwin-arm64@4.3.1':
+  '@tailwindcss/oxide-darwin-arm64@4.3.2':
     optional: true
 
-  '@tailwindcss/oxide-darwin-x64@4.3.1':
+  '@tailwindcss/oxide-darwin-x64@4.3.2':
     optional: true
 
-  '@tailwindcss/oxide-freebsd-x64@4.3.1':
+  '@tailwindcss/oxide-freebsd-x64@4.3.2':
     optional: true
 
-  '@tailwindcss/oxide-linux-arm-gnueabihf@4.3.1':
+  '@tailwindcss/oxide-linux-arm-gnueabihf@4.3.2':
     optional: true
 
-  '@tailwindcss/oxide-linux-arm64-gnu@4.3.1':
+  '@tailwindcss/oxide-linux-arm64-gnu@4.3.2':
     optional: true
 
-  '@tailwindcss/oxide-linux-arm64-musl@4.3.1':
+  '@tailwindcss/oxide-linux-arm64-musl@4.3.2':
     optional: true
 
-  '@tailwindcss/oxide-linux-x64-gnu@4.3.1':
+  '@tailwindcss/oxide-linux-x64-gnu@4.3.2':
     optional: true
 
-  '@tailwindcss/oxide-linux-x64-musl@4.3.1':
+  '@tailwindcss/oxide-linux-x64-musl@4.3.2':
     optional: true
 
-  '@tailwindcss/oxide-wasm32-wasi@4.3.1':
+  '@tailwindcss/oxide-wasm32-wasi@4.3.2':
     optional: true
 
-  '@tailwindcss/oxide-win32-arm64-msvc@4.3.1':
+  '@tailwindcss/oxide-win32-arm64-msvc@4.3.2':
     optional: true
 
-  '@tailwindcss/oxide-win32-x64-msvc@4.3.1':
+  '@tailwindcss/oxide-win32-x64-msvc@4.3.2':
     optional: true
 
-  '@tailwindcss/oxide@4.3.1':
+  '@tailwindcss/oxide@4.3.2':
     optionalDependencies:
-      '@tailwindcss/oxide-android-arm64': 4.3.1
-      '@tailwindcss/oxide-darwin-arm64': 4.3.1
-      '@tailwindcss/oxide-darwin-x64': 4.3.1
-      '@tailwindcss/oxide-freebsd-x64': 4.3.1
-      '@tailwindcss/oxide-linux-arm-gnueabihf': 4.3.1
-      '@tailwindcss/oxide-linux-arm64-gnu': 4.3.1
-      '@tailwindcss/oxide-linux-arm64-musl': 4.3.1
-      '@tailwindcss/oxide-linux-x64-gnu': 4.3.1
-      '@tailwindcss/oxide-linux-x64-musl': 4.3.1
-      '@tailwindcss/oxide-wasm32-wasi': 4.3.1
-      '@tailwindcss/oxide-win32-arm64-msvc': 4.3.1
-      '@tailwindcss/oxide-win32-x64-msvc': 4.3.1
+      '@tailwindcss/oxide-android-arm64': 4.3.2
+      '@tailwindcss/oxide-darwin-arm64': 4.3.2
+      '@tailwindcss/oxide-darwin-x64': 4.3.2
+      '@tailwindcss/oxide-freebsd-x64': 4.3.2
+      '@tailwindcss/oxide-linux-arm-gnueabihf': 4.3.2
+      '@tailwindcss/oxide-linux-arm64-gnu': 4.3.2
+      '@tailwindcss/oxide-linux-arm64-musl': 4.3.2
+      '@tailwindcss/oxide-linux-x64-gnu': 4.3.2
+      '@tailwindcss/oxide-linux-x64-musl': 4.3.2
+      '@tailwindcss/oxide-wasm32-wasi': 4.3.2
+      '@tailwindcss/oxide-win32-arm64-msvc': 4.3.2
+      '@tailwindcss/oxide-win32-x64-msvc': 4.3.2
 
   '@tootallnate/quickjs-emscripten@0.23.0': {}
 
   '@types/accepts@1.3.7':
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 26.1.0
 
   '@types/babel__code-frame@7.27.0': {}
 
   '@types/body-parser@1.19.6':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 12.20.55
+      '@types/node': 26.1.0
 
   '@types/chai-dom@1.11.3':
     dependencies:
@@ -5400,14 +5418,14 @@ snapshots:
 
   '@types/co-body@6.1.3':
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 26.1.0
       '@types/qs': 6.15.1
 
   '@types/command-line-args@5.2.3': {}
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 26.1.0
 
   '@types/content-disposition@0.5.9': {}
 
@@ -5418,7 +5436,7 @@ snapshots:
       '@types/connect': 3.4.38
       '@types/express': 5.0.6
       '@types/keygrip': 1.0.6
-      '@types/node': 12.20.55
+      '@types/node': 26.1.0
 
   '@types/debounce@1.2.4': {}
 
@@ -5428,7 +5446,7 @@ snapshots:
 
   '@types/express-serve-static-core@5.1.1':
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 26.1.0
       '@types/qs': 6.15.1
       '@types/range-parser': 1.2.7
       '@types/send': 1.2.1
@@ -5468,9 +5486,13 @@ snapshots:
       '@types/http-errors': 2.0.5
       '@types/keygrip': 1.0.6
       '@types/koa-compose': 3.2.9
-      '@types/node': 12.20.55
+      '@types/node': 26.1.0
 
   '@types/node@12.20.55': {}
+
+  '@types/node@26.1.0':
+    dependencies:
+      undici-types: 8.3.0
 
   '@types/parse5@6.0.3': {}
 
@@ -5482,19 +5504,19 @@ snapshots:
 
   '@types/send@1.2.1':
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 26.1.0
 
   '@types/serve-static@2.2.0':
     dependencies:
       '@types/http-errors': 2.0.5
-      '@types/node': 12.20.55
+      '@types/node': 26.1.0
 
   '@types/sinon-chai@3.2.12':
     dependencies:
       '@types/chai': 5.2.3
-      '@types/sinon': 21.0.1
+      '@types/sinon': 22.0.0
 
-  '@types/sinon@21.0.1':
+  '@types/sinon@22.0.0':
     dependencies:
       '@types/sinonjs__fake-timers': 15.0.1
 
@@ -5504,11 +5526,11 @@ snapshots:
 
   '@types/ws@7.4.7':
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 26.1.0
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 26.1.0
     optional: true
 
   '@web/browser-logs@0.4.1':
@@ -5728,7 +5750,7 @@ snapshots:
   ajv@8.20.0:
     dependencies:
       fast-deep-equal: 3.1.3
-      fast-uri: 3.1.2
+      fast-uri: 3.1.3
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
@@ -5772,7 +5794,7 @@ snapshots:
 
   bare-events@2.9.1: {}
 
-  bare-fs@4.7.2:
+  bare-fs@4.7.3:
     dependencies:
       bare-events: 2.9.1
       bare-path: 3.0.1
@@ -5783,11 +5805,11 @@ snapshots:
       - bare-abort-controller
       - react-native-b4a
 
-  bare-os@3.9.1: {}
+  bare-os@3.9.3: {}
 
   bare-path@3.0.1:
     dependencies:
-      bare-os: 3.9.1
+      bare-os: 3.9.3
 
   bare-stream@2.13.3(bare-events@2.9.1):
     dependencies:
@@ -5815,9 +5837,9 @@ snapshots:
       content-type: 2.0.0
       debug: 4.4.3
       http-errors: 2.0.1
-      iconv-lite: 0.7.2
+      iconv-lite: 0.7.3
       on-finished: 2.4.1
-      qs: 6.15.2
+      qs: 6.15.3
       raw-body: 3.0.2
       type-is: 2.1.0
     transitivePeerDependencies:
@@ -5871,7 +5893,7 @@ snapshots:
 
   chrome-launcher@0.15.2:
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 26.1.0
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2
@@ -5902,7 +5924,7 @@ snapshots:
     dependencies:
       '@hapi/bourne': 3.0.0
       inflation: 2.1.0
-      qs: 6.15.2
+      qs: 6.15.3
       raw-body: 2.5.3
       type-is: 1.6.18
 
@@ -5958,7 +5980,7 @@ snapshots:
     dependencies:
       env-paths: 2.2.1
       import-fresh: 3.3.1
-      js-yaml: 4.2.0
+      js-yaml: 4.3.0
       parse-json: 5.2.0
     optionalDependencies:
       typescript: 5.9.3
@@ -6206,8 +6228,8 @@ snapshots:
       once: 1.4.0
       parseurl: 1.3.3
       proxy-addr: 2.0.7
-      qs: 6.15.2
-      range-parser: 1.2.1
+      qs: 6.15.3
+      range-parser: 1.3.0
       router: 2.2.0
       send: 1.2.1
       serve-static: 2.2.1
@@ -6241,7 +6263,7 @@ snapshots:
       merge2: 1.4.1
       micromatch: 4.0.8
 
-  fast-uri@3.1.2: {}
+  fast-uri@3.1.3: {}
 
   fastq@1.20.1:
     dependencies:
@@ -6417,7 +6439,7 @@ snapshots:
     dependencies:
       safer-buffer: 2.1.2
 
-  iconv-lite@0.7.2:
+  iconv-lite@0.7.3:
     dependencies:
       safer-buffer: 2.1.2
 
@@ -6523,12 +6545,12 @@ snapshots:
 
   js-tokens@4.0.0: {}
 
-  js-yaml@3.14.2:
+  js-yaml@3.15.0:
     dependencies:
       argparse: 1.0.10
       esprima: 4.0.1
 
-  js-yaml@4.2.0:
+  js-yaml@4.3.0:
     dependencies:
       argparse: 2.0.1
 
@@ -6867,7 +6889,7 @@ snapshots:
 
   picomatch@2.3.2: {}
 
-  picomatch@4.0.4: {}
+  picomatch@4.0.5: {}
 
   pify@4.0.1: {}
 
@@ -6945,15 +6967,16 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  qs@6.15.2:
+  qs@6.15.3:
     dependencies:
+      es-define-property: 1.0.1
       side-channel: 1.1.1
 
   quansync@0.2.11: {}
 
   queue-microtask@1.2.3: {}
 
-  range-parser@1.2.1: {}
+  range-parser@1.3.0: {}
 
   raw-body@2.5.3:
     dependencies:
@@ -6966,7 +6989,7 @@ snapshots:
     dependencies:
       bytes: 3.1.2
       http-errors: 2.0.1
-      iconv-lite: 0.7.2
+      iconv-lite: 0.7.3
       unpipe: 1.0.0
 
   react@19.2.7: {}
@@ -6974,7 +6997,7 @@ snapshots:
   read-yaml-file@1.1.0:
     dependencies:
       graceful-fs: 4.2.11
-      js-yaml: 3.14.2
+      js-yaml: 3.15.0
       pify: 4.0.1
       strip-bom: 3.0.0
 
@@ -7075,7 +7098,7 @@ snapshots:
       mime-types: 3.0.2
       ms: 2.1.3
       on-finished: 2.4.1
-      range-parser: 1.2.1
+      range-parser: 1.3.0
       statuses: 2.0.2
     transitivePeerDependencies:
       - supports-color
@@ -7206,16 +7229,16 @@ snapshots:
       array-back: 6.2.3
       wordwrapjs: 5.1.1
 
-  tailwindcss@4.3.1: {}
+  tailwindcss@4.3.2: {}
 
   tapable@2.3.3: {}
 
-  tar-fs@3.1.2:
+  tar-fs@3.1.3:
     dependencies:
       pump: 3.0.4
       tar-stream: 3.2.0
     optionalDependencies:
-      bare-fs: 4.7.2
+      bare-fs: 4.7.3
       bare-path: 3.0.1
     transitivePeerDependencies:
       - bare-abort-controller
@@ -7225,7 +7248,7 @@ snapshots:
   tar-stream@3.2.0:
     dependencies:
       b4a: 1.8.1
-      bare-fs: 4.7.2
+      bare-fs: 4.7.3
       fast-fifo: 1.3.2
       streamx: 2.28.0
     transitivePeerDependencies:
@@ -7284,6 +7307,8 @@ snapshots:
   typical@7.3.0: {}
 
   ua-parser-js@1.0.41: {}
+
+  undici-types@8.3.0: {}
 
   universalify@0.1.2: {}
 
