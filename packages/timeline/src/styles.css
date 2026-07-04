@@ -29,10 +29,10 @@
   gap: 0.85rem;
   min-width: 0;
 }
-:host([position="right"]) .loomi-anchor {
+:host([placement="right"]) .loomi-anchor {
   order: 2;
 }
-:host([position="right"]) .loomi-side {
+:host([placement="right"]) .loomi-side {
   order: 1;
   flex-direction: row-reverse;
 }
@@ -44,7 +44,7 @@
   font-size: 0.8rem;
   padding-top: 0.15rem;
 }
-:host([position="right"]) .loomi-date-col {
+:host([placement="right"]) .loomi-date-col {
   text-align: left;
 }
 .loomi-dot {
@@ -108,31 +108,31 @@
 
 /* alternate: a centered spine with items alternating to its left and right, resolved
    purely from each item's position among its siblings - no per-item setup needed. */
-:host([position="alternate"]) .loomi-item {
+:host([placement="alternate"]) .loomi-item {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: stretch;
   gap: 0 0.85rem;
 }
-:host([position="alternate"]) .loomi-anchor {
+:host([placement="alternate"]) .loomi-anchor {
   grid-column: 2;
   grid-row: 1;
 }
-:host([position="alternate"]) .loomi-side {
+:host([placement="alternate"]) .loomi-side {
   grid-row: 1;
   padding-top: 0.05rem;
   min-width: 0;
 }
-:host([position="alternate"]:nth-child(odd)) .loomi-side {
+:host([placement="alternate"]:nth-child(odd)) .loomi-side {
   grid-column: 1;
   justify-self: end;
   flex-direction: row-reverse;
 }
-:host([position="alternate"]:nth-child(odd)) .loomi-date-col,
-:host([position="alternate"]:nth-child(odd)) .loomi-body {
+:host([placement="alternate"]:nth-child(odd)) .loomi-date-col,
+:host([placement="alternate"]:nth-child(odd)) .loomi-body {
   text-align: right;
 }
-:host([position="alternate"]:nth-child(even)) .loomi-side {
+:host([placement="alternate"]:nth-child(even)) .loomi-side {
   grid-column: 3;
   justify-self: start;
 }

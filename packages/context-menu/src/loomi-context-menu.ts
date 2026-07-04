@@ -6,7 +6,7 @@ import { componentStyles } from "./generated/styles.css.js";
 
 const CHEVRON_RIGHT = svg`<path d="m9 18 6-6-6-6" />`;
 
-export type LoomiContextMenuPosition = "auto" | "left" | "right";
+export type LoomiContextMenuPlacement = "auto" | "left" | "right";
 
 /**
  * `<loomi-context-menu-item>` — a single right-click menu line. Put links/handlers
@@ -97,14 +97,14 @@ export class LoomiContextMenu extends LoomiElement {
 
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) divided = false;
-  @property() position: LoomiContextMenuPosition = "auto";
+  @property() placement: LoomiContextMenuPlacement = "auto";
   @property({ type: Boolean }) scrollable = false;
   @property({ type: Number }) height = 200;
   @property({ type: Boolean, attribute: "hide-after-click" }) hideAfterClick = true;
   @property({ type: Boolean, attribute: "icon-right" }) iconRight = false;
 
   @state() private open = false;
-  @state() private resolvedPosition: "left" | "right" = "left";
+  @state() private resolvedPlacement: "left" | "right" = "left";
   @state() private focusedIndex = -1;
   @state() private menuX = 0;
   @state() private menuY = 0;
@@ -180,19 +180,19 @@ export class LoomiContextMenu extends LoomiElement {
     const leftFits = this.anchorX + menuWidth <= viewportWidth - margin;
     const rightFits = this.anchorX - menuWidth >= margin;
 
-    if (this.position !== "auto") {
-      this.resolvedPosition = this.position;
+    if (this.placement !== "auto") {
+      this.resolvedPlacement = this.placement;
     } else if (leftFits && !rightFits) {
-      this.resolvedPosition = "left";
+      this.resolvedPlacement = "left";
     } else if (rightFits && !leftFits) {
-      this.resolvedPosition = "right";
+      this.resolvedPlacement = "right";
     } else if (rightFits && this.anchorX > viewportWidth / 2) {
-      this.resolvedPosition = "right";
+      this.resolvedPlacement = "right";
     } else {
-      this.resolvedPosition = "left";
+      this.resolvedPlacement = "left";
     }
 
-    const desiredX = this.resolvedPosition === "right" ? this.anchorX - menuWidth : this.anchorX;
+    const desiredX = this.resolvedPlacement === "right" ? this.anchorX - menuWidth : this.anchorX;
     const maxX = Math.max(margin, viewportWidth - margin - menuWidth);
     const maxY = Math.max(margin, viewportHeight - margin - menuHeight);
     this.menuX = Math.min(Math.max(margin, desiredX), maxX);
@@ -292,7 +292,7 @@ export class LoomiContextMenu extends LoomiElement {
     </span>
     ${this.open
       ? html`<div
-          class="loomi-menu ${this.resolvedPosition} ${this.scrollable ? "scrollable" : ""}"
+          class="loomi-menu ${this.resolvedPlacement} ${this.scrollable ? "scrollable" : ""}"
           style=${`--loomi-context-menu-x:${this.menuX}px;--loomi-context-menu-y:${this.menuY}px;${
             this.scrollable ? `--loomi-menu-height:${this.height}px` : ""
           }`}

@@ -4,7 +4,7 @@ import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomide
 import { getLoomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
-export type LoomiTimelinePosition = "left" | "right" | "alternate";
+export type LoomiTimelinePlacement = "left" | "right" | "alternate";
 
 const CHECK = svg`<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />`;
 
@@ -29,7 +29,7 @@ export class LoomiTimelineItem extends LoomiElement {
   @property() anchor: "small" | "big" = "small";
   @property() icon = "";
   @property() avatar = "";
-  @property({ reflect: true }) position: LoomiTimelinePosition = "left";
+  @property({ reflect: true }) placement: LoomiTimelinePlacement = "left";
   @property() color: LoomiColor = "primary" as LoomiColor;
 
   private renderDot(): TemplateResult {
@@ -75,7 +75,7 @@ export class LoomiTimeline extends LoomiElement {
   @property({ type: Boolean }) completed = false;
   @property() anchor: "small" | "big" = "small";
   @property() icon = "";
-  @property() position: LoomiTimelinePosition = "left";
+  @property() placement: LoomiTimelinePlacement = "left";
   @property() color: LoomiColor = "primary" as LoomiColor;
 
   private sync = (): void => {
@@ -85,7 +85,7 @@ export class LoomiTimeline extends LoomiElement {
       if (this.completed) item.completed = true;
       if (this.anchor === "big") item.anchor = "big";
       if (this.icon && !item.icon) item.icon = this.icon;
-      if (this.position !== "left") item.position = this.position;
+      if (this.placement !== "left") item.placement = this.placement;
       if (this.color && item.color === ("primary" as LoomiColor)) item.color = this.color;
     });
   };
@@ -95,7 +95,7 @@ export class LoomiTimeline extends LoomiElement {
   }
 
   override render(): TemplateResult {
-    return html`<div class="loomi-timeline position-${this.position}"><slot @slotchange=${this.sync}></slot></div>`;
+    return html`<div class="loomi-timeline placement-${this.placement}"><slot @slotchange=${this.sync}></slot></div>`;
   }
 }
 

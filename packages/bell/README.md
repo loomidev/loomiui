@@ -74,7 +74,7 @@ Pairing it with [`<loomi-dropmenu>`](../dropmenu) gets you a working notificatio
 with no extra JS:
 
 ```html
-<loomi-dropmenu position="left">
+<loomi-dropmenu placement="left">
   <loomi-bell slot="trigger" animate-dot></loomi-bell>
   <loomi-dropmenu-item header>Notifications</loomi-dropmenu-item>
   <loomi-dropmenu-item icon="bell-alert">Michael assigned a task to you</loomi-dropmenu-item>

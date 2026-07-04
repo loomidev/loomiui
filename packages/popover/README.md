@@ -71,13 +71,13 @@ An optional heading, separated from the content by a subtle border.
 </loomi-popover>
 ```
 
-## Position
+## Placement
 
 ```html
-<loomi-popover position="top">…</loomi-popover>
-<loomi-popover position="bottom">…</loomi-popover>
-<loomi-popover position="left">…</loomi-popover>
-<loomi-popover position="right">…</loomi-popover>
+<loomi-popover placement="top">…</loomi-popover>
+<loomi-popover placement="bottom">…</loomi-popover>
+<loomi-popover placement="left">…</loomi-popover>
+<loomi-popover placement="right">…</loomi-popover>
 ```
 
 ## Trigger Event
@@ -157,7 +157,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | --- | --- | --- |
 | `trigger` | `information-circle` | Trigger icon name (from `@loomidev/icons`). Ignored when the `trigger` slot is used. |
 | `trigger-on` | `click` | `click` \| `mouseover` |
-| `position` | `bottom` | `top` \| `bottom` \| `left` \| `right` |
+| `placement` | `bottom` | `top` \| `bottom` \| `left` \| `right` |
 | `title` | _(blank)_ | Optional heading above the content. |
 | `width` | `280` | Panel width in pixels. |
 | `disabled` | `false` | Disable the trigger. |
@@ -169,7 +169,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 ## Full Example
 
 ```html
-<loomi-popover trigger="ellipsis-vertical" trigger-on="click" position="bottom" title="User Actions" width="300">
+<loomi-popover trigger="ellipsis-vertical" trigger-on="click" placement="bottom" title="User Actions" width="300">
   <ul>
     <li><a href="#">Edit</a></li>
     <li><a href="#">Delete</a></li>

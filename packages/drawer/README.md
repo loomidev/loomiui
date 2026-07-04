@@ -37,23 +37,23 @@ backdrop click, outside click, or <kbd>Esc</kbd>.
 </script>
 ```
 
-## Positions
+## Placements
 
-Set `position` to slide in from any edge. Left/right drawers span the full height and
+Set `placement` to slide in from any edge. Left/right drawers span the full height and
 size by width; top/bottom drawers span the full width and size by height.
 
 ```html
 <loomi-button onclick="showLoomiDrawer('left')">Left</loomi-button>
-<loomi-drawer position="left" title="Left" name="left">Slides in from the left.</loomi-drawer>
+<loomi-drawer placement="left" title="Left" name="left">Slides in from the left.</loomi-drawer>
 
 <loomi-button onclick="showLoomiDrawer('right')">Right</loomi-button>
-<loomi-drawer position="right" title="Right" name="right">The default.</loomi-drawer>
+<loomi-drawer placement="right" title="Right" name="right">The default.</loomi-drawer>
 
 <loomi-button onclick="showLoomiDrawer('top')">Top</loomi-button>
-<loomi-drawer position="top" title="Top" name="top">Slides down from the top.</loomi-drawer>
+<loomi-drawer placement="top" title="Top" name="top">Slides down from the top.</loomi-drawer>
 
 <loomi-button onclick="showLoomiDrawer('bottom')">Bottom</loomi-button>
-<loomi-drawer position="bottom" title="Bottom" name="bottom">Slides up from the bottom.</loomi-drawer>
+<loomi-drawer placement="bottom" title="Bottom" name="bottom">Slides up from the bottom.</loomi-drawer>
 ```
 
 ## Sizes
@@ -121,8 +121,8 @@ rebuild required:
 | --- | --- |
 | `--loomi-drawer-duration` | `0.3s` |
 | `--loomi-drawer-easing` | `cubic-bezier(0.32, 0.72, 0, 1)` |
-| `--loomi-drawer-enter-animation` | `loomi-drawer-in-<position>` |
-| `--loomi-drawer-exit-animation` | `loomi-drawer-out-<position>` |
+| `--loomi-drawer-enter-animation` | `loomi-drawer-in-<placement>` |
+| `--loomi-drawer-exit-animation` | `loomi-drawer-out-<placement>` |
 
 Override the timing globally:
 
@@ -134,7 +134,7 @@ Override the timing globally:
 ```
 
 Or supply your own `@keyframes` and point the drawer at them for a fully custom motion
-(e.g. a bounce instead of a linear slide). `position`/`size` aren't reflected as
+(e.g. a bounce instead of a linear slide). `placement`/`size` aren't reflected as
 attributes, so scope the override with a class or `:root` instead of an attribute
 selector:
 
@@ -179,7 +179,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | --- | --- | --- |
 | `name` | _(blank)_ | Unique name for `showLoomiDrawer()` / `hideLoomiDrawer()`. |
 | `title` | _(blank)_ | Header text. |
-| `position` | `right` | `left` \| `right` \| `top` \| `bottom` |
+| `placement` | `right` | `left` \| `right` \| `top` \| `bottom` |
 | `size` | `medium` | `small` \| `medium` \| `large` |
 | `open` | `false` | Open state (reflected). _(boolean)_ |
 | `show-close-icon` | `true` | Show the header close (X) button. _(boolean)_ |
@@ -211,7 +211,7 @@ automatic, no setup needed.
 <loomi-drawer
   name="full-drawer"
   title="Edit profile"
-  position="right"
+  placement="right"
   size="large"
   show-close-icon
   backdrop

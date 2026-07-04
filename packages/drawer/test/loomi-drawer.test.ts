@@ -200,21 +200,21 @@ describe("loomi-drawer", () => {
     expect(el.open).to.be.true;
   });
 
-  it("defaults to position=right and size=medium", async () => {
+  it("defaults to placement=right and size=medium", async () => {
     const el = await fixture<LoomiDrawer>(html`<loomi-drawer></loomi-drawer>`);
     el.show();
     await el.updateComplete;
     const panel = el.shadowRoot!.querySelector(".loomi-panel")!;
-    expect(panel.classList.contains("position-right")).to.be.true;
+    expect(panel.classList.contains("placement-right")).to.be.true;
     expect(panel.classList.contains("size-medium")).to.be.true;
   });
 
-  it("applies position and size classes to the panel", async () => {
-    const el = await fixture<LoomiDrawer>(html`<loomi-drawer position="left" size="large"></loomi-drawer>`);
+  it("applies placement and size classes to the panel", async () => {
+    const el = await fixture<LoomiDrawer>(html`<loomi-drawer placement="left" size="large"></loomi-drawer>`);
     el.show();
     await el.updateComplete;
     const panel = el.shadowRoot!.querySelector(".loomi-panel")!;
-    expect(panel.classList.contains("position-left")).to.be.true;
+    expect(panel.classList.contains("placement-left")).to.be.true;
     expect(panel.classList.contains("size-large")).to.be.true;
   });
 

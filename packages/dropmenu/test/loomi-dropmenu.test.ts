@@ -43,7 +43,7 @@ describe("loomi-dropmenu", () => {
 
   it("respects explicit positioning", async () => {
     const el = await fixture<LoomiDropmenu>(html`
-      <loomi-dropmenu position="right" style="position:fixed;left:12px;top:12px">
+      <loomi-dropmenu placement="right" style="position:fixed;left:12px;top:12px">
         <loomi-dropmenu-item>Profile</loomi-dropmenu-item>
         <loomi-dropmenu-item>Settings</loomi-dropmenu-item>
       </loomi-dropmenu>

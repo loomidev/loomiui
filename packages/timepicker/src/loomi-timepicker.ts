@@ -18,10 +18,10 @@ const pad = (n: number) => String(n).padStart(2, "0");
 // after the content has moved and those tokens are no longer in scope.
 const CLOCK_STYLE = `
   .loomi-clock { display: grid; gap: 0.9rem; justify-items: center; }
-  .loomi-clock-face { position: relative; width: 16rem; height: 16rem; }
+  .loomi-clock-face { position: relative; width: 20rem; height: 20rem; }
   .loomi-clock-ring.hours { position: absolute; inset: 0; }
   .loomi-clock-ring.minutes {
-    position: absolute; left: 50%; top: 50%; width: 9.6rem; height: 9.6rem;
+    position: absolute; left: 50%; top: 50%; width: 12.8rem; height: 12.8rem;
     transform: translate(-50%, -50%); border-radius: 9999px; cursor: pointer;
     background: var(--loomi-surface-muted, oklch(98.5% 0.002 247.839));
     border: 1px solid var(--loomi-surface-border-subtle, oklch(96.7% 0.003 264.542));
@@ -34,14 +34,21 @@ const CLOCK_STYLE = `
     background: var(--loomi-primary-100, oklch(93% 0.034 272.788));
     color: var(--loomi-primary-700, oklch(45.7% 0.24 277.023));
   }
+  .loomi-clock button:focus-visible {
+    outline: 2px solid var(--loomi-primary-600, oklch(51.1% 0.262 276.966));
+    outline-offset: 2px;
+  }
   .loomi-clock-hour {
-    position: absolute; left: 50%; top: 50%; width: 2.1rem; height: 2.1rem; margin: -1.05rem;
-    transform: rotate(var(--loomi-clock-angle)) translate(6.4rem) rotate(calc(-1 * var(--loomi-clock-angle)));
+    position: absolute; left: 50%; top: 50%; width: 2.3rem; height: 2.3rem; margin: -1.15rem;
+    transform: rotate(var(--loomi-clock-angle)) translate(8.3rem) rotate(calc(-1 * var(--loomi-clock-angle)));
+  }
+  .loomi-clock button.loomi-clock-hour {
+    font-weight: 700;
   }
   .loomi-clock-minute {
     position: absolute; left: 50%; top: 50%; width: 1.7rem; height: 1.7rem; margin: -0.85rem;
     font-size: 0.75rem;
-    transform: rotate(var(--loomi-clock-angle)) translate(3.8rem) rotate(calc(-1 * var(--loomi-clock-angle)));
+    transform: rotate(var(--loomi-clock-angle)) translate(5.3rem) rotate(calc(-1 * var(--loomi-clock-angle)));
   }
   .loomi-clock-center {
     position: absolute; left: 50%; top: 50%; width: 3.2rem; height: 3.2rem; margin: -1.6rem;
@@ -270,8 +277,11 @@ export class LoomiTimepicker extends LoomiElement {
     <div class="loomi-clock">
       <div class="loomi-clock-face">
         <div class="loomi-clock-ring hours" role="group" aria-label=${loomiT("timepicker.hour", {}, this.locale)}>
-          ${hours.map((hour, index) => {
-            const angle = ((index / hours.length) * 360) - 90;
+          ${hours.map((hour) => {
+            // Hour 12 (or 0 in 24h) belongs at the top of the dial, like a real clock —
+            // not wherever it happens to fall as the first entry in the hours array.
+            const position = hour % hours.length;
+            const angle = ((position / hours.length) * 360) - 90;
             return html`<button
               type="button"
               class="loomi-clock-hour ${this.hour === hour ? "active" : ""}"
@@ -319,7 +329,7 @@ export class LoomiTimepicker extends LoomiElement {
       ${this.open && this.tpStyle !== "clock" ? html`<div class="loomi-panel" @click=${(e: Event) => e.stopPropagation()}>${this.renderSelects()}</div>` : nothing}
       <loomi-modal
         class="loomi-clock-modal"
-        size="small"
+        size="medium"
         locale=${this.locale}
         cancel-button-label=""
         @open=${() => { this.open = true; }}

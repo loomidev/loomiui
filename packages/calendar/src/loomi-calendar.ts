@@ -601,7 +601,7 @@ export class LoomiCalendar extends LoomiElement {
             @select=${this.handleViewSelect}
           ></loomi-select>
           ${this.editable ? html`
-            <loomi-tooltip content=${this.t("calendar.addEvent")} position="bottom">
+            <loomi-tooltip content=${this.t("calendar.addEvent")} placement="bottom">
               <button class="toolbar-btn icon-only" type="button" aria-label=${this.t("calendar.addEvent")} @click=${() => this.openCreateEventModal()}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${PLUS}</svg>
               </button>

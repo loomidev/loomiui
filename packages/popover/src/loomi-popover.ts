@@ -4,7 +4,7 @@ import { LoomiElement, loomiStyles, onClickOutside } from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
-export type LoomiPopoverPosition = "top" | "bottom" | "left" | "right";
+export type LoomiPopoverPlacement = "top" | "bottom" | "left" | "right";
 
 /**
  * `<loomi-popover>` — a floating rich-content panel opened on click or hover.
@@ -19,7 +19,7 @@ export class LoomiPopover extends LoomiElement {
 
   @property() trigger = "information-circle";
   @property({ attribute: "trigger-on" }) triggerOn: "click" | "mouseover" = "click";
-  @property() position: LoomiPopoverPosition = "bottom";
+  @property() placement: LoomiPopoverPlacement = "bottom";
   @property() title = "";
   @property({ type: Number }) width = 280;
   @property({ type: Boolean, reflect: true }) disabled = false;
@@ -72,7 +72,7 @@ export class LoomiPopover extends LoomiElement {
       </slot>
     </button>
     ${this.open
-      ? html`<div class="loomi-panel pos-${this.position}" role="dialog" style="--loomi-pop-width:${this.width}px">
+      ? html`<div class="loomi-panel placement-${this.placement}" role="dialog" style="--loomi-pop-width:${this.width}px">
           ${this.title ? html`<div class="loomi-title">${this.title}</div>` : nothing}
           <div class="loomi-content"><slot></slot></div>
         </div>`
