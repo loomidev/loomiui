@@ -62,8 +62,6 @@ Any loomi color works for the active/checked state: `primary` `secondary` `succe
 
 ```html
 <loomi-toggle color="error" checked>Red</loomi-toggle>
-<loomi-toggle color="yellow" checked>Yellow</loomi-toggle>
-<loomi-toggle color="success" checked>Green</loomi-toggle>
 <loomi-toggle color="error" checked>Error</loomi-toggle>
 <loomi-toggle color="warning" checked>Warning</loomi-toggle>
 <loomi-toggle color="success" checked>Success</loomi-toggle>

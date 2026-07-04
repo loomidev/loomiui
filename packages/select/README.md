@@ -231,6 +231,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `readonly` | `false` | Read-only (cannot open). _(boolean)_ |
 | `required` | `false` | Marks the field required. _(boolean)_ |
 | `size` | `medium` | `small` \| `regular` \| `medium` \| `big` |
+| `variant` | `default` | `default` \| `minimal` (bottom border only, no box) |
 | `empty-placeholder` | `No options available` | Text shown when there are no options. |
 | `empty-action-label` | _(blank)_ | CTA label shown in the empty state. |
 | `empty-action-url` | _(blank)_ | Optional URL to navigate to when the empty CTA is clicked. |

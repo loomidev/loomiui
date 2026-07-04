@@ -57,13 +57,21 @@ child tab.
 
 ```html
 <loomi-tabs color="error">
-  <loomi-tab label="Red Tab" active>…</loomi-tab>
-  <loomi-tab label="The Other Tab">…</loomi-tab>
+  <loomi-tab label="Incidents" active>
+    <p>2 open incidents are affecting checkout. The team was paged 6 minutes ago.</p>
+  </loomi-tab>
+  <loomi-tab label="Resolved">
+    <p>14 incidents were resolved this week, with a median time-to-fix of 22 minutes.</p>
+  </loomi-tab>
 </loomi-tabs>
 
 <loomi-tabs color="success">
-  <loomi-tab label="Green Tab" active>…</loomi-tab>
-  <loomi-tab label="The Other Tab">…</loomi-tab>
+  <loomi-tab label="Passing" active>
+    <p>All 312 checks are passing on the main branch as of the last deploy.</p>
+  </loomi-tab>
+  <loomi-tab label="Skipped">
+    <p>4 checks are skipped for this branch because they only run on release tags.</p>
+  </loomi-tab>
 </loomi-tabs>
 ```
 
@@ -104,9 +112,15 @@ Set `icon` on a `<loomi-tab>` to prefix its heading with an icon from the shared
 
 ```html
 <loomi-tabs>
-  <loomi-tab label="Overview" icon="information-circle" active>…</loomi-tab>
-  <loomi-tab label="Activity" icon="bell-alert">…</loomi-tab>
-  <loomi-tab label="Security" icon="lock-closed">…</loomi-tab>
+  <loomi-tab label="Overview" icon="information-circle" active>
+    <p>Your workspace is on the Team plan with 8 of 10 seats in use.</p>
+  </loomi-tab>
+  <loomi-tab label="Activity" icon="bell-alert">
+    <p>Ada invited a new member and Sara updated the billing contact today.</p>
+  </loomi-tab>
+  <loomi-tab label="Security" icon="lock-closed">
+    <p>Two-step verification is required for all admins and enabled for 6 of 8 members.</p>
+  </loomi-tab>
 </loomi-tabs>
 ```
 
@@ -130,8 +144,12 @@ keyboard navigation — see below):
 
 ```html
 <loomi-tabs>
-  <loomi-tab label="Available" active>…</loomi-tab>
-  <loomi-tab label="Coming Soon" disabled>…</loomi-tab>
+  <loomi-tab label="Standard Shipping" active>
+    <p>Arrives in 5-7 business days. Free on orders over $50.</p>
+  </loomi-tab>
+  <loomi-tab label="Same-Day Delivery" disabled>
+    <p>Not available for this address yet.</p>
+  </loomi-tab>
 </loomi-tabs>
 ```
 
@@ -140,7 +158,9 @@ plain link — clicking it navigates via `location.href` rather than showing a p
 
 ```html
 <loomi-tabs>
-  <loomi-tab label="Dashboard" active>…</loomi-tab>
+  <loomi-tab label="Dashboard" active>
+    <p>Quick glance: 1,284 active users, 42 open invites, $12.8k in monthly spend.</p>
+  </loomi-tab>
   <loomi-tab label="Full Settings →" url="/settings"></loomi-tab>
 </loomi-tabs>
 ```

@@ -212,6 +212,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `dynamic-mask` | _(blank)_ | Built-in dynamic mask attribute. Currently supports `creditcard`. |
 | `min` / `max` | _(blank)_ | Clamp numeric values on change. |
 | `size` | `medium` | `small` \| `regular` \| `medium` \| `big` |
+| `variant` | `default` | `default` \| `minimal` (bottom border only, no box) |
 | `prefix` / `suffix` | _(blank)_ | Text affix. |
 | `prefix-options` / `suffix-options` | _(blank)_ | Comma, pipe, or JSON array of dropdown options. |
 | `prefix-value` / `suffix-value` | _(blank)_ | Selected dropdown affix value. |

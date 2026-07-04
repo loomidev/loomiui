@@ -1,13 +1,31 @@
 import { html, nothing, type TemplateResult } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
+
+const ENTRANCE_DURATION_MS = 600;
 
 const booleanAttribute = {
   fromAttribute(value: string | null): boolean {
     return value !== null && value.toLowerCase() !== "false" && value !== "0";
   },
 };
+
+// Registering these as <percentage> custom properties (rather than the untyped default)
+// is what makes the browser interpolate them smoothly for the entrance transition below,
+// instead of snapping straight to the new value. This has to go through the
+// CSS.registerProperty() JS API rather than an `@property` rule in the component's own
+// stylesheet - at least in some engines, `@property` declared inside a shadow root's
+// adopted stylesheet is parsed fine but silently ignored for animation purposes.
+if (typeof CSS !== "undefined" && typeof CSS.registerProperty === "function") {
+  for (const name of ["--loomi-range-start", "--loomi-range-end"]) {
+    try {
+      CSS.registerProperty({ name, syntax: "<percentage>", inherits: true, initialValue: "0%" });
+    } catch {
+      // Already registered (e.g. hot reload, or another instance's module got here first).
+    }
+  }
+}
 
 /**
  * `<loomi-slider>` — select a numeric value or numeric range with a slider.
@@ -41,8 +59,26 @@ export class LoomiSlider extends LoomiElement {
   @property({ type: Boolean, attribute: "show-values", converter: booleanAttribute })
   showValues = true;
 
+  /** False until just after first paint, so the track can render empty for one frame
+   * and then fill in to the starting value as an entrance animation. */
+  @state() private revealed = false;
+  /** True only while the entrance animation should be transitioning, so later drag
+   * interactions apply instantly instead of lagging behind a transition. */
+  @state() private animatingEntrance = true;
+
   override willUpdate(): void {
     this.internals.setFormValue(this.value);
+  }
+
+  override firstUpdated(): void {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        this.revealed = true;
+        setTimeout(() => {
+          this.animatingEntrance = false;
+        }, ENTRANCE_DURATION_MS);
+      });
+    });
   }
 
   get value(): string {
@@ -81,8 +117,8 @@ export class LoomiSlider extends LoomiElement {
   private get progressStyle(): string {
     const start = this.range ? this.startValue : this.lowerBound;
     const end = this.range ? this.endValue : this.startValue;
-    const startPercent = this.valuePercent(start);
-    const endPercent = this.valuePercent(end);
+    const startPercent = this.revealed ? this.valuePercent(start) : 0;
+    const endPercent = this.revealed ? this.valuePercent(end) : 0;
 
     const handleWidth = this.handleWidth ? ` --loomi-slider-thumb-width: ${this.handleWidth};` : "";
     return `${accentVars(this.color)} --loomi-range-start: ${startPercent}%; --loomi-range-end: ${endPercent}%; --loomi-slider-radius: ${this.trackRadius};${handleWidth}`;
@@ -151,7 +187,11 @@ export class LoomiSlider extends LoomiElement {
     const marks = this.parsedMarks();
     if (marks.length === 0) return nothing;
     return html`<div class="loomi-marks" aria-hidden="true">
-      ${marks.map((mark) => html`<span class="loomi-mark" style=${this.markStyle(mark)}></span>`)}
+      ${marks.map(
+        (mark) => html`<span class="loomi-mark" style=${this.markStyle(mark)}>
+          <span class="loomi-mark-label">${mark}</span>
+        </span>`
+      )}
     </div>`;
   }
 
@@ -164,7 +204,7 @@ export class LoomiSlider extends LoomiElement {
   override render(): TemplateResult {
     return html`<div class="loomi-slider ${this.vertical ? "vertical" : "horizontal"}" style=${this.progressStyle}>
       <div class="loomi-control ${this.range ? "loomi-control-range" : ""} handle-${this.handleVariant}">
-        <span class="loomi-track" aria-hidden="true"></span>
+        <span class="loomi-track ${this.animatingEntrance ? "entering" : ""}" aria-hidden="true"></span>
         ${this.renderMarks()}
         <input
           class="loomi-range ${this.range ? "loomi-range-start" : ""}"
