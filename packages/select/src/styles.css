@@ -91,6 +91,30 @@
   background: var(--loomi-surface-muted);
 }
 
+.loomi-select.variant-minimal .loomi-trigger {
+  border: 0;
+  border-bottom: 2px solid var(--loomi-surface-border);
+  border-radius: 0;
+  background: transparent;
+  padding-inline: 0;
+}
+.loomi-select.variant-minimal .loomi-trigger:focus-visible,
+.loomi-select.variant-minimal.open .loomi-trigger {
+  box-shadow: none;
+  border-bottom-color: var(--loomi-primary-600);
+}
+:host([invalid]) .loomi-select.variant-minimal .loomi-trigger {
+  border-bottom-color: var(--loomi-error-400);
+}
+:host([invalid]) .loomi-select.variant-minimal .loomi-trigger:focus-visible,
+:host([invalid]) .loomi-select.variant-minimal.open .loomi-trigger {
+  border-bottom-color: var(--loomi-error-500);
+}
+:host([disabled]) .loomi-select.variant-minimal .loomi-trigger,
+:host([readonly]) .loomi-select.variant-minimal .loomi-trigger {
+  background: transparent;
+}
+
 .loomi-value {
   flex: 1 1 auto;
   min-width: 0;

@@ -19,11 +19,16 @@ export class LoomiListitem extends LoomiElement {
 }
 
 customElements.define("loomi-listitem", LoomiListitem);
-customElements.define("loomi-listview-item", LoomiListitem);
+
+/** Alias of `LoomiListitem` registered under `<loomi-listview-item>`. The Custom Elements
+ * registry rejects registering one constructor under two tag names, so this subclass
+ * exists purely to give the alias its own constructor identity. */
+export class LoomiListviewItem extends LoomiListitem {}
+customElements.define("loomi-listview-item", LoomiListviewItem);
 
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-listitem": LoomiListitem;
-    "loomi-listview-item": LoomiListitem;
+    "loomi-listview-item": LoomiListviewItem;
   }
 }

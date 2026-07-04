@@ -1,7 +1,7 @@
 import { html, nothing, render as litRender, svg, type PropertyValues, type TemplateResult } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { customElement, property, state } from "lit/decorators.js";
-import { LoomiElement, loomiDefaultText, loomiStyles, cssColor } from "@loomidev/core";
+import { LoomiElement, accentVars, loomiDefaultText, loomiStyles, cssColor } from "@loomidev/core";
 import { getLoomiIcon, type LoomiIconVariant } from "@loomidev/icons";
 import "@loomidev/checkbox/loomi-checkbox.js";
 import "@loomidev/input/loomi-input.js";
@@ -345,7 +345,7 @@ export class LoomiTable extends LoomiElement {
     const variant = item.iconType ?? item.icon_type ?? "outline";
     const path = getLoomiIcon(item.icon, variant);
     const filled = (item.buttonOutline ?? item.button_outline) === false;
-    const style = item.color ? `--_loomi-accent:${cssColor(item.color, 600)};--_loomi-accent-bg:${cssColor(item.color, 600)}` : nothing;
+    const style = `${accentVars(item.color || "secondary")}--_loomi-accent-bg:${cssColor(item.color || "secondary", 600)}`;
     return html`<button
       class="loomi-action ${filled ? "filled" : ""}"
       title=${item.tip ?? nothing}

@@ -9,6 +9,8 @@ export interface LoomiMentionItem {
   description?: string;
   image?: string;
 }
+
+export type LoomiTextareaVariant = "default" | "minimal";
 const booleanAttribute = {
   fromAttribute(value: string | null): boolean {
     return value !== null && value.toLowerCase() !== "false";
@@ -56,6 +58,7 @@ export class LoomiTextarea extends LoomiElement {
   @property({ type: Boolean, attribute: "show-error-inline" }) showErrorInline = false;
   @property({ type: Boolean, reflect: true }) invalid = false;
   @property({ type: Boolean, attribute: "show-focus-ring", converter: booleanAttribute }) showFocusRing = true;
+  @property() variant: LoomiTextareaVariant = "default";
   /** Characters that open the mention picker, e.g. `["@", "#", "/"]`. Empty disables it. */
   @property({ type: Array, attribute: "mention-triggers" }) mentionTriggers: string[] = [];
   /** Items per trigger character, e.g. `{ "@": [{ label: "Jane" }] }`. */
@@ -282,7 +285,7 @@ export class LoomiTextarea extends LoomiElement {
     const showError = this.invalid && this.showErrorInline && this.errorMessage;
 
     return html`
-      <div class="loomi-field ${this.showFocusRing ? "" : "no-focus-ring"}" part="field">
+      <div class="loomi-field variant-${this.variant} ${this.showFocusRing ? "" : "no-focus-ring"}" part="field">
         <textarea
           class="loomi-textarea"
           part="textarea"

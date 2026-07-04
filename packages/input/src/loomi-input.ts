@@ -9,6 +9,7 @@ import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiInputType = "text" | "email" | "password" | "search" | "tel" | "url";
 export type LoomiInputSize = "tiny" | "small" | "regular" | "medium" | "big";
+export type LoomiInputVariant = "default" | "minimal";
 export type LoomiInputDynamicMask =
   | ""
   | "creditcard"
@@ -70,6 +71,7 @@ export class LoomiInput extends LoomiElement {
   @property() min = "";
   @property() max = "";
   @property() size: LoomiInputSize = "medium";
+  @property() variant: LoomiInputVariant = "default";
   @property() prefix = "";
   @property() suffix = "";
   @property({ attribute: "prefix-options" }) prefixOptions = "";
@@ -381,7 +383,7 @@ export class LoomiInput extends LoomiElement {
     const showError = this.invalid && this.showErrorInline && this.errorMessage;
 
     return html`
-      <div class="loomi-field size-${this.size} ${forceFloat ? "force-float" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}" part="field">
+      <div class="loomi-field size-${this.size} variant-${this.variant} ${forceFloat ? "force-float" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}" part="field">
         ${hasLabel && hasPrefix
           ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
           : nothing}

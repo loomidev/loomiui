@@ -1,6 +1,6 @@
 # @loomidev/timeline
 
-`<loomi-timeline>` items grouped in `<loomi-timelines>` — display events in
+`<loomi-timeline-item>` entries grouped in `<loomi-timeline>` — display events in
 chronological order, like an activity feed.
 
 ```bash
@@ -15,21 +15,24 @@ import "@loomidev/timeline";
 ## Basic Usage
 
 ```html
-<loomi-timelines>
-  <loomi-timeline date="10 days ago" content="You signed up"></loomi-timeline>
-  <loomi-timeline date="8 days ago" content="Customer rep assigned"></loomi-timeline>
-  <loomi-timeline date="8 days ago" content="Customer rep called"></loomi-timeline>
-  <loomi-timeline content="Account is being reviewed"></loomi-timeline>
-  <loomi-timeline content="Account activated"></loomi-timeline>
-</loomi-timelines>
+<loomi-timeline>
+  <loomi-timeline-item date="10 days ago" content="You signed up"></loomi-timeline-item>
+  <loomi-timeline-item date="8 days ago" content="Customer rep assigned"></loomi-timeline-item>
+  <loomi-timeline-item date="8 days ago" content="Customer rep called"></loomi-timeline-item>
+  <loomi-timeline-item content="Account is being reviewed"></loomi-timeline-item>
+  <loomi-timeline-item content="Account activated"></loomi-timeline-item>
+</loomi-timeline>
 ```
+
+The trailing connector line is removed from the last item automatically — there's
+nothing to set.
 
 ## Bigger Anchors
 
 ```html
-<loomi-timelines anchor="big">
-  <loomi-timeline date="10 days ago" content="You signed up"></loomi-timeline>
-</loomi-timelines>
+<loomi-timeline anchor="big">
+  <loomi-timeline-item date="10 days ago" content="You signed up"></loomi-timeline-item>
+</loomi-timeline>
 ```
 
 ## Completed State
@@ -37,34 +40,34 @@ import "@loomidev/timeline";
 Filled circles mark a step as done; on a big anchor, a checkmark appears too.
 
 ```html
-<loomi-timelines anchor="big">
-  <loomi-timeline completed date="10 days ago" content="You signed up"></loomi-timeline>
-  <loomi-timeline completed date="8 days ago" content="Customer rep assigned"></loomi-timeline>
-  <loomi-timeline content="Account is being reviewed"></loomi-timeline>
-</loomi-timelines>
+<loomi-timeline anchor="big">
+  <loomi-timeline-item completed date="10 days ago" content="You signed up"></loomi-timeline-item>
+  <loomi-timeline-item completed date="8 days ago" content="Customer rep assigned"></loomi-timeline-item>
+  <loomi-timeline-item content="Account is being reviewed"></loomi-timeline-item>
+</loomi-timeline>
 ```
 
 ## Stacked Timelines
 
-`stacked` on the `<loomi-timelines>` wrapper puts dates above content instead of beside
+`stacked` on the `<loomi-timeline>` wrapper puts dates above content instead of beside
 it, and is shared by every child item.
 
 ```html
-<loomi-timelines stacked>
-  <loomi-timeline date="just now" content="Database server restarted"></loomi-timeline>
-  <loomi-timeline date="30 minutes ago" content="2 endpoints are failing — check the logs"></loomi-timeline>
-  <loomi-timeline date="Yesterday" content="Data recovery completed with 2 errors"></loomi-timeline>
-</loomi-timelines>
+<loomi-timeline stacked>
+  <loomi-timeline-item date="just now" content="Database server restarted"></loomi-timeline-item>
+  <loomi-timeline-item date="30 minutes ago" content="2 endpoints are failing — check the logs"></loomi-timeline-item>
+  <loomi-timeline-item date="Yesterday" content="Data recovery completed with 2 errors"></loomi-timeline-item>
+</loomi-timeline>
 ```
 
 `completed` on the wrapper marks every item as done at once — override a single item by
 setting `completed="false"` directly on it.
 
 ```html
-<loomi-timelines stacked completed anchor="big">
-  <loomi-timeline date="just now" content="Database server restarted"></loomi-timeline>
-  <loomi-timeline date="Yesterday" content="Data recovery" completed="false"></loomi-timeline>
-</loomi-timelines>
+<loomi-timeline stacked completed anchor="big">
+  <loomi-timeline-item date="just now" content="Database server restarted"></loomi-timeline-item>
+  <loomi-timeline-item date="Yesterday" content="Data recovery" completed="false"></loomi-timeline-item>
+</loomi-timeline>
 ```
 
 ## Anchor Icons and Avatars
@@ -72,45 +75,60 @@ setting `completed="false"` directly on it.
 Icons and avatars only render when `anchor="big"`.
 
 ```html
-<loomi-timelines anchor="big" completed>
-  <loomi-timeline date="10 days ago" content="You signed up" icon="bell-alert"></loomi-timeline>
-  <loomi-timeline date="8 days ago" content="Customer rep assigned" icon="bolt"></loomi-timeline>
-  <loomi-timeline content="Account is being reviewed" icon="key" completed="false"></loomi-timeline>
-</loomi-timelines>
+<loomi-timeline anchor="big" completed>
+  <loomi-timeline-item date="10 days ago" content="You signed up" icon="bell-alert"></loomi-timeline-item>
+  <loomi-timeline-item date="8 days ago" content="Customer rep assigned" icon="bolt"></loomi-timeline-item>
+  <loomi-timeline-item content="Account is being reviewed" icon="key" completed="false"></loomi-timeline-item>
+</loomi-timeline>
 
-<loomi-timelines anchor="big">
-  <loomi-timeline date="10 days ago" content="You signed up" avatar="/avatars/ada.jpg"></loomi-timeline>
-  <loomi-timeline date="8 days ago" content="Customer rep assigned" avatar="/avatars/rep.jpg"></loomi-timeline>
-</loomi-timelines>
+<loomi-timeline anchor="big">
+  <loomi-timeline-item date="10 days ago" content="You signed up" avatar="/avatars/ada.jpg"></loomi-timeline-item>
+  <loomi-timeline-item date="8 days ago" content="Customer rep assigned" avatar="/avatars/rep.jpg"></loomi-timeline-item>
+</loomi-timeline>
 ```
 
 ## Positioning
 
-Only the `<loomi-timelines>` wrapper can be positioned; default is `center`.
+Set `position` on the `<loomi-timeline>` wrapper — it's shared by every child item.
+Default is `left` (anchor on the left, content to its right).
 
 ```html
-<loomi-timelines position="left" anchor="big">
-  <loomi-timeline date="10 days ago" content="You signed up"></loomi-timeline>
-</loomi-timelines>
+<loomi-timeline position="left" anchor="big">
+  <loomi-timeline-item date="10 days ago" content="You signed up"></loomi-timeline-item>
+  <loomi-timeline-item date="8 days ago" content="Customer rep assigned"></loomi-timeline-item>
+</loomi-timeline>
 ```
 
-## No Trailing Line
-
-Set `last` on the final item to drop its trailing connector line — `<loomi-timelines>`
-does this automatically for its own last child.
+`right` mirrors the whole layout — content on the left, anchor on the right:
 
 ```html
-<loomi-timeline content="Account activated" last></loomi-timeline>
+<loomi-timeline position="right" anchor="big">
+  <loomi-timeline-item date="10 days ago" content="You signed up"></loomi-timeline-item>
+  <loomi-timeline-item date="8 days ago" content="Customer rep assigned"></loomi-timeline-item>
+</loomi-timeline>
+```
+
+`alternate` centers a single spine and alternates each item to its left and right —
+which side an item lands on is resolved from its position among its siblings, so
+there's nothing to set per item:
+
+```html
+<loomi-timeline position="alternate" anchor="big">
+  <loomi-timeline-item date="10 days ago" content="You signed up"></loomi-timeline-item>
+  <loomi-timeline-item date="8 days ago" content="Customer rep assigned"></loomi-timeline-item>
+  <loomi-timeline-item date="2 days ago" content="Account is being reviewed"></loomi-timeline-item>
+  <loomi-timeline-item content="Account activated"></loomi-timeline-item>
+</loomi-timeline>
 ```
 
 ## Colors
 
 ```html
-<loomi-timelines>
-  <loomi-timeline date="10 days ago" content="You signed up" color="error" completed></loomi-timeline>
-  <loomi-timeline date="8 days ago" content="Customer rep assigned" color="warning"></loomi-timeline>
-  <loomi-timeline content="Account is being reviewed" color="success"></loomi-timeline>
-</loomi-timelines>
+<loomi-timeline>
+  <loomi-timeline-item date="10 days ago" content="You signed up" color="error" completed></loomi-timeline-item>
+  <loomi-timeline-item date="8 days ago" content="Customer rep assigned" color="warning"></loomi-timeline-item>
+  <loomi-timeline-item content="Account is being reviewed" color="success"></loomi-timeline-item>
+</loomi-timeline>
 ```
 
 ## Accessibility
@@ -138,7 +156,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-### `<loomi-timeline>`
+### `<loomi-timeline-item>`
 
 | Attribute | Default | Description |
 | --- | --- | --- |
@@ -149,34 +167,37 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `icon` | _(blank)_ | Anchor icon name (big anchor). |
 | `avatar` | _(blank)_ | Anchor image URL (big anchor). |
 | `stacked` | `false` | Date above content vs. in a left column. _(boolean)_ |
-| `last` | `false` | Remove the trailing connector line. _(boolean)_ |
+| `position` | `left` | `left` \| `right` \| `alternate` — set on the `<loomi-timeline>` wrapper instead; it applies to every child. |
 | `color` | `primary` | Any loomi color. |
 
-### `<loomi-timelines>` (wrapper)
+The trailing connector line and `alternate` left/right placement are both resolved
+automatically from the item's position among its siblings — there is no `last` or
+per-item side attribute to set.
 
-Shares `stacked`, `completed`, `anchor`, `icon`, `color` with all children, and supports
-`position` (`left` \| `center`). The last item's connector line is removed
-automatically.
+### `<loomi-timeline>` (wrapper)
+
+Shares `stacked`, `completed`, `anchor`, `icon`, `color`, and `position` with all
+children.
 
 ## Full Example
 
 ```html
-<loomi-timelines stacked anchor="big" color="error" position="left" completed>
-  <loomi-timeline
+<loomi-timeline stacked anchor="big" color="error" position="alternate" completed>
+  <loomi-timeline-item
     date="9 days ago"
     avatar="/avatars/me.jpg"
     content="I am a timeline"
     completed
-  ></loomi-timeline>
-  <loomi-timeline date="2 days ago" content="Still going" completed="false"></loomi-timeline>
-</loomi-timelines>
+  ></loomi-timeline-item>
+  <loomi-timeline-item date="2 days ago" content="Still going" completed="false"></loomi-timeline-item>
+</loomi-timeline>
 ```
 
 <!-- BEGIN loomi-framework-guide -->
 
 ## Framework integration
 
-`<loomi-timeline>` and `<loomi-timelines>` are standard custom elements, so the browser can use them in plain HTML, Blade, React, Vue, Angular, Svelte, Astro, and most other frameworks. The important beginner rule is: install the package, import it once before the tag is rendered, then write the Loomi tag in your template.
+`<loomi-timeline-item>` and `<loomi-timeline>` are standard custom elements, so the browser can use them in plain HTML, Blade, React, Vue, Angular, Svelte, Astro, and most other frameworks. The important beginner rule is: install the package, import it once before the tag is rendered, then write the Loomi tag in your template.
 
 ### Where to run commands
 
@@ -208,10 +229,10 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 </script>
 <script type="module" src="https://esm.sh/@loomidev/timeline"></script>
 
-<loomi-timelines>
-  <loomi-timeline date="09:00" completed>Order placed</loomi-timeline>
-  <loomi-timeline date="10:30">Payment confirmed</loomi-timeline>
-</loomi-timelines>
+<loomi-timeline>
+  <loomi-timeline-item date="09:00" completed>Order placed</loomi-timeline-item>
+  <loomi-timeline-item date="10:30">Payment confirmed</loomi-timeline-item>
+</loomi-timeline>
 ```
 
 </loomi-tab>
@@ -240,10 +261,10 @@ import "@loomidev/timeline";
 ```
 
 ```blade
-<loomi-timelines>
-  <loomi-timeline date="09:00" completed>Order placed</loomi-timeline>
-  <loomi-timeline date="10:30">Payment confirmed</loomi-timeline>
-</loomi-timelines>
+<loomi-timeline>
+  <loomi-timeline-item date="09:00" completed>Order placed</loomi-timeline-item>
+  <loomi-timeline-item date="10:30">Payment confirmed</loomi-timeline-item>
+</loomi-timeline>
 ```
 
 </loomi-tab>
@@ -256,10 +277,10 @@ import "@loomidev/timeline";
 
 export function LoomiExample() {
   return (
-    <loomi-timelines>
-      <loomi-timeline date="09:00" completed>Order placed</loomi-timeline>
-      <loomi-timeline date="10:30">Payment confirmed</loomi-timeline>
-    </loomi-timelines>
+    <loomi-timeline>
+      <loomi-timeline-item date="09:00" completed>Order placed</loomi-timeline-item>
+      <loomi-timeline-item date="10:30">Payment confirmed</loomi-timeline-item>
+    </loomi-timeline>
   );
 }
 ```
@@ -277,10 +298,10 @@ import "@loomidev/timeline";
 </script>
 
 <template>
-  <loomi-timelines>
-    <loomi-timeline date="09:00" completed>Order placed</loomi-timeline>
-    <loomi-timeline date="10:30">Payment confirmed</loomi-timeline>
-  </loomi-timelines>
+  <loomi-timeline>
+    <loomi-timeline-item date="09:00" completed>Order placed</loomi-timeline-item>
+    <loomi-timeline-item date="10:30">Payment confirmed</loomi-timeline-item>
+  </loomi-timeline>
 </template>
 ```
 
@@ -301,10 +322,10 @@ import "@loomidev/timeline";
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
-    <loomi-timelines>
-      <loomi-timeline date="09:00" completed>Order placed</loomi-timeline>
-      <loomi-timeline date="10:30">Payment confirmed</loomi-timeline>
-    </loomi-timelines>
+    <loomi-timeline>
+      <loomi-timeline-item date="09:00" completed>Order placed</loomi-timeline-item>
+      <loomi-timeline-item date="10:30">Payment confirmed</loomi-timeline-item>
+    </loomi-timeline>
   `,
 })
 export class AppComponent {}
@@ -320,10 +341,10 @@ Svelte can import the package inside a component script. Astro can import it in 
   import "@loomidev/timeline";
 </script>
 
-<loomi-timelines>
-  <loomi-timeline date="09:00" completed>Order placed</loomi-timeline>
-  <loomi-timeline date="10:30">Payment confirmed</loomi-timeline>
-</loomi-timelines>
+<loomi-timeline>
+  <loomi-timeline-item date="09:00" completed>Order placed</loomi-timeline-item>
+  <loomi-timeline-item date="10:30">Payment confirmed</loomi-timeline-item>
+</loomi-timeline>
 ```
 
 ```astro
@@ -331,10 +352,10 @@ Svelte can import the package inside a component script. Astro can import it in 
 import "@loomidev/timeline";
 ---
 
-<loomi-timelines>
-  <loomi-timeline date="09:00" completed>Order placed</loomi-timeline>
-  <loomi-timeline date="10:30">Payment confirmed</loomi-timeline>
-</loomi-timelines>
+<loomi-timeline>
+  <loomi-timeline-item date="09:00" completed>Order placed</loomi-timeline-item>
+  <loomi-timeline-item date="10:30">Payment confirmed</loomi-timeline-item>
+</loomi-timeline>
 ```
 
 </loomi-tab>

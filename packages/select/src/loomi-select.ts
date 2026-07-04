@@ -4,6 +4,7 @@ import { LoomiElement, loomiDefaultText, loomiT, themeStyles } from "@loomidev/c
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiSelectSize = "tiny" | "small" | "regular" | "medium" | "big";
+export type LoomiSelectVariant = "default" | "minimal";
 
 interface LoomiOption {
   label: string;
@@ -59,6 +60,7 @@ export class LoomiSelect extends LoomiElement {
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property({ type: Boolean, reflect: true }) required = false;
   @property() size: LoomiSelectSize = "medium";
+  @property() variant: LoomiSelectVariant = "default";
   @property({ attribute: "empty-placeholder" }) emptyPlaceholder = DEFAULT_EMPTY_PLACEHOLDER;
   @property({ attribute: "empty-action-label" }) emptyActionLabel = "";
   @property({ attribute: "empty-action-url" }) emptyActionUrl = "";
@@ -284,7 +286,7 @@ export class LoomiSelect extends LoomiElement {
 
     return html`
       <div
-        class="loomi-select size-${this.size} ${this.open ? "open" : ""} ${float ? "float" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}"
+        class="loomi-select size-${this.size} variant-${this.variant} ${this.open ? "open" : ""} ${float ? "float" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}"
         @keydown=${this.onKeydown}
       >
         <button

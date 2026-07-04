@@ -386,6 +386,7 @@ This keeps LoomiUI provider-neutral while still giving users a real toolbar affo
 | `error-message` | _(blank)_ | Message used when validation fails. |
 | `show-error-inline` | `false` | Shows `error-message` under the field. |
 | `no-clearing` | `false` | Removes the default bottom margin. |
+| `variant` | `default` | `default` \| `minimal` (bottom border only, no box) |
 
 **Methods:** `focus()`, `validate()`, `checkValidity()`, `reportValidity()`.
 

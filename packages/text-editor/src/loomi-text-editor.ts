@@ -40,6 +40,7 @@ const TOOL_ORDER = [
 export type LoomiTextEditorTool = (typeof TOOL_ORDER)[number];
 export type LoomiTextEditorTools = string | readonly string[];
 export type LoomiTextEditorEmbedTool = "link" | "image" | "video";
+export type LoomiTextEditorVariant = "default" | "minimal";
 
 const TOOL_SET = new Set<string>(TOOL_ORDER);
 
@@ -305,6 +306,7 @@ export class LoomiTextEditor extends LoomiElement {
   @property({ attribute: "error-message" }) errorMessage = "";
   @property({ type: Boolean, attribute: "show-error-inline" }) showErrorInline = false;
   @property({ type: Boolean, reflect: true }) invalid = false;
+  @property() variant: LoomiTextEditorVariant = "default";
 
   @state() private activeTools: readonly string[] = [];
   @state() private currentBlock = "p";
@@ -981,7 +983,7 @@ export class LoomiTextEditor extends LoomiElement {
             >${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label
           >`
         : nothing}
-      <div class="loomi-field" part="field">
+      <div class="loomi-field variant-${this.variant}" part="field">
         ${tools.length
           ? html`<div class="loomi-toolbar" part="toolbar" role="toolbar">
               ${tools.map((tool) => this.renderTool(tool))}

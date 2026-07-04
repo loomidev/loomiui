@@ -100,6 +100,10 @@ Pass an array of `{ icon, name, tip, color }` objects via `action-icons` to add 
 of icon buttons. Listen for the `action` event to handle clicks — `e.detail` is
 `{ name, row }`, so you always get the full row data for that line.
 
+Each icon renders as a circular outline button in `secondary` by default; pass `color`
+to use a different loomi color instead. Set `buttonOutline: false` (or the underscore
+alias `button_outline: false`) to render a solid filled circle instead of the outline.
+
 ```html
 <loomi-table id="t3"></loomi-table>
 
@@ -169,6 +173,17 @@ selection store as checkboxes, so `selectedIds`, `selectedValue`, and
 
 The search box filters across every visible column's stringified value, client-side —
 typing "design" above narrows the six rows down to Sara and Joe.
+
+## Search Placement
+
+`searchable` renders a full-width search field above the table by default. Set
+`search-container` to a DOM selector when the search field should live somewhere else
+on the page.
+
+```html
+<div id="staff-search"></div>
+<loomi-table id="staff-table" searchable search-container="#staff-search"></loomi-table>
+```
 
 ## Sortable
 
@@ -299,17 +314,6 @@ Customize the total text with `:a`, `:b`, and `:c` placeholders:
 ```
 
 Those render as `1 - 5 of 50` and `Showing 1 - 5`.
-
-## Search Placement
-
-`searchable` renders a full-width search field above the table by default. Set
-`search-container` to a DOM selector when the search field should live somewhere else
-on the page.
-
-```html
-<div id="staff-search"></div>
-<loomi-table id="staff-table" searchable search-container="#staff-search"></loomi-table>
-```
 
 ## No Data Message
 

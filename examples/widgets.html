@@ -104,12 +104,20 @@
     </div>
 
     <h2>Timeline</h2>
-    <loomi-timelines anchor="big" position="left">
-      <loomi-timeline date="10 days ago" content="You signed up" icon="check" completed></loomi-timeline>
-      <loomi-timeline date="8 days ago" content="Customer rep assigned" icon="user" completed></loomi-timeline>
-      <loomi-timeline date="2 days ago" content="Account is being reviewed" icon="key"></loomi-timeline>
-      <loomi-timeline content="Account activated" icon="bell-alert"></loomi-timeline>
-    </loomi-timelines>
+    <loomi-timeline anchor="big" position="left">
+      <loomi-timeline-item date="10 days ago" content="You signed up" icon="check" completed></loomi-timeline-item>
+      <loomi-timeline-item date="8 days ago" content="Customer rep assigned" icon="user" completed></loomi-timeline-item>
+      <loomi-timeline-item date="2 days ago" content="Account is being reviewed" icon="key"></loomi-timeline-item>
+      <loomi-timeline-item content="Account activated" icon="bell-alert"></loomi-timeline-item>
+    </loomi-timeline>
+
+    <h2>Timeline (alternate)</h2>
+    <loomi-timeline anchor="big" position="alternate">
+      <loomi-timeline-item date="10 days ago" content="You signed up" icon="check" completed></loomi-timeline-item>
+      <loomi-timeline-item date="8 days ago" content="Customer rep assigned" icon="user" completed></loomi-timeline-item>
+      <loomi-timeline-item date="2 days ago" content="Account is being reviewed" icon="key"></loomi-timeline-item>
+      <loomi-timeline-item content="Account activated" icon="bell-alert"></loomi-timeline-item>
+    </loomi-timeline>
 
     <h2>Empty state</h2>
     <loomi-empty-state heading="Nothing here yet" message="Your recent activity will show up here once things get going." button-label="Create something"></loomi-empty-state>

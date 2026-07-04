@@ -185,6 +185,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `readonly` | `false` | Read-only field. _(boolean)_ |
 | `error-message` | _(blank)_ | Message shown when validation fails. |
 | `show-error-inline` | `false` | Render the error beneath the field. _(boolean)_ |
+| `variant` | `default` | `default` \| `minimal` (bottom border only, no box) |
 | `no-clearing` | `false` | Remove the default bottom margin. _(boolean)_ |
 | `mention-triggers` | `[]` | JSON array of trigger characters, e.g. `'["@","#","/"]'`. |
 

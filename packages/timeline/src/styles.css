@@ -5,10 +5,10 @@
   display: none;
 }
 
-/* wrapper */
-.loomi-timelines.center {
-  max-width: 36rem;
-  margin: 0 auto;
+/* container */
+.loomi-timeline {
+  display: flex;
+  flex-direction: column;
 }
 
 /* item */
@@ -16,19 +16,36 @@
   display: flex;
   gap: 0.85rem;
 }
+.loomi-anchor {
+  order: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: none;
+}
+.loomi-side {
+  order: 2;
+  display: flex;
+  gap: 0.85rem;
+  min-width: 0;
+}
+:host([position="right"]) .loomi-anchor {
+  order: 2;
+}
+:host([position="right"]) .loomi-side {
+  order: 1;
+  flex-direction: row-reverse;
+}
 .loomi-date-col {
   flex: none;
   width: 6.5rem;
   text-align: right;
   color: var(--loomi-text-faint);
   font-size: 0.8rem;
-  padding-top: 0.05rem;
+  padding-top: 0.15rem;
 }
-.loomi-anchor {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: none;
+:host([position="right"]) .loomi-date-col {
+  text-align: left;
 }
 .loomi-dot {
   display: flex;
@@ -37,6 +54,7 @@
   border-radius: 9999px;
   background: var(--loomi-surface);
   border: 2px solid var(--_loomi-accent);
+  box-shadow: 0 0 0 3px var(--loomi-surface);
   color: var(--loomi-white);
   flex: none;
   overflow: hidden;
@@ -66,9 +84,9 @@
   width: 2px;
   min-height: 1rem;
   background: var(--loomi-surface-border);
-  margin: 0.25rem 0;
+  margin: 0.3rem 0;
 }
-:host([last]) .loomi-line {
+:host(:last-child) .loomi-line {
   display: none;
 }
 .loomi-body {
@@ -78,12 +96,43 @@
 .loomi-date-top {
   color: var(--loomi-text-faint);
   font-size: 0.8rem;
-  margin-top: 0.25rem;
+  margin-top: 0.3rem;
 }
 .loomi-content {
   color: var(--loomi-text-secondary);
-  line-height: 1.45;
+  line-height: 1.5;
 }
 .loomi-content a {
   color: var(--loomi-primary-600, var(--_loomi-primary-600-default));
+}
+
+/* alternate: a centered spine with items alternating to its left and right, resolved
+   purely from each item's position among its siblings - no per-item setup needed. */
+:host([position="alternate"]) .loomi-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: stretch;
+  gap: 0 0.85rem;
+}
+:host([position="alternate"]) .loomi-anchor {
+  grid-column: 2;
+  grid-row: 1;
+}
+:host([position="alternate"]) .loomi-side {
+  grid-row: 1;
+  padding-top: 0.05rem;
+  min-width: 0;
+}
+:host([position="alternate"]:nth-child(odd)) .loomi-side {
+  grid-column: 1;
+  justify-self: end;
+  flex-direction: row-reverse;
+}
+:host([position="alternate"]:nth-child(odd)) .loomi-date-col,
+:host([position="alternate"]:nth-child(odd)) .loomi-body {
+  text-align: right;
+}
+:host([position="alternate"]:nth-child(even)) .loomi-side {
+  grid-column: 3;
+  justify-self: start;
 }
