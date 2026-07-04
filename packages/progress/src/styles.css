@@ -236,8 +236,8 @@ a.loomi-step-control {
   box-shadow: 0 0 0 4px var(--_loomi-accent-ring);
 }
 .loomi-step-marker.error {
-  border-color: var(--loomi-red-600);
-  background: var(--loomi-red-600);
+  border-color: var(--loomi-error-600, #dc2626);
+  background: var(--loomi-error-600, #dc2626);
   color: var(--loomi-text-on-primary, var(--loomi-white));
 }
 .loomi-step-copy {

@@ -7,23 +7,27 @@
     "success",
     "error",
     "warning",
-    "gray",
-    "purple",
-    "cyan",
-    "pink",
-    "blue"
+    "gray"
   ],
-  "shades": [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
+  "shades": [
+    50,
+    100,
+    200,
+    300,
+    400,
+    500,
+    600,
+    700,
+    800,
+    900,
+    950
+  ],
   "ramps": {
     "primary": "indigo",
     "secondary": "gray",
     "success": "green",
     "error": "red",
     "warning": "orange",
-    "gray": "gray",
-    "purple": "purple",
-    "cyan": "cyan",
-    "pink": "pink",
-    "blue": "blue"
+    "gray": "gray"
   }
 }

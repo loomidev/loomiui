@@ -40,7 +40,7 @@ export class LoomiTag extends LoomiElement {
   @property({ attribute: "icon-position" }) iconPosition: "prefix" | "suffix" = "prefix";
 
   private get resolvedColor(): string {
-    return this.color === "info" ? "blue" : this.color;
+    return this.color === "info" ? "primary" : this.color;
   }
 
   private onClose = (e: Event): void => {

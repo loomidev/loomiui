@@ -67,7 +67,7 @@ describe("loomi-chart", () => {
   });
 
   it("renders radar grid spokes with dedicated classes", async () => {
-    const el = await fixture<LoomiChart>(html`<loomi-chart type="radar" color="purple"></loomi-chart>`);
+    const el = await fixture<LoomiChart>(html`<loomi-chart type="radar" color="warning"></loomi-chart>`);
     el.data = series;
     await el.updateComplete;
 
