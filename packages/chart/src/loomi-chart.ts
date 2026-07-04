@@ -40,6 +40,7 @@ import type {
   ChartColorContext,
   LoomiChartLegendPosition,
   LoomiChartPoint,
+  LoomiChartSeriesType,
   LoomiChartShade,
   LoomiChartType,
 } from "./types.js";
@@ -63,6 +64,7 @@ export class LoomiChart extends LoomiElement {
   @property({ attribute: "series-label" }) seriesLabel = "Series 1";
   @property({ attribute: "series2-label" }) series2Label = "Series 2";
   @property({ attribute: "series3-label" }) series3Label = "Series 3";
+  @property({ attribute: "series2-type" }) series2Type: LoomiChartSeriesType = "bar";
   @property({ type: Boolean, attribute: "show-legend" }) showLegend = false;
   @property({ attribute: "legend-position" }) legendPosition: LoomiChartLegendPosition = "bottom";
   @property({ type: Number, attribute: "donut-radius" }) donutRadius = 44;
@@ -74,10 +76,12 @@ export class LoomiChart extends LoomiElement {
   @property({ type: Boolean, attribute: "show-tooltip", converter: booleanAttribute }) showTooltip = true;
   @property({ type: Boolean, attribute: "with-gap", converter: booleanAttribute }) withGap = false;
   @property({ type: Boolean }) vertical = false;
+  @property({ type: Boolean }) exportable = false;
 
   @state() private hoverIndex = -1;
   @state() private pointerLeft = 0;
   @state() private pointerTop = 0;
+  @state() private exportMenuOpen = false;
 
   private get colorCtx(): ChartColorContext {
     return {
@@ -91,6 +95,10 @@ export class LoomiChart extends LoomiElement {
 
   private dualSeries(): boolean {
     return hasSecondarySeries(this.data);
+  }
+
+  private get mixedBarLine(): boolean {
+    return this.type === "bar" && this.series2Type === "line" && this.dualSeries();
   }
 
   private seriesPoints(layout: ReturnType<typeof cartesianLayout>, field: "value" | "value2"): [number, number][] {
@@ -188,7 +196,7 @@ export class LoomiChart extends LoomiElement {
     const palette = usesPalette(this.type);
     const multi = hasGroupedValues(this.data);
     const seriesLabels = multi ? groupedSeriesLabels(this.data) : [];
-    const seriesCount = barSeriesCount(this.data);
+    const seriesCount = this.mixedBarLine ? 1 : barSeriesCount(this.data);
     const groupRatio = seriesCount > 1 ? Math.min(0.88, 0.68 + seriesCount * 0.04) : BAR_WIDTH_RATIO;
     const groupW = bandWidth * groupRatio;
     const barGap = seriesCount > 1 ? 2 : 0;
@@ -228,6 +236,9 @@ export class LoomiChart extends LoomiElement {
       `;
     };
 
+    const linePoints = this.mixedBarLine ? this.seriesPoints(layout, "value2") : [];
+    const line = linePoints.map((p) => `${p[0]},${p[1]}`).join(" ");
+
     return svg`
       ${this.renderGradientDef("loomi-bar-bg")}
       ${this.renderGrid(layout)}
@@ -243,6 +254,12 @@ export class LoomiChart extends LoomiElement {
             : nothing}
         `;
       })}
+      ${this.mixedBarLine
+        ? svg`
+            <polyline class="loomi-line loomi-line-2" points=${line} fill="none" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></polyline>
+            ${linePoints.map(([x, y], i) => svg`<circle class="loomi-dot loomi-dot-2${this.hoverIndex === i ? " is-active" : ""}" cx=${x} cy=${y} r=${this.hoverIndex === i ? 3.5 : 2.5} vector-effect="non-scaling-stroke"></circle>`)}
+          `
+        : nothing}
     `;
   }
 
@@ -546,6 +563,164 @@ export class LoomiChart extends LoomiElement {
     </div>`;
   }
 
+  private renderExportMenu(): TemplateResult | typeof nothing {
+    if (!this.exportable) return nothing;
+    return html`<div class="loomi-chart-export">
+      <button
+        class="loomi-chart-export-trigger"
+        type="button"
+        aria-haspopup="menu"
+        aria-expanded=${this.exportMenuOpen ? "true" : "false"}
+        @click=${() => (this.exportMenuOpen = !this.exportMenuOpen)}
+      >Export</button>
+      ${this.exportMenuOpen
+        ? html`<div class="loomi-chart-export-menu" role="menu">
+            <button type="button" role="menuitem" @click=${() => this.exportAs("png")}>PNG</button>
+            <button type="button" role="menuitem" @click=${() => this.exportAs("pdf")}>PDF</button>
+            <button type="button" role="menuitem" @click=${() => this.exportAs("svg")}>SVG</button>
+            <button type="button" role="menuitem" @click=${() => this.exportAs("csv")}>CSV</button>
+            <button type="button" role="menuitem" @click=${() => this.exportAs("json")}>JSON</button>
+          </div>`
+        : nothing}
+    </div>`;
+  }
+
+  private fileBaseName(): string {
+    return `${this.localName || "loomi-chart"}-${this.type}`;
+  }
+
+  private serializeSvg(): string {
+    const svgEl = this.renderRoot.querySelector("svg");
+    if (!svgEl) return "";
+    const clone = svgEl.cloneNode(true) as SVGSVGElement;
+    clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    const rect = svgEl.getBoundingClientRect();
+    const viewBox = svgEl.getAttribute("viewBox")?.split(/\s+/).map(Number) ?? [0, 0, 320, 132];
+    clone.setAttribute("width", String(Math.max(1, Math.round(rect.width || viewBox[2] || 320))));
+    clone.setAttribute("height", String(Math.max(1, Math.round(rect.height || viewBox[3] || 132))));
+    return new XMLSerializer().serializeToString(clone);
+  }
+
+  private downloadBytes(filename: string, bytes: BlobPart[], type: string): void {
+    const url = URL.createObjectURL(new Blob(bytes, { type }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
+  private async chartCanvas(type: "image/png" | "image/jpeg" = "image/png"): Promise<HTMLCanvasElement> {
+    const markup = this.serializeSvg();
+    const svgBlob = new Blob([markup], { type: "image/svg+xml;charset=utf-8" });
+    const url = URL.createObjectURL(svgBlob);
+    const img = new Image();
+    const loaded = new Promise<void>((resolve, reject) => {
+      img.onload = () => resolve();
+      img.onerror = () => reject(new Error("Unable to render chart export image"));
+    });
+    img.src = url;
+    await loaded;
+    URL.revokeObjectURL(url);
+    const scale = 2;
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1, img.naturalWidth * scale);
+    canvas.height = Math.max(1, img.naturalHeight * scale);
+    const ctx = canvas.getContext("2d");
+    if (!ctx) throw new Error("Unable to create chart export canvas");
+    if (type === "image/jpeg") {
+      ctx.fillStyle = getComputedStyle(this).getPropertyValue("--loomi-surface") || "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    return canvas;
+  }
+
+  private async canvasBlob(canvas: HTMLCanvasElement, type: string, quality?: number): Promise<Blob> {
+    return new Promise((resolve, reject) => {
+      canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error("Unable to export chart image"))), type, quality);
+    });
+  }
+
+  private dataCsv(): string {
+    const header = ["label", "value", "value2", "value3", "color", "color2", "color3"];
+    const esc = (value: unknown) => `"${String(value ?? "").replace(/"/g, '""')}"`;
+    return [
+      header.join(","),
+      ...this.data.map((point) => header.map((key) => esc(point[key as keyof LoomiChartPoint])).join(",")),
+    ].join("\n");
+  }
+
+  private ascii(value: string): Uint8Array {
+    return new TextEncoder().encode(value);
+  }
+
+  private jpegBytes(dataUrl: string): Uint8Array {
+    const binary = atob(dataUrl.split(",")[1] ?? "");
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+    return bytes;
+  }
+
+  private pdfBytes(jpeg: Uint8Array, width: number, height: number): Uint8Array {
+    const chunks: Uint8Array[] = [];
+    const offsets: number[] = [];
+    let offset = 0;
+    const push = (chunk: Uint8Array): void => {
+      chunks.push(chunk);
+      offset += chunk.byteLength;
+    };
+    const obj = (value: string): void => {
+      offsets.push(offset);
+      push(this.ascii(value));
+    };
+    push(this.ascii("%PDF-1.4\n"));
+    obj("1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n");
+    obj("2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n");
+    obj(`3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${width} ${height}] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>\nendobj\n`);
+    offsets.push(offset);
+    push(this.ascii(`4 0 obj\n<< /Type /XObject /Subtype /Image /Width ${width} /Height ${height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpeg.byteLength} >>\nstream\n`));
+    push(jpeg);
+    push(this.ascii("\nendstream\nendobj\n"));
+    const contents = `q\n${width} 0 0 ${height} 0 0 cm\n/Im0 Do\nQ\n`;
+    obj(`5 0 obj\n<< /Length ${contents.length} >>\nstream\n${contents}endstream\nendobj\n`);
+    const xrefOffset = offset;
+    push(this.ascii(`xref\n0 6\n0000000000 65535 f \n${offsets.map((item) => `${String(item).padStart(10, "0")} 00000 n `).join("\n")}\ntrailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF\n`));
+    const out = new Uint8Array(offset);
+    let cursor = 0;
+    for (const chunk of chunks) {
+      out.set(chunk, cursor);
+      cursor += chunk.byteLength;
+    }
+    return out;
+  }
+
+  private async exportAs(format: "png" | "pdf" | "svg" | "csv" | "json"): Promise<void> {
+    this.exportMenuOpen = false;
+    const base = this.fileBaseName();
+    if (format === "svg") {
+      this.downloadBytes(`${base}.svg`, [this.serializeSvg()], "image/svg+xml;charset=utf-8");
+      return;
+    }
+    if (format === "csv") {
+      this.downloadBytes(`${base}.csv`, [this.dataCsv()], "text/csv;charset=utf-8");
+      return;
+    }
+    if (format === "json") {
+      this.downloadBytes(`${base}.json`, [JSON.stringify(this.data, null, 2)], "application/json;charset=utf-8");
+      return;
+    }
+    if (format === "png") {
+      const canvas = await this.chartCanvas();
+      this.downloadBytes(`${base}.png`, [await this.canvasBlob(canvas, "image/png")], "image/png");
+      return;
+    }
+    const canvas = await this.chartCanvas("image/jpeg");
+    const jpegUrl = canvas.toDataURL("image/jpeg", 0.92);
+    const pdf = this.pdfBytes(this.jpegBytes(jpegUrl), canvas.width, canvas.height);
+    this.downloadBytes(`${base}.pdf`, [pdf as unknown as BlobPart], "application/pdf");
+  }
+
   private renderFloatingTooltip(): TemplateResult | typeof nothing {
     if (!this.showTooltip || this.hoverIndex < 0 || !this.isBandTooltipType()) return nothing;
     const point = this.data[this.hoverIndex];
@@ -602,6 +777,7 @@ export class LoomiChart extends LoomiElement {
           hasTertiarySeries(this.data) ? this.color3 : undefined,
         )}
       >
+        ${this.renderExportMenu()}
         ${legendFirst ? legend : nothing}
         ${canvas}
         ${legendFirst ? nothing : legend}

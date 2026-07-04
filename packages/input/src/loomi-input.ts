@@ -23,6 +23,14 @@ const MASK_TOKEN_TESTS: Record<string, (char: string) => boolean> = {
 
 const CREDIT_CARD_MASK = "9999 9999 9999 9999";
 const AMEX_CARD_MASK = "9999 999999 99999";
+const booleanAttribute = {
+  fromAttribute(value: string | null): boolean {
+    return value !== null && value.toLowerCase() !== "false";
+  },
+  toAttribute(value: boolean): string | null {
+    return value ? "" : null;
+  },
+};
 
 /**
  * `<loomi-input>` — a themeable text input with a floating label, text/icon
@@ -78,6 +86,7 @@ export class LoomiInput extends LoomiElement {
   @property({ attribute: "error-message" }) errorMessage = "";
   @property({ type: Boolean, attribute: "show-error-inline" }) showErrorInline = false;
   @property({ type: Boolean, attribute: "show-placeholder-always" }) showPlaceholderAlways = false;
+  @property({ type: Boolean, attribute: "show-focus-ring", converter: booleanAttribute }) showFocusRing = true;
 
   @property({ type: Boolean, reflect: true }) invalid = false;
 
@@ -372,7 +381,7 @@ export class LoomiInput extends LoomiElement {
     const showError = this.invalid && this.showErrorInline && this.errorMessage;
 
     return html`
-      <div class="loomi-field size-${this.size} ${forceFloat ? "force-float" : ""}" part="field">
+      <div class="loomi-field size-${this.size} ${forceFloat ? "force-float" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}" part="field">
         ${hasLabel && hasPrefix
           ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
           : nothing}

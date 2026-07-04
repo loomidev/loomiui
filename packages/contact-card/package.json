@@ -34,6 +34,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@loomidev/card": "workspace:^",
     "@loomidev/core": "workspace:^",
     "@loomidev/icons": "workspace:^"
   },

@@ -1420,6 +1420,9 @@ export class LoomiCalendar extends LoomiElement {
   }
 
   private handleKeydown(event: KeyboardEvent) {
+    if (this.isTypingTarget(event.composedPath()[0])) {
+      return;
+    }
     switch (event.key) {
       case "ArrowLeft":
         event.preventDefault();
@@ -1442,6 +1445,17 @@ export class LoomiCalendar extends LoomiElement {
         }
       }
     }
+  }
+
+  private isTypingTarget(target: EventTarget | undefined): boolean {
+    if (!(target instanceof HTMLElement)) {
+      return false;
+    }
+    return Boolean(
+      target.closest(
+        "input, textarea, select, loomi-input, loomi-textarea, loomi-tag-input, loomi-select, loomi-datepicker, loomi-timepicker, [contenteditable='true']",
+      ),
+    );
   }
 
   private openDayView(date: Date) {

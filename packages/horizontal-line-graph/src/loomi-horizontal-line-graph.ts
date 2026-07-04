@@ -25,7 +25,7 @@ export class LoomiHorizontalLineGraph extends LoomiElement {
   @property({ type: Boolean, attribute: "show-values" }) showValues = true;
 
   private color(seg: LoomiGraphSegment, i: number): string {
-    const c = seg.color || FALLBACK[i % FALLBACK.length];
+    const c = seg.color === "yellow" ? "warning" : seg.color || FALLBACK[i % FALLBACK.length];
     // a loomi color name -> themed token; otherwise use as-is (hex/rgb).
     return /^[a-z]+$/.test(c) ? cssColor(c, 500) : c;
   }

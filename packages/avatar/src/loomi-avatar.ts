@@ -27,6 +27,7 @@ export class LoomiAvatar extends LoomiElement {
   @property() label = "";
   @property({ reflect: true }) size: LoomiAvatarSize = "regular";
   @property({ type: Boolean }) dotted = false;
+  @property({ type: Boolean, attribute: "pulse-dot" }) pulseDot = false;
   @property({ attribute: "dot-color" }) dotColor: LoomiColor = "success" as LoomiColor;
   @property({ attribute: "dot-position" }) dotPosition: "top" | "bottom" = "bottom";
   @property({ attribute: "bg-color" }) bgColor: LoomiColor = "gray" as LoomiColor;
@@ -101,7 +102,10 @@ export class LoomiAvatar extends LoomiElement {
     >
       ${inner}
       ${this.dotted
-        ? html`<span class="loomi-dot ${this.dotPosition}" style="background:${cssColor(this.dotColor, 500)}"></span>`
+        ? html`<span
+            class="loomi-dot ${this.dotPosition} ${this.pulseDot ? "pulse" : ""}"
+            style=${`background:${cssColor(this.dotColor, 500)};--loomi-dot-pulse:${cssColor(this.dotColor, 400)}`}
+          ></span>`
         : nothing}
       ${this.verified
         ? html`<span class="loomi-verified" part="verified">
@@ -139,6 +143,7 @@ export class LoomiAvatars extends LoomiElement {
 
   @property({ type: Boolean, reflect: true }) stacked = false;
   @property({ type: Boolean }) dotted = false;
+  @property({ type: Boolean, attribute: "pulse-dot" }) pulseDot = false;
   @property({ attribute: "dot-color" }) dotColor: LoomiColor = "success" as LoomiColor;
   @property({ attribute: "dot-position" }) dotPosition: "top" | "bottom" = "bottom";
   @property({ type: Number }) plus = 0;
@@ -155,6 +160,7 @@ export class LoomiAvatars extends LoomiElement {
     this.querySelectorAll("loomi-avatar").forEach((avatar) => {
       avatar.setAttribute("size", this.size);
       if (this.dotted) avatar.setAttribute("dotted", "");
+      if (this.pulseDot) avatar.setAttribute("pulse-dot", "");
       if (hasGroupDotColor && !avatar.hasAttribute("dot-color")) {
         avatar.setAttribute("dot-color", this.dotColor);
       }

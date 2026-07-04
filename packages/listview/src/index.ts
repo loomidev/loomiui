@@ -1,1 +1,1 @@
-export { LoomiListview, LoomiListviewItem } from "./loomi-listview.js";
+export { LoomiListitem } from "./loomi-listview.js";

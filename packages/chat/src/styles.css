@@ -372,8 +372,32 @@
   padding: 0 0.5rem 0.5rem;
 }
 
-.loomi-chat-input-actions loomi-button:last-child {
+.loomi-chat-send-tools {
   margin-inline-start: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.loomi-chat-file-input,
+.loomi-chat-picture-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loomi-chat-attach-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.loomi-chat-attach-trigger loomi-icon {
+  --loomi-icon-size: 1rem;
 }
 
 .loomi-chat-footer-note {
@@ -389,12 +413,15 @@
   height: 1rem;
 }
 .loomi-chat-reset-btn,
-.loomi-chat-input-actions loomi-button:last-child {
+.loomi-chat-mic-btn,
+.loomi-chat-send-btn {
   width: 2.25rem;
+  height: 2.25rem;
   --loomi-control-pad-x: 0;
 }
 .loomi-chat-reset-btn loomi-icon,
-.loomi-chat-input-actions loomi-button:last-child loomi-icon {
+.loomi-chat-mic-btn loomi-icon,
+.loomi-chat-send-btn loomi-icon {
   margin: 0;
 }
 

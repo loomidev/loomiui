@@ -98,6 +98,10 @@
   flex: none;
 }
 
+:host(:empty) .loomi-label {
+  display: none;
+}
+
 /* Spinner. */
 .loomi-spinner {
   width: 1.15em;

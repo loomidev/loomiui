@@ -5,15 +5,27 @@
 Grouped commands, fuzzy search, keyboard selection, optional `href` navigation, and typed select/query/open-change events. Opens with `Cmd K` or `Ctrl K`.
 
 ## Accessibility
-- Modal dialog with `aria-modal`, labelled search field, and listbox-style results.
+
+loomi-command-palette is built on semantic markup where the browser gives us the right behavior, and it adds ARIA only where the component has custom interaction. Keyboard users should be able to reach the same controls as pointer users, with visible focus treatment unless you explicitly turn it off on controls that support `show-focus-ring="false"`.
+
+When the component displays status, progress, validation, or temporary feedback, pair it with clear labels or nearby text in your app so assistive technology users get the same context a sighted user gets from the visual treatment.
+
 - Arrow keys move selection; Enter runs command; Escape closes and restores focus.
 - Global shortcut (default ⌘K / Ctrl+K) documented for power users.
 
 ## Responsive behavior
-- Dialog uses full viewport width below `640px` with reduced top padding.
+
+loomi-command-palette is designed to fit the layout you place it in. It uses fluid widths, `min-width: 0`, wrapping, truncation, or stacked layouts where that keeps the component usable in cards, forms, sidebars, and mobile screens.
+
+For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
+
 
 ## Dark mode
-- Dialog surfaces use `--loomi-command-*` aliases bound to semantic tokens.
+
+loomi-command-palette uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
+
+Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
+
 ## Installation
 
 
@@ -83,3 +95,7 @@ Use `empty-label` when no commands match the current query.
 - The component emits a command-select event before navigating to `href`.
 - Apps can omit `href` and handle commands entirely from the event.
 - React wrappers should expose this as an `onCommandSelect` callback.
+
+## Dependencies
+
+- `@loomidev/core`

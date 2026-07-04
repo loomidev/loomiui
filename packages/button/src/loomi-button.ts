@@ -95,7 +95,7 @@ export class LoomiButton extends LoomiElement {
   /** Render as `button` or as an `a` (link). */
   @property({ reflect: true }) tag: LoomiButtonTag = "button";
 
-  /** href used when `tag="a"`. */
+  /** href used for link rendering. If present, the component renders an anchor automatically. */
   @property() href = "";
 
   /** Render the `<button>` as `type="submit"` so it submits a form. */
@@ -242,7 +242,7 @@ export class LoomiButton extends LoomiElement {
     const cls = this.computeClasses();
     const content = this.renderContent();
 
-    if (this.tag === "a") {
+    if (this.tag === "a" || this.href) {
       return html`<a
         class=${cls}
         part="button"

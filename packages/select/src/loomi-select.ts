@@ -15,6 +15,14 @@ const CHEVRON = svg`<path stroke-linecap="round" stroke-linejoin="round" d="m19.
 const CHECK = svg`<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />`;
 const DEFAULT_PLACEHOLDER = "Select One";
 const DEFAULT_EMPTY_PLACEHOLDER = "No options available";
+const booleanAttribute = {
+  fromAttribute(value: string | null): boolean {
+    return value !== null && value.toLowerCase() !== "false";
+  },
+  toAttribute(value: boolean): string | null {
+    return value ? "" : null;
+  },
+};
 
 /**
  * `<loomi-select>` — a themeable custom select. Supports a `data` array (or JSON),
@@ -55,6 +63,7 @@ export class LoomiSelect extends LoomiElement {
   @property({ attribute: "empty-action-label" }) emptyActionLabel = "";
   @property({ attribute: "empty-action-url" }) emptyActionUrl = "";
   @property({ type: Boolean, reflect: true }) invalid = false;
+  @property({ type: Boolean, attribute: "show-focus-ring", converter: booleanAttribute }) showFocusRing = true;
 
   @state() private open = false;
   @state() private search = "";
@@ -275,7 +284,7 @@ export class LoomiSelect extends LoomiElement {
 
     return html`
       <div
-        class="loomi-select size-${this.size} ${this.open ? "open" : ""} ${float ? "float" : ""}"
+        class="loomi-select size-${this.size} ${this.open ? "open" : ""} ${float ? "float" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}"
         @keydown=${this.onKeydown}
       >
         <button

@@ -71,3 +71,7 @@ pnpm build   # regenerates the name manifest and copies the files into dist/svg/
 ```
 
 Then widen `LoomiDiskIconSource` in `src/disk-icons.ts` to include the new name.
+
+## Dependencies
+
+- No LoomiUI package dependencies.

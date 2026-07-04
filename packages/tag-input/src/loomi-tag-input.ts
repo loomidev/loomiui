@@ -8,8 +8,22 @@ import { componentStyles } from "./generated/styles.css.js";
 export type LoomiTagInputSize = "tiny" | "small" | "regular" | "medium" | "big";
 export type LoomiTagInputMode = "inside" | "below";
 export type LoomiTagInputShade = "faint" | "dark" | "light";
+export interface LoomiTagInputAutocompleteItem {
+  label: string;
+  value?: string;
+  description?: string;
+  image?: string;
+}
 
 const X = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />`;
+const booleanAttribute = {
+  fromAttribute(value: string | null): boolean {
+    return value !== null && value.toLowerCase() !== "false";
+  },
+  toAttribute(value: boolean): string | null {
+    return value ? "" : null;
+  },
+};
 
 /**
  * `<loomi-tag-input>` — a form-associated tag entry control styled like
@@ -48,9 +62,17 @@ export class LoomiTagInput extends LoomiElement {
   @property({ attribute: "error-message" }) errorMessage = "";
   @property({ type: Boolean, attribute: "show-error-inline" }) showErrorInline = false;
   @property({ type: Boolean, reflect: true }) invalid = false;
+  @property({ type: Boolean, attribute: "show-focus-ring", converter: booleanAttribute }) showFocusRing = true;
+  @property({ type: Array, attribute: "autocomplete-data" }) autocompleteData: Array<Record<string, unknown>> = [];
+  @property({ attribute: "autocomplete-label-key" }) autocompleteLabelKey = "label";
+  @property({ attribute: "autocomplete-value-key" }) autocompleteValueKey = "value";
+  @property({ attribute: "autocomplete-description-key" }) autocompleteDescriptionKey = "description";
+  @property({ attribute: "autocomplete-image-key" }) autocompleteImageKey = "image";
 
   @state() private draft = "";
   @state() private tagValues: string[] = [];
+  @state() private autocompleteOpen = false;
+  @state() private autocompleteActiveIndex = -1;
 
   @query("input") private inputEl!: HTMLInputElement;
 
@@ -159,7 +181,30 @@ export class LoomiTagInput extends LoomiElement {
     if (!tag || this.disabled || this.readonly) return;
 
     this.draft = "";
+    this.autocompleteOpen = false;
     this.setTags([...this.tagValues, tag], true);
+  }
+
+  private get autocompleteOptions(): LoomiTagInputAutocompleteItem[] {
+    const q = this.draft.trim().toLowerCase();
+    if (!q) return [];
+    return this.autocompleteData
+      .map((row) => ({
+        label: String(row[this.autocompleteLabelKey] ?? ""),
+        value: String(row[this.autocompleteValueKey] ?? row[this.autocompleteLabelKey] ?? ""),
+        description: this.autocompleteDescriptionKey ? String(row[this.autocompleteDescriptionKey] ?? "") : "",
+        image: this.autocompleteImageKey ? String(row[this.autocompleteImageKey] ?? "") : "",
+      }))
+      .filter((item) => item.label && !this.tagValues.includes(item.value || item.label))
+      .filter((item) => item.label.toLowerCase().includes(q) || (item.value ?? "").toLowerCase().includes(q));
+  }
+
+  private chooseAutocomplete(item: LoomiTagInputAutocompleteItem): void {
+    if (this.disabled || this.readonly) return;
+    this.draft = "";
+    this.autocompleteOpen = false;
+    this.setTags([...this.tagValues, item.value || item.label], true);
+    this.dispatchEvent(new CustomEvent("autocomplete-select", { bubbles: true, composed: true, detail: { item } }));
   }
 
   private removeTag(index: number): void {
@@ -170,10 +215,36 @@ export class LoomiTagInput extends LoomiElement {
 
   private onInput = (e: Event): void => {
     this.draft = (e.target as HTMLInputElement).value;
+    const options = this.autocompleteOptions;
+    this.autocompleteOpen = options.length > 0;
+    this.autocompleteActiveIndex = options.length ? 0 : -1;
     this.emit("input");
   };
 
   private onKeydown = (e: KeyboardEvent): void => {
+    const options = this.autocompleteOptions;
+    if (this.autocompleteOpen && options.length) {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        this.autocompleteActiveIndex = (this.autocompleteActiveIndex + 1) % options.length;
+        return;
+      }
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+        this.autocompleteActiveIndex = (this.autocompleteActiveIndex - 1 + options.length) % options.length;
+        return;
+      }
+      if (e.key === "Escape") {
+        this.autocompleteOpen = false;
+        return;
+      }
+      if (e.key === "Enter" && options[this.autocompleteActiveIndex]) {
+        e.preventDefault();
+        this.chooseAutocomplete(options[this.autocompleteActiveIndex]);
+        return;
+      }
+    }
+
     if (e.key === "Enter" && !e.isComposing) {
       e.preventDefault();
       this.commitDraft();
@@ -221,6 +292,27 @@ export class LoomiTagInput extends LoomiElement {
     </span>`;
   }
 
+  private renderAutocomplete(): TemplateResult | typeof nothing {
+    const options = this.autocompleteOptions;
+    if (!this.autocompleteOpen || !options.length) return nothing;
+    return html`<div class="loomi-autocomplete-panel" role="listbox">
+      ${options.map((item, index) => html`<div
+        class="loomi-autocomplete-option ${index === this.autocompleteActiveIndex ? "active" : ""}"
+        role="option"
+        aria-selected=${index === this.autocompleteActiveIndex ? "true" : "false"}
+        @mouseenter=${() => (this.autocompleteActiveIndex = index)}
+        @mousedown=${(event: Event) => event.preventDefault()}
+        @click=${() => this.chooseAutocomplete(item)}
+      >
+        ${item.image ? html`<img src=${item.image} alt="" />` : nothing}
+        <span class="loomi-autocomplete-copy">
+          <span class="loomi-autocomplete-label">${item.label}</span>
+          ${item.description ? html`<span class="loomi-autocomplete-desc">${item.description}</span>` : nothing}
+        </span>
+      </div>`)}
+    </div>`;
+  }
+
   override render(): TemplateResult {
     const hasLabel = !!this.label;
     const placeholderAttr = hasLabel ? " " : this.placeholder || " ";
@@ -232,6 +324,7 @@ export class LoomiTagInput extends LoomiElement {
       belowMode ? "mode-below" : "mode-inside",
       this.tagValues.length > 0 ? "has-tags" : "",
       this.draft ? "has-draft" : "",
+      this.showFocusRing ? "" : "no-focus-ring",
     ]
       .filter(Boolean)
       .join(" ");
@@ -263,6 +356,7 @@ export class LoomiTagInput extends LoomiElement {
         </span>
         ${this.renderSuffix()}
       </div>
+      ${this.renderAutocomplete()}
       ${belowMode ? this.renderTags() : nothing}
       ${showError ? html`<p class="loomi-error">${this.errorMessage}</p>` : nothing}
     `;

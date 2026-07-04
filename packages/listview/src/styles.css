@@ -5,29 +5,22 @@
   display: none;
 }
 
-.loomi-listview {
-  background: var(--loomi-surface);
-  border-radius: 0.6rem;
-  overflow: hidden;
-}
-:host([transparent]) .loomi-listview {
-  background: transparent;
-}
-::slotted(loomi-listview-item:not(:first-child)) {
-  border-top: 1px solid var(--loomi-surface-border-subtle);
-}
-
-/* item */
 .loomi-li {
-  display: flex;
-  align-items: flex-start;
-  gap: 1.25rem;
+  display: block;
   padding: 1rem;
   color: var(--loomi-text-secondary);
   line-height: 1.4;
   width: 100%;
   min-width: 0;
   box-sizing: border-box;
+}
+:host([as-flex]) .loomi-li {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+:host(:not(:last-child)) .loomi-li {
+  border-bottom: 1px solid var(--loomi-surface-border-subtle);
 }
 :host([compact]) .loomi-li {
   padding: 0.5rem 1rem;

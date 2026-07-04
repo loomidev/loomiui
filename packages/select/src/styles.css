@@ -71,6 +71,11 @@
 .loomi-select.open .loomi-trigger {
   outline: none;
   border-color: var(--loomi-primary-600);
+  box-shadow: 0 0 0 3px var(--loomi-primary-100);
+}
+.loomi-select.no-focus-ring .loomi-trigger:focus-visible,
+.loomi-select.no-focus-ring.open .loomi-trigger {
+  box-shadow: none;
 }
 :host([invalid]) .loomi-trigger {
   border-color: var(--loomi-error-400);
@@ -140,7 +145,7 @@
 
 .loomi-panel {
   position: absolute;
-  z-index: 50;
+  z-index: var(--loomi-select-panel-z-index, 500);
   top: calc(100% + 0.35rem);
   left: 0;
   width: 100%;

@@ -22,8 +22,9 @@
 .pos-bottom-left { bottom: max(1rem, env(safe-area-inset-bottom)); left: max(1rem, env(safe-area-inset-left)); flex-direction: column-reverse; }
 
 .loomi-stack.full-width {
-  inset-inline: 0;
-  width: 100vw;
+  left: 0;
+  right: 0;
+  width: auto;
   transform: none;
   gap: 0;
 }
@@ -31,11 +32,17 @@
 .loomi-stack.full-width.pos-top-center,
 .loomi-stack.full-width.pos-top-right {
   top: 0;
+  bottom: auto;
+  left: 0;
+  right: 0;
 }
 .loomi-stack.full-width.pos-bottom-left,
 .loomi-stack.full-width.pos-bottom-center,
 .loomi-stack.full-width.pos-bottom-right {
   bottom: 0;
+  top: auto;
+  left: 0;
+  right: 0;
 }
 .loomi-stack.full-width .loomi-toast {
   width: 100%;

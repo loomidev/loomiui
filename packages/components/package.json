@@ -39,6 +39,10 @@
       "types": "./dist/input.d.ts",
       "import": "./dist/input.js"
     },
+    "./autocomplete": {
+      "types": "./dist/autocomplete.d.ts",
+      "import": "./dist/autocomplete.js"
+    },
     "./password": {
       "types": "./dist/password.d.ts",
       "import": "./dist/password.js"
@@ -175,10 +179,6 @@
       "types": "./dist/resizable.d.ts",
       "import": "./dist/resizable.js"
     },
-    "./sidebar": {
-      "types": "./dist/sidebar.d.ts",
-      "import": "./dist/sidebar.js"
-    },
     "./timeline": {
       "types": "./dist/timeline.d.ts",
       "import": "./dist/timeline.js"
@@ -186,6 +186,10 @@
     "./progress": {
       "types": "./dist/progress.d.ts",
       "import": "./dist/progress.js"
+    },
+    "./progress-steps": {
+      "types": "./dist/progress-steps.d.ts",
+      "import": "./dist/progress-steps.js"
     },
     "./timer": {
       "types": "./dist/timer.d.ts",
@@ -288,6 +292,7 @@
   "dependencies": {
     "@loomidev/accordion": "workspace:^",
     "@loomidev/alert": "workspace:^",
+    "@loomidev/autocomplete": "workspace:^",
     "@loomidev/avatar": "workspace:^",
     "@loomidev/bell": "workspace:^",
     "@loomidev/button": "workspace:^",
@@ -330,11 +335,11 @@
     "@loomidev/popover": "workspace:^",
     "@loomidev/processing": "workspace:^",
     "@loomidev/progress": "workspace:^",
+    "@loomidev/progress-steps": "workspace:^",
     "@loomidev/qrcode": "workspace:^",
     "@loomidev/radio": "workspace:^",
     "@loomidev/rating": "workspace:^",
     "@loomidev/resizable": "workspace:^",
-    "@loomidev/sidebar": "workspace:^",
     "@loomidev/select": "workspace:^",
     "@loomidev/slider": "workspace:^",
     "@loomidev/sortable": "workspace:^",

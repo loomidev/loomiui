@@ -13,6 +13,7 @@ export type LoomiChartType =
 export type LoomiChartShade = "light" | "dark";
 
 export type LoomiChartLegendPosition = "top" | "bottom" | "left" | "right";
+export type LoomiChartSeriesType = "bar" | "line";
 
 /** One bar in a grouped category — e.g. a single dev's task count for Monday. */
 export interface LoomiChartSubValue {

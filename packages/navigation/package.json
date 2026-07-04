@@ -34,7 +34,6 @@
     "@loomidev/context-menu": "workspace:^",
     "@loomidev/dropmenu": "workspace:^",
     "@loomidev/pagination": "workspace:^",
-    "@loomidev/sidebar": "workspace:^",
     "@loomidev/tab": "workspace:^",
     "@loomidev/theme-switcher": "workspace:^"
   },

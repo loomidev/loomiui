@@ -91,15 +91,27 @@ custom content gets a subtle shimmer treatment while the composer is disabled.
 ```
 
 ## Accessibility
-- Transcript messages use readable text content and can show sender names and times.
+
+loomi-chat-window is built on semantic markup where the browser gives us the right behavior, and it adds ARIA only where the component has custom interaction. Keyboard users should be able to reach the same controls as pointer users, with visible focus treatment unless you explicitly turn it off on controls that support `show-focus-ring="false"`.
+
+When the component displays status, progress, validation, or temporary feedback, pair it with clear labels or nearby text in your app so assistive technology users get the same context a sighted user gets from the visual treatment.
+
 - The composer keeps native textarea keyboard behavior and disables itself during `busy`.
 
 ## Responsive behavior
-- The chat window fills its configured height and keeps the transcript scrollable.
+
+loomi-chat-window is designed to fit the layout you place it in. It uses fluid widths, `min-width: 0`, wrapping, truncation, or stacked layouts where that keeps the component usable in cards, forms, sidebars, and mobile screens.
+
+For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
+
 - Message bubbles cap their width so long messages remain readable on narrow screens.
 
 ## Dark mode
-- Bubbles, shell borders, loading rows, and muted text use Loomi surface and text tokens.
+
+loomi-chat-window uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
+
+Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
+
 
 ## Attributes
 
@@ -387,3 +399,13 @@ const participants = [
 Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on the server before browser-only code runs. If your framework complains, move the Loomi import to client-side code. In Next.js, that usually means a component with `"use client"`; in Nuxt, it often means a `.client.ts` plugin.
 
 <!-- END loomi-framework-guide -->
+
+## Dependencies
+
+- `@loomidev/avatar`
+- `@loomidev/button`
+- `@loomidev/core`
+- `@loomidev/dropmenu`
+- `@loomidev/icon`
+- `@loomidev/spinner`
+- `@loomidev/tooltip`
