@@ -22,13 +22,13 @@ simple text.
 </loomi-tooltip>
 ```
 
-## Positioning
+## Placement
 
 ```html
-<loomi-tooltip content="Above" position="top"><loomi-icon name="information-circle"></loomi-icon></loomi-tooltip>
-<loomi-tooltip content="Below" position="bottom"><loomi-icon name="information-circle"></loomi-icon></loomi-tooltip>
-<loomi-tooltip content="To the left" position="left"><loomi-icon name="information-circle"></loomi-icon></loomi-tooltip>
-<loomi-tooltip content="To the right" position="right"><loomi-icon name="information-circle"></loomi-icon></loomi-tooltip>
+<loomi-tooltip content="Above" placement="top"><loomi-icon name="information-circle"></loomi-icon></loomi-tooltip>
+<loomi-tooltip content="Below" placement="bottom"><loomi-icon name="information-circle"></loomi-icon></loomi-tooltip>
+<loomi-tooltip content="To the left" placement="left"><loomi-icon name="information-circle"></loomi-icon></loomi-tooltip>
+<loomi-tooltip content="To the right" placement="right"><loomi-icon name="information-circle"></loomi-icon></loomi-tooltip>
 ```
 
 ## Shade
@@ -48,7 +48,7 @@ For more than a line of text, use the `content` slot instead of the `content` at
 — it accepts arbitrary HTML.
 
 ```html
-<loomi-tooltip position="right">
+<loomi-tooltip placement="right">
   <span slot="content">Rich <b>HTML</b> content, with a <a href="/docs">link</a></span>
   <loomi-icon name="information-circle"></loomi-icon>
 </loomi-tooltip>
@@ -96,7 +96,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | Attribute | Default | Description |
 | --- | --- | --- |
 | `content` | _(blank)_ | Tooltip text (or use the `content` slot). |
-| `position` | `top` | `top` \| `bottom` \| `left` \| `right` |
+| `placement` | `top` | `top` \| `bottom` \| `left` \| `right` |
 | `shade` | `dark` | `dark` \| `light` |
 
 **Slots:** default (trigger), `content` (rich tooltip body).
@@ -104,7 +104,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 ## Full Example
 
 ```html
-<loomi-tooltip position="right">
+<loomi-tooltip placement="right">
   <span slot="content">Your subscription renews on <b>July 1</b>.</span>
   <loomi-tag label="Pro plan" color="success"></loomi-tag>
 </loomi-tooltip>

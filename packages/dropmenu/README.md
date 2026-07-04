@@ -255,15 +255,15 @@ menu open and shows a chevron automatically.
 </loomi-dropmenu>
 ```
 
-## Menu Position
+## Menu Placement
 
 By default the menu chooses the side with the most visible space. This helps menus in
 tables, sidebars, and documentation shells stay on screen.
 
 ```html
-<loomi-dropmenu position="auto">…</loomi-dropmenu>
-<loomi-dropmenu position="left">…</loomi-dropmenu>
-<loomi-dropmenu position="right">…</loomi-dropmenu>
+<loomi-dropmenu placement="auto">…</loomi-dropmenu>
+<loomi-dropmenu placement="left">…</loomi-dropmenu>
+<loomi-dropmenu placement="right">…</loomi-dropmenu>
 ```
 
 ## Scrollable Menus
@@ -326,7 +326,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | --- | --- | --- |
 | `trigger` | _(ellipsis)_ | Icon name for the trigger. The `-icon` suffix is optional. |
 | `trigger-on` | `click` | Open interaction: `click` or `mouseover`. |
-| `position` | `auto` | Menu alignment. `auto` \| `left` \| `right` |
+| `placement` | `auto` | Menu alignment. `auto` \| `left` \| `right` |
 | `divided` | `false` | Divider lines between items. _(boolean)_ |
 | `scrollable` | `false` | Scroll items past `height`. _(boolean)_ |
 | `height` | `200` | Max menu height (px) when scrollable. |
@@ -360,7 +360,7 @@ changes (bubbles, composed).
 ## Full Example
 
 ```html
-<loomi-dropmenu position="right">
+<loomi-dropmenu placement="right">
   <loomi-dropmenu-item header>Profile</loomi-dropmenu-item>
   <loomi-dropmenu-item icon="user" shortcut="⌘K>P">View profile</loomi-dropmenu-item>
   <loomi-dropmenu-item icon="cog-6-tooth" shortcut="⌘S">Settings</loomi-dropmenu-item>

@@ -341,7 +341,7 @@ export class LoomiInput extends LoomiElement {
     const helpIcon = this.renderIcon("help-circle");
     const sourceHtml = this.hintSourceHtml();
 
-    return html`<loomi-popover class="loomi-hint-popover" position="top" .width=${280}>
+    return html`<loomi-popover class="loomi-hint-popover" placement="top" .width=${280}>
       <button type="button" slot="trigger" class="loomi-iconbtn" aria-label="Show hint">
         ${helpIcon === nothing ? this.renderIcon("information-circle") : helpIcon}
       </button>

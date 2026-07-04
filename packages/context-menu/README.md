@@ -80,7 +80,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | --- | --- | --- |
 | `disabled` | `false` | Prevents opening the menu. |
 | `divided` | `false` | Adds dividers between direct child items. |
-| `position` | `auto` | Horizontal alignment from the pointer: `auto`, `left`, or `right`. |
+| `placement` | `auto` | Horizontal alignment from the pointer: `auto`, `left`, or `right`. |
 | `scrollable` | `false` | Constrains the menu height and scrolls its contents. |
 | `height` | `200` | Scrollable menu height in pixels. |
 | `hide-after-click` | `true` | Closes after a selectable item without a submenu is clicked. |

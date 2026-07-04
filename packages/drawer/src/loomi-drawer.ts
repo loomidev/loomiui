@@ -4,7 +4,7 @@ import { LoomiElement, loomiStyles, loomiT, onClickOutside, lockBodyScroll, unlo
 import "@loomidev/icon/loomi-icon.js";
 import { componentStyles } from "./generated/styles.css.js";
 
-export type LoomiDrawerPosition = "left" | "right" | "top" | "bottom";
+export type LoomiDrawerPlacement = "left" | "right" | "top" | "bottom";
 export type LoomiDrawerSize = "small" | "medium" | "large";
 
 const booleanAttribute = {
@@ -89,7 +89,7 @@ export class LoomiDrawer extends LoomiElement {
 
   @property() name = "";
   @property() title = "";
-  @property() position: LoomiDrawerPosition = "right";
+  @property() placement: LoomiDrawerPlacement = "right";
   @property() size: LoomiDrawerSize = "medium";
   @property() locale = "";
   @property({ type: Boolean, reflect: true }) open = false;
@@ -278,7 +278,7 @@ export class LoomiDrawer extends LoomiElement {
     return html`
       ${this.backdrop ? html`<div class="loomi-backdrop ${animClass}"></div>` : nothing}
       <div
-        class="loomi-panel position-${this.position} size-${this.size} ${animClass}"
+        class="loomi-panel placement-${this.placement} size-${this.size} ${animClass}"
         role="dialog"
         aria-modal=${this.backdrop ? "true" : "false"}
         aria-label=${this.title || loomiT("drawer.dialog", {}, this.locale)}

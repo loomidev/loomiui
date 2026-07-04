@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>loomi — &lt;loomi-video&gt;</title>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "lit": "https://esm.sh/lit@3.3.3",
+          "lit/": "https://esm.sh/lit@3.3.3/",
+          "@loomidev/theme": "../packages/theme/dist/index.js",
+          "@loomidev/core": "../packages/core/dist/index.js",
+          "@loomidev/icons": "../packages/icons/dist/index.js",
+          "@loomidev/icon": "../packages/icon/dist/index.js",
+          "@loomidev/icon/loomi-icon.js": "../packages/icon/dist/loomi-icon.js",
+          "@loomidev/button": "../packages/button/dist/index.js",
+          "@loomidev/button/loomi-button.js": "../packages/button/dist/loomi-button.js",
+          "@loomidev/slider": "../packages/slider/dist/index.js",
+          "@loomidev/slider/loomi-slider.js": "../packages/slider/dist/loomi-slider.js",
+          "@loomidev/spinner": "../packages/spinner/dist/index.js",
+          "@loomidev/spinner/loomi-spinner.js": "../packages/spinner/dist/loomi-spinner.js"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import "../packages/video/dist/loomi-video.js";
+
+      // This demo generates its sample clip, poster, and caption track entirely
+      // client-side (canvas + MediaRecorder + a Blob URL) so it has zero external
+      // asset/network dependencies.
+      function pickMimeType() {
+        const candidates = ["video/webm;codecs=vp9", "video/webm;codecs=vp8", "video/webm"];
+        return candidates.find((type) => MediaRecorder.isTypeSupported(type)) ?? "";
+      }
+
+      function makePoster() {
+        const canvas = document.createElement("canvas");
+        canvas.width = 640;
+        canvas.height = 360;
+        const ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#1e293b";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#94a3b8";
+        ctx.font = "bold 28px system-ui, sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("Sample poster", canvas.width / 2, canvas.height / 2);
+        return canvas.toDataURL("image/png");
+      }
+
+      function makeCaptionsUrl() {
+        const vtt = [
+          "WEBVTT",
+          "",
+          "00:00:00.000 --> 00:00:02.000",
+          "Hello from loomi-video!",
+          "",
+          "00:00:02.000 --> 00:00:04.000",
+          "This caption track was generated on the fly.",
+          "",
+          "00:00:04.000 --> 00:00:06.000",
+          "No external files needed.",
+          "",
+        ].join("\n");
+        return URL.createObjectURL(new Blob([vtt], { type: "text/vtt" }));
+      }
+
+      async function makeSampleClip() {
+        const canvas = document.createElement("canvas");
+        canvas.width = 640;
+        canvas.height = 360;
+        const ctx = canvas.getContext("2d");
+        const stream = canvas.captureStream(30);
+        const mimeType = pickMimeType();
+        const recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
+        const chunks = [];
+        recorder.ondataavailable = (e) => {
+          if (e.data.size) chunks.push(e.data);
+        };
+        const stopped = new Promise((resolve) => (recorder.onstop = resolve));
+        recorder.start();
+
+        // Uses setInterval (not requestAnimationFrame) so the clip still finishes
+        // recording when this tab is backgrounded/hidden — rAF is throttled or fully
+        // paused by the browser in that case, but timers keep firing (just clamped).
+        const DURATION_MS = 6000;
+        const start = performance.now();
+        const draw = () => {
+          const elapsed = performance.now() - start;
+          const hue = (elapsed / 20) % 360;
+          ctx.fillStyle = `hsl(${hue}, 70%, 45%)`;
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = "#fff";
+          ctx.font = "bold 56px system-ui, sans-serif";
+          ctx.textAlign = "center";
+          ctx.fillText((elapsed / 1000).toFixed(1) + "s", canvas.width / 2, canvas.height / 2);
+          if (elapsed >= DURATION_MS) {
+            clearInterval(timer);
+            recorder.stop();
+          }
+        };
+        const timer = setInterval(draw, 100);
+        draw();
+
+        await stopped;
+        return URL.createObjectURL(new Blob(chunks, { type: mimeType || "video/webm" }));
+      }
+
+      const posterUrl = makePoster();
+      document.querySelectorAll("[data-poster]").forEach((el) => el.setAttribute("poster", posterUrl));
+
+      makeSampleClip().then((url) => {
+        document.querySelectorAll("[data-sample-src]").forEach((el) => {
+          el.src = url;
+        });
+        const track = document.querySelector("#sample-track");
+        if (track) track.src = makeCaptionsUrl();
+        document.querySelectorAll(".generating").forEach((el) => (el.hidden = true));
+      });
+
+      document.querySelectorAll("loomi-video").forEach((video) => {
+        video.addEventListener("video-error", (e) => console.log("[loomi-video] video-error", e.detail));
+        video.addEventListener("fullscreenchange", (e) => console.log("[loomi-video] fullscreenchange", e.detail));
+      });
+    </script>
+
+    <style>
+      body {
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        margin: 0;
+        padding: 2.5rem clamp(1rem, 5vw, 4rem);
+        color: #0f172a;
+        background: #f8fafc;
+      }
+      h1 { margin: 0 0 0.25rem; }
+      p.lead { color: #475569; margin-top: 0; }
+      p.generating { color: #b45309; font-size: 0.85rem; }
+      section { margin: 2.5rem 0; }
+      h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin: 0 0 0.75rem; }
+      .row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; }
+      .custom-bar {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        background: rgba(15, 23, 42, 0.65);
+        color: #fff;
+        font-size: 0.8rem;
+      }
+      .custom-bar button {
+        appearance: none;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        background: transparent;
+        color: #fff;
+        border-radius: 999px;
+        padding: 0.3rem 0.85rem;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>&lt;loomi-video&gt;</h1>
+    <p class="lead">A themeable wrapper around the native &lt;video&gt; element, with a custom control bar built from loomi-button and loomi-slider.</p>
+    <p class="generating">Generating an in-browser sample clip (canvas + MediaRecorder) — no external assets…</p>
+
+    <!-- Basic -->
+    <section>
+      <h2>Basic — custom controls</h2>
+      <loomi-video data-sample-src data-poster controls style="max-width: 640px"></loomi-video>
+    </section>
+
+    <!-- Colors -->
+    <section>
+      <h2>Colors</h2>
+      <div class="row">
+        <loomi-video data-sample-src data-poster controls color="secondary" style="max-width: 300px"></loomi-video>
+        <loomi-video data-sample-src data-poster controls color="success" style="max-width: 300px"></loomi-video>
+        <loomi-video data-sample-src data-poster controls color="error" style="max-width: 300px"></loomi-video>
+      </div>
+    </section>
+
+    <!-- Captions -->
+    <section>
+      <h2>Subtitle track (press "c" while focused, or use the captions button)</h2>
+      <loomi-video data-sample-src data-poster controls style="max-width: 640px">
+        <track id="sample-track" kind="subtitles" srclang="en" label="English" default />
+      </loomi-video>
+    </section>
+
+    <!-- Custom controls slot -->
+    <section>
+      <h2>Custom controls (slot="controls")</h2>
+      <loomi-video data-sample-src data-poster controls style="max-width: 640px">
+        <div slot="controls" class="custom-bar">
+          <button type="button" onclick="this.closest('loomi-video').togglePlay()">Play / Pause</button>
+          <span>Fully custom bar via the "controls" slot</span>
+        </div>
+      </loomi-video>
+    </section>
+
+    <!-- Aspect ratio + fit -->
+    <section>
+      <h2>Aspect ratio + fit="cover"</h2>
+      <loomi-video data-sample-src data-poster controls aspect-ratio="1 / 1" fit="cover" style="max-width: 300px"></loomi-video>
+    </section>
+
+    <!-- Bare passthrough -->
+    <section>
+      <h2>Bare passthrough (no "controls" attribute)</h2>
+      <loomi-video data-sample-src data-poster style="max-width: 640px"></loomi-video>
+    </section>
+
+    <!-- Error state -->
+    <section>
+      <h2>Error state</h2>
+      <loomi-video src="/this-file-does-not-exist.mp4" controls style="max-width: 640px"></loomi-video>
+    </section>
+  </body>
+</html>

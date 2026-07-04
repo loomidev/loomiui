@@ -100,13 +100,13 @@ Icons and avatars only render when `anchor="big"`.
 </loomi-timeline>
 ```
 
-## Positioning
+## Placement
 
-Set `position` on the `<loomi-timeline>` wrapper — it's shared by every child item.
+Set `placement` on the `<loomi-timeline>` wrapper — it's shared by every child item.
 Default is `left` (anchor on the left, content to its right).
 
 ```html
-<loomi-timeline position="left" anchor="big">
+<loomi-timeline placement="left" anchor="big">
   <loomi-timeline-item date="10 days ago" content="You signed up"></loomi-timeline-item>
   <loomi-timeline-item date="8 days ago" content="Customer rep assigned"></loomi-timeline-item>
 </loomi-timeline>
@@ -115,7 +115,7 @@ Default is `left` (anchor on the left, content to its right).
 `right` mirrors the whole layout — content on the left, anchor on the right:
 
 ```html
-<loomi-timeline position="right" anchor="big">
+<loomi-timeline placement="right" anchor="big">
   <loomi-timeline-item date="10 days ago" content="You signed up"></loomi-timeline-item>
   <loomi-timeline-item date="8 days ago" content="Customer rep assigned"></loomi-timeline-item>
 </loomi-timeline>
@@ -126,7 +126,7 @@ which side an item lands on is resolved from its position among its siblings, so
 there's nothing to set per item:
 
 ```html
-<loomi-timeline position="alternate" anchor="big">
+<loomi-timeline placement="alternate" anchor="big">
   <loomi-timeline-item date="10 days ago" content="You signed up"></loomi-timeline-item>
   <loomi-timeline-item date="8 days ago" content="Customer rep assigned"></loomi-timeline-item>
   <loomi-timeline-item date="2 days ago" content="Account is being reviewed"></loomi-timeline-item>
@@ -180,7 +180,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `icon` | _(blank)_ | Anchor icon name (big anchor). |
 | `avatar` | _(blank)_ | Anchor image URL (big anchor). |
 | `stacked` | `false` | Date above content vs. in a left column. _(boolean)_ |
-| `position` | `left` | `left` \| `right` \| `alternate` — set on the `<loomi-timeline>` wrapper instead; it applies to every child. |
+| `placement` | `left` | `left` \| `right` \| `alternate` — set on the `<loomi-timeline>` wrapper instead; it applies to every child. |
 | `color` | `primary` | Any loomi color. |
 
 The trailing connector line and `alternate` left/right placement are both resolved
@@ -189,13 +189,13 @@ per-item side attribute to set.
 
 ### `<loomi-timeline>` (wrapper)
 
-Shares `stacked`, `completed`, `anchor`, `icon`, `color`, and `position` with all
+Shares `stacked`, `completed`, `anchor`, `icon`, `color`, and `placement` with all
 children.
 
 ## Full Example
 
 ```html
-<loomi-timeline stacked anchor="big" color="error" position="alternate" completed>
+<loomi-timeline stacked anchor="big" color="error" placement="alternate" completed>
   <loomi-timeline-item
     date="9 days ago"
     avatar="/avatars/me.jpg"

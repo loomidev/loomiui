@@ -770,7 +770,7 @@ export class LoomiTextEditor extends LoomiElement {
   }
 
   private renderTooltip(label: string, content: TemplateResult): TemplateResult {
-    return html`<loomi-tooltip content=${label} position="bottom">${content}</loomi-tooltip>`;
+    return html`<loomi-tooltip content=${label} placement="bottom">${content}</loomi-tooltip>`;
   }
 
   private renderIcon(tool: LoomiTextEditorTool): TemplateResult | typeof nothing {

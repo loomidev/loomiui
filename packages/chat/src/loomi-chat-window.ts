@@ -408,7 +408,7 @@ export class LoomiChatWindow extends LoomiElement {
                     @change=${this.onAttachmentPicked("picture")}
                   />
                   <div class="loomi-chat-send-tools">
-                    <loomi-dropmenu position="right">
+                    <loomi-dropmenu placement="right">
                       <span slot="trigger" class="loomi-chat-attach-trigger" title="Attach">
                         <loomi-icon name="plus"></loomi-icon>
                       </span>

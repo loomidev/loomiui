@@ -114,7 +114,7 @@ export class LoomiThemeSwitcher extends LoomiElement {
     const selected = this.options().find(({ mode }) => mode === this.mode) ?? this.options()[2];
     const checkPath = getLoomiIcon("check");
 
-    return html`<loomi-dropmenu class="loomi-theme-menu" position="right">
+    return html`<loomi-dropmenu class="loomi-theme-menu" placement="right">
       <span slot="trigger" class="loomi-menu-trigger">
         <loomi-icon class="loomi-menu-selected-icon" name=${selected.icon} size="1.05rem"></loomi-icon>
         <span class="loomi-sr-only">${loomiT("themeSwitcher.selectedTheme", { theme: selected.text }, this.locale)}</span>

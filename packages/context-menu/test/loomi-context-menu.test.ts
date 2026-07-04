@@ -49,7 +49,7 @@ describe("loomi-context-menu", () => {
 
   it("respects explicit positioning", async () => {
     const el = await fixture<LoomiContextMenu>(html`
-      <loomi-context-menu position="right">
+      <loomi-context-menu placement="right">
         <span slot="target">File</span>
         <loomi-context-menu-item>Open</loomi-context-menu-item>
       </loomi-context-menu>

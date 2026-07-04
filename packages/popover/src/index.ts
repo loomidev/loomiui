@@ -1,1 +1,1 @@
-export { LoomiPopover, type LoomiPopoverPosition } from "./loomi-popover.js";
+export { LoomiPopover, type LoomiPopoverPlacement } from "./loomi-popover.js";

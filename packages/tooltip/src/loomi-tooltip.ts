@@ -3,7 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import { LoomiElement, loomiStyles } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
-export type LoomiTooltipPosition = "top" | "bottom" | "left" | "right";
+export type LoomiTooltipPlacement = "top" | "bottom" | "left" | "right";
 export type LoomiTooltipShade = "dark" | "light";
 
 /**
@@ -17,13 +17,13 @@ export class LoomiTooltip extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() content = "";
-  @property() position: LoomiTooltipPosition = "top";
+  @property() placement: LoomiTooltipPlacement = "top";
   @property({ reflect: true }) shade: LoomiTooltipShade = "dark";
 
   override render(): TemplateResult {
     return html`
       <slot></slot>
-      <span class="loomi-tip pos-${this.position}" role="tooltip">
+      <span class="loomi-tip placement-${this.placement}" role="tooltip">
         <slot name="content">${this.content}</slot>
       </span>
     `;

@@ -2,6 +2,6 @@ export {
   LoomiDrawer,
   showLoomiDrawer,
   hideLoomiDrawer,
-  type LoomiDrawerPosition,
+  type LoomiDrawerPlacement,
   type LoomiDrawerSize,
 } from "./loomi-drawer.js";

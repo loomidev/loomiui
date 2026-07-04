@@ -187,14 +187,14 @@ export class LoomiDropmenu extends LoomiElement {
   @property() trigger = "";
   @property({ attribute: "trigger-on" }) triggerOn: "click" | "mouseover" = "click";
   @property({ type: Boolean, reflect: true }) divided = false;
-  @property() position: "auto" | "left" | "right" = "auto";
+  @property() placement: "auto" | "left" | "right" = "auto";
   @property({ type: Boolean }) scrollable = false;
   @property({ type: Number }) height = 200;
   @property({ type: Boolean, attribute: "hide-after-click" }) hideAfterClick = true;
   @property({ type: Boolean, attribute: "icon-right" }) iconRight = false;
 
   @state() private open = false;
-  @state() private resolvedPosition: "left" | "right" = "left";
+  @state() private resolvedPlacement: "left" | "right" = "left";
   @state() private focusedIndex = -1;
   private cleanupOutside?: () => void;
   private cleanupPlacement?: () => void;
@@ -250,8 +250,8 @@ export class LoomiDropmenu extends LoomiElement {
 
   private resolvePlacement(): void {
     if (!this.open) return;
-    if (this.position !== "auto") {
-      this.resolvedPosition = this.position;
+    if (this.placement !== "auto") {
+      this.resolvedPlacement = this.placement;
       return;
     }
 
@@ -282,13 +282,13 @@ export class LoomiDropmenu extends LoomiElement {
     const rightFits = rightAligned.start >= margin && rightAligned.end <= viewportWidth - margin;
 
     if (leftFits && !rightFits) {
-      this.resolvedPosition = "left";
+      this.resolvedPlacement = "left";
     } else if (rightFits && !leftFits) {
-      this.resolvedPosition = "right";
+      this.resolvedPlacement = "right";
     } else if (leftVisible !== rightVisible) {
-      this.resolvedPosition = leftVisible > rightVisible ? "left" : "right";
+      this.resolvedPlacement = leftVisible > rightVisible ? "left" : "right";
     } else {
-      this.resolvedPosition = "left";
+      this.resolvedPlacement = "left";
     }
   }
 
@@ -363,7 +363,7 @@ export class LoomiDropmenu extends LoomiElement {
   }
 
   private get menuClass(): string {
-    return ["loomi-menu", this.resolvedPosition, this.scrollable && "scrollable"].filter(Boolean).join(" ");
+    return ["loomi-menu", this.resolvedPlacement, this.scrollable && "scrollable"].filter(Boolean).join(" ");
   }
 
   override render(): TemplateResult {

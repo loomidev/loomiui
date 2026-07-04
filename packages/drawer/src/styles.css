@@ -31,83 +31,83 @@
   animation-fill-mode: both;
 }
 
-/* ---- position: which edge the panel docks to and slides along ---- */
-.position-left,
-.position-right {
+/* ---- placement: which edge the panel docks to and slides along ---- */
+.placement-left,
+.placement-right {
   top: 0;
   bottom: 0;
   max-width: 100vw;
 }
-.position-left {
+.placement-left {
   left: 0;
 }
-.position-right {
+.placement-right {
   right: 0;
 }
 
-.position-top,
-.position-bottom {
+.placement-top,
+.placement-bottom {
   left: 0;
   right: 0;
   max-height: 100vh;
 }
-.position-top {
+.placement-top {
   top: 0;
 }
-.position-bottom {
+.placement-bottom {
   bottom: 0;
 }
 
 /* ---- size: width for left/right, height for top/bottom ---- */
-.position-left.size-small,
-.position-right.size-small {
+.placement-left.size-small,
+.placement-right.size-small {
   width: 20rem;
 }
-.position-left.size-medium,
-.position-right.size-medium {
+.placement-left.size-medium,
+.placement-right.size-medium {
   width: 28rem;
 }
-.position-left.size-large,
-.position-right.size-large {
+.placement-left.size-large,
+.placement-right.size-large {
   width: 36rem;
 }
 
-.position-top.size-small,
-.position-bottom.size-small {
+.placement-top.size-small,
+.placement-bottom.size-small {
   height: 14rem;
 }
-.position-top.size-medium,
-.position-bottom.size-medium {
+.placement-top.size-medium,
+.placement-bottom.size-medium {
   height: 20rem;
 }
-.position-top.size-large,
-.position-bottom.size-large {
+.placement-top.size-large,
+.placement-bottom.size-large {
   height: 28rem;
 }
 
 /* ---- enter/exit animation, independently overridable per direction ---- */
-.position-right.is-open {
+.placement-right.is-open {
   animation-name: var(--loomi-drawer-enter-animation, loomi-drawer-in-right);
 }
-.position-left.is-open {
+.placement-left.is-open {
   animation-name: var(--loomi-drawer-enter-animation, loomi-drawer-in-left);
 }
-.position-top.is-open {
+.placement-top.is-open {
   animation-name: var(--loomi-drawer-enter-animation, loomi-drawer-in-top);
 }
-.position-bottom.is-open {
+.placement-bottom.is-open {
   animation-name: var(--loomi-drawer-enter-animation, loomi-drawer-in-bottom);
 }
-.position-right.is-closing {
+.placement-right.is-closing {
   animation-name: var(--loomi-drawer-exit-animation, loomi-drawer-out-right);
 }
-.position-left.is-closing {
+.placement-left.is-closing {
   animation-name: var(--loomi-drawer-exit-animation, loomi-drawer-out-left);
 }
-.position-top.is-closing {
+.placement-top.is-closing {
   animation-name: var(--loomi-drawer-exit-animation, loomi-drawer-out-top);
 }
-.position-bottom.is-closing {
+.placement-bottom.is-closing {
   animation-name: var(--loomi-drawer-exit-animation, loomi-drawer-out-bottom);
 }
 
@@ -207,12 +207,12 @@
 }
 
 @media (max-width: 30rem) {
-  .position-left.size-small,
-  .position-left.size-medium,
-  .position-left.size-large,
-  .position-right.size-small,
-  .position-right.size-medium,
-  .position-right.size-large {
+  .placement-left.size-small,
+  .placement-left.size-medium,
+  .placement-left.size-large,
+  .placement-right.size-small,
+  .placement-right.size-medium,
+  .placement-right.size-large {
     width: 100vw;
   }
   .loomi-header {
