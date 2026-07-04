@@ -10,7 +10,7 @@ describe("loomi-chat-message", () => {
         text="Hey team"
         sender="Sara"
         sender-id="sara"
-        bubble-color="purple"
+        bubble-color="warning"
         show-sender
       ></loomi-chat-message>
     `);
@@ -35,8 +35,8 @@ describe("loomi-chat-window", () => {
       <loomi-chat-window
         .participants=${[
           { id: "you", name: "You", label: "YO", color: "primary" },
-          { id: "sara", name: "Sara", label: "SA", color: "purple" },
-          { id: "alex", name: "Alex", label: "AL", color: "cyan" },
+          { id: "sara", name: "Sara", label: "SA", color: "warning" },
+          { id: "alex", name: "Alex", label: "AL", color: "success" },
         ]}
       ></loomi-chat-window>
     `);

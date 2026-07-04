@@ -12,10 +12,8 @@ export const PALETTE = [
   "success",
   "warning",
   "error",
-  "purple",
-  "cyan",
-  "pink",
-  "blue",
+  "secondary",
+  "gray",
 ] as const;
 
 export const BAR_WIDTH_RATIO = 0.45;
