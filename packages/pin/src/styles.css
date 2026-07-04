@@ -69,6 +69,27 @@
 :host([valid]) .loomi-box:focus {
   border-color: var(--loomi-success-500);
 }
+.loomi-box.variant-minimal {
+  border: 0;
+  border-bottom: 2px solid var(--loomi-surface-border);
+  background: transparent;
+  border-radius: 0;
+}
+.loomi-box.variant-minimal:focus {
+  border-bottom-color: var(--loomi-primary-600);
+}
+:host([invalid]) .loomi-box.variant-minimal {
+  border-bottom-color: var(--loomi-error-400);
+}
+:host([invalid]) .loomi-box.variant-minimal:focus {
+  border-bottom-color: var(--loomi-error-500);
+}
+:host([valid]) .loomi-box.variant-minimal {
+  border-bottom-color: var(--loomi-success-400);
+}
+:host([valid]) .loomi-box.variant-minimal:focus {
+  border-bottom-color: var(--loomi-success-500);
+}
 .loomi-error {
   margin: 0.5rem 0 0;
   color: var(--loomi-error-500);

@@ -185,6 +185,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `locale` | _(global)_ | Override the shared Loomi locale for this datepicker. |
 | `required` | `false` | Append an asterisk. _(boolean)_ |
 | `size` | `regular` | `tiny` \| `small` \| `regular` \| `medium` \| `big` |
+| `variant` | `default` | `default` \| `minimal` (bottom border only, no box) |
 
 **Property:** `value`. **Event:** `change` (`detail: { value, dates }`).
 

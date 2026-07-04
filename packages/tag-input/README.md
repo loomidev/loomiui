@@ -65,6 +65,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `value` | _(blank)_ | Comma-separated tag value. |
 | `mode` | `inside` | `inside` or `below`. |
 | `size` | `medium` | `tiny`, `small`, `regular`, `medium`, or `big`. |
+| `variant` | `default` | `default` or `minimal` (bottom border only, no box). |
 | `color` | `primary` | Chip color. |
 | `shade` | `light` | `light`, `faint`, or `dark`. |
 | `required` | `false` | Requires at least one tag. |

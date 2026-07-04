@@ -13,6 +13,7 @@ export type LoomiDateFormat =
   | "yyyy-mm-dd" | "dd-mm-yyyy" | "mm-dd-yyyy" | "yyyy/mm/dd" | "dd/mm/yyyy" | "mm/dd/yyyy" | "D d M, Y";
 export type LoomiDatepickerSize = "tiny" | "small" | "regular" | "medium" | "big";
 export type LoomiDatepickerStyle = "popup" | "inline";
+export type LoomiDatepickerVariant = "default" | "minimal";
 type LoomiCalendarView = "days" | "months" | "years";
 
 const CAL = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />`;
@@ -56,6 +57,7 @@ export class LoomiDatepicker extends LoomiElement {
   @property({ type: Boolean }) required = false;
   @property({ attribute: "week-starts" }) weekStarts: "sunday" | "monday" = "sunday";
   @property() size: LoomiDatepickerSize = "regular";
+  @property() variant: LoomiDatepickerVariant = "default";
 
   @state() private start: Date | null = null;
   @state() private end: Date | null = null;
@@ -253,7 +255,7 @@ export class LoomiDatepicker extends LoomiElement {
 
     return html`<div class="loomi-dp ${this.open ? "open" : ""}">
       ${this.label ? html`<span class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req"> *</span>` : nothing}</span>` : nothing}
-      <div class="loomi-field size-${this.size}" @click=${() => this.toggle()}>
+      <div class="loomi-field size-${this.size} variant-${this.variant}" @click=${() => this.toggle()}>
         <span class="loomi-text ${this.value ? "" : "placeholder"}">${this.value || placeholder}${!this.value && this.required ? html`<span class="loomi-req"> *</span>` : nothing}</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${CAL}</svg>
       </div>

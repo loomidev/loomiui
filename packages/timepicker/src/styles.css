@@ -45,6 +45,24 @@
 :host([invalid]) .loomi-tp.open .loomi-field {
   border-color: var(--loomi-error-500);
 }
+.loomi-field.variant-minimal {
+  border: 0;
+  border-bottom: 2px solid var(--loomi-surface-border);
+  background: transparent;
+  border-radius: 0;
+}
+.loomi-field.variant-minimal:focus-within,
+.loomi-tp.open .loomi-field.variant-minimal {
+  box-shadow: none;
+  border-bottom-color: var(--loomi-primary-600);
+}
+:host([invalid]) .loomi-field.variant-minimal {
+  border-bottom-color: var(--loomi-error-400);
+}
+:host([invalid]) .loomi-field.variant-minimal:focus-within,
+:host([invalid]) .loomi-tp.open .loomi-field.variant-minimal {
+  border-bottom-color: var(--loomi-error-500);
+}
 .loomi-field svg {
   width: 1.15rem;
   height: 1.15rem;
@@ -105,63 +123,7 @@ select:focus {
   color: var(--loomi-text-muted);
   margin-bottom: 0.3rem;
 }
-.clock-panel {
-  width: 17rem;
-}
-.loomi-clock {
-  display: grid;
-  gap: 0.75rem;
-}
-.loomi-clock-face {
-  position: relative;
-  width: 12rem;
-  height: 12rem;
-  margin-inline: auto;
-  border: 1px solid var(--loomi-surface-border-subtle);
-  border-radius: 9999px;
-  background: var(--loomi-surface-muted);
-}
-.loomi-clock-face::after {
-  content: "";
-  position: absolute;
-  inset: calc(50% - 0.18rem);
-  border-radius: 9999px;
-  background: var(--loomi-primary-600);
-}
-.loomi-clock-face button {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 2rem;
-  height: 2rem;
-  margin: -1rem;
-  transform: rotate(var(--loomi-clock-angle)) translate(4.8rem) rotate(calc(-1 * var(--loomi-clock-angle)));
-}
-.loomi-clock button {
-  border: 1px solid transparent;
-  border-radius: 9999px;
-  background: transparent;
-  color: var(--loomi-text-secondary);
-  cursor: pointer;
-  font: inherit;
-}
-.loomi-clock button:hover,
-.loomi-clock button.active {
-  background: var(--loomi-primary-100);
-  color: var(--loomi-primary-700);
-}
-.loomi-clock-minutes,
-.loomi-clock-ampm {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.35rem;
-}
-.loomi-clock-minutes button {
-  min-width: 2.25rem;
-  padding: 0.35rem 0.45rem;
-}
-.loomi-clock-ampm button {
-  min-width: 3rem;
-  padding: 0.4rem 0.65rem;
-}
+/* The clock face (tp-style="clock") renders inside <loomi-modal>, which relocates its
+   slotted content to document.body on show() — that content escapes this shadow root,
+   so its styling lives in a <style> tag rendered alongside it in loomi-timepicker.ts
+   instead of here. See CLOCK_STYLE in that file. */

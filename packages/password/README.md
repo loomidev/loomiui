@@ -107,6 +107,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `disabled` | `false` | Disable the field. _(boolean)_ |
 | `readonly` | `false` | Read-only field. _(boolean)_ |
 | `size` | `medium` | `tiny` \| `small` \| `regular` \| `medium` \| `big` |
+| `variant` | `default` | `default` \| `minimal` (bottom border only, no box) |
 | `prefix` | _(blank)_ | Text prefix. |
 | `prefix-icon` | _(blank)_ | Icon-name prefix. |
 | `prefix-options` | _(blank)_ | Comma, pipe, or JSON array of dropdown options. |

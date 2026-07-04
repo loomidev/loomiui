@@ -104,6 +104,7 @@ export const en: LoomiTranslations = {
     hour: "Hour",
     minute: "Minute",
     ampm: "AM/PM",
+    toggleFormat: "Toggle 12/24-hour format",
   },
   timezonepicker: {
     placeholder: "Select a timezone",

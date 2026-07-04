@@ -33,7 +33,7 @@ export const zh_CN: LoomiTranslations = {
   processing: { processing: "处理中" },
   sortable: { dropHere: "拖放到此处" },
   themeSwitcher: { light: "浅色", dark: "深色", system: "系统", theme: "主题", selectedTheme: "主题：:theme" },
-  timepicker: { placeholder: "HH:MM", hour: "小时", minute: "分钟", ampm: "上午/下午" },
+  timepicker: { placeholder: "HH:MM", hour: "小时", minute: "分钟", ampm: "上午/下午", toggleFormat: "切换12/24小时制" },
   timezonepicker: { placeholder: "选择时区", emptyPlaceholder: "未找到时区", searchPlaceholder: "搜索时区...", detectLabel: "使用我的时区" },
   creditcard: { cardholderLabel: "持卡人", expiresLabel: "有效期至", namePlaceholder: "姓名", numberLabel: "卡号", cvcLabel: "安全码", flipToBack: "显示安全码", flipToFront: "返回卡片正面" },
   rating: { label: "评分", valueLabel: "评分 :value / :max" },

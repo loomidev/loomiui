@@ -35,6 +35,22 @@
 :host([invalid]) .loomi-field:focus-within {
   border-color: var(--loomi-error-500);
 }
+.loomi-field.variant-minimal {
+  border: 0;
+  border-bottom: 2px solid var(--loomi-surface-border);
+  background: transparent;
+  border-radius: 0;
+}
+.loomi-field.variant-minimal:focus-within {
+  box-shadow: none;
+  border-bottom-color: var(--loomi-primary-600);
+}
+:host([invalid]) .loomi-field.variant-minimal {
+  border-bottom-color: var(--loomi-error-400);
+}
+:host([invalid]) .loomi-field.variant-minimal:focus-within {
+  border-bottom-color: var(--loomi-error-500);
+}
 :host([disabled]) .loomi-field {
   opacity: 0.6;
   cursor: not-allowed;

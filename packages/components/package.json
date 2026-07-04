@@ -67,6 +67,10 @@
       "types": "./dist/toggle.d.ts",
       "import": "./dist/toggle.js"
     },
+    "./video": {
+      "types": "./dist/video.d.ts",
+      "import": "./dist/video.js"
+    },
     "./number": {
       "types": "./dist/number.d.ts",
       "import": "./dist/number.js"
@@ -357,7 +361,8 @@
     "@loomidev/timer": "workspace:^",
     "@loomidev/timepicker": "workspace:^",
     "@loomidev/toggle": "workspace:^",
-    "@loomidev/tooltip": "workspace:^"
+    "@loomidev/tooltip": "workspace:^",
+    "@loomidev/video": "workspace:^"
   },
   "peerDependencies": {
     "lit": "^3.0.0"

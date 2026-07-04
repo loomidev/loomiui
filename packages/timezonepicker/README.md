@@ -133,6 +133,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `readonly` | `false` | Read-only (cannot open). _(boolean)_ |
 | `required` | `false` | Marks the field required. _(boolean)_ |
 | `size` | `medium` | `tiny` \| `small` \| `regular` \| `medium` \| `big` |
+| `variant` | `default` | `default` \| `minimal` (bottom border only, no box) |
 | `empty-placeholder` | `No timezones found` | Text shown when search matches nothing. |
 | `no-clearing` | `false` | Remove the default bottom margin. _(boolean)_ |
 

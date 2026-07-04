@@ -5,7 +5,7 @@ import "@loomidev/icon/loomi-icon.js";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiNotificationType = "success" | "info" | "warning" | "error";
-export type LoomiNotificationPosition =
+export type LoomiNotificationPlacement =
   | "top-right"
   | "top-center"
   | "top-left"
@@ -52,9 +52,9 @@ const booleanAttribute = {
 export class LoomiNotification extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
-  @property() position: LoomiNotificationPosition = "top-right";
+  @property() placement: LoomiNotificationPlacement = "top-right";
   @property() locale = "";
-  /** Spans the full viewport width, anchored to the top or bottom edge from `position`. */
+  /** Spans the full viewport width, anchored to the top or bottom edge from `placement`. */
   @property({ type: Boolean, attribute: "full-width", converter: booleanAttribute })
   fullWidth = false;
   @state() private toasts: Toast[] = [];
@@ -109,7 +109,7 @@ export class LoomiNotification extends LoomiElement {
   }
 
   override render(): TemplateResult {
-    return html`<div class="loomi-stack pos-${this.position} ${this.fullWidth ? "full-width" : ""}">
+    return html`<div class="loomi-stack placement-${this.placement} ${this.fullWidth ? "full-width" : ""}">
       ${this.toasts.map((t) => {
         const meta = TYPE[t.type];
         return html`<div class="loomi-toast" role="status" style=${accentVars(meta.color)}>

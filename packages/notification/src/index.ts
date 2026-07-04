@@ -2,6 +2,6 @@ export {
   LoomiNotification,
   showLoomiNotification,
   type LoomiNotificationType,
-  type LoomiNotificationPosition,
+  type LoomiNotificationPlacement,
   type LoomiNotifyOptions,
 } from "./loomi-notification.js";

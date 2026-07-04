@@ -67,6 +67,7 @@ they follow the app theme and `.dark` mode without custom overrides.
 | `placeholder` | `Search...` | Placeholder when no label is shown. |
 | `selected-value` | _(blank)_ | Use `.value` as a property for controlled text. |
 | `size` | `medium` | `tiny` \| `small` \| `regular` \| `medium` \| `big`. |
+| `variant` | `default` | `default` \| `minimal` (bottom border only, no box) |
 | `label-key` | `label` | Property name for option labels. |
 | `value-key` | `value` | Property name for submitted values. |
 | `description-key` | `description` | Property name for helper text. |

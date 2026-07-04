@@ -52,7 +52,8 @@
     "@loomidev/chart": "workspace:^",
     "@loomidev/chat": "workspace:^",
     "@loomidev/calendar": "workspace:^",
-    "@loomidev/data-grid": "workspace:^"
+    "@loomidev/data-grid": "workspace:^",
+    "@loomidev/video": "workspace:^"
   },
   "peerDependencies": {
     "lit": "^3.0.0"

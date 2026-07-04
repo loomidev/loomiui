@@ -7,6 +7,7 @@ import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiTagInputSize = "tiny" | "small" | "regular" | "medium" | "big";
 export type LoomiTagInputMode = "inside" | "below";
+export type LoomiTagInputVariant = "default" | "minimal";
 export type LoomiTagInputShade = "faint" | "dark" | "light";
 export interface LoomiTagInputAutocompleteItem {
   label: string;
@@ -51,6 +52,7 @@ export class LoomiTagInput extends LoomiElement {
   @property() placeholder = "";
   @property() value = "";
   @property() size: LoomiTagInputSize = "medium";
+  @property() variant: LoomiTagInputVariant = "default";
   @property() color: LoomiColor | string = "primary";
   @property() shade: LoomiTagInputShade = "light";
   @property({ reflect: true }) mode: LoomiTagInputMode = "inside";
@@ -321,6 +323,7 @@ export class LoomiTagInput extends LoomiElement {
     const fieldClasses = [
       "loomi-field",
       `size-${this.size}`,
+      `variant-${this.variant}`,
       belowMode ? "mode-below" : "mode-inside",
       this.tagValues.length > 0 ? "has-tags" : "",
       this.draft ? "has-draft" : "",

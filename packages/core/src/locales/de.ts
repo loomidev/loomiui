@@ -33,7 +33,7 @@ export const de: LoomiTranslations = {
   processing: { processing: "Wird verarbeitet" },
   sortable: { dropHere: "Hier ablegen" },
   themeSwitcher: { light: "Hell", dark: "Dunkel", system: "System", theme: "Design", selectedTheme: "Design: :theme" },
-  timepicker: { placeholder: "HH:MM", hour: "Stunde", minute: "Minute", ampm: "AM/PM" },
+  timepicker: { placeholder: "HH:MM", hour: "Stunde", minute: "Minute", ampm: "AM/PM", toggleFormat: "12/24-Stunden-Format umschalten" },
   timezonepicker: { placeholder: "Zeitzone auswählen", emptyPlaceholder: "Keine Zeitzonen gefunden", searchPlaceholder: "Zeitzonen suchen...", detectLabel: "Meine Zeitzone verwenden" },
   creditcard: { cardholderLabel: "Karteninhaber", expiresLabel: "Gültig bis", namePlaceholder: "Vollständiger Name", numberLabel: "Kartennummer", cvcLabel: "Sicherheitscode", flipToBack: "Sicherheitscode anzeigen", flipToFront: "Zurück zur Karte" },
   rating: { label: "Bewertung", valueLabel: "Bewertung :value von :max" },

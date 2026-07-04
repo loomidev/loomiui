@@ -108,6 +108,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `max` | `100` | Maximum value. |
 | `step` | `1` | Increment/decrement amount. |
 | `size` | `medium` | `small` \| `regular` \| `medium` \| `big` |
+| `variant` | `default` | `default` \| `minimal` (bottom border only, no box) |
 | `transparent-icons` | `true` | Transparent (vs solid) stepper buttons. _(boolean)_ |
 | `with-dots` | `true` | Allow decimal values. _(boolean)_ |
 | `required` | `false` | Marks the field required. _(boolean)_ |

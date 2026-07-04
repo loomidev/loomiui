@@ -4,6 +4,7 @@ import { LoomiElement, loomiT, themeStyles } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiNumberSize = "tiny" | "small" | "regular" | "medium" | "big";
+export type LoomiNumberVariant = "default" | "minimal";
 
 const MINUS = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />`;
 const PLUS = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14" />`;
@@ -33,6 +34,7 @@ export class LoomiNumber extends LoomiElement {
   @property({ type: Number }) max = 100;
   @property({ type: Number }) step = 1;
   @property() size: LoomiNumberSize = "medium";
+  @property() variant: LoomiNumberVariant = "default";
   @property({ type: Boolean, attribute: "transparent-icons" }) transparentIcons = true;
   @property({ type: Boolean, attribute: "with-dots" }) withDots = true;
   @property({ type: Boolean, reflect: true }) required = false;
@@ -142,7 +144,7 @@ export class LoomiNumber extends LoomiElement {
     const hasLabel = !!this.label;
     const placeholderAttr = hasLabel ? " " : nothing;
     return html`
-      <div class="loomi-field size-${this.size}" part="field">
+      <div class="loomi-field size-${this.size} variant-${this.variant}" part="field">
         ${this.renderStep(-1)}
         <span class="loomi-inputwrap">
           <input
