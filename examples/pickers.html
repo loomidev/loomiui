@@ -11,7 +11,10 @@
           "lit/": "https://esm.sh/lit@3.3.3/",
           "@loomidev/theme": "../packages/theme/dist/index.js",
           "@loomidev/core": "../packages/core/dist/index.js",
-          "@loomidev/icons": "../packages/icons/dist/index.js"
+          "@loomidev/icons": "../packages/icons/dist/index.js",
+          "@loomidev/modal/": "../packages/modal/dist/",
+          "@loomidev/button/": "../packages/button/dist/",
+          "@loomidev/icon/": "../packages/icon/dist/"
         }
       }
     </script>
@@ -48,6 +51,8 @@
       <div class="col"><loomi-timepicker label="Popup 12h"></loomi-timepicker></div>
       <div class="col"><loomi-timepicker label="Popup 24h" format="24" selected-value="14:30"></loomi-timepicker></div>
       <div class="col"><loomi-timepicker tp-style="inline" label="Inline 12h" selected-value="3:25PM"></loomi-timepicker></div>
+      <div class="col"><loomi-timepicker tp-style="clock" label="Clock 12h"></loomi-timepicker></div>
+      <div class="col"><loomi-timepicker tp-style="clock" label="Clock 24h" format="24" selected-value="14:30"></loomi-timepicker></div>
     </div>
 
     <h2>Colorpicker</h2>

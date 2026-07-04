@@ -7,6 +7,8 @@ const DEFAULT_ERROR_MESSAGE = "Verification code is invalid";
 
 const CHECK = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />`;
 
+export type LoomiPinVariant = "default" | "minimal";
+
 /**
  * `<loomi-pin>` — a verification-code (PIN) input of N boxes. Form-associated: submits
  * the joined PIN under `name`.
@@ -25,6 +27,7 @@ export class LoomiPin extends LoomiElement {
   @property() label = "";
   @property({ type: Number, attribute: "total-digits" }) totalDigits = 4;
   @property() size: "small" | "big" = "small";
+  @property() variant: LoomiPinVariant = "default";
   @property({ type: Boolean, reflect: true }) separator = false;
   @property({ type: Boolean, attribute: "hide-digits" }) hideDigits = false;
   @property({ type: Boolean }) mask = false;
@@ -123,7 +126,7 @@ export class LoomiPin extends LoomiElement {
     const value = this.digits[i] ?? "";
     return html`<span class="loomi-box-wrap">
       <input
-        class="loomi-box ${this.masked && value ? "is-masked" : ""}"
+        class="loomi-box variant-${this.variant} ${this.masked && value ? "is-masked" : ""}"
         type="text"
         inputmode="numeric"
         maxlength="1"

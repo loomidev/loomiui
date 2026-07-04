@@ -42,6 +42,15 @@
 .loomi-dp.open .loomi-field {
   border-color: var(--loomi-primary-600);
 }
+.loomi-field.variant-minimal {
+  border: 0;
+  border-bottom: 2px solid var(--loomi-surface-border);
+  background: transparent;
+  border-radius: 0;
+}
+.loomi-dp.open .loomi-field.variant-minimal {
+  border-bottom-color: var(--loomi-primary-600);
+}
 .loomi-field svg {
   width: 1.2rem;
   height: 1.2rem;

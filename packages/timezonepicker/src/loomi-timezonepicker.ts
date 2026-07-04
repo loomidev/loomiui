@@ -4,6 +4,7 @@ import { LoomiElement, loomiDefaultText, loomiStyles, loomiT } from "@loomidev/c
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiTimezonepickerSize = "tiny" | "small" | "regular" | "medium" | "big";
+export type LoomiTimezonepickerVariant = "default" | "minimal";
 
 export interface LoomiTimezoneRecord {
   /** Canonical IANA identifier, e.g. "America/New_York". */
@@ -166,6 +167,7 @@ export class LoomiTimezonepicker extends LoomiElement {
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property({ type: Boolean, reflect: true }) required = false;
   @property() size: LoomiTimezonepickerSize = "medium";
+  @property() variant: LoomiTimezonepickerVariant = "default";
   @property({ attribute: "empty-placeholder" }) emptyPlaceholder = DEFAULT_EMPTY_PLACEHOLDER;
   @property({ type: Boolean, reflect: true }) invalid = false;
 
@@ -445,7 +447,7 @@ export class LoomiTimezonepicker extends LoomiElement {
       <div class=${classes} @keydown=${this.onKeydown}>
         <button
           type="button"
-          class="loomi-trigger"
+          class="loomi-trigger variant-${this.variant}"
           part="trigger"
           aria-haspopup="listbox"
           aria-expanded=${this.open ? "true" : "false"}

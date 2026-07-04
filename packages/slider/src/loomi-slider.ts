@@ -3,7 +3,7 @@ import { customElement, property, state } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
-const ENTRANCE_DURATION_MS = 600;
+const FILL_TRANSITION_MS = 600;
 
 const booleanAttribute = {
   fromAttribute(value: string | null): boolean {
@@ -65,6 +65,13 @@ export class LoomiSlider extends LoomiElement {
   /** True only while the entrance animation should be transitioning, so later drag
    * interactions apply instantly instead of lagging behind a transition. */
   @state() private animatingEntrance = true;
+  /** True only while a track click (not a drag) is animating the fill to its target,
+   * reusing the same transition as the entrance animation. */
+  @state() private animatingClick = false;
+  /** Whether the pointer has moved since it went down, so a click (no movement) can
+   * be told apart from a drag (movement) in `onInput`. */
+  private movedSincePointerDown = false;
+  private clickAnimationTimer?: ReturnType<typeof setTimeout>;
 
   override willUpdate(): void {
     this.internals.setFormValue(this.value);
@@ -76,9 +83,14 @@ export class LoomiSlider extends LoomiElement {
         this.revealed = true;
         setTimeout(() => {
           this.animatingEntrance = false;
-        }, ENTRANCE_DURATION_MS);
+        }, FILL_TRANSITION_MS);
       });
     });
+  }
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    clearTimeout(this.clickAnimationTimer);
   }
 
   get value(): string {
@@ -142,8 +154,24 @@ export class LoomiSlider extends LoomiElement {
     ].join("; ");
   }
 
+  private onPointerDown = (): void => {
+    this.movedSincePointerDown = false;
+  };
+
+  private onPointerMove = (): void => {
+    this.movedSincePointerDown = true;
+  };
+
   private onInput(handle: "start" | "end", e: Event): void {
     const next = Number((e.target as HTMLInputElement).value);
+
+    if (!this.movedSincePointerDown) {
+      this.animatingClick = true;
+      clearTimeout(this.clickAnimationTimer);
+      this.clickAnimationTimer = setTimeout(() => {
+        this.animatingClick = false;
+      }, FILL_TRANSITION_MS);
+    }
 
     if (handle === "start") {
       this.selected = next;
@@ -204,7 +232,7 @@ export class LoomiSlider extends LoomiElement {
   override render(): TemplateResult {
     return html`<div class="loomi-slider ${this.vertical ? "vertical" : "horizontal"}" style=${this.progressStyle}>
       <div class="loomi-control ${this.range ? "loomi-control-range" : ""} handle-${this.handleVariant}">
-        <span class="loomi-track ${this.animatingEntrance ? "entering" : ""}" aria-hidden="true"></span>
+        <span class="loomi-track ${this.animatingEntrance || this.animatingClick ? "animated-fill" : ""}" aria-hidden="true"></span>
         ${this.renderMarks()}
         <input
           class="loomi-range ${this.range ? "loomi-range-start" : ""}"
@@ -215,6 +243,8 @@ export class LoomiSlider extends LoomiElement {
           step=${this.step}
           aria-label=${this.range ? "Minimum value" : "Value"}
           .value=${String(this.startValue)}
+          @pointerdown=${this.onPointerDown}
+          @pointermove=${this.onPointerMove}
           @input=${(event: Event) => this.onInput("start", event)}
           @change=${this.onChange}
         />
@@ -227,6 +257,8 @@ export class LoomiSlider extends LoomiElement {
               step=${this.step}
               aria-label="Maximum value"
               .value=${String(this.endValue)}
+              @pointerdown=${this.onPointerDown}
+              @pointermove=${this.onPointerMove}
               @input=${(event: Event) => this.onInput("end", event)}
               @change=${this.onChange}
             />`

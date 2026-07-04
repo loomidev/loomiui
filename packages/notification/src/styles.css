@@ -14,12 +14,12 @@
   width: min(22rem, calc(100vw - 2rem));
   pointer-events: none;
 }
-.pos-top-right { top: max(1rem, env(safe-area-inset-top)); right: max(1rem, env(safe-area-inset-right)); }
-.pos-top-center { top: max(1rem, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); }
-.pos-top-left { top: max(1rem, env(safe-area-inset-top)); left: max(1rem, env(safe-area-inset-left)); }
-.pos-bottom-right { bottom: max(1rem, env(safe-area-inset-bottom)); right: max(1rem, env(safe-area-inset-right)); flex-direction: column-reverse; }
-.pos-bottom-center { bottom: max(1rem, env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); flex-direction: column-reverse; }
-.pos-bottom-left { bottom: max(1rem, env(safe-area-inset-bottom)); left: max(1rem, env(safe-area-inset-left)); flex-direction: column-reverse; }
+.placement-top-right { top: max(1rem, env(safe-area-inset-top)); right: max(1rem, env(safe-area-inset-right)); }
+.placement-top-center { top: max(1rem, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); }
+.placement-top-left { top: max(1rem, env(safe-area-inset-top)); left: max(1rem, env(safe-area-inset-left)); }
+.placement-bottom-right { bottom: max(1rem, env(safe-area-inset-bottom)); right: max(1rem, env(safe-area-inset-right)); flex-direction: column-reverse; }
+.placement-bottom-center { bottom: max(1rem, env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); flex-direction: column-reverse; }
+.placement-bottom-left { bottom: max(1rem, env(safe-area-inset-bottom)); left: max(1rem, env(safe-area-inset-left)); flex-direction: column-reverse; }
 
 .loomi-stack.full-width {
   left: 0;
@@ -28,17 +28,17 @@
   transform: none;
   gap: 0;
 }
-.loomi-stack.full-width.pos-top-left,
-.loomi-stack.full-width.pos-top-center,
-.loomi-stack.full-width.pos-top-right {
+.loomi-stack.full-width.placement-top-left,
+.loomi-stack.full-width.placement-top-center,
+.loomi-stack.full-width.placement-top-right {
   top: 0;
   bottom: auto;
   left: 0;
   right: 0;
 }
-.loomi-stack.full-width.pos-bottom-left,
-.loomi-stack.full-width.pos-bottom-center,
-.loomi-stack.full-width.pos-bottom-right {
+.loomi-stack.full-width.placement-bottom-left,
+.loomi-stack.full-width.placement-bottom-center,
+.loomi-stack.full-width.placement-bottom-right {
   bottom: 0;
   top: auto;
   left: 0;
@@ -64,6 +64,11 @@
     0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -4px rgba(0, 0, 0, 0.1);
   animation: loomi-slide 0.18s ease;
+}
+.loomi-stack.placement-top-left .loomi-toast,
+.loomi-stack.placement-bottom-left .loomi-toast {
+  border-inline-start: 1px solid var(--loomi-surface-border-subtle);
+  border-inline-end: 3px solid var(--_loomi-accent);
 }
 .loomi-ico {
   flex: none;

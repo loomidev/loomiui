@@ -87,4 +87,28 @@ describe("loomi-slider", () => {
 
     expect(valueTooltips(el)).to.have.lengthOf(0);
   });
+
+  it("animates the fill on a plain click but not while dragging", async () => {
+    const el = await fixture<LoomiSlider>(html`<loomi-slider selected="20"></loomi-slider>`);
+    await new Promise((resolve) => setTimeout(resolve, 650)); // let the entrance animation settle
+    const [input] = inputs(el);
+    const track = el.shadowRoot!.querySelector(".loomi-track") as HTMLElement;
+
+    // A plain click fires `input` with no preceding `pointermove`.
+    input.value = "50";
+    input.dispatchEvent(new InputEvent("input", { bubbles: true, composed: true }));
+    await el.updateComplete;
+    expect(track.classList.contains("animated-fill")).to.be.true;
+
+    await new Promise((resolve) => setTimeout(resolve, 650));
+    expect(track.classList.contains("animated-fill")).to.be.false;
+
+    // A drag fires `pointermove` before the resulting `input` event.
+    input.dispatchEvent(new PointerEvent("pointerdown"));
+    input.dispatchEvent(new PointerEvent("pointermove"));
+    input.value = "70";
+    input.dispatchEvent(new InputEvent("input", { bubbles: true, composed: true }));
+    await el.updateComplete;
+    expect(track.classList.contains("animated-fill")).to.be.false;
+  });
 });

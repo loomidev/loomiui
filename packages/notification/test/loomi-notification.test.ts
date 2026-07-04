@@ -54,7 +54,7 @@ describe("loomi-notification", () => {
   });
 
   it("positions the stack from the selected corner", async () => {
-    const el = await mountNotification(html`<loomi-notification position="bottom-left"></loomi-notification>`);
+    const el = await mountNotification(html`<loomi-notification placement="bottom-left"></loomi-notification>`);
 
     el.notify({ title: "Saved", message: "Your changes were saved.", dismissIn: 0 });
     await el.updateComplete;
@@ -64,7 +64,7 @@ describe("loomi-notification", () => {
     expect(style.bottom).to.equal("16px");
     expect(style.left).to.equal("16px");
 
-    el.position = "top-right";
+    el.placement = "top-right";
     await el.updateComplete;
 
     const updatedStyle = getComputedStyle(stack);
@@ -81,7 +81,7 @@ describe("loomi-notification", () => {
       return Math.abs(rect.left + rect.width / 2 - window.innerWidth / 2) < 1;
     };
 
-    const el = await mountNotification(html`<loomi-notification position="top-center"></loomi-notification>`);
+    const el = await mountNotification(html`<loomi-notification placement="top-center"></loomi-notification>`);
 
     el.notify({ title: "Saved", message: "Your changes were saved.", dismissIn: 0 });
     await el.updateComplete;
@@ -90,7 +90,7 @@ describe("loomi-notification", () => {
     expect(getComputedStyle(stack).top).to.equal("16px");
     expect(isCentered(stack)).to.be.true;
 
-    el.position = "bottom-center";
+    el.placement = "bottom-center";
     await el.updateComplete;
 
     expect(getComputedStyle(stack).bottom).to.equal("16px");
@@ -98,7 +98,7 @@ describe("loomi-notification", () => {
   });
 
   it("spans the full viewport width and anchors flush to the top edge", async () => {
-    const el = await mountNotification(html`<loomi-notification position="top-left" full-width></loomi-notification>`);
+    const el = await mountNotification(html`<loomi-notification placement="top-left" full-width></loomi-notification>`);
 
     el.notify({ title: "Saved", message: "Your changes were saved.", dismissIn: 0 });
     await el.updateComplete;
@@ -112,13 +112,32 @@ describe("loomi-notification", () => {
   });
 
   it("anchors flush to the bottom edge when full-width with a bottom position", async () => {
-    const el = await mountNotification(html`<loomi-notification position="bottom-center" full-width></loomi-notification>`);
+    const el = await mountNotification(html`<loomi-notification placement="bottom-center" full-width></loomi-notification>`);
 
     el.notify({ title: "Saved", message: "Your changes were saved.", dismissIn: 0 });
     await el.updateComplete;
 
     const stack = el.shadowRoot!.querySelector(".loomi-stack") as HTMLElement;
     expect(getComputedStyle(stack).bottom).to.equal("0px");
+  });
+
+  it("flips the accent border to the inline-end side for left placements", async () => {
+    const el = await mountNotification(html`<loomi-notification placement="bottom-left"></loomi-notification>`);
+
+    el.notify({ title: "Saved", message: "Your changes were saved.", dismissIn: 0 });
+    await el.updateComplete;
+
+    const toast = el.shadowRoot!.querySelector(".loomi-toast") as HTMLElement;
+    let style = getComputedStyle(toast);
+    expect(style.borderInlineStartWidth).to.equal("1px");
+    expect(style.borderInlineEndWidth).to.equal("3px");
+
+    el.placement = "top-right";
+    await el.updateComplete;
+
+    style = getComputedStyle(toast);
+    expect(style.borderInlineStartWidth).to.equal("3px");
+    expect(style.borderInlineEndWidth).to.equal("1px");
   });
 
   it("treats full-width=\"false\" as off, matching other boolean attributes", async () => {

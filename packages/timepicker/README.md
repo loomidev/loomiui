@@ -32,6 +32,18 @@ or popup involved (handy for a settings page where the field is always visible).
 > The attribute is `tp-style`, not `style` — `style` is a reserved HTML attribute for
 > inline CSS.
 
+## Clock Style
+
+Set `tp-style="clock"` to launch an analog clock in a modal instead of the dropdown
+panel. The outer ring picks the hour, the inner ring picks the minute — click a
+5-minute mark, or click anywhere on the ring's background for an exact minute (any of
+00–59). The center button toggles between 12- and 24-hour format, converting the
+currently selected time so it stays correct across the switch.
+
+```html
+<loomi-timepicker tp-style="clock" label="Meeting time"></loomi-timepicker>
+```
+
 ## Time Formats
 
 The default is 12-hour format (1–12 with AM/PM). Set `format="24"` for 24-hour format
@@ -110,8 +122,9 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | Attribute | Default | Description |
 | --- | --- | --- |
 | `name` | _(blank)_ | Submitted with the form. |
-| `tp-style` | `popup` | `popup` \| `inline` (the attribute is `tp-style`; `style` is reserved). |
+| `tp-style` | `popup` | `popup` \| `inline` \| `clock` (analog clock in a modal; the attribute is `tp-style`, `style` is reserved). |
 | `format` | `12` | `12` \| `24` |
+| `variant` | `default` | `default` \| `minimal` (bottom border only, no box) |
 | `selected-value` | _(blank)_ | Default time (e.g. `3:25PM` or `03:25`). |
 | `label` / `placeholder` | _(blank)_ / `HH:MM` | Popup field label / placeholder. |
 | `required` | `false` | Append an asterisk. _(boolean)_ |
@@ -292,3 +305,4 @@ Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on 
 
 - `@loomidev/core`
 - `@loomidev/icons`
+- `@loomidev/modal` (used by the `clock` style)

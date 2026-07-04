@@ -22,3 +22,4 @@ export * from "@loomidev/chart";
 export * from "@loomidev/chat";
 export * from "@loomidev/calendar";
 export * from "@loomidev/data-grid";
+export * from "@loomidev/video";

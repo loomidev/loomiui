@@ -27,6 +27,19 @@ import "@loomidev/timeline";
 The trailing connector line is removed from the last item automatically — there's
 nothing to set.
 
+## Rich Content
+
+`content` only takes plain text. For HTML — bold text, links, code, etc. — put it in
+the default slot instead; it overrides the `content` attribute.
+
+```html
+<loomi-timeline>
+  <loomi-timeline-item date="10 days ago">
+    <strong>You signed up</strong> with email <code>user@example.com</code>
+  </loomi-timeline-item>
+</loomi-timeline>
+```
+
 ## Bigger Anchors
 
 ```html

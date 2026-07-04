@@ -84,28 +84,43 @@ stacking a duplicate — handy for a repeating error you don't want to spam the 
 <loomi-notification></loomi-notification>
 ```
 
-## Position
+## Placement
 
-Use `position` to choose where the toast stack anchors. Supported values are
+Use `placement` to choose where the toast stack anchors. Supported values are
 `top-right`, `top-center`, `top-left`, `bottom-right`, `bottom-center`, and
-`bottom-left`.
+`bottom-left`. The accent border flips to the opposite side for `top-left` and
+`bottom-left` so it always faces the center of the screen.
 
 ```html
-<loomi-button onclick="showLoomiNotification('Bottom Right', 'I render from the bottom-right corner.')">Notify</loomi-button>
+<loomi-button onclick="showLoomiNotification('Top Right', 'I render from the top-right corner.')">Notify (top-right)</loomi-button>
+<loomi-notification placement="top-right"></loomi-notification>
 
-<loomi-notification position="bottom-right"></loomi-notification>
+<loomi-button onclick="showLoomiNotification('Top Center', 'I render centered at the top.')">Notify (top-center)</loomi-button>
+<loomi-notification placement="top-center"></loomi-notification>
+
+<loomi-button onclick="showLoomiNotification('Top Left', 'I render from the top-left corner.')">Notify (top-left)</loomi-button>
+<loomi-notification placement="top-left"></loomi-notification>
+
+<loomi-button onclick="showLoomiNotification('Bottom Right', 'I render from the bottom-right corner.')">Notify (bottom-right)</loomi-button>
+<loomi-notification placement="bottom-right"></loomi-notification>
+
+<loomi-button onclick="showLoomiNotification('Bottom Center', 'I render centered at the bottom.')">Notify (bottom-center)</loomi-button>
+<loomi-notification placement="bottom-center"></loomi-notification>
+
+<loomi-button onclick="showLoomiNotification('Bottom Left', 'I render from the bottom-left corner.')">Notify (bottom-left)</loomi-button>
+<loomi-notification placement="bottom-left"></loomi-notification>
 ```
 
 ## Full Width
 
 Add `full-width` to span the entire width of the page instead of floating as a corner
-card. The banner anchors to the top or bottom edge based on `position` — any `top-*`
+card. The banner anchors to the top or bottom edge based on `placement` — any `top-*`
 value anchors top, any `bottom-*` value anchors bottom.
 
 ```html
 <loomi-button onclick="showLoomiNotification('Maintenance', 'We\'re deploying in 10 minutes.', 'warning')">Notify</loomi-button>
 
-<loomi-notification position="top-center" full-width></loomi-notification>
+<loomi-notification placement="top-center" full-width></loomi-notification>
 ```
 
 ## Using the Element Directly
@@ -150,8 +165,8 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 | Attribute | Default | Description |
 | --- | --- | --- |
-| `position` | `top-right` | `top-right` \| `top-center` \| `top-left` \| `bottom-right` \| `bottom-center` \| `bottom-left` |
-| `full-width` | `false` | Spans the entire page width, anchored top or bottom per `position`. _(boolean)_ |
+| `placement` | `top-right` | `top-right` \| `top-center` \| `top-left` \| `bottom-right` \| `bottom-center` \| `bottom-left` |
+| `full-width` | `false` | Spans the entire page width, anchored top or bottom per `placement`. _(boolean)_ |
 
 **Helper:** `showLoomiNotification(title, message, type?, dismissIn?, name?)`.
 **Method:** `notify({ title, message, type, dismissIn, name })`.
@@ -165,7 +180,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
   Save Profile
 </loomi-button>
 
-<loomi-notification position="bottom-right"></loomi-notification>
+<loomi-notification placement="bottom-right"></loomi-notification>
 ```
 
 <!-- BEGIN loomi-framework-guide -->
@@ -204,7 +219,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 </script>
 <script type="module" src="https://esm.sh/@loomidev/notification"></script>
 
-<loomi-notification position="top-right"></loomi-notification>
+<loomi-notification placement="top-right"></loomi-notification>
 ```
 
 </loomi-tab>
@@ -233,7 +248,7 @@ import "@loomidev/notification";
 ```
 
 ```blade
-<loomi-notification position="top-right"></loomi-notification>
+<loomi-notification placement="top-right"></loomi-notification>
 ```
 
 </loomi-tab>
@@ -246,7 +261,7 @@ import "@loomidev/notification";
 
 export function LoomiExample() {
   return (
-    <loomi-notification position="top-right"></loomi-notification>
+    <loomi-notification placement="top-right"></loomi-notification>
   );
 }
 ```
@@ -264,7 +279,7 @@ import "@loomidev/notification";
 </script>
 
 <template>
-  <loomi-notification position="top-right"></loomi-notification>
+  <loomi-notification placement="top-right"></loomi-notification>
 </template>
 ```
 
@@ -285,7 +300,7 @@ import "@loomidev/notification";
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
-    <loomi-notification position="top-right"></loomi-notification>
+    <loomi-notification placement="top-right"></loomi-notification>
   `,
 })
 export class AppComponent {}
@@ -301,7 +316,7 @@ Svelte can import the package inside a component script. Astro can import it in 
   import "@loomidev/notification";
 </script>
 
-<loomi-notification position="top-right"></loomi-notification>
+<loomi-notification placement="top-right"></loomi-notification>
 ```
 
 ```astro
@@ -309,7 +324,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 import "@loomidev/notification";
 ---
 
-<loomi-notification position="top-right"></loomi-notification>
+<loomi-notification placement="top-right"></loomi-notification>
 ```
 
 </loomi-tab>

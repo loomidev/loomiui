@@ -6,6 +6,7 @@ import { showLoomiNotification } from "@loomidev/notification";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiPasswordSize = "tiny" | "small" | "regular" | "medium" | "big";
+export type LoomiPasswordVariant = "default" | "minimal";
 export type LoomiPasswordStrengthToken = "A" | "a" | "1" | "#";
 
 type StrengthRequirement = {
@@ -44,6 +45,7 @@ export class LoomiPassword extends LoomiElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property() size: LoomiPasswordSize = "medium";
+  @property() variant: LoomiPasswordVariant = "default";
   @property() prefix = "";
   @property({ attribute: "prefix-options" }) prefixOptions = "";
   @property({ attribute: "prefix-value" }) prefixValue = "";
@@ -286,7 +288,7 @@ export class LoomiPassword extends LoomiElement {
     const showError = this.invalid && this.showErrorInline && this.errorMessage;
 
     return html`
-      <div class="loomi-field size-${this.size} ${forceFloat ? "force-float" : ""}" part="field">
+      <div class="loomi-field size-${this.size} variant-${this.variant} ${forceFloat ? "force-float" : ""}" part="field">
         ${this.renderPrefix()}
         <span class="loomi-inputwrap">
           <input

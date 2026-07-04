@@ -3,6 +3,7 @@ import { customElement, property, query, state } from "lit/decorators.js";
 import { LoomiElement, loomiDefaultText, loomiT, onClickOutside, themeStyles } from "@loomidev/core";
 
 export type LoomiAutocompleteSize = "tiny" | "small" | "regular" | "medium" | "big";
+export type LoomiAutocompleteVariant = "default" | "minimal";
 
 export interface LoomiAutocompleteItem {
   label: string;
@@ -60,6 +61,18 @@ export class LoomiAutocomplete extends LoomiElement {
         box-shadow: none;
       }
       :host([invalid]) .loomi-field { border-color: var(--loomi-error-400); }
+      .loomi-field.variant-minimal {
+        border: 0;
+        border-bottom: 2px solid var(--loomi-surface-border);
+        background: transparent;
+        border-radius: 0;
+      }
+      .loomi-field.variant-minimal:focus-within,
+      .open .loomi-field.variant-minimal {
+        box-shadow: none;
+        border-bottom-color: var(--loomi-primary-600);
+      }
+      :host([invalid]) .loomi-field.variant-minimal { border-bottom-color: var(--loomi-error-400); }
       input {
         flex: 1 1 auto;
         width: 100%;
@@ -143,6 +156,7 @@ export class LoomiAutocomplete extends LoomiElement {
   @property({ attribute: "selected-value" }) selectedValue = "";
   @property() locale = "";
   @property() size: LoomiAutocompleteSize = "medium";
+  @property() variant: LoomiAutocompleteVariant = "default";
   @property({ type: Array }) data: Array<Record<string, unknown>> = [];
   @property({ attribute: "label-key" }) labelKey = "label";
   @property({ attribute: "value-key" }) valueKey = "value";
@@ -240,7 +254,7 @@ export class LoomiAutocomplete extends LoomiElement {
     const placeholder = hasLabel ? " " : loomiDefaultText(this.placeholder, DEFAULT_PLACEHOLDER, "autocomplete.placeholder", this.locale);
     const options = this.filtered;
     return html`<div class="loomi-ac size-${this.size} ${this.open ? "open" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}">
-      <div class="loomi-field">
+      <div class="loomi-field variant-${this.variant}">
         <input
           .value=${this.value}
           name=${this.name || nothing}
