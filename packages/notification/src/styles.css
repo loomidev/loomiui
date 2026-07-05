@@ -63,7 +63,7 @@
   box-shadow:
     0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -4px rgba(0, 0, 0, 0.1);
-  animation: loomi-slide 0.18s ease;
+  animation: loomi-slide-in var(--loomi-motion-duration) var(--loomi-motion-ease);
 }
 .loomi-stack.placement-top-left .loomi-toast,
 .loomi-stack.placement-bottom-left .loomi-toast {
@@ -107,8 +107,4 @@
 }
 .loomi-close loomi-icon {
   --loomi-icon-size: 1.05rem;
-}
-
-@keyframes loomi-slide {
-  from { opacity: 0; transform: translateX(12px); }
 }
