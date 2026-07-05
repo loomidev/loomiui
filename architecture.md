@@ -273,10 +273,17 @@ components.
 Owns shared runtime behavior:
 
 - `LoomiElement`;
-- `loomiStyles(...)`;
+- `loomiStyles(...)` — prepends `themeStyles`, `motionStyles`, `elevationStyles`, and
+  `focusStyles` to a component's own styles;
+- `motionStyles` / `elevationStyles` / `focusStyles` — shared entrance-animation
+  `@keyframes`, drop-shadow, and focus-ring color tokens, so components reuse one
+  definition instead of hand-rolling their own (see `packages/core/README.md`'s
+  "Motion", "Elevation", and "Focus ring" sections);
 - `accentVars(...)`;
 - `cssColor(...)`;
 - `onClickOutside(...)`;
+- `randomSuffix(...)` — short random id, e.g. for de-duplicating notification keys
+  across component instances;
 - shared body scroll locking for overlays;
 - shared i18n helpers and built-in translations.
 
