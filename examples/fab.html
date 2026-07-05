@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>loomi — &lt;loomi-fab&gt;</title>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "lit": "https://esm.sh/lit@3.3.3",
+          "lit/": "https://esm.sh/lit@3.3.3/",
+          "@loomidev/theme": "../packages/theme/dist/index.js",
+          "@loomidev/core": "../packages/core/dist/index.js",
+          "@loomidev/icons": "../packages/icons/dist/index.js",
+          "@loomidev/icon": "../packages/icon/dist/index.js",
+          "@loomidev/icon/loomi-icon.js": "../packages/icon/dist/loomi-icon.js",
+          "@loomidev/tooltip": "../packages/tooltip/dist/index.js",
+          "@loomidev/tooltip/loomi-tooltip.js": "../packages/tooltip/dist/loomi-tooltip.js"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import "../packages/fab/dist/loomi-fab.js";
+
+      document.querySelectorAll("loomi-fab").forEach((fab) => {
+        fab.addEventListener("loomi-select", (e) => {
+          const out = fab.closest(".frame")?.querySelector(".out");
+          if (out) out.textContent = JSON.stringify(e.detail);
+        });
+        fab.addEventListener("click", (e) => {
+          if (e.target !== fab) return; // ignore bubbled clicks from items
+          const out = fab.closest(".frame")?.querySelector(".out");
+          if (out && !fab.querySelector("loomi-fab-item")) out.textContent = "plain click";
+        });
+      });
+    </script>
+
+    <style>
+      body {
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        margin: 0;
+        padding: 2.5rem clamp(1rem, 5vw, 4rem);
+        color: #0f172a;
+        background: #f8fafc;
+      }
+      h1 { margin: 0 0 0.25rem; }
+      p.lead { color: #475569; margin-top: 0; max-width: 40rem; }
+      section { margin: 2.5rem 0; }
+      h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin: 0 0 0.75rem; }
+      .row { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-start; }
+      .out { margin-top: 0.5rem; font-size: 0.8rem; color: #64748b; font-family: monospace; }
+
+      /* Demo-only "frame" mockup. `transform` on this ancestor establishes a new
+         containing block for its position:fixed <loomi-fab> descendant, so the button
+         docks to *this frame's* corner instead of the real browser viewport — lets
+         several independent placement examples live on one scrollable page. */
+      .frame {
+        position: relative;
+        width: 320px;
+        height: 420px;
+        overflow: hidden;
+        border-radius: 1rem;
+        border: 1px solid #cbd5e1;
+        background: #fff;
+        transform: translateZ(0);
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+      }
+      .frame-content {
+        height: 100%;
+        overflow: auto;
+        box-sizing: border-box;
+        padding: 1rem;
+      }
+      .frame-content p { color: #64748b; font-size: 0.85rem; }
+
+      .toolbar {
+        display: flex;
+        justify-content: flex-end;
+        padding: 0.75rem;
+        border-top: 1px solid #e2e8f0;
+        background: #f8fafc;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>&lt;loomi-fab&gt;</h1>
+    <p class="lead">
+      A floating action button that becomes a speed-dial menu when given
+      <code>&lt;loomi-fab-item&gt;</code> children. Each example below is boxed in
+      a "frame" purely as a demo device (see the CSS comment) — in a real app the button
+      docks to the real viewport.
+    </p>
+
+    <!-- Plain action button -->
+    <section>
+      <h2>Plain action button (no items)</h2>
+      <div class="row">
+        <div class="frame">
+          <div class="frame-content"><p>Page content scrolls here.</p></div>
+          <loomi-fab icon="plus"></loomi-fab>
+        </div>
+        <div><div class="out">Click the button — fires a native click.</div></div>
+      </div>
+    </section>
+
+    <!-- Speed dial: placements -->
+    <section>
+      <h2>Placements</h2>
+      <div class="row">
+        <div class="frame">
+          <div class="frame-content"><p>placement="bottom-right" (default)</p></div>
+          <loomi-fab placement="bottom-right">
+            <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+            <loomi-fab-item icon="calendar" label="Book Appointment" value="appointment"></loomi-fab-item>
+            <loomi-fab-item icon="document-plus" label="Create Report" value="report"></loomi-fab-item>
+          </loomi-fab>
+        </div>
+        <div class="frame">
+          <div class="frame-content"><p>placement="bottom-left"</p></div>
+          <loomi-fab placement="bottom-left">
+            <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+            <loomi-fab-item icon="calendar" label="Book Appointment" value="appointment"></loomi-fab-item>
+          </loomi-fab>
+        </div>
+        <div class="frame">
+          <div class="frame-content"><p>placement="top-right"</p></div>
+          <loomi-fab placement="top-right">
+            <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+            <loomi-fab-item icon="calendar" label="Book Appointment" value="appointment"></loomi-fab-item>
+          </loomi-fab>
+        </div>
+        <div class="frame">
+          <div class="frame-content"><p>placement="top-left"</p></div>
+          <loomi-fab placement="top-left">
+            <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+            <loomi-fab-item icon="calendar" label="Book Appointment" value="appointment"></loomi-fab-item>
+          </loomi-fab>
+        </div>
+      </div>
+      <div class="out">Selecting an item shows its detail here.</div>
+    </section>
+
+    <!-- Directions -->
+    <section>
+      <h2>Directions (explicit, overriding the placement-inferred default)</h2>
+      <div class="row">
+        <div class="frame">
+          <div class="frame-content"><p>direction="left"</p></div>
+          <loomi-fab placement="bottom-right" direction="left">
+            <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+            <loomi-fab-item icon="calendar" label="Book Appointment" value="appointment"></loomi-fab-item>
+            <loomi-fab-item icon="document-plus" label="Create Report" value="report"></loomi-fab-item>
+          </loomi-fab>
+        </div>
+        <div class="frame">
+          <div class="frame-content"><p>direction="down"</p></div>
+          <loomi-fab placement="top-right" direction="down">
+            <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+            <loomi-fab-item icon="calendar" label="Book Appointment" value="appointment"></loomi-fab-item>
+          </loomi-fab>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sizes -->
+    <section>
+      <h2>Sizes</h2>
+      <div class="row">
+        <div class="frame">
+          <div class="frame-content"><p>size="small"</p></div>
+          <loomi-fab size="small">
+            <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+          </loomi-fab>
+        </div>
+        <div class="frame">
+          <div class="frame-content"><p>size="medium"</p></div>
+          <loomi-fab size="medium">
+            <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+          </loomi-fab>
+        </div>
+        <div class="frame">
+          <div class="frame-content"><p>size="regular" (default)</p></div>
+          <loomi-fab size="regular">
+            <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+          </loomi-fab>
+        </div>
+      </div>
+    </section>
+
+    <!-- Colors -->
+    <section>
+      <h2>Colors</h2>
+      <div class="row">
+        <div class="frame">
+          <div class="frame-content"><p>color="success"</p></div>
+          <loomi-fab color="success" icon="check">
+            <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+          </loomi-fab>
+        </div>
+        <div class="frame">
+          <div class="frame-content"><p>color="error"</p></div>
+          <loomi-fab color="error" icon="exclamation-triangle">
+            <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+          </loomi-fab>
+        </div>
+      </div>
+    </section>
+
+    <!-- Backdrop -->
+    <section>
+      <h2>Backdrop &amp; close-on-select="false"</h2>
+      <div class="row">
+        <div class="frame">
+          <div class="frame-content"><p>backdrop, close-on-select="false"</p></div>
+          <loomi-fab backdrop close-on-select="false">
+            <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+            <loomi-fab-item icon="calendar" label="Book Appointment" value="appointment"></loomi-fab-item>
+          </loomi-fab>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hover trigger -->
+    <section>
+      <h2>Hover trigger</h2>
+      <div class="row">
+        <div class="frame">
+          <div class="frame-content"><p>trigger="hover"</p></div>
+          <loomi-fab trigger="hover">
+            <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+            <loomi-fab-item icon="calendar" label="Book Appointment" value="appointment"></loomi-fab-item>
+          </loomi-fab>
+        </div>
+      </div>
+    </section>
+
+    <!-- Docked variant -->
+    <section>
+      <h2>Docked variant (renders in normal flow, e.g. a toolbar)</h2>
+      <div class="row">
+        <div class="frame">
+          <div class="frame-content"><p>Docked into the toolbar below.</p></div>
+          <div class="toolbar">
+            <loomi-fab variant="docked" size="small">
+              <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+              <loomi-fab-item icon="calendar" label="Book Appointment" value="appointment"></loomi-fab-item>
+            </loomi-fab>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Icon source -->
+    <section>
+      <h2>icon-source (same registry as &lt;loomi-bottom-nav&gt;)</h2>
+      <div class="row">
+        <div class="frame">
+          <div class="frame-content"><p>icon-source="iconsax"</p></div>
+          <loomi-fab icon="add" icon-source="iconsax">
+            <loomi-fab-item icon="user" label="Profile" value="profile"></loomi-fab-item>
+            <loomi-fab-item icon="calendar" icon-source="heroicons" label="Book (heroicons override)" value="book"></loomi-fab-item>
+          </loomi-fab>
+        </div>
+      </div>
+    </section>
+
+    <!-- Icons only -->
+    <section>
+      <h2>icons-only (label shown as a &lt;loomi-tooltip&gt; on hover/focus)</h2>
+      <div class="row">
+        <div class="frame">
+          <div class="frame-content"><p>placement="bottom-right" — tooltips open to the left</p></div>
+          <loomi-fab icons-only placement="bottom-right">
+            <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+            <loomi-fab-item icon="calendar" label="Book Appointment" value="appointment"></loomi-fab-item>
+            <loomi-fab-item icon="document-plus" label="Create Report" value="report"></loomi-fab-item>
+          </loomi-fab>
+        </div>
+        <div class="frame">
+          <div class="frame-content"><p>placement="bottom-left" — tooltips open to the right</p></div>
+          <loomi-fab icons-only placement="bottom-left">
+            <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+            <loomi-fab-item icon="calendar" label="Book Appointment" value="appointment"></loomi-fab-item>
+          </loomi-fab>
+        </div>
+      </div>
+    </section>
+
+    <!-- Disabled item -->
+    <section>
+      <h2>Disabled item</h2>
+      <div class="row">
+        <div class="frame">
+          <div class="frame-content"><p>"Book Appointment" is disabled.</p></div>
+          <loomi-fab>
+            <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+            <loomi-fab-item icon="calendar" label="Book Appointment" value="appointment" disabled></loomi-fab-item>
+            <loomi-fab-item icon="document-plus" label="Create Report" value="report"></loomi-fab-item>
+          </loomi-fab>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

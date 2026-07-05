@@ -1,6 +1,6 @@
 import { html, fixture, expect, oneEvent } from "@open-wc/testing";
 import "../dist/loomi-fab.js";
-import type { LoomiFab, LoomiSpeedDialItem } from "../dist/index.js";
+import type { LoomiFab, LoomiFabItem } from "../dist/index.js";
 
 const nextFrame = (): Promise<void> => new Promise((resolve) => requestAnimationFrame(() => resolve()));
 
@@ -22,8 +22,8 @@ describe("loomi-fab", () => {
   it("opens and closes the speed-dial menu on trigger click", async () => {
     const el = await fixture<LoomiFab>(html`
       <loomi-fab variant="docked">
-        <loomi-speed-dial-item label="Add Patient" value="patient"></loomi-speed-dial-item>
-        <loomi-speed-dial-item label="Book Appointment" value="appointment"></loomi-speed-dial-item>
+        <loomi-fab-item label="Add Patient" value="patient"></loomi-fab-item>
+        <loomi-fab-item label="Book Appointment" value="appointment"></loomi-fab-item>
       </loomi-fab>
     `);
 
@@ -38,14 +38,14 @@ describe("loomi-fab", () => {
   it("fires loomi-select with the item's value and closes by default", async () => {
     const el = await fixture<LoomiFab>(html`
       <loomi-fab variant="docked">
-        <loomi-speed-dial-item label="Add Patient" value="patient"></loomi-speed-dial-item>
+        <loomi-fab-item label="Add Patient" value="patient"></loomi-fab-item>
       </loomi-fab>
     `);
 
     await nextFrame();
     await open(el);
 
-    const item = el.querySelector<LoomiSpeedDialItem>("loomi-speed-dial-item")!;
+    const item = el.querySelector<LoomiFabItem>("loomi-fab-item")!;
     await item.updateComplete;
 
     const listener = oneEvent(el, "loomi-select");
@@ -59,14 +59,14 @@ describe("loomi-fab", () => {
   it("keeps the menu open when close-on-select is false", async () => {
     const el = await fixture<LoomiFab>(html`
       <loomi-fab variant="docked" close-on-select="false">
-        <loomi-speed-dial-item label="Add Patient" value="patient"></loomi-speed-dial-item>
+        <loomi-fab-item label="Add Patient" value="patient"></loomi-fab-item>
       </loomi-fab>
     `);
 
     await nextFrame();
     await open(el);
 
-    const item = el.querySelector<LoomiSpeedDialItem>("loomi-speed-dial-item")!;
+    const item = el.querySelector<LoomiFabItem>("loomi-fab-item")!;
     await item.updateComplete;
     item.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-pill")!.click();
     await el.updateComplete;
@@ -77,14 +77,14 @@ describe("loomi-fab", () => {
   it("blocks clicks on a disabled item", async () => {
     const el = await fixture<LoomiFab>(html`
       <loomi-fab variant="docked">
-        <loomi-speed-dial-item label="Add Patient" value="patient" disabled></loomi-speed-dial-item>
+        <loomi-fab-item label="Add Patient" value="patient" disabled></loomi-fab-item>
       </loomi-fab>
     `);
 
     await nextFrame();
     await open(el);
 
-    const item = el.querySelector<LoomiSpeedDialItem>("loomi-speed-dial-item")!;
+    const item = el.querySelector<LoomiFabItem>("loomi-fab-item")!;
     await item.updateComplete;
 
     let selected = false;
@@ -97,7 +97,7 @@ describe("loomi-fab", () => {
   it("does not toggle open when disabled", async () => {
     const el = await fixture<LoomiFab>(html`
       <loomi-fab variant="docked" disabled>
-        <loomi-speed-dial-item label="Add Patient" value="patient"></loomi-speed-dial-item>
+        <loomi-fab-item label="Add Patient" value="patient"></loomi-fab-item>
       </loomi-fab>
     `);
 
@@ -110,7 +110,7 @@ describe("loomi-fab", () => {
   it("closes on Escape and restores focus to the trigger", async () => {
     const el = await fixture<LoomiFab>(html`
       <loomi-fab variant="docked">
-        <loomi-speed-dial-item label="Add Patient" value="patient"></loomi-speed-dial-item>
+        <loomi-fab-item label="Add Patient" value="patient"></loomi-fab-item>
       </loomi-fab>
     `);
 
@@ -118,7 +118,7 @@ describe("loomi-fab", () => {
     await open(el);
     expect(el.open).to.equal(true);
 
-    const item = el.querySelector<LoomiSpeedDialItem>("loomi-speed-dial-item")!;
+    const item = el.querySelector<LoomiFabItem>("loomi-fab-item")!;
     await item.updateComplete;
     item.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true, composed: true }));
     await el.updateComplete;
@@ -129,12 +129,32 @@ describe("loomi-fab", () => {
   it("defaults direction from placement (bottom-* expands up)", async () => {
     const el = await fixture<LoomiFab>(html`
       <loomi-fab variant="docked" placement="bottom-right">
-        <loomi-speed-dial-item label="Add Patient" value="patient"></loomi-speed-dial-item>
+        <loomi-fab-item label="Add Patient" value="patient"></loomi-fab-item>
       </loomi-fab>
     `);
 
     await nextFrame();
     const dial = el.shadowRoot!.querySelector(".loomi-dial")!;
     expect(dial.classList.contains("dir-up")).to.equal(true);
+  });
+
+  it("icons-only hides the label and wraps the pill in a loomi-tooltip", async () => {
+    const el = await fixture<LoomiFab>(html`
+      <loomi-fab variant="docked" icons-only>
+        <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+      </loomi-fab>
+    `);
+
+    await nextFrame();
+    const item = el.querySelector<LoomiFabItem>("loomi-fab-item")!;
+    await item.updateComplete;
+
+    const tooltip = item.shadowRoot!.querySelector("loomi-tooltip");
+    const pill = item.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-pill")!;
+
+    expect(tooltip).not.to.equal(null);
+    expect(tooltip!.getAttribute("content")).to.equal("Add Patient");
+    expect(pill.getAttribute("aria-label")).to.equal("Add Patient");
+    expect(pill.querySelector(".loomi-pill-label")).to.equal(null);
   });
 });

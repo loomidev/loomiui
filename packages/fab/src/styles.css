@@ -120,7 +120,7 @@
   pointer-events: none;
   transform: scale(0.94);
   transition: opacity 0.16s ease, transform 0.16s ease, visibility 0.16s;
-  /* Inherited by slotted <loomi-speed-dial-item>s (flattened tree) so each item's own
+  /* Inherited by slotted <loomi-fab-item>s (flattened tree) so each item's own
      fade/scale — and its stagger delay — plays without the item knowing its own open state. */
   --loomi-fab-open: 0;
 }
@@ -166,28 +166,28 @@
 }
 
 /* Stagger: each slotted item picks up an inherited delay by its position. */
-::slotted(loomi-speed-dial-item:nth-of-type(1)) {
+::slotted(loomi-fab-item:nth-of-type(1)) {
   --loomi-fab-item-delay: 0ms;
 }
-::slotted(loomi-speed-dial-item:nth-of-type(2)) {
+::slotted(loomi-fab-item:nth-of-type(2)) {
   --loomi-fab-item-delay: 30ms;
 }
-::slotted(loomi-speed-dial-item:nth-of-type(3)) {
+::slotted(loomi-fab-item:nth-of-type(3)) {
   --loomi-fab-item-delay: 60ms;
 }
-::slotted(loomi-speed-dial-item:nth-of-type(4)) {
+::slotted(loomi-fab-item:nth-of-type(4)) {
   --loomi-fab-item-delay: 90ms;
 }
-::slotted(loomi-speed-dial-item:nth-of-type(5)) {
+::slotted(loomi-fab-item:nth-of-type(5)) {
   --loomi-fab-item-delay: 120ms;
 }
-::slotted(loomi-speed-dial-item:nth-of-type(6)) {
+::slotted(loomi-fab-item:nth-of-type(6)) {
   --loomi-fab-item-delay: 150ms;
 }
 
-/* ---- <loomi-speed-dial-item> ---- */
+/* ---- <loomi-fab-item> ---- */
 
-:host(loomi-speed-dial-item) {
+:host(loomi-fab-item) {
   display: inline-flex;
 }
 
@@ -224,6 +224,23 @@
 .loomi-pill:disabled {
   cursor: not-allowed;
   opacity: 0.5;
+}
+
+.loomi-pill.icon-only {
+  width: var(--loomi-fab-item-diameter, 2.5rem);
+  height: var(--loomi-fab-item-diameter, 2.5rem);
+  padding: 0;
+  justify-content: center;
+  background: var(--_loomi-accent-soft, var(--loomi-surface-muted));
+}
+.loomi-pill.icon-only .loomi-pill-icon {
+  background: transparent;
+}
+
+/* The `<loomi-tooltip>` wrapper used in `icons-only` mode — purely a hover/focus label
+   carrier, must not add any box of its own around the pill button. */
+.loomi-item-tooltip {
+  display: inline-flex;
 }
 
 .loomi-pill-icon {

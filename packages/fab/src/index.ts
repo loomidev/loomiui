@@ -1,6 +1,6 @@
 export {
   LoomiFab,
-  LoomiSpeedDialItem,
+  LoomiFabItem,
   type LoomiFabPlacement,
   type LoomiFabDirection,
   type LoomiFabResolvedDirection,

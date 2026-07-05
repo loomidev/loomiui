@@ -48,12 +48,15 @@
   background: var(--loomi-surface);
 }
 
-.loomi-bnav.fixed {
+/* Keyed off the reflected `variant` host attribute rather than a same-named class —
+   Tailwind's own utility set already defines a `.fixed { position: fixed }` class, and a
+   plain `.fixed` class here would collide with it and knock the bar out of flow. */
+:host([variant="fixed"]) .loomi-bnav {
   border-top: 1px solid var(--loomi-surface-border);
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-.loomi-bnav.floating {
+:host([variant="floating"]) .loomi-bnav {
   border: 1px solid var(--loomi-surface-border);
   border-radius: 1.25rem;
   box-shadow: 0 10px 30px -12px rgba(15, 23, 42, 0.28);

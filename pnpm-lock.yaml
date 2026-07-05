@@ -553,6 +553,9 @@ importers:
       '@loomidev/empty-state':
         specifier: workspace:^
         version: link:../empty-state
+      '@loomidev/fab':
+        specifier: workspace:^
+        version: link:../fab
       '@loomidev/filepicker':
         specifier: workspace:^
         version: link:../filepicker
@@ -1091,9 +1094,15 @@ importers:
       '@loomidev/core':
         specifier: workspace:^
         version: link:../core
+      '@loomidev/icon':
+        specifier: workspace:^
+        version: link:../icon
       '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons
+      '@loomidev/tooltip':
+        specifier: workspace:^
+        version: link:../tooltip
     devDependencies:
       '@loomidev/theme':
         specifier: workspace:^

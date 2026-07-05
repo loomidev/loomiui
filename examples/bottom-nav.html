@@ -24,7 +24,7 @@
 
       document.querySelectorAll("loomi-bottom-nav").forEach((nav) => {
         nav.addEventListener("loomi-change", (e) => {
-          const out = nav.closest(".phone")?.querySelector(".out");
+          const out = nav.closest(".row")?.querySelector(".out");
           if (out) out.textContent = JSON.stringify({ value: e.detail.value, href: e.detail.href });
         });
       });

@@ -36,7 +36,8 @@
   "dependencies": {
     "@loomidev/core": "workspace:^",
     "@loomidev/icon": "workspace:^",
-    "@loomidev/icons": "workspace:^"
+    "@loomidev/icons": "workspace:^",
+    "@loomidev/tooltip": "workspace:^"
   },
   "peerDependencies": {
     "lit": "^3.0.0"
