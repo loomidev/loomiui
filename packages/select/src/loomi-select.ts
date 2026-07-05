@@ -1,6 +1,6 @@
 import { html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
-import { LoomiElement, loomiDefaultText, loomiT, themeStyles } from "@loomidev/core";
+import { LoomiElement, loomiDefaultText, loomiT, onClickOutside, themeStyles } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiSelectSize = "tiny" | "small" | "regular" | "medium" | "big";
@@ -76,13 +76,17 @@ export class LoomiSelect extends LoomiElement {
   @query(".loomi-search") private searchEl?: HTMLInputElement;
   @query(".loomi-trigger") private triggerEl?: HTMLButtonElement;
 
+  private cleanupClickOutside?: () => void;
+
   override connectedCallback(): void {
     super.connectedCallback();
-    document.addEventListener("click", this.onDocClick, true);
+    this.cleanupClickOutside = onClickOutside(this, () => {
+      if (this.open) this.close(true);
+    });
   }
   override disconnectedCallback(): void {
     super.disconnectedCallback();
-    document.removeEventListener("click", this.onDocClick, true);
+    this.cleanupClickOutside?.();
   }
 
   override willUpdate(changed: PropertyValues<this>): void {
@@ -101,10 +105,6 @@ export class LoomiSelect extends LoomiElement {
     this.internals.setFormValue(this.selected.join(","));
     this.syncValidity();
   }
-
-  private onDocClick = (e: MouseEvent): void => {
-    if (this.open && !e.composedPath().includes(this)) this.close(true);
-  };
 
   /** Reset the selection. */
   reset(): void {

@@ -75,8 +75,5 @@
   width: 1.6rem;
   height: 1.6rem;
   color: var(--loomi-text-faint);
-  animation: loomi-spin 0.7s linear infinite;
-}
-@keyframes loomi-spin {
-  to { transform: rotate(360deg); }
+  animation: loomi-spin var(--loomi-spin-duration) linear infinite;
 }

@@ -1,6 +1,6 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, state, queryAll } from "lit/decorators.js";
-import { LoomiElement, loomiDefaultText, loomiStyles, loomiT } from "@loomidev/core";
+import { LoomiElement, loomiDefaultText, loomiStyles, loomiT, randomSuffix } from "@loomidev/core";
 import { showLoomiNotification } from "@loomidev/notification";
 import { componentStyles } from "./generated/styles.css.js";
 const DEFAULT_ERROR_MESSAGE = "Verification code is invalid";
@@ -21,7 +21,7 @@ export class LoomiPin extends LoomiElement {
   static formAssociated = true;
   private internals = this.attachInternals();
   /** Falls back to a stable per-instance id when `name` is blank, so a `loomi-notification` toast (see `showError`) re-renders in place across repeated validation failures instead of stacking. */
-  private readonly instanceId = Math.random().toString(36).slice(2, 8);
+  private readonly instanceId = randomSuffix();
 
   @property({ reflect: true }) name = "";
   @property() label = "";

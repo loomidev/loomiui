@@ -42,7 +42,8 @@ function componentTypeFromTag(tagName: string): string {
   return safeClassToken(tagName.toLowerCase().replace(/^loomi-/, "")) || "component";
 }
 
-function randomSuffix(): string {
+/** A short random id, e.g. for de-duplicating notification keys across component instances. */
+export function randomSuffix(): string {
   return Math.random().toString(36).slice(2, 7) || String(Date.now()).slice(-5);
 }
 

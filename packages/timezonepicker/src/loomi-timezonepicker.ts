@@ -1,6 +1,6 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
-import { LoomiElement, loomiDefaultText, loomiStyles, loomiT } from "@loomidev/core";
+import { LoomiElement, loomiDefaultText, loomiStyles, loomiT, onClickOutside } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiTimezonepickerSize = "tiny" | "small" | "regular" | "medium" | "big";
@@ -182,13 +182,17 @@ export class LoomiTimezonepicker extends LoomiElement {
 
   private recordsCache: { locale: string; at: number; records: LoomiTimezoneRecord[] } | null = null;
 
+  private cleanupClickOutside?: () => void;
+
   override connectedCallback(): void {
     super.connectedCallback();
-    document.addEventListener("click", this.onDocClick, true);
+    this.cleanupClickOutside = onClickOutside(this, () => {
+      if (this.open) this.close(true);
+    });
   }
   override disconnectedCallback(): void {
     super.disconnectedCallback();
-    document.removeEventListener("click", this.onDocClick, true);
+    this.cleanupClickOutside?.();
   }
 
   override willUpdate(changed: Map<PropertyKey, unknown>): void {
@@ -240,10 +244,6 @@ export class LoomiTimezonepicker extends LoomiElement {
         z.offsetLabel.toLowerCase().includes(q),
     );
   }
-
-  private onDocClick = (e: MouseEvent): void => {
-    if (this.open && !e.composedPath().includes(this)) this.close(true);
-  };
 
   /** Clear the current selection. */
   reset(): void {

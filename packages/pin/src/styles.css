@@ -114,13 +114,5 @@
   color: var(--loomi-success-500);
 }
 .loomi-spin {
-  animation: loomi-spin 0.7s linear infinite;
-}
-@keyframes loomi-spin {
-  to { transform: rotate(360deg); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .loomi-spin {
-    animation-duration: 1.6s;
-  }
+  animation: loomi-spin var(--loomi-spin-duration) linear infinite;
 }

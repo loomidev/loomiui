@@ -1,6 +1,6 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
-import { LoomiElement, loomiT, themeStyles } from "@loomidev/core";
+import { LoomiElement, loomiT, onClickOutside, randomSuffix, themeStyles } from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
 import { showLoomiNotification } from "@loomidev/notification";
 import { componentStyles } from "./generated/styles.css.js";
@@ -34,7 +34,7 @@ export class LoomiPassword extends LoomiElement {
 
   private internals = this.attachInternals();
   private validationVisible = false;
-  private readonly instanceId = Math.random().toString(36).slice(2, 8);
+  private readonly instanceId = randomSuffix();
 
   @property({ reflect: true }) name = "";
   @property() label = "";
@@ -65,14 +65,18 @@ export class LoomiPassword extends LoomiElement {
 
   @query("input") private inputEl!: HTMLInputElement;
 
+  private cleanupClickOutside?: () => void;
+
   override connectedCallback(): void {
     super.connectedCallback();
-    document.addEventListener("click", this.onDocClick, true);
+    this.cleanupClickOutside = onClickOutside(this, () => {
+      if (this.prefixOpen) this.prefixOpen = false;
+    });
   }
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
-    document.removeEventListener("click", this.onDocClick, true);
+    this.cleanupClickOutside?.();
   }
 
   override willUpdate(_changed: PropertyValues<this>): void {
@@ -83,10 +87,6 @@ export class LoomiPassword extends LoomiElement {
   override focus(): void {
     this.inputEl?.focus();
   }
-
-  private onDocClick = (e: MouseEvent): void => {
-    if (this.prefixOpen && !e.composedPath().includes(this)) this.prefixOpen = false;
-  };
 
   clear(): void {
     this.value = "";

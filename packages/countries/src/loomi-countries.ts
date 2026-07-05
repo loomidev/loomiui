@@ -1,7 +1,7 @@
 import { html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
 import { unsafeSVG } from "lit/directives/unsafe-svg.js";
-import { LoomiElement, loomiDefaultText, loomiT, themeStyles } from "@loomidev/core";
+import { LoomiElement, loomiDefaultText, loomiT, onClickOutside, themeStyles } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 import { LOOMI_COUNTRIES, type LoomiCountryRecord } from "./generated/countries-data.js";
 
@@ -157,13 +157,17 @@ export class LoomiCountries extends LoomiElement {
   @query(".loomi-flag-trigger") private flagTriggerEl?: HTMLButtonElement;
   @query(".loomi-phone-input") private phoneInputEl?: HTMLInputElement;
 
+  private cleanupClickOutside?: () => void;
+
   override connectedCallback(): void {
     super.connectedCallback();
-    document.addEventListener("click", this.onDocClick, true);
+    this.cleanupClickOutside = onClickOutside(this, () => {
+      if (this.open) this.close(true);
+    });
   }
   override disconnectedCallback(): void {
     super.disconnectedCallback();
-    document.removeEventListener("click", this.onDocClick, true);
+    this.cleanupClickOutside?.();
   }
 
   override willUpdate(changed: PropertyValues<this>): void {
@@ -206,10 +210,6 @@ export class LoomiCountries extends LoomiElement {
         (qDigits.length > 0 && c.dialCode.replace("+", "").startsWith(qDigits)),
     );
   }
-
-  private onDocClick = (e: MouseEvent): void => {
-    if (this.open && !e.composedPath().includes(this)) this.close(true);
-  };
 
   /** Clear the current selection (and phone number, in `phone` mode). */
   reset(): void {

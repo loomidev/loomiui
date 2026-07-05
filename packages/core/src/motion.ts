@@ -12,8 +12,10 @@ import { css, type CSSResultGroup } from "lit";
  * | `loomi-rise-in` | fade + rise 8px + scale up from 0.98 |
  * | `loomi-drop-in` | fade + drop down 4px (opens downward, e.g. a menu) |
  * | `loomi-slide-in` | fade + slide in 12px from the trailing edge |
+ * | `loomi-spin` | continuous 360° rotation, for loading spinners |
  *
  * Reference them with `animation: loomi-pop-in var(--loomi-motion-duration) var(--loomi-motion-ease);`
+ * (or `animation: loomi-spin var(--loomi-spin-duration) linear infinite;` for the spinner)
  * so `prefers-reduced-motion` is handled for free. Only add a new keyframe here if it's a
  * genuinely new motion primitive — a component that layers its own positioning transform
  * (e.g. a centered overlay combining `translate(-50%, -50%)` with a scale-in) should keep
@@ -24,6 +26,7 @@ export const motionStyles: CSSResultGroup = css`
   :host {
     --loomi-motion-duration: 0.16s;
     --loomi-motion-ease: ease;
+    --loomi-spin-duration: 0.7s;
   }
 
   @keyframes loomi-fade-in {
@@ -55,12 +58,19 @@ export const motionStyles: CSSResultGroup = css`
       transform: translateX(12px);
     }
   }
+  @keyframes loomi-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
 
   /* Near-zero rather than 0s: animation shorthands still resolve (no "no animation"
-     browser quirks) and any future animationend listener still fires. */
+     browser quirks) and any future animationend listener still fires. Spinners slow down
+     instead, since removing the loading motion entirely would hide that work is in progress. */
   @media (prefers-reduced-motion: reduce) {
     :host {
       --loomi-motion-duration: 0.01ms;
+      --loomi-spin-duration: 1.6s;
     }
   }
 `;
