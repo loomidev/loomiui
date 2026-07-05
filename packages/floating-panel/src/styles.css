@@ -1,0 +1,146 @@
+:host {
+  display: none;
+  position: fixed;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 22rem;
+  height: 26rem;
+  max-width: 100dvw;
+  max-height: 100dvh;
+  background: var(--loomi-surface);
+  color: var(--loomi-text);
+  border: 1px solid var(--loomi-surface-border);
+  border-radius: 0.75rem;
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.2),
+    0 8px 10px -6px rgba(0, 0, 0, 0.2);
+  z-index: var(--loomi-floating-panel-z-index, 2147480000);
+  animation: loomi-floating-panel-pop var(--loomi-floating-panel-duration, 0.16s) ease;
+}
+:host([open]) {
+  display: flex;
+}
+:host(.is-centered) {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-name: loomi-floating-panel-pop-centered;
+}
+:host(.is-dragging),
+:host(.is-resizing) {
+  animation: none;
+  user-select: none;
+}
+
+.loomi-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: none;
+  padding: 0.65rem 0.5rem 0.65rem 0.9rem;
+  border-bottom: 1px solid var(--loomi-surface-border);
+  cursor: move;
+  touch-action: none;
+}
+.loomi-header:focus-visible {
+  outline: 2px solid var(--loomi-primary-600, var(--_loomi-primary-600-default));
+  outline-offset: -2px;
+}
+.loomi-title {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.loomi-close {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: var(--loomi-text-faint);
+  cursor: pointer;
+  padding: 0.3rem;
+  line-height: 0;
+  border-radius: 0.375rem;
+}
+.loomi-close:hover {
+  color: var(--loomi-text-secondary);
+  background: var(--loomi-surface-hover);
+}
+.loomi-close:focus-visible {
+  outline: 2px solid var(--loomi-primary-600, var(--_loomi-primary-600-default));
+  outline-offset: 2px;
+}
+
+.loomi-body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 1rem;
+  color: var(--loomi-text-secondary);
+  line-height: 1.6;
+}
+
+.loomi-resize {
+  position: absolute;
+  z-index: 1;
+}
+.loomi-resize:focus-visible {
+  outline: 2px solid var(--loomi-primary-600, var(--_loomi-primary-600-default));
+  outline-offset: -2px;
+  border-radius: 0.2rem;
+}
+.dir-n, .dir-s {
+  left: 0.5rem;
+  right: 0.5rem;
+  height: 0.5rem;
+  cursor: ns-resize;
+}
+.dir-n { top: -0.25rem; }
+.dir-s { bottom: -0.25rem; }
+.dir-e, .dir-w {
+  top: 0.5rem;
+  bottom: 0.5rem;
+  width: 0.5rem;
+  cursor: ew-resize;
+}
+.dir-e { right: -0.25rem; }
+.dir-w { left: -0.25rem; }
+.dir-ne, .dir-nw, .dir-se, .dir-sw {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+.dir-ne { top: -0.25rem; right: -0.25rem; cursor: nesw-resize; }
+.dir-nw { top: -0.25rem; left: -0.25rem; cursor: nwse-resize; }
+.dir-se { bottom: -0.25rem; right: -0.25rem; cursor: nwse-resize; }
+.dir-sw { bottom: -0.25rem; left: -0.25rem; cursor: nesw-resize; }
+
+.loomi-grip {
+  position: absolute;
+  right: 0.2rem;
+  bottom: 0.2rem;
+  color: var(--loomi-text-faint);
+  pointer-events: none;
+}
+
+@media (max-width: 30rem) {
+  .loomi-header {
+    padding: 0.5rem 0.4rem 0.5rem 0.75rem;
+  }
+  .loomi-body {
+    padding: 0.75rem;
+  }
+}
+
+@keyframes loomi-floating-panel-pop {
+  from { opacity: 0; transform: scale(0.98); }
+}
+@keyframes loomi-floating-panel-pop-centered {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.98); }
+}

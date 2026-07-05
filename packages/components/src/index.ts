@@ -29,6 +29,7 @@ export * from "@loomidev/data-grid";
 export * from "@loomidev/modal";
 export * from "@loomidev/drawer";
 export * from "@loomidev/fab";
+export * from "@loomidev/floating-panel";
 export * from "@loomidev/divider";
 export * from "@loomidev/qrcode";
 export * from "@loomidev/notification";

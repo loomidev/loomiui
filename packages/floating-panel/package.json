@@ -1,0 +1,59 @@
+{
+  "name": "@loomidev/floating-panel",
+  "version": "0.1.0",
+  "description": "<loomi-floating-panel> — a draggable, resizable panel that floats above the page.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/floating-panel"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./loomi-floating-panel.js": {
+      "types": "./dist/loomi-floating-panel.d.ts",
+      "import": "./dist/loomi-floating-panel.js"
+    }
+  },
+  "scripts": {
+    "build": "node scripts/build-styles.mjs && tsc -p tsconfig.json",
+    "dev": "node scripts/build-styles.mjs && tsc -p tsconfig.json --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@loomidev/core": "workspace:^",
+    "@loomidev/icon": "workspace:^"
+  },
+  "peerDependencies": {
+    "lit": "^3.0.0"
+  },
+  "devDependencies": {
+    "@loomidev/theme": "workspace:^",
+    "@tailwindcss/cli": "^4.0.0",
+    "lit": "^3.3.3",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.6.3"
+  },
+  "keywords": [
+    "web-components",
+    "lit",
+    "loomiui",
+    "floating-panel",
+    "draggable",
+    "resizable",
+    "window"
+  ]
+}

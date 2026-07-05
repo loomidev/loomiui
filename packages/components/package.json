@@ -147,6 +147,10 @@
       "types": "./dist/fab.d.ts",
       "import": "./dist/fab.js"
     },
+    "./floating-panel": {
+      "types": "./dist/floating-panel.d.ts",
+      "import": "./dist/floating-panel.js"
+    },
     "./divider": {
       "types": "./dist/divider.d.ts",
       "import": "./dist/divider.js"
@@ -336,6 +340,7 @@
     "@loomidev/fab": "workspace:^",
     "@loomidev/filepicker": "workspace:^",
     "@loomidev/filter-builder": "workspace:^",
+    "@loomidev/floating-panel": "workspace:^",
     "@loomidev/horizontal-line-graph": "workspace:^",
     "@loomidev/icon": "workspace:^",
     "@loomidev/icons": "workspace:^",

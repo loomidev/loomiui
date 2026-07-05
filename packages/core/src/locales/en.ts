@@ -64,6 +64,11 @@ export const en: LoomiTranslations = {
   drawer: {
     dialog: "Drawer",
   },
+  floatingPanel: {
+    dialog: "Floating panel",
+    move: "Move",
+    resize: "Resize",
+  },
   fab: {
     trigger: "Actions",
     dialog: "Actions menu",
