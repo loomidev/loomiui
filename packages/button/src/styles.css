@@ -81,6 +81,17 @@
 
 .loomi-btn.loomi-btn--secondary:hover {
   background: var(--loomi-surface-hover, #f9fbfc);
+  border-color: var(--loomi-gray-400, var(--_loomi-gray-400-default));
+}
+
+/*
+ * Dark mode goes 2 shades the other way (700 -> 500, lighter) rather than mirroring the
+ * light-mode direction (200 -> 400, darker): this is a neutral gray border, not a hued
+ * one, so moving toward gray-900 here would read as *less* visible against the
+ * gray-800 dark surface instead of the added hover emphasis the lighter shade gives.
+ */
+:host-context(.dark) .loomi-btn.loomi-btn--secondary:hover {
+  border-color: var(--loomi-gray-500, var(--_loomi-gray-500-default));
 }
 
 /*
