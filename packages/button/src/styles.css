@@ -83,6 +83,63 @@
   background: var(--loomi-surface-hover, #f9fbfc);
 }
 
+/*
+ * Outline treatment for primary/success/error/warning (secondary reuses
+ * .loomi-btn--secondary above instead). Light-mode shades (300 border, 50 hover) are
+ * tuned for a white background; palette shades are theme-static (see @loomidev/theme),
+ * so dark mode needs its own, explicitly darker shades instead of inheriting ones that
+ * read as a bright/white-ish border and hover fill on a dark surface.
+ */
+.loomi-btn.loomi-btn--outline-primary {
+  border-color: var(--loomi-primary-300, var(--_loomi-primary-300-default));
+}
+.loomi-btn.loomi-btn--outline-primary:hover {
+  background: var(--loomi-primary-50, var(--_loomi-primary-50-default));
+}
+.loomi-btn.loomi-btn--outline-success {
+  border-color: var(--loomi-success-300, var(--_loomi-success-300-default));
+}
+.loomi-btn.loomi-btn--outline-success:hover {
+  background: var(--loomi-success-50, var(--_loomi-success-50-default));
+}
+.loomi-btn.loomi-btn--outline-error {
+  border-color: var(--loomi-error-300, var(--_loomi-error-300-default));
+}
+.loomi-btn.loomi-btn--outline-error:hover {
+  background: var(--loomi-error-50, var(--_loomi-error-50-default));
+}
+.loomi-btn.loomi-btn--outline-warning {
+  border-color: var(--loomi-warning-300, var(--_loomi-warning-300-default));
+}
+.loomi-btn.loomi-btn--outline-warning:hover {
+  background: var(--loomi-warning-50, var(--_loomi-warning-50-default));
+}
+
+:host-context(.dark) .loomi-btn.loomi-btn--outline-primary {
+  border-color: var(--loomi-primary-700, var(--_loomi-primary-700-default));
+}
+:host-context(.dark) .loomi-btn.loomi-btn--outline-primary:hover {
+  background: var(--loomi-primary-800, var(--_loomi-primary-800-default));
+}
+:host-context(.dark) .loomi-btn.loomi-btn--outline-success {
+  border-color: var(--loomi-success-700, var(--_loomi-success-700-default));
+}
+:host-context(.dark) .loomi-btn.loomi-btn--outline-success:hover {
+  background: var(--loomi-success-800, var(--_loomi-success-800-default));
+}
+:host-context(.dark) .loomi-btn.loomi-btn--outline-error {
+  border-color: var(--loomi-error-700, var(--_loomi-error-700-default));
+}
+:host-context(.dark) .loomi-btn.loomi-btn--outline-error:hover {
+  background: var(--loomi-error-800, var(--_loomi-error-800-default));
+}
+:host-context(.dark) .loomi-btn.loomi-btn--outline-warning {
+  border-color: var(--loomi-warning-700, var(--_loomi-warning-700-default));
+}
+:host-context(.dark) .loomi-btn.loomi-btn--outline-warning:hover {
+  background: var(--loomi-warning-800, var(--_loomi-warning-800-default));
+}
+
 /* Disabled state (reflected from the `disabled` attribute on the host). */
 :host([disabled]) .loomi-btn,
 .loomi-btn[aria-disabled="true"] {
