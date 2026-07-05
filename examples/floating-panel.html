@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>loomi — &lt;loomi-floating-panel&gt;</title>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "lit": "https://esm.sh/lit@3.3.3",
+          "lit/": "https://esm.sh/lit@3.3.3/",
+          "@loomidev/theme": "../packages/theme/dist/index.js",
+          "@loomidev/core": "../packages/core/dist/index.js",
+          "@loomidev/icons": "../packages/icons/dist/index.js",
+          "@loomidev/icon": "../packages/icon/dist/index.js",
+          "@loomidev/icon/loomi-icon.js": "../packages/icon/dist/loomi-icon.js"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import "../packages/floating-panel/dist/loomi-floating-panel.js";
+      import { showLoomiFloatingPanel, hideLoomiFloatingPanel } from "../packages/floating-panel/dist/index.js";
+
+      window.showLoomiFloatingPanel = showLoomiFloatingPanel;
+      window.hideLoomiFloatingPanel = hideLoomiFloatingPanel;
+
+      document.querySelectorAll("loomi-floating-panel").forEach((panel) => {
+        panel.addEventListener("loomi-drag", (e) => {
+          const out = panel.querySelector(".out");
+          if (out) out.textContent = `moved to ${JSON.stringify(e.detail)}`;
+        });
+        panel.addEventListener("loomi-resize", (e) => {
+          const out = panel.querySelector(".out");
+          if (out) out.textContent = `resized to ${JSON.stringify(e.detail)}`;
+        });
+      });
+    </script>
+
+    <style>
+      body {
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        margin: 0;
+        padding: 2.5rem clamp(1rem, 5vw, 4rem);
+        color: #0f172a;
+        background: #f8fafc;
+        min-height: 200vh;
+      }
+      h1 { margin: 0 0 0.25rem; }
+      p.lead { color: #475569; margin-top: 0; max-width: 40rem; }
+      section { margin: 2.5rem 0; }
+      h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin: 0 0 0.75rem; }
+      .row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: flex-start; }
+      .out { font-size: 0.8rem; color: #475569; font-family: monospace; }
+      button {
+        font: inherit;
+        padding: 0.5rem 0.9rem;
+        border-radius: 0.5rem;
+        border: 1px solid #cbd5e1;
+        background: #fff;
+        cursor: pointer;
+      }
+      button:hover { background: #f1f5f9; }
+    </style>
+  </head>
+  <body>
+    <h1>&lt;loomi-floating-panel&gt;</h1>
+    <p class="lead">
+      A draggable, resizable panel that floats above the page. Drag the header to move
+      it, grab an edge or corner to resize, and Escape closes whichever panel has focus.
+    </p>
+
+    <section>
+      <h2>Centered (default position)</h2>
+      <div class="row">
+        <button onclick="showLoomiFloatingPanel('centered')">Open centered panel</button>
+      </div>
+      <loomi-floating-panel name="centered" title="Centered panel">
+        <p>No <code>top</code>/<code>left</code> given, so this opens centered.</p>
+        <div class="out"></div>
+      </loomi-floating-panel>
+    </section>
+
+    <section>
+      <h2>Positioned, with min/max size constraints</h2>
+      <div class="row">
+        <button onclick="showLoomiFloatingPanel('positioned')">Open positioned panel</button>
+      </div>
+      <loomi-floating-panel
+        name="positioned"
+        title="Notes"
+        top="6rem"
+        left="4rem"
+        width="20rem"
+        height="14rem"
+        min-width="220"
+        min-height="140"
+      >
+        <p>Pinned to the top-left. Try resizing past the min/max constraints.</p>
+        <div class="out"></div>
+      </loomi-floating-panel>
+    </section>
+
+    <section>
+      <h2>Pinned (no drag, no resize)</h2>
+      <div class="row">
+        <button onclick="showLoomiFloatingPanel('pinned')">Open pinned panel</button>
+      </div>
+      <loomi-floating-panel name="pinned" title="Pinned" top="6rem" left="28rem" no-drag resizable="false">
+        <p>Fixed in place — the header doesn't drag and there are no resize handles.</p>
+      </loomi-floating-panel>
+    </section>
+
+    <section>
+      <h2>Multiple panels &amp; stacking</h2>
+      <div class="row">
+        <button onclick="showLoomiFloatingPanel('stack-a')">Open panel A</button>
+        <button onclick="showLoomiFloatingPanel('stack-b')">Open panel B</button>
+      </div>
+      <loomi-floating-panel name="stack-a" title="Panel A" top="10rem" left="4rem" width="16rem" height="10rem">
+        Click or drag me — I come to the front.
+      </loomi-floating-panel>
+      <loomi-floating-panel name="stack-b" title="Panel B" top="13rem" left="10rem" width="16rem" height="10rem">
+        Click or drag me — I come to the front.
+      </loomi-floating-panel>
+    </section>
+
+    <section>
+      <h2>Persisted layout (auto-save-id)</h2>
+      <div class="row">
+        <button onclick="showLoomiFloatingPanel('persisted')">Open persisted panel</button>
+      </div>
+      <loomi-floating-panel
+        name="persisted"
+        title="Support chat"
+        top="6rem"
+        left="52rem"
+        width="18rem"
+        height="12rem"
+        auto-save-id="demo-support-chat"
+      >
+        <p>Drag/resize me, reload the page, and reopen — I remember where I was.</p>
+      </loomi-floating-panel>
+    </section>
+  </body>
+</html>
