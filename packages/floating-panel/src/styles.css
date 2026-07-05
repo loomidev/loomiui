@@ -15,7 +15,8 @@
     0 20px 25px -5px rgba(0, 0, 0, 0.2),
     0 8px 10px -6px rgba(0, 0, 0, 0.2);
   z-index: var(--loomi-floating-panel-z-index, 2147480000);
-  animation: loomi-floating-panel-pop var(--loomi-floating-panel-duration, 0.16s) ease;
+  animation: loomi-pop-in var(--loomi-floating-panel-duration, var(--loomi-motion-duration))
+    var(--loomi-motion-ease);
 }
 :host([open]) {
   display: flex;
@@ -174,9 +175,9 @@
   }
 }
 
-@keyframes loomi-floating-panel-pop {
-  from { opacity: 0; transform: scale(0.98); }
-}
+/* Centered variant layers scale-in on top of this component's own translate(-50%, -50%)
+   centering transform, so it can't reuse the shared `loomi-pop-in` keyframe from
+   @loomidev/core (which assumes no pre-existing transform). */
 @keyframes loomi-floating-panel-pop-centered {
   from { opacity: 0; transform: translate(-50%, -50%) scale(0.98); }
 }

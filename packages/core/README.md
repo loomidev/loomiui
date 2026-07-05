@@ -35,7 +35,8 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | Export | Description |
 | --- | --- |
 | `themeStyles` | The shared `:host` design tokens (re-exported from `@loomidev/theme`). |
-| `loomiStyles(...styles)` | Prepends `themeStyles` to a component's own styles. Use in `static styles`. |
+| `loomiStyles(...styles)` | Prepends `themeStyles` and `motionStyles` to a component's own styles. Use in `static styles`. |
+| `motionStyles` | Shared entrance-animation `@keyframes` + motion tokens (see below). Already included by `loomiStyles()`. |
 | `accentVars(color)` | Returns the per-instance accent custom properties for a color (see below). |
 | `cssColor(color, shade)` | A single themed color value with private-default fallback, for inline use. |
 | `onClickOutside(el, handler)` | Calls `handler` on a click outside `el` (crosses shadow boundaries). Returns a cleanup fn. |
@@ -56,6 +57,38 @@ class Foo extends LitElement {
   }
 }
 ```
+
+## Motion
+
+**Don't hand-roll a new fade/pop/slide `@keyframes` block in a component package.**
+`loomiStyles()` already prepends a shared set from `motionStyles` (`src/motion.ts`), so
+every component that uses `loomiStyles(componentStyles)` can reference these by name for
+free, with `prefers-reduced-motion` handled centrally:
+
+| keyframe | motion |
+| --- | --- |
+| `loomi-fade-in` | opacity only |
+| `loomi-pop-in` | fade + scale up from 0.98 |
+| `loomi-rise-in` | fade + rise 8px + scale up from 0.98 |
+| `loomi-drop-in` | fade + drop down 4px (opens downward, e.g. a menu) |
+| `loomi-slide-in` | fade + slide in 12px from the trailing edge |
+
+```css
+.loomi-dialog {
+  animation: loomi-rise-in var(--loomi-motion-duration) var(--loomi-motion-ease);
+}
+```
+
+`--loomi-motion-duration` (default `0.16s`) and `--loomi-motion-ease` (default `ease`) are
+the shared timing tokens — override them per-component only if that component genuinely
+needs different timing (see `@loomidev/floating-panel`'s `--loomi-floating-panel-duration`,
+which falls back to `var(--loomi-motion-duration)` rather than a hardcoded value).
+
+Only add a new keyframe to `motion.ts` if it's a genuinely new motion primitive reused
+across components. A component that layers its own positioning transform — e.g. a
+centered overlay combining `translate(-50%, -50%)` with a scale-in — should keep that
+composite keyframe local instead of forcing the shared list to carry a variable transform
+base; `@loomidev/floating-panel`'s `.is-centered` variant is the example to follow.
 
 ## Internationalization
 
