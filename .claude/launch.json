@@ -8,6 +8,12 @@
       "port": 8731
     },
     {
+      "name": "loomi-examples-cc",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8732"],
+      "port": 8732
+    },
+    {
       "name": "loomi-docs",
       "runtimeExecutable": "bash",
       "runtimeArgs": ["-c", "cd ../docs && npx astro dev --port 4321 --host"],

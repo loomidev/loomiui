@@ -31,6 +31,10 @@
       "types": "./dist/button-group.d.ts",
       "import": "./dist/button-group.js"
     },
+    "./bottom-nav": {
+      "types": "./dist/bottom-nav.d.ts",
+      "import": "./dist/bottom-nav.js"
+    },
     "./calendar": {
       "types": "./dist/calendar.d.ts",
       "import": "./dist/calendar.js"
@@ -138,6 +142,10 @@
     "./drawer": {
       "types": "./dist/drawer.d.ts",
       "import": "./dist/drawer.js"
+    },
+    "./fab": {
+      "types": "./dist/fab.d.ts",
+      "import": "./dist/fab.js"
     },
     "./divider": {
       "types": "./dist/divider.d.ts",
@@ -299,6 +307,7 @@
     "@loomidev/autocomplete": "workspace:^",
     "@loomidev/avatar": "workspace:^",
     "@loomidev/bell": "workspace:^",
+    "@loomidev/bottom-nav": "workspace:^",
     "@loomidev/button": "workspace:^",
     "@loomidev/button-group": "workspace:^",
     "@loomidev/calendar": "workspace:^",
@@ -324,6 +333,7 @@
     "@loomidev/dropmenu": "workspace:^",
     "@loomidev/emoji-picker": "workspace:^",
     "@loomidev/empty-state": "workspace:^",
+    "@loomidev/fab": "workspace:^",
     "@loomidev/filepicker": "workspace:^",
     "@loomidev/filter-builder": "workspace:^",
     "@loomidev/horizontal-line-graph": "workspace:^",

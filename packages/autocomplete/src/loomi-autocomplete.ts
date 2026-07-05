@@ -36,15 +36,16 @@ export class LoomiAutocomplete extends LoomiElement {
       }
       :host([hidden]) { display: none; }
       .loomi-ac { position: relative; width: 100%; }
-      .size-tiny { --loomi-control-height: 2rem; --loomi-control-pad-x: 0.625rem; --loomi-control-font-size: 0.75rem; }
-      .size-small { --loomi-control-height: 2.25rem; --loomi-control-pad-x: 0.75rem; --loomi-control-font-size: 0.875rem; }
-      .size-regular { --loomi-control-height: 2.5rem; --loomi-control-pad-x: 0.875rem; --loomi-control-font-size: 0.875rem; }
-      .size-medium { --loomi-control-height: 2.75rem; --loomi-control-pad-x: 1rem; --loomi-control-font-size: 1rem; }
-      .size-big { --loomi-control-height: 3rem; --loomi-control-pad-x: 1.25rem; --loomi-control-font-size: 1.125rem; }
+      .size-tiny { --loomi-control-height: 2rem; --loomi-control-pad-x: 0.625rem; --loomi-control-font-size: 0.75rem; font-size: var(--loomi-control-font-size); }
+      .size-small { --loomi-control-height: 2.25rem; --loomi-control-pad-x: 0.75rem; --loomi-control-font-size: 0.875rem; font-size: var(--loomi-control-font-size); }
+      .size-regular { --loomi-control-height: 2.5rem; --loomi-control-pad-x: 0.875rem; --loomi-control-font-size: 0.875rem; font-size: var(--loomi-control-font-size); }
+      .size-medium { --loomi-control-height: 2.75rem; --loomi-control-pad-x: 1rem; --loomi-control-font-size: 1rem; font-size: var(--loomi-control-font-size); }
+      .size-big { --loomi-control-height: 3rem; --loomi-control-pad-x: 1.25rem; --loomi-control-font-size: 1.125rem; font-size: var(--loomi-control-font-size); }
       .loomi-field {
         position: relative;
         display: flex;
         align-items: center;
+        width: 100%;
         min-height: var(--loomi-control-height);
         border: 2px solid var(--loomi-surface-border);
         border-radius: 0.5rem;
@@ -61,6 +62,12 @@ export class LoomiAutocomplete extends LoomiElement {
         box-shadow: none;
       }
       :host([invalid]) .loomi-field { border-color: var(--loomi-error-400); }
+      :host([invalid]) .loomi-field:focus-within { border-color: var(--loomi-error-500); }
+      :host([disabled]) .loomi-field {
+        opacity: 0.6;
+        cursor: not-allowed;
+        background: var(--loomi-surface-muted);
+      }
       .loomi-field.variant-minimal {
         border: 0;
         border-bottom: 2px solid var(--loomi-surface-border);
@@ -73,6 +80,8 @@ export class LoomiAutocomplete extends LoomiElement {
         border-bottom-color: var(--loomi-primary-600);
       }
       :host([invalid]) .loomi-field.variant-minimal { border-bottom-color: var(--loomi-error-400); }
+      :host([invalid]) .loomi-field.variant-minimal:focus-within { border-bottom-color: var(--loomi-error-500); }
+      :host([disabled]) .loomi-field.variant-minimal { background: transparent; }
       input {
         flex: 1 1 auto;
         width: 100%;
@@ -86,6 +95,7 @@ export class LoomiAutocomplete extends LoomiElement {
         padding: 0 var(--loomi-control-pad-x);
       }
       input::placeholder { color: var(--loomi-text-faint); }
+      input:disabled { cursor: not-allowed; }
       .loomi-label {
         position: absolute;
         left: var(--loomi-control-pad-x);
@@ -104,6 +114,10 @@ export class LoomiAutocomplete extends LoomiElement {
         top: 0;
         transform: translateY(-50%) scale(0.85);
         color: var(--loomi-primary-600);
+      }
+      :host([invalid]) input:focus + .loomi-label,
+      :host([invalid]) input:not(:placeholder-shown) + .loomi-label {
+        color: var(--loomi-error-500);
       }
       .loomi-req { color: var(--loomi-error-500); margin-left: 0.15rem; }
       .loomi-panel {

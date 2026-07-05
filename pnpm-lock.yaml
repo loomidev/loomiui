@@ -149,6 +149,34 @@ importers:
         specifier: ^5.6.3
         version: 5.9.3
 
+  packages/bottom-nav:
+    dependencies:
+      '@loomidev/core':
+        specifier: workspace:^
+        version: link:../core
+      '@loomidev/icon':
+        specifier: workspace:^
+        version: link:../icon
+      '@loomidev/icons':
+        specifier: workspace:^
+        version: link:../icons
+    devDependencies:
+      '@loomidev/theme':
+        specifier: workspace:^
+        version: link:../theme
+      '@tailwindcss/cli':
+        specifier: ^4.0.0
+        version: 4.3.2
+      lit:
+        specifier: ^3.3.3
+        version: 3.3.3
+      tailwindcss:
+        specifier: ^4.0.0
+        version: 4.3.2
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+
   packages/button:
     dependencies:
       '@loomidev/core':
@@ -450,6 +478,9 @@ importers:
       '@loomidev/bell':
         specifier: workspace:^
         version: link:../bell
+      '@loomidev/bottom-nav':
+        specifier: workspace:^
+        version: link:../bottom-nav
       '@loomidev/button':
         specifier: workspace:^
         version: link:../button
@@ -1055,6 +1086,31 @@ importers:
         specifier: ^5.6.3
         version: 5.9.3
 
+  packages/fab:
+    dependencies:
+      '@loomidev/core':
+        specifier: workspace:^
+        version: link:../core
+      '@loomidev/icons':
+        specifier: workspace:^
+        version: link:../icons
+    devDependencies:
+      '@loomidev/theme':
+        specifier: workspace:^
+        version: link:../theme
+      '@tailwindcss/cli':
+        specifier: ^4.0.0
+        version: 4.3.2
+      lit:
+        specifier: ^3.3.3
+        version: 3.3.3
+      tailwindcss:
+        specifier: ^4.0.0
+        version: 4.3.2
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+
   packages/filepicker:
     dependencies:
       '@loomidev/core':
@@ -1324,6 +1380,9 @@ importers:
 
   packages/navigation:
     dependencies:
+      '@loomidev/bottom-nav':
+        specifier: workspace:^
+        version: link:../bottom-nav
       '@loomidev/command-palette':
         specifier: workspace:^
         version: link:../command-palette

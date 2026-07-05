@@ -1,11 +1,11 @@
 {
-  "name": "@loomidev/navigation",
+  "name": "@loomidev/fab",
   "version": "0.1.0",
-  "description": "All loomi navigation components in one install.",
+  "description": "<loomi-fab> — a floating action button with an optional speed-dial menu.",
   "repository": {
     "type": "git",
     "url": "https://github.com/loomidev/loomiui.git",
-    "directory": "packages/navigation"
+    "directory": "packages/fab"
   },
   "license": "MIT",
   "publishConfig": {
@@ -22,33 +22,37 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./loomi-fab.js": {
+      "types": "./dist/loomi-fab.d.ts",
+      "import": "./dist/loomi-fab.js"
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "dev": "tsc -p tsconfig.json --watch",
+    "build": "node scripts/build-styles.mjs && tsc -p tsconfig.json",
+    "dev": "node scripts/build-styles.mjs && tsc -p tsconfig.json --watch",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@loomidev/bottom-nav": "workspace:^",
-    "@loomidev/command-palette": "workspace:^",
-    "@loomidev/context-menu": "workspace:^",
-    "@loomidev/dropmenu": "workspace:^",
-    "@loomidev/pagination": "workspace:^",
-    "@loomidev/tab": "workspace:^",
-    "@loomidev/theme-switcher": "workspace:^"
+    "@loomidev/core": "workspace:^",
+    "@loomidev/icon": "workspace:^",
+    "@loomidev/icons": "workspace:^"
   },
   "peerDependencies": {
     "lit": "^3.0.0"
   },
   "devDependencies": {
+    "@loomidev/theme": "workspace:^",
+    "@tailwindcss/cli": "^4.0.0",
     "lit": "^3.3.3",
+    "tailwindcss": "^4.0.0",
     "typescript": "^5.6.3"
   },
   "keywords": [
     "web-components",
     "lit",
     "loomiui",
-    "navigation"
+    "fab",
+    "speed-dial"
   ]
 }

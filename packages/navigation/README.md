@@ -12,6 +12,7 @@ import "@loomidev/navigation"; // registers all navigation elements
 
 | Package |
 | --- |
+| [`@loomidev/bottom-nav`](../bottom-nav) |
 | [`@loomidev/tab`](../tab) |
 | [`@loomidev/pagination`](../pagination) |
 | [`@loomidev/dropmenu`](../dropmenu) |
@@ -195,6 +196,7 @@ In Next.js, Nuxt, SvelteKit, and other SSR frameworks, put the bundle import in 
 
 ## Dependencies
 
+- `@loomidev/bottom-nav`
 - `@loomidev/command-palette`
 - `@loomidev/context-menu`
 - `@loomidev/dropmenu`

@@ -164,6 +164,11 @@
 .loomi-seek {
   flex: 1 1 auto;
   min-width: 0;
+  /* loomi-slider's track sits 0.575rem+ up from ITS OWN bottom edge, not centered in
+     its 3.25rem-tall control box, so centering the slider element itself (as a flex
+     item) leaves the visible track sitting below the time labels/icons either side of
+     it. Nudge the whole slider up by the same offset so the track lines up instead. */
+  transform: translateY(-0.875rem);
 }
 
 .loomi-spacer {
@@ -189,6 +194,7 @@
 }
 .loomi-volume {
   width: 5rem;
+  transform: translateY(-0.875rem);
 }
 
 .loomi-cc-group {

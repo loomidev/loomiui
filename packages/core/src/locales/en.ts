@@ -64,6 +64,10 @@ export const en: LoomiTranslations = {
   drawer: {
     dialog: "Drawer",
   },
+  fab: {
+    trigger: "Actions",
+    dialog: "Actions menu",
+  },
   pin: {
     errorMessage: "Verification code is invalid",
     digitLabel: "Digit :number",

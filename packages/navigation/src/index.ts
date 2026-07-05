@@ -1,4 +1,5 @@
 // @loomidev/navigation grouping. Importing this registers the category's elements.
+export * from "@loomidev/bottom-nav";
 export * from "@loomidev/tab";
 export * from "@loomidev/pagination";
 export * from "@loomidev/dropmenu";
