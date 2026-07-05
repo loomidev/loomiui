@@ -298,6 +298,10 @@
     "./creditcard": {
       "types": "./dist/creditcard.d.ts",
       "import": "./dist/creditcard.js"
+    },
+    "./photo-gallery": {
+      "types": "./dist/photo-gallery.d.ts",
+      "import": "./dist/photo-gallery.js"
     }
   },
   "scripts": {
@@ -351,6 +355,7 @@
     "@loomidev/number": "workspace:^",
     "@loomidev/pagination": "workspace:^",
     "@loomidev/password": "workspace:^",
+    "@loomidev/photo-gallery": "workspace:^",
     "@loomidev/popover": "workspace:^",
     "@loomidev/processing": "workspace:^",
     "@loomidev/progress": "workspace:^",

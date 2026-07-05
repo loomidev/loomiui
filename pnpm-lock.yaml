@@ -426,6 +426,31 @@ importers:
         specifier: ^5.6.3
         version: 5.9.3
 
+  packages/clipboard:
+    dependencies:
+      '@loomidev/core':
+        specifier: workspace:^
+        version: link:../core
+      '@loomidev/icons':
+        specifier: workspace:^
+        version: link:../icons
+    devDependencies:
+      '@loomidev/theme':
+        specifier: workspace:^
+        version: link:../theme
+      '@tailwindcss/cli':
+        specifier: ^4.0.0
+        version: 4.3.2
+      lit:
+        specifier: ^3.3.3
+        version: 3.3.3
+      tailwindcss:
+        specifier: ^4.0.0
+        version: 4.3.2
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+
   packages/colorpicker:
     dependencies:
       '@loomidev/core':
@@ -505,6 +530,9 @@ importers:
       '@loomidev/checkcards':
         specifier: workspace:^
         version: link:../checkcards
+      '@loomidev/clipboard':
+        specifier: workspace:^
+        version: link:../clipboard
       '@loomidev/colorpicker':
         specifier: workspace:^
         version: link:../colorpicker
@@ -517,9 +545,6 @@ importers:
       '@loomidev/context-menu':
         specifier: workspace:^
         version: link:../context-menu
-      '@loomidev/clipboard':
-        specifier: workspace:^
-        version: link:../clipboard
       '@loomidev/core':
         specifier: workspace:^
         version: link:../core
@@ -595,6 +620,9 @@ importers:
       '@loomidev/password':
         specifier: workspace:^
         version: link:../password
+      '@loomidev/photo-gallery':
+        specifier: workspace:^
+        version: link:../photo-gallery
       '@loomidev/pin':
         specifier: workspace:^
         version: link:../pin
@@ -798,31 +826,6 @@ importers:
         version: 5.9.3
 
   packages/context-menu:
-    dependencies:
-      '@loomidev/core':
-        specifier: workspace:^
-        version: link:../core
-      '@loomidev/icons':
-        specifier: workspace:^
-        version: link:../icons
-    devDependencies:
-      '@loomidev/theme':
-        specifier: workspace:^
-        version: link:../theme
-      '@tailwindcss/cli':
-        specifier: ^4.0.0
-        version: 4.3.2
-      lit:
-        specifier: ^3.3.3
-        version: 3.3.3
-      tailwindcss:
-        specifier: ^4.0.0
-        version: 4.3.2
-      typescript:
-        specifier: ^5.6.3
-        version: 5.9.3
-
-  packages/clipboard:
     dependencies:
       '@loomidev/core':
         specifier: workspace:^
@@ -1533,6 +1536,31 @@ importers:
         specifier: workspace:^
         version: link:../theme
     devDependencies:
+      '@tailwindcss/cli':
+        specifier: ^4.0.0
+        version: 4.3.2
+      lit:
+        specifier: ^3.3.3
+        version: 3.3.3
+      tailwindcss:
+        specifier: ^4.0.0
+        version: 4.3.2
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+
+  packages/photo-gallery:
+    dependencies:
+      '@loomidev/core':
+        specifier: workspace:^
+        version: link:../core
+      '@loomidev/icon':
+        specifier: workspace:^
+        version: link:../icon
+    devDependencies:
+      '@loomidev/theme':
+        specifier: workspace:^
+        version: link:../theme
       '@tailwindcss/cli':
         specifier: ^4.0.0
         version: 4.3.2

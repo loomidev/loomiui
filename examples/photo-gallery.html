@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>loomi — &lt;loomi-photo-gallery&gt;</title>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "lit": "https://esm.sh/lit@3.3.3",
+          "lit/": "https://esm.sh/lit@3.3.3/",
+          "@loomidev/theme": "../packages/theme/dist/index.js",
+          "@loomidev/core": "../packages/core/dist/index.js",
+          "@loomidev/icons": "../packages/icons/dist/index.js",
+          "@loomidev/icon": "../packages/icon/dist/index.js",
+          "@loomidev/icon/loomi-icon.js": "../packages/icon/dist/loomi-icon.js"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import "../packages/photo-gallery/dist/loomi-photo-gallery.js";
+
+      document.querySelectorAll("loomi-photo-gallery").forEach((gallery) => {
+        const out = gallery.closest("section")?.querySelector(".out");
+        if (!out) return;
+        [
+          "loomi-favourite",
+          "loomi-photo-open",
+          "loomi-photo-close",
+          "loomi-photo-change",
+          "loomi-rotate",
+          "loomi-share",
+          "loomi-slideshow-start",
+          "loomi-slideshow-end",
+          "loomi-album-change",
+        ].forEach((name) => {
+          gallery.addEventListener(name, (e) => {
+            out.textContent = `${name}: ${JSON.stringify(e.detail ?? {})}`;
+          });
+        });
+      });
+    </script>
+
+    <style>
+      body {
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        margin: 0;
+        padding: 2.5rem clamp(1rem, 5vw, 4rem);
+        color: #0f172a;
+        background: #f8fafc;
+      }
+      h1 { margin: 0 0 0.25rem; }
+      p.lead { color: #475569; margin-top: 0; max-width: 40rem; }
+      section { margin: 2.5rem 0; }
+      h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin: 0 0 0.75rem; }
+      .out { margin-top: 0.5rem; font-size: 0.8rem; color: #64748b; font-family: monospace; }
+
+      .frame {
+        border-radius: 1rem;
+        border: 1px solid #cbd5e1;
+        background: #fff;
+        overflow: hidden;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+      }
+      loomi-photo-gallery {
+        height: 26rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>&lt;loomi-photo-gallery&gt;</h1>
+    <p class="lead">
+      An album grid with zoom/square/slideshow controls and a lightbox viewer. Photos below
+      use inline SVG placeholders so this page never depends on external image hosts.
+    </p>
+
+    <!-- Basic gallery with albums -->
+    <section>
+      <h2>Basic gallery — albums, sidebar view (default)</h2>
+      <div class="frame">
+        <loomi-photo-gallery>
+          <loomi-photo-gallery-item src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='360'%3E%3Crect width='100%25' height='100%25' fill='%230ea5e9'/%3E%3Ctext x='50%25' y='50%25' font-size='40' fill='white' text-anchor='middle' dominant-baseline='middle'%3ESunrise Lake%3C/text%3E%3C/svg%3E" alt="Sunrise Lake" album="Mountains" caption="Sunrise over the lake, early June."></loomi-photo-gallery-item>
+          <loomi-photo-gallery-item src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='360'%3E%3Crect width='100%25' height='100%25' fill='%2316a34a'/%3E%3Ctext x='50%25' y='50%25' font-size='40' fill='white' text-anchor='middle' dominant-baseline='middle'%3EForest Trail%3C/text%3E%3C/svg%3E" alt="Forest Trail" album="Mountains" favourite></loomi-photo-gallery-item>
+          <loomi-photo-gallery-item src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='360'%3E%3Crect width='100%25' height='100%25' fill='%2364748b'/%3E%3Ctext x='50%25' y='50%25' font-size='40' fill='white' text-anchor='middle' dominant-baseline='middle'%3ERocky Peak%3C/text%3E%3C/svg%3E" alt="Rocky Peak" album="Mountains"></loomi-photo-gallery-item>
+          <loomi-photo-gallery-item src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='360'%3E%3Crect width='100%25' height='100%25' fill='%23f97316'/%3E%3Ctext x='50%25' y='50%25' font-size='40' fill='white' text-anchor='middle' dominant-baseline='middle'%3EHarbor Sunset%3C/text%3E%3C/svg%3E" alt="Harbor Sunset" album="Coast"></loomi-photo-gallery-item>
+          <loomi-photo-gallery-item src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='360'%3E%3Crect width='100%25' height='100%25' fill='%230891b2'/%3E%3Ctext x='50%25' y='50%25' font-size='40' fill='white' text-anchor='middle' dominant-baseline='middle'%3ETide Pools%3C/text%3E%3C/svg%3E" alt="Tide Pools" album="Coast"></loomi-photo-gallery-item>
+          <loomi-photo-gallery-item src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='360'%3E%3Crect width='100%25' height='100%25' fill='%237c3aed'/%3E%3Ctext x='50%25' y='50%25' font-size='40' fill='white' text-anchor='middle' dominant-baseline='middle'%3ECity Skyline%3C/text%3E%3C/svg%3E" alt="City Skyline"></loomi-photo-gallery-item>
+          <loomi-photo-gallery-item src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='360'%3E%3Crect width='100%25' height='100%25' fill='%23ca8a04'/%3E%3Ctext x='50%25' y='50%25' font-size='40' fill='white' text-anchor='middle' dominant-baseline='middle'%3EDesert Dunes%3C/text%3E%3C/svg%3E" alt="Desert Dunes"></loomi-photo-gallery-item>
+        </loomi-photo-gallery>
+      </div>
+      <div class="out">Interact with the gallery — events log here.</div>
+    </section>
+
+    <!-- Thumbnails album view -->
+    <section>
+      <h2>album-view="thumbnails"</h2>
+      <div class="frame">
+        <loomi-photo-gallery album-view="thumbnails" square-thumbnails thumb-size="120">
+          <loomi-photo-gallery-item src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect width='100%25' height='100%25' fill='%23db2777'/%3E%3Ctext x='50%25' y='50%25' font-size='36' fill='white' text-anchor='middle' dominant-baseline='middle'%3EA1%3C/text%3E%3C/svg%3E" alt="A1" album="Iceland"></loomi-photo-gallery-item>
+          <loomi-photo-gallery-item src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect width='100%25' height='100%25' fill='%23059669'/%3E%3Ctext x='50%25' y='50%25' font-size='36' fill='white' text-anchor='middle' dominant-baseline='middle'%3EA2%3C/text%3E%3C/svg%3E" alt="A2" album="Iceland"></loomi-photo-gallery-item>
+          <loomi-photo-gallery-item src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect width='100%25' height='100%25' fill='%232563eb'/%3E%3Ctext x='50%25' y='50%25' font-size='36' fill='white' text-anchor='middle' dominant-baseline='middle'%3EB1%3C/text%3E%3C/svg%3E" alt="B1" album="Japan"></loomi-photo-gallery-item>
+          <loomi-photo-gallery-item src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect width='100%25' height='100%25' fill='%23dc2626'/%3E%3Ctext x='50%25' y='50%25' font-size='36' fill='white' text-anchor='middle' dominant-baseline='middle'%3EB2%3C/text%3E%3C/svg%3E" alt="B2" album="Japan"></loomi-photo-gallery-item>
+        </loomi-photo-gallery>
+      </div>
+      <div class="out">Square thumbnails + horizontal album strip.</div>
+    </section>
+
+    <!-- Toolbar icons hidden -->
+    <section>
+      <h2>Toolbar icons individually hidden</h2>
+      <p class="lead">
+        <code>show-album-toggle="false" show-slideshow="false" lightbox-show-share="false" lightbox-show-rotate="false"</code>
+      </p>
+      <div class="frame">
+        <loomi-photo-gallery show-album-toggle="false" show-slideshow="false" lightbox-show-share="false" lightbox-show-rotate="false">
+          <loomi-photo-gallery-item src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='360'%3E%3Crect width='100%25' height='100%25' fill='%230ea5e9'/%3E%3Ctext x='50%25' y='50%25' font-size='40' fill='white' text-anchor='middle' dominant-baseline='middle'%3EOne%3C/text%3E%3C/svg%3E" alt="One" album="Set"></loomi-photo-gallery-item>
+          <loomi-photo-gallery-item src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='360'%3E%3Crect width='100%25' height='100%25' fill='%2316a34a'/%3E%3Ctext x='50%25' y='50%25' font-size='40' fill='white' text-anchor='middle' dominant-baseline='middle'%3ETwo%3C/text%3E%3C/svg%3E" alt="Two" album="Set"></loomi-photo-gallery-item>
+        </loomi-photo-gallery>
+      </div>
+    </section>
+  </body>
+</html>
