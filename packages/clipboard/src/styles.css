@@ -43,7 +43,7 @@
 }
 
 .loomi-copy-button:focus-visible {
-  outline: 2px solid var(--loomi-primary-400);
+  outline: 2px solid var(--loomi-focus-ring-color);
   outline-offset: 2px;
 }
 

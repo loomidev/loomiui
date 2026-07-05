@@ -52,7 +52,7 @@
   background: var(--loomi-primary-700, var(--_loomi-primary-700-default));
 }
 .loomi-btn:focus-visible {
-  outline: 2px solid var(--loomi-primary-600, var(--_loomi-primary-600-default));
+  outline: 2px solid var(--loomi-focus-ring-color);
   outline-offset: 2px;
 }
 

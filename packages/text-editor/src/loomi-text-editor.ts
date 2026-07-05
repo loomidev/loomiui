@@ -1,6 +1,6 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
-import { LoomiElement, loomiT, themeStyles } from "@loomidev/core";
+import { LoomiElement, loomiStyles, loomiT } from "@loomidev/core";
 import "@loomidev/filepicker/loomi-filepicker.js";
 import "@loomidev/icon/loomi-icon.js";
 import "@loomidev/input/loomi-input.js";
@@ -283,7 +283,7 @@ function readFileAsDataUrl(file: File): Promise<string> {
  */
 @customElement("loomi-text-editor")
 export class LoomiTextEditor extends LoomiElement {
-  static override styles = [themeStyles, componentStyles];
+  static override styles = loomiStyles(componentStyles);
   static formAssociated = true;
 
   private internals = this.attachInternals();

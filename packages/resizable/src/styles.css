@@ -102,7 +102,7 @@
 }
 
 :host([data-resizable="handle"]:focus-visible) .loomi-handle::after {
-  outline: 2px solid var(--loomi-accent, var(--loomi-blue-500));
+  outline: 2px solid var(--loomi-focus-ring-color);
   outline-offset: 1px;
 }
 

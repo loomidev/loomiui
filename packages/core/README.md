@@ -35,9 +35,10 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | Export | Description |
 | --- | --- |
 | `themeStyles` | The shared `:host` design tokens (re-exported from `@loomidev/theme`). |
-| `loomiStyles(...styles)` | Prepends `themeStyles`, `motionStyles`, and `elevationStyles` to a component's own styles. Use in `static styles`. |
+| `loomiStyles(...styles)` | Prepends `themeStyles`, `motionStyles`, `elevationStyles`, and `focusStyles` to a component's own styles. Use in `static styles`. |
 | `motionStyles` | Shared entrance-animation `@keyframes` + motion tokens (see below). Already included by `loomiStyles()`. |
 | `elevationStyles` | Shared `--loomi-shadow-elevated` drop-shadow token (see below). Already included by `loomiStyles()`. |
+| `focusStyles` | Shared `--loomi-focus-ring-color` token (see below). Already included by `loomiStyles()`. |
 | `accentVars(color)` | Returns the per-instance accent custom properties for a color (see below). |
 | `cssColor(color, shade)` | A single themed color value with private-default fallback, for inline use. |
 | `onClickOutside(el, handler)` | Calls `handler` on a click outside `el` (crosses shadow boundaries). Returns a cleanup fn. |
@@ -117,6 +118,34 @@ This is for the one "floating surface" elevation tier shared by `@loomidev/modal
 popover, and notification use a lighter shadow that isn't (yet) shared — don't force
 them onto this token just for the sake of reuse; introduce a second tier only if a
 third component needs that exact lighter shadow too.
+
+## Focus ring
+
+**Don't hardcode a `--loomi-primary-<shade>` for a `:focus-visible` outline.** The public
+theme slots are deliberately left undeclared (see `@loomidev/theme`'s tokens) so a
+`:root` override can inherit straight through the shadow boundary — which means a bare
+`var(--loomi-primary-400)` with no fallback silently resolves to nothing, and the
+outline renders as `none` for any consumer who hasn't happened to set that exact shade
+at `:root`. `loomiStyles()` prepends `--loomi-focus-ring-color` from `focusStyles`
+(`src/focus.ts`), which is never unfallback'd:
+
+```css
+.loomi-thing:focus-visible {
+  outline: 2px solid var(--loomi-focus-ring-color);
+  outline-offset: 2px; /* pick whatever offset fits this component's layout */
+}
+```
+
+This is the *default* ring color, for components with no per-instance theming. A
+component that calls `accentVars()` (creditcard, slider, ...) should reference
+`--_loomi-accent` directly instead — **don't** route it through
+`--loomi-focus-ring-color`. Nested `var()` references inside an inherited custom
+property resolve at the element where the *outer* property was declared, not at the
+element that finally consumes it, so a `:host`-level token can't "automatically" pick
+up an accent color set on a descendant wrapper (which is how `accentVars()` is
+typically applied). Only width and offset are left to each component regardless of
+which color source it uses, since those are genuinely layout-driven (a small round
+slider thumb needs more breathing room than a rectangular card).
 
 ## Internationalization
 
