@@ -36,13 +36,13 @@ describe("loomi-emoji-picker", () => {
     await openPicker(el);
 
     const search = el.shadowRoot!.querySelector<HTMLInputElement>(".loomi-search")!;
-    search.value = "pizza";
+    search.value = "taco";
     search.dispatchEvent(new Event("input"));
     await el.updateComplete;
 
     const options = Array.from(el.shadowRoot!.querySelectorAll<HTMLButtonElement>(".loomi-option"));
     expect(options).to.have.lengthOf(1);
-    expect(options[0].textContent?.trim()).to.equal("🍕");
+    expect(options[0].textContent?.trim()).to.equal("🌮");
   });
 
   it("selects an emoji, emits the selected item, and closes the dropdown", async () => {

@@ -5,6 +5,15 @@
   display: none;
 }
 
+.loomi-listview {
+  background: var(--loomi-surface);
+  border-radius: 0.6rem;
+  overflow: hidden;
+}
+:host([transparent]) .loomi-listview {
+  background: transparent;
+}
+
 .loomi-li {
   display: block;
   padding: 1rem;
