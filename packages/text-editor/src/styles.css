@@ -134,7 +134,7 @@
 
 .loomi-tool-button:focus-visible,
 .loomi-color-tool:focus-within {
-  outline: 2px solid var(--loomi-primary-500);
+  outline: 2px solid var(--loomi-focus-ring-color);
   outline-offset: 2px;
 }
 

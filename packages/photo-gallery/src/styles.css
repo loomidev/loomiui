@@ -47,7 +47,7 @@
   background: var(--loomi-surface-hover);
 }
 .loomi-toolbar-btn:focus-visible {
-  outline: 2px solid var(--loomi-primary-600, var(--_loomi-primary-600-default));
+  outline: 2px solid var(--loomi-focus-ring-color);
   outline-offset: 2px;
 }
 .loomi-toolbar-btn.is-active {
@@ -119,7 +119,7 @@
   background: var(--loomi-surface-hover);
 }
 .loomi-album-btn:focus-visible {
-  outline: 2px solid var(--loomi-primary-600, var(--_loomi-primary-600-default));
+  outline: 2px solid var(--loomi-focus-ring-color);
   outline-offset: 1px;
 }
 .loomi-album-btn.is-active {
@@ -185,7 +185,7 @@
   line-height: 0;
 }
 .loomi-tile-btn:focus-visible {
-  outline: 2px solid var(--loomi-primary-600, var(--_loomi-primary-600-default));
+  outline: 2px solid var(--loomi-focus-ring-color);
   outline-offset: 2px;
 }
 .loomi-tile-img {

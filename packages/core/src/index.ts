@@ -1,8 +1,10 @@
 import { LitElement, type CSSResultGroup, type PropertyValues } from "lit";
 import { themeStyles, type LoomiColor } from "@loomidev/theme";
 import { elevationStyles } from "./elevation.js";
+import { focusStyles } from "./focus.js";
 import { motionStyles } from "./motion.js";
 export * from "./elevation.js";
+export * from "./focus.js";
 export * from "./i18n.js";
 export * from "./mention.js";
 export * from "./motion.js";
@@ -18,19 +20,20 @@ export {
 } from "@loomidev/theme";
 
 /**
- * Prepend the shared theme tokens, motion keyframes, and elevation shadow to a
- * component's own styles. Use it in `static styles` so every `var(--loomi-*)` reference
- * resolves in the Shadow DOM, `animation: loomi-pop-in var(--loomi-motion-duration) var(--loomi-motion-ease);`
+ * Prepend the shared theme tokens, motion keyframes, elevation shadow, and focus-ring
+ * color to a component's own styles. Use it in `static styles` so every `var(--loomi-*)`
+ * reference resolves in the Shadow DOM, `animation: loomi-pop-in var(--loomi-motion-duration) var(--loomi-motion-ease);`
  * (see `motionStyles` in `./motion.ts`) is available without redefining the keyframes,
- * and `box-shadow: var(--loomi-shadow-elevated);` (see `./elevation.ts`) is available
- * without retyping the shadow stack:
+ * `box-shadow: var(--loomi-shadow-elevated);` (see `./elevation.ts`) is available
+ * without retyping the shadow stack, and `outline: 2px solid var(--loomi-focus-ring-color);`
+ * (see `./focus.ts`) always resolves to a real color:
  *
  * ```ts
  * static styles = loomiStyles(componentStyles);
  * ```
  */
 export function loomiStyles(...styles: CSSResultGroup[]): CSSResultGroup[] {
-  return [themeStyles, motionStyles, elevationStyles, ...styles];
+  return [themeStyles, motionStyles, elevationStyles, focusStyles, ...styles];
 }
 
 function safeClassToken(value: string): string {

@@ -104,7 +104,7 @@
 }
 
 .loomi-search:focus {
-  outline: 2px solid var(--loomi-primary-300);
+  outline: 2px solid var(--loomi-focus-ring-color);
   outline-offset: 2px;
 }
 
