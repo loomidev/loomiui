@@ -399,6 +399,13 @@ from `@loomidev/theme`, plus:
   click.
 - `randomSuffix()` — short random id, e.g. for de-duplicating notification keys across
   component instances.
+- `nextMenuFocusIndex(event, currentIndex, itemCount)` — resolves an Arrow/Home/End
+  keydown into the next index to focus in a top-level menu. Extracted after `dropmenu`
+  and `context-menu` turned out to have byte-for-byte identical keydown logic for this;
+  it's deliberately a pure decision function (no DOM, no wrapping) rather than a
+  DOM-touching helper, since the two packages' `focusItemAt()`-style methods that
+  actually move focus stayed different enough (different item types, different
+  close/escape behavior) not to share.
 - `loomiT`/`setLoomiLocale`/`defineLoomiTranslations`/etc. (`src/i18n.ts`) — the shared
   translation lookup behind every component's built-in copy (placeholders, validation
   messages, aria labels, ...). See [§8b](#8b-adding-or-updating-translations) for how the

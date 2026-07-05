@@ -1,6 +1,6 @@
 import { html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, onClickOutside } from "@loomidev/core";
+import { LoomiElement, loomiStyles, nextMenuFocusIndex, onClickOutside } from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -256,18 +256,10 @@ export class LoomiContextMenu extends LoomiElement {
       return;
     }
 
-    if (event.key === "ArrowDown") {
+    const target = nextMenuFocusIndex(event, this.focusedIndex, items.length);
+    if (target !== undefined) {
       event.preventDefault();
-      this.focusItemAt(this.focusedIndex + 1);
-    } else if (event.key === "ArrowUp") {
-      event.preventDefault();
-      this.focusItemAt(this.focusedIndex - 1);
-    } else if (event.key === "Home") {
-      event.preventDefault();
-      this.focusItemAt(0);
-    } else if (event.key === "End") {
-      event.preventDefault();
-      this.focusItemAt(items.length - 1);
+      this.focusItemAt(target);
     } else if ((event.key === "Enter" || event.key === " ") && this.focusedIndex >= 0) {
       event.preventDefault();
       items[this.focusedIndex].click();

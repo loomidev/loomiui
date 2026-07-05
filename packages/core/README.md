@@ -43,6 +43,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `cssColor(color, shade)` | A single themed color value with private-default fallback, for inline use. |
 | `onClickOutside(el, handler)` | Calls `handler` on a click outside `el` (crosses shadow boundaries). Returns a cleanup fn. |
 | `randomSuffix()` | A short random id, e.g. for de-duplicating notification keys across component instances. |
+| `nextMenuFocusIndex(event, currentIndex, itemCount)` | Resolves an Arrow/Home/End keydown into the next index to focus in a top-level menu (the shared shape behind `@loomidev/dropmenu` and `@loomidev/context-menu`), or `undefined` for any other key. Doesn't touch the DOM — the caller's own `focusItemAt()`-style method wraps the index and moves focus. |
 | `setLoomiLocale(locale)` / `getLoomiLocale()` | Set or read the shared locale used by translated component defaults. |
 | `defineLoomiTranslations(locale, messages)` | Add or override translations for built-in component text. |
 | `loomiT(path, params, locale)` | Translate a shared message by key, with English fallback. |
