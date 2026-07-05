@@ -48,6 +48,10 @@
   padding-right: 0.4rem;
   min-width: fit-content;
 }
+.loomi-fill-label {
+  padding-block: 1px;
+  padding-inline-end: 3px;
+}
 .loomi-fill.dark {
   background: var(--_loomi-accent-strong);
 }
