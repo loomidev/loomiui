@@ -1,0 +1,252 @@
+:host {
+  display: inline-block;
+  position: relative;
+  isolation: isolate;
+  --loomi-fab-offset: 1.5rem;
+  --loomi-fab-gap: 0.875rem;
+}
+:host([hidden]) {
+  display: none;
+}
+
+/* Size presets. A consumer can still override any of these four vars directly. */
+:host([size="small"]) {
+  --loomi-fab-diameter: 2.75rem;
+  --loomi-fab-icon-size: 1.125rem;
+  --loomi-fab-item-diameter: 2rem;
+  --loomi-fab-item-icon-size: 0.9rem;
+}
+:host([size="medium"]) {
+  --loomi-fab-diameter: 3.25rem;
+  --loomi-fab-icon-size: 1.25rem;
+  --loomi-fab-item-diameter: 2.25rem;
+  --loomi-fab-item-icon-size: 1rem;
+}
+:host([size="regular"]) {
+  --loomi-fab-diameter: 3.75rem;
+  --loomi-fab-icon-size: 1.5rem;
+  --loomi-fab-item-diameter: 2.5rem;
+  --loomi-fab-item-icon-size: 1.125rem;
+}
+
+/* Floating (default): anchored to a corner of the viewport. */
+:host([variant="floating"]) {
+  position: fixed;
+  z-index: var(--loomi-fab-z-index, 1000);
+}
+:host([variant="floating"][placement="bottom-right"]) {
+  bottom: var(--loomi-fab-offset);
+  right: var(--loomi-fab-offset);
+}
+:host([variant="floating"][placement="bottom-left"]) {
+  bottom: var(--loomi-fab-offset);
+  left: var(--loomi-fab-offset);
+}
+:host([variant="floating"][placement="top-right"]) {
+  top: var(--loomi-fab-offset);
+  right: var(--loomi-fab-offset);
+}
+:host([variant="floating"][placement="top-left"]) {
+  top: var(--loomi-fab-offset);
+  left: var(--loomi-fab-offset);
+}
+
+/* Carries per-instance accent vars (see accentVars()) to the trigger AND to slotted
+   items without adding a box of its own — items inherit through the flattened tree. */
+.loomi-root {
+  display: contents;
+}
+
+.loomi-backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--loomi-fab-backdrop, rgba(15, 23, 42, 0.45));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease;
+}
+:host([open]) .loomi-backdrop {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.loomi-trigger {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--loomi-fab-diameter, 3.75rem);
+  height: var(--loomi-fab-diameter, 3.75rem);
+  border: 0;
+  border-radius: 9999px;
+  background: var(--loomi-fab-bg, var(--_loomi-accent, var(--loomi-primary-600)));
+  color: var(--loomi-fab-fg, var(--loomi-text-on-primary, var(--loomi-white)));
+  cursor: pointer;
+  box-shadow: var(--loomi-fab-shadow, 0 6px 16px rgba(15, 23, 42, 0.25), 0 2px 4px rgba(15, 23, 42, 0.15));
+  transition: background-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+}
+.loomi-trigger:hover:not(:disabled) {
+  background: var(--loomi-fab-bg-hover, var(--_loomi-accent-strong));
+  transform: translateY(-1px);
+}
+.loomi-trigger:active:not(:disabled) {
+  transform: translateY(0);
+}
+.loomi-trigger:focus-visible {
+  outline: none;
+  box-shadow: var(--loomi-fab-shadow, 0 6px 16px rgba(15, 23, 42, 0.25)), 0 0 0 4px var(--_loomi-accent-ring);
+}
+.loomi-trigger:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
+}
+.loomi-trigger-icon {
+  --loomi-icon-size: var(--loomi-fab-icon-size, 1.5rem);
+  transition: transform 0.2s ease;
+}
+:host([open]) .loomi-trigger-icon {
+  transform: rotate(45deg);
+}
+
+.loomi-dial {
+  position: absolute;
+  display: flex;
+  gap: var(--loomi-fab-gap);
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(0.94);
+  transition: opacity 0.16s ease, transform 0.16s ease, visibility 0.16s;
+  /* Inherited by slotted <loomi-speed-dial-item>s (flattened tree) so each item's own
+     fade/scale — and its stagger delay — plays without the item knowing its own open state. */
+  --loomi-fab-open: 0;
+}
+:host([open]) .loomi-dial {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: scale(1);
+  --loomi-fab-open: 1;
+}
+
+.loomi-dial.dir-up {
+  flex-direction: column-reverse;
+  bottom: calc(100% + var(--loomi-fab-gap));
+}
+.loomi-dial.dir-down {
+  flex-direction: column;
+  top: calc(100% + var(--loomi-fab-gap));
+}
+.loomi-dial.dir-left {
+  flex-direction: row-reverse;
+  right: calc(100% + var(--loomi-fab-gap));
+}
+.loomi-dial.dir-right {
+  flex-direction: row;
+  left: calc(100% + var(--loomi-fab-gap));
+}
+.loomi-dial.side-left {
+  left: 0;
+  align-items: flex-start;
+}
+.loomi-dial.side-right {
+  right: 0;
+  align-items: flex-end;
+}
+.loomi-dial.edge-top {
+  top: 0;
+  align-items: flex-start;
+}
+.loomi-dial.edge-bottom {
+  bottom: 0;
+  align-items: flex-end;
+}
+
+/* Stagger: each slotted item picks up an inherited delay by its position. */
+::slotted(loomi-speed-dial-item:nth-of-type(1)) {
+  --loomi-fab-item-delay: 0ms;
+}
+::slotted(loomi-speed-dial-item:nth-of-type(2)) {
+  --loomi-fab-item-delay: 30ms;
+}
+::slotted(loomi-speed-dial-item:nth-of-type(3)) {
+  --loomi-fab-item-delay: 60ms;
+}
+::slotted(loomi-speed-dial-item:nth-of-type(4)) {
+  --loomi-fab-item-delay: 90ms;
+}
+::slotted(loomi-speed-dial-item:nth-of-type(5)) {
+  --loomi-fab-item-delay: 120ms;
+}
+::slotted(loomi-speed-dial-item:nth-of-type(6)) {
+  --loomi-fab-item-delay: 150ms;
+}
+
+/* ---- <loomi-speed-dial-item> ---- */
+
+:host(loomi-speed-dial-item) {
+  display: inline-flex;
+}
+
+.loomi-pill {
+  display: inline-flex;
+  align-items: center;
+  flex-direction: var(--loomi-pill-flow, row-reverse);
+  gap: 0.625rem;
+  border: 1px solid var(--loomi-surface-border);
+  border-radius: 9999px;
+  background: var(--loomi-surface);
+  color: var(--loomi-text-secondary);
+  padding: 0.375rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.1;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12);
+  opacity: var(--loomi-fab-open, 1);
+  transform: scale(calc(0.7 + (0.3 * var(--loomi-fab-open, 1))));
+  transition: background-color 0.14s ease, border-color 0.14s ease, transform 0.16s ease, opacity 0.16s ease;
+  transition-delay: var(--loomi-fab-item-delay, 0ms);
+}
+.loomi-pill:hover:not(:disabled),
+.loomi-pill:focus-visible {
+  background: var(--loomi-surface-hover);
+  border-color: var(--_loomi-accent-border, var(--loomi-surface-border));
+}
+.loomi-pill:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--_loomi-accent-ring, var(--loomi-primary-200));
+}
+.loomi-pill:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.loomi-pill-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: var(--loomi-fab-item-diameter, 2.5rem);
+  height: var(--loomi-fab-item-diameter, 2.5rem);
+  border-radius: 9999px;
+  background: var(--_loomi-accent-soft, var(--loomi-surface-muted));
+  color: var(--_loomi-accent-fg, var(--loomi-text-secondary));
+}
+.loomi-pill-icon-glyph {
+  --loomi-icon-size: var(--loomi-fab-item-icon-size, 1.125rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loomi-trigger,
+  .loomi-trigger-icon,
+  .loomi-dial,
+  .loomi-pill,
+  .loomi-backdrop {
+    transition-duration: 0.01s;
+  }
+}

@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>loomi — &lt;loomi-bottom-nav&gt;</title>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "lit": "https://esm.sh/lit@3.3.3",
+          "lit/": "https://esm.sh/lit@3.3.3/",
+          "@loomidev/theme": "../packages/theme/dist/index.js",
+          "@loomidev/core": "../packages/core/dist/index.js",
+          "@loomidev/icons": "../packages/icons/dist/index.js",
+          "@loomidev/icon": "../packages/icon/dist/index.js",
+          "@loomidev/icon/loomi-icon.js": "../packages/icon/dist/loomi-icon.js"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import "../packages/bottom-nav/dist/loomi-bottom-nav.js";
+
+      document.querySelectorAll("loomi-bottom-nav").forEach((nav) => {
+        nav.addEventListener("loomi-change", (e) => {
+          const out = nav.closest(".phone")?.querySelector(".out");
+          if (out) out.textContent = JSON.stringify({ value: e.detail.value, href: e.detail.href });
+        });
+      });
+
+      document.querySelector("#style-picker")?.addEventListener("change", (e) => {
+        document.querySelector("#style-demo").setAttribute("active-style", e.target.value);
+      });
+    </script>
+
+    <style>
+      body {
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        margin: 0;
+        padding: 2.5rem clamp(1rem, 5vw, 4rem);
+        color: #0f172a;
+        background: #f8fafc;
+      }
+      h1 { margin: 0 0 0.25rem; }
+      p.lead { color: #475569; margin-top: 0; }
+      section { margin: 2.5rem 0; }
+      h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin: 0 0 0.75rem; }
+      .row { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-start; }
+      .out { margin-top: 0.5rem; font-size: 0.8rem; color: #64748b; font-family: monospace; }
+
+      /* Demo-only "phone" mockup. `transform` on this ancestor establishes a new
+         containing block for its position:fixed <loomi-bottom-nav> descendant, so the
+         bar docks to *this frame's* edge instead of the real browser viewport — lets
+         several independent examples live on one scrollable page. */
+      .phone {
+        position: relative;
+        width: 320px;
+        height: 560px;
+        overflow: hidden;
+        border-radius: 1.5rem;
+        border: 1px solid #cbd5e1;
+        background: #fff;
+        transform: translateZ(0);
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+      }
+      .phone-content {
+        height: 100%;
+        overflow: auto;
+        box-sizing: border-box;
+        padding: 1rem;
+      }
+      .phone-content p { color: #64748b; font-size: 0.85rem; }
+    </style>
+  </head>
+  <body>
+    <h1>&lt;loomi-bottom-nav&gt;</h1>
+    <p class="lead">
+      Mobile bottom navigation with icons, badges, eight active-state styles, and a
+      routing-agnostic <code>loomi-change</code> event. Each example below is boxed in a
+      "phone" frame purely as a demo device (see the CSS comment) — in a real app the bar
+      docks to the real viewport.
+    </p>
+
+    <!-- Basic -->
+    <section>
+      <h2>Basic — pill (default), value-driven (no href)</h2>
+      <div class="row">
+        <div class="phone">
+          <div class="phone-content"><p>Page content scrolls here.</p></div>
+          <loomi-bottom-nav active="home">
+            <loomi-bottom-nav-item value="home" icon="home">Home</loomi-bottom-nav-item>
+            <loomi-bottom-nav-item value="orders" icon="archive-box">Orders</loomi-bottom-nav-item>
+            <loomi-bottom-nav-item value="profile" icon="user">Profile</loomi-bottom-nav-item>
+          </loomi-bottom-nav>
+        </div>
+        <div>
+          <div class="out">Click an item — event detail shows here.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Active styles -->
+    <section>
+      <h2>Active styles</h2>
+      <div class="row">
+        <div>
+          <label>
+            active-style:
+            <select id="style-picker">
+              <option value="pill">pill</option>
+              <option value="underline">underline</option>
+              <option value="top-line">top-line</option>
+              <option value="background">background</option>
+              <option value="icon-only">icon-only</option>
+              <option value="dot">dot</option>
+              <option value="border">border</option>
+              <option value="minimal">minimal</option>
+            </select>
+          </label>
+          <div class="phone" style="margin-top: 0.75rem">
+            <div class="phone-content"><p>Pick a style above.</p></div>
+            <loomi-bottom-nav id="style-demo" active="home" active-style="pill" color="primary">
+              <loomi-bottom-nav-item value="home" icon="home">Home</loomi-bottom-nav-item>
+              <loomi-bottom-nav-item value="search" icon="magnifying-glass">Search</loomi-bottom-nav-item>
+              <loomi-bottom-nav-item value="profile" icon="user">Profile</loomi-bottom-nav-item>
+            </loomi-bottom-nav>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Badges -->
+    <section>
+      <h2>Badges</h2>
+      <div class="row">
+        <div class="phone">
+          <div class="phone-content"><p>Cart has 3 items.</p></div>
+          <loomi-bottom-nav active="cart" active-style="dot" color="error">
+            <loomi-bottom-nav-item value="home" icon="home">Home</loomi-bottom-nav-item>
+            <loomi-bottom-nav-item value="cart" icon="shopping-cart" badge="3">Cart</loomi-bottom-nav-item>
+            <loomi-bottom-nav-item value="account" icon="user">Account</loomi-bottom-nav-item>
+          </loomi-bottom-nav>
+        </div>
+      </div>
+    </section>
+
+    <!-- Floating variant -->
+    <section>
+      <h2>Floating variant</h2>
+      <div class="row">
+        <div class="phone" style="background: #eef2ff">
+          <div class="phone-content"><p>Floating, rounded, elevated island.</p></div>
+          <loomi-bottom-nav active="cart" variant="floating" active-style="pill" color="success">
+            <loomi-bottom-nav-item value="home" icon="home">Home</loomi-bottom-nav-item>
+            <loomi-bottom-nav-item value="cart" icon="shopping-cart" badge="3">Cart</loomi-bottom-nav-item>
+            <loomi-bottom-nav-item value="account" icon="user">Account</loomi-bottom-nav-item>
+          </loomi-bottom-nav>
+        </div>
+      </div>
+    </section>
+
+    <!-- Colors -->
+    <section>
+      <h2>Colors</h2>
+      <div class="row">
+        <div class="phone">
+          <div class="phone-content"><p>color="warning"</p></div>
+          <loomi-bottom-nav active="star" active-style="background" color="warning">
+            <loomi-bottom-nav-item value="home" icon="home">Home</loomi-bottom-nav-item>
+            <loomi-bottom-nav-item value="star" icon="star">Starred</loomi-bottom-nav-item>
+            <loomi-bottom-nav-item value="heart" icon="heart">Liked</loomi-bottom-nav-item>
+          </loomi-bottom-nav>
+        </div>
+        <div class="phone">
+          <div class="phone-content"><p>color="error", active-style="border"</p></div>
+          <loomi-bottom-nav active="home" active-style="border" color="error">
+            <loomi-bottom-nav-item value="home" icon="home">Home</loomi-bottom-nav-item>
+            <loomi-bottom-nav-item value="search" icon="magnifying-glass">Search</loomi-bottom-nav-item>
+            <loomi-bottom-nav-item value="user" icon="user">Profile</loomi-bottom-nav-item>
+          </loomi-bottom-nav>
+        </div>
+      </div>
+    </section>
+
+    <!-- Disabled item -->
+    <section>
+      <h2>Disabled item</h2>
+      <div class="row">
+        <div class="phone">
+          <div class="phone-content"><p>"Orders" is disabled — try Tab/Arrow keys.</p></div>
+          <loomi-bottom-nav active="home">
+            <loomi-bottom-nav-item value="home" icon="home">Home</loomi-bottom-nav-item>
+            <loomi-bottom-nav-item value="orders" icon="archive-box" disabled>Orders</loomi-bottom-nav-item>
+            <loomi-bottom-nav-item value="profile" icon="user">Profile</loomi-bottom-nav-item>
+          </loomi-bottom-nav>
+        </div>
+      </div>
+    </section>
+
+    <!-- href + prevent-default -->
+    <section>
+      <h2>Real links (<code>href</code>) with <code>prevent-default</code></h2>
+      <p style="color:#64748b; font-size:0.85rem; max-width:32rem">
+        These items have real <code>href</code>s (view-source to check), but
+        <code>prevent-default</code> stops the actual navigation so this demo page doesn't
+        redirect — <code>loomi-change</code> still fires either way.
+      </p>
+      <div class="row">
+        <div class="phone">
+          <div class="phone-content"><p>Inspect: items are real &lt;a&gt; tags.</p></div>
+          <loomi-bottom-nav active="home">
+            <loomi-bottom-nav-item name="home" icon="home" href="/home" prevent-default>Home</loomi-bottom-nav-item>
+            <loomi-bottom-nav-item name="orders" icon="archive-box" href="/orders" prevent-default
+              >Orders</loomi-bottom-nav-item
+            >
+            <loomi-bottom-nav-item name="profile" icon="user" href="/profile" prevent-default
+              >Profile</loomi-bottom-nav-item
+            >
+          </loomi-bottom-nav>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
