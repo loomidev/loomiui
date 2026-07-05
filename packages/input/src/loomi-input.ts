@@ -1,7 +1,7 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
-import { LoomiElement, loomiT, themeStyles } from "@loomidev/core";
+import { LoomiElement, loomiT, randomSuffix, themeStyles } from "@loomidev/core";
 import { showLoomiNotification } from "@loomidev/notification";
 import "@loomidev/popover";
 import { getLoomiIcon } from "./icons.js";
@@ -53,7 +53,7 @@ export class LoomiInput extends LoomiElement {
   private internals = this.attachInternals();
   private validationVisible = false;
   /** Falls back to a stable per-instance id when `name` is blank, so a `loomi-notification` toast (see `syncValidity`) re-renders in place across repeated validation failures instead of stacking. */
-  private readonly instanceId = Math.random().toString(36).slice(2, 8);
+  private readonly instanceId = randomSuffix();
 
   @property({ reflect: true }) name = "";
   @property() type: LoomiInputType = "text";

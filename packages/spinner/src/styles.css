@@ -13,7 +13,7 @@
   line-height: 1;
 }
 .loomi-spinner {
-  animation: loomi-spin var(--loomi-spinner-speed, 0.7s) linear infinite;
+  animation: loomi-spin var(--loomi-spinner-speed, var(--loomi-spin-duration)) linear infinite;
   display: block;
   flex: 0 0 auto;
   width: var(--loomi-spinner-size, 1.5rem);
@@ -68,11 +68,6 @@
 }
 .size-omg {
   --loomi-spinner-size: 4.5rem;
-}
-@keyframes loomi-spin {
-  to {
-    transform: rotate(360deg);
-  }
 }
 @keyframes loomi-typing-dot {
   0%, 80%, 100% {

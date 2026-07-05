@@ -40,6 +40,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `accentVars(color)` | Returns the per-instance accent custom properties for a color (see below). |
 | `cssColor(color, shade)` | A single themed color value with private-default fallback, for inline use. |
 | `onClickOutside(el, handler)` | Calls `handler` on a click outside `el` (crosses shadow boundaries). Returns a cleanup fn. |
+| `randomSuffix()` | A short random id, e.g. for de-duplicating notification keys across component instances. |
 | `setLoomiLocale(locale)` / `getLoomiLocale()` | Set or read the shared locale used by translated component defaults. |
 | `defineLoomiTranslations(locale, messages)` | Add or override translations for built-in component text. |
 | `loomiT(path, params, locale)` | Translate a shared message by key, with English fallback. |
@@ -72,17 +73,24 @@ free, with `prefers-reduced-motion` handled centrally:
 | `loomi-rise-in` | fade + rise 8px + scale up from 0.98 |
 | `loomi-drop-in` | fade + drop down 4px (opens downward, e.g. a menu) |
 | `loomi-slide-in` | fade + slide in 12px from the trailing edge |
+| `loomi-spin` | continuous 360° rotation, for loading spinners |
 
 ```css
 .loomi-dialog {
   animation: loomi-rise-in var(--loomi-motion-duration) var(--loomi-motion-ease);
 }
+.loomi-spinner {
+  animation: loomi-spin var(--loomi-spin-duration) linear infinite;
+}
 ```
 
 `--loomi-motion-duration` (default `0.16s`) and `--loomi-motion-ease` (default `ease`) are
-the shared timing tokens — override them per-component only if that component genuinely
-needs different timing (see `@loomidev/floating-panel`'s `--loomi-floating-panel-duration`,
-which falls back to `var(--loomi-motion-duration)` rather than a hardcoded value).
+the shared entrance-animation timing tokens; `--loomi-spin-duration` (default `0.7s`, slows
+to `1.6s` under `prefers-reduced-motion` rather than stopping, since a spinner going still
+would hide that work is in progress) times the spin keyframe. Override any of these
+per-component only if that component genuinely needs different timing (see
+`@loomidev/floating-panel`'s `--loomi-floating-panel-duration`, which falls back to
+`var(--loomi-motion-duration)` rather than a hardcoded value).
 
 Only add a new keyframe to `motion.ts` if it's a genuinely new motion primitive reused
 across components. A component that layers its own positioning transform — e.g. a

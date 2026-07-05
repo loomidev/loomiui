@@ -1,7 +1,7 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { LoomiElement, themeStyles } from "@loomidev/core";
+import { LoomiElement, loomiStyles } from "@loomidev/core";
 import { getLoomiIcon } from "./icons.js";
 import { buttonStyles } from "./generated/styles.css.js";
 
@@ -57,7 +57,7 @@ const BORDER_WIDTH: Record<number, string> = {
  */
 @customElement("loomi-button")
 export class LoomiButton extends LoomiElement {
-  static override styles = [themeStyles, buttonStyles];
+  static override styles = loomiStyles(buttonStyles);
 
   /** Structural variant: `primary` is a solid fill; `secondary` is a bordered ghost. `color` overrides the hue. */
   @property({ reflect: true }) type: LoomiButtonType = "primary";

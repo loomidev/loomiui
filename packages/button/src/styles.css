@@ -164,7 +164,7 @@
   width: 1.15em;
   height: 1.15em;
   flex: none;
-  animation: loomi-spin 0.7s linear infinite;
+  animation: loomi-spin var(--loomi-spin-duration) linear infinite;
 }
 
 .loomi-spinner circle {
@@ -173,18 +173,6 @@
 
 .loomi-spinner path {
   opacity: 0.9;
-}
-
-@keyframes loomi-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .loomi-spinner {
-    animation-duration: 1.6s;
-  }
 }
 
 /* Hide empty named slots so they don't add stray gaps. */
