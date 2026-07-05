@@ -69,6 +69,25 @@ The header and each resize handle are keyboard-operable: focus the header and pr
 arrow keys to move the panel; focus a resize handle and press the arrow keys to resize
 from that edge/corner. Hold <kbd>Shift</kbd> for a bigger step.
 
+## Minimize, Maximize & Drag Handle
+
+`minimize` and `maximize` add header buttons that toggle collapsing the panel to just its
+title bar, or expanding it to fill the viewport — both off by default. `drag-handle`
+restricts dragging to a small grip icon instead of the whole header, useful once you add
+your own interactive content there.
+
+```html
+<loomi-floating-panel name="window" title="Window-like" minimize maximize drag-handle>
+  Minimize/maximize buttons appear in the header; only the grip icon drags.
+</loomi-floating-panel>
+```
+
+Toggling either fires `loomi-minimize`/`loomi-maximize`; maximizing clears `minimized` and
+vice versa, since a panel can't be both at once. Restoring from maximized snaps back to
+the exact rect the panel had before — dragging and resizing are disabled while maximized
+(and resizing while minimized, since there's no body to resize into). Double-clicking the
+header also toggles maximize, when `maximize` is enabled.
+
 ## Multiple Panels & Stacking
 
 Open as many panels as you like — clicking or dragging anywhere inside a panel (header,
@@ -99,6 +118,8 @@ panel.addEventListener("open", () => console.log("opened"));
 panel.addEventListener("close", () => console.log("closed"));
 panel.addEventListener("loomi-drag", (e) => console.log("moved to", e.detail)); // { top, left }
 panel.addEventListener("loomi-resize", (e) => console.log("resized to", e.detail)); // { top, left, width, height }
+panel.addEventListener("loomi-minimize", (e) => console.log("minimized:", e.detail.minimized));
+panel.addEventListener("loomi-maximize", (e) => console.log("maximized:", e.detail.maximized));
 ```
 
 ## Accessibility
@@ -109,13 +130,14 @@ over it. Opening a panel moves focus to its header; closing it restores focus to
 was focused before, and <kbd>Escape</kbd> closes the panel only while focus is inside it
 (so multiple open panels don't all close on one keypress).
 
-- <kbd>Tab</kbd> / <kbd>Shift+Tab</kbd> — reach the close button, slotted content, and
-  every resize handle.
-- Arrow keys on the focused header — move the panel; hold <kbd>Shift</kbd> for a 10px step.
+- <kbd>Tab</kbd> / <kbd>Shift+Tab</kbd> — reach the minimize/maximize/close buttons,
+  slotted content, and every resize handle (or the grip, when `drag-handle` is set).
+- Arrow keys on the focused header (or grip) — move the panel; hold <kbd>Shift</kbd> for
+  a 10px step.
 - Arrow keys on a focused resize handle — resize from that edge/corner; hold
   <kbd>Shift</kbd> for a 10px step.
 - <kbd>Escape</kbd> — close, while focus is inside the panel.
-- Visible `:focus-visible` rings on the header, close button, and resize handles.
+- Visible `:focus-visible` rings on the header, grip, header buttons, and resize handles.
 
 ## Responsive behavior
 
@@ -142,6 +164,11 @@ overrides, and the panel inherits the dark-mode values through its shadow DOM.
 | `resizable` | `true` | Show the eight edge/corner resize handles. _(boolean)_ |
 | `no-drag` | `false` | Disable moving the panel by its header. _(boolean)_ |
 | `bounded` | `true` | Keep the panel's edges inside the viewport while dragging/resizing. _(boolean)_ |
+| `minimize` | `false` | Show a header button that collapses the panel to its title bar. _(boolean)_ |
+| `maximize` | `false` | Show a header button that expands the panel to fill the viewport. _(boolean)_ |
+| `drag-handle` | `false` | Restrict dragging to a dedicated grip icon instead of the whole header. _(boolean)_ |
+| `minimized` | `false` | Current collapsed state (reflected); settable up front too. _(boolean)_ |
+| `maximized` | `false` | Current fill-the-viewport state (reflected); settable up front too. _(boolean)_ |
 | `top` / `left` | _(blank)_ | Initial position, any CSS length. Unset opens centered. |
 | `width` / `height` | _(blank)_ | Initial size, any CSS length. Unset falls back to `22rem`/`26rem`. |
 | `min-width` / `min-height` | `220` / `140` | Minimum size in pixels while resizing. _(number)_ |
@@ -155,7 +182,8 @@ Boolean attributes can be omitted, present, or set to `"false"` in HTML, for exa
 **Methods:** `show()`, `hide()` (both void).
 **Helpers:** `showLoomiFloatingPanel(name)`, `hideLoomiFloatingPanel(name)`.
 **Events:** `open`, `close`, `loomi-drag` (`detail: { top, left }`), `loomi-resize`
-(`detail: { top, left, width, height }`).
+(`detail: { top, left, width, height }`), `loomi-minimize` (`detail: { minimized }`),
+`loomi-maximize` (`detail: { maximized }`).
 **Slot:** default (body).
 
 ## Full Example

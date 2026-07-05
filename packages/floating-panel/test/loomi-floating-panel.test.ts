@@ -125,6 +125,78 @@ describe("loomi-floating-panel", () => {
     expect(el.shadowRoot!.querySelectorAll(".loomi-resize").length).to.equal(0);
   });
 
+  it("only shows the minimize/maximize buttons when their attributes are set", async () => {
+    const bare = await fixture<LoomiFloatingPanel>(html`<loomi-floating-panel open></loomi-floating-panel>`);
+    await bare.updateComplete;
+    expect(bare.shadowRoot!.querySelector(".loomi-minimize")).to.not.exist;
+    expect(bare.shadowRoot!.querySelector(".loomi-maximize")).to.not.exist;
+
+    const full = await fixture<LoomiFloatingPanel>(html`<loomi-floating-panel minimize maximize open></loomi-floating-panel>`);
+    await full.updateComplete;
+    expect(full.shadowRoot!.querySelector(".loomi-minimize")).to.exist;
+    expect(full.shadowRoot!.querySelector(".loomi-maximize")).to.exist;
+  });
+
+  it("toggles minimized on click and fires loomi-minimize", async () => {
+    const el = await fixture<LoomiFloatingPanel>(html`<loomi-floating-panel minimize open></loomi-floating-panel>`);
+    await el.updateComplete;
+    const btn = el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-minimize")!;
+
+    const minimized = oneEvent(el, "loomi-minimize");
+    btn.click();
+    const { detail } = await minimized;
+
+    expect(detail.minimized).to.equal(true);
+    expect(el.minimized).to.equal(true);
+    expect(getComputedStyle(el.shadowRoot!.querySelector(".loomi-body")!).display).to.equal("none");
+  });
+
+  it("toggles maximized on click, fires loomi-maximize, and clears minimized", async () => {
+    const el = await fixture<LoomiFloatingPanel>(html`<loomi-floating-panel minimize maximize minimized open></loomi-floating-panel>`);
+    await el.updateComplete;
+    expect(el.minimized).to.equal(true);
+
+    const btn = el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-maximize")!;
+    const maximized = oneEvent(el, "loomi-maximize");
+    btn.click();
+    const { detail } = await maximized;
+
+    expect(detail.maximized).to.equal(true);
+    expect(el.maximized).to.equal(true);
+    expect(el.minimized).to.equal(false);
+  });
+
+  it("toggles maximize on header double-click only when maximize is enabled", async () => {
+    const el = await fixture<LoomiFloatingPanel>(html`<loomi-floating-panel open></loomi-floating-panel>`);
+    await el.updateComplete;
+    el.shadowRoot!.querySelector(".loomi-header")!.dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
+    expect(el.maximized).to.equal(false);
+
+    el.maximize = true;
+    await el.updateComplete;
+    el.shadowRoot!.querySelector(".loomi-header")!.dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
+    expect(el.maximized).to.equal(true);
+  });
+
+  it("restricts dragging to the grip when drag-handle is set", async () => {
+    const el = await fixture<LoomiFloatingPanel>(html`
+      <loomi-floating-panel top="100px" left="100px" width="200px" height="150px" drag-handle open></loomi-floating-panel>
+    `);
+    await el.updateComplete;
+    await nextFrame();
+
+    const header = el.shadowRoot!.querySelector(".loomi-header") as HTMLElement;
+    header.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+    await el.updateComplete;
+    expect(el.style.left).to.equal("100px");
+
+    const grip = el.shadowRoot!.querySelector(".loomi-grip") as HTMLElement;
+    expect(grip).to.exist;
+    grip.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+    await el.updateComplete;
+    expect(el.style.left).to.equal("101px");
+  });
+
   it("closes on Escape only while focus is inside the panel", async () => {
     const el = await fixture<LoomiFloatingPanel>(html`<loomi-floating-panel title="Scoped" open></loomi-floating-panel>`);
     await el.updateComplete;

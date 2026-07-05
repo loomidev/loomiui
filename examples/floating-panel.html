@@ -35,6 +35,14 @@
           const out = panel.querySelector(".out");
           if (out) out.textContent = `resized to ${JSON.stringify(e.detail)}`;
         });
+        panel.addEventListener("loomi-minimize", (e) => {
+          const out = panel.querySelector(".out");
+          if (out) out.textContent = `minimized: ${e.detail.minimized}`;
+        });
+        panel.addEventListener("loomi-maximize", (e) => {
+          const out = panel.querySelector(".out");
+          if (out) out.textContent = `maximized: ${e.detail.maximized}`;
+        });
       });
     </script>
 
@@ -109,6 +117,28 @@
       </div>
       <loomi-floating-panel name="pinned" title="Pinned" top="6rem" left="28rem" no-drag resizable="false">
         <p>Fixed in place — the header doesn't drag and there are no resize handles.</p>
+      </loomi-floating-panel>
+    </section>
+
+    <section>
+      <h2>Minimize, maximize &amp; drag handle</h2>
+      <div class="row">
+        <button onclick="showLoomiFloatingPanel('window-like')">Open window-like panel</button>
+      </div>
+      <loomi-floating-panel
+        name="window-like"
+        title="Window-like panel"
+        top="6rem"
+        left="40rem"
+        width="20rem"
+        height="14rem"
+        minimize
+        maximize
+        drag-handle
+      >
+        <p>Has minimize/maximize buttons, and dragging is restricted to the grip icon
+        (double-click the header to toggle maximize too).</p>
+        <div class="out"></div>
       </loomi-floating-panel>
     </section>
 

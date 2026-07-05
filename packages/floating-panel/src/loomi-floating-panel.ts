@@ -1,4 +1,4 @@
-import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
+import { html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, loomiT } from "@loomidev/core";
 import "@loomidev/icon/loomi-icon.js";
@@ -14,6 +14,8 @@ interface Rect {
 
 const RESIZE_DIRS: ResizeDir[] = ["n", "s", "e", "w", "ne", "nw", "se", "sw"];
 const EDGE_DIRS = new Set<ResizeDir>(["n", "s", "e", "w"]);
+
+const GRIP = svg`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="9" cy="5" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="9" cy="19" r="1.5"/><circle cx="15" cy="5" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="15" cy="19" r="1.5"/></svg>`;
 
 const booleanAttribute = {
   fromAttribute(value: string | null): boolean {
@@ -71,6 +73,8 @@ window.hideLoomiFloatingPanel = hideLoomiFloatingPanel;
  * @fires open - Shown. @fires close - Dismissed.
  * @fires loomi-drag - `detail: { top, left }` after the panel is moved.
  * @fires loomi-resize - `detail: { top, left, width, height }` after the panel is resized.
+ * @fires loomi-minimize - `detail: { minimized }` when the minimize button is toggled.
+ * @fires loomi-maximize - `detail: { maximized }` when the maximize button (or header double-click) is toggled.
  */
 @customElement("loomi-floating-panel")
 export class LoomiFloatingPanel extends LoomiElement {
@@ -88,6 +92,16 @@ export class LoomiFloatingPanel extends LoomiElement {
   @property({ type: Boolean, attribute: "no-drag" }) noDrag = false;
   /** Keeps the panel's edges within the viewport while dragging/resizing. */
   @property({ type: Boolean, converter: booleanAttribute }) bounded = true;
+  /** Shows a header button that collapses the panel to just its title bar. */
+  @property({ type: Boolean }) minimize = false;
+  /** Shows a header button that expands the panel to fill the viewport. */
+  @property({ type: Boolean }) maximize = false;
+  /** Restricts dragging to a dedicated grip in the header instead of the whole header. */
+  @property({ type: Boolean, attribute: "drag-handle" }) dragHandle = false;
+  /** Whether the panel is currently collapsed to its title bar. */
+  @property({ type: Boolean, reflect: true }) minimized = false;
+  /** Whether the panel is currently filling the viewport. */
+  @property({ type: Boolean, reflect: true }) maximized = false;
   /** Initial position; any CSS length. Left unset, the panel opens centered. */
   @property() top = "";
   @property() left = "";
@@ -248,9 +262,33 @@ export class LoomiFloatingPanel extends LoomiElement {
     this.hide();
   };
 
+  /** Toggles the collapsed-to-title-bar state; turns off `maximized` first if it was on. */
+  private toggleMinimize = (): void => {
+    if (this.maximized) this.maximized = false;
+    this.minimized = !this.minimized;
+    this.dispatchEvent(
+      new CustomEvent("loomi-minimize", { detail: { minimized: this.minimized }, bubbles: true, composed: true }),
+    );
+  };
+
+  /** Toggles the fill-the-viewport state; turns off `minimized` first if it was on. */
+  private toggleMaximize = (): void => {
+    if (this.minimized) this.minimized = false;
+    this.maximized = !this.maximized;
+    this.dispatchEvent(
+      new CustomEvent("loomi-maximize", { detail: { maximized: this.maximized }, bubbles: true, composed: true }),
+    );
+  };
+
+  private onHeaderDoubleClick = (): void => {
+    if (!this.maximize) return;
+    this.toggleMaximize();
+  };
+
   private onHeaderPointerDown = (e: PointerEvent): void => {
-    if (this.noDrag || e.button !== 0) return;
-    if ((e.target as HTMLElement | null)?.closest(".loomi-close")) return;
+    if (this.dragHandle && !(e.currentTarget as HTMLElement).classList.contains("loomi-grip")) return;
+    if (this.noDrag || this.maximized || e.button !== 0) return;
+    if ((e.target as HTMLElement | null)?.closest(".loomi-header-btn")) return;
     e.preventDefault();
     const header = e.currentTarget as HTMLElement;
     header.setPointerCapture(e.pointerId);
@@ -292,7 +330,8 @@ export class LoomiFloatingPanel extends LoomiElement {
   };
 
   private onHeaderKeyDown = (e: KeyboardEvent): void => {
-    if (this.noDrag) return;
+    if (this.dragHandle && !(e.currentTarget as HTMLElement).classList.contains("loomi-grip")) return;
+    if (this.noDrag || this.maximized) return;
     const step = e.shiftKey ? 10 : 1;
     let dx = 0;
     let dy = 0;
@@ -340,7 +379,7 @@ export class LoomiFloatingPanel extends LoomiElement {
   }
 
   private onResizePointerDown = (dir: ResizeDir, e: PointerEvent): void => {
-    if (!this.resizable || e.button !== 0) return;
+    if (!this.resizable || this.maximized || this.minimized || e.button !== 0) return;
     e.preventDefault();
     e.stopPropagation();
     const handle = e.currentTarget as HTMLElement;
@@ -372,6 +411,7 @@ export class LoomiFloatingPanel extends LoomiElement {
   };
 
   private onResizeKeyDown = (dir: ResizeDir, e: KeyboardEvent): void => {
+    if (this.maximized || this.minimized) return;
     const step = e.shiftKey ? 10 : 1;
     let dx = 0;
     let dy = 0;
@@ -395,25 +435,64 @@ export class LoomiFloatingPanel extends LoomiElement {
     if (!this.open) return nothing;
     const moveLabel = loomiT("floatingPanel.move", {}, this.locale);
     const resizeLabel = loomiT("floatingPanel.resize", {}, this.locale);
+    const minimizeLabel = loomiT(this.minimized ? "floatingPanel.restore" : "floatingPanel.minimize", {}, this.locale);
+    const maximizeLabel = loomiT(this.maximized ? "floatingPanel.restore" : "floatingPanel.maximize", {}, this.locale);
+    const grabLabel = this.title ? `${this.title} — ${moveLabel}` : moveLabel;
 
     return html`
       <div
-        class="loomi-header"
-        tabindex="0"
-        aria-label=${this.title ? `${this.title} — ${moveLabel}` : moveLabel}
+        class="loomi-header ${this.dragHandle ? "has-grip" : ""}"
+        tabindex=${this.dragHandle ? nothing : "0"}
+        aria-label=${this.dragHandle ? nothing : grabLabel}
         @pointerdown=${this.onHeaderPointerDown}
         @keydown=${this.onHeaderKeyDown}
+        @dblclick=${this.onHeaderDoubleClick}
       >
-        <div class="loomi-title">${this.title}</div>
-        ${this.showCloseIcon
-          ? html`<button
-              class="loomi-close"
-              aria-label=${loomiT("common.close", {}, this.locale)}
-              @click=${() => this.hide()}
-            >
-              <loomi-icon name="x-mark" size="1.05rem" stroke-width="2"></loomi-icon>
-            </button>`
+        ${this.dragHandle
+          ? html`<span
+              class="loomi-grip"
+              tabindex="0"
+              role="button"
+              aria-label=${grabLabel}
+              @pointerdown=${this.onHeaderPointerDown}
+              @keydown=${this.onHeaderKeyDown}
+              >${GRIP}</span
+            >`
           : nothing}
+        <div class="loomi-title">${this.title}</div>
+        <div class="loomi-header-actions">
+          ${this.minimize
+            ? html`<button
+                class="loomi-header-btn loomi-minimize"
+                aria-label=${minimizeLabel}
+                @click=${this.toggleMinimize}
+              >
+                <loomi-icon name=${this.minimized ? "chevron-up" : "minus"} size="1.05rem" stroke-width="2"></loomi-icon>
+              </button>`
+            : nothing}
+          ${this.maximize
+            ? html`<button
+                class="loomi-header-btn loomi-maximize"
+                aria-label=${maximizeLabel}
+                @click=${this.toggleMaximize}
+              >
+                <loomi-icon
+                  name=${this.maximized ? "arrows-pointing-in" : "arrows-pointing-out"}
+                  size="0.95rem"
+                  stroke-width="2"
+                ></loomi-icon>
+              </button>`
+            : nothing}
+          ${this.showCloseIcon
+            ? html`<button
+                class="loomi-header-btn loomi-close"
+                aria-label=${loomiT("common.close", {}, this.locale)}
+                @click=${() => this.hide()}
+              >
+                <loomi-icon name="x-mark" size="1.05rem" stroke-width="2"></loomi-icon>
+              </button>`
+            : nothing}
+        </div>
       </div>
       <div class="loomi-body"><slot></slot></div>
       ${this.resizable
