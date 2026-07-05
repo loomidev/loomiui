@@ -1,6 +1,8 @@
 import { LitElement, type CSSResultGroup, type PropertyValues } from "lit";
 import { themeStyles, type LoomiColor } from "@loomidev/theme";
+import { elevationStyles } from "./elevation.js";
 import { motionStyles } from "./motion.js";
+export * from "./elevation.js";
 export * from "./i18n.js";
 export * from "./mention.js";
 export * from "./motion.js";
@@ -16,17 +18,19 @@ export {
 } from "@loomidev/theme";
 
 /**
- * Prepend the shared theme tokens and motion keyframes to a component's own styles.
- * Use it in `static styles` so every `var(--loomi-*)` reference resolves in the Shadow
- * DOM, and so `animation: loomi-pop-in var(--loomi-motion-duration) var(--loomi-motion-ease);`
- * (see `motionStyles` in `./motion.ts`) is available without redefining the keyframes:
+ * Prepend the shared theme tokens, motion keyframes, and elevation shadow to a
+ * component's own styles. Use it in `static styles` so every `var(--loomi-*)` reference
+ * resolves in the Shadow DOM, `animation: loomi-pop-in var(--loomi-motion-duration) var(--loomi-motion-ease);`
+ * (see `motionStyles` in `./motion.ts`) is available without redefining the keyframes,
+ * and `box-shadow: var(--loomi-shadow-elevated);` (see `./elevation.ts`) is available
+ * without retyping the shadow stack:
  *
  * ```ts
  * static styles = loomiStyles(componentStyles);
  * ```
  */
 export function loomiStyles(...styles: CSSResultGroup[]): CSSResultGroup[] {
-  return [themeStyles, motionStyles, ...styles];
+  return [themeStyles, motionStyles, elevationStyles, ...styles];
 }
 
 function safeClassToken(value: string): string {

@@ -23,9 +23,7 @@
   flex-direction: column;
   background: var(--loomi-surface);
   outline: none;
-  box-shadow:
-    0 20px 25px -5px rgba(0, 0, 0, 0.2),
-    0 8px 10px -6px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--loomi-shadow-elevated);
   animation-duration: var(--loomi-drawer-duration, 0.3s);
   animation-timing-function: var(--loomi-drawer-easing, cubic-bezier(0.32, 0.72, 0, 1));
   animation-fill-mode: both;

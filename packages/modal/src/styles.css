@@ -45,9 +45,7 @@
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow:
-    0 20px 25px -5px rgba(0, 0, 0, 0.2),
-    0 8px 10px -6px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--loomi-shadow-elevated);
   animation: loomi-rise-in var(--loomi-motion-duration) var(--loomi-motion-ease);
   position: relative;
 }

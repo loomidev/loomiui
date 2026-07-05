@@ -35,8 +35,9 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | Export | Description |
 | --- | --- |
 | `themeStyles` | The shared `:host` design tokens (re-exported from `@loomidev/theme`). |
-| `loomiStyles(...styles)` | Prepends `themeStyles` and `motionStyles` to a component's own styles. Use in `static styles`. |
+| `loomiStyles(...styles)` | Prepends `themeStyles`, `motionStyles`, and `elevationStyles` to a component's own styles. Use in `static styles`. |
 | `motionStyles` | Shared entrance-animation `@keyframes` + motion tokens (see below). Already included by `loomiStyles()`. |
+| `elevationStyles` | Shared `--loomi-shadow-elevated` drop-shadow token (see below). Already included by `loomiStyles()`. |
 | `accentVars(color)` | Returns the per-instance accent custom properties for a color (see below). |
 | `cssColor(color, shade)` | A single themed color value with private-default fallback, for inline use. |
 | `onClickOutside(el, handler)` | Calls `handler` on a click outside `el` (crosses shadow boundaries). Returns a cleanup fn. |
@@ -97,6 +98,25 @@ across components. A component that layers its own positioning transform — e.g
 centered overlay combining `translate(-50%, -50%)` with a scale-in — should keep that
 composite keyframe local instead of forcing the shared list to carry a variable transform
 base; `@loomidev/floating-panel`'s `.is-centered` variant is the example to follow.
+
+## Elevation
+
+**Don't retype the floating dialog/panel drop-shadow rgba stack.** `loomiStyles()`
+prepends `--loomi-shadow-elevated` from `elevationStyles` (`src/elevation.ts`), so any
+component whose host or panel sits above the page — a modal, drawer, or floating
+panel — can reference it directly instead of copy-pasting the same shadow:
+
+```css
+.loomi-dialog {
+  box-shadow: var(--loomi-shadow-elevated);
+}
+```
+
+This is for the one "floating surface" elevation tier shared by `@loomidev/modal`,
+`@loomidev/drawer`, and `@loomidev/floating-panel`. Smaller surfaces like dropmenu,
+popover, and notification use a lighter shadow that isn't (yet) shared — don't force
+them onto this token just for the sake of reuse; introduce a second tier only if a
+third component needs that exact lighter shadow too.
 
 ## Internationalization
 
