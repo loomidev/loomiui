@@ -3,6 +3,8 @@ import { customElement, property, state } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, loomiT, accentVars, onClickOutside, type LoomiColor } from "@loomidev/core";
 import type { LoomiIconSource } from "@loomidev/icons";
 import "@loomidev/icon/loomi-icon.js";
+import type { LoomiTooltipPlacement } from "@loomidev/tooltip";
+import "@loomidev/tooltip/loomi-tooltip.js";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiFabPlacement = "bottom-right" | "bottom-left" | "top-right" | "top-left";
@@ -36,13 +38,22 @@ function deepActiveElement(): Element | null {
   return el;
 }
 
+/** Maps an item pill's own icon/label flex-direction onto the tooltip placement that
+ * puts the label where the pill's label would otherwise have gone (`icons-only`). */
+const FLOW_TO_TOOLTIP_PLACEMENT: Record<string, LoomiTooltipPlacement> = {
+  row: "right",
+  "row-reverse": "left",
+  column: "bottom",
+  "column-reverse": "top",
+};
+
 /**
- * `<loomi-speed-dial-item>` — one action inside a `<loomi-fab>`'s speed-dial menu.
+ * `<loomi-fab-item>` — one action inside a `<loomi-fab>`'s speed-dial menu.
  *
  * @fires loomi-select - Clicked (not disabled). `detail: { value, label }`, bubbles/composed.
  */
-@customElement("loomi-speed-dial-item")
-export class LoomiSpeedDialItem extends LoomiElement {
+@customElement("loomi-fab-item")
+export class LoomiFabItem extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   /** Name of a built-in icon (same registry as `<loomi-icon>`). */
@@ -62,6 +73,12 @@ export class LoomiSpeedDialItem extends LoomiElement {
 
   /** Fallback icon source inherited from the parent `<loomi-fab>`. Set internally — not a public API. */
   @property({ attribute: false }) hostIconSource: LoomiIconSource = "heroicons";
+
+  /** Pushed down from the parent `<loomi-fab>`'s `icons-only`. Set internally — not a public API. */
+  @property({ attribute: false }) hostIconsOnly = false;
+
+  /** Pushed down from the parent `<loomi-fab>`. Where the `icons-only` tooltip appears. Set internally — not a public API. */
+  @property({ attribute: false }) hostTooltipPlacement: LoomiTooltipPlacement = "top";
 
   private get effectiveIconSource(): LoomiIconSource {
     return (this.iconSource || this.hostIconSource || "heroicons") as LoomiIconSource;
@@ -87,25 +104,45 @@ export class LoomiSpeedDialItem extends LoomiElement {
     );
   };
 
-  override render(): TemplateResult {
+  private renderPill(): TemplateResult {
+    const iconOnly = this.hostIconsOnly;
     return html`
-      <button class="loomi-pill" type="button" role="menuitem" ?disabled=${this.disabled} @click=${this.onClick}>
+      <button
+        class="loomi-pill ${iconOnly ? "icon-only" : ""}"
+        type="button"
+        role="menuitem"
+        ?disabled=${this.disabled}
+        aria-label=${iconOnly ? this.label : nothing}
+        @click=${this.onClick}
+      >
         <span class="loomi-pill-icon" aria-hidden="true">
           ${this.icon
             ? html`<loomi-icon class="loomi-pill-icon-glyph" name=${this.icon} source=${this.effectiveIconSource}></loomi-icon>`
             : nothing}
         </span>
-        ${this.label ? html`<span class="loomi-pill-label">${this.label}</span>` : nothing}
+        ${!iconOnly && this.label ? html`<span class="loomi-pill-label">${this.label}</span>` : nothing}
       </button>
     `;
+  }
+
+  override render(): TemplateResult {
+    if (this.hostIconsOnly && this.label) {
+      return html`<loomi-tooltip
+        class="loomi-item-tooltip"
+        content=${this.label}
+        placement=${this.hostTooltipPlacement}
+        >${this.renderPill()}</loomi-tooltip
+      >`;
+    }
+    return this.renderPill();
   }
 }
 
 /**
  * `<loomi-fab>` — a floating action button. With no children it's a single action
- * button; add `<loomi-speed-dial-item>` children and it becomes a speed-dial menu.
+ * button; add `<loomi-fab-item>` children and it becomes a speed-dial menu.
  *
- * @slot - `<loomi-speed-dial-item>` children.
+ * @slot - `<loomi-fab-item>` children.
  * @fires open - The speed-dial menu opened. @fires close - It closed.
  */
 @customElement("loomi-fab")
@@ -136,10 +173,13 @@ export class LoomiFab extends LoomiElement {
   /** Default icon set for the trigger and every item — overridable per-item via `icon-source`. */
   @property({ attribute: "icon-source" }) iconSource: LoomiIconSource = "heroicons";
 
+  /** Show only the icon on every item, with its `label` as a `<loomi-tooltip>` instead of visible text. */
+  @property({ type: Boolean, attribute: "icons-only", reflect: true }) iconsOnly = false;
+
   /** Accessible label for the trigger button and the menu. Defaults to a localized "Actions". */
   @property() label = "";
 
-  /** Menu open state (reflected). Only meaningful when there are `<loomi-speed-dial-item>` children. */
+  /** Menu open state (reflected). Only meaningful when there are `<loomi-fab-item>` children. */
   @property({ type: Boolean, reflect: true }) open = false;
 
   /** Disable the trigger entirely. */
@@ -158,46 +198,40 @@ export class LoomiFab extends LoomiElement {
 
   @state() private hasItems = false;
 
-  private isMovingInDom = false;
-  private originalParent: Node | null = null;
-  private originalNextSibling: ChildNode | null = null;
   private cleanupOutsideClick: (() => void) | null = null;
   private hoverCloseTimer = 0;
 
   override connectedCallback(): void {
     super.connectedCallback();
-    if (!this.isMovingInDom) {
-      this.addEventListener("mouseenter", this.onHostMouseEnter);
-      this.addEventListener("mouseleave", this.onHostMouseLeave);
-      this.addEventListener("focusout", this.onHostFocusOut);
-      this.addEventListener("keydown", this.onKeyDown);
-      this.addEventListener("loomi-select", this.onItemSelect);
-    }
-    this.syncDomPosition();
+    this.addEventListener("mouseenter", this.onHostMouseEnter);
+    this.addEventListener("mouseleave", this.onHostMouseLeave);
+    this.addEventListener("focusout", this.onHostFocusOut);
+    this.addEventListener("keydown", this.onKeyDown);
+    this.addEventListener("loomi-select", this.onItemSelect);
   }
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
-    if (!this.isMovingInDom) {
-      this.removeEventListener("mouseenter", this.onHostMouseEnter);
-      this.removeEventListener("mouseleave", this.onHostMouseLeave);
-      this.removeEventListener("focusout", this.onHostFocusOut);
-      this.removeEventListener("keydown", this.onKeyDown);
-      this.removeEventListener("loomi-select", this.onItemSelect);
-      this.cleanupOutsideClick?.();
-      this.cleanupOutsideClick = null;
-      clearTimeout(this.hoverCloseTimer);
-    }
+    this.removeEventListener("mouseenter", this.onHostMouseEnter);
+    this.removeEventListener("mouseleave", this.onHostMouseLeave);
+    this.removeEventListener("focusout", this.onHostFocusOut);
+    this.removeEventListener("keydown", this.onKeyDown);
+    this.removeEventListener("loomi-select", this.onItemSelect);
+    this.cleanupOutsideClick?.();
+    this.cleanupOutsideClick = null;
+    clearTimeout(this.hoverCloseTimer);
   }
 
   protected override willUpdate(changedProperties: PropertyValues<this>): void {
     super.willUpdate(changedProperties);
-    if (changedProperties.has("iconSource")) this.syncItemIconSource();
-  }
-
-  protected override updated(changedProperties: PropertyValues<this>): void {
-    super.updated(changedProperties);
-    if (changedProperties.has("variant")) this.syncDomPosition();
+    if (
+      changedProperties.has("iconSource") ||
+      changedProperties.has("iconsOnly") ||
+      changedProperties.has("placement") ||
+      changedProperties.has("direction")
+    ) {
+      this.syncItemDefaults();
+    }
   }
 
   /** Open the speed-dial menu. No-op when disabled, empty, or already open. */
@@ -236,41 +270,21 @@ export class LoomiFab extends LoomiElement {
     return this.placement.endsWith("left") ? "row" : "row-reverse";
   }
 
-  private syncDomPosition(): void {
-    if (this.variant === "floating") this.moveToDocumentBody();
-    else this.restoreOriginalPosition();
+  private getItems(): LoomiFabItem[] {
+    return Array.from(this.children).filter((child): child is LoomiFabItem => child instanceof LoomiFabItem);
   }
 
-  private moveToDocumentBody(): void {
-    if (this.parentNode === document.body) return;
-    this.originalParent = this.parentNode;
-    this.originalNextSibling = this.nextSibling;
-    this.isMovingInDom = true;
-    document.body.appendChild(this);
-    this.isMovingInDom = false;
-  }
-
-  private restoreOriginalPosition(): void {
-    if (!this.originalParent) return;
-    const nextSibling =
-      this.originalNextSibling?.parentNode === this.originalParent ? this.originalNextSibling : null;
-    this.isMovingInDom = true;
-    if (this.originalParent.isConnected) this.originalParent.insertBefore(this, nextSibling);
-    this.isMovingInDom = false;
-    this.originalParent = null;
-    this.originalNextSibling = null;
-  }
-
-  private getItems(): LoomiSpeedDialItem[] {
-    return Array.from(this.children).filter((child): child is LoomiSpeedDialItem => child instanceof LoomiSpeedDialItem);
-  }
-
-  private getEnabledItems(): LoomiSpeedDialItem[] {
+  private getEnabledItems(): LoomiFabItem[] {
     return this.getItems().filter((item) => !item.disabled);
   }
 
-  private syncItemIconSource(): void {
-    for (const item of this.getItems()) item.hostIconSource = this.iconSource;
+  private syncItemDefaults(): void {
+    const tooltipPlacement = FLOW_TO_TOOLTIP_PLACEMENT[this.pillFlow(this.resolvedDirection)] ?? "top";
+    for (const item of this.getItems()) {
+      item.hostIconSource = this.iconSource;
+      item.hostIconsOnly = this.iconsOnly;
+      item.hostTooltipPlacement = tooltipPlacement;
+    }
   }
 
   private focusItemAt(index: number): void {
@@ -285,8 +299,8 @@ export class LoomiFab extends LoomiElement {
 
   private onSlotChange = (event: Event): void => {
     const slot = event.target as HTMLSlotElement;
-    this.hasItems = slot.assignedElements({ flatten: true }).some((el) => el instanceof LoomiSpeedDialItem);
-    this.syncItemIconSource();
+    this.hasItems = slot.assignedElements({ flatten: true }).some((el) => el instanceof LoomiFabItem);
+    this.syncItemDefaults();
   };
 
   private onTriggerClick = (): void => {
@@ -414,6 +428,6 @@ export class LoomiFab extends LoomiElement {
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-fab": LoomiFab;
-    "loomi-speed-dial-item": LoomiSpeedDialItem;
+    "loomi-fab-item": LoomiFabItem;
   }
 }

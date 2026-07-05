@@ -42,6 +42,13 @@
         "--root-dir", ".", "--config", "web-dev-server.config.mjs", "--port", "8739"
       ],
       "port": 8739
+    },
+    {
+      "name": "loomi-examples-cc2",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "python3 -m http.server ${PORT:-8740}"],
+      "port": 8740,
+      "autoPort": true
     }
   ]
 }

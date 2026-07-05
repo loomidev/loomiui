@@ -289,7 +289,7 @@ export class LoomiBottomNav extends LoomiElement {
   override render(): TemplateResult {
     return html`
       <nav
-        class="loomi-bnav ${this.variant}"
+        class="loomi-bnav"
         part="nav"
         style=${accentVars(this.color)}
         aria-label=${this.label}
