@@ -1,13 +1,14 @@
 import { html, type TemplateResult } from "lit";
-import { property } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import { LoomiElement, loomiStyles } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 /**
- * `<loomi-listitem>` — a single stackable list row.
+ * `<loomi-listview-item>` — a single list row. Use inside `<loomi-listview>`.
  * @slot - Row content.
  */
-export class LoomiListitem extends LoomiElement {
+@customElement("loomi-listview-item")
+export class LoomiListviewItem extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property({ type: Boolean, reflect: true }) compact = false;
@@ -18,17 +19,35 @@ export class LoomiListitem extends LoomiElement {
   }
 }
 
-customElements.define("loomi-listitem", LoomiListitem);
+/**
+ * `<loomi-listview>` — a divided list of `<loomi-listview-item>` rows.
+ * @slot - `<loomi-listview-item>` children.
+ */
+@customElement("loomi-listview")
+export class LoomiListview extends LoomiElement {
+  static override styles = loomiStyles(componentStyles);
 
-/** Alias of `LoomiListitem` registered under `<loomi-listview-item>`. The Custom Elements
- * registry rejects registering one constructor under two tag names, so this subclass
- * exists purely to give the alias its own constructor identity. */
-export class LoomiListviewItem extends LoomiListitem {}
-customElements.define("loomi-listview-item", LoomiListviewItem);
+  @property({ type: Boolean, reflect: true }) transparent = false;
+  @property({ type: Boolean, reflect: true }) compact = false;
+
+  private sync = (): void => {
+    this.querySelectorAll("loomi-listview-item").forEach((item) => {
+      (item as LoomiListviewItem).compact = this.compact;
+    });
+  };
+
+  override firstUpdated(): void {
+    this.sync();
+  }
+
+  override render(): TemplateResult {
+    return html`<div class="loomi-listview" role="list"><slot @slotchange=${this.sync}></slot></div>`;
+  }
+}
 
 declare global {
   interface HTMLElementTagNameMap {
-    "loomi-listitem": LoomiListitem;
     "loomi-listview-item": LoomiListviewItem;
+    "loomi-listview": LoomiListview;
   }
 }
