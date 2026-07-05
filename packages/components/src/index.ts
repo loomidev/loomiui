@@ -64,6 +64,7 @@ export * from "@loomidev/filepicker";
 export * from "@loomidev/countries";
 export * from "@loomidev/creditcard";
 export * from "@loomidev/video";
+export * from "@loomidev/photo-gallery";
 
 export { registerLoomiIcon, getLoomiIcon, loomiIconNames } from "@loomidev/icons";
 
