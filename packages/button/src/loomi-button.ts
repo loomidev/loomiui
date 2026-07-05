@@ -132,12 +132,15 @@ export class LoomiButton extends LoomiElement {
   /** `type` only switches solid-fill vs. outline; `color` is the only thing that picks the hue. */
   private treatmentClasses(c: LoomiButtonColor): string[] {
     const w = BORDER_WIDTH[this.borderWidth] ?? BORDER_WIDTH[2];
-    if (this.outline) {
-      return ["bg-transparent", `text-${c}-600`, w, "border-solid", `border-${c}-300`, `hover:bg-${c}-50`];
-    }
-    // Secondary matches the neutral bordered ghost treatment used for Cancel actions.
+    // Secondary is already a transparent, neutral-bordered ghost treatment (its palette
+    // is literally the gray ramp — see palette.json), so outline is a no-op for it: both
+    // reuse the same dark-mode-aware --loomi-surface-* tokens instead of secondary's own
+    // (theme-static) palette shades.
     if (c === "secondary") {
       return [w, "border-solid", "loomi-btn--secondary"];
+    }
+    if (this.outline) {
+      return ["bg-transparent", `text-${c}-600`, w, "border-solid", `loomi-btn--outline-${c}`];
     }
     return [`bg-${c}-600`, "text-white", `hover:bg-${c}-700`, "border", "border-transparent"];
   }
