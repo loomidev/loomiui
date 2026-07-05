@@ -517,9 +517,9 @@ importers:
       '@loomidev/context-menu':
         specifier: workspace:^
         version: link:../context-menu
-      '@loomidev/copy-to-clipboard':
+      '@loomidev/clipboard':
         specifier: workspace:^
-        version: link:../copy-to-clipboard
+        version: link:../clipboard
       '@loomidev/core':
         specifier: workspace:^
         version: link:../core
@@ -822,7 +822,7 @@ importers:
         specifier: ^5.6.3
         version: 5.9.3
 
-  packages/copy-to-clipboard:
+  packages/clipboard:
     dependencies:
       '@loomidev/core':
         specifier: workspace:^

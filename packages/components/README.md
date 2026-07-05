@@ -78,7 +78,7 @@ import "@loomidev/components/select";
 | `<loomi-select>` | [`@loomidev/select`](../select) |
 | `<loomi-divider>` | [`@loomidev/divider`](../divider) |
 | `<loomi-qrcode>` | [`@loomidev/qrcode`](../qrcode) |
-| `<loomi-copy-to-clipboard>` | [`@loomidev/copy-to-clipboard`](../copy-to-clipboard) |
+| `<loomi-clipboard>` | [`@loomidev/clipboard`](../clipboard) |
 | `<loomi-context-menu>` | [`@loomidev/context-menu`](../context-menu) |
 | `<loomi-timer>` | [`@loomidev/timer`](../timer) |
 
@@ -242,11 +242,11 @@ In Next.js, Nuxt, SvelteKit, and other SSR frameworks, put the bundle import in 
 - `@loomidev/chart`
 - `@loomidev/checkbox`
 - `@loomidev/checkcards`
+- `@loomidev/clipboard`
 - `@loomidev/colorpicker`
 - `@loomidev/command-palette`
 - `@loomidev/contact-card`
 - `@loomidev/context-menu`
-- `@loomidev/copy-to-clipboard`
 - `@loomidev/core`
 - `@loomidev/countries`
 - `@loomidev/creditcard`

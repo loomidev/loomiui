@@ -22,7 +22,7 @@ export * from "@loomidev/alert";
 export * from "@loomidev/accordion";
 export * from "@loomidev/tab";
 export * from "@loomidev/tooltip";
-export * from "@loomidev/copy-to-clipboard";
+export * from "@loomidev/clipboard";
 export * from "@loomidev/pagination";
 export * from "@loomidev/table";
 export * from "@loomidev/data-grid";

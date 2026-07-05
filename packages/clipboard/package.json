@@ -1,11 +1,11 @@
 {
-  "name": "@loomidev/copy-to-clipboard",
+  "name": "@loomidev/clipboard",
   "version": "0.1.0",
-  "description": "<loomi-copy-to-clipboard> — wraps text or content with a copy button and copied feedback.",
+  "description": "<loomi-clipboard> — wraps text or content with a copy button and copied feedback.",
   "repository": {
     "type": "git",
     "url": "https://github.com/loomidev/loomiui.git",
-    "directory": "packages/copy-to-clipboard"
+    "directory": "packages/clipboard"
   },
   "license": "MIT",
   "publishConfig": {
@@ -23,9 +23,9 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./loomi-copy-to-clipboard.js": {
-      "types": "./dist/loomi-copy-to-clipboard.d.ts",
-      "import": "./dist/loomi-copy-to-clipboard.js"
+    "./loomi-clipboard.js": {
+      "types": "./dist/loomi-clipboard.d.ts",
+      "import": "./dist/loomi-clipboard.js"
     }
   },
   "scripts": {
