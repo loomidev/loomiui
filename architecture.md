@@ -284,6 +284,9 @@ Owns shared runtime behavior:
 - `onClickOutside(...)`;
 - `randomSuffix(...)` — short random id, e.g. for de-duplicating notification keys
   across component instances;
+- `nextMenuFocusIndex(...)` — resolves an Arrow/Home/End keydown into the next index to
+  focus in a top-level menu, extracted after `dropmenu` and `context-menu` turned out to
+  share byte-for-byte identical keydown logic;
 - shared body scroll locking for overlays;
 - shared i18n helpers and built-in translations.
 
