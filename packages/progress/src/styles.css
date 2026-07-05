@@ -43,13 +43,13 @@
   align-items: center;
   justify-content: flex-end;
   color: var(--loomi-text-on-primary, var(--loomi-white));
-  font-size: 0.65rem;
   font-weight: 600;
   padding-right: 0.4rem;
   min-width: fit-content;
 }
 .loomi-fill-label {
-  padding-block: 1px;
+  font-size: calc(0.65rem + 1pt);
+  padding-block: 2px;
   padding-inline-end: 3px;
 }
 .loomi-fill.dark {
