@@ -1,8 +1,8 @@
 import { html, fixture, expect, oneEvent } from "@open-wc/testing";
-import "../dist/loomi-copy-to-clipboard.js";
-import type { LoomiCopyToClipboard } from "../dist/index.js";
+import "../dist/loomi-clipboard.js";
+import type { LoomiClipboard } from "../dist/index.js";
 
-describe("loomi-copy-to-clipboard", () => {
+describe("loomi-clipboard", () => {
   let originalClipboard: Clipboard | undefined;
   let copiedText = "";
 
@@ -27,8 +27,8 @@ describe("loomi-copy-to-clipboard", () => {
   });
 
   it("renders a copy button after the slotted content", async () => {
-    const el = await fixture<LoomiCopyToClipboard>(html`
-      <loomi-copy-to-clipboard>Invoice number</loomi-copy-to-clipboard>
+    const el = await fixture<LoomiClipboard>(html`
+      <loomi-clipboard>Invoice number</loomi-clipboard>
     `);
     const button = el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-copy-button")!;
 
@@ -38,8 +38,8 @@ describe("loomi-copy-to-clipboard", () => {
   });
 
   it("copies the text content from a wrapped div", async () => {
-    const el = await fixture<LoomiCopyToClipboard>(html`
-      <loomi-copy-to-clipboard><div>https://example.com/share</div></loomi-copy-to-clipboard>
+    const el = await fixture<LoomiClipboard>(html`
+      <loomi-clipboard><div>https://example.com/share</div></loomi-clipboard>
     `);
     const copied = oneEvent(el, "copied");
 
@@ -51,8 +51,8 @@ describe("loomi-copy-to-clipboard", () => {
   });
 
   it("prefers the value attribute over rendered text", async () => {
-    const el = await fixture<LoomiCopyToClipboard>(html`
-      <loomi-copy-to-clipboard value="actual clipboard value">Visible text</loomi-copy-to-clipboard>
+    const el = await fixture<LoomiClipboard>(html`
+      <loomi-clipboard value="actual clipboard value">Visible text</loomi-clipboard>
     `);
 
     el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-copy-button")!.click();
@@ -62,8 +62,8 @@ describe("loomi-copy-to-clipboard", () => {
   });
 
   it("shows copied feedback after copying", async () => {
-    const el = await fixture<LoomiCopyToClipboard>(html`
-      <loomi-copy-to-clipboard copied-label="Done">Token</loomi-copy-to-clipboard>
+    const el = await fixture<LoomiClipboard>(html`
+      <loomi-clipboard copied-label="Done">Token</loomi-clipboard>
     `);
 
     el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-copy-button")!.click();
@@ -76,10 +76,10 @@ describe("loomi-copy-to-clipboard", () => {
   });
 
   it("adds a generated loomi name class to the host", async () => {
-    const el = await fixture<LoomiCopyToClipboard>(html`
-      <loomi-copy-to-clipboard>Token</loomi-copy-to-clipboard>
+    const el = await fixture<LoomiClipboard>(html`
+      <loomi-clipboard>Token</loomi-clipboard>
     `);
 
-    expect([...el.classList].some((cls) => /^loomi-copy-to-clipboard-[a-z0-9]{5}$/.test(cls))).to.be.true;
+    expect([...el.classList].some((cls) => /^loomi-clipboard-[a-z0-9]{5}$/.test(cls))).to.be.true;
   });
 });

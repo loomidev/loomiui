@@ -123,9 +123,9 @@
       "types": "./dist/tooltip.d.ts",
       "import": "./dist/tooltip.js"
     },
-    "./copy-to-clipboard": {
-      "types": "./dist/copy-to-clipboard.d.ts",
-      "import": "./dist/copy-to-clipboard.js"
+    "./clipboard": {
+      "types": "./dist/clipboard.d.ts",
+      "import": "./dist/clipboard.js"
     },
     "./pagination": {
       "types": "./dist/pagination.d.ts",
@@ -320,13 +320,13 @@
     "@loomidev/chart": "workspace:^",
     "@loomidev/checkbox": "workspace:^",
     "@loomidev/checkcards": "workspace:^",
+    "@loomidev/clipboard": "workspace:^",
     "@loomidev/command-palette": "workspace:^",
     "@loomidev/pin": "workspace:^",
     "@loomidev/colorpicker": "workspace:^",
     "@loomidev/contact-card": "workspace:^",
     "@loomidev/context-menu": "workspace:^",
     "@loomidev/core": "workspace:^",
-    "@loomidev/copy-to-clipboard": "workspace:^",
     "@loomidev/countries": "workspace:^",
     "@loomidev/creditcard": "workspace:^",
     "@loomidev/data-grid": "workspace:^",
