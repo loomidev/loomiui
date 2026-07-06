@@ -185,6 +185,35 @@ describe("loomi-dropmenu", () => {
     expect(item.shadowRoot!.querySelector(".loomi-item")!.classList.contains("destructive")).to.equal(true);
   });
 
+  it("closes the menu on Tab without trapping focus", async () => {
+    const el = await fixture<LoomiDropmenu>(html`
+      <loomi-dropmenu>
+        <loomi-dropmenu-item>Profile</loomi-dropmenu-item>
+        <loomi-dropmenu-item>Settings</loomi-dropmenu-item>
+      </loomi-dropmenu>
+    `);
+
+    const menu = await open(el);
+    menu.dispatchEvent(new KeyboardEvent("keydown", { key: "Tab", bubbles: true, composed: true, cancelable: true }));
+    await el.updateComplete;
+
+    expect(el.shadowRoot!.querySelector(".loomi-menu")).to.equal(null);
+  });
+
+  it("restores focus to the trigger after Escape", async () => {
+    const el = await fixture<LoomiDropmenu>(html`
+      <loomi-dropmenu>
+        <loomi-dropmenu-item>Profile</loomi-dropmenu-item>
+      </loomi-dropmenu>
+    `);
+
+    const menu = await open(el);
+    menu.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true, composed: true, cancelable: true }));
+    await el.updateComplete;
+
+    expect(el.shadowRoot!.activeElement).to.equal(el.shadowRoot!.querySelector(".loomi-trigger"));
+  });
+
   it("supports nested submenu items", async () => {
     const el = await fixture<LoomiDropmenu>(html`
       <loomi-dropmenu>

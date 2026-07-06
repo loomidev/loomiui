@@ -67,3 +67,7 @@
   outline: 2px solid var(--loomi-text);
   outline-offset: 1px;
 }
+.loomi-chip.active {
+  outline: 2px solid var(--loomi-focus-ring-color);
+  outline-offset: 1px;
+}

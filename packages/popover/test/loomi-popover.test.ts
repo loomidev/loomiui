@@ -42,4 +42,39 @@ describe("loomi-popover", () => {
     await el.updateComplete;
     expect(el.isOpen).to.equal(false);
   });
+
+  it("closes and restores focus to the trigger on Escape", async () => {
+    const el = await fixture<LoomiPopover>(html`<loomi-popover><p>Content</p></loomi-popover>`);
+    const trigger = el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!;
+    trigger.click();
+    await el.updateComplete;
+    trigger.focus();
+
+    el.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true, composed: true, cancelable: true }));
+    await el.updateComplete;
+
+    expect(el.isOpen).to.equal(false);
+    expect(el.shadowRoot!.activeElement).to.equal(trigger);
+  });
+
+  it("closes when focus moves outside the trigger and panel", async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div>
+        <loomi-popover><p>Content</p></loomi-popover>
+        <button id="outside">Outside</button>
+      </div>
+    `);
+    const el = wrapper.querySelector<LoomiPopover>("loomi-popover")!;
+    const outside = wrapper.querySelector<HTMLButtonElement>("#outside")!;
+    const trigger = el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!;
+    trigger.click();
+    await el.updateComplete;
+    trigger.focus();
+
+    trigger.dispatchEvent(new FocusEvent("focusout", { relatedTarget: outside, bubbles: true, composed: true }));
+    outside.focus();
+    await el.updateComplete;
+
+    expect(el.isOpen).to.equal(false);
+  });
 });

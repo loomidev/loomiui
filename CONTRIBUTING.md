@@ -864,35 +864,37 @@ publish time, not by splitting the source into many git repos.
 - **`SECURITY.md`** with a private disclosure path, plus GitHub issue templates
   (`bug_report.yml`, `feature_request.yml`) and a PR template.
 - **npm publish provenance**: wired into `release.yml` (`id-token: write` +
-  Changesets' action), see [§9.7](#97-how-this-ties-to-the-github-repo) — will take
-  effect once the `NPM_TOKEN` repo secret is set on `github.com/loomidev/loomiui`;
-  can't be exercised before that.
+  Changesets' action), see [§9.7](#97-how-this-ties-to-the-github-repo). The `NPM_TOKEN`
+  repo secret is now set on `github.com/loomidev/loomiui`, so publishing is live.
 - **Versioning/changelog automation** via Changesets — see [§9.3](#93-versioning-strategy).
 - **Explicit browser support matrix**, a **React/Vue/Angular interop note**, a
   **zero-install CDN quick start**, and the **`@loomidev/mcp-server`** highlight — all now
   in the user-facing `README.md` rather than buried here.
-- **A *partial* accessibility pass** — not a full audit. Fixed: `modal` now traps Tab
-  focus, moves focus into the dialog on open, and restores it to the trigger on close;
-  `tabs` now supports the WAI-ARIA APG roving-tabindex pattern (Arrow/Home/End, with
-  automatic activation matching its existing click behavior); `select`'s open listbox
-  now supports the standard listbox-button keyboard pattern (Arrow/Home/End/Enter with
-  `aria-activedescendant`, previously mouse-only). All three are covered by the smoke
-  tests in [§8a](#8a-automated-smoke-tests).
+- **An accessibility pass across the overlay/floating-panel components** — not a full
+  audit, but every previously-known gap is closed. `modal` traps Tab focus, moves focus
+  into the dialog on open, and restores it to the trigger on close. `tabs` supports the
+  WAI-ARIA APG roving-tabindex pattern (Arrow/Home/End, with automatic activation
+  matching its existing click behavior). `select`'s open listbox and `colorpicker`'s
+  swatch grid both support the standard `aria-activedescendant` keyboard pattern
+  (Arrow/Home/End/Enter, previously mouse-only for colorpicker). `dropmenu` and
+  `popover` now close (rather than staying open with focus adrift) when focus leaves
+  them and restore focus to the trigger: `dropmenu`'s Tab closes the menu without
+  trapping it (the correct non-trap menu-button pattern, since its items are real,
+  focusable DOM nodes) and Escape/item-selection explicitly refocus `.loomi-trigger`;
+  `popover` — a non-modal `role="dialog"` with arbitrary rich content — closes on
+  `focusout` leaving its trigger+panel subtree and on Escape, restoring focus, but
+  deliberately isn't Tab-trapped like `modal` since trapping is a modal-only pattern.
+  All of the above are covered by smoke tests in [§8a](#8a-automated-smoke-tests).
 
 ### Still open
 
-- **Accessibility coverage beyond the three components above.** `dropmenu` and
-  `popover` open floating panels but don't trap/restore focus the way `modal` now does;
-  `dropmenu`'s menu items and `colorpicker`'s swatch grid are mouse-only, the same gap
-  `select` had. These are the next-most-valuable targets, using the exact same patterns
-  already implemented (copy `modal`'s focus-trap helpers; copy `select`'s
-  `aria-activedescendant` pattern).
 - **Deeper test coverage** for component-specific edge cases — extend opportunistically
   per [§8a](#8a-automated-smoke-tests), especially when changing form controls,
   overlays, keyboard navigation, or generated styles.
-- **Repo secrets on GitHub.** The repo itself is pushed (`github.com/loomidev/loomiui`,
-  see [§9.7](#97-how-this-ties-to-the-github-repo)), but the workflows can't actually
-  publish until `NPM_TOKEN` is set there.
+- **Accessibility beyond the overlay components above** hasn't had a dedicated pass —
+  e.g. `context-menu`, `command-palette`, `data-grid`, and other components with custom
+  keyboard interaction haven't been audited against the WAI-ARIA APG the way the
+  components above have.
 
 ---
 
