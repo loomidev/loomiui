@@ -44,6 +44,10 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `onClickOutside(el, handler)` | Calls `handler` on a click outside `el` (crosses shadow boundaries). Returns a cleanup fn. |
 | `randomSuffix()` | A short random id, e.g. for de-duplicating notification keys across component instances. |
 | `nextMenuFocusIndex(event, currentIndex, itemCount)` | Resolves an Arrow/Home/End keydown into the next index to focus in a top-level menu (the shared shape behind `@loomidev/dropmenu` and `@loomidev/context-menu`), or `undefined` for any other key. Doesn't touch the DOM — the caller's own `focusItemAt()`-style method wraps the index and moves focus. |
+| `deepActiveElement()` | Walks into nested shadow roots to find the actually-focused element. |
+| `trapTabFocus(event, focusable)` | Keeps Tab/Shift+Tab cycling within `focusable` — call once `event.key === "Tab"` is confirmed. Used by `@loomidev/modal` and `@loomidev/lightbox`. |
+| `FOCUSABLE_SELECTOR` | The CSS selector `trapTabFocus` and its callers use to find focusable elements. |
+| `OverlayReparent` | Moves an overlay element to `document.body` while open and back on close (`moveToBody()` / `restore()`), guarding against the reparent itself firing `disconnectedCallback`/`connectedCallback` (`isMovingInDom`). |
 | `setLoomiLocale(locale)` / `getLoomiLocale()` | Set or read the shared locale used by translated component defaults. |
 | `defineLoomiTranslations(locale, messages)` | Add or override translations for built-in component text. |
 | `loomiT(path, params, locale)` | Translate a shared message by key, with English fallback. |

@@ -1,0 +1,132 @@
+:host {
+  display: inline-block;
+}
+:host([hidden]) {
+  display: none;
+}
+
+.loomi-lightbox-trigger {
+  display: inline-block;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  line-height: 0;
+  cursor: zoom-in;
+}
+.loomi-lightbox-trigger:focus-visible {
+  outline: 2px solid var(--loomi-focus-ring-color);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+.loomi-lightbox-trigger ::slotted(img) {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---- fullscreen viewer ---- */
+.loomi-lightbox-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2147480000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 12, 16, 0.92);
+  animation: loomi-fade-in var(--loomi-motion-duration) var(--loomi-motion-ease);
+}
+.loomi-lightbox-dialog {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100vw;
+  max-height: 100dvh;
+  padding: 3.5rem 1rem 1rem;
+  outline: none;
+}
+.loomi-lightbox-image {
+  display: block;
+  max-width: calc(100vw - 2rem);
+  max-height: calc(100dvh - 7rem);
+  object-fit: contain;
+  user-select: none;
+  animation: loomi-pop-in var(--loomi-motion-duration) var(--loomi-motion-ease);
+}
+.loomi-lightbox-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  cursor: pointer;
+  padding: 0.5rem;
+  line-height: 0;
+  border-radius: 9999px;
+}
+.loomi-lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+.loomi-lightbox-close:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+.loomi-lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  cursor: pointer;
+  padding: 0.6rem;
+  border-radius: 9999px;
+}
+.loomi-lightbox-nav:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+.loomi-lightbox-nav:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+.loomi-lightbox-nav.prev {
+  left: 0.75rem;
+}
+.loomi-lightbox-nav.next {
+  right: 0.75rem;
+}
+.loomi-lightbox-caption {
+  flex: none;
+  padding-top: 0.75rem;
+  max-width: 40rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+.loomi-lightbox-counter {
+  flex: none;
+  padding-top: 0.35rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+@media (max-width: 30rem) {
+  .loomi-lightbox-dialog {
+    padding: 3rem 0.5rem 0.5rem;
+  }
+  .loomi-lightbox-nav {
+    padding: 0.45rem;
+  }
+}

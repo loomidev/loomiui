@@ -1,6 +1,18 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, loomiT, accentVars, lockBodyScroll, unlockBodyScroll, type LoomiColor } from "@loomidev/core";
+import {
+  LoomiElement,
+  loomiStyles,
+  loomiT,
+  accentVars,
+  lockBodyScroll,
+  unlockBodyScroll,
+  deepActiveElement,
+  trapTabFocus,
+  FOCUSABLE_SELECTOR,
+  OverlayReparent,
+  type LoomiColor,
+} from "@loomidev/core";
 import "@loomidev/button/loomi-button.js";
 import "@loomidev/icon/loomi-icon.js";
 import type { LoomiIconSource } from "@loomidev/icon";
@@ -26,16 +38,6 @@ const booleanAttribute = {
     return value ? "" : null;
   },
 };
-
-const FOCUSABLE_SELECTOR =
-  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
-
-/** Walks into nested shadow roots to find the actually-focused element. */
-function deepActiveElement(): Element | null {
-  let el: Element | null = document.activeElement;
-  while (el?.shadowRoot?.activeElement) el = el.shadowRoot.activeElement;
-  return el;
-}
 
 const registry = new Map<string, LoomiModal>();
 
@@ -99,9 +101,7 @@ export class LoomiModal extends LoomiElement {
   /** The element focused before `show()` was called, restored when the modal closes. */
   private previouslyFocused: HTMLElement | null = null;
   private hasScrollLock = false;
-  private isMovingInDom = false;
-  private originalParent: Node | null = null;
-  private originalNextSibling: ChildNode | null = null;
+  private reparent = new OverlayReparent(this);
 
   override connectedCallback(): void {
     super.connectedCallback();
@@ -112,7 +112,7 @@ export class LoomiModal extends LoomiElement {
     super.disconnectedCallback();
     if (this.name) registry.delete(this.name);
     document.removeEventListener("keydown", this.onKey);
-    if (!this.isMovingInDom) this.releaseScrollLock();
+    if (!this.reparent.isMovingInDom) this.releaseScrollLock();
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
@@ -124,7 +124,7 @@ export class LoomiModal extends LoomiElement {
 
   show(): void {
     this.previouslyFocused = deepActiveElement() as HTMLElement | null;
-    this.moveToDocumentBody();
+    this.reparent.moveToBody();
     this.open = true;
     this.syncScrollLock();
     this.dispatchEvent(new Event("open", { bubbles: true, composed: true }));
@@ -141,36 +141,9 @@ export class LoomiModal extends LoomiElement {
     this.open = false;
     this.releaseScrollLock();
     this.dispatchEvent(new Event("close", { bubbles: true, composed: true }));
-    this.restoreOriginalPosition();
+    this.reparent.restore();
     this.previouslyFocused?.focus();
     this.previouslyFocused = null;
-  }
-
-  private moveToDocumentBody(): void {
-    if (this.parentNode === document.body) return;
-
-    this.originalParent = this.parentNode;
-    this.originalNextSibling = this.nextSibling;
-
-    this.isMovingInDom = true;
-    document.body.appendChild(this);
-    this.isMovingInDom = false;
-  }
-
-  private restoreOriginalPosition(): void {
-    if (!this.originalParent) return;
-
-    const nextSibling =
-      this.originalNextSibling?.parentNode === this.originalParent ? this.originalNextSibling : null;
-
-    this.isMovingInDom = true;
-    if (this.originalParent.isConnected) {
-      this.originalParent.insertBefore(this, nextSibling);
-    }
-    this.isMovingInDom = false;
-
-    this.originalParent = null;
-    this.originalNextSibling = null;
   }
 
   private syncScrollLock(): void {
@@ -218,23 +191,7 @@ export class LoomiModal extends LoomiElement {
       return;
     }
     if (e.key !== "Tab") return;
-    // Trap focus inside the dialog while it's open.
-    const focusable = this.getFocusable();
-    if (focusable.length === 0) {
-      e.preventDefault();
-      return;
-    }
-    const current = deepActiveElement();
-    const index = focusable.indexOf(current as HTMLElement);
-    if (e.shiftKey) {
-      if (index <= 0) {
-        e.preventDefault();
-        focusable[focusable.length - 1].focus();
-      }
-    } else if (index === -1 || index === focusable.length - 1) {
-      e.preventDefault();
-      focusable[0].focus();
-    }
+    trapTabFocus(e, this.getFocusable());
   };
 
   private onBackdrop = (e: MouseEvent): void => {

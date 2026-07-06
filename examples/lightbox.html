@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>loomi — &lt;loomi-lightbox-image&gt;</title>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "lit": "https://esm.sh/lit@3.3.3",
+          "lit/": "https://esm.sh/lit@3.3.3/",
+          "@loomidev/theme": "../packages/theme/dist/index.js",
+          "@loomidev/core": "../packages/core/dist/index.js",
+          "@loomidev/icons": "../packages/icons/dist/index.js",
+          "@loomidev/icon": "../packages/icon/dist/index.js",
+          "@loomidev/icon/loomi-icon.js": "../packages/icon/dist/loomi-icon.js"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import "../packages/lightbox/dist/loomi-lightbox.js";
+
+      document.querySelectorAll("loomi-lightbox-image").forEach((box) => {
+        const out = box.closest("article, section")?.querySelector(".out");
+        if (!out) return;
+        ["loomi-open", "loomi-close"].forEach((name) => {
+          box.addEventListener(name, (e) => {
+            out.textContent = `${name} — ${box.getAttribute("src")}`;
+          });
+        });
+      });
+    </script>
+
+    <style>
+      body {
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        margin: 0;
+        padding: 2.5rem clamp(1rem, 5vw, 4rem);
+        color: #0f172a;
+        background: #f8fafc;
+      }
+      h1 { margin: 0 0 0.25rem; }
+      p.lead { color: #475569; margin-top: 0; max-width: 40rem; }
+      section { margin: 2.5rem 0; }
+      h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin: 0 0 0.75rem; }
+      .out { margin-top: 0.5rem; font-size: 0.8rem; color: #64748b; font-family: monospace; }
+
+      article {
+        max-width: 38rem;
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
+        padding: 2rem;
+        line-height: 1.7;
+      }
+      article p { margin: 0 0 1rem; }
+      loomi-lightbox-image img {
+        display: block;
+        width: 100%;
+        border-radius: 0.5rem;
+        margin: 1rem 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>loomi — &lt;loomi-lightbox-image&gt;</h1>
+    <p class="lead">
+      Click any image to view it fullscreen. Each one is fully standalone — no shared
+      gallery container, no coordination needed. Give matching images a shared
+      <code>group</code> attribute to get Next/Prev navigation between them.
+    </p>
+
+    <section>
+      <h2>Blog post with scattered, grouped images</h2>
+      <article>
+        <p>
+          The trail starts easy enough, winding through a stand of pines before the
+          first real climb.
+        </p>
+        <loomi-lightbox-image
+          src="https://picsum.photos/id/1018/1600/1000"
+          caption="Trailhead — day one"
+          group="trip"
+        >
+          <img src="https://picsum.photos/id/1018/640/400" alt="Trailhead through a pine forest" />
+        </loomi-lightbox-image>
+        <p>
+          By midday the trees thin out and the ridge comes into view — this is where
+          most people stop for lunch.
+        </p>
+        <loomi-lightbox-image
+          src="https://picsum.photos/id/1015/1600/1000"
+          caption="The ridge — day one, afternoon"
+          group="trip"
+        >
+          <img src="https://picsum.photos/id/1015/640/400" alt="A mountain ridge under a clear sky" />
+        </loomi-lightbox-image>
+        <p>
+          We camped just below the summit and caught the sunrise the next morning —
+          worth every step of the climb.
+        </p>
+        <loomi-lightbox-image
+          src="https://picsum.photos/id/1039/1600/1000"
+          caption="Sunrise from camp — day two"
+          group="trip"
+        >
+          <img src="https://picsum.photos/id/1039/640/400" alt="Sunrise over mountain peaks" />
+        </loomi-lightbox-image>
+        <p>
+          Clicking any of the three photos above opens the same viewer, with
+          <kbd>←</kbd>/<kbd>→</kbd> (or the on-screen arrows) moving between all three,
+          regardless of how many paragraphs sit between them.
+        </p>
+      </article>
+      <div class="out">(open/close events log here)</div>
+    </section>
+
+    <section>
+      <h2>Standalone image (no group — no Next/Prev)</h2>
+      <article>
+        <p>
+          A single photo with no <code>group</code> attribute opens on its own, with no
+          navigation controls at all.
+        </p>
+        <loomi-lightbox-image src="https://picsum.photos/id/1025/1600/1000" caption="Just one photo">
+          <img src="https://picsum.photos/id/1025/640/400" alt="A dog looking at the camera" />
+        </loomi-lightbox-image>
+      </article>
+      <div class="out">(open/close events log here)</div>
+    </section>
+  </body>
+</html>

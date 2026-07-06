@@ -76,6 +76,13 @@ export const en: LoomiTranslations = {
     trigger: "Actions",
     dialog: "Actions menu",
   },
+  lightbox: {
+    view: "View full-size image",
+    dialog: "Image viewer",
+    previous: "Previous image",
+    next: "Next image",
+    counter: ":current of :total",
+  },
   photoGallery: {
     toolbar: "Gallery toolbar",
     showAlbums: "Show albums",

@@ -37,6 +37,7 @@ export * from "@loomidev/bell";
 export * from "@loomidev/dropmenu";
 export * from "@loomidev/context-menu";
 export * from "@loomidev/popover";
+export * from "@loomidev/lightbox";
 export * from "@loomidev/empty-state";
 export * from "@loomidev/statistic";
 export * from "@loomidev/resizable";
