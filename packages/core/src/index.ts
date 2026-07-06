@@ -3,6 +3,7 @@ import { themeStyles, type LoomiColor } from "@loomidev/theme";
 import { elevationStyles } from "./elevation.js";
 import { focusStyles } from "./focus.js";
 import { motionStyles } from "./motion.js";
+export * from "./dark-mode.js";
 export * from "./elevation.js";
 export * from "./focus.js";
 export * from "./i18n.js";
