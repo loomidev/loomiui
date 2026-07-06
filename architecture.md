@@ -6,7 +6,7 @@ reading every package first.
 
 For setup commands, publishing steps, and the exact checklist for adding a component, see
 [`CONTRIBUTING.md`](CONTRIBUTING.md). For a slower beginner-oriented tour of the same
-ideas, see [`HOW_THIS_PROJECT_WORKS.md`](HOW_THIS_PROJECT_WORKS.md).
+ideas, see [`HOW_THIS_PROJECT_WORKS.md`](docs/HOW_THIS_PROJECT_WORKS.md).
 
 ## If You Are New Here
 

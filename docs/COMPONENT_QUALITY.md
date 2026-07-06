@@ -116,6 +116,6 @@ here.
 
 ## Related docs
 
-- [`HOW_THIS_PROJECT_WORKS.md` §11](../HOW_THIS_PROJECT_WORKS.md#11-events-forms-and-accessibility)
+- [`HOW_THIS_PROJECT_WORKS.md` §11](HOW_THIS_PROJECT_WORKS.md#11-events-forms-and-accessibility)
 - [`CONTRIBUTING.md` §7](../CONTRIBUTING.md#7-the-theming-model-so-you-dont-break-it)
 - [`packages/theme/README.md`](../packages/theme/README.md)
