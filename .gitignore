@@ -10,7 +10,4 @@ coverage/
 **/src/generated/
 /.claude
 /.pnpm-store
-/.changeset
-/.pnpm-store
-/.claude
-/.claude
+/.idea

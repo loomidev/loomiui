@@ -524,6 +524,9 @@ importers:
       '@loomidev/chart':
         specifier: workspace:^
         version: link:../chart
+      '@loomidev/chat':
+        specifier: workspace:^
+        version: link:../chat
       '@loomidev/checkbox':
         specifier: workspace:^
         version: link:../checkbox
@@ -701,6 +704,9 @@ importers:
       '@loomidev/timer':
         specifier: workspace:^
         version: link:../timer
+      '@loomidev/timezonepicker':
+        specifier: workspace:^
+        version: link:../timezonepicker
       '@loomidev/toggle':
         specifier: workspace:^
         version: link:../toggle
@@ -1257,6 +1263,9 @@ importers:
       '@loomidev/timepicker':
         specifier: workspace:^
         version: link:../timepicker
+      '@loomidev/timezonepicker':
+        specifier: workspace:^
+        version: link:../timezonepicker
       '@loomidev/toggle':
         specifier: workspace:^
         version: link:../toggle

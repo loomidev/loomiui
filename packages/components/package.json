@@ -39,6 +39,14 @@
       "types": "./dist/calendar.d.ts",
       "import": "./dist/calendar.js"
     },
+    "./chat": {
+      "types": "./dist/chat.d.ts",
+      "import": "./dist/chat.js"
+    },
+    "./timezonepicker": {
+      "types": "./dist/timezonepicker.d.ts",
+      "import": "./dist/timezonepicker.js"
+    },
     "./input": {
       "types": "./dist/input.d.ts",
       "import": "./dist/input.js"
@@ -326,6 +334,7 @@
     "@loomidev/card": "workspace:^",
     "@loomidev/centered-content": "workspace:^",
     "@loomidev/chart": "workspace:^",
+    "@loomidev/chat": "workspace:^",
     "@loomidev/checkbox": "workspace:^",
     "@loomidev/checkcards": "workspace:^",
     "@loomidev/clipboard": "workspace:^",
@@ -385,6 +394,7 @@
     "@loomidev/timeline": "workspace:^",
     "@loomidev/timer": "workspace:^",
     "@loomidev/timepicker": "workspace:^",
+    "@loomidev/timezonepicker": "workspace:^",
     "@loomidev/toggle": "workspace:^",
     "@loomidev/tooltip": "workspace:^",
     "@loomidev/video": "workspace:^"

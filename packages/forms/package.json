@@ -44,6 +44,7 @@
     "@loomidev/checkcards": "workspace:^",
     "@loomidev/datepicker": "workspace:^",
     "@loomidev/timepicker": "workspace:^",
+    "@loomidev/timezonepicker": "workspace:^",
     "@loomidev/colorpicker": "workspace:^",
     "@loomidev/filepicker": "workspace:^",
     "@loomidev/countries": "workspace:^",
