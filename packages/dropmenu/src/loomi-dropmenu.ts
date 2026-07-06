@@ -221,7 +221,7 @@ export class LoomiDropmenu extends LoomiElement {
     this.schedulePlacement();
   }
 
-  private closeMenu(): void {
+  private closeMenu(options: { restoreFocus?: boolean } = {}): void {
     this.open = false;
     this.focusedIndex = -1;
     this.cleanupOutside?.();
@@ -229,6 +229,9 @@ export class LoomiDropmenu extends LoomiElement {
     this.cleanupPlacement?.();
     this.cleanupPlacement = undefined;
     cancelAnimationFrame(this.placementFrame);
+    if (options.restoreFocus) {
+      this.renderRoot.querySelector<HTMLButtonElement>(".loomi-trigger")?.focus();
+    }
   }
 
   private observePlacement(): () => void {
@@ -318,7 +321,9 @@ export class LoomiDropmenu extends LoomiElement {
 
   private onItemsClick = (e: Event): void => {
     const item = e.composedPath().find((target): target is LoomiDropmenuItem => target instanceof LoomiDropmenuItem);
-    if (item && item.selectable && !item.hasSubmenu && !item.isToggle && this.hideAfterClick) this.closeMenu();
+    if (item && item.selectable && !item.hasSubmenu && !item.isToggle && this.hideAfterClick) {
+      this.closeMenu({ restoreFocus: true });
+    }
   };
 
   private onTriggerKeyDown = (event: KeyboardEvent): void => {
@@ -335,8 +340,16 @@ export class LoomiDropmenu extends LoomiElement {
 
     if (event.key === "Escape") {
       event.preventDefault();
+      this.closeMenu({ restoreFocus: true });
+      return;
+    }
+
+    if (event.key === "Tab") {
+      // Menu items are tabindex="-1" (roving focus via Arrow keys), so a bare Tab would
+      // otherwise jump focus to whatever's next in the document while leaving the panel
+      // visibly open. Close it and let the browser's own Tab motion continue — mirrors
+      // the standard menu-button pattern (Tab is not trapped, unlike a true modal).
       this.closeMenu();
-      this.renderRoot.querySelector<HTMLButtonElement>(".loomi-trigger")?.focus();
       return;
     }
 

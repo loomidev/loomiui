@@ -1,6 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, onClickOutside } from "@loomidev/core";
+import { LoomiElement, loomiStyles, onClickOutside, deepActiveElement } from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -26,10 +26,19 @@ export class LoomiPopover extends LoomiElement {
 
   @state() private open = false;
   private cleanup?: () => void;
+  /** Focus to restore on close, captured only when it was inside this component. */
+  private previouslyFocused: HTMLElement | null = null;
 
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.addEventListener("keydown", this.onKeyDown);
+    this.addEventListener("focusout", this.onFocusOut);
+  }
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.cleanup?.();
+    this.removeEventListener("keydown", this.onKeyDown);
+    this.removeEventListener("focusout", this.onFocusOut);
   }
 
   /** Whether the panel is currently open. */
@@ -43,18 +52,47 @@ export class LoomiPopover extends LoomiElement {
     this.dispatchEvent(new CustomEvent("loomi-toggle", { bubbles: true, composed: true, detail: { open } }));
   }
 
+  /** True while focus is somewhere inside the trigger or the open panel. */
+  private get focusIsInside(): boolean {
+    const active = deepActiveElement();
+    return !!active && (this.contains(active) || (this.renderRoot as ShadowRoot).contains(active));
+  }
+
   show(): void {
     if (this.open || this.disabled) return;
+    this.previouslyFocused = this.focusIsInside ? (deepActiveElement() as HTMLElement) : null;
     this.setOpen(true);
-    if (this.triggerOn === "click") this.cleanup = onClickOutside(this, () => this.setOpen(false));
+    if (this.triggerOn === "click") this.cleanup = onClickOutside(this, () => this.hide());
   }
   hide(): void {
+    const restoreFocus = this.focusIsInside;
     this.setOpen(false);
     this.cleanup?.();
+    if (restoreFocus) this.previouslyFocused?.focus();
+    this.previouslyFocused = null;
   }
   toggle(): void {
     this.open ? this.hide() : this.show();
   }
+
+  private onKeyDown = (e: KeyboardEvent): void => {
+    if (e.key === "Escape" && this.open) {
+      e.stopPropagation();
+      this.hide();
+    }
+  };
+
+  /**
+   * Non-modal dialog (no `aria-modal`, arbitrary rich content) — Tab isn't trapped like
+   * `loomi-modal`'s dialog, it's allowed to move focus out normally, which closes the
+   * panel rather than leaving it open with focus already gone.
+   */
+  private onFocusOut = (e: FocusEvent): void => {
+    if (!this.open) return;
+    const next = e.relatedTarget as Node | null;
+    if (next && (this.contains(next) || (this.renderRoot as ShadowRoot).contains(next))) return;
+    this.hide();
+  };
 
   override render(): TemplateResult {
     const path = getLoomiIcon(this.trigger.replace(/-icon$/, ""));
