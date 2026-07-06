@@ -1,0 +1,57 @@
+{
+  "name": "@loomidev/lightbox",
+  "version": "0.1.0",
+  "description": "<loomi-lightbox-image> — click an image to view it fullscreen. Wraps a single existing image with no shared container; give matching `group` values to enable Next/Prev between scattered images.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/lightbox"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./loomi-lightbox.js": {
+      "types": "./dist/loomi-lightbox.d.ts",
+      "import": "./dist/loomi-lightbox.js"
+    }
+  },
+  "scripts": {
+    "build": "node scripts/build-styles.mjs && tsc -p tsconfig.json",
+    "dev": "node scripts/build-styles.mjs && tsc -p tsconfig.json --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@loomidev/core": "workspace:^",
+    "@loomidev/icon": "workspace:^"
+  },
+  "peerDependencies": {
+    "lit": "^3.0.0"
+  },
+  "devDependencies": {
+    "@loomidev/theme": "workspace:^",
+    "@tailwindcss/cli": "^4.0.0",
+    "lit": "^3.3.3",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.6.3"
+  },
+  "keywords": [
+    "web-components",
+    "lit",
+    "loomiui",
+    "lightbox",
+    "image"
+  ]
+}

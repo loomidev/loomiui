@@ -264,6 +264,7 @@ In Next.js, Nuxt, SvelteKit, and other SSR frameworks, put the bundle import in 
 - `@loomidev/icon`
 - `@loomidev/icons`
 - `@loomidev/input`
+- `@loomidev/lightbox`
 - `@loomidev/listview`
 - `@loomidev/modal`
 - `@loomidev/notification`
