@@ -89,8 +89,12 @@
  * light-mode direction (200 -> 400, darker): this is a neutral gray border, not a hued
  * one, so moving toward gray-900 here would read as *less* visible against the
  * gray-800 dark surface instead of the added hover emphasis the lighter shade gives.
+ *
+ * `.is-dark` (not `:host-context(.dark)`) because `:host-context()` has no Firefox
+ * support — the component detects the ancestor `.dark` class in JS instead and reflects
+ * it as this class on its own root element (see `isDarkContext` in loomi-button.ts).
  */
-:host-context(.dark) .loomi-btn.loomi-btn--secondary:hover {
+.loomi-btn.loomi-btn--secondary.is-dark:hover {
   border-color: var(--loomi-gray-500, var(--_loomi-gray-500-default));
 }
 
@@ -126,28 +130,28 @@
   background: var(--loomi-warning-50, var(--_loomi-warning-50-default));
 }
 
-:host-context(.dark) .loomi-btn.loomi-btn--outline-primary {
+.loomi-btn.loomi-btn--outline-primary.is-dark {
   border-color: var(--loomi-primary-700, var(--_loomi-primary-700-default));
 }
-:host-context(.dark) .loomi-btn.loomi-btn--outline-primary:hover {
+.loomi-btn.loomi-btn--outline-primary.is-dark:hover {
   background: var(--loomi-primary-800, var(--_loomi-primary-800-default));
 }
-:host-context(.dark) .loomi-btn.loomi-btn--outline-success {
+.loomi-btn.loomi-btn--outline-success.is-dark {
   border-color: var(--loomi-success-700, var(--_loomi-success-700-default));
 }
-:host-context(.dark) .loomi-btn.loomi-btn--outline-success:hover {
+.loomi-btn.loomi-btn--outline-success.is-dark:hover {
   background: var(--loomi-success-800, var(--_loomi-success-800-default));
 }
-:host-context(.dark) .loomi-btn.loomi-btn--outline-error {
+.loomi-btn.loomi-btn--outline-error.is-dark {
   border-color: var(--loomi-error-700, var(--_loomi-error-700-default));
 }
-:host-context(.dark) .loomi-btn.loomi-btn--outline-error:hover {
+.loomi-btn.loomi-btn--outline-error.is-dark:hover {
   background: var(--loomi-error-800, var(--_loomi-error-800-default));
 }
-:host-context(.dark) .loomi-btn.loomi-btn--outline-warning {
+.loomi-btn.loomi-btn--outline-warning.is-dark {
   border-color: var(--loomi-warning-700, var(--_loomi-warning-700-default));
 }
-:host-context(.dark) .loomi-btn.loomi-btn--outline-warning:hover {
+.loomi-btn.loomi-btn--outline-warning.is-dark:hover {
   background: var(--loomi-warning-800, var(--_loomi-warning-800-default));
 }
 

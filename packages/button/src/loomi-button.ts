@@ -1,7 +1,7 @@
 import { html, nothing, type TemplateResult } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { LoomiElement, loomiStyles } from "@loomidev/core";
+import { LoomiElement, loomiStyles, watchDarkMode } from "@loomidev/core";
 import { getLoomiIcon } from "./icons.js";
 import { buttonStyles } from "./generated/styles.css.js";
 
@@ -110,6 +110,25 @@ export class LoomiButton extends LoomiElement {
   /** Optional name for targeting this button (reflected as an attribute). */
   @property({ reflect: true }) name = "";
 
+  /**
+   * Whether an ancestor of the page has the `dark` class (see `@loomidev/theme-switcher`).
+   * Tracked in JS and reflected as a class in `computeClasses()` because `:host-context()`
+   * — the CSS-only way to detect this — has no Firefox support.
+   */
+  @state() private isDarkContext = false;
+  private cleanupDarkWatch?: () => void;
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.cleanupDarkWatch = watchDarkMode((isDark) => {
+      this.isDarkContext = isDark;
+    });
+  }
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.cleanupDarkWatch?.();
+  }
+
   /** Make the spinner visible. No-op unless `has-spinner` is set. */
   startSpinner(): void {
     if (this.hasSpinner) this.showSpinner = true;
@@ -166,6 +185,7 @@ export class LoomiButton extends LoomiElement {
     ];
 
     if (this.uppercase) classes.push("uppercase", "tracking-wide");
+    if (this.isDarkContext) classes.push("is-dark");
 
     if (this.showFocusRing) {
       classes.push(

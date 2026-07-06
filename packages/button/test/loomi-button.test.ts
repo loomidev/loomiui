@@ -43,4 +43,25 @@ describe("loomi-button", () => {
     el.stopSpinner();
     expect(el.showSpinner).to.be.false;
   });
+
+  it("reflects the ancestor `dark` class as `.is-dark` without relying on :host-context()", async () => {
+    const el = await fixture<LoomiButton>(html`<loomi-button outline>Save</loomi-button>`);
+    const btn = () => el.shadowRoot!.querySelector("button")!;
+    expect(btn().classList.contains("is-dark")).to.be.false;
+
+    // MutationObserver callbacks land in a microtask after the mutating script finishes,
+    // so give it a frame before checking updateComplete (which may already be settled
+    // from an earlier render at the moment the mutation is made).
+    const nextFrame = () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+
+    document.documentElement.classList.add("dark");
+    await nextFrame();
+    await el.updateComplete;
+    expect(btn().classList.contains("is-dark")).to.be.true;
+
+    document.documentElement.classList.remove("dark");
+    await nextFrame();
+    await el.updateComplete;
+    expect(btn().classList.contains("is-dark")).to.be.false;
+  });
 });
