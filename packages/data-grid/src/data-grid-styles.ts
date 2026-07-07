@@ -15,9 +15,16 @@ export const dataGridStyles = css`
     --loomi-data-grid-accent-strong: var(--loomi-primary-700, var(--_loomi-primary-700-default, #174ea6));
     --loomi-data-grid-accent-soft: var(--loomi-primary-100, var(--_loomi-primary-100-default, #dbeafe));
     --loomi-data-grid-accent-softer: var(--loomi-primary-50, var(--_loomi-primary-50-default, #eff6ff));
+    --loomi-data-grid-heading-bg: #f8f7f4;
+    --loomi-data-grid-divider: #f3f0ec;
     display: block;
     color: var(--loomi-data-grid-text);
     font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  }
+
+  :host-context(.dark) {
+    --loomi-data-grid-heading-bg: var(--loomi-data-grid-surface-muted);
+    --loomi-data-grid-divider: var(--loomi-data-grid-border-subtle);
   }
 
   .shell {
@@ -130,7 +137,7 @@ export const dataGridStyles = css`
 
   th,
   td {
-    border-bottom: 1px solid var(--loomi-data-grid-border);
+    border-bottom: 1px solid var(--loomi-data-grid-divider);
     padding: 8px 10px;
     text-align: left;
     vertical-align: middle;
@@ -151,7 +158,7 @@ export const dataGridStyles = css`
 
   th {
     position: relative;
-    background: var(--loomi-data-grid-surface-muted);
+    background: var(--loomi-data-grid-heading-bg);
     color: var(--loomi-data-grid-text-secondary);
     font-size: 12px;
     font-weight: 700;
@@ -196,7 +203,7 @@ export const dataGridStyles = css`
   th.pinned-start,
   th.pinned-end {
     z-index: 7;
-    background: var(--loomi-data-grid-surface-muted);
+    background: var(--loomi-data-grid-heading-bg);
   }
 
   .pin-select-column {

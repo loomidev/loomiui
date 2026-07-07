@@ -1,10 +1,16 @@
 :host {
+  --loomi-table-heading-bg: #f8f7f4;
+  --loomi-table-divider: #f3f0ec;
   display: block;
   color: var(--loomi-text-secondary);
   font-family: Inter, ui-sans-serif, system-ui, sans-serif;
 }
 :host([hidden]) {
   display: none;
+}
+:host-context(.dark) {
+  --loomi-table-heading-bg: var(--loomi-surface-muted);
+  --loomi-table-divider: var(--loomi-surface-border-subtle);
 }
 
 .loomi-wrap {
@@ -68,14 +74,14 @@ table.transparent {
 }
 
 thead {
-  background: var(--loomi-surface-muted);
+  background: var(--loomi-table-heading-bg);
 }
 thead th {
   text-align: start;
   font-weight: 600;
   color: var(--loomi-text-muted);
   padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--loomi-surface-border);
+  border-bottom: 1px solid var(--loomi-table-divider);
   white-space: nowrap;
 }
 thead th.uppercasing {
@@ -117,10 +123,10 @@ tbody td {
   padding: 0.45rem 0.75rem;
 }
 .divided tbody tr:not(:last-child) td {
-  border-bottom: 1px solid var(--loomi-surface-border-subtle);
+  border-bottom: 1px solid var(--loomi-table-divider);
 }
 .divided.thin tbody tr:not(:last-child) td {
-  border-bottom: 1px solid var(--loomi-surface-border-subtle);
+  border-bottom: 1px solid var(--loomi-table-divider);
 }
 .celled td,
 .celled th {
