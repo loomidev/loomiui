@@ -144,4 +144,70 @@ describe("loomi-emoji-picker", () => {
     expect(el.shadowRoot!.querySelector(".loomi-emoji-panel")).to.exist;
     expect(el.shadowRoot!.querySelectorAll(".loomi-option").length).to.be.greaterThan(20);
   });
+
+  describe("skin tone picker", () => {
+    afterEach(() => {
+      localStorage.removeItem("loomi-emoji-picker:skin-tone");
+    });
+
+    it("shows a hand suffix next to search that opens a 6-way tone menu", async () => {
+      const el = await fixture<LoomiEmojiPicker>(html`<loomi-emoji-picker></loomi-emoji-picker>`);
+      await openPicker(el);
+
+      const toneTrigger = el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-tone-trigger")!;
+      expect(toneTrigger).to.exist;
+      expect(toneTrigger.textContent?.trim()).to.equal("✋");
+      expect(el.shadowRoot!.querySelector(".loomi-tone-menu")).to.not.exist;
+
+      toneTrigger.click();
+      await el.updateComplete;
+
+      const toneOptions = Array.from(el.shadowRoot!.querySelectorAll<HTMLButtonElement>(".loomi-tone-option"));
+      expect(toneOptions).to.have.lengthOf(6);
+    });
+
+    it("applies the chosen tone to matching emoji and to the selected value", async () => {
+      const el = await fixture<LoomiEmojiPicker>(html`<loomi-emoji-picker></loomi-emoji-picker>`);
+      await openPicker(el);
+
+      const search = el.shadowRoot!.querySelector<HTMLInputElement>(".loomi-search")!;
+      search.value = "waving hand";
+      search.dispatchEvent(new Event("input"));
+      await el.updateComplete;
+
+      el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-tone-trigger")!.click();
+      await el.updateComplete;
+      const toneOptions = el.shadowRoot!.querySelectorAll<HTMLButtonElement>(".loomi-tone-option");
+      toneOptions[5].click(); // dark skin tone
+      await el.updateComplete;
+
+      expect(el.shadowRoot!.querySelector(".loomi-tone-menu")).to.not.exist;
+      expect(el.shadowRoot!.querySelector(".loomi-tone-trigger")!.textContent?.trim()).to.equal("✋🏿");
+
+      const option = el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-option")!;
+      expect(option.textContent?.trim()).to.equal("👋🏿");
+
+      option.click();
+      await el.updateComplete;
+
+      expect(el.value).to.equal("👋🏿");
+    });
+
+    it("closes the tone menu on an outside click without picking a tone", async () => {
+      const el = await fixture<LoomiEmojiPicker>(html`<loomi-emoji-picker></loomi-emoji-picker>`);
+      await openPicker(el);
+
+      el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-tone-trigger")!.click();
+      await el.updateComplete;
+      expect(el.shadowRoot!.querySelector(".loomi-tone-menu")).to.exist;
+
+      // Click elsewhere within the still-open panel (not document.body, which would
+      // also dismiss the whole popover and trivially take the menu with it).
+      el.shadowRoot!.querySelector<HTMLInputElement>(".loomi-search")!.click();
+      await el.updateComplete;
+
+      expect(el.shadowRoot!.querySelector(".loomi-tone-menu")).to.not.exist;
+      expect(el.shadowRoot!.querySelector(".loomi-tone-trigger")!.textContent?.trim()).to.equal("✋");
+    });
+  });
 });

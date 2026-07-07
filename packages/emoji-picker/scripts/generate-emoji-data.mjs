@@ -23,25 +23,34 @@ const GROUP_TO_CATEGORY = {
 
 const capitalize = (label) => label.charAt(0).toUpperCase() + label.slice(1);
 
+// `skins` on an emojibase-data entry is an array of its 5 skin-tone variants, always
+// ordered light -> dark (`tone` 1-5). Reduce each to just the emoji so a tone index
+// (1-5) can look up the right variant at runtime.
 const rows = emojis
   .filter((entry) => entry.group !== undefined && entry.group in GROUP_TO_CATEGORY)
   .sort((a, b) => a.order - b.order)
-  .map((entry) => [
-    entry.emoji,
-    capitalize(entry.label),
-    GROUP_TO_CATEGORY[entry.group],
-    entry.tags ?? [],
-  ]);
+  .map((entry) => {
+    const row = [
+      entry.emoji,
+      capitalize(entry.label),
+      GROUP_TO_CATEGORY[entry.group],
+      entry.tags ?? [],
+    ];
+    if (entry.skins?.length) {
+      row.push(entry.skins.sort((a, b) => a.tone - b.tone).map((skin) => skin.emoji));
+    }
+    return row;
+  });
 
 const output = `// Generated from emojibase-data (CLDR-based, MIT licensed). Do not edit by hand.
 // Regenerate with: pnpm --filter @loomidev/emoji-picker generate
 import type { LoomiEmojiCategory } from "./loomi-emoji-picker.js";
 
-/** [emoji, name, category, keywords] tuples for every standalone Unicode emoji, grouped
- * into this component's categories. Skin-tone variants are omitted - the base emoji is
- * used for every entry that has them. */
+/** [emoji, name, category, keywords, skins?] tuples for every standalone Unicode emoji,
+ * grouped into this component's categories. \`skins\`, when present, holds the 5
+ * skin-tone variants of \`emoji\` ordered light -> dark. */
 export const GENERATED_EMOJIS: ReadonlyArray<
-  readonly [string, string, LoomiEmojiCategory, readonly string[]]
+  readonly [string, string, LoomiEmojiCategory, readonly string[], (readonly string[])?]
 > = ${JSON.stringify(rows)};
 `;
 

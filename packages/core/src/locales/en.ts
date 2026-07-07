@@ -123,6 +123,13 @@ export const en: LoomiTranslations = {
     searchPlaceholder: "Search emoji",
     emptyText: "No emoji found",
     dialog: "Emoji",
+    skinTone: "Choose skin tone",
+    skinToneDefault: "Default skin tone",
+    skinToneLight: "Light skin tone",
+    skinToneMediumLight: "Medium-light skin tone",
+    skinToneMedium: "Medium skin tone",
+    skinToneMediumDark: "Medium-dark skin tone",
+    skinToneDark: "Dark skin tone",
   },
   input: {
     togglePassword: "Toggle password visibility",

@@ -1,6 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
-import { LoomiElement, loomiDefaultText, loomiStyles, loomiT } from "@loomidev/core";
+import { LoomiElement, loomiDefaultText, loomiStyles, loomiT, onClickOutside } from "@loomidev/core";
 import type { LoomiPopover } from "@loomidev/popover";
 import "@loomidev/popover";
 import { componentStyles } from "./generated/styles.css.js";
@@ -33,6 +33,8 @@ export interface LoomiEmojiItem {
   value: string;
   category: LoomiEmojiCategory;
   keywords: string[];
+  /** The 5 skin-tone variants of `emoji`, light -> dark, when it supports them. */
+  skins?: readonly string[];
 }
 
 const DEFAULT_PLACEHOLDER = "Pick an emoji";
@@ -65,13 +67,43 @@ const CATEGORY_LABELS: Record<string, string> = {
   flags: "Flags",
 };
 
-const DEFAULT_EMOJIS: LoomiEmojiItem[] = GENERATED_EMOJIS.map(([emoji, name, category, keywords]) => ({
+const DEFAULT_EMOJIS: LoomiEmojiItem[] = GENERATED_EMOJIS.map(([emoji, name, category, keywords, skins]) => ({
   emoji,
   name,
   value: emoji,
   category,
   keywords: [...keywords],
+  skins,
 }));
+
+/** Index 0 is "no tone" (the base emoji); 1-5 index into an item's `skins`, light -> dark. */
+const SKIN_TONE_HAND = ["✋", "✋🏻", "✋🏼", "✋🏽", "✋🏾", "✋🏿"] as const;
+const SKIN_TONE_LABEL_KEYS = [
+  "emojiPicker.skinToneDefault",
+  "emojiPicker.skinToneLight",
+  "emojiPicker.skinToneMediumLight",
+  "emojiPicker.skinToneMedium",
+  "emojiPicker.skinToneMediumDark",
+  "emojiPicker.skinToneDark",
+] as const;
+const SKIN_TONE_STORAGE_KEY = "loomi-emoji-picker:skin-tone";
+
+function readStoredSkinTone(): number {
+  try {
+    const stored = Number(localStorage.getItem(SKIN_TONE_STORAGE_KEY));
+    return Number.isInteger(stored) && stored >= 0 && stored < SKIN_TONE_HAND.length ? stored : 0;
+  } catch {
+    return 0;
+  }
+}
+
+function persistSkinTone(tone: number): void {
+  try {
+    localStorage.setItem(SKIN_TONE_STORAGE_KEY, String(tone));
+  } catch {
+    // Ignore storage access errors.
+  }
+}
 
 function keywordsFrom(value: unknown): string[] {
   if (Array.isArray(value)) return value.map(String).filter(Boolean);
@@ -148,9 +180,20 @@ export class LoomiEmojiPicker extends LoomiElement {
   @state() private search = "";
   @state() private category: LoomiEmojiCategory = "all";
   @state() private activeIndex = 0;
+  @state() private skinTone = readStoredSkinTone();
+  @state() private toneMenuOpen = false;
 
   @query(".loomi-search") private searchEl?: HTMLInputElement;
   @query("loomi-popover") private popoverEl?: LoomiPopover;
+  @query(".loomi-tone-picker") private toneMenuEl?: HTMLElement;
+
+  private toneMenuCleanup?: () => void;
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.toneMenuCleanup?.();
+    this.toneMenuCleanup = undefined;
+  }
 
   override willUpdate(): void {
     this.internals.setFormValue(this.value);
@@ -217,14 +260,33 @@ export class LoomiEmojiPicker extends LoomiElement {
 
   private get selectedItem(): LoomiEmojiItem | null {
     if (!this.selectedValue) return null;
-    return this.allItems.find((item) => item.value === this.selectedValue || item.emoji === this.selectedValue)
-      ?? {
-        emoji: this.selectedValue,
-        name: this.selectedValue,
-        value: this.selectedValue,
-        category: "custom",
-        keywords: [],
-      };
+    const match = this.allItems.find(
+      (item) =>
+        item.value === this.selectedValue || item.emoji === this.selectedValue || item.skins?.includes(this.selectedValue),
+    );
+    if (match) {
+      // A toned variant isn't `match`'s own emoji/value - keep its name but show the
+      // exact glyph the user picked.
+      return match.emoji === this.selectedValue || match.value === this.selectedValue
+        ? match
+        : { ...match, emoji: this.selectedValue, value: this.selectedValue };
+    }
+    return {
+      emoji: this.selectedValue,
+      name: this.selectedValue,
+      value: this.selectedValue,
+      category: "custom",
+      keywords: [],
+    };
+  }
+
+  private get supportsSkinTones(): boolean {
+    return this.allItems.some((item) => item.skins?.length);
+  }
+
+  private applyTone(item: LoomiEmojiItem): LoomiEmojiItem {
+    const toned = this.skinTone > 0 ? item.skins?.[this.skinTone - 1] : undefined;
+    return toned ? { ...item, emoji: toned, value: toned } : item;
   }
 
   private syncValidity(showInvalid = this.validationVisible): boolean {
@@ -244,8 +306,35 @@ export class LoomiEmojiPicker extends LoomiElement {
       if (this.searchable) this.updateComplete.then(() => this.searchEl?.focus());
     } else {
       this.search = "";
+      this.closeToneMenu();
       this.validate();
     }
+  }
+
+  private toggleToneMenu(): void {
+    if (this.toneMenuOpen) this.closeToneMenu();
+    else this.openToneMenu();
+  }
+
+  private openToneMenu(): void {
+    if (this.toneMenuOpen) return;
+    this.toneMenuOpen = true;
+    this.updateComplete.then(() => {
+      if (this.toneMenuEl) this.toneMenuCleanup = onClickOutside(this.toneMenuEl, () => this.closeToneMenu());
+    });
+  }
+
+  private closeToneMenu(): void {
+    if (!this.toneMenuOpen) return;
+    this.toneMenuOpen = false;
+    this.toneMenuCleanup?.();
+    this.toneMenuCleanup = undefined;
+  }
+
+  private chooseTone(tone: number): void {
+    this.skinTone = tone;
+    persistSkinTone(tone);
+    this.closeToneMenu();
   }
 
   private onFocusOut(): void {
@@ -293,6 +382,14 @@ export class LoomiEmojiPicker extends LoomiElement {
   }
 
   private onKeydown(event: KeyboardEvent): void {
+    if (this.toneMenuOpen) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        event.stopPropagation();
+        this.closeToneMenu();
+      }
+      return;
+    }
     const isOpen = this.open || this.inline;
     if (!this.inline && !isOpen && event.key === "ArrowDown") {
       event.preventDefault();
@@ -313,7 +410,7 @@ export class LoomiEmojiPicker extends LoomiElement {
     else if (event.key === "Enter") {
       event.preventDefault();
       const item = items[this.activeIndex >= 0 ? this.activeIndex : 0];
-      if (item) this.choose(item);
+      if (item) this.choose(this.applyTone(item));
     } else if (event.key === "Escape" && !this.inline) {
       event.preventDefault();
       this.popoverEl?.hide();
@@ -334,17 +431,20 @@ export class LoomiEmojiPicker extends LoomiElement {
       this.locale,
     );
     return html`${this.searchable
-        ? html`<input
-            class="loomi-search"
-            type="search"
-            autocomplete="off"
-            spellcheck="false"
-            aria-label=${searchPlaceholder}
-            aria-activedescendant=${activeId || nothing}
-            placeholder=${searchPlaceholder}
-            .value=${this.search}
-            @input=${(event: Event) => this.setSearch((event.target as HTMLInputElement).value)}
-          />`
+        ? html`<div class="loomi-search-row">
+            <input
+              class="loomi-search"
+              type="search"
+              autocomplete="off"
+              spellcheck="false"
+              aria-label=${searchPlaceholder}
+              aria-activedescendant=${activeId || nothing}
+              placeholder=${searchPlaceholder}
+              .value=${this.search}
+              @input=${(event: Event) => this.setSearch((event.target as HTMLInputElement).value)}
+            />
+            ${this.supportsSkinTones ? this.renderTonePicker() : nothing}
+          </div>`
         : nothing}
       ${this.showCategories
         ? html`<div class="loomi-categories" aria-label="Emoji categories">
@@ -366,7 +466,9 @@ export class LoomiEmojiPicker extends LoomiElement {
             aria-label=${loomiT("emojiPicker.dialog", {}, this.locale)}
           >
             ${items.map((item, index) => {
-              const selected = this.selectedValue === item.value || this.selectedValue === item.emoji;
+              const display = this.applyTone(item);
+              const family = item.skins ? [item.value, item.emoji, ...item.skins] : [item.value, item.emoji];
+              const selected = family.includes(this.selectedValue);
               return html`<button
                 id=${`loomi-emoji-${index}`}
                 class="loomi-option ${index === this.activeIndex ? "active" : ""} ${selected ? "selected" : ""}"
@@ -376,11 +478,39 @@ export class LoomiEmojiPicker extends LoomiElement {
                 aria-selected=${selected ? "true" : "false"}
                 title=${item.name}
                 @mouseenter=${() => (this.activeIndex = index)}
-                @click=${() => this.choose(item)}
-              >${item.emoji}</button>`;
+                @click=${() => this.choose(display)}
+              >${display.emoji}</button>`;
             })}
           </div>`
         : html`<div class="loomi-empty">${loomiDefaultText(this.emptyText, DEFAULT_EMPTY_TEXT, "emojiPicker.emptyText", this.locale)}</div>`}`;
+  }
+
+  private renderTonePicker(): TemplateResult {
+    const toneLabel = (tone: number) => loomiT(SKIN_TONE_LABEL_KEYS[tone], {}, this.locale);
+    return html`<div class="loomi-tone-picker">
+      <button
+        type="button"
+        class="loomi-tone-trigger"
+        aria-label=${loomiT("emojiPicker.skinTone", {}, this.locale)}
+        aria-haspopup="true"
+        aria-expanded=${this.toneMenuOpen ? "true" : "false"}
+        title=${loomiT("emojiPicker.skinTone", {}, this.locale)}
+        @click=${() => this.toggleToneMenu()}
+      >${SKIN_TONE_HAND[this.skinTone]}</button>
+      ${this.toneMenuOpen
+        ? html`<div class="loomi-tone-menu" role="menu" aria-label=${loomiT("emojiPicker.skinTone", {}, this.locale)}>
+            ${SKIN_TONE_HAND.map((hand, tone) => html`<button
+              type="button"
+              role="menuitemradio"
+              class="loomi-tone-option ${this.skinTone === tone ? "active" : ""}"
+              aria-checked=${this.skinTone === tone ? "true" : "false"}
+              aria-label=${toneLabel(tone)}
+              title=${toneLabel(tone)}
+              @click=${() => this.chooseTone(tone)}
+            >${hand}</button>`)}
+          </div>`
+        : nothing}
+    </div>`;
   }
 
   override render(): TemplateResult {
