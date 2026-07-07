@@ -178,10 +178,12 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `dp-style` | `popup` | `popup` (input + panel) \| `inline` (calendar always visible, no triggering input). |
 | `range` | `false` | Select a start/end range. _(boolean)_ |
 | `selected-value` | _(blank)_ | Default ISO date, or `"start - end"` for range. |
-| `min-date` / `max-date` | _(blank)_ | ISO bounds; out-of-range days are disabled. |
+| `min-date` | _(blank)_ | ISO lower bound; earlier days are disabled. |
+| `max-date` | _(blank)_ | ISO upper bound; later days are disabled. |
 | `format` | `yyyy-mm-dd` | `yyyy-mm-dd` \| `dd-mm-yyyy` \| `mm-dd-yyyy` \| `yyyy/mm/dd` \| `dd/mm/yyyy` \| `mm/dd/yyyy` \| `D d M, Y` |
 | `week-starts` | `sunday` | `sunday` \| `monday` |
-| `placeholder` / `label` | `Select a date` | Field placeholder / label. |
+| `placeholder` | `Select a date` | Closed-field placeholder text. |
+| `label` | _(blank)_ | Optional field label. |
 | `locale` | _(global)_ | Override the shared Loomi locale for this datepicker. |
 | `required` | `false` | Append an asterisk. _(boolean)_ |
 | `size` | `regular` | `tiny` \| `small` \| `regular` \| `medium` \| `big` |

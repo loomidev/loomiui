@@ -155,7 +155,8 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `name` | _(blank)_ | Submitted with the form. |
 | `max` | `1` | Max selectable cards. |
 | `auto-select-new` | `true` | Drop the oldest selection when exceeding `max` (vs blocking). _(boolean)_ |
-| `color` / `border-color` | `primary` | Accent / border color (any loomi color). |
+| `color` | `primary` | Icon/avatar accent color (any loomi color). |
+| `border-color` | `primary` | Card border color (any loomi color). |
 | `border-width` | `2` | Card border width (px). |
 | `radius` | `medium` | `none` \| `small` \| `medium` \| `full` |
 | `compact` | `false` | Reduced padding. _(boolean)_ |

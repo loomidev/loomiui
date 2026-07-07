@@ -20,39 +20,6 @@ import "@loomidev/bottom-nav";
 </loomi-bottom-nav>
 ```
 
-## Accessibility
-
-`<loomi-bottom-nav>` renders a real `<nav>` landmark (`label` sets its `aria-label`,
-default `"Primary"`). Each item renders a real `<a>` (when `href` is set) or `<button>` —
-never a clickable `<div>` — so screen readers and keyboard users get native semantics for
-free. The active item gets `aria-current="page"`.
-
-- `Tab` / `Shift+Tab` reach every item in document order, like any row of links/buttons.
-- `←`/`→` (or `↑`/`↓`) move focus between items without navigating — manual activation,
-  per the WAI-ARIA APG toolbar pattern, so arrowing through never triggers a page navigation
-  by accident. `Home`/`End` jump to the first/last enabled item. `Enter`/`Space` (or a
-  click) activate the focused item natively.
-- Disabled items (`disabled`) are skipped by arrow-key roving focus and excluded from the
-  tab order (`tabindex="-1"` for links, native `disabled` for buttons).
-- Focus is visible via `:focus-visible`, ringed with the component's accent color.
-
-## Responsive behavior
-
-Designed for mobile: `<loomi-bottom-nav>` docks itself with `position: fixed` at the
-viewport bottom (or floats, see `variant` below) so you don't need any wrapping layout.
-Set `mobile-only` to hide it automatically at tablet width and up (768px), the common
-pattern where a sidebar or top nav takes over on larger screens. Items share the available
-width equally (`flex: 1`) and truncate long labels rather than wrapping — designed for
-3–5 items.
-
-## Dark mode
-
-Uses semantic `--loomi-surface` / `--loomi-surface-border` / `--loomi-text-muted` tokens
-for the bar background, divider, and inactive icon/label color, so it flips automatically
-with `.dark` on `<html>` (via `@loomidev/theme-switcher` or your own theme toggle). The
-active-state tokens (see **Styling hooks** below) default to the instance's `color`
-accent, which is also dark-mode aware.
-
 ## Safe areas
 
 The bar's own bottom padding (or, in `floating` mode, its distance from the viewport edge)
@@ -150,6 +117,39 @@ that one:
   <loomi-bottom-nav-item name="orders" icon="archive-box" disabled>Orders</loomi-bottom-nav-item>
 </loomi-bottom-nav>
 ```
+
+## Accessibility
+
+`<loomi-bottom-nav>` renders a real `<nav>` landmark (`label` sets its `aria-label`,
+default `"Primary"`). Each item renders a real `<a>` (when `href` is set) or `<button>` —
+never a clickable `<div>` — so screen readers and keyboard users get native semantics for
+free. The active item gets `aria-current="page"`.
+
+- `Tab` / `Shift+Tab` reach every item in document order, like any row of links/buttons.
+- `←`/`→` (or `↑`/`↓`) move focus between items without navigating — manual activation,
+  per the WAI-ARIA APG toolbar pattern, so arrowing through never triggers a page navigation
+  by accident. `Home`/`End` jump to the first/last enabled item. `Enter`/`Space` (or a
+  click) activate the focused item natively.
+- Disabled items (`disabled`) are skipped by arrow-key roving focus and excluded from the
+  tab order (`tabindex="-1"` for links, native `disabled` for buttons).
+- Focus is visible via `:focus-visible`, ringed with the component's accent color.
+
+## Responsive behavior
+
+Designed for mobile: `<loomi-bottom-nav>` docks itself with `position: fixed` at the
+viewport bottom (or floats, see `variant` below) so you don't need any wrapping layout.
+Set `mobile-only` to hide it automatically at tablet width and up (768px), the common
+pattern where a sidebar or top nav takes over on larger screens. Items share the available
+width equally (`flex: 1`) and truncate long labels rather than wrapping — designed for
+3–5 items.
+
+## Dark mode
+
+Uses semantic `--loomi-surface` / `--loomi-surface-border` / `--loomi-text-muted` tokens
+for the bar background, divider, and inactive icon/label color, so it flips automatically
+with `.dark` on `<html>` (via `@loomidev/theme-switcher` or your own theme toggle). The
+active-state tokens (see **Styling hooks** below) default to the instance's `color`
+accent, which is also dark-mode aware.
 
 ## Attributes — `<loomi-bottom-nav>`
 

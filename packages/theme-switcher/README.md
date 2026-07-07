@@ -131,8 +131,12 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 | Attribute | Default | Description |
 | --- | --- | --- |
-| `light-text` / `dark-text` / `system-text` | `Light` / `Dark` / `System` | Option labels (translatable). |
-| `light-icon` / `dark-icon` / `system-icon` | `sun` / `moon` / `computer-desktop` | Option icon names. |
+| `light-text` | `Light` | Label for the light option (translatable). |
+| `dark-text` | `Dark` | Label for the dark option (translatable). |
+| `system-text` | `System` | Label for the system option (translatable). |
+| `light-icon` | `sun` | Icon name for the light option. |
+| `dark-icon` | `moon` | Icon name for the dark option. |
+| `system-icon` | `computer-desktop` | Icon name for the system option. |
 | `show-labels` | `false` | Show visible text labels beside the icons. _(boolean)_ |
 | `icon-right` | `false` | Place icons after the text. _(boolean)_ |
 | `variant` | `horizontal` | Render style: `horizontal` or `dropmenu`. |
