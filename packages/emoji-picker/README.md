@@ -18,35 +18,14 @@ import "@loomidev/emoji-picker";
 <loomi-emoji-picker name="reaction" label="Reaction"></loomi-emoji-picker>
 ```
 
-
-## Accessibility
-
-loomi-emoji-picker is built on semantic markup where the browser gives us the right behavior, and it adds ARIA only where the component has custom interaction. Keyboard users should be able to reach the same controls as pointer users, with visible focus treatment unless you explicitly turn it off on controls that support `show-focus-ring="false"`.
-
-When the component displays status, progress, validation, or temporary feedback, pair it with clear labels or nearby text in your app so assistive technology users get the same context a sighted user gets from the visual treatment.
-
-- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
-
-## Responsive behavior
-
-loomi-emoji-picker is designed to fit the layout you place it in. It uses fluid widths, `min-width: 0`, wrapping, truncation, or stacked layouts where that keeps the component usable in cards, forms, sidebars, and mobile screens.
-
-For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
-
-
-## Dark mode
-
-loomi-emoji-picker uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
-
-Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
-
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 ## Custom emoji data
 
 The built-in emoji set is a compact curated list, not the full operating-system emoji
-keyboard. Assign `.data` with your own larger set when your product needs every emoji,
-skin-tone variant, or newer platform-specific symbol. Each item accepts `emoji`, `name`
-or `label`, `value`, `category`, and `keywords`.
+keyboard. Assign `.data` with your own larger set when your product needs a different
+selection, or newer platform-specific symbols the built-in set doesn't have yet. Each
+item accepts `emoji`, `name` or `label`, `value`, `category`, and `keywords` — custom
+items don't get the skin-tone picker described below, since they carry no tone
+variants of their own.
 
 ```js
 const picker = document.querySelector("loomi-emoji-picker");
@@ -72,6 +51,18 @@ permanently in place of a trigger, with no dropdown at all.
 <loomi-emoji-picker inline></loomi-emoji-picker>
 ```
 
+## Skin tone
+
+When the active emoji set includes emoji that support skin tones (true of the built-in
+curated set), a hand emoji sits as a suffix on the search input. Clicking it opens a
+6-way tone menu (default plus the 5 Fitzpatrick tones); the chosen tone applies to
+every emoji in the grid that has tone variants — and to `selected-value`/the submitted
+form value once one is picked. The choice is remembered in `localStorage` for the next
+time the picker opens.
+
+Emoji supplied through `.data` or `emojis` don't carry tone variants, so the hand
+suffix is omitted when the picker is showing only custom data.
+
 ## Trigger label
 
 By default the trigger shows only the selected emoji (or a placeholder face) — nothing
@@ -95,6 +86,28 @@ markup works as expected too:
 `change` fires with `detail: { value, emoji, item }` after selection.
 
 `emoji-select` fires with `detail: { value, emoji, name, category, item }`.
+
+## Accessibility
+
+loomi-emoji-picker is built on semantic markup where the browser gives us the right behavior, and it adds ARIA only where the component has custom interaction. Keyboard users should be able to reach the same controls as pointer users, with visible focus treatment unless you explicitly turn it off on controls that support `show-focus-ring="false"`.
+
+When the component displays status, progress, validation, or temporary feedback, pair it with clear labels or nearby text in your app so assistive technology users get the same context a sighted user gets from the visual treatment.
+
+- Supports keyboard focus with visible `:focus-visible` styling on interactive controls.
+
+## Responsive behavior
+
+loomi-emoji-picker is designed to fit the layout you place it in. It uses fluid widths, `min-width: 0`, wrapping, truncation, or stacked layouts where that keeps the component usable in cards, forms, sidebars, and mobile screens.
+
+For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
+
+## Dark mode
+
+loomi-emoji-picker uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
+
+Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
+
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
 
 ## Attributes and properties
 
