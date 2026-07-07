@@ -128,7 +128,8 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `icon-position` | `left` | `left` \| `right` |
 | `icon-color` | _(blank)_ | CSS color applied to the icon slot wrapper. |
 | `icon-size` | _(blank)_ | CSS size applied to slotted icons. |
-| `has-shadow` / `has-border` | `true` | Card styling. _(boolean)_ |
+| `has-shadow` | `true` | Show a drop shadow. _(boolean)_ |
+| `has-border` | `true` | Show a border. _(boolean)_ |
 | `radius` | `small` | `none` \| `small` \| `medium` \| `large` \| `xl` |
 | `show-spinner` | `false` | Show a loading spinner instead of the number. _(boolean)_ |
 | `url` | _(blank)_ | Navigate on click. |

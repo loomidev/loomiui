@@ -101,8 +101,8 @@ of icon buttons. Listen for the `action` event to handle clicks — `e.detail` i
 `{ name, row }`, so you always get the full row data for that line.
 
 Each icon renders as a circular outline button in `secondary` by default; pass `color`
-to use a different loomi color instead. Set `buttonOutline: false` (or the underscore
-alias `button_outline: false`) to render a solid filled circle instead of the outline.
+to use a different loomi color instead. Set `buttonOutline: false` to render a solid
+filled circle instead of the outline.
 
 ```html
 <loomi-table id="t3"></loomi-table>
@@ -235,10 +235,6 @@ listen for `selection-change`.
 Pre-check rows on load with `selected-value` (comma-separated ids), and control which
 field counts as the row's id with `id-key` (defaults to `id`).
 
-Underscore aliases also work: `selected_value`, `id_key`, `include_columns`,
-`exclude_columns`, `column_aliases`, `action_icons`, and the other underscore
-attributes listed below.
-
 ## Grouping Rows
 
 Group dynamic rows by any key in your data with `groupby`. Rows that share a value are
@@ -303,8 +299,6 @@ With `page-size="5"` and twelve rows, each table above paginates across three pa
 enough to see the arrow, numbers, and row-number variants actually flip between pages.
 Pagination styles: `arrows` (default), `numbers`, `dropdown` — same options as
 [`<loomi-pagination>`](../pagination), since that's exactly what renders underneath.
-You can also use Underscore-compatible `default_page`, `limit`, `show_total`,
-`show_page_number`, `show_total_pages`, and `total_label`.
 
 Customize the total text with `:a`, `:b`, and `:c` placeholders:
 
@@ -325,11 +319,11 @@ Render the message as an empty-state panel with optional image, heading, and but
 
 ```html
 <loomi-table
-  message_as_empty_state="true"
-  show_image="false"
+  message-as-empty-state
+  show-image="false"
   heading="No staff"
-  no_data_message="The staff directory is empty"
-  button_label="Add staff"
+  no-data-message="The staff directory is empty"
+  button-label="Add staff"
 ></loomi-table>
 ```
 
@@ -432,40 +426,46 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `columns` | _(auto)_ | Column keys (defaults to the first row's keys). |
 | `layout` | `auto` | `auto` \| `custom`; custom uses row/header templates or slotted rows. |
 | `row-template` | _(blank)_ | Template string for `layout="custom"`; `{key}` placeholders are filled from row data. |
-| `include-columns` / `include_columns` | _(blank)_ | Comma-separated key allow list. |
-| `exclude-columns` / `exclude_columns` | _(blank)_ | Comma-separated key deny list (`include` wins if both are set). |
-| `column-aliases` / `column_aliases` | `{}` | Map of `key -> display name` (property or JSON). |
+| `include-columns` | _(blank)_ | Comma-separated key allow list. |
+| `exclude-columns` | _(blank)_ | Comma-separated key deny list (`include` wins if both are set). |
+| `column-aliases` | `{}` | Map of `key -> display name` (property or JSON). |
 | `searchable` | `false` | Show a search box. _(boolean)_ |
 | `search-container` | _(blank)_ | DOM selector where the search input should be rendered. |
-| `search-placeholder` / `search_placeholder` | `Search table below...` | Search input placeholder. |
+| `search-placeholder` | `Search table below...` | Search input placeholder. |
 | `sortable` | `false` | Enable column sorting. _(boolean)_ |
-| `sortable-columns` / `sortable_columns` | _(all)_ | Comma-separated sortable keys. |
+| `sortable-columns` | _(all)_ | Comma-separated sortable keys. |
 | `paginated` | `false` | Enable pagination. _(boolean)_ |
-| `page-size` / `page_size` | `25` | Rows per page. |
-| `pagination-style` / `pagination_style` | `arrows` | `arrows` \| `numbers` \| `dropdown` |
-| `show-total` / `show_total` | `true` | Show the pagination total label. _(boolean)_ |
-| `show-page-number` / `show_page_number` | `true` | Show current page between arrow controls. _(boolean)_ |
-| `show-total-pages` / `show_total_pages` | `false` | Show `current / total` for arrow pagination. _(boolean)_ |
-| `default-page` / `default_page` | `1` | Initial selected page. |
+| `page-size` | `25` | Rows per page. |
+| `pagination-style` | `arrows` | `arrows` \| `numbers` \| `dropdown` |
+| `show-total` | `true` | Show the pagination total label. _(boolean)_ |
+| `show-page-number` | `true` | Show current page between arrow controls. _(boolean)_ |
+| `show-total-pages` | `false` | Show `current / total` for arrow pagination. _(boolean)_ |
+| `default-page` | `1` | Initial selected page. |
 | `limit` | `0` | Max total rows to display (`0` = no limit). |
-| `total-label` / `total_label` | `Showing :a to :b of :c records` | Pagination total label placeholders. |
+| `total-label` | `Showing :a to :b of :c records` | Pagination total label placeholders. |
 | `selectable` | `false` | Row clicks toggle selection. _(boolean)_ |
 | `checkable` | `false` | Add a checkbox column. _(boolean)_ |
-| `id-key` / `id_key` | `id` | Row key used as the selection id. |
-| `selected-value` / `selected_value` | _(blank)_ | Comma-separated ids to pre-check. |
-| `action-icons` / `action_icons` | `[]` | Array of `{ icon, name?, tip?, color?, click?, icon_type?, button_outline? }`. |
-| `actions-title` / `actions_title` | `actions` | Heading for the action-icons column. |
-| `show-row-numbers` / `show_row_numbers` | `false` | Show a leading `#` column. _(boolean)_ |
-| `groupby` / `group-by` | _(blank)_ | Key used to render group heading rows. |
-| `striped` / `divided` / `celled` / `compact` / `transparent` | — | Styling toggles. _(boolean)_ |
-| `has-hover` / `has_hover`, `has-shadow` / `has_shadow`, `has-border` / `has_border` | — | Underscore-compatible styling toggles. _(boolean)_ |
+| `id-key` | `id` | Row key used as the selection id. |
+| `selected-value` | _(blank)_ | Comma-separated ids to pre-check. |
+| `action-icons` | `[]` | Array of `{ icon, name?, tip?, color?, click?, iconType?, buttonOutline? }`. |
+| `actions-title` | `actions` | Heading for the action-icons column. |
+| `show-row-numbers` | `false` | Show a leading `#` column. _(boolean)_ |
+| `groupby` | _(blank)_ | Key used to render group heading rows. |
+| `striped` | `false` | Alternating row backgrounds. _(boolean)_ |
+| `divided` | `true` | Row divider lines. _(boolean)_ |
+| `celled` | `false` | Borders on every cell, like a spreadsheet. _(boolean)_ |
+| `compact` | `false` | Tighter row padding. _(boolean)_ |
+| `transparent` | `false` | Removes the table's own background. _(boolean)_ |
+| `has-hover` | `false` | Highlights rows on hover. _(boolean)_ |
+| `has-shadow` | `true` | Outer drop shadow. _(boolean)_ |
+| `has-border` | `false` | Outer border. _(boolean)_ |
 | `divider` | `regular` | `regular` \| `thin` |
-| `no-data-message` / `no_data_message` | `No records to display` | Shown when there are no rows. |
-| `message-as-empty-state` / `message_as_empty_state` | `false` | Render no-data content as an empty state. _(boolean)_ |
+| `no-data-message` | `No records to display` | Shown when there are no rows. |
+| `message-as-empty-state` | `false` | Render no-data content as an empty state. _(boolean)_ |
 | `image` | `empty-state.svg` | Empty-state image URL. |
 | `heading` | _(blank)_ | Empty-state heading. |
-| `button-label` / `button_label` | _(blank)_ | Empty-state CTA label. |
-| `show-image` / `show_image` | `true` | Show empty-state image. _(boolean)_ |
+| `button-label` | _(blank)_ | Empty-state CTA label. |
+| `show-image` | `true` | Show empty-state image. _(boolean)_ |
 | `onclick` | _(blank)_ | empty-state action string, also emitted in `empty-action`. |
 | `nonce` | _(blank)_ | Accepted as a no-op compatibility attribute. |
 

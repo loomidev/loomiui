@@ -169,10 +169,14 @@ overrides, and the panel inherits the dark-mode values through its shadow DOM.
 | `drag-handle` | `false` | Restrict dragging to a dedicated grip icon instead of the whole header. _(boolean)_ |
 | `minimized` | `false` | Current collapsed state (reflected); settable up front too. _(boolean)_ |
 | `maximized` | `false` | Current fill-the-viewport state (reflected); settable up front too. _(boolean)_ |
-| `top` / `left` | _(blank)_ | Initial position, any CSS length. Unset opens centered. |
-| `width` / `height` | _(blank)_ | Initial size, any CSS length. Unset falls back to `22rem`/`26rem`. |
-| `min-width` / `min-height` | `220` / `140` | Minimum size in pixels while resizing. _(number)_ |
-| `max-width` / `max-height` | _(unbounded)_ | Maximum size in pixels while resizing. _(number)_ |
+| `top` | _(blank)_ | Initial vertical position, any CSS length. Unset opens centered. |
+| `left` | _(blank)_ | Initial horizontal position, any CSS length. Unset opens centered. |
+| `width` | _(blank)_ | Initial width, any CSS length. Unset falls back to `22rem`. |
+| `height` | _(blank)_ | Initial height, any CSS length. Unset falls back to `26rem`. |
+| `min-width` | `220` | Minimum width in pixels while resizing. _(number)_ |
+| `min-height` | `140` | Minimum height in pixels while resizing. _(number)_ |
+| `max-width` | _(unbounded)_ | Maximum width in pixels while resizing. _(number)_ |
+| `max-height` | _(unbounded)_ | Maximum height in pixels while resizing. _(number)_ |
 | `auto-save-id` | _(blank)_ | Persist position/size to `localStorage` under this key. |
 | `locale` | _(blank)_ | Locale override for built-in aria labels. |
 

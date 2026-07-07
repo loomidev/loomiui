@@ -71,7 +71,8 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `required` | `false` | Requires at least one tag. |
 | `disabled` | `false` | Disables input and tag removal. |
 | `readonly` | `false` | Prevents editing and tag removal. |
-| `suffix` / `suffix-icon` | _(blank)_ | Optional field suffix content. |
+| `suffix` | _(blank)_ | Optional text suffix. |
+| `suffix-icon` | _(blank)_ | Optional icon-name suffix (see `@loomidev/icons`). |
 
 ## Methods & Events
 

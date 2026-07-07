@@ -210,14 +210,20 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `with-dots` | `true` | Allow one decimal point when `numeric`. _(boolean)_ |
 | `mask` | _(blank)_ | Alpine-style mask using `9`, `a`, and `*` wildcards, or `creditcard`. |
 | `dynamic-mask` | _(blank)_ | Built-in dynamic mask attribute. Currently supports `creditcard`. |
-| `min` / `max` | _(blank)_ | Clamp numeric values on change. |
+| `min` | _(blank)_ | Clamp numeric values below this on change. |
+| `max` | _(blank)_ | Clamp numeric values above this on change. |
 | `size` | `medium` | `small` \| `regular` \| `medium` \| `big` |
 | `variant` | `default` | `default` \| `minimal` (bottom border only, no box) |
-| `prefix` / `suffix` | _(blank)_ | Text affix. |
-| `prefix-options` / `suffix-options` | _(blank)_ | Comma, pipe, or JSON array of dropdown options. |
-| `prefix-value` / `suffix-value` | _(blank)_ | Selected dropdown affix value. |
-| `prefix-icon` / `suffix-icon` | _(blank)_ | Icon-name affix (see `@loomidev/icons`). |
-| `transparent-prefix` / `transparent-suffix` | `true` | Transparent (vs solid) affix. _(boolean)_ |
+| `prefix` | _(blank)_ | Leading text affix. |
+| `suffix` | _(blank)_ | Trailing text affix. |
+| `prefix-options` | _(blank)_ | Comma, pipe, or JSON array of dropdown options for the leading affix. |
+| `suffix-options` | _(blank)_ | Comma, pipe, or JSON array of dropdown options for the trailing affix. |
+| `prefix-value` | _(blank)_ | Selected leading dropdown affix value. |
+| `suffix-value` | _(blank)_ | Selected trailing dropdown affix value. |
+| `prefix-icon` | _(blank)_ | Leading icon-name affix (see `@loomidev/icons`). |
+| `suffix-icon` | _(blank)_ | Trailing icon-name affix (see `@loomidev/icons`). |
+| `transparent-prefix` | `true` | Transparent (vs solid) leading affix. _(boolean)_ |
+| `transparent-suffix` | `true` | Transparent (vs solid) trailing affix. _(boolean)_ |
 | `viewable` | `false` | Deprecated on `<loomi-input>`; use `<loomi-password>` for reveal. _(boolean)_ |
 | `clearable` | `false` | Show a clear (✕) button when the field has a value. _(boolean)_ |
 | `hint` | _(blank)_ | Show a suffix help icon and render a `loomi-popover`; `career.html` resolves `[data-hint="career"]`. |

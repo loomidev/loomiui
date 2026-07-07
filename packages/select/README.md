@@ -221,7 +221,8 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `placeholder` | `Select One` | Trigger text when nothing is selected. |
 | `label` | _(blank)_ | Floating label (takes precedence over placeholder). |
 | `data` | `[]` | Options array — property (`.data`) or JSON-string attribute. |
-| `label-key` / `value-key` | `label` / `value` | Keys to read from each row. |
+| `label-key` | `label` | Row key used as each option's display text. |
+| `value-key` | `value` | Row key used as each option's submitted value. |
 | `image-key` | _(blank)_ | Key holding an image URL to show beside each option. |
 | `selected-value` | _(blank)_ | Default value(s); comma-separated for multiple. |
 | `searchable` | `false` | Show a search box. _(boolean)_ |

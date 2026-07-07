@@ -147,8 +147,10 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `show-percentage-tooltip` | `false` | Show the percentage in a tooltip above the bar. _(boolean)_ |
 | `show-percentage-label-inline` | `true` | Inside the bar vs. outside. _(boolean)_ |
 | `percentage-label-position` | `top-left` | Outside-label placement. |
-| `percentage-prefix` / `percentage-suffix` | _(blank)_ | Label affixes. |
-| `striped` / `animated` | `false` | Striped (and animated) fill. _(boolean)_ |
+| `percentage-prefix` | _(blank)_ | Text shown before the percentage label. |
+| `percentage-suffix` | _(blank)_ | Text shown after the percentage label. |
+| `striped` | `false` | Diagonal-striped fill. _(boolean)_ |
+| `animated` | `false` | Animates the stripes (requires `striped`). _(boolean)_ |
 
 ### `<loomi-progress-circle>`
 
@@ -178,7 +180,9 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `href` | _(blank)_ | Renders the step as a link. |
 | `state` | `upcoming` | `complete` \| `current` \| `upcoming` \| `error` |
 | `value` | `0` | Optional value included in `progress-step-select` events. |
-| `active` / `completed` / `error` | `false` | Boolean state aliases. |
+| `active` | `false` | Marks this step current, same as `state="current"`. _(boolean)_ |
+| `completed` | `false` | Marks this step complete, same as `state="complete"`. _(boolean)_ |
+| `error` | `false` | Marks this step errored, same as `state="error"`. _(boolean)_ |
 | `disabled` | `false` | Prevents selection. _(boolean)_ |
 | `clickable` | `false` | Renders a selectable button when not using `href`. _(boolean)_ |
 | `hide-index` | `false` | Hides the step number in incomplete markers. _(boolean)_ |

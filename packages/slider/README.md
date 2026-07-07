@@ -140,7 +140,8 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `selected` | `0` | Current/default value. |
 | `selected-end` | `100` | End value when `range` is enabled. |
 | `range` | `false` | Enable dual-handle range selection. _(boolean)_ |
-| `min` / `max` | `0` / `100` | Range bounds. |
+| `min` | `0` | Lower bound. |
+| `max` | `100` | Upper bound. |
 | `step` | `1` | Increment. |
 | `color` | `primary` | Any loomi color (themes the track via `accent-color`). |
 | `show-values` | `true` | Show the handle value tooltip. _(boolean)_ |

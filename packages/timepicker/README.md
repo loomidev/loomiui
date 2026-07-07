@@ -126,7 +126,8 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `format` | `12` | `12` \| `24` |
 | `variant` | `default` | `default` \| `minimal` (bottom border only, no box) |
 | `selected-value` | _(blank)_ | Default time (e.g. `3:25PM` or `03:25`). |
-| `label` / `placeholder` | _(blank)_ / `HH:MM` | Popup field label / placeholder. |
+| `label` | _(blank)_ | Optional field label. |
+| `placeholder` | `HH:MM` | Popup field placeholder text. |
 | `required` | `false` | Append an asterisk. _(boolean)_ |
 
 **Property:** `value`. **Event:** `change` (`detail: { value }`).
