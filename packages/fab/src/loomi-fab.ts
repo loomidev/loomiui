@@ -38,15 +38,6 @@ function deepActiveElement(): Element | null {
   return el;
 }
 
-/** Maps an item pill's own icon/label flex-direction onto the tooltip placement that
- * puts the label where the pill's label would otherwise have gone (`icons-only`). */
-const FLOW_TO_TOOLTIP_PLACEMENT: Record<string, LoomiTooltipPlacement> = {
-  row: "right",
-  "row-reverse": "left",
-  column: "bottom",
-  "column-reverse": "top",
-};
-
 /**
  * `<loomi-fab-item>` — one action inside a `<loomi-fab>`'s speed-dial menu.
  *
@@ -262,12 +253,23 @@ export class LoomiFab extends LoomiElement {
     return this.placement.startsWith("top") ? "down" : "up";
   }
 
-  /** Flex-direction for each item's own icon/label row, so labels extend away from the nearest screen edge. */
+  /** Flex-direction for each item's own icon/label row — always icon-then-label,
+   * horizontally. For a vertically-stacked menu (`direction` up/down) it's reversed per
+   * corner so the label extends away from the nearest screen edge instead of off-screen;
+   * a horizontally-stacked menu (left/right) keeps a plain icon-left/label-right row
+   * regardless of corner, since the stack's own axis already reads left-to-right. */
   private pillFlow(dir: LoomiFabResolvedDirection): string {
-    if (dir === "left" || dir === "right") {
-      return this.placement.startsWith("top") ? "column" : "column-reverse";
-    }
+    if (dir === "left" || dir === "right") return "row";
     return this.placement.endsWith("left") ? "row" : "row-reverse";
+  }
+
+  /** Where the `icons-only` tooltip opens — perpendicular to the stack's own axis so it
+   * doesn't collide with the neighboring item, and away from the nearest screen edge. */
+  private tooltipPlacementFor(dir: LoomiFabResolvedDirection): LoomiTooltipPlacement {
+    if (dir === "left" || dir === "right") {
+      return this.placement.startsWith("top") ? "bottom" : "top";
+    }
+    return this.placement.endsWith("left") ? "right" : "left";
   }
 
   private getItems(): LoomiFabItem[] {
@@ -279,7 +281,7 @@ export class LoomiFab extends LoomiElement {
   }
 
   private syncItemDefaults(): void {
-    const tooltipPlacement = FLOW_TO_TOOLTIP_PLACEMENT[this.pillFlow(this.resolvedDirection)] ?? "top";
+    const tooltipPlacement = this.tooltipPlacementFor(this.resolvedDirection);
     for (const item of this.getItems()) {
       item.hostIconSource = this.iconSource;
       item.hostIconsOnly = this.iconsOnly;

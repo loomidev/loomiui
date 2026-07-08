@@ -51,10 +51,22 @@ close (×) button without needing a second icon.
 `variant="docked"`, which edge the menu aligns its items to.
 
 ```html
-<loomi-fab placement="bottom-right">…</loomi-fab>
-<loomi-fab placement="bottom-left">…</loomi-fab>
-<loomi-fab placement="top-right">…</loomi-fab>
-<loomi-fab placement="top-left">…</loomi-fab>
+<loomi-fab placement="bottom-right">
+  <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+  <loomi-fab-item icon="calendar" label="Book Appointment" value="appointment"></loomi-fab-item>
+</loomi-fab>
+<loomi-fab placement="bottom-left">
+  <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+  <loomi-fab-item icon="calendar" label="Book Appointment" value="appointment"></loomi-fab-item>
+</loomi-fab>
+<loomi-fab placement="top-right">
+  <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+  <loomi-fab-item icon="calendar" label="Book Appointment" value="appointment"></loomi-fab-item>
+</loomi-fab>
+<loomi-fab placement="top-left">
+  <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+  <loomi-fab-item icon="calendar" label="Book Appointment" value="appointment"></loomi-fab-item>
+</loomi-fab>
 ```
 
 ## Direction
@@ -64,10 +76,22 @@ from `placement` — `bottom-*` expands `up`, `top-*` expands `down` — so item
 into free space instead of off-screen.
 
 ```html
-<loomi-fab direction="up">…</loomi-fab>
-<loomi-fab direction="down">…</loomi-fab>
-<loomi-fab direction="left">…</loomi-fab>
-<loomi-fab direction="right">…</loomi-fab>
+<loomi-fab placement="bottom-right" direction="up">
+  <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+  <loomi-fab-item icon="calendar" label="Book Appointment" value="appointment"></loomi-fab-item>
+</loomi-fab>
+<loomi-fab placement="bottom-left" direction="down">
+  <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+  <loomi-fab-item icon="calendar" label="Book Appointment" value="appointment"></loomi-fab-item>
+</loomi-fab>
+<loomi-fab placement="top-right" direction="left">
+  <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+  <loomi-fab-item icon="calendar" label="Book Appointment" value="appointment"></loomi-fab-item>
+</loomi-fab>
+<loomi-fab placement="top-left" direction="right">
+  <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+  <loomi-fab-item icon="calendar" label="Book Appointment" value="appointment"></loomi-fab-item>
+</loomi-fab>
 ```
 
 ## Trigger
@@ -77,7 +101,10 @@ mouseenter/focus, closing shortly after the pointer or focus leaves — clicking
 works too, so touch and keyboard users aren't left without a way in.
 
 ```html
-<loomi-fab trigger="hover">…</loomi-fab>
+<loomi-fab trigger="hover">
+  <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+  <loomi-fab-item icon="calendar" label="Book Appointment" value="appointment"></loomi-fab-item>
+</loomi-fab>
 ```
 
 ## Variant
@@ -93,16 +120,25 @@ stays exactly where you put it.
 
 ```html
 <div class="my-toolbar">
-  <loomi-fab variant="docked" placement="bottom-right">…</loomi-fab>
+  <loomi-fab variant="docked" placement="bottom-right">
+    <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+    <loomi-fab-item icon="calendar" label="Book Appointment" value="appointment"></loomi-fab-item>
+  </loomi-fab>
 </div>
 ```
 
 ## Sizes
 
 ```html
-<loomi-fab size="small">…</loomi-fab>
-<loomi-fab size="medium">…</loomi-fab>
-<loomi-fab size="regular">…</loomi-fab>
+<loomi-fab size="small" placement="bottom-right">
+  <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+</loomi-fab>
+<loomi-fab size="medium" placement="bottom-left">
+  <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+</loomi-fab>
+<loomi-fab size="regular" placement="top-right">
+  <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+</loomi-fab>
 <!-- regular is the default -->
 ```
 
@@ -117,7 +153,10 @@ stays exactly where you put it.
   always closes it.
 
 ```html
-<loomi-fab backdrop close-on-select="false">…</loomi-fab>
+<loomi-fab backdrop close-on-select="false">
+  <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+  <loomi-fab-item icon="calendar" label="Book Appointment" value="appointment"></loomi-fab-item>
+</loomi-fab>
 ```
 
 ## Color
@@ -126,7 +165,9 @@ stays exactly where you put it.
 `primary` (default), `secondary`, `success`, `error`, `warning`, or `gray`.
 
 ```html
-<loomi-fab color="success" icon="check">…</loomi-fab>
+<loomi-fab color="success" icon="check">
+  <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
+</loomi-fab>
 ```
 
 ## Icons
@@ -166,7 +207,8 @@ Every visual is a CSS custom property on `:host`, so re-theming needs no rebuild
 | Property | Default |
 | --- | --- |
 | `--loomi-fab-offset` | `1.5rem` — distance from the viewport edge (`variant="floating"`) |
-| `--loomi-fab-gap` | `0.875rem` — space between the trigger and the menu, and between items |
+| `--loomi-fab-gap` | `0.875rem` — space between items |
+| `--loomi-fab-trigger-gap` | `calc(var(--loomi-fab-gap) + 0.375rem)` — space between the trigger and the menu (a bit more than `--loomi-fab-gap`, since the trigger's bigger and more heavily shadowed) |
 | `--loomi-fab-z-index` | `1000` |
 | `--loomi-fab-diameter` | `2.75rem` / `3.25rem` / `3.75rem` per `size` |
 | `--loomi-fab-icon-size` | `1.125rem` / `1.25rem` / `1.5rem` per `size` |
@@ -175,7 +217,8 @@ Every visual is a CSS custom property on `:host`, so re-theming needs no rebuild
 | `--loomi-fab-bg` / `--loomi-fab-bg-hover` | derived from `color` |
 | `--loomi-fab-fg` | `var(--loomi-text-on-primary)` |
 | `--loomi-fab-shadow` | a soft drop shadow |
-| `--loomi-fab-backdrop` | `rgba(15, 23, 42, 0.45)` |
+| `--loomi-fab-backdrop` | `rgba(15, 23, 42, 0.45)` — matches `<loomi-modal>`'s backdrop tint |
+| `--loomi-fab-backdrop-blur` | `blur(5px)` — matches `<loomi-modal>`'s default `blur-size="medium"` |
 
 ```css
 loomi-fab {

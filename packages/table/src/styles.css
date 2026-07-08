@@ -1,6 +1,9 @@
 :host {
   --loomi-table-heading-bg: #f8f7f4;
   --loomi-table-divider: #f3f0ec;
+  /* A lighter tint of the heading background — used for hover and zebra-striping so
+     those states read as part of the same warm palette instead of an unrelated gray. */
+  --loomi-table-row-tint: #faf9f7;
   display: block;
   color: var(--loomi-text-secondary);
   font-family: Inter, ui-sans-serif, system-ui, sans-serif;
@@ -11,6 +14,7 @@
 :host-context(.dark) {
   --loomi-table-heading-bg: var(--loomi-surface-muted);
   --loomi-table-divider: var(--loomi-surface-border-subtle);
+  --loomi-table-row-tint: var(--loomi-surface-hover);
 }
 
 .loomi-wrap {
@@ -28,8 +32,8 @@
 }
 .loomi-shell.shadow {
   box-shadow:
-    0 1px 3px rgba(15, 23, 42, 0.06),
-    0 8px 24px rgba(15, 23, 42, 0.06);
+    0 1px 2px rgba(15, 23, 42, 0.06),
+    0 1px 3px rgba(15, 23, 42, 0.09);
 }
 
 .loomi-toolbar {
@@ -133,13 +137,13 @@ tbody td {
   border: 1px solid var(--loomi-surface-border);
 }
 .striped tbody tr:nth-child(even) {
-  background: var(--loomi-surface-muted);
+  background: var(--loomi-table-row-tint);
 }
 .hoverable tbody tr {
   transition: background-color 0.12s ease;
 }
 .hoverable tbody tr:hover {
-  background: var(--loomi-gray-200, var(--loomi-surface-hover));
+  background: var(--loomi-table-row-tint);
 }
 .clickable tbody tr {
   cursor: pointer;
