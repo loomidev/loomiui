@@ -32,6 +32,9 @@ export const dataGridStyles = css`
     border: 1px solid var(--loomi-data-grid-border);
     border-radius: 8px;
     background: var(--loomi-data-grid-surface);
+    box-shadow:
+      0 1px 2px rgba(15, 23, 42, 0.06),
+      0 1px 3px rgba(15, 23, 42, 0.09);
   }
 
   .toolbar,
