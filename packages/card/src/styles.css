@@ -16,13 +16,29 @@
   flex-direction: column;
   gap: var(--loomi-card-spacing);
   overflow: hidden;
-  border-radius: 0.75rem;
+  border-radius: 0.875rem;
   background: var(--loomi-surface);
   padding-block: var(--loomi-card-spacing);
   font-size: 0.875rem;
   line-height: 1.25rem;
   color: var(--loomi-text);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--loomi-text) 10%, transparent);
+}
+
+.card.bordered {
+  border: 1px solid var(--loomi-surface-border);
+}
+
+.card.shadow {
+  background: color-mix(in srgb, var(--loomi-surface) 92%, transparent);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.1);
+}
+
+/* :host-context(.dark) has no Firefox support (see AGENTS.md) — dark mode is tracked in
+   JS via watchDarkMode() and reflected as .is-dark on the host instead. */
+.card.is-dark.shadow {
+  background: color-mix(in srgb, var(--loomi-surface) 88%, transparent);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
 }
 
 :host(loomi-card:has(loomi-card-footer)) .card {
@@ -36,7 +52,7 @@
 :host(loomi-card:has(> img:first-child)) ::slotted(img) {
   display: block;
   width: 100%;
-  border-radius: 0.75rem 0.75rem 0 0;
+  border-radius: 0.875rem 0.875rem 0 0;
 }
 
 .card.clickable {
@@ -55,10 +71,11 @@
 }
 
 .card.hover:hover {
-  box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--loomi-text) 10%, transparent),
-    0 4px 6px -1px rgba(0, 0, 0, 0.08),
-    0 2px 4px -2px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 20px 48px rgba(15, 23, 42, 0.16);
+}
+
+.card.is-dark.hover:hover {
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.4);
 }
 
 /* ---- header ---- */
@@ -73,7 +90,7 @@
   align-items: start;
   gap: 0.25rem;
   padding-inline: var(--loomi-card-spacing);
-  border-radius: 0.75rem 0.75rem 0 0;
+  border-radius: 0.875rem 0.875rem 0 0;
 }
 
 :host(loomi-card-header:has(loomi-card-action)) .header {
@@ -144,7 +161,7 @@
   align-items: center;
   gap: 0.5rem;
   border-top: 1px solid var(--loomi-surface-border-subtle);
-  border-radius: 0 0 0.75rem 0.75rem;
+  border-radius: 0 0 0.875rem 0.875rem;
   background: var(--loomi-surface-muted);
   padding: var(--loomi-card-spacing);
 }

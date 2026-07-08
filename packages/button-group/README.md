@@ -1,7 +1,7 @@
 # @loomidev/button-group
 
 `<loomi-button-group>` and `<loomi-button-group-item>` — a horizontal row of
-secondary-style toggle buttons with shared sizing, palette, icons, and disabled states.
+secondary-style toggle buttons with shared sizing, radius, icons, and disabled states.
 
 ```bash
 npm install @loomidev/button-group lit
@@ -83,16 +83,19 @@ Icon-only items work too — omit `label` and set `icon` only.
 </loomi-button-group>
 ```
 
-## Sizes and Colors
+## Sizes, Radius, and Colors
 
 `size` accepts `tiny`, `small`, `regular` (default), `medium`, and `big`.
+`radius` accepts the same values as `<loomi-button>`: `none`, `small`, `medium`
+(default), and `full`. The group uses a contiguous secondary-button treatment, with
+2px dividers between items and rounded corners only on the first and last buttons.
 
 The selected item always uses a calm neutral gray fill — never a bright accent color —
 so it reads as "chosen" without competing for attention. `color` accepts any loomi
 color name and only tints the keyboard focus ring.
 
 ```html
-<loomi-button-group size="small" color="success">
+<loomi-button-group size="small" radius="full" color="success">
   <loomi-button-group-item label="Left" value="left" selected></loomi-button-group-item>
   <loomi-button-group-item label="Right" value="right"></loomi-button-group-item>
 </loomi-button-group>

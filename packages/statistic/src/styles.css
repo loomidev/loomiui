@@ -10,14 +10,23 @@
   align-items: center;
   gap: 1rem;
   width: 100%;
-  padding: 1.25rem 1.5rem;
+  padding: 1rem;
   color: var(--loomi-text-secondary);
+  background: var(--loomi-surface);
 }
 .loomi-stat.bordered {
   border: 1px solid var(--loomi-surface-border);
 }
 .loomi-stat.shadow {
-  box-shadow: none;
+  background: color-mix(in srgb, var(--loomi-surface) 92%, transparent);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.1);
+}
+/* :host-context(.dark) has no Firefox support (see AGENTS.md) — dark mode is tracked in
+   JS via watchDarkMode() and reflected as .is-dark on the host instead. */
+.loomi-stat.is-dark.shadow {
+  background: color-mix(in srgb, var(--loomi-surface) 88%, transparent);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
 }
 .loomi-stat.clickable {
   cursor: pointer;

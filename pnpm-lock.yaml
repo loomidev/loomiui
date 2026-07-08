@@ -85,6 +85,9 @@ importers:
       '@loomidev/core':
         specifier: workspace:^
         version: link:../core
+      '@loomidev/icons':
+        specifier: workspace:^
+        version: link:../icons
     devDependencies:
       '@loomidev/theme':
         specifier: workspace:^
@@ -229,6 +232,9 @@ importers:
 
   packages/calendar:
     dependencies:
+      '@loomidev/context-menu':
+        specifier: workspace:^
+        version: link:../context-menu
       '@loomidev/core':
         specifier: workspace:^
         version: link:../core

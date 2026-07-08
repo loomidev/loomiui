@@ -16,7 +16,7 @@ npm install @loomidev/calendar
 import "@loomidev/calendar";
 ```
 
-The calendar bundles its own UI dependencies (`loomi-datepicker`, `loomi-input`, `loomi-modal`, `loomi-select`, `loomi-tag-input`, `loomi-textarea`, `loomi-timepicker`, `loomi-toggle`, `loomi-tooltip`). Importing `@loomidev/calendar` registers those elements automatically.
+The calendar bundles its own UI dependencies (`loomi-context-menu`, `loomi-datepicker`, `loomi-input`, `loomi-modal`, `loomi-select`, `loomi-tag-input`, `loomi-textarea`, `loomi-timepicker`, `loomi-toggle`, `loomi-tooltip`). Importing `@loomidev/calendar` registers those elements automatically.
 
 ## Basic Usage
 
@@ -212,13 +212,24 @@ calendar.events = [
 
 ## Editing
 
-Enable `editable` to show the **Add event** button, open the create modal (title, schedule, color, resource, recurrence, reminder, invitees, description), drag events across days, and resize multi-day events horizontally.
+Enable `editable` to show the **Add event** button, open the create/edit modal (title, schedule, color, resource, recurrence, reminder, invitees, description), drag events across days, and resize multi-day events horizontally.
 
 ```html
 <loomi-calendar view="week" editable week-starts="monday" show-sidebar sidebar-open></loomi-calendar>
 ```
 
-The create modal emits `loomi-event-create`. Drag/resize emits `loomi-event-change`. Sidebar actions emit `loomi-event-duplicate` and `loomi-event-delete`.
+The add/edit form is a `<loomi-modal>`. The create flow emits `loomi-event-create`;
+double-clicking an event in edit mode loads its details into the same modal and emits
+`loomi-event-change` on save. Clicking an event selects it. With an event selected,
+Backspace/Delete opens a delete confirmation modal (`type="error"`) that names the
+event. Right-clicking an event in edit mode opens a `<loomi-context-menu>` with **Edit**
+and **Delete** actions; Delete uses the same confirmation flow.
+
+Drag/resize also emits `loomi-event-change`. Sidebar duplicate emits
+`loomi-event-duplicate`, and confirmed deletes emit `loomi-event-delete`.
+
+Use `confirmDeleteEvent(eventOrId)` to open the built-in delete modal from your own UI,
+or `deleteEvent(eventOrId)` to dispatch `loomi-event-delete` directly.
 
 ## Accessibility
 
@@ -254,7 +265,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `week-starts` | `"sunday" \| "monday"` | `"sunday"` | First day of the week. |
 | `timezone` | `string` | browser timezone | IANA timezone used for labels. |
 | `show-timezone` | `boolean` | `false` | Shows a timezone badge in the toolbar. |
-| `show-weekends` | `boolean` | `true` | Hides Saturday/Sunday in week view when false. |
+| `show-weekends` / `show_weekends` | `boolean` | `false` | Shows Saturday/Sunday in week and month views when true. |
 | `show-sidebar` | `boolean` | `true` | Shows the left pane with mini calendar and upcoming detail. |
 | `sidebar-open` | `boolean` | `false` | Toggles the left pane visibility. Reflected attribute. When unset, restores the last choice from `localStorage` (`loomi-calendar-sidebar-open`). |
 | `editable` | `boolean` | `false` | Enables create modal, drag, and resize. |
@@ -295,6 +306,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 ## Dependencies
 
 - `@loomidev/core`
+- `@loomidev/context-menu`
 - `@loomidev/datepicker`
 - `@loomidev/input`
 - `@loomidev/modal`
