@@ -1,6 +1,7 @@
 import { css, html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { LoomiElement, loomiDefaultText, loomiT, onClickOutside, themeStyles } from "@loomidev/core";
+import { getLoomiIcon } from "./icons.js";
 
 export type LoomiAutocompleteSize = "tiny" | "small" | "regular" | "medium" | "big";
 export type LoomiAutocompleteVariant = "default" | "minimal";
@@ -54,15 +55,15 @@ export class LoomiAutocomplete extends LoomiElement {
       }
       .loomi-field:focus-within,
       .open .loomi-field {
-        border-color: var(--loomi-primary-600);
-        box-shadow: 0 0 0 3px var(--loomi-primary-100);
+        border-color: var(--loomi-primary-600, var(--_loomi-primary-600-default));
+        box-shadow: 0 0 0 3px var(--loomi-primary-100, var(--_loomi-primary-100-default));
       }
       .no-focus-ring .loomi-field:focus-within,
       .no-focus-ring.open .loomi-field {
         box-shadow: none;
       }
-      :host([invalid]) .loomi-field { border-color: var(--loomi-error-400); }
-      :host([invalid]) .loomi-field:focus-within { border-color: var(--loomi-error-500); }
+      :host([invalid]) .loomi-field { border-color: var(--loomi-error-400, var(--_loomi-error-400-default)); }
+      :host([invalid]) .loomi-field:focus-within { border-color: var(--loomi-error-500, var(--_loomi-error-500-default)); }
       :host([disabled]) .loomi-field {
         opacity: 0.6;
         cursor: not-allowed;
@@ -77,10 +78,10 @@ export class LoomiAutocomplete extends LoomiElement {
       .loomi-field.variant-minimal:focus-within,
       .open .loomi-field.variant-minimal {
         box-shadow: none;
-        border-bottom-color: var(--loomi-primary-600);
+        border-bottom-color: var(--loomi-primary-600, var(--_loomi-primary-600-default));
       }
-      :host([invalid]) .loomi-field.variant-minimal { border-bottom-color: var(--loomi-error-400); }
-      :host([invalid]) .loomi-field.variant-minimal:focus-within { border-bottom-color: var(--loomi-error-500); }
+      :host([invalid]) .loomi-field.variant-minimal { border-bottom-color: var(--loomi-error-400, var(--_loomi-error-400-default)); }
+      :host([invalid]) .loomi-field.variant-minimal:focus-within { border-bottom-color: var(--loomi-error-500, var(--_loomi-error-500-default)); }
       :host([disabled]) .loomi-field.variant-minimal { background: transparent; }
       input {
         flex: 1 1 auto;
@@ -96,30 +97,67 @@ export class LoomiAutocomplete extends LoomiElement {
       }
       input::placeholder { color: var(--loomi-text-faint); }
       input:disabled { cursor: not-allowed; }
+      .loomi-selected-image {
+        width: 1.65rem;
+        height: 1.65rem;
+        margin-left: var(--loomi-control-pad-x);
+        border-radius: 9999px;
+        object-fit: cover;
+        flex: none;
+      }
+      .loomi-selected-image + input {
+        padding-left: 0.55rem;
+      }
       .loomi-label {
         position: absolute;
         left: var(--loomi-control-pad-x);
         top: 50%;
         transform: translateY(-50%);
         transform-origin: left center;
-        pointer-events: none;
         color: var(--loomi-text-faint);
-        background: var(--loomi-surface);
-        padding: 0 0.25rem;
+        line-height: 1;
+        pointer-events: none;
         transition: all 0.15s ease;
+        background: var(--loomi-surface);
+        padding-block: 0;
+        padding-inline: 0.25rem;
+        max-width: calc(100% - var(--loomi-control-pad-x));
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
       input:focus + .loomi-label,
       input:not(:placeholder-shown) + .loomi-label,
       .open .loomi-label {
         top: 0;
         transform: translateY(-50%) scale(0.85);
-        color: var(--loomi-primary-600);
+        color: var(--loomi-primary-600, var(--_loomi-primary-600-default));
       }
       :host([invalid]) input:focus + .loomi-label,
       :host([invalid]) input:not(:placeholder-shown) + .loomi-label {
-        color: var(--loomi-error-500);
+        color: var(--loomi-error-500, var(--_loomi-error-500-default));
       }
-      .loomi-req { color: var(--loomi-error-500); margin-left: 0.15rem; }
+      .loomi-req { color: var(--loomi-error-500, var(--_loomi-error-500-default)); margin-left: 0.15rem; }
+      .loomi-suffix {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding-right: var(--loomi-control-pad-x);
+        flex: none;
+      }
+      .loomi-iconbtn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        background: transparent;
+        color: var(--loomi-text-faint);
+        cursor: pointer;
+        padding: 0.25rem;
+        border-radius: 0.375rem;
+      }
+      .loomi-iconbtn:hover { color: var(--loomi-text-secondary); }
+      .loomi-icon { width: 1.15em; height: 1.15em; flex: none; }
       .loomi-panel {
         position: absolute;
         z-index: var(--loomi-autocomplete-panel-z-index, 500);
@@ -182,9 +220,17 @@ export class LoomiAutocomplete extends LoomiElement {
   @property({ type: Boolean, reflect: true }) invalid = false;
   @property({ type: Boolean, attribute: "show-focus-ring", converter: booleanAttribute }) showFocusRing = true;
 
+  /** Always true — loomi-autocomplete always shows a clear button once it has a value. */
+  get clearable(): true {
+    return true;
+  }
+
   @state() private open = false;
   @state() private activeIndex = -1;
+  @state() private displayValue = "";
+  @state() private selectedImage = "";
   @query("input") private inputEl?: HTMLInputElement;
+  private suppressValueDisplaySync = false;
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
@@ -192,8 +238,26 @@ export class LoomiAutocomplete extends LoomiElement {
   }
 
   override willUpdate(changed: PropertyValues<this>): void {
-    if (changed.has("selectedValue") && this.value !== this.selectedValue) {
+    // On the very first update, Lit reports `selectedValue` as "changed" even when it's
+    // still at its default "" — without the hasUpdated/non-empty guard, that would stomp
+    // an initial `value="..."` HTML attribute back to "" before anything ever renders.
+    const selectedValueChanged = changed.has("selectedValue") && (this.hasUpdated || this.selectedValue !== "");
+    if (selectedValueChanged && this.value !== this.selectedValue) {
       this.value = this.selectedValue;
+    }
+    if (
+      changed.has("value") ||
+      selectedValueChanged ||
+      changed.has("data") ||
+      changed.has("labelKey") ||
+      changed.has("valueKey") ||
+      changed.has("imageKey")
+    ) {
+      if (this.suppressValueDisplaySync) {
+        this.suppressValueDisplaySync = false;
+      } else {
+        this.syncDisplayFromValue();
+      }
     }
     this.internals.setFormValue(this.value);
     this.invalid = this.required && !this.value.trim();
@@ -201,6 +265,25 @@ export class LoomiAutocomplete extends LoomiElement {
 
   override focus(): void {
     this.inputEl?.focus();
+  }
+
+  /** Clear the field and reopen the suggestion panel. */
+  clear(): void {
+    this.suppressValueDisplaySync = true;
+    this.value = "";
+    this.displayValue = "";
+    this.selectedImage = "";
+    this.internals.setFormValue("");
+    this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
+    this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
+    this.focus();
+    this.show();
+  }
+
+  private renderIcon(name: string, cls = "loomi-icon"): TemplateResult | typeof nothing {
+    const path = getLoomiIcon(name);
+    if (!path) return nothing;
+    return html`<svg class=${cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${path}</svg>`;
   }
 
   private get options(): LoomiAutocompleteItem[] {
@@ -212,8 +295,24 @@ export class LoomiAutocomplete extends LoomiElement {
     })).filter((item) => item.label);
   }
 
+  private findOptionByValue(value = this.value): LoomiAutocompleteItem | undefined {
+    return this.options.find((item) => (item.value || item.label) === value);
+  }
+
+  private syncDisplayFromValue(): void {
+    if (!this.value) {
+      this.displayValue = "";
+      this.selectedImage = "";
+      return;
+    }
+
+    const selected = this.findOptionByValue();
+    this.displayValue = selected?.label ?? this.value;
+    this.selectedImage = selected?.image ?? "";
+  }
+
   private get filtered(): LoomiAutocompleteItem[] {
-    const q = this.value.trim().toLowerCase();
+    const q = this.displayValue.trim().toLowerCase();
     return q ? this.options.filter((item) => item.label.toLowerCase().includes(q) || (item.value ?? "").toLowerCase().includes(q)) : this.options;
   }
 
@@ -233,13 +332,18 @@ export class LoomiAutocomplete extends LoomiElement {
 
   private choose(item: LoomiAutocompleteItem): void {
     this.value = item.value || item.label;
+    this.displayValue = item.label;
+    this.selectedImage = item.image || "";
     this.hide();
     this.dispatchEvent(new CustomEvent("select", { bubbles: true, composed: true, detail: { item, value: this.value, label: item.label } }));
     this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
   }
 
   private onInput(event: Event): void {
-    this.value = (event.target as HTMLInputElement).value;
+    this.displayValue = (event.target as HTMLInputElement).value;
+    this.selectedImage = "";
+    this.suppressValueDisplaySync = true;
+    this.value = this.displayValue;
     this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
     this.show();
   }
@@ -267,10 +371,13 @@ export class LoomiAutocomplete extends LoomiElement {
     const hasLabel = !!this.label;
     const placeholder = hasLabel ? " " : loomiDefaultText(this.placeholder, DEFAULT_PLACEHOLDER, "autocomplete.placeholder", this.locale);
     const options = this.filtered;
+    const showClear = this.clearable && this.value !== "" && !this.disabled && !this.readonly;
+    const showSelectedImage = this.value !== "" && this.selectedImage !== "";
     return html`<div class="loomi-ac size-${this.size} ${this.open ? "open" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}">
       <div class="loomi-field variant-${this.variant}">
+        ${showSelectedImage ? html`<img class="loomi-selected-image" src=${this.selectedImage} alt="" />` : nothing}
         <input
-          .value=${this.value}
+          .value=${this.displayValue}
           name=${this.name || nothing}
           placeholder=${placeholder}
           ?disabled=${this.disabled}
@@ -284,6 +391,17 @@ export class LoomiAutocomplete extends LoomiElement {
           @keydown=${this.onKeydown}
         />
         ${hasLabel ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>` : nothing}
+        ${showClear
+          ? html`<span class="loomi-suffix">
+              <button
+                type="button"
+                class="loomi-iconbtn"
+                aria-label=${loomiT("common.clear", {}, this.locale)}
+                @mousedown=${(event: Event) => event.preventDefault()}
+                @click=${this.clear}
+              >${this.renderIcon("x-circle")}</button>
+            </span>`
+          : nothing}
       </div>
       ${this.open ? html`<div class="loomi-panel" role="listbox">
         ${options.length

@@ -14,6 +14,17 @@ describe("loomi-button-group", () => {
     expect(el.style.getPropertyValue("--loomi-bg-pad-x")).to.equal("0.75rem");
   });
 
+  it("applies button-compatible radius vars on the host", async () => {
+    const el = await fixture<LoomiButtonGroup>(html`
+      <loomi-button-group radius="full">
+        <loomi-button-group-item label="A" selected></loomi-button-group-item>
+        <loomi-button-group-item label="B"></loomi-button-group-item>
+      </loomi-button-group>
+    `);
+
+    expect(el.style.getPropertyValue("--loomi-bg-radius")).to.equal("9999px");
+  });
+
   it("selects a clicked item and emits button-group-change", async () => {
     const el = await fixture<LoomiButtonGroup>(html`
       <loomi-button-group>

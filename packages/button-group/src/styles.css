@@ -1,11 +1,11 @@
 /*
  * Shared Shadow-DOM styles for <loomi-button-group> and <loomi-button-group-item>.
  *
- * Unselected items mirror <loomi-button type="secondary">: transparent fill, neutral
- * border, and surface-hover on hover. The selected item always uses a calm neutral gray
- * fill (--loomi-bg-sel-*, set by the group host) rather than the group's accent color;
- * `color` only tints the focus ring (--_loomi-accent-ring). Size tokens align with
- * loomi-button control sizing.
+ * Items mirror <loomi-button type="secondary">: transparent fill, neutral border, and
+ * surface-hover on hover. The selected item always uses a calm neutral gray fill
+ * (--loomi-bg-sel-*, set by the group host) rather than the group's accent color;
+ * `color` only tints the focus ring (--_loomi-accent-ring). Size and radius tokens align
+ * with loomi-button control sizing.
  */
 
 /* ------------------------------------------------------------------ */
@@ -24,11 +24,11 @@
 .loomi-bg-group {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  padding: 0.25rem;
-  border: 1px solid var(--loomi-surface-border);
-  border-radius: calc(var(--loomi-bg-radius, 0.5rem) + 0.25rem);
-  background: var(--loomi-surface-muted);
+  gap: 0;
+  border: 2px solid var(--loomi-surface-border, #d9dee3);
+  border-radius: var(--loomi-bg-radius, 0.5rem);
+  background: transparent;
+  overflow: hidden;
 }
 
 .loomi-bg-group.disabled {
@@ -52,8 +52,12 @@
   display: none;
 }
 
-:host(loomi-button-group-item:not(:first-of-type)) {
-  margin-left: 0;
+:host(loomi-button-group-item:not(:first-of-type))::before {
+  content: "";
+  width: 2px;
+  align-self: stretch;
+  background: var(--loomi-surface-border, #d9dee3);
+  flex: none;
 }
 
 :host(loomi-button-group-item:hover),
@@ -92,8 +96,8 @@
   /* Secondary ghost: matches .loomi-btn--secondary on <loomi-button>. */
   background: transparent;
   color: var(--loomi-text, inherit);
-  border: 1px solid transparent;
-  border-radius: var(--loomi-bg-radius, 0.5rem);
+  border: 0;
+  border-radius: 0;
 
   transition:
     background-color 0.15s ease,
@@ -102,11 +106,13 @@
 }
 
 :host(:first-of-type) .loomi-bg-btn {
-  border-radius: var(--loomi-bg-radius, 0.5rem);
+  border-start-start-radius: var(--loomi-bg-radius, 0.5rem);
+  border-end-start-radius: var(--loomi-bg-radius, 0.5rem);
 }
 
 :host(:last-of-type) .loomi-bg-btn {
-  border-radius: var(--loomi-bg-radius, 0.5rem);
+  border-start-end-radius: var(--loomi-bg-radius, 0.5rem);
+  border-end-end-radius: var(--loomi-bg-radius, 0.5rem);
 }
 
 :host(:first-of-type:last-of-type) .loomi-bg-btn {
@@ -120,13 +126,11 @@
 .loomi-bg-btn.selected {
   background: var(--loomi-bg-sel-bg);
   color: var(--loomi-bg-sel-color);
-  border-color: var(--loomi-bg-sel-border);
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+  box-shadow: inset 0 0 0 2px var(--loomi-bg-sel-border), 0 1px 2px rgba(15, 23, 42, 0.08);
 }
 
 .loomi-bg-btn.selected:not(:disabled):hover {
   background: var(--loomi-bg-sel-hover);
-  border-color: var(--loomi-bg-sel-hover);
 }
 
 :host(loomi-button-group-item[disabled]) .loomi-bg-btn,

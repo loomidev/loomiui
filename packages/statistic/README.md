@@ -79,8 +79,11 @@ el.showSpinner = false;
 
 ## Card Styling
 
-`<loomi-statistic>` is wrapped with [`<loomi-card>`](../card), so it shares the same
-card frame and hover behavior.
+`<loomi-statistic>` renders as a floating glass surface by default — a translucent,
+backdrop-blurred background, a hairline border, and a soft drop shadow — the same frame
+treatment as [`<loomi-card>`](../card) and the "Sales Overview" card on the LoomiUI
+homepage. Turn either off with `has-border` / `has-shadow`; turning off `has-shadow` also
+drops the translucency and blur, since those are part of the same floating-card material.
 
 ```html
 <loomi-statistic number="92" label="Score" has-shadow="false" has-border="false"></loomi-statistic>
@@ -130,7 +133,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `icon-size` | _(blank)_ | CSS size applied to slotted icons. |
 | `has-shadow` | `true` | Show a drop shadow. _(boolean)_ |
 | `has-border` | `true` | Show a border. _(boolean)_ |
-| `radius` | `small` | `none` \| `small` \| `medium` \| `large` \| `xl` |
+| `radius` | `medium` | `none` \| `small` \| `medium` \| `large` \| `xl` |
 | `show-spinner` | `false` | Show a loading spinner instead of the number. _(boolean)_ |
 | `url` | _(blank)_ | Navigate on click. |
 

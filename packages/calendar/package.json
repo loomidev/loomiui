@@ -34,6 +34,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@loomidev/context-menu": "workspace:^",
     "@loomidev/core": "workspace:^",
     "@loomidev/datepicker": "workspace:^",
     "@loomidev/input": "workspace:^",

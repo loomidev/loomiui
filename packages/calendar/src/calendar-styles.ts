@@ -493,6 +493,15 @@ export const calendarStyles = css`
     z-index: 1000;
   }
 
+  .delete-copy {
+    margin: 0;
+    color: var(--loomi-calendar-text-secondary);
+  }
+
+  .delete-copy strong {
+    color: var(--loomi-calendar-text);
+  }
+
   @media (max-width: 560px) {
     .event-form-row {
       grid-template-columns: 1fr;
@@ -973,6 +982,10 @@ export const calendarStyles = css`
     border-right: 0;
   }
 
+  .month-cell:last-child {
+    border-right: 0;
+  }
+
   .month-cell.other-month {
     background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 72%, transparent);
   }
@@ -989,7 +1002,7 @@ export const calendarStyles = css`
     width: 28px;
     height: 28px;
     margin-left: auto;
-    border: 0;
+    border: 1px solid transparent;
     border-radius: 999px;
     background: transparent;
     color: var(--loomi-calendar-text-secondary);
@@ -1057,6 +1070,17 @@ export const calendarStyles = css`
     transform: translateY(-1px);
     box-shadow: 0 3px 8px rgba(15, 23, 42, 0.08);
     filter: saturate(1.05);
+  }
+
+  .event-pill.selected,
+  .spanning-event.selected,
+  .timed-event.selected {
+    border-color: currentColor;
+    box-shadow: 0 0 0 1px currentColor, 0 2px 8px rgba(15, 23, 42, 0.08);
+  }
+
+  .agenda-item.selected {
+    box-shadow: inset 0 0 0 2px currentColor;
   }
 
   .event-pill.more {
@@ -1386,6 +1410,10 @@ export const calendarStyles = css`
      * events inside are positioned with relative to the header's hour columns above them. */
     min-width: calc(var(--loomi-calendar-hour-count, 12) * 80px);
     border-bottom: 1px solid var(--loomi-calendar-border-subtle);
+    cursor: default;
+  }
+
+  .resource-timeline.editable {
     cursor: crosshair;
   }
 

@@ -1,9 +1,25 @@
 import { html, nothing, type TemplateResult } from "lit";
-import { customElement, property } from "lit/decorators.js";
-import { LoomiElement, loomiStyles } from "@loomidev/core";
+import { customElement, property, state } from "lit/decorators.js";
+import { LoomiElement, loomiStyles, watchDarkMode } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiCardSize = "default" | "sm";
+
+/**
+ * Lit's default `type: Boolean` converter treats ANY attribute presence — including the
+ * literal string `"false"` — as `true` (`fromAttribute: (v) => v !== null`), so
+ * `has-shadow="false"` written as plain HTML markup would silently do nothing. This
+ * converter honors a literal `"false"` while keeping the usual presence-based
+ * `toAttribute` semantics for default-true boolean properties.
+ */
+const booleanAttribute = {
+  fromAttribute(value: string | null): boolean {
+    return value !== null && value !== "false";
+  },
+  toAttribute(value: boolean): string | null {
+    return value ? "" : null;
+  },
+};
 
 /**
  * `<loomi-card>` — shadcn/ui-style card root. Compose with the `loomi-card-*` parts.
@@ -17,6 +33,23 @@ export class LoomiCard extends LoomiElement {
   @property({ reflect: true }) size: LoomiCardSize = "default";
   @property() url = "";
   @property({ type: Boolean, attribute: "has-hover" }) hasHover = false;
+  @property({ type: Boolean, attribute: "has-shadow", converter: booleanAttribute }) hasShadow = true;
+  @property({ type: Boolean, attribute: "has-border", converter: booleanAttribute }) hasBorder = true;
+
+  /** Whether an ancestor has the `dark` class — see `isDarkContext` in `loomi-button.ts`. */
+  @state() private isDarkContext = false;
+  private cleanupDarkWatch?: () => void;
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.cleanupDarkWatch = watchDarkMode((isDark) => {
+      this.isDarkContext = isDark;
+    });
+  }
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.cleanupDarkWatch?.();
+  }
 
   private onClick = (): void => {
     if (!this.url) return;
@@ -34,7 +67,14 @@ export class LoomiCard extends LoomiElement {
   };
 
   override render(): TemplateResult {
-    const cls = ["card", this.url ? "clickable" : "", this.hasHover ? "hover" : ""]
+    const cls = [
+      "card",
+      this.hasBorder ? "bordered" : "",
+      this.hasShadow ? "shadow" : "",
+      this.url ? "clickable" : "",
+      this.hasHover ? "hover" : "",
+      this.isDarkContext ? "is-dark" : "",
+    ]
       .filter(Boolean)
       .join(" ");
     return html`<div

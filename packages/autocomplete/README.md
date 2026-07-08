@@ -22,13 +22,17 @@ Assign suggestions as a JavaScript property, then listen for `select`.
 <script type="module">
   const field = document.querySelector("loomi-autocomplete");
   field.data = [
-    { label: "Ada Lovelace", value: "ada", description: "Engineering" },
-    { label: "Grace Hopper", value: "grace", description: "Platform" },
+    { label: "Ada Lovelace", value: "ada", description: "Engineering", image: "/avatars/ada.jpg" },
+    { label: "Grace Hopper", value: "grace", description: "Platform", image: "/avatars/grace.jpg" },
     { label: "Katherine Johnson", value: "katherine", description: "Analytics" },
   ];
   field.addEventListener("select", (event) => console.log(event.detail));
 </script>
 ```
+
+When an option is selected, the field displays the option `label` and optional `image`.
+The component value remains the option `value`, and that value is what gets submitted
+with a form.
 
 ## Accessibility
 
@@ -65,7 +69,7 @@ they follow the app theme and `.dark` mode without custom overrides.
 | --- | --- | --- |
 | `label` | _(blank)_ | Floating label text. |
 | `placeholder` | `Search...` | Placeholder when no label is shown. |
-| `selected-value` | _(blank)_ | Use `.value` as a property for controlled text. |
+| `selected-value` | _(blank)_ | Sets the submitted value; matching options display their label and image. |
 | `size` | `medium` | `tiny` \| `small` \| `regular` \| `medium` \| `big`. |
 | `variant` | `default` | `default` \| `minimal` (bottom border only, no box) |
 | `label-key` | `label` | Property name for option labels. |
@@ -76,6 +80,7 @@ they follow the app theme and `.dark` mode without custom overrides.
 | `disabled` | `false` | Disables input and selection. |
 | `readonly` | `false` | Prevents edits. |
 | `show-focus-ring` | `true` | Set `show-focus-ring="false"` to hide the focus halo. |
+| `clearable` | `true` | Read-only — always on. Shows an × button once the field has a value; clicking it empties the field and reopens the panel. |
 
 ## Events
 
@@ -88,3 +93,4 @@ they follow the app theme and `.dark` mode without custom overrides.
 ## Dependencies
 
 - `@loomidev/core`
+- `@loomidev/icons`
