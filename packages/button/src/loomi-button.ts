@@ -11,7 +11,7 @@ export type LoomiButtonRadius = "none" | "small" | "medium" | "full";
 export type LoomiButtonTag = "button" | "a";
 
 /** Closed palette for buttons: brand primary/secondary, plus semantic state colors. */
-const BUTTON_COLORS = ["primary", "secondary", "success", "error", "warning"] as const;
+const BUTTON_COLORS = ["primary", "secondary", "success", "error", "warning", "gray"] as const;
 export type LoomiButtonColor = (typeof BUTTON_COLORS)[number];
 
 function isLoomiButtonColor(value: unknown): value is LoomiButtonColor {
@@ -62,7 +62,7 @@ export class LoomiButton extends LoomiElement {
   /** Structural variant: `primary` is a solid fill; `secondary` is a bordered ghost. `color` overrides the hue. */
   @property({ reflect: true }) type: LoomiButtonType = "primary";
 
-  /** Palette override. Empty = derive from `type`. `primary` | `secondary` | `success` | `error` | `warning`. */
+  /** Palette override. Empty = derive from `type`. `primary` | `secondary` | `success` | `error` | `warning` | `gray`. */
   @property() color: LoomiButtonColor | "" = "";
 
   /** Size preset. */
