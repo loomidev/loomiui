@@ -1378,7 +1378,13 @@ export const calendarStyles = css`
 
   .resource-timeline {
     position: relative;
-    min-height: calc(var(--loomi-calendar-hour-height, 48px) * var(--loomi-calendar-hour-count, 12));
+    /* Matches .resource-hours's own implicit min-width (repeat(N, minmax(80px, 1fr)))
+     * so this row's "1fr" grid column resolves to the same width as the header's. Without
+     * it, .resource-track (position: absolute; inset: 0) contributes no intrinsic width of
+     * its own, so this row's track ends up narrower than the header on any viewport too
+     * narrow to fit every column at 80px+ - throwing off the left/width percentages the
+     * events inside are positioned with relative to the header's hour columns above them. */
+    min-width: calc(var(--loomi-calendar-hour-count, 12) * 80px);
     border-bottom: 1px solid var(--loomi-calendar-border-subtle);
     cursor: crosshair;
   }
