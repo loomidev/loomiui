@@ -1,6 +1,6 @@
 import { html, nothing, type PropertyValues } from "lit";
 import { customElement } from "lit/decorators.js";
-import { LoomiElement, loomiStyles } from "@loomidev/core";
+import { LoomiElement, loomiStyles, watchDarkMode } from "@loomidev/core";
 import { dataGridStyles } from "./data-grid-styles.js";
 import type { DataGridHost, GridCellCoordinates, GridModule, GridModuleContext } from "./grid-module.js";
 import { formatCellValue, getRowMeta, resolveRowKey, orderPinnedColumns, computeColumnPinLayout, SELECTION_COLUMN_WIDTH_PX, type ColumnPinLayout } from "./grid-utils.js";
@@ -89,12 +89,18 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
   private processedRowsSnapshot: TRecord[] = [];
   private focusPending = false;
 
+  private cleanupDarkWatch?: () => void;
+
   override connectedCallback(): void {
     super.connectedCallback();
+    this.cleanupDarkWatch = watchDarkMode((isDark) => {
+      this.classList.toggle("is-dark", isDark);
+    });
   }
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
+    this.cleanupDarkWatch?.();
     for (const module of this.attachedModules) {
       module.detach?.(this.moduleContext);
     }

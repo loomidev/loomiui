@@ -1,7 +1,7 @@
 import { html, nothing, render as litRender, svg, type PropertyValues, type TemplateResult } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { customElement, property, state } from "lit/decorators.js";
-import { LoomiElement, accentVars, loomiDefaultText, loomiStyles, cssColor } from "@loomidev/core";
+import { LoomiElement, accentVars, loomiDefaultText, loomiStyles, cssColor, watchDarkMode } from "@loomidev/core";
 import { getLoomiIcon, type LoomiIconVariant } from "@loomidev/icons";
 import "@loomidev/checkbox/loomi-checkbox.js";
 import "@loomidev/input/loomi-input.js";
@@ -375,8 +375,18 @@ export class LoomiTable extends LoomiElement {
     this.renderExternalSearch();
   }
 
+  private cleanupDarkWatch?: () => void;
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.cleanupDarkWatch = watchDarkMode((isDark) => {
+      this.classList.toggle("is-dark", isDark);
+    });
+  }
+
   override disconnectedCallback(): void {
     this.removeExternalSearch();
+    this.cleanupDarkWatch?.();
     super.disconnectedCallback();
   }
 

@@ -11,7 +11,9 @@
 :host([hidden]) {
   display: none;
 }
-:host-context(.dark) {
+/* :host-context(.dark) has no Firefox support (see AGENTS.md) — the component
+   watches .dark on <html> in JS instead and reflects it as this class on itself. */
+:host(.is-dark) {
   --loomi-table-heading-bg: var(--loomi-surface-muted);
   --loomi-table-divider: var(--loomi-surface-border-subtle);
   --loomi-table-row-tint: var(--loomi-surface-hover);

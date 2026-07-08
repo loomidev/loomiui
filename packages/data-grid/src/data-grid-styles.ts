@@ -22,7 +22,9 @@ export const dataGridStyles = css`
     font-family: Inter, ui-sans-serif, system-ui, sans-serif;
   }
 
-  :host-context(.dark) {
+  /* :host-context(.dark) has no Firefox support (see AGENTS.md) — the component
+     watches .dark on <html> in JS instead and reflects it as this class on itself. */
+  :host(.is-dark) {
     --loomi-data-grid-heading-bg: var(--loomi-data-grid-surface-muted);
     --loomi-data-grid-divider: var(--loomi-data-grid-border-subtle);
   }
