@@ -92,7 +92,7 @@ shouldn't use the brand colors (e.g. a destructive delete button).
 <loomi-button color="warning" outline>Proceed with Caution</loomi-button>
 ```
 
-Available colors: `primary` `secondary` `success` `error` `warning`
+Available colors: `primary` `secondary` `success` `error` `warning` `gray`
 
 > Leaving `color` unset derives it from `type`: `primary` → the `primary` palette,
 > `secondary` → the `secondary` palette.
