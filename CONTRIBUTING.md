@@ -639,6 +639,11 @@ form behavior, keyboard interaction, generated CSS, and events that cross Shadow
 
 ## 8b. Adding or updating translations
 
+> For the fuller guide — including how to make a *new* component's copy translatable in
+> the first place (the `locale` property, `loomiT` vs. `loomiDefaultText`, key naming,
+> and why partial locale files are fine) — see [`i18n.md`](i18n.md). This section
+> covers the built-in-language workflow specifically.
+
 `@loomidev/core`'s `src/i18n.ts` is the shared translation lookup (`loomiT`,
 `setLoomiLocale`, `defineLoomiTranslations`, `loomiMonthName`, etc.) that every component
 calls into for its built-in copy — placeholders, validation messages, aria labels,
