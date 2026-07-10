@@ -82,6 +82,9 @@ Common semantic colors: `primary` `secondary` `success` `error` `warning` `gray`
 `<loomi-tabs>` comes in three styles, set via `tab-style`. The default is `simple` (an
 underlined heading row, as in every example above).
 
+When the active tab changes, the heading indicator slides to the next tab. In `simple`
+style the underline moves; in `system` and `pills` styles the selected surface moves.
+
 ### System Tab Style
 
 A segmented-control look — the active tab gets a raised pill inside a tinted track.

@@ -3,6 +3,8 @@ import "../dist/loomi-tab.js";
 import type { LoomiTabs } from "../dist/index.js";
 
 describe("loomi-tabs", () => {
+  const nextFrame = (): Promise<void> => new Promise((resolve) => requestAnimationFrame(() => resolve()));
+
   it("activates the first tab by default", async () => {
     const el = await fixture<LoomiTabs>(html`
       <loomi-tabs>
@@ -56,5 +58,38 @@ describe("loomi-tabs", () => {
 
     const tabs = el.querySelectorAll("loomi-tab");
     expect(tabs[2].active).to.be.true;
+  });
+
+  it("slides the heading indicator to the active tab", async () => {
+    const el = await fixture<LoomiTabs>(html`
+      <loomi-tabs tab-style="system">
+        <loomi-tab label="Short" active>First</loomi-tab>
+        <loomi-tab label="Much longer tab">Second</loomi-tab>
+      </loomi-tabs>
+    `);
+    await el.updateComplete;
+    await nextFrame();
+    await nextFrame();
+
+    const headings = el.shadowRoot!.querySelector<HTMLElement>(".loomi-headings")!;
+    const buttons = el.shadowRoot!.querySelectorAll<HTMLButtonElement>(".loomi-head");
+    const indicator = el.shadowRoot!.querySelector<HTMLElement>(".loomi-tab-indicator")!;
+    const firstX = headings.style.getPropertyValue("--loomi-tab-indicator-x");
+    const firstY = headings.style.getPropertyValue("--loomi-tab-indicator-y");
+    const firstWidth = headings.style.getPropertyValue("--loomi-tab-indicator-width");
+
+    buttons[1].click();
+    await el.updateComplete;
+    await nextFrame();
+    await nextFrame();
+
+    expect(indicator).to.exist;
+    expect(headings.style.getPropertyValue("--loomi-tab-indicator-opacity")).to.equal("1");
+    expect(el.querySelectorAll("loomi-tab")[1].active).to.be.true;
+    expect(
+      headings.style.getPropertyValue("--loomi-tab-indicator-x") !== firstX ||
+        headings.style.getPropertyValue("--loomi-tab-indicator-y") !== firstY ||
+        headings.style.getPropertyValue("--loomi-tab-indicator-width") !== firstWidth,
+    ).to.equal(true);
   });
 });

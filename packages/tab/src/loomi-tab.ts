@@ -1,4 +1,4 @@
-import { html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
@@ -48,6 +48,8 @@ export class LoomiTabs extends LoomiElement {
   }
 
   private defaultedActiveTab = false;
+  private indicatorObserver?: ResizeObserver;
+  private indicatorFrame = 0;
 
   // Runs before the first render (not firstUpdated, which runs after) so the default
   // active tab is already set by the time render() reads tab.active — avoids
@@ -74,6 +76,65 @@ export class LoomiTabs extends LoomiElement {
     this.dispatchEvent(
       new CustomEvent("tab-change", { bubbles: true, composed: true, detail: { label: tab.label } }),
     );
+  }
+
+  private get activeTabIndex(): number {
+    return this.tabs.findIndex((tab) => tab.active);
+  }
+
+  private scheduleIndicatorSync(): void {
+    cancelAnimationFrame(this.indicatorFrame);
+    this.indicatorFrame = requestAnimationFrame(() => this.syncIndicator());
+  }
+
+  private syncIndicator(): void {
+    const headings = this.shadowRoot?.querySelector<HTMLElement>(".loomi-headings");
+    const activeButton = this.shadowRoot?.querySelectorAll<HTMLButtonElement>(".loomi-head")[this.activeTabIndex];
+    if (!headings || !activeButton) {
+      headings?.style.setProperty("--loomi-tab-indicator-opacity", "0");
+      return;
+    }
+
+    const headingsRect = headings.getBoundingClientRect();
+    const buttonRect = activeButton.getBoundingClientRect();
+    headings.style.setProperty("--loomi-tab-indicator-x", `${buttonRect.left - headingsRect.left}px`);
+    headings.style.setProperty("--loomi-tab-indicator-y", `${buttonRect.top - headingsRect.top}px`);
+    headings.style.setProperty("--loomi-tab-indicator-line-y", `${buttonRect.bottom - headingsRect.top - 2}px`);
+    headings.style.setProperty("--loomi-tab-indicator-width", `${buttonRect.width}px`);
+    headings.style.setProperty("--loomi-tab-indicator-height", `${buttonRect.height}px`);
+    headings.style.setProperty("--loomi-tab-indicator-opacity", "1");
+    requestAnimationFrame(() => headings.classList.add("indicator-ready"));
+  }
+
+  private observeIndicatorTargets(): void {
+    this.indicatorObserver?.disconnect();
+    if (typeof ResizeObserver === "undefined") return;
+
+    this.indicatorObserver = new ResizeObserver(() => this.scheduleIndicatorSync());
+    const headings = this.shadowRoot?.querySelector<HTMLElement>(".loomi-headings");
+    if (headings) this.indicatorObserver.observe(headings);
+    this.shadowRoot
+      ?.querySelectorAll<HTMLElement>(".loomi-head")
+      .forEach((button) => this.indicatorObserver?.observe(button));
+  }
+
+  override firstUpdated(): void {
+    this.observeIndicatorTargets();
+    this.scheduleIndicatorSync();
+  }
+
+  override updated(changed: PropertyValues<this>): void {
+    if (changed.has("tabStyle") || changed.has("color")) {
+      this.shadowRoot?.querySelector<HTMLElement>(".loomi-headings")?.classList.remove("indicator-ready");
+    }
+    this.observeIndicatorTargets();
+    this.scheduleIndicatorSync();
+  }
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    cancelAnimationFrame(this.indicatorFrame);
+    this.indicatorObserver?.disconnect();
   }
 
   /** Focuses the rendered tab button at the same index as `tab` in `this.tabs`. */
@@ -125,6 +186,7 @@ export class LoomiTabs extends LoomiElement {
         style=${accentVars(this.color)}
         @keydown=${this.onKeydown}
       >
+        <span class="loomi-tab-indicator" aria-hidden="true"></span>
         ${this.tabs.map(
           (tab) => html`<button
             class="loomi-head ${tab.active ? "active" : ""}"
