@@ -112,6 +112,15 @@ just file names.
 <loomi-filepicker max-files="3" show-image-preview="false"></loomi-filepicker>
 ```
 
+## Transparent and Borderless
+
+Use `transparent` to remove the drop-zone background and `has-border="false"` to hide
+its border. The props work independently or together.
+
+```html
+<loomi-filepicker transparent has-border="false"></loomi-filepicker>
+```
+
 ## Image Cropping
 
 Set `crop` to launch a crop dialog as soon as the user selects or drops an image. Drag
@@ -246,6 +255,8 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `resize` | `false` | Resize uploaded images to fit `resize-width`/`resize-height`. _(boolean)_ |
 | `resize-width` | _(unset)_ | Target width in pixels; aspect ratio is preserved. |
 | `resize-height` | _(unset)_ | Target height in pixels; aspect ratio is preserved. |
+| `transparent` | `false` | Make the drop-zone background transparent. _(boolean)_ |
+| `has-border` | `true` | Show the drop-zone border. _(boolean)_ |
 | `stealth` | `false` | Hide the drop-zone/file list; drive selection via `open()`/`clear()`. _(boolean)_ |
 
 **Property:** `selectedFiles`. **Methods:** `open()`, `clear()`. **Event:** `change` (`detail: { files }`).

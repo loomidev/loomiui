@@ -46,6 +46,19 @@ describe("loomi-filepicker", () => {
     expect(el.canDrop).to.be.false;
   });
 
+  it("supports a transparent, borderless drop-zone", async () => {
+    const el = await fixture<LoomiFilepicker>(
+      html`<loomi-filepicker transparent has-border="false"></loomi-filepicker>`,
+    );
+    const dropZone = el.shadowRoot!.querySelector(".loomi-drop")!;
+    const styles = getComputedStyle(dropZone);
+
+    expect(el.transparent).to.be.true;
+    expect(el.hasBorder).to.be.false;
+    expect(styles.backgroundColor).to.equal("rgba(0, 0, 0, 0)");
+    expect(styles.borderColor).to.equal("rgba(0, 0, 0, 0)");
+  });
+
   it("adds a selected file and dispatches change", async () => {
     const el = await fixture<LoomiFilepicker>(html`<loomi-filepicker></loomi-filepicker>`);
     let detail: { files: File[] } | undefined;
