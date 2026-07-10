@@ -23,6 +23,7 @@ import "@loomidev/content"; // registers all content elements
 | [`@loomidev/empty-state`](../empty-state) |
 | [`@loomidev/statistic`](../statistic) |
 | [`@loomidev/rating`](../rating) |
+| [`@loomidev/arc-meter`](../arc-meter) |
 | [`@loomidev/timeline`](../timeline) |
 | [`@loomidev/progress`](../progress) |
 | [`@loomidev/listview`](../listview) |
@@ -209,6 +210,7 @@ In Next.js, Nuxt, SvelteKit, and other SSR frameworks, put the bundle import in 
 ## Dependencies
 
 - `@loomidev/accordion`
+- `@loomidev/arc-meter`
 - `@loomidev/avatar`
 - `@loomidev/calendar`
 - `@loomidev/card`

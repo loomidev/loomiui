@@ -90,6 +90,52 @@ custom content gets a subtle shimmer treatment while the composer is disabled.
 ></loomi-chat-window>
 ```
 
+## Conversation List
+
+Set `show-conversations` and assign `conversations` to render an inbox-style list pane
+on the left of the transcript. Each conversation carries `id`, `name`, and optional
+`preview`, `time`, `unread`, `image`, `label`, and `color`. Clicking a row sets
+`active-conversation-id` and fires `conversation-select` — swap in that conversation's
+`messages` (and header `title`/`description`) from your handler.
+
+```html
+<loomi-chat-window show-conversations active-conversation-id="akosua"></loomi-chat-window>
+
+<script type="module">
+  const chat = document.querySelector("loomi-chat-window");
+  chat.conversations = [
+    { id: "akosua", name: "Akosua Boateng", preview: "Can you share the wireframes?", time: "10:24 AM", unread: 2, image: "/avatars/akosua.jpg" },
+    { id: "kofi", name: "Kofi Asare", preview: "API integration is complete.", time: "9:15 AM", unread: 1 },
+  ];
+  chat.addEventListener("conversation-select", (event) => {
+    chat.messages = loadTranscript(event.detail.conversation.id);
+  });
+</script>
+```
+
+Add `conversations-avatars-only` to collapse the pane into a slim avatar rail — names
+move into tooltips and unread counts become a dot on the avatar. Use the
+`conversations-header` slot for custom controls (filter chips, a compose button) above
+the list; the slot hides in avatars-only mode.
+
+## Attachments
+
+Give any message an `attachment` (`{ name, meta?, icon? }`) to render a file card under
+the bubble. A message with an attachment and no `text` renders just the card.
+
+```js
+chat.appendMessage({
+  senderId: "you",
+  text: "Updated wireframes attached.",
+  attachment: { name: "dashboard_wireframes_v2.fig", meta: "Figma File - 4.6 MB", icon: "document" },
+});
+```
+
+## Header Actions
+
+Use the `header-actions` slot to add controls (call buttons, info toggles) to the chat
+header, between the title block and the reset button.
+
 ## Accessibility
 
 loomi-chat-window is built on semantic markup where the browser gives us the right behavior, and it adds ARIA only where the component has custom interaction. Keyboard users should be able to reach the same controls as pointer users, with visible focus treatment unless you explicitly turn it off on controls that support `show-focus-ring="false"`.
@@ -138,6 +184,10 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `loading-text` | `""` | Text to show in the typing/loading row. |
 | `read-only` | `false` | Disables the composer. |
 | `show-reset` | `true` | Shows the reset button. |
+| `show-conversations` | `false` | Render the conversation list pane. |
+| `conversations` | `[]` | Conversation rows with `id`, `name`, optional `preview`, `time`, `unread`, `image`, `label`, `color`. |
+| `active-conversation-id` | `""` | Highlights the active conversation row. |
+| `conversations-avatars-only` | `false` | Collapse the conversation pane to an avatar rail. |
 
 ### `<loomi-chat-message>`
 
@@ -153,6 +203,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `outgoing` | `false` | Right-align the bubble with a trailing tail. |
 | `show-avatar` | `false` | Render an avatar beside the bubble. |
 | `show-sender` | `false` | Render the sender name above the bubble. |
+| `attachment` | — | File card under the bubble: `{ name, meta?, icon? }`. Property or JSON attribute. |
 
 ## Events
 
@@ -160,6 +211,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | --- | --- | --- |
 | `send` | `{ message }` | Current user submitted the composer. |
 | `reset` | — | Transcript cleared. |
+| `conversation-select` | `{ conversation }` | A conversation row was clicked. |
 
 ## Methods
 

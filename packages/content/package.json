@@ -35,6 +35,7 @@
     "@loomidev/qrcode": "workspace:^",
     "@loomidev/avatar": "workspace:^",
     "@loomidev/accordion": "workspace:^",
+    "@loomidev/arc-meter": "workspace:^",
     "@loomidev/tag": "workspace:^",
     "@loomidev/tooltip": "workspace:^",
     "@loomidev/popover": "workspace:^",

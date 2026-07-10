@@ -13,6 +13,7 @@ import {
   initialsFor,
   resolveParticipant,
   resolveSenderId,
+  type LoomiChatConversation,
   type LoomiChatMessageData,
   type LoomiChatParticipant,
 } from "./chat-utils.js";
@@ -40,9 +41,15 @@ const SCROLL_THRESHOLD = 24;
 
 /**
  * `<loomi-chat-window>` — a chat card with transcript, participant avatars, and composer.
+ * Set `show-conversations` and assign `conversations` to add an inbox-style list pane on
+ * the left; `conversations-avatars-only` collapses that pane to a slim avatar rail.
  *
  * @fires send - `detail: { message: LoomiChatWindowMessage }` when the current user sends.
  * @fires reset - when the conversation is reset.
+ * @fires conversation-select - `detail: { conversation }` when a conversation row is clicked.
+ *
+ * @slot conversations-header - Custom markup (filters, compose button) above the conversation list.
+ * @slot header-actions - Action buttons in the chat header, before the reset button.
  */
 @customElement("loomi-chat-window")
 export class LoomiChatWindow extends LoomiElement {
@@ -75,6 +82,13 @@ export class LoomiChatWindow extends LoomiElement {
   showHeaderAvatars = true;
   @property({ type: Boolean, attribute: "read-only", converter: booleanAttribute })
   readOnly = false;
+  @property({ type: Array }) conversations: LoomiChatConversation[] = [];
+  @property({ attribute: "active-conversation-id" }) activeConversationId = "";
+  @property({ type: Boolean, attribute: "show-conversations", converter: booleanAttribute })
+  showConversations = false;
+  /** Collapse the conversation pane to an avatar rail (names move into tooltips). */
+  @property({ type: Boolean, attribute: "conversations-avatars-only", converter: booleanAttribute })
+  conversationsAvatarsOnly = false;
 
   @state() private draft = "";
   @state() private showJumpButton = false;
@@ -130,6 +144,7 @@ export class LoomiChatWindow extends LoomiElement {
       text: message.text,
       senderId,
       time: message.time ?? new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      attachment: message.attachment,
       role: message.role,
     };
     this.messages = [...this.messages, next];
@@ -274,6 +289,77 @@ export class LoomiChatWindow extends LoomiElement {
     </loomi-avatars>`;
   }
 
+  private onConversationClick(conversation: LoomiChatConversation): void {
+    this.activeConversationId = conversation.id;
+    this.dispatchEvent(
+      new CustomEvent("conversation-select", {
+        bubbles: true,
+        composed: true,
+        detail: { conversation },
+      }),
+    );
+  }
+
+  private renderConversationRow(conversation: LoomiChatConversation): TemplateResult {
+    const active = conversation.id === this.activeConversationId;
+    const unread = conversation.unread ?? 0;
+    const color = conversation.color ?? colorForParticipant(conversation.id);
+    const avatarsOnly = this.conversationsAvatarsOnly;
+
+    return html`<button
+      type="button"
+      role="option"
+      aria-selected=${active ? "true" : "false"}
+      class="loomi-chat-conversation ${active ? "active" : ""}"
+      title=${avatarsOnly ? conversation.name : nothing}
+      @click=${() => this.onConversationClick(conversation)}
+    >
+      <span class="loomi-chat-conversation-avatar">
+        <loomi-avatar
+          size="small"
+          image=${conversation.image ?? ""}
+          label=${conversation.label ?? initialsFor(conversation.name)}
+          alt=${conversation.name}
+          bg-color=${color as LoomiColor}
+        ></loomi-avatar>
+        ${avatarsOnly && unread > 0 ? html`<span class="loomi-chat-conversation-dot"></span>` : nothing}
+      </span>
+      ${avatarsOnly
+        ? nothing
+        : html`<span class="loomi-chat-conversation-copy">
+            <span class="loomi-chat-conversation-top">
+              <span class="loomi-chat-conversation-name">${conversation.name}</span>
+              ${conversation.time
+                ? html`<span class="loomi-chat-conversation-time">${conversation.time}</span>`
+                : nothing}
+            </span>
+            <span class="loomi-chat-conversation-bottom">
+              ${conversation.preview
+                ? html`<span class="loomi-chat-conversation-preview">${conversation.preview}</span>`
+                : nothing}
+              ${unread > 0 ? html`<span class="loomi-chat-conversation-unread">${unread}</span>` : nothing}
+            </span>
+          </span>`}
+    </button>`;
+  }
+
+  private renderConversations(): TemplateResult {
+    return html`<aside
+      class="loomi-chat-conversations ${this.conversationsAvatarsOnly ? "avatars-only" : ""}"
+      aria-label="Conversations"
+    >
+      <div class="loomi-chat-conversations-header">
+        <slot name="conversations-header"></slot>
+      </div>
+      <div class="loomi-chat-conversation-list" role="listbox" aria-label="Conversations">
+        ${this.conversations.map((conversation) => this.renderConversationRow(conversation))}
+        ${this.conversations.length === 0
+          ? html`<div class="loomi-chat-conversations-empty">No conversations</div>`
+          : nothing}
+      </div>
+    </aside>`;
+  }
+
   private renderMessages(): TemplateResult {
     const showAvatars = this.showMessageAvatars;
     const showSender = this.roster.length > 2;
@@ -292,6 +378,7 @@ export class LoomiChatWindow extends LoomiElement {
         avatar-label=${participant.label ?? initialsFor(participant.name)}
         bubble-color=${color}
         time=${message.time ?? ""}
+        .attachment=${message.attachment}
         ?outgoing=${outgoing}
         ?show-avatar=${showAvatars}
         ?show-sender=${showSender && !outgoing}
@@ -321,9 +408,11 @@ export class LoomiChatWindow extends LoomiElement {
   override render(): TemplateResult {
     const hasMessages = this.messages.length > 0 || this.typing || this.busy;
 
-    return html`<div class="loomi-chat-window">
+    return html`<div class="loomi-chat-window ${this.showConversations ? "has-conversations" : ""}">
       <div class="loomi-chat-card-wrap">
-        <div class="loomi-chat-shell">
+        <div class="loomi-chat-shell ${this.showConversations ? "with-conversations" : ""}">
+          ${this.showConversations ? this.renderConversations() : nothing}
+          <div class="loomi-chat-main">
           <header class="loomi-chat-header">
             ${this.showHeaderAvatars && this.roster.length > 1
               ? html`<div class="loomi-chat-header-avatars">${this.renderHeaderAvatars()}</div>`
@@ -331,6 +420,9 @@ export class LoomiChatWindow extends LoomiElement {
             <div class="loomi-chat-header-copy">
               <div class="loomi-chat-title">${this.title}</div>
               <div class="loomi-chat-description">${this.description}</div>
+            </div>
+            <div class="loomi-chat-header-actions">
+              <slot name="header-actions"></slot>
             </div>
             ${this.showReset
               ? html`<loomi-tooltip content="Reset">
@@ -443,6 +535,7 @@ export class LoomiChatWindow extends LoomiElement {
               </div>
             </form>
           </footer>
+          </div>
         </div>
       </div>
       ${this.footerNote
