@@ -1,7 +1,7 @@
 {
   "name": "@loomidev/button-group",
   "version": "0.1.0",
-  "description": "<loomi-button-group>/<loomi-button-group-item> — a horizontal outline button group with selection, icons, and disabled states.",
+  "description": "<loomi-button-group>/<loomi-button-group-item> — a segmented button group with selection, icons, outline mode, and disabled states.",
   "repository": {
     "type": "git",
     "url": "https://github.com/loomidev/loomiui.git",
