@@ -1,0 +1,98 @@
+:host {
+  display: inline-block;
+  min-width: 0;
+  --loomi-profile-menu-radius: 0.875rem;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+.loomi-pm-dropmenu {
+  --loomi-dropmenu-trigger-padding: 0;
+  --loomi-dropmenu-trigger-hover-bg: transparent;
+  --loomi-dropmenu-trigger-radius: var(--loomi-profile-menu-radius);
+}
+
+loomi-card {
+  display: block;
+}
+
+.loomi-pm-trigger {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: min(14rem, 100vw);
+  max-width: 18rem;
+  padding: 0.75rem;
+  border: 1px solid transparent;
+  border-radius: var(--loomi-profile-menu-radius);
+  color: var(--loomi-text);
+  background: var(--loomi-surface);
+  box-sizing: border-box;
+  transition:
+    border-color var(--loomi-motion-duration) var(--loomi-motion-ease),
+    background-color var(--loomi-motion-duration) var(--loomi-motion-ease);
+}
+
+:host([transparent]) .loomi-pm-trigger {
+  background: transparent;
+}
+
+.loomi-pm-trigger:hover,
+.loomi-pm-trigger:focus-within {
+  border-color: var(--loomi-surface-border-subtle, var(--loomi-surface-border));
+}
+
+.loomi-pm-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.loomi-pm-name,
+.loomi-pm-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.loomi-pm-name {
+  color: var(--loomi-text);
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.15rem;
+  letter-spacing: 0;
+}
+
+.loomi-pm-description {
+  color: var(--loomi-text-muted);
+  font-size: 0.8125rem;
+  line-height: 1.1rem;
+}
+
+.loomi-pm-chevron {
+  width: 1rem;
+  height: 1rem;
+  color: var(--loomi-text-faint);
+  transition:
+    color var(--loomi-motion-duration) var(--loomi-motion-ease),
+    transform var(--loomi-motion-duration) var(--loomi-motion-ease);
+}
+
+.loomi-pm-trigger:hover .loomi-pm-chevron {
+  color: var(--loomi-text-muted);
+}
+
+.loomi-pm-staging {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loomi-pm-trigger,
+  .loomi-pm-chevron {
+    transition: none;
+  }
+}

@@ -80,6 +80,7 @@ import "@loomidev/components/select";
 | `<loomi-qrcode>` | [`@loomidev/qrcode`](../qrcode) |
 | `<loomi-clipboard>` | [`@loomidev/clipboard`](../clipboard) |
 | `<loomi-context-menu>` | [`@loomidev/context-menu`](../context-menu) |
+| `<loomi-profile-menu>` | [`@loomidev/profile-menu`](../profile-menu) |
 | `<loomi-side-nav>` | [`@loomidev/side-nav`](../side-nav) |
 | `<loomi-timer>` | [`@loomidev/timer`](../timer) |
 
@@ -275,6 +276,7 @@ In Next.js, Nuxt, SvelteKit, and other SSR frameworks, put the bundle import in 
 - `@loomidev/pin`
 - `@loomidev/popover`
 - `@loomidev/processing`
+- `@loomidev/profile-menu`
 - `@loomidev/progress`
 - `@loomidev/progress-steps`
 - `@loomidev/qrcode`

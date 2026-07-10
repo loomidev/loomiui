@@ -73,6 +73,7 @@ export * from "@loomidev/countries";
 export * from "@loomidev/creditcard";
 export * from "@loomidev/video";
 export * from "@loomidev/photo-gallery";
+export * from "@loomidev/profile-menu";
 
 export { registerLoomiIcon, getLoomiIcon, loomiIconNames } from "@loomidev/icons";
 

@@ -121,7 +121,8 @@ top corners (same pattern as shadcn's image example).
 backdrop-blurred background, a hairline border, and a soft drop shadow (the same
 treatment as the "Sales Overview" card on the LoomiUI homepage). Turn either off with
 `has-border` / `has-shadow`; turning off `has-shadow` also drops the translucency and
-blur, since those are part of the same floating-card material.
+blur, since those are part of the same floating-card material. Add `transparent` when
+you want to keep card spacing and composition but let the parent surface show through.
 
 ```html
 <loomi-card has-shadow="false" has-border="false" style="max-width: 20rem">
@@ -129,6 +130,9 @@ blur, since those are part of the same floating-card material.
 </loomi-card>
 <loomi-card has-shadow="false" style="max-width: 20rem">
   <loomi-card-content>Border only</loomi-card-content>
+</loomi-card>
+<loomi-card transparent has-shadow="false" has-border="false" style="max-width: 20rem">
+  <loomi-card-content>Transparent card shell</loomi-card-content>
 </loomi-card>
 ```
 
@@ -174,6 +178,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `has-shadow` | `true` | Floating drop shadow (with translucency + backdrop blur). _(boolean)_ |
 | `has-border` | `true` | Hairline border. _(boolean)_ |
 | `has-hover` | `false` | Extra shadow on hover. _(boolean)_ |
+| `transparent` | `false` | Remove the card surface fill and backdrop blur. _(boolean)_ |
 | `url` | _(blank)_ | Navigate on click (path, `fn()` call, or full URL). |
 
 ### Parts

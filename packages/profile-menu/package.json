@@ -1,0 +1,60 @@
+{
+  "name": "@loomidev/profile-menu",
+  "version": "0.1.0",
+  "description": "<loomi-profile-menu> — a profile trigger card with avatar, identity text, chevron, and dropdown menu actions.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/profile-menu"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./loomi-profile-menu.js": {
+      "types": "./dist/loomi-profile-menu.d.ts",
+      "import": "./dist/loomi-profile-menu.js"
+    }
+  },
+  "scripts": {
+    "build": "node scripts/build-styles.mjs && tsc -p tsconfig.json",
+    "dev": "node scripts/build-styles.mjs && tsc -p tsconfig.json --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@loomidev/avatar": "workspace:^",
+    "@loomidev/card": "workspace:^",
+    "@loomidev/core": "workspace:^",
+    "@loomidev/dropmenu": "workspace:^",
+    "@loomidev/icons": "workspace:^",
+    "@loomidev/theme": "workspace:^"
+  },
+  "peerDependencies": {
+    "lit": "^3.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.0.0",
+    "lit": "^3.3.3",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.6.3"
+  },
+  "keywords": [
+    "web-components",
+    "lit",
+    "loomiui",
+    "profile-menu",
+    "account-menu"
+  ]
+}

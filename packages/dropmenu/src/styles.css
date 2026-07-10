@@ -18,16 +18,16 @@
   justify-content: center;
   cursor: pointer;
   border: 0;
-  background: transparent;
+  background: var(--loomi-dropmenu-trigger-bg, transparent);
   color: var(--loomi-text-muted);
-  padding: 0.375rem;
-  border-radius: var(--loomi-dropmenu-item-radius);
+  padding: var(--loomi-dropmenu-trigger-padding, 0.375rem);
+  border-radius: var(--loomi-dropmenu-trigger-radius, var(--loomi-dropmenu-item-radius));
   transition:
     background-color 0.12s ease,
     color 0.12s ease;
 }
 .loomi-trigger:hover {
-  background: var(--loomi-surface-hover);
+  background: var(--loomi-dropmenu-trigger-hover-bg, var(--loomi-surface-hover));
   color: var(--loomi-text);
 }
 .loomi-trigger:focus-visible {

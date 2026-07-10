@@ -35,6 +35,7 @@ export class LoomiCard extends LoomiElement {
   @property({ type: Boolean, attribute: "has-hover" }) hasHover = false;
   @property({ type: Boolean, attribute: "has-shadow", converter: booleanAttribute }) hasShadow = true;
   @property({ type: Boolean, attribute: "has-border", converter: booleanAttribute }) hasBorder = true;
+  @property({ type: Boolean, reflect: true }) transparent = false;
 
   /** Whether an ancestor has the `dark` class — see `isDarkContext` in `loomi-button.ts`. */
   @state() private isDarkContext = false;
@@ -71,6 +72,7 @@ export class LoomiCard extends LoomiElement {
       "card",
       this.hasBorder ? "bordered" : "",
       this.hasShadow ? "shadow" : "",
+      this.transparent ? "transparent" : "",
       this.url ? "clickable" : "",
       this.hasHover ? "hover" : "",
       this.isDarkContext ? "is-dark" : "",
