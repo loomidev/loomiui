@@ -1,0 +1,93 @@
+:host {
+  display: inline-block;
+  color: var(--loomi-text);
+  max-width: 100%;
+}
+:host([hidden]) {
+  display: none;
+}
+
+.loomi-arc-meter {
+  --loomi-arc-meter-width: 11.75rem;
+  width: var(--loomi-arc-meter-width);
+  max-width: 100%;
+  min-width: 8.5rem;
+}
+
+.loomi-arc-visual {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 220 / 132;
+}
+
+.loomi-arc-visual svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.loomi-track-segment,
+.loomi-fill {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.loomi-track-segment {
+  stroke: var(--loomi-gray-200);
+  stroke-width: 11;
+}
+
+.loomi-fill {
+  stroke: var(--loomi-marker-color);
+  transition: d 0.28s ease, stroke 0.18s ease;
+}
+
+.loomi-marker-ring {
+  fill: var(--loomi-surface);
+  stroke: var(--loomi-marker-color);
+  filter: drop-shadow(0 0.125rem 0.25rem color-mix(in srgb, var(--loomi-text) 10%, transparent));
+  transition: cx 0.28s ease, cy 0.28s ease, stroke 0.18s ease;
+}
+
+.loomi-copy {
+  position: absolute;
+  inset-block-start: 39%;
+  inset-inline: 23% 10%;
+  display: grid;
+  justify-items: center;
+  gap: 0.12rem;
+  text-align: center;
+  pointer-events: none;
+}
+
+.loomi-title {
+  max-width: 100%;
+  color: var(--loomi-text);
+  font-size: 1.45rem;
+  font-weight: 750;
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+}
+
+.loomi-description {
+  max-width: 100%;
+  color: var(--loomi-text-secondary);
+  font-size: 1rem;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 420px) {
+  .loomi-arc-meter {
+    --loomi-arc-meter-width: 10.5rem;
+  }
+
+  .loomi-title {
+    font-size: 1.25rem;
+  }
+
+  .loomi-description {
+    font-size: 0.9rem;
+  }
+}

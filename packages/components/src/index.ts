@@ -26,6 +26,7 @@ export * from "@loomidev/tag";
 export * from "@loomidev/tag-input";
 export * from "@loomidev/card";
 export * from "@loomidev/alert";
+export * from "@loomidev/arc-meter";
 export * from "@loomidev/accordion";
 export * from "@loomidev/tab";
 export * from "@loomidev/tooltip";

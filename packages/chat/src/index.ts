@@ -13,6 +13,8 @@ export {
   initialsFor,
   resolveParticipant,
   resolveSenderId,
+  type LoomiChatAttachment,
+  type LoomiChatConversation,
   type LoomiChatMessageData,
   type LoomiChatParticipant,
   type LoomiChatParticipantColor,

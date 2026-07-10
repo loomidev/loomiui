@@ -20,13 +20,37 @@ export interface LoomiChatParticipant {
   color?: LoomiChatParticipantColor | string;
 }
 
+export interface LoomiChatAttachment {
+  name: string;
+  /** Secondary line, e.g. "Figma File - 4.6 MB". */
+  meta?: string;
+  /** Loomi icon name shown on the card. Defaults to `document`. */
+  icon?: string;
+}
+
 export interface LoomiChatMessageData {
   id: string;
   text: string;
   senderId: string;
   time?: string;
+  attachment?: LoomiChatAttachment;
   /** @deprecated Prefer `senderId`. Kept for simple user/assistant demos. */
   role?: "user" | "assistant";
+}
+
+export interface LoomiChatConversation {
+  id: string;
+  name: string;
+  /** Last-message preview shown under the name. */
+  preview?: string;
+  /** Short timestamp shown at the trailing edge, e.g. "10:24 AM". */
+  time?: string;
+  /** Unread count; renders a badge when greater than zero. */
+  unread?: number;
+  image?: string;
+  /** Initials shown when `image` is absent. Defaults to the first letters of `name`. */
+  label?: string;
+  color?: LoomiChatParticipantColor | string;
 }
 
 export function initialsFor(name: string): string {

@@ -83,6 +83,7 @@ import "@loomidev/components/select";
 | `<loomi-profile-menu>` | [`@loomidev/profile-menu`](../profile-menu) |
 | `<loomi-side-nav>` | [`@loomidev/side-nav`](../side-nav) |
 | `<loomi-timer>` | [`@loomidev/timer`](../timer) |
+| `<loomi-arc-meter>` | [`@loomidev/arc-meter`](../arc-meter) |
 
 <!-- BEGIN loomi-framework-guide -->
 
@@ -233,6 +234,7 @@ In Next.js, Nuxt, SvelteKit, and other SSR frameworks, put the bundle import in 
 
 - `@loomidev/accordion`
 - `@loomidev/alert`
+- `@loomidev/arc-meter`
 - `@loomidev/autocomplete`
 - `@loomidev/avatar`
 - `@loomidev/bell`

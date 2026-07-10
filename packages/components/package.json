@@ -123,6 +123,10 @@
       "types": "./dist/alert.d.ts",
       "import": "./dist/alert.js"
     },
+    "./arc-meter": {
+      "types": "./dist/arc-meter.d.ts",
+      "import": "./dist/arc-meter.js"
+    },
     "./accordion": {
       "types": "./dist/accordion.d.ts",
       "import": "./dist/accordion.js"
@@ -332,6 +336,7 @@
   "dependencies": {
     "@loomidev/accordion": "workspace:^",
     "@loomidev/alert": "workspace:^",
+    "@loomidev/arc-meter": "workspace:^",
     "@loomidev/autocomplete": "workspace:^",
     "@loomidev/avatar": "workspace:^",
     "@loomidev/bell": "workspace:^",
