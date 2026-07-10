@@ -241,6 +241,9 @@ importers:
       '@loomidev/datepicker':
         specifier: workspace:^
         version: link:../datepicker
+      '@loomidev/dropmenu':
+        specifier: workspace:^
+        version: link:../dropmenu
       '@loomidev/input':
         specifier: workspace:^
         version: link:../input
@@ -665,6 +668,9 @@ importers:
       '@loomidev/select':
         specifier: workspace:^
         version: link:../select
+      '@loomidev/side-nav':
+        specifier: workspace:^
+        version: link:../side-nav
       '@loomidev/slider':
         specifier: workspace:^
         version: link:../slider
@@ -1833,6 +1839,22 @@ importers:
       tailwindcss:
         specifier: ^4.0.0
         version: 4.3.2
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+
+  packages/side-nav:
+    dependencies:
+      '@loomidev/core':
+        specifier: workspace:^
+        version: link:../core
+      '@loomidev/icons':
+        specifier: workspace:^
+        version: link:../icons
+    devDependencies:
+      lit:
+        specifier: ^3.3.3
+        version: 3.3.3
       typescript:
         specifier: ^5.6.3
         version: 5.9.3

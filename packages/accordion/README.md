@@ -1,8 +1,8 @@
 # @loomidev/accordion
 
-`<loomi-accordion>` groups `<loomi-accordion-item>` collapsible sections. By default
-only one item is open at a time, organizing content compactly without giving up access
-to it.
+`<loomi-accordion>` / `<loomi-accordion-item>`  is a simple stack of clickable headers that when clicked on, expand to reveal their content or collapse to hide their content. 
+
+
 
 ```bash
 npm install @loomidev/accordion lit
@@ -15,25 +15,38 @@ import "@loomidev/accordion";
 
 ## Basic Usage
 
-Each item needs a `title` for its clickable header; the body is its default slot.
+Each item needs a `title` for the clickable header, and the content goes in the default slot.
 
 ```html
 <loomi-accordion>
-  <loomi-accordion-item title="What is loomi?">
-    <p>Little panels bloom,<br />quiet answers fold open,<br />one click finds the sun.</p>
+  <loomi-accordion-item title="What is LoomiUI?">
+    <div>
+      <p>
+LoomiUI is an open-source UI component library built with Lit and Web Components, designed to help developers build modern, accessible, and high-performance user interfaces that work across frameworks and platforms. By embracing web standards, its components can be used in plain HTML or integrated seamlessly into frameworks such as Astro, Laravel, React, Vue, Angular, and Svelte. The library emphasizes consistency, composability, theming through CSS custom properties, and an excellent developer experience backed by comprehensive, interactive documentation.</p>
+<p>
+Beyond the core library, LoomiUI is envisioned as a complete ecosystem for building production-ready applications. While the core components remain free and open source, developers can extend their workflow with premium templates, starter kits, advanced components, and developer tools that accelerate development without sacrificing flexibility. Every component is documented with live, interactive examples that demonstrate its capabilities, making it easy for developers to learn, customize, and confidently adopt LoomiUI in projects of any size.
+      </p>
+    </div>
   </loomi-accordion-item>
   <loomi-accordion-item title="How do I install it?">
-    <p>Run the install line,<br />import once before rendering,<br />then let tags appear.</p>
+    <div>
+      <p>LoomiUI is installed with npm, following the same setup flow as most modern frontend libraries.</p>
+      <p class="pt-4">
+      If you are new to LoomiUI, the recommended starting point is the main package. Installing this package registers all available LoomiUI components in one step, which lets you start building right away without deciding on individual component packages up front.
+      </p>
+    </div>
   </loomi-accordion-item>
   <loomi-accordion-item title="Can I theme it?">
-    <p>Tokens change their clothes,<br />light and dark both know the path,<br />your brand sets the tone.</p>
+    <p>You customize LoomiUI with normal CSS variables, just like any other styles in your app. Add the variables in your own stylesheet, and every LoomiUI component on the page can pick them up automatically.</p>
+
+<p>That means you can start small: change one color, preview it, and adjust as needed. When you are happy with it, the same values apply across buttons, inputs, alerts, and more.</p>
   </loomi-accordion-item>
 </loomi-accordion>
 ```
 
 ## Custom Title Content
 
-If a plain string title isn't enough, use the `title` slot instead of the `title`
+Need something richer than plain text? Use the `title` slot instead of the `title`
 attribute.
 
 ```html
@@ -43,10 +56,12 @@ attribute.
       <loomi-icon name="cube"></loomi-icon>
       <div>
         <div>What is LoomiUI?</div>
-        <div style="font-size:0.75rem;opacity:0.7">v1.0.0</div>
+        <div class="text-xs text-gray-500">v1.0.0</div>
       </div>
     </div>
-    <p>A framework-agnostic Lit web component library.</p>
+    <p>
+LoomiUI is an open-source UI component library built with Lit and Web Components, designed to help developers build modern, accessible, and high-performance user interfaces that work across frameworks and platforms. By embracing web standards, its components can be used in plain HTML or integrated seamlessly into frameworks such as Astro, Laravel, React, Vue, Angular, and Svelte. The library emphasizes consistency, composability, theming through CSS custom properties, and an excellent developer experience backed by comprehensive, interactive documentation.</p>
+    </p>
   </loomi-accordion-item>
 </loomi-accordion>
 ```

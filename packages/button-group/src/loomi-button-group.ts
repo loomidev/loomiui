@@ -156,7 +156,7 @@ export class LoomiButtonGroup extends LoomiElement {
     const selVars = [
       `--loomi-bg-sel-bg:var(--loomi-surface)`,
       `--loomi-bg-sel-color:var(--loomi-text)`,
-      `--loomi-bg-sel-border:${cssColor(this.color, 500)}`,
+      `--loomi-bg-sel-border:var(--loomi-gray-400, var(--_loomi-gray-400-default, #9ca3af))`,
       `--loomi-bg-sel-hover:var(--loomi-surface-hover)`,
       `--loomi-bg-accent-soft:${cssColor(this.color, 100)}`,
     ].join(";");

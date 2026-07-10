@@ -18,6 +18,7 @@ export * from "@loomidev/radio";
 export * from "@loomidev/toggle";
 export * from "@loomidev/number";
 export * from "@loomidev/select";
+export * from "@loomidev/side-nav";
 export * from "@loomidev/icon";
 export * from "@loomidev/spinner";
 export * from "@loomidev/avatar";

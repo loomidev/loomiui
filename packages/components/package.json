@@ -91,6 +91,10 @@
       "types": "./dist/select.d.ts",
       "import": "./dist/select.js"
     },
+    "./side-nav": {
+      "types": "./dist/side-nav.d.ts",
+      "import": "./dist/side-nav.js"
+    },
     "./icon": {
       "types": "./dist/icon.d.ts",
       "import": "./dist/icon.js"
@@ -379,6 +383,7 @@
     "@loomidev/rating": "workspace:^",
     "@loomidev/resizable": "workspace:^",
     "@loomidev/select": "workspace:^",
+    "@loomidev/side-nav": "workspace:^",
     "@loomidev/slider": "workspace:^",
     "@loomidev/sortable": "workspace:^",
     "@loomidev/spinner": "workspace:^",

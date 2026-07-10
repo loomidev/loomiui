@@ -190,6 +190,21 @@ export class LoomiAutocomplete extends LoomiElement {
         object-fit: cover;
         flex: none;
       }
+      .loomi-option-avatar {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 9999px;
+        background: var(--loomi-warning-100, var(--_loomi-warning-100-default, #fef3c7));
+        color: var(--loomi-warning-700, var(--_loomi-warning-700-default, #a16207));
+        font-size: 0.65rem;
+        font-weight: 700;
+        line-height: 1;
+        flex: none;
+        text-transform: uppercase;
+      }
       .loomi-option-copy { min-width: 0; display: grid; gap: 0.05rem; }
       .loomi-option-label { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
       .loomi-option-desc { color: var(--loomi-text-faint); font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -316,6 +331,18 @@ export class LoomiAutocomplete extends LoomiElement {
     return q ? this.options.filter((item) => item.label.toLowerCase().includes(q) || (item.value ?? "").toLowerCase().includes(q)) : this.options;
   }
 
+  private get hasOptionImages(): boolean {
+    return this.options.some((item) => item.image);
+  }
+
+  private getInitials(label: string): string {
+    const parts = label.trim().split(/\s+/).filter(Boolean);
+    if (parts.length >= 2) {
+      return `${parts[0][0] ?? ""}${parts[1][0] ?? ""}`;
+    }
+    return label.slice(0, 2);
+  }
+
   private show(): void {
     if (this.disabled || this.readonly) return;
     this.open = true;
@@ -373,6 +400,7 @@ export class LoomiAutocomplete extends LoomiElement {
     const options = this.filtered;
     const showClear = this.clearable && this.value !== "" && !this.disabled && !this.readonly;
     const showSelectedImage = this.value !== "" && this.selectedImage !== "";
+    const alignOptionMedia = this.hasOptionImages;
     return html`<div class="loomi-ac size-${this.size} ${this.open ? "open" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}">
       <div class="loomi-field variant-${this.variant}">
         ${showSelectedImage ? html`<img class="loomi-selected-image" src=${this.selectedImage} alt="" />` : nothing}
@@ -413,7 +441,11 @@ export class LoomiAutocomplete extends LoomiElement {
               @mousedown=${(event: Event) => event.preventDefault()}
               @click=${() => this.choose(item)}
             >
-              ${item.image ? html`<img src=${item.image} alt="" />` : nothing}
+              ${item.image
+                ? html`<img src=${item.image} alt="" />`
+                : alignOptionMedia
+                  ? html`<span class="loomi-option-avatar" aria-hidden="true">${this.getInitials(item.label)}</span>`
+                  : nothing}
               <span class="loomi-option-copy">
                 <span class="loomi-option-label">${item.label}</span>
                 ${item.description ? html`<span class="loomi-option-desc">${item.description}</span>` : nothing}
