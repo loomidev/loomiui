@@ -682,6 +682,17 @@ export const calendarStyles = css`
     z-index: 200;
   }
 
+  .calendar-modal {
+    position: fixed;
+    inset: 0;
+    z-index: var(--loomi-modal-z-index, 2147480000);
+  }
+
+  .toolbar-add-menu {
+    display: inline-flex;
+    align-items: center;
+  }
+
   .toolbar-start {
     flex: 1;
     min-width: 0;
@@ -731,7 +742,7 @@ export const calendarStyles = css`
   }
 
   .title {
-    font-size: 1.125rem;
+    font-size: 1rem;
     font-weight: 600;
     letter-spacing: -0.02em;
     color: var(--loomi-calendar-text);
@@ -789,6 +800,7 @@ export const calendarStyles = css`
   .weekday-btn:focus-visible,
   .day-num:focus-visible,
   .event-pill:focus-visible,
+  .reminder-pill:focus-visible,
   .timed-event:focus-visible,
   .agenda-item:focus-visible {
     outline: 2px solid var(--loomi-calendar-accent);
@@ -1075,12 +1087,11 @@ export const calendarStyles = css`
   .event-pill.selected,
   .spanning-event.selected,
   .timed-event.selected {
-    border-color: currentColor;
-    box-shadow: 0 0 0 1px currentColor, 0 2px 8px rgba(15, 23, 42, 0.08);
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
   }
 
   .agenda-item.selected {
-    box-shadow: inset 0 0 0 2px currentColor;
+    box-shadow: none;
   }
 
   .event-pill.more {
@@ -1099,6 +1110,45 @@ export const calendarStyles = css`
   .event-pill.more:hover {
     background: color-mix(in srgb, var(--loomi-calendar-accent-softer) 70%, transparent);
     transform: none;
+  }
+
+  .reminder-pill {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    min-width: 0;
+    padding: 3px 8px;
+    border: 0;
+    border-radius: 6px;
+    text-align: left;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 1px 1px rgba(15, 23, 42, 0.04);
+  }
+
+  .reminder-pill input,
+  .reminder-event input {
+    width: 0.875rem;
+    height: 0.875rem;
+    margin: 0;
+    accent-color: currentColor;
+    flex: none;
+  }
+
+  .reminder-pill span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .reminder-pill.done span,
+  .reminder-event.done .timed-event-title {
+    text-decoration: line-through;
+    opacity: 0.72;
   }
 
   .time-layout {
@@ -1197,7 +1247,7 @@ export const calendarStyles = css`
   }
 
   .time-slots.editable {
-    cursor: crosshair;
+    cursor: default;
   }
 
   .time-slot {
@@ -1255,6 +1305,17 @@ export const calendarStyles = css`
     transition:
       transform var(--loomi-calendar-transition),
       box-shadow var(--loomi-calendar-transition);
+  }
+
+  .reminder-event {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+  }
+
+  .reminder-event::before {
+    display: none;
   }
 
   .timed-event::before {
@@ -1461,10 +1522,18 @@ export const calendarStyles = css`
     border-color: color-mix(in srgb, var(--loomi-primary-200, #bfdbfe) 80%, transparent);
   }
 
+  .event-primary.selected {
+    background: color-mix(in srgb, var(--loomi-primary-300, #93c5fd) 88%, white);
+  }
+
   .event-secondary {
     background: color-mix(in srgb, var(--loomi-secondary-100, #f3f4f6) 88%, white);
     color: var(--loomi-secondary-800, #1f2937);
     border-color: color-mix(in srgb, var(--loomi-secondary-200, #e5e7eb) 80%, transparent);
+  }
+
+  .event-secondary.selected {
+    background: color-mix(in srgb, var(--loomi-secondary-300, #d1d5db) 88%, white);
   }
 
   .event-success {
@@ -1473,16 +1542,28 @@ export const calendarStyles = css`
     border-color: color-mix(in srgb, var(--loomi-success-200, #a7f3d0) 80%, transparent);
   }
 
+  .event-success.selected {
+    background: color-mix(in srgb, var(--loomi-success-300, #6ee7b7) 88%, white);
+  }
+
   .event-warning {
     background: color-mix(in srgb, var(--loomi-warning-100, #fef3c7) 88%, white);
     color: var(--loomi-warning-800, #92400e);
     border-color: color-mix(in srgb, var(--loomi-warning-200, #fde68a) 80%, transparent);
   }
 
+  .event-warning.selected {
+    background: color-mix(in srgb, var(--loomi-warning-300, #fcd34d) 88%, white);
+  }
+
   .event-error {
     background: color-mix(in srgb, var(--loomi-error-100, #fee2e2) 88%, white);
     color: var(--loomi-error-800, #991b1b);
     border-color: color-mix(in srgb, var(--loomi-error-200, #fecaca) 80%, transparent);
+  }
+
+  .event-error.selected {
+    background: color-mix(in srgb, var(--loomi-error-300, #fca5a5) 88%, white);
   }
 
   @media (max-width: 720px) {

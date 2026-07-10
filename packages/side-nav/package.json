@@ -1,11 +1,11 @@
 {
-  "name": "@loomidev/calendar",
+  "name": "@loomidev/side-nav",
   "version": "0.1.0",
-  "description": "<loomi-calendar> — a production calendar and resource scheduler for admin and SaaS templates.",
+  "description": "<loomi-side-nav> — a sliding in-container side navigation.",
   "repository": {
     "type": "git",
     "url": "https://github.com/loomidev/loomiui.git",
-    "directory": "packages/calendar"
+    "directory": "packages/side-nav"
   },
   "license": "MIT",
   "publishConfig": {
@@ -23,9 +23,9 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./loomi-calendar.ts": {
-      "types": "./dist/loomi-calendar.d.ts",
-      "import": "./dist/loomi-calendar.js"
+    "./loomi-side-nav.js": {
+      "types": "./dist/loomi-side-nav.d.ts",
+      "import": "./dist/loomi-side-nav.js"
     }
   },
   "scripts": {
@@ -34,18 +34,8 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@loomidev/context-menu": "workspace:^",
     "@loomidev/core": "workspace:^",
-    "@loomidev/datepicker": "workspace:^",
-    "@loomidev/dropmenu": "workspace:^",
-    "@loomidev/input": "workspace:^",
-    "@loomidev/modal": "workspace:^",
-    "@loomidev/select": "workspace:^",
-    "@loomidev/tag-input": "workspace:^",
-    "@loomidev/textarea": "workspace:^",
-    "@loomidev/timepicker": "workspace:^",
-    "@loomidev/toggle": "workspace:^",
-    "@loomidev/tooltip": "workspace:^"
+    "@loomidev/icons": "workspace:^"
   },
   "peerDependencies": {
     "lit": "^3.0.0"
@@ -58,6 +48,7 @@
     "web-components",
     "lit",
     "loomiui",
-    "calendar"
+    "side-nav",
+    "navigation"
   ]
 }

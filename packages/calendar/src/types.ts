@@ -49,6 +49,16 @@ export interface CalendarEvent {
   draggable?: boolean;
 }
 
+export interface CalendarReminder {
+  id: string;
+  title: string;
+  due: Date;
+  color?: CalendarEventColor;
+  description?: string;
+  done?: boolean;
+  editable?: boolean;
+}
+
 export interface CalendarViewChangeDetail {
   view: CalendarView;
 }
@@ -85,6 +95,23 @@ export interface CalendarEventDeleteDetail {
 
 export interface CalendarEventDuplicateDetail {
   event: CalendarEvent;
+}
+
+export interface CalendarReminderClickDetail {
+  reminder: CalendarReminder;
+}
+
+export interface CalendarReminderCreateDetail {
+  reminder: CalendarReminder;
+}
+
+export interface CalendarReminderChangeDetail {
+  reminder: CalendarReminder;
+  previousDue: Date;
+}
+
+export interface CalendarReminderDeleteDetail {
+  reminder: CalendarReminder;
 }
 
 export interface CalendarSidebarToggleDetail {

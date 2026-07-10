@@ -1,90 +1,59 @@
 :host {
-  display: block;
+  @apply block;
 }
 :host([hidden]) {
-  display: none;
+  @apply hidden;
 }
 
-/* ---- parent (loomi-accordion) ---- */
 .loomi-accordion.grouped {
-  border: 1px solid var(--loomi-surface-border);
-  border-radius: 0.6rem;
-  overflow: hidden;
-  background: var(--loomi-surface);
+  @apply rounded-[0.6rem] overflow-hidden bg-(--loomi-surface) border border-(--loomi-surface-border);
 }
+
 .loomi-accordion.ungrouped {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
+  @apply flex flex-col gap-[0.6rem];
 }
 .loomi-accordion.grouped ::slotted(loomi-accordion-item:not(:first-child)) {
-  border-top: 1px solid var(--loomi-surface-border);
+  @apply border-t border-t-(--loomi-surface-border);
 }
 
-/* ---- item (loomi-accordion-item) ---- */
 .loomi-shell {
-  background: transparent;
+  @apply bg-transparent;
 }
 :host(:not([standalone]):not(:first-of-type)) .loomi-shell {
-  border-top: 1px solid var(--loomi-surface-border);
+  @apply border-t border-t-(--loomi-surface-border);
 }
 :host([standalone]) .loomi-shell {
-  border: 1px solid var(--_loomi-accent-border, var(--loomi-surface-border));
-  border-radius: 0.6rem;
-  overflow: hidden;
-  background: var(--_loomi-accent-softer, var(--loomi-surface));
+  @apply border-[var(--_loomi-accent-border,var(--loomi-surface-border))] bg-[var(--_loomi-accent-softer,var(--loomi-surface))];
 }
 
 .loomi-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  width: 100%;
-  padding: 0.9rem 1.1rem;
-  border: 0;
-  background: transparent;
-  font: inherit;
-  font-weight: 600;
-  text-align: start;
-  color: var(--loomi-text);
-  cursor: pointer;
+  @apply flex items-center justify-between gap-3 w-full py-[0.9rem] px-[1.1rem] border-0 bg-transparent [font:inherit] font-semibold text-start text-(--loomi-text) cursor-pointer;
 }
 .loomi-title {
-  display: inline-flex;
-  align-items: center;
-  min-width: 0;
-  line-height: 1.25;
+  @apply inline-flex items-center min-w-0 leading-[1.25];
 }
 slot[name="title"]::slotted(*) {
-  margin: 0;
+  @apply m-0;
 }
 .loomi-chevron {
-  flex: none;
-  width: 1.1rem;
-  height: 1.1rem;
-  color: var(--loomi-text-faint);
-  transition: transform 0.2s ease;
+  @apply shrink-0 grow-0 basis-auto size-[1.1rem] text-(--loomi-text-faint) transition-transform duration-200 ease-in-out;
 }
 :host([open]) .loomi-chevron {
-  transform: rotate(180deg);
+  @apply rotate-180;
 }
 
 .loomi-content {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.2s ease;
+  @apply grid grid-rows-[0fr] transition-[grid-template-rows] duration-200 ease-in-out;
 }
 :host([open]) .loomi-content {
-  grid-template-rows: 1fr;
+  @apply grid-rows-[1fr];
 }
 .loomi-content > div {
-  overflow: hidden;
+  @apply overflow-hidden;
 }
 .loomi-inner {
-  padding: 0 1.1rem 1.1rem;
-  color: var(--loomi-text-secondary);
+  @apply px-[1.1rem] pb-[1.1rem] text-(--loomi-text-secondary);
 }
 :host([no-padding]) .loomi-inner {
-  padding: 0;
+  @apply p-0;
 }

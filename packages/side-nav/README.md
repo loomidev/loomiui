@@ -1,0 +1,78 @@
+# @loomidev/side-nav
+
+`<loomi-side-nav>` is an in-container navigation rail that slides between a full
+navigation, an icon-only rail, and a hidden state.
+
+```bash
+npm install @loomidev/side-nav lit
+```
+
+```js
+import "@loomidev/side-nav";
+```
+
+## Basic Usage
+
+Place it inside the layout column that should own the navigation space.
+
+```html
+<loomi-side-nav label="Workspace" collapse-mode="icons">
+  <loomi-side-nav-item icon="home" label="Home" href="/" active></loomi-side-nav-item>
+  <loomi-side-nav-item icon="calendar" label="Calendar" href="/calendar"></loomi-side-nav-item>
+  <loomi-side-nav-item icon="cog-6-tooth" label="Settings" href="/settings"></loomi-side-nav-item>
+</loomi-side-nav>
+```
+
+Use `collapse-mode="hidden"` when the toggle should hide the whole navigation instead
+of leaving icons visible.
+
+## Accessibility
+
+loomi-side-nav uses an `<aside>` with a labelled `<nav>`. Items render as links when
+`href` is present and buttons otherwise. Active links set `aria-current="page"`.
+
+## Responsive behavior
+
+The component owns its width and animates it, so parent layouts can place it beside
+content with flex or grid. Set `--loomi-side-nav-width` and
+`--loomi-side-nav-icon-width` when the layout needs custom rails.
+
+## Dark mode
+
+loomi-side-nav uses Loomi semantic surface, border, text, and hover tokens, so it follows
+the active theme.
+
+## Attributes
+
+### `<loomi-side-nav>`
+
+| Attribute | Default | Description |
+| --- | --- | --- |
+| `state` | `expanded` | `expanded`, `icons`, or `hidden`. |
+| `collapse-mode` | `icons` | Toggle target when expanded: `icons` or `hidden`. |
+| `label` | `Navigation` | Accessible label and visible header text. |
+| `show-toggle` | `true` | Shows the built-in toggle button. |
+
+### `<loomi-side-nav-item>`
+
+| Attribute | Default | Description |
+| --- | --- | --- |
+| `href` | _(blank)_ | Renders the item as a link. Without it, the item is a button. |
+| `icon` | _(blank)_ | Built-in Loomi icon name. |
+| `label` | _(blank)_ | Item text. Also used as fallback slot content. |
+| `active` | `false` | Marks the item as the current page. |
+
+## Methods
+
+| Method | Description |
+| --- | --- |
+| `expand()` | Shows the full navigation. |
+| `collapse()` | Moves to the configured `collapse-mode`. |
+| `hideNav()` | Hides the navigation completely. |
+| `showIcons()` | Shows the icon-only rail. |
+| `toggle()` | Switches between `expanded` and `collapse-mode`. |
+
+## Dependencies
+
+- `@loomidev/core`
+- `@loomidev/icons`

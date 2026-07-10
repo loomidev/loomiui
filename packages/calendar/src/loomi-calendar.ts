@@ -11,6 +11,7 @@ import {
 } from "@loomidev/core";
 import "@loomidev/context-menu/loomi-context-menu.js";
 import "@loomidev/datepicker/loomi-datepicker.js";
+import "@loomidev/dropmenu/loomi-dropmenu.js";
 import "@loomidev/input/loomi-input.js";
 import "@loomidev/modal/loomi-modal.js";
 import "@loomidev/select/loomi-select.js";
@@ -67,6 +68,11 @@ import type {
   CalendarEventCreateDetail,
   CalendarEventDeleteDetail,
   CalendarEventDuplicateDetail,
+  CalendarReminder,
+  CalendarReminderChangeDetail,
+  CalendarReminderClickDetail,
+  CalendarReminderCreateDetail,
+  CalendarReminderDeleteDetail,
   CalendarResource,
   CalendarSidebarToggleDetail,
   CalendarSlotSelectDetail,
@@ -142,6 +148,20 @@ interface EventDraft {
   invitees: string;
 }
 
+interface ReminderDraft {
+  reminderId?: string;
+  title: string;
+  dueDate: string;
+  dueTime: string;
+  color: CalendarEventColor;
+  description: string;
+  done: boolean;
+}
+
+type CalendarSelection =
+  | { kind: "event"; event: CalendarEvent }
+  | { kind: "reminder"; reminder: CalendarReminder };
+
 const EVENT_COLORS: CalendarEventColor[] = ["primary", "secondary", "success", "warning", "error"];
 const REMINDER_MINUTES = ["0", "5", "10", "15", "30", "60", "1440"] as const;
 
@@ -158,6 +178,7 @@ export class LoomiCalendar extends LoomiElement {
   static properties = {
     ...LoomiElement.properties,
     events: { attribute: false },
+    reminders: { attribute: false },
     resources: { attribute: false },
     view: { type: String, reflect: true },
     date: { attribute: false },
@@ -178,9 +199,11 @@ export class LoomiCalendar extends LoomiElement {
     _slotDragState: { state: true },
     _miniCalendarDate: { state: true },
     _eventDraft: { state: true },
-    _deleteEvent: { state: true },
-    _contextEvent: { state: true },
-    selectedEventId: { state: true }
+    _reminderDraft: { state: true },
+    _deleteTarget: { state: true },
+    _contextTarget: { state: true },
+    selectedEventId: { state: true },
+    selectedReminderId: { state: true }
   };
 
   static override styles = loomiStyles(calendarStyles, css`
@@ -193,6 +216,7 @@ export class LoomiCalendar extends LoomiElement {
   `);
 
   events: CalendarEvent[] = [];
+  reminders: CalendarReminder[] = [];
   resources: CalendarResource[] = [];
   view: CalendarView = "month";
   date: Date = new Date();
@@ -212,9 +236,11 @@ export class LoomiCalendar extends LoomiElement {
   declare _slotDragState?: SlotDragState;
   declare _miniCalendarDate?: Date;
   declare _eventDraft?: EventDraft;
-  declare _deleteEvent?: CalendarEvent;
-  declare _contextEvent?: CalendarEvent;
+  declare _reminderDraft?: ReminderDraft;
+  declare _deleteTarget?: CalendarSelection;
+  declare _contextTarget?: CalendarSelection;
   selectedEventId = "";
+  selectedReminderId = "";
 
   private createModalName = "loomi-calendar-create-event";
   private deleteModalName = "loomi-calendar-delete-event";
@@ -272,8 +298,9 @@ export class LoomiCalendar extends LoomiElement {
           </div>
         </div>
         ${this.renderEventModal()}
+        ${this.renderReminderModal()}
         ${this.renderDeleteModal()}
-        ${this.renderEventContextMenu()}
+        ${this.renderItemContextMenu()}
       </div>
     `;
   }
@@ -455,6 +482,7 @@ export class LoomiCalendar extends LoomiElement {
 
     return html`
       <loomi-modal
+        class="calendar-modal"
         name=${this.createModalName}
         title=${draft.eventId ? "Edit event" : this.t("calendar.form.newEvent")}
         ok-button-label=${this.t("calendar.form.save")}
@@ -462,6 +490,7 @@ export class LoomiCalendar extends LoomiElement {
         size="medium"
         ?open=${true}
         .closeAfterAction=${false}
+        style="--loomi-modal-z-index:2147480000"
         @ok=${this.handleEventDraftSave}
         @cancel=${this.handleCreateEventCancel}
         @close=${this.handleCreateEventCancel}
@@ -591,16 +620,101 @@ export class LoomiCalendar extends LoomiElement {
     `;
   }
 
-  private renderDeleteModal() {
-    const event = this._deleteEvent;
-    if (!event) {
+  private renderReminderModal() {
+    const draft = this._reminderDraft;
+    if (!draft) {
       return nothing;
     }
 
     return html`
       <loomi-modal
+        class="calendar-modal"
+        name="loomi-calendar-reminder"
+        title=${draft.reminderId ? "Edit reminder" : "New reminder"}
+        ok-button-label=${this.t("calendar.form.save")}
+        .locale=${this.locale}
+        size="medium"
+        ?open=${true}
+        .closeAfterAction=${false}
+        style="--loomi-modal-z-index:2147480000"
+        @ok=${this.handleReminderDraftSave}
+        @cancel=${this.handleReminderDraftCancel}
+        @close=${this.handleReminderDraftCancel}
+      >
+        <div class="event-form">
+          <loomi-input
+            name="reminderTitle"
+            .locale=${this.locale}
+            label="Title"
+            .value=${draft.title}
+            required
+            @input=${this.handleReminderDraftInput("title")}
+          ></loomi-input>
+
+          <div class="event-form-row">
+            <loomi-datepicker
+              name="dueDate"
+              .locale=${this.locale}
+              label="Due date"
+              week-starts=${this.weekStarts}
+              selected-value=${draft.dueDate}
+              required
+              @change=${this.handleReminderDraftDateChange}
+            ></loomi-datepicker>
+            <loomi-timepicker
+              name="dueTime"
+              .locale=${this.locale}
+              label="Due time"
+              format=${this.getTimepickerFormat()}
+              selected-value=${draft.dueTime}
+              required
+              @change=${this.handleReminderDraftTimeChange}
+            ></loomi-timepicker>
+          </div>
+
+          <loomi-select
+            name="reminderColor"
+            .locale=${this.locale}
+            label=${this.t("calendar.form.color")}
+            .data=${this.getColorSelectOptions()}
+            selected-value=${draft.color}
+            @select=${this.handleReminderDraftSelect("color")}
+          ></loomi-select>
+
+          <loomi-toggle
+            name="done"
+            label="Done"
+            label-position="right"
+            ?checked=${draft.done}
+            @change=${this.handleReminderDoneToggle}
+          ></loomi-toggle>
+
+          <loomi-textarea
+            name="reminderDescription"
+            .locale=${this.locale}
+            label=${this.t("calendar.form.description")}
+            rows="3"
+            .value=${draft.description}
+            @input=${this.handleReminderDraftInput("description")}
+          ></loomi-textarea>
+        </div>
+      </loomi-modal>
+    `;
+  }
+
+  private renderDeleteModal() {
+    const target = this._deleteTarget;
+    if (!target) {
+      return nothing;
+    }
+    const name = target.kind === "event" ? target.event.title : target.reminder.title;
+    const label = target.kind === "event" ? "event" : "reminder";
+
+    return html`
+      <loomi-modal
+        class="calendar-modal"
         name=${this.deleteModalName}
-        title="Delete event?"
+        title=${`Delete ${label}?`}
         type="error"
         ok-button-label="Delete"
         cancel-button-label="Cancel"
@@ -608,18 +722,19 @@ export class LoomiCalendar extends LoomiElement {
         size="small"
         ?open=${true}
         .closeAfterAction=${false}
+        style="--loomi-modal-z-index:2147480000"
         @ok=${this.handleConfirmDeleteEvent}
         @cancel=${this.handleDeleteEventCancel}
         @close=${this.handleDeleteEventCancel}
       >
-        <p class="delete-copy">Delete <strong>${event.title}</strong>?</p>
+        <p class="delete-copy">Delete <strong>${name}</strong>?</p>
       </loomi-modal>
     `;
   }
 
-  private renderEventContextMenu() {
+  private renderItemContextMenu() {
     return html`
-      <loomi-context-menu id="event-context-menu" ?disabled=${!this._contextEvent}>
+      <loomi-context-menu id="calendar-context-menu" ?disabled=${!this._contextTarget}>
         <loomi-context-menu-item icon="pencil-square" @click=${this.handleContextEdit}>Edit</loomi-context-menu-item>
         <loomi-context-menu-item icon="trash" @click=${this.handleContextDelete}>Delete</loomi-context-menu-item>
       </loomi-context-menu>
@@ -667,11 +782,13 @@ export class LoomiCalendar extends LoomiElement {
             @select=${this.handleViewSelect}
           ></loomi-select>
           ${this.editable ? html`
-            <loomi-tooltip content=${this.t("calendar.addEvent")} placement="bottom">
-              <button class="toolbar-btn icon-only" type="button" aria-label=${this.t("calendar.addEvent")} @click=${() => this.openCreateEventModal()}>
+            <loomi-dropmenu class="toolbar-add-menu" placement="right">
+              <button class="toolbar-btn icon-only" slot="trigger" type="button" aria-label="Add">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${PLUS}</svg>
               </button>
-            </loomi-tooltip>
+              <loomi-dropmenu-item icon="calendar" @click=${() => this.openCreateEventModal()}>Event</loomi-dropmenu-item>
+              <loomi-dropmenu-item icon="bell" @click=${() => this.openCreateReminderModal()}>Reminder</loomi-dropmenu-item>
+            </loomi-dropmenu>
           ` : nothing}
         </div>
       </div>
@@ -760,13 +877,19 @@ export class LoomiCalendar extends LoomiElement {
 
   private renderMonthCell(date: Date, isOtherMonth: boolean) {
     const dayEvents = getSingleDayEventsForDate(this.events, date);
+    const dayReminders = this.getRemindersForDate(date);
     const today = isToday(date);
-    const hiddenCount = Math.max(0, dayEvents.length - 3);
+    const visibleItems = [
+      ...dayEvents.map((event) => ({ kind: "event" as const, event })),
+      ...dayReminders.map((reminder) => ({ kind: "reminder" as const, reminder }))
+    ];
+    const hiddenCount = Math.max(0, visibleItems.length - 3);
 
     return html`
       <div
         class="month-cell ${isOtherMonth ? "other-month" : ""} ${today ? "today" : ""} ${this.editable ? "editable" : "interactive"}"
         @click=${(event: MouseEvent) => this.handleMonthCellClick(event, date)}
+        @dblclick=${(event: MouseEvent) => this.handleMonthCellDoubleClick(event, date)}
       >
         <button
           class="day-num ${today ? "today" : ""}"
@@ -776,7 +899,9 @@ export class LoomiCalendar extends LoomiElement {
           }}
           aria-label=${loomiDateFormatter(this.resolvedLocale, { dateStyle: "full" }).format(date)}
         >${date.getDate()}</button>
-        ${dayEvents.slice(0, 3).map((event) => this.renderEventPill(event))}
+        ${visibleItems.slice(0, 3).map((item) =>
+          item.kind === "event" ? this.renderEventPill(item.event) : this.renderReminderPill(item.reminder)
+        )}
         ${hiddenCount > 0
           ? html`
             <button
@@ -893,6 +1018,7 @@ export class LoomiCalendar extends LoomiElement {
 
   private renderDayColumn(day: Date, visibleDays: Date[]) {
     const positioned = layoutTimedEvents(this.events, day, this.startHour, this.endHour);
+    const reminders = this.getVisibleTimedReminders(day);
     const nowOffset = isToday(day) ? getNowOffset(this.startHour, this.endHour, HOUR_HEIGHT) : null;
     const hourCount = this.endHour - this.startHour;
 
@@ -901,12 +1027,14 @@ export class LoomiCalendar extends LoomiElement {
         <div
           class="time-slots ${this.editable ? "editable" : ""}"
           style=${`height: ${hourCount * HOUR_HEIGHT}px`}
-          @pointerdown=${this.editable ? (event: PointerEvent) => this.handleTimeSlotsPointerDown(event, day) : nothing}
+          @pointerdown=${this.editable ? (event: PointerEvent) => this.handleTimeSlotsPointerDown(event) : nothing}
+          @dblclick=${this.editable ? (event: MouseEvent) => this.handleTimeSlotsDoubleClick(event, day) : nothing}
         >
           ${Array.from({ length: hourCount }, () => html`<div class="time-slot"></div>`)}
           ${this.renderSlotSelection(day)}
           ${nowOffset !== null ? html`<div class="now-line" style=${`top: ${nowOffset}px`}></div>` : nothing}
           ${positioned.map((entry) => this.renderTimedEvent(entry.event, day, visibleDays, entry.top, entry.height, entry.left, entry.width))}
+          ${reminders.map((reminder) => this.renderTimedReminder(reminder))}
         </div>
       </div>
     `;
@@ -938,6 +1066,22 @@ export class LoomiCalendar extends LoomiElement {
       top: (startMinutes / 60) * HOUR_HEIGHT,
       height: Math.max(22, ((endMinutes - startMinutes) / 60) * HOUR_HEIGHT)
     };
+  }
+
+  private getRemindersForDate(date: Date) {
+    return this.reminders
+      .filter((reminder) => isSameDay(reminder.due, date))
+      .sort((left, right) => left.due.getTime() - right.due.getTime());
+  }
+
+  private getVisibleTimedReminders(date: Date) {
+    const dayReminders = this.getRemindersForDate(date);
+    const dayStart = startOfDay(date);
+    const visibleStart = new Date(dayStart);
+    visibleStart.setHours(this.startHour, 0, 0, 0);
+    const visibleEnd = new Date(dayStart);
+    visibleEnd.setHours(this.endHour, 0, 0, 0);
+    return dayReminders.filter((reminder) => reminder.due >= visibleStart && reminder.due < visibleEnd);
   }
 
   private renderAgendaView() {
@@ -1020,6 +1164,7 @@ export class LoomiCalendar extends LoomiElement {
           class="resource-timeline ${this.editable ? "editable" : ""}"
           style=${`height: ${Math.max(ALL_DAY_HEIGHT, 72)}px`}
           @click=${(event: MouseEvent) => this.handleResourceTrackClick(event, day, resource.id)}
+          @dblclick=${(event: MouseEvent) => this.handleResourceTrackDoubleClick(event, day, resource.id)}
         >
           <div class="resource-track">
             ${Array.from({ length: hourCount }, () => html`<div class="resource-slot"></div>`)}
@@ -1053,8 +1198,33 @@ export class LoomiCalendar extends LoomiElement {
       >
         ${event.isAllDay ? "" : `${formatTime(event.start, this.resolvedLocale, event.timezone || this.displayTimezone)} `}
         ${event.title}
+        ${event.reminder?.label ? ` · ${event.reminder.label}` : ""}
         ${event.recurrence?.label ? ` · ${event.recurrence.label}` : ""}
       </button>
+    `;
+  }
+
+  private renderReminderPill(reminder: CalendarReminder) {
+    return html`
+      <div
+        class="reminder-pill event-${reminder.color || "warning"} ${reminder.done ? "done" : ""} ${this.isReminderSelected(reminder) ? "selected" : ""}"
+        title=${reminder.title}
+        role="button"
+        tabindex="0"
+        @click=${(clickEvent: Event) => this.handleReminderClick(clickEvent, reminder)}
+        @dblclick=${(clickEvent: Event) => this.handleReminderDoubleClick(clickEvent, reminder)}
+        @contextmenu=${(contextEvent: MouseEvent) => this.handleReminderContextMenu(contextEvent, reminder)}
+        @keydown=${(keyEvent: KeyboardEvent) => this.handleReminderKeydown(keyEvent, reminder)}
+      >
+        <input
+          type="checkbox"
+          aria-label=${`Mark ${reminder.title} done`}
+          .checked=${Boolean(reminder.done)}
+          @click=${(event: Event) => event.stopPropagation()}
+          @change=${(event: Event) => this.handleReminderDoneChange(event, reminder)}
+        />
+        <span>${formatTime(reminder.due, this.resolvedLocale, this.displayTimezone)} ${reminder.title}</span>
+      </div>
     `;
   }
 
@@ -1087,11 +1257,39 @@ export class LoomiCalendar extends LoomiElement {
         ${displayHeight >= 40
           ? html`<div class="timed-event-meta">${formatEventRange(event, this.resolvedLocale, this.displayTimezone)}</div>`
           : nothing}
+        ${event.reminder?.label && displayHeight >= 56
+          ? html`<div class="timed-event-meta">${event.reminder.label}</div>`
+          : nothing}
         ${event.recurrence?.label && displayHeight >= 56
           ? html`<div class="timed-event-meta">${event.recurrence.label}</div>`
           : nothing}
         ${draggable ? html`<span class="resize-handle resize-bottom" @pointerdown=${(pointerEvent: PointerEvent) => this.handleResizePointerDown(pointerEvent, event, day, visibleDays)}></span>` : nothing}
       </button>
+    `;
+  }
+
+  private renderTimedReminder(reminder: CalendarReminder) {
+    const top = Math.max(0, minutesFromDayStart(reminder.due, this.startHour) / 60 * HOUR_HEIGHT);
+    return html`
+      <div
+        class="timed-event reminder-event event-${reminder.color || "warning"} ${reminder.done ? "done" : ""} ${this.isReminderSelected(reminder) ? "selected" : ""}"
+        style=${`top: ${top}px; height: 28px; left: 6px; right: 6px;`}
+        role="button"
+        tabindex="0"
+        @click=${(clickEvent: Event) => this.handleReminderClick(clickEvent, reminder)}
+        @dblclick=${(clickEvent: Event) => this.handleReminderDoubleClick(clickEvent, reminder)}
+        @contextmenu=${(contextEvent: MouseEvent) => this.handleReminderContextMenu(contextEvent, reminder)}
+        @keydown=${(keyEvent: KeyboardEvent) => this.handleReminderKeydown(keyEvent, reminder)}
+      >
+        <input
+          type="checkbox"
+          aria-label=${`Mark ${reminder.title} done`}
+          .checked=${Boolean(reminder.done)}
+          @click=${(event: Event) => event.stopPropagation()}
+          @change=${(event: Event) => this.handleReminderDoneChange(event, reminder)}
+        />
+        <div class="timed-event-title">${reminder.title}</div>
+      </div>
     `;
   }
 
@@ -1450,31 +1648,24 @@ export class LoomiCalendar extends LoomiElement {
     window.removeEventListener("pointerup", this.boundPointerUp);
   }
 
-  private handleTimeSlotsPointerDown(pointerEvent: PointerEvent, day: Date) {
-    if (!this.editable || pointerEvent.button !== 0) {
+  private handleTimeSlotsPointerDown(pointerEvent: PointerEvent) {
+    if (pointerEvent.button === 0 && !(pointerEvent.target as HTMLElement).closest(".timed-event, .resize-handle")) {
+      this.clearSelection();
+    }
+  }
+
+  private handleTimeSlotsDoubleClick(event: MouseEvent, day: Date) {
+    if (!this.editable) {
+      return;
+    }
+    if ((event.target as HTMLElement).closest(".timed-event, .resize-handle")) {
       return;
     }
 
-    const target = pointerEvent.target as HTMLElement;
-    if (target.closest(".timed-event") || target.closest(".resize-handle")) {
-      return;
-    }
-
-    const container = pointerEvent.currentTarget as HTMLElement;
+    const container = event.currentTarget as HTMLElement;
     const rect = container.getBoundingClientRect();
-    const offsetY = pointerEvent.clientY - rect.top;
-    const start = dateFromGridPosition(day, offsetY, this.startHour, HOUR_HEIGHT, this.slotMinutes);
-
-    pointerEvent.preventDefault();
-    this._slotDragState = {
-      pointerId: pointerEvent.pointerId,
-      day,
-      start,
-      end: start,
-      container
-    };
-    this.attachPointerListeners();
-    container.setPointerCapture(pointerEvent.pointerId);
+    const start = dateFromGridPosition(day, event.clientY - rect.top, this.startHour, HOUR_HEIGHT, this.slotMinutes);
+    this.openCreateEventModal(start, addMinutes(start, this.slotMinutes), false);
   }
 
   private handleMonthCellClick(event: MouseEvent, date: Date) {
@@ -1484,11 +1675,22 @@ export class LoomiCalendar extends LoomiElement {
     }
 
     if (this.editable) {
-      this.openCreateEventModal(startOfDay(date), endOfDay(date), true);
+      this.clearSelection();
       return;
     }
 
     this.openDayView(date);
+  }
+
+  private handleMonthCellDoubleClick(event: MouseEvent, date: Date) {
+    if (!this.editable) {
+      return;
+    }
+    const target = event.target as HTMLElement;
+    if (target.closest(".event-pill:not(.more), .reminder-pill, .day-num")) {
+      return;
+    }
+    this.openCreateEventModal(startOfDay(date), endOfDay(date), true);
   }
 
   private normalizeSlotRange(start: Date, end: Date) {
@@ -1498,8 +1700,17 @@ export class LoomiCalendar extends LoomiElement {
     return { start: end, end: start };
   }
 
-  private handleResourceTrackClick(event: MouseEvent, day: Date, resourceId: string) {
+  private handleResourceTrackClick(event: MouseEvent, _day: Date, _resourceId: string) {
+    if (!(event.target as HTMLElement).closest(".timed-event")) {
+      this.clearSelection();
+    }
+  }
+
+  private handleResourceTrackDoubleClick(event: MouseEvent, day: Date, resourceId: string) {
     if (!this.editable) {
+      return;
+    }
+    if ((event.target as HTMLElement).closest(".timed-event")) {
       return;
     }
 
@@ -1507,6 +1718,7 @@ export class LoomiCalendar extends LoomiElement {
     const rect = track.getBoundingClientRect();
     const start = dateFromResourcePosition(day, event.clientX - rect.left, rect.width, this.startHour, this.endHour, this.slotMinutes);
     const end = addMinutes(start, this.slotMinutes);
+    this.openCreateEventModal(start, end, false);
     this.dispatchSlotSelect({ start, end, resourceId, allDay: false });
   }
 
@@ -1521,6 +1733,7 @@ export class LoomiCalendar extends LoomiElement {
   private handleEventClick(event: Event, calendarEvent: CalendarEvent) {
     event.stopPropagation();
     this.selectedEventId = calendarEvent.id;
+    this.selectedReminderId = "";
     this.dispatchEvent(new CustomEvent<CalendarEventClickDetail>("loomi-event-click", {
       detail: { event: calendarEvent },
       bubbles: true,
@@ -1532,6 +1745,7 @@ export class LoomiCalendar extends LoomiElement {
     event.preventDefault();
     event.stopPropagation();
     this.selectedEventId = calendarEvent.id;
+    this.selectedReminderId = "";
     if (canEditEvent(calendarEvent, this.editable)) {
       this.openEditEventModal(calendarEvent);
     }
@@ -1545,36 +1759,117 @@ export class LoomiCalendar extends LoomiElement {
     event.preventDefault();
     event.stopPropagation();
     this.selectedEventId = calendarEvent.id;
-    this._contextEvent = calendarEvent;
+    this.selectedReminderId = "";
+    this._contextTarget = { kind: "event", event: calendarEvent };
     void this.updateComplete.then(() => {
       this.renderRoot
-        .querySelector<HTMLElement & { showAt(clientX: number, clientY: number): void }>("#event-context-menu")
+        .querySelector<HTMLElement & { showAt(clientX: number, clientY: number): void }>("#calendar-context-menu")
         ?.showAt(event.clientX, event.clientY);
     });
   }
 
   private handleContextEdit = () => {
-    const event = this._contextEvent;
-    if (event && canEditEvent(event, this.editable)) {
-      this.openEditEventModal(event);
+    const target = this._contextTarget;
+    if (target?.kind === "event" && canEditEvent(target.event, this.editable)) {
+      this.openEditEventModal(target.event);
+    } else if (target?.kind === "reminder" && this.canEditReminder(target.reminder)) {
+      this.openEditReminderModal(target.reminder);
     }
-    this._contextEvent = undefined;
+    this._contextTarget = undefined;
   };
 
   private handleContextDelete = () => {
-    const event = this._contextEvent;
-    if (event && canEditEvent(event, this.editable)) {
-      this.confirmDeleteEvent(event);
+    const target = this._contextTarget;
+    if (target?.kind === "event" && canEditEvent(target.event, this.editable)) {
+      this.confirmDeleteEvent(target.event);
+    } else if (target?.kind === "reminder" && this.canEditReminder(target.reminder)) {
+      this.confirmDeleteReminder(target.reminder);
     }
-    this._contextEvent = undefined;
+    this._contextTarget = undefined;
   };
 
   private isEventSelected(event: CalendarEvent) {
     return this.selectedEventId === event.id;
   }
 
+  private isReminderSelected(reminder: CalendarReminder) {
+    return this.selectedReminderId === reminder.id;
+  }
+
   private get selectedEvent() {
     return this.events.find((event) => event.id === this.selectedEventId);
+  }
+
+  private get selectedReminder() {
+    return this.reminders.find((reminder) => reminder.id === this.selectedReminderId);
+  }
+
+  private clearSelection() {
+    this.selectedEventId = "";
+    this.selectedReminderId = "";
+  }
+
+  private canEditReminder(reminder: CalendarReminder) {
+    if (reminder.editable === false) {
+      return false;
+    }
+    if (reminder.editable === true) {
+      return true;
+    }
+    return this.editable;
+  }
+
+  private handleReminderClick(event: Event, reminder: CalendarReminder) {
+    event.stopPropagation();
+    this.selectedReminderId = reminder.id;
+    this.selectedEventId = "";
+    this.dispatchEvent(new CustomEvent<CalendarReminderClickDetail>("loomi-reminder-click", {
+      detail: { reminder },
+      bubbles: true,
+      composed: true
+    }));
+  }
+
+  private handleReminderDoubleClick(event: Event, reminder: CalendarReminder) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.selectedReminderId = reminder.id;
+    this.selectedEventId = "";
+    if (this.canEditReminder(reminder)) {
+      this.openEditReminderModal(reminder);
+    }
+  }
+
+  private handleReminderContextMenu(event: MouseEvent, reminder: CalendarReminder) {
+    if (!this.canEditReminder(reminder)) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    this.selectedReminderId = reminder.id;
+    this.selectedEventId = "";
+    this._contextTarget = { kind: "reminder", reminder };
+    void this.updateComplete.then(() => {
+      this.renderRoot
+        .querySelector<HTMLElement & { showAt(clientX: number, clientY: number): void }>("#calendar-context-menu")
+        ?.showAt(event.clientX, event.clientY);
+    });
+  }
+
+  private handleReminderDoneChange(event: Event, reminder: CalendarReminder) {
+    const checked = (event.currentTarget as HTMLInputElement).checked;
+    this.dispatchReminderChange({ ...reminder, done: checked }, reminder.due);
+  }
+
+  private handleReminderKeydown(event: KeyboardEvent, reminder: CalendarReminder) {
+    if (event.key !== "Enter" && event.key !== " ") {
+      return;
+    }
+
+    event.preventDefault();
+    this.selectedReminderId = reminder.id;
+    this.selectedEventId = "";
   }
 
   private handleKeydown(event: KeyboardEvent) {
@@ -1586,6 +1881,12 @@ export class LoomiCalendar extends LoomiElement {
       if (selected && canEditEvent(selected, this.editable)) {
         event.preventDefault();
         this.confirmDeleteEvent(selected);
+        return;
+      }
+      const selectedReminder = this.selectedReminder;
+      if (selectedReminder && this.canEditReminder(selectedReminder)) {
+        event.preventDefault();
+        this.confirmDeleteReminder(selectedReminder);
         return;
       }
     }
@@ -1767,6 +2068,18 @@ export class LoomiCalendar extends LoomiElement {
     };
   }
 
+  private openCreateReminderModal(due?: Date) {
+    const defaultDue = due ?? this.getDefaultEventStart();
+    this._reminderDraft = {
+      title: "",
+      dueDate: toInputDate(defaultDue),
+      dueTime: formatTimepickerValue(defaultDue, this.getTimepickerFormat()),
+      color: "warning",
+      description: "",
+      done: false
+    };
+  }
+
   private openEditEventModal(event: CalendarEvent) {
     const timeFormat = this.getTimepickerFormat();
     const allDay = Boolean(event.isAllDay);
@@ -1784,6 +2097,18 @@ export class LoomiCalendar extends LoomiElement {
       recurrenceFrequency: event.recurrence?.frequency || "",
       reminderMinutes: event.reminder?.minutesBefore != null ? String(event.reminder.minutesBefore) : "",
       invitees: (event.invitees ?? []).map((invitee) => invitee.name).join(", ")
+    };
+  }
+
+  private openEditReminderModal(reminder: CalendarReminder) {
+    this._reminderDraft = {
+      reminderId: reminder.id,
+      title: reminder.title,
+      dueDate: toInputDate(reminder.due),
+      dueTime: formatTimepickerValue(reminder.due, this.getTimepickerFormat()),
+      color: reminder.color || "warning",
+      description: reminder.description || "",
+      done: Boolean(reminder.done)
     };
   }
 
@@ -1910,6 +2235,36 @@ export class LoomiCalendar extends LoomiElement {
     this._eventDraft = next;
   }
 
+  private handleReminderDraftInput<K extends keyof ReminderDraft>(key: K) {
+    return (event: Event) => {
+      const source = event.currentTarget as { value?: ReminderDraft[K] };
+      if (source.value !== undefined) {
+        this.updateReminderDraft(key, source.value as ReminderDraft[K]);
+      }
+    };
+  }
+
+  private handleReminderDraftSelect<K extends keyof ReminderDraft>(key: K) {
+    return (event: CustomEvent<{ value: string }>) => {
+      this.updateReminderDraft(key, event.detail.value as ReminderDraft[K]);
+    };
+  }
+
+  private handleReminderDraftDateChange = (event: CustomEvent<{ dates?: string[] }>) => {
+    const nextDate = event.detail.dates?.[0];
+    if (nextDate) {
+      this.updateReminderDraft("dueDate", nextDate);
+    }
+  };
+
+  private handleReminderDraftTimeChange = (event: CustomEvent<{ value: string }>) => {
+    this.updateReminderDraft("dueTime", event.detail.value);
+  };
+
+  private handleReminderDoneToggle = (event: Event) => {
+    this.updateReminderDraft("done", (event.currentTarget as { checked?: boolean }).checked ?? false);
+  };
+
   private getDefaultEventStart() {
     const next = cloneDate(this.date);
     const now = new Date();
@@ -1922,6 +2277,13 @@ export class LoomiCalendar extends LoomiElement {
       return;
     }
     this._eventDraft = { ...this._eventDraft, [key]: value };
+  }
+
+  private updateReminderDraft<K extends keyof ReminderDraft>(key: K, value: ReminderDraft[K]) {
+    if (!this._reminderDraft) {
+      return;
+    }
+    this._reminderDraft = { ...this._reminderDraft, [key]: value };
   }
 
   private handleEventDraftSave(event: Event) {
@@ -2015,6 +2377,47 @@ export class LoomiCalendar extends LoomiElement {
     this._eventDraft = undefined;
   }
 
+  private handleReminderDraftSave = (event: Event) => {
+    event.preventDefault();
+    const draft = this._reminderDraft;
+    if (!draft || !draft.title.trim()) {
+      return;
+    }
+
+    const due = combineDateAndTime(draft.dueDate, draft.dueTime);
+    if (!due) {
+      return;
+    }
+
+    const baseReminder = draft.reminderId
+      ? this.reminders.find((entry) => entry.id === draft.reminderId)
+      : undefined;
+    const reminder: CalendarReminder = {
+      ...(baseReminder ?? {}),
+      id: draft.reminderId || `rem_${Date.now()}`,
+      title: draft.title.trim(),
+      due,
+      color: draft.color,
+      description: draft.description.trim() || undefined,
+      done: draft.done
+    };
+
+    if (draft.reminderId && baseReminder) {
+      this.dispatchReminderChange(reminder, baseReminder.due);
+    } else {
+      this.dispatchEvent(new CustomEvent<CalendarReminderCreateDetail>("loomi-reminder-create", {
+        detail: { reminder },
+        bubbles: true,
+        composed: true
+      }));
+    }
+    this._reminderDraft = undefined;
+  };
+
+  private handleReminderDraftCancel = () => {
+    this._reminderDraft = undefined;
+  };
+
   confirmDeleteEvent(eventOrId: CalendarEvent | string): void {
     const event = typeof eventOrId === "string"
       ? this.events.find((entry) => entry.id === eventOrId)
@@ -2024,7 +2427,21 @@ export class LoomiCalendar extends LoomiElement {
     }
 
     this.selectedEventId = event.id;
-    this._deleteEvent = event;
+    this.selectedReminderId = "";
+    this._deleteTarget = { kind: "event", event };
+  }
+
+  confirmDeleteReminder(reminderOrId: CalendarReminder | string): void {
+    const reminder = typeof reminderOrId === "string"
+      ? this.reminders.find((entry) => entry.id === reminderOrId)
+      : reminderOrId;
+    if (!reminder) {
+      return;
+    }
+
+    this.selectedReminderId = reminder.id;
+    this.selectedEventId = "";
+    this._deleteTarget = { kind: "reminder", reminder };
   }
 
   deleteEvent(eventOrId: CalendarEvent | string): void {
@@ -2038,30 +2455,64 @@ export class LoomiCalendar extends LoomiElement {
     this.dispatchDeleteEvent(event);
   }
 
+  deleteReminder(reminderOrId: CalendarReminder | string): void {
+    const reminder = typeof reminderOrId === "string"
+      ? this.reminders.find((entry) => entry.id === reminderOrId)
+      : reminderOrId;
+    if (!reminder) {
+      return;
+    }
+
+    this.dispatchDeleteReminder(reminder);
+  }
+
   private handleDeleteEvent(event: CalendarEvent) {
     this.confirmDeleteEvent(event);
   }
 
   private handleConfirmDeleteEvent = () => {
-    const event = this._deleteEvent;
-    if (!event) {
+    const target = this._deleteTarget;
+    if (!target) {
       return;
     }
 
-    this.dispatchDeleteEvent(event);
-    this._deleteEvent = undefined;
-    if (this.selectedEventId === event.id) {
+    if (target.kind === "event") {
+      this.dispatchDeleteEvent(target.event);
+    } else {
+      this.dispatchDeleteReminder(target.reminder);
+    }
+    this._deleteTarget = undefined;
+    if (target.kind === "event" && this.selectedEventId === target.event.id) {
       this.selectedEventId = "";
+    }
+    if (target.kind === "reminder" && this.selectedReminderId === target.reminder.id) {
+      this.selectedReminderId = "";
     }
   };
 
   private handleDeleteEventCancel = () => {
-    this._deleteEvent = undefined;
+    this._deleteTarget = undefined;
   };
 
   private dispatchDeleteEvent(event: CalendarEvent) {
     this.dispatchEvent(new CustomEvent<CalendarEventDeleteDetail>("loomi-event-delete", {
       detail: { event },
+      bubbles: true,
+      composed: true
+    }));
+  }
+
+  private dispatchReminderChange(reminder: CalendarReminder, previousDue: Date) {
+    this.dispatchEvent(new CustomEvent<CalendarReminderChangeDetail>("loomi-reminder-change", {
+      detail: { reminder, previousDue },
+      bubbles: true,
+      composed: true
+    }));
+  }
+
+  private dispatchDeleteReminder(reminder: CalendarReminder) {
+    this.dispatchEvent(new CustomEvent<CalendarReminderDeleteDetail>("loomi-reminder-delete", {
+      detail: { reminder },
       bubbles: true,
       composed: true
     }));

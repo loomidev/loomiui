@@ -26,6 +26,18 @@ loomi-command-palette uses Loomi semantic tokens such as `--loomi-surface`, `--l
 
 Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
 
+## Attributes
+
+| Attribute | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `open` | `boolean` | `false` | Opens the command palette dialog. Reflected attribute. |
+| `query` | `string` | `""` | Current search value. Reflected attribute. |
+| `placeholder` | `string` | `"Search commands"` | Search input and trigger placeholder text. |
+| `empty-title` | `string` | `"No commands found"` | Heading shown when no commands match. |
+| `empty-description` | `string` | `"Try a different search term."` | Supporting empty-state copy. |
+| `shortcut` | `string` | `"Cmd K"` | Shortcut hint shown in the trigger. |
+| `items` | `CommandPaletteItem[]` | `[]` | JavaScript property only; assign it from your app code. |
+
 ## Installation
 
 
@@ -37,9 +49,6 @@ npm install @loomidev/command-palette
 
 ```js
 import "@loomidev/command-palette";
-
-```
-
 ```
 
 ## Basic Usage
@@ -76,10 +85,14 @@ Press `Cmd K` or `Ctrl K` to open the palette.
 
 ## Empty State
 
-Use `empty-label` when no commands match the current query.
+Use `empty-title` and `empty-description` when no commands match the current query.
 
 ```html
-<loomi-command-palette placeholder="Jump to…" empty-label="No matching commands"></loomi-command-palette>
+<loomi-command-palette
+  placeholder="Jump to…"
+  empty-title="No matching commands"
+  empty-description="Try a project, customer, or setting"
+></loomi-command-palette>
 ```
 
 ## Events

@@ -16,11 +16,11 @@ npm install @loomidev/calendar
 import "@loomidev/calendar";
 ```
 
-The calendar bundles its own UI dependencies (`loomi-context-menu`, `loomi-datepicker`, `loomi-input`, `loomi-modal`, `loomi-select`, `loomi-tag-input`, `loomi-textarea`, `loomi-timepicker`, `loomi-toggle`, `loomi-tooltip`). Importing `@loomidev/calendar` registers those elements automatically.
+The calendar bundles its own UI dependencies (`loomi-context-menu`, `loomi-datepicker`, `loomi-dropmenu`, `loomi-input`, `loomi-modal`, `loomi-select`, `loomi-tag-input`, `loomi-textarea`, `loomi-timepicker`, `loomi-toggle`, `loomi-tooltip`). Importing `@loomidev/calendar` registers those elements automatically.
 
 ## Basic Usage
 
-Mount the element, then assign `events` as a JavaScript property. Each event uses native `Date` objects for `start` and `end`.
+Mount the element, then assign `events` and optional `reminders` as JavaScript properties. Each event uses native `Date` objects for `start` and `end`; each reminder uses a native `Date` object for `due`.
 
 The calendar is **display-only by default**. It renders whatever you pass in; your app is responsible for fetching data from an API, normalizing it into `CalendarEvent` objects, and writing changes back when the user creates, edits, drags, or deletes events.
 
@@ -82,6 +82,26 @@ calendar.addEventListener("loomi-event-delete", async (event) => {
   await fetch(`/api/events/${event.detail.event.id}`, { method: "DELETE" });
   calendar.events = calendar.events.filter((entry) => entry.id !== event.detail.event.id);
 });
+
+calendar.reminders = [
+  {
+    id: "rem_follow_up",
+    title: "Send demo follow-up",
+    due: new Date("2026-07-08T14:00:00"),
+    color: "warning",
+    done: false,
+  },
+];
+
+calendar.addEventListener("loomi-reminder-change", async (event) => {
+  const { reminder } = event.detail;
+  await fetch(`/api/reminders/${reminder.id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(reminder),
+  });
+  calendar.reminders = calendar.reminders.map((entry) => (entry.id === reminder.id ? reminder : entry));
+});
 ```
 
 ## Event colors
@@ -131,6 +151,18 @@ Colors follow Loomi theme tokens (`--loomi-primary-*`, `--loomi-success-*`, etc.
 | `avatarUrl` | `string` | Optional image URL |
 | `initials` | `string` | Optional override when no avatar |
 | `status` | `"yes" \| "no" \| "awaiting"` | Drives sidebar RSVP summary |
+
+### `CalendarReminder`
+
+| Field | Type | Required | Notes |
+| --- | --- | --- | --- |
+| `id` | `string` | yes | Stable unique id from your system |
+| `title` | `string` | yes | Shown in reminder pills and delete confirmations |
+| `due` | `Date` | yes | Reminder date/time |
+| `color` | `CalendarEventColor` | no | Semantic palette token; defaults to `warning` |
+| `description` | `string` | no | Long-form notes for your app to persist |
+| `done` | `boolean` | no | Drives the reminder checkbox and completed styling |
+| `editable` | `boolean` | no | Override global `editable` for this reminder |
 
 ### `CalendarResource`
 
@@ -212,24 +244,22 @@ calendar.events = [
 
 ## Editing
 
-Enable `editable` to show the **Add event** button, open the create/edit modal (title, schedule, color, resource, recurrence, reminder, invitees, description), drag events across days, and resize multi-day events horizontally.
+Enable `editable` to show the add menu. The `+` button opens a `<loomi-dropmenu>` with **Event** and **Reminder** options. Event uses the create/edit modal (title, schedule, color, resource, recurrence, reminder, invitees, description). Reminder uses its own modal with title, due date/time, color, done state, and description.
 
 ```html
 <loomi-calendar view="week" editable week-starts="monday" show-sidebar sidebar-open></loomi-calendar>
 ```
 
-The add/edit form is a `<loomi-modal>`. The create flow emits `loomi-event-create`;
-double-clicking an event in edit mode loads its details into the same modal and emits
-`loomi-event-change` on save. Clicking an event selects it. With an event selected,
-Backspace/Delete opens a delete confirmation modal (`type="error"`) that names the
-event. Right-clicking an event in edit mode opens a `<loomi-context-menu>` with **Edit**
-and **Delete** actions; Delete uses the same confirmation flow.
+The add/edit forms are `<loomi-modal>` dialogs. Empty calendar space creates an event on double-click; a single click in empty space clears the current selection. Double-clicking an event or reminder in edit mode loads its details into the matching form and emits `loomi-event-change` or `loomi-reminder-change` on save. Clicking an event or reminder selects it, and the selected item uses a darker shade of its own background color.
 
-Drag/resize also emits `loomi-event-change`. Sidebar duplicate emits
-`loomi-event-duplicate`, and confirmed deletes emit `loomi-event-delete`.
+With an event or reminder selected, Backspace/Delete opens a delete confirmation modal (`type="error"`) that names the selected item. Right-clicking an editable event or reminder opens a `<loomi-context-menu>` with **Edit** and **Delete** actions; Delete uses the same confirmation flow.
+
+Reminder checkboxes emit `loomi-reminder-change` with the updated `done` value. Drag/resize also emits `loomi-event-change`. Sidebar duplicate emits `loomi-event-duplicate`, and confirmed deletes emit `loomi-event-delete` or `loomi-reminder-delete`.
 
 Use `confirmDeleteEvent(eventOrId)` to open the built-in delete modal from your own UI,
-or `deleteEvent(eventOrId)` to dispatch `loomi-event-delete` directly.
+or `deleteEvent(eventOrId)` to dispatch `loomi-event-delete` directly. Use
+`confirmDeleteReminder(reminderOrId)` and `deleteReminder(reminderOrId)` for the same
+reminder flows.
 
 ## Accessibility
 
@@ -253,11 +283,12 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 - Selected days and primary actions use `--loomi-text-on-primary` on accent fills.
 
-## Properties
+## Attributes
 
-| Property | Type | Default | Notes |
+| Attribute | Type | Default | Notes |
 | --- | --- | --- | --- |
 | `events` | `CalendarEvent[]` | `[]` | JavaScript property. |
+| `reminders` | `CalendarReminder[]` | `[]` | JavaScript property. |
 | `resources` | `CalendarResource[]` | `[]` | Used by the resource view. |
 | `view` | `"month" \| "week" \| "day" \| "agenda" \| "resource"` | `"month"` | Reflected attribute. |
 | `date` | `Date` | `new Date()` | Focus date for the active view. |
@@ -285,6 +316,10 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `loomi-event-change` | `{ event, previousStart, previousEnd, previousResourceId? }` |
 | `loomi-event-delete` | `{ event }` |
 | `loomi-event-duplicate` | `{ event }` |
+| `loomi-reminder-click` | `{ reminder }` |
+| `loomi-reminder-create` | `{ reminder }` |
+| `loomi-reminder-change` | `{ reminder, previousDue }` |
+| `loomi-reminder-delete` | `{ reminder }` |
 | `loomi-sidebar-toggle` | `{ open }` |
 | `loomi-slot-select` | `{ start, end, resourceId?, allDay? }` |
 
@@ -299,7 +334,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 ## Design Notes
 
 - Styling follows Loomi surface, border, text, and palette tokens used by `@loomidev/datepicker`, `@loomidev/tab`, and other components.
-- The component renders and interacts with events but does not persist them. Listen for `loomi-event-create`, `loomi-event-change`, `loomi-event-delete`, and `loomi-event-duplicate`, then update your app state or API.
+- The component renders and interacts with events and reminders but does not persist them. Listen for `loomi-event-create`, `loomi-event-change`, `loomi-event-delete`, `loomi-event-duplicate`, `loomi-reminder-create`, `loomi-reminder-change`, and `loomi-reminder-delete`, then update your app state or API.
 - Drag-and-drop emits change events only; the parent should update the `events` array.
 - Recurrence is display metadata for now — expand instances server-side before passing events in, or store the rule on create and re-fetch.
 
@@ -308,6 +343,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 - `@loomidev/core`
 - `@loomidev/context-menu`
 - `@loomidev/datepicker`
+- `@loomidev/dropmenu`
 - `@loomidev/input`
 - `@loomidev/modal`
 - `@loomidev/select`
