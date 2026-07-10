@@ -121,6 +121,13 @@
 .loomi-remove:hover { color: var(--loomi-error-500); }
 .loomi-remove svg { width: 1.1rem; height: 1.1rem; }
 
+:host([transparent]) .loomi-drop {
+  background: transparent;
+}
+.loomi-drop.borderless {
+  border-color: transparent;
+}
+
 /* .loomi-crop-stage / -img / -rect / -handle are styled inline in loomi-filepicker.ts,
    not here — that markup is slotted into <loomi-modal>, which moves to document.body on
    show() and would carry it outside this shadow-scoped stylesheet's reach. */

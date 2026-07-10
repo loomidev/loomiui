@@ -119,6 +119,8 @@ export class LoomiFilepicker extends LoomiElement {
   @property({ type: Boolean, converter: booleanAttribute }) resize = false;
   @property({ type: Number, attribute: "resize-width" }) resizeWidth = 0;
   @property({ type: Number, attribute: "resize-height" }) resizeHeight = 0;
+  @property({ type: Boolean, reflect: true, converter: booleanAttribute }) transparent = false;
+  @property({ type: Boolean, attribute: "has-border", converter: booleanAttribute }) hasBorder = true;
   @property({ type: Boolean, reflect: true, converter: booleanAttribute }) stealth = false;
 
   @state() private files: File[] = [];
@@ -540,7 +542,7 @@ export class LoomiFilepicker extends LoomiElement {
     );
     return html`<div class="loomi-fp">
       <div
-        class="loomi-drop ${this.over ? "over" : ""} ${this.disabled ? "disabled" : ""}"
+        class="loomi-drop ${this.over ? "over" : ""} ${this.disabled ? "disabled" : ""} ${this.hasBorder ? "" : "borderless"}"
         @click=${() => this.canBrowse && !this.disabled && !this.cropping && this.input.click()}
         @dragover=${(e: DragEvent) => { if (this.canDrop && !this.disabled && !this.cropping) { e.preventDefault(); this.over = true; } }}
         @dragleave=${() => (this.over = false)}
