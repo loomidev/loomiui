@@ -19,7 +19,8 @@
     "typecheck": "pnpm -r typecheck",
     "test": "web-test-runner",
     "audit:quality": "node scripts/audit-component-quality.mjs",
-    "quality:readmes": "node scripts/ensure-quality-readmes.mjs"
+    "quality:readmes": "node scripts/ensure-quality-readmes.mjs",
+    "docs:watch-readmes": "pnpm --dir ../docs run watch:components"
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
