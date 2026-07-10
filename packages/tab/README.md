@@ -95,10 +95,10 @@ A segmented-control look — the active tab gets a raised pill inside a tinted t
 
 ### Pills Tab Style
 
-Each tab is its own independent pill; the active one fills with `color`.
+The same segmented-control look as `system`, with fully rounded tab buttons.
 
 ```html
-<loomi-tabs tab-style="pills" color="success">
+<loomi-tabs tab-style="pills">
   <loomi-tab label="All" active>24 open conversations</loomi-tab>
   <loomi-tab label="Unread">5 conversations need a reply</loomi-tab>
   <loomi-tab label="Archived">128 resolved conversations</loomi-tab>
