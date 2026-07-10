@@ -318,6 +318,10 @@
     "./photo-gallery": {
       "types": "./dist/photo-gallery.d.ts",
       "import": "./dist/photo-gallery.js"
+    },
+    "./profile-menu": {
+      "types": "./dist/profile-menu.d.ts",
+      "import": "./dist/profile-menu.js"
     }
   },
   "scripts": {
@@ -374,6 +378,7 @@
     "@loomidev/pagination": "workspace:^",
     "@loomidev/password": "workspace:^",
     "@loomidev/photo-gallery": "workspace:^",
+    "@loomidev/profile-menu": "workspace:^",
     "@loomidev/popover": "workspace:^",
     "@loomidev/processing": "workspace:^",
     "@loomidev/progress": "workspace:^",
