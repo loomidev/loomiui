@@ -1,6 +1,7 @@
 import { html, nothing, type TemplateResult, type PropertyValues } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, accentVars, cssColor, type LoomiColor } from "@loomidev/core";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -17,19 +18,19 @@ const SIZE_VARS: Record<LoomiButtonGroupSize, string> = {
 };
 
 const RADIUS_VARS: Record<LoomiButtonGroupRadius, string> = {
-  none: "--loomi-bg-radius:0",
-  small: "--loomi-bg-radius:0.25rem",
-  medium: "--loomi-bg-radius:0.5rem",
-  full: "--loomi-bg-radius:9999px",
+  none: "--loomi-bg-radius:0;--loomi-bg-item-radius:0",
+  small: "--loomi-bg-radius:0.25rem;--loomi-bg-item-radius:0.125rem",
+  medium: "--loomi-bg-radius:0.5rem;--loomi-bg-item-radius:0.375rem",
+  full: "--loomi-bg-radius:9999px;--loomi-bg-item-radius:9999px",
 };
 
 /**
  * `<loomi-button-group-item>` — a single button within a `<loomi-button-group>`.
  *
  * Set `label` for button text, `icon` for a built-in icon name, `icon-right` to place
- * the icon after the label, `selected` to mark this item as active, and `disabled` to
- * disable just this item. The `value` attribute is surfaced in the `button-group-change`
- * event emitted by the parent.
+ * the icon after the label, `icon-only` to visually hide the label, `selected` to mark
+ * this item as active, and `disabled` to disable just this item. The `value` attribute
+ * is surfaced in the `button-group-change` event emitted by the parent.
  *
  * @slot - Button label text (used when the `label` attribute is absent).
  * @fires loomi-bg-click - Bubbles + composed; `detail: { value }`. Handled by the parent.
@@ -47,6 +48,12 @@ export class LoomiButtonGroupItem extends LoomiElement {
   /** Place the icon after the label instead of before it. */
   @property({ type: Boolean, attribute: "icon-right" }) iconRight = false;
 
+  /** Visually hide the label and render this item as a square icon button. */
+  @property({ type: Boolean, attribute: "icon-only", reflect: true }) iconOnly = false;
+
+  /** Accessible label for icon-only buttons. Falls back to label, slot text, or value. */
+  @property({ attribute: "aria-label" }) accessibilityLabel = "";
+
   /** Mark this item as the selected / active item. */
   @property({ type: Boolean, reflect: true }) selected = false;
 
@@ -56,8 +63,27 @@ export class LoomiButtonGroupItem extends LoomiElement {
   /** Value surfaced in the `button-group-change` event. Falls back to `label`. */
   @property() value = "";
 
+  private get parentGroupState(): { disabled: boolean; iconOnly: boolean } {
+    const parent = this.parentElement as (HTMLElement & { disabled?: boolean; iconOnly?: boolean }) | null;
+    if (parent?.localName !== "loomi-button-group") {
+      return { disabled: false, iconOnly: false };
+    }
+    return {
+      disabled: Boolean(parent.disabled),
+      iconOnly: Boolean(parent.iconOnly),
+    };
+  }
+
+  private get labelText(): string {
+    return this.label || this.textContent?.trim() || "";
+  }
+
+  private get accessibleText(): string | undefined {
+    return this.accessibilityLabel || this.labelText || this.value || undefined;
+  }
+
   private handleClick(): void {
-    if (this.disabled) return;
+    if (this.disabled || this.parentGroupState.disabled) return;
     this.dispatchEvent(
       new CustomEvent("loomi-bg-click", {
         bubbles: true,
@@ -85,18 +111,22 @@ export class LoomiButtonGroupItem extends LoomiElement {
     const icon = this.renderIcon();
     const leading = !this.iconRight ? icon : nothing;
     const trailing = this.iconRight ? icon : nothing;
+    const inheritedState = this.parentGroupState;
+    const disabled = this.disabled || inheritedState.disabled;
+    const iconOnly = this.iconOnly || inheritedState.iconOnly || (!this.labelText && Boolean(this.icon));
     const cls = ["loomi-bg-btn", this.selected ? "selected" : ""].filter(Boolean).join(" ");
 
     return html`
       <button
         class=${cls}
         type="button"
-        ?disabled=${this.disabled}
+        ?disabled=${disabled}
         aria-pressed=${this.selected ? "true" : "false"}
+        aria-label=${ifDefined(iconOnly ? this.accessibleText : undefined)}
         @click=${this.handleClick}
       >
         ${leading}
-        <span class="loomi-bg-label"><slot>${this.label}</slot></span>
+        <span class="loomi-bg-label" ?hidden=${iconOnly}><slot>${this.label}</slot></span>
         ${trailing}
       </button>
     `;
@@ -104,13 +134,12 @@ export class LoomiButtonGroupItem extends LoomiElement {
 }
 
 /**
- * `<loomi-button-group>` — a horizontal row of secondary-style toggle buttons.
+ * `<loomi-button-group>` — a shrink-wrapped segmented row of toggle buttons.
  *
- * Place `<loomi-button-group-item>` elements as children. Unselected items use the same
- * neutral bordered ghost treatment as `<loomi-button type="secondary">`; the selected
- * item uses a calm neutral gray fill (never the group `color`, which only tints the
- * focus ring). Adjacent buttons are separated by a 2px divider; only the first and last
- * visible items carry the group radius.
+ * Place `<loomi-button-group-item>` elements as children. The group uses the same
+ * tinted track, inner gap, selected surface, accent text, and selected shadow as
+ * `<loomi-tabs tab-style="system">`, but the bar is `inline-flex` so it ends with the
+ * last button instead of stretching across the parent.
  *
  * @slot - `<loomi-button-group-item>` children.
  * @fires button-group-change - `detail: { value, label, index }` when selection changes.
@@ -137,6 +166,15 @@ export class LoomiButtonGroup extends LoomiElement {
   /** Corner radius preset, matching `<loomi-button radius="...">`. */
   @property({ reflect: true }) radius: LoomiButtonGroupRadius = "medium";
 
+  /** Render as an outline-only segmented control with no filled track or active fill. */
+  @property({ type: Boolean, reflect: true }) outline = false;
+
+  /** Visually hide labels for every item and render the buttons as square icon buttons. */
+  @property({ type: Boolean, attribute: "icon-only", reflect: true }) iconOnly = false;
+
+  /** Accessible label for the internal `role="group"` wrapper. */
+  @property({ attribute: "aria-label" }) accessibilityLabel = "";
+
   /** Disable all items in the group at once. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
@@ -150,18 +188,7 @@ export class LoomiButtonGroup extends LoomiElement {
     const sizeVars = SIZE_VARS[this.size] ?? SIZE_VARS.regular;
     const radiusVars = RADIUS_VARS[this.radius] ?? RADIUS_VARS.medium;
 
-    // Selected items always use a calm neutral gray — never the group's accent color —
-    // so the active item reads as "chosen" without competing for attention like a
-    // primary-colored call-to-action would. `color` only tints the focus ring below.
-    const selVars = [
-      `--loomi-bg-sel-bg:var(--loomi-surface)`,
-      `--loomi-bg-sel-color:var(--loomi-text)`,
-      `--loomi-bg-sel-border:var(--loomi-gray-400, var(--_loomi-gray-400-default, #9ca3af))`,
-      `--loomi-bg-sel-hover:var(--loomi-surface-hover)`,
-      `--loomi-bg-accent-soft:${cssColor(this.color, 100)}`,
-    ].join(";");
-
-    return `${accentVars(this.color)};${sizeVars};${radiusVars};${selVars}`;
+    return `${accentVars(this.color)};${sizeVars};${radiusVars}`;
   }
 
   private applyGroupStyleVars(): void {
@@ -176,6 +203,12 @@ export class LoomiButtonGroup extends LoomiElement {
   override willUpdate(changed: PropertyValues<this>): void {
     if (changed.has("color") || changed.has("size") || changed.has("radius")) {
       this.applyGroupStyleVars();
+    }
+  }
+
+  override updated(changed: PropertyValues<this>): void {
+    if (changed.has("disabled") || changed.has("iconOnly")) {
+      for (const item of this.items) item.requestUpdate();
     }
   }
 
@@ -212,6 +245,7 @@ export class LoomiButtonGroup extends LoomiElement {
       <div
         class="loomi-bg-group${this.disabled ? " disabled" : ""}"
         role="group"
+        aria-label=${ifDefined(this.accessibilityLabel || undefined)}
         @loomi-bg-click=${this.onItemClick}
       >
         <slot></slot>
