@@ -1,0 +1,658 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiBottomNav",
+          "declaration": {
+            "name": "LoomiBottomNav",
+            "module": "./loomi-bottom-nav.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiBottomNavItem",
+          "declaration": {
+            "name": "LoomiBottomNavItem",
+            "module": "./loomi-bottom-nav.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiBottomNavActiveStyle",
+          "declaration": {
+            "name": "LoomiBottomNavActiveStyle",
+            "module": "./loomi-bottom-nav.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiBottomNavVariant",
+          "declaration": {
+            "name": "LoomiBottomNavVariant",
+            "module": "./loomi-bottom-nav.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-bottom-nav.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-bottom-nav-item>` — a single destination inside a `<loomi-bottom-nav>`.\n\nSet `href` to render a real anchor (native links, Laravel routes, full page nav).\nOmit it and set `value` (or rely on `name`) to render a `<button>` instead — the item\nthen behaves as a pure emitter for client-side routers. Either way, clicking always\nfires `loomi-change`, so React Router / Vue Router / SvelteKit / Astro can intercept\nnavigation by calling `event.preventDefault()` on that event (or by setting the static\n`prevent-default` attribute). `target=\"_blank\"` always keeps native new-tab behavior.",
+          "name": "LoomiBottomNavItem",
+          "cssParts": [
+            {
+              "description": "The underlying `<a>`/`<button>`.",
+              "name": "link"
+            },
+            {
+              "description": "The `<loomi-icon>` element.",
+              "name": "icon"
+            },
+            {
+              "description": "The label wrapper.",
+              "name": "label"
+            },
+            {
+              "description": "The badge/count pill (only rendered when `badge` is set).",
+              "name": "badge"
+            },
+            {
+              "description": "The underline/top-line/dot marker (only visible for those `active-style`s).",
+              "name": "active-indicator"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The item's label text (used when the `label` attribute is absent).",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Label text. Falls back to slot text if empty.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Built-in icon name (same registry as `<loomi-icon>`).",
+              "attribute": "icon"
+            },
+            {
+              "kind": "field",
+              "name": "iconSource",
+              "type": {
+                "text": "LoomiIconSource | \"\""
+              },
+              "default": "\"\"",
+              "description": "Icon set override for just this item. Empty = inherit from the parent `icon-source`.",
+              "attribute": "icon-source"
+            },
+            {
+              "kind": "field",
+              "name": "badge",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Badge content — a count or short string (e.g. `\"3\"`, `\"9+\"`). Empty = no badge.",
+              "attribute": "badge"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disable this item: no navigation, no click/keyboard activation.",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Identifier matched against the parent's `active` attribute. Falls back to `name`, then slot text.",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Renders an `<a>` instead of a `<button>` and enables native/SPA-router navigation.",
+              "attribute": "href"
+            },
+            {
+              "kind": "field",
+              "name": "target",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Anchor `target`. `_blank` always keeps native new-tab behavior, even with `prevent-default`.",
+              "attribute": "target"
+            },
+            {
+              "kind": "field",
+              "name": "rel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Anchor `rel`. Defaults to `noopener noreferrer` when `target=\"_blank\"` and `rel` is unset.",
+              "attribute": "rel"
+            },
+            {
+              "kind": "field",
+              "name": "preventDefaultNav",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Always call `event.preventDefault()` on click, even for a real `href` — for apps that\nwant every navigation to go through the `loomi-change` event instead of a real link.",
+              "attribute": "prevent-default"
+            },
+            {
+              "kind": "field",
+              "name": "active",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether this is the active item. Normally set by the parent — set directly only when\nusing this element outside a `<loomi-bottom-nav>`.",
+              "attribute": "active",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "activeStyle",
+              "type": {
+                "text": "LoomiBottomNavActiveStyle"
+              },
+              "default": "\"pill\"",
+              "description": "Active visual treatment. Normally pushed down by the parent's `active-style`.",
+              "attribute": "active-style",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "hostIconSource",
+              "type": {
+                "text": "LoomiIconSource"
+              },
+              "default": "\"heroicons\"",
+              "description": "Fallback icon source inherited from the parent. Set internally — not a public API."
+            },
+            {
+              "kind": "field",
+              "name": "linkEl",
+              "type": {
+                "text": "HTMLAnchorElement | HTMLButtonElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions"
+                  }
+                }
+              ],
+              "description": "Delegates focus to the internal `<a>`/`<button>` — the host itself holds no focus."
+            },
+            {
+              "kind": "field",
+              "name": "itemValue",
+              "type": {
+                "text": "string"
+              },
+              "description": "The identifier compared against the parent's `active` attribute.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "effectiveIconSource",
+              "type": {
+                "text": "LoomiIconSource"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "effectiveRel",
+              "type": {
+                "text": "string | undefined"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "onClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderBadge",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderInner",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "description": "Bubbles + composed, cancelable. `detail: { item, value, name, href }`.",
+              "name": "loomi-change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Label text. Falls back to slot text if empty.",
+              "fieldName": "label"
+            },
+            {
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Built-in icon name (same registry as `<loomi-icon>`).",
+              "fieldName": "icon"
+            },
+            {
+              "name": "icon-source",
+              "type": {
+                "text": "LoomiIconSource | \"\""
+              },
+              "default": "\"\"",
+              "description": "Icon set override for just this item. Empty = inherit from the parent `icon-source`.",
+              "fieldName": "iconSource"
+            },
+            {
+              "name": "badge",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Badge content — a count or short string (e.g. `\"3\"`, `\"9+\"`). Empty = no badge.",
+              "fieldName": "badge"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disable this item: no navigation, no click/keyboard activation.",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Identifier matched against the parent's `active` attribute. Falls back to `name`, then slot text.",
+              "fieldName": "value"
+            },
+            {
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Renders an `<a>` instead of a `<button>` and enables native/SPA-router navigation.",
+              "fieldName": "href"
+            },
+            {
+              "name": "target",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Anchor `target`. `_blank` always keeps native new-tab behavior, even with `prevent-default`.",
+              "fieldName": "target"
+            },
+            {
+              "name": "rel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Anchor `rel`. Defaults to `noopener noreferrer` when `target=\"_blank\"` and `rel` is unset.",
+              "fieldName": "rel"
+            },
+            {
+              "name": "prevent-default",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Always call `event.preventDefault()` on click, even for a real `href` — for apps that\nwant every navigation to go through the `loomi-change` event instead of a real link.",
+              "fieldName": "preventDefaultNav"
+            },
+            {
+              "name": "active",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether this is the active item. Normally set by the parent — set directly only when\nusing this element outside a `<loomi-bottom-nav>`.",
+              "fieldName": "active"
+            },
+            {
+              "name": "active-style",
+              "type": {
+                "text": "LoomiBottomNavActiveStyle"
+              },
+              "default": "\"pill\"",
+              "description": "Active visual treatment. Normally pushed down by the parent's `active-style`.",
+              "fieldName": "activeStyle"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-bottom-nav-item",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-bottom-nav>` — a mobile bottom navigation bar. Fixed to the viewport bottom by\ndefault (safe-area aware); set `variant=\"floating\"` for a detached, rounded, elevated\nisland instead. Set `mobile-only` to hide it at tablet width and up.\n\n`active` is a controlled identifier — set it to a child's `value`/`name` (or update it\nfrom a router) and every `<loomi-bottom-nav-item>` recomputes its own active state.\nClicking an (enabled) item also updates `active` locally for immediate feedback, and\nalways fires `loomi-change` so a router can take over.",
+          "name": "LoomiBottomNav",
+          "cssParts": [
+            {
+              "description": "The internal `<nav>` element.",
+              "name": "nav"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`<loomi-bottom-nav-item>` children (3–5 recommended).",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "active",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "The active item's `value`/`name`. Set this from your router to control which item is highlighted.",
+              "attribute": "active",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "activeStyle",
+              "type": {
+                "text": "LoomiBottomNavActiveStyle"
+              },
+              "default": "\"pill\"",
+              "description": "Visual treatment for the active item.",
+              "attribute": "active-style",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "LoomiBottomNavVariant"
+              },
+              "default": "\"fixed\"",
+              "description": "`fixed` docks edge-to-edge at the viewport bottom (default); `floating` detaches into a rounded, elevated island.",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "description": "Accent used for the active item's color/background/border/dot.",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "iconSource",
+              "type": {
+                "text": "LoomiIconSource"
+              },
+              "default": "\"heroicons\"",
+              "description": "Default icon set for every item — overridable per-item via `<loomi-bottom-nav-item icon-source>`.",
+              "attribute": "icon-source"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Primary\"",
+              "description": "Accessible label for the `<nav>` landmark.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "mobileOnly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Hide this bar at tablet width (768px) and up — bottom navs are typically mobile-only.",
+              "attribute": "mobile-only",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "items",
+              "type": {
+                "text": "LoomiBottomNavItem[]"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "syncItems",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onSlotchange",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onItemChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onKeydown",
+              "privacy": "private",
+              "description": "Arrow/Home/End roving focus across items (manual activation — Enter/Space/click still\ndo the actual navigating, per the WAI-ARIA APG toolbar pattern)."
+            }
+          ],
+          "events": [
+            {
+              "description": "Re-fired (bubbled through) from the clicked item — see `<loomi-bottom-nav-item>`. `detail: { item, value, name, href }`.",
+              "name": "loomi-change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "active",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "The active item's `value`/`name`. Set this from your router to control which item is highlighted.",
+              "fieldName": "active"
+            },
+            {
+              "name": "active-style",
+              "type": {
+                "text": "LoomiBottomNavActiveStyle"
+              },
+              "default": "\"pill\"",
+              "description": "Visual treatment for the active item.",
+              "fieldName": "activeStyle"
+            },
+            {
+              "name": "variant",
+              "type": {
+                "text": "LoomiBottomNavVariant"
+              },
+              "default": "\"fixed\"",
+              "description": "`fixed` docks edge-to-edge at the viewport bottom (default); `floating` detaches into a rounded, elevated island.",
+              "fieldName": "variant"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "description": "Accent used for the active item's color/background/border/dot.",
+              "fieldName": "color"
+            },
+            {
+              "name": "icon-source",
+              "type": {
+                "text": "LoomiIconSource"
+              },
+              "default": "\"heroicons\"",
+              "description": "Default icon set for every item — overridable per-item via `<loomi-bottom-nav-item icon-source>`.",
+              "fieldName": "iconSource"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Primary\"",
+              "description": "Accessible label for the `<nav>` landmark.",
+              "fieldName": "label"
+            },
+            {
+              "name": "mobile-only",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Hide this bar at tablet width (768px) and up — bottom navs are typically mobile-only.",
+              "fieldName": "mobileOnly"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-bottom-nav",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiBottomNavItem",
+          "declaration": {
+            "name": "LoomiBottomNavItem",
+            "module": "src/loomi-bottom-nav.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-bottom-nav-item",
+          "declaration": {
+            "name": "LoomiBottomNavItem",
+            "module": "src/loomi-bottom-nav.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiBottomNav",
+          "declaration": {
+            "name": "LoomiBottomNav",
+            "module": "src/loomi-bottom-nav.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-bottom-nav",
+          "declaration": {
+            "name": "LoomiBottomNav",
+            "module": "src/loomi-bottom-nav.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

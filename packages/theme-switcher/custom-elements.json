@@ -1,0 +1,423 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiThemeSwitcher",
+          "declaration": {
+            "name": "LoomiThemeSwitcher",
+            "module": "./loomi-theme-switcher.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "applyLoomiTheme",
+          "declaration": {
+            "name": "applyLoomiTheme",
+            "module": "./loomi-theme-switcher.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getLoomiTheme",
+          "declaration": {
+            "name": "getLoomiTheme",
+            "module": "./loomi-theme-switcher.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTheme",
+          "declaration": {
+            "name": "LoomiTheme",
+            "module": "./loomi-theme-switcher.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiThemeSwitcherVariant",
+          "declaration": {
+            "name": "LoomiThemeSwitcherVariant",
+            "module": "./loomi-theme-switcher.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-theme-switcher.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "applyLoomiTheme",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "mode",
+              "type": {
+                "text": "LoomiTheme"
+              }
+            }
+          ],
+          "description": "Apply a theme: toggles the `dark` class on <html> and stores the choice."
+        },
+        {
+          "kind": "function",
+          "name": "getLoomiTheme",
+          "return": {
+            "type": {
+              "text": "LoomiTheme"
+            }
+          },
+          "description": "The stored theme choice (defaults to \"system\")."
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-theme-switcher>` — a light/dark/system theme toggle. Persists the choice to\nlocalStorage and toggles the `dark` class on `<html>`.",
+          "name": "LoomiThemeSwitcher",
+          "members": [
+            {
+              "kind": "field",
+              "name": "lightText",
+              "default": "\"Light\"",
+              "attribute": "light-text",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "darkText",
+              "default": "\"Dark\"",
+              "attribute": "dark-text",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "systemText",
+              "default": "\"System\"",
+              "attribute": "system-text",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "lightIcon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"sun\"",
+              "attribute": "light-icon"
+            },
+            {
+              "kind": "field",
+              "name": "darkIcon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"moon\"",
+              "attribute": "dark-icon"
+            },
+            {
+              "kind": "field",
+              "name": "systemIcon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"computer-desktop\"",
+              "attribute": "system-icon"
+            },
+            {
+              "kind": "field",
+              "name": "iconRight",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "icon-right"
+            },
+            {
+              "kind": "field",
+              "name": "showLabels",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-labels"
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "LoomiThemeSwitcherVariant"
+              },
+              "default": "\"horizontal\"",
+              "attribute": "variant"
+            },
+            {
+              "kind": "field",
+              "name": "mode",
+              "type": {
+                "text": "LoomiTheme"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "mq",
+              "type": {
+                "text": "MediaQueryList | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onSystemChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "select",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "mode",
+                  "type": {
+                    "text": "LoomiTheme"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "options",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Array<{ mode: LoomiTheme; text: string; icon: string }>"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "icon",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "iconName",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "opt",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "mode",
+                  "type": {
+                    "text": "LoomiTheme"
+                  }
+                },
+                {
+                  "name": "text",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "iconName",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderHorizontal",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderDropmenu",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "loomi-theme-change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { theme }` when the theme is changed."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "light-text",
+              "default": "DEFAULT_LIGHT_TEXT",
+              "fieldName": "lightText"
+            },
+            {
+              "name": "dark-text",
+              "default": "DEFAULT_DARK_TEXT",
+              "fieldName": "darkText"
+            },
+            {
+              "name": "system-text",
+              "default": "DEFAULT_SYSTEM_TEXT",
+              "fieldName": "systemText"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "light-icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"sun\"",
+              "fieldName": "lightIcon"
+            },
+            {
+              "name": "dark-icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"moon\"",
+              "fieldName": "darkIcon"
+            },
+            {
+              "name": "system-icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"computer-desktop\"",
+              "fieldName": "systemIcon"
+            },
+            {
+              "name": "icon-right",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "iconRight"
+            },
+            {
+              "name": "show-labels",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showLabels"
+            },
+            {
+              "name": "variant",
+              "type": {
+                "text": "LoomiThemeSwitcherVariant"
+              },
+              "default": "\"horizontal\"",
+              "fieldName": "variant"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-theme-switcher",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "applyLoomiTheme",
+          "declaration": {
+            "name": "applyLoomiTheme",
+            "module": "src/loomi-theme-switcher.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getLoomiTheme",
+          "declaration": {
+            "name": "getLoomiTheme",
+            "module": "src/loomi-theme-switcher.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiThemeSwitcher",
+          "declaration": {
+            "name": "LoomiThemeSwitcher",
+            "module": "src/loomi-theme-switcher.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-theme-switcher",
+          "declaration": {
+            "name": "LoomiThemeSwitcher",
+            "module": "src/loomi-theme-switcher.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

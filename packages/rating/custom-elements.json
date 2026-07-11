@@ -1,0 +1,246 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiRating",
+          "declaration": {
+            "name": "LoomiRating",
+            "module": "./loomi-rating.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiRatingType",
+          "declaration": {
+            "name": "LoomiRatingType",
+            "module": "./loomi-rating.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiRatingSize",
+          "declaration": {
+            "name": "LoomiRatingSize",
+            "module": "./loomi-rating.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-rating.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-rating>` — a 0–5 rating control as stars, hearts or thumbs-up.\nForm-associated: submits the rating under `name`.",
+          "name": "LoomiRating",
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "internals",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "LoomiRatingType"
+              },
+              "default": "\"star\"",
+              "attribute": "type"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"warning\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "LoomiRatingSize"
+              },
+              "default": "\"small\"",
+              "attribute": "size"
+            },
+            {
+              "kind": "field",
+              "name": "rating",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "rating"
+            },
+            {
+              "kind": "field",
+              "name": "clickable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "clickable"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "hover",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "method",
+              "name": "pick",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "n",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { rating }` when a new rating is chosen."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            },
+            {
+              "name": "type",
+              "type": {
+                "text": "LoomiRatingType"
+              },
+              "default": "\"star\"",
+              "fieldName": "type"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"warning\"",
+              "fieldName": "color"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "LoomiRatingSize"
+              },
+              "default": "\"small\"",
+              "fieldName": "size"
+            },
+            {
+              "name": "rating",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "rating"
+            },
+            {
+              "name": "clickable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "clickable"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-rating",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiRating",
+          "declaration": {
+            "name": "LoomiRating",
+            "module": "src/loomi-rating.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-rating",
+          "declaration": {
+            "name": "LoomiRating",
+            "module": "src/loomi-rating.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

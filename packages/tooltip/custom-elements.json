@@ -1,0 +1,138 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiTooltip",
+          "declaration": {
+            "name": "LoomiTooltip",
+            "module": "./loomi-tooltip.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTooltipPlacement",
+          "declaration": {
+            "name": "LoomiTooltipPlacement",
+            "module": "./loomi-tooltip.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTooltipShade",
+          "declaration": {
+            "name": "LoomiTooltipShade",
+            "module": "./loomi-tooltip.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-tooltip.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-tooltip>` — shows a tooltip on hover/focus of its trigger content.",
+          "name": "LoomiTooltip",
+          "slots": [
+            {
+              "description": "The trigger element(s).",
+              "name": ""
+            },
+            {
+              "description": "Rich tooltip content (overrides the `content` attribute).",
+              "name": "content"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "content",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "content"
+            },
+            {
+              "kind": "field",
+              "name": "placement",
+              "type": {
+                "text": "LoomiTooltipPlacement"
+              },
+              "default": "\"top\"",
+              "attribute": "placement"
+            },
+            {
+              "kind": "field",
+              "name": "shade",
+              "type": {
+                "text": "LoomiTooltipShade"
+              },
+              "default": "\"dark\"",
+              "attribute": "shade",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "content",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "content"
+            },
+            {
+              "name": "placement",
+              "type": {
+                "text": "LoomiTooltipPlacement"
+              },
+              "default": "\"top\"",
+              "fieldName": "placement"
+            },
+            {
+              "name": "shade",
+              "type": {
+                "text": "LoomiTooltipShade"
+              },
+              "default": "\"dark\"",
+              "fieldName": "shade"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-tooltip",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiTooltip",
+          "declaration": {
+            "name": "LoomiTooltip",
+            "module": "src/loomi-tooltip.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-tooltip",
+          "declaration": {
+            "name": "LoomiTooltip",
+            "module": "src/loomi-tooltip.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

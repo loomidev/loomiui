@@ -1,0 +1,614 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/icons.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "registerLoomiIcon",
+          "declaration": {
+            "name": "registerLoomiIcon",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getLoomiIcon",
+          "declaration": {
+            "name": "getLoomiIcon",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "loomiIconNames",
+          "declaration": {
+            "name": "loomiIconNames",
+            "module": "@loomidev/icons"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiButton",
+          "declaration": {
+            "name": "LoomiButton",
+            "module": "./loomi-button.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiButtonType",
+          "declaration": {
+            "name": "LoomiButtonType",
+            "module": "./loomi-button.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiButtonSize",
+          "declaration": {
+            "name": "LoomiButtonSize",
+            "module": "./loomi-button.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiButtonRadius",
+          "declaration": {
+            "name": "LoomiButtonRadius",
+            "module": "./loomi-button.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiButtonTag",
+          "declaration": {
+            "name": "LoomiButtonTag",
+            "module": "./loomi-button.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "registerLoomiIcon",
+          "declaration": {
+            "name": "registerLoomiIcon",
+            "module": "./icons.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getLoomiIcon",
+          "declaration": {
+            "name": "getLoomiIcon",
+            "module": "./icons.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-button.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-button>` — a themeable button web component.\n\nStructural variant (`type`) and palette (`color`) are independent, and styling is\ncomposed from orthogonal attributes (`size`, `radius`, `outline`, `border-width`).\nColors resolve through `--loomi-*` custom properties, so the whole theme can be\nre-skinned from the host page with no rebuild.",
+          "name": "LoomiButton",
+          "cssParts": [
+            {
+              "description": "The underlying `<button>`/`<a>` element.",
+              "name": "button"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Default slot: the button label.",
+              "name": ""
+            },
+            {
+              "description": "Content rendered before the icon/label.",
+              "name": "prefix"
+            },
+            {
+              "description": "Content rendered after the label.",
+              "name": "suffix"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "LoomiButtonType"
+              },
+              "default": "\"primary\"",
+              "description": "Structural variant: `primary` is a solid fill; `secondary` is a bordered ghost. `color` overrides the hue.",
+              "attribute": "type",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiButtonColor | \"\""
+              },
+              "default": "\"\"",
+              "description": "Palette override. Empty = derive from `type`. `primary` | `secondary` | `success` | `error` | `warning` | `gray`.",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "LoomiButtonSize"
+              },
+              "default": "\"regular\"",
+              "description": "Size preset.",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "radius",
+              "type": {
+                "text": "LoomiButtonRadius"
+              },
+              "default": "\"medium\"",
+              "description": "Corner radius preset.",
+              "attribute": "radius",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "outline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Render as an outline (no fill, colored border + text).",
+              "attribute": "outline"
+            },
+            {
+              "kind": "field",
+              "name": "borderWidth",
+              "type": {
+                "text": "number"
+              },
+              "default": "2",
+              "description": "Outline border width: 2, 4 or 8. Only applies when `outline` is set.",
+              "attribute": "border-width"
+            },
+            {
+              "kind": "field",
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Name of a built-in icon (see the icon registry), or one you registered.",
+              "attribute": "icon"
+            },
+            {
+              "kind": "field",
+              "name": "iconRight",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Position the icon after the label instead of before it.",
+              "attribute": "icon-right"
+            },
+            {
+              "kind": "field",
+              "name": "hasSpinner",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Include a spinner (hidden until `show-spinner`).",
+              "attribute": "has-spinner"
+            },
+            {
+              "kind": "field",
+              "name": "showSpinner",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Show the spinner. Only has effect when `has-spinner` is set.",
+              "attribute": "show-spinner"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disable the button.",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tag",
+              "type": {
+                "text": "LoomiButtonTag"
+              },
+              "default": "\"button\"",
+              "description": "Render as `button` or as an `a` (link).",
+              "attribute": "tag",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "href used for link rendering. If present, the component renders an anchor automatically.",
+              "attribute": "href"
+            },
+            {
+              "kind": "field",
+              "name": "canSubmit",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Render the `<button>` as `type=\"submit\"` so it submits a form.",
+              "attribute": "can-submit"
+            },
+            {
+              "kind": "field",
+              "name": "showFocusRing",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show the focus ring on keyboard focus.",
+              "attribute": "show-focus-ring"
+            },
+            {
+              "kind": "field",
+              "name": "uppercase",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Uppercase the label.",
+              "attribute": "uppercase"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Optional name for targeting this button (reflected as an attribute).",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "isDarkContext",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "Whether an ancestor of the page has the `dark` class (see `@loomidev/theme-switcher`).\nTracked in JS and reflected as a class in `computeClasses()` because `:host-context()`\n— the CSS-only way to detect this — has no Firefox support."
+            },
+            {
+              "kind": "field",
+              "name": "cleanupDarkWatch",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "startSpinner",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Make the spinner visible. No-op unless `has-spinner` is set."
+            },
+            {
+              "kind": "method",
+              "name": "stopSpinner",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Hide the spinner."
+            },
+            {
+              "kind": "field",
+              "name": "effectiveColor",
+              "type": {
+                "text": "LoomiButtonColor"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "spinning",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "treatmentClasses",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "c",
+                  "type": {
+                    "text": "LoomiButtonColor"
+                  }
+                }
+              ],
+              "description": "`type` only switches solid-fill vs. outline; `color` is the only thing that picks the hue."
+            },
+            {
+              "kind": "method",
+              "name": "computeClasses",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderIcon",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderSpinner",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderContent",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onClick",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "description": "Native click event (composed; crosses the shadow boundary).",
+              "name": "click"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "type",
+              "type": {
+                "text": "LoomiButtonType"
+              },
+              "default": "\"primary\"",
+              "description": "Structural variant: `primary` is a solid fill; `secondary` is a bordered ghost. `color` overrides the hue.",
+              "fieldName": "type"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiButtonColor | \"\""
+              },
+              "default": "\"\"",
+              "description": "Palette override. Empty = derive from `type`. `primary` | `secondary` | `success` | `error` | `warning` | `gray`.",
+              "fieldName": "color"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "LoomiButtonSize"
+              },
+              "default": "\"regular\"",
+              "description": "Size preset.",
+              "fieldName": "size"
+            },
+            {
+              "name": "radius",
+              "type": {
+                "text": "LoomiButtonRadius"
+              },
+              "default": "\"medium\"",
+              "description": "Corner radius preset.",
+              "fieldName": "radius"
+            },
+            {
+              "name": "outline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Render as an outline (no fill, colored border + text).",
+              "fieldName": "outline"
+            },
+            {
+              "name": "border-width",
+              "type": {
+                "text": "number"
+              },
+              "default": "2",
+              "description": "Outline border width: 2, 4 or 8. Only applies when `outline` is set.",
+              "fieldName": "borderWidth"
+            },
+            {
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Name of a built-in icon (see the icon registry), or one you registered.",
+              "fieldName": "icon"
+            },
+            {
+              "name": "icon-right",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Position the icon after the label instead of before it.",
+              "fieldName": "iconRight"
+            },
+            {
+              "name": "has-spinner",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Include a spinner (hidden until `show-spinner`).",
+              "fieldName": "hasSpinner"
+            },
+            {
+              "name": "show-spinner",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Show the spinner. Only has effect when `has-spinner` is set.",
+              "fieldName": "showSpinner"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disable the button.",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "tag",
+              "type": {
+                "text": "LoomiButtonTag"
+              },
+              "default": "\"button\"",
+              "description": "Render as `button` or as an `a` (link).",
+              "fieldName": "tag"
+            },
+            {
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "href used for link rendering. If present, the component renders an anchor automatically.",
+              "fieldName": "href"
+            },
+            {
+              "name": "can-submit",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Render the `<button>` as `type=\"submit\"` so it submits a form.",
+              "fieldName": "canSubmit"
+            },
+            {
+              "name": "show-focus-ring",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show the focus ring on keyboard focus.",
+              "fieldName": "showFocusRing"
+            },
+            {
+              "name": "uppercase",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Uppercase the label.",
+              "fieldName": "uppercase"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Optional name for targeting this button (reflected as an attribute).",
+              "fieldName": "name"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-button",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiButton",
+          "declaration": {
+            "name": "LoomiButton",
+            "module": "src/loomi-button.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-button",
+          "declaration": {
+            "name": "LoomiButton",
+            "module": "src/loomi-button.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

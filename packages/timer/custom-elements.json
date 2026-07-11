@@ -1,0 +1,549 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiTimer",
+          "declaration": {
+            "name": "LoomiTimer",
+            "module": "./loomi-timer.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTimerDirection",
+          "declaration": {
+            "name": "LoomiTimerDirection",
+            "module": "./loomi-timer.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-timer.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-timer>` - an animated count up/down timer with day/hour/minute/second\ndigit segments, each labeled underneath.",
+          "name": "LoomiTimer",
+          "members": [
+            {
+              "kind": "field",
+              "name": "direction",
+              "type": {
+                "text": "LoomiTimerDirection"
+              },
+              "default": "\"down\"",
+              "attribute": "direction"
+            },
+            {
+              "kind": "field",
+              "name": "days",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "days"
+            },
+            {
+              "kind": "field",
+              "name": "hours",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "hours"
+            },
+            {
+              "kind": "field",
+              "name": "mins",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "attribute": "mins"
+            },
+            {
+              "kind": "field",
+              "name": "startValue",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "start-value"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "autoStart",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "auto-start"
+            },
+            {
+              "kind": "field",
+              "name": "showControls",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-controls"
+            },
+            {
+              "kind": "field",
+              "name": "showBorder",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-border"
+            },
+            {
+              "kind": "field",
+              "name": "animated",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "animated"
+            },
+            {
+              "kind": "field",
+              "name": "running",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "running",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "displayMs",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "complete",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "animationFrame",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "runStartedAt",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "runStartedValueMs",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "lastWholeSecond",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "-1"
+            },
+            {
+              "kind": "method",
+              "name": "start",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "pause",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reset",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "emitEvent",
+                  "default": "true"
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "normalizedDirection",
+              "type": {
+                "text": "LoomiTimerDirection"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "hasExplicitBound",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "description": "Whether the countdown length was explicitly configured via `days`/`hours`/`mins`.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "boundMs",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "description": "Total time described by the `days`/`hours`/`mins` props, in milliseconds.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "boundedCountUpMs",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "initialDisplayMs",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "wholeSeconds",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "progressPercent",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "segments",
+              "type": {
+                "text": "LoomiTimerSegments"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "srText",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "scheduleFrame",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "cancelFrame",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onFrame",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "updateDisplay",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "timestamp",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "dispatchTickIfNeeded",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "dispatchTimerEvent",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "type",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "animateTick",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onToggle",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "name": "type",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "description": "Fired when the timer starts.",
+              "name": "loomi-timer-start"
+            },
+            {
+              "description": "Fired when the timer pauses.",
+              "name": "loomi-timer-pause"
+            },
+            {
+              "description": "Fired when the timer resets.",
+              "name": "loomi-timer-reset"
+            },
+            {
+              "description": "Fired when the displayed whole second changes.",
+              "name": "loomi-timer-tick"
+            },
+            {
+              "description": "Fired when a bounded timer reaches its end.",
+              "name": "loomi-timer-complete"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "direction",
+              "type": {
+                "text": "LoomiTimerDirection"
+              },
+              "default": "\"down\"",
+              "fieldName": "direction"
+            },
+            {
+              "name": "days",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "days"
+            },
+            {
+              "name": "hours",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "hours"
+            },
+            {
+              "name": "mins",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "mins"
+            },
+            {
+              "name": "start-value",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "startValue"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "fieldName": "color"
+            },
+            {
+              "name": "auto-start",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "autoStart"
+            },
+            {
+              "name": "show-controls",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showControls"
+            },
+            {
+              "name": "show-border",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showBorder"
+            },
+            {
+              "name": "animated",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "animated"
+            },
+            {
+              "name": "running",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "running"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-timer",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiTimer",
+          "declaration": {
+            "name": "LoomiTimer",
+            "module": "src/loomi-timer.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-timer",
+          "declaration": {
+            "name": "LoomiTimer",
+            "module": "src/loomi-timer.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,772 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiFloatingPanel",
+          "declaration": {
+            "name": "LoomiFloatingPanel",
+            "module": "./loomi-floating-panel.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "showLoomiFloatingPanel",
+          "declaration": {
+            "name": "showLoomiFloatingPanel",
+            "module": "./loomi-floating-panel.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "hideLoomiFloatingPanel",
+          "declaration": {
+            "name": "hideLoomiFloatingPanel",
+            "module": "./loomi-floating-panel.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-floating-panel.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "showLoomiFloatingPanel",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Open a floating panel by its `name`."
+        },
+        {
+          "kind": "function",
+          "name": "hideLoomiFloatingPanel",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Close a floating panel by its `name`."
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-floating-panel>` — a draggable, resizable panel that floats above the page,\nunanchored to any trigger. Open/close via `name` with `showLoomiFloatingPanel()` /\n`hideLoomiFloatingPanel()`, or the instance `show()` / `hide()` methods.",
+          "name": "LoomiFloatingPanel",
+          "slots": [
+            {
+              "description": "The panel body.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "title"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "showCloseIcon",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-close-icon"
+            },
+            {
+              "kind": "field",
+              "name": "resizable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Enables the eight drag handles along the edges/corners.",
+              "attribute": "resizable"
+            },
+            {
+              "kind": "field",
+              "name": "noDrag",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disables moving the panel by dragging (or arrow-keying) its header.",
+              "attribute": "no-drag"
+            },
+            {
+              "kind": "field",
+              "name": "bounded",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Keeps the panel's edges within the viewport while dragging/resizing.",
+              "attribute": "bounded"
+            },
+            {
+              "kind": "field",
+              "name": "minimize",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Shows a header button that collapses the panel to just its title bar.",
+              "attribute": "minimize"
+            },
+            {
+              "kind": "field",
+              "name": "maximize",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Shows a header button that expands the panel to fill the viewport.",
+              "attribute": "maximize"
+            },
+            {
+              "kind": "field",
+              "name": "dragHandle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Restricts dragging to a dedicated grip in the header instead of the whole header.",
+              "attribute": "drag-handle"
+            },
+            {
+              "kind": "field",
+              "name": "minimized",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the panel is currently collapsed to its title bar.",
+              "attribute": "minimized",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "maximized",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the panel is currently filling the viewport.",
+              "attribute": "maximized",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "top",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Initial position; any CSS length. Left unset, the panel opens centered.",
+              "attribute": "top"
+            },
+            {
+              "kind": "field",
+              "name": "left",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "left"
+            },
+            {
+              "kind": "field",
+              "name": "width",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Initial size; any CSS length. Left unset, falls back to the stylesheet default.",
+              "attribute": "width"
+            },
+            {
+              "kind": "field",
+              "name": "height",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "height"
+            },
+            {
+              "kind": "field",
+              "name": "minWidth",
+              "type": {
+                "text": "number"
+              },
+              "default": "220",
+              "attribute": "min-width"
+            },
+            {
+              "kind": "field",
+              "name": "minHeight",
+              "type": {
+                "text": "number"
+              },
+              "default": "140",
+              "attribute": "min-height"
+            },
+            {
+              "kind": "field",
+              "name": "maxWidth",
+              "default": "Infinity",
+              "attribute": "max-width"
+            },
+            {
+              "kind": "field",
+              "name": "maxHeight",
+              "default": "Infinity",
+              "attribute": "max-height"
+            },
+            {
+              "kind": "field",
+              "name": "autoSaveId",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Persists position/size to `localStorage` under this key across reloads.",
+              "attribute": "auto-save-id"
+            },
+            {
+              "kind": "field",
+              "name": "rect",
+              "type": {
+                "text": "Rect | null"
+              },
+              "privacy": "private",
+              "default": "null",
+              "description": "Explicit pixel rect once the panel has been dragged/resized (or restored); `null` while it's still following the `top`/`left`/`width`/`height` attributes (or centered)."
+            },
+            {
+              "kind": "field",
+              "name": "hasLoadedPersisted",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "previouslyFocused",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "privacy": "private",
+              "default": "null",
+              "description": "The element focused before `show()` was called, restored when the panel closes."
+            },
+            {
+              "kind": "field",
+              "name": "originalParent",
+              "type": {
+                "text": "Node | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "originalNextSibling",
+              "type": {
+                "text": "ChildNode | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "hide",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "bringToFront",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "moveToDocumentBody",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "restoreOriginalPosition",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "storageKey",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string | null"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "loadPersistedRect",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Rect | null"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "persistRect",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "syncPosition",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Applies `rect` (once the panel has moved/resized) or the raw `top`/`left`/`width`/`height` attributes directly to the host's inline style — the host itself is the visible, positioned box."
+            },
+            {
+              "kind": "method",
+              "name": "containsFocus",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onKey",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "toggleMinimize",
+              "privacy": "private",
+              "description": "Toggles the collapsed-to-title-bar state; turns off `maximized` first if it was on."
+            },
+            {
+              "kind": "field",
+              "name": "toggleMaximize",
+              "privacy": "private",
+              "description": "Toggles the fill-the-viewport state; turns off `minimized` first if it was on."
+            },
+            {
+              "kind": "field",
+              "name": "onHeaderDoubleClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onHeaderPointerDown",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onHeaderKeyDown",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "computeResizedRect",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Rect"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "dir",
+                  "type": {
+                    "text": "ResizeDir"
+                  }
+                },
+                {
+                  "name": "start",
+                  "type": {
+                    "text": "Rect"
+                  }
+                },
+                {
+                  "name": "dx",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "dy",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ],
+              "description": "Resizes from `start` by pointer/keyboard delta `(dx, dy)`, re-anchoring the edge opposite the drag direction so it doesn't move once width/height clamp."
+            },
+            {
+              "kind": "field",
+              "name": "onResizePointerDown",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onResizeKeyDown",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "name": "open",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Shown. @fires close - Dismissed."
+            },
+            {
+              "name": "close",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "description": "`detail: { top, left }` after the panel is moved.",
+              "name": "loomi-drag"
+            },
+            {
+              "description": "`detail: { top, left, width, height }` after the panel is resized.",
+              "name": "loomi-resize"
+            },
+            {
+              "description": "`detail: { minimized }` when the minimize button is toggled.",
+              "name": "loomi-minimize"
+            },
+            {
+              "description": "`detail: { maximized }` when the maximize button (or header double-click) is toggled.",
+              "name": "loomi-maximize"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            },
+            {
+              "name": "title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "title"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "open"
+            },
+            {
+              "name": "show-close-icon",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showCloseIcon"
+            },
+            {
+              "name": "resizable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Enables the eight drag handles along the edges/corners.",
+              "fieldName": "resizable"
+            },
+            {
+              "name": "no-drag",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disables moving the panel by dragging (or arrow-keying) its header.",
+              "fieldName": "noDrag"
+            },
+            {
+              "name": "bounded",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Keeps the panel's edges within the viewport while dragging/resizing.",
+              "fieldName": "bounded"
+            },
+            {
+              "name": "minimize",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Shows a header button that collapses the panel to just its title bar.",
+              "fieldName": "minimize"
+            },
+            {
+              "name": "maximize",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Shows a header button that expands the panel to fill the viewport.",
+              "fieldName": "maximize"
+            },
+            {
+              "name": "drag-handle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Restricts dragging to a dedicated grip in the header instead of the whole header.",
+              "fieldName": "dragHandle"
+            },
+            {
+              "name": "minimized",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the panel is currently collapsed to its title bar.",
+              "fieldName": "minimized"
+            },
+            {
+              "name": "maximized",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the panel is currently filling the viewport.",
+              "fieldName": "maximized"
+            },
+            {
+              "name": "top",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Initial position; any CSS length. Left unset, the panel opens centered.",
+              "fieldName": "top"
+            },
+            {
+              "name": "left",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "left"
+            },
+            {
+              "name": "width",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Initial size; any CSS length. Left unset, falls back to the stylesheet default.",
+              "fieldName": "width"
+            },
+            {
+              "name": "height",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "height"
+            },
+            {
+              "name": "min-width",
+              "type": {
+                "text": "number"
+              },
+              "default": "220",
+              "fieldName": "minWidth"
+            },
+            {
+              "name": "min-height",
+              "type": {
+                "text": "number"
+              },
+              "default": "140",
+              "fieldName": "minHeight"
+            },
+            {
+              "name": "max-width",
+              "default": "Infinity",
+              "fieldName": "maxWidth"
+            },
+            {
+              "name": "max-height",
+              "default": "Infinity",
+              "fieldName": "maxHeight"
+            },
+            {
+              "name": "auto-save-id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Persists position/size to `localStorage` under this key across reloads.",
+              "fieldName": "autoSaveId"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-floating-panel",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "showLoomiFloatingPanel",
+          "declaration": {
+            "name": "showLoomiFloatingPanel",
+            "module": "src/loomi-floating-panel.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "hideLoomiFloatingPanel",
+          "declaration": {
+            "name": "hideLoomiFloatingPanel",
+            "module": "src/loomi-floating-panel.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiFloatingPanel",
+          "declaration": {
+            "name": "LoomiFloatingPanel",
+            "module": "src/loomi-floating-panel.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-floating-panel",
+          "declaration": {
+            "name": "LoomiFloatingPanel",
+            "module": "src/loomi-floating-panel.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1144 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiPhotoGallery",
+          "declaration": {
+            "name": "LoomiPhotoGallery",
+            "module": "./loomi-photo-gallery.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiPhotoGalleryItem",
+          "declaration": {
+            "name": "LoomiPhotoGalleryItem",
+            "module": "./loomi-photo-gallery.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiPhotoGalleryAlbumView",
+          "declaration": {
+            "name": "LoomiPhotoGalleryAlbumView",
+            "module": "./loomi-photo-gallery.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-photo-gallery.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-photo-gallery-item>` — one photo inside a `<loomi-photo-gallery>`. A plain data\nholder (like `<option>`) — it never renders itself; the gallery reads its attributes to\ndraw the grid tile and lightbox view.",
+          "name": "LoomiPhotoGalleryItem",
+          "members": [
+            {
+              "kind": "field",
+              "name": "src",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Full-size image URL, shown in the lightbox.",
+              "attribute": "src"
+            },
+            {
+              "kind": "field",
+              "name": "thumb",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Grid thumbnail URL. Falls back to `src` when omitted.",
+              "attribute": "thumb"
+            },
+            {
+              "kind": "field",
+              "name": "alt",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible text and lightbox caption fallback.",
+              "attribute": "alt"
+            },
+            {
+              "kind": "field",
+              "name": "album",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Album/group name. Left blank, the photo only shows up under \"All\".",
+              "attribute": "album"
+            },
+            {
+              "kind": "field",
+              "name": "caption",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Caption shown under the image in the lightbox. Falls back to `alt`.",
+              "attribute": "caption"
+            },
+            {
+              "kind": "field",
+              "name": "favourite",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether this photo is favourited. Settable up front or toggled from the UI.",
+              "attribute": "favourite",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "src",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Full-size image URL, shown in the lightbox.",
+              "fieldName": "src"
+            },
+            {
+              "name": "thumb",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Grid thumbnail URL. Falls back to `src` when omitted.",
+              "fieldName": "thumb"
+            },
+            {
+              "name": "alt",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible text and lightbox caption fallback.",
+              "fieldName": "alt"
+            },
+            {
+              "name": "album",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Album/group name. Left blank, the photo only shows up under \"All\".",
+              "fieldName": "album"
+            },
+            {
+              "name": "caption",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Caption shown under the image in the lightbox. Falls back to `alt`.",
+              "fieldName": "caption"
+            },
+            {
+              "name": "favourite",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether this photo is favourited. Settable up front or toggled from the UI.",
+              "fieldName": "favourite"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-photo-gallery-item",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-photo-gallery>` — an album grid built from `<loomi-photo-gallery-item>` children,\nwith a toolbar (album list, zoom, square thumbnails, slideshow) and a full-size lightbox\nviewer (zoom, rotate, favourite, share) opened by clicking a photo. Every toolbar icon can\nbe hidden individually via its `show-*` attribute.",
+          "name": "LoomiPhotoGallery",
+          "slots": [
+            {
+              "description": "`<loomi-photo-gallery-item>` children.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "albumView",
+              "type": {
+                "text": "LoomiPhotoGalleryAlbumView"
+              },
+              "default": "\"sidebar\"",
+              "description": "Visual style of the album list panel when it's open.",
+              "attribute": "album-view"
+            },
+            {
+              "kind": "field",
+              "name": "squareThumbnails",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Force every grid thumbnail to a 1:1 square crop instead of its natural aspect ratio.",
+              "attribute": "square-thumbnails",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "thumbSize",
+              "default": "160",
+              "description": "Grid thumbnail size in pixels. Adjusted by the zoom in/out buttons.",
+              "attribute": "thumb-size",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "slideshowInterval",
+              "default": "3000",
+              "description": "Milliseconds between slides while the slideshow is running.",
+              "attribute": "slideshow-interval",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "albumPanelOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Whether the album list panel is currently open. Only rendered when there's more than one album.",
+              "attribute": "album-panel-open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "showAlbumToggle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show the toolbar button that toggles the album list panel.",
+              "attribute": "show-album-toggle"
+            },
+            {
+              "kind": "field",
+              "name": "showZoomIn",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show the grid zoom-in toolbar button.",
+              "attribute": "show-zoom-in"
+            },
+            {
+              "kind": "field",
+              "name": "showZoomOut",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show the grid zoom-out toolbar button.",
+              "attribute": "show-zoom-out"
+            },
+            {
+              "kind": "field",
+              "name": "showSquareToggle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show the square-thumbnails toggle button.",
+              "attribute": "show-square-toggle"
+            },
+            {
+              "kind": "field",
+              "name": "showSlideshow",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show the slideshow toolbar button.",
+              "attribute": "show-slideshow"
+            },
+            {
+              "kind": "field",
+              "name": "lightboxShowZoomIn",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show the lightbox zoom-in button.",
+              "attribute": "lightbox-show-zoom-in"
+            },
+            {
+              "kind": "field",
+              "name": "lightboxShowZoomOut",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show the lightbox zoom-out button.",
+              "attribute": "lightbox-show-zoom-out"
+            },
+            {
+              "kind": "field",
+              "name": "lightboxShowFavourite",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show the lightbox favourite button.",
+              "attribute": "lightbox-show-favourite"
+            },
+            {
+              "kind": "field",
+              "name": "lightboxShowRotate",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show the lightbox rotate-left button.",
+              "attribute": "lightbox-show-rotate"
+            },
+            {
+              "kind": "field",
+              "name": "lightboxShowShare",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show the lightbox share button.",
+              "attribute": "lightbox-show-share"
+            },
+            {
+              "kind": "field",
+              "name": "lightboxShowClose",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show the lightbox close button. Escape and clicking the backdrop still close it either way.",
+              "attribute": "lightbox-show-close"
+            },
+            {
+              "kind": "field",
+              "name": "activeAlbum",
+              "privacy": "private",
+              "default": "\"\"",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "lightboxIndex",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "-1"
+            },
+            {
+              "kind": "field",
+              "name": "lightboxZoom",
+              "privacy": "private",
+              "default": "1",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "lightboxRotation",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "slideshowActive",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "toastMessage",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "previouslyFocused",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "originalParent",
+              "type": {
+                "text": "Node | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "originalNextSibling",
+              "type": {
+                "text": "ChildNode | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "hasScrollLock",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "isMovingInDom",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "slideshowTimer",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "toastTimer",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "items",
+              "type": {
+                "text": "LoomiPhotoGalleryItem[]"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "albums",
+              "type": {
+                "text": "string[]"
+              },
+              "privacy": "private",
+              "description": "Distinct album names in first-seen order (blank/unset albums are excluded — they only show under \"All\").",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "hasAlbums",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "visibleItems",
+              "type": {
+                "text": "LoomiPhotoGalleryItem[]"
+              },
+              "privacy": "private",
+              "description": "The photos visible in the grid and navigable in the lightbox, filtered by `activeAlbum`.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "albumCount",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "number"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "album",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "onSlotChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "toggleFavourite",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "item",
+                  "type": {
+                    "text": "LoomiPhotoGalleryItem"
+                  }
+                },
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "setActiveAlbum",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "album",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "toggleAlbumPanel",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "zoomInGrid",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "zoomOutGrid",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "toggleSquareThumbnails",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "toggleSlideshow",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "startSlideshow",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "stopSlideshow",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "scheduleSlideshowTick",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "openLightbox",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "closeLightbox"
+            },
+            {
+              "kind": "method",
+              "name": "nextPhoto",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "fromSlideshow",
+                  "default": "false"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "prevPhoto",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "zoomInLightbox",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "zoomOutLightbox",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "rotateLeft",
+              "privacy": "private",
+              "description": "Rotates 90° further left on every call — cumulative, so it keeps spinning rather than\nsnapping back to 0 (which would animate a jarring reverse spin). Resets only when the\nlightbox moves to a different photo."
+            },
+            {
+              "kind": "field",
+              "name": "onShare",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "showToast",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "message",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "acquireScrollLock",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "releaseScrollLock",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "moveToDocumentBody",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "restoreOriginalPosition",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "containsFocus",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "getLightboxFocusable",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement[]"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onKeyDown",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onBackdropClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderToolbar",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderAlbumButton",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "album",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "label",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "thumbSrc",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "style",
+                  "type": {
+                    "text": "LoomiPhotoGalleryAlbumView"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderAlbumPanel",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderGrid",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderTile",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "item",
+                  "type": {
+                    "text": "LoomiPhotoGalleryItem"
+                  }
+                },
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderLightbox",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "loomi-favourite",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { index, src, favourite }`."
+            },
+            {
+              "name": "loomi-album-change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { album }` (`\"\"` means \"All\")."
+            },
+            {
+              "name": "loomi-slideshow-start",
+              "type": {
+                "text": "Event"
+              },
+              "description": "/ loomi-slideshow-end"
+            },
+            {
+              "name": "loomi-slideshow-end",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "loomi-photo-open",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Lightbox opened. `detail: { index, src }`."
+            },
+            {
+              "name": "loomi-photo-change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Navigated to another photo in the lightbox. `detail: { index, src }`."
+            },
+            {
+              "description": "Lightbox closed.",
+              "name": "loomi-photo-close"
+            },
+            {
+              "description": "`detail: { index, rotation }` (cumulative degrees).",
+              "name": "loomi-rotate"
+            },
+            {
+              "description": "`detail: { index, src }`, fired before the native share sheet/clipboard fallback runs.",
+              "name": "loomi-share"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "fieldName": "color"
+            },
+            {
+              "name": "album-view",
+              "type": {
+                "text": "LoomiPhotoGalleryAlbumView"
+              },
+              "default": "\"sidebar\"",
+              "description": "Visual style of the album list panel when it's open.",
+              "fieldName": "albumView"
+            },
+            {
+              "name": "square-thumbnails",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Force every grid thumbnail to a 1:1 square crop instead of its natural aspect ratio.",
+              "fieldName": "squareThumbnails"
+            },
+            {
+              "name": "thumb-size",
+              "default": "DEFAULT_THUMB_SIZE",
+              "description": "Grid thumbnail size in pixels. Adjusted by the zoom in/out buttons.",
+              "fieldName": "thumbSize"
+            },
+            {
+              "name": "slideshow-interval",
+              "default": "DEFAULT_SLIDESHOW_INTERVAL",
+              "description": "Milliseconds between slides while the slideshow is running.",
+              "fieldName": "slideshowInterval"
+            },
+            {
+              "name": "album-panel-open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Whether the album list panel is currently open. Only rendered when there's more than one album.",
+              "fieldName": "albumPanelOpen"
+            },
+            {
+              "name": "show-album-toggle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show the toolbar button that toggles the album list panel.",
+              "fieldName": "showAlbumToggle"
+            },
+            {
+              "name": "show-zoom-in",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show the grid zoom-in toolbar button.",
+              "fieldName": "showZoomIn"
+            },
+            {
+              "name": "show-zoom-out",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show the grid zoom-out toolbar button.",
+              "fieldName": "showZoomOut"
+            },
+            {
+              "name": "show-square-toggle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show the square-thumbnails toggle button.",
+              "fieldName": "showSquareToggle"
+            },
+            {
+              "name": "show-slideshow",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show the slideshow toolbar button.",
+              "fieldName": "showSlideshow"
+            },
+            {
+              "name": "lightbox-show-zoom-in",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show the lightbox zoom-in button.",
+              "fieldName": "lightboxShowZoomIn"
+            },
+            {
+              "name": "lightbox-show-zoom-out",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show the lightbox zoom-out button.",
+              "fieldName": "lightboxShowZoomOut"
+            },
+            {
+              "name": "lightbox-show-favourite",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show the lightbox favourite button.",
+              "fieldName": "lightboxShowFavourite"
+            },
+            {
+              "name": "lightbox-show-rotate",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show the lightbox rotate-left button.",
+              "fieldName": "lightboxShowRotate"
+            },
+            {
+              "name": "lightbox-show-share",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show the lightbox share button.",
+              "fieldName": "lightboxShowShare"
+            },
+            {
+              "name": "lightbox-show-close",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show the lightbox close button. Escape and clicking the backdrop still close it either way.",
+              "fieldName": "lightboxShowClose"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-photo-gallery",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiPhotoGalleryItem",
+          "declaration": {
+            "name": "LoomiPhotoGalleryItem",
+            "module": "src/loomi-photo-gallery.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-photo-gallery-item",
+          "declaration": {
+            "name": "LoomiPhotoGalleryItem",
+            "module": "src/loomi-photo-gallery.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiPhotoGallery",
+          "declaration": {
+            "name": "LoomiPhotoGallery",
+            "module": "src/loomi-photo-gallery.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-photo-gallery",
+          "declaration": {
+            "name": "LoomiPhotoGallery",
+            "module": "src/loomi-photo-gallery.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

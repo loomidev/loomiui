@@ -1,0 +1,542 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiTag",
+          "declaration": {
+            "name": "LoomiTag",
+            "module": "./loomi-tag.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTags",
+          "declaration": {
+            "name": "LoomiTags",
+            "module": "./loomi-tag.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-tag.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-tag>` — a themeable label/badge. Faint or dark shade, optional outline,\nrounded, tiny, and a close button.",
+          "name": "LoomiTag",
+          "slots": [
+            {
+              "description": "Tag content (falls back to the `label` attribute).",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"primary\"",
+              "description": "Any loomi color plus `info` (maps to blue).",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "shade",
+              "type": {
+                "text": "\"faint\" | \"dark\" | \"light\""
+              },
+              "default": "\"faint\"",
+              "attribute": "shade"
+            },
+            {
+              "kind": "field",
+              "name": "canClose",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "can-close"
+            },
+            {
+              "kind": "field",
+              "name": "outline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "outline"
+            },
+            {
+              "kind": "field",
+              "name": "rounded",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "rounded"
+            },
+            {
+              "kind": "field",
+              "name": "tiny",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "tiny"
+            },
+            {
+              "kind": "field",
+              "name": "uppercasing",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "uppercasing"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Value submitted when inside `<loomi-tags>`.",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Set by the parent `<loomi-tags>` when selected.",
+              "attribute": "selected",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "selectable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Set by the parent `<loomi-tags>` to show pointer cursor and hover.",
+              "attribute": "selectable",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Heroicons icon name to display.",
+              "attribute": "icon"
+            },
+            {
+              "kind": "field",
+              "name": "iconPosition",
+              "type": {
+                "text": "\"prefix\" | \"suffix\""
+              },
+              "default": "\"prefix\"",
+              "description": "`prefix` (default) or `suffix`.",
+              "attribute": "icon-position"
+            },
+            {
+              "kind": "field",
+              "name": "resolvedColor",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "onClose",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onTagClick",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "description": "Fired when the close button is clicked (the tag removes itself unless prevented).",
+              "name": "close"
+            },
+            {
+              "description": "Internal event bubbled to `<loomi-tags>` for selection handling.",
+              "name": "loomi-tag-click"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"primary\"",
+              "description": "Any loomi color plus `info` (maps to blue).",
+              "fieldName": "color"
+            },
+            {
+              "name": "shade",
+              "type": {
+                "text": "\"faint\" | \"dark\" | \"light\""
+              },
+              "default": "\"faint\"",
+              "fieldName": "shade"
+            },
+            {
+              "name": "can-close",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "canClose"
+            },
+            {
+              "name": "outline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "outline"
+            },
+            {
+              "name": "rounded",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "rounded"
+            },
+            {
+              "name": "tiny",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "tiny"
+            },
+            {
+              "name": "uppercasing",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "uppercasing"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Value submitted when inside `<loomi-tags>`.",
+              "fieldName": "value"
+            },
+            {
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Set by the parent `<loomi-tags>` when selected.",
+              "fieldName": "selected"
+            },
+            {
+              "name": "selectable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Set by the parent `<loomi-tags>` to show pointer cursor and hover.",
+              "fieldName": "selectable"
+            },
+            {
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Heroicons icon name to display.",
+              "fieldName": "icon"
+            },
+            {
+              "name": "icon-position",
+              "type": {
+                "text": "\"prefix\" | \"suffix\""
+              },
+              "default": "\"prefix\"",
+              "description": "`prefix` (default) or `suffix`.",
+              "fieldName": "iconPosition"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-tag",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-tags>` — a flex container for `<loomi-tag>` elements, optionally functioning\nas a selectable checkbox-style group. Set `name` to enable selection; each child tag\nwith a `value` becomes togglable. Selected values are submitted comma-joined under `name`.",
+          "name": "LoomiTags",
+          "slots": [
+            {
+              "description": "`<loomi-tag>` children.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "internals",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "selectedValue",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "selected-value"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Color propagated to child tags that have no explicit `color`.",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "_selected",
+              "type": {
+                "text": "string[]"
+              },
+              "privacy": "private",
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "_initialized",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "tags",
+              "type": {
+                "text": "LoomiTag[]"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "sync",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onTagClick",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "description": "`detail: { values: string[] }` when selection changes.",
+              "name": "change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "max"
+            },
+            {
+              "name": "selected-value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "selectedValue"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Color propagated to child tags that have no explicit `color`.",
+              "fieldName": "color"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-tags",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiTag",
+          "declaration": {
+            "name": "LoomiTag",
+            "module": "src/loomi-tag.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-tag",
+          "declaration": {
+            "name": "LoomiTag",
+            "module": "src/loomi-tag.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTags",
+          "declaration": {
+            "name": "LoomiTags",
+            "module": "src/loomi-tag.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-tags",
+          "declaration": {
+            "name": "LoomiTags",
+            "module": "src/loomi-tag.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

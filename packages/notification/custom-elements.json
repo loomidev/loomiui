@@ -1,0 +1,303 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiNotification",
+          "declaration": {
+            "name": "LoomiNotification",
+            "module": "./loomi-notification.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "showLoomiNotification",
+          "declaration": {
+            "name": "showLoomiNotification",
+            "module": "./loomi-notification.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiNotificationType",
+          "declaration": {
+            "name": "LoomiNotificationType",
+            "module": "./loomi-notification.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiNotificationPlacement",
+          "declaration": {
+            "name": "LoomiNotificationPlacement",
+            "module": "./loomi-notification.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiNotifyOptions",
+          "declaration": {
+            "name": "LoomiNotifyOptions",
+            "module": "./loomi-notification.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-notification.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-notification>` — a container for stacked, auto-dismissing toasts. Trigger via\nthe `notify()` method or the global `showLoomiNotification()` helper.",
+          "name": "LoomiNotification",
+          "members": [
+            {
+              "kind": "field",
+              "name": "placement",
+              "type": {
+                "text": "LoomiNotificationPlacement"
+              },
+              "default": "\"top-right\"",
+              "attribute": "placement"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "fullWidth",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Spans the full viewport width, anchored to the top or bottom edge from `placement`.",
+              "attribute": "full-width"
+            },
+            {
+              "kind": "field",
+              "name": "toasts",
+              "type": {
+                "text": "Toast[]"
+              },
+              "privacy": "private",
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "timers",
+              "privacy": "private",
+              "default": "new Map<number, ReturnType<typeof setTimeout>>()"
+            },
+            {
+              "kind": "method",
+              "name": "moveToDocumentBody",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "notify",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "opts",
+                  "type": {
+                    "text": "LoomiNotifyOptions"
+                  }
+                }
+              ],
+              "description": "Show a notification. Re-renders an existing one when `name` matches."
+            },
+            {
+              "kind": "method",
+              "name": "arm",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "id",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "dismissIn",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "dismiss",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "id",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onDismiss",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                },
+                {
+                  "name": "id",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            }
+          ],
+          "attributes": [
+            {
+              "name": "placement",
+              "type": {
+                "text": "LoomiNotificationPlacement"
+              },
+              "default": "\"top-right\"",
+              "fieldName": "placement"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "full-width",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Spans the full viewport width, anchored to the top or bottom edge from `placement`.",
+              "fieldName": "fullWidth"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-notification",
+          "customElement": true
+        },
+        {
+          "kind": "function",
+          "name": "showLoomiNotification",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "title",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "message",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "type",
+              "default": "\"success\"",
+              "type": {
+                "text": "LoomiNotificationType"
+              }
+            },
+            {
+              "name": "dismissIn",
+              "default": "15"
+            },
+            {
+              "name": "name",
+              "optional": true,
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Show a notification from anywhere. Uses the first `<loomi-notification>` on the page,\ncreating one (top-right) if none exists."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiNotification",
+          "declaration": {
+            "name": "LoomiNotification",
+            "module": "src/loomi-notification.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-notification",
+          "declaration": {
+            "name": "LoomiNotification",
+            "module": "src/loomi-notification.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "showLoomiNotification",
+          "declaration": {
+            "name": "showLoomiNotification",
+            "module": "src/loomi-notification.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

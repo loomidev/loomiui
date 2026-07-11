@@ -1,0 +1,918 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiFilepicker",
+          "declaration": {
+            "name": "LoomiFilepicker",
+            "module": "./loomi-filepicker.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCropAspectRatio",
+          "declaration": {
+            "name": "LoomiCropAspectRatio",
+            "module": "./loomi-filepicker.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-filepicker.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-filepicker>` — a drag-and-drop file picker with previews. Keeps a real\n`<input type=\"file\">` in sync (set `name` and submit inside a `<form>` with\n`enctype=\"multipart/form-data\"`). A lightweight take on BladewindUI's Filepond\nwrapper — the crop dialog is a `<loomi-modal>` and oversized-file errors surface\nthrough `<loomi-notification>`.\n\nSet `stealth` to hide the drop-zone and file list entirely — the native input and\ncrop dialog still work, driven imperatively via `open()`/`clear()` from your own\ntrigger element (e.g. `<loomi-avatar editable>` uses this to launch a crop dialog\nstraight from an avatar click).",
+          "name": "LoomiFilepicker",
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "internals",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "validationVisible",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "cropResolve",
+              "type": {
+                "text": "((file: File | null) => void) | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "cropImgRef",
+              "type": {
+                "text": "HTMLImageElement | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "cropDrag",
+              "type": {
+                "text": "{ mode: \"move\" | \"resize\"; startX: number; startY: number; rect: CropRect } | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "acceptedFileTypes",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"image/*,application/pdf\"",
+              "attribute": "accepted-file-types"
+            },
+            {
+              "kind": "field",
+              "name": "placeholderLine1",
+              "default": "\"Choose files or drag and drop to upload\"",
+              "attribute": "placeholder-line1",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "placeholderLine2",
+              "default": "\"%s up to %s\"",
+              "attribute": "placeholder-line2",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "maxFiles",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "attribute": "max-files"
+            },
+            {
+              "kind": "field",
+              "name": "maxFileSize",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"5mb\"",
+              "attribute": "max-file-size"
+            },
+            {
+              "kind": "field",
+              "name": "canBrowse",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "can-browse"
+            },
+            {
+              "kind": "field",
+              "name": "canDrop",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "can-drop"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled"
+            },
+            {
+              "kind": "field",
+              "name": "showImagePreview",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-image-preview"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "invalid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "invalid",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "crop",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "crop"
+            },
+            {
+              "kind": "field",
+              "name": "cropAspectRatio",
+              "type": {
+                "text": "LoomiCropAspectRatio"
+              },
+              "default": "\"16:9\"",
+              "attribute": "crop-aspect-ratio"
+            },
+            {
+              "kind": "field",
+              "name": "resize",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "resize"
+            },
+            {
+              "kind": "field",
+              "name": "resizeWidth",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "resize-width"
+            },
+            {
+              "kind": "field",
+              "name": "resizeHeight",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "resize-height"
+            },
+            {
+              "kind": "field",
+              "name": "transparent",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "transparent",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "hasBorder",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "has-border"
+            },
+            {
+              "kind": "field",
+              "name": "stealth",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "stealth",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "files",
+              "type": {
+                "text": "File[]"
+              },
+              "privacy": "private",
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "over",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "cropping",
+              "type": {
+                "text": "CropSession | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "cropRect",
+              "type": {
+                "text": "CropRect"
+              },
+              "privacy": "private",
+              "default": "{ x: 0, y: 0, w: 0, h: 0 }"
+            },
+            {
+              "kind": "field",
+              "name": "input",
+              "type": {
+                "text": "HTMLInputElement"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "cropModalEl",
+              "type": {
+                "text": "LoomiModal | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "selectedFiles",
+              "type": {
+                "text": "File[]"
+              },
+              "description": "Currently selected files.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "open",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Opens the native file picker programmatically. Pairs with `stealth`, where there's\nno visible drop-zone for the user to click directly."
+            },
+            {
+              "kind": "method",
+              "name": "clear",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Clears the current selection and resyncs the underlying `<input>`/form value. Call\nthis before `open()` when re-picking should replace rather than append — `add()`\nstops accepting new files once `max-files` is reached, so a `max-files=\"1\"` picker\n(the common case for `stealth`) would otherwise ignore a second pick."
+            },
+            {
+              "kind": "method",
+              "name": "validate",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "syncFormValue",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "syncValidity",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "showInvalid",
+                  "default": "this.validationVisible"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "showValidation",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "syncInput",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "add",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "list",
+                  "type": {
+                    "text": "FileList | null"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "processFile",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Promise<File | null>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "file",
+                  "type": {
+                    "text": "File"
+                  }
+                }
+              ],
+              "description": "Runs a single accepted file through the optional crop and resize pipeline."
+            },
+            {
+              "kind": "method",
+              "name": "removeFile",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "i",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onDrop",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "DragEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "placeholder2",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "isImage",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "f",
+                  "type": {
+                    "text": "File"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "aspectRatioValue",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "number | null"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "defaultCropRect",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "CropRect"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "dispW",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "dispH",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ],
+              "description": "Sized to ~80% of the image in both modes (not just \"free\") so the box never touches\nall 4 edges at once — otherwise the box can't be dragged in whichever axis it's\nalready maxed out in."
+            },
+            {
+              "kind": "method",
+              "name": "cropImage",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Promise<File | null>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "file",
+                  "type": {
+                    "text": "File"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onCropImageLoad",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onCropPointerDown",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "PointerEvent"
+                  }
+                },
+                {
+                  "name": "mode",
+                  "type": {
+                    "text": "\"move\" | \"resize\""
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "onCropPointerMove",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onCropPointerUp",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "cancelCrop",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Cancel button — closes the modal itself since `close-after-action` is off."
+            },
+            {
+              "kind": "field",
+              "name": "onCropModalDismiss",
+              "privacy": "private",
+              "description": "Backdrop click / Escape — `loomi-modal` has already hidden itself by the time this fires."
+            },
+            {
+              "kind": "method",
+              "name": "applyCrop",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "finishCrop",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "file",
+                  "type": {
+                    "text": "File | null"
+                  }
+                }
+              ],
+              "description": "Pure state cleanup — never closes the modal itself, so it's safe to call from a\n\"the modal already closed\" handler without recursing back into `hide()`."
+            },
+            {
+              "kind": "method",
+              "name": "resizeImage",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Promise<File>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "file",
+                  "type": {
+                    "text": "File"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderCropModal",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              },
+              "description": "Always rendered (even while `cropping` is null) so `@query(\".loomi-crop-modal\")`\nreliably resolves and `show()`/`hide()` can be called imperatively — `loomi-modal`\nportals itself to `document.body` on `show()`, so the dialog chrome, focus trap,\nEscape-to-close and backdrop click are all delegated to it rather than hand-rolled here."
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { files }` whenever the selection changes."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            },
+            {
+              "name": "accepted-file-types",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"image/*,application/pdf\"",
+              "fieldName": "acceptedFileTypes"
+            },
+            {
+              "name": "placeholder-line1",
+              "default": "DEFAULT_PLACEHOLDER_LINE1",
+              "fieldName": "placeholderLine1"
+            },
+            {
+              "name": "placeholder-line2",
+              "default": "DEFAULT_PLACEHOLDER_LINE2",
+              "fieldName": "placeholderLine2"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "max-files",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "maxFiles"
+            },
+            {
+              "name": "max-file-size",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"5mb\"",
+              "fieldName": "maxFileSize"
+            },
+            {
+              "name": "can-browse",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "canBrowse"
+            },
+            {
+              "name": "can-drop",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "canDrop"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "show-image-preview",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showImagePreview"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "invalid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "invalid"
+            },
+            {
+              "name": "crop",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "crop"
+            },
+            {
+              "name": "crop-aspect-ratio",
+              "type": {
+                "text": "LoomiCropAspectRatio"
+              },
+              "default": "\"16:9\"",
+              "fieldName": "cropAspectRatio"
+            },
+            {
+              "name": "resize",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "resize"
+            },
+            {
+              "name": "resize-width",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "resizeWidth"
+            },
+            {
+              "name": "resize-height",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "resizeHeight"
+            },
+            {
+              "name": "transparent",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "transparent"
+            },
+            {
+              "name": "has-border",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "hasBorder"
+            },
+            {
+              "name": "stealth",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "stealth"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-filepicker",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiFilepicker",
+          "declaration": {
+            "name": "LoomiFilepicker",
+            "module": "src/loomi-filepicker.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-filepicker",
+          "declaration": {
+            "name": "LoomiFilepicker",
+            "module": "src/loomi-filepicker.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

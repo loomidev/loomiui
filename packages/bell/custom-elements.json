@@ -1,0 +1,153 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiBell",
+          "declaration": {
+            "name": "LoomiBell",
+            "module": "./loomi-bell.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiBellSize",
+          "declaration": {
+            "name": "LoomiBellSize",
+            "module": "./loomi-bell.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-bell.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-bell>` — a notification bell with an optional (optionally animated) status dot.",
+          "name": "LoomiBell",
+          "members": [
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "LoomiBellSize"
+              },
+              "default": "\"small\"",
+              "attribute": "size"
+            },
+            {
+              "kind": "field",
+              "name": "showDot",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-dot"
+            },
+            {
+              "kind": "field",
+              "name": "animateDot",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "animate-dot"
+            },
+            {
+              "kind": "field",
+              "name": "invert",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "invert"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "fieldName": "color"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "LoomiBellSize"
+              },
+              "default": "\"small\"",
+              "fieldName": "size"
+            },
+            {
+              "name": "show-dot",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showDot"
+            },
+            {
+              "name": "animate-dot",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "animateDot"
+            },
+            {
+              "name": "invert",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "invert"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-bell",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiBell",
+          "declaration": {
+            "name": "LoomiBell",
+            "module": "src/loomi-bell.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-bell",
+          "declaration": {
+            "name": "LoomiBell",
+            "module": "src/loomi-bell.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

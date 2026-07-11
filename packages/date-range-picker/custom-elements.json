@@ -1,0 +1,589 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiDateRangePicker",
+          "declaration": {
+            "name": "LoomiDateRangePicker",
+            "module": "./loomi-date-range-picker.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DateRangeApplyDetail",
+          "declaration": {
+            "name": "DateRangeApplyDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DateRangeChangeDetail",
+          "declaration": {
+            "name": "DateRangeChangeDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DateRangeOpenChangeDetail",
+          "declaration": {
+            "name": "DateRangeOpenChangeDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DateRangePreset",
+          "declaration": {
+            "name": "DateRangePreset",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DateRangePresetKind",
+          "declaration": {
+            "name": "DateRangePresetKind",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DateRangeValue",
+          "declaration": {
+            "name": "DateRangeValue",
+            "module": "./types.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-date-range-picker.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "LoomiDateRangePicker",
+          "members": [
+            {
+              "kind": "field",
+              "name": "presets",
+              "privacy": "public",
+              "type": {
+                "text": "DateRangePreset[]"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "startDate",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "start-date",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "endDate",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "end-date",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "compareStartDate",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "compare-start-date"
+            },
+            {
+              "kind": "field",
+              "name": "compareEndDate",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "compare-end-date"
+            },
+            {
+              "kind": "field",
+              "name": "presetId",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"custom\"",
+              "attribute": "preset-id"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Date range\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Select date range\"",
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "min",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "min"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "comparison",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "comparison",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "showPresets",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-presets",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "popoverX",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "popoverY",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "cleanupOutside",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "cleanupPlacement",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "placementFrame",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "method",
+              "name": "renderPopover",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderPresets",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderRangeFields",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "label",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "startProperty",
+                  "type": {
+                    "text": "\"startDate\" | \"compareStartDate\""
+                  }
+                },
+                {
+                  "name": "endProperty",
+                  "type": {
+                    "text": "\"endDate\" | \"compareEndDate\""
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "toggleOpen",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "closePicker",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "applyRange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "handlePresetClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "preset",
+                  "type": {
+                    "text": "DateRangePreset"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleDatepickerChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                },
+                {
+                  "name": "property",
+                  "type": {
+                    "text": "\"startDate\" | \"endDate\" | \"compareStartDate\" | \"compareEndDate\""
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "handleComparisonToggle",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "handleDocumentKeydown",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "syncOutsideClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "syncPlacement",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "schedulePlacement",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "resolvePlacement",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "applyPresetValue",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "preset",
+                  "type": {
+                    "text": "DateRangePreset"
+                  }
+                },
+                {
+                  "name": "emitChange",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "normalizeRange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "setDefaultComparisonRange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "dispatchChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "dispatchOpenChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "dispatchDateEvent",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "detail",
+                  "type": {
+                    "text": "TDetail"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getValue",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "DateRangeValue"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "getDisplayValue",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "name": "name",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "open"
+            },
+            {
+              "name": "start-date",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "startDate"
+            },
+            {
+              "name": "end-date",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "endDate"
+            },
+            {
+              "name": "compare-start-date",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "compareStartDate"
+            },
+            {
+              "name": "compare-end-date",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "compareEndDate"
+            },
+            {
+              "name": "preset-id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"custom\"",
+              "fieldName": "presetId"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Date range\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Select date range\"",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "min",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "min"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "max"
+            },
+            {
+              "name": "comparison",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "comparison"
+            },
+            {
+              "name": "show-presets",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showPresets"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-date-range-picker",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiDateRangePicker",
+          "declaration": {
+            "name": "LoomiDateRangePicker",
+            "module": "src/loomi-date-range-picker.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-date-range-picker",
+          "declaration": {
+            "name": "LoomiDateRangePicker",
+            "module": "src/loomi-date-range-picker.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/types.ts",
+      "declarations": [],
+      "exports": []
+    }
+  ]
+}

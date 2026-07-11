@@ -1,0 +1,652 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiContextMenu",
+          "declaration": {
+            "name": "LoomiContextMenu",
+            "module": "./loomi-context-menu.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiContextMenuItem",
+          "declaration": {
+            "name": "LoomiContextMenuItem",
+            "module": "./loomi-context-menu.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiContextMenuPlacement",
+          "declaration": {
+            "name": "LoomiContextMenuPlacement",
+            "module": "./loomi-context-menu.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-context-menu.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-context-menu-item>` — a single right-click menu line. Put links/handlers\ninside, or set `icon`.",
+          "name": "LoomiContextMenuItem",
+          "slots": [
+            {
+              "description": "Item content.",
+              "name": ""
+            },
+            {
+              "description": "Nested `<loomi-context-menu-item>` children.",
+              "name": "submenu"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "icon"
+            },
+            {
+              "kind": "field",
+              "name": "shortcut",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "shortcut"
+            },
+            {
+              "kind": "field",
+              "name": "iconRight",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "icon-right"
+            },
+            {
+              "kind": "field",
+              "name": "header",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "header"
+            },
+            {
+              "kind": "field",
+              "name": "divider",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "divider"
+            },
+            {
+              "kind": "field",
+              "name": "hover",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "hover"
+            },
+            {
+              "kind": "field",
+              "name": "hasSubmenuItems",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "menuIconRight",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "submenuOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "hasSubmenu",
+              "type": {
+                "text": "boolean"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "selectable",
+              "type": {
+                "text": "boolean"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "setMenuIconRight",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "focusItem",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onSubmenuSlotChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "onItemClick",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "icon"
+            },
+            {
+              "name": "shortcut",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "shortcut"
+            },
+            {
+              "name": "icon-right",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "iconRight"
+            },
+            {
+              "name": "header",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "header"
+            },
+            {
+              "name": "divider",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "divider"
+            },
+            {
+              "name": "hover",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "hover"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-context-menu-item",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-context-menu>` — a right-click action menu for target content.",
+          "name": "LoomiContextMenu",
+          "slots": [
+            {
+              "description": "The region that opens the menu on contextmenu, ContextMenu, or Shift+F10.",
+              "name": "target"
+            },
+            {
+              "description": "`<loomi-context-menu-item>` children.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "divided",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "divided",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "placement",
+              "type": {
+                "text": "LoomiContextMenuPlacement"
+              },
+              "default": "\"auto\"",
+              "attribute": "placement"
+            },
+            {
+              "kind": "field",
+              "name": "scrollable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "scrollable"
+            },
+            {
+              "kind": "field",
+              "name": "height",
+              "type": {
+                "text": "number"
+              },
+              "default": "200",
+              "attribute": "height"
+            },
+            {
+              "kind": "field",
+              "name": "hideAfterClick",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "hide-after-click"
+            },
+            {
+              "kind": "field",
+              "name": "iconRight",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "icon-right"
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "resolvedPlacement",
+              "type": {
+                "text": "\"left\" | \"right\""
+              },
+              "privacy": "private",
+              "default": "\"left\""
+            },
+            {
+              "kind": "field",
+              "name": "focusedIndex",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "-1"
+            },
+            {
+              "kind": "field",
+              "name": "menuX",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "menuY",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "anchorX",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "anchorY",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "cleanupOutside",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "cleanupListeners",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "placementFrame",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "method",
+              "name": "showAt",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "clientX",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "clientY",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "hide",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "observePlacement",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "() => void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "schedulePlacement",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "resolvePlacement",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "getTopLevelItems",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "LoomiContextMenuItem[]"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "focusItemAt",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "applyItemDefaults",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "onSlotChange",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onTargetContextMenu",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onTargetKeyDown",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onItemsClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onMenuKeyDown",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "divided",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "divided"
+            },
+            {
+              "name": "placement",
+              "type": {
+                "text": "LoomiContextMenuPlacement"
+              },
+              "default": "\"auto\"",
+              "fieldName": "placement"
+            },
+            {
+              "name": "scrollable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "scrollable"
+            },
+            {
+              "name": "height",
+              "type": {
+                "text": "number"
+              },
+              "default": "200",
+              "fieldName": "height"
+            },
+            {
+              "name": "hide-after-click",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "hideAfterClick"
+            },
+            {
+              "name": "icon-right",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "iconRight"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-context-menu",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiContextMenuItem",
+          "declaration": {
+            "name": "LoomiContextMenuItem",
+            "module": "src/loomi-context-menu.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-context-menu-item",
+          "declaration": {
+            "name": "LoomiContextMenuItem",
+            "module": "src/loomi-context-menu.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiContextMenu",
+          "declaration": {
+            "name": "LoomiContextMenu",
+            "module": "src/loomi-context-menu.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-context-menu",
+          "declaration": {
+            "name": "LoomiContextMenu",
+            "module": "src/loomi-context-menu.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

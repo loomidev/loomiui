@@ -1,0 +1,399 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiCommandPalette",
+          "declaration": {
+            "name": "LoomiCommandPalette",
+            "module": "./loomi-command-palette.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CommandPaletteItem",
+          "declaration": {
+            "name": "CommandPaletteItem",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CommandPaletteOpenChangeDetail",
+          "declaration": {
+            "name": "CommandPaletteOpenChangeDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CommandPaletteQueryChangeDetail",
+          "declaration": {
+            "name": "CommandPaletteQueryChangeDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CommandPaletteSelectDetail",
+          "declaration": {
+            "name": "CommandPaletteSelectDetail",
+            "module": "./types.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-command-palette.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "LoomiCommandPalette",
+          "members": [
+            {
+              "kind": "field",
+              "name": "items",
+              "privacy": "public",
+              "type": {
+                "text": "CommandPaletteItem[]"
+              },
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "query",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "query",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Search commands\"",
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "emptyTitle",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"No commands found\"",
+              "attribute": "empty-title"
+            },
+            {
+              "kind": "field",
+              "name": "emptyDescription",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Try a different search term.\"",
+              "attribute": "empty-description"
+            },
+            {
+              "kind": "field",
+              "name": "shortcut",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Cmd K\"",
+              "attribute": "shortcut"
+            },
+            {
+              "kind": "field",
+              "name": "_activeIndex",
+              "privacy": "private",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "_activeIndex"
+            },
+            {
+              "kind": "field",
+              "name": "openPalette"
+            },
+            {
+              "kind": "field",
+              "name": "closePalette"
+            },
+            {
+              "kind": "field",
+              "name": "togglePalette"
+            },
+            {
+              "kind": "method",
+              "name": "renderDialog",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "items",
+                  "type": {
+                    "text": "CommandPaletteItem[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderGroups",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "items",
+                  "type": {
+                    "text": "CommandPaletteItem[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderItem",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "item",
+                  "type": {
+                    "text": "CommandPaletteItem"
+                  }
+                },
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderEmpty",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "handleDocumentKeydown",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "handleDialogKeydown",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "handleBackdropClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "handleQueryInput",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "selectItem",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "item",
+                  "type": {
+                    "text": "CommandPaletteItem"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "moveSelection",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "direction",
+                  "type": {
+                    "text": "1 | -1"
+                  }
+                },
+                {
+                  "name": "items",
+                  "type": {
+                    "text": "CommandPaletteItem[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getFilteredItems",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "groupItems",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "items",
+                  "type": {
+                    "text": "CommandPaletteItem[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getFirstEnabledIndex",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "items",
+                  "type": {
+                    "text": "CommandPaletteItem[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "dispatchOpenChange",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "name": "loomi-command-select",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "loomi-command-open-change",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "open"
+            },
+            {
+              "name": "query",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "query"
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Search commands\"",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "empty-title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"No commands found\"",
+              "fieldName": "emptyTitle"
+            },
+            {
+              "name": "empty-description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Try a different search term.\"",
+              "fieldName": "emptyDescription"
+            },
+            {
+              "name": "shortcut",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Cmd K\"",
+              "fieldName": "shortcut"
+            },
+            {
+              "name": "_activeIndex",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "_activeIndex"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-command-palette",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiCommandPalette",
+          "declaration": {
+            "name": "LoomiCommandPalette",
+            "module": "src/loomi-command-palette.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-command-palette",
+          "declaration": {
+            "name": "LoomiCommandPalette",
+            "module": "src/loomi-command-palette.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/types.ts",
+      "declarations": [],
+      "exports": []
+    }
+  ]
+}

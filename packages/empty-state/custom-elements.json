@@ -1,0 +1,188 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiEmptyState",
+          "declaration": {
+            "name": "LoomiEmptyState",
+            "module": "./loomi-empty-state.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiEmptyImageSize",
+          "declaration": {
+            "name": "LoomiEmptyImageSize",
+            "module": "./loomi-empty-state.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-empty-state.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-empty-state>` — a friendly placeholder for empty content with an optional\nheading, message and action button.",
+          "name": "LoomiEmptyState",
+          "slots": [
+            {
+              "description": "Custom content (used when `show-image=\"false\"`).",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "message",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "message"
+            },
+            {
+              "kind": "field",
+              "name": "buttonLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "button-label"
+            },
+            {
+              "kind": "field",
+              "name": "showImage",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-image"
+            },
+            {
+              "kind": "field",
+              "name": "image",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "image"
+            },
+            {
+              "kind": "field",
+              "name": "imageSize",
+              "type": {
+                "text": "LoomiEmptyImageSize"
+              },
+              "default": "\"medium\"",
+              "attribute": "image-size"
+            }
+          ],
+          "events": [
+            {
+              "name": "action",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "description": "Fired when the action button is clicked.",
+              "name": "loomi-action"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "heading"
+            },
+            {
+              "name": "message",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "message"
+            },
+            {
+              "name": "button-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "buttonLabel"
+            },
+            {
+              "name": "show-image",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showImage"
+            },
+            {
+              "name": "image",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "image"
+            },
+            {
+              "name": "image-size",
+              "type": {
+                "text": "LoomiEmptyImageSize"
+              },
+              "default": "\"medium\"",
+              "fieldName": "imageSize"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-empty-state",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiEmptyState",
+          "declaration": {
+            "name": "LoomiEmptyState",
+            "module": "src/loomi-empty-state.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-empty-state",
+          "declaration": {
+            "name": "LoomiEmptyState",
+            "module": "src/loomi-empty-state.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

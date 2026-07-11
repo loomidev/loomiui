@@ -1,0 +1,2195 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/chart-utils.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "PALETTE",
+          "type": {
+            "text": "[\n  \"primary\",\n  \"success\",\n  \"warning\",\n  \"error\",\n  \"secondary\",\n  \"gray\",\n]"
+          },
+          "default": "[ \"primary\", \"success\", \"warning\", \"error\", \"secondary\", \"gray\", ]"
+        },
+        {
+          "kind": "variable",
+          "name": "BAR_WIDTH_RATIO",
+          "type": {
+            "text": "number"
+          },
+          "default": "0.45"
+        },
+        {
+          "kind": "variable",
+          "name": "HOVER_HIT_PCT",
+          "type": {
+            "text": "number"
+          },
+          "default": "9"
+        },
+        {
+          "kind": "variable",
+          "name": "CARTESIAN",
+          "type": {
+            "text": "{ width: 320, height: 132, pad: 18 }"
+          },
+          "default": "{ width: 320, height: 132, pad: 18 }"
+        },
+        {
+          "kind": "function",
+          "name": "showXLabel",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "parameters": [
+            {
+              "name": "index",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "bandWidth",
+              "type": {
+                "text": "number"
+              }
+            }
+          ],
+          "description": "Skip crowded x-axis labels so month names stay legible without overlapping."
+        },
+        {
+          "kind": "variable",
+          "name": "POLAR",
+          "type": {
+            "text": "{ size: 180, cx: 90, cy: 90, radius: 80, radarRadius: 64 }"
+          },
+          "default": "{ size: 180, cx: 90, cy: 90, radius: 80, radarRadius: 64 }"
+        },
+        {
+          "kind": "variable",
+          "name": "booleanAttribute",
+          "type": {
+            "text": "object"
+          },
+          "default": "{ fromAttribute(value: string | null): boolean { return value !== null && value.toLowerCase() !== \"false\"; }, toAttribute(value: boolean): string | null { return value ? \"\" : null; }, }"
+        },
+        {
+          "kind": "variable",
+          "name": "dataAttribute",
+          "type": {
+            "text": "object"
+          },
+          "default": "{ fromAttribute(value: string | null): LoomiChartPoint[] { if (!value) return []; try { const parsed = JSON.parse(value); return Array.isArray(parsed) ? parsed : []; } catch { return []; } }, toAttribute(value: LoomiChartPoint[]): string { return JSON.stringify(value); }, }"
+        },
+        {
+          "kind": "function",
+          "name": "isPolarType",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "parameters": [
+            {
+              "name": "type",
+              "type": {
+                "text": "LoomiChartType"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "usesPalette",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "parameters": [
+            {
+              "name": "type",
+              "type": {
+                "text": "LoomiChartType"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "hasSecondarySeries",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "parameters": [
+            {
+              "name": "data",
+              "type": {
+                "text": "LoomiChartPoint[]"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "hasTertiarySeries",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "parameters": [
+            {
+              "name": "data",
+              "type": {
+                "text": "LoomiChartPoint[]"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "hasGroupedValues",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "parameters": [
+            {
+              "name": "data",
+              "type": {
+                "text": "LoomiChartPoint[]"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "groupedSeriesLabels",
+          "return": {
+            "type": {
+              "text": "string[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "data",
+              "type": {
+                "text": "LoomiChartPoint[]"
+              }
+            }
+          ],
+          "description": "Stable series order — first-seen label wins (e.g. Mike, Sam, Fred, Sara)."
+        },
+        {
+          "kind": "function",
+          "name": "groupedSeriesCount",
+          "return": {
+            "type": {
+              "text": "1 | 2 | 3"
+            }
+          },
+          "parameters": [
+            {
+              "name": "data",
+              "type": {
+                "text": "LoomiChartPoint[]"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "barSeriesCount",
+          "return": {
+            "type": {
+              "text": "number"
+            }
+          },
+          "parameters": [
+            {
+              "name": "data",
+              "type": {
+                "text": "LoomiChartPoint[]"
+              }
+            }
+          ],
+          "description": "Bar groups per x-axis category — `values` arrays or legacy `value`/`value2`/`value3`."
+        },
+        {
+          "kind": "function",
+          "name": "barValueAt",
+          "return": {
+            "type": {
+              "text": "number | undefined"
+            }
+          },
+          "parameters": [
+            {
+              "name": "point",
+              "type": {
+                "text": "LoomiChartPoint"
+              }
+            },
+            {
+              "name": "seriesIndex",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "seriesLabels",
+              "type": {
+                "text": "string[]"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "maxBarValue",
+          "return": {
+            "type": {
+              "text": "number"
+            }
+          },
+          "parameters": [
+            {
+              "name": "point",
+              "type": {
+                "text": "LoomiChartPoint"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "maxValue",
+          "return": {
+            "type": {
+              "text": "number"
+            }
+          },
+          "parameters": [
+            {
+              "name": "data",
+              "type": {
+                "text": "LoomiChartPoint[]"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "segmentFillShade",
+          "return": {
+            "type": {
+              "text": "number"
+            }
+          },
+          "parameters": [
+            {
+              "name": "shade",
+              "type": {
+                "text": "\"light\" | \"dark\""
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "resolveGroupedSeriesFill",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "ctx",
+              "type": {
+                "text": "ChartColorContext"
+              }
+            },
+            {
+              "name": "data",
+              "type": {
+                "text": "LoomiChartPoint[]"
+              }
+            },
+            {
+              "name": "seriesLabel",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "seriesIndex",
+              "type": {
+                "text": "number"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "resolveGroupedSeriesBorder",
+          "return": {
+            "type": {
+              "text": "string | null"
+            }
+          },
+          "parameters": [
+            {
+              "name": "ctx",
+              "type": {
+                "text": "ChartColorContext"
+              }
+            },
+            {
+              "name": "data",
+              "type": {
+                "text": "LoomiChartPoint[]"
+              }
+            },
+            {
+              "name": "seriesLabel",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "seriesIndex",
+              "type": {
+                "text": "number"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "resolveFill",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "ctx",
+              "type": {
+                "text": "ChartColorContext"
+              }
+            },
+            {
+              "name": "p",
+              "type": {
+                "text": "LoomiChartPoint"
+              }
+            },
+            {
+              "name": "i",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "usePalette",
+              "type": {
+                "text": "boolean"
+              }
+            },
+            {
+              "name": "series",
+              "default": "0"
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "resolveBorder",
+          "return": {
+            "type": {
+              "text": "string | null"
+            }
+          },
+          "parameters": [
+            {
+              "name": "ctx",
+              "type": {
+                "text": "ChartColorContext"
+              }
+            },
+            {
+              "name": "p",
+              "type": {
+                "text": "LoomiChartPoint"
+              }
+            },
+            {
+              "name": "i",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "usePalette",
+              "type": {
+                "text": "boolean"
+              }
+            },
+            {
+              "name": "series",
+              "default": "0"
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "accentStyle",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              }
+            },
+            {
+              "name": "shade",
+              "type": {
+                "text": "\"light\" | \"dark\""
+              }
+            },
+            {
+              "name": "showBorder",
+              "type": {
+                "text": "boolean"
+              }
+            },
+            {
+              "name": "withBorder",
+              "default": "false"
+            },
+            {
+              "name": "color2",
+              "optional": true,
+              "type": {
+                "text": "LoomiColor"
+              }
+            },
+            {
+              "name": "color3",
+              "optional": true,
+              "type": {
+                "text": "LoomiColor"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "tooltipAnchor",
+          "return": {
+            "type": {
+              "text": "[number, number]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "type",
+              "type": {
+                "text": "LoomiChartType"
+              }
+            },
+            {
+              "name": "data",
+              "type": {
+                "text": "LoomiChartPoint[]"
+              }
+            },
+            {
+              "name": "index",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "opts",
+              "type": {
+                "text": "{ showYAxis: boolean; vertical: boolean }"
+              }
+            }
+          ],
+          "description": "Pixel anchor for a cartesian tooltip — band center x, top of the hovered category."
+        },
+        {
+          "kind": "function",
+          "name": "polar",
+          "return": {
+            "type": {
+              "text": "[number, number]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "cx",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "cy",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "deg",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "radius",
+              "type": {
+                "text": "number"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "roundedTopRectPath",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "x",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "y",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "w",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "h",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "r",
+              "type": {
+                "text": "number"
+              }
+            }
+          ],
+          "description": "Draws a rect-like path with rounded top corners and square bottom corners."
+        },
+        {
+          "kind": "function",
+          "name": "roundedTopRectBorderPath",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "x",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "y",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "w",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "h",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "r",
+              "type": {
+                "text": "number"
+              }
+            }
+          ],
+          "description": "Open path for a bar border — no bottom edge (sits on the axis)."
+        },
+        {
+          "kind": "function",
+          "name": "cartesianLayout",
+          "return": {
+            "type": {
+              "text": "CartesianLayout"
+            }
+          },
+          "parameters": [
+            {
+              "name": "data",
+              "type": {
+                "text": "LoomiChartPoint[]"
+              }
+            },
+            {
+              "name": "opts",
+              "type": {
+                "text": "{ showYAxis: boolean; vertical: boolean }"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "verticalLineLayout",
+          "return": {
+            "type": {
+              "text": "CartesianLayout"
+            }
+          },
+          "parameters": [
+            {
+              "name": "data",
+              "type": {
+                "text": "LoomiChartPoint[]"
+              }
+            },
+            {
+              "name": "showYAxis",
+              "type": {
+                "text": "boolean"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "gridLineYs",
+          "return": {
+            "type": {
+              "text": "number[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "layout",
+              "type": {
+                "text": "CartesianLayout"
+              }
+            },
+            {
+              "name": "count",
+              "default": "4"
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "gridLineXs",
+          "return": {
+            "type": {
+              "text": "number[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "layout",
+              "type": {
+                "text": "CartesianLayout"
+              }
+            },
+            {
+              "name": "count",
+              "default": "4"
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "hoverTargets",
+          "return": {
+            "type": {
+              "text": "ChartHoverTarget[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "type",
+              "type": {
+                "text": "LoomiChartType"
+              }
+            },
+            {
+              "name": "data",
+              "type": {
+                "text": "LoomiChartPoint[]"
+              }
+            },
+            {
+              "name": "opts",
+              "type": {
+                "text": "{ showYAxis: boolean; vertical: boolean; donutRadius: number }"
+              }
+            }
+          ],
+          "description": "Hover regions aligned to chart geometry — cartesian types use full bands for crosshair-style tooltips."
+        },
+        {
+          "kind": "function",
+          "name": "nearestIndex",
+          "return": {
+            "type": {
+              "text": "number"
+            }
+          },
+          "parameters": [
+            {
+              "name": "type",
+              "type": {
+                "text": "LoomiChartType"
+              }
+            },
+            {
+              "name": "data",
+              "type": {
+                "text": "LoomiChartPoint[]"
+              }
+            },
+            {
+              "name": "opts",
+              "type": {
+                "text": "{ showYAxis: boolean; vertical: boolean }"
+              }
+            },
+            {
+              "name": "ratio",
+              "type": {
+                "text": "number"
+              }
+            }
+          ],
+          "description": "Nearest data index from a pointer position (0–1) along the primary axis."
+        },
+        {
+          "kind": "function",
+          "name": "formatValue",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "value",
+              "type": {
+                "text": "number"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "pieTotal",
+          "return": {
+            "type": {
+              "text": "number"
+            }
+          },
+          "parameters": [
+            {
+              "name": "data",
+              "type": {
+                "text": "LoomiChartPoint[]"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PALETTE",
+          "declaration": {
+            "name": "PALETTE",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "BAR_WIDTH_RATIO",
+          "declaration": {
+            "name": "BAR_WIDTH_RATIO",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HOVER_HIT_PCT",
+          "declaration": {
+            "name": "HOVER_HIT_PCT",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CARTESIAN",
+          "declaration": {
+            "name": "CARTESIAN",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "showXLabel",
+          "declaration": {
+            "name": "showXLabel",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "POLAR",
+          "declaration": {
+            "name": "POLAR",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "booleanAttribute",
+          "declaration": {
+            "name": "booleanAttribute",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "dataAttribute",
+          "declaration": {
+            "name": "dataAttribute",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "isPolarType",
+          "declaration": {
+            "name": "isPolarType",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "usesPalette",
+          "declaration": {
+            "name": "usesPalette",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "hasSecondarySeries",
+          "declaration": {
+            "name": "hasSecondarySeries",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "hasTertiarySeries",
+          "declaration": {
+            "name": "hasTertiarySeries",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "hasGroupedValues",
+          "declaration": {
+            "name": "hasGroupedValues",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "groupedSeriesLabels",
+          "declaration": {
+            "name": "groupedSeriesLabels",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "groupedSeriesCount",
+          "declaration": {
+            "name": "groupedSeriesCount",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "barSeriesCount",
+          "declaration": {
+            "name": "barSeriesCount",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "barValueAt",
+          "declaration": {
+            "name": "barValueAt",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "maxBarValue",
+          "declaration": {
+            "name": "maxBarValue",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "maxValue",
+          "declaration": {
+            "name": "maxValue",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "segmentFillShade",
+          "declaration": {
+            "name": "segmentFillShade",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "resolveGroupedSeriesFill",
+          "declaration": {
+            "name": "resolveGroupedSeriesFill",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "resolveGroupedSeriesBorder",
+          "declaration": {
+            "name": "resolveGroupedSeriesBorder",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "resolveFill",
+          "declaration": {
+            "name": "resolveFill",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "resolveBorder",
+          "declaration": {
+            "name": "resolveBorder",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "accentStyle",
+          "declaration": {
+            "name": "accentStyle",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "tooltipAnchor",
+          "declaration": {
+            "name": "tooltipAnchor",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "polar",
+          "declaration": {
+            "name": "polar",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "roundedTopRectPath",
+          "declaration": {
+            "name": "roundedTopRectPath",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "roundedTopRectBorderPath",
+          "declaration": {
+            "name": "roundedTopRectBorderPath",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "cartesianLayout",
+          "declaration": {
+            "name": "cartesianLayout",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "verticalLineLayout",
+          "declaration": {
+            "name": "verticalLineLayout",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "gridLineYs",
+          "declaration": {
+            "name": "gridLineYs",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "gridLineXs",
+          "declaration": {
+            "name": "gridLineXs",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "hoverTargets",
+          "declaration": {
+            "name": "hoverTargets",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "nearestIndex",
+          "declaration": {
+            "name": "nearestIndex",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "formatValue",
+          "declaration": {
+            "name": "formatValue",
+            "module": "src/chart-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "pieTotal",
+          "declaration": {
+            "name": "pieTotal",
+            "module": "src/chart-utils.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiChart",
+          "declaration": {
+            "name": "LoomiChart",
+            "module": "./loomi-chart.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiChartType",
+          "declaration": {
+            "name": "LoomiChartType",
+            "module": "./loomi-chart.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiChartShade",
+          "declaration": {
+            "name": "LoomiChartShade",
+            "module": "./loomi-chart.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiChartPoint",
+          "declaration": {
+            "name": "LoomiChartPoint",
+            "module": "./loomi-chart.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiChartLegendPosition",
+          "declaration": {
+            "name": "LoomiChartLegendPosition",
+            "module": "./loomi-chart.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "ChartHoverTarget",
+          "declaration": {
+            "name": "ChartHoverTarget",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CartesianLayout",
+          "declaration": {
+            "name": "CartesianLayout",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiChartSubValue",
+          "declaration": {
+            "name": "LoomiChartSubValue",
+            "module": "./types.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-chart.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-chart>` — SVG charts inspired by shadcn/ui and Untitled UI: `bar`, `line`,\n`area`, `pie`, `donut`, `radar`, `radial`, or `scatter`. Pass a single series via\n`data` (`{ label, value, color? }`).",
+          "name": "LoomiChart",
+          "members": [
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "LoomiChartType"
+              },
+              "default": "\"bar\"",
+              "attribute": "type"
+            },
+            {
+              "kind": "field",
+              "name": "data",
+              "type": {
+                "text": "LoomiChartPoint[]"
+              },
+              "default": "[]",
+              "attribute": "data"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "color2",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"success\"",
+              "description": "Second series color when points include `value2`.",
+              "attribute": "color2"
+            },
+            {
+              "kind": "field",
+              "name": "color3",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"warning\"",
+              "description": "Third series color when points include `value3`.",
+              "attribute": "color3"
+            },
+            {
+              "kind": "field",
+              "name": "seriesLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Series 1\"",
+              "attribute": "series-label"
+            },
+            {
+              "kind": "field",
+              "name": "series2Label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Series 2\"",
+              "attribute": "series2-label"
+            },
+            {
+              "kind": "field",
+              "name": "series3Label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Series 3\"",
+              "attribute": "series3-label"
+            },
+            {
+              "kind": "field",
+              "name": "series2Type",
+              "type": {
+                "text": "LoomiChartSeriesType"
+              },
+              "default": "\"bar\"",
+              "attribute": "series2-type"
+            },
+            {
+              "kind": "field",
+              "name": "showLegend",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-legend"
+            },
+            {
+              "kind": "field",
+              "name": "legendPosition",
+              "type": {
+                "text": "LoomiChartLegendPosition"
+              },
+              "default": "\"bottom\"",
+              "attribute": "legend-position"
+            },
+            {
+              "kind": "field",
+              "name": "donutRadius",
+              "type": {
+                "text": "number"
+              },
+              "default": "44",
+              "attribute": "donut-radius"
+            },
+            {
+              "kind": "field",
+              "name": "shade",
+              "type": {
+                "text": "LoomiChartShade"
+              },
+              "default": "\"dark\"",
+              "attribute": "shade"
+            },
+            {
+              "kind": "field",
+              "name": "showBorder",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-border"
+            },
+            {
+              "kind": "field",
+              "name": "showYAxis",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-y-axis"
+            },
+            {
+              "kind": "field",
+              "name": "showGrid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-grid"
+            },
+            {
+              "kind": "field",
+              "name": "showTooltip",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show a tooltip while hovering chart points. Cartesian charts track the nearest point as you move across the plot.",
+              "attribute": "show-tooltip"
+            },
+            {
+              "kind": "field",
+              "name": "withGap",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "with-gap"
+            },
+            {
+              "kind": "field",
+              "name": "vertical",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "vertical"
+            },
+            {
+              "kind": "field",
+              "name": "exportable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "exportable"
+            },
+            {
+              "kind": "field",
+              "name": "hoverIndex",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "-1"
+            },
+            {
+              "kind": "field",
+              "name": "pointerLeft",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "pointerTop",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "exportMenuOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "colorCtx",
+              "type": {
+                "text": "ChartColorContext"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "dualSeries",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "mixedBarLine",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "seriesPoints",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "[number, number][]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "layout",
+                  "type": {
+                    "text": "ReturnType<typeof cartesianLayout>"
+                  }
+                },
+                {
+                  "name": "field",
+                  "type": {
+                    "text": "\"value\" | \"value2\""
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "layoutOpts",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "isBandTooltipType",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "isVerticalLine",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "handlePointerMove",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "PointerEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handlePointerLeave",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderGrid",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "SVGTemplateResult | typeof nothing"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "layout",
+                  "type": {
+                    "text": "ReturnType<typeof cartesianLayout>"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderYAxis",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "SVGTemplateResult | typeof nothing"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "layout",
+                  "type": {
+                    "text": "ReturnType<typeof cartesianLayout>"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderCrosshair",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "SVGTemplateResult | typeof nothing"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "layout",
+                  "type": {
+                    "text": "ReturnType<typeof cartesianLayout>"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderGradientDef",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "SVGTemplateResult"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "id",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderBars",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "SVGTemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderSeries",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "SVGTemplateResult"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "showDots",
+                  "type": {
+                    "text": "boolean"
+                  }
+                },
+                {
+                  "name": "showArea",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderScatter",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "SVGTemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderRadar",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "SVGTemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderRadial",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "SVGTemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderPie",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "SVGTemplateResult"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "donut",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderPointTooltips",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderTooltipRows",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "point",
+                  "type": {
+                    "text": "LoomiChartPoint"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderLegend",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderExportMenu",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "fileBaseName",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "serializeSvg",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "downloadBytes",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "filename",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "bytes",
+                  "type": {
+                    "text": "BlobPart[]"
+                  }
+                },
+                {
+                  "name": "type",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "chartCanvas",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Promise<HTMLCanvasElement>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "type",
+                  "default": "\"image/png\"",
+                  "type": {
+                    "text": "\"image/png\" | \"image/jpeg\""
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "canvasBlob",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Promise<Blob>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "canvas",
+                  "type": {
+                    "text": "HTMLCanvasElement"
+                  }
+                },
+                {
+                  "name": "type",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "quality",
+                  "optional": true,
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "dataCsv",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "ascii",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Uint8Array"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "jpegBytes",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Uint8Array"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "dataUrl",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "pdfBytes",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Uint8Array"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "jpeg",
+                  "type": {
+                    "text": "Uint8Array"
+                  }
+                },
+                {
+                  "name": "width",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "height",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "exportAs",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "format",
+                  "type": {
+                    "text": "\"png\" | \"pdf\" | \"svg\" | \"csv\" | \"json\""
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderFloatingTooltip",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "type",
+              "type": {
+                "text": "LoomiChartType"
+              },
+              "default": "\"bar\"",
+              "fieldName": "type"
+            },
+            {
+              "name": "data",
+              "type": {
+                "text": "LoomiChartPoint[]"
+              },
+              "default": "[]",
+              "fieldName": "data"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "fieldName": "color"
+            },
+            {
+              "name": "color2",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"success\"",
+              "description": "Second series color when points include `value2`.",
+              "fieldName": "color2"
+            },
+            {
+              "name": "color3",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"warning\"",
+              "description": "Third series color when points include `value3`.",
+              "fieldName": "color3"
+            },
+            {
+              "name": "series-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Series 1\"",
+              "fieldName": "seriesLabel"
+            },
+            {
+              "name": "series2-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Series 2\"",
+              "fieldName": "series2Label"
+            },
+            {
+              "name": "series3-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Series 3\"",
+              "fieldName": "series3Label"
+            },
+            {
+              "name": "series2-type",
+              "type": {
+                "text": "LoomiChartSeriesType"
+              },
+              "default": "\"bar\"",
+              "fieldName": "series2Type"
+            },
+            {
+              "name": "show-legend",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showLegend"
+            },
+            {
+              "name": "legend-position",
+              "type": {
+                "text": "LoomiChartLegendPosition"
+              },
+              "default": "\"bottom\"",
+              "fieldName": "legendPosition"
+            },
+            {
+              "name": "donut-radius",
+              "type": {
+                "text": "number"
+              },
+              "default": "44",
+              "fieldName": "donutRadius"
+            },
+            {
+              "name": "shade",
+              "type": {
+                "text": "LoomiChartShade"
+              },
+              "default": "\"dark\"",
+              "fieldName": "shade"
+            },
+            {
+              "name": "show-border",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showBorder"
+            },
+            {
+              "name": "show-y-axis",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showYAxis"
+            },
+            {
+              "name": "show-grid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showGrid"
+            },
+            {
+              "name": "show-tooltip",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Show a tooltip while hovering chart points. Cartesian charts track the nearest point as you move across the plot.",
+              "fieldName": "showTooltip"
+            },
+            {
+              "name": "with-gap",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "withGap"
+            },
+            {
+              "name": "vertical",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "vertical"
+            },
+            {
+              "name": "exportable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "exportable"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-chart",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiChart",
+          "declaration": {
+            "name": "LoomiChart",
+            "module": "src/loomi-chart.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-chart",
+          "declaration": {
+            "name": "LoomiChart",
+            "module": "src/loomi-chart.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiChartType",
+          "declaration": {
+            "name": "LoomiChartType",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiChartShade",
+          "declaration": {
+            "name": "LoomiChartShade",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiChartPoint",
+          "declaration": {
+            "name": "LoomiChartPoint",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiChartSubValue",
+          "declaration": {
+            "name": "LoomiChartSubValue",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiChartLegendPosition",
+          "declaration": {
+            "name": "LoomiChartLegendPosition",
+            "module": "./types.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/types.ts",
+      "declarations": [],
+      "exports": []
+    }
+  ]
+}

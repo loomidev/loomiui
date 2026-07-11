@@ -1,0 +1,284 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiColorpicker",
+          "declaration": {
+            "name": "LoomiColorpicker",
+            "module": "./loomi-colorpicker.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiColorpickerSize",
+          "declaration": {
+            "name": "LoomiColorpickerSize",
+            "module": "./loomi-colorpicker.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-colorpicker.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-colorpicker>` — pick a color. Uses the native color input by default; pass a\ncomma-separated `colors` list to show a swatch palette instead. Form-associated.",
+          "name": "LoomiColorpicker",
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "internals",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "selectedValue",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"#000000\"",
+              "attribute": "selected-value"
+            },
+            {
+              "kind": "field",
+              "name": "showValue",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-value"
+            },
+            {
+              "kind": "field",
+              "name": "colors",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "colors"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "LoomiColorpickerSize"
+              },
+              "default": "\"regular\"",
+              "attribute": "size"
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "activeIndex",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "-1",
+              "description": "Index of the keyboard-highlighted chip within `this.palette`, while open."
+            },
+            {
+              "kind": "field",
+              "name": "cleanup",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "palette",
+              "type": {
+                "text": "string[]"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "setValue",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "v",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "toggle",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "openPanel",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onTriggerKeydown",
+              "privacy": "private",
+              "description": "Keeps real DOM focus on the swatch trigger button and drives the panel virtually via\n`aria-activedescendant` — the same pattern `@loomidev/select`'s listbox uses, so no\nexplicit refocus is needed after Escape/Enter close the panel."
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { value }` when a color is chosen."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            },
+            {
+              "name": "selected-value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"#000000\"",
+              "fieldName": "selectedValue"
+            },
+            {
+              "name": "show-value",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showValue"
+            },
+            {
+              "name": "colors",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "colors"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "LoomiColorpickerSize"
+              },
+              "default": "\"regular\"",
+              "fieldName": "size"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-colorpicker",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiColorpicker",
+          "declaration": {
+            "name": "LoomiColorpicker",
+            "module": "src/loomi-colorpicker.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-colorpicker",
+          "declaration": {
+            "name": "LoomiColorpicker",
+            "module": "src/loomi-colorpicker.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

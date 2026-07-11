@@ -16,7 +16,8 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "custom-elements.json"
   ],
   "exports": {
     ".": {
@@ -57,5 +58,6 @@
     "video",
     "media",
     "player"
-  ]
+  ],
+  "customElements": "custom-elements.json"
 }

@@ -1,0 +1,359 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiLightboxImage",
+          "declaration": {
+            "name": "LoomiLightboxImage",
+            "module": "./loomi-lightbox.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-lightbox.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-lightbox-image>` — wraps a single image so clicking it opens a fullscreen\nview. Fully standalone: drop it anywhere in a document (a blog paragraph, a card, …)\nwith no shared container or parent gallery required. Give two or more instances the\nsame `group` to let Next/Prev cycle between them, in document order.",
+          "name": "LoomiLightboxImage",
+          "slots": [
+            {
+              "description": "The trigger image. Falls back to an `<img src alt>` built from the attributes below when left empty — but wrapping your own existing `<img>` is the common case, so its `alt` is reused for the fullscreen image and the trigger's label when this component's own `alt` attribute is left unset.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "src",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "src"
+            },
+            {
+              "kind": "field",
+              "name": "alt",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "alt"
+            },
+            {
+              "kind": "field",
+              "name": "caption",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "caption"
+            },
+            {
+              "kind": "field",
+              "name": "group",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "group"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "slottedAlt",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "previouslyFocused",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "hasScrollLock",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "reparent",
+              "privacy": "private",
+              "default": "new OverlayReparent(this)"
+            },
+            {
+              "kind": "field",
+              "name": "groupSnapshot",
+              "type": {
+                "text": "LoomiLightboxImage[] | null"
+              },
+              "privacy": "private",
+              "default": "null",
+              "description": "Group order, captured once per browsing session (see `show()`/`go()`) rather than\nqueried fresh on every render or navigation. Live document order isn't reliable\nwhile `this` is reparented to `document.body` — it would sort last (or wherever\n`document.body`'s children end), not at its natural spot among the other members."
+            },
+            {
+              "kind": "field",
+              "name": "effectiveAlt",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "onSlotChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "computeGroupMembers",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "LoomiLightboxImage[]"
+                }
+              },
+              "description": "Other instances sharing this `group`, in true document order — just `[this]` when ungrouped."
+            },
+            {
+              "kind": "method",
+              "name": "groupMembers",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "LoomiLightboxImage[]"
+                }
+              },
+              "description": "The current browsing session's member list — computed fresh only when one isn't\nalready carried over from `go()` (see there for why this must not re-query live DOM)."
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "hide",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "releaseScrollLock",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "go",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "delta",
+                  "type": {
+                    "text": "1 | -1"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "next",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "prev",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "getFocusable",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement[]"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onKey",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onBackdrop",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "triggerLabel",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "renderOverlay",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "loomi-open",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when the fullscreen view opens."
+            },
+            {
+              "name": "loomi-close",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when it closes."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "src",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "src"
+            },
+            {
+              "name": "alt",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "alt"
+            },
+            {
+              "name": "caption",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "caption"
+            },
+            {
+              "name": "group",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "group"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "open"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-lightbox-image",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiLightboxImage",
+          "declaration": {
+            "name": "LoomiLightboxImage",
+            "module": "src/loomi-lightbox.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-lightbox-image",
+          "declaration": {
+            "name": "LoomiLightboxImage",
+            "module": "src/loomi-lightbox.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

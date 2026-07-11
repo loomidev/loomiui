@@ -1,0 +1,265 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiAlert",
+          "declaration": {
+            "name": "LoomiAlert",
+            "module": "./loomi-alert.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiAlertType",
+          "declaration": {
+            "name": "LoomiAlertType",
+            "module": "./loomi-alert.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-alert.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-alert>` — an inline alert message. Four prebuilt types with default icons,\n`faint`/`dark` shades, palette overrides, an optional avatar and a dismiss button.",
+          "name": "LoomiAlert",
+          "slots": [
+            {
+              "description": "The alert message (may contain HTML/links).",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "LoomiAlertType"
+              },
+              "default": "\"info\"",
+              "attribute": "type"
+            },
+            {
+              "kind": "field",
+              "name": "shade",
+              "type": {
+                "text": "\"faint\" | \"dark\""
+              },
+              "default": "\"faint\"",
+              "attribute": "shade"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor | \"transparent\" | \"\""
+              },
+              "default": "\"\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "showIcon",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-icon"
+            },
+            {
+              "kind": "field",
+              "name": "showCloseIcon",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-close-icon"
+            },
+            {
+              "kind": "field",
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "icon"
+            },
+            {
+              "kind": "field",
+              "name": "avatar",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "avatar"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "showRing",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-ring"
+            },
+            {
+              "kind": "field",
+              "name": "dismissed",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "onClose",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderIcon",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "description": "Fired when dismissed (the alert hides itself unless prevented).",
+              "name": "close"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "type",
+              "type": {
+                "text": "LoomiAlertType"
+              },
+              "default": "\"info\"",
+              "fieldName": "type"
+            },
+            {
+              "name": "shade",
+              "type": {
+                "text": "\"faint\" | \"dark\""
+              },
+              "default": "\"faint\"",
+              "fieldName": "shade"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor | \"transparent\" | \"\""
+              },
+              "default": "\"\"",
+              "fieldName": "color"
+            },
+            {
+              "name": "show-icon",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showIcon"
+            },
+            {
+              "name": "show-close-icon",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showCloseIcon"
+            },
+            {
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "icon"
+            },
+            {
+              "name": "avatar",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "avatar"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "show-ring",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showRing"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-alert",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiAlert",
+          "declaration": {
+            "name": "LoomiAlert",
+            "module": "src/loomi-alert.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-alert",
+          "declaration": {
+            "name": "LoomiAlert",
+            "module": "src/loomi-alert.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

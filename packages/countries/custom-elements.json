@@ -1,0 +1,659 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiCountries",
+          "declaration": {
+            "name": "LoomiCountries",
+            "module": "./loomi-countries.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCountriesMode",
+          "declaration": {
+            "name": "LoomiCountriesMode",
+            "module": "./loomi-countries.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCountriesSize",
+          "declaration": {
+            "name": "LoomiCountriesSize",
+            "module": "./loomi-countries.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-countries.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-countries>` — a searchable country dropdown with flag icons next to each\nname. Defaults to a full country list (`mode=\"names\"`); set `mode=\"phone\"` to show\njust the selected country's flag + dial code beside a phone-number input instead.\n\n`selection` accepts a country name, ISO 3166-1 alpha-2 code, or dial code, and the\nproperty reflects back to the resolved alpha-2 code once a match is found.\n\nForm-associated: submits the alpha-2 code under `name` in `names` mode, or\n`<dial code><number>` in `phone` mode. The phone-mode number field always accepts\ndigits only, and auto-formats them using the selected country's typical national\nnumber layout (e.g. picking Ghana formats \"241234567\" as `(241)234-567`) — set\n`mask` (same Alpine-style `9`/`a`/`*` syntax as `<loomi-input>`'s `mask`) to override it.",
+          "name": "LoomiCountries",
+          "cssParts": [
+            {
+              "description": "The bordered container (`phone` mode only).",
+              "name": "field"
+            },
+            {
+              "description": "The clickable trigger / flag button.",
+              "name": "trigger"
+            },
+            {
+              "description": "The dropdown panel.",
+              "name": "panel"
+            },
+            {
+              "description": "The phone number `<input>` (`phone` mode only).",
+              "name": "input"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "internals",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "validationVisible",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "mode",
+              "type": {
+                "text": "LoomiCountriesMode"
+              },
+              "default": "\"names\"",
+              "attribute": "mode"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "default": "\"Select a country\"",
+              "attribute": "placeholder",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "selection",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "selection"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "The phone-mode number portion, excluding the dial code.",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "mask",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Phone-mode-only formatting mask, e.g. `\"(999) 999-9999\"` — same syntax as `<loomi-input>`'s `mask`. Overrides the selected country's auto-detected mask; leave blank to use that default.",
+              "attribute": "mask"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "readonly",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "LoomiCountriesSize"
+              },
+              "default": "\"medium\"",
+              "attribute": "size"
+            },
+            {
+              "kind": "field",
+              "name": "emptyPlaceholder",
+              "default": "\"No countries found\"",
+              "attribute": "empty-placeholder",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "invalid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "invalid",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "search",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "selectedCode",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "activeIndex",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "-1",
+              "description": "Index of the keyboard-highlighted option within `this.filtered`, while open."
+            },
+            {
+              "kind": "field",
+              "name": "searchEl",
+              "type": {
+                "text": "HTMLInputElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "triggerEl",
+              "type": {
+                "text": "HTMLButtonElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "flagTriggerEl",
+              "type": {
+                "text": "HTMLButtonElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "phoneInputEl",
+              "type": {
+                "text": "HTMLInputElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "cleanupClickOutside",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "effectiveMask",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "description": "An explicit `mask` always wins; otherwise fall back to the selected country's own\ntypical national-number format (empty for the ~20 territories with no known one).",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "formValue",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "selectedRecord",
+              "type": {
+                "text": "LoomiCountryRecord | undefined"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "filtered",
+              "type": {
+                "text": "readonly LoomiCountryRecord[]"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "reset",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Clear the current selection (and phone number, in `phone` mode)."
+            },
+            {
+              "kind": "method",
+              "name": "toggleOpen",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "showValidation",
+                  "default": "false"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "emitChange",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "choose",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "rec",
+                  "type": {
+                    "text": "LoomiCountryRecord"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "validate",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "syncValidity",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "showInvalid",
+                  "default": "this.validationVisible"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "showValidation",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onPhoneInput",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onKeydown",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderPanel",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "floatLabel",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "description": "Whether the floating `label` should sit in its \"risen\" position. Only relevant in\n`names` mode — `phone` mode floats the label via pure CSS (`:focus-within` /\n`:placeholder-shown`) since its field contains a real text input to key off.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "renderNamesMode",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderPhoneMode",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when the selection or phone number changes (composed)."
+            },
+            {
+              "name": "loomi-select",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { code, name, dialCode }` when a country is chosen."
+            },
+            {
+              "description": "Fired while typing the phone number (composed, `phone` mode only).",
+              "name": "input"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            },
+            {
+              "name": "mode",
+              "type": {
+                "text": "LoomiCountriesMode"
+              },
+              "default": "\"names\"",
+              "fieldName": "mode"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "placeholder",
+              "default": "DEFAULT_PLACEHOLDER",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "selection",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "selection"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "The phone-mode number portion, excluding the dial code.",
+              "fieldName": "value"
+            },
+            {
+              "name": "mask",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Phone-mode-only formatting mask, e.g. `\"(999) 999-9999\"` — same syntax as `<loomi-input>`'s `mask`. Overrides the selected country's auto-detected mask; leave blank to use that default.",
+              "fieldName": "mask"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "readonly"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "LoomiCountriesSize"
+              },
+              "default": "\"medium\"",
+              "fieldName": "size"
+            },
+            {
+              "name": "empty-placeholder",
+              "default": "DEFAULT_EMPTY_PLACEHOLDER",
+              "fieldName": "emptyPlaceholder"
+            },
+            {
+              "name": "invalid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "invalid"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-countries",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiCountries",
+          "declaration": {
+            "name": "LoomiCountries",
+            "module": "src/loomi-countries.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-countries",
+          "declaration": {
+            "name": "LoomiCountries",
+            "module": "src/loomi-countries.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

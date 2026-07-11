@@ -1,0 +1,515 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiButtonGroup",
+          "declaration": {
+            "name": "LoomiButtonGroup",
+            "module": "./loomi-button-group.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiButtonGroupItem",
+          "declaration": {
+            "name": "LoomiButtonGroupItem",
+            "module": "./loomi-button-group.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiButtonGroupRadius",
+          "declaration": {
+            "name": "LoomiButtonGroupRadius",
+            "module": "./loomi-button-group.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiButtonGroupSize",
+          "declaration": {
+            "name": "LoomiButtonGroupSize",
+            "module": "./loomi-button-group.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-button-group.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-button-group-item>` — a single button within a `<loomi-button-group>`.\n\nSet `label` for button text, `icon` for a built-in icon name, `icon-right` to place\nthe icon after the label, `icon-only` to visually hide the label, `selected` to mark\nthis item as active, and `disabled` to disable just this item. The `value` attribute\nis surfaced in the `loomi-button-group-change` event emitted by the parent.",
+          "name": "LoomiButtonGroupItem",
+          "slots": [
+            {
+              "description": "Button label text (used when the `label` attribute is absent).",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Button label text. Falls back to slot text if empty.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Built-in icon name to render (same registry as `<loomi-button>`).",
+              "attribute": "icon"
+            },
+            {
+              "kind": "field",
+              "name": "iconRight",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Place the icon after the label instead of before it.",
+              "attribute": "icon-right"
+            },
+            {
+              "kind": "field",
+              "name": "iconOnly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Visually hide the label and render this item as a square icon button.",
+              "attribute": "icon-only",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "accessibilityLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible label for icon-only buttons. Falls back to label, slot text, or value.",
+              "attribute": "aria-label"
+            },
+            {
+              "kind": "field",
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Mark this item as the selected / active item.",
+              "attribute": "selected",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disable this individual item.",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Value surfaced in the `loomi-button-group-change` event. Falls back to `label`.",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "parentGroupState",
+              "type": {
+                "text": "{ disabled: boolean; iconOnly: boolean }"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "labelText",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "accessibleText",
+              "type": {
+                "text": "string | undefined"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "handleClick",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderIcon",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "loomi-bg-click",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Bubbles + composed; `detail: { value }`. Handled by the parent."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Button label text. Falls back to slot text if empty.",
+              "fieldName": "label"
+            },
+            {
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Built-in icon name to render (same registry as `<loomi-button>`).",
+              "fieldName": "icon"
+            },
+            {
+              "name": "icon-right",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Place the icon after the label instead of before it.",
+              "fieldName": "iconRight"
+            },
+            {
+              "name": "icon-only",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Visually hide the label and render this item as a square icon button.",
+              "fieldName": "iconOnly"
+            },
+            {
+              "name": "aria-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible label for icon-only buttons. Falls back to label, slot text, or value.",
+              "fieldName": "accessibilityLabel"
+            },
+            {
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Mark this item as the selected / active item.",
+              "fieldName": "selected"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disable this individual item.",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Value surfaced in the `loomi-button-group-change` event. Falls back to `label`.",
+              "fieldName": "value"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-button-group-item",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-button-group>` — a shrink-wrapped segmented row of toggle buttons.\n\nPlace `<loomi-button-group-item>` elements as children. The group uses the same\ntinted track, inner gap, selected surface, accent text, and selected shadow as\n`<loomi-tabs tab-style=\"system\">`, but the bar is `inline-flex` so it ends with the\nlast button instead of stretching across the parent.",
+          "name": "LoomiButtonGroup",
+          "slots": [
+            {
+              "description": "`<loomi-button-group-item>` children.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "description": "Accent used for the focus ring on the selected item. Accepts any loomi color name.",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "LoomiButtonGroupSize"
+              },
+              "default": "\"regular\"",
+              "description": "Size preset — controls padding and font-size of all items.",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "radius",
+              "type": {
+                "text": "LoomiButtonGroupRadius"
+              },
+              "default": "\"medium\"",
+              "description": "Corner radius preset, matching `<loomi-button radius=\"...\">`.",
+              "attribute": "radius",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "outline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Render as an outline-only segmented control with no filled track or active fill.",
+              "attribute": "outline",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "iconOnly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Visually hide labels for every item and render the buttons as square icon buttons.",
+              "attribute": "icon-only",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "accessibilityLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible label for the internal `role=\"group\"` wrapper.",
+              "attribute": "aria-label"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disable all items in the group at once.",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "items",
+              "type": {
+                "text": "LoomiButtonGroupItem[]"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "groupStyleVars",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "applyGroupStyleVars",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onItemClick",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "description": "`detail: { value, label, index }` when selection changes.",
+              "name": "loomi-button-group-change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "description": "Accent used for the focus ring on the selected item. Accepts any loomi color name.",
+              "fieldName": "color"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "LoomiButtonGroupSize"
+              },
+              "default": "\"regular\"",
+              "description": "Size preset — controls padding and font-size of all items.",
+              "fieldName": "size"
+            },
+            {
+              "name": "radius",
+              "type": {
+                "text": "LoomiButtonGroupRadius"
+              },
+              "default": "\"medium\"",
+              "description": "Corner radius preset, matching `<loomi-button radius=\"...\">`.",
+              "fieldName": "radius"
+            },
+            {
+              "name": "outline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Render as an outline-only segmented control with no filled track or active fill.",
+              "fieldName": "outline"
+            },
+            {
+              "name": "icon-only",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Visually hide labels for every item and render the buttons as square icon buttons.",
+              "fieldName": "iconOnly"
+            },
+            {
+              "name": "aria-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible label for the internal `role=\"group\"` wrapper.",
+              "fieldName": "accessibilityLabel"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disable all items in the group at once.",
+              "fieldName": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-button-group",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiButtonGroupItem",
+          "declaration": {
+            "name": "LoomiButtonGroupItem",
+            "module": "src/loomi-button-group.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-button-group-item",
+          "declaration": {
+            "name": "LoomiButtonGroupItem",
+            "module": "src/loomi-button-group.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiButtonGroup",
+          "declaration": {
+            "name": "LoomiButtonGroup",
+            "module": "src/loomi-button-group.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-button-group",
+          "declaration": {
+            "name": "LoomiButtonGroup",
+            "module": "src/loomi-button-group.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

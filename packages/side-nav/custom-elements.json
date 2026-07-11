@@ -1,0 +1,331 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiSideNav",
+          "declaration": {
+            "name": "LoomiSideNav",
+            "module": "./loomi-side-nav.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSideNavItem",
+          "declaration": {
+            "name": "LoomiSideNavItem",
+            "module": "./loomi-side-nav.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSideNavState",
+          "declaration": {
+            "name": "LoomiSideNavState",
+            "module": "./loomi-side-nav.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSideNavCollapseMode",
+          "declaration": {
+            "name": "LoomiSideNavCollapseMode",
+            "module": "./loomi-side-nav.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-side-nav.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "LoomiSideNavItem",
+          "members": [
+            {
+              "kind": "field",
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "href"
+            },
+            {
+              "kind": "field",
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "icon"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "active",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "active",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "compact",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "compact",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "renderIcon",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "href"
+            },
+            {
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "icon"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "active",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "active"
+            },
+            {
+              "name": "compact",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "compact"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-side-nav-item",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "",
+          "name": "LoomiSideNav",
+          "members": [
+            {
+              "kind": "field",
+              "name": "state",
+              "type": {
+                "text": "LoomiSideNavState"
+              },
+              "default": "\"expanded\"",
+              "attribute": "state",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "collapseMode",
+              "type": {
+                "text": "LoomiSideNavCollapseMode"
+              },
+              "default": "\"icons\"",
+              "attribute": "collapse-mode"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Navigation\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "showToggle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-toggle"
+            },
+            {
+              "kind": "method",
+              "name": "expand",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "collapse",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "hideNav",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "showIcons",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "toggle",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "syncItemState",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "state",
+              "type": {
+                "text": "LoomiSideNavState"
+              },
+              "default": "\"expanded\"",
+              "fieldName": "state"
+            },
+            {
+              "name": "collapse-mode",
+              "type": {
+                "text": "LoomiSideNavCollapseMode"
+              },
+              "default": "\"icons\"",
+              "fieldName": "collapseMode"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Navigation\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "show-toggle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showToggle"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-side-nav",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiSideNavItem",
+          "declaration": {
+            "name": "LoomiSideNavItem",
+            "module": "src/loomi-side-nav.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-side-nav-item",
+          "declaration": {
+            "name": "LoomiSideNavItem",
+            "module": "src/loomi-side-nav.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSideNav",
+          "declaration": {
+            "name": "LoomiSideNav",
+            "module": "src/loomi-side-nav.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-side-nav",
+          "declaration": {
+            "name": "LoomiSideNav",
+            "module": "src/loomi-side-nav.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

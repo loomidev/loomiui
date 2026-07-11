@@ -1,0 +1,286 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiAccordion",
+          "declaration": {
+            "name": "LoomiAccordion",
+            "module": "./loomi-accordion.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiAccordionItem",
+          "declaration": {
+            "name": "LoomiAccordionItem",
+            "module": "./loomi-accordion.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-accordion.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-accordion-item>` — a single collapsible section. Use inside `<loomi-accordion>`.",
+          "name": "LoomiAccordionItem",
+          "slots": [
+            {
+              "description": "The collapsible body.",
+              "name": ""
+            },
+            {
+              "description": "Custom title content (overrides the `title` attribute).",
+              "name": "title"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "title"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor | \"\""
+              },
+              "default": "\"\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "noPadding",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "no-padding",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "standalone",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Set by the parent: true => standalone card styling.",
+              "attribute": "standalone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "toggle",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "description": "Fired when toggled (the parent uses it to coordinate).",
+              "name": "loomi-accordion-toggle"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "open"
+            },
+            {
+              "name": "title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "title"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor | \"\""
+              },
+              "default": "\"\"",
+              "fieldName": "color"
+            },
+            {
+              "name": "no-padding",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "noPadding"
+            },
+            {
+              "name": "standalone",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Set by the parent: true => standalone card styling.",
+              "fieldName": "standalone"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-accordion-item",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-accordion>` — groups `<loomi-accordion-item>` children. By default only one\nitem stays open at a time.",
+          "name": "LoomiAccordion",
+          "slots": [
+            {
+              "description": "`<loomi-accordion-item>` children.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "grouped",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "grouped"
+            },
+            {
+              "kind": "field",
+              "name": "canOpenMultiple",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "can-open-multiple"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor | \"\""
+              },
+              "default": "\"\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "items",
+              "type": {
+                "text": "LoomiAccordionItem[]"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "sync",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onToggle",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "grouped",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "grouped"
+            },
+            {
+              "name": "can-open-multiple",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "canOpenMultiple"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor | \"\""
+              },
+              "default": "\"\"",
+              "fieldName": "color"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-accordion",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiAccordionItem",
+          "declaration": {
+            "name": "LoomiAccordionItem",
+            "module": "src/loomi-accordion.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-accordion-item",
+          "declaration": {
+            "name": "LoomiAccordionItem",
+            "module": "src/loomi-accordion.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiAccordion",
+          "declaration": {
+            "name": "LoomiAccordion",
+            "module": "src/loomi-accordion.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-accordion",
+          "declaration": {
+            "name": "LoomiAccordion",
+            "module": "src/loomi-accordion.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

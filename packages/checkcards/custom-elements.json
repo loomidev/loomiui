@@ -1,0 +1,499 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiCheckcards",
+          "declaration": {
+            "name": "LoomiCheckcards",
+            "module": "./loomi-checkcards.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCheckcard",
+          "declaration": {
+            "name": "LoomiCheckcard",
+            "module": "./loomi-checkcards.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-checkcards.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-checkcard>` — a single selectable card. Use inside `<loomi-checkcards>`.",
+          "name": "LoomiCheckcard",
+          "slots": [
+            {
+              "description": "Card body content.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "title"
+            },
+            {
+              "kind": "field",
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "icon"
+            },
+            {
+              "kind": "field",
+              "name": "avatar",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "avatar"
+            },
+            {
+              "kind": "field",
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "selected",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "compact",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "compact"
+            },
+            {
+              "kind": "field",
+              "name": "radius",
+              "type": {
+                "text": "\"none\" | \"small\" | \"medium\" | \"full\""
+              },
+              "default": "\"medium\"",
+              "attribute": "radius"
+            },
+            {
+              "kind": "field",
+              "name": "alignItems",
+              "type": {
+                "text": "\"top\" | \"center\""
+              },
+              "default": "\"top\"",
+              "attribute": "align-items"
+            },
+            {
+              "kind": "method",
+              "name": "media",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "loomi-checkcard-click",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "value"
+            },
+            {
+              "name": "title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "title"
+            },
+            {
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "icon"
+            },
+            {
+              "name": "avatar",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "avatar"
+            },
+            {
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "selected"
+            },
+            {
+              "name": "compact",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "compact"
+            },
+            {
+              "name": "radius",
+              "type": {
+                "text": "\"none\" | \"small\" | \"medium\" | \"full\""
+              },
+              "default": "\"medium\"",
+              "fieldName": "radius"
+            },
+            {
+              "name": "align-items",
+              "type": {
+                "text": "\"top\" | \"center\""
+              },
+              "default": "\"top\"",
+              "fieldName": "alignItems"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-checkcard",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-checkcards>` — selectable cards (a prettier checkbox/radio group).\nForm-associated: submits selected values (comma-joined) under `name`.",
+          "name": "LoomiCheckcards",
+          "slots": [
+            {
+              "description": "`<loomi-checkcard>` children.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "internals",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "borderColor",
+              "type": {
+                "text": "LoomiColor | \"\""
+              },
+              "default": "\"\"",
+              "attribute": "border-color"
+            },
+            {
+              "kind": "field",
+              "name": "borderWidth",
+              "type": {
+                "text": "number"
+              },
+              "default": "2",
+              "attribute": "border-width"
+            },
+            {
+              "kind": "field",
+              "name": "radius",
+              "type": {
+                "text": "\"none\" | \"small\" | \"medium\" | \"full\""
+              },
+              "default": "\"medium\"",
+              "attribute": "radius"
+            },
+            {
+              "kind": "field",
+              "name": "compact",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "compact"
+            },
+            {
+              "kind": "field",
+              "name": "selectedValue",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "selected-value"
+            },
+            {
+              "kind": "field",
+              "name": "autoSelectNew",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "auto-select-new"
+            },
+            {
+              "kind": "field",
+              "name": "alignItems",
+              "type": {
+                "text": "\"top\" | \"center\""
+              },
+              "default": "\"top\"",
+              "attribute": "align-items"
+            },
+            {
+              "kind": "field",
+              "name": "selected",
+              "type": {
+                "text": "string[]"
+              },
+              "privacy": "private",
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "initialized",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "cards",
+              "type": {
+                "text": "LoomiCheckcard[]"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "sync",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onCardClick",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "description": "`detail: { values }` when the selection changes.",
+              "name": "change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "max"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "fieldName": "color"
+            },
+            {
+              "name": "border-color",
+              "type": {
+                "text": "LoomiColor | \"\""
+              },
+              "default": "\"\"",
+              "fieldName": "borderColor"
+            },
+            {
+              "name": "border-width",
+              "type": {
+                "text": "number"
+              },
+              "default": "2",
+              "fieldName": "borderWidth"
+            },
+            {
+              "name": "radius",
+              "type": {
+                "text": "\"none\" | \"small\" | \"medium\" | \"full\""
+              },
+              "default": "\"medium\"",
+              "fieldName": "radius"
+            },
+            {
+              "name": "compact",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "compact"
+            },
+            {
+              "name": "selected-value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "selectedValue"
+            },
+            {
+              "name": "auto-select-new",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "autoSelectNew"
+            },
+            {
+              "name": "align-items",
+              "type": {
+                "text": "\"top\" | \"center\""
+              },
+              "default": "\"top\"",
+              "fieldName": "alignItems"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-checkcards",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiCheckcard",
+          "declaration": {
+            "name": "LoomiCheckcard",
+            "module": "src/loomi-checkcards.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-checkcard",
+          "declaration": {
+            "name": "LoomiCheckcard",
+            "module": "src/loomi-checkcards.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCheckcards",
+          "declaration": {
+            "name": "LoomiCheckcards",
+            "module": "src/loomi-checkcards.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-checkcards",
+          "declaration": {
+            "name": "LoomiCheckcards",
+            "module": "src/loomi-checkcards.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

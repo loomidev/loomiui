@@ -1,0 +1,516 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiDrawer",
+          "declaration": {
+            "name": "LoomiDrawer",
+            "module": "./loomi-drawer.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "showLoomiDrawer",
+          "declaration": {
+            "name": "showLoomiDrawer",
+            "module": "./loomi-drawer.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "hideLoomiDrawer",
+          "declaration": {
+            "name": "hideLoomiDrawer",
+            "module": "./loomi-drawer.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiDrawerPlacement",
+          "declaration": {
+            "name": "LoomiDrawerPlacement",
+            "module": "./loomi-drawer.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiDrawerSize",
+          "declaration": {
+            "name": "LoomiDrawerSize",
+            "module": "./loomi-drawer.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-drawer.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "showLoomiDrawer",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Open a drawer by its `name`."
+        },
+        {
+          "kind": "function",
+          "name": "hideLoomiDrawer",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Close a drawer by its `name`."
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-drawer>` — a panel that slides in from an edge of the screen. Open/close via\n`name` with `showLoomiDrawer()` / `hideLoomiDrawer()`, or the instance `show()` / `hide()`\nmethods.",
+          "name": "LoomiDrawer",
+          "slots": [
+            {
+              "description": "The drawer body.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "title"
+            },
+            {
+              "kind": "field",
+              "name": "placement",
+              "type": {
+                "text": "LoomiDrawerPlacement"
+              },
+              "default": "\"right\"",
+              "attribute": "placement"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "LoomiDrawerSize"
+              },
+              "default": "\"medium\"",
+              "attribute": "size"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "showCloseIcon",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-close-icon"
+            },
+            {
+              "kind": "field",
+              "name": "backdrop",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "backdrop"
+            },
+            {
+              "kind": "field",
+              "name": "closeOnOutsideClick",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "close-on-outside-click"
+            },
+            {
+              "kind": "field",
+              "name": "preventScroll",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "prevent-scroll"
+            },
+            {
+              "kind": "field",
+              "name": "closing",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "True while the close animation is playing; `open` stays true for that whole span."
+            },
+            {
+              "kind": "field",
+              "name": "previouslyFocused",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "privacy": "private",
+              "default": "null",
+              "description": "The element focused before `show()` was called, restored when the drawer closes."
+            },
+            {
+              "kind": "field",
+              "name": "hasScrollLock",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "isMovingInDom",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "originalParent",
+              "type": {
+                "text": "Node | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "originalNextSibling",
+              "type": {
+                "text": "ChildNode | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "closeToken",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0",
+              "description": "Bumped on every show()/hide() so a stale finalizeClose() from a superseded hide() is a no-op."
+            },
+            {
+              "kind": "field",
+              "name": "stopOutsideClick",
+              "type": {
+                "text": "(() => void) | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "hide",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              },
+              "description": "Starts the close animation immediately; resolves once the drawer has actually unmounted."
+            },
+            {
+              "kind": "method",
+              "name": "finalizeClose",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "token",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ],
+              "description": "Waits for the exit animation, then actually unmounts — unless a newer show()/hide() superseded this one."
+            },
+            {
+              "kind": "method",
+              "name": "moveToDocumentBody",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "restoreOriginalPosition",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "syncScrollLock",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "releaseScrollLock",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "syncOutsideClick",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Detects clicks outside `.loomi-panel` (including clicks on the backdrop, or\nanywhere on the page when there's no backdrop) and closes the drawer — independent\nof whether a dimming backdrop is actually rendered."
+            },
+            {
+              "kind": "method",
+              "name": "getFocusable",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement[]"
+                }
+              },
+              "description": "Focusable elements in template order: close button, then slotted body content."
+            },
+            {
+              "kind": "field",
+              "name": "onKey",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "name": "open",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Shown. @fires close - Dismissed (fires as the close animation starts)."
+            },
+            {
+              "name": "close",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            },
+            {
+              "name": "title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "title"
+            },
+            {
+              "name": "placement",
+              "type": {
+                "text": "LoomiDrawerPlacement"
+              },
+              "default": "\"right\"",
+              "fieldName": "placement"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "LoomiDrawerSize"
+              },
+              "default": "\"medium\"",
+              "fieldName": "size"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "open"
+            },
+            {
+              "name": "show-close-icon",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showCloseIcon"
+            },
+            {
+              "name": "backdrop",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "backdrop"
+            },
+            {
+              "name": "close-on-outside-click",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "closeOnOutsideClick"
+            },
+            {
+              "name": "prevent-scroll",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "preventScroll"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-drawer",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "showLoomiDrawer",
+          "declaration": {
+            "name": "showLoomiDrawer",
+            "module": "src/loomi-drawer.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "hideLoomiDrawer",
+          "declaration": {
+            "name": "hideLoomiDrawer",
+            "module": "src/loomi-drawer.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiDrawer",
+          "declaration": {
+            "name": "LoomiDrawer",
+            "module": "src/loomi-drawer.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-drawer",
+          "declaration": {
+            "name": "LoomiDrawer",
+            "module": "src/loomi-drawer.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

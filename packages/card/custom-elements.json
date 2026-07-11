@@ -1,0 +1,458 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiCard",
+          "declaration": {
+            "name": "LoomiCard",
+            "module": "./loomi-card.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCardHeader",
+          "declaration": {
+            "name": "LoomiCardHeader",
+            "module": "./loomi-card.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCardTitle",
+          "declaration": {
+            "name": "LoomiCardTitle",
+            "module": "./loomi-card.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCardDescription",
+          "declaration": {
+            "name": "LoomiCardDescription",
+            "module": "./loomi-card.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCardAction",
+          "declaration": {
+            "name": "LoomiCardAction",
+            "module": "./loomi-card.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCardContent",
+          "declaration": {
+            "name": "LoomiCardContent",
+            "module": "./loomi-card.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCardFooter",
+          "declaration": {
+            "name": "LoomiCardFooter",
+            "module": "./loomi-card.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCardSize",
+          "declaration": {
+            "name": "LoomiCardSize",
+            "module": "./loomi-card.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-card.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-card>` — shadcn/ui-style card root. Compose with the `loomi-card-*` parts.",
+          "name": "LoomiCard",
+          "slots": [
+            {
+              "description": "Card sections (`loomi-card-header`, `loomi-card-content`, `loomi-card-footer`, …).",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "LoomiCardSize"
+              },
+              "default": "\"default\"",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "url",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "url"
+            },
+            {
+              "kind": "field",
+              "name": "hasHover",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "has-hover"
+            },
+            {
+              "kind": "field",
+              "name": "hasShadow",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "has-shadow"
+            },
+            {
+              "kind": "field",
+              "name": "hasBorder",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "has-border"
+            },
+            {
+              "kind": "field",
+              "name": "transparent",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "transparent",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "isDarkContext",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "Whether an ancestor has the `dark` class — see `isDarkContext` in `loomi-button.ts`."
+            },
+            {
+              "kind": "field",
+              "name": "cleanupDarkWatch",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onKeydown",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "size",
+              "type": {
+                "text": "LoomiCardSize"
+              },
+              "default": "\"default\"",
+              "fieldName": "size"
+            },
+            {
+              "name": "url",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "url"
+            },
+            {
+              "name": "has-hover",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "hasHover"
+            },
+            {
+              "name": "has-shadow",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "hasShadow"
+            },
+            {
+              "name": "has-border",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "hasBorder"
+            },
+            {
+              "name": "transparent",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "transparent"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-card",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-card-header>` — title, description, and optional action region.",
+          "name": "LoomiCardHeader",
+          "slots": [
+            {
+              "description": "`loomi-card-title`, `loomi-card-description`, and/or `loomi-card-action`.",
+              "name": ""
+            }
+          ],
+          "members": [],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-card-header",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-card-title>` — card heading.",
+          "name": "LoomiCardTitle",
+          "slots": [
+            {
+              "description": "Title text.",
+              "name": ""
+            }
+          ],
+          "members": [],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-card-title",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-card-description>` — helper text under the title.",
+          "name": "LoomiCardDescription",
+          "slots": [
+            {
+              "description": "Description text.",
+              "name": ""
+            }
+          ],
+          "members": [],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-card-description",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-card-action>` — top-right header action (button, badge, link, …).",
+          "name": "LoomiCardAction",
+          "slots": [
+            {
+              "description": "Action content.",
+              "name": ""
+            }
+          ],
+          "members": [],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-card-action",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-card-content>` — main card body.",
+          "name": "LoomiCardContent",
+          "slots": [
+            {
+              "description": "Card content.",
+              "name": ""
+            }
+          ],
+          "members": [],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-card-content",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-card-footer>` — actions and secondary content at the bottom.",
+          "name": "LoomiCardFooter",
+          "slots": [
+            {
+              "description": "Footer content.",
+              "name": ""
+            }
+          ],
+          "members": [],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-card-footer",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiCard",
+          "declaration": {
+            "name": "LoomiCard",
+            "module": "src/loomi-card.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-card",
+          "declaration": {
+            "name": "LoomiCard",
+            "module": "src/loomi-card.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCardHeader",
+          "declaration": {
+            "name": "LoomiCardHeader",
+            "module": "src/loomi-card.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-card-header",
+          "declaration": {
+            "name": "LoomiCardHeader",
+            "module": "src/loomi-card.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCardTitle",
+          "declaration": {
+            "name": "LoomiCardTitle",
+            "module": "src/loomi-card.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-card-title",
+          "declaration": {
+            "name": "LoomiCardTitle",
+            "module": "src/loomi-card.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCardDescription",
+          "declaration": {
+            "name": "LoomiCardDescription",
+            "module": "src/loomi-card.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-card-description",
+          "declaration": {
+            "name": "LoomiCardDescription",
+            "module": "src/loomi-card.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCardAction",
+          "declaration": {
+            "name": "LoomiCardAction",
+            "module": "src/loomi-card.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-card-action",
+          "declaration": {
+            "name": "LoomiCardAction",
+            "module": "src/loomi-card.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCardContent",
+          "declaration": {
+            "name": "LoomiCardContent",
+            "module": "src/loomi-card.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-card-content",
+          "declaration": {
+            "name": "LoomiCardContent",
+            "module": "src/loomi-card.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCardFooter",
+          "declaration": {
+            "name": "LoomiCardFooter",
+            "module": "src/loomi-card.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-card-footer",
+          "declaration": {
+            "name": "LoomiCardFooter",
+            "module": "src/loomi-card.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

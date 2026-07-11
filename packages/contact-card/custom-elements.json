@@ -1,0 +1,285 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiContactCard",
+          "declaration": {
+            "name": "LoomiContactCard",
+            "module": "./loomi-contact-card.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-contact-card.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-contact-card>` — a ready-made card for displaying a contact.",
+          "name": "LoomiContactCard",
+          "slots": [
+            {
+              "description": "Extra content rendered below the contact details.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "position",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "position"
+            },
+            {
+              "kind": "field",
+              "name": "department",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "department"
+            },
+            {
+              "kind": "field",
+              "name": "image",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "image"
+            },
+            {
+              "kind": "field",
+              "name": "email",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "email"
+            },
+            {
+              "kind": "field",
+              "name": "mobile",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "mobile"
+            },
+            {
+              "kind": "field",
+              "name": "birthday",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "birthday"
+            },
+            {
+              "kind": "field",
+              "name": "hasShadow",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "has-shadow"
+            },
+            {
+              "kind": "field",
+              "name": "hasHover",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "has-hover"
+            },
+            {
+              "kind": "field",
+              "name": "centered",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "centered"
+            },
+            {
+              "kind": "field",
+              "name": "noPadding",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "no-padding"
+            },
+            {
+              "kind": "field",
+              "name": "url",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "url"
+            },
+            {
+              "kind": "method",
+              "name": "initials",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onClick",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            },
+            {
+              "name": "position",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "position"
+            },
+            {
+              "name": "department",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "department"
+            },
+            {
+              "name": "image",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "image"
+            },
+            {
+              "name": "email",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "email"
+            },
+            {
+              "name": "mobile",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "mobile"
+            },
+            {
+              "name": "birthday",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "birthday"
+            },
+            {
+              "name": "has-shadow",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "hasShadow"
+            },
+            {
+              "name": "has-hover",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "hasHover"
+            },
+            {
+              "name": "centered",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "centered"
+            },
+            {
+              "name": "no-padding",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "noPadding"
+            },
+            {
+              "name": "url",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "url"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-contact-card",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiContactCard",
+          "declaration": {
+            "name": "LoomiContactCard",
+            "module": "src/loomi-contact-card.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-contact-card",
+          "declaration": {
+            "name": "LoomiContactCard",
+            "module": "src/loomi-contact-card.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

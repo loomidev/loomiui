@@ -1,0 +1,630 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiSlider",
+          "declaration": {
+            "name": "LoomiSlider",
+            "module": "./loomi-slider.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-slider.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-slider>` — select a numeric value or numeric range with a slider.\nForm-associated: submits the value under `name`.",
+          "name": "LoomiSlider",
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "internals",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "min",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "min"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "100",
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "step",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "attribute": "step"
+            },
+            {
+              "kind": "field",
+              "name": "selected",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "selected"
+            },
+            {
+              "kind": "field",
+              "name": "selectedEnd",
+              "type": {
+                "text": "number"
+              },
+              "default": "100",
+              "attribute": "selected-end"
+            },
+            {
+              "kind": "field",
+              "name": "range",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "range",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "vertical",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "vertical",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "marks",
+              "type": {
+                "text": "string | number[]"
+              },
+              "default": "\"\"",
+              "attribute": "marks"
+            },
+            {
+              "kind": "field",
+              "name": "handleWidth",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "handle-width"
+            },
+            {
+              "kind": "field",
+              "name": "trackRadius",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"999px\"",
+              "attribute": "track-radius"
+            },
+            {
+              "kind": "field",
+              "name": "handleVariant",
+              "type": {
+                "text": "\"default\" | \"square\" | \"line\""
+              },
+              "default": "\"default\"",
+              "attribute": "handle-variant"
+            },
+            {
+              "kind": "field",
+              "name": "valueTarget",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "value-target"
+            },
+            {
+              "kind": "field",
+              "name": "showTooltip",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-tooltip"
+            },
+            {
+              "kind": "field",
+              "name": "showValues",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-values"
+            },
+            {
+              "kind": "field",
+              "name": "revealed",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "False until just after first paint, so the track can render empty for one frame\nand then fill in to the starting value as an entrance animation."
+            },
+            {
+              "kind": "field",
+              "name": "animatingEntrance",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "true",
+              "description": "True only while the entrance animation should be transitioning, so later drag\ninteractions apply instantly instead of lagging behind a transition."
+            },
+            {
+              "kind": "field",
+              "name": "animatingClick",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "True only while a track click (not a drag) is animating the fill to its target,\nreusing the same transition as the entrance animation."
+            },
+            {
+              "kind": "field",
+              "name": "movedSincePointerDown",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "Whether the pointer has moved since it went down, so a click (no movement) can\nbe told apart from a drag (movement) in `onInput`."
+            },
+            {
+              "kind": "field",
+              "name": "clickAnimationTimer",
+              "type": {
+                "text": "ReturnType<typeof setTimeout> | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "lowerBound",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "upperBound",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "clamp",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "number"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "selectedValue",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "selectedEndValue",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "startValue",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "endValue",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "progressStyle",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "valuePercent",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "number"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "tooltipStyle",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "onPointerDown",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onPointerMove",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "onInput",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "handle",
+                  "type": {
+                    "text": "\"start\" | \"end\""
+                  }
+                },
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onChange",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "syncValueTarget",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "parsedMarks",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "number[]"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderMarks",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "markStyle",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "input",
+              "type": {
+                "text": "Event"
+              },
+              "description": "As the value changes (composed)."
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              },
+              "description": "On commit (composed)."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "fieldName": "color"
+            },
+            {
+              "name": "min",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "min"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "default": "100",
+              "fieldName": "max"
+            },
+            {
+              "name": "step",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "step"
+            },
+            {
+              "name": "selected",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "selected"
+            },
+            {
+              "name": "selected-end",
+              "type": {
+                "text": "number"
+              },
+              "default": "100",
+              "fieldName": "selectedEnd"
+            },
+            {
+              "name": "range",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "range"
+            },
+            {
+              "name": "vertical",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "vertical"
+            },
+            {
+              "name": "marks",
+              "type": {
+                "text": "string | number[]"
+              },
+              "default": "\"\"",
+              "fieldName": "marks"
+            },
+            {
+              "name": "handle-width",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "handleWidth"
+            },
+            {
+              "name": "track-radius",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"999px\"",
+              "fieldName": "trackRadius"
+            },
+            {
+              "name": "handle-variant",
+              "type": {
+                "text": "\"default\" | \"square\" | \"line\""
+              },
+              "default": "\"default\"",
+              "fieldName": "handleVariant"
+            },
+            {
+              "name": "value-target",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "valueTarget"
+            },
+            {
+              "name": "show-tooltip",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showTooltip"
+            },
+            {
+              "name": "show-values",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showValues"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-slider",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiSlider",
+          "declaration": {
+            "name": "LoomiSlider",
+            "module": "src/loomi-slider.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-slider",
+          "declaration": {
+            "name": "LoomiSlider",
+            "module": "src/loomi-slider.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

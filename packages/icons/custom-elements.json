@@ -1,0 +1,306 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/disk-icons.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "isLoomiDiskIconSource",
+          "return": {
+            "type": {
+              "text": "source is LoomiDiskIconSource"
+            }
+          },
+          "parameters": [
+            {
+              "name": "source",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "loomiDiskIconNames",
+          "return": {
+            "type": {
+              "text": "string[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "source",
+              "type": {
+                "text": "LoomiDiskIconSource"
+              }
+            },
+            {
+              "name": "type",
+              "default": "DEFAULT_TYPE",
+              "type": {
+                "text": "LoomiIconType"
+              }
+            }
+          ],
+          "description": "Names registered for a disk-based source/type. Falls back to `outline`\nwhen `type` isn't available for that source (e.g. untitledui + \"twotone\")."
+        },
+        {
+          "kind": "function",
+          "name": "loomiDiskIconTypes",
+          "return": {
+            "type": {
+              "text": "LoomiIconType[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "source",
+              "type": {
+                "text": "LoomiDiskIconSource"
+              }
+            }
+          ],
+          "description": "All icon types a disk-based source actually ships."
+        },
+        {
+          "kind": "function",
+          "name": "getLoomiDiskIconUrl",
+          "return": {
+            "type": {
+              "text": "string | undefined"
+            }
+          },
+          "parameters": [
+            {
+              "name": "source",
+              "type": {
+                "text": "LoomiDiskIconSource"
+              }
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "type",
+              "default": "DEFAULT_TYPE",
+              "type": {
+                "text": "LoomiIconType"
+              }
+            }
+          ],
+          "description": "Resolves `(source, name, type)` to the .svg file's URL, or `undefined` if\n`name` isn't registered. Lenient on `type`: an unavailable type (e.g.\n`untitledui` + `\"twotone\"`) falls back to `\"outline\"` rather than failing,\nmatching how `<loomi-icon>` already treats an unknown Heroicons `variant`."
+        },
+        {
+          "kind": "function",
+          "name": "loadLoomiDiskIcon",
+          "return": {
+            "type": {
+              "text": "Promise<UnsafeSvgResult | undefined>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "source",
+              "type": {
+                "text": "LoomiDiskIconSource"
+              }
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "type",
+              "default": "DEFAULT_TYPE",
+              "type": {
+                "text": "LoomiIconType"
+              }
+            }
+          ],
+          "description": "Fetches (and caches) the inner markup for a disk-based icon, ready to drop\ninto a Lit `html` template: `` html`<svg>${await loadLoomiDiskIcon(...)}</svg>` ``.\nResolves to `undefined` for an unregistered name or a failed fetch — callers\nshould fall back to their own placeholder/slot in that case."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "isLoomiDiskIconSource",
+          "declaration": {
+            "name": "isLoomiDiskIconSource",
+            "module": "src/disk-icons.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "loomiDiskIconNames",
+          "declaration": {
+            "name": "loomiDiskIconNames",
+            "module": "src/disk-icons.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "loomiDiskIconTypes",
+          "declaration": {
+            "name": "loomiDiskIconTypes",
+            "module": "src/disk-icons.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getLoomiDiskIconUrl",
+          "declaration": {
+            "name": "getLoomiDiskIconUrl",
+            "module": "src/disk-icons.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "loadLoomiDiskIcon",
+          "declaration": {
+            "name": "loadLoomiDiskIcon",
+            "module": "src/disk-icons.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/heroicons.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "registerLoomiIcon",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "path",
+              "type": {
+                "text": "SVGTemplateResult"
+              }
+            },
+            {
+              "name": "variant",
+              "default": "\"outline\"",
+              "type": {
+                "text": "LoomiIconVariant"
+              }
+            }
+          ],
+          "description": "Register (or override) an icon by name so `icon=\"<name>\"` can render it."
+        },
+        {
+          "kind": "function",
+          "name": "getLoomiIcon",
+          "return": {
+            "type": {
+              "text": "SVGTemplateResult | undefined"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "variant",
+              "default": "\"outline\"",
+              "type": {
+                "text": "LoomiIconVariant"
+              }
+            }
+          ],
+          "description": "Returns the inner SVG for an icon name, or `undefined` if it isn't registered."
+        },
+        {
+          "kind": "function",
+          "name": "loomiIconNames",
+          "return": {
+            "type": {
+              "text": "string[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "variant",
+              "default": "\"outline\"",
+              "type": {
+                "text": "LoomiIconVariant"
+              }
+            }
+          ],
+          "description": "Names of all currently-registered icons."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "registerLoomiIcon",
+          "declaration": {
+            "name": "registerLoomiIcon",
+            "module": "src/heroicons.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getLoomiIcon",
+          "declaration": {
+            "name": "getLoomiIcon",
+            "module": "src/heroicons.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "loomiIconNames",
+          "declaration": {
+            "name": "loomiIconNames",
+            "module": "src/heroicons.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "src/heroicons.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "src/disk-icons.js"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,444 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiProfileMenu",
+          "declaration": {
+            "name": "LoomiProfileMenu",
+            "module": "./loomi-profile-menu.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-profile-menu.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-profile-menu>` — a profile card trigger that opens a Loomi dropdown menu.\n\nPlace `<loomi-dropmenu-item>` children inside for the menu actions. The trigger uses\n`<loomi-card>` for its shell and `<loomi-avatar>` for image, status dot, pulse dot,\nand verification badge behavior.",
+          "name": "LoomiProfileMenu",
+          "slots": [
+            {
+              "description": "`<loomi-dropmenu-item>` children.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "description"
+            },
+            {
+              "kind": "field",
+              "name": "avatar",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "avatar"
+            },
+            {
+              "kind": "field",
+              "name": "avatarLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "avatar-label"
+            },
+            {
+              "kind": "field",
+              "name": "avatarAlt",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "avatar-alt"
+            },
+            {
+              "kind": "field",
+              "name": "avatarSize",
+              "type": {
+                "text": "LoomiAvatarSize"
+              },
+              "default": "\"regular\"",
+              "attribute": "avatar-size"
+            },
+            {
+              "kind": "field",
+              "name": "avatarBgColor",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"gray\"",
+              "attribute": "avatar-bg-color"
+            },
+            {
+              "kind": "field",
+              "name": "dotted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "dotted"
+            },
+            {
+              "kind": "field",
+              "name": "pulseDot",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "pulse-dot"
+            },
+            {
+              "kind": "field",
+              "name": "dotColor",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"success\"",
+              "attribute": "dot-color"
+            },
+            {
+              "kind": "field",
+              "name": "dotPosition",
+              "type": {
+                "text": "\"top\" | \"bottom\""
+              },
+              "default": "\"bottom\"",
+              "attribute": "dot-position"
+            },
+            {
+              "kind": "field",
+              "name": "verified",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "verified"
+            },
+            {
+              "kind": "field",
+              "name": "transparent",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "transparent"
+            },
+            {
+              "kind": "field",
+              "name": "triggerLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "trigger-label"
+            },
+            {
+              "kind": "field",
+              "name": "placement",
+              "type": {
+                "text": "LoomiProfileMenuPlacement"
+              },
+              "default": "\"right\"",
+              "attribute": "placement"
+            },
+            {
+              "kind": "field",
+              "name": "divided",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "divided"
+            },
+            {
+              "kind": "field",
+              "name": "scrollable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "scrollable"
+            },
+            {
+              "kind": "field",
+              "name": "height",
+              "type": {
+                "text": "number"
+              },
+              "default": "200",
+              "attribute": "height"
+            },
+            {
+              "kind": "field",
+              "name": "hideAfterClick",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "hide-after-click"
+            },
+            {
+              "kind": "field",
+              "name": "dropmenuEl",
+              "type": {
+                "text": "LoomiDropmenu | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "resolvedAvatarLabel",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "resolvedAvatarAlt",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "resolvedTriggerLabel",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "moveMenuItems",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderChevron",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            },
+            {
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "description"
+            },
+            {
+              "name": "avatar",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "avatar"
+            },
+            {
+              "name": "avatar-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "avatarLabel"
+            },
+            {
+              "name": "avatar-alt",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "avatarAlt"
+            },
+            {
+              "name": "avatar-size",
+              "type": {
+                "text": "LoomiAvatarSize"
+              },
+              "default": "\"regular\"",
+              "fieldName": "avatarSize"
+            },
+            {
+              "name": "avatar-bg-color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"gray\"",
+              "fieldName": "avatarBgColor"
+            },
+            {
+              "name": "dotted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "dotted"
+            },
+            {
+              "name": "pulse-dot",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "pulseDot"
+            },
+            {
+              "name": "dot-color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"success\"",
+              "fieldName": "dotColor"
+            },
+            {
+              "name": "dot-position",
+              "type": {
+                "text": "\"top\" | \"bottom\""
+              },
+              "default": "\"bottom\"",
+              "fieldName": "dotPosition"
+            },
+            {
+              "name": "verified",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "verified"
+            },
+            {
+              "name": "transparent",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "transparent"
+            },
+            {
+              "name": "trigger-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "triggerLabel"
+            },
+            {
+              "name": "placement",
+              "type": {
+                "text": "LoomiProfileMenuPlacement"
+              },
+              "default": "\"right\"",
+              "fieldName": "placement"
+            },
+            {
+              "name": "divided",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "divided"
+            },
+            {
+              "name": "scrollable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "scrollable"
+            },
+            {
+              "name": "height",
+              "type": {
+                "text": "number"
+              },
+              "default": "200",
+              "fieldName": "height"
+            },
+            {
+              "name": "hide-after-click",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "hideAfterClick"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-profile-menu",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiProfileMenu",
+          "declaration": {
+            "name": "LoomiProfileMenu",
+            "module": "src/loomi-profile-menu.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-profile-menu",
+          "declaration": {
+            "name": "LoomiProfileMenu",
+            "module": "src/loomi-profile-menu.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

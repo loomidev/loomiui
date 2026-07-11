@@ -1,0 +1,1092 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiVideo",
+          "declaration": {
+            "name": "LoomiVideo",
+            "module": "./loomi-video.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiVideoPreload",
+          "declaration": {
+            "name": "LoomiVideoPreload",
+            "module": "./loomi-video.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiVideoFit",
+          "declaration": {
+            "name": "LoomiVideoFit",
+            "module": "./loomi-video.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiVideoCrossOrigin",
+          "declaration": {
+            "name": "LoomiVideoCrossOrigin",
+            "module": "./loomi-video.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-video.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-video>` — a themeable wrapper around the native `<video>` element. Renders the\nbrowser's real media element under the hood (so every codec/format/network quirk is\nhandled by the platform), and layers a themeable, keyboard-accessible control bar on\ntop — built from `@loomidev/button` and `@loomidev/slider` — instead of the raw native\ncontrol UI. Set `controls` to opt into it; without it, this is just a styled `<video>`.\n\n`<source>` and `<track>` children are moved onto the real internal `<video>` element\n(Shadow DOM slotting can't make a native media element discover them itself), so\nmulti-format fallback and subtitle/caption tracks work exactly like plain HTML.",
+          "name": "LoomiVideo",
+          "cssParts": [
+            {
+              "description": "The internal `<video>` element.",
+              "name": "video"
+            },
+            {
+              "description": "The control bar container.",
+              "name": "controls"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`<source>`/`<track>` children, forwarded onto the internal `<video>`.",
+              "name": ""
+            },
+            {
+              "description": "Replaces the entire built-in control bar with custom markup.",
+              "name": "controls"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "src",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "src"
+            },
+            {
+              "kind": "field",
+              "name": "poster",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "poster"
+            },
+            {
+              "kind": "field",
+              "name": "controls",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Shows the themed control bar, loading spinner, error state, and click-to-play\noverlay. Left unset, this is a bare, unstyled passthrough to `<video>` — matching\nnative `<video>` (no `controls` attribute = no interactive UI at all).",
+              "attribute": "controls",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "autoplay",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "autoplay"
+            },
+            {
+              "kind": "field",
+              "name": "loop",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "loop"
+            },
+            {
+              "kind": "field",
+              "name": "muted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "muted"
+            },
+            {
+              "kind": "field",
+              "name": "volume",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "attribute": "volume"
+            },
+            {
+              "kind": "field",
+              "name": "preload",
+              "type": {
+                "text": "LoomiVideoPreload"
+              },
+              "default": "\"metadata\"",
+              "attribute": "preload"
+            },
+            {
+              "kind": "field",
+              "name": "playsinline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Defaults to `true` (unlike native `<video>`) because without it, iOS Safari hijacks\n`play()` into its own native fullscreen player — which would hide our control bar\nentirely. Set `playsinline=\"false\"` to opt back into that native behavior.",
+              "attribute": "playsinline"
+            },
+            {
+              "kind": "field",
+              "name": "crossOrigin",
+              "type": {
+                "text": "LoomiVideoCrossOrigin"
+              },
+              "default": "\"\"",
+              "attribute": "crossOrigin"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "description": "Accent color for the control bar (play button, seek/volume sliders, focus ring).",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "aspectRatio",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"16 / 9\"",
+              "attribute": "aspect-ratio"
+            },
+            {
+              "kind": "field",
+              "name": "fit",
+              "type": {
+                "text": "LoomiVideoFit"
+              },
+              "default": "\"contain\"",
+              "attribute": "fit"
+            },
+            {
+              "kind": "field",
+              "name": "autohideControls",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Hide the control bar after a few seconds of inactivity while playing.",
+              "attribute": "autohide-controls"
+            },
+            {
+              "kind": "field",
+              "name": "disablePip",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disable-pip"
+            },
+            {
+              "kind": "field",
+              "name": "disableFullscreen",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disable-fullscreen"
+            },
+            {
+              "kind": "field",
+              "name": "playing",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "buffering",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "errored",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "errorMessage",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "playbackTime",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "mediaDuration",
+              "privacy": "private",
+              "default": "NaN"
+            },
+            {
+              "kind": "field",
+              "name": "isFullscreen",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "isPiP",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "controlsVisible",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "scrubbing",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "previewTime",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "showCaptionsMenu",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "activeTrackIndex",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "-1"
+            },
+            {
+              "kind": "field",
+              "name": "tracksTick",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "mediaReady",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "False until just after the first render commits, then flipped once — guaranteeing\none extra render pass where `@query`-backed getters (like `pipAvailable`) see a real\n`<video>` element. Without this, a video with no tracks, no error, and default\nvolume/muted never gets a second render, so anything computed from `this.videoEl`\nat render time stays frozen at its (always-null-`videoEl`) first-render value."
+            },
+            {
+              "kind": "field",
+              "name": "videoEl",
+              "type": {
+                "text": "HTMLVideoElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "ccGroupEl",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "mutationObserver",
+              "type": {
+                "text": "MutationObserver | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "hideTimer",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "closeCaptionsMenuCleanup",
+              "type": {
+                "text": "(() => void) | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "progressFrame",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "method",
+              "name": "releaseMedia",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Detaches listeners and aborts the underlying network/decode resources. Merely\nremoving a `<video>` from the DOM does not release those on its own — leaving\nenough un-aborted media elements behind (e.g. across many short-lived instances)\ncan exhaust the browser's media pipeline."
+            },
+            {
+              "kind": "field",
+              "name": "paused",
+              "type": {
+                "text": "boolean"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "ended",
+              "type": {
+                "text": "boolean"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "currentTime",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "duration",
+              "type": {
+                "text": "number"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "play",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "pause",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "togglePlay",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "seek",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "seconds",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "toggleMute",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "setVolume",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "toggleFullscreen",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "togglePictureInPicture",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "displayTime",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "hasSeekableDuration",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "isLiveStream",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "pipAvailable",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "tracks",
+              "type": {
+                "text": "Array<{ label: string }>"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "hasTracks",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "syncMediaChildren",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "watchTracks",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onTracksChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "selectTrack",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "onPlay",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onPause",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onEnded",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "startProgressLoop",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "stopProgressLoop",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onTimeUpdate",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onDurationChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onLoadedMetadata",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onWaiting",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onCanPlay",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onVolumeChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onMediaError",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onEnterPiP",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onLeavePiP",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onFullscreenChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onRetry",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onSurfaceClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onSurfaceDblClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onSeekInput",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onSeekChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onVolumeInput",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onToggleCaptionsMenu",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "openCaptionsMenu",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "closeCaptionsMenu",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onKeyDown",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onActivity",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onPointerLeave",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "showControlsTemporarily",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "scheduleHideControls",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "delay",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "clearHideTimer",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderChrome",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderLoading",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderError",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderCenterPlay",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderControlsBar",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderTimeline",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderCaptionsMenu",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "description": "Playback started (mirrors the native event; the internal `<video>` is shadow-encapsulated, so this is how consumers observe it).",
+              "name": "play"
+            },
+            {
+              "description": "Playback paused.",
+              "name": "pause"
+            },
+            {
+              "description": "Playback reached the end.",
+              "name": "ended"
+            },
+            {
+              "description": "`detail: { currentTime, duration }`.",
+              "name": "timeupdate"
+            },
+            {
+              "description": "`detail: { volume, muted }`.",
+              "name": "volumechange"
+            },
+            {
+              "description": "`detail: { fullscreen }`.",
+              "name": "fullscreenchange"
+            },
+            {
+              "description": "/ leavepictureinpicture",
+              "name": "enterpictureinpicture"
+            },
+            {
+              "description": "`detail: { code, message }`. Not named \"error\" — that event type bubbling to `window` is conventionally read as an uncaught page error by test harnesses and error-tracking tools.",
+              "name": "loomi-video-error"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "src",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "src"
+            },
+            {
+              "name": "poster",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "poster"
+            },
+            {
+              "name": "controls",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Shows the themed control bar, loading spinner, error state, and click-to-play\noverlay. Left unset, this is a bare, unstyled passthrough to `<video>` — matching\nnative `<video>` (no `controls` attribute = no interactive UI at all).",
+              "fieldName": "controls"
+            },
+            {
+              "name": "autoplay",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "autoplay"
+            },
+            {
+              "name": "loop",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "loop"
+            },
+            {
+              "name": "muted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "muted"
+            },
+            {
+              "name": "volume",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "volume"
+            },
+            {
+              "name": "preload",
+              "type": {
+                "text": "LoomiVideoPreload"
+              },
+              "default": "\"metadata\"",
+              "fieldName": "preload"
+            },
+            {
+              "name": "playsinline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Defaults to `true` (unlike native `<video>`) because without it, iOS Safari hijacks\n`play()` into its own native fullscreen player — which would hide our control bar\nentirely. Set `playsinline=\"false\"` to opt back into that native behavior.",
+              "fieldName": "playsinline"
+            },
+            {
+              "name": "crossOrigin",
+              "type": {
+                "text": "LoomiVideoCrossOrigin"
+              },
+              "default": "\"\"",
+              "fieldName": "crossOrigin"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "description": "Accent color for the control bar (play button, seek/volume sliders, focus ring).",
+              "fieldName": "color"
+            },
+            {
+              "name": "aspect-ratio",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"16 / 9\"",
+              "fieldName": "aspectRatio"
+            },
+            {
+              "name": "fit",
+              "type": {
+                "text": "LoomiVideoFit"
+              },
+              "default": "\"contain\"",
+              "fieldName": "fit"
+            },
+            {
+              "name": "autohide-controls",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Hide the control bar after a few seconds of inactivity while playing.",
+              "fieldName": "autohideControls"
+            },
+            {
+              "name": "disable-pip",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disablePip"
+            },
+            {
+              "name": "disable-fullscreen",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disableFullscreen"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-video",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiVideo",
+          "declaration": {
+            "name": "LoomiVideo",
+            "module": "src/loomi-video.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-video",
+          "declaration": {
+            "name": "LoomiVideo",
+            "module": "src/loomi-video.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,570 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiAvatar",
+          "declaration": {
+            "name": "LoomiAvatar",
+            "module": "./loomi-avatar.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiAvatars",
+          "declaration": {
+            "name": "LoomiAvatars",
+            "module": "./loomi-avatar.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiAvatarSize",
+          "declaration": {
+            "name": "LoomiAvatarSize",
+            "module": "./loomi-avatar.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-avatar.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-avatar>` — a rounded image or initials avatar with optional status dot.\nWrap several in `<loomi-avatars>` to stack them.\n\nSet `editable` to let users replace the image themselves: clicking (or\nEnter/Space-ing) the avatar launches a crop dialog and swaps in the result. See the\nREADME for how to persist the picked file.",
+          "name": "LoomiAvatar",
+          "members": [
+            {
+              "kind": "field",
+              "name": "image",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "image"
+            },
+            {
+              "kind": "field",
+              "name": "alt",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"avatar\"",
+              "attribute": "alt"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "LoomiAvatarSize"
+              },
+              "default": "\"regular\"",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "dotted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "dotted"
+            },
+            {
+              "kind": "field",
+              "name": "pulseDot",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "pulse-dot"
+            },
+            {
+              "kind": "field",
+              "name": "dotColor",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"success\"",
+              "attribute": "dot-color"
+            },
+            {
+              "kind": "field",
+              "name": "dotPosition",
+              "type": {
+                "text": "\"top\" | \"bottom\""
+              },
+              "default": "\"bottom\"",
+              "attribute": "dot-position"
+            },
+            {
+              "kind": "field",
+              "name": "bgColor",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"gray\"",
+              "attribute": "bg-color"
+            },
+            {
+              "kind": "field",
+              "name": "showRing",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-ring"
+            },
+            {
+              "kind": "field",
+              "name": "verified",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "verified",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "editable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "editable",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "editLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Edit avatar\"",
+              "attribute": "edit-label"
+            },
+            {
+              "kind": "field",
+              "name": "filepickerReady",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "filepickerLoading",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "imageObjectUrl",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "filepickerEl",
+              "type": {
+                "text": "LoomiFilepicker | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "openEditor",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "onEditKeydown",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onFilepickerChange",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "CustomEvent<{ files: File[] }>"
+                  }
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Fired after a new image is picked via `editable`. `detail: { file, image }`."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "image",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "image"
+            },
+            {
+              "name": "alt",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"avatar\"",
+              "fieldName": "alt"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "LoomiAvatarSize"
+              },
+              "default": "\"regular\"",
+              "fieldName": "size"
+            },
+            {
+              "name": "dotted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "dotted"
+            },
+            {
+              "name": "pulse-dot",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "pulseDot"
+            },
+            {
+              "name": "dot-color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"success\"",
+              "fieldName": "dotColor"
+            },
+            {
+              "name": "dot-position",
+              "type": {
+                "text": "\"top\" | \"bottom\""
+              },
+              "default": "\"bottom\"",
+              "fieldName": "dotPosition"
+            },
+            {
+              "name": "bg-color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"gray\"",
+              "fieldName": "bgColor"
+            },
+            {
+              "name": "show-ring",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showRing"
+            },
+            {
+              "name": "verified",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "verified"
+            },
+            {
+              "name": "editable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "editable"
+            },
+            {
+              "name": "edit-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Edit avatar\"",
+              "fieldName": "editLabel"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-avatar",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-avatars>` — a group/stack of `<loomi-avatar>` children, with an optional\n\"+N\" bubble.",
+          "name": "LoomiAvatars",
+          "slots": [
+            {
+              "description": "`<loomi-avatar>` children.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "stacked",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "stacked",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "dotted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "dotted"
+            },
+            {
+              "kind": "field",
+              "name": "pulseDot",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "pulse-dot"
+            },
+            {
+              "kind": "field",
+              "name": "dotColor",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"success\"",
+              "attribute": "dot-color"
+            },
+            {
+              "kind": "field",
+              "name": "dotPosition",
+              "type": {
+                "text": "\"top\" | \"bottom\""
+              },
+              "default": "\"bottom\"",
+              "attribute": "dot-position"
+            },
+            {
+              "kind": "field",
+              "name": "plus",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "plus"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "LoomiAvatarSize"
+              },
+              "default": "\"regular\"",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "stackSpace",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "stack-space"
+            },
+            {
+              "kind": "field",
+              "name": "syncChildren",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "stacked",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "stacked"
+            },
+            {
+              "name": "dotted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "dotted"
+            },
+            {
+              "name": "pulse-dot",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "pulseDot"
+            },
+            {
+              "name": "dot-color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"success\"",
+              "fieldName": "dotColor"
+            },
+            {
+              "name": "dot-position",
+              "type": {
+                "text": "\"top\" | \"bottom\""
+              },
+              "default": "\"bottom\"",
+              "fieldName": "dotPosition"
+            },
+            {
+              "name": "plus",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "plus"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "LoomiAvatarSize"
+              },
+              "default": "\"regular\"",
+              "fieldName": "size"
+            },
+            {
+              "name": "stack-space",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "stackSpace"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-avatars",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiAvatar",
+          "declaration": {
+            "name": "LoomiAvatar",
+            "module": "src/loomi-avatar.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-avatar",
+          "declaration": {
+            "name": "LoomiAvatar",
+            "module": "src/loomi-avatar.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiAvatars",
+          "declaration": {
+            "name": "LoomiAvatars",
+            "module": "src/loomi-avatar.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-avatars",
+          "declaration": {
+            "name": "LoomiAvatars",
+            "module": "src/loomi-avatar.ts"
+          }
+        }
+      ]
+    }
+  ]
+}
