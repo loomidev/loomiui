@@ -79,8 +79,6 @@ const input = `@layer theme, base, components, utilities;
 ${colorMap.join("\n")}
 }
 
-@source "./src/**/*.ts";
-@source not "./src/generated/**/*";
 
 ${passthrough}
 `;

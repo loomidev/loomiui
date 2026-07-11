@@ -48,14 +48,12 @@ passthrough = passthrough.replace(
 
 const input = `@layer theme, base, components, utilities;
 @import "tailwindcss/theme.css" layer(theme);
-@import "tailwindcss/utilities.css" layer(utilities);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
 
 @theme inline {
 ${colorMap.join("\n")}
 }
 
-@source "./src/**/*.ts";
-@source not "./src/generated/**/*";
 
 /* ---- component-scoped plain CSS (passed through untouched) ---- */
 ${passthrough}
