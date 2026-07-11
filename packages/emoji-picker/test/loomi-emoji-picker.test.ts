@@ -48,7 +48,7 @@ describe("loomi-emoji-picker", () => {
   it("selects an emoji, emits the selected item, and closes the dropdown", async () => {
     const el = await fixture<LoomiEmojiPicker>(html`<loomi-emoji-picker></loomi-emoji-picker>`);
     let selected = "";
-    el.addEventListener("emoji-select", (event) => {
+    el.addEventListener("loomi-emoji-select", (event) => {
       selected = (event as CustomEvent).detail.emoji;
     });
 

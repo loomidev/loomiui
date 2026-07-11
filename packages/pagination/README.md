@@ -63,7 +63,7 @@ or hide it entirely.
 <loomi-pagination id="p" total="240" page-size="25"></loomi-pagination>
 
 <script type="module">
-  document.getElementById("p").addEventListener("page-change", (e) => {
+  document.getElementById("p").addEventListener("loomi-page-change", (e) => {
     console.log(e.detail.page); // the new current page
     loadPage(e.detail.page);
   });
@@ -94,7 +94,7 @@ results you render yourself).
     pager.total = total;
     renderResults(items);
   }
-  pager.addEventListener("page-change", (e) => loadPage(e.detail.page));
+  pager.addEventListener("loomi-page-change", (e) => loadPage(e.detail.page));
   loadPage(1);
 </script>
 ```
@@ -134,7 +134,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `total-label` | `Showing :a to :b of :c` | Label format (`:a` start, `:b` end, `:c` total). |
 | `color` | `primary` | Active-page color. |
 
-**Event:** `page-change` (`detail: { page }`). **Property:** `pageCount` (read-only).
+**Event:** `loomi-page-change` (`detail: { page }`). **Property:** `pageCount` (read-only).
 
 ## Full Example
 

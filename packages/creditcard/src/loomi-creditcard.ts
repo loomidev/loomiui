@@ -126,7 +126,7 @@ function formatExpiryDisplay(month: string, year: string): string {
  * @csspart flip-button - The button that flips the card.
  * @fires input - Fired on every keystroke in any field. `detail` is the current `value`.
  * @fires change - Fired on blur/commit of any field. `detail` is the current `value`.
- * @fires flip - `detail: { flipped }` when the card flips.
+ * @fires loomi-flip - `detail: { flipped }` when the card flips.
  */
 @customElement("loomi-creditcard")
 export class LoomiCreditcard extends LoomiElement {
@@ -241,7 +241,7 @@ export class LoomiCreditcard extends LoomiElement {
   private toggleFlip(): void {
     if (this.disabled) return;
     this.flipped = !this.flipped;
-    this.dispatchEvent(new CustomEvent("flip", { bubbles: true, composed: true, detail: { flipped: this.flipped } }));
+    this.dispatchEvent(new CustomEvent("loomi-flip", { bubbles: true, composed: true, detail: { flipped: this.flipped } }));
     void this.updateComplete.then(() => {
       if (this.flipped) this.cvcInputEl?.focus();
       else this.numberInputEl?.focus();

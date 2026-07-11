@@ -110,7 +110,7 @@ separated, pipe separated, or a JSON array.
 ```
 
 The selected values are exposed as `.prefixValue` / `.suffixValue`. Changing a dropdown
-also emits `prefix-change` or `suffix-change` with `{ value }`.
+also emits `loomi-prefix-change` or `loomi-suffix-change` with `{ value }`.
 
 ## Hints
 

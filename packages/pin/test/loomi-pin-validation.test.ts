@@ -1,4 +1,4 @@
-import { html, fixture, expect } from "@open-wc/testing";
+import { html, fixture, expect, waitUntil } from "@open-wc/testing";
 import "../dist/loomi-pin.js";
 import type { LoomiPin } from "../dist/index.js";
 import type { LoomiNotification } from "@loomidev/notification";
@@ -7,6 +7,14 @@ const inputs = (el: LoomiPin): HTMLInputElement[] =>
   Array.from(el.shadowRoot!.querySelectorAll<HTMLInputElement>("input"));
 
 describe("loomi-pin validation", () => {
+  // The toast system is lazy-imported, so a toast triggered in one test can land on
+  // document.body asynchronously during the next. Flush pending toasts and clear the
+  // shared host so every test starts from a clean slate.
+  beforeEach(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    document.body.querySelectorAll("loomi-notification").forEach((n) => n.remove());
+  });
+
   afterEach(() => {
     document.querySelectorAll("loomi-notification").forEach((el) => el.remove());
   });
@@ -77,6 +85,11 @@ describe("loomi-pin validation", () => {
     el.showError();
     await el.updateComplete;
 
+    // The toast module is lazy-imported on the first failure, so the host (and its keyed
+    // re-render — earlier tests in this file leave a stale toast host behind) appears asynchronously.
+    await waitUntil(() =>
+      document.body.querySelector("loomi-notification")?.shadowRoot?.textContent?.includes("Yikes, check your code") ?? false,
+    );
     const host = document.body.querySelector("loomi-notification") as LoomiNotification;
     expect(host).to.exist;
     await host.updateComplete;
@@ -95,6 +108,8 @@ describe("loomi-pin validation", () => {
     el.showError();
     await el.updateComplete;
 
+    // The toast module is lazy-imported on the first failure, so the host appears asynchronously.
+    await waitUntil(() => !!document.body.querySelector("loomi-notification"));
     const hosts = document.body.querySelectorAll("loomi-notification");
     expect(hosts).to.have.length(1);
     const host = hosts[0] as LoomiNotification;

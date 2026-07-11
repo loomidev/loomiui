@@ -104,7 +104,7 @@ export class LoomiProgressCircle extends LoomiElement {
  * @slot - Extra content below the description.
  * @slot label - Custom label content.
  * @slot description - Custom description content.
- * @fires progress-step-select - `detail: { index, value, label, state }`.
+ * @fires loomi-progress-step-select - `detail: { index, value, label, state }`.
  */
 @customElement("loomi-progress-step")
 export class LoomiProgressStep extends LoomiElement {
@@ -141,7 +141,7 @@ export class LoomiProgressStep extends LoomiElement {
   private onSelect(): void {
     if (this.disabled) return;
     this.dispatchEvent(
-      new CustomEvent("progress-step-select", {
+      new CustomEvent("loomi-progress-step-select", {
         bubbles: true,
         composed: true,
         detail: {
@@ -213,7 +213,7 @@ export class LoomiProgressStep extends LoomiElement {
  * `<loomi-progress-steps>` — a horizontal or vertical progress stepper.
  *
  * @slot - `<loomi-progress-step>` children.
- * @fires progress-steps-change - `detail: { current, step }`.
+ * @fires loomi-progress-steps-change - `detail: { current, step }`.
  */
 @customElement("loomi-progress-steps")
 export class LoomiProgressSteps extends LoomiElement {
@@ -265,7 +265,7 @@ export class LoomiProgressSteps extends LoomiElement {
     this.current = step.stepIndex;
     this.syncSteps();
     this.dispatchEvent(
-      new CustomEvent("progress-steps-change", {
+      new CustomEvent("loomi-progress-steps-change", {
         bubbles: true,
         composed: true,
         detail: { current: this.current, step },
@@ -286,7 +286,7 @@ export class LoomiProgressSteps extends LoomiElement {
       class="loomi-steps ${this.orientation} ${this.size}"
       role="list"
       style=${accentVars(this.color)}
-      @progress-step-select=${this.onStepSelect}
+      @loomi-progress-step-select=${this.onStepSelect}
     ><slot @slotchange=${this.syncSteps}></slot></div>`;
   }
 }

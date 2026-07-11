@@ -11,7 +11,7 @@ export type LoomiEmptyImageSize = "small" | "medium" | "large" | "xl" | "omg";
  * heading, message and action button.
  *
  * @slot - Custom content (used when `show-image="false"`).
- * @fires action - Fired when the action button is clicked.
+ * @fires loomi-action - Fired when the action button is clicked.
  */
 @customElement("loomi-empty-state")
 export class LoomiEmptyState extends LoomiElement {

@@ -43,11 +43,11 @@ let activeDrag: { source: LoomiSortable; items: LoomiSortableItem[] } | null = n
  * Form-associated: when `name` is set, the host submits the current order (JSON array
  * of ids) like a native form control.
  *
- * @fires reorder - `detail: { order }` after reordering within the same list.
- * @fires transfer - `detail: { order, items }` on BOTH lists involved, after item(s)
+ * @fires loomi-reorder - `detail: { order }` after reordering within the same list.
+ * @fires loomi-transfer - `detail: { order, items }` on BOTH lists involved, after item(s)
  *   move from one list to another.
- * @fires item-click - `detail: { item }` when a row is clicked outside multi-drag mode.
- * @fires filter - `detail: { item }` when a filtered row is clicked or drag-started.
+ * @fires loomi-item-click - `detail: { item }` when a row is clicked outside multi-drag mode.
+ * @fires loomi-filter - `detail: { item }` when a filtered row is clicked or drag-started.
  */
 @customElement("loomi-sortable")
 export class LoomiSortable extends LoomiElement {
@@ -225,7 +225,7 @@ export class LoomiSortable extends LoomiElement {
   }
 
   private emitFilter(item: LoomiSortableItem): void {
-    this.dispatchEvent(new CustomEvent("filter", { bubbles: true, composed: true, detail: { item } }));
+    this.dispatchEvent(new CustomEvent("loomi-filter", { bubbles: true, composed: true, detail: { item } }));
   }
 
   private onRowClick(item: LoomiSortableItem, e: MouseEvent): void {
@@ -242,7 +242,7 @@ export class LoomiSortable extends LoomiElement {
       this.selectedIds = next;
       return;
     }
-    this.dispatchEvent(new CustomEvent("item-click", { bubbles: true, composed: true, detail: { item } }));
+    this.dispatchEvent(new CustomEvent("loomi-item-click", { bubbles: true, composed: true, detail: { item } }));
   }
 
   private onDragStart(i: number, e: DragEvent): void {
@@ -320,7 +320,7 @@ export class LoomiSortable extends LoomiElement {
     this.selectedIds = new Set();
     this.endDrag();
     if (this.order.join("\u0000") !== before) {
-      this.dispatchEvent(new CustomEvent("reorder", { bubbles: true, composed: true, detail: { order: this.order } }));
+      this.dispatchEvent(new CustomEvent("loomi-reorder", { bubbles: true, composed: true, detail: { order: this.order } }));
     }
   }
 
@@ -366,10 +366,10 @@ export class LoomiSortable extends LoomiElement {
     source.dragOverContainer = false;
     this.endDrag();
     source.dispatchEvent(
-      new CustomEvent("transfer", { bubbles: true, composed: true, detail: { order: source.order, items: dragged } }),
+      new CustomEvent("loomi-transfer", { bubbles: true, composed: true, detail: { order: source.order, items: dragged } }),
     );
     this.dispatchEvent(
-      new CustomEvent("transfer", { bubbles: true, composed: true, detail: { order: this.order, items: incoming } }),
+      new CustomEvent("loomi-transfer", { bubbles: true, composed: true, detail: { order: this.order, items: incoming } }),
     );
   }
 

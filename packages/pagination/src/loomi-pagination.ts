@@ -19,7 +19,7 @@ const booleanConverter = {
 
 /**
  * `<loomi-pagination>` — page controls driven by `total`, `page-size` and `page`.
- * Emits `page-change` (`detail: { page }`). Styles: `arrows`, `numbers`, `dropdown`.
+ * Emits `loomi-page-change` (`detail: { page }`). Styles: `arrows`, `numbers`, `dropdown`.
  */
 @customElement("loomi-pagination")
 export class LoomiPagination extends LoomiElement {
@@ -50,7 +50,7 @@ export class LoomiPagination extends LoomiElement {
     if (clamped === this.page) return;
     this.page = clamped;
     this.dispatchEvent(
-      new CustomEvent("page-change", { bubbles: true, composed: true, detail: { page: clamped } }),
+      new CustomEvent("loomi-page-change", { bubbles: true, composed: true, detail: { page: clamped } }),
     );
   }
 

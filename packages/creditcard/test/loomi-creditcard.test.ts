@@ -61,7 +61,7 @@ describe("loomi-creditcard", () => {
     expect(front.inert).to.be.false;
     expect(back.inert).to.be.true;
 
-    const flipEvent = oneEvent(el, "flip");
+    const flipEvent = oneEvent(el, "loomi-flip");
     button.click();
     const { detail } = await flipEvent;
     await el.updateComplete;

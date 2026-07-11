@@ -137,7 +137,7 @@ timer.reset();
 
 ## Events
 
-`timer-start`, `timer-pause`, `timer-reset`, `timer-tick`, and `timer-complete`
+`loomi-timer-start`, `loomi-timer-pause`, `loomi-timer-reset`, `loomi-timer-tick`, and `loomi-timer-complete`
 bubble and include:
 
 ```ts

@@ -14,7 +14,7 @@ import "@loomidev/autocomplete";
 
 ## Basic Usage
 
-Assign suggestions as a JavaScript property, then listen for `select`.
+Assign suggestions as a JavaScript property, then listen for `loomi-select`.
 
 ```html
 <loomi-autocomplete label="Assignee" placeholder="Search teammates"></loomi-autocomplete>
@@ -86,7 +86,7 @@ they follow the app theme and `.dark` mode without custom overrides.
 
 | Event | Detail |
 | --- | --- |
-| `select` | `{ item, value, label }` |
+| `loomi-select` | `{ item, value, label }` |
 | `input` | Native input event. |
 | `change` | Native change event after selection. |
 

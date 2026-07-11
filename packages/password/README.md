@@ -54,7 +54,7 @@ Use text, a built-in icon, a slot, or a prefix dropdown.
 ```
 
 The selected dropdown value is available on `.prefixValue` and emits a composed
-`prefix-change` event with `{ value }`.
+`loomi-prefix-change` event with `{ value }`.
 
 ## Validation
 
@@ -129,7 +129,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `focus()` / `clear()` | Focus or clear the field. |
 | `validate()` | Run validation now; returns `true` when valid. |
 | `input` / `change` | Native events (composed). |
-| `prefix-change` | Fired when a prefix dropdown changes. |
+| `loomi-prefix-change` | Fired when a prefix dropdown changes. |
 
 ## Dependencies
 

@@ -21,11 +21,11 @@ const DAY_MS = 24 * HOUR_MS;
  * `<loomi-timer>` - an animated count up/down timer with day/hour/minute/second
  * digit segments, each labeled underneath.
  *
- * @fires timer-start - Fired when the timer starts.
- * @fires timer-pause - Fired when the timer pauses.
- * @fires timer-reset - Fired when the timer resets.
- * @fires timer-tick - Fired when the displayed whole second changes.
- * @fires timer-complete - Fired when a bounded timer reaches its end.
+ * @fires loomi-timer-start - Fired when the timer starts.
+ * @fires loomi-timer-pause - Fired when the timer pauses.
+ * @fires loomi-timer-reset - Fired when the timer resets.
+ * @fires loomi-timer-tick - Fired when the displayed whole second changes.
+ * @fires loomi-timer-complete - Fired when a bounded timer reaches its end.
  */
 @customElement("loomi-timer")
 export class LoomiTimer extends LoomiElement {
@@ -85,7 +85,7 @@ export class LoomiTimer extends LoomiElement {
     this.running = true;
     this.runStartedAt = performance.now();
     this.runStartedValueMs = this.displayMs;
-    this.dispatchTimerEvent("timer-start");
+    this.dispatchTimerEvent("loomi-timer-start");
     this.scheduleFrame();
   }
 
@@ -94,7 +94,7 @@ export class LoomiTimer extends LoomiElement {
     this.updateDisplay(performance.now());
     this.running = false;
     this.cancelFrame();
-    this.dispatchTimerEvent("timer-pause");
+    this.dispatchTimerEvent("loomi-timer-pause");
   }
 
   reset(emitEvent = true): void {
@@ -105,7 +105,7 @@ export class LoomiTimer extends LoomiElement {
     this.runStartedValueMs = this.displayMs;
     this.runStartedAt = 0;
     this.lastWholeSecond = this.wholeSeconds;
-    if (emitEvent) this.dispatchTimerEvent("timer-reset");
+    if (emitEvent) this.dispatchTimerEvent("loomi-timer-reset");
   }
 
   private get normalizedDirection(): LoomiTimerDirection {
@@ -202,7 +202,7 @@ export class LoomiTimer extends LoomiElement {
       this.running = false;
       this.complete = true;
       this.cancelFrame();
-      this.dispatchTimerEvent("timer-complete");
+      this.dispatchTimerEvent("loomi-timer-complete");
     }
   }
 
@@ -211,7 +211,7 @@ export class LoomiTimer extends LoomiElement {
     if (nextWholeSecond === this.lastWholeSecond) return;
     this.lastWholeSecond = nextWholeSecond;
     this.animateTick();
-    this.dispatchTimerEvent("timer-tick");
+    this.dispatchTimerEvent("loomi-timer-tick");
   }
 
   private dispatchTimerEvent(type: string): void {

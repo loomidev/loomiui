@@ -55,7 +55,7 @@ describe("loomi-chat-window", () => {
     await el.updateComplete;
 
     setTimeout(() => el.shadowRoot!.querySelector("form")!.requestSubmit());
-    const event = await oneEvent(el, "send");
+    const event = await oneEvent(el, "loomi-send");
 
     expect(event.detail.message.text).to.equal("Need help with scroll behavior");
     expect(event.detail.message.senderId).to.equal("you");

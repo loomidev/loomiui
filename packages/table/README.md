@@ -97,7 +97,7 @@ By default every key on the first row becomes a column. Narrow that down with
 ## Action Icons
 
 Pass an array of `{ icon, name, tip, color }` objects via `action-icons` to add a column
-of icon buttons. Listen for the `action` event to handle clicks — `e.detail` is
+of icon buttons. Listen for the `loomi-action` event to handle clicks — `e.detail` is
 `{ name, row }`, so you always get the full row data for that line.
 
 Each icon renders as a circular outline button in `secondary` by default; pass `color`
@@ -127,18 +127,18 @@ filled circle instead of the outline.
 
 ## Row Click Handler
 
-Listen for `row-click` to react to a click anywhere on a row (clicks on the action-icon
+Listen for `loomi-row-click` to react to a click anywhere on a row (clicks on the action-icon
 cell don't trigger it, so icon clicks and row clicks never collide).
 
 ```js
-t.addEventListener("row-click", (e) => goToProfile(e.detail.row.id));
+t.addEventListener("loomi-row-click", (e) => goToProfile(e.detail.row.id));
 ```
 
 ## Selectable Rows
 
 Set `selectable` to let row clicks toggle selected state. This uses the same
 selection store as checkboxes, so `selectedIds`, `selectedValue`, and
-`selection-change` all stay in sync.
+`loomi-selection-change` all stay in sync.
 
 ```html
 <loomi-table id="selectable-staff" selectable></loomi-table>
@@ -212,7 +212,7 @@ Click a sortable column heading to sort by it; click again to reverse direction.
 ## Checkable Rows
 
 Adds a checkbox column. Read the current selection from the `selectedIds` property, or
-listen for `selection-change`.
+listen for `loomi-selection-change`.
 
 ```html
 <loomi-table id="t7" checkable></loomi-table>
@@ -226,7 +226,7 @@ listen for `selection-change`.
     { id: 4, first_name: "Rita", department: "Marketing", email: "rita@loomiui.dev" },
     { id: 5, first_name: "Joe", department: "Design", email: "joe@loomiui.dev" },
   ];
-  t7.addEventListener("selection-change", (e) => {
+  t7.addEventListener("loomi-selection-change", (e) => {
     console.log(e.detail.ids); // every checked row's id
   });
 </script>
@@ -327,7 +327,7 @@ Render the message as an empty-state panel with optional image, heading, and but
 ></loomi-table>
 ```
 
-Listen for `empty-action` to handle the empty-state button. The `onclick`
+Listen for `loomi-empty-action` to handle the empty-state button. The `onclick`
 attribute is accepted and included in the event detail.
 
 ## Manual and Custom Layouts
@@ -392,7 +392,7 @@ same table:
   t.excludeColumns = "id";
   t.actionIcons = [{ icon: "trash", name: "delete", color: "error", tip: "Delete" }];
   t.addEventListener("action", (e) => console.log(e.detail));
-  t.addEventListener("selection-change", (e) => console.log(e.detail.ids));
+  t.addEventListener("loomi-selection-change", (e) => console.log(e.detail.ids));
 </script>
 ```
 
@@ -466,12 +466,12 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `heading` | _(blank)_ | Empty-state heading. |
 | `button-label` | _(blank)_ | Empty-state CTA label. |
 | `show-image` | `true` | Show empty-state image. _(boolean)_ |
-| `onclick` | _(blank)_ | empty-state action string, also emitted in `empty-action`. |
+| `onclick` | _(blank)_ | empty-state action string, also emitted in `loomi-empty-action`. |
 | `nonce` | _(blank)_ | Accepted as a no-op compatibility attribute. |
 
-**Events:** `row-click` (`{ row }`), `action` (`{ name, row }`),
-`action-call`, `selection-change` (`{ ids, rows, selectedValue }`), `empty-action`,
-`page-change` (`{ page }`).
+**Events:** `loomi-row-click` (`{ row }`), `action` (`{ name, row }`),
+`loomi-action-call`, `loomi-selection-change` (`{ ids, rows, selectedValue }`), `loomi-empty-action`,
+`loomi-page-change` (`{ page }`).
 **Properties:** `selectedIds`, `selectedRows` (read-only current selection).
 
 ## Full Example

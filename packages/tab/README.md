@@ -40,11 +40,11 @@ is selected by default — it doesn't have to be the first one. If none is marke
 </loomi-tabs>
 ```
 
-Listen for `tab-change` on `<loomi-tabs>` if you need to react to the switch (e.g. lazy-
+Listen for `loomi-tab-change` on `<loomi-tabs>` if you need to react to the switch (e.g. lazy-
 loading a panel's data):
 
 ```js
-document.querySelector("loomi-tabs").addEventListener("tab-change", (e) => {
+document.querySelector("loomi-tabs").addEventListener("loomi-tab-change", (e) => {
   console.log(e.detail.label); // the newly active tab's label
 });
 ```
@@ -218,7 +218,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `disabled` | `false` | Disabled tab — faded out, ignores clicks and keyboard focus. _(boolean)_ |
 | `url` | _(blank)_ | Navigate to this URL instead of switching panels. |
 
-**Event:** `tab-change` (`detail: { label }`), fired on `<loomi-tabs>` when the active
+**Event:** `loomi-tab-change` (`detail: { label }`), fired on `<loomi-tabs>` when the active
 tab changes by click or keyboard.
 
 ## Full Example

@@ -73,7 +73,7 @@ describe("loomi-button-group", () => {
     expect(button.disabled).to.be.true;
   });
 
-  it("selects a clicked item and emits button-group-change", async () => {
+  it("selects a clicked item and emits loomi-button-group-change", async () => {
     const el = await fixture<LoomiButtonGroup>(html`
       <loomi-button-group>
         <loomi-button-group-item label="Day" value="day" selected></loomi-button-group-item>
@@ -84,7 +84,7 @@ describe("loomi-button-group", () => {
     const weekBtn = items[1].shadowRoot!.querySelector("button")!;
 
     setTimeout(() => weekBtn.click());
-    const { detail } = await oneEvent(el, "button-group-change");
+    const { detail } = await oneEvent(el, "loomi-button-group-change");
 
     expect(detail.value).to.equal("week");
     expect(detail.index).to.equal(1);

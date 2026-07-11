@@ -62,7 +62,7 @@ describe("loomi-timer", () => {
 
   it("reflects running state and emits start events", async () => {
     const el = await fixture<LoomiTimer>(html`<loomi-timer></loomi-timer>`);
-    const event = oneEvent(el, "timer-start");
+    const event = oneEvent(el, "loomi-timer-start");
 
     el.start();
     await event;

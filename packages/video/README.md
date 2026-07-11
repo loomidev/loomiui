@@ -86,7 +86,7 @@ While the browser is buffering (initial load or a mid-playback stall),
 `loomi-video` shows a themed `@loomidev/spinner` overlay. If the media fails
 to load — a bad URL, an unsupported format, a network error — it shows a
 friendly message with a "Retry" button that reloads the source. Listen for
-the `video-error` event to hook in your own logging/telemetry.
+the `loomi-video-error` event to hook in your own logging/telemetry.
 
 ## Keyboard Accessibility
 
@@ -203,7 +203,7 @@ observe it without reaching into internals):
 | `volumechange` | `{ volume, muted }` |
 | `fullscreenchange` | `{ fullscreen }` |
 | `enterpictureinpicture` / `leavepictureinpicture` | _(none)_ |
-| `video-error` | `{ code, message }`. Not named `error` — that type bubbling to `window` reads as an uncaught page error to test harnesses and error-tracking tools. |
+| `loomi-video-error` | `{ code, message }`. Not named `error` — that type bubbling to `window` reads as an uncaught page error to test harnesses and error-tracking tools. |
 
 ## Dependencies
 

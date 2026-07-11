@@ -29,6 +29,14 @@ function selectFiles(el: LoomiFilepicker, files: File[]): void {
 }
 
 describe("loomi-filepicker", () => {
+  // The toast system is lazy-imported, so a toast triggered in one test can land on
+  // document.body asynchronously during the next. Flush pending toasts and clear the
+  // shared host so every test starts from a clean slate.
+  beforeEach(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    document.body.querySelectorAll("loomi-notification").forEach((n) => n.remove());
+  });
+
   afterEach(() => {
     // The crop dialog is a real <loomi-modal> that relocates itself to document.body
     // while open, and toasts mount their own <loomi-notification> host there too.
@@ -79,6 +87,8 @@ describe("loomi-filepicker", () => {
     await el.updateComplete;
 
     expect(el.selectedFiles).to.have.lengthOf(0);
+    // The toast module is lazy-imported on the first failure, so the host appears asynchronously.
+    await waitUntil(() => !!document.body.querySelector("loomi-notification"));
     const host = document.body.querySelector("loomi-notification") as LoomiNotification;
     expect(host).to.exist;
     await host.updateComplete;

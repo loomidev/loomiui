@@ -59,7 +59,7 @@ describe("loomi-pin", () => {
       </form>
     `);
     const el = form.querySelector<LoomiPin>("loomi-pin")!;
-    const verify = oneEvent(el, "verify") as Promise<CustomEvent<{ pin: string; code: string }>>;
+    const verify = oneEvent(el, "loomi-verify") as Promise<CustomEvent<{ pin: string; code: string }>>;
 
     for (const [index, value] of ["1", "2", "3", "4"].entries()) {
       const box = inputs(el)[index];

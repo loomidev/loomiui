@@ -30,7 +30,7 @@ const RADIUS_VARS: Record<LoomiButtonGroupRadius, string> = {
  * Set `label` for button text, `icon` for a built-in icon name, `icon-right` to place
  * the icon after the label, `icon-only` to visually hide the label, `selected` to mark
  * this item as active, and `disabled` to disable just this item. The `value` attribute
- * is surfaced in the `button-group-change` event emitted by the parent.
+ * is surfaced in the `loomi-button-group-change` event emitted by the parent.
  *
  * @slot - Button label text (used when the `label` attribute is absent).
  * @fires loomi-bg-click - Bubbles + composed; `detail: { value }`. Handled by the parent.
@@ -60,7 +60,7 @@ export class LoomiButtonGroupItem extends LoomiElement {
   /** Disable this individual item. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
-  /** Value surfaced in the `button-group-change` event. Falls back to `label`. */
+  /** Value surfaced in the `loomi-button-group-change` event. Falls back to `label`. */
   @property() value = "";
 
   private get parentGroupState(): { disabled: boolean; iconOnly: boolean } {
@@ -142,7 +142,7 @@ export class LoomiButtonGroupItem extends LoomiElement {
  * last button instead of stretching across the parent.
  *
  * @slot - `<loomi-button-group-item>` children.
- * @fires button-group-change - `detail: { value, label, index }` when selection changes.
+ * @fires loomi-button-group-change - `detail: { value, label, index }` when selection changes.
  *
  * @example
  * ```html
@@ -228,7 +228,7 @@ export class LoomiButtonGroup extends LoomiElement {
 
     const index = items.indexOf(clicked);
     this.dispatchEvent(
-      new CustomEvent("button-group-change", {
+      new CustomEvent("loomi-button-group-change", {
         bubbles: true,
         composed: true,
         detail: {

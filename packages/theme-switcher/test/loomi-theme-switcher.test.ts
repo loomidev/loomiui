@@ -20,7 +20,7 @@ describe("loomi-theme-switcher", () => {
     const el = await fixture<LoomiThemeSwitcher>(html`<loomi-theme-switcher variant="dropmenu"></loomi-theme-switcher>`);
     const dropmenu = el.shadowRoot!.querySelector("loomi-dropmenu") as HTMLElement & { updateComplete: Promise<unknown> };
     const changes: string[] = [];
-    el.addEventListener("theme-change", (event) => changes.push((event as CustomEvent<{ theme: string }>).detail.theme));
+    el.addEventListener("loomi-theme-change", (event) => changes.push((event as CustomEvent<{ theme: string }>).detail.theme));
 
     dropmenu.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!.click();
     await dropmenu.updateComplete;

@@ -95,7 +95,7 @@ custom content gets a subtle shimmer treatment while the composer is disabled.
 Set `show-conversations` and assign `conversations` to render an inbox-style list pane
 on the left of the transcript. Each conversation carries `id`, `name`, and optional
 `preview`, `time`, `unread`, `image`, `label`, and `color`. Clicking a row sets
-`active-conversation-id` and fires `conversation-select` — swap in that conversation's
+`active-conversation-id` and fires `loomi-conversation-select` — swap in that conversation's
 `messages` (and header `title`/`description`) from your handler.
 
 ```html
@@ -107,7 +107,7 @@ on the left of the transcript. Each conversation carries `id`, `name`, and optio
     { id: "akosua", name: "Akosua Boateng", preview: "Can you share the wireframes?", time: "10:24 AM", unread: 2, image: "/avatars/akosua.jpg" },
     { id: "kofi", name: "Kofi Asare", preview: "API integration is complete.", time: "9:15 AM", unread: 1 },
   ];
-  chat.addEventListener("conversation-select", (event) => {
+  chat.addEventListener("loomi-conversation-select", (event) => {
     chat.messages = loadTranscript(event.detail.conversation.id);
   });
 </script>
@@ -209,9 +209,9 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 | Event | Detail | Description |
 | --- | --- | --- |
-| `send` | `{ message }` | Current user submitted the composer. |
-| `reset` | — | Transcript cleared. |
-| `conversation-select` | `{ conversation }` | A conversation row was clicked. |
+| `loomi-send` | `{ message }` | Current user submitted the composer. |
+| `loomi-reset` | — | Transcript cleared. |
+| `loomi-conversation-select` | `{ conversation }` | A conversation row was clicked. |
 
 ## Methods
 

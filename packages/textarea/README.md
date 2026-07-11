@@ -104,13 +104,13 @@ so `foo@bar.com` does **not** open it, but `hi @bar` does.
   };
 
   // Fired while the user types after a trigger — use to load items asynchronously.
-  el.addEventListener("mention-search", (e) => {
+  el.addEventListener("loomi-mention-search", (e) => {
     const { trigger, query } = e.detail;
     // fetch and reassign el.mentionData[trigger] if needed
   });
 
   // Fired when the user picks an item.
-  el.addEventListener("mention-select", (e) => {
+  el.addEventListener("loomi-mention-select", (e) => {
     const { trigger, item } = e.detail;
     console.log("selected", trigger, item);
   });
@@ -122,7 +122,7 @@ Each item in `mentionData` accepts these fields:
 | Field | Type | Description |
 | --- | --- | --- |
 | `label` | `string` | **Required.** Inserted into the textarea as `trigger + label + " "`. |
-| `value` | `string?` | Opaque value included in `mention-select` detail. |
+| `value` | `string?` | Opaque value included in `loomi-mention-select` detail. |
 | `description` | `string?` | Secondary text shown on the right of the item. |
 | `image` | `string?` | URL of an avatar/icon shown on the left. |
 
@@ -191,7 +191,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 **Properties (JS only):** `mentionData` — `Record<string, { label, value?, description?, image? }[]>`.
 
-**Methods:** `focus()`, `validate()`. **Events:** `input`, `change`, `mention-search`, `mention-select` (all composed).
+**Methods:** `focus()`, `validate()`. **Events:** `input`, `change`, `loomi-mention-search`, `loomi-mention-select` (all composed).
 **Parts:** `field`, `textarea`, `mention-panel`.
 
 > Looking for a rich-text editor? See [`@loomidev/text-editor`](../text-editor),

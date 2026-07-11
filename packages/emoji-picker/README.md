@@ -85,7 +85,7 @@ markup works as expected too:
 
 `change` fires with `detail: { value, emoji, item }` after selection.
 
-`emoji-select` fires with `detail: { value, emoji, name, category, item }`.
+`loomi-emoji-select` fires with `detail: { value, emoji, name, category, item }`.
 
 ## Accessibility
 

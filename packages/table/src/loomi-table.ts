@@ -63,12 +63,12 @@ function fillTemplate(template: string, row: Row): string {
  * @slot header - Manual `<th>` cells, or a `<template>` for custom layout headings.
  * @slot row - Optional `<template>` used when `layout="custom"` and `data` is set.
  * @slot - Manual `<tr>` rows when not using `data`.
- * @fires row-click - `detail: { row, id }` when a row is clicked.
- * @fires action - `detail: { name, row, action, click }` when an action icon is clicked.
- * @fires action-call - `detail: { name, row, action, click, resolvedClick }` for Bladewind-style click strings.
- * @fires selection-change - `detail: { ids, rows, selectedValue }` when selected rows change.
- * @fires empty-action - `detail: { action }` when the empty-state button is clicked.
- * @fires page-change - `detail: { page }` when the page changes.
+ * @fires loomi-row-click - `detail: { row, id }` when a row is clicked.
+ * @fires loomi-action - `detail: { name, row, action, click }` when an action icon is clicked.
+ * @fires loomi-action-call - `detail: { name, row, action, click, resolvedClick }` for Bladewind-style click strings.
+ * @fires loomi-selection-change - `detail: { ids, rows, selectedValue }` when selected rows change.
+ * @fires loomi-empty-action - `detail: { action }` when the empty-state button is clicked.
+ * @fires loomi-page-change - `detail: { page }` when the page changes.
  */
 @customElement("loomi-table")
 export class LoomiTable extends LoomiElement {
@@ -297,7 +297,7 @@ export class LoomiTable extends LoomiElement {
   private emitSelection(): void {
     this.selectedValue = [...this.checked].join(",");
     this.dispatchEvent(
-      new CustomEvent("selection-change", {
+      new CustomEvent("loomi-selection-change", {
         bubbles: true,
         composed: true,
         detail: { ids: this.selectedIds, rows: this.selectedRows, selectedValue: this.selectedValue },
@@ -334,7 +334,7 @@ export class LoomiTable extends LoomiElement {
   }
 
   private callNamedAction(action: string, detail: Record<string, unknown>): void {
-    this.dispatchEvent(new CustomEvent("action-call", { bubbles: true, composed: true, detail }));
+    this.dispatchEvent(new CustomEvent("loomi-action-call", { bubbles: true, composed: true, detail }));
     const match = action.match(/^([A-Za-z_$][\w$]*)\(\)$/);
     if (!match) return;
     const fn = (globalThis as unknown as Record<string, unknown>)[match[1]];
@@ -355,7 +355,7 @@ export class LoomiTable extends LoomiElement {
         e.stopPropagation();
         const name = item.name ?? item.icon;
         const resolvedClick = item.click ? this.resolveClick(item.click, row) : "";
-        this.dispatchEvent(new CustomEvent("action", { bubbles: true, composed: true, detail: { name, row, action: item, click: item.click, resolvedClick } }));
+        this.dispatchEvent(new CustomEvent("loomi-action", { bubbles: true, composed: true, detail: { name, row, action: item, click: item.click, resolvedClick } }));
         if (resolvedClick) this.callNamedAction(resolvedClick, { name, row, action: item, click: item.click, resolvedClick });
       }}
     >
@@ -367,7 +367,7 @@ export class LoomiTable extends LoomiElement {
 
   private onRowClick(row: Row, id: string): void {
     if (this.selectable) this.toggleRow(id, !this.checked.has(id));
-    this.dispatchEvent(new CustomEvent("row-click", { bubbles: true, composed: true, detail: { row, id } }));
+    this.dispatchEvent(new CustomEvent("loomi-row-click", { bubbles: true, composed: true, detail: { row, id } }));
   }
 
   override updated(changed: PropertyValues<this>): void {
@@ -455,7 +455,7 @@ export class LoomiTable extends LoomiElement {
         ${buttonLabel
           ? html`<button class="loomi-empty-button" type="button" @click=${() => {
               const action = this.emptyOnclick;
-              this.dispatchEvent(new CustomEvent("empty-action", { bubbles: true, composed: true, detail: { action } }));
+              this.dispatchEvent(new CustomEvent("loomi-empty-action", { bubbles: true, composed: true, detail: { action } }));
               if (action) this.callNamedAction(action, { action });
             }}>${buttonLabel}</button>`
           : nothing}
@@ -606,7 +606,7 @@ export class LoomiTable extends LoomiElement {
                 .showPageNumber=${this.showPageNumberAlias ?? this.showPageNumber}
                 .showTotalPages=${this.showTotalPagesAlias ?? this.showTotalPages}
                 .totalLabel=${this.totalLabelAlias || this.totalLabel}
-                @page-change=${(e: CustomEvent) => { this.page = e.detail.page; this.dispatchEvent(new CustomEvent("page-change", { bubbles: true, composed: true, detail: e.detail })); }}
+                @loomi-page-change=${(e: CustomEvent) => { this.page = e.detail.page; this.dispatchEvent(new CustomEvent("loomi-page-change", { bubbles: true, composed: true, detail: e.detail })); }}
               ></loomi-pagination>
             </div>`
           : nothing}
