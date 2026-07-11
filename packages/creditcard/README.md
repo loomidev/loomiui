@@ -182,7 +182,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 **Properties:** `value` (read-only `LoomiCreditcardValue`), `activeBrand` (read-only,
 the currently displayed `LoomiCardBrand`).
 **Methods:** `validate()`.
-**Events:** `input`, `change` (both `detail: LoomiCreditcardValue`, composed), `flip`
+**Events:** `input`, `change` (both `detail: LoomiCreditcardValue`, composed), `loomi-flip`
 (`detail: { flipped }`, composed).
 **Parts:** `front`, `back`, `number`, `name`, `expiry`, `cvc`, `flip-button`.
 

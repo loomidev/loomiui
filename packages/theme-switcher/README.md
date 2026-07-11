@@ -90,7 +90,7 @@ Useful for translating the switcher into another language, or for different word
 ## Reacting to a Theme Change
 
 ```js
-document.querySelector("loomi-theme-switcher").addEventListener("theme-change", (e) => {
+document.querySelector("loomi-theme-switcher").addEventListener("loomi-theme-change", (e) => {
   console.log(e.detail.theme); // "light" | "dark" | "system"
 });
 ```
@@ -141,7 +141,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `icon-right` | `false` | Place icons after the text. _(boolean)_ |
 | `variant` | `horizontal` | Render style: `horizontal` or `dropmenu`. |
 
-**Helpers:** `applyLoomiTheme(mode)`, `getLoomiTheme()`. **Event:** `theme-change`
+**Helpers:** `applyLoomiTheme(mode)`, `getLoomiTheme()`. **Event:** `loomi-theme-change`
 (`detail: { theme }`).
 
 ## Full Example

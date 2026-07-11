@@ -53,7 +53,7 @@ put the smaller group on the left and the larger group on the right.
 
 ## Reacting to a Completed PIN
 
-The `verify` event fires once every box is filled. `e.detail.pin` is the joined string.
+The `loomi-verify` event fires once every box is filled. `e.detail.pin` is the joined string.
 
 ```html
 <loomi-pin></loomi-pin>
@@ -89,7 +89,7 @@ border — the border shows either way, even if `error-message` is left blank.
 
 ## Async Validation: Spinner → Checkmark or Red Boxes
 
-Call `startValidating()` as soon as the `verify` event fires to show a spinner in the
+Call `startValidating()` as soon as the `loomi-verify` event fires to show a spinner in the
 status slot (next to the boxes) while you check the code with your server. Then call
 either `showSuccess()` (spinner → green checkmark, green boxes) or `showError()`
 (spinner → red boxes, plus the error message) once the check resolves. The boxes are
@@ -175,7 +175,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 **Methods:** `clear()`, `startValidating()`, `showSuccess()`, `showError(message?)`.
 **Properties:** `pin`, `validating` (reflected), `valid` (reflected), `invalid`
-(reflected). **Event:** `verify` (`detail: { pin }`, fired when all boxes are filled).
+(reflected). **Event:** `loomi-verify` (`detail: { pin }`, fired when all boxes are filled).
 
 
 ## Full Example

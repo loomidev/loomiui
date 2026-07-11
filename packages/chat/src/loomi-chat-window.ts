@@ -44,9 +44,9 @@ const SCROLL_THRESHOLD = 24;
  * Set `show-conversations` and assign `conversations` to add an inbox-style list pane on
  * the left; `conversations-avatars-only` collapses that pane to a slim avatar rail.
  *
- * @fires send - `detail: { message: LoomiChatWindowMessage }` when the current user sends.
- * @fires reset - when the conversation is reset.
- * @fires conversation-select - `detail: { conversation }` when a conversation row is clicked.
+ * @fires loomi-send - `detail: { message: LoomiChatWindowMessage }` when the current user sends.
+ * @fires loomi-reset - when the conversation is reset.
+ * @fires loomi-conversation-select - `detail: { conversation }` when a conversation row is clicked.
  *
  * @slot conversations-header - Custom markup (filters, compose button) above the conversation list.
  * @slot header-actions - Action buttons in the chat header, before the reset button.
@@ -162,7 +162,7 @@ export class LoomiChatWindow extends LoomiElement {
     this.draft = "";
     this.pinnedToBottom = true;
     this.showJumpButton = false;
-    this.dispatchEvent(new CustomEvent("reset", { bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent("loomi-reset", { bubbles: true, composed: true }));
     this.updateComplete.then(() => this.syncComposerHeight());
   }
 
@@ -224,7 +224,7 @@ export class LoomiChatWindow extends LoomiElement {
     if (this.inputEl) this.inputEl.value = "";
     this.syncComposerHeight();
     this.dispatchEvent(
-      new CustomEvent("send", {
+      new CustomEvent("loomi-send", {
         bubbles: true,
         composed: true,
         detail: { message },
@@ -241,7 +241,7 @@ export class LoomiChatWindow extends LoomiElement {
     if (this.busy || this.readOnly) return;
     if (type === "file") this.fileInputEl?.click();
     else if (type === "picture") this.pictureInputEl?.click();
-    else this.dispatchEvent(new CustomEvent("add-user", { bubbles: true, composed: true }));
+    else this.dispatchEvent(new CustomEvent("loomi-add-user", { bubbles: true, composed: true }));
   }
 
   private onAttachmentPicked = (type: "file" | "picture") => (event: Event): void => {
@@ -249,7 +249,7 @@ export class LoomiChatWindow extends LoomiElement {
     const files = Array.from(input.files ?? []);
     if (!files.length) return;
     this.dispatchEvent(
-      new CustomEvent(type === "file" ? "attach-file" : "attach-picture", {
+      new CustomEvent(type === "file" ? "loomi-attach-file" : "loomi-attach-picture", {
         bubbles: true,
         composed: true,
         detail: { files },
@@ -262,9 +262,9 @@ export class LoomiChatWindow extends LoomiElement {
     if (this.busy || this.readOnly) return;
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      this.dispatchEvent(new CustomEvent("record", { bubbles: true, composed: true, detail: { stream } }));
+      this.dispatchEvent(new CustomEvent("loomi-record", { bubbles: true, composed: true, detail: { stream } }));
     } catch (error) {
-      this.dispatchEvent(new CustomEvent("record-error", { bubbles: true, composed: true, detail: { error } }));
+      this.dispatchEvent(new CustomEvent("loomi-record-error", { bubbles: true, composed: true, detail: { error } }));
     }
   };
 
@@ -292,7 +292,7 @@ export class LoomiChatWindow extends LoomiElement {
   private onConversationClick(conversation: LoomiChatConversation): void {
     this.activeConversationId = conversation.id;
     this.dispatchEvent(
-      new CustomEvent("conversation-select", {
+      new CustomEvent("loomi-conversation-select", {
         bubbles: true,
         composed: true,
         detail: { conversation },

@@ -138,7 +138,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `no-clearing` | `false` | Remove the default bottom margin. _(boolean)_ |
 
 **Parts:** `trigger`, `panel`. **Methods:** `reset()`, `validate()`. **Events:**
-`select` (`detail: { id, city, region, offsetLabel }`), `change` (composed).
+`loomi-select` (`detail: { id, city, region, offsetLabel }`), `change` (composed).
 
 ## Full Example
 

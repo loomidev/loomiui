@@ -37,7 +37,7 @@ export function getLoomiTheme(): LoomiTheme {
  * `<loomi-theme-switcher>` — a light/dark/system theme toggle. Persists the choice to
  * localStorage and toggles the `dark` class on `<html>`.
  *
- * @fires theme-change - `detail: { theme }` when the theme is changed.
+ * @fires loomi-theme-change - `detail: { theme }` when the theme is changed.
  */
 @customElement("loomi-theme-switcher")
 export class LoomiThemeSwitcher extends LoomiElement {
@@ -75,7 +75,7 @@ export class LoomiThemeSwitcher extends LoomiElement {
   private select(mode: LoomiTheme): void {
     this.mode = mode;
     applyLoomiTheme(mode);
-    this.dispatchEvent(new CustomEvent("theme-change", { bubbles: true, composed: true, detail: { theme: mode } }));
+    this.dispatchEvent(new CustomEvent("loomi-theme-change", { bubbles: true, composed: true, detail: { theme: mode } }));
   }
 
   private options(): Array<{ mode: LoomiTheme; text: string; icon: string }> {

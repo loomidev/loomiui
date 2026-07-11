@@ -35,7 +35,7 @@ describe("loomi-video", () => {
     const el = await fixture<LoomiVideo>(
       html`<loomi-video src="/does-not-exist.mp4" controls></loomi-video>`,
     );
-    const event = await oneEvent(el, "video-error");
+    const event = await oneEvent(el, "loomi-video-error");
     expect(event.detail.message).to.be.a("string");
     const retry = el.shadowRoot!.querySelector("loomi-button") as HTMLElement;
     retry.dispatchEvent(new Event("click", { bubbles: true, composed: true }));

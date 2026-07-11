@@ -3,13 +3,13 @@ import "../dist/loomi-input.js";
 import type { LoomiInput } from "../dist/index.js";
 
 describe("loomi-input affixes and hints", () => {
-  it("renders a prefix dropdown and emits prefix-change", async () => {
+  it("renders a prefix dropdown and emits loomi-prefix-change", async () => {
     const el = await fixture<LoomiInput>(
       html`<loomi-input prefix-options="http://,https://,ftp://" prefix-value="https://"></loomi-input>`,
     );
     const select = el.shadowRoot!.querySelector(".loomi-prefix select") as HTMLSelectElement;
     let detail: { value: string } | undefined;
-    el.addEventListener("prefix-change", (event) => {
+    el.addEventListener("loomi-prefix-change", (event) => {
       detail = (event as CustomEvent<{ value: string }>).detail;
     });
 

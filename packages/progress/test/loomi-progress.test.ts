@@ -29,7 +29,7 @@ describe("loomi-progress-steps", () => {
       </loomi-progress-steps>
     `);
     const steps = el.querySelectorAll<LoomiProgressStep>("loomi-progress-step");
-    const changed = oneEvent(el, "progress-steps-change");
+    const changed = oneEvent(el, "loomi-progress-steps-change");
 
     steps[2].shadowRoot!.querySelector<HTMLButtonElement>("button")!.click();
     const event = await changed;

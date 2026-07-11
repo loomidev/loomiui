@@ -1,9 +1,17 @@
-import { html, fixture, expect } from "@open-wc/testing";
+import { html, fixture, expect, waitUntil } from "@open-wc/testing";
 import "../dist/loomi-input.js";
 import type { LoomiInput } from "../dist/index.js";
 import type { LoomiNotification } from "@loomidev/notification";
 
 describe("loomi-input validation", () => {
+  // The toast system is lazy-imported, so a toast triggered in one test can land on
+  // document.body asynchronously during the next. Flush pending toasts and clear the
+  // shared host so every test starts from a clean slate.
+  beforeEach(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    document.body.querySelectorAll("loomi-notification").forEach((n) => n.remove());
+  });
+
   afterEach(() => {
     document.querySelectorAll("loomi-notification").forEach((el) => el.remove());
   });
@@ -46,6 +54,8 @@ describe("loomi-input validation", () => {
     el.validate();
     await el.updateComplete;
 
+    // The toast module is lazy-imported on the first failure, so the host appears asynchronously.
+    await waitUntil(() => !!document.body.querySelector("loomi-notification"));
     const host = document.body.querySelector("loomi-notification") as LoomiNotification;
     expect(host).to.exist;
     await host.updateComplete;
@@ -66,6 +76,8 @@ describe("loomi-input validation", () => {
     el.validate();
     await el.updateComplete;
 
+    // The toast module is lazy-imported on the first failure, so the host appears asynchronously.
+    await waitUntil(() => !!document.body.querySelector("loomi-notification"));
     const hosts = document.body.querySelectorAll("loomi-notification");
     expect(hosts).to.have.length(1);
     const host = hosts[0] as LoomiNotification;
@@ -90,6 +102,8 @@ describe("loomi-input validation", () => {
     el.validate(); // 2nd transition: valid -> invalid
     await el.updateComplete;
 
+    // The toast module is lazy-imported on the first failure, so the host appears asynchronously.
+    await waitUntil(() => !!document.body.querySelector("loomi-notification"));
     const hosts = document.body.querySelectorAll("loomi-notification");
     expect(hosts).to.have.length(1);
     const host = hosts[0] as LoomiNotification;

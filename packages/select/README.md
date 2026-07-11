@@ -181,7 +181,7 @@ new FormData(form).get("tags");     // "pop,jazz" (multiple)
 ## Empty State CTA
 
 When there are no options, `empty-placeholder` shows the empty message. Add
-`empty-action-label` for a small CTA; clicking it emits `empty-action`, and
+`empty-action-label` for a small CTA; clicking it emits `loomi-empty-action`, and
 `empty-action-url` can navigate directly.
 
 ```html
@@ -239,8 +239,8 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `no-clearing` | `false` | Remove the default bottom margin. _(boolean)_ |
 
 **Slot:** default (manual `<option>` children). **Parts:** `trigger`, `panel`.
-**Methods:** `reset()`, `validate()`. **Events:** `select` (`detail: { value, label, values }`),
-`change` (composed), `empty-action` (`detail: { url }`).
+**Methods:** `reset()`, `validate()`. **Events:** `loomi-select` (`detail: { value, label, values }`),
+`change` (composed), `loomi-empty-action` (`detail: { url }`).
 
 
 ## Full Example

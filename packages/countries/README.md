@@ -200,7 +200,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 **Parts:** `trigger`, `panel`, `field` (`phone` mode), `input` (`phone` mode).
 **Methods:** `reset()`, `validate()`, `checkValidity()`, `reportValidity()`.
-**Events:** `select` (`detail: { code, name, dialCode }`), `change` (composed),
+**Events:** `loomi-select` (`detail: { code, name, dialCode }`), `change` (composed),
 `input` (composed, `phone` mode only, fires while typing the number).
 
 > Flags are circle-flags (HatScripts, MIT) rather than the more detailed flag-icons set —

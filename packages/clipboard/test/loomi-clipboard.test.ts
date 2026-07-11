@@ -41,7 +41,7 @@ describe("loomi-clipboard", () => {
     const el = await fixture<LoomiClipboard>(html`
       <loomi-clipboard><div>https://example.com/share</div></loomi-clipboard>
     `);
-    const copied = oneEvent(el, "copied");
+    const copied = oneEvent(el, "loomi-copied");
 
     el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-copy-button")!.click();
     const event = await copied as CustomEvent<{ value: string }>;
@@ -56,7 +56,7 @@ describe("loomi-clipboard", () => {
     `);
 
     el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-copy-button")!.click();
-    await oneEvent(el, "copied");
+    await oneEvent(el, "loomi-copied");
 
     expect(copiedText).to.equal("actual clipboard value");
   });
@@ -67,7 +67,7 @@ describe("loomi-clipboard", () => {
     `);
 
     el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-copy-button")!.click();
-    await oneEvent(el, "copied");
+    await oneEvent(el, "loomi-copied");
     await el.updateComplete;
 
     const feedback = el.shadowRoot!.querySelector<HTMLElement>(".loomi-copy-feedback")!;

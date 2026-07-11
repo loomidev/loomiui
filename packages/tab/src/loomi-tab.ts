@@ -34,7 +34,7 @@ export class LoomiTab extends LoomiElement {
  * the active panel. Styles: `simple` (default), `system`, `pills`.
  *
  * @slot - `<loomi-tab>` children.
- * @fires tab-change - `detail: { label }` when the active tab changes.
+ * @fires loomi-tab-change - `detail: { label }` when the active tab changes.
  */
 @customElement("loomi-tabs")
 export class LoomiTabs extends LoomiElement {
@@ -74,7 +74,7 @@ export class LoomiTabs extends LoomiElement {
     for (const t of this.tabs) t.active = t === tab;
     this.requestUpdate();
     this.dispatchEvent(
-      new CustomEvent("tab-change", { bubbles: true, composed: true, detail: { label: tab.label } }),
+      new CustomEvent("loomi-tab-change", { bubbles: true, composed: true, detail: { label: tab.label } }),
     );
   }
 

@@ -56,7 +56,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | Attribute | Default | Description |
 | --- | --- | --- |
 | `label` | _(blank)_ | Visible label text. Also used as the accessible name when `icon-only` is set. |
-| `value` | _(blank)_ | Value emitted in `button-group-change`; falls back to the label or text content. |
+| `value` | _(blank)_ | Value emitted in `loomi-button-group-change`; falls back to the label or text content. |
 | `icon` | _(blank)_ | Built-in icon name from `@loomidev/icons`. |
 | `icon-right` | `false` | Place the icon after the label. _(boolean)_ |
 | `icon-only` | `false` | Hide this item's label visually and render a square icon button. _(boolean)_ |
@@ -86,7 +86,7 @@ Listen for selection changes on the group:
 </loomi-button-group>
 
 <script type="module">
-  document.querySelector("#range").addEventListener("button-group-change", (event) => {
+  document.querySelector("#range").addEventListener("loomi-button-group-change", (event) => {
     console.log(event.detail.value);
   });
 </script>
@@ -155,7 +155,7 @@ entire group with `disabled` on `<loomi-button-group>`.
 
 | Event | Detail |
 | --- | --- |
-| `button-group-change` | `{ value, label, index }` when the selected item changes |
+| `loomi-button-group-change` | `{ value, label, index }` when the selected item changes |
 
 ## Dependencies
 

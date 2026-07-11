@@ -146,7 +146,7 @@ function normalizeDataItem(row: Record<string, unknown>): LoomiEmojiItem | null 
  * `<loomi-emoji-picker>` — searchable emoji picker with categories, keyboard support
  * and native form association.
  *
- * @fires emoji-select - `detail: { value, emoji, name, category, item }`
+ * @fires loomi-emoji-select - `detail: { value, emoji, name, category, item }`
  * @fires change - `detail: { value, emoji, item }`
  */
 @customElement("loomi-emoji-picker")
@@ -364,7 +364,7 @@ export class LoomiEmojiPicker extends LoomiElement {
     this.validationVisible = true;
     this.syncValidity(true);
     const detail = { value: item.value, emoji: item.emoji, name: item.name, category: item.category, item };
-    this.dispatchEvent(new CustomEvent("emoji-select", { bubbles: true, composed: true, detail }));
+    this.dispatchEvent(new CustomEvent("loomi-emoji-select", { bubbles: true, composed: true, detail }));
     this.emitChange(item);
     if (!this.inline) this.popoverEl?.hide();
   }

@@ -67,7 +67,7 @@ function formatTime(totalSeconds: number): string {
  * @fires volumechange - `detail: { volume, muted }`.
  * @fires fullscreenchange - `detail: { fullscreen }`.
  * @fires enterpictureinpicture / leavepictureinpicture
- * @fires video-error - `detail: { code, message }`. Not named "error" — that event
+ * @fires loomi-video-error - `detail: { code, message }`. Not named "error" — that event
  *   type bubbling to `window` is conventionally read as an uncaught page error by test
  *   harnesses and error-tracking tools.
  */
@@ -419,7 +419,7 @@ export class LoomiVideo extends LoomiElement {
       // Not named "error": that event type bubbling all the way to `window` gets
       // misread as an uncaught page error by test harnesses and error-tracking tools
       // (both listen for a bare "error" reaching `window`), which isn't what this is.
-      new CustomEvent("video-error", {
+      new CustomEvent("loomi-video-error", {
         bubbles: true,
         composed: true,
         detail: { code: error?.code, message: this.errorMessage },

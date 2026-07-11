@@ -179,7 +179,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `description` | _(blank)_ | Secondary step text. |
 | `href` | _(blank)_ | Renders the step as a link. |
 | `state` | `upcoming` | `complete` \| `current` \| `upcoming` \| `error` |
-| `value` | `0` | Optional value included in `progress-step-select` events. |
+| `value` | `0` | Optional value included in `loomi-progress-step-select` events. |
 | `active` | `false` | Marks this step current, same as `state="current"`. _(boolean)_ |
 | `completed` | `false` | Marks this step complete, same as `state="complete"`. _(boolean)_ |
 | `error` | `false` | Marks this step errored, same as `state="error"`. _(boolean)_ |

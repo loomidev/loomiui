@@ -1,4 +1,4 @@
-import { html, fixture, expect } from "@open-wc/testing";
+import { html, fixture, expect, waitUntil } from "@open-wc/testing";
 import "../dist/loomi-password.js";
 import type { LoomiPassword } from "../dist/index.js";
 import type { LoomiNotification } from "@loomidev/notification";
@@ -15,6 +15,14 @@ async function typeValue(el: LoomiPassword, value: string): Promise<void> {
 }
 
 describe("loomi-password", () => {
+  // The toast system is lazy-imported, so a toast triggered in one test can land on
+  // document.body asynchronously during the next. Flush pending toasts and clear the
+  // shared host so every test starts from a clean slate.
+  beforeEach(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    document.body.querySelectorAll("loomi-notification").forEach((n) => n.remove());
+  });
+
   afterEach(() => {
     document.querySelectorAll("loomi-notification").forEach((el) => el.remove());
   });
@@ -60,7 +68,7 @@ describe("loomi-password", () => {
       html`<loomi-password prefix-options="personal,admin,service" prefix-value="admin"></loomi-password>`,
     );
     let detail: { value: string } | undefined;
-    el.addEventListener("prefix-change", (event) => {
+    el.addEventListener("loomi-prefix-change", (event) => {
       detail = (event as CustomEvent<{ value: string }>).detail;
     });
 
@@ -88,6 +96,8 @@ describe("loomi-password", () => {
     expect(el.validate()).to.equal(false);
     await el.updateComplete;
 
+    // The toast module is lazy-imported on the first failure, so the host appears asynchronously.
+    await waitUntil(() => !!document.body.querySelector("loomi-notification"));
     const host = document.body.querySelector("loomi-notification") as LoomiNotification;
     expect(host).to.exist;
     await host.updateComplete;

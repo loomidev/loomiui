@@ -118,7 +118,7 @@ describe("loomi-sortable", () => {
     const el = await fixture<LoomiSortable>(html`<loomi-sortable filter=".filtered"></loomi-sortable>`);
     el.items = [{ id: "a", label: "A", className: "filtered" }, { id: "b", label: "B" }];
     let filtered = "";
-    el.addEventListener("filter", (event) => {
+    el.addEventListener("loomi-filter", (event) => {
       filtered = (event as CustomEvent<{ item: { id: string } }>).detail.item.id;
     });
     await el.updateComplete;

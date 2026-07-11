@@ -2,7 +2,7 @@
 
 `<loomi-sortable>` — a SortableJS-inspired drag-and-drop list. Provide rows via the
 `items` array (`{ id, label, meta?, locked?, filtered?, className? }`) and read the
-new order back from the `reorder` event. Give two or more lists the same `group` to
+new order back from the `loomi-reorder` event. Give two or more lists the same `group` to
 let users drag items between them — a Kanban board's columns, for example.
 
 ```bash
@@ -49,7 +49,7 @@ or an assignee.
 
 ## Reacting to a Reorder
 
-The `reorder` event fires after dragging a row within the same list, with the full new
+The `loomi-reorder` event fires after dragging a row within the same list, with the full new
 order of ids.
 
 ```html
@@ -110,7 +110,7 @@ board needs. Lists with no `group` (or a different one) stay independent.
 </script>
 ```
 
-When an item moves across lists, `transfer` fires on **both** lists involved — once on
+When an item moves across lists, `loomi-transfer` fires on **both** lists involved — once on
 the list that lost it, once on the one that gained it — each with that list's own
 resulting `order`. Listen on whichever lists you care about to persist the new column.
 
@@ -211,7 +211,7 @@ only from the built-in grip.
 ## Filter
 
 Set `filter` to a selector and mark rows with `className` or `filtered`. Filtered and
-locked rows do not start drags and emit a `filter` event when clicked or drag-started.
+locked rows do not start drags and emit a `loomi-filter` event when clicked or drag-started.
 
 ```html
 <loomi-sortable id="approval-steps" filter=".filtered"></loomi-sortable>
@@ -276,7 +276,7 @@ between.
 
 ## Reacting to a Click (Not a Drag)
 
-`item-click` fires when a row is clicked without being dragged — native drag-and-drop
+`loomi-item-click` fires when a row is clicked without being dragged — native drag-and-drop
 suppresses the browser's own `click` event after an actual drag, so this only fires for
 genuine clicks. Useful for opening a detail view.
 
@@ -293,7 +293,7 @@ genuine clicks. Useful for opening a detail view.
     { id: "contract", label: "Contract edits", meta: "Legal" },
   ];
 
-  detailList.addEventListener("item-click", (e) => {
+  detailList.addEventListener("loomi-item-click", (e) => {
     detailOutput.value = `Open details for ${e.detail.item.label}`;
   });
 </script>
@@ -301,7 +301,7 @@ genuine clicks. Useful for opening a detail view.
 
 ## Saving the Order
 
-Persist the new order from `reorder` (or `transfer`) — e.g. via a fetch call to your
+Persist the new order from `loomi-reorder` (or `loomi-transfer`) — e.g. via a fetch call to your
 backend.
 
 ```html
@@ -370,9 +370,9 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `multi-drag` | `false` | Click-select multiple rows and drag them together. |
 | `swap` | `false` | Swap the dragged row with the hovered row. |
 
-**Property:** `order` (array of ids). **Events:** `reorder` (`detail: { order }`, same-list
-drag), `transfer` (`detail: { order, items }`, fired on both lists after a cross-list move),
-`filter` (`detail: { item }`), `item-click` (`detail: { item }`, a click outside multi-drag
+**Property:** `order` (array of ids). **Events:** `loomi-reorder` (`detail: { order }`, same-list
+drag), `loomi-transfer` (`detail: { order, items }`, fired on both lists after a cross-list move),
+`filter` (`detail: { item }`), `loomi-item-click` (`detail: { item }`, a click outside multi-drag
 mode).
 
 ## Full Example

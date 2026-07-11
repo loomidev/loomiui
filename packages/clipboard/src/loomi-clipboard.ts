@@ -14,8 +14,8 @@ const COPY_ICON = svg`<path d="M15 12.9502H8C7.59 12.9502 7.25 12.6102 7.25 12.2
  * `<loomi-clipboard>` — wraps text/content and appends a copy button.
  *
  * @slot - Text or one element whose text content should be copied.
- * @fires copied - `detail: { value }` after text is copied.
- * @fires copy-error - `detail: { value, error }` when clipboard write fails.
+ * @fires loomi-copied - `detail: { value }` after text is copied.
+ * @fires loomi-copy-error - `detail: { value, error }` when clipboard write fails.
  */
 @customElement("loomi-clipboard")
 export class LoomiClipboard extends LoomiElement {
@@ -100,14 +100,14 @@ export class LoomiClipboard extends LoomiElement {
     try {
       await this.writeToClipboard(value);
       this.setTemporaryStatus("copied");
-      this.dispatchEvent(new CustomEvent("copied", {
+      this.dispatchEvent(new CustomEvent("loomi-copied", {
         detail: { value },
         bubbles: true,
         composed: true,
       }));
     } catch (error) {
       this.setTemporaryStatus("error");
-      this.dispatchEvent(new CustomEvent("copy-error", {
+      this.dispatchEvent(new CustomEvent("loomi-copy-error", {
         detail: { value, error },
         bubbles: true,
         composed: true,

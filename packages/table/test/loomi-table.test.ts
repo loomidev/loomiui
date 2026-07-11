@@ -31,7 +31,7 @@ describe("loomi-table", () => {
 
     const groupRows = el.shadowRoot!.querySelectorAll(".loomi-group-row");
     const firstDataRow = el.shadowRoot!.querySelector<HTMLTableRowElement>("tbody tr:not(.loomi-group-row)")!;
-    const selection = oneEvent(el, "selection-change") as Promise<CustomEvent>;
+    const selection = oneEvent(el, "loomi-selection-change") as Promise<CustomEvent>;
     firstDataRow.click();
     const event = await selection;
     await el.updateComplete;
@@ -79,7 +79,7 @@ describe("loomi-table", () => {
     await el.updateComplete;
 
     const button = el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-empty-button")!;
-    const action = oneEvent(el, "empty-action");
+    const action = oneEvent(el, "loomi-empty-action");
     button.click();
     await action;
 
