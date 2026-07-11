@@ -7,7 +7,8 @@ import {
   loomiMonthName,
   loomiStyles,
   loomiT,
-  loomiWeekdayNames
+  loomiWeekdayNames,
+  watchDarkMode
 } from "@loomidev/core";
 import "@loomidev/context-menu/loomi-context-menu.js";
 import "@loomidev/datepicker/loomi-datepicker.js";
@@ -261,6 +262,8 @@ export class LoomiCalendar extends LoomiElement {
     this.showWeekends = value;
   }
 
+  private cleanupDarkWatch?: () => void;
+
   override connectedCallback() {
     super.connectedCallback();
     if (!this.hasAttribute("tabindex")) {
@@ -268,6 +271,9 @@ export class LoomiCalendar extends LoomiElement {
     }
     this.sidebarOpen = this.readSidebarPreference();
     globalThis.addEventListener("loomi-locale-change", this.localeChangeHandler);
+    this.cleanupDarkWatch = watchDarkMode((isDark) => {
+      this.classList.toggle("is-dark", isDark);
+    });
   }
 
   override disconnectedCallback() {
@@ -276,6 +282,8 @@ export class LoomiCalendar extends LoomiElement {
     this._slotDragState = undefined;
     this.detachPointerListeners();
     globalThis.removeEventListener("loomi-locale-change", this.localeChangeHandler);
+    this.cleanupDarkWatch?.();
+    this.cleanupDarkWatch = undefined;
   }
 
   override render() {
@@ -565,7 +573,7 @@ export class LoomiCalendar extends LoomiElement {
             label=${this.t("calendar.form.color")}
             .data=${this.getColorSelectOptions()}
             selected-value=${draft.color}
-            @select=${this.handleDraftSelect("color")}
+            @loomi-select=${this.handleDraftSelect("color")}
           ></loomi-select>
 
           ${this.resources.length ? html`
@@ -575,7 +583,7 @@ export class LoomiCalendar extends LoomiElement {
               label=${this.t("calendar.form.resource")}
               .data=${this.getResourceSelectOptions()}
               selected-value=${draft.resourceId}
-              @select=${this.handleDraftSelect("resourceId")}
+              @loomi-select=${this.handleDraftSelect("resourceId")}
             ></loomi-select>
           ` : nothing}
 
@@ -585,7 +593,7 @@ export class LoomiCalendar extends LoomiElement {
             label=${this.t("calendar.form.recurrence")}
             .data=${this.getRecurrenceSelectOptions()}
             selected-value=${draft.recurrenceFrequency}
-            @select=${this.handleDraftSelect("recurrenceFrequency")}
+            @loomi-select=${this.handleDraftSelect("recurrenceFrequency")}
           ></loomi-select>
 
           <loomi-select
@@ -594,7 +602,7 @@ export class LoomiCalendar extends LoomiElement {
             label=${this.t("calendar.form.reminder")}
             .data=${this.getReminderSelectOptions()}
             selected-value=${draft.reminderMinutes}
-            @select=${this.handleDraftSelect("reminderMinutes")}
+            @loomi-select=${this.handleDraftSelect("reminderMinutes")}
           ></loomi-select>
 
           <loomi-tag-input
@@ -678,7 +686,7 @@ export class LoomiCalendar extends LoomiElement {
             label=${this.t("calendar.form.color")}
             .data=${this.getColorSelectOptions()}
             selected-value=${draft.color}
-            @select=${this.handleReminderDraftSelect("color")}
+            @loomi-select=${this.handleReminderDraftSelect("color")}
           ></loomi-select>
 
           <loomi-toggle
@@ -779,7 +787,7 @@ export class LoomiCalendar extends LoomiElement {
             .data=${viewOptions}
             selected-value=${this.view}
             aria-label=${this.t("calendar.viewLabel")}
-            @select=${this.handleViewSelect}
+            @loomi-select=${this.handleViewSelect}
           ></loomi-select>
           ${this.editable ? html`
             <loomi-dropmenu class="toolbar-add-menu" placement="right">

@@ -1,0 +1,3763 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/calendar-styles.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "calendarStyles",
+          "default": "css` :host { --loomi-calendar-border: var(--loomi-surface-border, #d9dee3); --loomi-calendar-border-subtle: var(--loomi-surface-border-subtle, #edf0f2); --loomi-calendar-surface: var(--loomi-surface); --loomi-calendar-surface-muted: var(--loomi-surface-muted, #f6f8fa); --loomi-calendar-surface-hover: var(--loomi-surface-hover, #f9fbfc); --loomi-calendar-text: var(--loomi-text, #172026); --loomi-calendar-text-secondary: var(--loomi-text-secondary, #33424f); --loomi-calendar-text-muted: var(--loomi-text-muted, #62717d); --loomi-calendar-text-faint: var(--loomi-text-faint, #8a97a3); --loomi-calendar-accent: var(--loomi-primary-600, var(--_loomi-primary-600-default, #2563eb)); --loomi-calendar-accent-strong: var(--loomi-primary-700, var(--_loomi-primary-700-default, #174ea6)); --loomi-calendar-accent-soft: var(--loomi-primary-100, var(--_loomi-primary-100-default, #dbeafe)); --loomi-calendar-accent-softer: var(--loomi-primary-50, var(--_loomi-primary-50-default, #eff6ff)); --loomi-calendar-now: var(--loomi-error-500, #ef4444); --loomi-calendar-radius: 12px; --loomi-calendar-radius-sm: 8px; --loomi-calendar-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 23, 42, 0.06); --loomi-calendar-transition: 160ms cubic-bezier(0.4, 0, 0.2, 1); display: block; color: var(--loomi-calendar-text); font-family: Inter, ui-sans-serif, system-ui, sans-serif; font-size: 14px; line-height: 1.4; } :host([hidden]) { display: none; } .shell { display: flex; flex-direction: column; min-height: 420px; height: 100%; overflow: hidden; border: 1px solid color-mix(in srgb, var(--loomi-calendar-border) 88%, transparent); border-radius: var(--loomi-calendar-radius); background: var(--loomi-calendar-surface); box-shadow: var(--loomi-calendar-shadow); } .layout { display: flex; flex: 1; min-height: 0; } .main { display: flex; flex-direction: column; flex: 1; min-width: 0; min-height: 0; } .sidebar { width: 280px; flex: none; display: flex; flex-direction: column; gap: 16px; padding: 16px; border-right: 1px solid var(--loomi-calendar-border-subtle); background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 55%, var(--loomi-calendar-surface)); overflow: auto; transition: width var(--loomi-calendar-transition), padding var(--loomi-calendar-transition), opacity var(--loomi-calendar-transition); } .shell.sidebar-closed .sidebar { width: 0; padding: 0; opacity: 0; overflow: hidden; border-right: 0; } .sidebar-section { display: flex; flex-direction: column; gap: 10px; } .sidebar-events { flex: 1; min-height: 0; } .sidebar-heading { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--loomi-calendar-text-faint); } .mini-calendar { display: flex; flex-direction: column; gap: 8px; padding: 12px; border: 1px solid var(--loomi-calendar-border-subtle); border-radius: var(--loomi-calendar-radius-sm); background: var(--loomi-calendar-surface); box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04); } .mini-calendar-header { display: grid; grid-template-columns: 34px 1fr 34px; align-items: center; gap: 4px; } .mini-calendar-title { justify-self: stretch; min-height: 34px; padding: 0 8px; border: 1px solid var(--loomi-calendar-border-subtle); border-radius: var(--loomi-calendar-radius-sm); background: var(--loomi-calendar-surface); color: inherit; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; transition: border-color var(--loomi-calendar-transition), background var(--loomi-calendar-transition); } .mini-calendar-title:hover { border-color: color-mix(in srgb, var(--loomi-calendar-accent) 35%, var(--loomi-calendar-border)); background: var(--loomi-calendar-surface-hover); } .mini-weekdays, .mini-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 2px; } .mini-weekday { text-align: center; font-size: 10px; font-weight: 700; color: var(--loomi-calendar-text-faint); text-transform: uppercase; } .mini-day { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; width: 100%; aspect-ratio: 1; border: 0; border-radius: 999px; background: transparent; color: var(--loomi-calendar-text-secondary); font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; padding: 2px 0 0; } .mini-day-num { line-height: 1; } .mini-day-dot { width: 4px; height: 4px; border-radius: 999px; background: var(--loomi-calendar-accent); } .mini-day.other-month .mini-day-dot { background: var(--loomi-calendar-text-faint); } .mini-day.selected .mini-day-dot { background: var(--loomi-text-on-primary, var(--loomi-white)); } .mini-day:hover { background: var(--loomi-calendar-surface-hover); } .mini-day.other-month { color: var(--loomi-calendar-text-faint); } .mini-day.today { box-shadow: inset 0 0 0 1px var(--loomi-calendar-accent-soft); color: var(--loomi-calendar-accent-strong); } .mini-day.selected { background: var(--loomi-calendar-accent); color: var(--loomi-text-on-primary, var(--loomi-white)); } .sidebar-event-list { display: flex; flex-direction: column; gap: 8px; overflow: auto; } .sidebar-event { display: flex; flex-direction: column; gap: 2px; width: 100%; padding: 10px 12px; border: 1px solid var(--loomi-calendar-border-subtle); border-radius: var(--loomi-calendar-radius-sm); background: var(--loomi-calendar-surface); text-align: left; cursor: pointer; color: inherit; font: inherit; } .sidebar-event-time { font-size: 11px; font-weight: 600; color: var(--loomi-calendar-text-muted); } .sidebar-event-title { font-size: 13px; font-weight: 700; } .sidebar-empty { padding: 12px; border-radius: var(--loomi-calendar-radius-sm); background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 70%, transparent); color: var(--loomi-calendar-text-muted); font-size: 13px; } .upcoming-detail { display: flex; flex-direction: column; gap: 18px; padding: 4px 2px 8px; } .upcoming-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; } .upcoming-title { margin: 0; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; color: var(--loomi-calendar-text); } .upcoming-actions { display: flex; gap: 2px; flex: none; } .icon-btn { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; padding: 0; border: 0; border-radius: 8px; background: transparent; color: var(--loomi-calendar-text-faint); cursor: pointer; transition: color var(--loomi-calendar-transition), background var(--loomi-calendar-transition); } .icon-btn:hover { color: var(--loomi-calendar-text-muted); background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 80%, transparent); } .icon-btn:focus-visible { outline: 2px solid var(--loomi-calendar-accent); outline-offset: 2px; } .icon-btn svg { width: 1.15rem; height: 1.15rem; } .upcoming-meta { display: flex; flex-direction: column; gap: 10px; } .upcoming-meta-row { display: flex; align-items: center; gap: 10px; color: var(--loomi-calendar-text-muted); font-size: 14px; line-height: 1.4; } .upcoming-meta-icon { flex: none; width: 1.125rem; height: 1.125rem; color: var(--loomi-calendar-text-faint); } .upcoming-guests { display: flex; flex-direction: column; gap: 10px; } .guest-avatars { display: flex; align-items: center; } .guest-avatar { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; margin-left: -10px; border: 2px solid var(--loomi-calendar-surface); border-radius: 999px; background: color-mix(in srgb, var(--loomi-calendar-accent-soft) 75%, white); color: var(--loomi-calendar-accent-strong); font-size: 11px; font-weight: 700; overflow: hidden; } .guest-avatar:first-child { margin-left: 0; } .guest-avatar img { width: 100%; height: 100%; object-fit: cover; } .guest-initials { background: var(--loomi-calendar-surface-muted); color: var(--loomi-calendar-text-muted); } .guest-add { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; margin-left: -10px; border: 1.5px dashed var(--loomi-calendar-border); border-radius: 999px; background: transparent; color: var(--loomi-calendar-text-faint); cursor: pointer; transition: border-color var(--loomi-calendar-transition), color var(--loomi-calendar-transition), background var(--loomi-calendar-transition); } .guest-add:hover { border-color: var(--loomi-calendar-accent-soft); color: var(--loomi-calendar-accent-strong); background: color-mix(in srgb, var(--loomi-calendar-accent-softer) 40%, transparent); } .guest-add svg { width: 1rem; height: 1rem; } .guest-summary { margin: 0; font-size: 13px; color: var(--loomi-calendar-text-muted); } .guest-summary strong { color: var(--loomi-calendar-text); font-weight: 700; } .upcoming-about-title { margin: 0 0 8px; font-size: 14px; font-weight: 700; color: var(--loomi-calendar-text); } .upcoming-description { display: flex; flex-direction: column; gap: 6px; color: var(--loomi-calendar-text-secondary); font-size: 13px; line-height: 1.55; } .upcoming-description p { margin: 0; } .upcoming-link { color: var(--loomi-calendar-text); text-decoration: underline; text-underline-offset: 2px; } .upcoming-meeting-id { color: var(--loomi-calendar-text-faint); font-size: 12px; } .btn-primary { background: var(--loomi-calendar-accent); border-color: var(--loomi-calendar-accent); color: var(--loomi-text-on-primary, var(--loomi-white)); font-weight: 600; } .btn-primary:hover { background: var(--loomi-calendar-accent-strong); border-color: var(--loomi-calendar-accent-strong); color: var(--loomi-text-on-primary, var(--loomi-white)); } .event-form { display: flex; flex-direction: column; gap: 10px; } .event-form-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } .event-form loomi-input, .event-form loomi-select, .event-form loomi-datepicker, .event-form loomi-timepicker, .event-form loomi-tag-input, .event-form loomi-textarea, .event-form loomi-toggle { width: 100%; } .event-form loomi-select { position: relative; z-index: 2; --loomi-select-panel-z-index: 1000; } .event-form loomi-select::part(panel) { z-index: 1000; } .delete-copy { margin: 0; color: var(--loomi-calendar-text-secondary); } .delete-copy strong { color: var(--loomi-calendar-text); } @media (max-width: 560px) { .event-form-row { grid-template-columns: 1fr; } } .month-weeks { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: auto; } .month-week { display: flex; flex-direction: column; flex: 1; min-height: 0; border-bottom: 1px solid var(--loomi-calendar-border-subtle); } .month-week:last-child { border-bottom: 0; } .month-week-lanes { position: relative; min-height: calc(var(--lane-count, 1) * 24px + 8px); border-bottom: 1px solid var(--loomi-calendar-border-subtle); background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 40%, transparent); } .month-week-days { flex: 1; } .spanning-event { position: absolute; box-sizing: border-box; min-height: 20px; padding: 2px 8px; border: 1px solid transparent; border-radius: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; font-weight: 700; text-align: left; cursor: pointer; z-index: 2; } .spanning-event.draggable { cursor: grab; } .spanning-event.dragging { cursor: grabbing; opacity: 0.92; z-index: 5; } .all-day-track { position: relative; min-height: calc(var(--lane-count, 1) * 28px + 8px); padding: 4px 0; } .all-day-columns { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(var(--day-count, 7), minmax(0, 1fr)); } .all-day-column { border-right: 1px solid var(--loomi-calendar-border-subtle); } .all-day-column:last-child { border-right: 0; } .resize-handle.resize-start, .resize-handle.resize-end { top: 0; bottom: 0; width: 8px; height: auto; cursor: ew-resize; } .resize-handle.resize-start { left: 0; right: auto; } .resize-handle.resize-end { right: 0; left: auto; } .resize-handle.resize-bottom { top: auto; bottom: 0; height: 8px; cursor: ns-resize; } .toolbar { display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--loomi-calendar-border-subtle); background: linear-gradient( 180deg, color-mix(in srgb, var(--loomi-calendar-surface) 92%, var(--loomi-calendar-accent-softer)) 0%, var(--loomi-calendar-surface) 100% ); backdrop-filter: blur(8px); position: relative; z-index: 100; overflow: visible; flex: none; } .toolbar-start, .toolbar-end { display: flex; align-items: center; gap: 8px; min-width: 0; } .toolbar-end { flex: none; display: inline-flex; align-items: center; gap: 6px; overflow: visible; } .toolbar-end loomi-tooltip { display: inline-flex; align-items: center; line-height: 0; } .toolbar-end loomi-select, .toolbar-end loomi-tooltip { flex: none; position: relative; z-index: 101; margin: 0; } .toolbar-view-select { min-width: 7.5rem; } .toolbar-view-select::part(trigger) { min-height: 34px; height: 34px; border-width: 1px; border-radius: var(--loomi-calendar-radius-sm); padding: 0 12px; font-size: 13px; font-weight: 600; box-sizing: border-box; } .toolbar-view-select::part(panel) { z-index: 200; } .calendar-modal { position: fixed; inset: 0; z-index: var(--loomi-modal-z-index, 2147480000); } .toolbar-add-menu { display: inline-flex; align-items: center; } .toolbar-start { flex: 1; min-width: 0; } .toolbar-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 34px; height: 34px; padding: 0 12px; border: 1px solid var(--loomi-calendar-border); border-radius: var(--loomi-calendar-radius-sm); background: var(--loomi-calendar-surface); color: inherit; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; box-sizing: border-box; transition: border-color var(--loomi-calendar-transition), background var(--loomi-calendar-transition), color var(--loomi-calendar-transition); } .toolbar-btn:hover { border-color: color-mix(in srgb, var(--loomi-calendar-accent) 35%, var(--loomi-calendar-border)); background: var(--loomi-calendar-surface-hover); } .toolbar-btn:focus-visible { outline: 2px solid var(--loomi-calendar-accent); outline-offset: 2px; } .toolbar-btn.icon-only { width: 34px; padding: 0; } .toolbar-btn svg { width: 1.1rem; height: 1.1rem; } .title { font-size: 1rem; font-weight: 600; letter-spacing: -0.02em; color: var(--loomi-calendar-text); min-width: 0; } .timezone-badge { display: inline-flex; align-items: center; min-height: 28px; padding: 0 10px; border-radius: 999px; border: 1px solid var(--loomi-calendar-border-subtle); background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 80%, transparent); color: var(--loomi-calendar-text-muted); font-size: 12px; font-weight: 600; } .btn, .seg-btn, .weekday-btn { transition: border-color var(--loomi-calendar-transition), background var(--loomi-calendar-transition), color var(--loomi-calendar-transition), box-shadow var(--loomi-calendar-transition), transform var(--loomi-calendar-transition); } .btn, .seg-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 34px; padding: 0 12px; border: 1px solid var(--loomi-calendar-border); border-radius: var(--loomi-calendar-radius-sm); background: var(--loomi-calendar-surface); color: inherit; font: inherit; cursor: pointer; } .btn:hover, .seg-btn:hover { border-color: color-mix(in srgb, var(--loomi-calendar-accent) 35%, var(--loomi-calendar-border)); background: var(--loomi-calendar-surface-hover); } .btn:focus-visible, .seg-btn:focus-visible, .weekday-btn:focus-visible, .day-num:focus-visible, .event-pill:focus-visible, .reminder-pill:focus-visible, .timed-event:focus-visible, .agenda-item:focus-visible { outline: 2px solid var(--loomi-calendar-accent); outline-offset: 2px; } .btn.icon { width: 34px; padding: 0; } .btn svg, .seg-btn svg { width: 1.1rem; height: 1.1rem; } .segmented { display: inline-flex; padding: 3px; border: 1px solid var(--loomi-calendar-border-subtle); border-radius: 10px; background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 88%, transparent); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55); } .seg-btn { border: 0; background: transparent; min-height: 30px; padding: 0 11px; border-radius: 7px; color: var(--loomi-calendar-text-muted); font-size: 13px; font-weight: 600; } .seg-btn.active { background: var(--loomi-calendar-surface); color: var(--loomi-calendar-accent-strong); box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08); } .body { display: flex; flex-direction: column; flex: 1; min-height: 0; position: relative; z-index: 0; overflow: hidden; background: linear-gradient(180deg, var(--loomi-calendar-surface) 0%, color-mix(in srgb, var(--loomi-calendar-surface-muted) 28%, transparent) 100%); } .month-view, .agenda-view, .resource-view { display: flex; flex-direction: column; flex: 1; min-height: 0; } .time-view { overflow: hidden; } .time-view-header { flex: none; position: relative; z-index: 10; background: var(--loomi-calendar-surface); } .time-view-scroll { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; } .loading-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: color-mix(in srgb, var(--loomi-calendar-surface) 78%, transparent); backdrop-filter: blur(2px); z-index: 20; color: var(--loomi-calendar-text-muted); font-weight: 600; } .weekdays { display: grid; border-bottom: 1px solid var(--loomi-calendar-border-subtle); background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 72%, transparent); } .weekday { padding: 10px 8px; text-align: center; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: var(--loomi-calendar-text-faint); text-transform: uppercase; } .weekday-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; width: 100%; padding: 8px 6px; border: 0; background: transparent; color: inherit; font: inherit; cursor: pointer; } .weekday-btn:hover { background: color-mix(in srgb, var(--loomi-calendar-accent-softer) 65%, transparent); } .weekday-label { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--loomi-calendar-text-faint); } .weekday-date { display: inline-flex; align-items: center; justify-content: center; min-width: 28px; min-height: 28px; border-radius: 999px; font-size: 14px; font-weight: 700; color: var(--loomi-calendar-text-secondary); } .weekday-btn.is-today .weekday-label { color: var(--loomi-calendar-accent); } .weekday-btn.is-today .weekday-date { background: var(--loomi-calendar-accent); color: var(--loomi-text-on-primary, var(--loomi-white)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--loomi-calendar-accent-soft) 70%, transparent); } .month-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); grid-auto-rows: minmax(112px, 1fr); flex: 1; min-height: 0; } .month-cell { display: flex; flex-direction: column; gap: 4px; min-width: 0; padding: 6px; border-right: 1px solid var(--loomi-calendar-border-subtle); border-bottom: 1px solid var(--loomi-calendar-border-subtle); background: var(--loomi-calendar-surface); transition: background var(--loomi-calendar-transition); } .month-cell.interactive, .month-cell.editable { cursor: pointer; } .month-cell.interactive:hover, .month-cell.editable:hover { background: color-mix(in srgb, var(--loomi-calendar-accent-softer) 55%, var(--loomi-calendar-surface)); } .month-cell:nth-child(7n) { border-right: 0; } .month-cell:last-child { border-right: 0; } .month-cell.other-month { background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 72%, transparent); } .month-cell.today { background: color-mix(in srgb, var(--loomi-calendar-accent-softer) 42%, var(--loomi-calendar-surface)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--loomi-calendar-accent-soft) 70%, transparent); } .day-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; margin-left: auto; border: 1px solid transparent; border-radius: 999px; background: transparent; color: var(--loomi-calendar-text-secondary); font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; transition: background var(--loomi-calendar-transition), color var(--loomi-calendar-transition), box-shadow var(--loomi-calendar-transition); } .day-num:hover { background: var(--loomi-calendar-surface-hover); } .month-cell.today .day-num, .day-num.today { background: var(--loomi-calendar-accent); color: var(--loomi-text-on-primary, var(--loomi-white)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--loomi-calendar-accent-soft) 75%, transparent); } .month-cell.other-month .day-num { color: var(--loomi-calendar-text-faint); } .event-pill { position: relative; display: block; width: 100%; min-width: 0; padding: 3px 8px 3px 10px; border: 0; border-radius: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left; font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; box-shadow: 0 1px 1px rgba(15, 23, 42, 0.04); transition: transform var(--loomi-calendar-transition), box-shadow var(--loomi-calendar-transition), filter var(--loomi-calendar-transition); } .event-pill::before { content: \"\"; position: absolute; left: 0; top: 4px; bottom: 4px; width: 3px; border-radius: 999px; background: currentColor; opacity: 0.55; } .event-pill:hover { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(15, 23, 42, 0.08); filter: saturate(1.05); } .event-pill.selected, .spanning-event.selected, .timed-event.selected { box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08); } .agenda-item.selected { box-shadow: none; } .event-pill.more { background: transparent; color: var(--loomi-calendar-accent-strong); cursor: pointer; font-weight: 600; box-shadow: none; padding-left: 8px; } .event-pill.more::before { display: none; } .event-pill.more:hover { background: color-mix(in srgb, var(--loomi-calendar-accent-softer) 70%, transparent); transform: none; } .reminder-pill { position: relative; display: flex; align-items: center; gap: 6px; width: 100%; min-width: 0; padding: 3px 8px; border: 0; border-radius: 6px; text-align: left; font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; box-shadow: 0 1px 1px rgba(15, 23, 42, 0.04); } .reminder-pill input, .reminder-event input { width: 0.875rem; height: 0.875rem; margin: 0; accent-color: currentColor; flex: none; } .reminder-pill span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .reminder-pill.done span, .reminder-event.done .timed-event-title { text-decoration: line-through; opacity: 0.72; } .time-layout { display: flex; align-items: flex-start; flex: none; width: 100%; padding-top: 6px; box-sizing: border-box; } .time-axis { width: var(--loomi-calendar-time-axis-width, 72px); flex: none; align-self: flex-start; border-right: 1px solid var(--loomi-calendar-border-subtle); background: var(--loomi-calendar-surface); position: sticky; left: 0; z-index: 5; padding-left: 10px; box-sizing: border-box; } .time-axis-label { height: var(--loomi-calendar-hour-height, ${HOUR_HEIGHT}px); padding: 0 10px 0 0; display: flex; align-items: flex-start; justify-content: flex-end; transform: translateY(-6px); color: var(--loomi-calendar-text-faint); font-size: 11px; font-weight: 600; line-height: 1; } .shell.sidebar-closed .body { padding-left: 4px; } .shell.sidebar-closed .time-layout { padding-left: 6px; } .time-grid-wrap { display: flex; flex: 1; min-width: 0; } .day-column { position: relative; flex: 1; min-width: 0; border-right: 1px solid var(--loomi-calendar-border-subtle); } .day-column:last-child { border-right: 0; } .all-day-row { display: grid; border-bottom: 1px solid var(--loomi-calendar-border-subtle); background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 72%, transparent); } .all-day-label { display: flex; align-items: center; justify-content: flex-end; padding: 0 8px; color: var(--loomi-calendar-text-faint); font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; } .all-day-cell { display: flex; flex-wrap: wrap; gap: 4px; min-height: 36px; padding: 4px; border-right: 1px solid var(--loomi-calendar-border-subtle); } .all-day-cell:last-child { border-right: 0; } .time-slots { position: relative; } .time-slots.editable { cursor: default; } .time-slot { height: var(--loomi-calendar-hour-height, ${HOUR_HEIGHT}px); border-bottom: 1px solid var(--loomi-calendar-border-subtle); box-sizing: border-box; } .slot-selection { position: absolute; left: 4px; right: 4px; border-radius: 8px; border: 1px dashed color-mix(in srgb, var(--loomi-calendar-accent) 55%, transparent); background: color-mix(in srgb, var(--loomi-calendar-accent-softer) 78%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--loomi-calendar-accent-soft) 45%, transparent); pointer-events: none; z-index: 3; } .now-line { position: absolute; left: 0; right: 0; height: 2px; background: var(--loomi-calendar-now); box-shadow: 0 0 0 1px color-mix(in srgb, var(--loomi-calendar-now) 20%, transparent), 0 0 8px color-mix(in srgb, var(--loomi-calendar-now) 35%, transparent); z-index: 4; pointer-events: none; } .now-line::before { content: \"\"; position: absolute; left: 0; top: -4px; width: 8px; height: 8px; border-radius: 999px; background: var(--loomi-calendar-now); box-shadow: 0 0 0 3px color-mix(in srgb, var(--loomi-calendar-now) 18%, transparent); } .timed-event { position: absolute; box-sizing: border-box; padding: 5px 8px 5px 11px; border-radius: 8px; overflow: hidden; border: 1px solid transparent; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 4px 12px rgba(15, 23, 42, 0.04); cursor: pointer; z-index: 2; text-align: left; transition: transform var(--loomi-calendar-transition), box-shadow var(--loomi-calendar-transition); } .reminder-event { display: flex; align-items: center; gap: 6px; padding: 4px 8px; } .reminder-event::before { display: none; } .timed-event::before { content: \"\"; position: absolute; left: 0; top: 6px; bottom: 6px; width: 3px; border-radius: 999px; background: currentColor; opacity: 0.5; } .timed-event:hover { transform: translateY(-1px); box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08), 0 8px 18px rgba(15, 23, 42, 0.06); } .timed-event.draggable { cursor: grab; } .timed-event.dragging { cursor: grabbing; opacity: 0.92; z-index: 10; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12); } .timed-event-title { font-size: 12px; font-weight: 700; line-height: 1.25; } .timed-event-meta { margin-top: 2px; font-size: 11px; opacity: 0.85; line-height: 1.25; } .resize-handle { position: absolute; left: 0; right: 0; bottom: 0; height: 8px; cursor: ns-resize; } .agenda-list { overflow: auto; flex: 1; } .agenda-day { border-bottom: 1px solid var(--loomi-calendar-border-subtle); } .agenda-day-header { padding: 12px 16px; background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 72%, transparent); font-weight: 700; letter-spacing: -0.01em; color: var(--loomi-calendar-text-secondary); } .agenda-item { display: grid; grid-template-columns: 120px 1fr; gap: 12px; width: 100%; padding: 14px 16px; border: 0; border-top: 1px solid var(--loomi-calendar-border-subtle); background: var(--loomi-calendar-surface); text-align: left; cursor: pointer; color: inherit; font: inherit; transition: background var(--loomi-calendar-transition); } .agenda-item:hover { background: color-mix(in srgb, var(--loomi-calendar-accent-softer) 45%, var(--loomi-calendar-surface-hover)); } .agenda-time { color: var(--loomi-calendar-text-muted); font-size: 12px; font-weight: 600; } .agenda-title { font-weight: 700; letter-spacing: -0.01em; } .agenda-description, .agenda-meta { margin-top: 4px; color: var(--loomi-calendar-text-muted); font-size: 12px; } .resource-view { overflow: auto; } .resource-grid { min-width: 100%; } .resource-header, .resource-row { display: grid; grid-template-columns: var(--loomi-calendar-resource-label-width, 160px) 1fr; } .resource-header { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 82%, transparent); border-bottom: 1px solid var(--loomi-calendar-border-subtle); backdrop-filter: blur(6px); } .resource-label, .resource-name { display: flex; align-items: center; padding: 10px 12px; border-right: 1px solid var(--loomi-calendar-border-subtle); background: color-mix(in srgb, var(--loomi-calendar-surface-muted) 72%, transparent); font-weight: 600; } .resource-name { background: var(--loomi-calendar-surface); color: var(--loomi-calendar-text-secondary); } .resource-timeline { position: relative; /* Matches .resource-hours's own implicit min-width (repeat(N, minmax(80px, 1fr))) * so this row's \"1fr\" grid column resolves to the same width as the header's. Without * it, .resource-track (position: absolute; inset: 0) contributes no intrinsic width of * its own, so this row's track ends up narrower than the header on any viewport too * narrow to fit every column at 80px+ - throwing off the left/width percentages the * events inside are positioned with relative to the header's hour columns above them. */ min-width: calc(var(--loomi-calendar-hour-count, 12) * 80px); border-bottom: 1px solid var(--loomi-calendar-border-subtle); cursor: default; } .resource-timeline.editable { cursor: crosshair; } .resource-hours { display: grid; grid-template-columns: repeat(var(--loomi-calendar-hour-count, 12), minmax(80px, 1fr)); height: 40px; border-bottom: 1px solid var(--loomi-calendar-border-subtle); } .resource-hour { display: flex; align-items: center; justify-content: center; border-right: 1px solid var(--loomi-calendar-border-subtle); color: var(--loomi-calendar-text-faint); font-size: 11px; font-weight: 600; } .resource-track { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(var(--loomi-calendar-hour-count, 12), minmax(80px, 1fr)); } .resource-slot { border-right: 1px solid var(--loomi-calendar-border-subtle); } .empty-state { display: flex; flex: 1; align-items: center; justify-content: center; padding: 32px; color: var(--loomi-calendar-text-muted); text-align: center; } .event-primary { background: color-mix(in srgb, var(--loomi-primary-100, var(--_loomi-primary-100-default)) 88%, var(--loomi-calendar-surface)); color: var(--loomi-primary-800, var(--_loomi-primary-800-default)); border-color: color-mix(in srgb, var(--loomi-primary-200, var(--_loomi-primary-200-default)) 80%, transparent); } .event-primary.selected { background: var(--loomi-primary-600, var(--_loomi-primary-600-default)); border-color: var(--loomi-primary-600, var(--_loomi-primary-600-default)); color: var(--loomi-text-on-primary, var(--loomi-white, #fff)); } .event-secondary { background: color-mix(in srgb, var(--loomi-secondary-100, var(--_loomi-secondary-100-default)) 88%, var(--loomi-calendar-surface)); color: var(--loomi-secondary-800, var(--_loomi-secondary-800-default)); border-color: color-mix(in srgb, var(--loomi-secondary-200, var(--_loomi-secondary-200-default)) 80%, transparent); } .event-secondary.selected { background: var(--loomi-secondary-600, var(--_loomi-secondary-600-default)); border-color: var(--loomi-secondary-600, var(--_loomi-secondary-600-default)); color: var(--loomi-text-on-primary, var(--loomi-white, #fff)); } .event-success { background: color-mix(in srgb, var(--loomi-success-100, var(--_loomi-success-100-default)) 88%, var(--loomi-calendar-surface)); color: var(--loomi-success-800, var(--_loomi-success-800-default)); border-color: color-mix(in srgb, var(--loomi-success-200, var(--_loomi-success-200-default)) 80%, transparent); } .event-success.selected { background: var(--loomi-success-600, var(--_loomi-success-600-default)); border-color: var(--loomi-success-600, var(--_loomi-success-600-default)); color: var(--loomi-text-on-primary, var(--loomi-white, #fff)); } .event-warning { background: color-mix(in srgb, var(--loomi-warning-100, var(--_loomi-warning-100-default)) 88%, var(--loomi-calendar-surface)); color: var(--loomi-warning-800, var(--_loomi-warning-800-default)); border-color: color-mix(in srgb, var(--loomi-warning-200, var(--_loomi-warning-200-default)) 80%, transparent); } .event-warning.selected { background: var(--loomi-warning-600, var(--_loomi-warning-600-default)); border-color: var(--loomi-warning-600, var(--_loomi-warning-600-default)); color: var(--loomi-text-on-primary, var(--loomi-white, #fff)); } .event-error { background: color-mix(in srgb, var(--loomi-error-100, var(--_loomi-error-100-default)) 88%, var(--loomi-calendar-surface)); color: var(--loomi-error-800, var(--_loomi-error-800-default)); border-color: color-mix(in srgb, var(--loomi-error-200, var(--_loomi-error-200-default)) 80%, transparent); } .event-error.selected { background: var(--loomi-error-600, var(--_loomi-error-600-default)); border-color: var(--loomi-error-600, var(--_loomi-error-600-default)); color: var(--loomi-text-on-primary, var(--loomi-white, #fff)); } /* Dark mode (\"is-dark\" toggled on the host via core's watchDarkMode — see loomi-calendar.ts): the light -100 tints above would render as glaring light chips on the dark grid, so re-tint from the -500 shade mixed into the (now dark) surface, with light -200 text. Selected chips stay solid -600 + on-primary text, which already works in both modes. */ :host(.is-dark) .event-primary { background: color-mix(in srgb, var(--loomi-primary-500, var(--_loomi-primary-500-default)) 22%, var(--loomi-calendar-surface)); color: var(--loomi-primary-200, var(--_loomi-primary-200-default)); border-color: color-mix(in srgb, var(--loomi-primary-500, var(--_loomi-primary-500-default)) 35%, transparent); } :host(.is-dark) .event-secondary { background: color-mix(in srgb, var(--loomi-secondary-500, var(--_loomi-secondary-500-default)) 22%, var(--loomi-calendar-surface)); color: var(--loomi-secondary-200, var(--_loomi-secondary-200-default)); border-color: color-mix(in srgb, var(--loomi-secondary-500, var(--_loomi-secondary-500-default)) 35%, transparent); } :host(.is-dark) .event-success { background: color-mix(in srgb, var(--loomi-success-500, var(--_loomi-success-500-default)) 22%, var(--loomi-calendar-surface)); color: var(--loomi-success-200, var(--_loomi-success-200-default)); border-color: color-mix(in srgb, var(--loomi-success-500, var(--_loomi-success-500-default)) 35%, transparent); } :host(.is-dark) .event-warning { background: color-mix(in srgb, var(--loomi-warning-500, var(--_loomi-warning-500-default)) 22%, var(--loomi-calendar-surface)); color: var(--loomi-warning-200, var(--_loomi-warning-200-default)); border-color: color-mix(in srgb, var(--loomi-warning-500, var(--_loomi-warning-500-default)) 35%, transparent); } :host(.is-dark) .event-error { background: color-mix(in srgb, var(--loomi-error-500, var(--_loomi-error-500-default)) 22%, var(--loomi-calendar-surface)); color: var(--loomi-error-200, var(--_loomi-error-200-default)); border-color: color-mix(in srgb, var(--loomi-error-500, var(--_loomi-error-500-default)) 35%, transparent); } @media (max-width: 720px) { .toolbar { padding: 12px; } .title { font-size: 1rem; } .segmented { width: 100%; overflow-x: auto; } .seg-btn { flex: 1 0 auto; padding-inline: 9px; } .month-grid { grid-auto-rows: minmax(96px, 1fr); } .agenda-item { grid-template-columns: 1fr; gap: 6px; } } `"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "calendarStyles",
+          "declaration": {
+            "name": "calendarStyles",
+            "module": "src/calendar-styles.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/calendar-utils.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "HOUR_HEIGHT",
+          "type": {
+            "text": "number"
+          },
+          "default": "96"
+        },
+        {
+          "kind": "variable",
+          "name": "MIN_EVENT_HEIGHT",
+          "type": {
+            "text": "number"
+          },
+          "default": "22"
+        },
+        {
+          "kind": "variable",
+          "name": "ALL_DAY_HEIGHT",
+          "type": {
+            "text": "number"
+          },
+          "default": "36"
+        },
+        {
+          "kind": "variable",
+          "name": "RESOURCE_LABEL_WIDTH",
+          "type": {
+            "text": "number"
+          },
+          "default": "160"
+        },
+        {
+          "kind": "variable",
+          "name": "TIME_AXIS_WIDTH",
+          "type": {
+            "text": "number"
+          },
+          "default": "72"
+        },
+        {
+          "kind": "function",
+          "name": "cloneDate",
+          "parameters": [
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "startOfDay",
+          "parameters": [
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "endOfDay",
+          "parameters": [
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "addDays",
+          "parameters": [
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            },
+            {
+              "name": "days",
+              "type": {
+                "text": "number"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "addMinutes",
+          "parameters": [
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            },
+            {
+              "name": "minutes",
+              "type": {
+                "text": "number"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "isSameDay",
+          "parameters": [
+            {
+              "name": "a",
+              "type": {
+                "text": "Date"
+              }
+            },
+            {
+              "name": "b",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "isSameMonth",
+          "parameters": [
+            {
+              "name": "a",
+              "type": {
+                "text": "Date"
+              }
+            },
+            {
+              "name": "b",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "isToday",
+          "parameters": [
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            },
+            {
+              "name": "reference",
+              "default": "new Date()"
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "getWeekDays",
+          "parameters": [
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            },
+            {
+              "name": "weekStarts",
+              "type": {
+                "text": "CalendarWeekStarts"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "getVisibleWeekDays",
+          "parameters": [
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            },
+            {
+              "name": "weekStarts",
+              "type": {
+                "text": "CalendarWeekStarts"
+              }
+            },
+            {
+              "name": "showWeekends",
+              "type": {
+                "text": "boolean"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "getMonthGridDays",
+          "parameters": [
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            },
+            {
+              "name": "weekStarts",
+              "type": {
+                "text": "CalendarWeekStarts"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "overlapsDay",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "CalendarEvent"
+              }
+            },
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "getEventsForDate",
+          "parameters": [
+            {
+              "name": "events",
+              "type": {
+                "text": "CalendarEvent[]"
+              }
+            },
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "getTimedEventsForDate",
+          "parameters": [
+            {
+              "name": "events",
+              "type": {
+                "text": "CalendarEvent[]"
+              }
+            },
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "getAllDayEventsForDate",
+          "parameters": [
+            {
+              "name": "events",
+              "type": {
+                "text": "CalendarEvent[]"
+              }
+            },
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "clampEventToDay",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "CalendarEvent"
+              }
+            },
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "minutesFromDayStart",
+          "parameters": [
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            },
+            {
+              "name": "startHour",
+              "type": {
+                "text": "number"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "layoutTimedEvents",
+          "return": {
+            "type": {
+              "text": "PositionedEvent[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "events",
+              "type": {
+                "text": "CalendarEvent[]"
+              }
+            },
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            },
+            {
+              "name": "startHour",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "endHour",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "hourHeight",
+              "default": "HOUR_HEIGHT"
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "buildAgendaGroups",
+          "return": {
+            "type": {
+              "text": "AgendaGroup[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "events",
+              "type": {
+                "text": "CalendarEvent[]"
+              }
+            },
+            {
+              "name": "rangeStart",
+              "type": {
+                "text": "Date"
+              }
+            },
+            {
+              "name": "rangeEnd",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "snapMinutes",
+          "parameters": [
+            {
+              "name": "value",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "interval",
+              "type": {
+                "text": "number"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "dateFromGridPosition",
+          "parameters": [
+            {
+              "name": "day",
+              "type": {
+                "text": "Date"
+              }
+            },
+            {
+              "name": "offsetY",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "startHour",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "hourHeight",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "slotMinutes",
+              "type": {
+                "text": "number"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "formatTime",
+          "parameters": [
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "timeZone",
+              "optional": true,
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "formatEventRange",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "CalendarEvent"
+              }
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "timeZone",
+              "optional": true,
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "formatTimezoneLabel",
+          "parameters": [
+            {
+              "name": "timeZone",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "getNowOffset",
+          "parameters": [
+            {
+              "name": "startHour",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "endHour",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "hourHeight",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "reference",
+              "default": "new Date()"
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "canDragEvent",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "CalendarEvent"
+              }
+            },
+            {
+              "name": "editable",
+              "type": {
+                "text": "boolean"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "canEditEvent",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "CalendarEvent"
+              }
+            },
+            {
+              "name": "editable",
+              "type": {
+                "text": "boolean"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "layoutResourceDayEvents",
+          "return": {
+            "type": {
+              "text": "PositionedResourceEvent[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "events",
+              "type": {
+                "text": "CalendarEvent[]"
+              }
+            },
+            {
+              "name": "resourceId",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            },
+            {
+              "name": "startHour",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "endHour",
+              "type": {
+                "text": "number"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "dateFromResourcePosition",
+          "parameters": [
+            {
+              "name": "day",
+              "type": {
+                "text": "Date"
+              }
+            },
+            {
+              "name": "offsetX",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "trackWidth",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "startHour",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "endHour",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "slotMinutes",
+              "type": {
+                "text": "number"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "isMultiDayEvent",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "CalendarEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "getDayIndex",
+          "parameters": [
+            {
+              "name": "days",
+              "type": {
+                "text": "Date[]"
+              }
+            },
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "layoutSpanningEvents",
+          "return": {
+            "type": {
+              "text": "SpanningEventLayout[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "days",
+              "type": {
+                "text": "Date[]"
+              }
+            },
+            {
+              "name": "events",
+              "type": {
+                "text": "CalendarEvent[]"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "getUpcomingEvents",
+          "parameters": [
+            {
+              "name": "events",
+              "type": {
+                "text": "CalendarEvent[]"
+              }
+            },
+            {
+              "name": "from",
+              "type": {
+                "text": "Date"
+              }
+            },
+            {
+              "name": "limit",
+              "default": "20"
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "getNextUpcomingEvent",
+          "parameters": [
+            {
+              "name": "events",
+              "type": {
+                "text": "CalendarEvent[]"
+              }
+            },
+            {
+              "name": "from",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "hasEventsOnDate",
+          "parameters": [
+            {
+              "name": "events",
+              "type": {
+                "text": "CalendarEvent[]"
+              }
+            },
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "summarizeInvitees",
+          "parameters": [
+            {
+              "name": "invitees",
+              "default": "[]",
+              "type": {
+                "text": "CalendarEventInvitee[]"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "getInviteeInitials",
+          "parameters": [
+            {
+              "name": "invitee",
+              "type": {
+                "text": "CalendarEventInvitee"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "toInputDateTime",
+          "parameters": [
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "fromInputDateTime",
+          "return": {
+            "type": {
+              "text": "Date | null"
+            }
+          },
+          "parameters": [
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "toInputDate",
+          "parameters": [
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "parseInputDate",
+          "return": {
+            "type": {
+              "text": "Date | null"
+            }
+          },
+          "parameters": [
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "formatTimepickerValue",
+          "parameters": [
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            },
+            {
+              "name": "format",
+              "default": "\"12\"",
+              "type": {
+                "text": "\"12\" | \"24\""
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "combineDateAndTime",
+          "return": {
+            "type": {
+              "text": "Date | null"
+            }
+          },
+          "parameters": [
+            {
+              "name": "dateValue",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "timeValue",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "chunkMonthWeeks",
+          "parameters": [
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            },
+            {
+              "name": "weekStarts",
+              "type": {
+                "text": "CalendarWeekStarts"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "getSingleDayEventsForDate",
+          "parameters": [
+            {
+              "name": "events",
+              "type": {
+                "text": "CalendarEvent[]"
+              }
+            },
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HOUR_HEIGHT",
+          "declaration": {
+            "name": "HOUR_HEIGHT",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "MIN_EVENT_HEIGHT",
+          "declaration": {
+            "name": "MIN_EVENT_HEIGHT",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "ALL_DAY_HEIGHT",
+          "declaration": {
+            "name": "ALL_DAY_HEIGHT",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RESOURCE_LABEL_WIDTH",
+          "declaration": {
+            "name": "RESOURCE_LABEL_WIDTH",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "TIME_AXIS_WIDTH",
+          "declaration": {
+            "name": "TIME_AXIS_WIDTH",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "cloneDate",
+          "declaration": {
+            "name": "cloneDate",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "startOfDay",
+          "declaration": {
+            "name": "startOfDay",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "endOfDay",
+          "declaration": {
+            "name": "endOfDay",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "addDays",
+          "declaration": {
+            "name": "addDays",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "addMinutes",
+          "declaration": {
+            "name": "addMinutes",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "isSameDay",
+          "declaration": {
+            "name": "isSameDay",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "isSameMonth",
+          "declaration": {
+            "name": "isSameMonth",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "isToday",
+          "declaration": {
+            "name": "isToday",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getWeekDays",
+          "declaration": {
+            "name": "getWeekDays",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getVisibleWeekDays",
+          "declaration": {
+            "name": "getVisibleWeekDays",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getMonthGridDays",
+          "declaration": {
+            "name": "getMonthGridDays",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "overlapsDay",
+          "declaration": {
+            "name": "overlapsDay",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getEventsForDate",
+          "declaration": {
+            "name": "getEventsForDate",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getTimedEventsForDate",
+          "declaration": {
+            "name": "getTimedEventsForDate",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getAllDayEventsForDate",
+          "declaration": {
+            "name": "getAllDayEventsForDate",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "clampEventToDay",
+          "declaration": {
+            "name": "clampEventToDay",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "minutesFromDayStart",
+          "declaration": {
+            "name": "minutesFromDayStart",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "layoutTimedEvents",
+          "declaration": {
+            "name": "layoutTimedEvents",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "buildAgendaGroups",
+          "declaration": {
+            "name": "buildAgendaGroups",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "snapMinutes",
+          "declaration": {
+            "name": "snapMinutes",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "dateFromGridPosition",
+          "declaration": {
+            "name": "dateFromGridPosition",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "formatTime",
+          "declaration": {
+            "name": "formatTime",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "formatEventRange",
+          "declaration": {
+            "name": "formatEventRange",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "formatTimezoneLabel",
+          "declaration": {
+            "name": "formatTimezoneLabel",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getNowOffset",
+          "declaration": {
+            "name": "getNowOffset",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "canDragEvent",
+          "declaration": {
+            "name": "canDragEvent",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "canEditEvent",
+          "declaration": {
+            "name": "canEditEvent",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "layoutResourceDayEvents",
+          "declaration": {
+            "name": "layoutResourceDayEvents",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "dateFromResourcePosition",
+          "declaration": {
+            "name": "dateFromResourcePosition",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "isMultiDayEvent",
+          "declaration": {
+            "name": "isMultiDayEvent",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getDayIndex",
+          "declaration": {
+            "name": "getDayIndex",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "layoutSpanningEvents",
+          "declaration": {
+            "name": "layoutSpanningEvents",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getUpcomingEvents",
+          "declaration": {
+            "name": "getUpcomingEvents",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getNextUpcomingEvent",
+          "declaration": {
+            "name": "getNextUpcomingEvent",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "hasEventsOnDate",
+          "declaration": {
+            "name": "hasEventsOnDate",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "summarizeInvitees",
+          "declaration": {
+            "name": "summarizeInvitees",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getInviteeInitials",
+          "declaration": {
+            "name": "getInviteeInitials",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "toInputDateTime",
+          "declaration": {
+            "name": "toInputDateTime",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "fromInputDateTime",
+          "declaration": {
+            "name": "fromInputDateTime",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "toInputDate",
+          "declaration": {
+            "name": "toInputDate",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "parseInputDate",
+          "declaration": {
+            "name": "parseInputDate",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "formatTimepickerValue",
+          "declaration": {
+            "name": "formatTimepickerValue",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "combineDateAndTime",
+          "declaration": {
+            "name": "combineDateAndTime",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "chunkMonthWeeks",
+          "declaration": {
+            "name": "chunkMonthWeeks",
+            "module": "src/calendar-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getSingleDayEventsForDate",
+          "declaration": {
+            "name": "getSingleDayEventsForDate",
+            "module": "src/calendar-utils.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiCalendar",
+          "declaration": {
+            "name": "LoomiCalendar",
+            "module": "./loomi-calendar.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarDateChangeDetail",
+          "declaration": {
+            "name": "CalendarDateChangeDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarEvent",
+          "declaration": {
+            "name": "CalendarEvent",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarEventChangeDetail",
+          "declaration": {
+            "name": "CalendarEventChangeDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarEventClickDetail",
+          "declaration": {
+            "name": "CalendarEventClickDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarEventCreateDetail",
+          "declaration": {
+            "name": "CalendarEventCreateDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarEventDeleteDetail",
+          "declaration": {
+            "name": "CalendarEventDeleteDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarEventDuplicateDetail",
+          "declaration": {
+            "name": "CalendarEventDuplicateDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarEventColor",
+          "declaration": {
+            "name": "CalendarEventColor",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarEventInvitee",
+          "declaration": {
+            "name": "CalendarEventInvitee",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarEventReminder",
+          "declaration": {
+            "name": "CalendarEventReminder",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarEventRecurrence",
+          "declaration": {
+            "name": "CalendarEventRecurrence",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarInviteeStatus",
+          "declaration": {
+            "name": "CalendarInviteeStatus",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarResource",
+          "declaration": {
+            "name": "CalendarResource",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarSidebarToggleDetail",
+          "declaration": {
+            "name": "CalendarSidebarToggleDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarSlotSelectDetail",
+          "declaration": {
+            "name": "CalendarSlotSelectDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarView",
+          "declaration": {
+            "name": "CalendarView",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarViewChangeDetail",
+          "declaration": {
+            "name": "CalendarViewChangeDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarWeekStarts",
+          "declaration": {
+            "name": "CalendarWeekStarts",
+            "module": "./types.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-calendar.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "LoomiCalendar",
+          "members": [
+            {
+              "kind": "field",
+              "name": "events",
+              "privacy": "public",
+              "type": {
+                "text": "CalendarEvent[]"
+              },
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "reminders",
+              "privacy": "public",
+              "type": {
+                "text": "CalendarReminder[]"
+              },
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "resources",
+              "privacy": "public",
+              "type": {
+                "text": "CalendarResource[]"
+              },
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "view",
+              "privacy": "public",
+              "type": {
+                "text": "CalendarView"
+              },
+              "default": "\"month\"",
+              "attribute": "view",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "date",
+              "privacy": "public",
+              "type": {
+                "text": "Date"
+              },
+              "default": "new Date()"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "weekStarts",
+              "privacy": "public",
+              "type": {
+                "text": "CalendarWeekStarts"
+              },
+              "default": "\"sunday\"",
+              "attribute": "week-starts"
+            },
+            {
+              "kind": "field",
+              "name": "timezone",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "timezone"
+            },
+            {
+              "kind": "field",
+              "name": "showTimezone",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-timezone"
+            },
+            {
+              "kind": "field",
+              "name": "showWeekends",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-weekends"
+            },
+            {
+              "kind": "field",
+              "name": "editable",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "editable",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "loading",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "loading",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "startHour",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "default": "6",
+              "attribute": "start-hour"
+            },
+            {
+              "kind": "field",
+              "name": "endHour",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "default": "17",
+              "attribute": "end-hour"
+            },
+            {
+              "kind": "field",
+              "name": "slotMinutes",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "default": "30",
+              "attribute": "slot-minutes"
+            },
+            {
+              "kind": "field",
+              "name": "showSidebar",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-sidebar"
+            },
+            {
+              "kind": "field",
+              "name": "sidebarOpen",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "sidebar-open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "_dragState",
+              "privacy": "public",
+              "type": {
+                "text": "DragState | undefined"
+              },
+              "attribute": "_dragState"
+            },
+            {
+              "kind": "field",
+              "name": "_slotDragState",
+              "privacy": "public",
+              "type": {
+                "text": "SlotDragState | undefined"
+              },
+              "attribute": "_slotDragState"
+            },
+            {
+              "kind": "field",
+              "name": "_miniCalendarDate",
+              "privacy": "public",
+              "type": {
+                "text": "Date | undefined"
+              },
+              "attribute": "_miniCalendarDate"
+            },
+            {
+              "kind": "field",
+              "name": "_eventDraft",
+              "privacy": "public",
+              "type": {
+                "text": "EventDraft | undefined"
+              },
+              "attribute": "_eventDraft"
+            },
+            {
+              "kind": "field",
+              "name": "_reminderDraft",
+              "privacy": "public",
+              "type": {
+                "text": "ReminderDraft | undefined"
+              },
+              "attribute": "_reminderDraft"
+            },
+            {
+              "kind": "field",
+              "name": "_deleteTarget",
+              "privacy": "public",
+              "type": {
+                "text": "CalendarSelection | undefined"
+              },
+              "attribute": "_deleteTarget"
+            },
+            {
+              "kind": "field",
+              "name": "_contextTarget",
+              "privacy": "public",
+              "type": {
+                "text": "CalendarSelection | undefined"
+              },
+              "attribute": "_contextTarget"
+            },
+            {
+              "kind": "field",
+              "name": "selectedEventId",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "selectedEventId"
+            },
+            {
+              "kind": "field",
+              "name": "selectedReminderId",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "selectedReminderId"
+            },
+            {
+              "kind": "field",
+              "name": "createModalName",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"loomi-calendar-create-event\""
+            },
+            {
+              "kind": "field",
+              "name": "deleteModalName",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"loomi-calendar-delete-event\""
+            },
+            {
+              "kind": "field",
+              "name": "boundPointerMove",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "boundPointerUp",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "localeChangeHandler",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "show_weekends",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "show_weekends"
+            },
+            {
+              "kind": "field",
+              "name": "cleanupDarkWatch",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderSidebar",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderUpcomingDetail",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "CalendarEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderEventDescription",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "description",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderMiniCalendar",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "miniDate",
+                  "type": {
+                    "text": "Date"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderEventModal",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderReminderModal",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderDeleteModal",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderItemContextMenu",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderToolbar",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "getViewSelectOptions",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "handleViewSelect",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "CustomEvent<{ value: string }>"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "t",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "path",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "params",
+                  "default": "{}",
+                  "type": {
+                    "text": "Record<string, string | number>"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "isVisibleDay",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "date",
+                  "type": {
+                    "text": "Date"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getVisibleWeekdayLabels",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "getVisibleMonthCells",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "date",
+                  "type": {
+                    "text": "Date"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getVisibleMonthWeeks",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "date",
+                  "type": {
+                    "text": "Date"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderMonthView",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderMonthCell",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "date",
+                  "type": {
+                    "text": "Date"
+                  }
+                },
+                {
+                  "name": "isOtherMonth",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderSpanningEvent",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "entry",
+                  "type": {
+                    "text": "SpanningEventLayout"
+                  }
+                },
+                {
+                  "name": "dayCount",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderTimeView",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderAllDayRow",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "days",
+                  "type": {
+                    "text": "Date[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderDayColumn",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "day",
+                  "type": {
+                    "text": "Date"
+                  }
+                },
+                {
+                  "name": "visibleDays",
+                  "type": {
+                    "text": "Date[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderSlotSelection",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "day",
+                  "type": {
+                    "text": "Date"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getSlotSelectionPreview",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "{ top: number; height: number } | null"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "day",
+                  "type": {
+                    "text": "Date"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getRemindersForDate",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "date",
+                  "type": {
+                    "text": "Date"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getVisibleTimedReminders",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "date",
+                  "type": {
+                    "text": "Date"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderAgendaView",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderResourceView",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderResourceRow",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "resource",
+                  "type": {
+                    "text": "CalendarResource"
+                  }
+                },
+                {
+                  "name": "day",
+                  "type": {
+                    "text": "Date"
+                  }
+                },
+                {
+                  "name": "hourCount",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderEventPill",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "CalendarEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderReminderPill",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "reminder",
+                  "type": {
+                    "text": "CalendarReminder"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderTimedEvent",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "CalendarEvent"
+                  }
+                },
+                {
+                  "name": "day",
+                  "type": {
+                    "text": "Date"
+                  }
+                },
+                {
+                  "name": "visibleDays",
+                  "type": {
+                    "text": "Date[]"
+                  }
+                },
+                {
+                  "name": "top",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "height",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "left",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "width",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderTimedReminder",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "reminder",
+                  "type": {
+                    "text": "CalendarReminder"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getSpanningDragPreview",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "{ left: number; width: number } | null"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "CalendarEvent"
+                  }
+                },
+                {
+                  "name": "dayCount",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getDragPreview",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "{ top: number; height: number; transform?: string } | null"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "CalendarEvent"
+                  }
+                },
+                {
+                  "name": "dayCount",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleEventPointerDown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "pointerEvent",
+                  "type": {
+                    "text": "PointerEvent"
+                  }
+                },
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "CalendarEvent"
+                  }
+                },
+                {
+                  "name": "day",
+                  "type": {
+                    "text": "Date"
+                  }
+                },
+                {
+                  "name": "visibleDays",
+                  "type": {
+                    "text": "Date[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleSpanningPointerDown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "pointerEvent",
+                  "type": {
+                    "text": "PointerEvent"
+                  }
+                },
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "CalendarEvent"
+                  }
+                },
+                {
+                  "name": "_entry",
+                  "type": {
+                    "text": "SpanningEventLayout"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleSpanningResizePointerDown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "pointerEvent",
+                  "type": {
+                    "text": "PointerEvent"
+                  }
+                },
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "CalendarEvent"
+                  }
+                },
+                {
+                  "name": "_entry",
+                  "type": {
+                    "text": "SpanningEventLayout"
+                  }
+                },
+                {
+                  "name": "mode",
+                  "type": {
+                    "text": "\"resize-start\" | \"resize-end\""
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleResizePointerDown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "pointerEvent",
+                  "type": {
+                    "text": "PointerEvent"
+                  }
+                },
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "CalendarEvent"
+                  }
+                },
+                {
+                  "name": "day",
+                  "type": {
+                    "text": "Date"
+                  }
+                },
+                {
+                  "name": "visibleDays",
+                  "type": {
+                    "text": "Date[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handlePointerMove",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "pointerEvent",
+                  "type": {
+                    "text": "PointerEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handlePointerUp",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "pointerEvent",
+                  "type": {
+                    "text": "PointerEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "attachPointerListeners",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "detachPointerListeners",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "handleTimeSlotsPointerDown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "pointerEvent",
+                  "type": {
+                    "text": "PointerEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleTimeSlotsDoubleClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "MouseEvent"
+                  }
+                },
+                {
+                  "name": "day",
+                  "type": {
+                    "text": "Date"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleMonthCellClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "MouseEvent"
+                  }
+                },
+                {
+                  "name": "date",
+                  "type": {
+                    "text": "Date"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleMonthCellDoubleClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "MouseEvent"
+                  }
+                },
+                {
+                  "name": "date",
+                  "type": {
+                    "text": "Date"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "normalizeSlotRange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "start",
+                  "type": {
+                    "text": "Date"
+                  }
+                },
+                {
+                  "name": "end",
+                  "type": {
+                    "text": "Date"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleResourceTrackClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "MouseEvent"
+                  }
+                },
+                {
+                  "name": "_day",
+                  "type": {
+                    "text": "Date"
+                  }
+                },
+                {
+                  "name": "_resourceId",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleResourceTrackDoubleClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "MouseEvent"
+                  }
+                },
+                {
+                  "name": "day",
+                  "type": {
+                    "text": "Date"
+                  }
+                },
+                {
+                  "name": "resourceId",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "dispatchSlotSelect",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "detail",
+                  "type": {
+                    "text": "CalendarSlotSelectDetail"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleEventClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                },
+                {
+                  "name": "calendarEvent",
+                  "type": {
+                    "text": "CalendarEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleEventDoubleClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                },
+                {
+                  "name": "calendarEvent",
+                  "type": {
+                    "text": "CalendarEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleEventContextMenu",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "MouseEvent"
+                  }
+                },
+                {
+                  "name": "calendarEvent",
+                  "type": {
+                    "text": "CalendarEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "handleContextEdit",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "handleContextDelete",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "isEventSelected",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "CalendarEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "isReminderSelected",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "reminder",
+                  "type": {
+                    "text": "CalendarReminder"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "selectedEvent",
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "selectedReminder",
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "clearSelection",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "canEditReminder",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "reminder",
+                  "type": {
+                    "text": "CalendarReminder"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleReminderClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                },
+                {
+                  "name": "reminder",
+                  "type": {
+                    "text": "CalendarReminder"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleReminderDoubleClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                },
+                {
+                  "name": "reminder",
+                  "type": {
+                    "text": "CalendarReminder"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleReminderContextMenu",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "MouseEvent"
+                  }
+                },
+                {
+                  "name": "reminder",
+                  "type": {
+                    "text": "CalendarReminder"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleReminderDoneChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                },
+                {
+                  "name": "reminder",
+                  "type": {
+                    "text": "CalendarReminder"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleReminderKeydown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                },
+                {
+                  "name": "reminder",
+                  "type": {
+                    "text": "CalendarReminder"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleKeydown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "isTypingTarget",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "target",
+                  "type": {
+                    "text": "EventTarget | undefined"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "openDayView",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "date",
+                  "type": {
+                    "text": "Date"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "changeView",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "view",
+                  "type": {
+                    "text": "CalendarView"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "goPrev",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "goNext",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "goToToday",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "updateDate",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "date",
+                  "type": {
+                    "text": "Date"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleResourceEventPointerDown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "pointerEvent",
+                  "type": {
+                    "text": "PointerEvent"
+                  }
+                },
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "CalendarEvent"
+                  }
+                },
+                {
+                  "name": "day",
+                  "type": {
+                    "text": "Date"
+                  }
+                },
+                {
+                  "name": "resourceId",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "toggleSidebar",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "readSidebarPreference",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "persistSidebarPreference",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "open",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "shiftMiniCalendar",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "deltaMonths",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "openCreateEventModal",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "start",
+                  "optional": true,
+                  "type": {
+                    "text": "Date"
+                  }
+                },
+                {
+                  "name": "end",
+                  "optional": true,
+                  "type": {
+                    "text": "Date"
+                  }
+                },
+                {
+                  "name": "allDay",
+                  "default": "false"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "openCreateReminderModal",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "due",
+                  "optional": true,
+                  "type": {
+                    "text": "Date"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "openEditEventModal",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "CalendarEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "openEditReminderModal",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "reminder",
+                  "type": {
+                    "text": "CalendarReminder"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getTimepickerFormat",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "\"12\" | \"24\""
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "getColorSelectOptions",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "getResourceSelectOptions",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "getRecurrenceSelectOptions",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "getReminderSelectOptions",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "getReminderOptionLabel",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "minutes",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getReminderLabel",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "minutes",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getRecurrenceLabel",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "frequency",
+                  "type": {
+                    "text": "EventDraft[\"recurrenceFrequency\"]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleDraftInput",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "key",
+                  "type": {
+                    "text": "K"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleDraftSelect",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "key",
+                  "type": {
+                    "text": "K"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleDraftDateChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "key",
+                  "type": {
+                    "text": "\"startDate\" | \"endDate\""
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleDraftTimeChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "key",
+                  "type": {
+                    "text": "\"startTime\" | \"endTime\""
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleAllDayToggle",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleReminderDraftInput",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "key",
+                  "type": {
+                    "text": "K"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleReminderDraftSelect",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "key",
+                  "type": {
+                    "text": "K"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "handleReminderDraftDateChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "handleReminderDraftTimeChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "handleReminderDoneToggle",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "getDefaultEventStart",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "updateEventDraft",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "key",
+                  "type": {
+                    "text": "K"
+                  }
+                },
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "EventDraft[K]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "updateReminderDraft",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "key",
+                  "type": {
+                    "text": "K"
+                  }
+                },
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "ReminderDraft[K]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleEventDraftSave",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleCreateEventCancel",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "handleReminderDraftSave",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "handleReminderDraftCancel",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "confirmDeleteEvent",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "eventOrId",
+                  "type": {
+                    "text": "CalendarEvent | string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "confirmDeleteReminder",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "reminderOrId",
+                  "type": {
+                    "text": "CalendarReminder | string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "deleteEvent",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "eventOrId",
+                  "type": {
+                    "text": "CalendarEvent | string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "deleteReminder",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "reminderOrId",
+                  "type": {
+                    "text": "CalendarReminder | string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleDeleteEvent",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "CalendarEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "handleConfirmDeleteEvent",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "handleDeleteEventCancel",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "dispatchDeleteEvent",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "CalendarEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "dispatchReminderChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "reminder",
+                  "type": {
+                    "text": "CalendarReminder"
+                  }
+                },
+                {
+                  "name": "previousDue",
+                  "type": {
+                    "text": "Date"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "dispatchDeleteReminder",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "reminder",
+                  "type": {
+                    "text": "CalendarReminder"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleDuplicateEvent",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "CalendarEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getFormattedTitle",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "getResourceLabel",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "resourceId",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "resolvedLocale",
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "displayTimezone",
+              "privacy": "private",
+              "readonly": true
+            }
+          ],
+          "events": [
+            {
+              "name": "loomi-event-change",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "loomi-slot-select",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "loomi-event-click",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "loomi-reminder-click",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "loomi-view-change",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "loomi-date-change",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "loomi-sidebar-toggle",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "loomi-event-create",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "loomi-event-delete",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "loomi-reminder-change",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "loomi-reminder-delete",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "loomi-event-duplicate",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "view",
+              "type": {
+                "text": "CalendarView"
+              },
+              "default": "\"month\"",
+              "fieldName": "view"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "week-starts",
+              "type": {
+                "text": "CalendarWeekStarts"
+              },
+              "default": "\"sunday\"",
+              "fieldName": "weekStarts"
+            },
+            {
+              "name": "timezone",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "timezone"
+            },
+            {
+              "name": "show-timezone",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showTimezone"
+            },
+            {
+              "name": "show-weekends",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showWeekends"
+            },
+            {
+              "name": "show_weekends",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "show_weekends"
+            },
+            {
+              "name": "editable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "editable"
+            },
+            {
+              "name": "loading",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "loading"
+            },
+            {
+              "name": "start-hour",
+              "type": {
+                "text": "number"
+              },
+              "default": "6",
+              "fieldName": "startHour"
+            },
+            {
+              "name": "end-hour",
+              "type": {
+                "text": "number"
+              },
+              "default": "17",
+              "fieldName": "endHour"
+            },
+            {
+              "name": "slot-minutes",
+              "type": {
+                "text": "number"
+              },
+              "default": "30",
+              "fieldName": "slotMinutes"
+            },
+            {
+              "name": "show-sidebar",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showSidebar"
+            },
+            {
+              "name": "sidebar-open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "sidebarOpen"
+            },
+            {
+              "name": "_dragState",
+              "type": {
+                "text": "DragState | undefined"
+              },
+              "fieldName": "_dragState"
+            },
+            {
+              "name": "_slotDragState",
+              "type": {
+                "text": "SlotDragState | undefined"
+              },
+              "fieldName": "_slotDragState"
+            },
+            {
+              "name": "_miniCalendarDate",
+              "type": {
+                "text": "Date | undefined"
+              },
+              "fieldName": "_miniCalendarDate"
+            },
+            {
+              "name": "_eventDraft",
+              "type": {
+                "text": "EventDraft | undefined"
+              },
+              "fieldName": "_eventDraft"
+            },
+            {
+              "name": "_reminderDraft",
+              "type": {
+                "text": "ReminderDraft | undefined"
+              },
+              "fieldName": "_reminderDraft"
+            },
+            {
+              "name": "_deleteTarget",
+              "type": {
+                "text": "CalendarSelection | undefined"
+              },
+              "fieldName": "_deleteTarget"
+            },
+            {
+              "name": "_contextTarget",
+              "type": {
+                "text": "CalendarSelection | undefined"
+              },
+              "fieldName": "_contextTarget"
+            },
+            {
+              "name": "selectedEventId",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "selectedEventId"
+            },
+            {
+              "name": "selectedReminderId",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "selectedReminderId"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-calendar",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiCalendar",
+          "declaration": {
+            "name": "LoomiCalendar",
+            "module": "src/loomi-calendar.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-calendar",
+          "declaration": {
+            "name": "LoomiCalendar",
+            "module": "src/loomi-calendar.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/types.ts",
+      "declarations": [],
+      "exports": []
+    }
+  ]
+}
