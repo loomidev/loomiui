@@ -1,0 +1,2490 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/data-grid-styles.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "dataGridStyles",
+          "default": "css` :host { --loomi-data-grid-border: var(--loomi-surface-border, #d9dee3); --loomi-data-grid-border-subtle: var(--loomi-surface-border-subtle, #edf0f2); --loomi-data-grid-muted: var(--loomi-text-muted, #62717d); --loomi-data-grid-faint: var(--loomi-text-faint, #8a97a3); --loomi-data-grid-surface: var(--loomi-surface); --loomi-data-grid-surface-muted: var(--loomi-surface-muted, #f6f8fa); --loomi-data-grid-surface-hover: var(--loomi-surface-hover, #f9fbfc); --loomi-data-grid-text: var(--loomi-text, #172026); --loomi-data-grid-text-secondary: var(--loomi-text-secondary, #33424f); --loomi-data-grid-accent: var(--loomi-primary-600, var(--_loomi-primary-600-default, #2563eb)); --loomi-data-grid-accent-strong: var(--loomi-primary-700, var(--_loomi-primary-700-default, #174ea6)); --loomi-data-grid-accent-soft: var(--loomi-primary-100, var(--_loomi-primary-100-default, #dbeafe)); --loomi-data-grid-accent-softer: var(--loomi-primary-50, var(--_loomi-primary-50-default, #eff6ff)); --loomi-data-grid-heading-bg: #f8f7f4; --loomi-data-grid-divider: #f3f0ec; display: block; color: var(--loomi-data-grid-text); font-family: Inter, ui-sans-serif, system-ui, sans-serif; } /* :host-context(.dark) has no Firefox support (see AGENTS.md) — the component watches .dark on <html> in JS instead and reflects it as this class on itself. */ :host(.is-dark) { --loomi-data-grid-heading-bg: var(--loomi-data-grid-surface-muted); --loomi-data-grid-divider: var(--loomi-data-grid-border-subtle); } .shell { overflow: hidden; border: 1px solid var(--loomi-data-grid-border); border-radius: 8px; background: var(--loomi-data-grid-surface); box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.09); } .toolbar, .footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 12px; border-bottom: 1px solid var(--loomi-data-grid-border); background: var(--loomi-data-grid-surface); } .toolbar:empty { display: none; } .footer { border-top: 1px solid var(--loomi-data-grid-border); border-bottom: 0; } .toolbar-group, .pagination { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; } input, select, button { min-height: 34px; border: 1px solid var(--loomi-data-grid-border); border-radius: 6px; background: var(--loomi-data-grid-surface); color: inherit; font: inherit; } input, select { padding: 0 10px; } button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 0 10px; cursor: pointer; } button:hover { border-color: var(--loomi-data-grid-accent); } button[disabled] { cursor: not-allowed; opacity: 0.5; } .selection-count { min-height: 28px; display: inline-flex; align-items: center; border-radius: 999px; background: var(--loomi-data-grid-accent-soft); color: var(--loomi-data-grid-accent-strong); padding: 0 10px; font-size: 12px; font-weight: 600; } .saved-view-picker { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; } .saved-view-label { color: var(--loomi-data-grid-muted); font-weight: 600; } .grid-wrap { overflow: auto; position: relative; } table { width: 100%; min-width: 720px; border-collapse: separate; border-spacing: 0; font-size: 14px; table-layout: fixed; } th, td { border-bottom: 1px solid var(--loomi-data-grid-divider); padding: 8px 10px; text-align: left; vertical-align: middle; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } :host([density=\"compact\"]) th, :host([density=\"compact\"]) td { padding: 6px 8px; } :host([density=\"spacious\"]) th, :host([density=\"spacious\"]) td { padding: 16px; } th { position: relative; background: var(--loomi-data-grid-heading-bg); color: var(--loomi-data-grid-text-secondary); font-size: 12px; font-weight: 700; letter-spacing: 0; text-transform: uppercase; user-select: none; } :host([sticky-header]) th { position: sticky; top: 0; z-index: 5; } .pin-select-column, .pinned-start, .pinned-end { position: sticky; z-index: 4; background: var(--loomi-data-grid-surface); } tbody tr:hover .pin-select-column, tbody tr:hover .pinned-start, tbody tr:hover .pinned-end { background: var(--loomi-data-grid-surface-hover); } tbody tr[data-selected=\"true\"] .pin-select-column, tbody tr[data-selected=\"true\"] .pinned-start, tbody tr[data-selected=\"true\"] .pinned-end { background: var(--loomi-data-grid-accent-softer); } tbody tr.loomi-grid-row-group .pin-select-column, tbody tr.loomi-grid-row-group .pinned-start, tbody tr.loomi-grid-row-group .pinned-end { background: var(--loomi-data-grid-surface-muted); } th.pin-select-column, th.pinned-start, th.pinned-end { z-index: 7; background: var(--loomi-data-grid-heading-bg); } .pin-select-column { left: 0; width: 42px; min-width: 42px; max-width: 42px; text-align: center; overflow: visible; text-overflow: clip; } .pin-edge-start { box-shadow: 1px 0 0 var(--loomi-data-grid-border); } .pin-edge-end { box-shadow: -1px 0 0 var(--loomi-data-grid-border); } .th-content { display: flex; align-items: center; gap: 6px; width: 100%; overflow: hidden; } .sort-button { all: unset; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; min-height: 0; overflow: hidden; text-overflow: ellipsis; } .sort-button:focus-visible { outline: 2px solid var(--loomi-data-grid-accent); outline-offset: 2px; } .sort-indicator { font-size: 10px; opacity: 0.8; } .column-filter { display: block; margin-top: 6px; width: 100%; min-height: 26px; font-size: 12px; font-weight: 400; text-transform: none; } .resize-handle { position: absolute; top: 0; right: -4px; width: 8px; height: 100%; cursor: col-resize; z-index: 6; touch-action: none; } .resize-handle::after { content: \"\"; position: absolute; top: 0; bottom: 0; left: 3px; width: 2px; background: transparent; } .resize-handle:hover::after, .resize-handle.resizing::after { background: var(--loomi-data-grid-accent); } tbody tr { cursor: default; } tbody tr:hover { background: var(--loomi-data-grid-surface-hover); } tbody tr[data-selected=\"true\"] { background: var(--loomi-data-grid-accent-softer); } tbody tr.loomi-grid-row-group { background: var(--loomi-data-grid-surface-muted); font-weight: 600; } tbody tr.loomi-grid-row-group:hover { background: var(--loomi-data-grid-surface-muted); } .group-toggle { all: unset; display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; cursor: pointer; border-radius: 4px; } .group-toggle:hover { background: var(--loomi-data-grid-accent-soft); } .tree-indent { display: inline-block; } td.align-center, th .align-center { text-align: center; } td.align-end, th .align-end { text-align: right; } td[data-active-cell=\"true\"] { outline: 2px solid var(--loomi-data-grid-accent); outline-offset: -2px; } td.loomi-grid-cell-selected { background: var(--loomi-data-grid-accent-softer); outline: 1px solid var(--loomi-data-grid-accent); outline-offset: -1px; } td.loomi-grid-cell-editing { padding: 4px; } td.loomi-grid-cell-editing input { width: 100%; min-height: 28px; } .empty, .loading { padding: 48px 24px; text-align: center; color: var(--loomi-data-grid-muted); } .empty strong, .loading strong { display: block; margin-bottom: 4px; color: var(--loomi-data-grid-text); font-size: 16px; } .row-count { color: var(--loomi-data-grid-muted); font-size: 13px; } .below-table { border-top: 1px solid var(--loomi-data-grid-border); padding: 12px; } .virtual-spacer { padding: 0 !important; border: 0 !important; height: var(--loomi-data-grid-spacer-height, 0px); } @media (max-width: 768px) { .toolbar, .footer { flex-direction: column; align-items: stretch; } .toolbar-group, .pagination { width: 100%; } .grid-wrap { -webkit-overflow-scrolling: touch; } } `"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "dataGridStyles",
+          "declaration": {
+            "name": "dataGridStyles",
+            "module": "src/data-grid-styles.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/grid-module.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "defineGridModule",
+          "return": {
+            "type": {
+              "text": "GridModule<TRecord>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "module",
+              "type": {
+                "text": "GridModule<TRecord>"
+              }
+            }
+          ],
+          "description": "Identity helper that gives module factories precise generic inference."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "defineGridModule",
+          "declaration": {
+            "name": "defineGridModule",
+            "module": "src/grid-module.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/grid-utils.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "DEFAULT_COLUMN_WIDTH_PX",
+          "type": {
+            "text": "number"
+          },
+          "default": "120"
+        },
+        {
+          "kind": "variable",
+          "name": "SELECTION_COLUMN_WIDTH_PX",
+          "type": {
+            "text": "number"
+          },
+          "default": "42"
+        },
+        {
+          "kind": "function",
+          "name": "formatCellValue",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "value",
+              "type": {
+                "text": "unknown"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "compareValues",
+          "return": {
+            "type": {
+              "text": "number"
+            }
+          },
+          "parameters": [
+            {
+              "name": "first",
+              "type": {
+                "text": "unknown"
+              }
+            },
+            {
+              "name": "second",
+              "type": {
+                "text": "unknown"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "resolveRowKey",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "row",
+              "type": {
+                "text": "TRecord"
+              }
+            },
+            {
+              "name": "rowKeyField",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "getRowMeta",
+          "return": {
+            "type": {
+              "text": "DataGridRowMeta | undefined"
+            }
+          },
+          "parameters": [
+            {
+              "name": "row",
+              "type": {
+                "text": "TRecord"
+              }
+            }
+          ],
+          "description": "Reads a row's grid metadata, if any module has stamped it."
+        },
+        {
+          "kind": "function",
+          "name": "withRowMeta",
+          "return": {
+            "type": {
+              "text": "DataGridRowWithMeta<TRecord>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "row",
+              "type": {
+                "text": "TRecord"
+              }
+            },
+            {
+              "name": "meta",
+              "type": {
+                "text": "DataGridRowMeta"
+              }
+            }
+          ],
+          "description": "Returns a shallow clone of `row` with `meta` attached/merged as `__gridMeta`."
+        },
+        {
+          "kind": "function",
+          "name": "isStructuralRow",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "parameters": [
+            {
+              "name": "row",
+              "type": {
+                "text": "TRecord"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "aggregateValues",
+          "return": {
+            "type": {
+              "text": "number"
+            }
+          },
+          "parameters": [
+            {
+              "name": "values",
+              "type": {
+                "text": "unknown[]"
+              }
+            },
+            {
+              "name": "aggregate",
+              "default": "\"count\"",
+              "type": {
+                "text": "DataGridAggregate"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "rowsToCsv",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "rows",
+              "type": {
+                "text": "TRecord[]"
+              }
+            },
+            {
+              "name": "columns",
+              "type": {
+                "text": "{ key: string; label: string }[]"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "rowsToTsv",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "rows",
+              "type": {
+                "text": "TRecord[]"
+              }
+            },
+            {
+              "name": "columns",
+              "type": {
+                "text": "{ key: string }[]"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "downloadTextFile",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "filename",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "contents",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "mimeType",
+              "default": "\"text/plain\""
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "resolveColumnWidthPx",
+          "return": {
+            "type": {
+              "text": "number"
+            }
+          },
+          "parameters": [
+            {
+              "name": "column",
+              "type": {
+                "text": "DataGridColumn<TRecord>"
+              }
+            },
+            {
+              "name": "columnWidths",
+              "default": "{}",
+              "type": {
+                "text": "Record<string, string>"
+              }
+            },
+            {
+              "name": "fallback",
+              "default": "DEFAULT_COLUMN_WIDTH_PX"
+            }
+          ],
+          "description": "Parses a CSS width string to pixels, falling back when missing or invalid."
+        },
+        {
+          "kind": "function",
+          "name": "orderPinnedColumns",
+          "return": {
+            "type": {
+              "text": "DataGridColumn<TRecord>[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "columns",
+              "type": {
+                "text": "DataGridColumn<TRecord>[]"
+              }
+            }
+          ],
+          "description": "Reorders columns into start-pinned, normal, then end-pinned groups."
+        },
+        {
+          "kind": "function",
+          "name": "computeColumnPinLayout",
+          "return": {
+            "type": {
+              "text": "ColumnPinLayout"
+            }
+          },
+          "parameters": [
+            {
+              "name": "columns",
+              "type": {
+                "text": "DataGridColumn<TRecord>[]"
+              }
+            },
+            {
+              "name": "columnWidths",
+              "type": {
+                "text": "Record<string, string>"
+              }
+            },
+            {
+              "name": "selectionColumnWidth",
+              "default": "0"
+            }
+          ],
+          "description": "Computes sticky `left`/`right` offsets for pinned columns."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "DEFAULT_COLUMN_WIDTH_PX",
+          "declaration": {
+            "name": "DEFAULT_COLUMN_WIDTH_PX",
+            "module": "src/grid-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "SELECTION_COLUMN_WIDTH_PX",
+          "declaration": {
+            "name": "SELECTION_COLUMN_WIDTH_PX",
+            "module": "src/grid-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "formatCellValue",
+          "declaration": {
+            "name": "formatCellValue",
+            "module": "src/grid-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "compareValues",
+          "declaration": {
+            "name": "compareValues",
+            "module": "src/grid-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "resolveRowKey",
+          "declaration": {
+            "name": "resolveRowKey",
+            "module": "src/grid-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getRowMeta",
+          "declaration": {
+            "name": "getRowMeta",
+            "module": "src/grid-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "withRowMeta",
+          "declaration": {
+            "name": "withRowMeta",
+            "module": "src/grid-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "isStructuralRow",
+          "declaration": {
+            "name": "isStructuralRow",
+            "module": "src/grid-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "aggregateValues",
+          "declaration": {
+            "name": "aggregateValues",
+            "module": "src/grid-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "rowsToCsv",
+          "declaration": {
+            "name": "rowsToCsv",
+            "module": "src/grid-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "rowsToTsv",
+          "declaration": {
+            "name": "rowsToTsv",
+            "module": "src/grid-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "downloadTextFile",
+          "declaration": {
+            "name": "downloadTextFile",
+            "module": "src/grid-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "resolveColumnWidthPx",
+          "declaration": {
+            "name": "resolveColumnWidthPx",
+            "module": "src/grid-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "orderPinnedColumns",
+          "declaration": {
+            "name": "orderPinnedColumns",
+            "module": "src/grid-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "computeColumnPinLayout",
+          "declaration": {
+            "name": "computeColumnPinLayout",
+            "module": "src/grid-utils.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiDataGrid",
+          "declaration": {
+            "name": "LoomiDataGrid",
+            "module": "./loomi-data-grid.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DataGridActiveCell",
+          "declaration": {
+            "name": "DataGridActiveCell",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DataGridAggregate",
+          "declaration": {
+            "name": "DataGridAggregate",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DataGridAlign",
+          "declaration": {
+            "name": "DataGridAlign",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DataGridCellContext",
+          "declaration": {
+            "name": "DataGridCellContext",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DataGridCellEditDetail",
+          "declaration": {
+            "name": "DataGridCellEditDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DataGridColumn",
+          "declaration": {
+            "name": "DataGridColumn",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DataGridColumnResizeDetail",
+          "declaration": {
+            "name": "DataGridColumnResizeDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DataGridDensity",
+          "declaration": {
+            "name": "DataGridDensity",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DataGridPageChangeDetail",
+          "declaration": {
+            "name": "DataGridPageChangeDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DataGridRecord",
+          "declaration": {
+            "name": "DataGridRecord",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DataGridRowActionDetail",
+          "declaration": {
+            "name": "DataGridRowActionDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DataGridRowMeta",
+          "declaration": {
+            "name": "DataGridRowMeta",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DataGridRowWithMeta",
+          "declaration": {
+            "name": "DataGridRowWithMeta",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DataGridSavedView",
+          "declaration": {
+            "name": "DataGridSavedView",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DataGridSavedViewChangeDetail",
+          "declaration": {
+            "name": "DataGridSavedViewChangeDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DataGridSelectionChangeDetail",
+          "declaration": {
+            "name": "DataGridSelectionChangeDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DataGridSort",
+          "declaration": {
+            "name": "DataGridSort",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DataGridSortChangeDetail",
+          "declaration": {
+            "name": "DataGridSortChangeDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DataGridSortDirection",
+          "declaration": {
+            "name": "DataGridSortDirection",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "defineGridModule",
+          "declaration": {
+            "name": "defineGridModule",
+            "module": "./grid-module.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DataGridHost",
+          "declaration": {
+            "name": "DataGridHost",
+            "module": "./grid-module.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "GridCellCoordinates",
+          "declaration": {
+            "name": "GridCellCoordinates",
+            "module": "./grid-module.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "GridModule",
+          "declaration": {
+            "name": "GridModule",
+            "module": "./grid-module.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "GridModuleContext",
+          "declaration": {
+            "name": "GridModuleContext",
+            "module": "./grid-module.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "aggregateValues",
+          "declaration": {
+            "name": "aggregateValues",
+            "module": "./grid-utils.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "compareValues",
+          "declaration": {
+            "name": "compareValues",
+            "module": "./grid-utils.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "computeColumnPinLayout",
+          "declaration": {
+            "name": "computeColumnPinLayout",
+            "module": "./grid-utils.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "downloadTextFile",
+          "declaration": {
+            "name": "downloadTextFile",
+            "module": "./grid-utils.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "formatCellValue",
+          "declaration": {
+            "name": "formatCellValue",
+            "module": "./grid-utils.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getRowMeta",
+          "declaration": {
+            "name": "getRowMeta",
+            "module": "./grid-utils.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "isStructuralRow",
+          "declaration": {
+            "name": "isStructuralRow",
+            "module": "./grid-utils.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "orderPinnedColumns",
+          "declaration": {
+            "name": "orderPinnedColumns",
+            "module": "./grid-utils.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "resolveColumnWidthPx",
+          "declaration": {
+            "name": "resolveColumnWidthPx",
+            "module": "./grid-utils.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "resolveRowKey",
+          "declaration": {
+            "name": "resolveRowKey",
+            "module": "./grid-utils.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "rowsToCsv",
+          "declaration": {
+            "name": "rowsToCsv",
+            "module": "./grid-utils.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "rowsToTsv",
+          "declaration": {
+            "name": "rowsToTsv",
+            "module": "./grid-utils.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "withRowMeta",
+          "declaration": {
+            "name": "withRowMeta",
+            "module": "./grid-utils.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "ColumnPinLayout",
+          "declaration": {
+            "name": "ColumnPinLayout",
+            "module": "./grid-utils.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-data-grid.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "LoomiDataGrid",
+          "members": [
+            {
+              "kind": "field",
+              "name": "columns",
+              "privacy": "public",
+              "type": {
+                "text": "DataGridColumn<TRecord>[]"
+              },
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "data",
+              "privacy": "public",
+              "type": {
+                "text": "TRecord[]"
+              },
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "modules",
+              "privacy": "public",
+              "type": {
+                "text": "GridModule<TRecord>[]"
+              },
+              "default": "[]",
+              "description": "Opt-in feature modules — filtering, row grouping, tree data, export, and more. See `@loomidev/data-grid/modules/*`."
+            },
+            {
+              "kind": "field",
+              "name": "selectedKeys",
+              "privacy": "public",
+              "type": {
+                "text": "string[]"
+              },
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "rowKey",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"id\"",
+              "attribute": "row-key"
+            },
+            {
+              "kind": "field",
+              "name": "density",
+              "privacy": "public",
+              "type": {
+                "text": "DataGridDensity"
+              },
+              "default": "\"comfortable\"",
+              "attribute": "density",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "emptyTitle",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"No rows found\"",
+              "attribute": "empty-title"
+            },
+            {
+              "kind": "field",
+              "name": "emptyDescription",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Try changing the filters or search term.\"",
+              "attribute": "empty-description"
+            },
+            {
+              "kind": "field",
+              "name": "maxHeight",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "CSS max-height for the scroll container, e.g. `\"420px\"`. Pairs with `sticky-header` and virtual scrolling.",
+              "attribute": "max-height"
+            },
+            {
+              "kind": "field",
+              "name": "page",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "attribute": "page"
+            },
+            {
+              "kind": "field",
+              "name": "pageSize",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "default": "10",
+              "attribute": "page-size"
+            },
+            {
+              "kind": "field",
+              "name": "totalRows",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "total-rows"
+            },
+            {
+              "kind": "field",
+              "name": "selectable",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "selectable",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "loading",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "loading",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "pagination",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "pagination",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "serverSide",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "server-side",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "stickyHeader",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "sticky-header",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "sort",
+              "privacy": "public",
+              "type": {
+                "text": "DataGridSort | null"
+              },
+              "default": "null",
+              "description": "Current sort. Settable up front for an initial sort, or externally for a controlled grid."
+            },
+            {
+              "kind": "field",
+              "name": "columnWidths",
+              "privacy": "public",
+              "type": {
+                "text": "Record<string, string>"
+              },
+              "default": "{}",
+              "description": "Per-column widths (px strings), keyed by column key. Populated by drag-resize; settable to restore saved widths."
+            },
+            {
+              "kind": "field",
+              "name": "_activeCell",
+              "privacy": "private",
+              "type": {
+                "text": "DataGridActiveCell | null"
+              },
+              "default": "null",
+              "attribute": "_activeCell"
+            },
+            {
+              "kind": "field",
+              "name": "_resizingKey",
+              "privacy": "private",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "attribute": "_resizingKey"
+            },
+            {
+              "kind": "field",
+              "name": "attachedModules",
+              "type": {
+                "text": "GridModule<TRecord>[]"
+              },
+              "privacy": "private",
+              "default": "[]",
+              "description": "Modules currently attached (`attach()` called); reconciled against `modules` on every update."
+            },
+            {
+              "kind": "field",
+              "name": "renderedRows",
+              "type": {
+                "text": "TRecord[]"
+              },
+              "privacy": "private",
+              "default": "[]",
+              "description": "Snapshot of the rows/columns from the most recent render, for handlers outside the template."
+            },
+            {
+              "kind": "field",
+              "name": "renderedColumns",
+              "type": {
+                "text": "DataGridColumn<TRecord>[]"
+              },
+              "privacy": "private",
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "processedRowsSnapshot",
+              "type": {
+                "text": "TRecord[]"
+              },
+              "privacy": "private",
+              "default": "[]",
+              "description": "Full processed row set (post filter + sort + shape), exposed to modules via `ctx.rows`."
+            },
+            {
+              "kind": "field",
+              "name": "focusPending",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "cleanupDarkWatch",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "reconcileModules",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "moduleContext",
+              "type": {
+                "text": "GridModuleContext<TRecord>"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "renderToolbar",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "selectedCount",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "ctx",
+                  "type": {
+                    "text": "GridModuleContext<TRecord>"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderLoading",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderEmpty",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderTable",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "columns",
+                  "type": {
+                    "text": "DataGridColumn<TRecord>[]"
+                  }
+                },
+                {
+                  "name": "rows",
+                  "type": {
+                    "text": "TRecord[]"
+                  }
+                },
+                {
+                  "name": "bodyModule",
+                  "type": {
+                    "text": "GridModule<TRecord> | undefined"
+                  }
+                },
+                {
+                  "name": "ctx",
+                  "type": {
+                    "text": "GridModuleContext<TRecord>"
+                  }
+                },
+                {
+                  "name": "pinLayout",
+                  "type": {
+                    "text": "ColumnPinLayout"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderHeaderCell",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "column",
+                  "type": {
+                    "text": "DataGridColumn<TRecord>"
+                  }
+                },
+                {
+                  "name": "pinLayout",
+                  "type": {
+                    "text": "ColumnPinLayout"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderRow",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "columns",
+                  "type": {
+                    "text": "DataGridColumn<TRecord>[]"
+                  }
+                },
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "TRecord"
+                  }
+                },
+                {
+                  "name": "rowIndex",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "pinLayout",
+                  "type": {
+                    "text": "ColumnPinLayout"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderGroupRow",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "TRecord"
+                  }
+                },
+                {
+                  "name": "columnCount",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderDataCell",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "column",
+                  "type": {
+                    "text": "DataGridColumn<TRecord>"
+                  }
+                },
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "TRecord"
+                  }
+                },
+                {
+                  "name": "rowIndex",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "columnIndex",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "pinLayout",
+                  "type": {
+                    "text": "ColumnPinLayout"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderFirstCellContent",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "column",
+                  "type": {
+                    "text": "DataGridColumn<TRecord>"
+                  }
+                },
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "TRecord"
+                  }
+                },
+                {
+                  "name": "rowIndex",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderCellContent",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "column",
+                  "type": {
+                    "text": "DataGridColumn<TRecord>"
+                  }
+                },
+                {
+                  "name": "cell",
+                  "type": {
+                    "text": "GridCellCoordinates<TRecord>"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderFooter",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "totalRows",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "totalPages",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getColumnWidthStyle",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "column",
+                  "type": {
+                    "text": "DataGridColumn<TRecord>"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "startResize",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "handleGridKeydown",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "moveActiveCell",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "rowDelta",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "columnDelta",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "setActiveCell",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "rowIndex",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "columnIndex",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "focusActiveCell",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "handleCellPointerDown",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "cell",
+                  "type": {
+                    "text": "GridCellCoordinates<TRecord>"
+                  }
+                },
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "PointerEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleCellPointerEnter",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "cell",
+                  "type": {
+                    "text": "GridCellCoordinates<TRecord>"
+                  }
+                },
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "PointerEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleSort",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "column",
+                  "type": {
+                    "text": "DataGridColumn<TRecord>"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleRowSelect",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                },
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "TRecord"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "toggleRowSelection",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "TRecord"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "setRowSelected",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "TRecord"
+                  }
+                },
+                {
+                  "name": "isSelected",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleSelectAll",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                },
+                {
+                  "name": "rows",
+                  "type": {
+                    "text": "TRecord[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "areAllVisibleRowsSelected",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "rows",
+                  "type": {
+                    "text": "TRecord[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "setPage",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "page",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "handlePageSizeChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "emitPageChange",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "toggleRow",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "TRecord"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "emitRowAction",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "TRecord"
+                  }
+                },
+                {
+                  "name": "rowKeyValue",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getVisibleColumns",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "DataGridColumn<TRecord>[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "ctx",
+                  "type": {
+                    "text": "GridModuleContext<TRecord>"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getProcessedRows",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TRecord[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "ctx",
+                  "type": {
+                    "text": "GridModuleContext<TRecord>"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "sortRows",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TRecord[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "rows",
+                  "type": {
+                    "text": "TRecord[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getPageRows",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TRecord[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "rows",
+                  "type": {
+                    "text": "TRecord[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getTotalRows",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "number"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "processedRows",
+                  "type": {
+                    "text": "TRecord[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getTotalPages",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "number"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "totalRows",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getAlignClass",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "column",
+                  "type": {
+                    "text": "DataGridColumn<TRecord>"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getPinCellClass",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "column",
+                  "type": {
+                    "text": "DataGridColumn<TRecord>"
+                  }
+                },
+                {
+                  "name": "pinLayout",
+                  "type": {
+                    "text": "ColumnPinLayout"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getPinCellStyle",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "column",
+                  "type": {
+                    "text": "DataGridColumn<TRecord>"
+                  }
+                },
+                {
+                  "name": "pinLayout",
+                  "type": {
+                    "text": "ColumnPinLayout"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getRowKey",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "TRecord"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "dispatchGridEvent",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "detail",
+                  "type": {
+                    "text": "TDetail"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "updateCellValue",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "rowKeyValue",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "columnKey",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "unknown"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "emitSelectionChange",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "name",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "row-key",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"id\"",
+              "fieldName": "rowKey"
+            },
+            {
+              "name": "density",
+              "type": {
+                "text": "DataGridDensity"
+              },
+              "default": "\"comfortable\"",
+              "fieldName": "density"
+            },
+            {
+              "name": "empty-title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"No rows found\"",
+              "fieldName": "emptyTitle"
+            },
+            {
+              "name": "empty-description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Try changing the filters or search term.\"",
+              "fieldName": "emptyDescription"
+            },
+            {
+              "name": "max-height",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "CSS max-height for the scroll container, e.g. `\"420px\"`. Pairs with `sticky-header` and virtual scrolling.",
+              "fieldName": "maxHeight"
+            },
+            {
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "page"
+            },
+            {
+              "name": "page-size",
+              "type": {
+                "text": "number"
+              },
+              "default": "DEFAULT_PAGE_SIZE",
+              "fieldName": "pageSize"
+            },
+            {
+              "name": "total-rows",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "totalRows"
+            },
+            {
+              "name": "selectable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "selectable"
+            },
+            {
+              "name": "loading",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "loading"
+            },
+            {
+              "name": "pagination",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "pagination"
+            },
+            {
+              "name": "server-side",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "serverSide"
+            },
+            {
+              "name": "sticky-header",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "stickyHeader"
+            },
+            {
+              "name": "_activeCell",
+              "type": {
+                "text": "DataGridActiveCell | null"
+              },
+              "default": "null",
+              "fieldName": "_activeCell"
+            },
+            {
+              "name": "_resizingKey",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "fieldName": "_resizingKey"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-data-grid",
+          "customElement": true
+        },
+        {
+          "kind": "variable",
+          "name": "row",
+          "default": "this.renderedRows[rowIndex]"
+        },
+        {
+          "kind": "variable",
+          "name": "column",
+          "default": "this.renderedColumns[columnIndex]"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiDataGrid",
+          "declaration": {
+            "name": "LoomiDataGrid",
+            "module": "src/loomi-data-grid.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-data-grid",
+          "declaration": {
+            "name": "LoomiDataGrid",
+            "module": "src/loomi-data-grid.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/types.ts",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/modules/charts.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "chartsModule",
+          "return": {
+            "type": {
+              "text": "GridModule<TRecord>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "options",
+              "type": {
+                "text": "ChartsModuleOptions<TRecord>"
+              }
+            }
+          ],
+          "description": "Renders a `<loomi-chart>` below the grid, summarizing the currently\nprocessed (filtered/sorted) rows as label/value points.\n\n```ts\ngrid.modules = [chartsModule({ labelField: \"month\", valueField: \"revenue\", type: \"line\" })];\n```"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "chartsModule",
+          "declaration": {
+            "name": "chartsModule",
+            "module": "src/modules/charts.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/modules/export.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "exportModule",
+          "return": {
+            "type": {
+              "text": "GridModule<TRecord>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "options",
+              "default": "{}",
+              "type": {
+                "text": "ExportModuleOptions"
+              }
+            }
+          ],
+          "description": "Adds export buttons to the toolbar. CSV/JSON are downloaded directly\nclient-side; any format also dispatches a `loomi-export-request` event so\na host app can hook in server-side exports (e.g. Excel/PDF).\n\n```ts\ngrid.modules = [exportModule({ filename: \"members\", formats: [\"csv\", \"json\"] })];\n```"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "exportModule",
+          "declaration": {
+            "name": "exportModule",
+            "module": "src/modules/export.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/modules/filtering.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "filteringModule",
+          "return": {
+            "type": {
+              "text": "FilteringModule<TRecord>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "options",
+              "default": "{}",
+              "type": {
+                "text": "FilteringModuleOptions"
+              }
+            }
+          ],
+          "description": "Adds a global quick-search box plus per-column filter inputs (for columns\nwith `filterable: true`). Runs in the `\"filter\"` stage, before core\nsorting, so it composes cleanly with row-grouping / tree-data / pivot.\n\nThe returned module exposes `getFilterState()` / `setFilterState()` so\n`savedViewsModule()` can restore filter presets.\n\n```ts\ngrid.modules = [filteringModule({ searchPlaceholder: \"Search users\" })];\n```"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "filteringModule",
+          "declaration": {
+            "name": "filteringModule",
+            "module": "src/modules/filtering.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/modules/inline-editing.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "inlineEditingModule",
+          "return": {
+            "type": {
+              "text": "GridModule<TRecord>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "options",
+              "default": "{}",
+              "type": {
+                "text": "InlineEditingModuleOptions"
+              }
+            }
+          ],
+          "description": "Lets users edit cells whose column declares `editable: true`. Start\nediting by double-clicking a cell (or pressing Enter while it's focused),\ncommit with Enter/blur, cancel with Escape. Edits flow through\n`grid.updateCellValue(...)`, which mutates `grid.data` and emits\n`loomi-cell-edit`.\n\n```ts\ngrid.columns = [{ key: \"name\", label: \"Name\", editable: true }, ...];\ngrid.modules = [inlineEditingModule()];\n```"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "inlineEditingModule",
+          "declaration": {
+            "name": "inlineEditingModule",
+            "module": "src/modules/inline-editing.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/modules/pivot.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "pivotModule",
+          "return": {
+            "type": {
+              "text": "GridModule<TRecord>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "options",
+              "type": {
+                "text": "PivotModuleOptions<TRecord>"
+              }
+            }
+          ],
+          "description": "Reshapes flat rows into a row/column/value pivot matrix — e.g. rows of\n`{ region, quarter, revenue }` become one row per `region` with a column\nper `quarter` holding summed `revenue`. Replaces both the row set and the\ncolumn set, so it composes best on its own (place it last in `modules`).\n\n```ts\ngrid.modules = [pivotModule({ rowField: \"region\", columnField: \"quarter\", valueField: \"revenue\" })];\n```"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "pivotModule",
+          "declaration": {
+            "name": "pivotModule",
+            "module": "src/modules/pivot.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/modules/row-grouping.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "rowGroupingModule",
+          "return": {
+            "type": {
+              "text": "GridModule<TRecord>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "options",
+              "type": {
+                "text": "RowGroupingModuleOptions<TRecord>"
+              }
+            }
+          ],
+          "description": "Groups (already-sorted) rows by a column value into collapsible sections\nwith per-group aggregates. Runs in the `\"shape\"` stage, after core\nsorting, so a group's row order matches the active sort.\n\n```ts\ngrid.modules = [rowGroupingModule({ groupBy: \"department\", aggregates: { salary: \"avg\" } })];\n```"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "rowGroupingModule",
+          "declaration": {
+            "name": "rowGroupingModule",
+            "module": "src/modules/row-grouping.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/modules/saved-views.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "savedViewsModule",
+          "return": {
+            "type": {
+              "text": "GridModule<TRecord>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "options",
+              "default": "{}",
+              "type": {
+                "text": "SavedViewsModuleOptions"
+              }
+            }
+          ],
+          "description": "Renders a saved-view picker in the toolbar and applies each preset's sort,\npage size, column visibility, widths, and filters. Pairs naturally with\n`filteringModule()` — when both are registered, filters are pushed through\nthe filtering module's `setFilterState()` API.\n\n```ts\ngrid.modules = [\n  filteringModule(),\n  savedViewsModule({\n    views: [{ id: \"active\", label: \"Active users\", filters: [{ key: \"status\", value: \"Active\" }] }],\n    activeViewId: \"active\",\n  }),\n];\n```"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "savedViewsModule",
+          "declaration": {
+            "name": "savedViewsModule",
+            "module": "src/modules/saved-views.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/modules/spreadsheet.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "spreadsheetModule",
+          "return": {
+            "type": {
+              "text": "GridModule<TRecord>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "options",
+              "default": "{}",
+              "type": {
+                "text": "SpreadsheetModuleOptions"
+              }
+            }
+          ],
+          "description": "Excel-style range selection with copy/paste. Click-drag or shift+arrow to\nselect a rectangular range, Ctrl/Cmd+C copies it as tab-separated text,\nCtrl/Cmd+V pastes clipboard text back in starting at the anchor cell\n(writes flow through `grid.updateCellValue`, so `loomi-cell-edit` still\nfires for each written cell).\n\n```ts\ngrid.modules = [spreadsheetModule()];\n```"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "spreadsheetModule",
+          "declaration": {
+            "name": "spreadsheetModule",
+            "module": "src/modules/spreadsheet.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/modules/state-persistence.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "statePersistenceModule",
+          "return": {
+            "type": {
+              "text": "GridModule<TRecord>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "options",
+              "type": {
+                "text": "StatePersistenceModuleOptions"
+              }
+            }
+          ],
+          "description": "Persists sort, column widths, page, and page size (and optionally\nselection) to `localStorage`/`sessionStorage`, restoring them the next\ntime a grid with the same `key` attaches.\n\n```ts\ngrid.modules = [statePersistenceModule({ key: \"members-grid\" })];\n```"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "statePersistenceModule",
+          "declaration": {
+            "name": "statePersistenceModule",
+            "module": "src/modules/state-persistence.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/modules/tree-data.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "treeDataModule",
+          "return": {
+            "type": {
+              "text": "GridModule<TRecord>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "options",
+              "default": "{}",
+              "type": {
+                "text": "TreeDataModuleOptions"
+              }
+            }
+          ],
+          "description": "Flattens hierarchical rows (nodes with a `children` array) into an\nindented, expand/collapsible list. Runs in the `\"shape\"` stage; the tree\nroots are whatever `data` sorted to at that point.\n\n```ts\ngrid.data = [{ id: \"1\", name: \"Engineering\", children: [{ id: \"1a\", name: \"Platform\" }] }];\ngrid.modules = [treeDataModule()];\n```"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "treeDataModule",
+          "declaration": {
+            "name": "treeDataModule",
+            "module": "src/modules/tree-data.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/modules/virtual-scrolling.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "virtualScrollingModule",
+          "return": {
+            "type": {
+              "text": "GridModule<TRecord>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "options",
+              "default": "{}",
+              "type": {
+                "text": "VirtualScrollingModuleOptions"
+              }
+            }
+          ],
+          "description": "Renders only the rows visible in the scroll viewport (plus overscan),\npadding the rest with spacer rows so scrollbar size/position stay\naccurate. Set `max-height` on the grid so `.grid-wrap` actually scrolls;\ndisables core pagination while active.\n\n```ts\ngrid.maxHeight = \"480px\";\ngrid.pagination = false;\ngrid.modules = [virtualScrollingModule({ rowHeight: 44 })];\n```"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "virtualScrollingModule",
+          "declaration": {
+            "name": "virtualScrollingModule",
+            "module": "src/modules/virtual-scrolling.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

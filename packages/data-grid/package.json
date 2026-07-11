@@ -16,7 +16,8 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "custom-elements.json"
   ],
   "exports": {
     ".": {
@@ -96,5 +97,6 @@
     "data-grid",
     "table",
     "grid"
-  ]
+  ],
+  "customElements": "custom-elements.json"
 }

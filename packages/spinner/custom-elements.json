@@ -1,0 +1,189 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiSpinner",
+          "declaration": {
+            "name": "LoomiSpinner",
+            "module": "./loomi-spinner.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSpinnerSize",
+          "declaration": {
+            "name": "LoomiSpinnerSize",
+            "module": "./loomi-spinner.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSpinnerType",
+          "declaration": {
+            "name": "LoomiSpinnerType",
+            "module": "./loomi-spinner.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-spinner.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-spinner>` — a themeable loading spinner.",
+          "name": "LoomiSpinner",
+          "members": [
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "LoomiSpinnerSize"
+              },
+              "default": "\"small\"",
+              "attribute": "size"
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "LoomiSpinnerType"
+              },
+              "default": "\"simple\"",
+              "attribute": "type"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"gray\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "normalizedSize",
+              "type": {
+                "text": "NormalizedSpinnerSize"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "normalizedType",
+              "type": {
+                "text": "LoomiSpinnerType"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "renderIndicator",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "size",
+              "type": {
+                "text": "LoomiSpinnerSize"
+              },
+              "default": "\"small\"",
+              "fieldName": "size"
+            },
+            {
+              "name": "type",
+              "type": {
+                "text": "LoomiSpinnerType"
+              },
+              "default": "\"simple\"",
+              "fieldName": "type"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"gray\"",
+              "fieldName": "color"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-spinner",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiSpinner",
+          "declaration": {
+            "name": "LoomiSpinner",
+            "module": "src/loomi-spinner.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-spinner",
+          "declaration": {
+            "name": "LoomiSpinner",
+            "module": "src/loomi-spinner.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

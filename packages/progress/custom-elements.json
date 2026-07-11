@@ -1,0 +1,1067 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiProgressBar",
+          "declaration": {
+            "name": "LoomiProgressBar",
+            "module": "./loomi-progress.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProgressCircle",
+          "declaration": {
+            "name": "LoomiProgressCircle",
+            "module": "./loomi-progress.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProgressStep",
+          "declaration": {
+            "name": "LoomiProgressStep",
+            "module": "./loomi-progress.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProgressSteps",
+          "declaration": {
+            "name": "LoomiProgressSteps",
+            "module": "./loomi-progress.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProgressLabelPosition",
+          "declaration": {
+            "name": "LoomiProgressLabelPosition",
+            "module": "./loomi-progress.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProgressStepSize",
+          "declaration": {
+            "name": "LoomiProgressStepSize",
+            "module": "./loomi-progress.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProgressStepState",
+          "declaration": {
+            "name": "LoomiProgressStepState",
+            "module": "./loomi-progress.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProgressStepsOrientation",
+          "declaration": {
+            "name": "LoomiProgressStepsOrientation",
+            "module": "./loomi-progress.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-progress.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-progress-bar>` — a horizontal progress bar.",
+          "name": "LoomiProgressBar",
+          "members": [
+            {
+              "kind": "field",
+              "name": "percentage",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "percentage"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "shade",
+              "type": {
+                "text": "\"faint\" | \"dark\""
+              },
+              "default": "\"faint\"",
+              "attribute": "shade"
+            },
+            {
+              "kind": "field",
+              "name": "showLabel",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-percentage-label"
+            },
+            {
+              "kind": "field",
+              "name": "showTooltip",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-percentage-tooltip"
+            },
+            {
+              "kind": "field",
+              "name": "inline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-percentage-label-inline"
+            },
+            {
+              "kind": "field",
+              "name": "labelPosition",
+              "type": {
+                "text": "LoomiProgressLabelPosition"
+              },
+              "default": "\"top-left\"",
+              "attribute": "percentage-label-position"
+            },
+            {
+              "kind": "field",
+              "name": "prefix",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "percentage-prefix"
+            },
+            {
+              "kind": "field",
+              "name": "suffix",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "percentage-suffix"
+            },
+            {
+              "kind": "field",
+              "name": "striped",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "striped"
+            },
+            {
+              "kind": "field",
+              "name": "animated",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "animated"
+            },
+            {
+              "kind": "field",
+              "name": "pct",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "text",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "percentage",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "percentage"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "fieldName": "color"
+            },
+            {
+              "name": "shade",
+              "type": {
+                "text": "\"faint\" | \"dark\""
+              },
+              "default": "\"faint\"",
+              "fieldName": "shade"
+            },
+            {
+              "name": "show-percentage-label",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showLabel"
+            },
+            {
+              "name": "show-percentage-tooltip",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showTooltip"
+            },
+            {
+              "name": "show-percentage-label-inline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "inline"
+            },
+            {
+              "name": "percentage-label-position",
+              "type": {
+                "text": "LoomiProgressLabelPosition"
+              },
+              "default": "\"top-left\"",
+              "fieldName": "labelPosition"
+            },
+            {
+              "name": "percentage-prefix",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "prefix"
+            },
+            {
+              "name": "percentage-suffix",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "suffix"
+            },
+            {
+              "name": "striped",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "striped"
+            },
+            {
+              "name": "animated",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "animated"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-progress-bar",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-progress-circle>` — a circular progress indicator.",
+          "name": "LoomiProgressCircle",
+          "members": [
+            {
+              "kind": "field",
+              "name": "percentage",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "percentage"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "shade",
+              "type": {
+                "text": "\"faint\" | \"dark\""
+              },
+              "default": "\"faint\"",
+              "attribute": "shade"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"medium\"",
+              "attribute": "size"
+            },
+            {
+              "kind": "field",
+              "name": "showLabel",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-label"
+            },
+            {
+              "kind": "field",
+              "name": "showPercent",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-percent"
+            },
+            {
+              "kind": "field",
+              "name": "circleWidth",
+              "type": {
+                "text": "number"
+              },
+              "default": "10",
+              "attribute": "circle-width"
+            },
+            {
+              "kind": "field",
+              "name": "pct",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "px",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "percentage",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "percentage"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "fieldName": "color"
+            },
+            {
+              "name": "shade",
+              "type": {
+                "text": "\"faint\" | \"dark\""
+              },
+              "default": "\"faint\"",
+              "fieldName": "shade"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"medium\"",
+              "fieldName": "size"
+            },
+            {
+              "name": "show-label",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showLabel"
+            },
+            {
+              "name": "show-percent",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showPercent"
+            },
+            {
+              "name": "circle-width",
+              "type": {
+                "text": "number"
+              },
+              "default": "10",
+              "fieldName": "circleWidth"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-progress-circle",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-progress-step>` — one labelled step. Place inside `<loomi-progress-steps>`.",
+          "name": "LoomiProgressStep",
+          "slots": [
+            {
+              "description": "Extra content below the description.",
+              "name": ""
+            },
+            {
+              "description": "Custom label content.",
+              "name": "label"
+            },
+            {
+              "description": "Custom description content.",
+              "name": "description"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "description"
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "href"
+            },
+            {
+              "kind": "field",
+              "name": "state",
+              "type": {
+                "text": "LoomiProgressStepState"
+              },
+              "default": "\"upcoming\"",
+              "attribute": "state"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "active",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "active",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "completed",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "completed",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "error",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "error",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "clickable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "clickable",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "last",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "last",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "hideIndex",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "hide-index"
+            },
+            {
+              "kind": "field",
+              "name": "stepIndex",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "step-index"
+            },
+            {
+              "kind": "field",
+              "name": "orientation",
+              "type": {
+                "text": "LoomiProgressStepsOrientation"
+              },
+              "default": "\"horizontal\"",
+              "attribute": "orientation",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "LoomiProgressStepSize"
+              },
+              "default": "\"regular\"",
+              "attribute": "size"
+            },
+            {
+              "kind": "field",
+              "name": "computedState",
+              "type": {
+                "text": "LoomiProgressStepState"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "isInteractive",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "onSelect",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderMarker",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "state",
+                  "type": {
+                    "text": "LoomiProgressStepState"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderControl",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "state",
+                  "type": {
+                    "text": "LoomiProgressStepState"
+                  }
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "loomi-progress-step-select",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { index, value, label, state }`."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "description"
+            },
+            {
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "href"
+            },
+            {
+              "name": "state",
+              "type": {
+                "text": "LoomiProgressStepState"
+              },
+              "default": "\"upcoming\"",
+              "fieldName": "state"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "value"
+            },
+            {
+              "name": "active",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "active"
+            },
+            {
+              "name": "completed",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "completed"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "error",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "error"
+            },
+            {
+              "name": "clickable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "clickable"
+            },
+            {
+              "name": "last",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "last"
+            },
+            {
+              "name": "hide-index",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "hideIndex"
+            },
+            {
+              "name": "step-index",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "stepIndex"
+            },
+            {
+              "name": "orientation",
+              "type": {
+                "text": "LoomiProgressStepsOrientation"
+              },
+              "default": "\"horizontal\"",
+              "fieldName": "orientation"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "fieldName": "color"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "LoomiProgressStepSize"
+              },
+              "default": "\"regular\"",
+              "fieldName": "size"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-progress-step",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-progress-steps>` — a horizontal or vertical progress stepper.",
+          "name": "LoomiProgressSteps",
+          "slots": [
+            {
+              "description": "`<loomi-progress-step>` children.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "current",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "attribute": "current"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "orientation",
+              "type": {
+                "text": "LoomiProgressStepsOrientation"
+              },
+              "default": "\"horizontal\"",
+              "attribute": "orientation"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "LoomiProgressStepSize"
+              },
+              "default": "\"regular\"",
+              "attribute": "size"
+            },
+            {
+              "kind": "field",
+              "name": "clickable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "clickable"
+            },
+            {
+              "kind": "field",
+              "name": "steps",
+              "type": {
+                "text": "LoomiProgressStep[]"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "hasExplicitState",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "step",
+                  "type": {
+                    "text": "LoomiProgressStep"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "syncSteps",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "onStepSelect",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "loomi-progress-steps-change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { current, step }`."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "current",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "current"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "fieldName": "color"
+            },
+            {
+              "name": "orientation",
+              "type": {
+                "text": "LoomiProgressStepsOrientation"
+              },
+              "default": "\"horizontal\"",
+              "fieldName": "orientation"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "LoomiProgressStepSize"
+              },
+              "default": "\"regular\"",
+              "fieldName": "size"
+            },
+            {
+              "name": "clickable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "clickable"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-progress-steps",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiProgressBar",
+          "declaration": {
+            "name": "LoomiProgressBar",
+            "module": "src/loomi-progress.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-progress-bar",
+          "declaration": {
+            "name": "LoomiProgressBar",
+            "module": "src/loomi-progress.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProgressCircle",
+          "declaration": {
+            "name": "LoomiProgressCircle",
+            "module": "src/loomi-progress.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-progress-circle",
+          "declaration": {
+            "name": "LoomiProgressCircle",
+            "module": "src/loomi-progress.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProgressStep",
+          "declaration": {
+            "name": "LoomiProgressStep",
+            "module": "src/loomi-progress.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-progress-step",
+          "declaration": {
+            "name": "LoomiProgressStep",
+            "module": "src/loomi-progress.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProgressSteps",
+          "declaration": {
+            "name": "LoomiProgressSteps",
+            "module": "src/loomi-progress.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-progress-steps",
+          "declaration": {
+            "name": "LoomiProgressSteps",
+            "module": "src/loomi-progress.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

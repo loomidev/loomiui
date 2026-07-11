@@ -1,0 +1,339 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiStatistic",
+          "declaration": {
+            "name": "LoomiStatistic",
+            "module": "./loomi-statistic.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiStatRadius",
+          "declaration": {
+            "name": "LoomiStatRadius",
+            "module": "./loomi-statistic.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-statistic.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-statistic>` — a dashboard stat showing a `number` and `label`, with optional\ncurrency, icon (slot) and loading spinner.",
+          "name": "LoomiStatistic",
+          "slots": [
+            {
+              "description": "Leading (or trailing) icon/illustration.",
+              "name": "icon"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "number",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "number"
+            },
+            {
+              "kind": "field",
+              "name": "labelPosition",
+              "type": {
+                "text": "\"top\" | \"bottom\""
+              },
+              "default": "\"top\"",
+              "attribute": "label-position"
+            },
+            {
+              "kind": "field",
+              "name": "currency",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "currency"
+            },
+            {
+              "kind": "field",
+              "name": "currencyPosition",
+              "type": {
+                "text": "\"left\" | \"right\""
+              },
+              "default": "\"left\"",
+              "attribute": "currency-position"
+            },
+            {
+              "kind": "field",
+              "name": "iconPosition",
+              "type": {
+                "text": "\"left\" | \"right\""
+              },
+              "default": "\"left\"",
+              "attribute": "icon-position"
+            },
+            {
+              "kind": "field",
+              "name": "hasShadow",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "has-shadow"
+            },
+            {
+              "kind": "field",
+              "name": "hasBorder",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "has-border"
+            },
+            {
+              "kind": "field",
+              "name": "showSpinner",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-spinner"
+            },
+            {
+              "kind": "field",
+              "name": "radius",
+              "type": {
+                "text": "LoomiStatRadius"
+              },
+              "default": "\"medium\"",
+              "attribute": "radius"
+            },
+            {
+              "kind": "field",
+              "name": "url",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "url"
+            },
+            {
+              "kind": "field",
+              "name": "iconColor",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "icon-color"
+            },
+            {
+              "kind": "field",
+              "name": "iconSize",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "icon-size"
+            },
+            {
+              "kind": "field",
+              "name": "isDarkContext",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "Whether an ancestor has the `dark` class — see `isDarkContext` in `loomi-button.ts`."
+            },
+            {
+              "kind": "field",
+              "name": "cleanupDarkWatch",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "hasIcon",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "number",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "number"
+            },
+            {
+              "name": "label-position",
+              "type": {
+                "text": "\"top\" | \"bottom\""
+              },
+              "default": "\"top\"",
+              "fieldName": "labelPosition"
+            },
+            {
+              "name": "currency",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "currency"
+            },
+            {
+              "name": "currency-position",
+              "type": {
+                "text": "\"left\" | \"right\""
+              },
+              "default": "\"left\"",
+              "fieldName": "currencyPosition"
+            },
+            {
+              "name": "icon-position",
+              "type": {
+                "text": "\"left\" | \"right\""
+              },
+              "default": "\"left\"",
+              "fieldName": "iconPosition"
+            },
+            {
+              "name": "has-shadow",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "hasShadow"
+            },
+            {
+              "name": "has-border",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "hasBorder"
+            },
+            {
+              "name": "show-spinner",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showSpinner"
+            },
+            {
+              "name": "radius",
+              "type": {
+                "text": "LoomiStatRadius"
+              },
+              "default": "\"medium\"",
+              "fieldName": "radius"
+            },
+            {
+              "name": "url",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "url"
+            },
+            {
+              "name": "icon-color",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "iconColor"
+            },
+            {
+              "name": "icon-size",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "iconSize"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-statistic",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiStatistic",
+          "declaration": {
+            "name": "LoomiStatistic",
+            "module": "src/loomi-statistic.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-statistic",
+          "declaration": {
+            "name": "LoomiStatistic",
+            "module": "src/loomi-statistic.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

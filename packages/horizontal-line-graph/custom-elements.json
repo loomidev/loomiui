@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiHorizontalLineGraph",
+          "declaration": {
+            "name": "LoomiHorizontalLineGraph",
+            "module": "./loomi-horizontal-line-graph.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiGraphSegment",
+          "declaration": {
+            "name": "LoomiGraphSegment",
+            "module": "./loomi-horizontal-line-graph.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-horizontal-line-graph.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-horizontal-line-graph>` — a single proportion bar split into colored segments,\nwith an optional legend. Provide `data` (`{ label, value, color? }`).",
+          "name": "LoomiHorizontalLineGraph",
+          "members": [
+            {
+              "kind": "field",
+              "name": "data",
+              "type": {
+                "text": "LoomiGraphSegment[]"
+              },
+              "default": "[]",
+              "attribute": "data"
+            },
+            {
+              "kind": "field",
+              "name": "showLegend",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-legend"
+            },
+            {
+              "kind": "field",
+              "name": "showValues",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-values"
+            },
+            {
+              "kind": "method",
+              "name": "color",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "seg",
+                  "type": {
+                    "text": "LoomiGraphSegment"
+                  }
+                },
+                {
+                  "name": "i",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            }
+          ],
+          "attributes": [
+            {
+              "name": "data",
+              "type": {
+                "text": "LoomiGraphSegment[]"
+              },
+              "default": "[]",
+              "fieldName": "data"
+            },
+            {
+              "name": "show-legend",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showLegend"
+            },
+            {
+              "name": "show-values",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showValues"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-horizontal-line-graph",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiHorizontalLineGraph",
+          "declaration": {
+            "name": "LoomiHorizontalLineGraph",
+            "module": "src/loomi-horizontal-line-graph.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-horizontal-line-graph",
+          "declaration": {
+            "name": "LoomiHorizontalLineGraph",
+            "module": "src/loomi-horizontal-line-graph.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

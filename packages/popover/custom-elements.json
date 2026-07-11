@@ -1,0 +1,292 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiPopover",
+          "declaration": {
+            "name": "LoomiPopover",
+            "module": "./loomi-popover.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiPopoverPlacement",
+          "declaration": {
+            "name": "LoomiPopoverPlacement",
+            "module": "./loomi-popover.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-popover.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-popover>` — a floating rich-content panel opened on click or hover.",
+          "name": "LoomiPopover",
+          "slots": [
+            {
+              "description": "Panel content (rich markup allowed).",
+              "name": ""
+            },
+            {
+              "description": "Custom trigger markup (overrides the `trigger` icon).",
+              "name": "trigger"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "trigger",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"information-circle\"",
+              "attribute": "trigger"
+            },
+            {
+              "kind": "field",
+              "name": "triggerOn",
+              "type": {
+                "text": "\"click\" | \"mouseover\""
+              },
+              "default": "\"click\"",
+              "attribute": "trigger-on"
+            },
+            {
+              "kind": "field",
+              "name": "placement",
+              "type": {
+                "text": "LoomiPopoverPlacement"
+              },
+              "default": "\"bottom\"",
+              "attribute": "placement"
+            },
+            {
+              "kind": "field",
+              "name": "title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "title"
+            },
+            {
+              "kind": "field",
+              "name": "width",
+              "type": {
+                "text": "number"
+              },
+              "default": "280",
+              "attribute": "width"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "cleanup",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "previouslyFocused",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "privacy": "private",
+              "default": "null",
+              "description": "Focus to restore on close, captured only when it was inside this component."
+            },
+            {
+              "kind": "field",
+              "name": "isOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Whether the panel is currently open.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "setOpen",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "open",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "focusIsInside",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "description": "True while focus is somewhere inside the trigger or the open panel.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "hide",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "toggle",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onKeyDown",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onFocusOut",
+              "privacy": "private",
+              "description": "Non-modal dialog (no `aria-modal`, arbitrary rich content) — Tab isn't trapped like\n`loomi-modal`'s dialog, it's allowed to move focus out normally, which closes the\npanel rather than leaving it open with focus already gone."
+            }
+          ],
+          "events": [
+            {
+              "name": "loomi-toggle",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { open }` whenever the panel opens or closes."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "trigger",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"information-circle\"",
+              "fieldName": "trigger"
+            },
+            {
+              "name": "trigger-on",
+              "type": {
+                "text": "\"click\" | \"mouseover\""
+              },
+              "default": "\"click\"",
+              "fieldName": "triggerOn"
+            },
+            {
+              "name": "placement",
+              "type": {
+                "text": "LoomiPopoverPlacement"
+              },
+              "default": "\"bottom\"",
+              "fieldName": "placement"
+            },
+            {
+              "name": "title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "title"
+            },
+            {
+              "name": "width",
+              "type": {
+                "text": "number"
+              },
+              "default": "280",
+              "fieldName": "width"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-popover",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiPopover",
+          "declaration": {
+            "name": "LoomiPopover",
+            "module": "src/loomi-popover.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-popover",
+          "declaration": {
+            "name": "LoomiPopover",
+            "module": "src/loomi-popover.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

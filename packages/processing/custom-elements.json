@@ -1,0 +1,153 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiProcessing",
+          "declaration": {
+            "name": "LoomiProcessing",
+            "module": "./loomi-processing.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProcessingState",
+          "declaration": {
+            "name": "LoomiProcessingState",
+            "module": "./loomi-processing.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-processing.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-processing>` — a process indicator with `processing` (spinner), `success` and\n`failed` states. Switch the `state` attribute (and optionally `title`/`message`) as your\nasync task progresses.",
+          "name": "LoomiProcessing",
+          "members": [
+            {
+              "kind": "field",
+              "name": "state",
+              "type": {
+                "text": "LoomiProcessingState"
+              },
+              "default": "\"processing\"",
+              "attribute": "state"
+            },
+            {
+              "kind": "field",
+              "name": "title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "title"
+            },
+            {
+              "kind": "field",
+              "name": "message",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "message"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "state",
+              "type": {
+                "text": "LoomiProcessingState"
+              },
+              "default": "\"processing\"",
+              "fieldName": "state"
+            },
+            {
+              "name": "title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "title"
+            },
+            {
+              "name": "message",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "message"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "fieldName": "color"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-processing",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiProcessing",
+          "declaration": {
+            "name": "LoomiProcessing",
+            "module": "src/loomi-processing.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-processing",
+          "declaration": {
+            "name": "LoomiProcessing",
+            "module": "src/loomi-processing.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

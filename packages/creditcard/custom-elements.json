@@ -1,0 +1,776 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/brand-icons.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "LOOMI_CARD_BRAND_ICONS",
+          "type": {
+            "text": "Record<LoomiCardBrand, string>"
+          },
+          "default": "{ visa: VISA, mastercard: MASTERCARD, amex: AMEX, discover: DISCOVER, diners: DINERS, jcb: JCB, unionpay: UNIONPAY, maestro: MAESTRO, unknown: UNKNOWN, }"
+        },
+        {
+          "kind": "variable",
+          "name": "LOOMI_CARD_BRAND_GROUPS",
+          "type": {
+            "text": "Record<LoomiCardBrand, number[]>"
+          },
+          "default": "{ visa: [4, 4, 4, 4], mastercard: [4, 4, 4, 4], discover: [4, 4, 4, 4], jcb: [4, 4, 4, 4], maestro: [4, 4, 4, 4], unionpay: [4, 4, 4, 4, 3], amex: [4, 6, 5], diners: [4, 6, 4], unknown: [4, 4, 4, 4], }",
+          "description": "Per-brand digit grouping for the formatted display (e.g. Amex's 4-6-5)."
+        },
+        {
+          "kind": "variable",
+          "name": "LOOMI_CARD_BRAND_LENGTH",
+          "type": {
+            "text": "Record<LoomiCardBrand, number>"
+          },
+          "default": "{ visa: 16, mastercard: 16, discover: 16, jcb: 16, maestro: 16, unionpay: 19, amex: 15, diners: 14, unknown: 19, }",
+          "description": "Max raw digit length per brand (drives both the input's hard cap and the layout's digit-count placeholder)."
+        },
+        {
+          "kind": "variable",
+          "name": "LOOMI_CARD_BRAND_CVC_LENGTH",
+          "type": {
+            "text": "Record<LoomiCardBrand, number>"
+          },
+          "default": "{ visa: 3, mastercard: 3, discover: 3, jcb: 3, maestro: 3, unionpay: 3, diners: 3, amex: 4, unknown: 3, }",
+          "description": "CVC digit length per brand — Amex prints a 4-digit code on the *front*, everyone else a 3-digit code on the back."
+        },
+        {
+          "kind": "function",
+          "name": "detectCardBrand",
+          "return": {
+            "type": {
+              "text": "LoomiCardBrand"
+            }
+          },
+          "parameters": [
+            {
+              "name": "digits",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Detects the card network from a digit-only number prefix using each network's\npublicly documented IIN/BIN ranges. Order matters: more specific ranges are checked\nbefore broader ones (e.g. Amex's `34`/`37` before Visa's catch-all `4`)."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LOOMI_CARD_BRAND_ICONS",
+          "declaration": {
+            "name": "LOOMI_CARD_BRAND_ICONS",
+            "module": "src/brand-icons.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LOOMI_CARD_BRAND_GROUPS",
+          "declaration": {
+            "name": "LOOMI_CARD_BRAND_GROUPS",
+            "module": "src/brand-icons.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LOOMI_CARD_BRAND_LENGTH",
+          "declaration": {
+            "name": "LOOMI_CARD_BRAND_LENGTH",
+            "module": "src/brand-icons.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LOOMI_CARD_BRAND_CVC_LENGTH",
+          "declaration": {
+            "name": "LOOMI_CARD_BRAND_CVC_LENGTH",
+            "module": "src/brand-icons.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "detectCardBrand",
+          "declaration": {
+            "name": "detectCardBrand",
+            "module": "src/brand-icons.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiCreditcard",
+          "declaration": {
+            "name": "LoomiCreditcard",
+            "module": "./loomi-creditcard.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCreditcardValue",
+          "declaration": {
+            "name": "LoomiCreditcardValue",
+            "module": "./loomi-creditcard.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCardBrand",
+          "declaration": {
+            "name": "LoomiCardBrand",
+            "module": "./loomi-creditcard.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "detectCardBrand",
+          "declaration": {
+            "name": "detectCardBrand",
+            "module": "./brand-icons.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LOOMI_CARD_BRAND_ICONS",
+          "declaration": {
+            "name": "LOOMI_CARD_BRAND_ICONS",
+            "module": "./brand-icons.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-creditcard.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-creditcard>` — a flippable credit-card input. The front face holds the number,\ncardholder name, and expiry; click (or tap) the edge button to flip to the back and enter\nthe CVC. The network logo (Visa, Mastercard, Amex, Discover, Diners Club, JCB, UnionPay,\nMaestro) is detected live from the number's IIN/BIN prefix and shown on both faces; a\ncontactless-payment glyph sits in the front's top-right corner.\n\nNot form-associated by design — card data is sensitive and typically handed to a\ntokenization SDK rather than posted via a plain HTML form. Read the current state from\nthe `value` getter, or listen for `input`/`change`.",
+          "name": "LoomiCreditcard",
+          "cssParts": [
+            {
+              "description": "The front face.",
+              "name": "front"
+            },
+            {
+              "description": "The back face.",
+              "name": "back"
+            },
+            {
+              "description": "The card-number `<input>`.",
+              "name": "number"
+            },
+            {
+              "description": "The cardholder-name `<input>`.",
+              "name": "name"
+            },
+            {
+              "description": "The expiry `<input>`.",
+              "name": "expiry"
+            },
+            {
+              "description": "The CVC `<input>`.",
+              "name": "cvc"
+            },
+            {
+              "description": "The button that flips the card.",
+              "name": "flip-button"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "cardholderName",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "cardholder-name"
+            },
+            {
+              "kind": "field",
+              "name": "number",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "number"
+            },
+            {
+              "kind": "field",
+              "name": "expiryMonth",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "expiry-month"
+            },
+            {
+              "kind": "field",
+              "name": "expiryYear",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "expiry-year"
+            },
+            {
+              "kind": "field",
+              "name": "cvc",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "cvc"
+            },
+            {
+              "kind": "field",
+              "name": "brand",
+              "type": {
+                "text": "LoomiCardBrand | \"\""
+              },
+              "default": "\"\"",
+              "description": "Force a specific network logo instead of auto-detecting it from `number`. Leave unset to auto-detect.",
+              "attribute": "brand"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "LoomiCreditcardVariant"
+              },
+              "default": "\"gradient\"",
+              "description": "`\"gradient\"` (default) for the full-color accent face, or `\"outline\"` for a bare\nsilhouette — soft gray border, no background fill.",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "flipped",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "flipped",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "readonly",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "errorMessage",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "error-message"
+            },
+            {
+              "kind": "field",
+              "name": "showErrorInline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-error-inline"
+            },
+            {
+              "kind": "field",
+              "name": "invalid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "invalid",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "validationVisible",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "numberInputEl",
+              "type": {
+                "text": "HTMLInputElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "cvcInputEl",
+              "type": {
+                "text": "HTMLInputElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "accentColor",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "activeBrand",
+              "type": {
+                "text": "LoomiCardBrand"
+              },
+              "description": "The currently displayed network — `brand` if explicitly set, otherwise auto-detected from `number`.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "LoomiCreditcardValue"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "expired",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "isExpiryValid",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "validate",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "description": "Re-validates and, if invalid, switches the inline error on. Returns whether the current value is complete and valid."
+            },
+            {
+              "kind": "method",
+              "name": "syncValidity",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "showInvalid",
+                  "default": "this.validationVisible"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "showValidation",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "emit",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "type",
+                  "type": {
+                    "text": "\"input\" | \"change\""
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "toggleFlip",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onKeydown",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onNumberInput",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onNameInput",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onExpiryInput",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onCvcInput",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onFieldBlur",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderBrand",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "extraClass",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderBrandTray",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderInline",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderFront",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderBack",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "type",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "loomi-flip",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { flipped }` when the card flips."
+            },
+            {
+              "description": "Fired on every keystroke in any field. `detail` is the current `value`.",
+              "name": "input"
+            },
+            {
+              "description": "Fired on blur/commit of any field. `detail` is the current `value`.",
+              "name": "change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            },
+            {
+              "name": "cardholder-name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "cardholderName"
+            },
+            {
+              "name": "number",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "number"
+            },
+            {
+              "name": "expiry-month",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "expiryMonth"
+            },
+            {
+              "name": "expiry-year",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "expiryYear"
+            },
+            {
+              "name": "cvc",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "cvc"
+            },
+            {
+              "name": "brand",
+              "type": {
+                "text": "LoomiCardBrand | \"\""
+              },
+              "default": "\"\"",
+              "description": "Force a specific network logo instead of auto-detecting it from `number`. Leave unset to auto-detect.",
+              "fieldName": "brand"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "fieldName": "color"
+            },
+            {
+              "name": "variant",
+              "type": {
+                "text": "LoomiCreditcardVariant"
+              },
+              "default": "\"gradient\"",
+              "description": "`\"gradient\"` (default) for the full-color accent face, or `\"outline\"` for a bare\nsilhouette — soft gray border, no background fill.",
+              "fieldName": "variant"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "flipped",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "flipped"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "readonly"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "error-message",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "errorMessage"
+            },
+            {
+              "name": "show-error-inline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showErrorInline"
+            },
+            {
+              "name": "invalid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "invalid"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-creditcard",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiCardBrand",
+          "declaration": {
+            "name": "LoomiCardBrand",
+            "module": "./brand-icons.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCreditcard",
+          "declaration": {
+            "name": "LoomiCreditcard",
+            "module": "src/loomi-creditcard.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-creditcard",
+          "declaration": {
+            "name": "LoomiCreditcard",
+            "module": "src/loomi-creditcard.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -16,7 +16,8 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "custom-elements.json"
   ],
   "exports": {
     ".": {
@@ -59,5 +60,6 @@
     "form",
     "rich-text",
     "editor"
-  ]
+  ],
+  "customElements": "custom-elements.json"
 }

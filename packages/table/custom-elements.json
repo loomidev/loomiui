@@ -1,0 +1,1949 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiTable",
+          "declaration": {
+            "name": "LoomiTable",
+            "module": "./loomi-table.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiActionIcon",
+          "declaration": {
+            "name": "LoomiActionIcon",
+            "module": "./loomi-table.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-table.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-table>` — a BladewindUI-inspired data table with manual slots, dynamic\nrows, search, sorting, grouping, selection, checkboxes, pagination, empty states,\ncustom row templates and action icons.",
+          "name": "LoomiTable",
+          "slots": [
+            {
+              "description": "Manual `<th>` cells, or a `<template>` for custom layout headings.",
+              "name": "header"
+            },
+            {
+              "description": "Optional `<template>` used when `layout=\"custom\"` and `data` is set.",
+              "name": "row"
+            },
+            {
+              "description": "Manual `<tr>` rows when not using `data`.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "data",
+              "type": {
+                "text": "Row[]"
+              },
+              "default": "[]",
+              "attribute": "data"
+            },
+            {
+              "kind": "field",
+              "name": "columns",
+              "type": {
+                "text": "string[]"
+              },
+              "default": "[]",
+              "attribute": "columns"
+            },
+            {
+              "kind": "field",
+              "name": "excludeColumns",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "exclude-columns"
+            },
+            {
+              "kind": "field",
+              "name": "excludeColumnsAlias",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "exclude_columns"
+            },
+            {
+              "kind": "field",
+              "name": "includeColumns",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "include-columns"
+            },
+            {
+              "kind": "field",
+              "name": "includeColumnsAlias",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "include_columns"
+            },
+            {
+              "kind": "field",
+              "name": "columnAliases",
+              "type": {
+                "text": "Record<string, string>"
+              },
+              "default": "{}",
+              "attribute": "column-aliases"
+            },
+            {
+              "kind": "field",
+              "name": "columnAliasesAlias",
+              "type": {
+                "text": "Record<string, string> | undefined"
+              },
+              "attribute": "column_aliases"
+            },
+            {
+              "kind": "field",
+              "name": "layout",
+              "type": {
+                "text": "\"auto\" | \"custom\""
+              },
+              "default": "\"auto\"",
+              "attribute": "layout"
+            },
+            {
+              "kind": "field",
+              "name": "rowTemplate",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "row-template"
+            },
+            {
+              "kind": "field",
+              "name": "rowTemplateAlias",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "row_template"
+            },
+            {
+              "kind": "field",
+              "name": "striped",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "striped"
+            },
+            {
+              "kind": "field",
+              "name": "divided",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "divided"
+            },
+            {
+              "kind": "field",
+              "name": "divider",
+              "type": {
+                "text": "\"regular\" | \"thin\""
+              },
+              "default": "\"regular\"",
+              "attribute": "divider"
+            },
+            {
+              "kind": "field",
+              "name": "hasHover",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "has-hover"
+            },
+            {
+              "kind": "field",
+              "name": "hasHoverAlias",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "attribute": "has_hover"
+            },
+            {
+              "kind": "field",
+              "name": "hasShadow",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "has-shadow"
+            },
+            {
+              "kind": "field",
+              "name": "hasShadowAlias",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "attribute": "has_shadow"
+            },
+            {
+              "kind": "field",
+              "name": "hasBorder",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "has-border"
+            },
+            {
+              "kind": "field",
+              "name": "hasBorderAlias",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "attribute": "has_border"
+            },
+            {
+              "kind": "field",
+              "name": "compact",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "compact"
+            },
+            {
+              "kind": "field",
+              "name": "celled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "celled"
+            },
+            {
+              "kind": "field",
+              "name": "transparent",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "transparent"
+            },
+            {
+              "kind": "field",
+              "name": "uppercasing",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "uppercasing"
+            },
+            {
+              "kind": "field",
+              "name": "searchable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "searchable"
+            },
+            {
+              "kind": "field",
+              "name": "searchContainer",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "search-container"
+            },
+            {
+              "kind": "field",
+              "name": "searchPlaceholder",
+              "default": "\"Search table below...\"",
+              "attribute": "search-placeholder",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "searchPlaceholderAlias",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "search_placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "sortable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "sortable"
+            },
+            {
+              "kind": "field",
+              "name": "sortableColumns",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "sortable-columns"
+            },
+            {
+              "kind": "field",
+              "name": "sortableColumnsAlias",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "sortable_columns"
+            },
+            {
+              "kind": "field",
+              "name": "paginated",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "paginated"
+            },
+            {
+              "kind": "field",
+              "name": "pageSize",
+              "type": {
+                "text": "number"
+              },
+              "default": "25",
+              "attribute": "page-size"
+            },
+            {
+              "kind": "field",
+              "name": "pageSizeAlias",
+              "type": {
+                "text": "number | undefined"
+              },
+              "attribute": "page_size"
+            },
+            {
+              "kind": "field",
+              "name": "paginationStyle",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"arrows\"",
+              "attribute": "pagination-style"
+            },
+            {
+              "kind": "field",
+              "name": "paginationStyleAlias",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "pagination_style"
+            },
+            {
+              "kind": "field",
+              "name": "showRowNumbers",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-row-numbers"
+            },
+            {
+              "kind": "field",
+              "name": "showRowNumbersAlias",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "attribute": "show_row_numbers"
+            },
+            {
+              "kind": "field",
+              "name": "showTotal",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-total"
+            },
+            {
+              "kind": "field",
+              "name": "showTotalAlias",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "attribute": "show_total"
+            },
+            {
+              "kind": "field",
+              "name": "showPageNumber",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-page-number"
+            },
+            {
+              "kind": "field",
+              "name": "showPageNumberAlias",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "attribute": "show_page_number"
+            },
+            {
+              "kind": "field",
+              "name": "showTotalPages",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-total-pages"
+            },
+            {
+              "kind": "field",
+              "name": "showTotalPagesAlias",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "attribute": "show_total_pages"
+            },
+            {
+              "kind": "field",
+              "name": "defaultPage",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "attribute": "default-page"
+            },
+            {
+              "kind": "field",
+              "name": "defaultPageAlias",
+              "type": {
+                "text": "number | undefined"
+              },
+              "attribute": "default_page"
+            },
+            {
+              "kind": "field",
+              "name": "limit",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "limit"
+            },
+            {
+              "kind": "field",
+              "name": "totalLabel",
+              "default": "\"Showing :a to :b of :c records\"",
+              "attribute": "total-label",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "totalLabelAlias",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "total_label"
+            },
+            {
+              "kind": "field",
+              "name": "selectable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "selectable"
+            },
+            {
+              "kind": "field",
+              "name": "checkable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "checkable"
+            },
+            {
+              "kind": "field",
+              "name": "idKey",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"id\"",
+              "attribute": "id-key"
+            },
+            {
+              "kind": "field",
+              "name": "idKeyAlias",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "id_key"
+            },
+            {
+              "kind": "field",
+              "name": "selectedValue",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "selected-value"
+            },
+            {
+              "kind": "field",
+              "name": "selectedValueAlias",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "selected_value"
+            },
+            {
+              "kind": "field",
+              "name": "actionIcons",
+              "type": {
+                "text": "LoomiActionIcon[]"
+              },
+              "default": "[]",
+              "attribute": "action-icons"
+            },
+            {
+              "kind": "field",
+              "name": "actionIconsAlias",
+              "type": {
+                "text": "LoomiActionIcon[] | undefined"
+              },
+              "attribute": "action_icons"
+            },
+            {
+              "kind": "field",
+              "name": "actionsTitle",
+              "default": "\"actions\"",
+              "attribute": "actions-title",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "actionsTitleAlias",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "actions_title"
+            },
+            {
+              "kind": "field",
+              "name": "noDataMessage",
+              "default": "\"No records to display\"",
+              "attribute": "no-data-message",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "noDataMessageAlias",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "no_data_message"
+            },
+            {
+              "kind": "field",
+              "name": "messageAsEmptyState",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "message-as-empty-state"
+            },
+            {
+              "kind": "field",
+              "name": "messageAsEmptyStateAlias",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "attribute": "message_as_empty_state"
+            },
+            {
+              "kind": "field",
+              "name": "image",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"empty-state.svg\"",
+              "attribute": "image"
+            },
+            {
+              "kind": "field",
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "buttonLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "button-label"
+            },
+            {
+              "kind": "field",
+              "name": "buttonLabelAlias",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "button_label"
+            },
+            {
+              "kind": "field",
+              "name": "showImage",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-image"
+            },
+            {
+              "kind": "field",
+              "name": "showImageAlias",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "attribute": "show_image"
+            },
+            {
+              "kind": "field",
+              "name": "emptyOnclick",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "onclick"
+            },
+            {
+              "kind": "field",
+              "name": "groupBy",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "groupby"
+            },
+            {
+              "kind": "field",
+              "name": "groupByAlias",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "group-by"
+            },
+            {
+              "kind": "field",
+              "name": "clickable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "clickable"
+            },
+            {
+              "kind": "field",
+              "name": "nonce",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "nonce"
+            },
+            {
+              "kind": "field",
+              "name": "query",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "sortKey",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "sortDir",
+              "type": {
+                "text": "\"asc\" | \"desc\""
+              },
+              "privacy": "private",
+              "default": "\"asc\""
+            },
+            {
+              "kind": "field",
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "1"
+            },
+            {
+              "kind": "field",
+              "name": "checked",
+              "privacy": "private",
+              "default": "new Set<string>()"
+            },
+            {
+              "kind": "field",
+              "name": "initialized",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "externalSearchMount",
+              "type": {
+                "text": "HTMLDivElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "selectedIds",
+              "type": {
+                "text": "string[]"
+              },
+              "description": "Currently selected row ids.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "selectedRows",
+              "type": {
+                "text": "Row[]"
+              },
+              "description": "Currently selected row objects.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "effectiveColumns",
+              "type": {
+                "text": "string[]"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "effectiveColumnAliases",
+              "type": {
+                "text": "Record<string, string>"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "effectiveActions",
+              "type": {
+                "text": "LoomiActionIcon[]"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "effectivePageSize",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "effectiveDefaultPage",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "effectiveIdKey",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "sourceRows",
+              "type": {
+                "text": "Row[]"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "headingText",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "col",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "isSortable",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "col",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "rowId",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "Row"
+                  }
+                },
+                {
+                  "name": "i",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "processed",
+              "type": {
+                "text": "Row[]"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "pageRows",
+              "type": {
+                "text": "Row[]"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "rowTemplateHtml",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "headerTemplateHtml",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "hasManualRows",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "toggleSort",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "col",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "emitSelection",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "toggleRow",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "id",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "on",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "toggleAll",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "on",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "allChecked",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "resolveClick",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "click",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "Row"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "callNamedAction",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "action",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "detail",
+                  "type": {
+                    "text": "Record<string, unknown>"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderActionIcon",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "item",
+                  "type": {
+                    "text": "LoomiActionIcon"
+                  }
+                },
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "Row"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onRowClick",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "Row"
+                  }
+                },
+                {
+                  "name": "id",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "cleanupDarkWatch",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "searchField",
+              "type": {
+                "text": "TemplateResult"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "removeExternalSearch",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderExternalSearch",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderEmpty",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "colSpan",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "noDataMessage",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderHeadingCell",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "col",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderAutoRow",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "Row"
+                  }
+                },
+                {
+                  "name": "id",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "selected",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderCustomRows",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderBody",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult[] | TemplateResult"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "colSpan",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "noDataMessage",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "loomi-selection-change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { ids, rows, selectedValue }` when selected rows change."
+            },
+            {
+              "name": "loomi-action-call",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { name, row, action, click, resolvedClick }` for Bladewind-style click strings."
+            },
+            {
+              "name": "loomi-action",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { name, row, action, click }` when an action icon is clicked."
+            },
+            {
+              "name": "loomi-row-click",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { row, id }` when a row is clicked."
+            },
+            {
+              "name": "loomi-empty-action",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { action }` when the empty-state button is clicked."
+            },
+            {
+              "name": "loomi-page-change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { page }` when the page changes."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            },
+            {
+              "name": "data",
+              "type": {
+                "text": "Row[]"
+              },
+              "default": "[]",
+              "fieldName": "data"
+            },
+            {
+              "name": "columns",
+              "type": {
+                "text": "string[]"
+              },
+              "default": "[]",
+              "fieldName": "columns"
+            },
+            {
+              "name": "exclude-columns",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "excludeColumns"
+            },
+            {
+              "name": "exclude_columns",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "excludeColumnsAlias"
+            },
+            {
+              "name": "include-columns",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "includeColumns"
+            },
+            {
+              "name": "include_columns",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "includeColumnsAlias"
+            },
+            {
+              "name": "column-aliases",
+              "type": {
+                "text": "Record<string, string>"
+              },
+              "default": "{}",
+              "fieldName": "columnAliases"
+            },
+            {
+              "name": "column_aliases",
+              "type": {
+                "text": "Record<string, string> | undefined"
+              },
+              "fieldName": "columnAliasesAlias"
+            },
+            {
+              "name": "layout",
+              "type": {
+                "text": "\"auto\" | \"custom\""
+              },
+              "default": "\"auto\"",
+              "fieldName": "layout"
+            },
+            {
+              "name": "row-template",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "rowTemplate"
+            },
+            {
+              "name": "row_template",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "rowTemplateAlias"
+            },
+            {
+              "name": "striped",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "striped"
+            },
+            {
+              "name": "divided",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "divided"
+            },
+            {
+              "name": "divider",
+              "type": {
+                "text": "\"regular\" | \"thin\""
+              },
+              "default": "\"regular\"",
+              "fieldName": "divider"
+            },
+            {
+              "name": "has-hover",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "hasHover"
+            },
+            {
+              "name": "has_hover",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "fieldName": "hasHoverAlias"
+            },
+            {
+              "name": "has-shadow",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "hasShadow"
+            },
+            {
+              "name": "has_shadow",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "fieldName": "hasShadowAlias"
+            },
+            {
+              "name": "has-border",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "hasBorder"
+            },
+            {
+              "name": "has_border",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "fieldName": "hasBorderAlias"
+            },
+            {
+              "name": "compact",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "compact"
+            },
+            {
+              "name": "celled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "celled"
+            },
+            {
+              "name": "transparent",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "transparent"
+            },
+            {
+              "name": "uppercasing",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "uppercasing"
+            },
+            {
+              "name": "searchable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "searchable"
+            },
+            {
+              "name": "search-container",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "searchContainer"
+            },
+            {
+              "name": "search-placeholder",
+              "default": "DEFAULT_SEARCH_PLACEHOLDER",
+              "fieldName": "searchPlaceholder"
+            },
+            {
+              "name": "search_placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "searchPlaceholderAlias"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "sortable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "sortable"
+            },
+            {
+              "name": "sortable-columns",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "sortableColumns"
+            },
+            {
+              "name": "sortable_columns",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "sortableColumnsAlias"
+            },
+            {
+              "name": "paginated",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "paginated"
+            },
+            {
+              "name": "page-size",
+              "type": {
+                "text": "number"
+              },
+              "default": "25",
+              "fieldName": "pageSize"
+            },
+            {
+              "name": "page_size",
+              "type": {
+                "text": "number | undefined"
+              },
+              "fieldName": "pageSizeAlias"
+            },
+            {
+              "name": "pagination-style",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"arrows\"",
+              "fieldName": "paginationStyle"
+            },
+            {
+              "name": "pagination_style",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "paginationStyleAlias"
+            },
+            {
+              "name": "show-row-numbers",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showRowNumbers"
+            },
+            {
+              "name": "show_row_numbers",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "fieldName": "showRowNumbersAlias"
+            },
+            {
+              "name": "show-total",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showTotal"
+            },
+            {
+              "name": "show_total",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "fieldName": "showTotalAlias"
+            },
+            {
+              "name": "show-page-number",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showPageNumber"
+            },
+            {
+              "name": "show_page_number",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "fieldName": "showPageNumberAlias"
+            },
+            {
+              "name": "show-total-pages",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showTotalPages"
+            },
+            {
+              "name": "show_total_pages",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "fieldName": "showTotalPagesAlias"
+            },
+            {
+              "name": "default-page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "defaultPage"
+            },
+            {
+              "name": "default_page",
+              "type": {
+                "text": "number | undefined"
+              },
+              "fieldName": "defaultPageAlias"
+            },
+            {
+              "name": "limit",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "limit"
+            },
+            {
+              "name": "total-label",
+              "default": "DEFAULT_TOTAL_LABEL",
+              "fieldName": "totalLabel"
+            },
+            {
+              "name": "total_label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "totalLabelAlias"
+            },
+            {
+              "name": "selectable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "selectable"
+            },
+            {
+              "name": "checkable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "checkable"
+            },
+            {
+              "name": "id-key",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"id\"",
+              "fieldName": "idKey"
+            },
+            {
+              "name": "id_key",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "idKeyAlias"
+            },
+            {
+              "name": "selected-value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "selectedValue"
+            },
+            {
+              "name": "selected_value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "selectedValueAlias"
+            },
+            {
+              "name": "action-icons",
+              "type": {
+                "text": "LoomiActionIcon[]"
+              },
+              "default": "[]",
+              "fieldName": "actionIcons"
+            },
+            {
+              "name": "action_icons",
+              "type": {
+                "text": "LoomiActionIcon[] | undefined"
+              },
+              "fieldName": "actionIconsAlias"
+            },
+            {
+              "name": "actions-title",
+              "default": "DEFAULT_ACTIONS_TITLE",
+              "fieldName": "actionsTitle"
+            },
+            {
+              "name": "actions_title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "actionsTitleAlias"
+            },
+            {
+              "name": "no-data-message",
+              "default": "DEFAULT_NO_DATA_MESSAGE",
+              "fieldName": "noDataMessage"
+            },
+            {
+              "name": "no_data_message",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "noDataMessageAlias"
+            },
+            {
+              "name": "message-as-empty-state",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "messageAsEmptyState"
+            },
+            {
+              "name": "message_as_empty_state",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "fieldName": "messageAsEmptyStateAlias"
+            },
+            {
+              "name": "image",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"empty-state.svg\"",
+              "fieldName": "image"
+            },
+            {
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "heading"
+            },
+            {
+              "name": "button-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "buttonLabel"
+            },
+            {
+              "name": "button_label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "buttonLabelAlias"
+            },
+            {
+              "name": "show-image",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showImage"
+            },
+            {
+              "name": "show_image",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "fieldName": "showImageAlias"
+            },
+            {
+              "name": "onclick",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "emptyOnclick"
+            },
+            {
+              "name": "groupby",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "groupBy"
+            },
+            {
+              "name": "group-by",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "groupByAlias"
+            },
+            {
+              "name": "clickable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "clickable"
+            },
+            {
+              "name": "nonce",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "nonce"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-table",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiTable",
+          "declaration": {
+            "name": "LoomiTable",
+            "module": "src/loomi-table.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-table",
+          "declaration": {
+            "name": "LoomiTable",
+            "module": "src/loomi-table.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,382 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiIcon",
+          "declaration": {
+            "name": "LoomiIcon",
+            "module": "./loomi-icon.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "registerLoomiIcon",
+          "declaration": {
+            "name": "registerLoomiIcon",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getLoomiIcon",
+          "declaration": {
+            "name": "getLoomiIcon",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "loomiIconNames",
+          "declaration": {
+            "name": "loomiIconNames",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "isLoomiDiskIconSource",
+          "declaration": {
+            "name": "isLoomiDiskIconSource",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "loomiDiskIconNames",
+          "declaration": {
+            "name": "loomiDiskIconNames",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "loomiDiskIconTypes",
+          "declaration": {
+            "name": "loomiDiskIconTypes",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getLoomiDiskIconUrl",
+          "declaration": {
+            "name": "getLoomiDiskIconUrl",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "loadLoomiDiskIcon",
+          "declaration": {
+            "name": "loadLoomiDiskIcon",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiIconSource",
+          "declaration": {
+            "name": "LoomiIconSource",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiDiskIconSource",
+          "declaration": {
+            "name": "LoomiDiskIconSource",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiIconType",
+          "declaration": {
+            "name": "LoomiIconType",
+            "module": "@loomidev/icons"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-icon.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-icon>` — renders an icon from the shared `@loomidev/icons` registry by `name`,\na file from a custom directory, or any custom SVG placed in the default slot.\n\n`source` picks the icon set. `heroicons` (default) is inlined at build time. `iconsax`\nand `untitledui` are disk-based: their real `.svg` files ship inside `@loomidev/icons`\nand are fetched (and cached in memory) the first time each one is used, instead of\nbloating every consumer's bundle with every icon in the set. All registry icons follow\n`currentColor`; file icons (via `directory`) render as images instead. Size is\ncontrolled with the `size` attribute or the `--loomi-icon-size` custom property.\n\nSet `branded` to sit the icon on a rounded, primary-colored background badge instead\nof rendering it bare — `shade` picks a light tint or a solid fill, `radius` picks the\ncorner rounding.",
+          "name": "LoomiIcon",
+          "slots": [
+            {
+              "description": "Custom inline `<svg>` (overrides `name`).",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Registered icon name (see `@loomidev/icons`).",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "source",
+              "type": {
+                "text": "LoomiIconSource"
+              },
+              "default": "\"heroicons\"",
+              "description": "Icon set to render from.",
+              "attribute": "source"
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "LoomiIconType"
+              },
+              "default": "\"outline\"",
+              "description": "Visual style. Availability depends on `source` — see the README's attribute table.",
+              "attribute": "variant"
+            },
+            {
+              "kind": "field",
+              "name": "directory",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Directory for file-based icons. `name` becomes the file name.",
+              "attribute": "directory"
+            },
+            {
+              "kind": "field",
+              "name": "strokeWidth",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"1.5\"",
+              "description": "Stroke width. Heroicons outline only — the other sets ship a fixed weight.",
+              "attribute": "stroke-width"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "CSS size, e.g. `1.5rem`, `32px`. Sets `--loomi-icon-size`.",
+              "attribute": "size"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible label; when omitted the icon is `aria-hidden`.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "branded",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Render the icon on a rounded, primary-colored background badge.",
+              "attribute": "branded",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "shade",
+              "type": {
+                "text": "\"light\" | \"dark\""
+              },
+              "default": "\"light\"",
+              "description": "Badge background: a light primary tint, or a solid primary fill. Only applies when `branded`.",
+              "attribute": "shade"
+            },
+            {
+              "kind": "field",
+              "name": "radius",
+              "type": {
+                "text": "LoomiIconRadius"
+              },
+              "default": "\"medium\"",
+              "description": "Badge corner radius. Only applies when `branded`.",
+              "attribute": "radius",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "_diskIcon",
+              "type": {
+                "text": "DiskIconMarkup | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_diskRequest",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "fileIconUrl",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "renderContent",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Registered icon name (see `@loomidev/icons`).",
+              "fieldName": "name"
+            },
+            {
+              "name": "source",
+              "type": {
+                "text": "LoomiIconSource"
+              },
+              "default": "\"heroicons\"",
+              "description": "Icon set to render from.",
+              "fieldName": "source"
+            },
+            {
+              "name": "variant",
+              "type": {
+                "text": "LoomiIconType"
+              },
+              "default": "\"outline\"",
+              "description": "Visual style. Availability depends on `source` — see the README's attribute table.",
+              "fieldName": "variant"
+            },
+            {
+              "name": "directory",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Directory for file-based icons. `name` becomes the file name.",
+              "fieldName": "directory"
+            },
+            {
+              "name": "stroke-width",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"1.5\"",
+              "description": "Stroke width. Heroicons outline only — the other sets ship a fixed weight.",
+              "fieldName": "strokeWidth"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "CSS size, e.g. `1.5rem`, `32px`. Sets `--loomi-icon-size`.",
+              "fieldName": "size"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible label; when omitted the icon is `aria-hidden`.",
+              "fieldName": "label"
+            },
+            {
+              "name": "branded",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Render the icon on a rounded, primary-colored background badge.",
+              "fieldName": "branded"
+            },
+            {
+              "name": "shade",
+              "type": {
+                "text": "\"light\" | \"dark\""
+              },
+              "default": "\"light\"",
+              "description": "Badge background: a light primary tint, or a solid primary fill. Only applies when `branded`.",
+              "fieldName": "shade"
+            },
+            {
+              "name": "radius",
+              "type": {
+                "text": "LoomiIconRadius"
+              },
+              "default": "\"medium\"",
+              "description": "Badge corner radius. Only applies when `branded`.",
+              "fieldName": "radius"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-icon",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiIcon",
+          "declaration": {
+            "name": "LoomiIcon",
+            "module": "src/loomi-icon.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-icon",
+          "declaration": {
+            "name": "LoomiIcon",
+            "module": "src/loomi-icon.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

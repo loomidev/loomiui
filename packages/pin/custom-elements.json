@@ -1,0 +1,560 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiPin",
+          "declaration": {
+            "name": "LoomiPin",
+            "module": "./loomi-pin.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-pin.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-pin>` — a verification-code (PIN) input of N boxes. Form-associated: submits\nthe joined PIN under `name`.",
+          "name": "LoomiPin",
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "internals",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "instanceId",
+              "privacy": "private",
+              "readonly": true,
+              "description": "Falls back to a stable per-instance id when `name` is blank, so a `loomi-notification` toast (see `showError`) re-renders in place across repeated validation failures instead of stacking."
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "totalDigits",
+              "type": {
+                "text": "number"
+              },
+              "default": "4",
+              "attribute": "total-digits"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "\"small\" | \"big\""
+              },
+              "default": "\"small\"",
+              "attribute": "size"
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "LoomiPinVariant"
+              },
+              "default": "\"default\"",
+              "attribute": "variant"
+            },
+            {
+              "kind": "field",
+              "name": "separator",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "separator",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "hideDigits",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "hide-digits"
+            },
+            {
+              "kind": "field",
+              "name": "mask",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "mask"
+            },
+            {
+              "kind": "field",
+              "name": "errorMessage",
+              "default": "\"Verification code is invalid\"",
+              "attribute": "error-message",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "showErrorInline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-error-inline"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "invalid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "invalid",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "validating",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Show a spinner in place of the (empty) status slot while an async check is in flight.",
+              "attribute": "validating",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "valid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Show a green checkmark once an async check has passed.",
+              "attribute": "valid",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "digits",
+              "type": {
+                "text": "string[]"
+              },
+              "privacy": "private",
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "boxes",
+              "type": {
+                "text": "NodeListOf<HTMLInputElement>"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "pin",
+              "type": {
+                "text": "string"
+              },
+              "description": "The current PIN.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "code",
+              "type": {
+                "text": "string"
+              },
+              "deprecated": "Use `pin` instead.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "clear",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Clear all boxes and focus the first."
+            },
+            {
+              "kind": "method",
+              "name": "startValidating",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Show a spinner in the status slot while an async validation call is in flight."
+            },
+            {
+              "kind": "method",
+              "name": "showSuccess",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Show a green checkmark in the status slot once an async validation call passed."
+            },
+            {
+              "kind": "method",
+              "name": "showError",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "message",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Show the error state: every box border turns red (regardless of `error-message`) and,\non the valid→invalid transition, `error-message` (or `message`, if passed) surfaces —\ninline below the boxes when `show-error-inline` is set, otherwise as a\n`loomi-notification` toast. Pass `message` to override `error-message` for this call."
+            },
+            {
+              "kind": "method",
+              "name": "resetValidationState",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "resolvedErrorMessage",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "commit",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "masked",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "separatorIndex",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "renderBox",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "i",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onInput",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "i",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onKeydown",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "i",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onPaste",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "ClipboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderStatus",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "loomi-verify",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { pin, code }` when the last box is filled."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "total-digits",
+              "type": {
+                "text": "number"
+              },
+              "default": "4",
+              "fieldName": "totalDigits"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "\"small\" | \"big\""
+              },
+              "default": "\"small\"",
+              "fieldName": "size"
+            },
+            {
+              "name": "variant",
+              "type": {
+                "text": "LoomiPinVariant"
+              },
+              "default": "\"default\"",
+              "fieldName": "variant"
+            },
+            {
+              "name": "separator",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "separator"
+            },
+            {
+              "name": "hide-digits",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "hideDigits"
+            },
+            {
+              "name": "mask",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "mask"
+            },
+            {
+              "name": "error-message",
+              "default": "DEFAULT_ERROR_MESSAGE",
+              "fieldName": "errorMessage"
+            },
+            {
+              "name": "show-error-inline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showErrorInline"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "invalid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "invalid"
+            },
+            {
+              "name": "validating",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Show a spinner in place of the (empty) status slot while an async check is in flight.",
+              "fieldName": "validating"
+            },
+            {
+              "name": "valid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Show a green checkmark once an async check has passed.",
+              "fieldName": "valid"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-pin",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiPin",
+          "declaration": {
+            "name": "LoomiPin",
+            "module": "src/loomi-pin.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-pin",
+          "declaration": {
+            "name": "LoomiPin",
+            "module": "src/loomi-pin.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

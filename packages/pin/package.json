@@ -16,7 +16,8 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "custom-elements.json"
   ],
   "exports": {
     ".": {
@@ -54,5 +55,6 @@
     "verification-code",
     "otp",
     "pin"
-  ]
+  ],
+  "customElements": "custom-elements.json"
 }

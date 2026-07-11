@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiCenteredContent",
+          "declaration": {
+            "name": "LoomiCenteredContent",
+            "module": "./loomi-centered-content.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-centered-content.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-centered-content>` — vertically and horizontally centers its content. Handy for\nsign-in screens, empty pages and hero sections.",
+          "name": "LoomiCenteredContent",
+          "slots": [
+            {
+              "description": "The content to center.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "minHeight",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Minimum height of the centering area (any CSS length).",
+              "attribute": "min-height"
+            },
+            {
+              "kind": "field",
+              "name": "maxWidth",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Maximum width of the inner content (any CSS length).",
+              "attribute": "max-width"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "min-height",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Minimum height of the centering area (any CSS length).",
+              "fieldName": "minHeight"
+            },
+            {
+              "name": "max-width",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Maximum width of the inner content (any CSS length).",
+              "fieldName": "maxWidth"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-centered-content",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiCenteredContent",
+          "declaration": {
+            "name": "LoomiCenteredContent",
+            "module": "src/loomi-centered-content.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-centered-content",
+          "declaration": {
+            "name": "LoomiCenteredContent",
+            "module": "src/loomi-centered-content.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

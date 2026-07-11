@@ -1,0 +1,837 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiFab",
+          "declaration": {
+            "name": "LoomiFab",
+            "module": "./loomi-fab.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiFabItem",
+          "declaration": {
+            "name": "LoomiFabItem",
+            "module": "./loomi-fab.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiFabPlacement",
+          "declaration": {
+            "name": "LoomiFabPlacement",
+            "module": "./loomi-fab.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiFabDirection",
+          "declaration": {
+            "name": "LoomiFabDirection",
+            "module": "./loomi-fab.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiFabResolvedDirection",
+          "declaration": {
+            "name": "LoomiFabResolvedDirection",
+            "module": "./loomi-fab.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiFabTrigger",
+          "declaration": {
+            "name": "LoomiFabTrigger",
+            "module": "./loomi-fab.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiFabVariant",
+          "declaration": {
+            "name": "LoomiFabVariant",
+            "module": "./loomi-fab.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiFabSize",
+          "declaration": {
+            "name": "LoomiFabSize",
+            "module": "./loomi-fab.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiIconSource",
+          "declaration": {
+            "name": "LoomiIconSource",
+            "module": "@loomidev/icons"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-fab.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-fab-item>` — one action inside a `<loomi-fab>`'s speed-dial menu.",
+          "name": "LoomiFabItem",
+          "members": [
+            {
+              "kind": "field",
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Name of a built-in icon (same registry as `<loomi-icon>`).",
+              "attribute": "icon"
+            },
+            {
+              "kind": "field",
+              "name": "iconSource",
+              "type": {
+                "text": "LoomiIconSource | \"\""
+              },
+              "default": "\"\"",
+              "description": "Icon set override for just this item. Empty = inherit from the parent's `icon-source`.",
+              "attribute": "icon-source"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Visible text next to the icon.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Value reported on `event.detail.value` when this item is selected.",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disable this item — excluded from click, keyboard nav, and styled as inactive.",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "hostIconSource",
+              "type": {
+                "text": "LoomiIconSource"
+              },
+              "default": "\"heroicons\"",
+              "description": "Fallback icon source inherited from the parent `<loomi-fab>`. Set internally — not a public API."
+            },
+            {
+              "kind": "field",
+              "name": "hostIconsOnly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Pushed down from the parent `<loomi-fab>`'s `icons-only`. Set internally — not a public API."
+            },
+            {
+              "kind": "field",
+              "name": "hostTooltipPlacement",
+              "type": {
+                "text": "LoomiTooltipPlacement"
+              },
+              "default": "\"top\"",
+              "description": "Pushed down from the parent `<loomi-fab>`. Where the `icons-only` tooltip appears. Set internally — not a public API."
+            },
+            {
+              "kind": "field",
+              "name": "effectiveIconSource",
+              "type": {
+                "text": "LoomiIconSource"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "focusItem",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Move focus to this item's button. Used by `<loomi-fab>`'s roving keyboard nav."
+            },
+            {
+              "kind": "field",
+              "name": "onClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderPill",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "description": "Clicked (not disabled). `detail: { value, label }`, bubbles/composed.",
+              "name": "loomi-select"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Name of a built-in icon (same registry as `<loomi-icon>`).",
+              "fieldName": "icon"
+            },
+            {
+              "name": "icon-source",
+              "type": {
+                "text": "LoomiIconSource | \"\""
+              },
+              "default": "\"\"",
+              "description": "Icon set override for just this item. Empty = inherit from the parent's `icon-source`.",
+              "fieldName": "iconSource"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Visible text next to the icon.",
+              "fieldName": "label"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Value reported on `event.detail.value` when this item is selected.",
+              "fieldName": "value"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disable this item — excluded from click, keyboard nav, and styled as inactive.",
+              "fieldName": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-fab-item",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-fab>` — a floating action button. With no children it's a single action\nbutton; add `<loomi-fab-item>` children and it becomes a speed-dial menu.",
+          "name": "LoomiFab",
+          "slots": [
+            {
+              "description": "`<loomi-fab-item>` children.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "placement",
+              "type": {
+                "text": "LoomiFabPlacement"
+              },
+              "default": "\"bottom-right\"",
+              "description": "Which viewport corner to anchor to (`floating`), or which edge to align the menu to (`docked`).",
+              "attribute": "placement",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "direction",
+              "type": {
+                "text": "LoomiFabDirection"
+              },
+              "default": "\"\"",
+              "description": "Which way the speed-dial menu expands. Empty = infer from `placement` (bottom-* → up, top-* → down).",
+              "attribute": "direction",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "trigger",
+              "type": {
+                "text": "LoomiFabTrigger"
+              },
+              "default": "\"click\"",
+              "description": "How the speed-dial menu is triggered. `hover` still opens on click/focus too, for touch and keyboard.",
+              "attribute": "trigger"
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "LoomiFabVariant"
+              },
+              "default": "\"floating\"",
+              "description": "`floating` (default) anchors the button to a viewport corner. `docked` renders in normal flow.",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "LoomiFabSize"
+              },
+              "default": "\"regular\"",
+              "description": "Size preset for the trigger button and speed-dial item circles.",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "description": "Palette accent for the trigger and (softly) the item icons.",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"plus\"",
+              "description": "Name of a built-in icon (same registry as `<loomi-icon>`) shown on the trigger.",
+              "attribute": "icon"
+            },
+            {
+              "kind": "field",
+              "name": "iconSource",
+              "type": {
+                "text": "LoomiIconSource"
+              },
+              "default": "\"heroicons\"",
+              "description": "Default icon set for the trigger and every item — overridable per-item via `icon-source`.",
+              "attribute": "icon-source"
+            },
+            {
+              "kind": "field",
+              "name": "iconsOnly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Show only the icon on every item, with its `label` as a `<loomi-tooltip>` instead of visible text.",
+              "attribute": "icons-only",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible label for the trigger button and the menu. Defaults to a localized \"Actions\".",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Menu open state (reflected). Only meaningful when there are `<loomi-fab-item>` children.",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disable the trigger entirely.",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "closeOnSelect",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Close the menu after an item is selected.",
+              "attribute": "close-on-select"
+            },
+            {
+              "kind": "field",
+              "name": "backdrop",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Dim the rest of the page while the menu is open; clicking it closes the menu.",
+              "attribute": "backdrop"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Locale override for built-in aria labels.",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "hasItems",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "cleanupOutsideClick",
+              "type": {
+                "text": "(() => void) | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "hoverCloseTimer",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Open the speed-dial menu. No-op when disabled, empty, or already open."
+            },
+            {
+              "kind": "method",
+              "name": "hide",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Close the speed-dial menu."
+            },
+            {
+              "kind": "method",
+              "name": "toggle",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Toggle the speed-dial menu."
+            },
+            {
+              "kind": "field",
+              "name": "resolvedDirection",
+              "type": {
+                "text": "LoomiFabResolvedDirection"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "pillFlow",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "dir",
+                  "type": {
+                    "text": "LoomiFabResolvedDirection"
+                  }
+                }
+              ],
+              "description": "Flex-direction for each item's own icon/label row — always icon-then-label,\nhorizontally. For a vertically-stacked menu (`direction` up/down) it's reversed per\ncorner so the label extends away from the nearest screen edge instead of off-screen;\na horizontally-stacked menu (left/right) keeps a plain icon-left/label-right row\nregardless of corner, since the stack's own axis already reads left-to-right."
+            },
+            {
+              "kind": "method",
+              "name": "tooltipPlacementFor",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "LoomiTooltipPlacement"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "dir",
+                  "type": {
+                    "text": "LoomiFabResolvedDirection"
+                  }
+                }
+              ],
+              "description": "Where the `icons-only` tooltip opens — perpendicular to the stack's own axis so it\ndoesn't collide with the neighboring item, and away from the nearest screen edge."
+            },
+            {
+              "kind": "method",
+              "name": "getItems",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "LoomiFabItem[]"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "getEnabledItems",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "LoomiFabItem[]"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "syncItemDefaults",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "focusItemAt",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "focusTrigger",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onSlotChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onTriggerClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onItemSelect",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onHostMouseEnter",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onHostMouseLeave",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onHostFocusOut",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onKeyDown",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "dialClasses",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            }
+          ],
+          "events": [
+            {
+              "name": "open",
+              "type": {
+                "text": "Event"
+              },
+              "description": "The speed-dial menu opened. @fires close - It closed."
+            },
+            {
+              "name": "close",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "placement",
+              "type": {
+                "text": "LoomiFabPlacement"
+              },
+              "default": "\"bottom-right\"",
+              "description": "Which viewport corner to anchor to (`floating`), or which edge to align the menu to (`docked`).",
+              "fieldName": "placement"
+            },
+            {
+              "name": "direction",
+              "type": {
+                "text": "LoomiFabDirection"
+              },
+              "default": "\"\"",
+              "description": "Which way the speed-dial menu expands. Empty = infer from `placement` (bottom-* → up, top-* → down).",
+              "fieldName": "direction"
+            },
+            {
+              "name": "trigger",
+              "type": {
+                "text": "LoomiFabTrigger"
+              },
+              "default": "\"click\"",
+              "description": "How the speed-dial menu is triggered. `hover` still opens on click/focus too, for touch and keyboard.",
+              "fieldName": "trigger"
+            },
+            {
+              "name": "variant",
+              "type": {
+                "text": "LoomiFabVariant"
+              },
+              "default": "\"floating\"",
+              "description": "`floating` (default) anchors the button to a viewport corner. `docked` renders in normal flow.",
+              "fieldName": "variant"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "LoomiFabSize"
+              },
+              "default": "\"regular\"",
+              "description": "Size preset for the trigger button and speed-dial item circles.",
+              "fieldName": "size"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "description": "Palette accent for the trigger and (softly) the item icons.",
+              "fieldName": "color"
+            },
+            {
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"plus\"",
+              "description": "Name of a built-in icon (same registry as `<loomi-icon>`) shown on the trigger.",
+              "fieldName": "icon"
+            },
+            {
+              "name": "icon-source",
+              "type": {
+                "text": "LoomiIconSource"
+              },
+              "default": "\"heroicons\"",
+              "description": "Default icon set for the trigger and every item — overridable per-item via `icon-source`.",
+              "fieldName": "iconSource"
+            },
+            {
+              "name": "icons-only",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Show only the icon on every item, with its `label` as a `<loomi-tooltip>` instead of visible text.",
+              "fieldName": "iconsOnly"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible label for the trigger button and the menu. Defaults to a localized \"Actions\".",
+              "fieldName": "label"
+            },
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Menu open state (reflected). Only meaningful when there are `<loomi-fab-item>` children.",
+              "fieldName": "open"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disable the trigger entirely.",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "close-on-select",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Close the menu after an item is selected.",
+              "fieldName": "closeOnSelect"
+            },
+            {
+              "name": "backdrop",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Dim the rest of the page while the menu is open; clicking it closes the menu.",
+              "fieldName": "backdrop"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Locale override for built-in aria labels.",
+              "fieldName": "locale"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-fab",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiFabItem",
+          "declaration": {
+            "name": "LoomiFabItem",
+            "module": "src/loomi-fab.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-fab-item",
+          "declaration": {
+            "name": "LoomiFabItem",
+            "module": "src/loomi-fab.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiFab",
+          "declaration": {
+            "name": "LoomiFab",
+            "module": "src/loomi-fab.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-fab",
+          "declaration": {
+            "name": "LoomiFab",
+            "module": "src/loomi-fab.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

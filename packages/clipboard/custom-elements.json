@@ -1,0 +1,267 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiClipboard",
+          "declaration": {
+            "name": "LoomiClipboard",
+            "module": "./loomi-clipboard.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiClipboardStatus",
+          "declaration": {
+            "name": "LoomiClipboardStatus",
+            "module": "./loomi-clipboard.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-clipboard.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-clipboard>` — wraps text/content and appends a copy button.",
+          "name": "LoomiClipboard",
+          "slots": [
+            {
+              "description": "Text or one element whose text content should be copied.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Explicit clipboard value. When blank, the component copies slotted text content.",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "copyLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Copy to clipboard\"",
+              "description": "Accessible label for the icon button.",
+              "attribute": "copy-label"
+            },
+            {
+              "kind": "field",
+              "name": "copiedLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Copied\"",
+              "description": "Message shown briefly after a successful copy.",
+              "attribute": "copied-label"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disable the copy button.",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "status",
+              "type": {
+                "text": "LoomiClipboardStatus"
+              },
+              "privacy": "private",
+              "default": "\"idle\""
+            },
+            {
+              "kind": "field",
+              "name": "defaultSlot",
+              "type": {
+                "text": "HTMLSlotElement"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "feedbackTimer",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "clipboardValue",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "isCopied",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "setTemporaryStatus",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "status",
+                  "type": {
+                    "text": "LoomiClipboardStatus"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "writeToClipboard",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "copy",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderIcon",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "loomi-copied",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { value }` after text is copied."
+            },
+            {
+              "name": "loomi-copy-error",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { value, error }` when clipboard write fails."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Explicit clipboard value. When blank, the component copies slotted text content.",
+              "fieldName": "value"
+            },
+            {
+              "name": "copy-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Copy to clipboard\"",
+              "description": "Accessible label for the icon button.",
+              "fieldName": "copyLabel"
+            },
+            {
+              "name": "copied-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Copied\"",
+              "description": "Message shown briefly after a successful copy.",
+              "fieldName": "copiedLabel"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disable the copy button.",
+              "fieldName": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-clipboard",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiClipboard",
+          "declaration": {
+            "name": "LoomiClipboard",
+            "module": "src/loomi-clipboard.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-clipboard",
+          "declaration": {
+            "name": "LoomiClipboard",
+            "module": "src/loomi-clipboard.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

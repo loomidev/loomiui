@@ -1,0 +1,218 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "src/loomi-arc-meter.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-arc-meter.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-arc-meter>` — a semi-circle meter with evenly spaced marker stops.",
+          "name": "LoomiArcMeter",
+          "members": [
+            {
+              "kind": "field",
+              "name": "markers",
+              "type": {
+                "text": "number"
+              },
+              "default": "4",
+              "attribute": "markers"
+            },
+            {
+              "kind": "field",
+              "name": "activeMarker",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "attribute": "active-marker"
+            },
+            {
+              "kind": "field",
+              "name": "markerColor",
+              "default": "\"error\"",
+              "attribute": "marker-color",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Low\"",
+              "attribute": "title"
+            },
+            {
+              "kind": "field",
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Protection level\"",
+              "attribute": "description"
+            },
+            {
+              "kind": "field",
+              "name": "markerCount",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "selectedMarker",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "markerRatio",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "number"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "marker",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "count",
+                  "default": "this.markerCount"
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "resolvedMarkerColor",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "ariaText",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "renderTrackSegments",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "SVGTemplateResult[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "count",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            }
+          ],
+          "attributes": [
+            {
+              "name": "markers",
+              "type": {
+                "text": "number"
+              },
+              "default": "4",
+              "fieldName": "markers"
+            },
+            {
+              "name": "active-marker",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "activeMarker"
+            },
+            {
+              "name": "marker-color",
+              "default": "DEFAULT_MARKER_COLOR",
+              "fieldName": "markerColor"
+            },
+            {
+              "name": "title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Low\"",
+              "fieldName": "title"
+            },
+            {
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Protection level\"",
+              "fieldName": "description"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-arc-meter",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiArcMeter",
+          "declaration": {
+            "name": "LoomiArcMeter",
+            "module": "src/loomi-arc-meter.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-arc-meter",
+          "declaration": {
+            "name": "LoomiArcMeter",
+            "module": "src/loomi-arc-meter.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

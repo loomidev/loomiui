@@ -16,7 +16,8 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "custom-elements.json"
   ],
   "exports": {
     ".": {
@@ -46,5 +47,6 @@
     "heroicons",
     "iconsax",
     "untitled-ui"
-  ]
+  ],
+  "customElements": "custom-elements.json"
 }

@@ -16,7 +16,8 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "custom-elements.json"
   ],
   "exports": {
     ".": {
@@ -53,5 +54,6 @@
     "form",
     "toggle",
     "switch"
-  ]
+  ],
+  "customElements": "custom-elements.json"
 }

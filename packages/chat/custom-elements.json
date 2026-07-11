@@ -1,0 +1,1327 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/chat-utils.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "PARTICIPANT_COLORS",
+          "default": "[ \"success\", \"warning\", \"error\", \"gray\", \"secondary\", \"primary\", ] as const satisfies readonly LoomiColor[]"
+        },
+        {
+          "kind": "function",
+          "name": "initialsFor",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "colorForParticipant",
+          "return": {
+            "type": {
+              "text": "LoomiChatParticipantColor"
+            }
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "explicit",
+              "optional": true,
+              "type": {
+                "text": "LoomiChatParticipantColor | string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "bubbleVars",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiChatParticipantColor | string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "resolveParticipant",
+          "return": {
+            "type": {
+              "text": "LoomiChatParticipant"
+            }
+          },
+          "parameters": [
+            {
+              "name": "participants",
+              "type": {
+                "text": "LoomiChatParticipant[]"
+              }
+            },
+            {
+              "name": "senderId",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "resolveSenderId",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "message",
+              "type": {
+                "text": "Pick<LoomiChatMessageData, \"senderId\" | \"role\">"
+              }
+            },
+            {
+              "name": "currentUserId",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PARTICIPANT_COLORS",
+          "declaration": {
+            "name": "PARTICIPANT_COLORS",
+            "module": "src/chat-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "initialsFor",
+          "declaration": {
+            "name": "initialsFor",
+            "module": "src/chat-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "colorForParticipant",
+          "declaration": {
+            "name": "colorForParticipant",
+            "module": "src/chat-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "bubbleVars",
+          "declaration": {
+            "name": "bubbleVars",
+            "module": "src/chat-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "resolveParticipant",
+          "declaration": {
+            "name": "resolveParticipant",
+            "module": "src/chat-utils.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "resolveSenderId",
+          "declaration": {
+            "name": "resolveSenderId",
+            "module": "src/chat-utils.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiChatMessage",
+          "declaration": {
+            "name": "LoomiChatMessage",
+            "module": "./loomi-chat-message.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiChatWindow",
+          "declaration": {
+            "name": "LoomiChatWindow",
+            "module": "./loomi-chat-window.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiChatWindowMessage",
+          "declaration": {
+            "name": "LoomiChatWindowMessage",
+            "module": "./loomi-chat-window.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "PARTICIPANT_COLORS",
+          "declaration": {
+            "name": "PARTICIPANT_COLORS",
+            "module": "./chat-utils.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "bubbleVars",
+          "declaration": {
+            "name": "bubbleVars",
+            "module": "./chat-utils.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "colorForParticipant",
+          "declaration": {
+            "name": "colorForParticipant",
+            "module": "./chat-utils.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "initialsFor",
+          "declaration": {
+            "name": "initialsFor",
+            "module": "./chat-utils.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "resolveParticipant",
+          "declaration": {
+            "name": "resolveParticipant",
+            "module": "./chat-utils.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "resolveSenderId",
+          "declaration": {
+            "name": "resolveSenderId",
+            "module": "./chat-utils.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiChatAttachment",
+          "declaration": {
+            "name": "LoomiChatAttachment",
+            "module": "./chat-utils.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiChatConversation",
+          "declaration": {
+            "name": "LoomiChatConversation",
+            "module": "./chat-utils.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiChatMessageData",
+          "declaration": {
+            "name": "LoomiChatMessageData",
+            "module": "./chat-utils.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiChatParticipant",
+          "declaration": {
+            "name": "LoomiChatParticipant",
+            "module": "./chat-utils.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiChatParticipantColor",
+          "declaration": {
+            "name": "LoomiChatParticipantColor",
+            "module": "./chat-utils.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-chat-message.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-chat-message>` — a chat bubble with optional avatar, sender label, and tail.",
+          "name": "LoomiChatMessage",
+          "members": [
+            {
+              "kind": "field",
+              "name": "text",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "text"
+            },
+            {
+              "kind": "field",
+              "name": "sender",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "sender"
+            },
+            {
+              "kind": "field",
+              "name": "time",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "time"
+            },
+            {
+              "kind": "field",
+              "name": "senderId",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "sender-id"
+            },
+            {
+              "kind": "field",
+              "name": "image",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "image"
+            },
+            {
+              "kind": "field",
+              "name": "avatarLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "avatar-label"
+            },
+            {
+              "kind": "field",
+              "name": "bubbleColor",
+              "type": {
+                "text": "LoomiChatParticipantColor | string"
+              },
+              "default": "\"\"",
+              "attribute": "bubble-color"
+            },
+            {
+              "kind": "field",
+              "name": "outgoing",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "outgoing",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "showAvatar",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-avatar"
+            },
+            {
+              "kind": "field",
+              "name": "showSender",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-sender"
+            },
+            {
+              "kind": "field",
+              "name": "attachment",
+              "type": {
+                "text": "LoomiChatAttachment | undefined"
+              },
+              "description": "Optional file card rendered under the bubble (or on its own when `text` is empty).",
+              "attribute": "attachment"
+            },
+            {
+              "kind": "method",
+              "name": "renderAttachment",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "text",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "text"
+            },
+            {
+              "name": "sender",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "sender"
+            },
+            {
+              "name": "time",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "time"
+            },
+            {
+              "name": "sender-id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "senderId"
+            },
+            {
+              "name": "image",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "image"
+            },
+            {
+              "name": "avatar-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "avatarLabel"
+            },
+            {
+              "name": "bubble-color",
+              "type": {
+                "text": "LoomiChatParticipantColor | string"
+              },
+              "default": "\"\"",
+              "fieldName": "bubbleColor"
+            },
+            {
+              "name": "outgoing",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "outgoing"
+            },
+            {
+              "name": "show-avatar",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showAvatar"
+            },
+            {
+              "name": "show-sender",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showSender"
+            },
+            {
+              "name": "attachment",
+              "type": {
+                "text": "LoomiChatAttachment | undefined"
+              },
+              "description": "Optional file card rendered under the bubble (or on its own when `text` is empty).",
+              "fieldName": "attachment"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-chat-message",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiChatMessage",
+          "declaration": {
+            "name": "LoomiChatMessage",
+            "module": "src/loomi-chat-message.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-chat-message",
+          "declaration": {
+            "name": "LoomiChatMessage",
+            "module": "src/loomi-chat-message.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-chat-window.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-chat-window>` — a chat card with transcript, participant avatars, and composer.\nSet `show-conversations` and assign `conversations` to add an inbox-style list pane on\nthe left; `conversations-avatars-only` collapses that pane to a slim avatar rail.",
+          "name": "LoomiChatWindow",
+          "slots": [
+            {
+              "description": "Custom markup (filters, compose button) above the conversation list.",
+              "name": "conversations-header"
+            },
+            {
+              "description": "Action buttons in the chat header, before the reset button.",
+              "name": "header-actions"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"New Chat\"",
+              "attribute": "title"
+            },
+            {
+              "kind": "field",
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"How can I help you today?\"",
+              "attribute": "description"
+            },
+            {
+              "kind": "field",
+              "name": "emptyTitle",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Morning!\"",
+              "attribute": "empty-title"
+            },
+            {
+              "kind": "field",
+              "name": "emptyDescription",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"What are we working on today? Press send to start a new conversation.\"",
+              "attribute": "empty-description"
+            },
+            {
+              "kind": "field",
+              "name": "inputPlaceholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Message…\"",
+              "attribute": "input-placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "footerNote",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "footer-note"
+            },
+            {
+              "kind": "field",
+              "name": "windowHeight",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"35rem\"",
+              "attribute": "window-height"
+            },
+            {
+              "kind": "field",
+              "name": "currentUserId",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"you\"",
+              "attribute": "current-user-id"
+            },
+            {
+              "kind": "field",
+              "name": "participants",
+              "type": {
+                "text": "LoomiChatParticipant[]"
+              },
+              "default": "[]",
+              "attribute": "participants"
+            },
+            {
+              "kind": "field",
+              "name": "messages",
+              "type": {
+                "text": "LoomiChatWindowMessage[]"
+              },
+              "default": "[]",
+              "attribute": "messages"
+            },
+            {
+              "kind": "field",
+              "name": "inputRows",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "attribute": "input-rows"
+            },
+            {
+              "kind": "field",
+              "name": "inputMaxRows",
+              "type": {
+                "text": "number"
+              },
+              "default": "5",
+              "attribute": "input-max-rows"
+            },
+            {
+              "kind": "field",
+              "name": "busy",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "busy",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "typing",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "typing",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "loadingText",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "loading-text"
+            },
+            {
+              "kind": "field",
+              "name": "loadingIcon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "loading-icon"
+            },
+            {
+              "kind": "field",
+              "name": "autoScroll",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "auto-scroll"
+            },
+            {
+              "kind": "field",
+              "name": "showReset",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-reset"
+            },
+            {
+              "kind": "field",
+              "name": "showAvatars",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-avatars"
+            },
+            {
+              "kind": "field",
+              "name": "showHeaderAvatars",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-header-avatars"
+            },
+            {
+              "kind": "field",
+              "name": "readOnly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "read-only"
+            },
+            {
+              "kind": "field",
+              "name": "conversations",
+              "type": {
+                "text": "LoomiChatConversation[]"
+              },
+              "default": "[]",
+              "attribute": "conversations"
+            },
+            {
+              "kind": "field",
+              "name": "activeConversationId",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "active-conversation-id"
+            },
+            {
+              "kind": "field",
+              "name": "showConversations",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-conversations"
+            },
+            {
+              "kind": "field",
+              "name": "conversationsAvatarsOnly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Collapse the conversation pane to an avatar rail (names move into tooltips).",
+              "attribute": "conversations-avatars-only"
+            },
+            {
+              "kind": "field",
+              "name": "draft",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "showJumpButton",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "transcriptEl",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "inputEl",
+              "type": {
+                "text": "HTMLTextAreaElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "fileInputEl",
+              "type": {
+                "text": "HTMLInputElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "pictureInputEl",
+              "type": {
+                "text": "HTMLInputElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "pinnedToBottom",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "resizeObserver",
+              "type": {
+                "text": "ResizeObserver | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "appendMessage",
+              "return": {
+                "type": {
+                  "text": "LoomiChatWindowMessage"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "message",
+                  "type": {
+                    "text": "Omit<LoomiChatWindowMessage, \"id\"> & { id?: string }"
+                  }
+                }
+              ],
+              "description": "Append a message to the transcript."
+            },
+            {
+              "kind": "method",
+              "name": "updateMessageText",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "id",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "text",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "reset",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "scrollToBottom",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "behavior",
+                  "default": "\"smooth\"",
+                  "type": {
+                    "text": "ScrollBehavior"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "roster",
+              "type": {
+                "text": "LoomiChatParticipant[]"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "showMessageAvatars",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "onTranscriptScroll",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onDraftInput",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "syncComposerHeight",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onSubmit",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onReset",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "chooseAttachment",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "type",
+                  "type": {
+                    "text": "\"file\" | \"picture\" | \"user\""
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "onAttachmentPicked",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onRecord",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onComposerKeydown",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderHeaderAvatars",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "onConversationClick",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "conversation",
+                  "type": {
+                    "text": "LoomiChatConversation"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderConversationRow",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "conversation",
+                  "type": {
+                    "text": "LoomiChatConversation"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderConversations",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderMessages",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderTypingIndicator",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "loomi-reset",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "when the conversation is reset."
+            },
+            {
+              "name": "loomi-add-user",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "loomi-conversation-select",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { conversation }` when a conversation row is clicked."
+            },
+            {
+              "description": "`detail: { message: LoomiChatWindowMessage }` when the current user sends.",
+              "name": "loomi-send"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"New Chat\"",
+              "fieldName": "title"
+            },
+            {
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"How can I help you today?\"",
+              "fieldName": "description"
+            },
+            {
+              "name": "empty-title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Morning!\"",
+              "fieldName": "emptyTitle"
+            },
+            {
+              "name": "empty-description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"What are we working on today? Press send to start a new conversation.\"",
+              "fieldName": "emptyDescription"
+            },
+            {
+              "name": "input-placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Message…\"",
+              "fieldName": "inputPlaceholder"
+            },
+            {
+              "name": "footer-note",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "footerNote"
+            },
+            {
+              "name": "window-height",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"35rem\"",
+              "fieldName": "windowHeight"
+            },
+            {
+              "name": "current-user-id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"you\"",
+              "fieldName": "currentUserId"
+            },
+            {
+              "name": "participants",
+              "type": {
+                "text": "LoomiChatParticipant[]"
+              },
+              "default": "[]",
+              "fieldName": "participants"
+            },
+            {
+              "name": "messages",
+              "type": {
+                "text": "LoomiChatWindowMessage[]"
+              },
+              "default": "[]",
+              "fieldName": "messages"
+            },
+            {
+              "name": "input-rows",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "inputRows"
+            },
+            {
+              "name": "input-max-rows",
+              "type": {
+                "text": "number"
+              },
+              "default": "5",
+              "fieldName": "inputMaxRows"
+            },
+            {
+              "name": "busy",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "busy"
+            },
+            {
+              "name": "typing",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "typing"
+            },
+            {
+              "name": "loading-text",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "loadingText"
+            },
+            {
+              "name": "loading-icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "loadingIcon"
+            },
+            {
+              "name": "auto-scroll",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "autoScroll"
+            },
+            {
+              "name": "show-reset",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showReset"
+            },
+            {
+              "name": "show-avatars",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showAvatars"
+            },
+            {
+              "name": "show-header-avatars",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showHeaderAvatars"
+            },
+            {
+              "name": "read-only",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "readOnly"
+            },
+            {
+              "name": "conversations",
+              "type": {
+                "text": "LoomiChatConversation[]"
+              },
+              "default": "[]",
+              "fieldName": "conversations"
+            },
+            {
+              "name": "active-conversation-id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "activeConversationId"
+            },
+            {
+              "name": "show-conversations",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showConversations"
+            },
+            {
+              "name": "conversations-avatars-only",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Collapse the conversation pane to an avatar rail (names move into tooltips).",
+              "fieldName": "conversationsAvatarsOnly"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-chat-window",
+          "customElement": true
+        },
+        {
+          "kind": "variable",
+          "name": "senderId"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiChatWindow",
+          "declaration": {
+            "name": "LoomiChatWindow",
+            "module": "src/loomi-chat-window.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-chat-window",
+          "declaration": {
+            "name": "LoomiChatWindow",
+            "module": "src/loomi-chat-window.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

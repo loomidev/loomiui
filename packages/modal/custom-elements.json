@@ -1,0 +1,573 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiModal",
+          "declaration": {
+            "name": "LoomiModal",
+            "module": "./loomi-modal.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "showLoomiModal",
+          "declaration": {
+            "name": "showLoomiModal",
+            "module": "./loomi-modal.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "hideLoomiModal",
+          "declaration": {
+            "name": "hideLoomiModal",
+            "module": "./loomi-modal.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiModalType",
+          "declaration": {
+            "name": "LoomiModalType",
+            "module": "./loomi-modal.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiModalSize",
+          "declaration": {
+            "name": "LoomiModalSize",
+            "module": "./loomi-modal.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-modal.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "showLoomiModal",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Open a modal by its `name`."
+        },
+        {
+          "kind": "function",
+          "name": "hideLoomiModal",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Close a modal by its `name`."
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-modal>` — an overlay dialog. Open/close via `name` with `showLoomiModal()` /\n`hideLoomiModal()`, or the instance `show()` / `hide()` methods.",
+          "name": "LoomiModal",
+          "slots": [
+            {
+              "description": "The modal body.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "title"
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "LoomiModalType"
+              },
+              "default": "\"\"",
+              "attribute": "type"
+            },
+            {
+              "kind": "field",
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "icon"
+            },
+            {
+              "kind": "field",
+              "name": "iconSource",
+              "type": {
+                "text": "LoomiIconSource"
+              },
+              "default": "\"heroicons\"",
+              "attribute": "icon-source"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "LoomiModalSize"
+              },
+              "default": "\"medium\"",
+              "attribute": "size"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "okButtonLabel",
+              "default": "\"Okay\"",
+              "attribute": "ok-button-label",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "cancelButtonLabel",
+              "default": "\"Cancel\"",
+              "attribute": "cancel-button-label",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "showActionButtons",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-action-buttons"
+            },
+            {
+              "kind": "field",
+              "name": "showCloseIcon",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-close-icon"
+            },
+            {
+              "kind": "field",
+              "name": "backdropCanClose",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "backdrop-can-close"
+            },
+            {
+              "kind": "field",
+              "name": "closeAfterAction",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "close-after-action"
+            },
+            {
+              "kind": "field",
+              "name": "preventScroll",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "prevent-scroll"
+            },
+            {
+              "kind": "field",
+              "name": "stretchActionButtons",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "stretch-action-buttons"
+            },
+            {
+              "kind": "field",
+              "name": "alignButtons",
+              "type": {
+                "text": "\"left\" | \"center\" | \"right\""
+              },
+              "default": "\"right\"",
+              "attribute": "align-buttons"
+            },
+            {
+              "kind": "field",
+              "name": "blurSize",
+              "type": {
+                "text": "\"none\" | \"small\" | \"medium\" | \"large\" | \"xl\" | \"omg\""
+              },
+              "default": "\"medium\"",
+              "attribute": "blur-size"
+            },
+            {
+              "kind": "field",
+              "name": "previouslyFocused",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "privacy": "private",
+              "default": "null",
+              "description": "The element focused before `show()` was called, restored when the modal closes."
+            },
+            {
+              "kind": "field",
+              "name": "hasScrollLock",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "reparent",
+              "privacy": "private",
+              "default": "new OverlayReparent(this)"
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "hide",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "syncScrollLock",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "releaseScrollLock",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "getFocusable",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement[]"
+                }
+              },
+              "description": "Focusable elements in template order: close button, slotted body, footer buttons."
+            },
+            {
+              "kind": "method",
+              "name": "waitForActionButtons",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onKey",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onBackdrop",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onOk",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onCancel",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "name": "open",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "close",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "description": "Primary button clicked. @fires cancel - Secondary button clicked. @fires close - Dismissed.",
+              "name": "ok"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            },
+            {
+              "name": "title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "title"
+            },
+            {
+              "name": "type",
+              "type": {
+                "text": "LoomiModalType"
+              },
+              "default": "\"\"",
+              "fieldName": "type"
+            },
+            {
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "icon"
+            },
+            {
+              "name": "icon-source",
+              "type": {
+                "text": "LoomiIconSource"
+              },
+              "default": "\"heroicons\"",
+              "fieldName": "iconSource"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "LoomiModalSize"
+              },
+              "default": "\"medium\"",
+              "fieldName": "size"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "open"
+            },
+            {
+              "name": "ok-button-label",
+              "default": "DEFAULT_OK_LABEL",
+              "fieldName": "okButtonLabel"
+            },
+            {
+              "name": "cancel-button-label",
+              "default": "DEFAULT_CANCEL_LABEL",
+              "fieldName": "cancelButtonLabel"
+            },
+            {
+              "name": "show-action-buttons",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showActionButtons"
+            },
+            {
+              "name": "show-close-icon",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showCloseIcon"
+            },
+            {
+              "name": "backdrop-can-close",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "backdropCanClose"
+            },
+            {
+              "name": "close-after-action",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "closeAfterAction"
+            },
+            {
+              "name": "prevent-scroll",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "preventScroll"
+            },
+            {
+              "name": "stretch-action-buttons",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "stretchActionButtons"
+            },
+            {
+              "name": "align-buttons",
+              "type": {
+                "text": "\"left\" | \"center\" | \"right\""
+              },
+              "default": "\"right\"",
+              "fieldName": "alignButtons"
+            },
+            {
+              "name": "blur-size",
+              "type": {
+                "text": "\"none\" | \"small\" | \"medium\" | \"large\" | \"xl\" | \"omg\""
+              },
+              "default": "\"medium\"",
+              "fieldName": "blurSize"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-modal",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "showLoomiModal",
+          "declaration": {
+            "name": "showLoomiModal",
+            "module": "src/loomi-modal.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "hideLoomiModal",
+          "declaration": {
+            "name": "hideLoomiModal",
+            "module": "src/loomi-modal.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiModal",
+          "declaration": {
+            "name": "LoomiModal",
+            "module": "src/loomi-modal.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-modal",
+          "declaration": {
+            "name": "LoomiModal",
+            "module": "src/loomi-modal.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

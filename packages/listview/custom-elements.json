@@ -1,0 +1,188 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiListviewItem",
+          "declaration": {
+            "name": "LoomiListviewItem",
+            "module": "./loomi-listview.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiListview",
+          "declaration": {
+            "name": "LoomiListview",
+            "module": "./loomi-listview.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-listview.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-listview-item>` — a single list row. Use inside `<loomi-listview>`.",
+          "name": "LoomiListviewItem",
+          "slots": [
+            {
+              "description": "Row content.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "compact",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "compact",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "asFlex",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "as-flex",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "compact",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "compact"
+            },
+            {
+              "name": "as-flex",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "asFlex"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-listview-item",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-listview>` — a divided list of `<loomi-listview-item>` rows.",
+          "name": "LoomiListview",
+          "slots": [
+            {
+              "description": "`<loomi-listview-item>` children.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "transparent",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "transparent",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "compact",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "compact",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "sync",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "transparent",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "transparent"
+            },
+            {
+              "name": "compact",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "compact"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-listview",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiListviewItem",
+          "declaration": {
+            "name": "LoomiListviewItem",
+            "module": "src/loomi-listview.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-listview-item",
+          "declaration": {
+            "name": "LoomiListviewItem",
+            "module": "src/loomi-listview.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiListview",
+          "declaration": {
+            "name": "LoomiListview",
+            "module": "src/loomi-listview.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-listview",
+          "declaration": {
+            "name": "LoomiListview",
+            "module": "src/loomi-listview.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

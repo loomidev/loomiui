@@ -1,0 +1,555 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiTimepicker",
+          "declaration": {
+            "name": "LoomiTimepicker",
+            "module": "./loomi-timepicker.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-timepicker.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-timepicker>` — pick a time. `popup` (input + panel) or `inline`. 12/24-hour.\nForm-associated: submits a formatted time (e.g. `3:25PM` or `03:25`) under `name`.",
+          "name": "LoomiTimepicker",
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "internals",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "validationVisible",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tpStyle",
+              "type": {
+                "text": "\"popup\" | \"inline\" | \"clock\""
+              },
+              "default": "\"popup\"",
+              "description": "`popup` (input + panel) or `inline`. Attribute is `tp-style` (`style` is reserved).",
+              "attribute": "tp-style"
+            },
+            {
+              "kind": "field",
+              "name": "format",
+              "type": {
+                "text": "\"12\" | \"24\""
+              },
+              "default": "\"12\"",
+              "attribute": "format"
+            },
+            {
+              "kind": "field",
+              "name": "selectedValue",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "selected-value"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "default": "\"HH:MM\"",
+              "attribute": "placeholder",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "LoomiTimepickerSize"
+              },
+              "default": "\"medium\"",
+              "attribute": "size"
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "LoomiTimepickerVariant"
+              },
+              "default": "\"default\"",
+              "attribute": "variant"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "invalid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "invalid",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "showFocusRing",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-focus-ring"
+            },
+            {
+              "kind": "field",
+              "name": "hour",
+              "type": {
+                "text": "number | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "minute",
+              "type": {
+                "text": "number | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "ampm",
+              "type": {
+                "text": "\"AM\" | \"PM\""
+              },
+              "privacy": "private",
+              "default": "\"AM\""
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "parsed",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "cleanup",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "clockModalEl",
+              "type": {
+                "text": "LoomiModal | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "parse",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "v",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "The formatted time, or \"\" if incomplete.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "commit",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "validate",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "syncValidity",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "showInvalid",
+                  "default": "this.validationVisible"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "showValidation",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "toggle",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "onFieldClick",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderSelects",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "selectClockHour",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "hour",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "selectClockMinute",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "minute",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "toggleFormat",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Toggles 12h/24h format from the clock's center button, converting the currently\nselected hour (and am/pm) so the underlying time doesn't change."
+            },
+            {
+              "kind": "method",
+              "name": "onMinuteRingClick",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "MouseEvent"
+                  }
+                }
+              ],
+              "description": "Maps a click anywhere on the minute ring's background to the nearest of the 60\nminutes, so precise values between the 5-minute marks are reachable by mouse."
+            },
+            {
+              "kind": "method",
+              "name": "renderClock",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { value }` when the time changes."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            },
+            {
+              "name": "tp-style",
+              "type": {
+                "text": "\"popup\" | \"inline\" | \"clock\""
+              },
+              "default": "\"popup\"",
+              "description": "`popup` (input + panel) or `inline`. Attribute is `tp-style` (`style` is reserved).",
+              "fieldName": "tpStyle"
+            },
+            {
+              "name": "format",
+              "type": {
+                "text": "\"12\" | \"24\""
+              },
+              "default": "\"12\"",
+              "fieldName": "format"
+            },
+            {
+              "name": "selected-value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "selectedValue"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "placeholder",
+              "default": "DEFAULT_PLACEHOLDER",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "LoomiTimepickerSize"
+              },
+              "default": "\"medium\"",
+              "fieldName": "size"
+            },
+            {
+              "name": "variant",
+              "type": {
+                "text": "LoomiTimepickerVariant"
+              },
+              "default": "\"default\"",
+              "fieldName": "variant"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "invalid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "invalid"
+            },
+            {
+              "name": "show-focus-ring",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showFocusRing"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-timepicker",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiTimepicker",
+          "declaration": {
+            "name": "LoomiTimepicker",
+            "module": "src/loomi-timepicker.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-timepicker",
+          "declaration": {
+            "name": "LoomiTimepicker",
+            "module": "src/loomi-timepicker.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

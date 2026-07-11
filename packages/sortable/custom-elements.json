@@ -1,0 +1,920 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiSortable",
+          "declaration": {
+            "name": "LoomiSortable",
+            "module": "./loomi-sortable.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSortableGroup",
+          "declaration": {
+            "name": "LoomiSortableGroup",
+            "module": "./loomi-sortable.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSortableGroupOption",
+          "declaration": {
+            "name": "LoomiSortableGroupOption",
+            "module": "./loomi-sortable.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSortableItem",
+          "declaration": {
+            "name": "LoomiSortableItem",
+            "module": "./loomi-sortable.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-sortable.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-sortable>` — a SortableJS-inspired drag-and-drop list. Provide rows via\nthe `items` array (`{ id, label, meta?, locked?, filtered?, className? }`). Give\ntwo or more lists the same non-empty `group` to let users drag items between them.\n\nForm-associated: when `name` is set, the host submits the current order (JSON array\nof ids) like a native form control.",
+          "name": "LoomiSortable",
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "internals",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "rowRects",
+              "privacy": "private",
+              "default": "new Map<string, DOMRect>()"
+            },
+            {
+              "kind": "field",
+              "name": "items",
+              "type": {
+                "text": "LoomiSortableItem[]"
+              },
+              "default": "[]",
+              "attribute": "items"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Form-control name; when set, the host submits the order as a JSON array of ids.",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "\"simple\" | \"shared\""
+              },
+              "default": "\"simple\"",
+              "description": "Kept for backwards compatibility; setting a non-empty `group` is enough to share lists.",
+              "attribute": "type"
+            },
+            {
+              "kind": "field",
+              "name": "group",
+              "type": {
+                "text": "LoomiSortableGroupOption"
+              },
+              "default": "\"\"",
+              "description": "SortableJS-style group name or object (`{ name, pull, put }`) for shared lists.",
+              "attribute": "group"
+            },
+            {
+              "kind": "field",
+              "name": "clone",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Leave dragged item(s) in place when dropped into another shared list. Alias for `group.pull = \"clone\"`.",
+              "attribute": "clone"
+            },
+            {
+              "kind": "field",
+              "name": "sortable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Enable or disable drag-starting from this list. The list still accepts incoming transfers when `false`.",
+              "attribute": "sortable"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "sort",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Enable or disable sorting within this list. Items may still be dragged out when `false`.",
+              "attribute": "sort"
+            },
+            {
+              "kind": "field",
+              "name": "filter",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "SortableJS-style selector for rows/elements that cannot be dragged, e.g. `.filtered`.",
+              "attribute": "filter"
+            },
+            {
+              "kind": "field",
+              "name": "handle",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "SortableJS-style handle selector. Any non-empty value enables the built-in row handle.",
+              "attribute": "handle"
+            },
+            {
+              "kind": "field",
+              "name": "hasHandle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Drag by a dedicated handle instead of the whole row surface.",
+              "attribute": "has-handle"
+            },
+            {
+              "kind": "field",
+              "name": "handleIcon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"bars-3\"",
+              "description": "Icon name (from `@loomidev/icons`) used for the drag handle when handle mode is enabled.",
+              "attribute": "handle-icon"
+            },
+            {
+              "kind": "field",
+              "name": "multidrag",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Backwards-compatible multi-drag flag.",
+              "attribute": "multidrag"
+            },
+            {
+              "kind": "field",
+              "name": "multiDrag",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "SortableJS-style camelCase multi-drag flag, exposed as the `multi-drag` attribute.",
+              "attribute": "multi-drag"
+            },
+            {
+              "kind": "field",
+              "name": "selectedClass",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"selected\"",
+              "description": "Extra class applied to selected rows in multi-drag mode.",
+              "attribute": "selected-class"
+            },
+            {
+              "kind": "field",
+              "name": "swap",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Swap the dropped row with the row it lands on instead of shifting rows in between.",
+              "attribute": "swap"
+            },
+            {
+              "kind": "field",
+              "name": "swapClass",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"highlight\"",
+              "description": "Extra class applied to the hovered row in swap mode.",
+              "attribute": "swap-class"
+            },
+            {
+              "kind": "field",
+              "name": "animation",
+              "type": {
+                "text": "number"
+              },
+              "default": "150",
+              "description": "Reorder animation duration in ms. `0` disables the animation.",
+              "attribute": "animation"
+            },
+            {
+              "kind": "field",
+              "name": "dragIndex",
+              "type": {
+                "text": "number | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "overIndex",
+              "type": {
+                "text": "number | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "dragOverContainer",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "selectedIds",
+              "privacy": "private",
+              "default": "new Set<string>()"
+            },
+            {
+              "kind": "field",
+              "name": "order",
+              "type": {
+                "text": "string[]"
+              },
+              "description": "Current order of ids.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "captureRects",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "playFlip",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "isMultiDrag",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "handleMode",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "normalizedGroup",
+              "type": {
+                "text": "LoomiSortableGroup"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "groupName",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "optionAllows",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "option",
+                  "type": {
+                    "text": "boolean | \"clone\" | string | string[] | undefined"
+                  }
+                },
+                {
+                  "name": "peerGroup",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "sameGroup",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "canPullTo",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "target",
+                  "type": {
+                    "text": "LoomiSortable"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "canPutFrom",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "source",
+                  "type": {
+                    "text": "LoomiSortable"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "shouldCloneTransfer",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "acceptsTransferFrom",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "other",
+                  "type": {
+                    "text": "LoomiSortable"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "rowClasses",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "item",
+                  "type": {
+                    "text": "LoomiSortableItem"
+                  }
+                },
+                {
+                  "name": "i",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "locked",
+                  "type": {
+                    "text": "boolean"
+                  }
+                },
+                {
+                  "name": "filtered",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "itemFilteredByData",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "item",
+                  "type": {
+                    "text": "LoomiSortableItem"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "rowMatchesFilter",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "HTMLElement"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "emitFilter",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "item",
+                  "type": {
+                    "text": "LoomiSortableItem"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onRowClick",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "item",
+                  "type": {
+                    "text": "LoomiSortableItem"
+                  }
+                },
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "MouseEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onDragStart",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "i",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "DragEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onDragOver",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "i",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "DragEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onContainerDragOver",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "DragEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "endDrag",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reorderWithin",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onDrop",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "i",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onContainerDrop",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "acceptTransfer",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "loomi-filter",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { item }` when a filtered row is clicked or drag-started."
+            },
+            {
+              "name": "loomi-item-click",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { item }` when a row is clicked outside multi-drag mode."
+            },
+            {
+              "name": "loomi-reorder",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { order }` after reordering within the same list."
+            },
+            {
+              "name": "loomi-transfer",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { order, items }` on BOTH lists involved, after item(s) move from one list to another."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "items",
+              "type": {
+                "text": "LoomiSortableItem[]"
+              },
+              "default": "[]",
+              "fieldName": "items"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Form-control name; when set, the host submits the order as a JSON array of ids.",
+              "fieldName": "name"
+            },
+            {
+              "name": "type",
+              "type": {
+                "text": "\"simple\" | \"shared\""
+              },
+              "default": "\"simple\"",
+              "description": "Kept for backwards compatibility; setting a non-empty `group` is enough to share lists.",
+              "fieldName": "type"
+            },
+            {
+              "name": "group",
+              "type": {
+                "text": "LoomiSortableGroupOption"
+              },
+              "default": "\"\"",
+              "description": "SortableJS-style group name or object (`{ name, pull, put }`) for shared lists.",
+              "fieldName": "group"
+            },
+            {
+              "name": "clone",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Leave dragged item(s) in place when dropped into another shared list. Alias for `group.pull = \"clone\"`.",
+              "fieldName": "clone"
+            },
+            {
+              "name": "sortable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Enable or disable drag-starting from this list. The list still accepts incoming transfers when `false`.",
+              "fieldName": "sortable"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "sort",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Enable or disable sorting within this list. Items may still be dragged out when `false`.",
+              "fieldName": "sort"
+            },
+            {
+              "name": "filter",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "SortableJS-style selector for rows/elements that cannot be dragged, e.g. `.filtered`.",
+              "fieldName": "filter"
+            },
+            {
+              "name": "handle",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "SortableJS-style handle selector. Any non-empty value enables the built-in row handle.",
+              "fieldName": "handle"
+            },
+            {
+              "name": "has-handle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Drag by a dedicated handle instead of the whole row surface.",
+              "fieldName": "hasHandle"
+            },
+            {
+              "name": "handle-icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"bars-3\"",
+              "description": "Icon name (from `@loomidev/icons`) used for the drag handle when handle mode is enabled.",
+              "fieldName": "handleIcon"
+            },
+            {
+              "name": "multidrag",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Backwards-compatible multi-drag flag.",
+              "fieldName": "multidrag"
+            },
+            {
+              "name": "multi-drag",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "SortableJS-style camelCase multi-drag flag, exposed as the `multi-drag` attribute.",
+              "fieldName": "multiDrag"
+            },
+            {
+              "name": "selected-class",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"selected\"",
+              "description": "Extra class applied to selected rows in multi-drag mode.",
+              "fieldName": "selectedClass"
+            },
+            {
+              "name": "swap",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Swap the dropped row with the row it lands on instead of shifting rows in between.",
+              "fieldName": "swap"
+            },
+            {
+              "name": "swap-class",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"highlight\"",
+              "description": "Extra class applied to the hovered row in swap mode.",
+              "fieldName": "swapClass"
+            },
+            {
+              "name": "animation",
+              "type": {
+                "text": "number"
+              },
+              "default": "150",
+              "description": "Reorder animation duration in ms. `0` disables the animation.",
+              "fieldName": "animation"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-sortable",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiSortable",
+          "declaration": {
+            "name": "LoomiSortable",
+            "module": "src/loomi-sortable.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-sortable",
+          "declaration": {
+            "name": "LoomiSortable",
+            "module": "src/loomi-sortable.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

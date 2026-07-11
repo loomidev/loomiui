@@ -1,0 +1,366 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiTab",
+          "declaration": {
+            "name": "LoomiTab",
+            "module": "./loomi-tab.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTabs",
+          "declaration": {
+            "name": "LoomiTabs",
+            "module": "./loomi-tab.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTabStyle",
+          "declaration": {
+            "name": "LoomiTabStyle",
+            "module": "./loomi-tab.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-tab.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-tab>` — a single tab panel. Set `label` (and optionally `icon`) for its\nheading, and `active` on the one that should show first. Place inside `<loomi-tabs>`.",
+          "name": "LoomiTab",
+          "slots": [
+            {
+              "description": "The tab's content.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "icon"
+            },
+            {
+              "kind": "field",
+              "name": "active",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "active",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "url",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "url"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "icon"
+            },
+            {
+              "name": "active",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "active"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "url",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "url"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-tab",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-tabs>` — builds a heading bar from its `<loomi-tab>` children and toggles\nthe active panel. Styles: `simple` (default), `system`, `pills`.",
+          "name": "LoomiTabs",
+          "slots": [
+            {
+              "description": "`<loomi-tab>` children.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "tabStyle",
+              "type": {
+                "text": "LoomiTabStyle"
+              },
+              "default": "\"simple\"",
+              "attribute": "tab-style"
+            },
+            {
+              "kind": "field",
+              "name": "tabs",
+              "type": {
+                "text": "LoomiTab[]"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "defaultedActiveTab",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "indicatorObserver",
+              "type": {
+                "text": "ResizeObserver | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "indicatorFrame",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "method",
+              "name": "activate",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "tab",
+                  "type": {
+                    "text": "LoomiTab"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "activeTabIndex",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "scheduleIndicatorSync",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "syncIndicator",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "observeIndicatorTargets",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "focusTabButton",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "tab",
+                  "type": {
+                    "text": "LoomiTab"
+                  }
+                }
+              ],
+              "description": "Focuses the rendered tab button at the same index as `tab` in `this.tabs`."
+            },
+            {
+              "kind": "field",
+              "name": "onKeydown",
+              "privacy": "private",
+              "description": "Arrow-key / Home / End navigation per the WAI-ARIA APG \"tabs\" pattern (roving\ntabindex + automatic activation): moving focus also switches the active panel,\nmatching this component's click behavior."
+            }
+          ],
+          "events": [
+            {
+              "name": "loomi-tab-change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { label }` when the active tab changes."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "fieldName": "color"
+            },
+            {
+              "name": "tab-style",
+              "type": {
+                "text": "LoomiTabStyle"
+              },
+              "default": "\"simple\"",
+              "fieldName": "tabStyle"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-tabs",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiTab",
+          "declaration": {
+            "name": "LoomiTab",
+            "module": "src/loomi-tab.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-tab",
+          "declaration": {
+            "name": "LoomiTab",
+            "module": "src/loomi-tab.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTabs",
+          "declaration": {
+            "name": "LoomiTabs",
+            "module": "src/loomi-tab.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-tabs",
+          "declaration": {
+            "name": "LoomiTabs",
+            "module": "src/loomi-tab.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

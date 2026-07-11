@@ -16,7 +16,8 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "custom-elements.json"
   ],
   "exports": {
     ".": {
@@ -55,5 +56,6 @@
     "lightbox",
     "album",
     "slideshow"
-  ]
+  ],
+  "customElements": "custom-elements.json"
 }

@@ -1,0 +1,664 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiTextarea",
+          "declaration": {
+            "name": "LoomiTextarea",
+            "module": "./loomi-textarea.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiMentionItem",
+          "declaration": {
+            "name": "LoomiMentionItem",
+            "module": "./loomi-textarea.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-textarea.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-textarea>` — a themeable multi-line text input with a floating label\nand inline validation. Form-associated: its value submits with the form.\n\nSet `mention-triggers` (e.g. `[\"@\", \"#\", \"/\"]`) and `mentionData` (a map of\ntrigger -> `LoomiMentionItem[]`) to enable an inline mention/autocomplete picker\nthat opens as the user types a trigger character.",
+          "name": "LoomiTextarea",
+          "cssParts": [
+            {
+              "description": "The bordered container.",
+              "name": "field"
+            },
+            {
+              "description": "The native `<textarea>`.",
+              "name": "textarea"
+            },
+            {
+              "description": "The mention picker dropdown.",
+              "name": "mention-panel"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "internals",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "validationVisible",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "cleanupMentionOutside",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "rows",
+              "type": {
+                "text": "number"
+              },
+              "default": "3",
+              "attribute": "rows"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "readonly",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "errorMessage",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "error-message"
+            },
+            {
+              "kind": "field",
+              "name": "showErrorInline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-error-inline"
+            },
+            {
+              "kind": "field",
+              "name": "invalid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "invalid",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "showFocusRing",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-focus-ring"
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "LoomiTextareaVariant"
+              },
+              "default": "\"default\"",
+              "attribute": "variant"
+            },
+            {
+              "kind": "field",
+              "name": "mentionTriggers",
+              "type": {
+                "text": "string[]"
+              },
+              "default": "[]",
+              "description": "Characters that open the mention picker, e.g. `[\"@\", \"#\", \"/\"]`. Empty disables it.",
+              "attribute": "mention-triggers"
+            },
+            {
+              "kind": "field",
+              "name": "mentionData",
+              "type": {
+                "text": "Record<string, LoomiMentionItem[]>"
+              },
+              "default": "{}",
+              "description": "Items per trigger character, e.g. `{ \"@\": [{ label: \"Jane\" }] }`.",
+              "attribute": "mention-data"
+            },
+            {
+              "kind": "field",
+              "name": "mentionOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "mentionTrigger",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "mentionStart",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "-1"
+            },
+            {
+              "kind": "field",
+              "name": "mentionQuery",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "mentionActiveIndex",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "-1"
+            },
+            {
+              "kind": "field",
+              "name": "mentionPos",
+              "type": {
+                "text": "object"
+              },
+              "privacy": "private",
+              "default": "{ top: 0, left: 0 }"
+            },
+            {
+              "kind": "field",
+              "name": "textareaEl",
+              "type": {
+                "text": "HTMLTextAreaElement"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "mirrorEl",
+              "type": {
+                "text": "HTMLDivElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "validate",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "syncValidity",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "showInvalid",
+                  "default": "this.validationVisible"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "showValidation",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "emit",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "type",
+                  "type": {
+                    "text": "\"input\" | \"change\""
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "mentionItems",
+              "type": {
+                "text": "LoomiMentionItem[]"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "detectMention",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "caret",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "closeMention",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "positionMentionPanel",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "chooseMention",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "item",
+                  "type": {
+                    "text": "LoomiMentionItem"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "onInput",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onKeydown",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onKeyup",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderMentionPanel",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "type",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "loomi-mention-search",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { trigger, query }` as the user types after a trigger char."
+            },
+            {
+              "name": "loomi-mention-select",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { trigger, item }` when a mention item is chosen."
+            },
+            {
+              "description": "Native input event (composed).",
+              "name": "input"
+            },
+            {
+              "description": "Native change event (composed).",
+              "name": "change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "value"
+            },
+            {
+              "name": "rows",
+              "type": {
+                "text": "number"
+              },
+              "default": "3",
+              "fieldName": "rows"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "readonly"
+            },
+            {
+              "name": "error-message",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "errorMessage"
+            },
+            {
+              "name": "show-error-inline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showErrorInline"
+            },
+            {
+              "name": "invalid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "invalid"
+            },
+            {
+              "name": "show-focus-ring",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showFocusRing"
+            },
+            {
+              "name": "variant",
+              "type": {
+                "text": "LoomiTextareaVariant"
+              },
+              "default": "\"default\"",
+              "fieldName": "variant"
+            },
+            {
+              "name": "mention-triggers",
+              "type": {
+                "text": "string[]"
+              },
+              "default": "[]",
+              "description": "Characters that open the mention picker, e.g. `[\"@\", \"#\", \"/\"]`. Empty disables it.",
+              "fieldName": "mentionTriggers"
+            },
+            {
+              "name": "mention-data",
+              "type": {
+                "text": "Record<string, LoomiMentionItem[]>"
+              },
+              "default": "{}",
+              "description": "Items per trigger character, e.g. `{ \"@\": [{ label: \"Jane\" }] }`.",
+              "fieldName": "mentionData"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-textarea",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiTextarea",
+          "declaration": {
+            "name": "LoomiTextarea",
+            "module": "src/loomi-textarea.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-textarea",
+          "declaration": {
+            "name": "LoomiTextarea",
+            "module": "src/loomi-textarea.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

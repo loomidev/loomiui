@@ -1,0 +1,587 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiQrCode",
+          "declaration": {
+            "name": "LoomiQrCode",
+            "module": "./loomi-qrcode.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiQrErrorCorrection",
+          "declaration": {
+            "name": "LoomiQrErrorCorrection",
+            "module": "./loomi-qrcode.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiQrRadius",
+          "declaration": {
+            "name": "LoomiQrRadius",
+            "module": "./loomi-qrcode.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-qrcode.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-qrcode>` — a themeable QR code for URLs and short text values.",
+          "name": "LoomiQrCode",
+          "members": [
+            {
+              "kind": "field",
+              "name": "url",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "url"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "number"
+              },
+              "default": "220",
+              "attribute": "size"
+            },
+            {
+              "kind": "field",
+              "name": "errorCorrection",
+              "type": {
+                "text": "LoomiQrErrorCorrection"
+              },
+              "default": "\"M\"",
+              "description": "QR error correction level, trading data density for resilience to damage or overlays:\n- `L` (Low): recovers ~7% of the code. Highest data capacity, use for clean digital display.\n- `M` (Medium): recovers ~15% of the code. Balanced default for most use cases.\n- `Q` (Quartile): recovers ~25% of the code. Good when printing on materials that may wear or get dirty.\n- `H` (High): recovers ~30% of the code. Most resilient; recommended when overlaying a logo or using\n  visual effects (`corner-borders`, `gradient`) on top of the modules.",
+              "attribute": "error-correction"
+            },
+            {
+              "kind": "field",
+              "name": "quietZone",
+              "type": {
+                "text": "number"
+              },
+              "default": "4",
+              "attribute": "quiet-zone"
+            },
+            {
+              "kind": "field",
+              "name": "foreground",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"var(--loomi-text)\"",
+              "attribute": "foreground"
+            },
+            {
+              "kind": "field",
+              "name": "background",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"var(--loomi-surface)\"",
+              "attribute": "background"
+            },
+            {
+              "kind": "field",
+              "name": "radius",
+              "type": {
+                "text": "LoomiQrRadius"
+              },
+              "default": "\"medium\"",
+              "attribute": "radius"
+            },
+            {
+              "kind": "field",
+              "name": "gradient",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "gradient"
+            },
+            {
+              "kind": "field",
+              "name": "gradientFrom",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"var(--loomi-primary-600)\"",
+              "attribute": "gradient-from"
+            },
+            {
+              "kind": "field",
+              "name": "gradientTo",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"var(--loomi-cyan-500)\"",
+              "attribute": "gradient-to"
+            },
+            {
+              "kind": "field",
+              "name": "moduleRadius",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "module-radius"
+            },
+            {
+              "kind": "field",
+              "name": "cornerBorders",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "corner-borders"
+            },
+            {
+              "kind": "field",
+              "name": "cornerBorderColor",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"var(--loomi-primary-600)\"",
+              "attribute": "corner-border-color"
+            },
+            {
+              "kind": "field",
+              "name": "cornerBorderWidth",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"4px\"",
+              "attribute": "corner-border-width"
+            },
+            {
+              "kind": "field",
+              "name": "cornerBorderLength",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"34px\"",
+              "attribute": "corner-border-length"
+            },
+            {
+              "kind": "field",
+              "name": "gradientScan",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "gradient-scan"
+            },
+            {
+              "kind": "field",
+              "name": "scanColor",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"rgba(14, 165, 233, 0.72)\"",
+              "attribute": "scan-color"
+            },
+            {
+              "kind": "field",
+              "name": "scanDuration",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"2.4s\"",
+              "attribute": "scan-duration"
+            },
+            {
+              "kind": "field",
+              "name": "scanCount",
+              "type": {
+                "text": "number | \"infinite\""
+              },
+              "default": "\"infinite\"",
+              "description": "Number of times the scan beam sweeps down and back up. Accepts a positive integer, or\n`\"infinite\"` (default) to loop forever.",
+              "attribute": "scan-count"
+            },
+            {
+              "kind": "field",
+              "name": "accessibilityLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "aria-label"
+            },
+            {
+              "kind": "field",
+              "name": "gradientId",
+              "privacy": "private",
+              "readonly": true,
+              "default": "`loomi-qrcode-gradient-${++nextGradientId}`"
+            },
+            {
+              "kind": "field",
+              "name": "textValue",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "normalizedErrorCorrection",
+              "type": {
+                "text": "LoomiQrErrorCorrection"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "normalizedRadius",
+              "type": {
+                "text": "LoomiQrRadius"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "normalizedScanCount",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "wrapperStyle",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "renderGradient",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderModules",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "modules",
+                  "type": {
+                    "text": "boolean[][]"
+                  }
+                },
+                {
+                  "name": "quietZone",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "fill",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderCorners",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "url",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "url"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "value"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "number"
+              },
+              "default": "220",
+              "fieldName": "size"
+            },
+            {
+              "name": "error-correction",
+              "type": {
+                "text": "LoomiQrErrorCorrection"
+              },
+              "default": "\"M\"",
+              "description": "QR error correction level, trading data density for resilience to damage or overlays:\n- `L` (Low): recovers ~7% of the code. Highest data capacity, use for clean digital display.\n- `M` (Medium): recovers ~15% of the code. Balanced default for most use cases.\n- `Q` (Quartile): recovers ~25% of the code. Good when printing on materials that may wear or get dirty.\n- `H` (High): recovers ~30% of the code. Most resilient; recommended when overlaying a logo or using\n  visual effects (`corner-borders`, `gradient`) on top of the modules.",
+              "fieldName": "errorCorrection"
+            },
+            {
+              "name": "quiet-zone",
+              "type": {
+                "text": "number"
+              },
+              "default": "4",
+              "fieldName": "quietZone"
+            },
+            {
+              "name": "foreground",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"var(--loomi-text)\"",
+              "fieldName": "foreground"
+            },
+            {
+              "name": "background",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"var(--loomi-surface)\"",
+              "fieldName": "background"
+            },
+            {
+              "name": "radius",
+              "type": {
+                "text": "LoomiQrRadius"
+              },
+              "default": "\"medium\"",
+              "fieldName": "radius"
+            },
+            {
+              "name": "gradient",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "gradient"
+            },
+            {
+              "name": "gradient-from",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"var(--loomi-primary-600)\"",
+              "fieldName": "gradientFrom"
+            },
+            {
+              "name": "gradient-to",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"var(--loomi-cyan-500)\"",
+              "fieldName": "gradientTo"
+            },
+            {
+              "name": "module-radius",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "moduleRadius"
+            },
+            {
+              "name": "corner-borders",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "cornerBorders"
+            },
+            {
+              "name": "corner-border-color",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"var(--loomi-primary-600)\"",
+              "fieldName": "cornerBorderColor"
+            },
+            {
+              "name": "corner-border-width",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"4px\"",
+              "fieldName": "cornerBorderWidth"
+            },
+            {
+              "name": "corner-border-length",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"34px\"",
+              "fieldName": "cornerBorderLength"
+            },
+            {
+              "name": "gradient-scan",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "gradientScan"
+            },
+            {
+              "name": "scan-color",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"rgba(14, 165, 233, 0.72)\"",
+              "fieldName": "scanColor"
+            },
+            {
+              "name": "scan-duration",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"2.4s\"",
+              "fieldName": "scanDuration"
+            },
+            {
+              "name": "scan-count",
+              "type": {
+                "text": "number | \"infinite\""
+              },
+              "default": "\"infinite\"",
+              "description": "Number of times the scan beam sweeps down and back up. Accepts a positive integer, or\n`\"infinite\"` (default) to loop forever.",
+              "fieldName": "scanCount"
+            },
+            {
+              "name": "aria-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "accessibilityLabel"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-qrcode",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiQrErrorCorrection",
+          "declaration": {
+            "name": "LoomiQrErrorCorrection",
+            "module": "src/loomi-qrcode.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiQrCode",
+          "declaration": {
+            "name": "LoomiQrCode",
+            "module": "src/loomi-qrcode.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-qrcode",
+          "declaration": {
+            "name": "LoomiQrCode",
+            "module": "src/loomi-qrcode.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/qrcode-generator.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "generateQrCode",
+          "return": {
+            "type": {
+              "text": "LoomiQrMatrix"
+            }
+          },
+          "parameters": [
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "errorCorrection",
+              "default": "\"M\"",
+              "type": {
+                "text": "LoomiQrErrorCorrection"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "generateQrCode",
+          "declaration": {
+            "name": "generateQrCode",
+            "module": "src/qrcode-generator.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

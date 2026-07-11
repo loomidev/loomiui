@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiProgressStep",
+          "declaration": {
+            "name": "LoomiProgressStep",
+            "module": "@loomidev/progress"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProgressSteps",
+          "declaration": {
+            "name": "LoomiProgressSteps",
+            "module": "@loomidev/progress"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProgressStepSize",
+          "declaration": {
+            "name": "LoomiProgressStepSize",
+            "module": "@loomidev/progress"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProgressStepState",
+          "declaration": {
+            "name": "LoomiProgressStepState",
+            "module": "@loomidev/progress"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProgressStepsOrientation",
+          "declaration": {
+            "name": "LoomiProgressStepsOrientation",
+            "module": "@loomidev/progress"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-progress-steps.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiProgressStep",
+          "declaration": {
+            "name": "LoomiProgressStep",
+            "module": "@loomidev/progress"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProgressSteps",
+          "declaration": {
+            "name": "LoomiProgressSteps",
+            "module": "@loomidev/progress"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProgressStepSize",
+          "declaration": {
+            "name": "LoomiProgressStepSize",
+            "module": "@loomidev/progress"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProgressStepState",
+          "declaration": {
+            "name": "LoomiProgressStepState",
+            "module": "@loomidev/progress"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProgressStepsOrientation",
+          "declaration": {
+            "name": "LoomiProgressStepsOrientation",
+            "module": "@loomidev/progress"
+          }
+        }
+      ]
+    }
+  ]
+}

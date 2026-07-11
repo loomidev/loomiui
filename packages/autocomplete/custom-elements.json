@@ -1,0 +1,705 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/icons.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "registerLoomiIcon",
+          "declaration": {
+            "name": "registerLoomiIcon",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getLoomiIcon",
+          "declaration": {
+            "name": "getLoomiIcon",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "loomiIconNames",
+          "declaration": {
+            "name": "loomiIconNames",
+            "module": "@loomidev/icons"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiAutocomplete",
+          "declaration": {
+            "name": "LoomiAutocomplete",
+            "module": "./loomi-autocomplete.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiAutocompleteItem",
+          "declaration": {
+            "name": "LoomiAutocompleteItem",
+            "module": "./loomi-autocomplete.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiAutocompleteSize",
+          "declaration": {
+            "name": "LoomiAutocompleteSize",
+            "module": "./loomi-autocomplete.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-autocomplete.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "LoomiAutocomplete",
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "internals",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "cleanup",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "default": "\"Search...\"",
+              "attribute": "placeholder",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "selectedValue",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "selected-value"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "LoomiAutocompleteSize"
+              },
+              "default": "\"medium\"",
+              "attribute": "size"
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "LoomiAutocompleteVariant"
+              },
+              "default": "\"default\"",
+              "attribute": "variant"
+            },
+            {
+              "kind": "field",
+              "name": "data",
+              "type": {
+                "text": "Array<Record<string, unknown>>"
+              },
+              "default": "[]",
+              "attribute": "data"
+            },
+            {
+              "kind": "field",
+              "name": "labelKey",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"label\"",
+              "attribute": "label-key"
+            },
+            {
+              "kind": "field",
+              "name": "valueKey",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"value\"",
+              "attribute": "value-key"
+            },
+            {
+              "kind": "field",
+              "name": "descriptionKey",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"description\"",
+              "attribute": "description-key"
+            },
+            {
+              "kind": "field",
+              "name": "imageKey",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"image\"",
+              "attribute": "image-key"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "readonly",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "invalid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "invalid",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "showFocusRing",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-focus-ring"
+            },
+            {
+              "kind": "field",
+              "name": "clearable",
+              "type": {
+                "text": "true"
+              },
+              "description": "Always true — loomi-autocomplete always shows a clear button once it has a value.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "activeIndex",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "-1"
+            },
+            {
+              "kind": "field",
+              "name": "displayValue",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "selectedImage",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "inputEl",
+              "type": {
+                "text": "HTMLInputElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "suppressValueDisplaySync",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "clear",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Clear the field and reopen the suggestion panel."
+            },
+            {
+              "kind": "method",
+              "name": "renderIcon",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "cls",
+                  "default": "\"loomi-icon\""
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "options",
+              "type": {
+                "text": "LoomiAutocompleteItem[]"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "findOptionByValue",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "LoomiAutocompleteItem | undefined"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "value",
+                  "default": "this.value"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "syncDisplayFromValue",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "filtered",
+              "type": {
+                "text": "LoomiAutocompleteItem[]"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "hasOptionImages",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "getInitials",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "label",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "hide",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "choose",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "item",
+                  "type": {
+                    "text": "LoomiAutocompleteItem"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onInput",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onKeydown",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "input",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "loomi-select",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "placeholder",
+              "default": "DEFAULT_PLACEHOLDER",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "value"
+            },
+            {
+              "name": "selected-value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "selectedValue"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "LoomiAutocompleteSize"
+              },
+              "default": "\"medium\"",
+              "fieldName": "size"
+            },
+            {
+              "name": "variant",
+              "type": {
+                "text": "LoomiAutocompleteVariant"
+              },
+              "default": "\"default\"",
+              "fieldName": "variant"
+            },
+            {
+              "name": "data",
+              "type": {
+                "text": "Array<Record<string, unknown>>"
+              },
+              "default": "[]",
+              "fieldName": "data"
+            },
+            {
+              "name": "label-key",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"label\"",
+              "fieldName": "labelKey"
+            },
+            {
+              "name": "value-key",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"value\"",
+              "fieldName": "valueKey"
+            },
+            {
+              "name": "description-key",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"description\"",
+              "fieldName": "descriptionKey"
+            },
+            {
+              "name": "image-key",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"image\"",
+              "fieldName": "imageKey"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "readonly"
+            },
+            {
+              "name": "invalid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "invalid"
+            },
+            {
+              "name": "show-focus-ring",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showFocusRing"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-autocomplete",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiAutocomplete",
+          "declaration": {
+            "name": "LoomiAutocomplete",
+            "module": "src/loomi-autocomplete.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-autocomplete",
+          "declaration": {
+            "name": "LoomiAutocomplete",
+            "module": "src/loomi-autocomplete.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

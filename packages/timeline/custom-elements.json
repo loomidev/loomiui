@@ -1,0 +1,394 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiTimeline",
+          "declaration": {
+            "name": "LoomiTimeline",
+            "module": "./loomi-timeline.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTimelineItem",
+          "declaration": {
+            "name": "LoomiTimelineItem",
+            "module": "./loomi-timeline.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTimelinePlacement",
+          "declaration": {
+            "name": "LoomiTimelinePlacement",
+            "module": "./loomi-timeline.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-timeline.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-timeline-item>` — a single timeline entry. Group inside `<loomi-timeline>`.\n\nThere's nothing to set per-item: the connecting line hides itself on the last item,\nand `alternate` placement resolves from the item's position among its siblings -\nboth purely in CSS, from the real DOM order.",
+          "name": "LoomiTimelineItem",
+          "slots": [
+            {
+              "description": "Custom content (overrides the `content` attribute).",
+              "name": ""
+            },
+            {
+              "description": "Alias for the default slot.",
+              "name": "content"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "date",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "date"
+            },
+            {
+              "kind": "field",
+              "name": "content",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "content"
+            },
+            {
+              "kind": "field",
+              "name": "completed",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "completed"
+            },
+            {
+              "kind": "field",
+              "name": "stacked",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "stacked"
+            },
+            {
+              "kind": "field",
+              "name": "anchor",
+              "type": {
+                "text": "\"small\" | \"big\""
+              },
+              "default": "\"small\"",
+              "attribute": "anchor"
+            },
+            {
+              "kind": "field",
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "icon"
+            },
+            {
+              "kind": "field",
+              "name": "avatar",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "avatar"
+            },
+            {
+              "kind": "field",
+              "name": "placement",
+              "type": {
+                "text": "LoomiTimelinePlacement"
+              },
+              "default": "\"left\"",
+              "attribute": "placement",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "method",
+              "name": "renderDot",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "date",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "date"
+            },
+            {
+              "name": "content",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "content"
+            },
+            {
+              "name": "completed",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "completed"
+            },
+            {
+              "name": "stacked",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "stacked"
+            },
+            {
+              "name": "anchor",
+              "type": {
+                "text": "\"small\" | \"big\""
+              },
+              "default": "\"small\"",
+              "fieldName": "anchor"
+            },
+            {
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "icon"
+            },
+            {
+              "name": "avatar",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "avatar"
+            },
+            {
+              "name": "placement",
+              "type": {
+                "text": "LoomiTimelinePlacement"
+              },
+              "default": "\"left\"",
+              "fieldName": "placement"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "fieldName": "color"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-timeline-item",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-timeline>` — wraps `<loomi-timeline-item>` items and shares attributes with them.",
+          "name": "LoomiTimeline",
+          "slots": [
+            {
+              "description": "`<loomi-timeline-item>` children.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "stacked",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "stacked"
+            },
+            {
+              "kind": "field",
+              "name": "completed",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "completed"
+            },
+            {
+              "kind": "field",
+              "name": "anchor",
+              "type": {
+                "text": "\"small\" | \"big\""
+              },
+              "default": "\"small\"",
+              "attribute": "anchor"
+            },
+            {
+              "kind": "field",
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "icon"
+            },
+            {
+              "kind": "field",
+              "name": "placement",
+              "type": {
+                "text": "LoomiTimelinePlacement"
+              },
+              "default": "\"left\"",
+              "attribute": "placement"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "sync",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "stacked",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "stacked"
+            },
+            {
+              "name": "completed",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "completed"
+            },
+            {
+              "name": "anchor",
+              "type": {
+                "text": "\"small\" | \"big\""
+              },
+              "default": "\"small\"",
+              "fieldName": "anchor"
+            },
+            {
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "icon"
+            },
+            {
+              "name": "placement",
+              "type": {
+                "text": "LoomiTimelinePlacement"
+              },
+              "default": "\"left\"",
+              "fieldName": "placement"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "fieldName": "color"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-timeline",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiTimelineItem",
+          "declaration": {
+            "name": "LoomiTimelineItem",
+            "module": "src/loomi-timeline.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-timeline-item",
+          "declaration": {
+            "name": "LoomiTimelineItem",
+            "module": "src/loomi-timeline.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTimeline",
+          "declaration": {
+            "name": "LoomiTimeline",
+            "module": "src/loomi-timeline.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-timeline",
+          "declaration": {
+            "name": "LoomiTimeline",
+            "module": "src/loomi-timeline.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

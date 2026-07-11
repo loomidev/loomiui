@@ -1,0 +1,242 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiDivider",
+          "declaration": {
+            "name": "LoomiDivider",
+            "module": "./loomi-divider.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiDividerAlign",
+          "declaration": {
+            "name": "LoomiDividerAlign",
+            "module": "./loomi-divider.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiDividerOrientation",
+          "declaration": {
+            "name": "LoomiDividerOrientation",
+            "module": "./loomi-divider.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiDividerVariant",
+          "declaration": {
+            "name": "LoomiDividerVariant",
+            "module": "./loomi-divider.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-divider.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-divider>` — a content divider that can separate sections horizontally\nor vertically, with optional text/content centered in the rule.",
+          "name": "LoomiDivider",
+          "slots": [
+            {
+              "description": "Optional divider content.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "orientation",
+              "type": {
+                "text": "LoomiDividerOrientation"
+              },
+              "default": "\"horizontal\"",
+              "attribute": "orientation",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "align",
+              "type": {
+                "text": "LoomiDividerAlign"
+              },
+              "default": "\"center\"",
+              "attribute": "align"
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "LoomiDividerVariant"
+              },
+              "default": "\"solid\"",
+              "attribute": "variant"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"gray\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "thickness",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"1px\"",
+              "attribute": "thickness"
+            },
+            {
+              "kind": "field",
+              "name": "spacing",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"0.75rem\"",
+              "attribute": "spacing"
+            },
+            {
+              "kind": "field",
+              "name": "hasSlottedContent",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "syncSlottedContent",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "hasContent",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "dividerStyle",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "orientation",
+              "type": {
+                "text": "LoomiDividerOrientation"
+              },
+              "default": "\"horizontal\"",
+              "fieldName": "orientation"
+            },
+            {
+              "name": "align",
+              "type": {
+                "text": "LoomiDividerAlign"
+              },
+              "default": "\"center\"",
+              "fieldName": "align"
+            },
+            {
+              "name": "variant",
+              "type": {
+                "text": "LoomiDividerVariant"
+              },
+              "default": "\"solid\"",
+              "fieldName": "variant"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"gray\"",
+              "fieldName": "color"
+            },
+            {
+              "name": "thickness",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"1px\"",
+              "fieldName": "thickness"
+            },
+            {
+              "name": "spacing",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"0.75rem\"",
+              "fieldName": "spacing"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-divider",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiDivider",
+          "declaration": {
+            "name": "LoomiDivider",
+            "module": "src/loomi-divider.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-divider",
+          "declaration": {
+            "name": "LoomiDivider",
+            "module": "src/loomi-divider.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

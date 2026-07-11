@@ -1,0 +1,485 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiFilterBuilder",
+          "declaration": {
+            "name": "LoomiFilterBuilder",
+            "module": "./loomi-filter-builder.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "FilterBuilderApplyDetail",
+          "declaration": {
+            "name": "FilterBuilderApplyDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "FilterBuilderChangeDetail",
+          "declaration": {
+            "name": "FilterBuilderChangeDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "FilterBuilderField",
+          "declaration": {
+            "name": "FilterBuilderField",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "FilterBuilderFieldType",
+          "declaration": {
+            "name": "FilterBuilderFieldType",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "FilterBuilderLogic",
+          "declaration": {
+            "name": "FilterBuilderLogic",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "FilterBuilderOperator",
+          "declaration": {
+            "name": "FilterBuilderOperator",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "FilterBuilderOption",
+          "declaration": {
+            "name": "FilterBuilderOption",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "FilterBuilderRule",
+          "declaration": {
+            "name": "FilterBuilderRule",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "FilterBuilderValue",
+          "declaration": {
+            "name": "FilterBuilderValue",
+            "module": "./types.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-filter-builder.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "LoomiFilterBuilder",
+          "members": [
+            {
+              "kind": "field",
+              "name": "fields",
+              "privacy": "public",
+              "type": {
+                "text": "FilterBuilderField[]"
+              },
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "rules",
+              "privacy": "public",
+              "type": {
+                "text": "FilterBuilderRule[]"
+              },
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "logic",
+              "privacy": "public",
+              "type": {
+                "text": "FilterBuilderLogic"
+              },
+              "default": "\"and\"",
+              "attribute": "logic",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "title",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Filters\"",
+              "attribute": "title"
+            },
+            {
+              "kind": "field",
+              "name": "addLabel",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Add filter\"",
+              "attribute": "add-label"
+            },
+            {
+              "kind": "field",
+              "name": "applyLabel",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Apply filters\"",
+              "attribute": "apply-label"
+            },
+            {
+              "kind": "field",
+              "name": "emptyLabel",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"No filters added\"",
+              "attribute": "empty-label"
+            },
+            {
+              "kind": "field",
+              "name": "showApply",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-apply",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "renderLogicButton",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "logic",
+                  "type": {
+                    "text": "FilterBuilderLogic"
+                  }
+                },
+                {
+                  "name": "label",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderRule",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "rule",
+                  "type": {
+                    "text": "FilterBuilderRule"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderValueInput",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "rule",
+                  "type": {
+                    "text": "FilterBuilderRule"
+                  }
+                },
+                {
+                  "name": "field",
+                  "type": {
+                    "text": "FilterBuilderField | undefined"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "addRule",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "removeRule",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "id",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "updateLogic",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "logic",
+                  "type": {
+                    "text": "FilterBuilderLogic"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "updateRuleField",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "id",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "updateRuleOperator",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "id",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "updateRuleValue",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "id",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "applyFilters",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "dispatchChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "getValue",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "FilterBuilderValue"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "getField",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "key",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getOperators",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "field",
+                  "type": {
+                    "text": "FilterBuilderField | undefined"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "defaultValueForField",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "field",
+                  "type": {
+                    "text": "FilterBuilderField | undefined"
+                  }
+                },
+                {
+                  "name": "operator",
+                  "type": {
+                    "text": "FilterBuilderOperator"
+                  }
+                },
+                {
+                  "name": "currentValue",
+                  "default": "\"\"",
+                  "type": {
+                    "text": "unknown"
+                  }
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "loomi-filter-change",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "logic",
+              "type": {
+                "text": "FilterBuilderLogic"
+              },
+              "default": "\"and\"",
+              "fieldName": "logic"
+            },
+            {
+              "name": "title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Filters\"",
+              "fieldName": "title"
+            },
+            {
+              "name": "add-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Add filter\"",
+              "fieldName": "addLabel"
+            },
+            {
+              "name": "apply-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Apply filters\"",
+              "fieldName": "applyLabel"
+            },
+            {
+              "name": "empty-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"No filters added\"",
+              "fieldName": "emptyLabel"
+            },
+            {
+              "name": "show-apply",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showApply"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-filter-builder",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiFilterBuilder",
+          "declaration": {
+            "name": "LoomiFilterBuilder",
+            "module": "src/loomi-filter-builder.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-filter-builder",
+          "declaration": {
+            "name": "LoomiFilterBuilder",
+            "module": "src/loomi-filter-builder.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/types.ts",
+      "declarations": [],
+      "exports": []
+    }
+  ]
+}

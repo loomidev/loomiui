@@ -1,0 +1,620 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiDatepicker",
+          "declaration": {
+            "name": "LoomiDatepicker",
+            "module": "./loomi-datepicker.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiDateFormat",
+          "declaration": {
+            "name": "LoomiDateFormat",
+            "module": "./loomi-datepicker.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiDatepickerSize",
+          "declaration": {
+            "name": "LoomiDatepickerSize",
+            "module": "./loomi-datepicker.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiDatepickerStyle",
+          "declaration": {
+            "name": "LoomiDatepickerStyle",
+            "module": "./loomi-datepicker.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-datepicker.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-datepicker>` — a calendar date picker (single or range). `popup` (input +\npanel) or `inline` (calendar always visible, no triggering input). Locale-aware\nmonth and weekday names. Form-associated: submits the formatted date(s) under `name`.\n`selected-value`/`min-date`/`max-date` are parsed as ISO `yyyy-mm-dd`.",
+          "name": "LoomiDatepicker",
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "internals",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "dpStyle",
+              "type": {
+                "text": "LoomiDatepickerStyle"
+              },
+              "default": "\"popup\"",
+              "description": "`popup` (input + panel) or `inline`. Attribute is `dp-style` (`style` is reserved).",
+              "attribute": "dp-style"
+            },
+            {
+              "kind": "field",
+              "name": "range",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "range"
+            },
+            {
+              "kind": "field",
+              "name": "selectedValue",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "selected-value"
+            },
+            {
+              "kind": "field",
+              "name": "minDate",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "min-date"
+            },
+            {
+              "kind": "field",
+              "name": "maxDate",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "max-date"
+            },
+            {
+              "kind": "field",
+              "name": "format",
+              "type": {
+                "text": "LoomiDateFormat"
+              },
+              "default": "\"yyyy-mm-dd\"",
+              "attribute": "format"
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "default": "\"Select a date\"",
+              "attribute": "placeholder",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required"
+            },
+            {
+              "kind": "field",
+              "name": "weekStarts",
+              "type": {
+                "text": "\"sunday\" | \"monday\""
+              },
+              "default": "\"sunday\"",
+              "attribute": "week-starts"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "LoomiDatepickerSize"
+              },
+              "default": "\"regular\"",
+              "attribute": "size"
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "LoomiDatepickerVariant"
+              },
+              "default": "\"default\"",
+              "attribute": "variant"
+            },
+            {
+              "kind": "field",
+              "name": "start",
+              "type": {
+                "text": "Date | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "end",
+              "type": {
+                "text": "Date | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "view",
+              "privacy": "private",
+              "default": "new Date()"
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "parsed",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "calendarView",
+              "type": {
+                "text": "LoomiCalendarView"
+              },
+              "privacy": "private",
+              "default": "\"days\""
+            },
+            {
+              "kind": "field",
+              "name": "yearRangeStart",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "cleanup",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "fmt",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "d",
+                  "type": {
+                    "text": "Date"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Formatted value (range joined with \" - \").",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "min",
+              "type": {
+                "text": "Date | null"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "Date | null"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "disabled",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "d",
+                  "type": {
+                    "text": "Date"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "toggle",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "pick",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "d",
+                  "type": {
+                    "text": "Date"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "shiftMonth",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "delta",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "yearRangeFor",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "number"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "year",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "showMonths",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "showYears",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "pickMonth",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "month",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "pickYear",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "year",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "shiftYearRange",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "delta",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "weekdays",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string[]"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { value, dates }` when the selection changes."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            },
+            {
+              "name": "dp-style",
+              "type": {
+                "text": "LoomiDatepickerStyle"
+              },
+              "default": "\"popup\"",
+              "description": "`popup` (input + panel) or `inline`. Attribute is `dp-style` (`style` is reserved).",
+              "fieldName": "dpStyle"
+            },
+            {
+              "name": "range",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "range"
+            },
+            {
+              "name": "selected-value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "selectedValue"
+            },
+            {
+              "name": "min-date",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "minDate"
+            },
+            {
+              "name": "max-date",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "maxDate"
+            },
+            {
+              "name": "format",
+              "type": {
+                "text": "LoomiDateFormat"
+              },
+              "default": "\"yyyy-mm-dd\"",
+              "fieldName": "format"
+            },
+            {
+              "name": "placeholder",
+              "default": "DEFAULT_PLACEHOLDER",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "week-starts",
+              "type": {
+                "text": "\"sunday\" | \"monday\""
+              },
+              "default": "\"sunday\"",
+              "fieldName": "weekStarts"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "LoomiDatepickerSize"
+              },
+              "default": "\"regular\"",
+              "fieldName": "size"
+            },
+            {
+              "name": "variant",
+              "type": {
+                "text": "LoomiDatepickerVariant"
+              },
+              "default": "\"default\"",
+              "fieldName": "variant"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-datepicker",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiDatepicker",
+          "declaration": {
+            "name": "LoomiDatepicker",
+            "module": "src/loomi-datepicker.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-datepicker",
+          "declaration": {
+            "name": "LoomiDatepicker",
+            "module": "src/loomi-datepicker.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

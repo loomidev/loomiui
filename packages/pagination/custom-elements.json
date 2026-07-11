@@ -1,0 +1,403 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiPagination",
+          "declaration": {
+            "name": "LoomiPagination",
+            "module": "./loomi-pagination.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiPaginationStyle",
+          "declaration": {
+            "name": "LoomiPaginationStyle",
+            "module": "./loomi-pagination.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-pagination.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-pagination>` — page controls driven by `total`, `page-size` and `page`.\nEmits `loomi-page-change` (`detail: { page }`). Styles: `arrows`, `numbers`, `dropdown`.",
+          "name": "LoomiPagination",
+          "members": [
+            {
+              "kind": "field",
+              "name": "total",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "total"
+            },
+            {
+              "kind": "field",
+              "name": "pageSize",
+              "type": {
+                "text": "number"
+              },
+              "default": "10",
+              "attribute": "page-size"
+            },
+            {
+              "kind": "field",
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "attribute": "page"
+            },
+            {
+              "kind": "field",
+              "name": "paginationStyle",
+              "type": {
+                "text": "LoomiPaginationStyle"
+              },
+              "default": "\"arrows\"",
+              "attribute": "pagination-style"
+            },
+            {
+              "kind": "field",
+              "name": "paginationStyleAlias",
+              "type": {
+                "text": "LoomiPaginationStyle | \"\""
+              },
+              "default": "\"\"",
+              "attribute": "pagination_style"
+            },
+            {
+              "kind": "field",
+              "name": "showTotal",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-total"
+            },
+            {
+              "kind": "field",
+              "name": "showTotalAlias",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "attribute": "show_total"
+            },
+            {
+              "kind": "field",
+              "name": "showPageNumber",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-page-number"
+            },
+            {
+              "kind": "field",
+              "name": "showPageNumberAlias",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "attribute": "show_page_number"
+            },
+            {
+              "kind": "field",
+              "name": "showTotalPages",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-total-pages"
+            },
+            {
+              "kind": "field",
+              "name": "showTotalPagesAlias",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "attribute": "show_total_pages"
+            },
+            {
+              "kind": "field",
+              "name": "totalLabel",
+              "default": "\"Showing :a to :b of :c\"",
+              "attribute": "total-label",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "totalLabelAlias",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "total_label"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "pageCount",
+              "type": {
+                "text": "number"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "go",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "page",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "totalText",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "numbers",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "(number | \"…\")[]"
+                }
+              },
+              "description": "Page numbers with ellipses, e.g. [1, '…', 4, 5, 6, '…', 20]."
+            },
+            {
+              "kind": "method",
+              "name": "btn",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "content",
+                  "type": {
+                    "text": "TemplateResult | string"
+                  }
+                },
+                {
+                  "name": "opts",
+                  "type": {
+                    "text": "{ disabled?: boolean; active?: boolean; onClick: () => void }"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderControls",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "loomi-page-change",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "total",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "total"
+            },
+            {
+              "name": "page-size",
+              "type": {
+                "text": "number"
+              },
+              "default": "10",
+              "fieldName": "pageSize"
+            },
+            {
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "page"
+            },
+            {
+              "name": "pagination-style",
+              "type": {
+                "text": "LoomiPaginationStyle"
+              },
+              "default": "\"arrows\"",
+              "fieldName": "paginationStyle"
+            },
+            {
+              "name": "pagination_style",
+              "type": {
+                "text": "LoomiPaginationStyle | \"\""
+              },
+              "default": "\"\"",
+              "fieldName": "paginationStyleAlias"
+            },
+            {
+              "name": "show-total",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showTotal"
+            },
+            {
+              "name": "show_total",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "fieldName": "showTotalAlias"
+            },
+            {
+              "name": "show-page-number",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showPageNumber"
+            },
+            {
+              "name": "show_page_number",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "fieldName": "showPageNumberAlias"
+            },
+            {
+              "name": "show-total-pages",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showTotalPages"
+            },
+            {
+              "name": "show_total_pages",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "fieldName": "showTotalPagesAlias"
+            },
+            {
+              "name": "total-label",
+              "default": "DEFAULT_TOTAL_LABEL",
+              "fieldName": "totalLabel"
+            },
+            {
+              "name": "total_label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "totalLabelAlias"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "fieldName": "color"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-pagination",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiPagination",
+          "declaration": {
+            "name": "LoomiPagination",
+            "module": "src/loomi-pagination.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-pagination",
+          "declaration": {
+            "name": "LoomiPagination",
+            "module": "src/loomi-pagination.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1218 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/icons.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "registerLoomiIcon",
+          "declaration": {
+            "name": "registerLoomiIcon",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getLoomiIcon",
+          "declaration": {
+            "name": "getLoomiIcon",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "loomiIconNames",
+          "declaration": {
+            "name": "loomiIconNames",
+            "module": "@loomidev/icons"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiInput",
+          "declaration": {
+            "name": "LoomiInput",
+            "module": "./loomi-input.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiInputType",
+          "declaration": {
+            "name": "LoomiInputType",
+            "module": "./loomi-input.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiInputSize",
+          "declaration": {
+            "name": "LoomiInputSize",
+            "module": "./loomi-input.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiInputDynamicMask",
+          "declaration": {
+            "name": "LoomiInputDynamicMask",
+            "module": "./loomi-input.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "registerLoomiIcon",
+          "declaration": {
+            "name": "registerLoomiIcon",
+            "module": "./icons.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getLoomiIcon",
+          "declaration": {
+            "name": "getLoomiIcon",
+            "module": "./icons.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-input.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-input>` — a themeable text input with a floating label, text/icon\nprefixes & suffixes, contextual hints, clearable field, numeric filtering and\ninline validation. Form-associated: its value submits with the surrounding form.",
+          "name": "LoomiInput",
+          "cssParts": [
+            {
+              "description": "The bordered field container.",
+              "name": "field"
+            },
+            {
+              "description": "The native `<input>`.",
+              "name": "input"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Custom prefix content (overrides the `prefix`/`prefix-icon` attributes).",
+              "name": "prefix"
+            },
+            {
+              "description": "Custom suffix content.",
+              "name": "suffix"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "internals",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "validationVisible",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "instanceId",
+              "privacy": "private",
+              "readonly": true,
+              "description": "Falls back to a stable per-instance id when `name` is blank, so a `loomi-notification` toast (see `syncValidity`) re-renders in place across repeated validation failures instead of stacking."
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "LoomiInputType"
+              },
+              "default": "\"text\"",
+              "attribute": "type"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "readonly",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "numeric",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "numeric"
+            },
+            {
+              "kind": "field",
+              "name": "withDots",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "with-dots"
+            },
+            {
+              "kind": "field",
+              "name": "mask",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "mask"
+            },
+            {
+              "kind": "field",
+              "name": "dynamicMask",
+              "type": {
+                "text": "LoomiInputDynamicMask"
+              },
+              "default": "\"\"",
+              "attribute": "dynamic-mask"
+            },
+            {
+              "kind": "field",
+              "name": "min",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "min"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "LoomiInputSize"
+              },
+              "default": "\"medium\"",
+              "attribute": "size"
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "LoomiInputVariant"
+              },
+              "default": "\"default\"",
+              "attribute": "variant"
+            },
+            {
+              "kind": "field",
+              "name": "prefix",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "prefix"
+            },
+            {
+              "kind": "field",
+              "name": "suffix",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "suffix"
+            },
+            {
+              "kind": "field",
+              "name": "prefixOptions",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "prefix-options"
+            },
+            {
+              "kind": "field",
+              "name": "suffixOptions",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "suffix-options"
+            },
+            {
+              "kind": "field",
+              "name": "prefixValue",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "prefix-value"
+            },
+            {
+              "kind": "field",
+              "name": "suffixValue",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "suffix-value"
+            },
+            {
+              "kind": "field",
+              "name": "prefixIcon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "prefix-icon"
+            },
+            {
+              "kind": "field",
+              "name": "suffixIcon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "suffix-icon"
+            },
+            {
+              "kind": "field",
+              "name": "transparentPrefix",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "transparent-prefix"
+            },
+            {
+              "kind": "field",
+              "name": "transparentSuffix",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "transparent-suffix"
+            },
+            {
+              "kind": "field",
+              "name": "viewable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "viewable"
+            },
+            {
+              "kind": "field",
+              "name": "clearable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "clearable"
+            },
+            {
+              "kind": "field",
+              "name": "hint",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "hint"
+            },
+            {
+              "kind": "field",
+              "name": "errorMessage",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "error-message"
+            },
+            {
+              "kind": "field",
+              "name": "showErrorInline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-error-inline"
+            },
+            {
+              "kind": "field",
+              "name": "showPlaceholderAlways",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-placeholder-always"
+            },
+            {
+              "kind": "field",
+              "name": "showFocusRing",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-focus-ring"
+            },
+            {
+              "kind": "field",
+              "name": "invalid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "invalid",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "inputEl",
+              "type": {
+                "text": "HTMLInputElement"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Focus the underlying input."
+            },
+            {
+              "kind": "method",
+              "name": "clear",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Clear the field."
+            },
+            {
+              "kind": "method",
+              "name": "validate",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "description": "Run the required-field check right now, independent of blur. Sets the reflected\n`invalid` attribute to match — which drives the red field border in CSS regardless of\nwhether `error-message` is set — and, when it just became invalid, surfaces\n`error-message` (if any): inline below the field when `show-error-inline` is set,\notherwise as a `loomi-notification` toast. Returns `true` when the field passes (or\nisn't `required`), `false` otherwise. Call this yourself before a manual submit or API\ncall; a `blur` on the field already triggers the same check automatically."
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "syncValidity",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "showInvalid",
+                  "default": "this.validationVisible"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "showValidation",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "emit",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "type",
+                  "type": {
+                    "text": "\"input\" | \"change\""
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "sanitizeNumeric",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "raw",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "normalizeValue",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "raw",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "resolveMask",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "input",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "isCreditCardMask",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "mask",
+                  "type": {
+                    "text": "LoomiInputDynamicMask | string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "applyMask",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "raw",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "mask",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "hasRemainingTokenInput",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "raw",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "startIndex",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "mask",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "onInput",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderIcon",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "cls",
+                  "default": "\"loomi-icon\""
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "parseOptions",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "options",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "selectedAffix",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "kind",
+                  "type": {
+                    "text": "\"prefix\" | \"suffix\""
+                  }
+                },
+                {
+                  "name": "options",
+                  "type": {
+                    "text": "string[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onAffixChange",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "kind",
+                  "type": {
+                    "text": "\"prefix\" | \"suffix\""
+                  }
+                },
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderAffixSelect",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "kind",
+                  "type": {
+                    "text": "\"prefix\" | \"suffix\""
+                  }
+                },
+                {
+                  "name": "options",
+                  "type": {
+                    "text": "string[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "hintKey",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "escapeSelector",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "hintSourceHtml",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string | undefined"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderHint",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderPrefix",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderSuffix",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "type",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "description": "Native input event (composed).",
+              "name": "input"
+            },
+            {
+              "description": "Native change event (composed).",
+              "name": "change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            },
+            {
+              "name": "type",
+              "type": {
+                "text": "LoomiInputType"
+              },
+              "default": "\"text\"",
+              "fieldName": "type"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "value"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "readonly"
+            },
+            {
+              "name": "numeric",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "numeric"
+            },
+            {
+              "name": "with-dots",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "withDots"
+            },
+            {
+              "name": "mask",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "mask"
+            },
+            {
+              "name": "dynamic-mask",
+              "type": {
+                "text": "LoomiInputDynamicMask"
+              },
+              "default": "\"\"",
+              "fieldName": "dynamicMask"
+            },
+            {
+              "name": "min",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "min"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "max"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "LoomiInputSize"
+              },
+              "default": "\"medium\"",
+              "fieldName": "size"
+            },
+            {
+              "name": "variant",
+              "type": {
+                "text": "LoomiInputVariant"
+              },
+              "default": "\"default\"",
+              "fieldName": "variant"
+            },
+            {
+              "name": "prefix",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "prefix"
+            },
+            {
+              "name": "suffix",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "suffix"
+            },
+            {
+              "name": "prefix-options",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "prefixOptions"
+            },
+            {
+              "name": "suffix-options",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "suffixOptions"
+            },
+            {
+              "name": "prefix-value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "prefixValue"
+            },
+            {
+              "name": "suffix-value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "suffixValue"
+            },
+            {
+              "name": "prefix-icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "prefixIcon"
+            },
+            {
+              "name": "suffix-icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "suffixIcon"
+            },
+            {
+              "name": "transparent-prefix",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "transparentPrefix"
+            },
+            {
+              "name": "transparent-suffix",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "transparentSuffix"
+            },
+            {
+              "name": "viewable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "viewable"
+            },
+            {
+              "name": "clearable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "clearable"
+            },
+            {
+              "name": "hint",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "hint"
+            },
+            {
+              "name": "error-message",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "errorMessage"
+            },
+            {
+              "name": "show-error-inline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showErrorInline"
+            },
+            {
+              "name": "show-placeholder-always",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showPlaceholderAlways"
+            },
+            {
+              "name": "show-focus-ring",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showFocusRing"
+            },
+            {
+              "name": "invalid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "invalid"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-input",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiInput",
+          "declaration": {
+            "name": "LoomiInput",
+            "module": "src/loomi-input.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-input",
+          "declaration": {
+            "name": "LoomiInput",
+            "module": "src/loomi-input.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

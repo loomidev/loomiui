@@ -1,0 +1,918 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiTagInput",
+          "declaration": {
+            "name": "LoomiTagInput",
+            "module": "./loomi-tag-input.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTagInputMode",
+          "declaration": {
+            "name": "LoomiTagInputMode",
+            "module": "./loomi-tag-input.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTagInputSize",
+          "declaration": {
+            "name": "LoomiTagInputSize",
+            "module": "./loomi-tag-input.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-tag-input.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-tag-input>` — a form-associated tag entry control styled like\n`<loomi-input>`. Press Enter to turn the current draft text into a removable\ngray outline tag.",
+          "name": "LoomiTagInput",
+          "cssParts": [
+            {
+              "description": "The bordered field container.",
+              "name": "field"
+            },
+            {
+              "description": "The native draft `<input>`.",
+              "name": "input"
+            },
+            {
+              "description": "The tag list.",
+              "name": "tags"
+            },
+            {
+              "description": "An individual tag chip.",
+              "name": "tag"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "internals",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "validationVisible",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "LoomiTagInputSize"
+              },
+              "default": "\"medium\"",
+              "attribute": "size"
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "LoomiTagInputVariant"
+              },
+              "default": "\"default\"",
+              "attribute": "variant"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor | string"
+              },
+              "default": "\"primary\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "shade",
+              "type": {
+                "text": "LoomiTagInputShade"
+              },
+              "default": "\"light\"",
+              "attribute": "shade"
+            },
+            {
+              "kind": "field",
+              "name": "mode",
+              "type": {
+                "text": "LoomiTagInputMode"
+              },
+              "default": "\"inside\"",
+              "attribute": "mode",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "readonly",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "suffixIcon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "suffix-icon"
+            },
+            {
+              "kind": "field",
+              "name": "suffix",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "suffix"
+            },
+            {
+              "kind": "field",
+              "name": "errorMessage",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "error-message"
+            },
+            {
+              "kind": "field",
+              "name": "showErrorInline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-error-inline"
+            },
+            {
+              "kind": "field",
+              "name": "invalid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "invalid",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "showFocusRing",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-focus-ring"
+            },
+            {
+              "kind": "field",
+              "name": "autocompleteData",
+              "type": {
+                "text": "Array<Record<string, unknown>>"
+              },
+              "default": "[]",
+              "attribute": "autocomplete-data"
+            },
+            {
+              "kind": "field",
+              "name": "autocompleteLabelKey",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"label\"",
+              "attribute": "autocomplete-label-key"
+            },
+            {
+              "kind": "field",
+              "name": "autocompleteValueKey",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"value\"",
+              "attribute": "autocomplete-value-key"
+            },
+            {
+              "kind": "field",
+              "name": "autocompleteDescriptionKey",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"description\"",
+              "attribute": "autocomplete-description-key"
+            },
+            {
+              "kind": "field",
+              "name": "autocompleteImageKey",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"image\"",
+              "attribute": "autocomplete-image-key"
+            },
+            {
+              "kind": "field",
+              "name": "draft",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "tagValues",
+              "type": {
+                "text": "string[]"
+              },
+              "privacy": "private",
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "autocompleteOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "autocompleteActiveIndex",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "-1"
+            },
+            {
+              "kind": "field",
+              "name": "inputEl",
+              "type": {
+                "text": "HTMLInputElement"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "tags",
+              "type": {
+                "text": "string[]"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "clear",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "validate",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "parseValue",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "serializeTags",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "tags",
+                  "type": {
+                    "text": "string[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "sameTags",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "a",
+                  "type": {
+                    "text": "string[]"
+                  }
+                },
+                {
+                  "name": "b",
+                  "type": {
+                    "text": "string[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "setTags",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "tags",
+                  "type": {
+                    "text": "string[]"
+                  }
+                },
+                {
+                  "name": "emitEvents",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "syncValidity",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "showInvalid",
+                  "default": "this.validationVisible"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "showValidation",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "emit",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "type",
+                  "type": {
+                    "text": "\"input\" | \"change\""
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "commitDraft",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "autocompleteOptions",
+              "type": {
+                "text": "LoomiTagInputAutocompleteItem[]"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "chooseAutocomplete",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "item",
+                  "type": {
+                    "text": "LoomiTagInputAutocompleteItem"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "removeTag",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "onInput",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onKeydown",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderIcon",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "cls",
+                  "default": "\"loomi-icon\""
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderTag",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "tag",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderTags",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderSuffix",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderAutocomplete",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "type",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "loomi-autocomplete-select",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "description": "Fired when draft text changes or tags are added/removed.",
+              "name": "input"
+            },
+            {
+              "description": "Fired when tags are added/removed.",
+              "name": "change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "value"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "LoomiTagInputSize"
+              },
+              "default": "\"medium\"",
+              "fieldName": "size"
+            },
+            {
+              "name": "variant",
+              "type": {
+                "text": "LoomiTagInputVariant"
+              },
+              "default": "\"default\"",
+              "fieldName": "variant"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor | string"
+              },
+              "default": "\"primary\"",
+              "fieldName": "color"
+            },
+            {
+              "name": "shade",
+              "type": {
+                "text": "LoomiTagInputShade"
+              },
+              "default": "\"light\"",
+              "fieldName": "shade"
+            },
+            {
+              "name": "mode",
+              "type": {
+                "text": "LoomiTagInputMode"
+              },
+              "default": "\"inside\"",
+              "fieldName": "mode"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "readonly"
+            },
+            {
+              "name": "suffix-icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "suffixIcon"
+            },
+            {
+              "name": "suffix",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "suffix"
+            },
+            {
+              "name": "error-message",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "errorMessage"
+            },
+            {
+              "name": "show-error-inline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showErrorInline"
+            },
+            {
+              "name": "invalid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "invalid"
+            },
+            {
+              "name": "show-focus-ring",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showFocusRing"
+            },
+            {
+              "name": "autocomplete-data",
+              "type": {
+                "text": "Array<Record<string, unknown>>"
+              },
+              "default": "[]",
+              "fieldName": "autocompleteData"
+            },
+            {
+              "name": "autocomplete-label-key",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"label\"",
+              "fieldName": "autocompleteLabelKey"
+            },
+            {
+              "name": "autocomplete-value-key",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"value\"",
+              "fieldName": "autocompleteValueKey"
+            },
+            {
+              "name": "autocomplete-description-key",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"description\"",
+              "fieldName": "autocompleteDescriptionKey"
+            },
+            {
+              "name": "autocomplete-image-key",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"image\"",
+              "fieldName": "autocompleteImageKey"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-tag-input",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiTagInput",
+          "declaration": {
+            "name": "LoomiTagInput",
+            "module": "src/loomi-tag-input.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-tag-input",
+          "declaration": {
+            "name": "LoomiTagInput",
+            "module": "src/loomi-tag-input.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

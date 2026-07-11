@@ -1,0 +1,763 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiResizablePanelGroup",
+          "declaration": {
+            "name": "LoomiResizablePanelGroup",
+            "module": "./loomi-resizable.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiResizablePanel",
+          "declaration": {
+            "name": "LoomiResizablePanel",
+            "module": "./loomi-resizable.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiResizableHandle",
+          "declaration": {
+            "name": "LoomiResizableHandle",
+            "module": "./loomi-resizable.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "findResizablePanelGroup",
+          "declaration": {
+            "name": "findResizablePanelGroup",
+            "module": "./loomi-resizable.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "parsePercent",
+          "declaration": {
+            "name": "parsePercent",
+            "module": "./loomi-resizable.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "ResizableOrientation",
+          "declaration": {
+            "name": "ResizableOrientation",
+            "module": "./loomi-resizable.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "ResizableLayoutDetail",
+          "declaration": {
+            "name": "ResizableLayoutDetail",
+            "module": "./loomi-resizable.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-resizable.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "parsePercent",
+          "return": {
+            "type": {
+              "text": "number | null"
+            }
+          },
+          "parameters": [
+            {
+              "name": "value",
+              "type": {
+                "text": "string | number | null | undefined"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "findResizablePanelGroup",
+          "return": {
+            "type": {
+              "text": "LoomiResizablePanelGroup | null"
+            }
+          },
+          "parameters": [
+            {
+              "name": "el",
+              "type": {
+                "text": "Element | null"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-resizable-panel>` — a resizable region inside `<loomi-resizable-panel-group>`.",
+          "name": "LoomiResizablePanel",
+          "slots": [
+            {
+              "description": "Panel content.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "panelId",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Stable id used in `loomi-layout-change` payloads and `auto-save-id` persistence.",
+              "attribute": "panel-id"
+            },
+            {
+              "kind": "field",
+              "name": "defaultSize",
+              "type": {
+                "text": "string | number"
+              },
+              "default": "\"\"",
+              "description": "Initial size percentage (`50` or `50%`).",
+              "attribute": "default-size"
+            },
+            {
+              "kind": "field",
+              "name": "minSize",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Minimum size percentage.",
+              "attribute": "min-size"
+            },
+            {
+              "kind": "field",
+              "name": "maxSize",
+              "type": {
+                "text": "number"
+              },
+              "default": "100",
+              "description": "Maximum size percentage.",
+              "attribute": "max-size"
+            },
+            {
+              "kind": "field",
+              "name": "collapsible",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Allow collapsing via double-click on the adjacent handle.",
+              "attribute": "collapsible"
+            },
+            {
+              "kind": "field",
+              "name": "collapsedSize",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Size percentage when collapsed.",
+              "attribute": "collapsed-size"
+            },
+            {
+              "kind": "field",
+              "name": "collapsed",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the panel is collapsed.",
+              "attribute": "collapsed",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Current size percentage managed by the parent group."
+            },
+            {
+              "kind": "field",
+              "name": "preCollapseSize",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Size before collapsing, restored on expand."
+            },
+            {
+              "kind": "field",
+              "name": "effectiveSize",
+              "type": {
+                "text": "number"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "effectiveMinSize",
+              "type": {
+                "text": "number"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "effectiveMaxSize",
+              "type": {
+                "text": "number"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "collapse",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "expand",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "toggleCollapsed",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "panel-id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Stable id used in `loomi-layout-change` payloads and `auto-save-id` persistence.",
+              "fieldName": "panelId"
+            },
+            {
+              "name": "default-size",
+              "type": {
+                "text": "string | number"
+              },
+              "default": "\"\"",
+              "description": "Initial size percentage (`50` or `50%`).",
+              "fieldName": "defaultSize"
+            },
+            {
+              "name": "min-size",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Minimum size percentage.",
+              "fieldName": "minSize"
+            },
+            {
+              "name": "max-size",
+              "type": {
+                "text": "number"
+              },
+              "default": "100",
+              "description": "Maximum size percentage.",
+              "fieldName": "maxSize"
+            },
+            {
+              "name": "collapsible",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Allow collapsing via double-click on the adjacent handle.",
+              "fieldName": "collapsible"
+            },
+            {
+              "name": "collapsed-size",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Size percentage when collapsed.",
+              "fieldName": "collapsedSize"
+            },
+            {
+              "name": "collapsed",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the panel is collapsed.",
+              "fieldName": "collapsed"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-resizable-panel",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-resizable-handle>` — draggable separator between two panels.",
+          "name": "LoomiResizableHandle",
+          "members": [
+            {
+              "kind": "field",
+              "name": "withHandle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Render a visible grip icon in the handle.",
+              "attribute": "with-handle"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disable resizing for this handle.",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "syncOrientation",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "getAdjacentPanelIndexes",
+              "return": {
+                "type": {
+                  "text": "[number, number] | null"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "group",
+                  "type": {
+                    "text": "LoomiResizablePanelGroup"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "onPointerDown",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onDoubleClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onKeyDown",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "with-handle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Render a visible grip icon in the handle.",
+              "fieldName": "withHandle"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disable resizing for this handle.",
+              "fieldName": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-resizable-handle",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-resizable-panel-group>` — lays out resizable panels and handles.",
+          "name": "LoomiResizablePanelGroup",
+          "slots": [
+            {
+              "description": "`<loomi-resizable-panel>` and `<loomi-resizable-handle>` children in order.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "orientation",
+              "type": {
+                "text": "ResizableOrientation"
+              },
+              "default": "\"horizontal\"",
+              "attribute": "orientation",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "autoSaveId",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Persist layout in `localStorage` under this key.",
+              "attribute": "auto-save-id"
+            },
+            {
+              "kind": "field",
+              "name": "layoutSyncQueued",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "registeredHandles",
+              "privacy": "private",
+              "default": "new Set<LoomiResizableHandle>()"
+            },
+            {
+              "kind": "field",
+              "name": "panels",
+              "type": {
+                "text": "LoomiResizablePanel[]"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "handles",
+              "type": {
+                "text": "LoomiResizableHandle[]"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "registerHandle",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "handle",
+                  "type": {
+                    "text": "LoomiResizableHandle"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "unregisterHandle",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "handle",
+                  "type": {
+                    "text": "LoomiResizableHandle"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "requestLayoutSync",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "getLayoutRect",
+              "return": {
+                "type": {
+                  "text": "DOMRect"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "initializeSizes",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "loadSavedLayout",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "fallback",
+                  "type": {
+                    "text": "number[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "saveLayout",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "getLayoutMap",
+              "return": {
+                "type": {
+                  "text": "Record<string, number>"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "applyLayout",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "resizeAdjacentPanels",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "leftIndex",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "rightIndex",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "deltaPercent",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "startLeft",
+                  "optional": true,
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "startRight",
+                  "optional": true,
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "emitLayoutChange",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onSlotChange",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "name": "loomi-layout-change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { sizes, layout }` when panel sizes change."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "orientation",
+              "type": {
+                "text": "ResizableOrientation"
+              },
+              "default": "\"horizontal\"",
+              "fieldName": "orientation"
+            },
+            {
+              "name": "auto-save-id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Persist layout in `localStorage` under this key.",
+              "fieldName": "autoSaveId"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-resizable-panel-group",
+          "customElement": true
+        },
+        {
+          "kind": "variable",
+          "name": "sizes",
+          "type": {
+            "text": "number[]"
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "parsePercent",
+          "declaration": {
+            "name": "parsePercent",
+            "module": "src/loomi-resizable.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "findResizablePanelGroup",
+          "declaration": {
+            "name": "findResizablePanelGroup",
+            "module": "src/loomi-resizable.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiResizablePanel",
+          "declaration": {
+            "name": "LoomiResizablePanel",
+            "module": "src/loomi-resizable.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-resizable-panel",
+          "declaration": {
+            "name": "LoomiResizablePanel",
+            "module": "src/loomi-resizable.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiResizableHandle",
+          "declaration": {
+            "name": "LoomiResizableHandle",
+            "module": "src/loomi-resizable.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-resizable-handle",
+          "declaration": {
+            "name": "LoomiResizableHandle",
+            "module": "src/loomi-resizable.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiResizablePanelGroup",
+          "declaration": {
+            "name": "LoomiResizablePanelGroup",
+            "module": "src/loomi-resizable.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-resizable-panel-group",
+          "declaration": {
+            "name": "LoomiResizablePanelGroup",
+            "module": "src/loomi-resizable.ts"
+          }
+        }
+      ]
+    }
+  ]
+}
