@@ -32,7 +32,7 @@
 .loomi-field:focus-within,
 .loomi-tp.open .loomi-field {
   border-color: var(--loomi-primary-600);
-  box-shadow: 0 0 0 3px var(--loomi-primary-100);
+  box-shadow: 0 0 0 3px var(--loomi-focus-ring);
 }
 .loomi-tp.no-focus-ring .loomi-field:focus-within,
 .loomi-tp.no-focus-ring.open .loomi-field {

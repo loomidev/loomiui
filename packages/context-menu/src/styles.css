@@ -12,7 +12,7 @@
 }
 .loomi-target:focus-visible {
   border-radius: var(--loomi-context-menu-target-radius, 0.35rem);
-  box-shadow: 0 0 0 2px var(--loomi-context-menu-focus-ring, var(--loomi-primary-200));
+  box-shadow: 0 0 0 2px var(--loomi-context-menu-focus-ring, var(--loomi-focus-ring));
 }
 :host([disabled]) .loomi-target {
   cursor: default;
