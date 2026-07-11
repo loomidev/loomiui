@@ -212,7 +212,12 @@
 }
 .loomi-option:hover,
 .loomi-option.active {
-  background: var(--loomi-surface-hover);
+  background: var(--loomi-surface-hover-primary);
+  color: var(--loomi-text-on-primary, var(--loomi-white));
+}
+.loomi-option:hover .loomi-check,
+.loomi-option.active .loomi-check {
+  color: inherit;
 }
 .loomi-option.selected {
   background: var(--loomi-primary-50);

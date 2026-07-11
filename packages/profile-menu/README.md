@@ -122,7 +122,7 @@ menu inherit your app theme.
 | `dot-position` | `bottom` | `top` \| `bottom`. |
 | `verified` | `false` | Show the avatar verification badge. _(boolean)_ |
 | `transparent` | `false` | Remove the trigger card fill. _(boolean)_ |
-| `placement` | `auto` | Dropmenu placement. `auto` \| `left` \| `right`. |
+| `placement` | `right` | Dropmenu placement. `auto` \| `left` \| `right`. Defaults to `right` so the menu opens right-aligned, under the chevron. |
 | `divided` | `false` | Add dividers between menu items. _(boolean)_ |
 | `scrollable` | `false` | Cap menu height and scroll overflow. _(boolean)_ |
 | `height` | `200` | Scrollable menu height in pixels. |

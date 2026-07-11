@@ -182,7 +182,12 @@ export class LoomiAutocomplete extends LoomiElement {
         padding: 0.5rem 0.6rem;
       }
       .loomi-option:hover,
-      .loomi-option.active { background: var(--loomi-surface-hover); }
+      .loomi-option.active {
+        background: var(--loomi-surface-hover-primary);
+        color: var(--loomi-text-on-primary, var(--loomi-white));
+      }
+      .loomi-option:hover .loomi-option-desc,
+      .loomi-option.active .loomi-option-desc { color: inherit; }
       .loomi-option img {
         width: 1.5rem;
         height: 1.5rem;

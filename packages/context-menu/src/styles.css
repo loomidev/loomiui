@@ -68,7 +68,16 @@
 .loomi-item.hoverable:hover,
 .loomi-item.hoverable:focus-visible,
 :host(:focus-within) .loomi-item.has-submenu {
-  background: var(--loomi-surface-hover);
+  background: var(--loomi-surface-hover-primary);
+  color: var(--loomi-text-on-primary, var(--loomi-white));
+}
+.loomi-item.hoverable:hover svg,
+.loomi-item.hoverable:hover .loomi-shortcut,
+.loomi-item.hoverable:focus-visible svg,
+.loomi-item.hoverable:focus-visible .loomi-shortcut,
+:host(:focus-within) .loomi-item.has-submenu svg,
+:host(:focus-within) .loomi-item.has-submenu .loomi-shortcut {
+  color: inherit;
 }
 .loomi-item.header {
   cursor: default;

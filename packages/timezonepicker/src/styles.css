@@ -202,7 +202,11 @@
   text-align: left;
 }
 .loomi-detect:hover {
-  background: var(--loomi-surface-hover);
+  background: var(--loomi-surface-hover-primary);
+  color: var(--loomi-text-on-primary, var(--loomi-white));
+}
+.loomi-detect:hover .loomi-detect-zone {
+  color: inherit;
 }
 .loomi-pin {
   flex: none;
@@ -241,7 +245,16 @@
 }
 .loomi-option:hover,
 .loomi-option.active {
-  background: var(--loomi-surface-hover);
+  background: var(--loomi-surface-hover-primary);
+  color: var(--loomi-text-on-primary, var(--loomi-white));
+}
+.loomi-option:hover .loomi-option-region,
+.loomi-option:hover .loomi-option-offset,
+.loomi-option:hover .loomi-check,
+.loomi-option.active .loomi-option-region,
+.loomi-option.active .loomi-option-offset,
+.loomi-option.active .loomi-check {
+  color: inherit;
 }
 .loomi-option.selected {
   background: var(--loomi-primary-50);
