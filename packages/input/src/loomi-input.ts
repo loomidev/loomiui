@@ -1,8 +1,7 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
-import { LoomiElement, loomiT, randomSuffix, themeStyles } from "@loomidev/core";
-import { showLoomiNotification } from "@loomidev/notification";
+import { LoomiElement, controlSizeStyles, fieldStyles, loomiT, randomSuffix, themeStyles } from "@loomidev/core";
 import "@loomidev/popover";
 import { getLoomiIcon } from "./icons.js";
 import { componentStyles } from "./generated/styles.css.js";
@@ -47,7 +46,7 @@ const booleanAttribute = {
  */
 @customElement("loomi-input")
 export class LoomiInput extends LoomiElement {
-  static override styles = [themeStyles, componentStyles];
+  static override styles = [themeStyles, controlSizeStyles, fieldStyles, componentStyles];
   static formAssociated = true;
 
   private internals = this.attachInternals();
@@ -162,7 +161,9 @@ export class LoomiInput extends LoomiElement {
     // on the valid→invalid transition, so re-validating while already invalid (e.g. typing
     // into an empty required field) doesn't spam a new toast on every keystroke.
     if (this.invalid && !wasInvalid && !this.showErrorInline && this.errorMessage) {
-      showLoomiNotification(this.label, this.errorMessage, "error", undefined, `loomi-input-validation-${this.name || this.instanceId}`);
+      // Lazy import: apps that render errors inline (or never fail validation) don't load the toast system.
+      void import("@loomidev/notification").then(({ showLoomiNotification }) =>
+        showLoomiNotification(this.label, this.errorMessage, "error", undefined, `loomi-input-validation-${this.name || this.instanceId}`));
     }
     return !empty;
   }
@@ -305,7 +306,7 @@ export class LoomiInput extends LoomiElement {
     }
 
     this.dispatchEvent(
-      new CustomEvent(`${kind}-change`, {
+      new CustomEvent(`loomi-${kind}-change`, {
         detail: { value },
         bubbles: true,
         composed: true,

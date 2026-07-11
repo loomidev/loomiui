@@ -1,6 +1,6 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
-import { LoomiElement, loomiDefaultText, loomiStyles, loomiT, onClickOutside } from "@loomidev/core";
+import { LoomiElement, controlSizeStyles, fieldStyles, loomiDefaultText, loomiStyles, loomiT, onClickOutside } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiTimezonepickerSize = "tiny" | "small" | "regular" | "medium" | "big";
@@ -147,12 +147,12 @@ function browserZoneId(): string {
  *
  * @csspart trigger - The clickable trigger.
  * @csspart panel - The dropdown panel.
- * @fires select - `detail: { id, city, region, offsetLabel }` when a zone is chosen.
+ * @fires loomi-select - `detail: { id, city, region, offsetLabel }` when a zone is chosen.
  * @fires change - Fired when the selection changes (composed).
  */
 @customElement("loomi-timezonepicker")
 export class LoomiTimezonepicker extends LoomiElement {
-  static override styles = loomiStyles(componentStyles);
+  static override styles = loomiStyles(controlSizeStyles, fieldStyles, componentStyles);
   static formAssociated = true;
 
   private internals = this.attachInternals();
@@ -282,7 +282,7 @@ export class LoomiTimezonepicker extends LoomiElement {
     this.selection = rec.id;
     this.close();
     this.dispatchEvent(
-      new CustomEvent("select", {
+      new CustomEvent("loomi-select", {
         bubbles: true,
         composed: true,
         detail: { id: rec.id, city: rec.city, region: rec.region, offsetLabel: rec.offsetLabel },

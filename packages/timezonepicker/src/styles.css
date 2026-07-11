@@ -18,89 +18,21 @@
   width: 100%;
 }
 
-.size-tiny {
-  --loomi-control-height: 2rem;
-  --loomi-control-pad-x: 0.625rem;
-  --loomi-control-font-size: 0.75rem;
-  font-size: var(--loomi-control-font-size);
-}
-.size-small {
-  --loomi-control-height: 2.25rem;
-  --loomi-control-pad-x: 0.75rem;
-  --loomi-control-font-size: 0.875rem;
-  font-size: var(--loomi-control-font-size);
-}
-.size-regular {
-  --loomi-control-height: 2.5rem;
-  --loomi-control-pad-x: 0.875rem;
-  --loomi-control-font-size: 0.875rem;
-  font-size: var(--loomi-control-font-size);
-}
-.size-medium {
-  --loomi-control-height: 2.75rem;
-  --loomi-control-pad-x: 1rem;
-  --loomi-control-font-size: 1rem;
-  font-size: var(--loomi-control-font-size);
-}
-.size-big {
-  --loomi-control-height: 3rem;
-  --loomi-control-pad-x: 1.25rem;
-  --loomi-control-font-size: 1.125rem;
-  font-size: var(--loomi-control-font-size);
-}
-
+/* Trigger chrome + .size-* presets come from @loomidev/core's fieldStyles/controlSizeStyles
+   (see loomi-timezonepicker.ts); only the picker-specific layout and readonly handling stay local. */
 .loomi-trigger {
-  position: relative;
-  display: flex;
-  align-items: center;
   justify-content: space-between;
   gap: 0.55rem;
-  width: 100%;
-  min-height: var(--loomi-control-height);
-  background: var(--loomi-surface);
-  border: 2px solid var(--loomi-surface-border);
-  border-radius: 0.5rem;
   padding: 0 var(--loomi-control-pad-x);
   font: inherit;
   color: var(--loomi-text);
   text-align: left;
   cursor: pointer;
-  transition: border-color 0.15s ease;
 }
-.loomi-trigger:focus-visible,
-.loomi-timezonepicker.open .loomi-trigger {
-  outline: none;
-  border-color: var(--loomi-primary-600);
-}
-:host([invalid]) .loomi-trigger {
-  border-color: var(--loomi-error-400);
-}
-:host([invalid]) .loomi-trigger:focus-visible,
-:host([invalid]) .loomi-timezonepicker.open .loomi-trigger {
-  border-color: var(--loomi-error-500);
-}
-:host([disabled]) .loomi-trigger,
 :host([readonly]) .loomi-trigger {
   opacity: 0.6;
   cursor: not-allowed;
   background: var(--loomi-surface-muted);
-}
-.loomi-trigger.variant-minimal {
-  border: 0;
-  border-bottom: 2px solid var(--loomi-surface-border);
-  background: transparent;
-  border-radius: 0;
-}
-.loomi-trigger.variant-minimal:focus-visible,
-.loomi-timezonepicker.open .loomi-trigger.variant-minimal {
-  border-bottom-color: var(--loomi-primary-600);
-}
-:host([invalid]) .loomi-trigger.variant-minimal {
-  border-bottom-color: var(--loomi-error-400);
-}
-:host([invalid]) .loomi-trigger.variant-minimal:focus-visible,
-:host([invalid]) .loomi-timezonepicker.open .loomi-trigger.variant-minimal {
-  border-bottom-color: var(--loomi-error-500);
 }
 
 .loomi-value {

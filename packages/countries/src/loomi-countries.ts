@@ -1,7 +1,7 @@
 import { html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
 import { unsafeSVG } from "lit/directives/unsafe-svg.js";
-import { LoomiElement, loomiDefaultText, loomiT, onClickOutside, themeStyles } from "@loomidev/core";
+import { LoomiElement, controlSizeStyles, fieldStyles, loomiDefaultText, loomiT, onClickOutside, themeStyles } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 import { LOOMI_COUNTRIES, type LoomiCountryRecord } from "./generated/countries-data.js";
 
@@ -117,13 +117,13 @@ function resolveCountry(input: string): LoomiCountryRecord | undefined {
  * @csspart trigger - The clickable trigger / flag button.
  * @csspart panel - The dropdown panel.
  * @csspart input - The phone number `<input>` (`phone` mode only).
- * @fires select - `detail: { code, name, dialCode }` when a country is chosen.
+ * @fires loomi-select - `detail: { code, name, dialCode }` when a country is chosen.
  * @fires change - Fired when the selection or phone number changes (composed).
  * @fires input - Fired while typing the phone number (composed, `phone` mode only).
  */
 @customElement("loomi-countries")
 export class LoomiCountries extends LoomiElement {
-  static override styles = [themeStyles, componentStyles];
+  static override styles = [themeStyles, controlSizeStyles, fieldStyles, componentStyles];
   static formAssociated = true;
 
   private internals = this.attachInternals();
@@ -249,7 +249,7 @@ export class LoomiCountries extends LoomiElement {
     this.selection = rec.code;
     this.close();
     this.dispatchEvent(
-      new CustomEvent("select", {
+      new CustomEvent("loomi-select", {
         bubbles: true,
         composed: true,
         detail: { code: rec.code, name: rec.name, dialCode: rec.dialCode },

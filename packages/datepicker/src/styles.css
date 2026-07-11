@@ -21,35 +21,13 @@
   color: var(--loomi-error-500);
 }
 
+/* Field chrome + .size-* presets come from @loomidev/core's fieldStyles/controlSizeStyles
+   (see loomi-datepicker.ts); only the datepicker-specific layout stays local. */
 .loomi-field {
-  display: flex;
-  align-items: center;
   gap: 0.5rem;
-  width: 100%;
-  min-height: var(--loomi-control-height);
-  background: var(--loomi-surface);
-  border: 2px solid var(--loomi-surface-border);
-  border-radius: 0.5rem;
   padding: 0 var(--loomi-control-pad-x);
   font-size: var(--loomi-control-font-size);
   cursor: pointer;
-}
-.size-tiny { --loomi-control-height: 2rem; --loomi-control-pad-x: 0.625rem; --loomi-control-font-size: 0.75rem; }
-.size-small { --loomi-control-height: 2.25rem; --loomi-control-pad-x: 0.75rem; --loomi-control-font-size: 0.875rem; }
-.size-regular { --loomi-control-height: 2.5rem; --loomi-control-pad-x: 0.875rem; --loomi-control-font-size: 0.875rem; }
-.size-medium { --loomi-control-height: 2.75rem; --loomi-control-pad-x: 1rem; --loomi-control-font-size: 1rem; }
-.size-big { --loomi-control-height: 3rem; --loomi-control-pad-x: 1.25rem; --loomi-control-font-size: 1.125rem; }
-.loomi-dp.open .loomi-field {
-  border-color: var(--loomi-primary-600);
-}
-.loomi-field.variant-minimal {
-  border: 0;
-  border-bottom: 2px solid var(--loomi-surface-border);
-  background: transparent;
-  border-radius: 0;
-}
-.loomi-dp.open .loomi-field.variant-minimal {
-  border-bottom-color: var(--loomi-primary-600);
 }
 .loomi-field svg {
   width: 1.2rem;
