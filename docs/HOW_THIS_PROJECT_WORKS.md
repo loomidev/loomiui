@@ -263,7 +263,7 @@ packages/button/
 │   ├── icons.ts                 <- re-exports the icon registry for this component's use
 │   ├── styles.css                <- a few lines of hand-written plain CSS
 │   └── generated/styles.css.ts    <- AUTO-GENERATED, not committed (gitignored)
-├── scripts/build-styles.mjs    <- the script that produces src/generated/styles.css.ts
+├── scripts/build-styles.mjs    <- 4-line shim into the shared style build (scripts/lib/)
 └── test/loomi-button.test.ts  <- a smoke test, runs against the built dist/, not src/
 ```
 
@@ -394,19 +394,27 @@ consumers clean named imports for types.
 
 ### `scripts/build-styles.mjs` — where Tailwind disappears
 
-This Node script runs at build time (never in the consumer's browser). In order:
+The per-package file is a 4-line shim: it imports `buildComponentStyles` from the shared
+implementation at [`scripts/lib/build-component-styles.mjs`](../scripts/lib/build-component-styles.mjs)
+(repo root) and calls it with `import.meta.url` — passing its own module URL is what keeps
+palette and Tailwind CLI resolution anchored to the package's `node_modules` rather than
+the repo root's. The shared script runs at build time (never in the consumer's browser).
+In order:
 1. Reads `packages/theme/palette.json` (the single source of truth for color names).
 2. Builds a Tailwind `@theme inline` block mapping every Tailwind color utility
    (`bg-primary-600`) onto an overridable CSS variable (`var(--loomi-primary-600, ...)`)
    instead of a hardcoded hex value.
-3. Adds a `@source inline(...)` **safelist** — the utilities import carries
-   `source(none)`, meaning Tailwind does *not* scan source files for class names at all
-   (component templates use semantic `loomi-*` classes, so scanning only ever matched
-   false positives and bloated the output). Any utility class a component needs must
-   therefore appear in `src/styles.css` itself (e.g. via `@apply`) or be safelisted.
-   Button's safelist explicitly lists every color/shade combination its dynamic class
-   strings (`` `bg-${color}-600` ``) might produce at runtime, so Tailwind generates CSS
-   for all of them anyway.
+3. Adds a `@source inline(...)` **safelist** if the package's shim asked for one — the
+   utilities import carries `source(none)`, meaning Tailwind does *not* scan source files
+   for class names at all (component templates use semantic `loomi-*` classes, so
+   scanning only ever matched false positives and bloated the output). Any utility class
+   a component needs must therefore appear in `src/styles.css` itself (e.g. via `@apply`)
+   or be safelisted. Button is the one package that needs this: its shim passes a
+   `safelist` option (`{ variants, props, shades }`, see
+   [`packages/button/scripts/build-styles.mjs`](../packages/button/scripts/build-styles.mjs))
+   that expands to every color/shade combination its dynamic class strings
+   (`` `bg-${color}-600` ``) might produce at runtime, so Tailwind generates CSS for all
+   of them anyway.
 4. Shells out to the real Tailwind CLI (`spawnSync`) to compile all of that into plain CSS.
 5. Writes the result into `src/generated/styles.css.ts` as a Lit `CSSResult` (wrapped with
    `unsafeCSS(...)`) — a TypeScript file containing a plain string of CSS that
@@ -1030,9 +1038,10 @@ If you are avoiding workspace-wide commands while debugging, run the package's o
 script from its folder or call the same commands its `package.json` uses.
 
 **"I edited `src/generated/styles.css.ts`, but my change disappeared."**
-Generated files are outputs. Edit the source that creates them: usually
-`scripts/build-styles.mjs`, `packages/theme/palette.json`, or the component class strings
-that Tailwind must safelist. Then rebuild.
+Generated files are outputs. Edit the source that creates them: usually `src/styles.css`,
+the shared build script (`scripts/lib/build-component-styles.mjs` at the repo root),
+`packages/theme/palette.json`, or the safelist options in the package's
+`scripts/build-styles.mjs` shim. Then rebuild.
 
 **"My new Tailwind class does not have any CSS."**
 Tailwind only generates classes it can find or classes the build script safelists. Literal
@@ -1078,7 +1087,8 @@ Use this checklist when you get a task like "add an attribute to `<loomi-select>
    `computeClasses()`, `renderContent()`, or `renderOption()`. This tells you what DOM the
    browser actually sees.
 5. **Check styling generation.** If your change adds new Tailwind utility classes, make
-   sure they are literal strings or safelisted by `scripts/build-styles.mjs`.
+   sure they are literal strings or safelisted via the options object in the package's
+   `scripts/build-styles.mjs` shim (`packages/button` is the reference example).
 6. **Check events and forms.** If outside code needs to know something changed, dispatch a
    public event. If the component participates in forms, update `setFormValue(...)` and
    validation behavior.

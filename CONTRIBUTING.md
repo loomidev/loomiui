@@ -212,7 +212,7 @@ packages/button/
 ├─ custom-elements.json        ← generated API manifest (committed; regenerate with `pnpm cem`)
 ├─ tsconfig.json
 ├─ scripts/
-│  └─ build-styles.mjs        ← compiles Tailwind, never hand-edited per-package
+│  └─ build-styles.mjs        ← 4-line shim into the shared style build (scripts/lib/)
 ├─ src/
 │  ├─ styles.css               ← hand-authored plain CSS + Tailwind utility classes
 │  ├─ icons.ts                 ← (only if the component needs icons)
@@ -293,11 +293,14 @@ Things worth understanding line by line:
   `^<published-version>` at publish time." See [§9](#9-publishing-to-npm).
 
 ### `scripts/build-styles.mjs`
-**Byte-for-byte identical across every component package** except `button` (which has
-one extra safelist block — see below). Don't hand-edit it per-package; if the build logic
-needs to change, change the master copy and re-copy it everywhere.
+**A 4-line shim, identical across every component package**: it imports
+`buildComponentStyles` from the shared implementation at
+`scripts/lib/build-component-styles.mjs` (repo root) and calls it with `import.meta.url` —
+so palette and Tailwind CLI resolution still happen from the package itself, against the
+package's own `node_modules`. Don't put build logic in the shim; if the build needs to
+change, change the shared script once and every package picks it up on its next build.
 
-What it does, in order:
+What the shared script does, in order:
 1. Reads `@loomidev/theme/palette.json` (real `node_modules` resolution) for the color
    names, shades, and `prefix` (currently `"loomi"`).
 2. Builds a Tailwind `@theme inline` block mapping every Tailwind color utility
@@ -315,12 +318,18 @@ What it does, in order:
    classes you want generated must therefore appear in `src/styles.css` itself (e.g.
    via `@apply`) or in an explicit `@source inline(...)` safelist.
 5. Writes the compiled CSS into `src/generated/styles.css.ts`, wrapped as a Lit
-   `CSSResult` via `unsafeCSS(...)`, exported as `componentStyles`.
+   `CSSResult` via `unsafeCSS(...)`, exported as `componentStyles` (name overridable via
+   the `exportName` option).
 
-`@loomidev/button` additionally defines a **safelist** (`@source inline(...)`) because its
-color classes are built from a runtime template string (`` `bg-${color}-600` ``) that
-Tailwind can't see statically — without it, those classes would never be generated. Every
-other component avoids this by themeing through the `--_loomi-accent` mechanism (see
+`@loomidev/button` is the one package whose shim passes an **options object** (see
+`packages/button/scripts/build-styles.mjs`): a `safelist` of
+`{ variants, props, shades }`, expanded against every palette color into an
+`@source inline(...)` rule, because its color classes are built from a runtime template
+string (`` `bg-${color}-600` ``) that Tailwind can't see statically — without it, those
+classes would never be generated. It also passes `sources` (authored files to scan for
+statically-used utilities), `exportName: "buttonStyles"`, and a custom `styleDoc` comment
+for the generated file. Every other component avoids all of this by themeing through the
+`--_loomi-accent` mechanism (see
 [§7](#7-the-theming-model-so-you-dont-break-it)) instead of interpolated class names —
 simpler, and the pattern I'd recommend for any new component over interpolated utilities.
 
@@ -382,7 +391,8 @@ values) and generates:
 
 To rebrand the entire library's custom-property prefix (e.g. `--loomi-*` →
 `--acme-*`), `palette.json`'s `"prefix"` field is the **single line** to change — both
-`build-tokens.mjs` and every component's `build-styles.mjs` read it from there.
+`build-tokens.mjs` and the shared component style build
+(`scripts/lib/build-component-styles.mjs`) read it from there.
 
 ### `packages/core/` — `@loomidev/core`
 Shared runtime helpers every component imports. Re-exports `themeStyles` and the palette
@@ -559,7 +569,8 @@ reinvent it.**
    on them as regular `dependencies`.
 2. **Scaffold:** `mkdir -p packages/<name>/{src,scripts}`
 3. **Copy two files unchanged** from any existing sibling (e.g. `packages/timeline/`):
-   `scripts/build-styles.mjs` and `tsconfig.json`.
+   `scripts/build-styles.mjs` (the 4-line shim into the shared style build) and
+   `tsconfig.json`.
 4. **Write `package.json`** — copy a similar component's, change `name`, `description`,
    `keywords`, the `./loomi-<name>.js` exports path, and `dependencies` (always
    `@loomidev/core`; add `@loomidev/icons`/other components as needed; always `workspace:^`).

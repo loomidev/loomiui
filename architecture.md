@@ -205,6 +205,12 @@ tsc
 dist/generated/styles.css.js
 ```
 
+Each package's `scripts/build-styles.mjs` is a small shim that delegates to the shared
+implementation at [`scripts/lib/build-component-styles.mjs`](scripts/lib/build-component-styles.mjs)
+(repo root), passing `import.meta.url` so dependency resolution stays package-local. A
+package that needs runtime-interpolated utility classes passes an options object with a
+safelist; `packages/button/scripts/build-styles.mjs` is the reference example.
+
 At runtime, each component imports its compiled CSS and injects it into its own Shadow
 DOM through `static styles`.
 
@@ -216,8 +222,8 @@ This gives consumers:
 - normal CSS custom properties for theming.
 
 Generated files are disposable. If a class is missing from the output, edit the component
-source, `src/styles.css`, the theme palette, or the build script safelist. Do not patch
-`src/generated/styles.css.ts` directly.
+source, `src/styles.css`, the theme palette, or the safelist options in the package's
+build shim. Do not patch `src/generated/styles.css.ts` directly.
 
 ## Theme Architecture
 

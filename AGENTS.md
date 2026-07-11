@@ -6,7 +6,7 @@ This repo is a package-per-component monorepo. Public component changes usually 
 
 - Source updates under `packages/<component>/src/`.
 - README updates in the same package when the public API, behavior, or examples change.
-- Generated CSS refresh with `node packages/<component>/scripts/build-styles.mjs` when `src/styles.css` changes.
+- Generated CSS refresh with `node packages/<component>/scripts/build-styles.mjs` when `src/styles.css` changes. (Each package's script is a thin shim; the actual build logic lives in `scripts/lib/build-component-styles.mjs` at the repo root — edit that, not the shims.)
 - Package-local TypeScript verification with `./node_modules/.bin/tsc -p packages/<component>/tsconfig.json` when possible.
 - Focused tests with `./node_modules/.bin/web-test-runner packages/<component>/test/<file>.test.ts --config web-test-runner.config.mjs` when a package has tests.
 
