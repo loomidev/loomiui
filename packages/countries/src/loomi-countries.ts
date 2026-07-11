@@ -439,7 +439,7 @@ export class LoomiCountries extends LoomiElement {
     const phoneLabel = this.label || loomiT("countries.phoneNumberLabel", {}, this.locale);
 
     return html`
-      <div class="loomi-phone-field" part="field">
+      <div class="loomi-field loomi-phone-field" part="field">
         <button
           type="button"
           class="loomi-flag-trigger"
