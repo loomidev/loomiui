@@ -1,4 +1,5 @@
 import { css } from "lit";
+import { HOUR_HEIGHT } from "./calendar-utils.js";
 
 export const calendarStyles = css`
   :host {
@@ -1174,7 +1175,7 @@ export const calendarStyles = css`
   }
 
   .time-axis-label {
-    height: var(--loomi-calendar-hour-height, 96px);
+    height: var(--loomi-calendar-hour-height, ${HOUR_HEIGHT}px);
     padding: 0 10px 0 0;
     display: flex;
     align-items: flex-start;
@@ -1251,7 +1252,7 @@ export const calendarStyles = css`
   }
 
   .time-slot {
-    height: var(--loomi-calendar-hour-height, 96px);
+    height: var(--loomi-calendar-hour-height, ${HOUR_HEIGHT}px);
     border-bottom: 1px solid var(--loomi-calendar-border-subtle);
     box-sizing: border-box;
   }
@@ -1517,7 +1518,7 @@ export const calendarStyles = css`
   }
 
   .event-primary {
-    background: color-mix(in srgb, var(--loomi-primary-100, var(--_loomi-primary-100-default)) 88%, white);
+    background: color-mix(in srgb, var(--loomi-primary-100, var(--_loomi-primary-100-default)) 88%, var(--loomi-calendar-surface));
     color: var(--loomi-primary-800, var(--_loomi-primary-800-default));
     border-color: color-mix(in srgb, var(--loomi-primary-200, var(--_loomi-primary-200-default)) 80%, transparent);
   }
@@ -1529,7 +1530,7 @@ export const calendarStyles = css`
   }
 
   .event-secondary {
-    background: color-mix(in srgb, var(--loomi-secondary-100, var(--_loomi-secondary-100-default)) 88%, white);
+    background: color-mix(in srgb, var(--loomi-secondary-100, var(--_loomi-secondary-100-default)) 88%, var(--loomi-calendar-surface));
     color: var(--loomi-secondary-800, var(--_loomi-secondary-800-default));
     border-color: color-mix(in srgb, var(--loomi-secondary-200, var(--_loomi-secondary-200-default)) 80%, transparent);
   }
@@ -1541,7 +1542,7 @@ export const calendarStyles = css`
   }
 
   .event-success {
-    background: color-mix(in srgb, var(--loomi-success-100, var(--_loomi-success-100-default)) 88%, white);
+    background: color-mix(in srgb, var(--loomi-success-100, var(--_loomi-success-100-default)) 88%, var(--loomi-calendar-surface));
     color: var(--loomi-success-800, var(--_loomi-success-800-default));
     border-color: color-mix(in srgb, var(--loomi-success-200, var(--_loomi-success-200-default)) 80%, transparent);
   }
@@ -1553,7 +1554,7 @@ export const calendarStyles = css`
   }
 
   .event-warning {
-    background: color-mix(in srgb, var(--loomi-warning-100, var(--_loomi-warning-100-default)) 88%, white);
+    background: color-mix(in srgb, var(--loomi-warning-100, var(--_loomi-warning-100-default)) 88%, var(--loomi-calendar-surface));
     color: var(--loomi-warning-800, var(--_loomi-warning-800-default));
     border-color: color-mix(in srgb, var(--loomi-warning-200, var(--_loomi-warning-200-default)) 80%, transparent);
   }
@@ -1565,7 +1566,7 @@ export const calendarStyles = css`
   }
 
   .event-error {
-    background: color-mix(in srgb, var(--loomi-error-100, var(--_loomi-error-100-default)) 88%, white);
+    background: color-mix(in srgb, var(--loomi-error-100, var(--_loomi-error-100-default)) 88%, var(--loomi-calendar-surface));
     color: var(--loomi-error-800, var(--_loomi-error-800-default));
     border-color: color-mix(in srgb, var(--loomi-error-200, var(--_loomi-error-200-default)) 80%, transparent);
   }
@@ -1574,6 +1575,41 @@ export const calendarStyles = css`
     background: var(--loomi-error-600, var(--_loomi-error-600-default));
     border-color: var(--loomi-error-600, var(--_loomi-error-600-default));
     color: var(--loomi-text-on-primary, var(--loomi-white, #fff));
+  }
+
+  /* Dark mode ("is-dark" toggled on the host via core's watchDarkMode — see
+     loomi-calendar.ts): the light -100 tints above would render as glaring light
+     chips on the dark grid, so re-tint from the -500 shade mixed into the (now dark)
+     surface, with light -200 text. Selected chips stay solid -600 + on-primary text,
+     which already works in both modes. */
+  :host(.is-dark) .event-primary:not(.selected) {
+    background: color-mix(in srgb, var(--loomi-primary-500, var(--_loomi-primary-500-default)) 22%, var(--loomi-calendar-surface));
+    color: var(--loomi-primary-200, var(--_loomi-primary-200-default));
+    border-color: color-mix(in srgb, var(--loomi-primary-500, var(--_loomi-primary-500-default)) 35%, transparent);
+  }
+
+  :host(.is-dark) .event-secondary:not(.selected) {
+    background: color-mix(in srgb, var(--loomi-secondary-500, var(--_loomi-secondary-500-default)) 22%, var(--loomi-calendar-surface));
+    color: var(--loomi-secondary-200, var(--_loomi-secondary-200-default));
+    border-color: color-mix(in srgb, var(--loomi-secondary-500, var(--_loomi-secondary-500-default)) 35%, transparent);
+  }
+
+  :host(.is-dark) .event-success:not(.selected) {
+    background: color-mix(in srgb, var(--loomi-success-500, var(--_loomi-success-500-default)) 22%, var(--loomi-calendar-surface));
+    color: var(--loomi-success-200, var(--_loomi-success-200-default));
+    border-color: color-mix(in srgb, var(--loomi-success-500, var(--_loomi-success-500-default)) 35%, transparent);
+  }
+
+  :host(.is-dark) .event-warning:not(.selected) {
+    background: color-mix(in srgb, var(--loomi-warning-500, var(--_loomi-warning-500-default)) 22%, var(--loomi-calendar-surface));
+    color: var(--loomi-warning-200, var(--_loomi-warning-200-default));
+    border-color: color-mix(in srgb, var(--loomi-warning-500, var(--_loomi-warning-500-default)) 35%, transparent);
+  }
+
+  :host(.is-dark) .event-error:not(.selected) {
+    background: color-mix(in srgb, var(--loomi-error-500, var(--_loomi-error-500-default)) 22%, var(--loomi-calendar-surface));
+    color: var(--loomi-error-200, var(--_loomi-error-200-default));
+    border-color: color-mix(in srgb, var(--loomi-error-500, var(--_loomi-error-500-default)) 35%, transparent);
   }
 
   @media (max-width: 720px) {

@@ -224,7 +224,7 @@
 }
 .loomi-pill:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--_loomi-accent-ring, var(--loomi-primary-200));
+  box-shadow: 0 0 0 3px var(--_loomi-accent-ring, var(--loomi-focus-ring, var(--loomi-primary-100, var(--_loomi-primary-100-default))));
 }
 .loomi-pill:disabled {
   cursor: not-allowed;
