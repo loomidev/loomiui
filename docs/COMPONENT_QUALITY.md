@@ -95,8 +95,8 @@ Document token usage under `## Dark mode` in README.
 
 ## README template
 
-Add these sections to every interactive component README (after the intro, before
-`## Installation`):
+Add these sections to every interactive component README (before
+`## Attributes`):
 
 ```markdown
 ## Accessibility
