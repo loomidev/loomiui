@@ -206,7 +206,7 @@ tbody tr.selected {
 }
 .loomi-action:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--loomi-primary-200);
+  box-shadow: 0 0 0 2px var(--loomi-focus-ring);
 }
 .loomi-action.filled {
   border-color: transparent;
@@ -258,5 +258,5 @@ tbody tr.selected {
 }
 .loomi-empty-button:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--loomi-primary-200);
+  box-shadow: 0 0 0 2px var(--loomi-focus-ring);
 }

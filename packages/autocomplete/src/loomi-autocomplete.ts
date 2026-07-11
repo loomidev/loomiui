@@ -56,7 +56,7 @@ export class LoomiAutocomplete extends LoomiElement {
       .loomi-field:focus-within,
       .open .loomi-field {
         border-color: var(--loomi-primary-600, var(--_loomi-primary-600-default));
-        box-shadow: 0 0 0 3px var(--loomi-primary-100, var(--_loomi-primary-100-default));
+        box-shadow: 0 0 0 3px var(--loomi-focus-ring);
       }
       .no-focus-ring .loomi-field:focus-within,
       .no-focus-ring.open .loomi-field {

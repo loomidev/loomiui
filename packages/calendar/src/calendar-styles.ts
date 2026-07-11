@@ -1174,7 +1174,7 @@ export const calendarStyles = css`
   }
 
   .time-axis-label {
-    height: var(--loomi-calendar-hour-height, 48px);
+    height: var(--loomi-calendar-hour-height, 96px);
     padding: 0 10px 0 0;
     display: flex;
     align-items: flex-start;
@@ -1251,7 +1251,7 @@ export const calendarStyles = css`
   }
 
   .time-slot {
-    height: var(--loomi-calendar-hour-height, 48px);
+    height: var(--loomi-calendar-hour-height, 96px);
     border-bottom: 1px solid var(--loomi-calendar-border-subtle);
     box-sizing: border-box;
   }
@@ -1517,53 +1517,63 @@ export const calendarStyles = css`
   }
 
   .event-primary {
-    background: color-mix(in srgb, var(--loomi-primary-100, #dbeafe) 88%, white);
-    color: var(--loomi-primary-800, #1e40af);
-    border-color: color-mix(in srgb, var(--loomi-primary-200, #bfdbfe) 80%, transparent);
+    background: color-mix(in srgb, var(--loomi-primary-100, var(--_loomi-primary-100-default)) 88%, white);
+    color: var(--loomi-primary-800, var(--_loomi-primary-800-default));
+    border-color: color-mix(in srgb, var(--loomi-primary-200, var(--_loomi-primary-200-default)) 80%, transparent);
   }
 
   .event-primary.selected {
-    background: color-mix(in srgb, var(--loomi-primary-300, #93c5fd) 88%, white);
+    background: var(--loomi-primary-600, var(--_loomi-primary-600-default));
+    border-color: var(--loomi-primary-600, var(--_loomi-primary-600-default));
+    color: var(--loomi-text-on-primary, var(--loomi-white, #fff));
   }
 
   .event-secondary {
-    background: color-mix(in srgb, var(--loomi-secondary-100, #f3f4f6) 88%, white);
-    color: var(--loomi-secondary-800, #1f2937);
-    border-color: color-mix(in srgb, var(--loomi-secondary-200, #e5e7eb) 80%, transparent);
+    background: color-mix(in srgb, var(--loomi-secondary-100, var(--_loomi-secondary-100-default)) 88%, white);
+    color: var(--loomi-secondary-800, var(--_loomi-secondary-800-default));
+    border-color: color-mix(in srgb, var(--loomi-secondary-200, var(--_loomi-secondary-200-default)) 80%, transparent);
   }
 
   .event-secondary.selected {
-    background: color-mix(in srgb, var(--loomi-secondary-300, #d1d5db) 88%, white);
+    background: var(--loomi-secondary-600, var(--_loomi-secondary-600-default));
+    border-color: var(--loomi-secondary-600, var(--_loomi-secondary-600-default));
+    color: var(--loomi-text-on-primary, var(--loomi-white, #fff));
   }
 
   .event-success {
-    background: color-mix(in srgb, var(--loomi-success-100, #d1fae5) 88%, white);
-    color: var(--loomi-success-800, #065f46);
-    border-color: color-mix(in srgb, var(--loomi-success-200, #a7f3d0) 80%, transparent);
+    background: color-mix(in srgb, var(--loomi-success-100, var(--_loomi-success-100-default)) 88%, white);
+    color: var(--loomi-success-800, var(--_loomi-success-800-default));
+    border-color: color-mix(in srgb, var(--loomi-success-200, var(--_loomi-success-200-default)) 80%, transparent);
   }
 
   .event-success.selected {
-    background: color-mix(in srgb, var(--loomi-success-300, #6ee7b7) 88%, white);
+    background: var(--loomi-success-600, var(--_loomi-success-600-default));
+    border-color: var(--loomi-success-600, var(--_loomi-success-600-default));
+    color: var(--loomi-text-on-primary, var(--loomi-white, #fff));
   }
 
   .event-warning {
-    background: color-mix(in srgb, var(--loomi-warning-100, #fef3c7) 88%, white);
-    color: var(--loomi-warning-800, #92400e);
-    border-color: color-mix(in srgb, var(--loomi-warning-200, #fde68a) 80%, transparent);
+    background: color-mix(in srgb, var(--loomi-warning-100, var(--_loomi-warning-100-default)) 88%, white);
+    color: var(--loomi-warning-800, var(--_loomi-warning-800-default));
+    border-color: color-mix(in srgb, var(--loomi-warning-200, var(--_loomi-warning-200-default)) 80%, transparent);
   }
 
   .event-warning.selected {
-    background: color-mix(in srgb, var(--loomi-warning-300, #fcd34d) 88%, white);
+    background: var(--loomi-warning-600, var(--_loomi-warning-600-default));
+    border-color: var(--loomi-warning-600, var(--_loomi-warning-600-default));
+    color: var(--loomi-text-on-primary, var(--loomi-white, #fff));
   }
 
   .event-error {
-    background: color-mix(in srgb, var(--loomi-error-100, #fee2e2) 88%, white);
-    color: var(--loomi-error-800, #991b1b);
-    border-color: color-mix(in srgb, var(--loomi-error-200, #fecaca) 80%, transparent);
+    background: color-mix(in srgb, var(--loomi-error-100, var(--_loomi-error-100-default)) 88%, white);
+    color: var(--loomi-error-800, var(--_loomi-error-800-default));
+    border-color: color-mix(in srgb, var(--loomi-error-200, var(--_loomi-error-200-default)) 80%, transparent);
   }
 
   .event-error.selected {
-    background: color-mix(in srgb, var(--loomi-error-300, #fca5a5) 88%, white);
+    background: var(--loomi-error-600, var(--_loomi-error-600-default));
+    border-color: var(--loomi-error-600, var(--_loomi-error-600-default));
+    color: var(--loomi-text-on-primary, var(--loomi-white, #fff));
   }
 
   @media (max-width: 720px) {

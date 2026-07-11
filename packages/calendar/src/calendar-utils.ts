@@ -1,6 +1,6 @@
 import type { CalendarEvent, CalendarEventInvitee, CalendarWeekStarts } from "./types.js";
 
-export const HOUR_HEIGHT = 48;
+export const HOUR_HEIGHT = 96;
 export const MIN_EVENT_HEIGHT = 22;
 export const ALL_DAY_HEIGHT = 36;
 export const RESOURCE_LABEL_WIDTH = 160;

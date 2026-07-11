@@ -34,7 +34,7 @@
 }
 .loomi-trigger:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--loomi-primary-200);
+  box-shadow: 0 0 0 2px var(--loomi-focus-ring);
 }
 .loomi-trigger svg {
   width: 1.25rem;
