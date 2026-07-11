@@ -397,7 +397,9 @@ export class LoomiDropmenu extends LoomiElement {
             @click=${this.onItemsClick}
             @keydown=${this.onMenuKeyDown}
           >
-            <slot @slotchange=${this.onSlotChange}></slot>
+            <div class="loomi-viewport">
+              <slot @slotchange=${this.onSlotChange}></slot>
+            </div>
           </div>`
         : nothing}
     `;

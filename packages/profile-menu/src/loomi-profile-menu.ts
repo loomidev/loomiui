@@ -50,7 +50,7 @@ export class LoomiProfileMenu extends LoomiElement {
   @property({ type: Boolean }) verified = false;
   @property({ type: Boolean }) transparent = false;
   @property({ attribute: "trigger-label" }) triggerLabel = "";
-  @property() placement: LoomiProfileMenuPlacement = "auto";
+  @property() placement: LoomiProfileMenuPlacement = "right";
   @property({ type: Boolean }) divided = false;
   @property({ type: Boolean }) scrollable = false;
   @property({ type: Number }) height = 200;

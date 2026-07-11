@@ -12,6 +12,9 @@
   --loomi-dropmenu-trigger-padding: 0;
   --loomi-dropmenu-trigger-hover-bg: transparent;
   --loomi-dropmenu-trigger-radius: var(--loomi-profile-menu-radius);
+  /* Center the menu arrow under the chevron: 0.75rem trigger padding +
+     half the 1rem chevron - half the arrow (0.375rem). */
+  --loomi-dropmenu-arrow-inset: 0.875rem;
 }
 
 loomi-card {

@@ -7,6 +7,8 @@
   --loomi-dropmenu-item-min-height: 2.25rem;
   --loomi-dropmenu-radius: 0.625rem;
   --loomi-dropmenu-item-radius: 0.375rem;
+  --loomi-dropmenu-arrow-size: 6px;
+  --loomi-dropmenu-arrow-inset: 0.75rem;
 }
 :host([hidden]) {
   display: none;
@@ -64,9 +66,45 @@
 .loomi-menu.left {
   left: 0;
 }
-.loomi-menu.scrollable {
+.loomi-viewport {
+  display: flex;
+  flex-direction: column;
+}
+.loomi-menu.scrollable .loomi-viewport {
   max-height: var(--loomi-menu-height, 200px);
   overflow: hidden auto;
+}
+
+/* Arrow pointing at the trigger, like the tooltip: an outer border-colored
+   triangle with a surface-colored one 1px inside it. */
+.loomi-menu::before,
+.loomi-menu::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  width: 0;
+  height: 0;
+  border: var(--loomi-dropmenu-arrow-size) solid transparent;
+  border-top: none;
+  border-bottom-color: var(--loomi-surface-border);
+}
+.loomi-menu::after {
+  border-width: calc(var(--loomi-dropmenu-arrow-size) - 1px);
+  border-top: none;
+  border-bottom-color: var(--loomi-surface);
+  margin-bottom: -1px;
+}
+.loomi-menu.left::before {
+  left: var(--loomi-dropmenu-arrow-inset);
+}
+.loomi-menu.left::after {
+  left: calc(var(--loomi-dropmenu-arrow-inset) + 1px);
+}
+.loomi-menu.right::before {
+  right: var(--loomi-dropmenu-arrow-inset);
+}
+.loomi-menu.right::after {
+  right: calc(var(--loomi-dropmenu-arrow-inset) + 1px);
 }
 
 ::slotted(loomi-dropmenu-item) {
@@ -99,7 +137,16 @@
 .loomi-item.hoverable:hover,
 .loomi-item.hoverable:focus-visible,
 :host(:focus-within) .loomi-item.has-submenu {
-  background: var(--loomi-surface-hover);
+  background: var(--loomi-surface-hover-primary);
+  color: var(--loomi-text-on-primary, var(--loomi-white));
+}
+.loomi-item.hoverable:hover svg,
+.loomi-item.hoverable:hover .loomi-shortcut,
+.loomi-item.hoverable:focus-visible svg,
+.loomi-item.hoverable:focus-visible .loomi-shortcut,
+:host(:focus-within) .loomi-item.has-submenu svg,
+:host(:focus-within) .loomi-item.has-submenu .loomi-shortcut {
+  color: inherit;
 }
 .loomi-item.header {
   cursor: default;
@@ -127,8 +174,8 @@
 }
 .loomi-item.destructive.hoverable:hover,
 .loomi-item.destructive.hoverable:focus-visible {
-  background: color-mix(in srgb, var(--loomi-error-500) 10%, transparent);
-  color: var(--loomi-error-600);
+  background: var(--loomi-error-600);
+  color: var(--loomi-text-on-primary, var(--loomi-white));
 }
 .loomi-item svg,
 .loomi-submenu-icon {

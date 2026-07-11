@@ -120,7 +120,8 @@
   border-radius: 0.4rem;
 }
 .loomi-head-button:hover {
-  background: var(--loomi-surface-hover);
+  background: var(--loomi-surface-hover-primary);
+  color: var(--loomi-text-on-primary, var(--loomi-white));
 }
 .loomi-nav {
   display: inline-flex;
@@ -138,7 +139,8 @@
   height: 1.7rem;
 }
 .loomi-nav:hover {
-  background: var(--loomi-surface-hover);
+  background: var(--loomi-surface-hover-primary);
+  color: var(--loomi-text-on-primary, var(--loomi-white));
 }
 .loomi-nav svg {
   width: 1.1rem;
@@ -170,7 +172,8 @@
   cursor: pointer;
 }
 .loomi-day:hover:not(:disabled) {
-  background: var(--loomi-surface-hover);
+  background: var(--loomi-surface-hover-primary);
+  color: var(--loomi-text-on-primary, var(--loomi-white));
 }
 .loomi-day.today {
   font-weight: 700;
@@ -215,7 +218,8 @@
   border-radius: 0.4rem;
 }
 .loomi-picker-cell:hover {
-  background: var(--loomi-surface-hover);
+  background: var(--loomi-surface-hover-primary);
+  color: var(--loomi-text-on-primary, var(--loomi-white));
 }
 .loomi-picker-cell.selected {
   background: var(--loomi-primary-600, var(--_loomi-primary-600-default));

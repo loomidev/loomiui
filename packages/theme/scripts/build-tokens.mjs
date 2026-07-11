@@ -81,12 +81,14 @@ for (const color of colors) {
 // already-overridable `--loomi-gray-*` tokens via the same public/private fallback
 // chain, so re-theming the gray ramp re-themes dark-mode surfaces for free.
 const gray = (shade) => `var(${pub("gray", shade)}, var(${priv("gray", shade)}))`;
+const primary = (shade) => `var(${pub("primary", shade)}, var(${priv("primary", shade)}))`;
 
 const SEMANTIC_LIGHT = {
   "surface": null, // resolved to white by surfaceLines(); key kept here only for ordering
   "surface-border": gray(200),
   "surface-border-subtle": gray(100),
   "surface-hover": gray(100),
+  "surface-hover-primary": primary(600),
   "surface-muted": gray(50),
   "text": gray(900),
   "text-secondary": gray(700),
@@ -98,6 +100,7 @@ const SEMANTIC_DARK = {
   "surface-border": gray(700),
   "surface-border-subtle": gray(700),
   "surface-hover": gray(700),
+  "surface-hover-primary": primary(600),
   "surface-muted": gray(900),
   "text": gray(100),
   "text-secondary": gray(300),
