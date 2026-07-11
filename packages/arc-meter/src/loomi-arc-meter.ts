@@ -11,37 +11,12 @@ const RADIUS = 96;
 const TRACK_WIDTH = 11;
 const MARKER_RADIUS = 11;
 const MARKER_STROKE = 7;
-const DEFAULT_MARKER_COLORS = ["error", "warning", "success", "primary", "secondary", "gray"];
+const DEFAULT_MARKER_COLOR = "error";
 
 interface ArcPoint {
   x: number;
   y: number;
 }
-
-const markerColorsConverter = {
-  fromAttribute(value: string | null): string[] {
-    if (!value) return [];
-    const trimmed = value.trim();
-    if (!trimmed) return [];
-
-    if (trimmed.startsWith("[")) {
-      try {
-        const parsed = JSON.parse(trimmed);
-        if (Array.isArray(parsed)) return parsed.map(String).filter(Boolean);
-      } catch {
-        return [];
-      }
-    }
-
-    return trimmed
-      .split(",")
-      .map((color) => color.trim())
-      .filter(Boolean);
-  },
-  toAttribute(value: string[]): string | null {
-    return value.length ? value.join(",") : null;
-  },
-};
 
 function formatNumber(value: number, digits = 2): string {
   return Number(value.toFixed(digits)).toString();
@@ -75,7 +50,7 @@ export class LoomiArcMeter extends LoomiElement {
 
   @property({ type: Number }) markers = 4;
   @property({ type: Number, attribute: "active-marker" }) activeMarker = 1;
-  @property({ attribute: "marker-colors", converter: markerColorsConverter }) markerColors: string[] = [...DEFAULT_MARKER_COLORS];
+  @property({ attribute: "marker-color" }) markerColor = DEFAULT_MARKER_COLOR;
   @property() title = "Low";
   @property() description = "Protection level";
 
@@ -92,10 +67,8 @@ export class LoomiArcMeter extends LoomiElement {
     return marker / (count + 1);
   }
 
-  private colorForMarker(marker: number): string {
-    const rawColor = String(
-      this.markerColors[marker - 1] || DEFAULT_MARKER_COLORS[(marker - 1) % DEFAULT_MARKER_COLORS.length],
-    ).trim();
+  private get resolvedMarkerColor(): string {
+    const rawColor = String(this.markerColor || DEFAULT_MARKER_COLOR).trim() || DEFAULT_MARKER_COLOR;
     const color = rawColor === "yellow" ? "warning" : rawColor;
     return isLoomiColor(color) ? cssColor(color, 600) : color;
   }
@@ -108,7 +81,7 @@ export class LoomiArcMeter extends LoomiElement {
 
   private renderTrackSegments(count: number): SVGTemplateResult[] {
     const segmentCount = count + 1;
-    const gap = Math.min(0.016, 0.22 / segmentCount);
+    const gap = Math.min(0.025, 0.3 / segmentCount);
     const segments: SVGTemplateResult[] = [];
 
     for (let index = 0; index < segmentCount; index += 1) {
@@ -126,7 +99,7 @@ export class LoomiArcMeter extends LoomiElement {
     const activeMarker = this.selectedMarker;
     const activeRatio = this.markerRatio(activeMarker, markerCount);
     const activePoint = pointOnArc(activeRatio);
-    const activeColor = this.colorForMarker(activeMarker);
+    const activeColor = this.resolvedMarkerColor;
     const fillEnd = Math.max(0.01, activeRatio - 0.026);
 
     return html`<div

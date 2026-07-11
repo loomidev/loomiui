@@ -46,14 +46,13 @@
 .loomi-marker-ring {
   fill: var(--loomi-surface);
   stroke: var(--loomi-marker-color);
-  filter: drop-shadow(0 0.125rem 0.25rem color-mix(in srgb, var(--loomi-text) 10%, transparent));
   transition: cx 0.28s ease, cy 0.28s ease, stroke 0.18s ease;
 }
 
 .loomi-copy {
   position: absolute;
-  inset-block-start: 39%;
-  inset-inline: 23% 10%;
+  inset-block-start: 50%;
+  inset-inline: 16%;
   display: grid;
   justify-items: center;
   gap: 0.12rem;
@@ -64,7 +63,7 @@
 .loomi-title {
   max-width: 100%;
   color: var(--loomi-text);
-  font-size: 1.45rem;
+  font-size: 1.35rem;
   font-weight: 750;
   line-height: 1.05;
   overflow-wrap: anywhere;

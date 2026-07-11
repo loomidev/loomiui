@@ -8,7 +8,7 @@ describe("loomi-arc-meter", () => {
       <loomi-arc-meter
         markers="4"
         active-marker="2"
-        marker-colors='["error","#06b6d4"]'
+        marker-color="#06b6d4"
         title="Medium"
         description="Protection level"
       ></loomi-arc-meter>
@@ -27,7 +27,7 @@ describe("loomi-arc-meter", () => {
     expect(root.style.getPropertyValue("--loomi-marker-color")).to.equal("#06b6d4");
   });
 
-  it("falls back to sensible marker colors", async () => {
+  it("falls back to a sensible marker color", async () => {
     const el = await fixture<LoomiArcMeter>(html`<loomi-arc-meter markers="3"></loomi-arc-meter>`);
     const root = el.shadowRoot!.querySelector<HTMLElement>(".loomi-arc-meter")!;
 
