@@ -61,8 +61,10 @@ declare global {
     hideLoomiFloatingPanel: typeof hideLoomiFloatingPanel;
   }
 }
-window.showLoomiFloatingPanel = showLoomiFloatingPanel;
-window.hideLoomiFloatingPanel = hideLoomiFloatingPanel;
+if (typeof window !== "undefined") {
+  window.showLoomiFloatingPanel = showLoomiFloatingPanel;
+  window.hideLoomiFloatingPanel = hideLoomiFloatingPanel;
+}
 
 /**
  * `<loomi-floating-panel>` — a draggable, resizable panel that floats above the page,

@@ -3,7 +3,6 @@ import { customElement, property, state, query } from "lit/decorators.js";
 import { LoomiElement, loomiDefaultText, loomiStyles, loomiT } from "@loomidev/core";
 import "@loomidev/modal/loomi-modal.js";
 import type { LoomiModal } from "@loomidev/modal";
-import { showLoomiNotification } from "@loomidev/notification";
 import { componentStyles } from "./generated/styles.css.js";
 
 const UPLOAD = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 7.5 7.5 12M12 7.5v9" />`;
@@ -234,11 +233,13 @@ export class LoomiFilepicker extends LoomiElement {
     let count = this.files.length;
     for (const f of Array.from(list)) {
       if (f.size > limit) {
-        showLoomiNotification(
-          loomiT("filepicker.fileTooLargeTitle", {}, this.locale),
-          loomiT("filepicker.fileTooLarge", { name: f.name, limit: human(limit) }, this.locale),
-          "error",
-        );
+        // Lazy import: the toast system loads only when a file is actually rejected.
+        void import("@loomidev/notification").then(({ showLoomiNotification }) =>
+          showLoomiNotification(
+            loomiT("filepicker.fileTooLargeTitle", {}, this.locale),
+            loomiT("filepicker.fileTooLarge", { name: f.name, limit: human(limit) }, this.locale),
+            "error",
+          ));
         continue;
       }
       if (count >= this.maxFiles) break;

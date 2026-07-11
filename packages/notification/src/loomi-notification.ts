@@ -157,4 +157,6 @@ declare global {
     showLoomiNotification: typeof showLoomiNotification;
   }
 }
-window.showLoomiNotification = showLoomiNotification;
+if (typeof window !== "undefined") {
+  window.showLoomiNotification = showLoomiNotification;
+}

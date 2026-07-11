@@ -1,7 +1,6 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, state, queryAll } from "lit/decorators.js";
 import { LoomiElement, loomiDefaultText, loomiStyles, loomiT, randomSuffix } from "@loomidev/core";
-import { showLoomiNotification } from "@loomidev/notification";
 import { componentStyles } from "./generated/styles.css.js";
 const DEFAULT_ERROR_MESSAGE = "Verification code is invalid";
 
@@ -13,7 +12,7 @@ export type LoomiPinVariant = "default" | "minimal";
  * `<loomi-pin>` — a verification-code (PIN) input of N boxes. Form-associated: submits
  * the joined PIN under `name`.
  *
- * @fires verify - `detail: { pin, code }` when the last box is filled.
+ * @fires loomi-verify - `detail: { pin, code }` when the last box is filled.
  */
 @customElement("loomi-pin")
 export class LoomiPin extends LoomiElement {
@@ -93,7 +92,9 @@ export class LoomiPin extends LoomiElement {
     this.valid = false;
     this.invalid = true;
     if (!wasInvalid && !this.showErrorInline && this.errorMessage) {
-      showLoomiNotification(this.label, this.resolvedErrorMessage(), "error", undefined, `loomi-pin-validation-${this.name || this.instanceId}`);
+      // Lazy import — see @loomidev/input's syncValidity for the rationale.
+      void import("@loomidev/notification").then(({ showLoomiNotification }) =>
+        showLoomiNotification(this.label, this.resolvedErrorMessage(), "error", undefined, `loomi-pin-validation-${this.name || this.instanceId}`));
     }
   }
 
@@ -110,7 +111,7 @@ export class LoomiPin extends LoomiElement {
   private commit(): void {
     this.internals.setFormValue(this.pin);
     if (this.pin.length === this.totalDigits) {
-      this.dispatchEvent(new CustomEvent("verify", { bubbles: true, composed: true, detail: { pin: this.pin, code: this.pin } }));
+      this.dispatchEvent(new CustomEvent("loomi-verify", { bubbles: true, composed: true, detail: { pin: this.pin, code: this.pin } }));
     }
   }
 

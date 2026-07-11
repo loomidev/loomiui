@@ -72,8 +72,10 @@ declare global {
     hideLoomiDrawer: typeof hideLoomiDrawer;
   }
 }
-window.showLoomiDrawer = showLoomiDrawer;
-window.hideLoomiDrawer = hideLoomiDrawer;
+if (typeof window !== "undefined") {
+  window.showLoomiDrawer = showLoomiDrawer;
+  window.hideLoomiDrawer = hideLoomiDrawer;
+}
 
 /**
  * `<loomi-drawer>` — a panel that slides in from an edge of the screen. Open/close via
