@@ -18,13 +18,6 @@ import "@loomidev/arc-meter";
 <loomi-arc-meter></loomi-arc-meter>
 ```
 
-By default it renders the screenshot-style state:
-
-- `markers="4"`
-- `active-marker="1"`
-- `title="Low"`
-- `description="Protection level"`
-
 ## Custom Marker Count
 
 `markers` controls how many marker positions are distributed inside the semi-circle.
@@ -41,14 +34,15 @@ The selected position is controlled by `active-marker`.
 
 ## Marker Colors
 
-Pass `marker-colors` as a comma-separated list in HTML, or set `markerColors` as an
-array property in JavaScript. Loomi color names and raw CSS colors both work.
+Use `marker-color` to set the colour of the filled arc and active marker. Loomi
+color names, HEX values, CSS named colours, and other valid CSS colour values all
+work.
 
 ```html
 <loomi-arc-meter
   markers="4"
   active-marker="2"
-  marker-colors="error,warning,success,primary"
+  marker-color="warning"
   title="Guarded"
   description="Protection level"
 ></loomi-arc-meter>
@@ -61,14 +55,13 @@ array property in JavaScript. Loomi color names and raw CSS colors both work.
   const meter = document.getElementById("security-meter");
   meter.markers = 4;
   meter.activeMarker = 1;
-  meter.markerColors = ["#d92d20", "#f97316", "success", "primary"];
+  meter.markerColor = "#d92d20";
   meter.title = "Low";
   meter.description = "Protection level";
 </script>
 ```
 
-When no colors are passed, the component cycles through `error`, `warning`, `success`,
-`primary`, `secondary`, and `gray`.
+When no colour is passed, the component uses `error`.
 
 ## In Cards
 
@@ -110,7 +103,7 @@ mode from your app theme or `@loomidev/theme-switcher`.
 | --- | --- | --- |
 | `markers` | `4` | Number of marker positions distributed inside the semi-circle. |
 | `active-marker` | `1` | Selected marker position, clamped from `1` to `markers`. |
-| `marker-colors` | `error,warning,success,primary,secondary,gray` | Marker colors as a comma-separated list. Use Loomi color names or CSS colors. |
+| `marker-color` | `error` | Colour of the filled arc and active marker. Use a Loomi color name or CSS color. |
 | `title` | `Low` | Main label shown inside the meter. |
 | `description` | `Protection level` | Supporting label shown under the title. |
 
@@ -120,7 +113,7 @@ mode from your app theme or `@loomidev/theme-switcher`.
 <loomi-arc-meter
   markers="4"
   active-marker="1"
-  marker-colors="error,warning,success,primary"
+  marker-color="error"
   title="Low"
   description="Protection level"
 ></loomi-arc-meter>
