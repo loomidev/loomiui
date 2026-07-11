@@ -1,6 +1,6 @@
 import { html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
-import { LoomiElement, loomiDefaultText, loomiT, onClickOutside, themeStyles } from "@loomidev/core";
+import { LoomiElement, controlSizeStyles, fieldStyles, loomiDefaultText, loomiT, onClickOutside, themeStyles } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiSelectSize = "tiny" | "small" | "regular" | "medium" | "big";
@@ -33,12 +33,12 @@ const booleanAttribute = {
  * @slot - Manual options as light-DOM `<option value="...">Label</option>` elements.
  * @csspart trigger - The clickable trigger.
  * @csspart panel - The dropdown panel.
- * @fires select - `detail: { value, label, values }` when an item is chosen.
+ * @fires loomi-select - `detail: { value, label, values }` when an item is chosen.
  * @fires change - Fired when the selection changes (composed).
  */
 @customElement("loomi-select")
 export class LoomiSelect extends LoomiElement {
-  static override styles = [themeStyles, componentStyles];
+  static override styles = [themeStyles, controlSizeStyles, fieldStyles, componentStyles];
   static formAssociated = true;
 
   private internals = this.attachInternals();
@@ -178,7 +178,7 @@ export class LoomiSelect extends LoomiElement {
       this.close();
     }
     this.dispatchEvent(
-      new CustomEvent("select", {
+      new CustomEvent("loomi-select", {
         bubbles: true,
         composed: true,
         detail: { value: opt.value, label: opt.label, values: [...this.selected] },
@@ -189,7 +189,7 @@ export class LoomiSelect extends LoomiElement {
 
   private onEmptyAction(): void {
     this.dispatchEvent(
-      new CustomEvent("empty-action", {
+      new CustomEvent("loomi-empty-action", {
         bubbles: true,
         composed: true,
         detail: { url: this.emptyActionUrl },

@@ -10,48 +10,12 @@
   display: none;
 }
 
+/* Field chrome comes from @loomidev/core's fieldStyles (see loomi-text-editor.ts);
+   only the editor-specific block layout stays local. */
 .loomi-field {
-  position: relative;
   display: block;
-  width: 100%;
-  background: var(--loomi-surface);
-  border: 2px solid var(--loomi-surface-border);
-  border-radius: 0.5rem;
-  transition: border-color 0.15s ease;
+  min-height: 0;
   overflow: visible;
-}
-.loomi-field:focus-within {
-  border-color: var(--loomi-primary-600);
-}
-:host([invalid]) .loomi-field {
-  border-color: var(--loomi-error-400);
-}
-:host([invalid]) .loomi-field:focus-within {
-  border-color: var(--loomi-error-500);
-}
-:host([disabled]) .loomi-field {
-  opacity: 0.6;
-  cursor: not-allowed;
-  background: var(--loomi-surface-muted);
-}
-
-.loomi-field.variant-minimal {
-  border: 0;
-  border-bottom: 2px solid var(--loomi-surface-border);
-  border-radius: 0;
-  background: transparent;
-}
-.loomi-field.variant-minimal:focus-within {
-  border-bottom-color: var(--loomi-primary-600);
-}
-:host([invalid]) .loomi-field.variant-minimal {
-  border-bottom-color: var(--loomi-error-400);
-}
-:host([invalid]) .loomi-field.variant-minimal:focus-within {
-  border-bottom-color: var(--loomi-error-500);
-}
-:host([disabled]) .loomi-field.variant-minimal {
-  background: transparent;
 }
 
 .loomi-label {

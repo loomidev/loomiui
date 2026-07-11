@@ -1,7 +1,7 @@
 import { html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { live } from "lit/directives/live.js";
-import { LoomiElement, accentVars, loomiT, themeStyles, type LoomiColor } from "@loomidev/core";
+import { LoomiElement, accentVars, controlSizeStyles, fieldStyles, loomiT, themeStyles, type LoomiColor } from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -40,7 +40,7 @@ const booleanAttribute = {
  */
 @customElement("loomi-tag-input")
 export class LoomiTagInput extends LoomiElement {
-  static override styles = [themeStyles, componentStyles];
+  static override styles = [themeStyles, controlSizeStyles, fieldStyles, componentStyles];
   static formAssociated = true;
 
   private internals = this.attachInternals();
@@ -206,7 +206,7 @@ export class LoomiTagInput extends LoomiElement {
     this.draft = "";
     this.autocompleteOpen = false;
     this.setTags([...this.tagValues, item.value || item.label], true);
-    this.dispatchEvent(new CustomEvent("autocomplete-select", { bubbles: true, composed: true, detail: { item } }));
+    this.dispatchEvent(new CustomEvent("loomi-autocomplete-select", { bubbles: true, composed: true, detail: { item } }));
   }
 
   private removeTag(index: number): void {

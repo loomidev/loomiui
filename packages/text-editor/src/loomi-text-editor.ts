@@ -1,6 +1,6 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, loomiT } from "@loomidev/core";
+import { LoomiElement, fieldStyles, loomiStyles, loomiT } from "@loomidev/core";
 import "@loomidev/filepicker/loomi-filepicker.js";
 import "@loomidev/icon/loomi-icon.js";
 import "@loomidev/input/loomi-input.js";
@@ -283,7 +283,7 @@ function readFileAsDataUrl(file: File): Promise<string> {
  */
 @customElement("loomi-text-editor")
 export class LoomiTextEditor extends LoomiElement {
-  static override styles = loomiStyles(componentStyles);
+  static override styles = loomiStyles(fieldStyles, componentStyles);
   static formAssociated = true;
 
   private internals = this.attachInternals();
@@ -854,7 +854,7 @@ export class LoomiTextEditor extends LoomiElement {
         .data=${options}
         ?disabled=${this.disabled || this.readonly}
         @pointerdown=${this.captureSelection}
-        @select=${(event: CustomEvent<{ value: string }>) => onSelect(event.detail.value)}
+        @loomi-select=${(event: CustomEvent<{ value: string }>) => onSelect(event.detail.value)}
       ></loomi-select>`,
     );
   }

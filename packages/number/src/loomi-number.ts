@@ -1,6 +1,6 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
-import { LoomiElement, loomiT, themeStyles } from "@loomidev/core";
+import { LoomiElement, controlSizeStyles, fieldStyles, loomiT, themeStyles } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiNumberSize = "tiny" | "small" | "regular" | "medium" | "big";
@@ -20,7 +20,7 @@ const PLUS = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M12 5v1
  */
 @customElement("loomi-number")
 export class LoomiNumber extends LoomiElement {
-  static override styles = [themeStyles, componentStyles];
+  static override styles = [themeStyles, controlSizeStyles, fieldStyles, componentStyles];
   static formAssociated = true;
 
   private internals = this.attachInternals();

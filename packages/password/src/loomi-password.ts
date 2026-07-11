@@ -1,8 +1,7 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
-import { LoomiElement, loomiT, onClickOutside, randomSuffix, themeStyles } from "@loomidev/core";
+import { LoomiElement, controlSizeStyles, fieldStyles, loomiT, onClickOutside, randomSuffix, themeStyles } from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
-import { showLoomiNotification } from "@loomidev/notification";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiPasswordSize = "tiny" | "small" | "regular" | "medium" | "big";
@@ -29,7 +28,7 @@ const STRENGTH_ORDER: LoomiPasswordStrengthToken[] = ["A", "a", "1", "#"];
  */
 @customElement("loomi-password")
 export class LoomiPassword extends LoomiElement {
-  static override styles = [themeStyles, componentStyles];
+  static override styles = [themeStyles, controlSizeStyles, fieldStyles, componentStyles];
   static formAssociated = true;
 
   private internals = this.attachInternals();
@@ -127,7 +126,9 @@ export class LoomiPassword extends LoomiElement {
     else this.internals.setValidity(validity, message);
 
     if (this.invalid && !wasInvalid && !this.showErrorInline && message) {
-      showLoomiNotification(this.label, message, "error", undefined, `loomi-password-validation-${this.name || this.instanceId}`);
+      // Lazy import — see @loomidev/input's syncValidity for the rationale.
+      void import("@loomidev/notification").then(({ showLoomiNotification }) =>
+        showLoomiNotification(this.label, message, "error", undefined, `loomi-password-validation-${this.name || this.instanceId}`));
     }
 
     return !empty && !weak;
@@ -190,7 +191,7 @@ export class LoomiPassword extends LoomiElement {
     this.prefixValue = value;
     this.prefix = value;
     this.prefixOpen = false;
-    this.dispatchEvent(new CustomEvent("prefix-change", { detail: { value }, bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent("loomi-prefix-change", { detail: { value }, bubbles: true, composed: true }));
   }
 
   private onPrefixTriggerKeydown = (e: KeyboardEvent): void => {

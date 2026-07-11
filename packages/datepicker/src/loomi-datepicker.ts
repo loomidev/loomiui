@@ -1,6 +1,6 @@
 import { html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { LoomiElement, loomiDateFormatter,
+import { LoomiElement, controlSizeStyles, fieldStyles, loomiDateFormatter,
   loomiDefaultText,
   loomiMonthName,
   loomiStyles,
@@ -39,7 +39,7 @@ const sameDay = (a: Date, b: Date) => a.toDateString() === b.toDateString();
  */
 @customElement("loomi-datepicker")
 export class LoomiDatepicker extends LoomiElement {
-  static override styles = loomiStyles(componentStyles);
+  static override styles = loomiStyles(controlSizeStyles, fieldStyles, componentStyles);
   static formAssociated = true;
   private internals = this.attachInternals();
 

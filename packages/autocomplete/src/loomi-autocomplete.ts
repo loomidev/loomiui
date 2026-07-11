@@ -1,6 +1,6 @@
 import { css, html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
-import { LoomiElement, loomiDefaultText, loomiT, onClickOutside, themeStyles } from "@loomidev/core";
+import { LoomiElement, controlSizeStyles, fieldStyles, loomiDefaultText, loomiT, onClickOutside, themeStyles } from "@loomidev/core";
 import { getLoomiIcon } from "./icons.js";
 
 export type LoomiAutocompleteSize = "tiny" | "small" | "regular" | "medium" | "big";
@@ -27,6 +27,8 @@ const booleanAttribute = {
 export class LoomiAutocomplete extends LoomiElement {
   static override styles = [
     themeStyles,
+    controlSizeStyles,
+    fieldStyles,
     css`
       :host {
         display: block;
@@ -37,52 +39,7 @@ export class LoomiAutocomplete extends LoomiElement {
       }
       :host([hidden]) { display: none; }
       .loomi-ac { position: relative; width: 100%; }
-      .size-tiny { --loomi-control-height: 2rem; --loomi-control-pad-x: 0.625rem; --loomi-control-font-size: 0.75rem; font-size: var(--loomi-control-font-size); }
-      .size-small { --loomi-control-height: 2.25rem; --loomi-control-pad-x: 0.75rem; --loomi-control-font-size: 0.875rem; font-size: var(--loomi-control-font-size); }
-      .size-regular { --loomi-control-height: 2.5rem; --loomi-control-pad-x: 0.875rem; --loomi-control-font-size: 0.875rem; font-size: var(--loomi-control-font-size); }
-      .size-medium { --loomi-control-height: 2.75rem; --loomi-control-pad-x: 1rem; --loomi-control-font-size: 1rem; font-size: var(--loomi-control-font-size); }
-      .size-big { --loomi-control-height: 3rem; --loomi-control-pad-x: 1.25rem; --loomi-control-font-size: 1.125rem; font-size: var(--loomi-control-font-size); }
-      .loomi-field {
-        position: relative;
-        display: flex;
-        align-items: center;
-        width: 100%;
-        min-height: var(--loomi-control-height);
-        border: 2px solid var(--loomi-surface-border);
-        border-radius: 0.5rem;
-        background: var(--loomi-surface);
-        transition: border-color 0.15s ease, box-shadow 0.15s ease;
-      }
-      .loomi-field:focus-within,
-      .open .loomi-field {
-        border-color: var(--loomi-primary-600, var(--_loomi-primary-600-default));
-        box-shadow: 0 0 0 3px var(--loomi-focus-ring);
-      }
-      .no-focus-ring .loomi-field:focus-within,
-      .no-focus-ring.open .loomi-field {
-        box-shadow: none;
-      }
-      :host([invalid]) .loomi-field { border-color: var(--loomi-error-400, var(--_loomi-error-400-default)); }
-      :host([invalid]) .loomi-field:focus-within { border-color: var(--loomi-error-500, var(--_loomi-error-500-default)); }
-      :host([disabled]) .loomi-field {
-        opacity: 0.6;
-        cursor: not-allowed;
-        background: var(--loomi-surface-muted);
-      }
-      .loomi-field.variant-minimal {
-        border: 0;
-        border-bottom: 2px solid var(--loomi-surface-border);
-        background: transparent;
-        border-radius: 0;
-      }
-      .loomi-field.variant-minimal:focus-within,
-      .open .loomi-field.variant-minimal {
-        box-shadow: none;
-        border-bottom-color: var(--loomi-primary-600, var(--_loomi-primary-600-default));
-      }
-      :host([invalid]) .loomi-field.variant-minimal { border-bottom-color: var(--loomi-error-400, var(--_loomi-error-400-default)); }
-      :host([invalid]) .loomi-field.variant-minimal:focus-within { border-bottom-color: var(--loomi-error-500, var(--_loomi-error-500-default)); }
-      :host([disabled]) .loomi-field.variant-minimal { background: transparent; }
+      /* Field chrome + .size-* presets come from @loomidev/core's fieldStyles/controlSizeStyles. */
       input {
         flex: 1 1 auto;
         width: 100%;
@@ -367,7 +324,7 @@ export class LoomiAutocomplete extends LoomiElement {
     this.displayValue = item.label;
     this.selectedImage = item.image || "";
     this.hide();
-    this.dispatchEvent(new CustomEvent("select", { bubbles: true, composed: true, detail: { item, value: this.value, label: item.label } }));
+    this.dispatchEvent(new CustomEvent("loomi-select", { bubbles: true, composed: true, detail: { item, value: this.value, label: item.label } }));
     this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
   }
 

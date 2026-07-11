@@ -1,6 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
-import { LoomiElement, findMentionTrigger, loomiT, onClickOutside, themeStyles } from "@loomidev/core";
+import { LoomiElement, fieldStyles, findMentionTrigger, loomiT, onClickOutside, themeStyles } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export interface LoomiMentionItem {
@@ -33,12 +33,12 @@ const booleanAttribute = {
  * @csspart mention-panel - The mention picker dropdown.
  * @fires input - Native input event (composed).
  * @fires change - Native change event (composed).
- * @fires mention-search - `detail: { trigger, query }` as the user types after a trigger char.
- * @fires mention-select - `detail: { trigger, item }` when a mention item is chosen.
+ * @fires loomi-mention-search - `detail: { trigger, query }` as the user types after a trigger char.
+ * @fires loomi-mention-select - `detail: { trigger, item }` when a mention item is chosen.
  */
 @customElement("loomi-textarea")
 export class LoomiTextarea extends LoomiElement {
-  static override styles = [themeStyles, componentStyles];
+  static override styles = [themeStyles, fieldStyles, componentStyles];
   static formAssociated = true;
 
   private internals = this.attachInternals();
@@ -152,7 +152,7 @@ export class LoomiTextarea extends LoomiElement {
       };
     }
     this.dispatchEvent(
-      new CustomEvent("mention-search", {
+      new CustomEvent("loomi-mention-search", {
         bubbles: true,
         composed: true,
         detail: { trigger: match.trigger, query: match.query },
@@ -198,7 +198,7 @@ export class LoomiTextarea extends LoomiElement {
     const newCaret = start + insertText.length;
     this.closeMention();
     this.dispatchEvent(
-      new CustomEvent("mention-select", { bubbles: true, composed: true, detail: { trigger, item } }),
+      new CustomEvent("loomi-mention-select", { bubbles: true, composed: true, detail: { trigger, item } }),
     );
     this.emit("input");
     void this.updateComplete.then(() => {

@@ -1,6 +1,6 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
-import { LoomiElement, loomiDefaultText, loomiStyles, loomiT, onClickOutside } from "@loomidev/core";
+import { LoomiElement, controlSizeStyles, fieldStyles, loomiDefaultText, loomiStyles, loomiT, onClickOutside } from "@loomidev/core";
 import "@loomidev/modal/loomi-modal.js";
 import type { LoomiModal } from "@loomidev/modal";
 import { componentStyles } from "./generated/styles.css.js";
@@ -81,7 +81,7 @@ const booleanAttribute = {
  */
 @customElement("loomi-timepicker")
 export class LoomiTimepicker extends LoomiElement {
-  static override styles = loomiStyles(componentStyles);
+  static override styles = loomiStyles(controlSizeStyles, fieldStyles, componentStyles);
   static formAssociated = true;
   private internals = this.attachInternals();
   private validationVisible = false;
