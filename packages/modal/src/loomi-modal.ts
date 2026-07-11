@@ -59,8 +59,10 @@ declare global {
     hideLoomiModal: typeof hideLoomiModal;
   }
 }
-window.showLoomiModal = showLoomiModal;
-window.hideLoomiModal = hideLoomiModal;
+if (typeof window !== "undefined") {
+  window.showLoomiModal = showLoomiModal;
+  window.hideLoomiModal = hideLoomiModal;
+}
 
 /**
  * `<loomi-modal>` — an overlay dialog. Open/close via `name` with `showLoomiModal()` /
