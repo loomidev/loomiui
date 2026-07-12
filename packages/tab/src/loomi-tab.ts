@@ -1,6 +1,6 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomidev/core";
+import { LoomiElement, loomiStyles, accentVars, watchDarkMode, type LoomiColor } from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -50,6 +50,14 @@ export class LoomiTabs extends LoomiElement {
   private defaultedActiveTab = false;
   private indicatorObserver?: ResizeObserver;
   private indicatorFrame = 0;
+  private cleanupDarkWatch?: () => void;
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.cleanupDarkWatch = watchDarkMode((isDark) => {
+      this.classList.toggle("is-dark", isDark);
+    });
+  }
 
   // Runs before the first render (not firstUpdated, which runs after) so the default
   // active tab is already set by the time render() reads tab.active — avoids
@@ -135,6 +143,8 @@ export class LoomiTabs extends LoomiElement {
     super.disconnectedCallback();
     cancelAnimationFrame(this.indicatorFrame);
     this.indicatorObserver?.disconnect();
+    this.cleanupDarkWatch?.();
+    this.cleanupDarkWatch = undefined;
   }
 
   /** Focuses the rendered tab button at the same index as `tab` in `this.tabs`. */

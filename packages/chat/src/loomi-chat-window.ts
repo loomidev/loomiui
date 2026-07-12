@@ -514,6 +514,7 @@ export class LoomiChatWindow extends LoomiElement {
                         type="secondary"
                         size="small"
                         radius="full"
+                        block
                         icon="microphone"
                         aria-label="Record voice message"
                         ?disabled=${this.busy || this.readOnly}
@@ -526,6 +527,7 @@ export class LoomiChatWindow extends LoomiElement {
                     type="primary"
                     size="small"
                     radius="full"
+                    block
                     icon="arrow-up"
                     aria-label="Send message"
                     ?disabled=${!this.draft.trim() || this.busy || this.readOnly}

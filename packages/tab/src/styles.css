@@ -81,6 +81,9 @@
   gap: 1.25rem;
   border-bottom: 1px solid var(--loomi-surface-border);
 }
+:host(.is-dark) .loomi-headings.simple {
+  border-bottom-color: var(--loomi-gray-700, var(--_loomi-gray-700-default));
+}
 .simple .loomi-head {
   padding: 0.6rem 0.15rem;
   border-bottom: 2px solid transparent;
