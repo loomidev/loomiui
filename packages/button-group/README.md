@@ -13,57 +13,6 @@ import "@loomidev/button-group";
 ```
 
 
-## Accessibility
-
-loomi-button-group is built on semantic markup where the browser gives us the right behavior, and it adds ARIA only where the component has custom interaction. Keyboard users should be able to reach the same controls as pointer users, with visible focus treatment on each item.
-
-When the component displays status, progress, validation, or temporary feedback, pair it with clear labels or nearby text in your app so assistive technology users get the same context a sighted user gets from the visual treatment.
-
-- Supports keyboard focus with visible `:focus-visible` styling on each button.
-- Icon-only items should provide `label` or `aria-label` so the button still has an accessible name.
-
-## Responsive behavior
-
-loomi-button-group is designed to fit the layout you place it in. It uses fluid widths, `min-width: 0`, wrapping, truncation, or stacked layouts where that keeps the component usable in cards, forms, sidebars, and mobile screens.
-
-For dense layouts, let the component keep its natural shrink-wrapped width and give the surrounding layout room to scroll or wrap. For long labels or user-provided content, prefer concise text instead of fixed pixel assumptions.
-
-
-## Dark mode
-
-loomi-button-group uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
-
-Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
-
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
-
-## Attributes
-
-### `<loomi-button-group>`
-
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `color` | `primary` | Accent color for the selected item text and focus ring. Accepts any Loomi color name. |
-| `size` | `regular` | Button size. `tiny` \| `small` \| `regular` \| `medium` \| `big`. |
-| `radius` | `medium` | Bar corner radius. `none` \| `small` \| `medium` \| `full`. |
-| `outline` | `false` | Outline-only treatment: transparent track and selected item outline. _(boolean)_ |
-| `icon-only` | `false` | Hide every item label visually and render square icon buttons. _(boolean)_ |
-| `aria-label` | _(blank)_ | Accessible label for the internal `role="group"` wrapper. |
-| `disabled` | `false` | Disable every item in the group. _(boolean)_ |
-
-### `<loomi-button-group-item>`
-
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `label` | _(blank)_ | Visible label text. Also used as the accessible name when `icon-only` is set. |
-| `value` | _(blank)_ | Value emitted in `loomi-button-group-change`; falls back to the label or text content. |
-| `icon` | _(blank)_ | Built-in icon name from `@loomidev/icons`. |
-| `icon-right` | `false` | Place the icon after the label. _(boolean)_ |
-| `icon-only` | `false` | Hide this item's label visually and render a square icon button. _(boolean)_ |
-| `aria-label` | _(blank)_ | Accessible label for icon-only items when `label` is not enough. |
-| `selected` | `false` | Mark this item as active. _(boolean)_ |
-| `disabled` | `false` | Disable only this item. _(boolean)_ |
-
 ## Basic Usage
 
 Place `<loomi-button-group-item>` elements inside a group. One item can be marked
@@ -156,6 +105,56 @@ entire group with `disabled` on `<loomi-button-group>`.
 | Event | Detail |
 | --- | --- |
 | `loomi-button-group-change` | `{ value, label, index }` when the selected item changes |
+
+## Accessibility
+
+loomi-button-group is built on semantic markup where the browser gives us the right behavior, and it adds ARIA only where the component has custom interaction. Keyboard users should be able to reach the same controls as pointer users, with visible focus treatment on each item.
+
+When the component displays status, progress, validation, or temporary feedback, pair it with clear labels or nearby text in your app so assistive technology users get the same context a sighted user gets from the visual treatment.
+
+- Supports keyboard focus with visible `:focus-visible` styling on each button.
+- Icon-only items should provide `label` or `aria-label` so the button still has an accessible name.
+
+## Responsive behavior
+
+loomi-button-group is designed to fit the layout you place it in. It uses fluid widths, `min-width: 0`, wrapping, truncation, or stacked layouts where that keeps the component usable in cards, forms, sidebars, and mobile screens.
+
+For dense layouts, let the component keep its natural shrink-wrapped width and give the surrounding layout room to scroll or wrap. For long labels or user-provided content, prefer concise text instead of fixed pixel assumptions.
+
+## Dark mode
+
+loomi-button-group uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
+
+Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
+
+- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
+
+## Attributes
+
+### `<loomi-button-group>`
+
+| Attribute | Default | Description |
+| --- | --- | --- |
+| `color` | `primary` | Accent color for the selected item text and focus ring. Accepts any Loomi color name. |
+| `size` | `regular` | Button size. `tiny` \| `small` \| `regular` \| `medium` \| `big`. |
+| `radius` | `medium` | Bar corner radius. `none` \| `small` \| `medium` \| `full`. |
+| `outline` | `false` | Outline-only treatment: transparent track and selected item outline. _(boolean)_ |
+| `icon-only` | `false` | Hide every item label visually and render square icon buttons. _(boolean)_ |
+| `aria-label` | _(blank)_ | Accessible label for the internal `role="group"` wrapper. |
+| `disabled` | `false` | Disable every item in the group. _(boolean)_ |
+
+### `<loomi-button-group-item>`
+
+| Attribute | Default | Description |
+| --- | --- | --- |
+| `label` | _(blank)_ | Visible label text. Also used as the accessible name when `icon-only` is set. |
+| `value` | _(blank)_ | Value emitted in `loomi-button-group-change`; falls back to the label or text content. |
+| `icon` | _(blank)_ | Built-in icon name from `@loomidev/icons`. |
+| `icon-right` | `false` | Place the icon after the label. _(boolean)_ |
+| `icon-only` | `false` | Hide this item's label visually and render a square icon button. _(boolean)_ |
+| `aria-label` | _(blank)_ | Accessible label for icon-only items when `label` is not enough. |
+| `selected` | `false` | Mark this item as active. _(boolean)_ |
+| `disabled` | `false` | Disable only this item. _(boolean)_ |
 
 ## Dependencies
 
