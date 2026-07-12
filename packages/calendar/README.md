@@ -91,6 +91,21 @@ calendar.reminders = [
     color: "warning",
     done: false,
   },
+  {
+    id: "rem_agenda",
+    title: "Share the board meeting agenda",
+    due: new Date("2026-07-09T16:30:00"),
+    color: "primary",
+    description: "Send the final agenda to attendees before tomorrow's meeting.",
+    done: false,
+  },
+  {
+    id: "rem_invoice",
+    title: "Approve June invoice",
+    due: new Date("2026-07-10T09:00:00"),
+    color: "success",
+    done: true,
+  },
 ];
 
 calendar.addEventListener("loomi-reminder-change", async (event) => {
@@ -192,6 +207,38 @@ Colors follow Loomi theme tokens (`--loomi-primary-*`, `--loomi-success-*`, etc.
     { id: "u3", name: "Jordan Lee", initials: "JL", status: "awaiting" },
   ],
 }
+```
+
+### Example: reminders
+
+Reminders appear alongside events in the calendar. Use different due dates and semantic colors to make a realistic schedule, and set `done` when a reminder has been completed.
+
+```js
+calendar.reminders = [
+  {
+    id: "rem_notes",
+    title: "Send discovery call notes",
+    due: new Date("2027-01-10T16:00:00"),
+    color: "warning",
+    description: "Email the summary and agreed next steps to the client.",
+    done: false,
+  },
+  {
+    id: "rem_room",
+    title: "Confirm workshop room",
+    due: new Date("2027-01-11T09:30:00"),
+    color: "primary",
+    done: false,
+  },
+  {
+    id: "rem_invoice",
+    title: "Submit project invoice",
+    due: new Date("2027-01-12T15:00:00"),
+    color: "success",
+    description: "Attach the approved timesheet before submitting.",
+    done: true,
+  },
+];
 ```
 
 ## Sidebar

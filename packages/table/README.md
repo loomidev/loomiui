@@ -412,7 +412,7 @@ For dense layouts, give the parent container an intentional width and let the co
 
 ## Dark mode
 
-loomi-table uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
+loomi-table uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-muted`, `--loomi-surface-border-subtle`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. The table header, row dividers, panels, hover states, and muted text shift with the active theme preset.
 
 Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
 
