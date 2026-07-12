@@ -17,6 +17,24 @@ describe("loomi-tabs", () => {
     expect(tabs[1].active).to.be.false;
   });
 
+  it("uses the dark tab baseline when the page is in dark mode", async () => {
+    document.documentElement.classList.add("dark");
+    try {
+      const el = await fixture<LoomiTabs>(html`
+        <loomi-tabs>
+          <loomi-tab label="One">First</loomi-tab>
+          <loomi-tab label="Two">Second</loomi-tab>
+        </loomi-tabs>
+      `);
+
+      expect(el.classList.contains("is-dark")).to.be.true;
+      const headings = el.shadowRoot!.querySelector<HTMLElement>(".loomi-headings")!;
+      expect(getComputedStyle(headings).borderBottomColor).to.not.equal("rgb(255, 255, 255)");
+    } finally {
+      document.documentElement.classList.remove("dark");
+    }
+  });
+
   it("ArrowRight moves the roving tabindex and activates the next tab", async () => {
     const el = await fixture<LoomiTabs>(html`
       <loomi-tabs>
