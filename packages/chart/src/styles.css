@@ -137,6 +137,15 @@
 .loomi-scatter.is-active {
   filter: brightness(1.05);
 }
+.loomi-heatmap-cell {
+  transition: fill-opacity 120ms ease, stroke-width 120ms ease;
+}
+.loomi-heatmap-cell.is-active {
+  fill-opacity: 1;
+  stroke: var(--loomi-text, #0f172a);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
 .loomi-slice.is-active,
 .loomi-radial-seg.is-active {
   opacity: 0.9;

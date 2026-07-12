@@ -1,7 +1,7 @@
 # @loomidev/chart
 
 `<loomi-chart>` is a lightweight SVG chart component for quick visuals. Choose from
-`bar`, `line`, `area`, `pie`, `donut`, `radar`, `radial`, or `scatter`, and pass a single data series
+`bar`, `line`, `area`, `pie`, `donut`, `radar`, `radial`, `scatter`, or `heatmap`, and pass a data series
 through its `data` property. Tooltips and the y-axis are on by default — disable either with
 `show-tooltip="false"` or `show-y-axis="false"`.
 
@@ -112,8 +112,29 @@ Default `type` is `bar`. The available chart types are:
 | `radar` | Compares multiple metrics in a radial layout (recommended with 3+ points). |
 | `radial` | Stacked radial bars around a center total (shadcn-style radial chart). |
 | `scatter` | Plots independent points on shared axes without connecting lines. |
+| `heatmap` | Displays values in a two-dimensional grid, with stronger color indicating larger values. |
 
-All chart types use the same `data` shape, so you can change `type` without reshaping the dataset.
+All chart types use the same `data` point shape. Heatmaps and grouped bars use the
+optional nested `values` array for their additional dimension.
+
+### Heatmap
+
+For a heatmap, each top-level point is an x-axis column. Add a `values` array whose
+labels become the y-axis rows and whose numbers control each cell's color intensity.
+Keep the row labels consistent between columns. The top-level `value` remains required
+by the shared chart data type, but it is not rendered by a heatmap.
+
+```html
+<loomi-chart
+  type="heatmap"
+  color="primary"
+  data='[
+    {"label":"Mon","value":0,"values":[{"label":"Morning","value":12},{"label":"Afternoon","value":28},{"label":"Evening","value":18}]},
+    {"label":"Tue","value":0,"values":[{"label":"Morning","value":20},{"label":"Afternoon","value":42},{"label":"Evening","value":31}]},
+    {"label":"Wed","value":0,"values":[{"label":"Morning","value":8},{"label":"Afternoon","value":35},{"label":"Evening","value":24}]}
+  ]'
+></loomi-chart>
+```
 
 ```html
 <loomi-chart id="bar-chart" type="bar" color="primary" color2="success" series-label="Revenue" series2-label="Target"></loomi-chart>
@@ -439,8 +460,8 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 | Attribute | Default | Description |
 | --- | --- | --- |
-| `type` | `bar` | `bar` \| `line` \| `area` \| `pie` \| `donut` \| `radar` \| `radial` \| `scatter` |
-| `data` | `[]` | Series — `{ label, value, value2?, value3?, values?, color?, color2?, color3? }[]`. Use `values: [{ label, value, color? }]` on bar charts for 4+ grouped series per category. |
+| `type` | `bar` | `bar` \| `line` \| `area` \| `pie` \| `donut` \| `radar` \| `radial` \| `scatter` \| `heatmap` |
+| `data` | `[]` | Series — `{ label, value, value2?, value3?, values?, color?, color2?, color3? }[]`. Use `values: [{ label, value, color? }]` for heatmap rows or grouped bar series. |
 | `color` | `primary` | Primary series color. |
 | `color2` | `success` | Second series color when points include `value2`. |
 | `series2-type` | `bar` | On `type="bar"`, set `line` to draw `value2` over the bars. |

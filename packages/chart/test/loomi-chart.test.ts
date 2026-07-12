@@ -125,4 +125,17 @@ describe("loomi-chart", () => {
     );
     expect(el.data).to.have.length(2);
   });
+
+  it("renders a heatmap cell for every column and row", async () => {
+    const el = await fixture<LoomiChart>(html`<loomi-chart type="heatmap"></loomi-chart>`);
+    el.data = [
+      { label: "Mon", value: 0, values: [{ label: "Morning", value: 2 }, { label: "Evening", value: 7 }] },
+      { label: "Tue", value: 0, values: [{ label: "Morning", value: 5 }, { label: "Evening", value: 9 }] },
+    ];
+    await el.updateComplete;
+
+    expect(el.shadowRoot!.querySelectorAll(".loomi-heatmap-cell")).to.have.length(4);
+    expect(el.shadowRoot!.textContent).to.include("Morning");
+    expect(el.shadowRoot!.textContent).to.include("Tue");
+  });
 });

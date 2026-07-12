@@ -229,7 +229,7 @@ export function tooltipAnchor(
   const d = data[index];
   if (!d) return [0, 0];
 
-  if (type === "bar") {
+  if (type === "bar" || type === "heatmap") {
     const x = padLeft + index * bandWidth + bandWidth / 2;
     const topVal = maxBarValue(d);
     const y = H - padBottom - (topVal / max) * (H - padTop - padBottom);
@@ -490,11 +490,11 @@ export function nearestIndex(
     return best;
   }
 
-  if (type === "bar" || type === "line" || type === "area" || type === "scatter") {
+  if (type === "bar" || type === "line" || type === "area" || type === "scatter" || type === "heatmap") {
     const layout = cartesianLayout(data, opts);
     const x = clamped * layout.width;
 
-    if (type === "bar") {
+    if (type === "bar" || type === "heatmap") {
       let best = 0;
       let bestDist = Infinity;
       for (let i = 0; i < n; i++) {
