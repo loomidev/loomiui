@@ -48,6 +48,7 @@ export class LoomiProfileMenu extends LoomiElement {
   @property({ attribute: "dot-color" }) dotColor: LoomiColor = "success" as LoomiColor;
   @property({ attribute: "dot-position" }) dotPosition: "top" | "bottom" = "bottom";
   @property({ type: Boolean }) verified = false;
+  @property({ type: Boolean, attribute: "has-hover", reflect: true }) hasHover = false;
   @property({ type: Boolean }) transparent = false;
   @property({ attribute: "trigger-label" }) triggerLabel = "";
   @property() placement: LoomiProfileMenuPlacement = "right";

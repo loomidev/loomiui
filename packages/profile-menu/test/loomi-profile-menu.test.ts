@@ -7,8 +7,8 @@ describe("loomi-profile-menu", () => {
   it("renders profile identity and passes avatar options through", async () => {
     const el = await fixture<LoomiProfileMenu>(html`
       <loomi-profile-menu
-        name="Olivia Rhye"
-        description="olivia@loomi.dev"
+        name="Alice Wonderland"
+        description="alice@loomiui.com"
         avatar="data:image/gif;base64,R0lGODlhAQABAAAAACw="
         dotted
         pulse-dot
@@ -22,8 +22,8 @@ describe("loomi-profile-menu", () => {
       pulseDot: boolean;
       verified: boolean;
     };
-    expect(el.shadowRoot!.textContent).to.include("Olivia Rhye");
-    expect(el.shadowRoot!.textContent).to.include("olivia@loomi.dev");
+    expect(el.shadowRoot!.textContent).to.include("Alice Wonderland");
+    expect(el.shadowRoot!.textContent).to.include("alice@loomiui.com");
     expect(avatar.image).to.equal("data:image/gif;base64,R0lGODlhAQABAAAAACw=");
     expect(avatar.dotted).to.be.true;
     expect(avatar.pulseDot).to.be.true;
@@ -32,7 +32,7 @@ describe("loomi-profile-menu", () => {
 
   it("moves menu items into the internal dropmenu", async () => {
     const el = await fixture<LoomiProfileMenu>(html`
-      <loomi-profile-menu name="Olivia Rhye" description="olivia@loomi.dev">
+      <loomi-profile-menu name="Alice Wonderland" description="alice@loomiui.com">
         <loomi-dropmenu-item icon="user-circle">Profile</loomi-dropmenu-item>
         <loomi-dropmenu-item icon="cog-6-tooth">Settings</loomi-dropmenu-item>
       </loomi-profile-menu>
@@ -45,7 +45,7 @@ describe("loomi-profile-menu", () => {
 
   it("opens the dropmenu from the profile trigger", async () => {
     const el = await fixture<LoomiProfileMenu>(html`
-      <loomi-profile-menu name="Olivia Rhye">
+      <loomi-profile-menu name="Alice Wonderland">
         <loomi-dropmenu-item>Profile</loomi-dropmenu-item>
       </loomi-profile-menu>
     `);

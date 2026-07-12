@@ -403,7 +403,7 @@ before the tag renders.
 ### Choose your framework
 
 <loomi-tabs>
-<loomi-tab label="Plain HTML" active>
+<loomi-tab label="HTML" active>
 
 ```html
 <script type="importmap">
@@ -467,7 +467,7 @@ export class AppComponent {}
 ```
 
 </loomi-tab>
-<loomi-tab label="Svelte and Astro">
+<loomi-tab label="Svelte / Astro">
 
 ```svelte
 <script>

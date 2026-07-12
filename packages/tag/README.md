@@ -199,7 +199,7 @@ pnpm --filter @loomidev/tag typecheck
 ### Choose your framework
 
 <loomi-tabs>
-<loomi-tab label="Plain HTML" active>
+<loomi-tab label="HTML" active>
 
 Use the CDN version for prototypes, documentation pages, or a quick reproduction. The import map tells the browser where to find Lit, which Loomi components use internally.
 
@@ -225,7 +225,7 @@ import "@loomidev/tag";
 ```
 
 </loomi-tab>
-<loomi-tab label="Laravel Blade">
+<loomi-tab label="Blade">
 
 Run the install command from your Laravel project root, then import the component in `resources/js/app.js`. If your project uses Laravel Vite, `npm run dev` and `npm run build` should also be run from the Laravel project root.
 
@@ -312,7 +312,7 @@ export class AppComponent {}
 ```
 
 </loomi-tab>
-<loomi-tab label="Svelte and Astro">
+<loomi-tab label="Svelte / Astro">
 
 Svelte can import the package inside a component script. Astro can import it in the frontmatter of the page or layout where the tag appears.
 
