@@ -91,11 +91,19 @@ export function buildComponentStyles(callerUrl, options = {}) {
   }
 
   // Explicit authored sources to scan for statically-used utilities.
+  // Tailwind 4.3's scanner silently ignores `@source` entries without a `**`
+  // segment (bare file paths and single-star globs match nothing), so rewrite
+  // `./src/foo.ts` to `./src/**/foo.ts`.
   let sourceScan = "";
   if (options.sources?.length) {
+    const toScanGlob = (s) => {
+      if (s.includes("**")) return s;
+      const i = s.lastIndexOf("/");
+      return i === -1 ? `**/${s}` : `${s.slice(0, i)}/**/${s.slice(i + 1)}`;
+    };
     sourceScan = `
 /* Scan only authored sources for statically-used utilities. */
-${options.sources.map((s) => `@source ${JSON.stringify(s)};`).join("\n")}
+${options.sources.map((s) => `@source ${JSON.stringify(toScanGlob(s))};`).join("\n")}
 `;
   }
 
