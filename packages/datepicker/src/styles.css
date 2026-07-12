@@ -37,7 +37,11 @@
 }
 .loomi-text {
   flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
   color: var(--loomi-text);
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .loomi-text.placeholder {
   color: var(--loomi-text-faint);

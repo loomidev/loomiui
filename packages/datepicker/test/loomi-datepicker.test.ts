@@ -16,6 +16,25 @@ const buttonLabelled = (el: LoomiDatepicker, label: string): HTMLButtonElement =
 };
 
 describe("loomi-datepicker", () => {
+  it("keeps a formatted date range on one line", async () => {
+    const el = await fixture<LoomiDatepicker>(html`
+      <loomi-datepicker
+        range
+        format="D d M, Y"
+        selected-value="2024-05-12 - 2024-06-12"
+        style="width: 17rem"
+      ></loomi-datepicker>
+    `);
+
+    const text = el.shadowRoot!.querySelector<HTMLElement>(".loomi-text")!;
+    const styles = getComputedStyle(text);
+
+    expect(styles.whiteSpace).to.equal("nowrap");
+    expect(styles.textOverflow).to.equal("ellipsis");
+    expect(el.shadowRoot!.querySelector<HTMLElement>(".loomi-field")!.scrollHeight)
+      .to.equal(el.shadowRoot!.querySelector<HTMLElement>(".loomi-field")!.clientHeight);
+  });
+
   it("switches between month and year grids from the header", async () => {
     const el = await fixture<LoomiDatepicker>(html`<loomi-datepicker selected-value="2026-06-22"></loomi-datepicker>`);
 

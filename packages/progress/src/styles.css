@@ -34,6 +34,12 @@
   border-radius: 9999px;
   overflow: visible;
 }
+/* With an inline label the fixed 0.75rem track is shorter than the label text,
+   so let the label's height drive the track instead of overflowing it. */
+.loomi-track.has-label {
+  height: auto;
+  min-height: 0.75rem;
+}
 .loomi-fill {
   height: 100%;
   border-radius: 9999px;
@@ -49,8 +55,8 @@
 }
 .loomi-fill-label {
   font-size: calc(0.65rem + 1pt);
-  padding-block: 2px;
-  padding-inline-end: 3px;
+  line-height: 1;
+  padding: 0.3rem 0.35rem;
 }
 .loomi-fill.dark {
   background: var(--_loomi-accent-strong);
