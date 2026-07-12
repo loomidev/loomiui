@@ -1,12 +1,18 @@
 import { css, html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { LoomiElement, themeStyles } from "@loomidev/core";
+import { LoomiElement, motionStyles, themeStyles } from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
 
 export type LoomiSideNavState = "expanded" | "icons" | "hidden";
 export type LoomiSideNavCollapseMode = "icons" | "hidden";
+export type LoomiSideNavIconSize = "small" | "regular" | "medium" | "large";
 
-const MENU = html`<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />`;
+const ICON_SIZES: Record<LoomiSideNavIconSize, string> = {
+  small: "1rem",
+  regular: "1.15rem",
+  medium: "1.35rem",
+  large: "1.6rem",
+};
 const booleanAttribute = {
   fromAttribute(value: string | null): boolean {
     return value !== null && value !== "false";
@@ -57,8 +63,8 @@ export class LoomiSideNavItem extends LoomiElement {
         color: var(--loomi-primary-700, var(--_loomi-primary-700-default, #174ea6));
       }
       svg {
-        width: 1.15rem;
-        height: 1.15rem;
+        width: var(--loomi-side-nav-item-icon-size, 1.15rem);
+        height: var(--loomi-side-nav-item-icon-size, 1.15rem);
         flex: none;
       }
       .label {
@@ -93,8 +99,8 @@ export class LoomiSideNavItem extends LoomiElement {
   override render(): TemplateResult {
     const content = html`${this.renderIcon()}<span class="label"><slot>${this.label}</slot></span>`;
     return this.href
-      ? html`<a class="item" href=${this.href} aria-current=${this.active ? "page" : nothing}>${content}</a>`
-      : html`<button class="item" type="button" aria-current=${this.active ? "page" : nothing}>${content}</button>`;
+      ? html`<a class="item" href=${this.href} aria-label=${this.compact ? this.label : nothing} title=${this.compact ? this.label : nothing} aria-current=${this.active ? "page" : nothing}>${content}</a>`
+      : html`<button class="item" type="button" aria-label=${this.compact ? this.label : nothing} title=${this.compact ? this.label : nothing} aria-current=${this.active ? "page" : nothing}>${content}</button>`;
   }
 }
 
@@ -102,6 +108,7 @@ export class LoomiSideNavItem extends LoomiElement {
 export class LoomiSideNav extends LoomiElement {
   static override styles = [
     themeStyles,
+    motionStyles,
     css`
       :host {
         display: block;
@@ -110,9 +117,9 @@ export class LoomiSideNav extends LoomiElement {
         min-height: 0;
         overflow: hidden;
         transition:
-          width 180ms cubic-bezier(0.4, 0, 0.2, 1),
-          transform 180ms cubic-bezier(0.4, 0, 0.2, 1),
-          opacity 180ms cubic-bezier(0.4, 0, 0.2, 1);
+          width var(--loomi-motion-duration) var(--loomi-motion-ease),
+          transform var(--loomi-motion-duration) var(--loomi-motion-ease),
+          opacity var(--loomi-motion-duration) var(--loomi-motion-ease);
       }
       :host([hidden]) {
         display: none;
@@ -138,6 +145,7 @@ export class LoomiSideNav extends LoomiElement {
         background: var(--loomi-surface);
         color: var(--loomi-text);
         padding: 0.75rem;
+        transition: width var(--loomi-motion-duration) var(--loomi-motion-ease);
       }
       :host([state="icons"]) .panel {
         width: var(--loomi-side-nav-icon-width, 4rem);
@@ -183,8 +191,8 @@ export class LoomiSideNav extends LoomiElement {
         outline-offset: 2px;
       }
       .toggle svg {
-        width: 1.2rem;
-        height: 1.2rem;
+        width: 1.1rem;
+        height: 1.1rem;
       }
       nav {
         display: flex;
@@ -194,17 +202,27 @@ export class LoomiSideNav extends LoomiElement {
         gap: 0.25rem;
         overflow: hidden auto;
       }
+      :host([divided]) nav {
+        gap: 0;
+      }
+      :host([divided]) ::slotted(loomi-side-nav-item:not(:last-child)) {
+        border-bottom: 1px solid var(--loomi-surface-border-subtle, var(--loomi-surface-border));
+        padding-bottom: 0.25rem;
+        margin-bottom: 0.25rem;
+      }
     `,
   ];
 
   @property({ reflect: true }) state: LoomiSideNavState = "expanded";
   @property({ attribute: "collapse-mode" }) collapseMode: LoomiSideNavCollapseMode = "icons";
   @property() label = "Navigation";
-  @property({ type: Boolean, attribute: "show-toggle", converter: booleanAttribute }) showToggle = true;
+  @property({ type: Boolean, reflect: true, converter: booleanAttribute }) collapsible = false;
+  @property({ type: Boolean, reflect: true, converter: booleanAttribute }) divided = false;
+  @property({ attribute: "icon-size", reflect: true }) iconSize: LoomiSideNavIconSize = "regular";
 
   protected override updated(changed: PropertyValues<this>): void {
     super.updated(changed);
-    if (changed.has("state")) {
+    if (changed.has("state") || changed.has("iconSize")) {
       this.syncItemState();
     }
   }
@@ -230,19 +248,34 @@ export class LoomiSideNav extends LoomiElement {
   }
 
   private syncItemState = (): void => {
+    const iconSize = ICON_SIZES[this.iconSize] ?? ICON_SIZES.regular;
     for (const item of this.querySelectorAll<LoomiSideNavItem>("loomi-side-nav-item")) {
       item.compact = this.state !== "expanded";
+      item.style.setProperty("--loomi-side-nav-item-icon-size", iconSize);
     }
   };
+
+  private renderToggleIcon(): TemplateResult {
+    const icon = this.state === "expanded" ? "chevron-double-left" : "chevron-double-right";
+    return html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      ${getLoomiIcon(icon)}
+    </svg>`;
+  }
 
   override render(): TemplateResult {
     return html`
       <aside class="panel" aria-label=${this.label}>
         <div class="header">
           <span class="title">${this.label}</span>
-          ${this.showToggle
-            ? html`<button class="toggle" type="button" aria-label="Toggle navigation" @click=${this.toggle}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${MENU}</svg>
+          ${this.collapsible
+            ? html`<button
+                class="toggle"
+                type="button"
+                aria-label=${this.state === "expanded" ? "Collapse navigation" : "Expand navigation"}
+                aria-expanded=${this.state === "expanded" ? "true" : "false"}
+                @click=${this.toggle}
+              >
+                ${this.renderToggleIcon()}
               </button>`
             : nothing}
         </div>

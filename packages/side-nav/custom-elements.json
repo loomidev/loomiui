@@ -192,12 +192,33 @@
             },
             {
               "kind": "field",
-              "name": "showToggle",
+              "name": "collapsible",
               "type": {
                 "text": "boolean"
               },
-              "default": "true",
-              "attribute": "show-toggle"
+              "default": "false",
+              "attribute": "collapsible",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "divided",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "divided",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "iconSize",
+              "type": {
+                "text": "LoomiSideNavIconSize"
+              },
+              "default": "\"regular\"",
+              "attribute": "icon-size",
+              "reflects": true
             },
             {
               "kind": "method",
@@ -276,12 +297,28 @@
               "fieldName": "label"
             },
             {
-              "name": "show-toggle",
+              "name": "collapsible",
               "type": {
                 "text": "boolean"
               },
-              "default": "true",
-              "fieldName": "showToggle"
+              "default": "false",
+              "fieldName": "collapsible"
+            },
+            {
+              "name": "divided",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "divided"
+            },
+            {
+              "name": "icon-size",
+              "type": {
+                "text": "LoomiSideNavIconSize"
+              },
+              "default": "\"regular\"",
+              "fieldName": "iconSize"
             }
           ],
           "superclass": {

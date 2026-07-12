@@ -16,15 +16,30 @@ import "@loomidev/side-nav";
 Place it inside the layout column that should own the navigation space.
 
 ```html
-<loomi-side-nav label="Workspace" collapse-mode="icons">
+<loomi-side-nav label="Workspace" collapsible>
   <loomi-side-nav-item icon="home" label="Home" href="/" active></loomi-side-nav-item>
   <loomi-side-nav-item icon="calendar" label="Calendar" href="/calendar"></loomi-side-nav-item>
   <loomi-side-nav-item icon="cog-6-tooth" label="Settings" href="/settings"></loomi-side-nav-item>
 </loomi-side-nav>
 ```
 
-Use `collapse-mode="hidden"` when the toggle should hide the whole navigation instead
-of leaving icons visible.
+`collapsible` is opt-in. Its top-right control smoothly collapses the navigation to an
+icon-only rail and expands it again. Labels remain available to assistive technology and
+as native tooltips while the rail is collapsed.
+
+Choose a consistent icon scale with `icon-size`. Add `divided` when the navigation needs
+subtle separators between its items.
+
+```html
+<loomi-side-nav label="Project" collapsible icon-size="medium" divided>
+  <loomi-side-nav-item icon="home" label="Overview" href="/overview"></loomi-side-nav-item>
+  <loomi-side-nav-item icon="users" label="Team" href="/team"></loomi-side-nav-item>
+  <loomi-side-nav-item icon="cog-6-tooth" label="Settings" href="/settings"></loomi-side-nav-item>
+</loomi-side-nav>
+```
+
+Use `collapse-mode="hidden"` only when the toggle should hide the whole navigation instead
+of leaving its icons visible.
 
 ## Accessibility
 
@@ -51,7 +66,9 @@ the active theme.
 | `state` | `expanded` | `expanded`, `icons`, or `hidden`. |
 | `collapse-mode` | `icons` | Toggle target when expanded: `icons` or `hidden`. |
 | `label` | `Navigation` | Accessible label and visible header text. |
-| `show-toggle` | `true` | Shows the built-in toggle button. |
+| `collapsible` | `false` | Shows the top-right control that collapses the navigation. |
+| `icon-size` | `regular` | Item icon size: `small`, `regular`, `medium`, or `large`. |
+| `divided` | `false` | Adds a subtle divider between navigation items. |
 
 ### `<loomi-side-nav-item>`
 
