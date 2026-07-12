@@ -1,6 +1,8 @@
 :host(loomi-card) {
   display: block;
   --loomi-card-spacing: 1rem;
+  --loomi-card-radius: var(--loomi-component-panel-radius, 0.875rem);
+  --loomi-card-shadow: var(--loomi-component-card-shadow, 0 1px 3px rgba(15, 23, 42, 0.06));
 }
 
 :host(loomi-card[hidden]) {
@@ -16,7 +18,7 @@
   flex-direction: column;
   gap: var(--loomi-card-spacing);
   overflow: hidden;
-  border-radius: 0.875rem;
+  border-radius: var(--loomi-card-radius);
   background: var(--loomi-surface);
   padding-block: var(--loomi-card-spacing);
   font-size: 0.875rem;
@@ -29,21 +31,11 @@
 }
 
 .card.shadow {
-  background: color-mix(in srgb, var(--loomi-surface) 92%, transparent);
-  backdrop-filter: blur(6px);
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.1);
+  box-shadow: var(--loomi-card-shadow);
 }
 
 .card.transparent {
   background: transparent;
-  backdrop-filter: none;
-}
-
-/* :host-context(.dark) has no Firefox support (see AGENTS.md) — dark mode is tracked in
-   JS via watchDarkMode() and reflected as .is-dark on the host instead. */
-.card.is-dark.shadow {
-  background: color-mix(in srgb, var(--loomi-surface) 88%, transparent);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
 }
 
 :host(loomi-card:has(loomi-card-footer)) .card {
@@ -57,7 +49,7 @@
 :host(loomi-card:has(> img:first-child)) ::slotted(img) {
   display: block;
   width: 100%;
-  border-radius: 0.875rem 0.875rem 0 0;
+  border-radius: var(--loomi-card-radius) var(--loomi-card-radius) 0 0;
 }
 
 .card.clickable {
@@ -76,11 +68,7 @@
 }
 
 .card.hover:hover {
-  box-shadow: 0 20px 48px rgba(15, 23, 42, 0.16);
-}
-
-.card.is-dark.hover:hover {
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--loomi-text) 10%, transparent);
 }
 
 /* ---- header ---- */
@@ -95,7 +83,7 @@
   align-items: start;
   gap: 0.25rem;
   padding-inline: var(--loomi-card-spacing);
-  border-radius: 0.875rem 0.875rem 0 0;
+  border-radius: var(--loomi-card-radius) var(--loomi-card-radius) 0 0;
 }
 
 :host(loomi-card-header:has(loomi-card-action)) .header {
@@ -166,7 +154,7 @@
   align-items: center;
   gap: 0.5rem;
   border-top: 1px solid var(--loomi-surface-border-subtle);
-  border-radius: 0 0 0.875rem 0.875rem;
+  border-radius: 0 0 var(--loomi-card-radius) var(--loomi-card-radius);
   background: var(--loomi-surface-muted);
   padding: var(--loomi-card-spacing);
 }

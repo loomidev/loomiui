@@ -117,12 +117,11 @@ top corners (same pattern as shadcn's image example).
 
 ## Card Styling
 
-`<loomi-card>` renders as a floating glass surface by default — a translucent,
-backdrop-blurred background, a hairline border, and a soft drop shadow (the same
-treatment as the "Sales Overview" card on the LoomiUI homepage). Turn either off with
-`has-border` / `has-shadow`; turning off `has-shadow` also drops the translucency and
-blur, since those are part of the same floating-card material. Add `transparent` when
-you want to keep card spacing and composition but let the parent surface show through.
+`<loomi-card>` renders as a clean, solid panel by default: a semantic surface fill,
+hairline border, theme-aware panel radius, and restrained shadow. This keeps dense
+dashboard and settings layouts clear without adding a glass effect. Turn the border or
+shadow off with `has-border` / `has-shadow`. Add `transparent` when you want to keep
+card spacing and composition but let the parent surface show through.
 
 ```html
 <loomi-card has-shadow="false" has-border="false" style="max-width: 20rem">
@@ -145,6 +144,10 @@ layouts:
 ```html
 <loomi-card style="--loomi-card-spacing: 1.5rem">...</loomi-card>
 ```
+
+The card also reads the Pro theme tokens `--loomi-component-panel-radius` and
+`--loomi-component-card-shadow`. You can override `--loomi-card-radius` or
+`--loomi-card-shadow` directly when a single card needs a different treatment.
 
 ## Accessibility
 
@@ -175,10 +178,10 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | Attribute | Default | Description |
 | --- | --- | --- |
 | `size` | `default` | `default` \| `sm` — controls section spacing. |
-| `has-shadow` | `true` | Floating drop shadow (with translucency + backdrop blur). _(boolean)_ |
+| `has-shadow` | `true` | Restrained, theme-aware panel shadow. _(boolean)_ |
 | `has-border` | `true` | Hairline border. _(boolean)_ |
 | `has-hover` | `false` | Extra shadow on hover. _(boolean)_ |
-| `transparent` | `false` | Remove the card surface fill and backdrop blur. _(boolean)_ |
+| `transparent` | `false` | Remove the card surface fill. _(boolean)_ |
 | `url` | _(blank)_ | Navigate on click (path, `fn()` call, or full URL). |
 
 ### Parts
