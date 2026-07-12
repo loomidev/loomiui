@@ -45,7 +45,7 @@ export class LoomiProgressBar extends LoomiElement {
       : nothing;
     return html`<div class="loomi-bar-wrap" style=${accentVars(this.color)}>
       ${vpos === "top" ? labelEl : nothing}
-      <div class="loomi-track" role="progressbar" aria-valuenow=${this.pct} aria-valuemin="0" aria-valuemax="100">
+      <div class="loomi-track ${this.showLabel && this.inline ? "has-label" : ""}" role="progressbar" aria-valuenow=${this.pct} aria-valuemin="0" aria-valuemax="100">
         <div class="loomi-fill ${this.shade === "dark" ? "dark" : ""} ${this.striped ? "striped" : ""} ${this.animated ? "animated" : ""}" style="width:${this.pct}%">
           ${this.showLabel && this.inline ? html`<span class="loomi-fill-label">${this.pct}%</span>` : nothing}
         </div>
