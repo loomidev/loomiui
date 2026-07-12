@@ -47,7 +47,7 @@ import type {
 
 /**
  * `<loomi-chart>` — SVG charts inspired by shadcn/ui and Untitled UI: `bar`, `line`,
- * `area`, `pie`, `donut`, `radar`, `radial`, or `scatter`. Pass a single series via
+ * `area`, `pie`, `donut`, `radar`, `radial`, `scatter`, or `heatmap`. Pass a single series via
  * `data` (`{ label, value, color? }`).
  */
 @customElement("loomi-chart")
@@ -79,6 +79,7 @@ export class LoomiChart extends LoomiElement {
   @property({ type: Boolean }) exportable = false;
 
   @state() private hoverIndex = -1;
+  @state() private heatmapRowIndex = -1;
   @state() private pointerLeft = 0;
   @state() private pointerTop = 0;
   @state() private exportMenuOpen = false;
@@ -122,7 +123,8 @@ export class LoomiChart extends LoomiElement {
       this.type === "bar" ||
       this.type === "line" ||
       this.type === "area" ||
-      this.type === "scatter"
+      this.type === "scatter" ||
+      this.type === "heatmap"
     );
   }
 
@@ -140,12 +142,26 @@ export class LoomiChart extends LoomiElement {
       : (event.clientX - rect.left) / rect.width;
     this.pointerLeft = Math.max(0, Math.min(100, ((event.clientX - rect.left) / rect.width) * 100));
     this.pointerTop = Math.max(0, Math.min(100, ((event.clientY - rect.top) / rect.height) * 100));
-    const next = nearestIndex(this.type, this.data, this.layoutOpts(), ratio);
+    let next = nearestIndex(this.type, this.data, this.layoutOpts(), ratio);
     if (next !== this.hoverIndex) this.hoverIndex = next;
+    if (this.type === "heatmap") {
+      const rows = groupedSeriesLabels(this.data);
+      const padLeft = this.heatmapPadLeft(rows);
+      const x = ((event.clientX - rect.left) / rect.width) * CARTESIAN.width;
+      const plotWidth = CARTESIAN.width - padLeft - CARTESIAN.pad;
+      next = Math.max(0, Math.min(this.data.length - 1, Math.floor(((x - padLeft) / plotWidth) * this.data.length)));
+      if (next !== this.hoverIndex) this.hoverIndex = next;
+      const y = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
+      const plotTop = CARTESIAN.pad / CARTESIAN.height;
+      const plotBottom = (CARTESIAN.height - CARTESIAN.pad) / CARTESIAN.height;
+      const plotRatio = (y - plotTop) / (plotBottom - plotTop);
+      this.heatmapRowIndex = Math.max(0, Math.min(rows.length - 1, Math.floor(plotRatio * rows.length)));
+    }
   }
 
   private handlePointerLeave(): void {
     this.hoverIndex = -1;
+    this.heatmapRowIndex = -1;
   }
 
   private renderGrid(layout: ReturnType<typeof cartesianLayout>): SVGTemplateResult | typeof nothing {
@@ -355,6 +371,50 @@ export class LoomiChart extends LoomiElement {
     `;
   }
 
+  private renderHeatmap(): SVGTemplateResult {
+    const rows = groupedSeriesLabels(this.data);
+    const { width: W, height: H, pad } = CARTESIAN;
+    const padLeft = this.heatmapPadLeft(rows);
+    const padRight = pad;
+    const padTop = pad;
+    const padBottom = pad;
+    const cellW = (W - padLeft - padRight) / Math.max(1, this.data.length);
+    const cellH = (H - padTop - padBottom) / Math.max(1, rows.length);
+    const values = this.data.flatMap((point) => point.values?.map((item) => item.value) ?? []);
+    const max = Math.max(1, ...values);
+
+    return svg`
+      ${this.data.flatMap((point, columnIndex) =>
+        rows.map((row, rowIndex) => {
+          const item = point.values?.find((entry) => entry.label === row);
+          const value = item?.value ?? 0;
+          const active = this.hoverIndex === columnIndex && this.heatmapRowIndex === rowIndex;
+          const fill = item?.color
+            ? resolveGroupedSeriesFill(this.colorCtx, this.data, row, rowIndex)
+            : "var(--_loomi-accent)";
+          return svg`<rect
+            class="loomi-heatmap-cell${active ? " is-active" : ""}"
+            x=${padLeft + columnIndex * cellW + 1}
+            y=${padTop + rowIndex * cellH + 1}
+            width=${Math.max(0, cellW - 2)}
+            height=${Math.max(0, cellH - 2)}
+            rx="2"
+            fill=${fill}
+            fill-opacity=${0.12 + (value / max) * 0.88}
+          ><title>${point.label} · ${row}: ${formatValue(value)}</title></rect>`;
+        }),
+      )}
+      ${this.data.map((point, i) => svg`<text class="loomi-xlabel" x=${padLeft + (i + 0.5) * cellW} y=${H - 4} text-anchor="middle">${point.label}</text>`)}
+      ${rows.map((row, i) => svg`<text class="loomi-ylabel" x=${padLeft - 6} y=${padTop + (i + 0.5) * cellH + 3} text-anchor="end">${row}</text>`)}
+    `;
+  }
+
+  private heatmapPadLeft(rows: string[]): number {
+    return rows.length
+      ? Math.max(42, Math.min(76, Math.max(...rows.map((label) => label.length)) * 5 + 10))
+      : 42;
+  }
+
   private renderRadar(): SVGTemplateResult {
     const { cx, cy, radarRadius: R } = POLAR;
     const n = this.data.length || 1;
@@ -494,6 +554,16 @@ export class LoomiChart extends LoomiElement {
   private renderTooltipRows(point: LoomiChartPoint): TemplateResult {
     if (point.values?.length) {
       const labels = groupedSeriesLabels(this.data);
+      if (this.type === "heatmap" && this.heatmapRowIndex >= 0) {
+        const label = labels[this.heatmapRowIndex];
+        const sub = point.values.find((value) => value.label === label);
+        if (!sub) return html``;
+        return html`<div class="loomi-chart-tip-row">
+          <span class="loomi-chart-tip-dot"></span>
+          <span class="loomi-chart-tip-series">${label}</span>
+          <span class="loomi-chart-tip-value">${formatValue(sub.value)}</span>
+        </div>`;
+      }
       return html`${labels.map((label, seriesIndex) => {
         const sub = point.values!.find((v) => v.label === label);
         if (sub == null) return nothing;
@@ -744,6 +814,7 @@ export class LoomiChart extends LoomiElement {
     else if (this.type === "line") body = this.renderSeries(true, true);
     else if (this.type === "area") body = this.renderSeries(false, true);
     else if (this.type === "scatter") body = this.renderScatter();
+    else if (this.type === "heatmap") body = this.renderHeatmap();
     else if (this.type === "radar") body = this.renderRadar();
     else if (this.type === "radial") body = this.renderRadial();
     else body = this.renderPie(this.type === "donut");

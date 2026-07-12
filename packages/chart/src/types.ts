@@ -8,7 +8,8 @@ export type LoomiChartType =
   | "donut"
   | "radar"
   | "radial"
-  | "scatter";
+  | "scatter"
+  | "heatmap";
 
 export type LoomiChartShade = "light" | "dark";
 
