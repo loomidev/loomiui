@@ -1,1 +1,1 @@
-export { LoomiPin } from "./loomi-pin.js";
+export { LoomiPin, type LoomiPinVerifyDetail } from "./loomi-pin.js";

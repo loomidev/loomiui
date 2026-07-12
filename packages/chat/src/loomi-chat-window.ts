@@ -545,8 +545,39 @@ export class LoomiChatWindow extends LoomiElement {
   }
 }
 
+export interface LoomiChatSendDetail {
+  message: LoomiChatWindowMessage;
+}
+
+export interface LoomiChatAttachDetail {
+  files: File[];
+}
+
+export interface LoomiChatRecordDetail {
+  stream: MediaStream;
+}
+
+export interface LoomiChatRecordErrorDetail {
+  error: unknown;
+}
+
+export interface LoomiChatConversationSelectDetail {
+  conversation: LoomiChatConversation;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-chat-window": LoomiChatWindow;
+  }
+
+  interface HTMLElementEventMap {
+    "loomi-send": CustomEvent<LoomiChatSendDetail>;
+    "loomi-reset": CustomEvent<null>;
+    "loomi-add-user": CustomEvent<null>;
+    "loomi-attach-file": CustomEvent<LoomiChatAttachDetail>;
+    "loomi-attach-picture": CustomEvent<LoomiChatAttachDetail>;
+    "loomi-record": CustomEvent<LoomiChatRecordDetail>;
+    "loomi-record-error": CustomEvent<LoomiChatRecordErrorDetail>;
+    "loomi-conversation-select": CustomEvent<LoomiChatConversationSelectDetail>;
   }
 }

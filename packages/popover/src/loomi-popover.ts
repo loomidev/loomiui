@@ -118,8 +118,16 @@ export class LoomiPopover extends LoomiElement {
   }
 }
 
+export interface LoomiPopoverToggleDetail {
+  open: boolean;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-popover": LoomiPopover;
+  }
+
+  interface HTMLElementEventMap {
+    "loomi-toggle": CustomEvent<LoomiPopoverToggleDetail>;
   }
 }

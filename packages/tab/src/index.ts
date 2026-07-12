@@ -1,1 +1,1 @@
-export { LoomiTab, LoomiTabs, type LoomiTabStyle } from "./loomi-tab.js";
+export { LoomiTab, LoomiTabs, type LoomiTabStyle, type LoomiTabChangeDetail } from "./loomi-tab.js";

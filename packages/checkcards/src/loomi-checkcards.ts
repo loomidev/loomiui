@@ -130,9 +130,17 @@ export class LoomiCheckcards extends LoomiElement {
   }
 }
 
+export interface LoomiCheckcardClickDetail {
+  value: string;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-checkcards": LoomiCheckcards;
     "loomi-checkcard": LoomiCheckcard;
+  }
+
+  interface HTMLElementEventMap {
+    "loomi-checkcard-click": CustomEvent<LoomiCheckcardClickDetail>;
   }
 }

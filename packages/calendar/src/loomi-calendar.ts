@@ -2594,4 +2594,20 @@ declare global {
   interface HTMLElementTagNameMap {
     "loomi-calendar": LoomiCalendar;
   }
+
+  interface HTMLElementEventMap {
+    "loomi-event-change": CustomEvent<CalendarEventChangeDetail>;
+    "loomi-event-click": CustomEvent<CalendarEventClickDetail>;
+    "loomi-event-create": CustomEvent<CalendarEventCreateDetail>;
+    "loomi-event-delete": CustomEvent<CalendarEventDeleteDetail>;
+    "loomi-event-duplicate": CustomEvent<CalendarEventDuplicateDetail>;
+    "loomi-reminder-change": CustomEvent<CalendarReminderChangeDetail>;
+    "loomi-reminder-click": CustomEvent<CalendarReminderClickDetail>;
+    "loomi-reminder-create": CustomEvent<CalendarReminderCreateDetail>;
+    "loomi-reminder-delete": CustomEvent<CalendarReminderDeleteDetail>;
+    "loomi-sidebar-toggle": CustomEvent<CalendarSidebarToggleDetail>;
+    "loomi-slot-select": CustomEvent<CalendarSlotSelectDetail>;
+    "loomi-view-change": CustomEvent<CalendarViewChangeDetail>;
+    "loomi-date-change": CustomEvent<CalendarDateChangeDetail>;
+  }
 }

@@ -489,6 +489,19 @@ export class LoomiCountries extends LoomiElement {
   }
 }
 
+export interface LoomiCountriesSelectDetail {
+  code: string;
+  name: string;
+  dialCode: string;
+}
+
+/** Event map for `<loomi-countries>`. `loomi-select` is dispatched by several
+ * loomi components with different detail shapes, so it is typed per package
+ * instead of globally on `HTMLElementEventMap`. */
+export interface LoomiCountriesEventMap {
+  "loomi-select": CustomEvent<LoomiCountriesSelectDetail>;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-countries": LoomiCountries;

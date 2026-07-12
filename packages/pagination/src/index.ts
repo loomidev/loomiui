@@ -1,1 +1,1 @@
-export { LoomiPagination, type LoomiPaginationStyle } from "./loomi-pagination.js";
+export { LoomiPagination, type LoomiPaginationStyle, type LoomiPaginationPageChangeDetail, type LoomiPaginationEventMap } from "./loomi-pagination.js";

@@ -97,4 +97,8 @@ declare global {
     "loomi-accordion": LoomiAccordion;
     "loomi-accordion-item": LoomiAccordionItem;
   }
+
+  interface HTMLElementEventMap {
+    "loomi-accordion-toggle": CustomEvent<null>;
+  }
 }

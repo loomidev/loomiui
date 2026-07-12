@@ -605,4 +605,10 @@ declare global {
   interface HTMLElementTagNameMap {
     "loomi-date-range-picker": LoomiDateRangePicker;
   }
+
+  interface HTMLElementEventMap {
+    "loomi-date-range-change": CustomEvent<DateRangeChangeDetail>;
+    "loomi-date-range-apply": CustomEvent<DateRangeApplyDetail>;
+    "loomi-date-range-open-change": CustomEvent<DateRangeOpenChangeDetail>;
+  }
 }

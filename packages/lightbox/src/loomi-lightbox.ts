@@ -234,4 +234,9 @@ declare global {
   interface HTMLElementTagNameMap {
     "loomi-lightbox-image": LoomiLightboxImage;
   }
+
+  interface HTMLElementEventMap {
+    "loomi-open": Event;
+    "loomi-close": Event;
+  }
 }

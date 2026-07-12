@@ -7,4 +7,6 @@ export {
   type LoomiProgressStepSize,
   type LoomiProgressStepState,
   type LoomiProgressStepsOrientation,
+  type LoomiProgressStepSelectDetail,
+  type LoomiProgressStepsChangeDetail,
 } from "./loomi-progress.js";

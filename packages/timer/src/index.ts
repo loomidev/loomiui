@@ -1,1 +1,1 @@
-export { LoomiTimer, type LoomiTimerDirection } from "./loomi-timer.js";
+export { LoomiTimer, type LoomiTimerDirection, type LoomiTimerEventDetail } from "./loomi-timer.js";

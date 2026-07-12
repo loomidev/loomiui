@@ -316,8 +316,23 @@ export class LoomiTextarea extends LoomiElement {
   }
 }
 
+export interface LoomiTextareaMentionSearchDetail {
+  trigger: string;
+  query: string;
+}
+
+export interface LoomiTextareaMentionSelectDetail {
+  trigger: string;
+  item: LoomiMentionItem;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-textarea": LoomiTextarea;
+  }
+
+  interface HTMLElementEventMap {
+    "loomi-mention-search": CustomEvent<LoomiTextareaMentionSearchDetail>;
+    "loomi-mention-select": CustomEvent<LoomiTextareaMentionSelectDetail>;
   }
 }

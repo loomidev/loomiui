@@ -208,9 +208,17 @@ export class LoomiTabs extends LoomiElement {
   }
 }
 
+export interface LoomiTabChangeDetail {
+  label: string;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-tab": LoomiTab;
     "loomi-tabs": LoomiTabs;
+  }
+
+  interface HTMLElementEventMap {
+    "loomi-tab-change": CustomEvent<LoomiTabChangeDetail>;
   }
 }

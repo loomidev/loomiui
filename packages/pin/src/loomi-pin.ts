@@ -198,8 +198,17 @@ export class LoomiPin extends LoomiElement {
   }
 }
 
+export interface LoomiPinVerifyDetail {
+  pin: string;
+  code: string;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-pin": LoomiPin;
+  }
+
+  interface HTMLElementEventMap {
+    "loomi-verify": CustomEvent<LoomiPinVerifyDetail>;
   }
 }

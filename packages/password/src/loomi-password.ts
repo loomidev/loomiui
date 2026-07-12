@@ -322,4 +322,10 @@ declare global {
   interface HTMLElementTagNameMap {
     "loomi-password": LoomiPassword;
   }
+
+  interface HTMLElementEventMap {
+    // Also dispatched by <loomi-input> — the inline literal detail type must
+    // stay identical there for the two global augmentations to merge.
+    "loomi-prefix-change": CustomEvent<{ value: string }>;
+  }
 }

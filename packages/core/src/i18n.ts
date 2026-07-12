@@ -60,6 +60,16 @@ function formatTemplate(template: string, params: Record<string, string | number
   return out;
 }
 
+export interface LoomiLocaleChangeDetail {
+  locale: string;
+}
+
+declare global {
+  interface WindowEventMap {
+    "loomi-locale-change": CustomEvent<LoomiLocaleChangeDetail>;
+  }
+}
+
 export function getLoomiLocale(): string {
   return activeLocale;
 }

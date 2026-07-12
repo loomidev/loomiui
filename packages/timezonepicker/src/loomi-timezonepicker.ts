@@ -468,6 +468,20 @@ export class LoomiTimezonepicker extends LoomiElement {
   }
 }
 
+export interface LoomiTimezonepickerSelectDetail {
+  id: string;
+  city: string;
+  region: string;
+  offsetLabel: string;
+}
+
+/** Event map for `<loomi-timezonepicker>`. `loomi-select` is dispatched by several
+ * loomi components with different detail shapes, so it is typed per package
+ * instead of globally on `HTMLElementEventMap`. */
+export interface LoomiTimezonepickerEventMap {
+  "loomi-select": CustomEvent<LoomiTimezonepickerSelectDetail>;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-timezonepicker": LoomiTimezonepicker;

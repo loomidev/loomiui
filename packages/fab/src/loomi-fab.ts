@@ -427,6 +427,18 @@ export class LoomiFab extends LoomiElement {
   }
 }
 
+export interface LoomiFabSelectDetail {
+  value: string;
+  label: string;
+}
+
+/** Event map for `<loomi-fab-item>`. `loomi-select` is dispatched by several
+ * loomi components with different detail shapes, so it is typed per package
+ * instead of globally on `HTMLElementEventMap`. */
+export interface LoomiFabEventMap {
+  "loomi-select": CustomEvent<LoomiFabSelectDetail>;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-fab": LoomiFab;

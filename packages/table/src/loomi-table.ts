@@ -615,8 +615,54 @@ export class LoomiTable extends LoomiElement {
   }
 }
 
+export interface LoomiTableActionDetail {
+  name: string;
+  row: Record<string, unknown>;
+  action: LoomiActionIcon;
+  click: string | undefined;
+  resolvedClick: string;
+}
+
+export interface LoomiTableRowClickDetail {
+  row: Record<string, unknown>;
+  id: string;
+}
+
+export interface LoomiTableSelectionChangeDetail {
+  ids: string[];
+  rows: Record<string, unknown>[];
+  selectedValue: string;
+}
+
+export interface LoomiTableEmptyActionDetail {
+  action: string;
+}
+
+export interface LoomiTablePageChangeDetail {
+  page: number;
+}
+
+/** Event map for `<loomi-table>`. `loomi-selection-change`, `loomi-empty-action`
+ * and `loomi-page-change` are dispatched by several loomi components with
+ * different detail shapes, so they are typed per package instead of globally
+ * on `HTMLElementEventMap`. */
+export interface LoomiTableEventMap {
+  "loomi-action": CustomEvent<LoomiTableActionDetail>;
+  "loomi-action-call": CustomEvent<Record<string, unknown>>;
+  "loomi-row-click": CustomEvent<LoomiTableRowClickDetail>;
+  "loomi-selection-change": CustomEvent<LoomiTableSelectionChangeDetail>;
+  "loomi-empty-action": CustomEvent<LoomiTableEmptyActionDetail>;
+  "loomi-page-change": CustomEvent<LoomiTablePageChangeDetail>;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-table": LoomiTable;
+  }
+
+  interface HTMLElementEventMap {
+    "loomi-action": CustomEvent<LoomiTableActionDetail>;
+    "loomi-action-call": CustomEvent<Record<string, unknown>>;
+    "loomi-row-click": CustomEvent<LoomiTableRowClickDetail>;
   }
 }

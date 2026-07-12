@@ -1,1 +1,1 @@
-export { LoomiCheckcards, LoomiCheckcard } from "./loomi-checkcards.js";
+export { LoomiCheckcards, LoomiCheckcard, type LoomiCheckcardClickDetail } from "./loomi-checkcards.js";
