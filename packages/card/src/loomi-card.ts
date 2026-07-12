@@ -1,6 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, watchDarkMode } from "@loomidev/core";
+import { customElement, property } from "lit/decorators.js";
+import { LoomiElement, loomiStyles } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiCardSize = "default" | "sm";
@@ -37,21 +37,6 @@ export class LoomiCard extends LoomiElement {
   @property({ type: Boolean, attribute: "has-border", converter: booleanAttribute }) hasBorder = true;
   @property({ type: Boolean, reflect: true }) transparent = false;
 
-  /** Whether an ancestor has the `dark` class — see `isDarkContext` in `loomi-button.ts`. */
-  @state() private isDarkContext = false;
-  private cleanupDarkWatch?: () => void;
-
-  override connectedCallback(): void {
-    super.connectedCallback();
-    this.cleanupDarkWatch = watchDarkMode((isDark) => {
-      this.isDarkContext = isDark;
-    });
-  }
-  override disconnectedCallback(): void {
-    super.disconnectedCallback();
-    this.cleanupDarkWatch?.();
-  }
-
   private onClick = (): void => {
     if (!this.url) return;
     if (/^https?:\/\//.test(this.url)) window.open(this.url, "_blank");
@@ -75,7 +60,6 @@ export class LoomiCard extends LoomiElement {
       this.transparent ? "transparent" : "",
       this.url ? "clickable" : "",
       this.hasHover ? "hover" : "",
-      this.isDarkContext ? "is-dark" : "",
     ]
       .filter(Boolean)
       .join(" ");
