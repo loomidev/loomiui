@@ -142,6 +142,16 @@
             },
             {
               "kind": "field",
+              "name": "hasHover",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "has-hover",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "transparent",
               "type": {
                 "text": "boolean"
@@ -355,6 +365,14 @@
               },
               "default": "false",
               "fieldName": "verified"
+            },
+            {
+              "name": "has-hover",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "hasHover"
             },
             {
               "name": "transparent",

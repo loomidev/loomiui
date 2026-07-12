@@ -170,8 +170,8 @@ Listen for `change` and upload `detail.file` however your backend expects it (ty
 optimistically, so the UI doesn't need to wait on the request:
 
 ```html
-<loomi-avatar id="profile-pic" image="/avatars/me.jpg" editable></loomi-avatar>
-<img id="selected-avatar-preview" src="/avatars/me.jpg" alt="Selected avatar preview" width="96" height="96" />
+<loomi-avatar id="profile-pic" image="/avatars/ada.svg" editable></loomi-avatar>
+<img id="selected-avatar-preview" src="/avatars/ada.svg" alt="Selected avatar preview" width="96" height="96" />
 
 <script type="module">
   const avatar = document.getElementById("profile-pic");
@@ -306,7 +306,7 @@ pnpm --filter @loomidev/avatar typecheck
 ### Choose your framework
 
 <loomi-tabs>
-<loomi-tab label="Plain HTML" active>
+<loomi-tab label="HTML" active>
 
 Use the CDN version for prototypes, documentation pages, or a quick reproduction. The import map tells the browser where to find Lit, which Loomi components use internally.
 
@@ -332,7 +332,7 @@ import "@loomidev/avatar";
 ```
 
 </loomi-tab>
-<loomi-tab label="Laravel Blade">
+<loomi-tab label="Blade">
 
 Run the install command from your Laravel project root, then import the component in `resources/js/app.js`. If your project uses Laravel Vite, `npm run dev` and `npm run build` should also be run from the Laravel project root.
 
@@ -419,7 +419,7 @@ export class AppComponent {}
 ```
 
 </loomi-tab>
-<loomi-tab label="Svelte and Astro">
+<loomi-tab label="Svelte / Astro">
 
 Svelte can import the package inside a component script. Astro can import it in the frontmatter of the page or layout where the tag appears.
 

@@ -21,9 +21,9 @@ opens the dropdown.
 
 ```html
 <loomi-profile-menu
-  name="Olivia Rhye"
-  description="olivia@loomi.dev"
-  avatar="/avatars/olivia.jpg"
+  name="Alice Wonderland"
+  description="alice@loomiui.com"
+  avatar="/avatars/female.jpg"
 >
   <loomi-dropmenu-item icon="user-circle">Profile</loomi-dropmenu-item>
   <loomi-dropmenu-item icon="cog-6-tooth">Settings</loomi-dropmenu-item>
@@ -40,9 +40,9 @@ Avatar behavior is passed to the internal `<loomi-avatar>`.
 
 ```html
 <loomi-profile-menu
-  name="Olivia Rhye"
-  description="olivia@loomi.dev"
-  avatar="/avatars/olivia.jpg"
+  name="Alice Wonderland"
+  description="alice@loomiui.com"
+  avatar="/avatars/female.jpg"
   dotted
   pulse-dot
   verified
@@ -59,14 +59,15 @@ the fallback text yourself.
 ## Transparent Trigger
 
 Use `transparent` when the profile menu sits on an existing surface and should not add
-its own card fill. Hover still shows a very subtle border.
+its own card fill. Add `has-hover` when you want a very subtle border on hover.
 
 ```html
 <loomi-profile-menu
   transparent
-  name="Olivia Rhye"
-  description="olivia@loomi.dev"
-  avatar-label="OR"
+  has-hover
+  name="Alice Wonderland"
+  description="alice@loomiui.com"
+  avatar-label="AW"
 >
   <loomi-dropmenu-item>Profile</loomi-dropmenu-item>
 </loomi-profile-menu>
@@ -78,7 +79,7 @@ The menu is powered by `<loomi-dropmenu>`, so the same placement, divided rows,
 scrolling, keyboard navigation, and `hide-after-click` behavior apply.
 
 ```html
-<loomi-profile-menu name="Olivia Rhye" placement="right" divided>
+<loomi-profile-menu name="Alice Wonderland" placement="right" divided>
   <loomi-dropmenu-item icon="user-circle">Profile</loomi-dropmenu-item>
   <loomi-dropmenu-item icon="cog-6-tooth">Settings</loomi-dropmenu-item>
 </loomi-profile-menu>
@@ -114,13 +115,14 @@ menu inherit your app theme.
 | `avatar` | _(blank)_ | Avatar image URL. |
 | `avatar-label` | derived | Initials/fallback label for the internal `<loomi-avatar>`. |
 | `avatar-alt` | derived | Accessible alt text for the avatar image. |
-| `avatar-size` | `regular` | Size passed to `<loomi-avatar>`. |
+| `avatar-size` | `regular` | Avatar size — defers to the internal `<loomi-avatar>` `size`. |
 | `avatar-bg-color` | `gray` | Initials background color passed to `<loomi-avatar>`. |
 | `dotted` | `false` | Show avatar status dot. _(boolean)_ |
 | `pulse-dot` | `false` | Animate the avatar status dot. _(boolean)_ |
 | `dot-color` | `success` | Status dot color. |
 | `dot-position` | `bottom` | `top` \| `bottom`. |
 | `verified` | `false` | Show the avatar verification badge. _(boolean)_ |
+| `has-hover` | `false` | Show a subtle border on trigger hover/focus. _(boolean)_ |
 | `transparent` | `false` | Remove the trigger card fill. _(boolean)_ |
 | `placement` | `right` | Dropmenu placement. `auto` \| `left` \| `right`. Defaults to `right` so the menu opens right-aligned, under the chevron. |
 | `divided` | `false` | Add dividers between menu items. _(boolean)_ |

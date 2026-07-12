@@ -68,7 +68,7 @@ pnpm --filter @loomidev/navigation typecheck
 ### Choose your framework
 
 <loomi-tabs>
-<loomi-tab label="Plain HTML" active>
+<loomi-tab label="HTML" active>
 
 ```html
 <script type="importmap">
@@ -83,7 +83,7 @@ pnpm --filter @loomidev/navigation typecheck
 ```
 
 </loomi-tab>
-<loomi-tab label="Laravel Blade">
+<loomi-tab label="Blade">
 
 ```bash
 cd /path/to/your-laravel-app
@@ -161,7 +161,7 @@ export class AppComponent {}
 ```
 
 </loomi-tab>
-<loomi-tab label="Svelte and Astro">
+<loomi-tab label="Svelte / Astro">
 
 ```svelte
 <script>
