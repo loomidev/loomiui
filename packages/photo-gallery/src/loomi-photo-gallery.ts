@@ -769,9 +769,41 @@ export class LoomiPhotoGallery extends LoomiElement {
   }
 }
 
+export interface LoomiPhotoGalleryPhotoDetail {
+  index: number;
+  src: string;
+}
+
+export interface LoomiPhotoGalleryFavouriteDetail {
+  index: number;
+  src: string;
+  favourite: boolean;
+}
+
+export interface LoomiPhotoGalleryAlbumChangeDetail {
+  album: string;
+}
+
+export interface LoomiPhotoGalleryRotateDetail {
+  index: number;
+  rotation: number;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-photo-gallery-item": LoomiPhotoGalleryItem;
     "loomi-photo-gallery": LoomiPhotoGallery;
+  }
+
+  interface HTMLElementEventMap {
+    "loomi-favourite": CustomEvent<LoomiPhotoGalleryFavouriteDetail>;
+    "loomi-album-change": CustomEvent<LoomiPhotoGalleryAlbumChangeDetail>;
+    "loomi-photo-open": CustomEvent<LoomiPhotoGalleryPhotoDetail>;
+    "loomi-photo-change": CustomEvent<LoomiPhotoGalleryPhotoDetail>;
+    "loomi-photo-close": Event;
+    "loomi-rotate": CustomEvent<LoomiPhotoGalleryRotateDetail>;
+    "loomi-share": CustomEvent<LoomiPhotoGalleryPhotoDetail>;
+    "loomi-slideshow-start": Event;
+    "loomi-slideshow-end": Event;
   }
 }

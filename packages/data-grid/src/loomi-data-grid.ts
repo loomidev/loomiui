@@ -13,10 +13,13 @@ import type {
   DataGridPageChangeDetail,
   DataGridRecord,
   DataGridRowActionDetail,
+  DataGridSavedViewChangeDetail,
   DataGridSelectionChangeDetail,
   DataGridSort,
-  DataGridSortChangeDetail
+  DataGridSortChangeDetail,
+  DataGridToggleRowDetail
 } from "./types.js";
+import type { DataGridExportRequestDetail } from "./modules/export.js";
 
 const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_MIN_COLUMN_WIDTH = 60;
@@ -723,7 +726,7 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
 
   private toggleRow(row: TRecord): void {
     const meta = getRowMeta(row);
-    this.dispatchGridEvent("loomi-grid-toggle-row", {
+    this.dispatchGridEvent<DataGridToggleRowDetail<TRecord>>("loomi-grid-toggle-row", {
       rowKey: this.getRowKey(row),
       row,
       expanded: !(meta?.expanded ?? false)
@@ -893,5 +896,20 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-data-grid": LoomiDataGrid;
+  }
+
+  // Only event names unique to the data grid are typed globally, with the
+  // default record type. `loomi-page-change` and `loomi-selection-change` are
+  // dispatched by other loomi components with different detail shapes, so they
+  // are typed in `DataGridEventMap` (types.ts) instead — use that map for
+  // record-typed listeners.
+  interface HTMLElementEventMap {
+    "loomi-sort-change": CustomEvent<DataGridSortChangeDetail>;
+    "loomi-column-resize": CustomEvent<DataGridColumnResizeDetail>;
+    "loomi-saved-view-change": CustomEvent<DataGridSavedViewChangeDetail>;
+    "loomi-row-action": CustomEvent<DataGridRowActionDetail>;
+    "loomi-cell-edit": CustomEvent<DataGridCellEditDetail>;
+    "loomi-grid-toggle-row": CustomEvent<DataGridToggleRowDetail>;
+    "loomi-export-request": CustomEvent<DataGridExportRequestDetail>;
   }
 }

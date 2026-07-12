@@ -19,7 +19,9 @@ export type {
   DataGridSelectionChangeDetail,
   DataGridSort,
   DataGridSortChangeDetail,
-  DataGridSortDirection
+  DataGridSortDirection,
+  DataGridToggleRowDetail,
+  DataGridEventMap
 } from "./types.js";
 
 export { defineGridModule } from "./grid-module.js";

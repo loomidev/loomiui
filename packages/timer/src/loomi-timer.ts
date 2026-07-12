@@ -303,8 +303,26 @@ export class LoomiTimer extends LoomiElement {
   }
 }
 
+export interface LoomiTimerEventDetail {
+  value: number;
+  direction: LoomiTimerDirection;
+  days: number;
+  hours: number;
+  mins: number;
+  progress: number;
+  complete: boolean;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-timer": LoomiTimer;
+  }
+
+  interface HTMLElementEventMap {
+    "loomi-timer-start": CustomEvent<LoomiTimerEventDetail>;
+    "loomi-timer-pause": CustomEvent<LoomiTimerEventDetail>;
+    "loomi-timer-reset": CustomEvent<LoomiTimerEventDetail>;
+    "loomi-timer-tick": CustomEvent<LoomiTimerEventDetail>;
+    "loomi-timer-complete": CustomEvent<LoomiTimerEventDetail>;
   }
 }

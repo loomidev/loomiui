@@ -183,9 +183,17 @@ export class LoomiTags extends LoomiElement {
   }
 }
 
+export interface LoomiTagClickDetail {
+  value: string;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-tag": LoomiTag;
     "loomi-tags": LoomiTags;
+  }
+
+  interface HTMLElementEventMap {
+    "loomi-tag-click": CustomEvent<LoomiTagClickDetail>;
   }
 }

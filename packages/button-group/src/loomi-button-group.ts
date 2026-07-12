@@ -254,9 +254,24 @@ export class LoomiButtonGroup extends LoomiElement {
   }
 }
 
+export interface LoomiButtonGroupClickDetail {
+  value: string;
+}
+
+export interface LoomiButtonGroupChangeDetail {
+  value: string | undefined;
+  label: string | undefined;
+  index: number;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-button-group": LoomiButtonGroup;
     "loomi-button-group-item": LoomiButtonGroupItem;
+  }
+
+  interface HTMLElementEventMap {
+    "loomi-bg-click": CustomEvent<LoomiButtonGroupClickDetail>;
+    "loomi-button-group-change": CustomEvent<LoomiButtonGroupChangeDetail>;
   }
 }

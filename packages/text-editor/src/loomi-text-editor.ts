@@ -1013,8 +1013,18 @@ export class LoomiTextEditor extends LoomiElement {
   }
 }
 
+export interface LoomiTextEditorAiGenerateDetail {
+  html: string;
+  selection: string;
+  insert: (html: string) => void;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-text-editor": LoomiTextEditor;
+  }
+
+  interface HTMLElementEventMap {
+    "loomi-ai-generate": CustomEvent<LoomiTextEditorAiGenerateDetail>;
   }
 }

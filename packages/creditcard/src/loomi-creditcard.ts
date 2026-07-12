@@ -497,8 +497,16 @@ export class LoomiCreditcard extends LoomiElement {
 
 }
 
+export interface LoomiCreditcardFlipDetail {
+  flipped: boolean;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-creditcard": LoomiCreditcard;
+  }
+
+  interface HTMLElementEventMap {
+    "loomi-flip": CustomEvent<LoomiCreditcardFlipDetail>;
   }
 }

@@ -302,9 +302,20 @@ export class LoomiBottomNav extends LoomiElement {
   }
 }
 
+export interface LoomiBottomNavChangeDetail {
+  item: LoomiBottomNavItem;
+  value: string;
+  name: string;
+  href: string | undefined;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-bottom-nav": LoomiBottomNav;
     "loomi-bottom-nav-item": LoomiBottomNavItem;
+  }
+
+  interface HTMLElementEventMap {
+    "loomi-change": CustomEvent<LoomiBottomNavChangeDetail>;
   }
 }

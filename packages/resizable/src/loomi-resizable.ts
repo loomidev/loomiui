@@ -498,4 +498,8 @@ declare global {
     "loomi-resizable-panel": LoomiResizablePanel;
     "loomi-resizable-handle": LoomiResizableHandle;
   }
+
+  interface HTMLElementEventMap {
+    "loomi-layout-change": CustomEvent<ResizableLayoutDetail>;
+  }
 }

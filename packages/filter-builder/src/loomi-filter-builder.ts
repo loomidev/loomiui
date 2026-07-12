@@ -423,4 +423,9 @@ declare global {
   interface HTMLElementTagNameMap {
     "loomi-filter-builder": LoomiFilterBuilder;
   }
+
+  interface HTMLElementEventMap {
+    "loomi-filter-apply": CustomEvent<FilterBuilderApplyDetail>;
+    "loomi-filter-change": CustomEvent<FilterBuilderChangeDetail>;
+  }
 }

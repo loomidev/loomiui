@@ -291,11 +291,28 @@ export class LoomiProgressSteps extends LoomiElement {
   }
 }
 
+export interface LoomiProgressStepSelectDetail {
+  index: number;
+  value: number;
+  label: string;
+  state: LoomiProgressStepState;
+}
+
+export interface LoomiProgressStepsChangeDetail {
+  current: number;
+  step: LoomiProgressStep;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-progress-bar": LoomiProgressBar;
     "loomi-progress-circle": LoomiProgressCircle;
     "loomi-progress-step": LoomiProgressStep;
     "loomi-progress-steps": LoomiProgressSteps;
+  }
+
+  interface HTMLElementEventMap {
+    "loomi-progress-step-select": CustomEvent<LoomiProgressStepSelectDetail>;
+    "loomi-progress-steps-change": CustomEvent<LoomiProgressStepsChangeDetail>;
   }
 }

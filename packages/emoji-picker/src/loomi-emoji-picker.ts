@@ -550,8 +550,20 @@ export class LoomiEmojiPicker extends LoomiElement {
   }
 }
 
+export interface LoomiEmojiSelectDetail {
+  value: string;
+  emoji: string;
+  name: string;
+  category: LoomiEmojiCategory;
+  item: LoomiEmojiItem;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-emoji-picker": LoomiEmojiPicker;
+  }
+
+  interface HTMLElementEventMap {
+    "loomi-emoji-select": CustomEvent<LoomiEmojiSelectDetail>;
   }
 }

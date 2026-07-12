@@ -161,8 +161,22 @@ export class LoomiClipboard extends LoomiElement {
   }
 }
 
+export interface LoomiClipboardCopiedDetail {
+  value: string;
+}
+
+export interface LoomiClipboardCopyErrorDetail {
+  value: string;
+  error: unknown;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-clipboard": LoomiClipboard;
+  }
+
+  interface HTMLElementEventMap {
+    "loomi-copied": CustomEvent<LoomiClipboardCopiedDetail>;
+    "loomi-copy-error": CustomEvent<LoomiClipboardCopyErrorDetail>;
   }
 }

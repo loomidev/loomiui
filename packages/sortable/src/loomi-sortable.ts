@@ -438,8 +438,28 @@ export class LoomiSortable extends LoomiElement {
   }
 }
 
+export interface LoomiSortableItemDetail {
+  item: LoomiSortableItem;
+}
+
+export interface LoomiSortableReorderDetail {
+  order: string[];
+}
+
+export interface LoomiSortableTransferDetail {
+  order: string[];
+  items: LoomiSortableItem[];
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-sortable": LoomiSortable;
+  }
+
+  interface HTMLElementEventMap {
+    "loomi-filter": CustomEvent<LoomiSortableItemDetail>;
+    "loomi-item-click": CustomEvent<LoomiSortableItemDetail>;
+    "loomi-reorder": CustomEvent<LoomiSortableReorderDetail>;
+    "loomi-transfer": CustomEvent<LoomiSortableTransferDetail>;
   }
 }

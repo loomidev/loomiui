@@ -1,1 +1,1 @@
-export { LoomiTag, LoomiTags } from "./loomi-tag.js";
+export { LoomiTag, LoomiTags, type LoomiTagClickDetail } from "./loomi-tag.js";

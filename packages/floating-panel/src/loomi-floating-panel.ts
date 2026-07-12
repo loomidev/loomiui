@@ -516,8 +516,35 @@ export class LoomiFloatingPanel extends LoomiElement {
   }
 }
 
+export interface LoomiFloatingPanelMinimizeDetail {
+  minimized: boolean;
+}
+
+export interface LoomiFloatingPanelMaximizeDetail {
+  maximized: boolean;
+}
+
+export interface LoomiFloatingPanelDragDetail {
+  top: number;
+  left: number;
+}
+
+export interface LoomiFloatingPanelResizeDetail {
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-floating-panel": LoomiFloatingPanel;
+  }
+
+  interface HTMLElementEventMap {
+    "loomi-minimize": CustomEvent<LoomiFloatingPanelMinimizeDetail>;
+    "loomi-maximize": CustomEvent<LoomiFloatingPanelMaximizeDetail>;
+    "loomi-drag": CustomEvent<LoomiFloatingPanelDragDetail>;
+    "loomi-resize": CustomEvent<LoomiFloatingPanelResizeDetail>;
   }
 }

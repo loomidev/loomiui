@@ -419,6 +419,19 @@ export class LoomiAutocomplete extends LoomiElement {
   }
 }
 
+export interface LoomiAutocompleteSelectDetail {
+  item: LoomiAutocompleteItem;
+  value: string;
+  label: string;
+}
+
+/** Event map for `<loomi-autocomplete>`. `loomi-select` is dispatched by several
+ * loomi components with different detail shapes, so it is typed per package
+ * instead of globally on `HTMLElementEventMap`. */
+export interface LoomiAutocompleteEventMap {
+  "loomi-select": CustomEvent<LoomiAutocompleteSelectDetail>;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-autocomplete": LoomiAutocomplete;

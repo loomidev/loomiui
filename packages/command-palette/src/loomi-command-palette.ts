@@ -465,4 +465,10 @@ declare global {
   interface HTMLElementTagNameMap {
     "loomi-command-palette": LoomiCommandPalette;
   }
+
+  interface HTMLElementEventMap {
+    "loomi-command-select": CustomEvent<CommandPaletteSelectDetail>;
+    "loomi-command-query-change": CustomEvent<CommandPaletteQueryChangeDetail>;
+    "loomi-command-open-change": CustomEvent<CommandPaletteOpenChangeDetail>;
+  }
 }

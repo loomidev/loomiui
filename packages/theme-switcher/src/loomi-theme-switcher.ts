@@ -150,8 +150,16 @@ export class LoomiThemeSwitcher extends LoomiElement {
   }
 }
 
+export interface LoomiThemeChangeDetail {
+  theme: LoomiTheme;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-theme-switcher": LoomiThemeSwitcher;
+  }
+
+  interface HTMLElementEventMap {
+    "loomi-theme-change": CustomEvent<LoomiThemeChangeDetail>;
   }
 }

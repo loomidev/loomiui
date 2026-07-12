@@ -366,8 +366,16 @@ export class LoomiTagInput extends LoomiElement {
   }
 }
 
+export interface LoomiTagInputAutocompleteSelectDetail {
+  item: LoomiTagInputAutocompleteItem;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-tag-input": LoomiTagInput;
+  }
+
+  interface HTMLElementEventMap {
+    "loomi-autocomplete-select": CustomEvent<LoomiTagInputAutocompleteSelectDetail>;
   }
 }

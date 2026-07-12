@@ -787,8 +787,17 @@ export class LoomiVideo extends LoomiElement {
 
 }
 
+export interface LoomiVideoErrorDetail {
+  code: number | undefined;
+  message: string;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-video": LoomiVideo;
+  }
+
+  interface HTMLElementEventMap {
+    "loomi-video-error": CustomEvent<LoomiVideoErrorDetail>;
   }
 }

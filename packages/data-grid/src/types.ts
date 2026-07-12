@@ -8,6 +8,8 @@
  * core needs; module-specific option types live next to their module.
  */
 
+import type { DataGridExportRequestDetail } from "./modules/export.js";
+
 export type DataGridRecord = Record<string, unknown>;
 
 export type DataGridDensity = "compact" | "comfortable" | "spacious";
@@ -128,4 +130,26 @@ export interface DataGridCellEditDetail<TRecord extends DataGridRecord = DataGri
 export interface DataGridActiveCell {
   rowIndex: number;
   columnIndex: number;
+}
+
+export interface DataGridToggleRowDetail<TRecord extends DataGridRecord = DataGridRecord> {
+  rowKey: string;
+  row: TRecord;
+  expanded: boolean;
+}
+
+/** Event map for `<loomi-data-grid>`, parameterized on the row record type.
+ * `loomi-page-change` and `loomi-selection-change` are dispatched by other
+ * loomi components with different detail shapes, so they are typed here per
+ * package instead of globally on `HTMLElementEventMap`. */
+export interface DataGridEventMap<TRecord extends DataGridRecord = DataGridRecord> {
+  "loomi-page-change": CustomEvent<DataGridPageChangeDetail>;
+  "loomi-sort-change": CustomEvent<DataGridSortChangeDetail>;
+  "loomi-selection-change": CustomEvent<DataGridSelectionChangeDetail<TRecord>>;
+  "loomi-row-action": CustomEvent<DataGridRowActionDetail<TRecord>>;
+  "loomi-cell-edit": CustomEvent<DataGridCellEditDetail<TRecord>>;
+  "loomi-column-resize": CustomEvent<DataGridColumnResizeDetail>;
+  "loomi-saved-view-change": CustomEvent<DataGridSavedViewChangeDetail>;
+  "loomi-grid-toggle-row": CustomEvent<DataGridToggleRowDetail<TRecord>>;
+  "loomi-export-request": CustomEvent<DataGridExportRequestDetail<TRecord>>;
 }

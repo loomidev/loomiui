@@ -356,6 +356,24 @@ export class LoomiSelect extends LoomiElement {
   }
 }
 
+export interface LoomiSelectSelectDetail {
+  value: string;
+  label: string;
+  values: string[];
+}
+
+export interface LoomiSelectEmptyActionDetail {
+  url: string;
+}
+
+/** Event map for `<loomi-select>`. `loomi-select` and `loomi-empty-action` are
+ * dispatched by several loomi components with different detail shapes, so they
+ * are typed per package instead of globally on `HTMLElementEventMap`. */
+export interface LoomiSelectEventMap {
+  "loomi-select": CustomEvent<LoomiSelectSelectDetail>;
+  "loomi-empty-action": CustomEvent<LoomiSelectEmptyActionDetail>;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-select": LoomiSelect;

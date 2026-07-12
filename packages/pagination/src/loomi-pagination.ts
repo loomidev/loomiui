@@ -137,6 +137,17 @@ export class LoomiPagination extends LoomiElement {
   }
 }
 
+export interface LoomiPaginationPageChangeDetail {
+  page: number;
+}
+
+/** Event map for `<loomi-pagination>`. `loomi-page-change` is dispatched by several
+ * loomi components with different detail shapes, so it is typed per package
+ * instead of globally on `HTMLElementEventMap`. */
+export interface LoomiPaginationEventMap {
+  "loomi-page-change": CustomEvent<LoomiPaginationPageChangeDetail>;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-pagination": LoomiPagination;
