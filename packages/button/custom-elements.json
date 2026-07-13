@@ -164,7 +164,7 @@
                 "text": "LoomiButtonRadius"
               },
               "default": "\"medium\"",
-              "description": "Corner radius preset.",
+              "description": "Corner radius preset — a convenience layer over the `--loomi-control-radius` /\n`--loomi-pill-radius` theme tokens. `medium` (the default) declares nothing and so\nfollows the theme's `--loomi-control-radius`; `none`/`small`/`full` set an explicit\nshape that overrides the theme. So a global `:root { --loomi-control-radius }` reshapes\ndefault buttons, while `radius=\"small\"` etc. keep their fixed corner regardless.",
               "attribute": "radius",
               "reflects": true
             },
@@ -462,7 +462,7 @@
                 "text": "LoomiButtonRadius"
               },
               "default": "\"medium\"",
-              "description": "Corner radius preset.",
+              "description": "Corner radius preset — a convenience layer over the `--loomi-control-radius` /\n`--loomi-pill-radius` theme tokens. `medium` (the default) declares nothing and so\nfollows the theme's `--loomi-control-radius`; `none`/`small`/`full` set an explicit\nshape that overrides the theme. So a global `:root { --loomi-control-radius }` reshapes\ndefault buttons, while `radius=\"small\"` etc. keep their fixed corner regardless.",
               "fieldName": "radius"
             },
             {

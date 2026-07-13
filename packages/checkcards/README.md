@@ -158,7 +158,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `color` | `primary` | Icon/avatar accent color (any loomi color). |
 | `border-color` | `primary` | Card border color (any loomi color). |
 | `border-width` | `2` | Card border width (px). |
-| `radius` | `medium` | `none` \| `small` \| `medium` \| `full` |
+| `radius` | `medium` | `none` \| `small` \| `medium` \| `full`. Presets over `--loomi-panel-radius`; `medium` follows the theme, the rest override it. |
 | `compact` | `false` | Reduced padding. _(boolean)_ |
 | `selected-value` | _(blank)_ | Comma-separated values to pre-select. |
 

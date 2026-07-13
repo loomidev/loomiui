@@ -133,7 +133,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `icon-size` | _(blank)_ | CSS size applied to slotted icons. |
 | `has-shadow` | `true` | Show a drop shadow. _(boolean)_ |
 | `has-border` | `true` | Show a border. _(boolean)_ |
-| `radius` | `medium` | `none` \| `small` \| `medium` \| `large` \| `xl` |
+| `radius` | `medium` | `none` \| `small` \| `medium` \| `large` \| `xl`. Presets over `--loomi-panel-radius`; `medium` follows the theme, the rest override it. |
 | `show-spinner` | `false` | Show a loading spinner instead of the number. _(boolean)_ |
 | `url` | _(blank)_ | Navigate on click. |
 
