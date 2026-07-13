@@ -5,7 +5,7 @@
 "@loomidev/chart": patch
 "@loomidev/colorpicker": patch
 "@loomidev/command-palette": patch
-"@loomidev/copy-to-clipboard": patch
+"@loomidev/clipboard": patch
 "@loomidev/creditcard": patch
 "@loomidev/data-grid": patch
 "@loomidev/date-range-picker": patch

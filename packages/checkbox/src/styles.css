@@ -43,7 +43,7 @@
   width: 1.2rem;
   height: 1.2rem;
   border: 2px solid var(--loomi-surface-border);
-  border-radius: 0.35rem;
+  border-radius: var(--loomi-control-radius, 0.35rem);
   background: var(--loomi-surface);
   display: inline-flex;
   align-items: center;

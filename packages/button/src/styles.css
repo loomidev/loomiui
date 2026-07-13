@@ -31,36 +31,58 @@
   width: 100%;
 }
 
+/* Height/padding scale by --loomi-density (unitless, default 1) — a theme sets it once at
+   :root to make every control more compact or spacious proportionally. See controlSizeStyles
+   in @loomidev/core; font-size stays unscaled (density = spacing, size = type). */
 :host([size="tiny"]) {
-  --loomi-control-height: 2rem;
-  --loomi-control-pad-x: 0.625rem;
+  --loomi-control-height: calc(var(--loomi-density, 1) * 2rem);
+  --loomi-control-pad-x: calc(var(--loomi-density, 1) * 0.625rem);
   --loomi-control-font-size: 0.75rem;
 }
 :host([size="small"]) {
-  --loomi-control-height: 2.25rem;
-  --loomi-control-pad-x: 0.75rem;
+  --loomi-control-height: calc(var(--loomi-density, 1) * 2.25rem);
+  --loomi-control-pad-x: calc(var(--loomi-density, 1) * 0.75rem);
   --loomi-control-font-size: 0.875rem;
 }
 :host([size="regular"]) {
-  --loomi-control-height: 2.5rem;
-  --loomi-control-pad-x: 1rem;
+  --loomi-control-height: calc(var(--loomi-density, 1) * 2.5rem);
+  --loomi-control-pad-x: calc(var(--loomi-density, 1) * 1rem);
   --loomi-control-font-size: 0.875rem;
 }
 :host([size="medium"]) {
-  --loomi-control-height: 2.75rem;
-  --loomi-control-pad-x: 1.25rem;
+  --loomi-control-height: calc(var(--loomi-density, 1) * 2.75rem);
+  --loomi-control-pad-x: calc(var(--loomi-density, 1) * 1.25rem);
   --loomi-control-font-size: 1rem;
 }
 :host([size="big"]) {
-  --loomi-control-height: 3rem;
-  --loomi-control-pad-x: 1.5rem;
+  --loomi-control-height: calc(var(--loomi-density, 1) * 3rem);
+  --loomi-control-pad-x: calc(var(--loomi-density, 1) * 1.5rem);
   --loomi-control-font-size: 1.125rem;
+}
+
+/*
+ * Corner radius. The `radius` attribute is a convenience preset that just sets
+ * --loomi-control-radius; a `:root { --loomi-control-radius }` theme override (or an
+ * inline var) wins for the default `medium`, while an explicit `none`/`small`/`full`
+ * declares the var on :host and so beats the global theme. `medium` intentionally
+ * declares nothing so the theme reaches it (its private default is 0.5rem, i.e. the
+ * old `rounded-lg`). `none`/`small`/`full` reproduce `rounded-none`/`rounded`/`rounded-full`.
+ */
+:host([radius="none"]) {
+  --loomi-control-radius: 0;
+}
+:host([radius="small"]) {
+  --loomi-control-radius: 0.25rem;
+}
+:host([radius="full"]) {
+  --loomi-control-radius: var(--loomi-pill-radius, var(--_loomi-pill-radius-default, 9999px));
 }
 
 /* The interactive element (button or anchor). Layout/colors come from utilities. */
 .loomi-btn {
   box-sizing: border-box;
   min-height: var(--loomi-control-height);
+  border-radius: var(--loomi-control-radius, var(--_loomi-control-radius-default, 0.5rem));
   padding-block: 0;
   padding-inline: var(--loomi-control-pad-x);
   font-size: var(--loomi-control-font-size);

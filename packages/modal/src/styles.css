@@ -41,7 +41,7 @@
      interactive elements (buttons, links) inside it, which keep their own focus ring. */
   outline: none;
   background: var(--loomi-surface);
-  border-radius: 0.85rem;
+  border-radius: var(--loomi-panel-radius, 0.85rem);
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;

@@ -30,12 +30,9 @@ const SIZE: Record<LoomiButtonSize, string> = {
   big: "px-6 py-3 text-lg",
 };
 
-const RADIUS: Record<LoomiButtonRadius, string> = {
-  none: "rounded-none",
-  small: "rounded",
-  medium: "rounded-lg",
-  full: "rounded-full",
-};
+// Corner radius is driven by the --loomi-control-radius token, set per `radius` preset
+// in styles.css (`:host([radius="…"])`) — not by a Tailwind utility class here — so a
+// theme's `:root { --loomi-control-radius }` can restyle the default. See styles.css.
 
 const BORDER_WIDTH: Record<number, string> = {
   2: "border-2",
@@ -180,7 +177,6 @@ export class LoomiButton extends LoomiElement {
       "duration-150",
       "cursor-pointer",
       SIZE[this.size] ?? SIZE.regular,
-      RADIUS[this.radius] ?? RADIUS.medium,
       ...this.treatmentClasses(c),
     ];
 

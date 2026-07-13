@@ -87,7 +87,7 @@
   width: min(var(--loomi-emoji-panel-w), calc(100vw - 2rem));
   max-width: 100%;
   border: 1px solid var(--loomi-surface-border);
-  border-radius: 0.5rem;
+  border-radius: var(--loomi-panel-radius, 0.5rem);
   background: var(--loomi-surface);
   padding: 0.65rem;
 }
