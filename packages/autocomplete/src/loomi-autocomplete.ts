@@ -32,7 +32,7 @@ export class LoomiAutocomplete extends LoomiElement {
     css`
       :host {
         display: block;
-        margin-bottom: 1rem;
+        margin-bottom: var(--loomi-field-spacing, var(--_loomi-field-spacing-default, 1rem));
         --loomi-control-height: 2.75rem;
         --loomi-control-pad-x: 1rem;
         --loomi-control-font-size: 1rem;

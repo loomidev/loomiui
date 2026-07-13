@@ -3,7 +3,7 @@
   display: block;
   width: 100%;
   max-width: 22rem;
-  margin-bottom: 1rem;
+  margin-bottom: var(--loomi-field-spacing, var(--_loomi-field-spacing-default, 1rem));
   --loomi-cc-radius: 1rem;
 }
 :host([no-clearing]) {
