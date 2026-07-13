@@ -31,9 +31,11 @@
 .loomi-card.center {
   align-items: center;
 }
+/* `radius` preset. `medium` (the default) defers to the theme's --loomi-panel-radius so a
+   theme rounds these cards; explicit none/small/full keep literal values and win over it. */
 .r-none { border-radius: 0; }
 .r-small { border-radius: 0.4rem; }
-.r-medium { border-radius: 0.6rem; }
+.r-medium { border-radius: var(--loomi-panel-radius, 0.6rem); }
 .r-full { border-radius: 1.25rem; }
 
 :host([selected]) .loomi-card {

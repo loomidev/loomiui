@@ -7,35 +7,41 @@ import { css, type CSSResultGroup } from "lit";
  * Compose via `static styles = loomiStyles(controlSizeStyles, fieldStyles, componentStyles)`.
  * The component's `:host` keeps its own *default* var values (input defaults to the
  * medium scale, datepicker to regular, etc.) — only the `.size-*` rows live here.
+ *
+ * Height and horizontal padding are scaled by `--loomi-density`, an unitless multiplier
+ * (default 1) that a theme can set at `:root` to make every control more compact (< 1) or
+ * spacious (> 1) at once, proportionally, without collapsing the per-size scale. It is
+ * intentionally not declared on `:host`, so a `:root` value inherits through Shadow DOM.
+ * Font size is deliberately left unscaled — density controls spacing, `size` controls type.
  */
 export const controlSizeStyles: CSSResultGroup = css`
   .size-tiny {
-    --loomi-control-height: 2rem;
-    --loomi-control-pad-x: 0.625rem;
+    --loomi-control-height: calc(var(--loomi-density, 1) * 2rem);
+    --loomi-control-pad-x: calc(var(--loomi-density, 1) * 0.625rem);
     --loomi-control-font-size: 0.75rem;
     font-size: var(--loomi-control-font-size);
   }
   .size-small {
-    --loomi-control-height: 2.25rem;
-    --loomi-control-pad-x: 0.75rem;
+    --loomi-control-height: calc(var(--loomi-density, 1) * 2.25rem);
+    --loomi-control-pad-x: calc(var(--loomi-density, 1) * 0.75rem);
     --loomi-control-font-size: 0.875rem;
     font-size: var(--loomi-control-font-size);
   }
   .size-regular {
-    --loomi-control-height: 2.5rem;
-    --loomi-control-pad-x: 0.875rem;
+    --loomi-control-height: calc(var(--loomi-density, 1) * 2.5rem);
+    --loomi-control-pad-x: calc(var(--loomi-density, 1) * 0.875rem);
     --loomi-control-font-size: 0.875rem;
     font-size: var(--loomi-control-font-size);
   }
   .size-medium {
-    --loomi-control-height: 2.75rem;
-    --loomi-control-pad-x: 1rem;
+    --loomi-control-height: calc(var(--loomi-density, 1) * 2.75rem);
+    --loomi-control-pad-x: calc(var(--loomi-density, 1) * 1rem);
     --loomi-control-font-size: 1rem;
     font-size: var(--loomi-control-font-size);
   }
   .size-big {
-    --loomi-control-height: 3rem;
-    --loomi-control-pad-x: 1.25rem;
+    --loomi-control-height: calc(var(--loomi-density, 1) * 3rem);
+    --loomi-control-pad-x: calc(var(--loomi-density, 1) * 1.25rem);
     --loomi-control-font-size: 1.125rem;
     font-size: var(--loomi-control-font-size);
   }
@@ -73,7 +79,7 @@ export const fieldStyles: CSSResultGroup = css`
     min-height: var(--loomi-control-height, 2.5rem);
     background: var(--loomi-surface);
     border: 2px solid var(--loomi-surface-border);
-    border-radius: 0.5rem;
+    border-radius: var(--loomi-control-radius, var(--_loomi-control-radius-default, 0.5rem));
     transition:
       border-color 0.15s ease,
       box-shadow 0.15s ease;

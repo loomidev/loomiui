@@ -10,7 +10,7 @@
   background: var(--loomi-surface);
   color: var(--loomi-text);
   border: 1px solid var(--loomi-surface-border);
-  border-radius: 0.75rem;
+  border-radius: var(--loomi-panel-radius, 0.75rem);
   box-shadow: var(--loomi-shadow-elevated);
   z-index: var(--loomi-floating-panel-z-index, 2147480000);
   animation: loomi-pop-in var(--loomi-floating-panel-duration, var(--loomi-motion-duration))

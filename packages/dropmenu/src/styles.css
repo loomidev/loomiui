@@ -5,7 +5,7 @@
   --loomi-dropmenu-item-pad-y: 0.5rem;
   --loomi-dropmenu-item-pad-x: 0.75rem;
   --loomi-dropmenu-item-min-height: 2.25rem;
-  --loomi-dropmenu-radius: 0.625rem;
+  --loomi-dropmenu-radius: var(--loomi-panel-radius, 0.625rem);
   --loomi-dropmenu-item-radius: 0.375rem;
   --loomi-dropmenu-arrow-size: 6px;
   --loomi-dropmenu-arrow-inset: 0.75rem;

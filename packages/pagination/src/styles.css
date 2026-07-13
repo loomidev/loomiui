@@ -33,7 +33,7 @@
   border: 1px solid var(--loomi-surface-border);
   background: var(--loomi-surface);
   color: var(--loomi-text-secondary);
-  border-radius: 0.4rem;
+  border-radius: var(--loomi-control-radius, 0.4rem);
   font: inherit;
   cursor: pointer;
   transition:
@@ -64,7 +64,7 @@
 .loomi-select {
   height: 2rem;
   border: 1px solid var(--loomi-surface-border);
-  border-radius: 0.4rem;
+  border-radius: var(--loomi-control-radius, 0.4rem);
   background: var(--loomi-surface);
   font: inherit;
   padding: 0 0.5rem;

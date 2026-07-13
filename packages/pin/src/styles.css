@@ -23,7 +23,7 @@
   font-weight: 600;
   color: var(--loomi-text);
   border: 2px solid var(--loomi-surface-border);
-  border-radius: 0.5rem;
+  border-radius: var(--loomi-control-radius, 0.5rem);
   outline: none;
   background: var(--loomi-surface);
   transition: border-color 0.12s ease;
