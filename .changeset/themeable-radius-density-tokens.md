@@ -16,7 +16,7 @@
 "@loomidev/modal": patch
 "@loomidev/notification": patch
 "@loomidev/pagination": patch
-"@loomidev/pin": patch
+"@loomidev/otp": patch
 "@loomidev/popover": patch
 "@loomidev/select": patch
 "@loomidev/statistic": patch

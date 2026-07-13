@@ -6,16 +6,28 @@ const DEFAULT_ERROR_MESSAGE = "Verification code is invalid";
 
 const CHECK = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />`;
 
-export type LoomiPinVariant = "default" | "minimal";
+export type LoomiOtpVariant = "default" | "minimal";
+
+/** Which characters each box accepts. `numeric` (default) matches the classic PIN behavior. */
+export type LoomiOtpType = "numeric" | "alphanumeric" | "text";
+
+/** Per-`type` filter for a single typed/pasted character. Applied to input and paste alike. */
+const OTP_STRIP: Record<LoomiOtpType, RegExp> = {
+  numeric: /[^0-9]/g,
+  alphanumeric: /[^A-Za-z0-9]/g,
+  text: /\s/g,
+};
 
 /**
- * `<loomi-pin>` — a verification-code (PIN) input of N boxes. Form-associated: submits
- * the joined PIN under `name`.
+ * `<loomi-otp>` — a one-time-passcode input of N boxes with auto-advance and paste support.
+ * Form-associated: submits the joined code under `name`. `type` controls the accepted
+ * characters: `numeric` (default, digits only — the classic PIN), `alphanumeric`, or `text`.
  *
- * @fires loomi-verify - `detail: { pin, code }` when the last box is filled.
+ * @fires loomi-verify - `detail: { code, pin }` when the last box is filled (`pin` is a
+ *   deprecated alias of `code`).
  */
-@customElement("loomi-pin")
-export class LoomiPin extends LoomiElement {
+@customElement("loomi-otp")
+export class LoomiOtp extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
   static formAssociated = true;
   private internals = this.attachInternals();
@@ -26,7 +38,9 @@ export class LoomiPin extends LoomiElement {
   @property() label = "";
   @property({ type: Number, attribute: "total-digits" }) totalDigits = 4;
   @property() size: "small" | "big" = "small";
-  @property() variant: LoomiPinVariant = "default";
+  @property() variant: LoomiOtpVariant = "default";
+  /** Accepted characters: `numeric` (default) | `alphanumeric` | `text`. */
+  @property() type: LoomiOtpType = "numeric";
   @property({ type: Boolean, reflect: true }) separator = false;
   @property({ type: Boolean, attribute: "hide-digits" }) hideDigits = false;
   @property({ type: Boolean }) mask = false;
@@ -47,14 +61,14 @@ export class LoomiPin extends LoomiElement {
     this.digits = Array(this.totalDigits).fill("");
   }
 
-  /** The current PIN. */
-  get pin(): string {
+  /** The current code. */
+  get code(): string {
     return this.digits.join("");
   }
 
-  /** @deprecated Use `pin` instead. */
-  get code(): string {
-    return this.pin;
+  /** @deprecated Use `code` instead. */
+  get pin(): string {
+    return this.code;
   }
 
   /** Clear all boxes and focus the first. */
@@ -94,7 +108,7 @@ export class LoomiPin extends LoomiElement {
     if (!wasInvalid && !this.showErrorInline && this.errorMessage) {
       // Lazy import — see @loomidev/input's syncValidity for the rationale.
       void import("@loomidev/notification").then(({ showLoomiNotification }) =>
-        showLoomiNotification(this.label, this.resolvedErrorMessage(), "error", undefined, `loomi-pin-validation-${this.name || this.instanceId}`));
+        showLoomiNotification(this.label, this.resolvedErrorMessage(), "error", undefined, `loomi-otp-validation-${this.name || this.instanceId}`));
     }
   }
 
@@ -105,13 +119,13 @@ export class LoomiPin extends LoomiElement {
   }
 
   private resolvedErrorMessage(): string {
-    return loomiDefaultText(this.errorMessage, DEFAULT_ERROR_MESSAGE, "pin.errorMessage", this.locale);
+    return loomiDefaultText(this.errorMessage, DEFAULT_ERROR_MESSAGE, "otp.errorMessage", this.locale);
   }
 
   private commit(): void {
-    this.internals.setFormValue(this.pin);
-    if (this.pin.length === this.totalDigits) {
-      this.dispatchEvent(new CustomEvent("loomi-verify", { bubbles: true, composed: true, detail: { pin: this.pin, code: this.pin } }));
+    this.internals.setFormValue(this.code);
+    if (this.code.length === this.totalDigits) {
+      this.dispatchEvent(new CustomEvent("loomi-verify", { bubbles: true, composed: true, detail: { code: this.code, pin: this.code } }));
     }
   }
 
@@ -129,9 +143,11 @@ export class LoomiPin extends LoomiElement {
       <input
         class="loomi-box variant-${this.variant} ${this.masked && value ? "is-masked" : ""}"
         type="text"
-        inputmode="numeric"
+        inputmode=${this.type === "numeric" ? "numeric" : "text"}
+        autocapitalize="off"
+        autocomplete="one-time-code"
         maxlength="1"
-        aria-label=${loomiT("pin.digitLabel", { number: i + 1 }, this.locale)}
+        aria-label=${loomiT("otp.digitLabel", { number: i + 1 }, this.locale)}
         aria-invalid=${this.invalid ? "true" : "false"}
         ?disabled=${this.validating}
         .value=${value}
@@ -144,7 +160,11 @@ export class LoomiPin extends LoomiElement {
 
   private onInput(i: number, e: Event): void {
     const input = e.target as HTMLInputElement;
-    const ch = input.value.replace(/\D/g, "").slice(-1);
+    const ch = input.value.replace(OTP_STRIP[this.type], "").slice(-1);
+    // Reflect the filtered value straight into the DOM: when a rejected keystroke leaves
+    // `ch` unchanged from the current digit (e.g. "" → ""), Lit dedupes the `.value` binding
+    // and would otherwise leave the rejected character visible in the box.
+    input.value = ch;
     const next = [...this.digits];
     next[i] = ch;
     this.digits = next;
@@ -159,7 +179,7 @@ export class LoomiPin extends LoomiElement {
 
   private onPaste(e: ClipboardEvent): void {
     e.preventDefault();
-    const text = (e.clipboardData?.getData("text") ?? "").replace(/\D/g, "").slice(0, this.totalDigits);
+    const text = (e.clipboardData?.getData("text") ?? "").replace(OTP_STRIP[this.type], "").slice(0, this.totalDigits);
     if (!text) return;
     const next = Array(this.totalDigits).fill("");
     for (let i = 0; i < text.length; i++) next[i] = text[i];
@@ -170,7 +190,7 @@ export class LoomiPin extends LoomiElement {
 
   private renderStatus(): TemplateResult | typeof nothing {
     if (this.validating) {
-      return html`<span class="loomi-status is-validating" role="status" aria-label=${loomiT("pin.validating", {}, this.locale)}>
+      return html`<span class="loomi-status is-validating" role="status" aria-label=${loomiT("otp.validating", {}, this.locale)}>
         <svg class="loomi-status-icon loomi-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="3" opacity="0.25"></circle>
           <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>
@@ -178,7 +198,7 @@ export class LoomiPin extends LoomiElement {
       </span>`;
     }
     if (this.valid) {
-      return html`<span class="loomi-status is-valid" role="status" aria-label=${loomiT("pin.valid", {}, this.locale)}>
+      return html`<span class="loomi-status is-valid" role="status" aria-label=${loomiT("otp.valid", {}, this.locale)}>
         <svg class="loomi-status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">${CHECK}</svg>
       </span>`;
     }
@@ -187,7 +207,7 @@ export class LoomiPin extends LoomiElement {
 
   override render(): TemplateResult {
     const showError = this.invalid && this.showErrorInline && this.errorMessage;
-    return html`<div class="loomi-pin size-${this.size}" @paste=${(e: ClipboardEvent) => this.onPaste(e)}>
+    return html`<div class="loomi-otp size-${this.size}" @paste=${(e: ClipboardEvent) => this.onPaste(e)}>
       ${Array.from({ length: this.totalDigits }, (_, i) => html`
         ${this.renderBox(i)}
         ${this.separator && this.totalDigits > 1 && i === this.separatorIndex - 1 ? html`<span class="loomi-separator" aria-hidden="true">-</span>` : nothing}
@@ -198,17 +218,19 @@ export class LoomiPin extends LoomiElement {
   }
 }
 
-export interface LoomiPinVerifyDetail {
-  pin: string;
+export interface LoomiOtpVerifyDetail {
+  /** The joined one-time-passcode. */
   code: string;
+  /** @deprecated Use `code` instead. */
+  pin: string;
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    "loomi-pin": LoomiPin;
+    "loomi-otp": LoomiOtp;
   }
 
   interface HTMLElementEventMap {
-    "loomi-verify": CustomEvent<LoomiPinVerifyDetail>;
+    "loomi-verify": CustomEvent<LoomiOtpVerifyDetail>;
   }
 }

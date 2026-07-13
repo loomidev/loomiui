@@ -1,14 +1,14 @@
 import { html, fixture, expect, oneEvent } from "@open-wc/testing";
-import "../dist/loomi-pin.js";
-import type { LoomiPin } from "../dist/index.js";
+import "../dist/loomi-otp.js";
+import type { LoomiOtp } from "../dist/index.js";
 
-const inputs = (el: LoomiPin): HTMLInputElement[] =>
+const inputs = (el: LoomiOtp): HTMLInputElement[] =>
   Array.from(el.shadowRoot!.querySelectorAll<HTMLInputElement>("input"));
 
-describe("loomi-pin", () => {
+describe("loomi-otp", () => {
   it("splits odd digit counts with the larger group on the right", async () => {
-    const el = await fixture<LoomiPin>(html`<loomi-pin total-digits="7" separator></loomi-pin>`);
-    const children = Array.from(el.shadowRoot!.querySelector(".loomi-pin")!.children);
+    const el = await fixture<LoomiOtp>(html`<loomi-otp total-digits="7" separator></loomi-otp>`);
+    const children = Array.from(el.shadowRoot!.querySelector(".loomi-otp")!.children);
     const separatorIndex = children.findIndex((child) => child.classList.contains("loomi-separator"));
 
     expect(inputs(el)).to.have.lengthOf(7);
@@ -18,8 +18,8 @@ describe("loomi-pin", () => {
   });
 
   it("splits even digit counts equally around the separator", async () => {
-    const el = await fixture<LoomiPin>(html`<loomi-pin total-digits="6" separator></loomi-pin>`);
-    const children = Array.from(el.shadowRoot!.querySelector(".loomi-pin")!.children);
+    const el = await fixture<LoomiOtp>(html`<loomi-otp total-digits="6" separator></loomi-otp>`);
+    const children = Array.from(el.shadowRoot!.querySelector(".loomi-otp")!.children);
     const separatorIndex = children.findIndex((child) => child.classList.contains("loomi-separator"));
 
     expect(separatorIndex).to.equal(3);
@@ -28,7 +28,7 @@ describe("loomi-pin", () => {
   });
 
   it("hides entered digits behind custom dot elements", async () => {
-    const el = await fixture<LoomiPin>(html`<loomi-pin hide-digits></loomi-pin>`);
+    const el = await fixture<LoomiOtp>(html`<loomi-otp hide-digits></loomi-otp>`);
     const [first] = inputs(el);
 
     first.value = "7";
@@ -41,7 +41,7 @@ describe("loomi-pin", () => {
   });
 
   it("keeps mask as an alias for hiding digits", async () => {
-    const el = await fixture<LoomiPin>(html`<loomi-pin mask></loomi-pin>`);
+    const el = await fixture<LoomiOtp>(html`<loomi-otp mask></loomi-otp>`);
     const [first] = inputs(el);
 
     first.value = "3";
@@ -55,10 +55,10 @@ describe("loomi-pin", () => {
   it("submits and verifies the joined PIN", async () => {
     const form = await fixture<HTMLFormElement>(html`
       <form>
-        <loomi-pin name="otp"></loomi-pin>
+        <loomi-otp name="otp"></loomi-otp>
       </form>
     `);
-    const el = form.querySelector<LoomiPin>("loomi-pin")!;
+    const el = form.querySelector<LoomiOtp>("loomi-otp")!;
     const verify = oneEvent(el, "loomi-verify") as Promise<CustomEvent<{ pin: string; code: string }>>;
 
     for (const [index, value] of ["1", "2", "3", "4"].entries()) {

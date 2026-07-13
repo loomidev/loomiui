@@ -1,11 +1,11 @@
 {
-  "name": "@loomidev/pin",
+  "name": "@loomidev/otp",
   "version": "0.1.0",
-  "description": "<loomi-pin> — a verification-code (PIN) input.",
+  "description": "<loomi-otp> — a one-time-passcode (OTP/PIN) input.",
   "repository": {
     "type": "git",
     "url": "https://github.com/loomidev/loomiui.git",
-    "directory": "packages/pin"
+    "directory": "packages/otp"
   },
   "license": "MIT",
   "publishConfig": {
@@ -24,9 +24,9 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./loomi-pin.js": {
-      "types": "./dist/loomi-pin.d.ts",
-      "import": "./dist/loomi-pin.js"
+    "./loomi-otp.js": {
+      "types": "./dist/loomi-otp.d.ts",
+      "import": "./dist/loomi-otp.js"
     }
   },
   "scripts": {
@@ -52,8 +52,9 @@
     "web-components",
     "lit",
     "loomiui",
-    "verification-code",
     "otp",
+    "one-time-passcode",
+    "verification-code",
     "pin"
   ],
   "customElements": "custom-elements.json"

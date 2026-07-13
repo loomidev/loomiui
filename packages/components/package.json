@@ -235,9 +235,9 @@
       "types": "./dist/slider.d.ts",
       "import": "./dist/slider.js"
     },
-    "./pin": {
-      "types": "./dist/pin.d.ts",
-      "import": "./dist/pin.js"
+    "./otp": {
+      "types": "./dist/otp.d.ts",
+      "import": "./dist/otp.js"
     },
     "./checkcards": {
       "types": "./dist/checkcards.d.ts",
@@ -352,7 +352,7 @@
     "@loomidev/checkcards": "workspace:^",
     "@loomidev/clipboard": "workspace:^",
     "@loomidev/command-palette": "workspace:^",
-    "@loomidev/pin": "workspace:^",
+    "@loomidev/otp": "workspace:^",
     "@loomidev/colorpicker": "workspace:^",
     "@loomidev/contact-card": "workspace:^",
     "@loomidev/context-menu": "workspace:^",

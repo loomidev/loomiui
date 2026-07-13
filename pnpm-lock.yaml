@@ -657,6 +657,9 @@ importers:
       '@loomidev/number':
         specifier: workspace:^
         version: link:../number
+      '@loomidev/otp':
+        specifier: workspace:^
+        version: link:../otp
       '@loomidev/pagination':
         specifier: workspace:^
         version: link:../pagination
@@ -666,9 +669,6 @@ importers:
       '@loomidev/photo-gallery':
         specifier: workspace:^
         version: link:../photo-gallery
-      '@loomidev/pin':
-        specifier: workspace:^
-        version: link:../pin
       '@loomidev/popover':
         specifier: workspace:^
         version: link:../popover
@@ -1285,12 +1285,12 @@ importers:
       '@loomidev/number':
         specifier: workspace:^
         version: link:../number
+      '@loomidev/otp':
+        specifier: workspace:^
+        version: link:../otp
       '@loomidev/password':
         specifier: workspace:^
         version: link:../password
-      '@loomidev/pin':
-        specifier: workspace:^
-        version: link:../pin
       '@loomidev/radio':
         specifier: workspace:^
         version: link:../radio
@@ -1579,6 +1579,31 @@ importers:
         specifier: ^5.6.3
         version: 5.9.3
 
+  packages/otp:
+    dependencies:
+      '@loomidev/core':
+        specifier: workspace:^
+        version: link:../core
+      '@loomidev/notification':
+        specifier: workspace:^
+        version: link:../notification
+    devDependencies:
+      '@loomidev/theme':
+        specifier: workspace:^
+        version: link:../theme
+      '@tailwindcss/cli':
+        specifier: ^4.0.0
+        version: 4.3.2
+      lit:
+        specifier: ^3.3.3
+        version: 3.3.3
+      tailwindcss:
+        specifier: ^4.0.0
+        version: 4.3.2
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+
   packages/pagination:
     dependencies:
       '@loomidev/core':
@@ -1640,31 +1665,6 @@ importers:
       '@loomidev/icon':
         specifier: workspace:^
         version: link:../icon
-    devDependencies:
-      '@loomidev/theme':
-        specifier: workspace:^
-        version: link:../theme
-      '@tailwindcss/cli':
-        specifier: ^4.0.0
-        version: 4.3.2
-      lit:
-        specifier: ^3.3.3
-        version: 3.3.3
-      tailwindcss:
-        specifier: ^4.0.0
-        version: 4.3.2
-      typescript:
-        specifier: ^5.6.3
-        version: 5.9.3
-
-  packages/pin:
-    dependencies:
-      '@loomidev/core':
-        specifier: workspace:^
-        version: link:../core
-      '@loomidev/notification':
-        specifier: workspace:^
-        version: link:../notification
     devDependencies:
       '@loomidev/theme':
         specifier: workspace:^

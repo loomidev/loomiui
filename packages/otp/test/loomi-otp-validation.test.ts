@@ -1,12 +1,12 @@
 import { html, fixture, expect, waitUntil } from "@open-wc/testing";
-import "../dist/loomi-pin.js";
-import type { LoomiPin } from "../dist/index.js";
+import "../dist/loomi-otp.js";
+import type { LoomiOtp } from "../dist/index.js";
 import type { LoomiNotification } from "@loomidev/notification";
 
-const inputs = (el: LoomiPin): HTMLInputElement[] =>
+const inputs = (el: LoomiOtp): HTMLInputElement[] =>
   Array.from(el.shadowRoot!.querySelectorAll<HTMLInputElement>("input"));
 
-describe("loomi-pin validation", () => {
+describe("loomi-otp validation", () => {
   // The toast system is lazy-imported, so a toast triggered in one test can land on
   // document.body asynchronously during the next. Flush pending toasts and clear the
   // shared host so every test starts from a clean slate.
@@ -20,7 +20,7 @@ describe("loomi-pin validation", () => {
   });
 
   it("shows a spinner while validating and disables the boxes", async () => {
-    const el = await fixture<LoomiPin>(html`<loomi-pin></loomi-pin>`);
+    const el = await fixture<LoomiOtp>(html`<loomi-otp></loomi-otp>`);
 
     el.startValidating();
     await el.updateComplete;
@@ -32,7 +32,7 @@ describe("loomi-pin validation", () => {
   });
 
   it("switches from the spinner to a green checkmark on success", async () => {
-    const el = await fixture<LoomiPin>(html`<loomi-pin></loomi-pin>`);
+    const el = await fixture<LoomiOtp>(html`<loomi-otp></loomi-otp>`);
 
     el.startValidating();
     await el.updateComplete;
@@ -48,7 +48,7 @@ describe("loomi-pin validation", () => {
   });
 
   it("turns every box red on failure, even when error-message is not set", async () => {
-    const el = await fixture<LoomiPin>(html`<loomi-pin></loomi-pin>`);
+    const el = await fixture<LoomiOtp>(html`<loomi-otp></loomi-otp>`);
     const field = inputs(el)[0];
     const validBorder = getComputedStyle(field).borderColor;
 
@@ -64,8 +64,8 @@ describe("loomi-pin validation", () => {
   });
 
   it("renders error-message inline when show-error-inline is set", async () => {
-    const el = await fixture<LoomiPin>(
-      html`<loomi-pin error-message="Yikes, check your code" show-error-inline></loomi-pin>`,
+    const el = await fixture<LoomiOtp>(
+      html`<loomi-otp error-message="Yikes, check your code" show-error-inline></loomi-otp>`,
     );
 
     el.showError();
@@ -78,8 +78,8 @@ describe("loomi-pin validation", () => {
   });
 
   it("shows error-message as a loomi-notification toast when show-error-inline is false", async () => {
-    const el = await fixture<LoomiPin>(
-      html`<loomi-pin label="Verification code" error-message="Yikes, check your code"></loomi-pin>`,
+    const el = await fixture<LoomiOtp>(
+      html`<loomi-otp label="Verification code" error-message="Yikes, check your code"></loomi-otp>`,
     );
 
     el.showError();
@@ -100,7 +100,7 @@ describe("loomi-pin validation", () => {
   });
 
   it("does not stack a new toast on every re-validation while still invalid", async () => {
-    const el = await fixture<LoomiPin>(html`<loomi-pin error-message="Yikes, check your code"></loomi-pin>`);
+    const el = await fixture<LoomiOtp>(html`<loomi-otp error-message="Yikes, check your code"></loomi-otp>`);
 
     el.showError();
     await el.updateComplete;
@@ -118,7 +118,7 @@ describe("loomi-pin validation", () => {
   });
 
   it("accepts a one-off message override without mutating error-message permanently", async () => {
-    const el = await fixture<LoomiPin>(html`<loomi-pin show-error-inline></loomi-pin>`);
+    const el = await fixture<LoomiOtp>(html`<loomi-otp show-error-inline></loomi-otp>`);
 
     el.showError("Too many attempts, try again later");
     await el.updateComplete;
@@ -128,7 +128,7 @@ describe("loomi-pin validation", () => {
   });
 
   it("resets validating/valid/invalid state as soon as the user edits a box again", async () => {
-    const el = await fixture<LoomiPin>(html`<loomi-pin show-error-inline></loomi-pin>`);
+    const el = await fixture<LoomiOtp>(html`<loomi-otp show-error-inline></loomi-otp>`);
 
     el.showError();
     await el.updateComplete;
@@ -144,7 +144,7 @@ describe("loomi-pin validation", () => {
   });
 
   it("clear() resets validating/valid/invalid along with the digits", async () => {
-    const el = await fixture<LoomiPin>(html`<loomi-pin></loomi-pin>`);
+    const el = await fixture<LoomiOtp>(html`<loomi-otp></loomi-otp>`);
 
     el.showSuccess();
     await el.updateComplete;

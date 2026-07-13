@@ -275,7 +275,7 @@ In Next.js, Nuxt, SvelteKit, and other SSR frameworks, put the bundle import in 
 - `@loomidev/number`
 - `@loomidev/pagination`
 - `@loomidev/password`
-- `@loomidev/pin`
+- `@loomidev/otp`
 - `@loomidev/popover`
 - `@loomidev/processing`
 - `@loomidev/profile-menu`

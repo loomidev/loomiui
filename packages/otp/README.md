@@ -1,15 +1,16 @@
-# @loomidev/pin
+# @loomidev/otp
 
-`<loomi-pin>` — a verification-code (PIN) input of N boxes with auto-advance and paste
-support. It's common to send users a 4–6 digit code via email or SMS for them to enter
-here. **Form-associated**: submits the joined PIN under `name`.
+`<loomi-otp>` — a one-time-passcode (OTP) input of N boxes with auto-advance and paste
+support. It's common to send users a 4–6 character code via email or SMS for them to enter
+here. Accepts digits only by default (the classic PIN); set `type` to also allow letters.
+**Form-associated**: submits the joined code under `name`.
 
 ```bash
-npm install @loomidev/pin lit
+npm install @loomidev/otp lit
 ```
 
 ```js
-import "@loomidev/pin";
+import "@loomidev/otp";
 ```
 
 
@@ -18,18 +19,31 @@ import "@loomidev/pin";
 The default number of boxes is four.
 
 ```html
-<loomi-pin></loomi-pin>
+<loomi-otp></loomi-otp>
 ```
 
 ```html
-<loomi-pin size="big"></loomi-pin>
+<loomi-otp size="big"></loomi-otp>
 ```
 
 Set `total-digits` to show more or fewer boxes — there's no upper limit, so this also
 works well for collecting longer numeric codes like account numbers.
 
 ```html
-<loomi-pin total-digits="6"></loomi-pin>
+<loomi-otp total-digits="6"></loomi-otp>
+```
+
+## Character Type
+
+`type` controls which characters each box accepts. Non-matching characters are dropped as
+the user types or pastes, so the code is always clean. Digits-only (`numeric`) is the
+default and sets `inputmode="numeric"` for a numeric mobile keypad; the others use a full
+keyboard.
+
+```html
+<loomi-otp type="numeric"></loomi-otp>      <!-- default: 0–9 only -->
+<loomi-otp type="alphanumeric"></loomi-otp> <!-- letters + digits -->
+<loomi-otp type="text"></loomi-otp>         <!-- any non-whitespace character -->
 ```
 
 ## Masking
@@ -37,8 +51,8 @@ works well for collecting longer numeric codes like account numbers.
 Hide the entered characters and show large dots, like a password field.
 
 ```html
-<loomi-pin mask></loomi-pin>
-<loomi-pin hide-digits></loomi-pin>
+<loomi-otp mask></loomi-otp>
+<loomi-otp hide-digits></loomi-otp>
 ```
 
 ## Dash Separator
@@ -47,20 +61,20 @@ Add `separator` to split the inputs around a dash. Even counts split equally. Od
 put the smaller group on the left and the larger group on the right.
 
 ```html
-<loomi-pin total-digits="6" separator></loomi-pin>
-<loomi-pin total-digits="7" separator></loomi-pin>
+<loomi-otp total-digits="6" separator></loomi-otp>
+<loomi-otp total-digits="7" separator></loomi-otp>
 ```
 
-## Reacting to a Completed PIN
+## Reacting to a Completed Code
 
-The `loomi-verify` event fires once every box is filled. `e.detail.pin` is the joined string.
+The `loomi-verify` event fires once every box is filled. `e.detail.code` is the joined string.
 
 ```html
-<loomi-pin></loomi-pin>
+<loomi-otp></loomi-otp>
 
 <script type="module">
-  document.querySelector("loomi-pin").addEventListener("verify", (e) => {
-    console.log(e.detail.pin); // "1234"
+  document.querySelector("loomi-otp").addEventListener("verify", (e) => {
+    console.log(e.detail.code); // "1234"
   });
 </script>
 ```
@@ -71,12 +85,12 @@ Call `showError()` on the element to display `error-message` and turn every box 
 call `clear()` to empty them so the user can try again.
 
 ```html
-<loomi-pin error-message="Yikes, check your code"></loomi-pin>
+<loomi-otp error-message="Yikes, check your code"></loomi-otp>
 
 <script type="module">
-  const el = document.querySelector("loomi-pin");
+  const el = document.querySelector("loomi-otp");
   el.addEventListener("verify", (e) => {
-    if (e.detail.pin !== "1234") {
+    if (e.detail.code !== "1234") {
       el.showError();
       el.clear();
     }
@@ -97,16 +111,16 @@ disabled while `validating` is true so the user can't edit mid-check; typing aga
 a success/error clears all three states back to idle.
 
 ```html
-<loomi-pin
+<loomi-otp
   label="Verification code"
   error-message="That code didn't work, try again"
-></loomi-pin>
+></loomi-otp>
 
 <script type="module">
-  const el = document.querySelector("loomi-pin");
+  const el = document.querySelector("loomi-otp");
   el.addEventListener("verify", async (e) => {
     el.startValidating();
-    const ok = await verifyPin(e.detail.pin);
+    const ok = await verifyPin(e.detail.code);
     if (ok) {
       el.showSuccess();
     } else {
@@ -123,7 +137,7 @@ surfaces inline below the boxes if `show-error-inline` is set, otherwise as a
 `label`, so the message isn't silently dropped.
 
 ```html
-<loomi-pin error-message="That code didn't work, try again" show-error-inline></loomi-pin>
+<loomi-otp error-message="That code didn't work, try again" show-error-inline></loomi-otp>
 <!-- show-error-inline omitted (false): a failed showError() shows this message as a
      toast instead of inline text, but the red boxes still appear either way -->
 ```
@@ -137,7 +151,7 @@ el.showError("Too many attempts, try again in 30s");
 
 ## Accessibility
 
-loomi-pin is built on semantic markup where the browser gives us the right behavior, and it adds ARIA only where the component has custom interaction. Keyboard users should be able to reach the same controls as pointer users, with visible focus treatment unless you explicitly turn it off on controls that support `show-focus-ring="false"`.
+loomi-otp is built on semantic markup where the browser gives us the right behavior, and it adds ARIA only where the component has custom interaction. Keyboard users should be able to reach the same controls as pointer users, with visible focus treatment unless you explicitly turn it off on controls that support `show-focus-ring="false"`.
 
 When the component displays status, progress, validation, or temporary feedback, pair it with clear labels or nearby text in your app so assistive technology users get the same context a sighted user gets from the visual treatment.
 
@@ -145,14 +159,14 @@ When the component displays status, progress, validation, or temporary feedback,
 
 ## Responsive behavior
 
-loomi-pin is designed to fit the layout you place it in. It uses fluid widths, `min-width: 0`, wrapping, truncation, or stacked layouts where that keeps the component usable in cards, forms, sidebars, and mobile screens.
+loomi-otp is designed to fit the layout you place it in. It uses fluid widths, `min-width: 0`, wrapping, truncation, or stacked layouts where that keeps the component usable in cards, forms, sidebars, and mobile screens.
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
 
 ## Dark mode
 
-loomi-pin uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
+loomi-otp uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
 
 Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
 
@@ -165,6 +179,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `name` | _(blank)_ | Submitted with the form. |
 | `label` | _(blank)_ | Used as the title of the `loomi-notification` toast (see below); has no visible effect otherwise. |
 | `total-digits` | `4` | Number of input boxes. |
+| `type` | `numeric` | Accepted characters. `numeric` \| `alphanumeric` \| `text` |
 | `size` | `small` | `small` \| `big` |
 | `variant` | `default` | `default` \| `minimal` (bottom border only, no box) |
 | `separator` | `false` | Show a dash separator between the left and right input groups. _(boolean)_ |
@@ -174,25 +189,26 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 | `show-error-inline` | `false` | Render `error-message` beneath the boxes. When `false`, a failed validation shows it as a `loomi-notification` toast instead. _(boolean)_ |
 
 **Methods:** `clear()`, `startValidating()`, `showSuccess()`, `showError(message?)`.
-**Properties:** `pin`, `validating` (reflected), `valid` (reflected), `invalid`
-(reflected). **Event:** `loomi-verify` (`detail: { pin }`, fired when all boxes are filled).
+**Properties:** `code` (`pin` is a deprecated alias), `validating` (reflected), `valid`
+(reflected), `invalid` (reflected). **Event:** `loomi-verify` (`detail: { code, pin }`, where
+`pin` is a deprecated alias of `code`; fired when all boxes are filled).
 
 
 ## Full Example
 
 ```html
-<loomi-pin
-  name="pin-code"
+<loomi-otp
+  name="otp-code"
   total-digits="5"
   label="Verification code"
   error-message="Please enter the correct code"
-></loomi-pin>
+></loomi-otp>
 
 <script type="module">
-  const el = document.querySelector("loomi-pin");
+  const el = document.querySelector("loomi-otp");
   el.addEventListener("verify", async (e) => {
     el.startValidating();
-    const ok = await verifyPin(e.detail.pin);
+    const ok = await verifyPin(e.detail.code);
     if (ok) {
       el.showSuccess();
     } else {
@@ -207,23 +223,23 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Framework integration
 
-`<loomi-pin>` is a standard custom element, so the browser can use it in plain HTML, Blade, React, Vue, Angular, Svelte, Astro, and most other frameworks. The important beginner rule is: install the package, import it once before the tag is rendered, then write the Loomi tag in your template.
+`<loomi-otp>` is a standard custom element, so the browser can use it in plain HTML, Blade, React, Vue, Angular, Svelte, Astro, and most other frameworks. The important beginner rule is: install the package, import it once before the tag is rendered, then write the Loomi tag in your template.
 
 ### Where to run commands
 
-Run install commands from the app where you want to use this component. That means the folder that contains that app's `package.json`. Do not run these install commands from `packages/pin` unless you are editing LoomiUI itself.
+Run install commands from the app where you want to use this component. That means the folder that contains that app's `package.json`. Do not run these install commands from `packages/otp` unless you are editing LoomiUI itself.
 
 ```bash
 cd /path/to/your-app
-npm install @loomidev/pin lit
+npm install @loomidev/otp lit
 ```
 
 If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
-pnpm --filter @loomidev/pin build
-pnpm --filter @loomidev/pin typecheck
+pnpm --filter @loomidev/otp build
+pnpm --filter @loomidev/otp typecheck
 ```
 
 ### Choose your framework
@@ -237,9 +253,9 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="importmap">
   { "imports": { "lit": "https://esm.sh/lit@3.3.3", "lit/": "https://esm.sh/lit@3.3.3/" } }
 </script>
-<script type="module" src="https://esm.sh/@loomidev/pin"></script>
+<script type="module" src="https://esm.sh/@loomidev/otp"></script>
 
-<loomi-pin name="otp" total-digits="6" hide-digits separator></loomi-pin>
+<loomi-otp name="otp" total-digits="6" hide-digits separator></loomi-otp>
 ```
 
 </loomi-tab>
@@ -248,7 +264,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the package and import it once in your main app JavaScript file. After that, you can use the Loomi tag anywhere in your app.
 
 ```js
-import "@loomidev/pin";
+import "@loomidev/otp";
 ```
 
 
@@ -261,17 +277,17 @@ Run the install command from your Laravel project root, then import the componen
 
 ```bash
 cd /path/to/your-laravel-app
-npm install @loomidev/pin lit
+npm install @loomidev/otp lit
 npm run dev
 ```
 
 ```js
 // resources/js/app.js
-import "@loomidev/pin";
+import "@loomidev/otp";
 ```
 
 ```blade
-<loomi-pin name="otp" total-digits="6" hide-digits separator></loomi-pin>
+<loomi-otp name="otp" total-digits="6" hide-digits separator></loomi-otp>
 ```
 
 </loomi-tab>
@@ -280,10 +296,10 @@ import "@loomidev/pin";
 React can render Loomi tags directly. If you are on React 18, or if you need to pass arrays, objects, or functions, use a ref and assign those values after the component mounts.
 
 ```jsx
-import "@loomidev/pin";
+import "@loomidev/otp";
 
 export function LoomiExample() {
-  return <loomi-pin name="otp" total-digits="6" hide-digits separator></loomi-pin>;
+  return <loomi-otp name="otp" total-digits="6" hide-digits separator></loomi-otp>;
 }
 ```
 
@@ -296,11 +312,11 @@ Import the package in the component that uses it, or once in your main Vue file.
 
 ```vue
 <script setup>
-import "@loomidev/pin";
+import "@loomidev/otp";
 </script>
 
 <template>
-  <loomi-pin name="otp" total-digits="6" hide-digits separator></loomi-pin>
+  <loomi-otp name="otp" total-digits="6" hide-digits separator></loomi-otp>
 </template>
 ```
 
@@ -314,14 +330,14 @@ Import the package once and tell Angular to allow custom HTML tags with `CUSTOM_
 ```ts
 // app.component.ts
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from "@angular/core";
-import "@loomidev/pin";
+import "@loomidev/otp";
 
 @Component({
   selector: "app-root",
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
-  <loomi-pin name="otp" total-digits="6" hide-digits separator></loomi-pin>
+  <loomi-otp name="otp" total-digits="6" hide-digits separator></loomi-otp>
   `,
 })
 export class AppComponent {}
@@ -334,18 +350,18 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 ```svelte
 <script>
-  import "@loomidev/pin";
+  import "@loomidev/otp";
 </script>
 
-<loomi-pin name="otp" total-digits="6" hide-digits separator></loomi-pin>
+<loomi-otp name="otp" total-digits="6" hide-digits separator></loomi-otp>
 ```
 
 ```astro
 ---
-import "@loomidev/pin";
+import "@loomidev/otp";
 ---
 
-<loomi-pin name="otp" total-digits="6" hide-digits separator></loomi-pin>
+<loomi-otp name="otp" total-digits="6" hide-digits separator></loomi-otp>
 ```
 
 </loomi-tab>

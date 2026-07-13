@@ -40,7 +40,7 @@
     "@loomidev/toggle": "workspace:^",
     "@loomidev/number": "workspace:^",
     "@loomidev/slider": "workspace:^",
-    "@loomidev/pin": "workspace:^",
+    "@loomidev/otp": "workspace:^",
     "@loomidev/checkcards": "workspace:^",
     "@loomidev/datepicker": "workspace:^",
     "@loomidev/timepicker": "workspace:^",

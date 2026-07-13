@@ -28,7 +28,7 @@ export const tr: LoomiTranslations = {
   drawer: { dialog: "Yan panel" },
   floatingPanel: { dialog: "Yüzen panel", move: "Taşı", resize: "Yeniden boyutlandır", minimize: "Küçült", maximize: "Büyüt", restore: "Geri yükle" },
   photoGallery: { toolbar: "Galeri araç çubuğu", showAlbums: "Albümleri göster", hideAlbums: "Albümleri gizle", albums: "Albümler", allAlbum: "Tümü", zoomIn: "Yakınlaştır", zoomOut: "Uzaklaştır", squareThumbnails: "Kare küçük resimler", naturalThumbnails: "Doğal küçük resimler", startSlideshow: "Slayt gösterisini başlat", stopSlideshow: "Slayt gösterisini durdur", empty: "Gösterilecek fotoğraf yok", openPhoto: "Fotoğrafı aç", favourite: "Favorilere ekle", unfavourite: "Favorilerden kaldır", dialog: "Fotoğraf görüntüleyici", lightboxToolbar: "Fotoğraf görüntüleyici araç çubuğu", counter: ":total içinden :current", rotate: "Sola döndür", share: "Fotoğrafı paylaş", close: "Kapat", previous: "Önceki fotoğraf", next: "Sonraki fotoğraf", linkCopied: "Bağlantı kopyalandı" },
-  pin: { errorMessage: "Doğrulama kodu geçersiz", digitLabel: "Rakam :number", validating: "Kod doğrulanıyor…", valid: "Kod doğrulandı" },
+  otp: { errorMessage: "Doğrulama kodu geçersiz", digitLabel: "Rakam :number", validating: "Kod doğrulanıyor…", valid: "Kod doğrulandı" },
   colorpicker: { pickColor: "Renk seç" },
   input: { togglePassword: "Parola görünürlüğünü değiştir" },
   number: { increment: "Artır", decrement: "Azalt" },

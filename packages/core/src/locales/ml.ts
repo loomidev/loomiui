@@ -28,7 +28,7 @@ export const ml: LoomiTranslations = {
   drawer: { dialog: "ഡ്രോയർ" },
   floatingPanel: { dialog: "ഫ്ലോട്ടിംഗ് പാനൽ", move: "നീക്കുക", resize: "വലുപ്പം മാറ്റുക", minimize: "ചെറുതാക്കുക", maximize: "വലുതാക്കുക", restore: "പുനഃസ്ഥാപിക്കുക" },
   photoGallery: { toolbar: "ഗാലറി ടൂൾബാർ", showAlbums: "ആൽബങ്ങൾ കാണിക്കുക", hideAlbums: "ആൽബങ്ങൾ മറയ്ക്കുക", albums: "ആൽബങ്ങൾ", allAlbum: "എല്ലാം", zoomIn: "സൂം ഇൻ", zoomOut: "സൂം ഔട്ട്", squareThumbnails: "ചതുരാകൃതിയിലുള്ള തംബ്നെയിലുകൾ", naturalThumbnails: "സ്വാഭാവിക തംബ്നെയിലുകൾ", startSlideshow: "സ്ലൈഡ്‌ഷോ ആരംഭിക്കുക", stopSlideshow: "സ്ലൈഡ്‌ഷോ നിർത്തുക", empty: "കാണിക്കാൻ ഫോട്ടോകൾ ഇല്ല", openPhoto: "ഫോട്ടോ തുറക്കുക", favourite: "പ്രിയപ്പെട്ടവയിലേക്ക് ചേർക്കുക", unfavourite: "പ്രിയപ്പെട്ടവയിൽ നിന്ന് നീക്കം ചെയ്യുക", dialog: "ഫോട്ടോ വ്യൂവർ", lightboxToolbar: "ഫോട്ടോ വ്യൂവർ ടൂൾബാർ", counter: ":total ൽ :current", rotate: "ഇടത്തേക്ക് തിരിക്കുക", share: "ഫോട്ടോ പങ്കിടുക", close: "അടയ്ക്കുക", previous: "മുൻ ഫോട്ടോ", next: "അടുത്ത ഫോട്ടോ", linkCopied: "ലിങ്ക് പകർത്തി" },
-  pin: { errorMessage: "സ്ഥിരീകരണ കോഡ് അസാധുവാണ്", digitLabel: "അക്കം :number", validating: "കോഡ് പരിശോധിക്കുന്നു…", valid: "കോഡ് സ്ഥിരീകരിച്ചു" },
+  otp: { errorMessage: "സ്ഥിരീകരണ കോഡ് അസാധുവാണ്", digitLabel: "അക്കം :number", validating: "കോഡ് പരിശോധിക്കുന്നു…", valid: "കോഡ് സ്ഥിരീകരിച്ചു" },
   colorpicker: { pickColor: "നിറം തിരഞ്ഞെടുക്കുക" },
   input: { togglePassword: "പാസ്‌വേഡ് ദൃശ്യമാക്കൽ മാറ്റുക" },
   number: { increment: "കൂട്ടുക", decrement: "കുറയ്ക്കുക" },

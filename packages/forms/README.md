@@ -22,7 +22,7 @@ import "@loomidev/forms"; // registers all form elements
 | [`@loomidev/toggle`](../toggle) |
 | [`@loomidev/number`](../number) |
 | [`@loomidev/slider`](../slider) |
-| [`@loomidev/pin`](../pin) |
+| [`@loomidev/otp`](../otp) |
 | [`@loomidev/checkcards`](../checkcards) |
 | [`@loomidev/datepicker`](../datepicker) |
 | [`@loomidev/timepicker`](../timepicker) |
@@ -225,7 +225,7 @@ In Next.js, Nuxt, SvelteKit, and other SSR frameworks, put the bundle import in 
 - `@loomidev/input`
 - `@loomidev/number`
 - `@loomidev/password`
-- `@loomidev/pin`
+- `@loomidev/otp`
 - `@loomidev/radio`
 - `@loomidev/select`
 - `@loomidev/slider`
