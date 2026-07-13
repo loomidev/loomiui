@@ -132,7 +132,13 @@ const RADIUS_DEFAULTS = {
   "panel-radius": "0.875rem", // cards, modals, popovers, menus, drawers, sheets
   "pill-radius": "9999px", // fully-rounded/pill shapes — tags, badges, radius="full"
 };
-const dimensionLines = Object.entries(RADIUS_DEFAULTS)
+const SPACING_DEFAULTS = {
+  // Vertical gap below a stacked form field (input, select, textarea, …). Doubles as the
+  // room a field reserves for its validation/clear message. Set `:root { --loomi-field-spacing: 0 }`
+  // to own spacing yourself via a flex/grid `gap` container.
+  "field-spacing": "1rem",
+};
+const dimensionLines = Object.entries({ ...RADIUS_DEFAULTS, ...SPACING_DEFAULTS })
   .map(([name, value]) => `  --_${prefix}-${name}-default: ${value};`)
   .join("\n");
 
@@ -152,8 +158,8 @@ ${tokenLines.join("\n")}
   /* Semantic surface/text tokens (light mode defaults) — see comment above. */
 ${surfaceLines(SEMANTIC_LIGHT, `var(--${prefix}-white)`)}
 
-  /* Dimension tokens (corner radius). Private defaults only — the public
-     --${prefix}-*-radius slots stay undeclared so :root overrides inherit in. */
+  /* Dimension tokens (corner radius + field spacing). Private defaults only — the public
+     --${prefix}-* slots stay undeclared so :root overrides inherit in. */
 ${dimensionLines}
 }
 

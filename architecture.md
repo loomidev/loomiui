@@ -312,6 +312,24 @@ is deliberately *not* scaled — density controls spacing, `size` controls type.
 public tokens, `--loomi-density` is never declared on `:host`, so a `:root` value inherits
 through Shadow DOM.
 
+### Field spacing
+
+Every stacked form field (input, select, textarea, datepicker, …) ships a
+`margin-bottom: var(--loomi-field-spacing, …)` (default `1rem`), so two fields dropped in a
+row read as an intentional form rather than touching borders. On components with a clear/
+validation affordance, this margin doubles as the reserved room for that message, which is
+why `:host([no-clearing])` zeroes it per-instance. To own spacing yourself — e.g. lay fields
+out in a flex/grid `gap` container — opt out globally:
+
+```css
+:root {
+  --loomi-field-spacing: 0;
+}
+```
+
+Standalone or inline controls intentionally opt out of this: `otp` (often centered on its
+own) and `colorpicker` (an inline swatch) ship no field margin.
+
 ## Foundation Packages
 
 ### `@loomidev/theme`
