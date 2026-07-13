@@ -65,7 +65,13 @@ export class LoomiButton extends LoomiElement {
   /** Size preset. */
   @property({ reflect: true }) size: LoomiButtonSize = "regular";
 
-  /** Corner radius preset. */
+  /**
+   * Corner radius preset — a convenience layer over the `--loomi-control-radius` /
+   * `--loomi-pill-radius` theme tokens. `medium` (the default) declares nothing and so
+   * follows the theme's `--loomi-control-radius`; `none`/`small`/`full` set an explicit
+   * shape that overrides the theme. So a global `:root { --loomi-control-radius }` reshapes
+   * default buttons, while `radius="small"` etc. keep their fixed corner regardless.
+   */
   @property({ reflect: true }) radius: LoomiButtonRadius = "medium";
 
   /** Render as an outline (no fill, colored border + text). */

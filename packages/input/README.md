@@ -141,6 +141,17 @@ When the hint points to a named DOM hint like `career.html`, the input looks for
 <loomi-input size="big" label="Big"></loomi-input>
 ```
 
+`size` is the per-instance preset. To shift the density of every control at once, set the
+`--loomi-density` token at `:root` — an unitless multiplier (default `1`) that scales control
+height and horizontal padding together (font size is unchanged), composing with `size`
+rather than replacing it:
+
+```css
+:root {
+  --loomi-density: 0.85; /* compact */
+}
+```
+
 ## Validation
 
 A `required` field shows a red border as soon as it's invalid, whether or not

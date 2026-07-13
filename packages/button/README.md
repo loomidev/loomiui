@@ -80,6 +80,12 @@ Available sizes: `tiny`, `small`, `regular` (default), `medium`, `big`.
 <loomi-button radius="full">Full</loomi-button>
 ```
 
+These are presets over the `--loomi-control-radius` / `--loomi-pill-radius` theme tokens.
+`radius="medium"` (the default) **follows your theme** — set `--loomi-control-radius` and
+every default button reshapes with it. `none`/`small`/`full` set an explicit corner that
+**overrides** the theme, so a `radius="small"` button keeps its shape even under a global
+radius override. See [Theming](#theming).
+
 ## Colors
 
 `color` overrides the palette independently of `type`. Useful for semantic actions that
@@ -217,6 +223,20 @@ Override any palette slot from your page — no build step, no Tailwind:
   --loomi-primary-700: #15803d;
 }
 ```
+
+Shape and density are themeable the same way, so the `radius`/`size` attributes stay as
+per-instance presets while these set the global default:
+
+```css
+:root {
+  --loomi-control-radius: 0.25rem; /* default (radius="medium") buttons; also inputs, tags… */
+  --loomi-pill-radius: 9999px;     /* radius="full" buttons */
+  --loomi-density: 0.9;            /* scales every control's height + padding, not its font */
+}
+```
+
+Precedence is per-instance attribute → `:root` token → built-in default: `radius="small"`
+or `size="big"` on a specific button still wins over these global values.
 
 See the [root README](../../README.md#theming-the-edit-tailwindconfigjs-replacement) for
 the full theming model.
