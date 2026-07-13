@@ -19,15 +19,15 @@
     </script>
     <script type="module">
       import "../packages/slider/dist/loomi-slider.js";
-      import "../packages/pin/dist/loomi-pin.js";
+      import "../packages/otp/dist/loomi-otp.js";
       import "../packages/checkcards/dist/loomi-checkcards.js";
       import "../packages/listview/dist/loomi-listview.js";
       import "../packages/contact-card/dist/loomi-contact-card.js";
       import "../packages/centered-content/dist/loomi-centered-content.js";
       import "../packages/theme-switcher/dist/loomi-theme-switcher.js";
 
-      customElements.whenDefined("loomi-pin").then(() => {
-        document.querySelector("loomi-pin").addEventListener("verify", (e) =>
+      customElements.whenDefined("loomi-otp").then(() => {
+        document.querySelector("loomi-otp").addEventListener("verify", (e) =>
           document.getElementById("pin").textContent = e.detail.pin);
       });
       customElements.whenDefined("loomi-checkcards").then(() => {
@@ -63,8 +63,8 @@
 
     <h2>Verification code <span class="mut">— entered: <b id="pin">…</b></span></h2>
     <div class="row">
-      <loomi-pin total-digits="4"></loomi-pin>
-      <loomi-pin total-digits="7" size="big" hide-digits separator></loomi-pin>
+      <loomi-otp total-digits="4"></loomi-otp>
+      <loomi-otp total-digits="7" size="big" hide-digits separator></loomi-otp>
     </div>
 
     <h2>Checkcards <span class="mut">— selected: <b id="cc">(none)</b></span></h2>

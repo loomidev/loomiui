@@ -109,7 +109,7 @@ export const en: LoomiTranslations = {
     next: "Next photo",
     linkCopied: "Link copied",
   },
-  pin: {
+  otp: {
     errorMessage: "Verification code is invalid",
     digitLabel: "Digit :number",
     validating: "Verifying code…",

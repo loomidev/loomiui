@@ -28,7 +28,7 @@ export const it: LoomiTranslations = {
   drawer: { dialog: "Pannello laterale" },
   floatingPanel: { dialog: "Pannello mobile", move: "Sposta", resize: "Ridimensiona", minimize: "Riduci a icona", maximize: "Massimizza", restore: "Ripristina" },
   photoGallery: { toolbar: "Barra degli strumenti della galleria", showAlbums: "Mostra album", hideAlbums: "Nascondi album", albums: "Album", allAlbum: "Tutte", zoomIn: "Zoom avanti", zoomOut: "Zoom indietro", squareThumbnails: "Miniature quadrate", naturalThumbnails: "Miniature naturali", startSlideshow: "Avvia presentazione", stopSlideshow: "Interrompi presentazione", empty: "Nessuna foto da mostrare", openPhoto: "Apri foto", favourite: "Aggiungi ai preferiti", unfavourite: "Rimuovi dai preferiti", dialog: "Visualizzatore foto", lightboxToolbar: "Barra degli strumenti del visualizzatore", counter: ":current di :total", rotate: "Ruota a sinistra", share: "Condividi foto", close: "Chiudi", previous: "Foto precedente", next: "Foto successiva", linkCopied: "Link copiato" },
-  pin: { errorMessage: "Il codice di verifica non è valido", digitLabel: "Cifra :number", validating: "Verifica del codice…", valid: "Codice verificato" },
+  otp: { errorMessage: "Il codice di verifica non è valido", digitLabel: "Cifra :number", validating: "Verifica del codice…", valid: "Codice verificato" },
   colorpicker: { pickColor: "Scegli colore" },
   input: { togglePassword: "Mostra o nascondi password" },
   number: { increment: "Aumenta", decrement: "Diminuisci" },

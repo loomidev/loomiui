@@ -9,22 +9,49 @@
       "exports": [
         {
           "kind": "js",
-          "name": "LoomiPin",
+          "name": "LoomiOtp",
           "declaration": {
-            "name": "LoomiPin",
-            "module": "./loomi-pin.js"
+            "name": "LoomiOtp",
+            "module": "./loomi-otp.js"
           }
+<<<<<<< Updated upstream:packages/pin/custom-elements.json
+=======
+        },
+        {
+          "kind": "js",
+          "name": "LoomiOtpVariant",
+          "declaration": {
+            "name": "LoomiOtpVariant",
+            "module": "./loomi-otp.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiOtpType",
+          "declaration": {
+            "name": "LoomiOtpType",
+            "module": "./loomi-otp.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiOtpVerifyDetail",
+          "declaration": {
+            "name": "LoomiOtpVerifyDetail",
+            "module": "./loomi-otp.js"
+          }
+>>>>>>> Stashed changes:packages/otp/custom-elements.json
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/loomi-pin.ts",
+      "path": "src/loomi-otp.ts",
       "declarations": [
         {
           "kind": "class",
-          "description": "`<loomi-pin>` — a verification-code (PIN) input of N boxes. Form-associated: submits\nthe joined PIN under `name`.",
-          "name": "LoomiPin",
+          "description": "`<loomi-otp>` — a one-time-passcode input of N boxes with auto-advance and paste support.\nForm-associated: submits the joined code under `name`. `type` controls the accepted\ncharacters: `numeric` (default, digits only — the classic PIN), `alphanumeric`, or `text`.",
+          "name": "LoomiOtp",
           "members": [
             {
               "kind": "field",
@@ -88,10 +115,20 @@
               "kind": "field",
               "name": "variant",
               "type": {
-                "text": "LoomiPinVariant"
+                "text": "LoomiOtpVariant"
               },
               "default": "\"default\"",
               "attribute": "variant"
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "LoomiOtpType"
+              },
+              "default": "\"numeric\"",
+              "description": "Accepted characters: `numeric` (default) | `alphanumeric` | `text`.",
+              "attribute": "type"
             },
             {
               "kind": "field",
@@ -199,20 +236,20 @@
             },
             {
               "kind": "field",
-              "name": "pin",
-              "type": {
-                "text": "string"
-              },
-              "description": "The current PIN.",
-              "readonly": true
-            },
-            {
-              "kind": "field",
               "name": "code",
               "type": {
                 "text": "string"
               },
-              "deprecated": "Use `pin` instead.",
+              "description": "The current code.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "pin",
+              "type": {
+                "text": "string"
+              },
+              "deprecated": "Use `code` instead.",
               "readonly": true
             },
             {
@@ -413,7 +450,7 @@
               "type": {
                 "text": "CustomEvent"
               },
-              "description": "`detail: { pin, code }` when the last box is filled."
+              "description": "`detail: { code, pin }` when the last box is filled (`pin` is a deprecated alias of `code`)."
             }
           ],
           "attributes": [
@@ -452,10 +489,19 @@
             {
               "name": "variant",
               "type": {
-                "text": "LoomiPinVariant"
+                "text": "LoomiOtpVariant"
               },
               "default": "\"default\"",
               "fieldName": "variant"
+            },
+            {
+              "name": "type",
+              "type": {
+                "text": "LoomiOtpType"
+              },
+              "default": "\"numeric\"",
+              "description": "Accepted characters: `numeric` (default) | `alphanumeric` | `text`.",
+              "fieldName": "type"
             },
             {
               "name": "separator",
@@ -533,25 +579,25 @@
             "name": "LoomiElement",
             "package": "@loomidev/core"
           },
-          "tagName": "loomi-pin",
+          "tagName": "loomi-otp",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "LoomiPin",
+          "name": "LoomiOtp",
           "declaration": {
-            "name": "LoomiPin",
-            "module": "src/loomi-pin.ts"
+            "name": "LoomiOtp",
+            "module": "src/loomi-otp.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "loomi-pin",
+          "name": "loomi-otp",
           "declaration": {
-            "name": "LoomiPin",
-            "module": "src/loomi-pin.ts"
+            "name": "LoomiOtp",
+            "module": "src/loomi-otp.ts"
           }
         }
       ]

@@ -55,7 +55,7 @@ export * from "@loomidev/progress";
 export * from "@loomidev/progress-steps";
 export * from "@loomidev/timer";
 export * from "@loomidev/slider";
-export * from "@loomidev/pin";
+export * from "@loomidev/otp";
 export * from "@loomidev/checkcards";
 export * from "@loomidev/listview";
 export * from "@loomidev/contact-card";

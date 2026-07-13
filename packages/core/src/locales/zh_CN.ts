@@ -28,7 +28,7 @@ export const zh_CN: LoomiTranslations = {
   drawer: { dialog: "抽屉" },
   floatingPanel: { dialog: "浮动面板", move: "移动", resize: "调整大小", minimize: "最小化", maximize: "最大化", restore: "还原" },
   photoGallery: { toolbar: "图库工具栏", showAlbums: "显示相册", hideAlbums: "隐藏相册", albums: "相册", allAlbum: "全部", zoomIn: "放大", zoomOut: "缩小", squareThumbnails: "方形缩略图", naturalThumbnails: "原始比例缩略图", startSlideshow: "开始幻灯片放映", stopSlideshow: "停止幻灯片放映", empty: "暂无照片", openPhoto: "打开照片", favourite: "添加到收藏", unfavourite: "取消收藏", dialog: "照片查看器", lightboxToolbar: "照片查看器工具栏", counter: "第 :current 张，共 :total 张", rotate: "向左旋转", share: "分享照片", close: "关闭", previous: "上一张", next: "下一张", linkCopied: "链接已复制" },
-  pin: { errorMessage: "验证码无效", digitLabel: "第 :number 位", validating: "正在验证代码…", valid: "验证码已通过" },
+  otp: { errorMessage: "验证码无效", digitLabel: "第 :number 位", validating: "正在验证代码…", valid: "验证码已通过" },
   colorpicker: { pickColor: "选择颜色" },
   input: { togglePassword: "切换密码可见性" },
   number: { increment: "增加", decrement: "减少" },

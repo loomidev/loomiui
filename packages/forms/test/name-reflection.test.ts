@@ -2,7 +2,7 @@ import { expect } from "@open-wc/testing";
 import "../../button/dist/loomi-button.js";
 import "../../checkbox/dist/loomi-checkbox.js";
 import "../../checkcards/dist/loomi-checkcards.js";
-import "../../pin/dist/loomi-pin.js";
+import "../../otp/dist/loomi-otp.js";
 import "../../colorpicker/dist/loomi-colorpicker.js";
 import "../../datepicker/dist/loomi-datepicker.js";
 import "../../filepicker/dist/loomi-filepicker.js";
@@ -22,7 +22,7 @@ const NAMED_FORM_TAGS = [
   "loomi-button",
   "loomi-checkbox",
   "loomi-checkcards",
-  "loomi-pin",
+  "loomi-otp",
   "loomi-colorpicker",
   "loomi-datepicker",
   "loomi-filepicker",

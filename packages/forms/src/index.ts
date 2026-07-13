@@ -9,7 +9,7 @@ export * from "@loomidev/radio";
 export * from "@loomidev/toggle";
 export * from "@loomidev/number";
 export * from "@loomidev/slider";
-export * from "@loomidev/pin";
+export * from "@loomidev/otp";
 export * from "@loomidev/checkcards";
 export * from "@loomidev/date-range-picker";
 export * from "@loomidev/filter-builder";
