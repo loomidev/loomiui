@@ -19,10 +19,18 @@
   padding: 0;
   background: none;
 }
-.size-small { --loomi-cp-size: 2rem; }
-.size-regular { --loomi-cp-size: 2.5rem; }
-.size-medium { --loomi-cp-size: 2.75rem; }
-.size-big { --loomi-cp-size: 3.25rem; }
+.size-small {
+  --loomi-cp-size: 2rem;
+}
+.size-regular {
+  --loomi-cp-size: 2.5rem;
+}
+.size-medium {
+  --loomi-cp-size: 2.75rem;
+}
+.size-big {
+  --loomi-cp-size: 3.25rem;
+}
 .loomi-native {
   width: var(--loomi-cp-size, 2.5rem);
   height: var(--loomi-cp-size, 2.5rem);
@@ -32,8 +40,13 @@
   background: none;
   cursor: pointer;
 }
-.loomi-native::-webkit-color-swatch-wrapper { padding: 3px; }
-.loomi-native::-webkit-color-swatch { border: none; border-radius: 0.35rem; }
+.loomi-native::-webkit-color-swatch-wrapper {
+  padding: 3px;
+}
+.loomi-native::-webkit-color-swatch {
+  border: none;
+  border-radius: 0.35rem;
+}
 .loomi-value {
   font-size: 0.85rem;
   color: var(--loomi-text-secondary);

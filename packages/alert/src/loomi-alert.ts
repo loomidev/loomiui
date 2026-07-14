@@ -71,17 +71,21 @@ export class LoomiAlert extends LoomiElement {
     const iconName = this.icon || (this.color ? "" : TYPE_ICON[this.type]);
     const cls = `loomi-alert ${this.shade} ${transparent ? "transparent" : ""}`;
     return html`<div class=${cls} role="alert" style=${accentVars(color)}>
-      ${this.avatar
-        ? html`<img class="loomi-avatar ${this.showRing ? "ring" : ""}" src=${this.avatar} alt="" />`
-        : this.showIcon && iconName
-          ? this.renderIcon(iconName)
-          : nothing}
+      ${
+        this.avatar
+          ? html`<img class="loomi-avatar ${this.showRing ? "ring" : ""}" src=${this.avatar} alt="" />`
+          : this.showIcon && iconName
+            ? this.renderIcon(iconName)
+            : nothing
+      }
       <div class="loomi-body"><slot></slot></div>
-      ${this.showCloseIcon
-        ? html`<button type="button" class="loomi-close" aria-label=${loomiT("common.dismiss", {}, this.locale)} @click=${this.onClose}>
+      ${
+        this.showCloseIcon
+          ? html`<button type="button" class="loomi-close" aria-label=${loomiT("common.dismiss", {}, this.locale)} @click=${this.onClose}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${X}</svg>
           </button>`
-        : nothing}
+          : nothing
+      }
     </div>`;
   }
 }

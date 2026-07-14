@@ -2,9 +2,14 @@ import { html, fixture, expect } from "@open-wc/testing";
 import "../dist/loomi-context-menu.js";
 import type { LoomiContextMenu } from "../dist/index.js";
 
-const nextFrame = (): Promise<void> => new Promise((resolve) => requestAnimationFrame(() => resolve()));
+const nextFrame = (): Promise<void> =>
+  new Promise((resolve) => requestAnimationFrame(() => resolve()));
 
-async function openAt(el: LoomiContextMenu, clientX: number, clientY: number): Promise<HTMLElement> {
+async function openAt(
+  el: LoomiContextMenu,
+  clientX: number,
+  clientY: number,
+): Promise<HTMLElement> {
   el.showAt(clientX, clientY);
   await el.updateComplete;
   await nextFrame();
@@ -22,7 +27,15 @@ describe("loomi-context-menu", () => {
     `);
     const target = el.shadowRoot!.querySelector<HTMLElement>(".loomi-target")!;
 
-    target.dispatchEvent(new MouseEvent("contextmenu", { bubbles: true, composed: true, cancelable: true, clientX: 40, clientY: 48 }));
+    target.dispatchEvent(
+      new MouseEvent("contextmenu", {
+        bubbles: true,
+        composed: true,
+        cancelable: true,
+        clientX: 40,
+        clientY: 48,
+      }),
+    );
     await el.updateComplete;
     await nextFrame();
     await el.updateComplete;
@@ -73,7 +86,9 @@ describe("loomi-context-menu", () => {
     await nextFrame();
     await item.updateComplete;
 
-    expect(item.shadowRoot!.querySelector(".loomi-item")!.classList.contains("right")).to.equal(true);
+    expect(item.shadowRoot!.querySelector(".loomi-item")!.classList.contains("right")).to.equal(
+      true,
+    );
   });
 
   it("supports nested submenu items", async () => {
@@ -96,6 +111,8 @@ describe("loomi-context-menu", () => {
     await item.updateComplete;
 
     expect(item.shadowRoot!.querySelector(".loomi-submenu-icon")).not.to.equal(null);
-    expect(item.shadowRoot!.querySelector(".loomi-submenu")!.classList.contains("open")).to.equal(true);
+    expect(item.shadowRoot!.querySelector(".loomi-submenu")!.classList.contains("open")).to.equal(
+      true,
+    );
   });
 });

@@ -8,13 +8,13 @@ import type {
   DateRangeChangeDetail,
   DateRangeOpenChangeDetail,
   DateRangePreset,
-  DateRangeValue
+  DateRangeValue,
 } from "./types.js";
 
 const DATE_FORMATTER = new Intl.DateTimeFormat("en", {
   month: "short",
   day: "numeric",
-  year: "numeric"
+  year: "numeric",
 });
 
 function toIsoDate(date: Date) {
@@ -52,7 +52,11 @@ function formatDate(value: string) {
 }
 
 function createDefaultPresets(referenceDate = new Date()): DateRangePreset[] {
-  const today = new Date(referenceDate.getFullYear(), referenceDate.getMonth(), referenceDate.getDate());
+  const today = new Date(
+    referenceDate.getFullYear(),
+    referenceDate.getMonth(),
+    referenceDate.getDate(),
+  );
   const yesterday = addDays(today, -1);
   const last7Start = addDays(today, -6);
   const last30Start = addDays(today, -29);
@@ -62,11 +66,36 @@ function createDefaultPresets(referenceDate = new Date()): DateRangePreset[] {
 
   return [
     { id: "today", label: "Today", startDate: toIsoDate(today), endDate: toIsoDate(today) },
-    { id: "yesterday", label: "Yesterday", startDate: toIsoDate(yesterday), endDate: toIsoDate(yesterday) },
-    { id: "last-7-days", label: "Last 7 days", startDate: toIsoDate(last7Start), endDate: toIsoDate(today) },
-    { id: "last-30-days", label: "Last 30 days", startDate: toIsoDate(last30Start), endDate: toIsoDate(today) },
-    { id: "this-month", label: "This month", startDate: toIsoDate(thisMonthStart), endDate: toIsoDate(today) },
-    { id: "last-month", label: "Last month", startDate: toIsoDate(lastMonthStart), endDate: toIsoDate(lastMonthEnd) }
+    {
+      id: "yesterday",
+      label: "Yesterday",
+      startDate: toIsoDate(yesterday),
+      endDate: toIsoDate(yesterday),
+    },
+    {
+      id: "last-7-days",
+      label: "Last 7 days",
+      startDate: toIsoDate(last7Start),
+      endDate: toIsoDate(today),
+    },
+    {
+      id: "last-30-days",
+      label: "Last 30 days",
+      startDate: toIsoDate(last30Start),
+      endDate: toIsoDate(today),
+    },
+    {
+      id: "this-month",
+      label: "This month",
+      startDate: toIsoDate(thisMonthStart),
+      endDate: toIsoDate(today),
+    },
+    {
+      id: "last-month",
+      label: "Last month",
+      startDate: toIsoDate(lastMonthStart),
+      endDate: toIsoDate(lastMonthEnd),
+    },
   ];
 }
 
@@ -86,7 +115,7 @@ export class LoomiDateRangePicker extends LoomiElement {
     min: {},
     max: {},
     comparison: { type: Boolean, reflect: true },
-    showPresets: { attribute: "show-presets", type: Boolean, reflect: true }
+    showPresets: { attribute: "show-presets", type: Boolean, reflect: true },
   };
 
   static override styles = loomiStyles(css`
@@ -272,7 +301,8 @@ export class LoomiDateRangePicker extends LoomiElement {
     document.addEventListener("keydown", this.handleDocumentKeydown);
 
     if (!this.startDate || !this.endDate) {
-      const defaultPreset = this.presets.find((preset) => preset.id === "last-30-days") ?? this.presets[0];
+      const defaultPreset =
+        this.presets.find((preset) => preset.id === "last-30-days") ?? this.presets[0];
       if (defaultPreset) {
         this.applyPresetValue(defaultPreset, false);
       }
@@ -352,7 +382,11 @@ export class LoomiDateRangePicker extends LoomiElement {
     `;
   }
 
-  private renderRangeFields(label: string, startProperty: "startDate" | "compareStartDate", endProperty: "endDate" | "compareEndDate") {
+  private renderRangeFields(
+    label: string,
+    startProperty: "startDate" | "compareStartDate",
+    endProperty: "endDate" | "compareEndDate",
+  ) {
     return html`
       <section class="input-field">
         <span>${label}</span>
@@ -403,7 +437,7 @@ export class LoomiDateRangePicker extends LoomiElement {
     this.normalizeRange();
     this.dispatchDateEvent<DateRangeApplyDetail>("loomi-date-range-apply", {
       value: this.getValue(),
-      presetId: this.presetId
+      presetId: this.presetId,
     });
     this.closePicker();
   };
@@ -414,7 +448,7 @@ export class LoomiDateRangePicker extends LoomiElement {
 
   private handleDatepickerChange(
     event: Event,
-    property: "startDate" | "endDate" | "compareStartDate" | "compareEndDate"
+    property: "startDate" | "endDate" | "compareStartDate" | "compareEndDate",
   ) {
     const detail = (event as CustomEvent<{ dates?: string[] }>).detail;
     const isoDate = detail?.dates?.[0];
@@ -529,7 +563,11 @@ export class LoomiDateRangePicker extends LoomiElement {
       this.endDate = previousStart;
     }
 
-    if (this.compareStartDate && this.compareEndDate && this.compareStartDate > this.compareEndDate) {
+    if (
+      this.compareStartDate &&
+      this.compareEndDate &&
+      this.compareStartDate > this.compareEndDate
+    ) {
       const previousStart = this.compareStartDate;
       this.compareStartDate = this.compareEndDate;
       this.compareEndDate = previousStart;
@@ -554,12 +592,14 @@ export class LoomiDateRangePicker extends LoomiElement {
   private dispatchChange() {
     this.dispatchDateEvent<DateRangeChangeDetail>("loomi-date-range-change", {
       value: this.getValue(),
-      presetId: this.presetId
+      presetId: this.presetId,
     });
   }
 
   private dispatchOpenChange() {
-    this.dispatchDateEvent<DateRangeOpenChangeDetail>("loomi-date-range-open-change", { open: this.open });
+    this.dispatchDateEvent<DateRangeOpenChangeDetail>("loomi-date-range-open-change", {
+      open: this.open,
+    });
   }
 
   private dispatchDateEvent<TDetail>(name: string, detail: TDetail) {
@@ -567,15 +607,15 @@ export class LoomiDateRangePicker extends LoomiElement {
       new CustomEvent<TDetail>(name, {
         bubbles: true,
         composed: true,
-        detail
-      })
+        detail,
+      }),
     );
   }
 
   private getValue(): DateRangeValue {
     const value: DateRangeValue = {
       startDate: this.startDate,
-      endDate: this.endDate
+      endDate: this.endDate,
     };
 
     if (this.comparison && this.compareStartDate && this.compareEndDate) {

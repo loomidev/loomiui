@@ -9,7 +9,9 @@ describe("loomi-theme-switcher", () => {
   });
 
   it("renders the horizontal variant by default", async () => {
-    const el = await fixture<LoomiThemeSwitcher>(html`<loomi-theme-switcher></loomi-theme-switcher>`);
+    const el = await fixture<LoomiThemeSwitcher>(
+      html`<loomi-theme-switcher></loomi-theme-switcher>`,
+    );
 
     expect(el.variant).to.equal("horizontal");
     expect(el.shadowRoot!.querySelector(".loomi-switch")).to.exist;
@@ -17,10 +19,16 @@ describe("loomi-theme-switcher", () => {
   });
 
   it("renders a dropmenu variant that selects themes", async () => {
-    const el = await fixture<LoomiThemeSwitcher>(html`<loomi-theme-switcher variant="dropmenu"></loomi-theme-switcher>`);
-    const dropmenu = el.shadowRoot!.querySelector("loomi-dropmenu") as HTMLElement & { updateComplete: Promise<unknown> };
+    const el = await fixture<LoomiThemeSwitcher>(
+      html`<loomi-theme-switcher variant="dropmenu"></loomi-theme-switcher>`,
+    );
+    const dropmenu = el.shadowRoot!.querySelector("loomi-dropmenu") as HTMLElement & {
+      updateComplete: Promise<unknown>;
+    };
     const changes: string[] = [];
-    el.addEventListener("loomi-theme-change", (event) => changes.push((event as CustomEvent<{ theme: string }>).detail.theme));
+    el.addEventListener("loomi-theme-change", (event) =>
+      changes.push((event as CustomEvent<{ theme: string }>).detail.theme),
+    );
 
     dropmenu.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!.click();
     await dropmenu.updateComplete;
@@ -29,7 +37,9 @@ describe("loomi-theme-switcher", () => {
 
     expect(changes).to.deep.equal(["dark"]);
     expect(document.documentElement.classList.contains("dark")).to.equal(true);
-    expect(el.shadowRoot!.querySelector(".loomi-menu-selected-icon")!.getAttribute("name")).to.equal("moon");
+    expect(
+      el.shadowRoot!.querySelector(".loomi-menu-selected-icon")!.getAttribute("name"),
+    ).to.equal("moon");
     expect(el.shadowRoot!.querySelector('loomi-icon[name="chevron-down"]')).to.exist;
   });
 });

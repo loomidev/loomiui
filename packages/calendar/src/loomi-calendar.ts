@@ -8,7 +8,7 @@ import {
   loomiStyles,
   loomiT,
   loomiWeekdayNames,
-  watchDarkMode
+  watchDarkMode,
 } from "@loomidev/core";
 import "@loomidev/context-menu/loomi-context-menu.js";
 import "@loomidev/datepicker/loomi-datepicker.js";
@@ -59,7 +59,7 @@ import {
   startOfDay,
   summarizeInvitees,
   toInputDate,
-  type SpanningEventLayout
+  type SpanningEventLayout,
 } from "./calendar-utils.js";
 import type {
   CalendarEvent,
@@ -80,7 +80,7 @@ import type {
   CalendarView,
   CalendarViewChangeDetail,
   CalendarDateChangeDetail,
-  CalendarWeekStarts
+  CalendarWeekStarts,
 } from "./types.js";
 
 const PREV = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />`;
@@ -100,7 +100,7 @@ const booleanAttribute = {
   },
   toAttribute(value: boolean): string | null {
     return value ? "" : null;
-  }
+  },
 };
 
 const SIDEBAR_STORAGE_KEY = "loomi-calendar-sidebar-open";
@@ -110,7 +110,7 @@ const VIEW_OPTIONS: Array<{ id: CalendarView; shortcut: string }> = [
   { id: "week", shortcut: "W" },
   { id: "month", shortcut: "M" },
   { id: "agenda", shortcut: "A" },
-  { id: "resource", shortcut: "R" }
+  { id: "resource", shortcut: "R" },
 ];
 
 type DragMode = "move" | "resize" | "resize-start" | "resize-end";
@@ -160,8 +160,7 @@ interface ReminderDraft {
 }
 
 type CalendarSelection =
-  | { kind: "event"; event: CalendarEvent }
-  | { kind: "reminder"; reminder: CalendarReminder };
+  { kind: "event"; event: CalendarEvent } | { kind: "reminder"; reminder: CalendarReminder };
 
 const EVENT_COLORS: CalendarEventColor[] = ["primary", "secondary", "success", "warning", "error"];
 const REMINDER_MINUTES = ["0", "5", "10", "15", "30", "60", "1440"] as const;
@@ -204,17 +203,20 @@ export class LoomiCalendar extends LoomiElement {
     _deleteTarget: { state: true },
     _contextTarget: { state: true },
     selectedEventId: { state: true },
-    selectedReminderId: { state: true }
+    selectedReminderId: { state: true },
   };
 
-  static override styles = loomiStyles(calendarStyles, css`
+  static override styles = loomiStyles(
+    calendarStyles,
+    css`
     :host {
       --loomi-calendar-hour-height: ${HOUR_HEIGHT}px;
       --loomi-calendar-hour-count: 12;
       --loomi-calendar-resource-label-width: ${RESOURCE_LABEL_WIDTH}px;
       --loomi-calendar-time-axis-width: ${TIME_AXIS_WIDTH}px;
     }
-  `);
+  `,
+  );
 
   events: CalendarEvent[] = [];
   reminders: CalendarReminder[] = [];
@@ -341,14 +343,16 @@ export class LoomiCalendar extends LoomiElement {
       weekday: "long",
       month: "short",
       day: "numeric",
-      year: "numeric"
+      year: "numeric",
     }).format(startDate);
 
     return html`
       <article class="upcoming-detail">
         <header class="upcoming-header">
           <h3 class="upcoming-title">${event.title}</h3>
-          ${this.editable ? html`
+          ${
+            this.editable
+              ? html`
             <div class="upcoming-actions">
               <button class="icon-btn" type="button" aria-label="Duplicate event" title="Duplicate" @click=${() => this.handleDuplicateEvent(event)}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${ICON_COPY}</svg>
@@ -360,7 +364,9 @@ export class LoomiCalendar extends LoomiElement {
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${ICON_EDIT}</svg>
               </button>
             </div>
-          ` : nothing}
+          `
+              : nothing
+          }
         </header>
 
         <div class="upcoming-meta">
@@ -372,34 +378,52 @@ export class LoomiCalendar extends LoomiElement {
             <svg class="upcoming-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${ICON_CLOCK}</svg>
             <span>${formatEventRange(event, this.resolvedLocale, this.displayTimezone)}</span>
           </div>
-          ${event.reminder?.label ? html`
+          ${
+            event.reminder?.label
+              ? html`
             <div class="upcoming-meta-row">
               <svg class="upcoming-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${ICON_BELL}</svg>
               <span>${event.reminder.label}</span>
             </div>
-          ` : nothing}
+          `
+              : nothing
+          }
         </div>
 
-        ${invitees.length ? html`
+        ${
+          invitees.length
+            ? html`
           <section class="upcoming-guests">
             <div class="guest-avatars">
-              ${visibleInvitees.map((invitee) => html`
+              ${visibleInvitees.map(
+                (invitee) => html`
                 <span class="guest-avatar" title=${invitee.name}>
-                  ${invitee.avatarUrl
-                    ? html`<img src=${invitee.avatarUrl} alt=${invitee.name} />`
-                    : getInviteeInitials(invitee)}
+                  ${
+                    invitee.avatarUrl
+                      ? html`<img src=${invitee.avatarUrl} alt=${invitee.name} />`
+                      : getInviteeInitials(invitee)
+                  }
                 </span>
-              `)}
-              ${overflowInvitee ? html`
+              `,
+              )}
+              ${
+                overflowInvitee
+                  ? html`
                 <span class="guest-avatar guest-initials" title=${overflowInvitee.name}>
                   ${extraCount > 0 ? `+${extraCount + 1}` : getInviteeInitials(overflowInvitee)}
                 </span>
-              ` : nothing}
-              ${this.editable ? html`
+              `
+                  : nothing
+              }
+              ${
+                this.editable
+                  ? html`
                 <button class="guest-add" type="button" aria-label="Add guest" title="Add guest">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${PLUS}</svg>
                 </button>
-              ` : nothing}
+              `
+                  : nothing
+              }
             </div>
             <p class="guest-summary">
               <strong>${summary.total} guest${summary.total === 1 ? "" : "s"}</strong>
@@ -407,14 +431,20 @@ export class LoomiCalendar extends LoomiElement {
               ${summary.awaiting ? html` | ${summary.awaiting} awaiting` : nothing}
             </p>
           </section>
-        ` : nothing}
+        `
+            : nothing
+        }
 
-        ${event.description ? html`
+        ${
+          event.description
+            ? html`
           <section class="upcoming-about">
             <h4 class="upcoming-about-title">About this event</h4>
             <div class="upcoming-description">${this.renderEventDescription(event.description)}</div>
           </section>
-        ` : nothing}
+        `
+            : nothing
+        }
       </article>
     `;
   }
@@ -531,7 +561,10 @@ export class LoomiCalendar extends LoomiElement {
               required
               @change=${this.handleDraftDateChange("startDate")}
             ></loomi-datepicker>
-            ${draft.allDay ? nothing : html`
+            ${
+              draft.allDay
+                ? nothing
+                : html`
               <loomi-timepicker
                 name="startTime"
                 .locale=${this.locale}
@@ -541,7 +574,8 @@ export class LoomiCalendar extends LoomiElement {
                 required
                 @change=${this.handleDraftTimeChange("startTime")}
               ></loomi-timepicker>
-            `}
+            `
+            }
           </div>
 
           <div class="event-form-row">
@@ -554,7 +588,10 @@ export class LoomiCalendar extends LoomiElement {
               required
               @change=${this.handleDraftDateChange("endDate")}
             ></loomi-datepicker>
-            ${draft.allDay ? nothing : html`
+            ${
+              draft.allDay
+                ? nothing
+                : html`
               <loomi-timepicker
                 name="endTime"
                 .locale=${this.locale}
@@ -564,7 +601,8 @@ export class LoomiCalendar extends LoomiElement {
                 required
                 @change=${this.handleDraftTimeChange("endTime")}
               ></loomi-timepicker>
-            `}
+            `
+            }
           </div>
 
           <loomi-select
@@ -576,7 +614,9 @@ export class LoomiCalendar extends LoomiElement {
             @loomi-select=${this.handleDraftSelect("color")}
           ></loomi-select>
 
-          ${this.resources.length ? html`
+          ${
+            this.resources.length
+              ? html`
             <loomi-select
               name="resource"
               .locale=${this.locale}
@@ -585,7 +625,9 @@ export class LoomiCalendar extends LoomiElement {
               selected-value=${draft.resourceId}
               @loomi-select=${this.handleDraftSelect("resourceId")}
             ></loomi-select>
-          ` : nothing}
+          `
+              : nothing
+          }
 
           <loomi-select
             name="recurrence"
@@ -755,7 +797,9 @@ export class LoomiCalendar extends LoomiElement {
     return html`
       <div class="toolbar">
         <div class="toolbar-start">
-          ${this.showSidebar ? html`
+          ${
+            this.showSidebar
+              ? html`
             <button
               class="toolbar-btn icon-only"
               type="button"
@@ -765,11 +809,15 @@ export class LoomiCalendar extends LoomiElement {
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${PANEL}</svg>
             </button>
-          ` : nothing}
+          `
+              : nothing
+          }
           <div class="title">${this.getFormattedTitle()}</div>
-          ${this.showTimezone && this.displayTimezone
-            ? html`<span class="timezone-badge">${formatTimezoneLabel(this.displayTimezone, this.resolvedLocale)}</span>`
-            : nothing}
+          ${
+            this.showTimezone && this.displayTimezone
+              ? html`<span class="timezone-badge">${formatTimezoneLabel(this.displayTimezone, this.resolvedLocale)}</span>`
+              : nothing
+          }
         </div>
         <div class="toolbar-end">
           <button class="toolbar-btn icon-only" type="button" aria-label=${this.t("calendar.previous")} title=${this.t("calendar.previous")} @click=${this.goPrev}>
@@ -789,7 +837,9 @@ export class LoomiCalendar extends LoomiElement {
             aria-label=${this.t("calendar.viewLabel")}
             @loomi-select=${this.handleViewSelect}
           ></loomi-select>
-          ${this.editable ? html`
+          ${
+            this.editable
+              ? html`
             <loomi-dropmenu class="toolbar-add-menu" placement="right">
               <button class="toolbar-btn icon-only" slot="trigger" type="button" aria-label="Add">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${PLUS}</svg>
@@ -797,7 +847,9 @@ export class LoomiCalendar extends LoomiElement {
               <loomi-dropmenu-item icon="calendar" @click=${() => this.openCreateEventModal()}>Event</loomi-dropmenu-item>
               <loomi-dropmenu-item icon="bell" @click=${() => this.openCreateReminderModal()}>Reminder</loomi-dropmenu-item>
             </loomi-dropmenu>
-          ` : nothing}
+          `
+              : nothing
+          }
         </div>
       </div>
     `;
@@ -806,7 +858,7 @@ export class LoomiCalendar extends LoomiElement {
   private getViewSelectOptions() {
     return VIEW_OPTIONS.map((option) => ({
       value: option.id,
-      label: this.t(`calendar.views.${option.id}`)
+      label: this.t(`calendar.views.${option.id}`),
     }));
   }
 
@@ -854,7 +906,9 @@ export class LoomiCalendar extends LoomiElement {
     const weekdays = this.getVisibleWeekdayLabels();
     const weeks = this.getVisibleMonthWeeks(this.date);
     const cells = getMonthGridDays(this.date, this.weekStarts);
-    const isOtherMonthMap = new Map(cells.map((cell) => [cell.date.toDateString(), cell.isOtherMonth]));
+    const isOtherMonthMap = new Map(
+      cells.map((cell) => [cell.date.toDateString(), cell.isOtherMonth]),
+    );
 
     return html`
       <div class="month-view">
@@ -867,11 +921,15 @@ export class LoomiCalendar extends LoomiElement {
             const laneCount = spanning.reduce((max, entry) => Math.max(max, entry.lane + 1), 0);
             return html`
               <section class="month-week">
-                ${laneCount > 0 ? html`
+                ${
+                  laneCount > 0
+                    ? html`
                   <div class="month-week-lanes" style=${`--lane-count: ${laneCount}; --day-count: ${weekDays.length}`}>
                     ${spanning.map((entry) => this.renderSpanningEvent(entry, weekDays.length))}
                   </div>
-                ` : nothing}
+                `
+                    : nothing
+                }
                 <div class="month-grid month-week-days" style=${`grid-template-columns: repeat(${weekDays.length}, minmax(0, 1fr))`}>
                   ${weekDays.map((date) => this.renderMonthCell(date, isOtherMonthMap.get(date.toDateString()) ?? false))}
                 </div>
@@ -889,7 +947,7 @@ export class LoomiCalendar extends LoomiElement {
     const today = isToday(date);
     const visibleItems = [
       ...dayEvents.map((event) => ({ kind: "event" as const, event })),
-      ...dayReminders.map((reminder) => ({ kind: "reminder" as const, reminder }))
+      ...dayReminders.map((reminder) => ({ kind: "reminder" as const, reminder })),
     ];
     const hiddenCount = Math.max(0, visibleItems.length - 3);
 
@@ -907,11 +965,16 @@ export class LoomiCalendar extends LoomiElement {
           }}
           aria-label=${loomiDateFormatter(this.resolvedLocale, { dateStyle: "full" }).format(date)}
         >${date.getDate()}</button>
-        ${visibleItems.slice(0, 3).map((item) =>
-          item.kind === "event" ? this.renderEventPill(item.event) : this.renderReminderPill(item.reminder)
-        )}
-        ${hiddenCount > 0
-          ? html`
+        ${visibleItems
+          .slice(0, 3)
+          .map((item) =>
+            item.kind === "event"
+              ? this.renderEventPill(item.event)
+              : this.renderReminderPill(item.reminder),
+          )}
+        ${
+          hiddenCount > 0
+            ? html`
             <button
               class="event-pill more"
               @click=${(event: Event) => {
@@ -920,7 +983,8 @@ export class LoomiCalendar extends LoomiElement {
               }}
             >+${hiddenCount} more</button>
           `
-          : nothing}
+            : nothing
+        }
       </div>
     `;
   }
@@ -928,8 +992,8 @@ export class LoomiCalendar extends LoomiElement {
   private renderSpanningEvent(entry: SpanningEventLayout, dayCount: number) {
     const { event, startIndex, endIndex, lane } = entry;
     const preview = this.getSpanningDragPreview(event, dayCount);
-    const left = preview?.left ?? ((startIndex / dayCount) * 100);
-    const width = preview?.width ?? (((endIndex - startIndex + 1) / dayCount) * 100);
+    const left = preview?.left ?? (startIndex / dayCount) * 100;
+    const width = preview?.width ?? ((endIndex - startIndex + 1) / dayCount) * 100;
     const draggable = canDragEvent(event, this.editable);
     const dragging = this._dragState?.eventId === event.id;
 
@@ -943,18 +1007,23 @@ export class LoomiCalendar extends LoomiElement {
         @pointerdown=${(pointerEvent: PointerEvent) => this.handleSpanningPointerDown(pointerEvent, event, entry)}
       >
         ${event.title}
-        ${draggable ? html`
+        ${
+          draggable
+            ? html`
           <span class="resize-handle resize-start" @pointerdown=${(pointerEvent: PointerEvent) => this.handleSpanningResizePointerDown(pointerEvent, event, entry, "resize-start")}></span>
           <span class="resize-handle resize-end" @pointerdown=${(pointerEvent: PointerEvent) => this.handleSpanningResizePointerDown(pointerEvent, event, entry, "resize-end")}></span>
-        ` : nothing}
+        `
+            : nothing
+        }
       </button>
     `;
   }
 
   private renderTimeView() {
-    const days = this.view === "day"
-      ? [startOfDay(this.date)]
-      : getVisibleWeekDays(this.date, this.weekStarts, this.showWeekends);
+    const days =
+      this.view === "day"
+        ? [startOfDay(this.date)]
+        : getVisibleWeekDays(this.date, this.weekStarts, this.showWeekends);
     const hourCount = this.endHour - this.startHour;
 
     return html`
@@ -967,7 +1036,9 @@ export class LoomiCalendar extends LoomiElement {
             <div class="weekday"></div>
             ${days.map((day) => {
               const weekdayIndex = (day.getDay() - (this.weekStarts === "monday" ? 1 : 0) + 7) % 7;
-              const weekdayLabel = loomiWeekdayNames(this.resolvedLocale, this.weekStarts)[weekdayIndex];
+              const weekdayLabel = loomiWeekdayNames(this.resolvedLocale, this.weekStarts)[
+                weekdayIndex
+              ];
               return html`
               <button
                 type="button"
@@ -1003,7 +1074,10 @@ export class LoomiCalendar extends LoomiElement {
 
   private renderAllDayRow(days: Date[]) {
     const spanning = layoutSpanningEvents(days, this.events);
-    const laneCount = Math.max(1, spanning.reduce((max, entry) => Math.max(max, entry.lane + 1), 0));
+    const laneCount = Math.max(
+      1,
+      spanning.reduce((max, entry) => Math.max(max, entry.lane + 1), 0),
+    );
 
     return html`
       <div
@@ -1067,12 +1141,18 @@ export class LoomiCalendar extends LoomiElement {
       return null;
     }
 
-    const { start, end } = this.normalizeSlotRange(this._slotDragState.start, this._slotDragState.end);
+    const { start, end } = this.normalizeSlotRange(
+      this._slotDragState.start,
+      this._slotDragState.end,
+    );
     const startMinutes = Math.max(0, minutesFromDayStart(start, this.startHour));
-    const endMinutes = Math.max(startMinutes + this.slotMinutes, minutesFromDayStart(end, this.startHour));
+    const endMinutes = Math.max(
+      startMinutes + this.slotMinutes,
+      minutesFromDayStart(end, this.startHour),
+    );
     return {
       top: (startMinutes / 60) * HOUR_HEIGHT,
-      height: Math.max(22, ((endMinutes - startMinutes) / 60) * HOUR_HEIGHT)
+      height: Math.max(22, ((endMinutes - startMinutes) / 60) * HOUR_HEIGHT),
     };
   }
 
@@ -1089,7 +1169,9 @@ export class LoomiCalendar extends LoomiElement {
     visibleStart.setHours(this.startHour, 0, 0, 0);
     const visibleEnd = new Date(dayStart);
     visibleEnd.setHours(this.endHour, 0, 0, 0);
-    return dayReminders.filter((reminder) => reminder.due >= visibleStart && reminder.due < visibleEnd);
+    return dayReminders.filter(
+      (reminder) => reminder.due >= visibleStart && reminder.due < visibleEnd,
+    );
   }
 
   private renderAgendaView() {
@@ -1104,12 +1186,14 @@ export class LoomiCalendar extends LoomiElement {
     return html`
       <div class="agenda-view">
         <div class="agenda-list">
-          ${groups.map((group) => html`
+          ${groups.map(
+            (group) => html`
             <section class="agenda-day">
               <div class="agenda-day-header">
                 ${loomiDateFormatter(this.resolvedLocale, { weekday: "long", month: "long", day: "numeric", year: "numeric" }).format(group.date)}
               </div>
-              ${group.events.map((event) => html`
+              ${group.events.map(
+                (event) => html`
                 <button
                   class="agenda-item event-${event.color || "primary"} ${this.isEventSelected(event) ? "selected" : ""}"
                   @click=${(clickEvent: Event) => this.handleEventClick(clickEvent, event)}
@@ -1120,17 +1204,23 @@ export class LoomiCalendar extends LoomiElement {
                   <div>
                     <div class="agenda-title">${event.title}</div>
                     ${event.description ? html`<div class="agenda-description">${event.description}</div>` : nothing}
-                    ${event.recurrence?.label
-                      ? html`<div class="agenda-meta">${event.recurrence.label}</div>`
-                      : nothing}
-                    ${event.resourceId
-                      ? html`<div class="agenda-meta">${this.getResourceLabel(event.resourceId)}</div>`
-                      : nothing}
+                    ${
+                      event.recurrence?.label
+                        ? html`<div class="agenda-meta">${event.recurrence.label}</div>`
+                        : nothing
+                    }
+                    ${
+                      event.resourceId
+                        ? html`<div class="agenda-meta">${this.getResourceLabel(event.resourceId)}</div>`
+                        : nothing
+                    }
                   </div>
                 </button>
-              `)}
+              `,
+              )}
             </section>
-          `)}
+          `,
+          )}
         </div>
       </div>
     `;
@@ -1163,7 +1253,13 @@ export class LoomiCalendar extends LoomiElement {
   }
 
   private renderResourceRow(resource: CalendarResource, day: Date, hourCount: number) {
-    const positioned = layoutResourceDayEvents(this.events, resource.id, day, this.startHour, this.endHour);
+    const positioned = layoutResourceDayEvents(
+      this.events,
+      resource.id,
+      day,
+      this.startHour,
+      this.endHour,
+    );
 
     return html`
       <div class="resource-row">
@@ -1177,7 +1273,8 @@ export class LoomiCalendar extends LoomiElement {
           <div class="resource-track">
             ${Array.from({ length: hourCount }, () => html`<div class="resource-slot"></div>`)}
           </div>
-          ${positioned.map(({ event, left, width }) => html`
+          ${positioned.map(
+            ({ event, left, width }) => html`
             <button
               class="timed-event event-${event.color || resource.color || "primary"} ${canDragEvent(event, this.editable) ? "draggable" : ""} ${this.isEventSelected(event) ? "selected" : ""}"
               style=${`left: ${left}%; width: ${width}%; top: 8px; height: calc(100% - 16px);`}
@@ -1189,7 +1286,8 @@ export class LoomiCalendar extends LoomiElement {
               <div class="timed-event-title">${event.title}</div>
               <div class="timed-event-meta">${formatEventRange(event, this.resolvedLocale, this.displayTimezone)}</div>
             </button>
-          `)}
+          `,
+          )}
         </div>
       </div>
     `;
@@ -1243,7 +1341,7 @@ export class LoomiCalendar extends LoomiElement {
     top: number,
     height: number,
     left: number,
-    width: number
+    width: number,
   ) {
     const preview = this.getDragPreview(event, visibleDays.length);
     const displayTop = preview?.top ?? top;
@@ -1262,22 +1360,28 @@ export class LoomiCalendar extends LoomiElement {
         @pointerdown=${(pointerEvent: PointerEvent) => this.handleEventPointerDown(pointerEvent, event, day, visibleDays)}
       >
         <div class="timed-event-title">${event.title}</div>
-        ${displayHeight >= 40
-          ? html`<div class="timed-event-meta">${formatEventRange(event, this.resolvedLocale, this.displayTimezone)}</div>`
-          : nothing}
-        ${event.reminder?.label && displayHeight >= 56
-          ? html`<div class="timed-event-meta">${event.reminder.label}</div>`
-          : nothing}
-        ${event.recurrence?.label && displayHeight >= 56
-          ? html`<div class="timed-event-meta">${event.recurrence.label}</div>`
-          : nothing}
+        ${
+          displayHeight >= 40
+            ? html`<div class="timed-event-meta">${formatEventRange(event, this.resolvedLocale, this.displayTimezone)}</div>`
+            : nothing
+        }
+        ${
+          event.reminder?.label && displayHeight >= 56
+            ? html`<div class="timed-event-meta">${event.reminder.label}</div>`
+            : nothing
+        }
+        ${
+          event.recurrence?.label && displayHeight >= 56
+            ? html`<div class="timed-event-meta">${event.recurrence.label}</div>`
+            : nothing
+        }
         ${draggable ? html`<span class="resize-handle resize-bottom" @pointerdown=${(pointerEvent: PointerEvent) => this.handleResizePointerDown(pointerEvent, event, day, visibleDays)}></span>` : nothing}
       </button>
     `;
   }
 
   private renderTimedReminder(reminder: CalendarReminder) {
-    const top = Math.max(0, minutesFromDayStart(reminder.due, this.startHour) / 60 * HOUR_HEIGHT);
+    const top = Math.max(0, (minutesFromDayStart(reminder.due, this.startHour) / 60) * HOUR_HEIGHT);
     return html`
       <div
         class="timed-event reminder-event event-${reminder.color || "warning"} ${reminder.done ? "done" : ""} ${this.isReminderSelected(reminder) ? "selected" : ""}"
@@ -1301,7 +1405,10 @@ export class LoomiCalendar extends LoomiElement {
     `;
   }
 
-  private getSpanningDragPreview(event: CalendarEvent, dayCount: number): { left: number; width: number } | null {
+  private getSpanningDragPreview(
+    event: CalendarEvent,
+    dayCount: number,
+  ): { left: number; width: number } | null {
     if (!this._dragState || this._dragState.eventId !== event.id || !this._dragState.spanning) {
       return null;
     }
@@ -1309,80 +1416,120 @@ export class LoomiCalendar extends LoomiElement {
     const dayOffset = Math.round(this._dragState.currentDeltaX / this._dragState.columnWidth);
     const originalStartDay = startOfDay(this._dragState.originalStart);
     const originalEndDay = startOfDay(this._dragState.originalEnd);
-    const durationDays = Math.max(0, Math.round((originalEndDay.getTime() - originalStartDay.getTime()) / 86400000));
+    const durationDays = Math.max(
+      0,
+      Math.round((originalEndDay.getTime() - originalStartDay.getTime()) / 86400000),
+    );
 
     if (this._dragState.mode === "move") {
       const nextStart = addDays(originalStartDay, dayOffset);
       const nextEnd = addDays(nextStart, durationDays);
-      const startIndex = Math.max(0, this._dragState.visibleDays.findIndex((day) => isSameDay(day, nextStart)));
-      const endIndex = Math.max(startIndex, this._dragState.visibleDays.findIndex((day) => isSameDay(day, nextEnd)));
+      const startIndex = Math.max(
+        0,
+        this._dragState.visibleDays.findIndex((day) => isSameDay(day, nextStart)),
+      );
+      const endIndex = Math.max(
+        startIndex,
+        this._dragState.visibleDays.findIndex((day) => isSameDay(day, nextEnd)),
+      );
       if (startIndex === -1) {
         return null;
       }
       const resolvedEnd = endIndex === -1 ? dayCount - 1 : endIndex;
       return {
         left: (startIndex / dayCount) * 100,
-        width: ((resolvedEnd - startIndex + 1) / dayCount) * 100
+        width: ((resolvedEnd - startIndex + 1) / dayCount) * 100,
       };
     }
 
     if (this._dragState.mode === "resize-start") {
       const nextStart = addDays(originalStartDay, dayOffset);
-      const endIndex = this._dragState.visibleDays.findIndex((day) => isSameDay(day, originalEndDay));
+      const endIndex = this._dragState.visibleDays.findIndex((day) =>
+        isSameDay(day, originalEndDay),
+      );
       const startIndex = this._dragState.visibleDays.findIndex((day) => isSameDay(day, nextStart));
       if (startIndex === -1 || endIndex === -1 || startIndex > endIndex) {
         return null;
       }
       return {
         left: (startIndex / dayCount) * 100,
-        width: ((endIndex - startIndex + 1) / dayCount) * 100
+        width: ((endIndex - startIndex + 1) / dayCount) * 100,
       };
     }
 
     const nextEnd = addDays(originalEndDay, dayOffset);
-    const startIndex = this._dragState.visibleDays.findIndex((day) => isSameDay(day, originalStartDay));
+    const startIndex = this._dragState.visibleDays.findIndex((day) =>
+      isSameDay(day, originalStartDay),
+    );
     const endIndex = this._dragState.visibleDays.findIndex((day) => isSameDay(day, nextEnd));
     if (startIndex === -1 || endIndex === -1 || endIndex < startIndex) {
       return null;
     }
     return {
       left: (startIndex / dayCount) * 100,
-      width: ((endIndex - startIndex + 1) / dayCount) * 100
+      width: ((endIndex - startIndex + 1) / dayCount) * 100,
     };
   }
 
-  private getDragPreview(event: CalendarEvent, dayCount: number): { top: number; height: number; transform?: string } | null {
+  private getDragPreview(
+    event: CalendarEvent,
+    dayCount: number,
+  ): { top: number; height: number; transform?: string } | null {
     if (!this._dragState || this._dragState.eventId !== event.id || this._dragState.spanning) {
       return null;
     }
 
-    const deltaMinutes = Math.round(((this._dragState.currentDeltaY / HOUR_HEIGHT) * 60) / this.slotMinutes) * this.slotMinutes;
-    const dayOffset = dayCount > 1 ? Math.round(this._dragState.currentDeltaX / this._dragState.columnWidth) : 0;
+    const deltaMinutes =
+      Math.round(((this._dragState.currentDeltaY / HOUR_HEIGHT) * 60) / this.slotMinutes) *
+      this.slotMinutes;
+    const dayOffset =
+      dayCount > 1 ? Math.round(this._dragState.currentDeltaX / this._dragState.columnWidth) : 0;
 
     if (this._dragState.mode === "resize") {
       const nextEnd = addMinutes(this._dragState.originalEnd, deltaMinutes);
-      const startMinutes = Math.max(0, (this._dragState.originalStart.getHours() - this.startHour) * 60 + this._dragState.originalStart.getMinutes());
-      const endMinutes = Math.max(startMinutes + this.slotMinutes, (nextEnd.getHours() - this.startHour) * 60 + nextEnd.getMinutes());
+      const startMinutes = Math.max(
+        0,
+        (this._dragState.originalStart.getHours() - this.startHour) * 60 +
+          this._dragState.originalStart.getMinutes(),
+      );
+      const endMinutes = Math.max(
+        startMinutes + this.slotMinutes,
+        (nextEnd.getHours() - this.startHour) * 60 + nextEnd.getMinutes(),
+      );
       return {
         top: (startMinutes / 60) * HOUR_HEIGHT,
         height: Math.max(22, ((endMinutes - startMinutes) / 60) * HOUR_HEIGHT),
-        transform: dayOffset ? `translateX(${dayOffset * this._dragState.columnWidth}px)` : undefined
+        transform: dayOffset
+          ? `translateX(${dayOffset * this._dragState.columnWidth}px)`
+          : undefined,
       };
     }
 
     const nextStart = addMinutes(this._dragState.originalStart, deltaMinutes);
-    const durationMs = this._dragState.originalEnd.getTime() - this._dragState.originalStart.getTime();
+    const durationMs =
+      this._dragState.originalEnd.getTime() - this._dragState.originalStart.getTime();
     const nextEnd = new Date(nextStart.getTime() + durationMs);
-    const startMinutes = Math.max(0, (nextStart.getHours() - this.startHour) * 60 + nextStart.getMinutes());
-    const endMinutes = Math.max(startMinutes + this.slotMinutes, (nextEnd.getHours() - this.startHour) * 60 + nextEnd.getMinutes());
+    const startMinutes = Math.max(
+      0,
+      (nextStart.getHours() - this.startHour) * 60 + nextStart.getMinutes(),
+    );
+    const endMinutes = Math.max(
+      startMinutes + this.slotMinutes,
+      (nextEnd.getHours() - this.startHour) * 60 + nextEnd.getMinutes(),
+    );
     return {
       top: (startMinutes / 60) * HOUR_HEIGHT,
       height: Math.max(22, ((endMinutes - startMinutes) / 60) * HOUR_HEIGHT),
-      transform: dayOffset ? `translateX(${dayOffset * this._dragState.columnWidth}px)` : undefined
+      transform: dayOffset ? `translateX(${dayOffset * this._dragState.columnWidth}px)` : undefined,
     };
   }
 
-  private handleEventPointerDown(pointerEvent: PointerEvent, event: CalendarEvent, day: Date, visibleDays: Date[]) {
+  private handleEventPointerDown(
+    pointerEvent: PointerEvent,
+    event: CalendarEvent,
+    day: Date,
+    visibleDays: Date[],
+  ) {
     if (!canDragEvent(event, this.editable)) {
       return;
     }
@@ -1406,14 +1553,18 @@ export class LoomiCalendar extends LoomiElement {
       day,
       resourceId: event.resourceId,
       visibleDays,
-      columnWidth
+      columnWidth,
     };
 
     this.attachPointerListeners();
     grid.setPointerCapture(pointerEvent.pointerId);
   }
 
-  private handleSpanningPointerDown(pointerEvent: PointerEvent, event: CalendarEvent, _entry: SpanningEventLayout) {
+  private handleSpanningPointerDown(
+    pointerEvent: PointerEvent,
+    event: CalendarEvent,
+    _entry: SpanningEventLayout,
+  ) {
     if (!canDragEvent(event, this.editable)) {
       return;
     }
@@ -1421,9 +1572,12 @@ export class LoomiCalendar extends LoomiElement {
     pointerEvent.stopPropagation();
     const track = pointerEvent.currentTarget as HTMLElement;
     const container = track.closest(".all-day-track, .month-week-lanes") as HTMLElement | null;
-    const visibleDays = this.view === "month"
-      ? this.getVisibleMonthWeeks(this.date).find((week) => week.some((day) => isSameDay(day, startOfDay(event.start)))) ?? [startOfDay(event.start)]
-      : getVisibleWeekDays(this.date, this.weekStarts, this.showWeekends);
+    const visibleDays =
+      this.view === "month"
+        ? (this.getVisibleMonthWeeks(this.date).find((week) =>
+            week.some((day) => isSameDay(day, startOfDay(event.start))),
+          ) ?? [startOfDay(event.start)])
+        : getVisibleWeekDays(this.date, this.weekStarts, this.showWeekends);
     const columnWidth = container ? container.clientWidth / visibleDays.length : 1;
 
     this._dragState = {
@@ -1440,7 +1594,7 @@ export class LoomiCalendar extends LoomiElement {
       day: startOfDay(event.start),
       visibleDays,
       columnWidth,
-      spanning: true
+      spanning: true,
     };
 
     this.attachPointerListeners();
@@ -1451,7 +1605,7 @@ export class LoomiCalendar extends LoomiElement {
     pointerEvent: PointerEvent,
     event: CalendarEvent,
     _entry: SpanningEventLayout,
-    mode: "resize-start" | "resize-end"
+    mode: "resize-start" | "resize-end",
   ) {
     if (!canDragEvent(event, this.editable)) {
       return;
@@ -1460,9 +1614,12 @@ export class LoomiCalendar extends LoomiElement {
     pointerEvent.stopPropagation();
     const handle = pointerEvent.currentTarget as HTMLElement;
     const container = handle.closest(".all-day-track, .month-week-lanes") as HTMLElement | null;
-    const visibleDays = this.view === "month"
-      ? this.getVisibleMonthWeeks(this.date).find((week) => week.some((day) => isSameDay(day, startOfDay(event.start)))) ?? [startOfDay(event.start)]
-      : getVisibleWeekDays(this.date, this.weekStarts, this.showWeekends);
+    const visibleDays =
+      this.view === "month"
+        ? (this.getVisibleMonthWeeks(this.date).find((week) =>
+            week.some((day) => isSameDay(day, startOfDay(event.start))),
+          ) ?? [startOfDay(event.start)])
+        : getVisibleWeekDays(this.date, this.weekStarts, this.showWeekends);
     const columnWidth = container ? container.clientWidth / visibleDays.length : 1;
 
     this._dragState = {
@@ -1479,14 +1636,19 @@ export class LoomiCalendar extends LoomiElement {
       day: startOfDay(event.start),
       visibleDays,
       columnWidth,
-      spanning: true
+      spanning: true,
     };
 
     this.attachPointerListeners();
     handle.setPointerCapture(pointerEvent.pointerId);
   }
 
-  private handleResizePointerDown(pointerEvent: PointerEvent, event: CalendarEvent, day: Date, visibleDays: Date[]) {
+  private handleResizePointerDown(
+    pointerEvent: PointerEvent,
+    event: CalendarEvent,
+    day: Date,
+    visibleDays: Date[],
+  ) {
     if (!canDragEvent(event, this.editable)) {
       return;
     }
@@ -1509,7 +1671,7 @@ export class LoomiCalendar extends LoomiElement {
       originalResourceId: event.resourceId,
       day,
       visibleDays,
-      columnWidth
+      columnWidth,
     };
 
     this.attachPointerListeners();
@@ -1525,11 +1687,11 @@ export class LoomiCalendar extends LoomiElement {
         offsetY,
         this.startHour,
         HOUR_HEIGHT,
-        this.slotMinutes
+        this.slotMinutes,
       );
       this._slotDragState = {
         ...this._slotDragState,
-        end
+        end,
       };
       this.requestUpdate();
       return;
@@ -1542,14 +1704,17 @@ export class LoomiCalendar extends LoomiElement {
     this._dragState = {
       ...this._dragState,
       currentDeltaX: pointerEvent.clientX - this._dragState.startPointerX,
-      currentDeltaY: pointerEvent.clientY - this._dragState.startPointerY
+      currentDeltaY: pointerEvent.clientY - this._dragState.startPointerY,
     };
     this.requestUpdate();
   }
 
   private handlePointerUp(pointerEvent: PointerEvent) {
     if (this._slotDragState && pointerEvent.pointerId === this._slotDragState.pointerId) {
-      const { start, end } = this.normalizeSlotRange(this._slotDragState.start, this._slotDragState.end);
+      const { start, end } = this.normalizeSlotRange(
+        this._slotDragState.start,
+        this._slotDragState.end,
+      );
       const nextStart = start;
       let nextEnd = end;
       if (nextEnd.getTime() - nextStart.getTime() < this.slotMinutes * 60 * 1000) {
@@ -1575,13 +1740,26 @@ export class LoomiCalendar extends LoomiElement {
         const dayOffset = Math.round(this._dragState.currentDeltaX / this._dragState.columnWidth);
         const originalStartDay = startOfDay(this._dragState.originalStart);
         const originalEndDay = startOfDay(this._dragState.originalEnd);
-        const durationDays = Math.max(0, Math.round((originalEndDay.getTime() - originalStartDay.getTime()) / 86400000));
+        const durationDays = Math.max(
+          0,
+          Math.round((originalEndDay.getTime() - originalStartDay.getTime()) / 86400000),
+        );
 
         if (this._dragState.mode === "move") {
           nextStart = startOfDay(addDays(originalStartDay, dayOffset));
-          nextStart.setHours(this._dragState.originalStart.getHours(), this._dragState.originalStart.getMinutes(), 0, 0);
+          nextStart.setHours(
+            this._dragState.originalStart.getHours(),
+            this._dragState.originalStart.getMinutes(),
+            0,
+            0,
+          );
           nextEnd = startOfDay(addDays(originalStartDay, dayOffset + durationDays));
-          nextEnd.setHours(this._dragState.originalEnd.getHours(), this._dragState.originalEnd.getMinutes(), 0, 0);
+          nextEnd.setHours(
+            this._dragState.originalEnd.getHours(),
+            this._dragState.originalEnd.getMinutes(),
+            0,
+            0,
+          );
           if (event.isAllDay) {
             nextStart = startOfDay(nextStart);
             nextEnd = endOfDay(nextEnd);
@@ -1589,25 +1767,37 @@ export class LoomiCalendar extends LoomiElement {
         } else if (this._dragState.mode === "resize-start") {
           const resizedStart = startOfDay(addDays(originalStartDay, dayOffset));
           if (resizedStart.getTime() <= originalEndDay.getTime()) {
-            nextStart = event.isAllDay ? startOfDay(resizedStart) : addDays(this._dragState.originalStart, dayOffset);
+            nextStart = event.isAllDay
+              ? startOfDay(resizedStart)
+              : addDays(this._dragState.originalStart, dayOffset);
           }
         } else if (this._dragState.mode === "resize-end") {
           const resizedEnd = startOfDay(addDays(originalEndDay, dayOffset));
           if (resizedEnd.getTime() >= originalStartDay.getTime()) {
-            nextEnd = event.isAllDay ? endOfDay(resizedEnd) : addDays(this._dragState.originalEnd, dayOffset);
+            nextEnd = event.isAllDay
+              ? endOfDay(resizedEnd)
+              : addDays(this._dragState.originalEnd, dayOffset);
           }
         }
       } else if (this._dragState.resourceId) {
-        const deltaMinutes = Math.round((this._dragState.currentDeltaX / this._dragState.columnWidth) / this.slotMinutes) * this.slotMinutes;
-        const durationMs = this._dragState.originalEnd.getTime() - this._dragState.originalStart.getTime();
+        const deltaMinutes =
+          Math.round(
+            this._dragState.currentDeltaX / this._dragState.columnWidth / this.slotMinutes,
+          ) * this.slotMinutes;
+        const durationMs =
+          this._dragState.originalEnd.getTime() - this._dragState.originalStart.getTime();
         nextStart = addMinutes(this._dragState.originalStart, deltaMinutes);
         nextEnd = new Date(nextStart.getTime() + durationMs);
       } else {
-        const deltaMinutes = Math.round(((this._dragState.currentDeltaY / HOUR_HEIGHT) * 60) / this.slotMinutes) * this.slotMinutes;
-        const dayOffset = this._dragState.visibleDays.length > 1
-          ? Math.round(this._dragState.currentDeltaX / this._dragState.columnWidth)
-          : 0;
-        const durationMs = this._dragState.originalEnd.getTime() - this._dragState.originalStart.getTime();
+        const deltaMinutes =
+          Math.round(((this._dragState.currentDeltaY / HOUR_HEIGHT) * 60) / this.slotMinutes) *
+          this.slotMinutes;
+        const dayOffset =
+          this._dragState.visibleDays.length > 1
+            ? Math.round(this._dragState.currentDeltaX / this._dragState.columnWidth)
+            : 0;
+        const durationMs =
+          this._dragState.originalEnd.getTime() - this._dragState.originalStart.getTime();
 
         if (this._dragState.mode === "move") {
           nextStart = addMinutes(addDays(this._dragState.originalStart, dayOffset), deltaMinutes);
@@ -1620,24 +1810,27 @@ export class LoomiCalendar extends LoomiElement {
         }
       }
 
-      const changed = nextStart.getTime() !== event.start.getTime() || nextEnd.getTime() !== event.end.getTime();
+      const changed =
+        nextStart.getTime() !== event.start.getTime() || nextEnd.getTime() !== event.end.getTime();
       if (changed) {
         const updated: CalendarEvent = {
           ...event,
           start: nextStart,
           end: nextEnd,
-          resourceId: this._dragState.resourceId ?? event.resourceId
+          resourceId: this._dragState.resourceId ?? event.resourceId,
         };
-        this.dispatchEvent(new CustomEvent<CalendarEventChangeDetail>("loomi-event-change", {
-          detail: {
-            event: updated,
-            previousStart: this._dragState.originalStart,
-            previousEnd: this._dragState.originalEnd,
-            previousResourceId: this._dragState.originalResourceId
-          },
-          bubbles: true,
-          composed: true
-        }));
+        this.dispatchEvent(
+          new CustomEvent<CalendarEventChangeDetail>("loomi-event-change", {
+            detail: {
+              event: updated,
+              previousStart: this._dragState.originalStart,
+              previousEnd: this._dragState.originalEnd,
+              previousResourceId: this._dragState.originalResourceId,
+            },
+            bubbles: true,
+            composed: true,
+          }),
+        );
       }
     }
 
@@ -1657,7 +1850,10 @@ export class LoomiCalendar extends LoomiElement {
   }
 
   private handleTimeSlotsPointerDown(pointerEvent: PointerEvent) {
-    if (pointerEvent.button === 0 && !(pointerEvent.target as HTMLElement).closest(".timed-event, .resize-handle")) {
+    if (
+      pointerEvent.button === 0 &&
+      !(pointerEvent.target as HTMLElement).closest(".timed-event, .resize-handle")
+    ) {
       this.clearSelection();
     }
   }
@@ -1672,7 +1868,13 @@ export class LoomiCalendar extends LoomiElement {
 
     const container = event.currentTarget as HTMLElement;
     const rect = container.getBoundingClientRect();
-    const start = dateFromGridPosition(day, event.clientY - rect.top, this.startHour, HOUR_HEIGHT, this.slotMinutes);
+    const start = dateFromGridPosition(
+      day,
+      event.clientY - rect.top,
+      this.startHour,
+      HOUR_HEIGHT,
+      this.slotMinutes,
+    );
     this.openCreateEventModal(start, addMinutes(start, this.slotMinutes), false);
   }
 
@@ -1724,29 +1926,40 @@ export class LoomiCalendar extends LoomiElement {
 
     const track = event.currentTarget as HTMLElement;
     const rect = track.getBoundingClientRect();
-    const start = dateFromResourcePosition(day, event.clientX - rect.left, rect.width, this.startHour, this.endHour, this.slotMinutes);
+    const start = dateFromResourcePosition(
+      day,
+      event.clientX - rect.left,
+      rect.width,
+      this.startHour,
+      this.endHour,
+      this.slotMinutes,
+    );
     const end = addMinutes(start, this.slotMinutes);
     this.openCreateEventModal(start, end, false);
     this.dispatchSlotSelect({ start, end, resourceId, allDay: false });
   }
 
   private dispatchSlotSelect(detail: CalendarSlotSelectDetail) {
-    this.dispatchEvent(new CustomEvent<CalendarSlotSelectDetail>("loomi-slot-select", {
-      detail,
-      bubbles: true,
-      composed: true
-    }));
+    this.dispatchEvent(
+      new CustomEvent<CalendarSlotSelectDetail>("loomi-slot-select", {
+        detail,
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   private handleEventClick(event: Event, calendarEvent: CalendarEvent) {
     event.stopPropagation();
     this.selectedEventId = calendarEvent.id;
     this.selectedReminderId = "";
-    this.dispatchEvent(new CustomEvent<CalendarEventClickDetail>("loomi-event-click", {
-      detail: { event: calendarEvent },
-      bubbles: true,
-      composed: true
-    }));
+    this.dispatchEvent(
+      new CustomEvent<CalendarEventClickDetail>("loomi-event-click", {
+        detail: { event: calendarEvent },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   private handleEventDoubleClick(event: Event, calendarEvent: CalendarEvent) {
@@ -1771,7 +1984,9 @@ export class LoomiCalendar extends LoomiElement {
     this._contextTarget = { kind: "event", event: calendarEvent };
     void this.updateComplete.then(() => {
       this.renderRoot
-        .querySelector<HTMLElement & { showAt(clientX: number, clientY: number): void }>("#calendar-context-menu")
+        .querySelector<HTMLElement & { showAt(clientX: number, clientY: number): void }>(
+          "#calendar-context-menu",
+        )
         ?.showAt(event.clientX, event.clientY);
     });
   }
@@ -1831,11 +2046,13 @@ export class LoomiCalendar extends LoomiElement {
     event.stopPropagation();
     this.selectedReminderId = reminder.id;
     this.selectedEventId = "";
-    this.dispatchEvent(new CustomEvent<CalendarReminderClickDetail>("loomi-reminder-click", {
-      detail: { reminder },
-      bubbles: true,
-      composed: true
-    }));
+    this.dispatchEvent(
+      new CustomEvent<CalendarReminderClickDetail>("loomi-reminder-click", {
+        detail: { reminder },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   private handleReminderDoubleClick(event: Event, reminder: CalendarReminder) {
@@ -1860,7 +2077,9 @@ export class LoomiCalendar extends LoomiElement {
     this._contextTarget = { kind: "reminder", reminder };
     void this.updateComplete.then(() => {
       this.renderRoot
-        .querySelector<HTMLElement & { showAt(clientX: number, clientY: number): void }>("#calendar-context-menu")
+        .querySelector<HTMLElement & { showAt(clientX: number, clientY: number): void }>(
+          "#calendar-context-menu",
+        )
         ?.showAt(event.clientX, event.clientY);
     });
   }
@@ -1913,7 +2132,9 @@ export class LoomiCalendar extends LoomiElement {
         this.goToToday();
         break;
       default: {
-        const shortcut = VIEW_OPTIONS.find((option) => option.shortcut.toLowerCase() === event.key.toLowerCase());
+        const shortcut = VIEW_OPTIONS.find(
+          (option) => option.shortcut.toLowerCase() === event.key.toLowerCase(),
+        );
         if (shortcut) {
           event.preventDefault();
           this.changeView(shortcut.id);
@@ -1944,11 +2165,13 @@ export class LoomiCalendar extends LoomiElement {
     }
 
     this.view = view;
-    this.dispatchEvent(new CustomEvent<CalendarViewChangeDetail>("loomi-view-change", {
-      detail: { view },
-      bubbles: true,
-      composed: true
-    }));
+    this.dispatchEvent(
+      new CustomEvent<CalendarViewChangeDetail>("loomi-view-change", {
+        detail: { view },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   private goPrev() {
@@ -1982,14 +2205,21 @@ export class LoomiCalendar extends LoomiElement {
   private updateDate(date: Date) {
     this.date = date;
     this._miniCalendarDate = cloneDate(date);
-    this.dispatchEvent(new CustomEvent<CalendarDateChangeDetail>("loomi-date-change", {
-      detail: { date },
-      bubbles: true,
-      composed: true
-    }));
+    this.dispatchEvent(
+      new CustomEvent<CalendarDateChangeDetail>("loomi-date-change", {
+        detail: { date },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
-  private handleResourceEventPointerDown(pointerEvent: PointerEvent, event: CalendarEvent, day: Date, resourceId: string) {
+  private handleResourceEventPointerDown(
+    pointerEvent: PointerEvent,
+    event: CalendarEvent,
+    day: Date,
+    resourceId: string,
+  ) {
     if (!canDragEvent(event, this.editable)) {
       return;
     }
@@ -1997,7 +2227,9 @@ export class LoomiCalendar extends LoomiElement {
     pointerEvent.stopPropagation();
     const track = pointerEvent.currentTarget as HTMLElement;
     const timeline = track.closest(".resource-timeline") as HTMLElement | null;
-    const columnWidth = timeline ? timeline.clientWidth / Math.max(1, this.endHour - this.startHour) : 0;
+    const columnWidth = timeline
+      ? timeline.clientWidth / Math.max(1, this.endHour - this.startHour)
+      : 0;
 
     this._dragState = {
       eventId: event.id,
@@ -2013,7 +2245,7 @@ export class LoomiCalendar extends LoomiElement {
       day,
       resourceId,
       visibleDays: [day],
-      columnWidth
+      columnWidth,
     };
 
     this.attachPointerListeners();
@@ -2023,11 +2255,13 @@ export class LoomiCalendar extends LoomiElement {
   private toggleSidebar() {
     this.sidebarOpen = !this.sidebarOpen;
     this.persistSidebarPreference(this.sidebarOpen);
-    this.dispatchEvent(new CustomEvent<CalendarSidebarToggleDetail>("loomi-sidebar-toggle", {
-      detail: { open: this.sidebarOpen },
-      bubbles: true,
-      composed: true
-    }));
+    this.dispatchEvent(
+      new CustomEvent<CalendarSidebarToggleDetail>("loomi-sidebar-toggle", {
+        detail: { open: this.sidebarOpen },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   private readSidebarPreference(): boolean {
@@ -2072,7 +2306,7 @@ export class LoomiCalendar extends LoomiElement {
       resourceId: "",
       recurrenceFrequency: "",
       reminderMinutes: "",
-      invitees: ""
+      invitees: "",
     };
   }
 
@@ -2084,7 +2318,7 @@ export class LoomiCalendar extends LoomiElement {
       dueTime: formatTimepickerValue(defaultDue, this.getTimepickerFormat()),
       color: "warning",
       description: "",
-      done: false
+      done: false,
     };
   }
 
@@ -2103,8 +2337,9 @@ export class LoomiCalendar extends LoomiElement {
       description: event.description || "",
       resourceId: event.resourceId || "",
       recurrenceFrequency: event.recurrence?.frequency || "",
-      reminderMinutes: event.reminder?.minutesBefore != null ? String(event.reminder.minutesBefore) : "",
-      invitees: (event.invitees ?? []).map((invitee) => invitee.name).join(", ")
+      reminderMinutes:
+        event.reminder?.minutesBefore != null ? String(event.reminder.minutesBefore) : "",
+      invitees: (event.invitees ?? []).map((invitee) => invitee.name).join(", "),
     };
   }
 
@@ -2116,13 +2351,15 @@ export class LoomiCalendar extends LoomiElement {
       dueTime: formatTimepickerValue(reminder.due, this.getTimepickerFormat()),
       color: reminder.color || "warning",
       description: reminder.description || "",
-      done: Boolean(reminder.done)
+      done: Boolean(reminder.done),
     };
   }
 
   private getTimepickerFormat(): "12" | "24" {
     try {
-      const hour12 = new Intl.DateTimeFormat(this.resolvedLocale.replace("_", "-"), { hour: "numeric" }).resolvedOptions().hour12;
+      const hour12 = new Intl.DateTimeFormat(this.resolvedLocale.replace("_", "-"), {
+        hour: "numeric",
+      }).resolvedOptions().hour12;
       return hour12 === false ? "24" : "12";
     } catch {
       return "12";
@@ -2132,7 +2369,7 @@ export class LoomiCalendar extends LoomiElement {
   private getColorSelectOptions() {
     return EVENT_COLORS.map((color) => ({
       value: color,
-      label: this.t(`calendar.form.colors.${color}`)
+      label: this.t(`calendar.form.colors.${color}`),
     }));
   }
 
@@ -2141,8 +2378,8 @@ export class LoomiCalendar extends LoomiElement {
       { value: "", label: this.t("calendar.form.none") },
       ...this.resources.map((resource) => ({
         value: resource.id,
-        label: resource.label
-      }))
+        label: resource.label,
+      })),
     ];
   }
 
@@ -2152,7 +2389,7 @@ export class LoomiCalendar extends LoomiElement {
       { value: "daily", label: this.t("calendar.form.recurrenceOptions.daily") },
       { value: "weekly", label: this.t("calendar.form.recurrenceOptions.weekly") },
       { value: "monthly", label: this.t("calendar.form.recurrenceOptions.monthly") },
-      { value: "yearly", label: this.t("calendar.form.recurrenceOptions.yearly") }
+      { value: "yearly", label: this.t("calendar.form.recurrenceOptions.yearly") },
     ];
   }
 
@@ -2162,8 +2399,8 @@ export class LoomiCalendar extends LoomiElement {
       { value: "0", label: this.t("calendar.form.reminders.atTime") },
       ...REMINDER_MINUTES.filter((minutes) => minutes !== "0").map((minutes) => ({
         value: minutes,
-        label: this.getReminderOptionLabel(minutes)
-      }))
+        label: this.getReminderOptionLabel(minutes),
+      })),
     ];
   }
 
@@ -2236,7 +2473,8 @@ export class LoomiCalendar extends LoomiElement {
       const defaultStartTime = timeFormat === "24" ? "09:00" : "9:00AM";
       const defaultEndTime = timeFormat === "24" ? "10:00" : "10:00AM";
       const baseStart = combineDateAndTime(next.startDate, defaultStartTime) ?? new Date();
-      const baseEnd = combineDateAndTime(next.endDate, defaultEndTime) ?? addMinutes(baseStart, this.slotMinutes);
+      const baseEnd =
+        combineDateAndTime(next.endDate, defaultEndTime) ?? addMinutes(baseStart, this.slotMinutes);
       next.startTime = formatTimepickerValue(baseStart, timeFormat);
       next.endTime = formatTimepickerValue(baseEnd, timeFormat);
     }
@@ -2270,13 +2508,21 @@ export class LoomiCalendar extends LoomiElement {
   };
 
   private handleReminderDoneToggle = (event: Event) => {
-    this.updateReminderDraft("done", (event.currentTarget as { checked?: boolean }).checked ?? false);
+    this.updateReminderDraft(
+      "done",
+      (event.currentTarget as { checked?: boolean }).checked ?? false,
+    );
   };
 
   private getDefaultEventStart() {
     const next = cloneDate(this.date);
     const now = new Date();
-    next.setHours(now.getHours(), Math.ceil(now.getMinutes() / this.slotMinutes) * this.slotMinutes, 0, 0);
+    next.setHours(
+      now.getHours(),
+      Math.ceil(now.getMinutes() / this.slotMinutes) * this.slotMinutes,
+      0,
+      0,
+    );
     return next;
   }
 
@@ -2326,7 +2572,9 @@ export class LoomiCalendar extends LoomiElement {
       end = draft.allDay ? endOfDay(start) : addMinutes(start, this.slotMinutes);
     }
 
-    const baseEvent = draft.eventId ? this.events.find((entry) => entry.id === draft.eventId) : undefined;
+    const baseEvent = draft.eventId
+      ? this.events.find((entry) => entry.id === draft.eventId)
+      : undefined;
     const nextEvent: CalendarEvent = {
       ...(baseEvent ?? {}),
       id: draft.eventId || `evt_${Date.now()}`,
@@ -2340,13 +2588,13 @@ export class LoomiCalendar extends LoomiElement {
       recurrence: draft.recurrenceFrequency
         ? {
             frequency: draft.recurrenceFrequency,
-            label: this.getRecurrenceLabel(draft.recurrenceFrequency)
+            label: this.getRecurrenceLabel(draft.recurrenceFrequency),
           }
         : undefined,
       reminder: draft.reminderMinutes
         ? {
             minutesBefore: Number(draft.reminderMinutes),
-            label: this.getReminderLabel(draft.reminderMinutes)
+            label: this.getReminderLabel(draft.reminderMinutes),
           }
         : undefined,
       invitees: draft.invitees
@@ -2356,27 +2604,31 @@ export class LoomiCalendar extends LoomiElement {
         .map((name, index) => ({
           id: `inv_${Date.now()}_${index}`,
           name,
-          status: "awaiting" as const
-        }))
+          status: "awaiting" as const,
+        })),
     };
 
     if (draft.eventId && baseEvent) {
-      this.dispatchEvent(new CustomEvent<CalendarEventChangeDetail>("loomi-event-change", {
-        detail: {
-          event: nextEvent,
-          previousStart: baseEvent.start,
-          previousEnd: baseEvent.end,
-          previousResourceId: baseEvent.resourceId
-        },
-        bubbles: true,
-        composed: true
-      }));
+      this.dispatchEvent(
+        new CustomEvent<CalendarEventChangeDetail>("loomi-event-change", {
+          detail: {
+            event: nextEvent,
+            previousStart: baseEvent.start,
+            previousEnd: baseEvent.end,
+            previousResourceId: baseEvent.resourceId,
+          },
+          bubbles: true,
+          composed: true,
+        }),
+      );
     } else {
-      this.dispatchEvent(new CustomEvent<CalendarEventCreateDetail>("loomi-event-create", {
-        detail: { event: nextEvent },
-        bubbles: true,
-        composed: true
-      }));
+      this.dispatchEvent(
+        new CustomEvent<CalendarEventCreateDetail>("loomi-event-create", {
+          detail: { event: nextEvent },
+          bubbles: true,
+          composed: true,
+        }),
+      );
     }
     this._eventDraft = undefined;
   }
@@ -2407,17 +2659,19 @@ export class LoomiCalendar extends LoomiElement {
       due,
       color: draft.color,
       description: draft.description.trim() || undefined,
-      done: draft.done
+      done: draft.done,
     };
 
     if (draft.reminderId && baseReminder) {
       this.dispatchReminderChange(reminder, baseReminder.due);
     } else {
-      this.dispatchEvent(new CustomEvent<CalendarReminderCreateDetail>("loomi-reminder-create", {
-        detail: { reminder },
-        bubbles: true,
-        composed: true
-      }));
+      this.dispatchEvent(
+        new CustomEvent<CalendarReminderCreateDetail>("loomi-reminder-create", {
+          detail: { reminder },
+          bubbles: true,
+          composed: true,
+        }),
+      );
     }
     this._reminderDraft = undefined;
   };
@@ -2427,9 +2681,10 @@ export class LoomiCalendar extends LoomiElement {
   };
 
   confirmDeleteEvent(eventOrId: CalendarEvent | string): void {
-    const event = typeof eventOrId === "string"
-      ? this.events.find((entry) => entry.id === eventOrId)
-      : eventOrId;
+    const event =
+      typeof eventOrId === "string"
+        ? this.events.find((entry) => entry.id === eventOrId)
+        : eventOrId;
     if (!event) {
       return;
     }
@@ -2440,9 +2695,10 @@ export class LoomiCalendar extends LoomiElement {
   }
 
   confirmDeleteReminder(reminderOrId: CalendarReminder | string): void {
-    const reminder = typeof reminderOrId === "string"
-      ? this.reminders.find((entry) => entry.id === reminderOrId)
-      : reminderOrId;
+    const reminder =
+      typeof reminderOrId === "string"
+        ? this.reminders.find((entry) => entry.id === reminderOrId)
+        : reminderOrId;
     if (!reminder) {
       return;
     }
@@ -2453,9 +2709,10 @@ export class LoomiCalendar extends LoomiElement {
   }
 
   deleteEvent(eventOrId: CalendarEvent | string): void {
-    const event = typeof eventOrId === "string"
-      ? this.events.find((entry) => entry.id === eventOrId)
-      : eventOrId;
+    const event =
+      typeof eventOrId === "string"
+        ? this.events.find((entry) => entry.id === eventOrId)
+        : eventOrId;
     if (!event) {
       return;
     }
@@ -2464,9 +2721,10 @@ export class LoomiCalendar extends LoomiElement {
   }
 
   deleteReminder(reminderOrId: CalendarReminder | string): void {
-    const reminder = typeof reminderOrId === "string"
-      ? this.reminders.find((entry) => entry.id === reminderOrId)
-      : reminderOrId;
+    const reminder =
+      typeof reminderOrId === "string"
+        ? this.reminders.find((entry) => entry.id === reminderOrId)
+        : reminderOrId;
     if (!reminder) {
       return;
     }
@@ -2503,27 +2761,33 @@ export class LoomiCalendar extends LoomiElement {
   };
 
   private dispatchDeleteEvent(event: CalendarEvent) {
-    this.dispatchEvent(new CustomEvent<CalendarEventDeleteDetail>("loomi-event-delete", {
-      detail: { event },
-      bubbles: true,
-      composed: true
-    }));
+    this.dispatchEvent(
+      new CustomEvent<CalendarEventDeleteDetail>("loomi-event-delete", {
+        detail: { event },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   private dispatchReminderChange(reminder: CalendarReminder, previousDue: Date) {
-    this.dispatchEvent(new CustomEvent<CalendarReminderChangeDetail>("loomi-reminder-change", {
-      detail: { reminder, previousDue },
-      bubbles: true,
-      composed: true
-    }));
+    this.dispatchEvent(
+      new CustomEvent<CalendarReminderChangeDetail>("loomi-reminder-change", {
+        detail: { reminder, previousDue },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   private dispatchDeleteReminder(reminder: CalendarReminder) {
-    this.dispatchEvent(new CustomEvent<CalendarReminderDeleteDetail>("loomi-reminder-delete", {
-      detail: { reminder },
-      bubbles: true,
-      composed: true
-    }));
+    this.dispatchEvent(
+      new CustomEvent<CalendarReminderDeleteDetail>("loomi-reminder-delete", {
+        detail: { reminder },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   private handleDuplicateEvent(event: CalendarEvent) {
@@ -2532,13 +2796,15 @@ export class LoomiCalendar extends LoomiElement {
       id: `evt_${Date.now()}`,
       title: `${event.title} (copy)`,
       start: addMinutes(cloneDate(event.start), this.slotMinutes),
-      end: addMinutes(cloneDate(event.end), this.slotMinutes)
+      end: addMinutes(cloneDate(event.end), this.slotMinutes),
     };
-    this.dispatchEvent(new CustomEvent<CalendarEventDuplicateDetail>("loomi-event-duplicate", {
-      detail: { event: duplicate },
-      bubbles: true,
-      composed: true
-    }));
+    this.dispatchEvent(
+      new CustomEvent<CalendarEventDuplicateDetail>("loomi-event-duplicate", {
+        detail: { event: duplicate },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   private getFormattedTitle() {
@@ -2547,7 +2813,12 @@ export class LoomiCalendar extends LoomiElement {
     }
 
     if (this.view === "day" || this.view === "resource") {
-      return loomiDateFormatter(this.resolvedLocale, { weekday: "long", month: "long", day: "numeric", year: "numeric" }).format(this.date);
+      return loomiDateFormatter(this.resolvedLocale, {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      }).format(this.date);
     }
 
     const days = getVisibleWeekDays(this.date, this.weekStarts, this.showWeekends);
@@ -2555,7 +2826,11 @@ export class LoomiCalendar extends LoomiElement {
     const end = days[days.length - 1];
 
     if (isSameDay(start, end)) {
-      return loomiDateFormatter(this.resolvedLocale, { month: "long", day: "numeric", year: "numeric" }).format(start);
+      return loomiDateFormatter(this.resolvedLocale, {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      }).format(start);
     }
 
     if (start.getFullYear() === end.getFullYear() && start.getMonth() === end.getMonth()) {

@@ -12,7 +12,6 @@ npm install @loomidev/radio lit
 import "@loomidev/radio";
 ```
 
-
 ## Basic Usage
 
 ```html
@@ -84,7 +83,6 @@ loomi-radio is designed to fit the layout you place it in. It uses fluid widths,
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-radio uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -95,15 +93,15 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `name` | _(blank)_ | Group name; submitted with the form. |
-| `value` | _(blank)_ | Submitted value when selected. |
-| `label` | _(blank)_ | Label text (or use the default slot). |
-| `checked` | `false` | Checked state. _(boolean, reflected)_ |
-| `disabled` | `false` | Disable the radio. _(boolean)_ |
-| `color` | `primary` | Active color (any loomi color). |
-| `no-clearing` | `false` | Remove the default bottom margin. _(boolean)_ |
+| Attribute     | Default   | Description                                   |
+| ------------- | --------- | --------------------------------------------- |
+| `name`        | _(blank)_ | Group name; submitted with the form.          |
+| `value`       | _(blank)_ | Submitted value when selected.                |
+| `label`       | _(blank)_ | Label text (or use the default slot).         |
+| `checked`     | `false`   | Checked state. _(boolean, reflected)_         |
+| `disabled`    | `false`   | Disable the radio. _(boolean)_                |
+| `color`       | `primary` | Active color (any loomi color).               |
+| `no-clearing` | `false`   | Remove the default bottom margin. _(boolean)_ |
 
 **Slot:** default (label). **Part:** `dot`. **Event:** `change` (composed, fired on the
 radio that becomes checked).
@@ -166,7 +164,6 @@ In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the pac
 ```js
 import "@loomidev/radio";
 ```
-
 
 Because this is a form-capable component, give it a `name` when it should submit with a native `<form>`. Read its value with `new FormData(form).get("the-name")` just like you would for a built-in input.
 

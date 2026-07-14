@@ -11,7 +11,6 @@ npm install @loomidev/number lit
 import "@loomidev/number";
 ```
 
-
 ## Basic Usage
 
 ```html
@@ -88,7 +87,6 @@ loomi-number is designed to fit the layout you place it in. It uses fluid widths
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-number uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -99,21 +97,21 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `name` | _(blank)_ | Submitted with the form. |
-| `label` | _(blank)_ | Floating label. |
-| `value` | _(blank)_ | Current value (also a property). |
-| `min` | `0` | Minimum value. |
-| `max` | `100` | Maximum value. |
-| `step` | `1` | Increment/decrement amount. |
-| `size` | `medium` | `small` \| `regular` \| `medium` \| `big` |
-| `variant` | `default` | `default` \| `minimal` (bottom border only, no box) |
-| `transparent-icons` | `true` | Transparent (vs solid) stepper buttons. _(boolean)_ |
-| `with-dots` | `true` | Allow decimal values. _(boolean)_ |
-| `required` | `false` | Marks the field required. _(boolean)_ |
-| `disabled` | `false` | Disable the control. _(boolean)_ |
-| `no-clearing` | `false` | Remove the default bottom margin. _(boolean)_ |
+| Attribute           | Default   | Description                                         |
+| ------------------- | --------- | --------------------------------------------------- |
+| `name`              | _(blank)_ | Submitted with the form.                            |
+| `label`             | _(blank)_ | Floating label.                                     |
+| `value`             | _(blank)_ | Current value (also a property).                    |
+| `min`               | `0`       | Minimum value.                                      |
+| `max`               | `100`     | Maximum value.                                      |
+| `step`              | `1`       | Increment/decrement amount.                         |
+| `size`              | `medium`  | `small` \| `regular` \| `medium` \| `big`           |
+| `variant`           | `default` | `default` \| `minimal` (bottom border only, no box) |
+| `transparent-icons` | `true`    | Transparent (vs solid) stepper buttons. _(boolean)_ |
+| `with-dots`         | `true`    | Allow decimal values. _(boolean)_                   |
+| `required`          | `false`   | Marks the field required. _(boolean)_               |
+| `disabled`          | `false`   | Disable the control. _(boolean)_                    |
+| `no-clearing`       | `false`   | Remove the default bottom margin. _(boolean)_       |
 
 **Methods:** `focus()`. **Events:** `input`, `change` (composed). **Parts:** `field`, `input`.
 
@@ -179,7 +177,6 @@ In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the pac
 ```js
 import "@loomidev/number";
 ```
-
 
 Because this is a form-capable component, give it a `name` when it should submit with a native `<form>`. Read its value with `new FormData(form).get("the-name")` just like you would for a built-in input.
 

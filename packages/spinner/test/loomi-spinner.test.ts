@@ -10,7 +10,9 @@ describe("loomi-spinner", () => {
     expect(el.type).to.equal("simple");
     expect(indicator).to.exist;
     expect(indicator!.getAttribute("aria-hidden")).to.equal("true");
-    expect(el.shadowRoot!.querySelector('[role="status"]')!.getAttribute("aria-label")).to.equal("Loading");
+    expect(el.shadowRoot!.querySelector('[role="status"]')!.getAttribute("aria-label")).to.equal(
+      "Loading",
+    );
   });
 
   it("renders the spinner option", async () => {
@@ -26,7 +28,9 @@ describe("loomi-spinner", () => {
 
     expect(el.shadowRoot!.querySelectorAll(".loomi-spinner-dots circle")).to.have.length(8);
     expect(el.shadowRoot!.querySelector(".loomi-spinner-label")!.textContent).to.equal("Saving");
-    expect(el.shadowRoot!.querySelector('[role="status"]')!.getAttribute("aria-label")).to.equal("Saving");
+    expect(el.shadowRoot!.querySelector('[role="status"]')!.getAttribute("aria-label")).to.equal(
+      "Saving",
+    );
   });
 
   it("accepts legacy type aliases", async () => {
@@ -44,6 +48,7 @@ describe("loomi-spinner", () => {
   it("accepts Untitled UI size aliases", async () => {
     const el = await fixture<LoomiSpinner>(html`<loomi-spinner size="md"></loomi-spinner>`);
 
-    expect(el.shadowRoot!.querySelector(".loomi-spinner-wrap")!.classList.contains("size-medium")).to.be.true;
+    expect(el.shadowRoot!.querySelector(".loomi-spinner-wrap")!.classList.contains("size-medium"))
+      .to.be.true;
   });
 });

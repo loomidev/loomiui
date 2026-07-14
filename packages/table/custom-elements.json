@@ -172,7 +172,7 @@
               "kind": "field",
               "name": "columnAliasesAlias",
               "type": {
-                "text": "Record<string, string> | undefined"
+                "text": "Record<\n    string,\n    string\n  > | undefined"
               },
               "attribute": "column_aliases"
             },
@@ -1441,7 +1441,7 @@
             {
               "name": "column_aliases",
               "type": {
-                "text": "Record<string, string> | undefined"
+                "text": "Record<\n    string,\n    string\n  > | undefined"
               },
               "fieldName": "columnAliasesAlias"
             },

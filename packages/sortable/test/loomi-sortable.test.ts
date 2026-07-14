@@ -115,8 +115,13 @@ describe("loomi-sortable", () => {
   });
 
   it("filters rows by selector", async () => {
-    const el = await fixture<LoomiSortable>(html`<loomi-sortable filter=".filtered"></loomi-sortable>`);
-    el.items = [{ id: "a", label: "A", className: "filtered" }, { id: "b", label: "B" }];
+    const el = await fixture<LoomiSortable>(
+      html`<loomi-sortable filter=".filtered"></loomi-sortable>`,
+    );
+    el.items = [
+      { id: "a", label: "A", className: "filtered" },
+      { id: "b", label: "B" },
+    ];
     let filtered = "";
     el.addEventListener("loomi-filter", (event) => {
       filtered = (event as CustomEvent<{ item: { id: string } }>).detail.item.id;

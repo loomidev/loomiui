@@ -28,7 +28,9 @@ describe("loomi-password", () => {
   });
 
   it("renders only requested strength requirements and turns met checks green", async () => {
-    const el = await fixture<LoomiPassword>(html`<loomi-password strength="Aa1#"></loomi-password>`);
+    const el = await fixture<LoomiPassword>(
+      html`<loomi-password strength="Aa1#"></loomi-password>`,
+    );
 
     let items = Array.from(el.shadowRoot!.querySelectorAll(".loomi-strength-item"));
     expect(items).to.have.length(4);
@@ -55,7 +57,9 @@ describe("loomi-password", () => {
     expect(el.validate()).to.equal(false);
     await el.updateComplete;
     expect(el.invalid).to.equal(true);
-    expect(el.shadowRoot!.querySelector(".loomi-error")!.textContent).to.equal("Choose a stronger password");
+    expect(el.shadowRoot!.querySelector(".loomi-error")!.textContent).to.equal(
+      "Choose a stronger password",
+    );
 
     await typeValue(el, "abc1D");
     expect(el.validate()).to.equal(true);
@@ -79,7 +83,11 @@ describe("loomi-password", () => {
     trigger.click();
     await el.updateComplete;
     const options = Array.from(el.shadowRoot!.querySelectorAll(".loomi-affix-option"));
-    expect(options.map((option) => option.textContent?.trim())).to.deep.equal(["personal", "admin", "service"]);
+    expect(options.map((option) => option.textContent?.trim())).to.deep.equal([
+      "personal",
+      "admin",
+      "service",
+    ]);
 
     (options[2] as HTMLElement).click();
     await el.updateComplete;
@@ -101,6 +109,8 @@ describe("loomi-password", () => {
     const host = document.body.querySelector("loomi-notification") as LoomiNotification;
     expect(host).to.exist;
     await host.updateComplete;
-    expect(host.shadowRoot!.querySelector(".loomi-message")!.textContent).to.equal("Password is required");
+    expect(host.shadowRoot!.querySelector(".loomi-message")!.textContent).to.equal(
+      "Password is required",
+    );
   });
 });

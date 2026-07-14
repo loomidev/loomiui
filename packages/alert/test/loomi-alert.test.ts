@@ -10,7 +10,9 @@ describe("loomi-alert", () => {
   });
 
   it("uses the explicit name as the host target class", async () => {
-    const el = await fixture<LoomiAlert>(html`<loomi-alert name="promo-alert">Named target</loomi-alert>`);
+    const el = await fixture<LoomiAlert>(
+      html`<loomi-alert name="promo-alert">Named target</loomi-alert>`,
+    );
 
     expect(el.classList.contains("promo-alert")).to.be.true;
   });

@@ -1,7 +1,15 @@
 import { html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
 import { unsafeSVG } from "lit/directives/unsafe-svg.js";
-import { LoomiElement, controlSizeStyles, fieldStyles, loomiDefaultText, loomiT, onClickOutside, themeStyles } from "@loomidev/core";
+import {
+  LoomiElement,
+  controlSizeStyles,
+  fieldStyles,
+  loomiDefaultText,
+  loomiT,
+  onClickOutside,
+  themeStyles,
+} from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 import { LOOMI_COUNTRIES, type LoomiCountryRecord } from "./generated/countries-data.js";
 
@@ -46,7 +54,14 @@ const MASK_TOKEN_TESTS: Record<string, (char: string) => boolean> = {
 // token in `mask` — used below to avoid emitting a dangling trailing literal (e.g.
 // formatting "241" against "(999) 999-9999" as "(241" rather than "(241) ").
 function hasRemainingMaskInput(raw: string, startIndex: number, mask: string): boolean {
-  const tokenTests = Array.from(new Set(mask.split("").map((char) => MASK_TOKEN_TESTS[char]).filter(Boolean)));
+  const tokenTests = Array.from(
+    new Set(
+      mask
+        .split("")
+        .map((char) => MASK_TOKEN_TESTS[char])
+        .filter(Boolean),
+    ),
+  );
   return raw
     .slice(startIndex)
     .split("")
@@ -95,7 +110,9 @@ function resolveCountry(input: string): LoomiCountryRecord | undefined {
   const byName = LOOMI_COUNTRIES.find((c) => c.name.toLowerCase() === lower);
   if (byName) return byName;
   const dial = q.startsWith("+") ? q : `+${q.replace(/\D/g, "")}`;
-  const byDialCode = LOOMI_COUNTRIES.filter((c) => c.dialCode === dial).sort((a, b) => a.priority - b.priority);
+  const byDialCode = LOOMI_COUNTRIES.filter((c) => c.dialCode === dial).sort(
+    (a, b) => a.priority - b.priority,
+  );
   return byDialCode[0];
 }
 
@@ -174,7 +191,10 @@ export class LoomiCountries extends LoomiElement {
     if (changed.has("selection")) {
       this.selectedCode = resolveCountry(this.selection)?.code ?? "";
     }
-    if (this.mode === "phone" && (changed.has("value") || changed.has("mask") || changed.has("selection"))) {
+    if (
+      this.mode === "phone" &&
+      (changed.has("value") || changed.has("mask") || changed.has("selection"))
+    ) {
       this.value = normalizePhoneValue(this.value, this.effectiveMask);
     }
     this.internals.setFormValue(this.formValue);
@@ -196,7 +216,9 @@ export class LoomiCountries extends LoomiElement {
   }
 
   private get selectedRecord(): LoomiCountryRecord | undefined {
-    return this.selectedCode ? LOOMI_COUNTRIES.find((c) => c.code === this.selectedCode) : undefined;
+    return this.selectedCode
+      ? LOOMI_COUNTRIES.find((c) => c.code === this.selectedCode)
+      : undefined;
   }
 
   private get filtered(): readonly LoomiCountryRecord[] {
@@ -285,7 +307,8 @@ export class LoomiCountries extends LoomiElement {
     const validity = empty ? { valueMissing: true } : {};
     const path = this.mode === "phone" ? "validation.requiredField" : "validation.selectOption";
     const message = empty ? loomiT(path, {}, this.locale) : "";
-    const anchor = this.mode === "phone" ? this.phoneInputEl : this.triggerEl ?? this.flagTriggerEl;
+    const anchor =
+      this.mode === "phone" ? this.phoneInputEl : (this.triggerEl ?? this.flagTriggerEl);
     if (anchor) this.internals.setValidity(validity, message, anchor);
     else this.internals.setValidity(validity, message);
     return !empty;
@@ -364,10 +387,11 @@ export class LoomiCountries extends LoomiElement {
           />
         </div>
         <div class="loomi-list">
-          ${opts.length
-            ? opts.map((c, i) => {
-                const sel = c.code === this.selectedCode;
-                return html`<div
+          ${
+            opts.length
+              ? opts.map((c, i) => {
+                  const sel = c.code === this.selectedCode;
+                  return html`<div
                   id="loomi-country-${i}"
                   class="loomi-option ${sel ? "selected" : ""} ${i === this.activeIndex ? "active" : ""}"
                   role="option"
@@ -378,12 +402,15 @@ export class LoomiCountries extends LoomiElement {
                   <span class="loomi-flag">${unsafeSVG(flagMarkup(c.flag, `opt-${i}`))}</span>
                   <span class="loomi-option-name">${c.name}</span>
                   ${this.mode === "phone" ? html`<span class="loomi-option-dial">${c.dialCode}</span>` : nothing}
-                  ${sel
-                    ? html`<svg class="loomi-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">${CHECK}</svg>`
-                    : nothing}
+                  ${
+                    sel
+                      ? html`<svg class="loomi-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">${CHECK}</svg>`
+                      : nothing
+                  }
                 </div>`;
-              })
-            : html`<div class="loomi-empty">${loomiDefaultText(this.emptyPlaceholder, DEFAULT_EMPTY_PLACEHOLDER, "countries.emptyPlaceholder", this.locale)}</div>`}
+                })
+              : html`<div class="loomi-empty">${loomiDefaultText(this.emptyPlaceholder, DEFAULT_EMPTY_PLACEHOLDER, "countries.emptyPlaceholder", this.locale)}</div>`
+          }
         </div>
       </div>
     `;
@@ -402,14 +429,22 @@ export class LoomiCountries extends LoomiElement {
     const hasSelection = !!this.selectedCode;
     const reserveLabelSpace = hasLabel && !hasSelection && !this.open;
     const rec = this.selectedRecord;
-    const displayText = hasSelection && rec
-      ? rec.name
-      : reserveLabelSpace
-        ? `${this.label}${this.required ? " *" : ""}`
-        : loomiDefaultText(this.placeholder, DEFAULT_PLACEHOLDER, "countries.placeholder", this.locale);
+    const displayText =
+      hasSelection && rec
+        ? rec.name
+        : reserveLabelSpace
+          ? `${this.label}${this.required ? " *" : ""}`
+          : loomiDefaultText(
+              this.placeholder,
+              DEFAULT_PLACEHOLDER,
+              "countries.placeholder",
+              this.locale,
+            );
 
     const activeId =
-      this.open && this.activeIndex >= 0 && this.filtered[this.activeIndex] ? `loomi-country-${this.activeIndex}` : nothing;
+      this.open && this.activeIndex >= 0 && this.filtered[this.activeIndex]
+        ? `loomi-country-${this.activeIndex}`
+        : nothing;
 
     return html`
       <button
@@ -427,9 +462,11 @@ export class LoomiCountries extends LoomiElement {
         <span class="loomi-value ${hasSelection ? "" : "placeholder"} ${reserveLabelSpace ? "sizer" : ""}">${displayText}</span>
         <svg class="loomi-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${CHEVRON}</svg>
       </button>
-      ${hasLabel
-        ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
-        : nothing}
+      ${
+        hasLabel
+          ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
+          : nothing
+      }
     `;
   }
 
@@ -472,9 +509,11 @@ export class LoomiCountries extends LoomiElement {
           @blur=${this.showValidation}
         />
       </div>
-      ${hasLabel
-        ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
-        : nothing}
+      ${
+        hasLabel
+          ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
+          : nothing
+      }
     `;
   }
 

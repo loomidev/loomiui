@@ -11,7 +11,6 @@ npm install @loomidev/timeline lit
 import "@loomidev/timeline";
 ```
 
-
 ## Basic Usage
 
 ```html
@@ -158,7 +157,6 @@ loomi-timeline is designed to fit the layout you place it in. It uses fluid widt
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-timeline uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -171,17 +169,17 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ### `<loomi-timeline-item>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `date` | _(blank)_ | Date string. |
-| `content` | _(blank)_ | Entry text (or use the default slot). |
-| `completed` | `false` | Filled anchor (+ check when `anchor="big"`). _(boolean)_ |
-| `anchor` | `small` | `small` \| `big` (big enables icons/avatars). |
-| `icon` | _(blank)_ | Anchor icon name (big anchor). |
-| `avatar` | _(blank)_ | Anchor image URL (big anchor). |
-| `stacked` | `false` | Date above content vs. in a left column. _(boolean)_ |
-| `placement` | `left` | `left` \| `right` \| `alternate` — set on the `<loomi-timeline>` wrapper instead; it applies to every child. |
-| `color` | `primary` | Any loomi color. |
+| Attribute   | Default   | Description                                                                                                  |
+| ----------- | --------- | ------------------------------------------------------------------------------------------------------------ |
+| `date`      | _(blank)_ | Date string.                                                                                                 |
+| `content`   | _(blank)_ | Entry text (or use the default slot).                                                                        |
+| `completed` | `false`   | Filled anchor (+ check when `anchor="big"`). _(boolean)_                                                     |
+| `anchor`    | `small`   | `small` \| `big` (big enables icons/avatars).                                                                |
+| `icon`      | _(blank)_ | Anchor icon name (big anchor).                                                                               |
+| `avatar`    | _(blank)_ | Anchor image URL (big anchor).                                                                               |
+| `stacked`   | `false`   | Date above content vs. in a left column. _(boolean)_                                                         |
+| `placement` | `left`    | `left` \| `right` \| `alternate` — set on the `<loomi-timeline>` wrapper instead; it applies to every child. |
+| `color`     | `primary` | Any loomi color.                                                                                             |
 
 The trailing connector line and `alternate` left/right placement are both resolved
 automatically from the item's position among its siblings — there is no `last` or

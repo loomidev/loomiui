@@ -4,7 +4,7 @@ import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomide
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiProgressLabelPosition =
-  | "top-left" | "top-center" | "top-right" | "bottom-left" | "bottom-center" | "bottom-right";
+  "top-left" | "top-center" | "top-right" | "bottom-left" | "bottom-center" | "bottom-right";
 export type LoomiProgressStepState = "complete" | "current" | "upcoming" | "error";
 export type LoomiProgressStepsOrientation = "horizontal" | "vertical";
 export type LoomiProgressStepSize = "small" | "regular";
@@ -24,7 +24,8 @@ export class LoomiProgressBar extends LoomiElement {
   @property({ type: Boolean, attribute: "show-percentage-label" }) showLabel = false;
   @property({ type: Boolean, attribute: "show-percentage-tooltip" }) showTooltip = false;
   @property({ type: Boolean, attribute: "show-percentage-label-inline" }) inline = true;
-  @property({ attribute: "percentage-label-position" }) labelPosition: LoomiProgressLabelPosition = "top-left";
+  @property({ attribute: "percentage-label-position" }) labelPosition: LoomiProgressLabelPosition =
+    "top-left";
   @property({ attribute: "percentage-prefix" }) prefix = "";
   @property({ attribute: "percentage-suffix" }) suffix = "";
   @property({ type: Boolean }) striped = false;
@@ -91,9 +92,11 @@ export class LoomiProgressCircle extends LoomiElement {
         <circle class="bar ${this.shade === "dark" ? "dark" : ""}" cx="50" cy="50" r=${r} fill="none" stroke-width=${this.circleWidth}
           stroke-dasharray=${circ} stroke-dashoffset=${offset}></circle>
       </svg>
-      ${this.showLabel
-        ? html`<div class="label" style="font-size:${px * 0.22}px">${this.pct}${this.showPercent ? "%" : ""}</div>`
-        : nothing}
+      ${
+        this.showLabel
+          ? html`<div class="label" style="font-size:${px * 0.22}px">${this.pct}${this.showPercent ? "%" : ""}</div>`
+          : nothing
+      }
     </div>`;
   }
 }
@@ -167,9 +170,11 @@ export class LoomiProgressStep extends LoomiElement {
     const marker = html`<span class="loomi-step-marker ${state}">${this.renderMarker(state)}</span>`;
     const label = html`<span class="loomi-step-copy">
       <span class="loomi-step-label"><slot name="label">${this.label}</slot></span>
-      ${this.description
-        ? html`<span class="loomi-step-description"><slot name="description">${this.description}</slot></span>`
-        : html`<slot name="description"></slot>`}
+      ${
+        this.description
+          ? html`<span class="loomi-step-description"><slot name="description">${this.description}</slot></span>`
+          : html`<slot name="description"></slot>`
+      }
     </span>`;
 
     if (this.href) {

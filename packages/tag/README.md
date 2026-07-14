@@ -12,7 +12,6 @@ npm install @loomidev/tag lit
 import "@loomidev/tag";
 ```
 
-
 ## Basic Usage
 
 ```html
@@ -124,7 +123,6 @@ loomi-tag is designed to fit the layout you place it in. It uses fluid widths, `
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-tag uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -137,29 +135,29 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ### `<loomi-tag>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `label` | _(blank)_ | Tag text (or use the default slot). |
-| `color` | `primary` | Any loomi color. |
-| `shade` | `faint` | `light` \| `faint` \| `dark` |
-| `outline` | `false` | Outline only, no fill. _(boolean)_ |
-| `rounded` | `false` | Fully rounded. _(boolean)_ |
-| `tiny` | `false` | Tiny size. _(boolean)_ |
-| `uppercasing` | `false` | Uppercase the text. _(boolean)_ |
-| `can-close` | `false` | Show a close button. _(boolean)_ |
-| `value` | _(blank)_ | Submitted value when inside `<loomi-tags>`. |
+| Attribute     | Default   | Description                                 |
+| ------------- | --------- | ------------------------------------------- |
+| `label`       | _(blank)_ | Tag text (or use the default slot).         |
+| `color`       | `primary` | Any loomi color.                            |
+| `shade`       | `faint`   | `light` \| `faint` \| `dark`                |
+| `outline`     | `false`   | Outline only, no fill. _(boolean)_          |
+| `rounded`     | `false`   | Fully rounded. _(boolean)_                  |
+| `tiny`        | `false`   | Tiny size. _(boolean)_                      |
+| `uppercasing` | `false`   | Uppercase the text. _(boolean)_             |
+| `can-close`   | `false`   | Show a close button. _(boolean)_            |
+| `value`       | _(blank)_ | Submitted value when inside `<loomi-tags>`. |
 
 **Slot:** default (content). **Event:** `close` (cancelable; the tag removes itself
 unless prevented).
 
 ### `<loomi-tags>` (selectable group)
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `name` | _(blank)_ | Submitted with the form. |
-| `max` | _(blank)_ | Max selectable tags (no limit by default). |
-| `selected-value` | _(blank)_ | Comma-separated values to pre-select. |
-| `required` | `false` | Marks the field required. _(boolean)_ |
+| Attribute        | Default   | Description                                |
+| ---------------- | --------- | ------------------------------------------ |
+| `name`           | _(blank)_ | Submitted with the form.                   |
+| `max`            | _(blank)_ | Max selectable tags (no limit by default). |
+| `selected-value` | _(blank)_ | Comma-separated values to pre-select.      |
+| `required`       | `false`   | Marks the field required. _(boolean)_      |
 
 **Event:** `change` (`detail: { values }`).
 

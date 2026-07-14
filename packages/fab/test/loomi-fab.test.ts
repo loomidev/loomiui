@@ -2,7 +2,8 @@ import { html, fixture, expect, oneEvent } from "@open-wc/testing";
 import "../dist/loomi-fab.js";
 import type { LoomiFab, LoomiFabItem } from "../dist/index.js";
 
-const nextFrame = (): Promise<void> => new Promise((resolve) => requestAnimationFrame(() => resolve()));
+const nextFrame = (): Promise<void> =>
+  new Promise((resolve) => requestAnimationFrame(() => resolve()));
 
 async function open(el: LoomiFab): Promise<void> {
   el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!.click();
@@ -120,7 +121,9 @@ describe("loomi-fab", () => {
 
     const item = el.querySelector<LoomiFabItem>("loomi-fab-item")!;
     await item.updateComplete;
-    item.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true, composed: true }));
+    item.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Escape", bubbles: true, composed: true }),
+    );
     await el.updateComplete;
 
     expect(el.open).to.equal(false);

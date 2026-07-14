@@ -52,7 +52,8 @@ export class LoomiSlider extends LoomiElement {
   @property() marks: string | number[] = "";
   @property({ attribute: "handle-width" }) handleWidth = "";
   @property({ attribute: "track-radius" }) trackRadius = "999px";
-  @property({ attribute: "handle-variant" }) handleVariant: "default" | "square" | "line" = "default";
+  @property({ attribute: "handle-variant" }) handleVariant: "default" | "square" | "line" =
+    "default";
   @property({ attribute: "value-target" }) valueTarget = "";
   @property({ type: Boolean, attribute: "show-tooltip", converter: booleanAttribute })
   showTooltip = true;
@@ -192,7 +193,9 @@ export class LoomiSlider extends LoomiElement {
 
   private syncValueTarget(): void {
     if (!this.valueTarget) return;
-    const target = document.querySelector<HTMLInputElement | HTMLTextAreaElement | HTMLOutputElement>(this.valueTarget);
+    const target = document.querySelector<
+      HTMLInputElement | HTMLTextAreaElement | HTMLOutputElement
+    >(this.valueTarget);
     if (!target) return;
     target.value = this.value;
     target.dispatchEvent(new Event("input", { bubbles: true }));
@@ -218,7 +221,7 @@ export class LoomiSlider extends LoomiElement {
       ${marks.map(
         (mark) => html`<span class="loomi-mark" style=${this.markStyle(mark)}>
           <span class="loomi-mark-label">${mark}</span>
-        </span>`
+        </span>`,
       )}
     </div>`;
   }
@@ -248,8 +251,9 @@ export class LoomiSlider extends LoomiElement {
           @input=${(event: Event) => this.onInput("start", event)}
           @change=${this.onChange}
         />
-        ${this.range
-          ? html`<input
+        ${
+          this.range
+            ? html`<input
               class="loomi-range loomi-range-end"
               type="range"
               min=${this.lowerBound}
@@ -262,23 +266,28 @@ export class LoomiSlider extends LoomiElement {
               @input=${(event: Event) => this.onInput("end", event)}
               @change=${this.onChange}
             />`
-          : nothing}
-        ${this.showValues && this.showTooltip
-          ? html`<span
+            : nothing
+        }
+        ${
+          this.showValues && this.showTooltip
+            ? html`<span
                 class="loomi-value-tooltip loomi-value-tooltip-start"
                 style=${this.tooltipStyle(this.startValue)}
                 aria-hidden="true"
                 >${this.startValue}</span
               >
-              ${this.range
-                ? html`<span
+              ${
+                this.range
+                  ? html`<span
                     class="loomi-value-tooltip loomi-value-tooltip-end"
                     style=${this.tooltipStyle(this.endValue)}
                     aria-hidden="true"
                     >${this.endValue}</span
                   >`
-                : nothing}`
-          : nothing}
+                  : nothing
+              }`
+            : nothing
+        }
       </div>
     </div>`;
   }

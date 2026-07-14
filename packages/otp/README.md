@@ -13,7 +13,6 @@ npm install @loomidev/otp lit
 import "@loomidev/otp";
 ```
 
-
 ## Basic Usage
 
 The default number of boxes is four.
@@ -98,7 +97,7 @@ call `clear()` to empty them so the user can try again.
 </script>
 ```
 
-`error-message` controls what (if anything) is displayed *in addition to* the red
+`error-message` controls what (if anything) is displayed _in addition to_ the red
 border — the border shows either way, even if `error-message` is left blank.
 
 ## Async Validation: Spinner → Checkmark or Red Boxes
@@ -163,7 +162,6 @@ loomi-otp is designed to fit the layout you place it in. It uses fluid widths, `
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-otp uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -174,25 +172,24 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `name` | _(blank)_ | Submitted with the form. |
-| `label` | _(blank)_ | Used as the title of the `loomi-notification` toast (see below); has no visible effect otherwise. |
-| `total-digits` | `4` | Number of input boxes. |
-| `type` | `numeric` | Accepted characters. `numeric` \| `alphanumeric` \| `text` |
-| `size` | `small` | `small` \| `big` |
-| `variant` | `default` | `default` \| `minimal` (bottom border only, no box) |
-| `separator` | `false` | Show a dash separator between the left and right input groups. _(boolean)_ |
-| `hide-digits` | `false` | Hide entered characters and show large dots. _(boolean)_ |
-| `mask` | `false` | Alias for hiding entered characters. _(boolean)_ |
-| `error-message` | `Verification code is invalid` | Shown when `showError()` is called. The red border shows either way, even if this is left blank. |
-| `show-error-inline` | `false` | Render `error-message` beneath the boxes. When `false`, a failed validation shows it as a `loomi-notification` toast instead. _(boolean)_ |
+| Attribute           | Default                        | Description                                                                                                                               |
+| ------------------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`              | _(blank)_                      | Submitted with the form.                                                                                                                  |
+| `label`             | _(blank)_                      | Used as the title of the `loomi-notification` toast (see below); has no visible effect otherwise.                                         |
+| `total-digits`      | `4`                            | Number of input boxes.                                                                                                                    |
+| `type`              | `numeric`                      | Accepted characters. `numeric` \| `alphanumeric` \| `text`                                                                                |
+| `size`              | `small`                        | `small` \| `big`                                                                                                                          |
+| `variant`           | `default`                      | `default` \| `minimal` (bottom border only, no box)                                                                                       |
+| `separator`         | `false`                        | Show a dash separator between the left and right input groups. _(boolean)_                                                                |
+| `hide-digits`       | `false`                        | Hide entered characters and show large dots. _(boolean)_                                                                                  |
+| `mask`              | `false`                        | Alias for hiding entered characters. _(boolean)_                                                                                          |
+| `error-message`     | `Verification code is invalid` | Shown when `showError()` is called. The red border shows either way, even if this is left blank.                                          |
+| `show-error-inline` | `false`                        | Render `error-message` beneath the boxes. When `false`, a failed validation shows it as a `loomi-notification` toast instead. _(boolean)_ |
 
 **Methods:** `clear()`, `startValidating()`, `showSuccess()`, `showError(message?)`.
 **Properties:** `code` (`pin` is a deprecated alias), `validating` (reflected), `valid`
 (reflected), `invalid` (reflected). **Event:** `loomi-verify` (`detail: { code, pin }`, where
 `pin` is a deprecated alias of `code`; fired when all boxes are filled).
-
 
 ## Full Example
 
@@ -266,7 +263,6 @@ In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the pac
 ```js
 import "@loomidev/otp";
 ```
-
 
 Because this is a form-capable component, give it a `name` when it should submit with a native `<form>`. Read its value with `new FormData(form).get("the-name")` just like you would for a built-in input.
 

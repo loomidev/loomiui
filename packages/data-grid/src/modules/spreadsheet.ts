@@ -1,4 +1,9 @@
-import { defineGridModule, type GridCellCoordinates, type GridModule, type GridModuleContext } from "../grid-module.js";
+import {
+  defineGridModule,
+  type GridCellCoordinates,
+  type GridModule,
+  type GridModuleContext,
+} from "../grid-module.js";
 import { formatCellValue } from "../grid-utils.js";
 import type { DataGridRecord } from "../types.js";
 
@@ -19,7 +24,7 @@ function normalizeRange(anchor: CellCoords, focus: CellCoords) {
     minRow: Math.min(anchor.rowIndex, focus.rowIndex),
     maxRow: Math.max(anchor.rowIndex, focus.rowIndex),
     minCol: Math.min(anchor.columnIndex, focus.columnIndex),
-    maxCol: Math.max(anchor.columnIndex, focus.columnIndex)
+    maxCol: Math.max(anchor.columnIndex, focus.columnIndex),
   };
 }
 
@@ -35,7 +40,7 @@ function normalizeRange(anchor: CellCoords, focus: CellCoords) {
  * ```
  */
 export function spreadsheetModule<TRecord extends DataGridRecord = DataGridRecord>(
-  options: SpreadsheetModuleOptions = {}
+  options: SpreadsheetModuleOptions = {},
 ): GridModule<TRecord> {
   let anchor: CellCoords | null = null;
   let focus: CellCoords | null = null;
@@ -91,7 +96,10 @@ export function spreadsheetModule<TRecord extends DataGridRecord = DataGridRecor
     } catch {
       return;
     }
-    const lines = text.replace(/\r/g, "").split("\n").filter((line, index, all) => !(index === all.length - 1 && line === ""));
+    const lines = text
+      .replace(/\r/g, "")
+      .split("\n")
+      .filter((line, index, all) => !(index === all.length - 1 && line === ""));
 
     lines.forEach((line, lineOffset) => {
       const cells = line.split("\t");
@@ -151,25 +159,34 @@ export function spreadsheetModule<TRecord extends DataGridRecord = DataGridRecor
         return true;
       }
 
-      if (event.shiftKey && ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) {
+      if (
+        event.shiftKey &&
+        ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)
+      ) {
         anchor = anchor ?? { rowIndex: cell.rowIndex, columnIndex: cell.columnIndex };
         const current = focus ?? { rowIndex: cell.rowIndex, columnIndex: cell.columnIndex };
         const rowDelta = event.key === "ArrowUp" ? -1 : event.key === "ArrowDown" ? 1 : 0;
         const colDelta = event.key === "ArrowLeft" ? -1 : event.key === "ArrowRight" ? 1 : 0;
         focus = {
           rowIndex: Math.max(0, Math.min(ctx.rows.length - 1, current.rowIndex + rowDelta)),
-          columnIndex: Math.max(0, Math.min(ctx.columns.length - 1, current.columnIndex + colDelta))
+          columnIndex: Math.max(
+            0,
+            Math.min(ctx.columns.length - 1, current.columnIndex + colDelta),
+          ),
         };
         ctx.requestUpdate();
         return true;
       }
 
-      if (!event.shiftKey && ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) {
+      if (
+        !event.shiftKey &&
+        ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)
+      ) {
         anchor = { rowIndex: cell.rowIndex, columnIndex: cell.columnIndex };
         focus = null;
       }
 
       return false;
-    }
+    },
   });
 }

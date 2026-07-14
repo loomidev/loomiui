@@ -51,8 +51,10 @@
   border: 0;
   outline: 0;
   background:
-    linear-gradient(45deg, transparent 50%, currentColor 50%) calc(100% - 0.55rem) 50% / 0.32rem 0.32rem no-repeat,
-    linear-gradient(135deg, currentColor 50%, transparent 50%) calc(100% - 0.35rem) 50% / 0.32rem 0.32rem no-repeat,
+    linear-gradient(45deg, transparent 50%, currentColor 50%) calc(100% - 0.55rem) 50% / 0.32rem
+      0.32rem no-repeat,
+    linear-gradient(135deg, currentColor 50%, transparent 50%) calc(100% - 0.35rem) 50% / 0.32rem
+      0.32rem no-repeat,
     transparent;
   color: inherit;
   font: inherit;

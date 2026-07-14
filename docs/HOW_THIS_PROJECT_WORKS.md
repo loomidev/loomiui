@@ -7,7 +7,7 @@ tooling like this before. Read it top to bottom once, then keep it around as a m
 This file is a project-local learning guide, not the public-facing product
 documentation. The project's real docs are [`README.md`](../README.md) (the pitch and usage)
 and [`CONTRIBUTING.md`](../CONTRIBUTING.md) (the contributor procedures). This file exists to
-build the *mental model* those two assume you already have.
+build the _mental model_ those two assume you already have.
 
 ## Table of contents
 
@@ -41,7 +41,7 @@ packages) that implements a UI component library. Each component — button, sel
 modal, datepicker, etc. — is its own small npm package under `packages/`, built as a
 **Web Component** (a real HTML custom element, e.g. `<loomi-button>`) using a library
 called **Lit**. Components are styled with **Tailwind CSS classes**, but Tailwind itself
-never ships to the consumer: it's compiled once, at *this repo's* build time, into plain
+never ships to the consumer: it's compiled once, at _this repo's_ build time, into plain
 CSS baked inside each component. Colors are themeable after the fact via **CSS custom
 properties** (`--loomi-primary-600`, etc.) without any rebuild. Everything is written in
 **TypeScript** and compiled to plain JavaScript with `tsc`. Packages are linked to each
@@ -56,22 +56,25 @@ know them, skip to section 2.
 ## 1. Concepts you need before any of this makes sense
 
 ### npm packages & the registry
+
 An npm "package" is just a folder with a `package.json` describing it (name, version,
 entry point, dependencies) plus some code. `npm install x` downloads package `x` (and
 its dependencies) from the npm registry into a `node_modules/` folder so your code can
-`import` it. This repo *produces* many packages that get published to the registry under
+`import` it. This repo _produces_ many packages that get published to the registry under
 the `@loomidev` scope (e.g. `@loomidev/button`) — a "scope" is the `@name/` prefix that
 namespaces packages, similar to a username.
 
 ### ESM modules
+
 `"type": "module"` in a `package.json` (see the root [package.json](../package.json:7)) tells
 Node/bundlers to treat `.js`/`.ts` files as **ES Modules** — the standard `import`/`export`
 syntax — rather than the older CommonJS `require`/`module.exports`. Every package in this
 repo is ESM-only. That's why imports look like `import { x } from "./y.js"` (note: `.js`,
 even though the source file is `y.ts` — TypeScript doesn't rewrite import paths, so you
-write the path your *compiled output* will have).
+write the path your _compiled output_ will have).
 
 ### TypeScript
+
 TypeScript is JavaScript with optional type annotations (`name: string`, `count: number`).
 It catches a class of bugs (wrong argument types, typos in property names) before the
 code ever runs, at the cost of a compile step. The compiler, `tsc`, turns `.ts` files into
@@ -80,14 +83,16 @@ TypeScript consumers). Every package here is authored in TypeScript and ships co
 JavaScript — consumers never need TypeScript themselves.
 
 ### Monorepo & workspaces
+
 A **monorepo** is one git repository holding multiple independent packages, instead of
 one repo per package. The benefit here: a shared build/test/release pipeline, and the
 ability to change a shared package (like `@loomidev/core`) and every component that
 depends on it in a single commit. A **workspace** (pnpm's term, similar to npm/yarn
-workspaces) is the mechanism that lets all those packages reference each other *locally*
+workspaces) is the mechanism that lets all those packages reference each other _locally_
 during development, without publishing to npm first. More in section 3.
 
 ### Web Components (custom elements + Shadow DOM)
+
 A **custom element** is a real HTML tag you define yourself, e.g. `<loomi-button>`. You
 register it once with `customElements.define("loomi-button", LoomiButton)` and from then
 on the browser treats `<loomi-button>` exactly like `<button>` or `<input>` — no
@@ -95,20 +100,22 @@ framework required, works in React/Vue/Angular/plain HTML equally. This is the l
 truth behind this project's tagline "it's just HTML."
 
 **Shadow DOM** is a sandboxed mini-document attached to an element. A component renders
-its internal markup and CSS *inside* its own shadow root, where outside page styles can't
+its internal markup and CSS _inside_ its own shadow root, where outside page styles can't
 leak in and the component's own styles can't leak out. This is how a component can use
 Tailwind classes like `bg-blue-600` internally without colliding with — or being
 overridden by — whatever CSS the host page happens to have for `.bg-blue-600`.
 
 ### Lit
+
 Plain custom elements are verbose to write by hand (manual DOM updates, manual attribute
 parsing). **Lit** is a small library (`lit`) that adds:
+
 - A `html` template tag for declarative rendering (``html`<div>${value}</div>` ``) that
   efficiently re-renders only what changed.
 - **Decorators** like `@customElement("loomi-button")` and `@property()` — the `@`-prefixed
   lines above a class or field. They're a TypeScript/JS feature for attaching behavior to
-  a class declaratively. `@property()` turns a plain class field into a *reactive
-  property*: changing it automatically re-runs `render()` and (by default) keeps it in
+  a class declaratively. `@property()` turns a plain class field into a _reactive
+  property_: changing it automatically re-runs `render()` and (by default) keeps it in
   sync with an HTML attribute of the same name.
 
 This is why `tsconfig.base.json` sets `"experimentalDecorators": true` and
@@ -117,17 +124,19 @@ to the runtime behavior Lit expects. If you ever see a Lit component whose `@pro
 fields silently stop working, this pairing of compiler flags is the first thing to check.
 
 ### CSS custom properties (CSS variables)
+
 `--some-name: value;` defines a CSS variable; `var(--some-name)` reads it. Unlike Tailwind
 classes (resolved once, at this repo's build time), CSS variables are resolved by the
-*browser*, live, and — critically — they **inherit through Shadow DOM boundaries**. A
+_browser_, live, and — critically — they **inherit through Shadow DOM boundaries**. A
 page-level `:root { --loomi-primary-600: hotpink; }` reaches into every component's shadow
 root and repaints it, with no rebuild. This is the entire mechanism behind "theme without
 a build step" (see section 6).
 
 ### Build time vs. runtime
-"Build time" = steps that run on the *maintainer's* machine or in CI, before anything is
+
+"Build time" = steps that run on the _maintainer's_ machine or in CI, before anything is
 published (compiling TypeScript, compiling Tailwind, generating files). "Runtime" = code
-that actually executes in the *consumer's* browser. A recurring theme in this codebase is
+that actually executes in the _consumer's_ browser. A recurring theme in this codebase is
 pushing as much work as possible to build time so runtime stays small and dependency-free
 — e.g., Tailwind is a build-time-only tool here; zero Tailwind code or CSS-in-JS engine
 ships to consumers.
@@ -165,6 +174,7 @@ components/                          <- repo root (this is what "@loomidev/root"
 Every folder under `packages/` is its own npm package with its own `package.json`,
 versioned independently. The exact count changes as new components land, but they fall
 into a few stable categories:
+
 - **3 foundation packages** (`theme`, `core`, `icons`) that almost everything else depends on.
 - **Leaf component packages** (`button`, `input`, `modal`, …), each depending on the
   foundation packages and nothing else in the repo.
@@ -207,7 +217,7 @@ packages:
 ```
 
 That tells pnpm "every immediate subfolder of `packages/` is a workspace member." Once a
-folder is a workspace member, any *other* member can depend on it like this (see
+folder is a workspace member, any _other_ member can depend on it like this (see
 [`packages/button/package.json`](../packages/button/package.json:24)):
 
 ```json
@@ -226,11 +236,12 @@ Node/TypeScript resolves it to `packages/core/dist/index.js` straight off your l
 filesystem — no registry round-trip, and editing `core` is instantly visible to every
 package that depends on it (after `core` rebuilds; see section 7).
 
-When packages are *published* to npm, Changesets rewrites `workspace:^` to a real version
+When packages are _published_ to npm, Changesets rewrites `workspace:^` to a real version
 number (e.g. `^0.1.0`) automatically — consumers installing from npm never see the
 `workspace:` protocol; it's purely a local-development mechanism.
 
 The three `.npmrc` settings ([`.npmrc`](../.npmrc)) reinforce this:
+
 ```
 link-workspace-packages=true   # prefer the local symlink over the npm registry
 prefer-workspace-packages=true # same intent, belt-and-suspenders
@@ -238,9 +249,9 @@ auto-install-peers=true        # auto-installs peerDependencies (e.g. `lit`) so 
 ```
 
 **The practical gotcha to internalize:** these symlinks are created once, when you run
-`pnpm install`, based on whatever each package's `name` field says *at that moment*. If a
+`pnpm install`, based on whatever each package's `name` field says _at that moment_. If a
 package's name changes afterward but you don't re-run `pnpm install`, your local
-`node_modules` keeps the *old* symlink name, and code importing the old name keeps working
+`node_modules` keeps the _old_ symlink name, and code importing the old name keeps working
 — right up until someone (you, or CI) does a fresh install. Section 15 walks through a
 live example of exactly this sitting in the repo right now.
 
@@ -291,6 +302,7 @@ packages/button/
 ```
 
 Field by field:
+
 - **`main`/`module`/`types`** — where to find the compiled JS entry point and its type
   declarations. All three point into `dist/`, never `src/` — consumers run compiled code.
 - **`files`** — when this package is packed for npm, only `dist/` and
@@ -300,18 +312,18 @@ Field by field:
   [Custom Elements Manifest](https://github.com/webcomponents/custom-elements-manifest):
   a machine-readable description of the tag, its attributes, slots, CSS parts and
   events, generated by `pnpm cem` at the repo root and read by IDEs, docs tooling and
-  framework integrations. Unlike `dist/`, it *is* committed — regenerate it whenever a
+  framework integrations. Unlike `dist/`, it _is_ committed — regenerate it whenever a
   component's public API changes.
 - **`exports`** — the modern way to declare a package's importable "entry points." The
   `"."` entry is what you get from `import "@loomidev/button"`. The second entry lets
   someone import the component file directly (`@loomidev/button/loomi-button.js`) if they
   want the class without the barrel re-export — rarely needed, there for flexibility.
 - **`scripts.build`** — runs two steps in order: first regenerate the compiled CSS
-  (`build-styles.mjs`), *then* run the TypeScript compiler. Order matters because the
+  (`build-styles.mjs`), _then_ run the TypeScript compiler. Order matters because the
   component's source code imports the file the first step generates.
 - **`dependencies` vs `peerDependencies`** — `dependencies` are things this package needs
   and npm will install for you automatically. `lit` is instead a **peerDependency**: the
-  package needs *some* compatible version of `lit` to exist, but doesn't bundle its own —
+  package needs _some_ compatible version of `lit` to exist, but doesn't bundle its own —
   it expects the consuming app to provide one shared copy. This is why the root README
   says "install `lit` alongside LoomiUI packages": if every component
   packages bundled its own copy of `lit`, a page using ten of them would load ten copies.
@@ -347,6 +359,7 @@ declare global {
 ```
 
 Things worth pausing on:
+
 - **`extends LoomiElement`**, not `extends LitElement` directly. `LoomiElement`
   (from `@loomidev/core`, see section 5) is this library's own thin base class that adds a
   shared convention (a stable CSS targeting class) on top of Lit's `LitElement`. Every
@@ -360,13 +373,13 @@ Things worth pausing on:
   classes (`"loomi-btn inline-flex ... bg-primary-600 text-white ..."`) based on the
   component's current attribute values, and Lit puts that string straight on the
   `class=` attribute of the real `<button>` inside the shadow root. This is plain runtime
-  string concatenation — nothing magic — but it only *works* visually because the CSS
+  string concatenation — nothing magic — but it only _works_ visually because the CSS
   rules for `bg-primary-600` etc. were already compiled into `buttonStyles` ahead of time
   (next section explains how).
 - **`<slot>`** elements in `renderContent()` are the Shadow DOM mechanism for "let the
   consumer's own light-DOM children show up here." `<loomi-button>Click me</loomi-button>`
-  — the text "Click me" lives in the *page's* DOM, but the default `<slot></slot>` inside
-  the component's shadow root decides *where* it visually appears.
+  — the text "Click me" lives in the _page's_ DOM, but the default `<slot></slot>` inside
+  the component's shadow root decides _where_ it visually appears.
 - **`declare global { interface HTMLElementTagNameMap ... }`** is a TypeScript-only
   addition (it generates no JS) that teaches `document.createElement("loomi-button")` and
   `document.querySelector("loomi-button")` their correct return type elsewhere in a
@@ -386,9 +399,9 @@ export { registerLoomiIcon, getLoomiIcon } from "./icons.js";
 ```
 
 This file is the actual thing `import "@loomidev/button"` runs. Note it's almost entirely
-*re-exports* — the real logic lives in `loomi-button.ts`. This "barrel file" pattern (a
+_re-exports_ — the real logic lives in `loomi-button.ts`. This "barrel file" pattern (a
 small `index.ts` that just re-exports from sibling files) is used everywhere in this repo
-specifically so the *side effect* of `@customElement("loomi-button")` registration runs
+specifically so the _side effect_ of `@customElement("loomi-button")` registration runs
 exactly once, at a predictable single entry point, while still giving TypeScript
 consumers clean named imports for types.
 
@@ -400,12 +413,13 @@ implementation at [`scripts/lib/build-component-styles.mjs`](../scripts/lib/buil
 palette and Tailwind CLI resolution anchored to the package's `node_modules` rather than
 the repo root's. The shared script runs at build time (never in the consumer's browser).
 In order:
+
 1. Reads `packages/theme/palette.json` (the single source of truth for color names).
 2. Builds a Tailwind `@theme inline` block mapping every Tailwind color utility
    (`bg-primary-600`) onto an overridable CSS variable (`var(--loomi-primary-600, ...)`)
    instead of a hardcoded hex value.
 3. Adds a `@source inline(...)` **safelist** if the package's shim asked for one — the
-   utilities import carries `source(none)`, meaning Tailwind does *not* scan source files
+   utilities import carries `source(none)`, meaning Tailwind does _not_ scan source files
    for class names at all (component templates use semantic `loomi-*` classes, so
    scanning only ever matched false positives and bloated the output). Any utility class
    a component needs must therefore appear in `src/styles.css` itself (e.g. via `@apply`)
@@ -455,7 +469,7 @@ is genuinely just JSON:
 ```
 
 `colors` is the public, overridable palette (the names you see in component APIs, e.g.
-`<loomi-button color="red">`). `ramps` says which of *Tailwind's own* built-in color
+`<loomi-button color="red">`). `ramps` says which of _Tailwind's own_ built-in color
 scales supplies the **default** value for each — e.g. `primary`'s defaults come from
 Tailwind's `blue` ramp — so this project never hand-types a single hex/oklch color value;
 every default is borrowed directly from Tailwind's own design tokens. `prefix` (`"loomi"`)
@@ -466,7 +480,7 @@ is the brand prefix for every generated CSS variable; change it here once and ev
 [`src/generated/tokens.css.ts`](../packages/theme/src/generated/tokens.css.ts) — exported as
 `themeStyles`, the CSS block every single component prepends to its own styles via
 `loomiStyles(...)` (see `static override styles = loomiStyles(buttonStyles)` back in
-`loomi-button.ts`). This is what actually *declares* the `--loomi-*` variables with their
+`loomi-button.ts`). This is what actually _declares_ the `--loomi-*` variables with their
 default values, plus a tiny universal `box-sizing: border-box` reset, plus the dark-mode
 semantic tokens (section 6).
 
@@ -474,6 +488,7 @@ semantic tokens (section 6).
 
 The shared runtime toolkit every component imports from. Per
 [`src/index.ts`](../packages/core/src/index.ts), it provides:
+
 - **`LoomiElement`** — the shared base class (extends Lit's `LitElement`) every component
   extends instead of `LitElement` directly. Its one real job today: give every rendered
   element a stable, predictable CSS class (either from an explicit `name="..."` attribute,
@@ -484,7 +499,7 @@ The shared runtime toolkit every component imports from. Per
   reach into `theme` directly. ("Re-export the shared theme surface so components import
   everything from `@loomidev/core`," per the comment in the source.)
   - **`loomiStyles(...styles)`** — `return [themeStyles, motionStyles, elevationStyles,
-    focusStyles, ...styles]`. Every component's `static styles` should be built with this,
+focusStyles, ...styles]`. Every component's `static styles` should be built with this,
     not a hand-rolled array, so it automatically gets the shared animation keyframes,
     drop-shadow token, and focus-ring color below.
   - **`motionStyles`** (`src/motion.ts`) — shared entrance-animation `@keyframes`
@@ -503,7 +518,7 @@ The shared runtime toolkit every component imports from. Per
     silently rendered no visible focus ring at all. A component with its own
     per-instance `accentVars()` color should reference `--_loomi-accent` directly
     instead of these tokens, since nested `var()` inside an inherited custom property
-    resolves at the element where the *outer* property was declared, not at the element
+    resolves at the element where the _outer_ property was declared, not at the element
     that finally uses it.
   - **`fieldStyles` / `controlSizeStyles`** (`src/field.ts`) — the shared chrome for
     form controls. `fieldStyles` is the border/background/focus/invalid/disabled/
@@ -519,7 +534,7 @@ The shared runtime toolkit every component imports from. Per
     must branch on dark mode beyond what the semantic tokens already handle;
     `:host-context(.dark)` has no Firefox support, so components toggle an `is-dark`
     class on themselves instead (see table, calendar).
-  - **`accentVars(color)`** — builds a small block of *per-instance* CSS variables
+  - **`accentVars(color)`** — builds a small block of _per-instance_ CSS variables
     (`--_loomi-accent`, `--_loomi-accent-strong`, …) for components that need "this one
     instance is red, that one is blue" rather than a global theme override. Section 6
     explains the public/private naming convention this relies on.
@@ -555,17 +570,18 @@ explains a line you'll otherwise find mysterious: `var(--loomi-primary-600, var(
 
 The goal: let a consumer override a color **from their own page's plain CSS**, with no
 rebuild, while still having a sensible default if they override nothing — and do this
-correctly *across a Shadow DOM boundary*, which has a specific pitfall:
+correctly _across a Shadow DOM boundary_, which has a specific pitfall:
 
 > If a component declares a CSS variable's default value on its own `:host` selector
 > (i.e., on itself), that locally-declared value wins over anything the page's `:root`
 > tries to set, because `:host` is "closer" in the CSS cascade than an inherited value from
 > outside the shadow tree. Declaring defaults the naive way silently makes the variable
-> *unoverridable* from outside.
+> _unoverridable_ from outside.
 
 The fix used throughout this repo is a two-variable chain:
+
 - **Public slot**: `--loomi-primary-600` — intentionally **never declared** by any
-  component. Left undeclared, it inherits straight through from wherever the *consumer*
+  component. Left undeclared, it inherits straight through from wherever the _consumer_
   defines it (typically `:root`), all the way down into every shadow root.
 - **Private default**: `--_loomi-primary-600-default` — **is** declared, on `:host`, by
   `@loomidev/theme`'s generated tokens, with the real fallback value (borrowed from
@@ -583,13 +599,13 @@ Worked example: a consumer writes this in their own page CSS, with zero build st
 }
 ```
 
-That single declaration reaches into the shadow root of *every* component on the page
+That single declaration reaches into the shadow root of _every_ component on the page
 using `primary`, because `--loomi-primary-600` (the public slot) was never shadowed
 locally by anything — it was only ever read via `var()`, never declared, inside any
 component. The private `-default` fallback only kicks in for consumers who set nothing at
 all.
 
-**Dark mode** rides the same mechanism one level up, as named *semantic* aliases rather
+**Dark mode** rides the same mechanism one level up, as named _semantic_ aliases rather
 than raw colors — `--loomi-surface`, `--loomi-text`, `--loomi-text-muted`,
 `--loomi-focus-ring`, `--loomi-focus-ring-color`, `--loomi-text-on-primary`, etc. — defined
 once in `theme`'s generated tokens with a light-mode value on `:host` and a different
@@ -600,7 +616,7 @@ actually toggles that `.dark` class on `<html>`. Components are expected to refe
 "already there" the moment a component uses the semantic token instead of a literal shade.
 
 **Per-instance accents** (`accentVars()` in `@loomidev/core`, used by components that need
-one specific instance recolored rather than the whole theme) use a parallel *private-only*
+one specific instance recolored rather than the whole theme) use a parallel _private-only_
 naming convention (`--_loomi-accent`, no public sibling) set via an inline `style=` attribute
 on that one element — deliberately not part of the global override surface.
 
@@ -630,9 +646,11 @@ because `button`'s `package.json` lists `@loomidev/core` as a dependency, pnpm g
 dozens of packages yourself.
 
 Each package's own `build` script is intentionally tiny and uniform, e.g. button's:
+
 ```json
 "build": "node scripts/build-styles.mjs && tsc -p tsconfig.json"
 ```
+
 1. Run any package-specific code-generation script first (Tailwind compilation for
    components; token generation for `theme`; the heroicons registry for `icons`; the
    MCP manifest for `mcp-server`). Most packages skip this step entirely — they have no
@@ -661,6 +679,7 @@ tedious if you want the whole library. Four extra packages solve that purely by
 **re-exporting** other workspace packages — they contain almost no logic of their own.
 
 [`packages/components/src/index.ts`](../packages/components/src/index.ts):
+
 ```ts
 // Umbrella entry: re-exports every loomi component and registers all custom elements.
 export * from "@loomidev/button";
@@ -669,7 +688,7 @@ export * from "@loomidev/textarea";
 // ...more lines, one per component
 ```
 
-`import "@loomidev/components"` therefore registers *every* `<loomi-*>` tag in one go.
+`import "@loomidev/components"` therefore registers _every_ `<loomi-*>` tag in one go.
 The package also exposes a **subpath export per component** — e.g.
 [`packages/components/src/button.ts`](../packages/components/src/button.ts) is literally one
 line, `export * from "@loomidev/button";` — wired up via the long `exports` map in
@@ -700,6 +719,7 @@ built-in language (`en.ts`, `es.ts`, `fr.ts`, `de.ts`, `ar.ts`, `it.ts`, `ml.ts`
 merged together in [`locales/index.ts`](../packages/core/src/locales/index.ts).
 
 [`packages/core/src/i18n.ts`](../packages/core/src/i18n.ts) provides the runtime API:
+
 - **`setLoomiLocale("es")`** — sets a global active locale; every component re-renders
   its built-in text in Spanish from then on.
 - **`defineLoomiTranslations("ak", { ... })`** — registers a brand-new locale (or extends
@@ -860,7 +880,7 @@ small local/remote server for facts, instead of guessing from training data alon
 ([`src/generated/manifest.json`](../packages/mcp-server/src/generated/manifest.json), built
 from every component's real README/attribute tables by `scripts/build-manifest.mjs`). The
 point: when you ask an AI assistant "what attributes does `<loomi-button>` accept," it can
-query this server for the *actual, current* API instead of hallucinating one. It has
+query this server for the _actual, current_ API instead of hallucinating one. It has
 nothing to do with the UI components at runtime — it's a developer-experience tool that
 ships as its own package because, like everything else here, it's independently versioned
 and installed only by people who want it.
@@ -886,6 +906,7 @@ export default {
 ```
 
 Key things to notice:
+
 - Tests run in a **real headless Chromium** (via Puppeteer), not a simulated DOM. Web
   Components rely on real browser APIs (`customElements`, Shadow DOM, slots) that
   simulated/mocked DOM environments often get subtly wrong — so this project pays for a
@@ -908,7 +929,7 @@ Key things to notice:
   helper mounts a snippet of HTML into a real page and returns the live element, and
   `expect()` is Chai's assertion API.
 
-This section explains *why* testing works this way, not the full list of commands to run
+This section explains _why_ testing works this way, not the full list of commands to run
 it — for that (running one package's tests only, `pnpm clean`, `pnpm changeset`, and
 every other available command in one table), see
 [`CONTRIBUTING.md`](../CONTRIBUTING.md)'s [§12 Quick reference](../CONTRIBUTING.md#12-quick-reference).
@@ -920,12 +941,14 @@ every other available command in one table), see
 ### Continuous integration — [`.github/workflows/ci.yml`](../.github/workflows/ci.yml)
 
 Runs on every push to `main` and every pull request:
+
 ```yaml
 - run: pnpm install --frozen-lockfile
 - run: pnpm build
 - run: pnpm typecheck
 - run: pnpm test
 ```
+
 `--frozen-lockfile` means "install exactly what `pnpm-lock.yaml` says, and **fail** if any
 `package.json` disagrees with the lockfile" — a safety check that the lockfile committed
 to git is actually still accurate, rather than silently regenerating it. Section 17 covers
@@ -946,7 +969,7 @@ each changelog?) that Changesets automates end to end:
    `.changeset/*.md` files? If yes, it opens (or updates) a standing **"Version Packages"
    pull request** that bumps every affected `package.json` version and rewrites
    changelogs — automatically, via the `changesets/action` GitHub Action.
-3. When a maintainer merges *that* PR, there are no more unconsumed changesets, so the
+3. When a maintainer merges _that_ PR, there are no more unconsumed changesets, so the
    same workflow instead runs `pnpm changeset publish` — which publishes every package
    whose version just changed to the npm registry (with [provenance](https://docs.npmjs.com/generating-provenance-statements),
    a cryptographic attestation that the published artifact came from this exact CI run).
@@ -963,16 +986,16 @@ the comment block at the top of `release.yml`.
 
 ## 15. Root config file cheat-sheet
 
-| File | What it's for |
-| --- | --- |
-| [`package.json`](../package.json) | Root scripts (`build`/`dev`/`test`/`typecheck`), pinned `packageManager`, root devDependencies (TypeScript, test runner, Changesets CLI). `"private": true` — this root package itself is never published. |
-| [`pnpm-workspace.yaml`](../pnpm-workspace.yaml) | Declares `packages/*` as workspace members. |
-| [`tsconfig.base.json`](../tsconfig.base.json) | Shared compiler options every package's own `tsconfig.json` extends — target ES2022, strict mode, decorators enabled for Lit, etc. |
-| [`.npmrc`](../.npmrc) | pnpm behavior tuning — prefer local workspace links over the registry, auto-install peer deps. |
-| [`web-test-runner.config.mjs`](../web-test-runner.config.mjs) | Test runner setup — see section 13. |
-| [`.changeset/config.json`](../.changeset/config.json) | Versioning/publishing policy — see section 14. |
-| [`.gitignore`](../.gitignore) | Excludes `node_modules/`, `dist/`, `**/src/generated/`, `*.tsbuildinfo`, etc. — anything reproducible from source never gets committed. |
-| [`examples/`](../examples) | Plain static `.html` files (no build step) for manually loading components in a real browser tab while developing — `index.html`, `darkmode.html`, `forms.html`, etc. |
+| File                                                          | What it's for                                                                                                                                                                                              |
+| ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`package.json`](../package.json)                             | Root scripts (`build`/`dev`/`test`/`typecheck`), pinned `packageManager`, root devDependencies (TypeScript, test runner, Changesets CLI). `"private": true` — this root package itself is never published. |
+| [`pnpm-workspace.yaml`](../pnpm-workspace.yaml)               | Declares `packages/*` as workspace members.                                                                                                                                                                |
+| [`tsconfig.base.json`](../tsconfig.base.json)                 | Shared compiler options every package's own `tsconfig.json` extends — target ES2022, strict mode, decorators enabled for Lit, etc.                                                                         |
+| [`.npmrc`](../.npmrc)                                         | pnpm behavior tuning — prefer local workspace links over the registry, auto-install peer deps.                                                                                                             |
+| [`web-test-runner.config.mjs`](../web-test-runner.config.mjs) | Test runner setup — see section 13.                                                                                                                                                                        |
+| [`.changeset/config.json`](../.changeset/config.json)         | Versioning/publishing policy — see section 14.                                                                                                                                                             |
+| [`.gitignore`](../.gitignore)                                 | Excludes `node_modules/`, `dist/`, `**/src/generated/`, `*.tsbuildinfo`, etc. — anything reproducible from source never gets committed.                                                                    |
+| [`examples/`](../examples)                                    | Plain static `.html` files (no build step) for manually loading components in a real browser tab while developing — `index.html`, `darkmode.html`, `forms.html`, etc.                                      |
 
 ---
 
@@ -1000,14 +1023,14 @@ Tracing what actually happens for the snippet in the README:
    `this.icon = "trash"`.
 5. Lit calls `render()`. `computeClasses()` builds a string like
    `"loomi-btn ... bg-transparent text-red-600 border-2 border-solid border-red-600
-   hover:bg-red-50 rounded-full ..."` based on those property values, and `renderIcon()`
+hover:bg-red-50 rounded-full ..."` based on those property values, and `renderIcon()`
    looks up `"trash"` in the icon registry (`@loomidev/icons`, via `@loomidev/button`'s own
    `icons.ts` re-export) to inline its SVG.
 6. Lit diffs the new template against the previous render and patches only what changed
    into the element's Shadow DOM — `<button class="...">...</button>`.
 7. The browser paints. The Tailwind class names on that `<button>` resolve against the CSS
    rules `buttonStyles` already injected into this element's shadow root at construction
-   time (section 4) — rules that were compiled from Tailwind source *months earlier*, at
+   time (section 4) — rules that were compiled from Tailwind source _months earlier_, at
    `@loomidev/button`'s own `pnpm build` time, not now. Each color utility resolves through
    `var(--loomi-red-600, var(--_loomi-red-600-default))` (section 6); since this page never
    set `--loomi-red-600` on `:root`, it falls through to the private default — Tailwind's

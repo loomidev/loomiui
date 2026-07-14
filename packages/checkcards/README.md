@@ -13,7 +13,6 @@ npm install @loomidev/checkcards lit
 import "@loomidev/checkcards";
 ```
 
-
 ## Basic Usage
 
 Cards take up the width of their parent — use a grid or flex container to lay several
@@ -137,7 +136,6 @@ loomi-checkcards is designed to fit the layout you place it in. It uses fluid wi
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-checkcards uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -150,26 +148,26 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ### `<loomi-checkcards>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `name` | _(blank)_ | Submitted with the form. |
-| `max` | `1` | Max selectable cards. |
-| `auto-select-new` | `true` | Drop the oldest selection when exceeding `max` (vs blocking). _(boolean)_ |
-| `color` | `primary` | Icon/avatar accent color (any loomi color). |
-| `border-color` | `primary` | Card border color (any loomi color). |
-| `border-width` | `2` | Card border width (px). |
-| `radius` | `medium` | `none` \| `small` \| `medium` \| `full`. Presets over `--loomi-panel-radius`; `medium` follows the theme, the rest override it. |
-| `compact` | `false` | Reduced padding. _(boolean)_ |
-| `selected-value` | _(blank)_ | Comma-separated values to pre-select. |
+| Attribute         | Default   | Description                                                                                                                     |
+| ----------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `name`            | _(blank)_ | Submitted with the form.                                                                                                        |
+| `max`             | `1`       | Max selectable cards.                                                                                                           |
+| `auto-select-new` | `true`    | Drop the oldest selection when exceeding `max` (vs blocking). _(boolean)_                                                       |
+| `color`           | `primary` | Icon/avatar accent color (any loomi color).                                                                                     |
+| `border-color`    | `primary` | Card border color (any loomi color).                                                                                            |
+| `border-width`    | `2`       | Card border width (px).                                                                                                         |
+| `radius`          | `medium`  | `none` \| `small` \| `medium` \| `full`. Presets over `--loomi-panel-radius`; `medium` follows the theme, the rest override it. |
+| `compact`         | `false`   | Reduced padding. _(boolean)_                                                                                                    |
+| `selected-value`  | _(blank)_ | Comma-separated values to pre-select.                                                                                           |
 
 ### `<loomi-checkcard>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `value` | _(blank)_ | Submitted value. |
-| `title` | _(blank)_ | Card title. |
-| `icon` | _(blank)_ | Leading icon name. |
-| `avatar` | _(blank)_ | Image URL, or ≤3 chars for an initials label. |
+| Attribute | Default   | Description                                   |
+| --------- | --------- | --------------------------------------------- |
+| `value`   | _(blank)_ | Submitted value.                              |
+| `title`   | _(blank)_ | Card title.                                   |
+| `icon`    | _(blank)_ | Leading icon name.                            |
+| `avatar`  | _(blank)_ | Image URL, or ≤3 chars for an initials label. |
 
 **Slot:** default (card body). **Event:** `change` (`detail: { values }`).
 
@@ -249,7 +247,6 @@ In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the pac
 ```js
 import "@loomidev/checkcards";
 ```
-
 
 Because this is a form-capable component, give it a `name` when it should submit with a native `<form>`. Read its value with `new FormData(form).get("the-name")` just like you would for a built-in input.
 

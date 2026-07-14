@@ -3,5 +3,5 @@ export {
   LoomiSideNavItem,
   type LoomiSideNavState,
   type LoomiSideNavCollapseMode,
-  type LoomiSideNavIconSize
+  type LoomiSideNavIconSize,
 } from "./loomi-side-nav.js";

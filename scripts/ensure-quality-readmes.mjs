@@ -16,7 +16,7 @@ function defaultSections(packageName, scan) {
   const responsive = [];
   const darkMode = [
     "Uses semantic `--loomi-surface`, `--loomi-surface-border`, and `--loomi-text` tokens where applicable.",
-    "Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme."
+    "Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.",
   ];
 
   if (scan.hasAria) {
@@ -24,7 +24,9 @@ function defaultSections(packageName, scan) {
   } else {
     accessibility.push("Prefer native HTML elements; add labels in your app shell where needed.");
   }
-  accessibility.push("Supports keyboard focus with visible `:focus-visible` styling on interactive controls.");
+  accessibility.push(
+    "Supports keyboard focus with visible `:focus-visible` styling on interactive controls.",
+  );
 
   if (scan.hasMedia) {
     responsive.push("Includes layout breakpoints for narrow viewports (see component CSS).");
@@ -49,7 +51,7 @@ function renderBlock(sections) {
     "",
     "## Dark mode",
     bullets(sections.darkMode),
-    ""
+    "",
   ].join("\n");
 }
 
@@ -65,7 +67,7 @@ function scanSource(packageName) {
   return {
     hasAria: /aria-[a-z-]+=|role=/.test(source),
     hasMedia: /@media/.test(source),
-    hardcodedSurface: /--loomi-gray-[0-9]{3}|#fff\b|#ffffff\b|bg-white/.test(source)
+    hardcodedSurface: /--loomi-gray-[0-9]{3}|#fff\b|#ffffff\b|bg-white/.test(source),
   };
 }
 
@@ -89,7 +91,9 @@ function insertSections(readme, block) {
 
 let updated = 0;
 
-for (const packageName of readdirSync(packagesDir, { withFileTypes: true }).filter((entry) => entry.isDirectory()).map((entry) => entry.name)) {
+for (const packageName of readdirSync(packagesDir, { withFileTypes: true })
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => entry.name)) {
   if (skip.has(packageName)) continue;
 
   const readmePath = path.join(packagesDir, packageName, "README.md");
@@ -103,7 +107,7 @@ for (const packageName of readdirSync(packagesDir, { withFileTypes: true }).filt
     ? {
         accessibility: override.accessibility,
         responsive: override.responsive,
-        darkMode: override.darkMode
+        darkMode: override.darkMode,
       }
     : defaultSections(packageName, scan);
 

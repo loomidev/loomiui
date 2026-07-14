@@ -2,8 +2,21 @@ import { html, nothing, type PropertyValues } from "lit";
 import { customElement } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, watchDarkMode } from "@loomidev/core";
 import { dataGridStyles } from "./data-grid-styles.js";
-import type { DataGridHost, GridCellCoordinates, GridModule, GridModuleContext } from "./grid-module.js";
-import { formatCellValue, getRowMeta, resolveRowKey, orderPinnedColumns, computeColumnPinLayout, SELECTION_COLUMN_WIDTH_PX, type ColumnPinLayout } from "./grid-utils.js";
+import type {
+  DataGridHost,
+  GridCellCoordinates,
+  GridModule,
+  GridModuleContext,
+} from "./grid-module.js";
+import {
+  formatCellValue,
+  getRowMeta,
+  resolveRowKey,
+  orderPinnedColumns,
+  computeColumnPinLayout,
+  SELECTION_COLUMN_WIDTH_PX,
+  type ColumnPinLayout,
+} from "./grid-utils.js";
 import type {
   DataGridActiveCell,
   DataGridCellEditDetail,
@@ -17,7 +30,7 @@ import type {
   DataGridSelectionChangeDetail,
   DataGridSort,
   DataGridSortChangeDetail,
-  DataGridToggleRowDetail
+  DataGridToggleRowDetail,
 } from "./types.js";
 import type { DataGridExportRequestDetail } from "./modules/export.js";
 
@@ -51,7 +64,7 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
     sort: { attribute: false },
     columnWidths: { attribute: false },
     _activeCell: { state: true },
-    _resizingKey: { state: true }
+    _resizingKey: { state: true },
   };
 
   static override styles = loomiStyles(dataGridStyles);
@@ -143,7 +156,7 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
       rows: this.processedRowsSnapshot,
       requestUpdate: () => this.requestUpdate(),
       dispatch: (name, detail) => this.dispatchGridEvent(name, detail),
-      getRowKey: (row) => this.getRowKey(row)
+      getRowKey: (row) => this.getRowKey(row),
     };
   }
 
@@ -169,18 +182,20 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
     const pinLayout = computeColumnPinLayout(
       columns,
       this.columnWidths,
-      this.selectable ? SELECTION_COLUMN_WIDTH_PX : 0
+      this.selectable ? SELECTION_COLUMN_WIDTH_PX : 0,
     );
 
     return html`
       <section class="shell" aria-busy=${this.loading ? "true" : "false"}>
         ${this.renderToolbar(selectedCount, ctx)}
         <div class="grid-wrap" style=${this.maxHeight ? `max-height:${this.maxHeight}` : ""}>
-          ${this.loading
-            ? this.renderLoading()
-            : processedRows.length === 0
-              ? this.renderEmpty()
-              : this.renderTable(columns, rows, bodyModule, ctx, pinLayout)}
+          ${
+            this.loading
+              ? this.renderLoading()
+              : processedRows.length === 0
+                ? this.renderEmpty()
+                : this.renderTable(columns, rows, bodyModule, ctx, pinLayout)
+          }
         </div>
         ${belowTable.length > 0 ? html`<div class="below-table">${belowTable}</div>` : nothing}
         ${showPagination ? this.renderFooter(totalRows, totalPages) : nothing}
@@ -234,9 +249,10 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
     rows: TRecord[],
     bodyModule: GridModule<TRecord> | undefined,
     ctx: GridModuleContext<TRecord>,
-    pinLayout: ColumnPinLayout
+    pinLayout: ColumnPinLayout,
   ) {
-    const renderRow = (row: TRecord, rowIndex: number) => this.renderRow(columns, row, rowIndex, pinLayout);
+    const renderRow = (row: TRecord, rowIndex: number) =>
+      this.renderRow(columns, row, rowIndex, pinLayout);
 
     return html`
       <table @keydown=${this.handleGridKeydown}>
@@ -246,8 +262,9 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
         </colgroup>
         <thead>
           <tr>
-            ${this.selectable
-              ? html`
+            ${
+              this.selectable
+                ? html`
                   <th class="pin-select-column">
                     <input
                       type="checkbox"
@@ -257,7 +274,8 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
                     />
                   </th>
                 `
-              : nothing}
+                : nothing
+            }
             ${columns.map((column) => this.renderHeaderCell(column, pinLayout))}
           </tr>
         </thead>
@@ -269,8 +287,11 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
   }
 
   private renderHeaderCell(column: DataGridColumn<TRecord>, pinLayout: ColumnPinLayout) {
-    const sortIndicator = this.sort?.key === column.key ? (this.sort.direction === "asc" ? "▲" : "▼") : "";
-    const className = [this.getAlignClass(column), this.getPinCellClass(column, pinLayout)].filter(Boolean).join(" ");
+    const sortIndicator =
+      this.sort?.key === column.key ? (this.sort.direction === "asc" ? "▲" : "▼") : "";
+    const className = [this.getAlignClass(column), this.getPinCellClass(column, pinLayout)]
+      .filter(Boolean)
+      .join(" ");
     const pinStyle = this.getPinCellStyle(column, pinLayout);
     const resizable = column.resizable !== false;
     const extra = this.attachedModules
@@ -284,24 +305,28 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
         title=${column.description ?? nothing}
       >
         <div class="th-content">
-          ${column.sortable
-            ? html`
+          ${
+            column.sortable
+              ? html`
                 <button type="button" class="sort-button" @click=${() => this.handleSort(column)}>
                   <span>${column.label}</span>
                   <span class="sort-indicator">${sortIndicator}</span>
                 </button>
               `
-            : html`<span>${column.label}</span>`}
+              : html`<span>${column.label}</span>`
+          }
         </div>
         ${extra}
-        ${resizable
-          ? html`
+        ${
+          resizable
+            ? html`
               <div
                 class=${`resize-handle${this._resizingKey === column.key ? " resizing" : ""}`}
                 @pointerdown=${(event: PointerEvent) => this.startResize(event, column)}
               ></div>
             `
-          : nothing}
+            : nothing
+        }
       </th>
     `;
   }
@@ -310,7 +335,7 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
     columns: DataGridColumn<TRecord>[],
     row: TRecord,
     rowIndex: number,
-    pinLayout: ColumnPinLayout
+    pinLayout: ColumnPinLayout,
   ) {
     const meta = getRowMeta(row);
 
@@ -331,8 +356,9 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
         data-selected=${selected ? "true" : "false"}
         @click=${() => this.emitRowAction(row, rowKeyValue)}
       >
-        ${this.selectable
-          ? html`
+        ${
+          this.selectable
+            ? html`
               <td class="pin-select-column">
                 <input
                   type="checkbox"
@@ -343,7 +369,8 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
                 />
               </td>
             `
-          : nothing}
+            : nothing
+        }
         ${columns.map((column, columnIndex) => this.renderDataCell(column, row, rowIndex, columnIndex, pinLayout))}
       </tr>
     `;
@@ -356,8 +383,9 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
     return html`
       <tr class="loomi-grid-row-group">
         <td colspan=${columnCount} style=${`padding-left: ${12 + (meta.depth ?? 0) * 16}px`}>
-          ${meta.hasChildren !== false
-            ? html`
+          ${
+            meta.hasChildren !== false
+              ? html`
                 <button
                   type="button"
                   class="group-toggle"
@@ -367,11 +395,13 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
                   ${meta.expanded ? "▾" : "▸"}
                 </button>
               `
-            : nothing}
+              : nothing
+          }
           <strong>${meta.groupLabel}</strong>
           ${meta.count != null ? html`<span class="row-count">(${meta.count})</span>` : nothing}
           ${aggregateEntries.map(
-            ([key, value]) => html`<span class="row-count">&nbsp;· ${key}: ${formatCellValue(value)}</span>`
+            ([key, value]) =>
+              html`<span class="row-count">&nbsp;· ${key}: ${formatCellValue(value)}</span>`,
           )}
         </td>
       </tr>
@@ -383,7 +413,7 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
     row: TRecord,
     rowIndex: number,
     columnIndex: number,
-    pinLayout: ColumnPinLayout
+    pinLayout: ColumnPinLayout,
   ) {
     const cell: GridCellCoordinates<TRecord> = { row, rowIndex, columnIndex, column };
     const activeCell = this._activeCell ?? { rowIndex: 0, columnIndex: 0 };
@@ -392,7 +422,11 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
       .map((module) => module.getCellClass?.(cell, this.moduleContext))
       .filter((value): value is string => Boolean(value))
       .join(" ");
-    const className = [this.getAlignClass(column), extraCellClass, this.getPinCellClass(column, pinLayout)]
+    const className = [
+      this.getAlignClass(column),
+      extraCellClass,
+      this.getPinCellClass(column, pinLayout),
+    ]
       .filter(Boolean)
       .join(" ");
     const pinStyle = this.getPinCellStyle(column, pinLayout);
@@ -429,8 +463,9 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
 
     return html`
       <span class="tree-indent" style=${`width: ${meta.depth * 16}px`}></span>
-      ${meta.hasChildren
-        ? html`
+      ${
+        meta.hasChildren
+          ? html`
             <button
               type="button"
               class="group-toggle"
@@ -443,7 +478,8 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
               ${meta.expanded ? "▾" : "▸"}
             </button>
           `
-        : nothing}
+          : nothing
+      }
       ${content}
     `;
   }
@@ -457,7 +493,12 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
     }
 
     if (column.cellRenderer) {
-      return column.cellRenderer({ value: cell.row[column.key], row: cell.row, rowIndex: cell.rowIndex, column });
+      return column.cellRenderer({
+        value: cell.row[column.key],
+        row: cell.row,
+        rowIndex: cell.rowIndex,
+        column,
+      });
     }
 
     if (column.formatter) {
@@ -526,7 +567,10 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
       handle.removeEventListener("pointerup", onUp);
       this._resizingKey = null;
       const width = parseFloat(this.columnWidths[column.key] ?? String(startWidth));
-      this.dispatchGridEvent<DataGridColumnResizeDetail>("loomi-column-resize", { key: column.key, width });
+      this.dispatchGridEvent<DataGridColumnResizeDetail>("loomi-column-resize", {
+        key: column.key,
+        width,
+      });
     };
 
     handle.addEventListener("pointermove", onMove);
@@ -605,8 +649,14 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
 
   private moveActiveCell(rowDelta: number, columnDelta: number): void {
     const current = this._activeCell ?? { rowIndex: 0, columnIndex: 0 };
-    const nextRow = Math.max(0, Math.min(this.renderedRows.length - 1, current.rowIndex + rowDelta));
-    const nextColumn = Math.max(0, Math.min(this.renderedColumns.length - 1, current.columnIndex + columnDelta));
+    const nextRow = Math.max(
+      0,
+      Math.min(this.renderedRows.length - 1, current.rowIndex + rowDelta),
+    );
+    const nextColumn = Math.max(
+      0,
+      Math.min(this.renderedColumns.length - 1, current.columnIndex + columnDelta),
+    );
     this.setActiveCell(nextRow, nextColumn);
   }
 
@@ -700,14 +750,21 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
   }
 
   private areAllVisibleRowsSelected(rows: TRecord[]): boolean {
-    const selectableRows = rows.filter((row) => getRowMeta(row)?.type == null || getRowMeta(row)?.type === "data");
-    return selectableRows.length > 0 && selectableRows.every((row) => this.selectedKeys.includes(this.getRowKey(row)));
+    const selectableRows = rows.filter(
+      (row) => getRowMeta(row)?.type == null || getRowMeta(row)?.type === "data",
+    );
+    return (
+      selectableRows.length > 0 &&
+      selectableRows.every((row) => this.selectedKeys.includes(this.getRowKey(row)))
+    );
   }
 
   // ---- Pagination --------------------------------------------------------------
 
   private setPage(page: number): void {
-    const totalPages = this.getTotalPages(this.getTotalRows(this.getProcessedRows(this.moduleContext)));
+    const totalPages = this.getTotalPages(
+      this.getTotalRows(this.getProcessedRows(this.moduleContext)),
+    );
     this.page = Math.max(1, Math.min(page, totalPages));
     this.emitPageChange();
   }
@@ -719,7 +776,10 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
   };
 
   private emitPageChange(): void {
-    this.dispatchGridEvent<DataGridPageChangeDetail>("loomi-page-change", { page: this.page, pageSize: this.pageSize });
+    this.dispatchGridEvent<DataGridPageChangeDetail>("loomi-page-change", {
+      page: this.page,
+      pageSize: this.pageSize,
+    });
   }
 
   // ---- Row grouping / tree toggling (generic; modules react via onGridEvent) --
@@ -729,7 +789,7 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
     this.dispatchGridEvent<DataGridToggleRowDetail<TRecord>>("loomi-grid-toggle-row", {
       rowKey: this.getRowKey(row),
       row,
-      expanded: !(meta?.expanded ?? false)
+      expanded: !(meta?.expanded ?? false),
     });
   }
 
@@ -737,7 +797,10 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
     if (getRowMeta(row)) {
       return;
     }
-    this.dispatchGridEvent<DataGridRowActionDetail<TRecord>>("loomi-row-action", { row, rowKey: rowKeyValue });
+    this.dispatchGridEvent<DataGridRowActionDetail<TRecord>>("loomi-row-action", {
+      row,
+      rowKey: rowKeyValue,
+    });
   }
 
   // ---- Row processing pipeline --------------------------------------------
@@ -880,7 +943,7 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
       rowKey: rowKeyValue,
       columnKey,
       previousValue,
-      value
+      value,
     });
   }
 
@@ -888,7 +951,7 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
     const selectedRows = this.data.filter((row) => this.selectedKeys.includes(this.getRowKey(row)));
     this.dispatchGridEvent<DataGridSelectionChangeDetail<TRecord>>("loomi-selection-change", {
       selectedKeys: this.selectedKeys,
-      selectedRows
+      selectedRows,
     });
   }
 }

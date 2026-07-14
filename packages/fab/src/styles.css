@@ -87,8 +87,15 @@
   background: var(--loomi-fab-bg, var(--_loomi-accent, var(--loomi-primary-600)));
   color: var(--loomi-fab-fg, var(--loomi-text-on-primary, var(--loomi-white)));
   cursor: pointer;
-  box-shadow: var(--loomi-fab-shadow, 0 3px 10px rgba(15, 23, 42, 0.2), 0 1px 3px rgba(15, 23, 42, 0.12));
-  transition: background-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+  box-shadow: var(
+    --loomi-fab-shadow,
+    0 3px 10px rgba(15, 23, 42, 0.2),
+    0 1px 3px rgba(15, 23, 42, 0.12)
+  );
+  transition:
+    background-color 0.16s ease,
+    box-shadow 0.16s ease,
+    transform 0.16s ease;
 }
 .loomi-trigger:hover:not(:disabled) {
   background: var(--loomi-fab-bg-hover, var(--_loomi-accent-strong));
@@ -99,7 +106,9 @@
 }
 .loomi-trigger:focus-visible {
   outline: none;
-  box-shadow: var(--loomi-fab-shadow, 0 3px 10px rgba(15, 23, 42, 0.2)), 0 0 0 4px var(--_loomi-accent-ring);
+  box-shadow:
+    var(--loomi-fab-shadow, 0 3px 10px rgba(15, 23, 42, 0.2)),
+    0 0 0 4px var(--_loomi-accent-ring);
 }
 .loomi-trigger:disabled {
   cursor: not-allowed;
@@ -124,7 +133,10 @@
   visibility: hidden;
   pointer-events: none;
   transform: scale(0.94);
-  transition: opacity 0.16s ease, transform 0.16s ease, visibility 0.16s;
+  transition:
+    opacity 0.16s ease,
+    transform 0.16s ease,
+    visibility 0.16s;
   /* Inherited by slotted <loomi-fab-item>s (flattened tree) so each item's own
      fade/scale — and its stagger delay — plays without the item knowing its own open state. */
   --loomi-fab-open: 0;
@@ -214,7 +226,11 @@
   box-shadow: 0 1px 4px rgba(15, 23, 42, 0.1);
   opacity: var(--loomi-fab-open, 1);
   transform: scale(calc(0.7 + (0.3 * var(--loomi-fab-open, 1))));
-  transition: background-color 0.14s ease, border-color 0.14s ease, transform 0.16s ease, opacity 0.16s ease;
+  transition:
+    background-color 0.14s ease,
+    border-color 0.14s ease,
+    transform 0.16s ease,
+    opacity 0.16s ease;
   transition-delay: var(--loomi-fab-item-delay, 0ms);
 }
 .loomi-pill:hover:not(:disabled),
@@ -224,7 +240,11 @@
 }
 .loomi-pill:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--_loomi-accent-ring, var(--loomi-focus-ring, var(--loomi-primary-100, var(--_loomi-primary-100-default))));
+  box-shadow: 0 0 0 3px
+    var(
+      --_loomi-accent-ring,
+      var(--loomi-focus-ring, var(--loomi-primary-100, var(--_loomi-primary-100-default)))
+    );
 }
 .loomi-pill:disabled {
   cursor: not-allowed;

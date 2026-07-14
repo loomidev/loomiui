@@ -1,8 +1,6 @@
 # @loomidev/accordion
 
-`<loomi-accordion>` / `<loomi-accordion-item>`  is a simple stack of clickable headers that when clicked on, expand to reveal their content or collapse to hide their content. 
-
-
+`<loomi-accordion>` / `<loomi-accordion-item>` is a simple stack of clickable headers that when clicked on, expand to reveal their content or collapse to hide their content.
 
 ```bash
 npm install @loomidev/accordion lit
@@ -11,7 +9,6 @@ npm install @loomidev/accordion lit
 ```js
 import "@loomidev/accordion";
 ```
-
 
 ## Basic Usage
 
@@ -125,7 +122,6 @@ loomi-accordion is designed to fit the layout you place it in. It uses fluid wid
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-accordion uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -138,20 +134,20 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ### `<loomi-accordion>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `grouped` | `true` | Group items in one card (vs standalone cards). _(boolean)_ |
-| `can-open-multiple` | `false` | Allow multiple open items. _(boolean)_ |
-| `color` | _(blank)_ | Background color when `grouped="false"`. |
+| Attribute           | Default   | Description                                                |
+| ------------------- | --------- | ---------------------------------------------------------- |
+| `grouped`           | `true`    | Group items in one card (vs standalone cards). _(boolean)_ |
+| `can-open-multiple` | `false`   | Allow multiple open items. _(boolean)_                     |
+| `color`             | _(blank)_ | Background color when `grouped="false"`.                   |
 
 ### `<loomi-accordion-item>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `title` | _(blank)_ | Header text (or use the `title` slot). |
-| `open` | `false` | Open by default. _(boolean)_ |
-| `color` | _(blank)_ | Standalone background color. |
-| `no-padding` | `false` | Remove body padding. _(boolean)_ |
+| Attribute    | Default   | Description                            |
+| ------------ | --------- | -------------------------------------- |
+| `title`      | _(blank)_ | Header text (or use the `title` slot). |
+| `open`       | `false`   | Open by default. _(boolean)_           |
+| `color`      | _(blank)_ | Standalone background color.           |
+| `no-padding` | `false`   | Remove body padding. _(boolean)_       |
 
 **Slots:** default (body), `title`.
 

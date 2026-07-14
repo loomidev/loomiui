@@ -10,7 +10,6 @@ npm install @loomidev/modal lit
 import "@loomidev/modal";
 ```
 
-
 ## Default Modal
 
 Modals are usually triggered by an action — a button click, say. Every LoomiUI modal is
@@ -230,13 +229,11 @@ loomi-modal is built on semantic markup where the browser gives us the right beh
 
 When the component displays status, progress, validation, or temporary feedback, pair it with clear labels or nearby text in your app so assistive technology users get the same context a sighted user gets from the visual treatment.
 
-
 ## Responsive behavior
 
 loomi-modal is designed to fit the layout you place it in. It uses fluid widths, `min-width: 0`, wrapping, truncation, or stacked layouts where that keeps the component usable in cards, forms, sidebars, and mobile screens.
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
-
 
 ## Dark mode
 
@@ -244,28 +241,27 @@ loomi-modal uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surfa
 
 Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
 
-
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `name` | _(blank)_ | Unique name for `showLoomiModal()` / `hideLoomiModal()`. |
-| `title` | _(blank)_ | Modal heading. |
-| `type` | _(blank)_ | `info` \| `error` \| `warning` \| `success` (sets icon + color). |
-| `icon` | _(blank)_ | Custom icon name (overrides the type icon). |
-| `icon-source` | `heroicons` | Icon set for `icon` — `heroicons` \| `iconsax` \| `untitledui`. |
-| `size` | `medium` | `tiny` \| `small` \| `medium` \| `large` \| `xl` \| `omg` |
-| `open` | `false` | Open state (reflected). _(boolean)_ |
-| `ok-button-label` | `Okay` | Primary button text (blank hides it). |
-| `cancel-button-label` | `Cancel` | Secondary button text (blank hides it). |
-| `show-action-buttons` | `true` | Show the footer buttons. _(boolean)_ |
-| `show-close-icon` | `false` | Show the top-right close icon. _(boolean)_ |
-| `backdrop-can-close` | `true` | Backdrop click / Escape closes. _(boolean)_ |
-| `close-after-action` | `true` | Close after an action button is clicked. _(boolean)_ |
-| `prevent-scroll` | `true` | Prevent document scrolling while open. _(boolean)_ |
-| `blur-size` | `medium` | `none` \| `small` \| `medium` \| `large` \| `xl` \| `omg` |
-| `align-buttons` | `right` | `left` \| `center` \| `right` |
-| `stretch-action-buttons` | `false` | Full-width stacked buttons. _(boolean)_ |
+| Attribute                | Default     | Description                                                      |
+| ------------------------ | ----------- | ---------------------------------------------------------------- |
+| `name`                   | _(blank)_   | Unique name for `showLoomiModal()` / `hideLoomiModal()`.         |
+| `title`                  | _(blank)_   | Modal heading.                                                   |
+| `type`                   | _(blank)_   | `info` \| `error` \| `warning` \| `success` (sets icon + color). |
+| `icon`                   | _(blank)_   | Custom icon name (overrides the type icon).                      |
+| `icon-source`            | `heroicons` | Icon set for `icon` — `heroicons` \| `iconsax` \| `untitledui`.  |
+| `size`                   | `medium`    | `tiny` \| `small` \| `medium` \| `large` \| `xl` \| `omg`        |
+| `open`                   | `false`     | Open state (reflected). _(boolean)_                              |
+| `ok-button-label`        | `Okay`      | Primary button text (blank hides it).                            |
+| `cancel-button-label`    | `Cancel`    | Secondary button text (blank hides it).                          |
+| `show-action-buttons`    | `true`      | Show the footer buttons. _(boolean)_                             |
+| `show-close-icon`        | `false`     | Show the top-right close icon. _(boolean)_                       |
+| `backdrop-can-close`     | `true`      | Backdrop click / Escape closes. _(boolean)_                      |
+| `close-after-action`     | `true`      | Close after an action button is clicked. _(boolean)_             |
+| `prevent-scroll`         | `true`      | Prevent document scrolling while open. _(boolean)_               |
+| `blur-size`              | `medium`    | `none` \| `small` \| `medium` \| `large` \| `xl` \| `omg`        |
+| `align-buttons`          | `right`     | `left` \| `center` \| `right`                                    |
+| `stretch-action-buttons` | `false`     | Full-width stacked buttons. _(boolean)_                          |
 
 Boolean attributes can be omitted, present, or set to `"false"` in HTML, for example
 `backdrop-can-close="false"` or `show-close-icon`.

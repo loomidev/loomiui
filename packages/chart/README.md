@@ -13,10 +13,9 @@ npm install @loomidev/chart lit
 import "@loomidev/chart";
 ```
 
-
 ## Basic Usage
 
-You need to define either  a unique `id` or `class` attribute on the chart element, then assign the `data` property in JavaScript. The `data` property is an array of objects, each with a `label`, a `value`, and an optional `color`.
+You need to define either a unique `id` or `class` attribute on the chart element, then assign the `data` property in JavaScript. The `data` property is an array of objects, each with a `label`, a `value`, and an optional `color`.
 `data` can either be loaded from an API or updated at runtime.
 
 ```html.skip
@@ -64,24 +63,24 @@ You need to define either  a unique `id` or `class` attribute on the chart eleme
         { label: "Nov", value: 47, value2: 49 },
         { label: "Dec", value: 54, value2: 58 },
     ];
-    
+
     document.getElementById("basic").data = chartData;
     // or
     document.querySelector(".basic-chart").data = chartData;
 </script>
 ```
 
-The `data` property also accepts a JSON-encoded string passed directly through the HTML `data` attribute. 
-This makes static charts possible even when no JavaScript runs on the page, which is useful in Markdown docs, 
+The `data` property also accepts a JSON-encoded string passed directly through the HTML `data` attribute.
+This makes static charts possible even when no JavaScript runs on the page, which is useful in Markdown docs,
 CMS fields, emails, or server-rendered templates where inline scripting is limited.
 
-When using attribute JSON, ensure the string is valid JSON syntax and properly escaped for HTML. 
-If parsing fails, the component safely falls back to an empty data series instead of throwing an error, 
+When using attribute JSON, ensure the string is valid JSON syntax and properly escaped for HTML.
+If parsing fails, the component safely falls back to an empty data series instead of throwing an error,
 so the chart remains stable and the page does not break.
 
 ```html
-<loomi-chart 
-    type="bar" 
+<loomi-chart
+    type="bar"
     data='[{"label":"Jan","value":30},{"label":"Feb","value":55}]'></loomi-chart>
 ```
 
@@ -98,21 +97,22 @@ the plot — with a crosshair and active dot/bar highlight. Polar charts (`pie`,
 ```
 
 ## Chart Types
+
 The chart component exposes a `type` attribute that lets you choose from a variety of
-chart types. The `type` you choose depends on the data you're trying to visualize. 
+chart types. The `type` you choose depends on the data you're trying to visualize.
 Default `type` is `bar`. The available chart types are:
 
-| Type | Description |
-| --- | --- |
-| `bar` | Compares values across categories — supports grouped bars via `value2`/`value3` or a `values` array. |
-| `line` | Shows trends with a stroke, area fill, and dots. |
-| `area` | Like `line` but emphasizes the filled region (no dots). |
-| `pie` | Displays part-to-whole distribution in a full circle. |
-| `donut` | Part-to-whole with a center hole and total label. |
-| `radar` | Compares multiple metrics in a radial layout (recommended with 3+ points). |
-| `radial` | Stacked radial bars around a center total (shadcn-style radial chart). |
-| `scatter` | Plots independent points on shared axes without connecting lines. |
-| `heatmap` | Displays values in a two-dimensional grid, with stronger color indicating larger values. |
+| Type      | Description                                                                                          |
+| --------- | ---------------------------------------------------------------------------------------------------- |
+| `bar`     | Compares values across categories — supports grouped bars via `value2`/`value3` or a `values` array. |
+| `line`    | Shows trends with a stroke, area fill, and dots.                                                     |
+| `area`    | Like `line` but emphasizes the filled region (no dots).                                              |
+| `pie`     | Displays part-to-whole distribution in a full circle.                                                |
+| `donut`   | Part-to-whole with a center hole and total label.                                                    |
+| `radar`   | Compares multiple metrics in a radial layout (recommended with 3+ points).                           |
+| `radial`  | Stacked radial bars around a center total (shadcn-style radial chart).                               |
+| `scatter` | Plots independent points on shared axes without connecting lines.                                    |
+| `heatmap` | Displays values in a two-dimensional grid, with stronger color indicating larger values.             |
 
 All chart types use the same `data` point shape. Heatmaps and grouped bars use the
 optional nested `values` array for their additional dimension.
@@ -194,12 +194,12 @@ Use grouped bars when **one x-axis label maps to several bars** — e.g. tasks c
 by each developer across the week. The point's `label` is the category on the x-axis;
 each entry in `values` is one bar with its own name and height.
 
-| Field | Role |
-| --- | --- |
-| `label` | X-axis category (`Mon`, `Tue`, …) |
+| Field            | Role                                                     |
+| ---------------- | -------------------------------------------------------- |
+| `label`          | X-axis category (`Mon`, `Tue`, …)                        |
 | `values[].label` | Series name in the legend and tooltip (`Mike`, `Sam`, …) |
-| `values[].value` | Bar height |
-| `values[].color` | Optional — overrides the palette for that series |
+| `values[].value` | Bar height                                               |
+| `values[].color` | Optional — overrides the palette for that series         |
 
 Series order follows first-seen labels across the dataset. Turn on `show-legend` so the
 legend lists developers, not days. Hover a category to see every series value in the
@@ -448,36 +448,34 @@ loomi-chart is designed to fit the layout you place it in. It uses fluid widths,
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-chart uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
 
 Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
 
-
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `type` | `bar` | `bar` \| `line` \| `area` \| `pie` \| `donut` \| `radar` \| `radial` \| `scatter` \| `heatmap` |
-| `data` | `[]` | Series — `{ label, value, value2?, value3?, values?, color?, color2?, color3? }[]`. Use `values: [{ label, value, color? }]` for heatmap rows or grouped bar series. |
-| `color` | `primary` | Primary series color. |
-| `color2` | `success` | Second series color when points include `value2`. |
-| `series2-type` | `bar` | On `type="bar"`, set `line` to draw `value2` over the bars. |
-| `series-label` | `Series 1` | Tooltip label for the primary series. |
-| `series2-label` | `Series 2` | Tooltip label for the second series. |
-| `shade` | `dark` | `dark` \| `light` — lighter fills/strokes in `light` mode. |
-| `show-border` | `true` | In `shade="light"`, outline shapes in a higher shade of their own color. No effect in `shade="dark"`. _(boolean)_ |
-| `show-grid` | `true` | Horizontal dashed grid lines on cartesian charts. _(boolean)_ |
-| `show-tooltip` | `true` | Show label/value tooltips while hovering chart points. _(boolean)_ |
-| `show-y-axis` | `true` | Show a value axis with min/max labels (`bar`/`line`/`area`/`scatter`). _(boolean)_ |
-| `vertical` | `false` | `type="line"` only — flips the axes so categories run top-to-bottom. _(boolean)_ |
-| `show-legend` | `false` | Show a legend (most useful for pie/donut). _(boolean)_ |
-| `legend-position` | `bottom` | `top` \| `bottom` \| `left` \| `right` — where the legend renders when `show-legend` is on. |
-| `donut-radius` | `44` | Inner-hole radius (SVG units) for `type="donut"`. |
-| `with-gap` | `false` | Adds visible separation between `pie` and `donut` slices. _(boolean)_ |
-| `exportable` | `false` | Shows a compact export menu for PNG, PDF, SVG, CSV, and JSON. _(boolean)_ |
+| Attribute         | Default    | Description                                                                                                                                                          |
+| ----------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`            | `bar`      | `bar` \| `line` \| `area` \| `pie` \| `donut` \| `radar` \| `radial` \| `scatter` \| `heatmap`                                                                       |
+| `data`            | `[]`       | Series — `{ label, value, value2?, value3?, values?, color?, color2?, color3? }[]`. Use `values: [{ label, value, color? }]` for heatmap rows or grouped bar series. |
+| `color`           | `primary`  | Primary series color.                                                                                                                                                |
+| `color2`          | `success`  | Second series color when points include `value2`.                                                                                                                    |
+| `series2-type`    | `bar`      | On `type="bar"`, set `line` to draw `value2` over the bars.                                                                                                          |
+| `series-label`    | `Series 1` | Tooltip label for the primary series.                                                                                                                                |
+| `series2-label`   | `Series 2` | Tooltip label for the second series.                                                                                                                                 |
+| `shade`           | `dark`     | `dark` \| `light` — lighter fills/strokes in `light` mode.                                                                                                           |
+| `show-border`     | `true`     | In `shade="light"`, outline shapes in a higher shade of their own color. No effect in `shade="dark"`. _(boolean)_                                                    |
+| `show-grid`       | `true`     | Horizontal dashed grid lines on cartesian charts. _(boolean)_                                                                                                        |
+| `show-tooltip`    | `true`     | Show label/value tooltips while hovering chart points. _(boolean)_                                                                                                   |
+| `show-y-axis`     | `true`     | Show a value axis with min/max labels (`bar`/`line`/`area`/`scatter`). _(boolean)_                                                                                   |
+| `vertical`        | `false`    | `type="line"` only — flips the axes so categories run top-to-bottom. _(boolean)_                                                                                     |
+| `show-legend`     | `false`    | Show a legend (most useful for pie/donut). _(boolean)_                                                                                                               |
+| `legend-position` | `bottom`   | `top` \| `bottom` \| `left` \| `right` — where the legend renders when `show-legend` is on.                                                                          |
+| `donut-radius`    | `44`       | Inner-hole radius (SVG units) for `type="donut"`.                                                                                                                    |
+| `with-gap`        | `false`    | Adds visible separation between `pie` and `donut` slices. _(boolean)_                                                                                                |
+| `exportable`      | `false`    | Shows a compact export menu for PNG, PDF, SVG, CSV, and JSON. _(boolean)_                                                                                            |
 
 > A compact chart for dashboards — supports a second series on `bar`/`line` via `value2`.
 > Its only runtime dependency is `@loomidev/tooltip`, used for polar-chart hover labels.
@@ -543,7 +541,6 @@ In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the pac
 ```js
 import "@loomidev/chart";
 ```
-
 
 This component accepts `data` either as a JavaScript property or as a JSON-encoded HTML attribute. Prefer the property when the series comes from an API or changes at runtime; the attribute is enough for static content with no JavaScript at all.
 

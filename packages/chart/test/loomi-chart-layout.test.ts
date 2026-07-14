@@ -19,7 +19,9 @@ describe("loomi-chart layout", () => {
   });
 
   it("hides the y-axis when show-y-axis is false", async () => {
-    const el = await fixture<LoomiChart>(html`<loomi-chart type="bar" show-y-axis="false"></loomi-chart>`);
+    const el = await fixture<LoomiChart>(
+      html`<loomi-chart type="bar" show-y-axis="false"></loomi-chart>`,
+    );
     el.data = series;
     await el.updateComplete;
     expect(el.shadowRoot!.querySelector(".loomi-ylabel")).to.not.exist;
@@ -36,7 +38,9 @@ describe("loomi-chart layout", () => {
   });
 
   it("draws light-mode bar borders when enabled", async () => {
-    const el = await fixture<LoomiChart>(html`<loomi-chart type="bar" color="orange" shade="light"></loomi-chart>`);
+    const el = await fixture<LoomiChart>(
+      html`<loomi-chart type="bar" color="orange" shade="light"></loomi-chart>`,
+    );
     el.data = series;
     await el.updateComplete;
     expect(el.shadowRoot!.querySelector(".loomi-bar-border")).to.exist;

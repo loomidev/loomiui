@@ -3,7 +3,9 @@ import "../dist/loomi-emoji-picker.js";
 import type { LoomiEmojiPicker } from "../dist/index.js";
 
 async function openPicker(el: LoomiEmojiPicker): Promise<HTMLElement> {
-  const popover = el.shadowRoot!.querySelector("loomi-popover") as HTMLElement & { updateComplete: Promise<unknown> };
+  const popover = el.shadowRoot!.querySelector("loomi-popover") as HTMLElement & {
+    updateComplete: Promise<unknown>;
+  };
   el.shadowRoot!.querySelector<HTMLElement>(".loomi-emoji-trigger")!.click();
   await el.updateComplete;
   await popover.updateComplete;
@@ -12,7 +14,9 @@ async function openPicker(el: LoomiEmojiPicker): Promise<HTMLElement> {
 
 describe("loomi-emoji-picker", () => {
   it("shows only the emoji on the trigger by default (no text)", async () => {
-    const el = await fixture<LoomiEmojiPicker>(html`<loomi-emoji-picker selected-value="🚀"></loomi-emoji-picker>`);
+    const el = await fixture<LoomiEmojiPicker>(
+      html`<loomi-emoji-picker selected-value="🚀"></loomi-emoji-picker>`,
+    );
 
     const trigger = el.shadowRoot!.querySelector<HTMLElement>(".loomi-emoji-trigger")!;
     expect(trigger.classList.contains("with-text")).to.be.false;
@@ -77,13 +81,19 @@ describe("loomi-emoji-picker", () => {
       { emoji: "🟢", name: "Green status", value: "green", category: "status" },
       { emoji: "🔴", name: "Red status", value: "red", category: "status" },
     ];
-    const el = await fixture<LoomiEmojiPicker>(html`<loomi-emoji-picker .data=${data}></loomi-emoji-picker>`);
+    const el = await fixture<LoomiEmojiPicker>(
+      html`<loomi-emoji-picker .data=${data}></loomi-emoji-picker>`,
+    );
     const wrapper = el.shadowRoot!.querySelector<HTMLElement>(".loomi-emoji-picker")!;
 
     await openPicker(el);
-    wrapper.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true, cancelable: true }));
+    wrapper.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true, cancelable: true }),
+    );
     await el.updateComplete;
-    wrapper.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }));
+    wrapper.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }),
+    );
     await el.updateComplete;
 
     expect(el.value).to.equal("red");
@@ -92,16 +102,20 @@ describe("loomi-emoji-picker", () => {
   it("opens via ArrowDown on the wrapper when closed", async () => {
     const el = await fixture<LoomiEmojiPicker>(html`<loomi-emoji-picker></loomi-emoji-picker>`);
     const wrapper = el.shadowRoot!.querySelector<HTMLElement>(".loomi-emoji-picker")!;
-    const popover = el.shadowRoot!.querySelector("loomi-popover") as HTMLElement & { updateComplete: Promise<unknown> };
+    const popover = el.shadowRoot!.querySelector("loomi-popover") as HTMLElement & {
+      updateComplete: Promise<unknown>;
+    };
 
-    wrapper.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, cancelable: true }));
+    wrapper.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, cancelable: true }),
+    );
     await el.updateComplete;
     await popover.updateComplete;
 
     expect(el.shadowRoot!.querySelector(".loomi-grid")).to.exist;
   });
 
-  it("also fixes show-categories and searchable literal \"false\" attributes", async () => {
+  it('also fixes show-categories and searchable literal "false" attributes', async () => {
     const el = await fixture<LoomiEmojiPicker>(
       html`<loomi-emoji-picker show-categories="false" searchable="false"></loomi-emoji-picker>`,
     );
@@ -125,7 +139,9 @@ describe("loomi-emoji-picker", () => {
   });
 
   it("does not open when disabled", async () => {
-    const el = await fixture<LoomiEmojiPicker>(html`<loomi-emoji-picker disabled></loomi-emoji-picker>`);
+    const el = await fixture<LoomiEmojiPicker>(
+      html`<loomi-emoji-picker disabled></loomi-emoji-picker>`,
+    );
     const popover = el.shadowRoot!.querySelector("loomi-popover") as HTMLElement & {
       show: () => void;
       updateComplete: Promise<unknown>;
@@ -138,7 +154,9 @@ describe("loomi-emoji-picker", () => {
   });
 
   it("renders the picker inline without a dropdown trigger", async () => {
-    const el = await fixture<LoomiEmojiPicker>(html`<loomi-emoji-picker inline></loomi-emoji-picker>`);
+    const el = await fixture<LoomiEmojiPicker>(
+      html`<loomi-emoji-picker inline></loomi-emoji-picker>`,
+    );
 
     expect(el.shadowRoot!.querySelector("loomi-popover")).to.not.exist;
     expect(el.shadowRoot!.querySelector(".loomi-emoji-panel")).to.exist;
@@ -162,7 +180,9 @@ describe("loomi-emoji-picker", () => {
       toneTrigger.click();
       await el.updateComplete;
 
-      const toneOptions = Array.from(el.shadowRoot!.querySelectorAll<HTMLButtonElement>(".loomi-tone-option"));
+      const toneOptions = Array.from(
+        el.shadowRoot!.querySelectorAll<HTMLButtonElement>(".loomi-tone-option"),
+      );
       expect(toneOptions).to.have.lengthOf(6);
     });
 
@@ -182,7 +202,9 @@ describe("loomi-emoji-picker", () => {
       await el.updateComplete;
 
       expect(el.shadowRoot!.querySelector(".loomi-tone-menu")).to.not.exist;
-      expect(el.shadowRoot!.querySelector(".loomi-tone-trigger")!.textContent?.trim()).to.equal("✋🏿");
+      expect(el.shadowRoot!.querySelector(".loomi-tone-trigger")!.textContent?.trim()).to.equal(
+        "✋🏿",
+      );
 
       const option = el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-option")!;
       expect(option.textContent?.trim()).to.equal("👋🏿");
@@ -207,7 +229,9 @@ describe("loomi-emoji-picker", () => {
       await el.updateComplete;
 
       expect(el.shadowRoot!.querySelector(".loomi-tone-menu")).to.not.exist;
-      expect(el.shadowRoot!.querySelector(".loomi-tone-trigger")!.textContent?.trim()).to.equal("✋");
+      expect(el.shadowRoot!.querySelector(".loomi-tone-trigger")!.textContent?.trim()).to.equal(
+        "✋",
+      );
     });
   });
 });

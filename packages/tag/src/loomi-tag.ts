@@ -82,11 +82,13 @@ export class LoomiTag extends LoomiElement {
       ${this.icon && this.iconPosition === "prefix" ? iconEl : nothing}
       <slot>${this.label}</slot>
       ${this.icon && this.iconPosition === "suffix" ? iconEl : nothing}
-      ${this.canClose
-        ? html`<button type="button" class="loomi-close" aria-label=${loomiT("common.remove", {}, this.locale)} @click=${this.onClose}>
+      ${
+        this.canClose
+          ? html`<button type="button" class="loomi-close" aria-label=${loomiT("common.remove", {}, this.locale)} @click=${this.onClose}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">${X}</svg>
           </button>`
-        : nothing}
+          : nothing
+      }
     </span>`;
   }
 }

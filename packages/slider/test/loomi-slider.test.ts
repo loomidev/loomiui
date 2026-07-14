@@ -74,9 +74,7 @@ describe("loomi-slider", () => {
     expect(tooltips).to.have.lengthOf(2);
     expect(tooltips.map((tooltip) => tooltip.textContent?.trim())).to.deep.equal(["20", "80"]);
     expect(
-      tooltips.map((tooltip) =>
-        tooltip.style.getPropertyValue("--loomi-value-position").trim(),
-      ),
+      tooltips.map((tooltip) => tooltip.style.getPropertyValue("--loomi-value-position").trim()),
     ).to.deep.equal(["20%", "80%"]);
   });
 

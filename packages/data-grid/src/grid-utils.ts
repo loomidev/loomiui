@@ -3,7 +3,7 @@ import type {
   DataGridColumn,
   DataGridRecord,
   DataGridRowMeta,
-  DataGridRowWithMeta
+  DataGridRowWithMeta,
 } from "./types.js";
 
 export const DEFAULT_COLUMN_WIDTH_PX = 120;
@@ -37,20 +37,25 @@ export function compareValues(first: unknown, second: unknown): number {
   return formatCellValue(first).localeCompare(formatCellValue(second));
 }
 
-export function resolveRowKey<TRecord extends DataGridRecord>(row: TRecord, rowKeyField: string): string {
+export function resolveRowKey<TRecord extends DataGridRecord>(
+  row: TRecord,
+  rowKeyField: string,
+): string {
   const value = row[rowKeyField];
   return value == null ? JSON.stringify(row) : String(value);
 }
 
 /** Reads a row's grid metadata, if any module has stamped it. */
-export function getRowMeta<TRecord extends DataGridRecord>(row: TRecord): DataGridRowMeta | undefined {
+export function getRowMeta<TRecord extends DataGridRecord>(
+  row: TRecord,
+): DataGridRowMeta | undefined {
   return (row as DataGridRowWithMeta<TRecord>).__gridMeta;
 }
 
 /** Returns a shallow clone of `row` with `meta` attached/merged as `__gridMeta`. */
 export function withRowMeta<TRecord extends DataGridRecord>(
   row: TRecord,
-  meta: DataGridRowMeta
+  meta: DataGridRowMeta,
 ): DataGridRowWithMeta<TRecord> {
   return { ...row, __gridMeta: { ...getRowMeta(row), ...meta } };
 }
@@ -67,7 +72,9 @@ export function aggregateValues(values: unknown[], aggregate: DataGridAggregate 
     case "sum":
       return numbers.reduce((total, value) => total + value, 0);
     case "avg":
-      return numbers.length === 0 ? 0 : numbers.reduce((total, value) => total + value, 0) / numbers.length;
+      return numbers.length === 0
+        ? 0
+        : numbers.reduce((total, value) => total + value, 0) / numbers.length;
     case "min":
       return numbers.length === 0 ? 0 : Math.min(...numbers);
     case "max":
@@ -87,23 +94,29 @@ function escapeCsvCell(value: string): string {
 
 export function rowsToCsv<TRecord extends DataGridRecord>(
   rows: TRecord[],
-  columns: { key: string; label: string }[]
+  columns: { key: string; label: string }[],
 ): string {
   const header = columns.map((column) => escapeCsvCell(column.label)).join(",");
   const lines = rows.map((row) =>
-    columns.map((column) => escapeCsvCell(formatCellValue(row[column.key]))).join(",")
+    columns.map((column) => escapeCsvCell(formatCellValue(row[column.key]))).join(","),
   );
   return [header, ...lines].join("\n");
 }
 
 export function rowsToTsv<TRecord extends DataGridRecord>(
   rows: TRecord[],
-  columns: { key: string }[]
+  columns: { key: string }[],
 ): string {
-  return rows.map((row) => columns.map((column) => formatCellValue(row[column.key])).join("\t")).join("\n");
+  return rows
+    .map((row) => columns.map((column) => formatCellValue(row[column.key])).join("\t"))
+    .join("\n");
 }
 
-export function downloadTextFile(filename: string, contents: string, mimeType = "text/plain"): void {
+export function downloadTextFile(
+  filename: string,
+  contents: string,
+  mimeType = "text/plain",
+): void {
   const blob = new Blob([contents], { type: mimeType });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
@@ -117,7 +130,7 @@ export function downloadTextFile(filename: string, contents: string, mimeType = 
 export function resolveColumnWidthPx<TRecord extends DataGridRecord>(
   column: DataGridColumn<TRecord>,
   columnWidths: Record<string, string> = {},
-  fallback = DEFAULT_COLUMN_WIDTH_PX
+  fallback = DEFAULT_COLUMN_WIDTH_PX,
 ): number {
   const width = columnWidths[column.key] ?? column.width;
   if (width) {
@@ -137,7 +150,7 @@ export function resolveColumnWidthPx<TRecord extends DataGridRecord>(
 
 /** Reorders columns into start-pinned, normal, then end-pinned groups. */
 export function orderPinnedColumns<TRecord extends DataGridRecord>(
-  columns: DataGridColumn<TRecord>[]
+  columns: DataGridColumn<TRecord>[],
 ): DataGridColumn<TRecord>[] {
   const start = columns.filter((column) => column.pinned === "start");
   const middle = columns.filter((column) => column.pinned !== "start" && column.pinned !== "end");
@@ -156,7 +169,7 @@ export interface ColumnPinLayout {
 export function computeColumnPinLayout<TRecord extends DataGridRecord>(
   columns: DataGridColumn<TRecord>[],
   columnWidths: Record<string, string>,
-  selectionColumnWidth = 0
+  selectionColumnWidth = 0,
 ): ColumnPinLayout {
   const startOffsets = new Map<string, number>();
   const endOffsets = new Map<string, number>();

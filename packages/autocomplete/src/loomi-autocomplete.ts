@@ -1,6 +1,14 @@
 import { css, html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
-import { LoomiElement, controlSizeStyles, fieldStyles, loomiDefaultText, loomiT, onClickOutside, themeStyles } from "@loomidev/core";
+import {
+  LoomiElement,
+  controlSizeStyles,
+  fieldStyles,
+  loomiDefaultText,
+  loomiT,
+  onClickOutside,
+  themeStyles,
+} from "@loomidev/core";
 import { getLoomiIcon } from "./icons.js";
 
 export type LoomiAutocompleteSize = "tiny" | "small" | "regular" | "medium" | "big";
@@ -195,7 +203,8 @@ export class LoomiAutocomplete extends LoomiElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property({ type: Boolean, reflect: true }) invalid = false;
-  @property({ type: Boolean, attribute: "show-focus-ring", converter: booleanAttribute }) showFocusRing = true;
+  @property({ type: Boolean, attribute: "show-focus-ring", converter: booleanAttribute })
+  showFocusRing = true;
 
   /** Always true — loomi-autocomplete always shows a clear button once it has a value. */
   get clearable(): true {
@@ -218,7 +227,8 @@ export class LoomiAutocomplete extends LoomiElement {
     // On the very first update, Lit reports `selectedValue` as "changed" even when it's
     // still at its default "" — without the hasUpdated/non-empty guard, that would stomp
     // an initial `value="..."` HTML attribute back to "" before anything ever renders.
-    const selectedValueChanged = changed.has("selectedValue") && (this.hasUpdated || this.selectedValue !== "");
+    const selectedValueChanged =
+      changed.has("selectedValue") && (this.hasUpdated || this.selectedValue !== "");
     if (selectedValueChanged && this.value !== this.selectedValue) {
       this.value = this.selectedValue;
     }
@@ -264,12 +274,14 @@ export class LoomiAutocomplete extends LoomiElement {
   }
 
   private get options(): LoomiAutocompleteItem[] {
-    return this.data.map((row) => ({
-      label: String(row[this.labelKey] ?? ""),
-      value: String(row[this.valueKey] ?? row[this.labelKey] ?? ""),
-      description: this.descriptionKey ? String(row[this.descriptionKey] ?? "") : "",
-      image: this.imageKey ? String(row[this.imageKey] ?? "") : "",
-    })).filter((item) => item.label);
+    return this.data
+      .map((row) => ({
+        label: String(row[this.labelKey] ?? ""),
+        value: String(row[this.valueKey] ?? row[this.labelKey] ?? ""),
+        description: this.descriptionKey ? String(row[this.descriptionKey] ?? "") : "",
+        image: this.imageKey ? String(row[this.imageKey] ?? "") : "",
+      }))
+      .filter((item) => item.label);
   }
 
   private findOptionByValue(value = this.value): LoomiAutocompleteItem | undefined {
@@ -290,7 +302,12 @@ export class LoomiAutocomplete extends LoomiElement {
 
   private get filtered(): LoomiAutocompleteItem[] {
     const q = this.displayValue.trim().toLowerCase();
-    return q ? this.options.filter((item) => item.label.toLowerCase().includes(q) || (item.value ?? "").toLowerCase().includes(q)) : this.options;
+    return q
+      ? this.options.filter(
+          (item) =>
+            item.label.toLowerCase().includes(q) || (item.value ?? "").toLowerCase().includes(q),
+        )
+      : this.options;
   }
 
   private get hasOptionImages(): boolean {
@@ -324,7 +341,13 @@ export class LoomiAutocomplete extends LoomiElement {
     this.displayValue = item.label;
     this.selectedImage = item.image || "";
     this.hide();
-    this.dispatchEvent(new CustomEvent("loomi-select", { bubbles: true, composed: true, detail: { item, value: this.value, label: item.label } }));
+    this.dispatchEvent(
+      new CustomEvent("loomi-select", {
+        bubbles: true,
+        composed: true,
+        detail: { item, value: this.value, label: item.label },
+      }),
+    );
     this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
   }
 
@@ -349,7 +372,9 @@ export class LoomiAutocomplete extends LoomiElement {
       this.activeIndex = options.length ? (this.activeIndex + 1) % options.length : -1;
     } else if (event.key === "ArrowUp") {
       event.preventDefault();
-      this.activeIndex = options.length ? (this.activeIndex - 1 + options.length) % options.length : -1;
+      this.activeIndex = options.length
+        ? (this.activeIndex - 1 + options.length) % options.length
+        : -1;
     } else if (event.key === "Enter" && this.activeIndex >= 0 && options[this.activeIndex]) {
       event.preventDefault();
       this.choose(options[this.activeIndex]);
@@ -358,7 +383,14 @@ export class LoomiAutocomplete extends LoomiElement {
 
   override render(): TemplateResult {
     const hasLabel = !!this.label;
-    const placeholder = hasLabel ? " " : loomiDefaultText(this.placeholder, DEFAULT_PLACEHOLDER, "autocomplete.placeholder", this.locale);
+    const placeholder = hasLabel
+      ? " "
+      : loomiDefaultText(
+          this.placeholder,
+          DEFAULT_PLACEHOLDER,
+          "autocomplete.placeholder",
+          this.locale,
+        );
     const options = this.filtered;
     const showClear = this.clearable && this.value !== "" && !this.disabled && !this.readonly;
     const showSelectedImage = this.value !== "" && this.selectedImage !== "";
@@ -381,8 +413,9 @@ export class LoomiAutocomplete extends LoomiElement {
           @keydown=${this.onKeydown}
         />
         ${hasLabel ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>` : nothing}
-        ${showClear
-          ? html`<span class="loomi-suffix">
+        ${
+          showClear
+            ? html`<span class="loomi-suffix">
               <button
                 type="button"
                 class="loomi-iconbtn"
@@ -391,11 +424,16 @@ export class LoomiAutocomplete extends LoomiElement {
                 @click=${this.clear}
               >${this.renderIcon("x-circle")}</button>
             </span>`
-          : nothing}
+            : nothing
+        }
       </div>
-      ${this.open ? html`<div class="loomi-panel" role="listbox">
-        ${options.length
-          ? options.map((item, index) => html`<div
+      ${
+        this.open
+          ? html`<div class="loomi-panel" role="listbox">
+        ${
+          options.length
+            ? options.map(
+                (item, index) => html`<div
               class="loomi-option ${index === this.activeIndex ? "active" : ""}"
               role="option"
               aria-selected=${index === this.activeIndex ? "true" : "false"}
@@ -403,18 +441,24 @@ export class LoomiAutocomplete extends LoomiElement {
               @mousedown=${(event: Event) => event.preventDefault()}
               @click=${() => this.choose(item)}
             >
-              ${item.image
-                ? html`<img src=${item.image} alt="" />`
-                : alignOptionMedia
-                  ? html`<span class="loomi-option-avatar" aria-hidden="true">${this.getInitials(item.label)}</span>`
-                  : nothing}
+              ${
+                item.image
+                  ? html`<img src=${item.image} alt="" />`
+                  : alignOptionMedia
+                    ? html`<span class="loomi-option-avatar" aria-hidden="true">${this.getInitials(item.label)}</span>`
+                    : nothing
+              }
               <span class="loomi-option-copy">
                 <span class="loomi-option-label">${item.label}</span>
                 ${item.description ? html`<span class="loomi-option-desc">${item.description}</span>` : nothing}
               </span>
-            </div>`)
-          : html`<div class="loomi-empty">${loomiT("select.emptyPlaceholder", {}, this.locale)}</div>`}
-      </div>` : nothing}
+            </div>`,
+              )
+            : html`<div class="loomi-empty">${loomiT("select.emptyPlaceholder", {}, this.locale)}</div>`
+        }
+      </div>`
+          : nothing
+      }
     </div>`;
   }
 }

@@ -30,11 +30,11 @@ Components that render icons (`<loomi-icon>`, `<loomi-button>`, `<loomi-input>`,
 `<loomi-alert>`, `<loomi-tabs>`) all read from this one registry, so an icon you register
 is available everywhere.
 
-| Export | Description |
-| --- | --- |
-| `getLoomiIcon(name, variant)` | Returns the icon's inner SVG (a Lit `SVGTemplateResult`) or `undefined`. `variant` is `outline` or `solid`; default is `outline`. |
-| `registerLoomiIcon(name, svg, variant)` | Register or override an icon for `outline` or `solid`; default is `outline`. |
-| `loomiIconNames(variant)` | List all registered icon names for a variant; default is `outline`. |
+| Export                                  | Description                                                                                                                       |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `getLoomiIcon(name, variant)`           | Returns the icon's inner SVG (a Lit `SVGTemplateResult`) or `undefined`. `variant` is `outline` or `solid`; default is `outline`. |
+| `registerLoomiIcon(name, svg, variant)` | Register or override an icon for `outline` or `solid`; default is `outline`.                                                      |
+| `loomiIconNames(variant)`               | List all registered icon names for a variant; default is `outline`.                                                               |
 
 ## Iconsax and Untitled UI (disk-based)
 
@@ -42,18 +42,18 @@ Most consumers should just use `<loomi-icon source="iconsax" name="…">` (see
 [`@loomidev/icon`](../icon)) rather than calling these directly — they exist so other
 components can adopt the same sources later the way they already do for Heroicons.
 
-| Source | Types |
-| --- | --- |
-| `iconsax` | `outline` (default), `solid`, `twotone` |
+| Source       | Types                                       |
+| ------------ | ------------------------------------------- |
+| `iconsax`    | `outline` (default), `solid`, `twotone`     |
 | `untitledui` | `outline` (default; the only type it ships) |
 
-| Export | Description |
-| --- | --- |
-| `getLoomiDiskIconUrl(source, name, type?)` | Resolves to the icon's `.svg` URL, or `undefined` if `name` isn't registered. An unavailable `type` for that source (e.g. `untitledui` + `"twotone"`) falls back to `outline` rather than failing. |
-| `loadLoomiDiskIcon(source, name, type?)` | Fetches (and caches) the icon, resolving to a value renderable directly inside a Lit `html` template: `` html`<svg>${await loadLoomiDiskIcon(...)}</svg>` ``. Resolves `undefined` for an unregistered name or a failed fetch. |
-| `loomiDiskIconNames(source, type?)` | List all registered names for a source/type. |
-| `loomiDiskIconTypes(source)` | List the types a source actually ships, e.g. `["outline", "solid", "twotone"]` for `iconsax`. |
-| `isLoomiDiskIconSource(source)` | Type guard — `true` for `"iconsax"` / `"untitledui"`, `false` for `"heroicons"`. |
+| Export                                     | Description                                                                                                                                                                                                                    |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `getLoomiDiskIconUrl(source, name, type?)` | Resolves to the icon's `.svg` URL, or `undefined` if `name` isn't registered. An unavailable `type` for that source (e.g. `untitledui` + `"twotone"`) falls back to `outline` rather than failing.                             |
+| `loadLoomiDiskIcon(source, name, type?)`   | Fetches (and caches) the icon, resolving to a value renderable directly inside a Lit `html` template: `` html`<svg>${await loadLoomiDiskIcon(...)}</svg>` ``. Resolves `undefined` for an unregistered name or a failed fetch. |
+| `loomiDiskIconNames(source, type?)`        | List all registered names for a source/type.                                                                                                                                                                                   |
+| `loomiDiskIconTypes(source)`               | List the types a source actually ships, e.g. `["outline", "solid", "twotone"]` for `iconsax`.                                                                                                                                  |
+| `isLoomiDiskIconSource(source)`            | Type guard — `true` for `"iconsax"` / `"untitledui"`, `false` for `"heroicons"`.                                                                                                                                               |
 
 All disk-based icons are normalized to `fill`/`stroke="currentColor"` at import time (see
 `scripts/import-icon-set.mjs`), so they theme exactly like Heroicons do — no per-icon

@@ -61,33 +61,33 @@ the active theme.
 
 ### `<loomi-side-nav>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `state` | `expanded` | `expanded`, `icons`, or `hidden`. |
-| `collapse-mode` | `icons` | Toggle target when expanded: `icons` or `hidden`. |
-| `label` | `Navigation` | Accessible label and visible header text. |
-| `collapsible` | `false` | Shows the top-right control that collapses the navigation. |
-| `icon-size` | `regular` | Item icon size: `small`, `regular`, `medium`, or `large`. |
-| `divided` | `false` | Adds a subtle divider between navigation items. |
+| Attribute       | Default      | Description                                                |
+| --------------- | ------------ | ---------------------------------------------------------- |
+| `state`         | `expanded`   | `expanded`, `icons`, or `hidden`.                          |
+| `collapse-mode` | `icons`      | Toggle target when expanded: `icons` or `hidden`.          |
+| `label`         | `Navigation` | Accessible label and visible header text.                  |
+| `collapsible`   | `false`      | Shows the top-right control that collapses the navigation. |
+| `icon-size`     | `regular`    | Item icon size: `small`, `regular`, `medium`, or `large`.  |
+| `divided`       | `false`      | Adds a subtle divider between navigation items.            |
 
 ### `<loomi-side-nav-item>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `href` | _(blank)_ | Renders the item as a link. Without it, the item is a button. |
-| `icon` | _(blank)_ | Built-in Loomi icon name. |
-| `label` | _(blank)_ | Item text. Also used as fallback slot content. |
-| `active` | `false` | Marks the item as the current page. |
+| Attribute | Default   | Description                                                   |
+| --------- | --------- | ------------------------------------------------------------- |
+| `href`    | _(blank)_ | Renders the item as a link. Without it, the item is a button. |
+| `icon`    | _(blank)_ | Built-in Loomi icon name.                                     |
+| `label`   | _(blank)_ | Item text. Also used as fallback slot content.                |
+| `active`  | `false`   | Marks the item as the current page.                           |
 
 ## Methods
 
-| Method | Description |
-| --- | --- |
-| `expand()` | Shows the full navigation. |
-| `collapse()` | Moves to the configured `collapse-mode`. |
-| `hideNav()` | Hides the navigation completely. |
-| `showIcons()` | Shows the icon-only rail. |
-| `toggle()` | Switches between `expanded` and `collapse-mode`. |
+| Method        | Description                                      |
+| ------------- | ------------------------------------------------ |
+| `expand()`    | Shows the full navigation.                       |
+| `collapse()`  | Moves to the configured `collapse-mode`.         |
+| `hideNav()`   | Hides the navigation completely.                 |
+| `showIcons()` | Shows the icon-only rail.                        |
+| `toggle()`    | Switches between `expanded` and `collapse-mode`. |
 
 ## Dependencies
 

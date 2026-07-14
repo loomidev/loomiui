@@ -1,6 +1,14 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
-import { LoomiElement, controlSizeStyles, fieldStyles, loomiDefaultText, loomiStyles, loomiT, onClickOutside } from "@loomidev/core";
+import {
+  LoomiElement,
+  controlSizeStyles,
+  fieldStyles,
+  loomiDefaultText,
+  loomiStyles,
+  loomiT,
+  onClickOutside,
+} from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiTimezonepickerSize = "tiny" | "small" | "regular" | "medium" | "big";
@@ -31,19 +39,48 @@ const DEFAULT_EMPTY_PLACEHOLDER = "No timezones found";
 // `Intl.supportedValuesOf` (e.g. Safari < 15.4) — modern evergreen browsers and Node 20+
 // return the full ~400-zone IANA set instead.
 const FALLBACK_ZONE_IDS = [
-  "UTC", "Pacific/Midway", "Pacific/Honolulu", "America/Anchorage", "America/Los_Angeles",
-  "America/Denver", "America/Chicago", "America/Mexico_City", "America/New_York",
-  "America/Halifax", "America/St_Johns", "America/Sao_Paulo", "Atlantic/Azores",
-  "Europe/London", "Europe/Paris", "Europe/Berlin", "Europe/Madrid", "Europe/Rome",
-  "Africa/Lagos", "Africa/Cairo", "Europe/Moscow", "Asia/Dubai", "Asia/Kabul",
-  "Asia/Karachi", "Asia/Kolkata", "Asia/Kathmandu", "Asia/Dhaka", "Asia/Bangkok",
-  "Asia/Shanghai", "Asia/Singapore", "Asia/Tokyo", "Asia/Seoul", "Australia/Sydney",
-  "Pacific/Norfolk", "Pacific/Auckland", "Pacific/Kiritimati",
+  "UTC",
+  "Pacific/Midway",
+  "Pacific/Honolulu",
+  "America/Anchorage",
+  "America/Los_Angeles",
+  "America/Denver",
+  "America/Chicago",
+  "America/Mexico_City",
+  "America/New_York",
+  "America/Halifax",
+  "America/St_Johns",
+  "America/Sao_Paulo",
+  "Atlantic/Azores",
+  "Europe/London",
+  "Europe/Paris",
+  "Europe/Berlin",
+  "Europe/Madrid",
+  "Europe/Rome",
+  "Africa/Lagos",
+  "Africa/Cairo",
+  "Europe/Moscow",
+  "Asia/Dubai",
+  "Asia/Kabul",
+  "Asia/Karachi",
+  "Asia/Kolkata",
+  "Asia/Kathmandu",
+  "Asia/Dhaka",
+  "Asia/Bangkok",
+  "Asia/Shanghai",
+  "Asia/Singapore",
+  "Asia/Tokyo",
+  "Asia/Seoul",
+  "Australia/Sydney",
+  "Pacific/Norfolk",
+  "Pacific/Auckland",
+  "Pacific/Kiritimati",
 ];
 
 function allTimezoneIds(): string[] {
   try {
-    const supportedValuesOf = (Intl as unknown as { supportedValuesOf?: (key: string) => string[] }).supportedValuesOf;
+    const supportedValuesOf = (Intl as unknown as { supportedValuesOf?: (key: string) => string[] })
+      .supportedValuesOf;
     if (typeof supportedValuesOf === "function") {
       const zones = supportedValuesOf("timeZone");
       if (zones.length) return zones;
@@ -83,8 +120,12 @@ function offsetMinutesFor(id: string, at: Date): number {
         return acc;
       }, {});
     const asUTC = Date.UTC(
-      Number(parts.year), Number(parts.month) - 1, Number(parts.day),
-      Number(parts.hour), Number(parts.minute), Number(parts.second),
+      Number(parts.year),
+      Number(parts.month) - 1,
+      Number(parts.day),
+      Number(parts.hour),
+      Number(parts.minute),
+      Number(parts.second),
     );
     const minutes = Math.round((asUTC - at.getTime()) / 60000);
     return minutes === 0 ? 0 : minutes; // normalize -0
@@ -103,7 +144,11 @@ function formatOffsetLabel(offsetMinutes: number): string {
 
 function currentTimeFor(id: string, locale: string, at: Date): string {
   try {
-    return new Intl.DateTimeFormat(locale || undefined, { timeZone: id, hour: "numeric", minute: "2-digit" }).format(at);
+    return new Intl.DateTimeFormat(locale || undefined, {
+      timeZone: id,
+      hour: "numeric",
+      minute: "2-digit",
+    }).format(at);
   } catch {
     return "";
   }
@@ -180,7 +225,8 @@ export class LoomiTimezonepicker extends LoomiElement {
   @query(".loomi-search") private searchEl?: HTMLInputElement;
   @query(".loomi-trigger") private triggerEl?: HTMLButtonElement;
 
-  private recordsCache: { locale: string; at: number; records: LoomiTimezoneRecord[] } | null = null;
+  private recordsCache: { locale: string; at: number; records: LoomiTimezoneRecord[] } | null =
+    null;
 
   private cleanupClickOutside?: () => void;
 
@@ -207,7 +253,11 @@ export class LoomiTimezonepicker extends LoomiElement {
    * at most once a minute (or on a locale change) so offsets stay fresh without a timer. */
   private get records(): LoomiTimezoneRecord[] {
     const now = Date.now();
-    if (!this.recordsCache || this.recordsCache.locale !== this.locale || now - this.recordsCache.at > 60_000) {
+    if (
+      !this.recordsCache ||
+      this.recordsCache.locale !== this.locale ||
+      now - this.recordsCache.at > 60_000
+    ) {
       this.recordsCache = { locale: this.locale, at: now, records: buildZoneRecords(this.locale) };
     }
     return this.recordsCache.records;
@@ -217,7 +267,10 @@ export class LoomiTimezonepicker extends LoomiElement {
     const q = raw.trim();
     if (!q) return undefined;
     const lower = q.toLowerCase();
-    return this.records.find((z) => z.id.toLowerCase() === lower) ?? this.records.find((z) => z.city.toLowerCase() === lower);
+    return (
+      this.records.find((z) => z.id.toLowerCase() === lower) ??
+      this.records.find((z) => z.city.toLowerCase() === lower)
+    );
   }
 
   private get formValue(): string {
@@ -385,18 +438,21 @@ export class LoomiTimezonepicker extends LoomiElement {
             }}
           />
         </div>
-        ${myZone
-          ? html`<button type="button" class="loomi-detect" @click=${() => this.useMyTimezone()}>
+        ${
+          myZone
+            ? html`<button type="button" class="loomi-detect" @click=${() => this.useMyTimezone()}>
               <svg class="loomi-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${PIN}</svg>
               <span class="loomi-detect-label">${loomiT("timezonepicker.detectLabel", {}, this.locale)}</span>
               <span class="loomi-detect-zone">${myZone.city} (${myZone.offsetLabel})</span>
             </button>`
-          : nothing}
+            : nothing
+        }
         <div class="loomi-list">
-          ${opts.length
-            ? opts.map((z, i) => {
-                const sel = z.id === this.selectedId;
-                return html`<div
+          ${
+            opts.length
+              ? opts.map((z, i) => {
+                  const sel = z.id === this.selectedId;
+                  return html`<div
                   id="loomi-timezone-${i}"
                   class="loomi-option ${sel ? "selected" : ""} ${i === this.activeIndex ? "active" : ""}"
                   role="option"
@@ -412,12 +468,15 @@ export class LoomiTimezonepicker extends LoomiElement {
                     <span class="loomi-option-time">${z.time}</span>
                     <span class="loomi-option-offset">${z.offsetLabel}</span>
                   </span>
-                  ${sel
-                    ? html`<svg class="loomi-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">${CHECK}</svg>`
-                    : nothing}
+                  ${
+                    sel
+                      ? html`<svg class="loomi-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">${CHECK}</svg>`
+                      : nothing
+                  }
                 </div>`;
-              })
-            : html`<div class="loomi-empty">${loomiDefaultText(this.emptyPlaceholder, DEFAULT_EMPTY_PLACEHOLDER, "timezonepicker.emptyPlaceholder", this.locale)}</div>`}
+                })
+              : html`<div class="loomi-empty">${loomiDefaultText(this.emptyPlaceholder, DEFAULT_EMPTY_PLACEHOLDER, "timezonepicker.emptyPlaceholder", this.locale)}</div>`
+          }
         </div>
       </div>
     `;
@@ -433,14 +492,22 @@ export class LoomiTimezonepicker extends LoomiElement {
     const hasSelection = !!this.selectedId;
     const reserveLabelSpace = hasLabel && !hasSelection && !this.open;
     const rec = this.selectedRecord;
-    const displayText = hasSelection && rec
-      ? `${rec.city} (${rec.offsetLabel})`
-      : reserveLabelSpace
-        ? `${this.label}${this.required ? " *" : ""}`
-        : loomiDefaultText(this.placeholder, DEFAULT_PLACEHOLDER, "timezonepicker.placeholder", this.locale);
+    const displayText =
+      hasSelection && rec
+        ? `${rec.city} (${rec.offsetLabel})`
+        : reserveLabelSpace
+          ? `${this.label}${this.required ? " *" : ""}`
+          : loomiDefaultText(
+              this.placeholder,
+              DEFAULT_PLACEHOLDER,
+              "timezonepicker.placeholder",
+              this.locale,
+            );
 
     const activeId =
-      this.open && this.activeIndex >= 0 && this.filtered[this.activeIndex] ? `loomi-timezone-${this.activeIndex}` : nothing;
+      this.open && this.activeIndex >= 0 && this.filtered[this.activeIndex]
+        ? `loomi-timezone-${this.activeIndex}`
+        : nothing;
 
     const classes = `loomi-timezonepicker size-${this.size} ${this.open ? "open" : ""} ${this.floatLabel ? "float" : ""}`;
     return html`
@@ -459,9 +526,11 @@ export class LoomiTimezonepicker extends LoomiElement {
           <span class="loomi-value ${hasSelection ? "" : "placeholder"} ${reserveLabelSpace ? "sizer" : ""}">${displayText}</span>
           <svg class="loomi-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${CHEVRON}</svg>
         </button>
-        ${hasLabel
-          ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
-          : nothing}
+        ${
+          hasLabel
+            ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
+            : nothing
+        }
         ${this.renderPanel()}
       </div>
     `;

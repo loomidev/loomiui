@@ -10,19 +10,18 @@ npm install @loomidev/navigation lit
 import "@loomidev/navigation"; // registers all navigation elements
 ```
 
-| Package |
-| --- |
-| [`@loomidev/bottom-nav`](../bottom-nav) |
-| [`@loomidev/tab`](../tab) |
-| [`@loomidev/pagination`](../pagination) |
-| [`@loomidev/dropmenu`](../dropmenu) |
-| [`@loomidev/context-menu`](../context-menu) |
+| Package                                         |
+| ----------------------------------------------- |
+| [`@loomidev/bottom-nav`](../bottom-nav)         |
+| [`@loomidev/tab`](../tab)                       |
+| [`@loomidev/pagination`](../pagination)         |
+| [`@loomidev/dropmenu`](../dropmenu)             |
+| [`@loomidev/context-menu`](../context-menu)     |
 | [`@loomidev/theme-switcher`](../theme-switcher) |
 
 See the [root README](../../README.md) for the install/theming model.
 
 <!-- BEGIN loomi-framework-guide -->
-
 
 ## Accessibility
 
@@ -38,7 +37,6 @@ loomi-* is designed to fit the layout you place it in. It uses fluid widths, `mi
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-* uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -46,6 +44,7 @@ loomi-* uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-b
 Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
 
 - Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
+
 ## Framework integration
 
 `@loomidev/navigation` registers all LoomiUI navigation components. Use it when you want one import for a whole category instead of installing each component separately.

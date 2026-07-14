@@ -308,17 +308,17 @@ grid rendering or behavior.
 
 ## Events
 
-| Event | Detail |
-| --- | --- |
-| `loomi-page-change` | `{ page, pageSize }` |
-| `loomi-sort-change` | `{ sort }` |
-| `loomi-selection-change` | `{ selectedKeys, selectedRows }` |
-| `loomi-row-action` | `{ row, rowKey }` |
-| `loomi-column-resize` | `{ key, width }` |
-| `loomi-cell-edit` | `{ row, rowKey, columnKey, previousValue, value }` |
-| `loomi-grid-toggle-row` | `{ rowKey, row, expanded }` (row grouping / tree data) |
-| `loomi-export-request` | `{ format, rows, columns, selectedOnly }` (export module) |
-| `loomi-saved-view-change` | `{ viewId, view }` (saved views module) |
+| Event                     | Detail                                                    |
+| ------------------------- | --------------------------------------------------------- |
+| `loomi-page-change`       | `{ page, pageSize }`                                      |
+| `loomi-sort-change`       | `{ sort }`                                                |
+| `loomi-selection-change`  | `{ selectedKeys, selectedRows }`                          |
+| `loomi-row-action`        | `{ row, rowKey }`                                         |
+| `loomi-column-resize`     | `{ key, width }`                                          |
+| `loomi-cell-edit`         | `{ row, rowKey, columnKey, previousValue, value }`        |
+| `loomi-grid-toggle-row`   | `{ rowKey, row, expanded }` (row grouping / tree data)    |
+| `loomi-export-request`    | `{ format, rows, columns, selectedOnly }` (export module) |
+| `loomi-saved-view-change` | `{ viewId, view }` (saved views module)                   |
 
 ## Design notes
 

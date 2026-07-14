@@ -9,7 +9,15 @@ import { fileURLToPath } from "node:url";
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const packagesDir = path.join(rootDir, "packages");
 // No custom elements to document: infra, aggregators and the MCP server.
-const skip = new Set(["core", "theme", "mcp-server", "components", "forms", "navigation", "content"]);
+const skip = new Set([
+  "core",
+  "theme",
+  "mcp-server",
+  "components",
+  "forms",
+  "navigation",
+  "content",
+]);
 
 const cemBin = path.join(rootDir, "node_modules", ".bin", "cem");
 let generated = 0;
@@ -19,10 +27,14 @@ for (const entry of readdirSync(packagesDir, { withFileTypes: true })) {
   const pkgDir = path.join(packagesDir, entry.name);
   if (!existsSync(path.join(pkgDir, "src"))) continue;
 
-  execFileSync(cemBin, ["analyze", "--litelement", "--globs", "src/**/*.ts", "--exclude", "src/generated/**"], {
-    cwd: pkgDir,
-    stdio: ["ignore", "ignore", "inherit"],
-  });
+  execFileSync(
+    cemBin,
+    ["analyze", "--litelement", "--globs", "src/**/*.ts", "--exclude", "src/generated/**"],
+    {
+      cwd: pkgDir,
+      stdio: ["ignore", "ignore", "inherit"],
+    },
+  );
 
   // Point package consumers at the manifest and make sure it ships with the tarball.
   const pkgJsonPath = path.join(pkgDir, "package.json");

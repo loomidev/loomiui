@@ -7,7 +7,6 @@ plumbing lives in exactly one place.
 npm install @loomidev/core lit
 ```
 
-
 ## Accessibility
 
 loomi-checkbox color="error" is built on semantic markup where the browser gives us the right behavior, and it adds ARIA only where the component has custom interaction. Keyboard users should be able to reach the same controls as pointer users, with visible focus treatment unless you explicitly turn it off on controls that support `show-focus-ring="false"`.
@@ -22,7 +21,6 @@ loomi-checkbox color="error" is designed to fit the layout you place it in. It u
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-checkbox color="error" uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -30,28 +28,29 @@ loomi-checkbox color="error" uses Loomi semantic tokens such as `--loomi-surface
 Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
 
 - Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
+
 ## Exports
 
-| Export | Description |
-| --- | --- |
-| `themeStyles` | The shared `:host` design tokens (re-exported from `@loomidev/theme`). |
-| `loomiStyles(...styles)` | Prepends `themeStyles`, `motionStyles`, `elevationStyles`, and `focusStyles` to a component's own styles. Use in `static styles`. |
-| `motionStyles` | Shared entrance-animation `@keyframes` + motion tokens (see below). Already included by `loomiStyles()`. |
-| `elevationStyles` | Shared `--loomi-shadow-elevated` drop-shadow token (see below). Already included by `loomiStyles()`. |
-| `focusStyles` | Shared `--loomi-focus-ring-color` token (see below). Already included by `loomiStyles()`. |
-| `accentVars(color)` | Returns the per-instance accent custom properties for a color (see below). |
-| `cssColor(color, shade)` | A single themed color value with private-default fallback, for inline use. |
-| `onClickOutside(el, handler)` | Calls `handler` on a click outside `el` (crosses shadow boundaries). Returns a cleanup fn. |
-| `randomSuffix()` | A short random id, e.g. for de-duplicating notification keys across component instances. |
-| `nextMenuFocusIndex(event, currentIndex, itemCount)` | Resolves an Arrow/Home/End keydown into the next index to focus in a top-level menu (the shared shape behind `@loomidev/dropmenu` and `@loomidev/context-menu`), or `undefined` for any other key. Doesn't touch the DOM — the caller's own `focusItemAt()`-style method wraps the index and moves focus. |
-| `deepActiveElement()` | Walks into nested shadow roots to find the actually-focused element. |
-| `trapTabFocus(event, focusable)` | Keeps Tab/Shift+Tab cycling within `focusable` — call once `event.key === "Tab"` is confirmed. Used by `@loomidev/modal` and `@loomidev/lightbox`. |
-| `FOCUSABLE_SELECTOR` | The CSS selector `trapTabFocus` and its callers use to find focusable elements. |
-| `OverlayReparent` | Moves an overlay element to `document.body` while open and back on close (`moveToBody()` / `restore()`), guarding against the reparent itself firing `disconnectedCallback`/`connectedCallback` (`isMovingInDom`). |
-| `setLoomiLocale(locale)` / `getLoomiLocale()` | Set or read the shared locale used by translated component defaults. |
-| `defineLoomiTranslations(locale, messages)` | Add or override translations for built-in component text. |
-| `loomiT(path, params, locale)` | Translate a shared message by key, with English fallback. |
-| `LOOMI_COLORS`, `LOOMI_SHADES`, `isLoomiColor`, `LoomiColor`, `LoomiShade` | Palette (re-exported from `@loomidev/theme`). |
+| Export                                                                     | Description                                                                                                                                                                                                                                                                                               |
+| -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `themeStyles`                                                              | The shared `:host` design tokens (re-exported from `@loomidev/theme`).                                                                                                                                                                                                                                    |
+| `loomiStyles(...styles)`                                                   | Prepends `themeStyles`, `motionStyles`, `elevationStyles`, and `focusStyles` to a component's own styles. Use in `static styles`.                                                                                                                                                                         |
+| `motionStyles`                                                             | Shared entrance-animation `@keyframes` + motion tokens (see below). Already included by `loomiStyles()`.                                                                                                                                                                                                  |
+| `elevationStyles`                                                          | Shared `--loomi-shadow-elevated` drop-shadow token (see below). Already included by `loomiStyles()`.                                                                                                                                                                                                      |
+| `focusStyles`                                                              | Shared `--loomi-focus-ring-color` token (see below). Already included by `loomiStyles()`.                                                                                                                                                                                                                 |
+| `accentVars(color)`                                                        | Returns the per-instance accent custom properties for a color (see below).                                                                                                                                                                                                                                |
+| `cssColor(color, shade)`                                                   | A single themed color value with private-default fallback, for inline use.                                                                                                                                                                                                                                |
+| `onClickOutside(el, handler)`                                              | Calls `handler` on a click outside `el` (crosses shadow boundaries). Returns a cleanup fn.                                                                                                                                                                                                                |
+| `randomSuffix()`                                                           | A short random id, e.g. for de-duplicating notification keys across component instances.                                                                                                                                                                                                                  |
+| `nextMenuFocusIndex(event, currentIndex, itemCount)`                       | Resolves an Arrow/Home/End keydown into the next index to focus in a top-level menu (the shared shape behind `@loomidev/dropmenu` and `@loomidev/context-menu`), or `undefined` for any other key. Doesn't touch the DOM — the caller's own `focusItemAt()`-style method wraps the index and moves focus. |
+| `deepActiveElement()`                                                      | Walks into nested shadow roots to find the actually-focused element.                                                                                                                                                                                                                                      |
+| `trapTabFocus(event, focusable)`                                           | Keeps Tab/Shift+Tab cycling within `focusable` — call once `event.key === "Tab"` is confirmed. Used by `@loomidev/modal` and `@loomidev/lightbox`.                                                                                                                                                        |
+| `FOCUSABLE_SELECTOR`                                                       | The CSS selector `trapTabFocus` and its callers use to find focusable elements.                                                                                                                                                                                                                           |
+| `OverlayReparent`                                                          | Moves an overlay element to `document.body` while open and back on close (`moveToBody()` / `restore()`), guarding against the reparent itself firing `disconnectedCallback`/`connectedCallback` (`isMovingInDom`).                                                                                        |
+| `setLoomiLocale(locale)` / `getLoomiLocale()`                              | Set or read the shared locale used by translated component defaults.                                                                                                                                                                                                                                      |
+| `defineLoomiTranslations(locale, messages)`                                | Add or override translations for built-in component text.                                                                                                                                                                                                                                                 |
+| `loomiT(path, params, locale)`                                             | Translate a shared message by key, with English fallback.                                                                                                                                                                                                                                                 |
+| `LOOMI_COLORS`, `LOOMI_SHADES`, `isLoomiColor`, `LoomiColor`, `LoomiShade` | Palette (re-exported from `@loomidev/theme`).                                                                                                                                                                                                                                                             |
 
 ```ts
 import { LitElement } from "lit";
@@ -73,14 +72,14 @@ class Foo extends LitElement {
 every component that uses `loomiStyles(componentStyles)` can reference these by name for
 free, with `prefers-reduced-motion` handled centrally:
 
-| keyframe | motion |
-| --- | --- |
-| `loomi-fade-in` | opacity only |
-| `loomi-pop-in` | fade + scale up from 0.98 |
-| `loomi-rise-in` | fade + rise 8px + scale up from 0.98 |
-| `loomi-drop-in` | fade + drop down 4px (opens downward, e.g. a menu) |
-| `loomi-slide-in` | fade + slide in 12px from the trailing edge |
-| `loomi-spin` | continuous 360° rotation, for loading spinners |
+| keyframe         | motion                                             |
+| ---------------- | -------------------------------------------------- |
+| `loomi-fade-in`  | opacity only                                       |
+| `loomi-pop-in`   | fade + scale up from 0.98                          |
+| `loomi-rise-in`  | fade + rise 8px + scale up from 0.98               |
+| `loomi-drop-in`  | fade + drop down 4px (opens downward, e.g. a menu) |
+| `loomi-slide-in` | fade + slide in 12px from the trailing edge        |
+| `loomi-spin`     | continuous 360° rotation, for loading spinners     |
 
 ```css
 .loomi-dialog {
@@ -141,11 +140,11 @@ at `:root`. `loomiStyles()` prepends `--loomi-focus-ring-color` from `focusStyle
 }
 ```
 
-This is the *default* ring color, for components with no per-instance theming. A
+This is the _default_ ring color, for components with no per-instance theming. A
 component that calls `accentVars()` (creditcard, slider, ...) should reference
 `--_loomi-accent` directly instead — **don't** route it through
 `--loomi-focus-ring-color`. Nested `var()` references inside an inherited custom
-property resolve at the element where the *outer* property was declared, not at the
+property resolve at the element where the _outer_ property was declared, not at the
 element that finally consumes it, so a `:host`-level token can't "automatically" pick
 up an accent color set on a descendant wrapper (which is how `accentVars()` is
 typically applied). Only width and offset are left to each component regardless of
@@ -219,7 +218,7 @@ These are two different layers — this is the answer to "why `--loomi-accent` w
   color. This is your global theming knob.
 - **`--_loomi-accent*`** are **private, per-instance** variables (note the leading `_`).
   A `<loomi-checkbox color="error">` and a `<loomi-checkbox color="success">` on the same page
-  need *different* active colors, so each instance sets its own `--_loomi-accent` from its
+  need _different_ active colors, so each instance sets its own `--_loomi-accent` from its
   `color` attribute, and the component's CSS paints with `var(--_loomi-accent)`.
 
 Crucially, `accentVars(color)` resolves each accent slot **through the public token with

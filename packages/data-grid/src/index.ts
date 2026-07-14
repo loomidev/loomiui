@@ -21,11 +21,16 @@ export type {
   DataGridSortChangeDetail,
   DataGridSortDirection,
   DataGridToggleRowDetail,
-  DataGridEventMap
+  DataGridEventMap,
 } from "./types.js";
 
 export { defineGridModule } from "./grid-module.js";
-export type { DataGridHost, GridCellCoordinates, GridModule, GridModuleContext } from "./grid-module.js";
+export type {
+  DataGridHost,
+  GridCellCoordinates,
+  GridModule,
+  GridModuleContext,
+} from "./grid-module.js";
 
 export {
   aggregateValues,
@@ -40,7 +45,7 @@ export {
   resolveRowKey,
   rowsToCsv,
   rowsToTsv,
-  withRowMeta
+  withRowMeta,
 } from "./grid-utils.js";
 
 export type { ColumnPinLayout } from "./grid-utils.js";

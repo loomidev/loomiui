@@ -65,7 +65,9 @@ export class LoomiQrCode extends LoomiElement {
   }
 
   private get normalizedErrorCorrection(): LoomiQrErrorCorrection {
-    return this.errorCorrection === "L" || this.errorCorrection === "Q" || this.errorCorrection === "H"
+    return this.errorCorrection === "L" ||
+      this.errorCorrection === "Q" ||
+      this.errorCorrection === "H"
       ? this.errorCorrection
       : "M";
   }
@@ -153,17 +155,19 @@ export class LoomiQrCode extends LoomiElement {
   private renderModules(modules: boolean[][], quietZone: number, fill: string): TemplateResult {
     if (this.moduleRadius <= 0) {
       const path = modules
-        .map((row, y) => row
-          .map((dark, x) => dark ? `M${x + quietZone},${y + quietZone}h1v1h-1z` : "")
-          .join(""))
+        .map((row, y) =>
+          row.map((dark, x) => (dark ? `M${x + quietZone},${y + quietZone}h1v1h-1z` : "")).join(""),
+        )
         .join("");
       return svg`<path class="loomi-qrcode-modules" fill=${fill} d=${path}></path>`;
     }
 
     const radius = Math.max(0, Math.min(0.5, this.moduleRadius));
     return svg`<g class="loomi-qrcode-modules" fill=${fill}>
-      ${modules.map((row, y) => row.map((dark, x) => dark
-        ? svg`<rect
+      ${modules.map((row, y) =>
+        row.map((dark, x) =>
+          dark
+            ? svg`<rect
             x=${x + quietZone}
             y=${y + quietZone}
             width="1"
@@ -171,7 +175,9 @@ export class LoomiQrCode extends LoomiElement {
             rx=${radius}
             ry=${radius}
           ></rect>`
-        : nothing))}
+            : nothing,
+        ),
+      )}
     </g>`;
   }
 

@@ -32,9 +32,10 @@ const DEFAULT_FIELDS: StatePersistenceField[] = ["sort", "columnWidths", "page",
  * ```
  */
 export function statePersistenceModule<TRecord extends DataGridRecord = DataGridRecord>(
-  options: StatePersistenceModuleOptions
+  options: StatePersistenceModuleOptions,
 ): GridModule<TRecord> {
-  const storage = options.storage ?? (typeof localStorage === "undefined" ? undefined : localStorage);
+  const storage =
+    options.storage ?? (typeof localStorage === "undefined" ? undefined : localStorage);
   const fields = new Set(options.fields ?? DEFAULT_FIELDS);
 
   function load(): PersistedGridState | null {
@@ -69,10 +70,12 @@ export function statePersistenceModule<TRecord extends DataGridRecord = DataGrid
       const saved = load();
       if (!saved) return;
       if (fields.has("sort") && saved.sort !== undefined) ctx.grid.sort = saved.sort;
-      if (fields.has("columnWidths") && saved.columnWidths) ctx.grid.columnWidths = saved.columnWidths;
+      if (fields.has("columnWidths") && saved.columnWidths)
+        ctx.grid.columnWidths = saved.columnWidths;
       if (fields.has("page") && saved.page) ctx.grid.page = saved.page;
       if (fields.has("pageSize") && saved.pageSize) ctx.grid.pageSize = saved.pageSize;
-      if (fields.has("selectedKeys") && saved.selectedKeys) ctx.grid.selectedKeys = saved.selectedKeys;
+      if (fields.has("selectedKeys") && saved.selectedKeys)
+        ctx.grid.selectedKeys = saved.selectedKeys;
       ctx.requestUpdate();
     },
 
@@ -85,6 +88,6 @@ export function statePersistenceModule<TRecord extends DataGridRecord = DataGrid
       ) {
         save(ctx);
       }
-    }
+    },
   });
 }

@@ -19,7 +19,6 @@ loomi-command-palette is designed to fit the layout you place it in. It uses flu
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-command-palette uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -28,18 +27,17 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Type | Default | Notes |
-| --- | --- | --- | --- |
-| `open` | `boolean` | `false` | Opens the command palette dialog. Reflected attribute. |
-| `query` | `string` | `""` | Current search value. Reflected attribute. |
-| `placeholder` | `string` | `"Search commands"` | Search input and trigger placeholder text. |
-| `empty-title` | `string` | `"No commands found"` | Heading shown when no commands match. |
-| `empty-description` | `string` | `"Try a different search term."` | Supporting empty-state copy. |
-| `shortcut` | `string` | `"Cmd K"` | Shortcut hint shown in the trigger. |
-| `items` | `CommandPaletteItem[]` | `[]` | JavaScript property only; assign it from your app code. |
+| Attribute           | Type                   | Default                          | Notes                                                   |
+| ------------------- | ---------------------- | -------------------------------- | ------------------------------------------------------- |
+| `open`              | `boolean`              | `false`                          | Opens the command palette dialog. Reflected attribute.  |
+| `query`             | `string`               | `""`                             | Current search value. Reflected attribute.              |
+| `placeholder`       | `string`               | `"Search commands"`              | Search input and trigger placeholder text.              |
+| `empty-title`       | `string`               | `"No commands found"`            | Heading shown when no commands match.                   |
+| `empty-description` | `string`               | `"Try a different search term."` | Supporting empty-state copy.                            |
+| `shortcut`          | `string`               | `"Cmd K"`                        | Shortcut hint shown in the trigger.                     |
+| `items`             | `CommandPaletteItem[]` | `[]`                             | JavaScript property only; assign it from your app code. |
 
 ## Installation
-
 
 ```sh
 npm install @loomidev/command-palette
@@ -97,10 +95,10 @@ Use `empty-title` and `empty-description` when no commands match the current que
 
 ## Events
 
-| Event | Detail |
-| --- | --- |
-| `loomi-command-select` | `{ item }` |
-| `loomi-command-open-change` | `{ open }` |
+| Event                        | Detail      |
+| ---------------------------- | ----------- |
+| `loomi-command-select`       | `{ item }`  |
+| `loomi-command-open-change`  | `{ open }`  |
 | `loomi-command-query-change` | `{ query }` |
 
 ## Design Notes

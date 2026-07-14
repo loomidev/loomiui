@@ -10,7 +10,6 @@ npm install @loomidev/tooltip lit
 import "@loomidev/tooltip";
 ```
 
-
 ## Basic Usage
 
 Wrap whatever should trigger the tooltip in the default slot, and set `content` for
@@ -82,7 +81,6 @@ loomi-tooltip is designed to fit the layout you place it in. It uses fluid width
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-tooltip uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -93,11 +91,11 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `content` | _(blank)_ | Tooltip text (or use the `content` slot). |
-| `placement` | `top` | `top` \| `bottom` \| `left` \| `right` |
-| `shade` | `dark` | `dark` \| `light` |
+| Attribute   | Default   | Description                               |
+| ----------- | --------- | ----------------------------------------- |
+| `content`   | _(blank)_ | Tooltip text (or use the `content` slot). |
+| `placement` | `top`     | `top` \| `bottom` \| `left` \| `right`    |
+| `shade`     | `dark`    | `dark` \| `light`                         |
 
 **Slots:** default (trigger), `content` (rich tooltip body).
 

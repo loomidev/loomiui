@@ -21,7 +21,6 @@ class MyComponent extends LitElement {
 }
 ```
 
-
 ## Accessibility
 
 loomi-theme is built on semantic markup where the browser gives us the right behavior, and it adds ARIA only where the component has custom interaction. Keyboard users should be able to reach the same controls as pointer users, with visible focus treatment unless you explicitly turn it off on controls that support `show-focus-ring="false"`.
@@ -36,7 +35,6 @@ loomi-theme is designed to fit the layout you place it in. It uses fluid widths,
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-theme uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -44,17 +42,18 @@ loomi-theme uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surfa
 Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
 
 - Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
+
 ## The token model
 
 The single source of truth is [`palette.json`](palette.json): the list of color names,
 the tonal shades, and the Tailwind ramp each color borrows its **default** values from.
 `scripts/build-tokens.mjs` reads it and generates:
 
-| Generated | Contents |
-| --- | --- |
-| `src/generated/tokens.css.ts` | `themeStyles` — `:host { --_loomi-<color>-<shade>-default: … }` |
-| `src/generated/palette.gen.ts` | The typed `LOOMI_COLORS` / `LOOMI_SHADES` consts |
-| `src/tailwind-colors.css` | `@theme inline { --color-<c>-<s>: var(--loomi-<c>-<s>, var(--_loomi-<c>-<s>-default)) }` |
+| Generated                      | Contents                                                                                 |
+| ------------------------------ | ---------------------------------------------------------------------------------------- |
+| `src/generated/tokens.css.ts`  | `themeStyles` — `:host { --_loomi-<color>-<shade>-default: … }`                          |
+| `src/generated/palette.gen.ts` | The typed `LOOMI_COLORS` / `LOOMI_SHADES` consts                                         |
+| `src/tailwind-colors.css`      | `@theme inline { --color-<c>-<s>: var(--loomi-<c>-<s>, var(--_loomi-<c>-<s>-default)) }` |
 
 ### Why two tiers of variable?
 

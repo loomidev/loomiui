@@ -59,7 +59,7 @@ describe("loomi-input masks", () => {
     expect(el.value).to.equal("3714 496353 98431");
   });
 
-  it("allows mask=\"creditcard\" as a shortcut", async () => {
+  it('allows mask="creditcard" as a shortcut', async () => {
     const el = await fixture<TestInput>(html`<loomi-input mask="creditcard"></loomi-input>`);
 
     await typeValue(el, "5555555555554444");

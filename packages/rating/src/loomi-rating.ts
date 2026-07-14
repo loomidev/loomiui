@@ -41,7 +41,9 @@ export class LoomiRating extends LoomiElement {
   private pick(n: number): void {
     if (!this.clickable) return;
     this.rating = n;
-    this.dispatchEvent(new CustomEvent("change", { bubbles: true, composed: true, detail: { rating: n } }));
+    this.dispatchEvent(
+      new CustomEvent("change", { bubbles: true, composed: true, detail: { rating: n } }),
+    );
   }
 
   override render(): TemplateResult {

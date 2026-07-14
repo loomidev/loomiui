@@ -64,7 +64,9 @@
 .loomi-l2 {
   font-size: 0.85rem;
 }
-.loomi-req { color: var(--loomi-error-500); }
+.loomi-req {
+  color: var(--loomi-error-500);
+}
 .loomi-native {
   position: absolute;
   width: 1px;
@@ -99,8 +101,14 @@
   color: var(--loomi-text-faint);
   flex: none;
 }
-.loomi-thumb svg { width: 1.4rem; height: 1.4rem; }
-.loomi-meta { flex: 1 1 auto; min-width: 0; }
+.loomi-thumb svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+.loomi-meta {
+  flex: 1 1 auto;
+  min-width: 0;
+}
 .loomi-fname {
   color: var(--loomi-text);
   font-size: 0.875rem;
@@ -108,7 +116,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.loomi-fsize { color: var(--loomi-text-faint); font-size: 0.75rem; }
+.loomi-fsize {
+  color: var(--loomi-text-faint);
+  font-size: 0.75rem;
+}
 .loomi-remove {
   flex: none;
   border: 0;
@@ -118,8 +129,13 @@
   padding: 0.25rem;
   line-height: 0;
 }
-.loomi-remove:hover { color: var(--loomi-error-500); }
-.loomi-remove svg { width: 1.1rem; height: 1.1rem; }
+.loomi-remove:hover {
+  color: var(--loomi-error-500);
+}
+.loomi-remove svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
 
 :host([transparent]) .loomi-drop {
   background: transparent;

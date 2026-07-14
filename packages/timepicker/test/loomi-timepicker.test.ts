@@ -24,11 +24,14 @@ describe("loomi-timepicker", () => {
   });
 
   it("opens a modal instead of a dropdown panel when tp-style is clock", async () => {
-    const el = await fixture<LoomiTimepicker>(html`<loomi-timepicker tp-style="clock"></loomi-timepicker>`);
+    const el = await fixture<LoomiTimepicker>(
+      html`<loomi-timepicker tp-style="clock"></loomi-timepicker>`,
+    );
     await openField(el);
 
     expect(el.shadowRoot!.querySelector(".loomi-panel")).to.not.exist;
-    const modal = document.body.querySelector(".loomi-clock-modal") as (HTMLElement & { open: boolean }) | null;
+    const modal = document.body.querySelector(".loomi-clock-modal") as
+      (HTMLElement & { open: boolean }) | null;
     expect(modal).to.exist;
     expect(modal!.open).to.be.true;
   });
@@ -38,24 +41,27 @@ describe("loomi-timepicker", () => {
     await openField(el);
 
     expect(el.shadowRoot!.querySelector(".loomi-panel")).to.exist;
-    const modal = document.body.querySelector(".loomi-clock-modal") as (HTMLElement & { open: boolean }) | null;
+    const modal = document.body.querySelector(".loomi-clock-modal") as
+      (HTMLElement & { open: boolean }) | null;
     expect(modal).to.not.exist;
   });
 
   it("commits a value after picking an hour then a minute from the clock", async () => {
-    const el = await fixture<LoomiTimepicker>(html`<loomi-timepicker tp-style="clock" format="24"></loomi-timepicker>`);
+    const el = await fixture<LoomiTimepicker>(
+      html`<loomi-timepicker tp-style="clock" format="24"></loomi-timepicker>`,
+    );
     await openField(el);
 
     const modal = document.body.querySelector(".loomi-clock-modal")!;
-    const hourButton = Array.from(modal.querySelectorAll<HTMLButtonElement>(".loomi-clock-hour")).find(
-      (button) => button.textContent?.trim() === "09",
-    )!;
+    const hourButton = Array.from(
+      modal.querySelectorAll<HTMLButtonElement>(".loomi-clock-hour"),
+    ).find((button) => button.textContent?.trim() === "09")!;
     hourButton.click();
     await el.updateComplete;
 
-    const minuteButton = Array.from(modal.querySelectorAll<HTMLButtonElement>(".loomi-clock-minute")).find(
-      (button) => button.textContent?.trim() === "30",
-    )!;
+    const minuteButton = Array.from(
+      modal.querySelectorAll<HTMLButtonElement>(".loomi-clock-minute"),
+    ).find((button) => button.textContent?.trim() === "30")!;
     minuteButton.click();
     await el.updateComplete;
 
@@ -63,7 +69,9 @@ describe("loomi-timepicker", () => {
   });
 
   it("selects the nearest minute from a click on the minute ring background", async () => {
-    const el = await fixture<LoomiTimepicker>(html`<loomi-timepicker tp-style="clock" format="24"></loomi-timepicker>`);
+    const el = await fixture<LoomiTimepicker>(
+      html`<loomi-timepicker tp-style="clock" format="24"></loomi-timepicker>`,
+    );
     await openField(el);
 
     const modal = document.body.querySelector(".loomi-clock-modal")!;
@@ -84,7 +92,9 @@ describe("loomi-timepicker", () => {
   });
 
   it("toggles 12h/24h format from the clock's center button and keeps the same time", async () => {
-    const el = await fixture<LoomiTimepicker>(html`<loomi-timepicker tp-style="clock" selected-value="3:25PM"></loomi-timepicker>`);
+    const el = await fixture<LoomiTimepicker>(
+      html`<loomi-timepicker tp-style="clock" selected-value="3:25PM"></loomi-timepicker>`,
+    );
     await openField(el);
 
     const modal = document.body.querySelector(".loomi-clock-modal")!;

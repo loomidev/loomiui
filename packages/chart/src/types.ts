@@ -1,15 +1,7 @@
 import type { LoomiColor } from "@loomidev/core";
 
 export type LoomiChartType =
-  | "bar"
-  | "line"
-  | "area"
-  | "pie"
-  | "donut"
-  | "radar"
-  | "radial"
-  | "scatter"
-  | "heatmap";
+  "bar" | "line" | "area" | "pie" | "donut" | "radar" | "radial" | "scatter" | "heatmap";
 
 export type LoomiChartShade = "light" | "dark";
 

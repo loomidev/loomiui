@@ -273,11 +273,11 @@ Corner radius uses the same public/private lookup as color, so a theme can resty
 component's rounding from `:root` without a rebuild. The scale is **semantic, not one
 value** — controls and panels round differently:
 
-| Public slot | Private default | Applies to |
-| --- | --- | --- |
-| `--loomi-control-radius` | `0.5rem` | inputs, selects, buttons, checkbox, tag, tabs, pagination, pin — small interactive controls |
-| `--loomi-panel-radius` | `0.875rem` | cards, modals, popovers, menus, dropdown panels, tables, drawers — elevated surfaces |
-| `--loomi-pill-radius` | `9999px` | fully-rounded/pill shapes — `radius="full"`, pill tags |
+| Public slot              | Private default | Applies to                                                                                  |
+| ------------------------ | --------------- | ------------------------------------------------------------------------------------------- |
+| `--loomi-control-radius` | `0.5rem`        | inputs, selects, buttons, checkbox, tag, tabs, pagination, pin — small interactive controls |
+| `--loomi-panel-radius`   | `0.875rem`      | cards, modals, popovers, menus, dropdown panels, tables, drawers — elevated surfaces        |
+| `--loomi-pill-radius`    | `9999px`        | fully-rounded/pill shapes — `radius="full"`, pill tags                                      |
 
 Field-style components inherit control radius for free through
 [`fieldStyles`](packages/core/src/field.ts) (one `border-radius: var(--loomi-control-radius, …)`
@@ -288,7 +288,7 @@ unchanged and setting `--loomi-panel-radius` unifies them.
 Precedence follows directly from where the var is declared. A `radius`/`size` attribute
 preset (e.g. `<loomi-button radius="full">`) declares the public slot on `:host([radius=…])`,
 which beats an inherited `:root` value — so an explicit per-instance shape wins over the
-global theme, while the *default* preset declares nothing and therefore defers to the theme.
+global theme, while the _default_ preset declares nothing and therefore defers to the theme.
 The order is: per-instance attribute → `:root` theme override → built-in default. True
 geometry (circular avatars/spinners/toggles, chart/QR/credit-card art) is intentionally left
 as fixed literals and does **not** read these tokens.
@@ -308,7 +308,7 @@ The shared control scale ([`controlSizeStyles`](packages/core/src/field.ts), mir
 button's `:host([size=…])` rules) declares each height/padding as
 `calc(var(--loomi-density, 1) * <value>)`. Because the multiplier composes with the per-`size`
 presets rather than replacing them, `tiny`…`big` stay proportional at any density. Font size
-is deliberately *not* scaled — density controls spacing, `size` controls type. Like the other
+is deliberately _not_ scaled — density controls spacing, `size` controls type. Like the other
 public tokens, `--loomi-density` is never declared on `:host`, so a `:root` value inherits
 through Shadow DOM.
 

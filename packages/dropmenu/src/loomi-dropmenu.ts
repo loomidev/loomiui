@@ -132,26 +132,33 @@ export class LoomiDropmenuItem extends LoomiElement {
         aria-disabled=${this.disabled ? "true" : nothing}
         @click=${this.onItemClick}
       >
-        ${this.isToggle
-          ? html`<span class="loomi-indicator" aria-hidden="true">
-              ${this.checked
-                ? this.radio
-                  ? html`<span class="loomi-radio-dot"></span>`
-                  : html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+        ${
+          this.isToggle
+            ? html`<span class="loomi-indicator" aria-hidden="true">
+              ${
+                this.checked
+                  ? this.radio
+                    ? html`<span class="loomi-radio-dot"></span>`
+                    : html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
                       ${CHECK}
                     </svg>`
-                : nothing}
+                  : nothing
+              }
             </span>`
-          : nothing}
-        ${path
-          ? html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            : nothing
+        }
+        ${
+          path
+            ? html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
               ${path}
             </svg>`
-          : nothing}
+            : nothing
+        }
         <span class="loomi-label"><slot></slot></span>
         ${this.shortcut ? html`<kbd class="loomi-shortcut">${this.shortcut}</kbd>` : nothing}
-        ${this.hasSubmenuItems
-          ? html`<svg
+        ${
+          this.hasSubmenuItems
+            ? html`<svg
               class="loomi-submenu-icon"
               viewBox="0 0 24 24"
               fill="none"
@@ -161,7 +168,8 @@ export class LoomiDropmenuItem extends LoomiElement {
             >
               ${CHEVRON_RIGHT}
             </svg>`
-          : nothing}
+            : nothing
+        }
       </div>
       <div
         class="loomi-submenu ${this.hasSubmenuItems ? "ready" : ""} ${this.submenuOpen ? "open" : ""}"
@@ -277,7 +285,10 @@ export class LoomiDropmenu extends LoomiElement {
     };
 
     const visibleWidth = (candidate: { start: number; end: number }): number =>
-      Math.max(0, Math.min(candidate.end, viewportWidth - margin) - Math.max(candidate.start, margin));
+      Math.max(
+        0,
+        Math.min(candidate.end, viewportWidth - margin) - Math.max(candidate.start, margin),
+      );
 
     const leftVisible = visibleWidth(leftAligned);
     const rightVisible = visibleWidth(rightAligned);
@@ -320,7 +331,9 @@ export class LoomiDropmenu extends LoomiElement {
   }
 
   private onItemsClick = (e: Event): void => {
-    const item = e.composedPath().find((target): target is LoomiDropmenuItem => target instanceof LoomiDropmenuItem);
+    const item = e
+      .composedPath()
+      .find((target): target is LoomiDropmenuItem => target instanceof LoomiDropmenuItem);
     if (item && item.selectable && !item.hasSubmenu && !item.isToggle && this.hideAfterClick) {
       this.closeMenu({ restoreFocus: true });
     }
@@ -368,7 +381,9 @@ export class LoomiDropmenu extends LoomiElement {
   }
 
   private get menuClass(): string {
-    return ["loomi-menu", this.resolvedPlacement, this.scrollable && "scrollable"].filter(Boolean).join(" ");
+    return ["loomi-menu", this.resolvedPlacement, this.scrollable && "scrollable"]
+      .filter(Boolean)
+      .join(" ");
   }
 
   override render(): TemplateResult {
@@ -389,8 +404,9 @@ export class LoomiDropmenu extends LoomiElement {
           </svg>
         </slot>
       </button>
-      ${this.open
-        ? html`<div
+      ${
+        this.open
+          ? html`<div
             class=${this.menuClass}
             style=${this.scrollable ? `--loomi-menu-height:${this.height}px` : nothing}
             role="menu"
@@ -401,7 +417,8 @@ export class LoomiDropmenu extends LoomiElement {
               <slot @slotchange=${this.onSlotChange}></slot>
             </div>
           </div>`
-        : nothing}
+          : nothing
+      }
     `;
   }
 }

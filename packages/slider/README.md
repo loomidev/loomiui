@@ -12,7 +12,6 @@ npm install @loomidev/slider lit
 import "@loomidev/slider";
 ```
 
-
 ## Basic Usage
 
 ```html
@@ -123,7 +122,6 @@ loomi-slider is designed to fit the layout you place it in. It uses fluid widths
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-slider uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -134,24 +132,24 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `name` | _(blank)_ | Submitted with the form. |
-| `selected` | `0` | Current/default value. |
-| `selected-end` | `100` | End value when `range` is enabled. |
-| `range` | `false` | Enable dual-handle range selection. _(boolean)_ |
-| `min` | `0` | Lower bound. |
-| `max` | `100` | Upper bound. |
-| `step` | `1` | Increment. |
-| `color` | `primary` | Any loomi color (themes the track via `accent-color`). |
-| `show-values` | `true` | Show the handle value tooltip. _(boolean)_ |
-| `show-tooltip` | `true` | Show or hide the tooltip while keeping the value behavior. _(boolean)_ |
-| `marks` | _(blank)_ | Comma-separated mark values or a JS number array. |
-| `vertical` | `false` | Render a vertical slider. _(boolean)_ |
-| `handle-width` | _(blank)_ | Custom handle width, for example `1.25rem`. |
-| `handle-variant` | `default` | `default`, `square`, or `line`. |
-| `track-radius` | `999px` | Slider bar roundness. |
-| `value-target` | _(blank)_ | Selector for an input/output field to update as the slider moves. |
+| Attribute        | Default   | Description                                                            |
+| ---------------- | --------- | ---------------------------------------------------------------------- |
+| `name`           | _(blank)_ | Submitted with the form.                                               |
+| `selected`       | `0`       | Current/default value.                                                 |
+| `selected-end`   | `100`     | End value when `range` is enabled.                                     |
+| `range`          | `false`   | Enable dual-handle range selection. _(boolean)_                        |
+| `min`            | `0`       | Lower bound.                                                           |
+| `max`            | `100`     | Upper bound.                                                           |
+| `step`           | `1`       | Increment.                                                             |
+| `color`          | `primary` | Any loomi color (themes the track via `accent-color`).                 |
+| `show-values`    | `true`    | Show the handle value tooltip. _(boolean)_                             |
+| `show-tooltip`   | `true`    | Show or hide the tooltip while keeping the value behavior. _(boolean)_ |
+| `marks`          | _(blank)_ | Comma-separated mark values or a JS number array.                      |
+| `vertical`       | `false`   | Render a vertical slider. _(boolean)_                                  |
+| `handle-width`   | _(blank)_ | Custom handle width, for example `1.25rem`.                            |
+| `handle-variant` | `default` | `default`, `square`, or `line`.                                        |
+| `track-radius`   | `999px`   | Slider bar roundness.                                                  |
+| `value-target`   | _(blank)_ | Selector for an input/output field to update as the slider moves.      |
 
 **Events:** `input`, `change` (composed).
 
@@ -215,7 +213,6 @@ In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the pac
 ```js
 import "@loomidev/slider";
 ```
-
 
 Because this is a form-capable component, give it a `name` when it should submit with a native `<form>`. Read its value with `new FormData(form).get("the-name")` just like you would for a built-in input.
 

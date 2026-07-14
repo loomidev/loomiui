@@ -12,7 +12,6 @@ npm install @loomidev/avatar lit
 import "@loomidev/avatar";
 ```
 
-
 ## Basic Usage
 
 ```html
@@ -228,7 +227,6 @@ loomi-avatar is designed to fit the layout you place it in. It uses fluid widths
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-avatar uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -239,36 +237,35 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `image` | _(blank)_ | Image URL. Shown as initials if 3 chars or fewer. |
-| `label` | _(blank)_ | Initials shown when no image. |
-| `size` | `regular` | `tiny` \| `small` \| `medium` \| `regular` \| `big` \| `huge` \| `omg` |
-| `bg-color` | `gray` | Background/ring color for initials (any loomi color). |
-| `dotted` | `false` | Show a status dot. _(boolean)_ |
-| `pulse-dot` | `false` | Animate the status dot with a presence pulse. _(boolean)_ |
-| `dot-color` | `success` | Status dot color (any loomi color). |
-| `dot-position` | `bottom` | `top` \| `bottom` |
-| `show-ring` | `true` | Show the ring around the avatar. _(boolean)_ |
-| `verified` | `false` | Show a primary-colored check badge in the bottom-right corner. _(boolean)_ |
-| `editable` | `false` | Clicking (or Enter/Space) launches a crop dialog to replace the image. _(boolean)_ |
-| `edit-label` | `Edit avatar` | Accessible label for the editable avatar's button role. |
+| Attribute      | Default       | Description                                                                        |
+| -------------- | ------------- | ---------------------------------------------------------------------------------- |
+| `image`        | _(blank)_     | Image URL. Shown as initials if 3 chars or fewer.                                  |
+| `label`        | _(blank)_     | Initials shown when no image.                                                      |
+| `size`         | `regular`     | `tiny` \| `small` \| `medium` \| `regular` \| `big` \| `huge` \| `omg`             |
+| `bg-color`     | `gray`        | Background/ring color for initials (any loomi color).                              |
+| `dotted`       | `false`       | Show a status dot. _(boolean)_                                                     |
+| `pulse-dot`    | `false`       | Animate the status dot with a presence pulse. _(boolean)_                          |
+| `dot-color`    | `success`     | Status dot color (any loomi color).                                                |
+| `dot-position` | `bottom`      | `top` \| `bottom`                                                                  |
+| `show-ring`    | `true`        | Show the ring around the avatar. _(boolean)_                                       |
+| `verified`     | `false`       | Show a primary-colored check badge in the bottom-right corner. _(boolean)_         |
+| `editable`     | `false`       | Clicking (or Enter/Space) launches a crop dialog to replace the image. _(boolean)_ |
+| `edit-label`   | `Edit avatar` | Accessible label for the editable avatar's button role.                            |
 
 **Event:** `change` (fires after `editable` applies a crop) — `detail: { file, image }`.
 
 ### `<loomi-avatars>` (group)
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `stacked` | `false` | Overlap children. _(boolean)_ |
-| `plus` | `0` | Append a `+N` bubble (also forces stacking). |
-| `size` | `regular` | Propagated to children. |
-| `stack-space` | _(blank)_ | Custom overlap/spacing for stacked avatars, for example `-0.75rem`. |
-| `dotted` | `false` | Show a status dot on each child. _(boolean)_ |
-| `pulse-dot` | `false` | Apply pulsing dots to children when `dotted` is set. _(boolean)_ |
-| `dot-color` | `success` | Propagated to children without their own `dot-color`. |
-| `dot-position` | `bottom` | Propagated to children without their own `dot-position`. |
-
+| Attribute      | Default   | Description                                                         |
+| -------------- | --------- | ------------------------------------------------------------------- |
+| `stacked`      | `false`   | Overlap children. _(boolean)_                                       |
+| `plus`         | `0`       | Append a `+N` bubble (also forces stacking).                        |
+| `size`         | `regular` | Propagated to children.                                             |
+| `stack-space`  | _(blank)_ | Custom overlap/spacing for stacked avatars, for example `-0.75rem`. |
+| `dotted`       | `false`   | Show a status dot on each child. _(boolean)_                        |
+| `pulse-dot`    | `false`   | Apply pulsing dots to children when `dotted` is set. _(boolean)_    |
+| `dot-color`    | `success` | Propagated to children without their own `dot-color`.               |
+| `dot-position` | `bottom`  | Propagated to children without their own `dot-position`.            |
 
 ## Full Example
 

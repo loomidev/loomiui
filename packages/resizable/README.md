@@ -11,7 +11,6 @@ npm install @loomidev/resizable lit
 import "@loomidev/resizable";
 ```
 
-
 ## Basic Usage
 
 ```html
@@ -91,7 +90,6 @@ loomi-resizable-panel-group is designed to fit the layout you place it in. It us
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-resizable-panel-group uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -104,29 +102,29 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ### `<loomi-resizable-panel-group>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `orientation` | `horizontal` | `horizontal` or `vertical`. |
-| `auto-save-id` | _(blank)_ | Persist layout in `localStorage`. |
+| Attribute      | Default      | Description                       |
+| -------------- | ------------ | --------------------------------- |
+| `orientation`  | `horizontal` | `horizontal` or `vertical`.       |
+| `auto-save-id` | _(blank)_    | Persist layout in `localStorage`. |
 
 ### `<loomi-resizable-panel>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `default-size` | _(even split)_ | Initial size (`50` or `50%`). |
-| `min-size` | `0` | Minimum size percentage. |
-| `max-size` | `100` | Maximum size percentage. |
-| `collapsible` | `false` | Double-click adjacent handle to collapse. |
-| `collapsed-size` | `0` | Size when collapsed. |
-| `collapsed` | `false` | Collapse state. |
-| `panel-id` | _(blank)_ | Id for layout events and persistence. |
+| Attribute        | Default        | Description                               |
+| ---------------- | -------------- | ----------------------------------------- |
+| `default-size`   | _(even split)_ | Initial size (`50` or `50%`).             |
+| `min-size`       | `0`            | Minimum size percentage.                  |
+| `max-size`       | `100`          | Maximum size percentage.                  |
+| `collapsible`    | `false`        | Double-click adjacent handle to collapse. |
+| `collapsed-size` | `0`            | Size when collapsed.                      |
+| `collapsed`      | `false`        | Collapse state.                           |
+| `panel-id`       | _(blank)_      | Id for layout events and persistence.     |
 
 ### `<loomi-resizable-handle>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
+| Attribute     | Default | Description               |
+| ------------- | ------- | ------------------------- |
 | `with-handle` | `false` | Show a visible grip icon. |
-| `disabled` | `false` | Disable dragging. |
+| `disabled`    | `false` | Disable dragging.         |
 
 **Keyboard:** focus a handle and use arrow keys (hold Shift for larger steps).
 

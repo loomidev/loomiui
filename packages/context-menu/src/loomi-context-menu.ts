@@ -73,11 +73,13 @@ export class LoomiContextMenuItem extends LoomiElement {
       ${path ? html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${path}</svg>` : nothing}
       <span class="loomi-label"><slot></slot></span>
       ${this.shortcut ? html`<kbd class="loomi-shortcut">${this.shortcut}</kbd>` : nothing}
-      ${this.hasSubmenuItems
-        ? html`<svg class="loomi-submenu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+      ${
+        this.hasSubmenuItems
+          ? html`<svg class="loomi-submenu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
             ${CHEVRON_RIGHT}
           </svg>`
-        : nothing}
+          : nothing
+      }
     </div>
     <div class="loomi-submenu ${this.hasSubmenuItems ? "ready" : ""} ${this.submenuOpen ? "open" : ""}" role="menu">
       <slot name="submenu" @slotchange=${this.onSubmenuSlotChange}></slot>
@@ -201,7 +203,8 @@ export class LoomiContextMenu extends LoomiElement {
 
   private getTopLevelItems(): LoomiContextMenuItem[] {
     return Array.from(this.children).filter(
-      (child): child is LoomiContextMenuItem => child instanceof LoomiContextMenuItem && child.selectable,
+      (child): child is LoomiContextMenuItem =>
+        child instanceof LoomiContextMenuItem && child.selectable,
     );
   }
 
@@ -235,12 +238,17 @@ export class LoomiContextMenu extends LoomiElement {
     event.preventDefault();
     const target = this.renderRoot.querySelector<HTMLElement>(".loomi-target");
     const rect = target?.getBoundingClientRect();
-    this.showAt(rect ? rect.left + Math.min(rect.width / 2, 24) : 0, rect ? rect.top + Math.min(rect.height, 32) : 0);
+    this.showAt(
+      rect ? rect.left + Math.min(rect.width / 2, 24) : 0,
+      rect ? rect.top + Math.min(rect.height, 32) : 0,
+    );
     void this.updateComplete.then(() => this.focusItemAt(0));
   };
 
   private onItemsClick = (event: Event): void => {
-    const item = event.composedPath().find((target): target is LoomiContextMenuItem => target instanceof LoomiContextMenuItem);
+    const item = event
+      .composedPath()
+      .find((target): target is LoomiContextMenuItem => target instanceof LoomiContextMenuItem);
     if (item && item.selectable && !item.hasSubmenu && this.hideAfterClick) this.hide();
   };
 
@@ -282,8 +290,9 @@ export class LoomiContextMenu extends LoomiElement {
     >
       <slot name="target"></slot>
     </span>
-    ${this.open
-      ? html`<div
+    ${
+      this.open
+        ? html`<div
           class="loomi-menu ${this.resolvedPlacement} ${this.scrollable ? "scrollable" : ""}"
           style=${`--loomi-context-menu-x:${this.menuX}px;--loomi-context-menu-y:${this.menuY}px;${
             this.scrollable ? `--loomi-menu-height:${this.height}px` : ""
@@ -294,7 +303,8 @@ export class LoomiContextMenu extends LoomiElement {
         >
           <slot @slotchange=${this.onSlotChange}></slot>
         </div>`
-      : nothing}`;
+        : nothing
+    }`;
   }
 }
 

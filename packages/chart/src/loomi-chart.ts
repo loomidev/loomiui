@@ -69,11 +69,14 @@ export class LoomiChart extends LoomiElement {
   @property({ attribute: "legend-position" }) legendPosition: LoomiChartLegendPosition = "bottom";
   @property({ type: Number, attribute: "donut-radius" }) donutRadius = 44;
   @property() shade: LoomiChartShade = "dark";
-  @property({ type: Boolean, attribute: "show-border", converter: booleanAttribute }) showBorder = true;
-  @property({ type: Boolean, attribute: "show-y-axis", converter: booleanAttribute }) showYAxis = true;
+  @property({ type: Boolean, attribute: "show-border", converter: booleanAttribute }) showBorder =
+    true;
+  @property({ type: Boolean, attribute: "show-y-axis", converter: booleanAttribute }) showYAxis =
+    true;
   @property({ type: Boolean, attribute: "show-grid" }) showGrid = true;
   /** Show a tooltip while hovering chart points. Cartesian charts track the nearest point as you move across the plot. */
-  @property({ type: Boolean, attribute: "show-tooltip", converter: booleanAttribute }) showTooltip = true;
+  @property({ type: Boolean, attribute: "show-tooltip", converter: booleanAttribute }) showTooltip =
+    true;
   @property({ type: Boolean, attribute: "with-gap", converter: booleanAttribute }) withGap = false;
   @property({ type: Boolean }) vertical = false;
   @property({ type: Boolean }) exportable = false;
@@ -102,7 +105,10 @@ export class LoomiChart extends LoomiElement {
     return this.type === "bar" && this.series2Type === "line" && this.dualSeries();
   }
 
-  private seriesPoints(layout: ReturnType<typeof cartesianLayout>, field: "value" | "value2"): [number, number][] {
+  private seriesPoints(
+    layout: ReturnType<typeof cartesianLayout>,
+    field: "value" | "value2",
+  ): [number, number][] {
     const { height: H, padTop, padBottom, max, bandWidth, padLeft, step } = layout;
     const n = this.data.length;
     return this.data.map((d, i) => {
@@ -149,13 +155,19 @@ export class LoomiChart extends LoomiElement {
       const padLeft = this.heatmapPadLeft(rows);
       const x = ((event.clientX - rect.left) / rect.width) * CARTESIAN.width;
       const plotWidth = CARTESIAN.width - padLeft - CARTESIAN.pad;
-      next = Math.max(0, Math.min(this.data.length - 1, Math.floor(((x - padLeft) / plotWidth) * this.data.length)));
+      next = Math.max(
+        0,
+        Math.min(this.data.length - 1, Math.floor(((x - padLeft) / plotWidth) * this.data.length)),
+      );
       if (next !== this.hoverIndex) this.hoverIndex = next;
       const y = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
       const plotTop = CARTESIAN.pad / CARTESIAN.height;
       const plotBottom = (CARTESIAN.height - CARTESIAN.pad) / CARTESIAN.height;
       const plotRatio = (y - plotTop) / (plotBottom - plotTop);
-      this.heatmapRowIndex = Math.max(0, Math.min(rows.length - 1, Math.floor(plotRatio * rows.length)));
+      this.heatmapRowIndex = Math.max(
+        0,
+        Math.min(rows.length - 1, Math.floor(plotRatio * rows.length)),
+      );
     }
   }
 
@@ -164,7 +176,9 @@ export class LoomiChart extends LoomiElement {
     this.heatmapRowIndex = -1;
   }
 
-  private renderGrid(layout: ReturnType<typeof cartesianLayout>): SVGTemplateResult | typeof nothing {
+  private renderGrid(
+    layout: ReturnType<typeof cartesianLayout>,
+  ): SVGTemplateResult | typeof nothing {
     if (!this.showGrid) return nothing;
     const { width: W, padLeft, padRight, padBottom, height: H } = layout;
     const ys = gridLineYs(layout);
@@ -177,7 +191,9 @@ export class LoomiChart extends LoomiElement {
     `;
   }
 
-  private renderYAxis(layout: ReturnType<typeof cartesianLayout>): SVGTemplateResult | typeof nothing {
+  private renderYAxis(
+    layout: ReturnType<typeof cartesianLayout>,
+  ): SVGTemplateResult | typeof nothing {
     if (!this.showYAxis) return nothing;
     const { padLeft, padTop, padBottom, height: H, max } = layout;
     return svg`
@@ -187,7 +203,9 @@ export class LoomiChart extends LoomiElement {
     `;
   }
 
-  private renderCrosshair(layout: ReturnType<typeof cartesianLayout>): SVGTemplateResult | typeof nothing {
+  private renderCrosshair(
+    layout: ReturnType<typeof cartesianLayout>,
+  ): SVGTemplateResult | typeof nothing {
     if (!this.showTooltip || this.hoverIndex < 0) return nothing;
     const [x] = tooltipAnchor(this.type, this.data, this.hoverIndex, this.layoutOpts());
     if (x == null) return nothing;
@@ -213,7 +231,8 @@ export class LoomiChart extends LoomiElement {
     const multi = hasGroupedValues(this.data);
     const seriesLabels = multi ? groupedSeriesLabels(this.data) : [];
     const seriesCount = this.mixedBarLine ? 1 : barSeriesCount(this.data);
-    const groupRatio = seriesCount > 1 ? Math.min(0.88, 0.68 + seriesCount * 0.04) : BAR_WIDTH_RATIO;
+    const groupRatio =
+      seriesCount > 1 ? Math.min(0.88, 0.68 + seriesCount * 0.04) : BAR_WIDTH_RATIO;
     const groupW = bandWidth * groupRatio;
     const barGap = seriesCount > 1 ? 2 : 0;
     const barW = seriesCount > 1 ? (groupW - barGap * (seriesCount - 1)) / seriesCount : groupW;
@@ -246,9 +265,11 @@ export class LoomiChart extends LoomiElement {
           d=${roundedTopRectPath(bar.x, bar.y, bar.w, bar.h, bar.r)}
           fill=${fill}
         ></path>
-        ${border
-          ? svg`<path class="loomi-bar-border" d=${roundedTopRectBorderPath(bar.x, bar.y, bar.w, bar.h, bar.r)} fill="none" stroke=${border} stroke-width="1.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>`
-          : nothing}
+        ${
+          border
+            ? svg`<path class="loomi-bar-border" d=${roundedTopRectBorderPath(bar.x, bar.y, bar.w, bar.h, bar.r)} fill="none" stroke=${border} stroke-width="1.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>`
+            : nothing
+        }
       `;
     };
 
@@ -265,17 +286,21 @@ export class LoomiChart extends LoomiElement {
         const bars = Array.from({ length: seriesCount }, (_, s) => renderBar(i, s, active));
         return svg`
           ${bars}
-          ${showXLabel(i, bandWidth)
-            ? svg`<text class="loomi-xlabel" x=${padLeft + i * bandWidth + bandWidth / 2} y=${H - padBottom + 12} text-anchor="middle">${d.label}</text>`
-            : nothing}
+          ${
+            showXLabel(i, bandWidth)
+              ? svg`<text class="loomi-xlabel" x=${padLeft + i * bandWidth + bandWidth / 2} y=${H - padBottom + 12} text-anchor="middle">${d.label}</text>`
+              : nothing
+          }
         `;
       })}
-      ${this.mixedBarLine
-        ? svg`
+      ${
+        this.mixedBarLine
+          ? svg`
             <polyline class="loomi-line loomi-line-2" points=${line} fill="none" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></polyline>
             ${linePoints.map(([x, y], i) => svg`<circle class="loomi-dot loomi-dot-2${this.hoverIndex === i ? " is-active" : ""}" cx=${x} cy=${y} r=${this.hoverIndex === i ? 3.5 : 2.5} vector-effect="non-scaling-stroke"></circle>`)}
           `
-        : nothing}
+          : nothing
+      }
     `;
   }
 
@@ -294,50 +319,64 @@ export class LoomiChart extends LoomiElement {
 
     return svg`
       ${this.renderGradientDef("loomi-area-grad")}
-      ${vertical
-        ? svg`
+      ${
+        vertical
+          ? svg`
             <line class="loomi-axis" x1=${padLeft} y1=${padTop} x2=${padLeft} y2=${H - padBottom} vector-effect="non-scaling-stroke"></line>
-            ${this.showYAxis
-              ? svg`
+            ${
+              this.showYAxis
+                ? svg`
                   <line class="loomi-axis" x1=${padLeft} y1=${H - padBottom} x2=${W - padRight} y2=${H - padBottom} vector-effect="non-scaling-stroke"></line>
                   <text class="loomi-ylabel" x=${padLeft} y=${H - padBottom + 14} text-anchor="middle">0</text>
                   <text class="loomi-ylabel" x=${W - padRight} y=${H - padBottom + 14} text-anchor="middle">${max}</text>
                 `
-              : nothing}
+                : nothing
+            }
           `
-        : svg`
+          : svg`
             ${this.renderGrid(layout)}
             ${this.renderYAxis(layout)}
             ${this.renderCrosshair(layout)}
-          `}
-      ${showArea
-        ? svg`<polygon class="loomi-area" points=${area} fill="url(#loomi-area-grad)"></polygon>`
-        : nothing}
-      ${this.dualSeries()
-        ? svg`<polyline class="loomi-line loomi-line-2" points=${line2} fill="none" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></polyline>`
-        : nothing}
+          `
+      }
+      ${
+        showArea
+          ? svg`<polygon class="loomi-area" points=${area} fill="url(#loomi-area-grad)"></polygon>`
+          : nothing
+      }
+      ${
+        this.dualSeries()
+          ? svg`<polyline class="loomi-line loomi-line-2" points=${line2} fill="none" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></polyline>`
+          : nothing
+      }
       <polyline class="loomi-line" points=${line} fill="none" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></polyline>
-      ${showDots
-        ? points.map(([x, y], i) => {
-            const active = this.hoverIndex === i;
-            const p2 = points2[i];
-            return svg`
-              ${p2
-                ? svg`<circle class="loomi-dot loomi-dot-2${active ? " is-active" : ""}" cx=${p2[0]} cy=${p2[1]} r=${active ? 3.5 : 2.5} vector-effect="non-scaling-stroke"></circle>`
-                : nothing}
+      ${
+        showDots
+          ? points.map(([x, y], i) => {
+              const active = this.hoverIndex === i;
+              const p2 = points2[i];
+              return svg`
+              ${
+                p2
+                  ? svg`<circle class="loomi-dot loomi-dot-2${active ? " is-active" : ""}" cx=${p2[0]} cy=${p2[1]} r=${active ? 3.5 : 2.5} vector-effect="non-scaling-stroke"></circle>`
+                  : nothing
+              }
               <circle class="loomi-dot${active ? " is-active" : ""}" cx=${x} cy=${y} r=${active ? 3.5 : 2.5} vector-effect="non-scaling-stroke"></circle>
-              ${!vertical && showXLabel(i, layout.bandWidth)
-                ? svg`<text class="loomi-xlabel" x=${x} y=${H - padBottom + 12} text-anchor="middle">${this.data[i].label}</text>`
-                : vertical
-                  ? svg`<text class="loomi-xlabel" x=${padLeft - 8} y=${y + 4} text-anchor="end">${this.data[i].label}</text>`
-                  : nothing}
+              ${
+                !vertical && showXLabel(i, layout.bandWidth)
+                  ? svg`<text class="loomi-xlabel" x=${x} y=${H - padBottom + 12} text-anchor="middle">${this.data[i].label}</text>`
+                  : vertical
+                    ? svg`<text class="loomi-xlabel" x=${padLeft - 8} y=${y + 4} text-anchor="end">${this.data[i].label}</text>`
+                    : nothing
+              }
             `;
-          })
-        : points.map(([x], i) =>
-            showXLabel(i, layout.bandWidth)
-              ? svg`<text class="loomi-xlabel" x=${x} y=${H - padBottom + 12} text-anchor="middle">${this.data[i].label}</text>`
-              : svg``,
-          )}
+            })
+          : points.map(([x], i) =>
+              showXLabel(i, layout.bandWidth)
+                ? svg`<text class="loomi-xlabel" x=${x} y=${H - padBottom + 12} text-anchor="middle">${this.data[i].label}</text>`
+                : svg``,
+            )
+      }
     `;
   }
 
@@ -363,9 +402,11 @@ export class LoomiChart extends LoomiElement {
             stroke-width=${border ? 1.5 : 0}
             vector-effect="non-scaling-stroke"
           ></circle>
-          ${showXLabel(i, bandWidth)
-            ? svg`<text class="loomi-xlabel" x=${padLeft + i * bandWidth + bandWidth / 2} y=${H - padBottom + 12} text-anchor="middle">${d.label}</text>`
-            : nothing}
+          ${
+            showXLabel(i, bandWidth)
+              ? svg`<text class="loomi-xlabel" x=${padLeft + i * bandWidth + bandWidth / 2} y=${H - padBottom + 12} text-anchor="middle">${d.label}</text>`
+              : nothing
+          }
         `;
       })}
     `;
@@ -491,7 +532,9 @@ export class LoomiChart extends LoomiElement {
       const [sx, sy] = polar(cx, cy, start, r);
       const [ex, ey] = polar(cx, cy, end, r);
       const fill = resolveFill(this.colorCtx, d, i, true);
-      const border = this.withGap ? "var(--loomi-surface)" : resolveBorder(this.colorCtx, d, i, true);
+      const border = this.withGap
+        ? "var(--loomi-surface)"
+        : resolveBorder(this.colorCtx, d, i, true);
       const sw = this.withGap ? 2.5 : border ? 1.5 : 0;
       const active = this.hoverIndex === i;
 
@@ -643,15 +686,17 @@ export class LoomiChart extends LoomiElement {
         aria-expanded=${this.exportMenuOpen ? "true" : "false"}
         @click=${() => (this.exportMenuOpen = !this.exportMenuOpen)}
       >Export</button>
-      ${this.exportMenuOpen
-        ? html`<div class="loomi-chart-export-menu" role="menu">
+      ${
+        this.exportMenuOpen
+          ? html`<div class="loomi-chart-export-menu" role="menu">
             <button type="button" role="menuitem" @click=${() => this.exportAs("png")}>PNG</button>
             <button type="button" role="menuitem" @click=${() => this.exportAs("pdf")}>PDF</button>
             <button type="button" role="menuitem" @click=${() => this.exportAs("svg")}>SVG</button>
             <button type="button" role="menuitem" @click=${() => this.exportAs("csv")}>CSV</button>
             <button type="button" role="menuitem" @click=${() => this.exportAs("json")}>JSON</button>
           </div>`
-        : nothing}
+          : nothing
+      }
     </div>`;
   }
 
@@ -680,7 +725,9 @@ export class LoomiChart extends LoomiElement {
     URL.revokeObjectURL(url);
   }
 
-  private async chartCanvas(type: "image/png" | "image/jpeg" = "image/png"): Promise<HTMLCanvasElement> {
+  private async chartCanvas(
+    type: "image/png" | "image/jpeg" = "image/png",
+  ): Promise<HTMLCanvasElement> {
     const markup = this.serializeSvg();
     const svgBlob = new Blob([markup], { type: "image/svg+xml;charset=utf-8" });
     const url = URL.createObjectURL(svgBlob);
@@ -707,9 +754,17 @@ export class LoomiChart extends LoomiElement {
     return canvas;
   }
 
-  private async canvasBlob(canvas: HTMLCanvasElement, type: string, quality?: number): Promise<Blob> {
+  private async canvasBlob(
+    canvas: HTMLCanvasElement,
+    type: string,
+    quality?: number,
+  ): Promise<Blob> {
     return new Promise((resolve, reject) => {
-      canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error("Unable to export chart image"))), type, quality);
+      canvas.toBlob(
+        (blob) => (blob ? resolve(blob) : reject(new Error("Unable to export chart image"))),
+        type,
+        quality,
+      );
     });
   }
 
@@ -718,7 +773,9 @@ export class LoomiChart extends LoomiElement {
     const esc = (value: unknown) => `"${String(value ?? "").replace(/"/g, '""')}"`;
     return [
       header.join(","),
-      ...this.data.map((point) => header.map((key) => esc(point[key as keyof LoomiChartPoint])).join(",")),
+      ...this.data.map((point) =>
+        header.map((key) => esc(point[key as keyof LoomiChartPoint])).join(","),
+      ),
     ].join("\n");
   }
 
@@ -748,15 +805,25 @@ export class LoomiChart extends LoomiElement {
     push(this.ascii("%PDF-1.4\n"));
     obj("1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n");
     obj("2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n");
-    obj(`3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${width} ${height}] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>\nendobj\n`);
+    obj(
+      `3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${width} ${height}] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>\nendobj\n`,
+    );
     offsets.push(offset);
-    push(this.ascii(`4 0 obj\n<< /Type /XObject /Subtype /Image /Width ${width} /Height ${height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpeg.byteLength} >>\nstream\n`));
+    push(
+      this.ascii(
+        `4 0 obj\n<< /Type /XObject /Subtype /Image /Width ${width} /Height ${height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpeg.byteLength} >>\nstream\n`,
+      ),
+    );
     push(jpeg);
     push(this.ascii("\nendstream\nendobj\n"));
     const contents = `q\n${width} 0 0 ${height} 0 0 cm\n/Im0 Do\nQ\n`;
     obj(`5 0 obj\n<< /Length ${contents.length} >>\nstream\n${contents}endstream\nendobj\n`);
     const xrefOffset = offset;
-    push(this.ascii(`xref\n0 6\n0000000000 65535 f \n${offsets.map((item) => `${String(item).padStart(10, "0")} 00000 n `).join("\n")}\ntrailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF\n`));
+    push(
+      this.ascii(
+        `xref\n0 6\n0000000000 65535 f \n${offsets.map((item) => `${String(item).padStart(10, "0")} 00000 n `).join("\n")}\ntrailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF\n`,
+      ),
+    );
     const out = new Uint8Array(offset);
     let cursor = 0;
     for (const chunk of chunks) {
@@ -778,7 +845,11 @@ export class LoomiChart extends LoomiElement {
       return;
     }
     if (format === "json") {
-      this.downloadBytes(`${base}.json`, [JSON.stringify(this.data, null, 2)], "application/json;charset=utf-8");
+      this.downloadBytes(
+        `${base}.json`,
+        [JSON.stringify(this.data, null, 2)],
+        "application/json;charset=utf-8",
+      );
       return;
     }
     if (format === "png") {
@@ -808,7 +879,9 @@ export class LoomiChart extends LoomiElement {
 
   override render(): TemplateResult {
     const polar = isPolarType(this.type);
-    const viewBox = polar ? `0 0 ${POLAR.size} ${POLAR.size}` : `0 0 ${CARTESIAN.width} ${CARTESIAN.height}`;
+    const viewBox = polar
+      ? `0 0 ${POLAR.size} ${POLAR.size}`
+      : `0 0 ${CARTESIAN.width} ${CARTESIAN.height}`;
     let body: SVGTemplateResult;
 
     if (this.type === "bar") body = this.renderBars();

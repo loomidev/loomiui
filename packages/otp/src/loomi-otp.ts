@@ -108,7 +108,14 @@ export class LoomiOtp extends LoomiElement {
     if (!wasInvalid && !this.showErrorInline && this.errorMessage) {
       // Lazy import — see @loomidev/input's syncValidity for the rationale.
       void import("@loomidev/notification").then(({ showLoomiNotification }) =>
-        showLoomiNotification(this.label, this.resolvedErrorMessage(), "error", undefined, `loomi-otp-validation-${this.name || this.instanceId}`));
+        showLoomiNotification(
+          this.label,
+          this.resolvedErrorMessage(),
+          "error",
+          undefined,
+          `loomi-otp-validation-${this.name || this.instanceId}`,
+        ),
+      );
     }
   }
 
@@ -119,13 +126,24 @@ export class LoomiOtp extends LoomiElement {
   }
 
   private resolvedErrorMessage(): string {
-    return loomiDefaultText(this.errorMessage, DEFAULT_ERROR_MESSAGE, "otp.errorMessage", this.locale);
+    return loomiDefaultText(
+      this.errorMessage,
+      DEFAULT_ERROR_MESSAGE,
+      "otp.errorMessage",
+      this.locale,
+    );
   }
 
   private commit(): void {
     this.internals.setFormValue(this.code);
     if (this.code.length === this.totalDigits) {
-      this.dispatchEvent(new CustomEvent("loomi-verify", { bubbles: true, composed: true, detail: { code: this.code, pin: this.code } }));
+      this.dispatchEvent(
+        new CustomEvent("loomi-verify", {
+          bubbles: true,
+          composed: true,
+          detail: { code: this.code, pin: this.code },
+        }),
+      );
     }
   }
 
@@ -179,13 +197,17 @@ export class LoomiOtp extends LoomiElement {
 
   private onPaste(e: ClipboardEvent): void {
     e.preventDefault();
-    const text = (e.clipboardData?.getData("text") ?? "").replace(OTP_STRIP[this.type], "").slice(0, this.totalDigits);
+    const text = (e.clipboardData?.getData("text") ?? "")
+      .replace(OTP_STRIP[this.type], "")
+      .slice(0, this.totalDigits);
     if (!text) return;
     const next = Array(this.totalDigits).fill("");
     for (let i = 0; i < text.length; i++) next[i] = text[i];
     this.digits = next;
     this.commit();
-    this.updateComplete.then(() => this.boxes[Math.min(text.length, this.totalDigits - 1)]?.focus());
+    this.updateComplete.then(() =>
+      this.boxes[Math.min(text.length, this.totalDigits - 1)]?.focus(),
+    );
   }
 
   private renderStatus(): TemplateResult | typeof nothing {
@@ -208,10 +230,13 @@ export class LoomiOtp extends LoomiElement {
   override render(): TemplateResult {
     const showError = this.invalid && this.showErrorInline && this.errorMessage;
     return html`<div class="loomi-otp size-${this.size}" @paste=${(e: ClipboardEvent) => this.onPaste(e)}>
-      ${Array.from({ length: this.totalDigits }, (_, i) => html`
+      ${Array.from(
+        { length: this.totalDigits },
+        (_, i) => html`
         ${this.renderBox(i)}
         ${this.separator && this.totalDigits > 1 && i === this.separatorIndex - 1 ? html`<span class="loomi-separator" aria-hidden="true">-</span>` : nothing}
-      `)}
+      `,
+      )}
       ${this.renderStatus()}
     </div>
     ${showError ? html`<p class="loomi-error">${this.resolvedErrorMessage()}</p>` : nothing}`;

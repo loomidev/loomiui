@@ -9,11 +9,11 @@ describe("loomi-side-nav", () => {
   });
 
   it("collapses to icons when its toggle is clicked", async () => {
-    const el = await fixture(html`
+    const el = (await fixture(html`
       <loomi-side-nav collapsible>
         <loomi-side-nav-item icon="home" label="Home"></loomi-side-nav-item>
       </loomi-side-nav>
-    `) as HTMLElement & { state: string; updateComplete: Promise<boolean> };
+    `)) as HTMLElement & { state: string; updateComplete: Promise<boolean> };
 
     (el.shadowRoot!.querySelector(".toggle") as HTMLButtonElement).click();
     await el.updateComplete;
@@ -25,12 +25,12 @@ describe("loomi-side-nav", () => {
   });
 
   it("applies named icon sizes and optional dividers", async () => {
-    const el = await fixture(html`
+    const el = (await fixture(html`
       <loomi-side-nav icon-size="large" divided>
         <loomi-side-nav-item icon="home" label="Home"></loomi-side-nav-item>
         <loomi-side-nav-item icon="cog-6-tooth" label="Settings"></loomi-side-nav-item>
       </loomi-side-nav>
-    `) as HTMLElement;
+    `)) as HTMLElement;
 
     const item = el.querySelector("loomi-side-nav-item") as HTMLElement;
     expect(item.style.getPropertyValue("--loomi-side-nav-item-icon-size")).to.equal("1.6rem");

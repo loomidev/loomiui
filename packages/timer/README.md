@@ -12,7 +12,6 @@ npm install @loomidev/timer lit
 import "@loomidev/timer";
 ```
 
-
 ## Basic Usage
 
 ```html
@@ -96,7 +95,6 @@ loomi-timer is designed to fit the layout you place it in. It uses fluid widths,
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-timer uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -107,20 +105,20 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `direction` | `down` | `down` counts to zero; `up` counts upward. |
-| `days` | `0` | Days added to the timer's length. |
-| `hours` | `0` | Hours added to the timer's length. |
-| `mins` | `1` | Minutes added to the timer's length. In count-up mode, `days`/`hours`/`mins` are unbounded unless at least one is explicitly set. |
-| `start-value` | `0` | Initial displayed seconds. In countdown mode, `0` falls back to the `days`/`hours`/`mins` total. |
-| `label` | _(blank)_ | Optional label above the digit segments. |
-| `color` | `primary` | Any loomi color. |
-| `auto-start` | `false` | Starts when connected. _(boolean)_ |
-| `show-controls` | `false` | Shows Start/Pause and Reset controls. _(boolean)_ |
-| `show-border` | `false` | Shows the background and border around the timer face. _(boolean)_ |
-| `animated` | `true` | Enables subtle tick animation. _(boolean)_ |
-| `running` | `false` | Reflects the current running state. |
+| Attribute       | Default   | Description                                                                                                                       |
+| --------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `direction`     | `down`    | `down` counts to zero; `up` counts upward.                                                                                        |
+| `days`          | `0`       | Days added to the timer's length.                                                                                                 |
+| `hours`         | `0`       | Hours added to the timer's length.                                                                                                |
+| `mins`          | `1`       | Minutes added to the timer's length. In count-up mode, `days`/`hours`/`mins` are unbounded unless at least one is explicitly set. |
+| `start-value`   | `0`       | Initial displayed seconds. In countdown mode, `0` falls back to the `days`/`hours`/`mins` total.                                  |
+| `label`         | _(blank)_ | Optional label above the digit segments.                                                                                          |
+| `color`         | `primary` | Any loomi color.                                                                                                                  |
+| `auto-start`    | `false`   | Starts when connected. _(boolean)_                                                                                                |
+| `show-controls` | `false`   | Shows Start/Pause and Reset controls. _(boolean)_                                                                                 |
+| `show-border`   | `false`   | Shows the background and border around the timer face. _(boolean)_                                                                |
+| `animated`      | `true`    | Enables subtle tick animation. _(boolean)_                                                                                        |
+| `running`       | `false`   | Reflects the current running state.                                                                                               |
 
 Each digit segment (Days, Hours, Mins, Secs) is always shown, with its label
 rendered directly underneath.

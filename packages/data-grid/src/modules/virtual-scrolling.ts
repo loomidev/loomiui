@@ -22,7 +22,7 @@ export interface VirtualScrollingModuleOptions {
  * ```
  */
 export function virtualScrollingModule<TRecord extends DataGridRecord = DataGridRecord>(
-  options: VirtualScrollingModuleOptions = {}
+  options: VirtualScrollingModuleOptions = {},
 ): GridModule<TRecord> {
   const rowHeight = options.rowHeight ?? 40;
   const overscan = options.overscan ?? 6;
@@ -71,18 +71,22 @@ export function virtualScrollingModule<TRecord extends DataGridRecord = DataGrid
       const colSpan = columns.length + (ctx.grid.selectable ? 1 : 0);
 
       return html`
-        ${topHeight > 0
-          ? html`<tr class="virtual-spacer" style=${`--loomi-data-grid-spacer-height:${topHeight}px`}>
+        ${
+          topHeight > 0
+            ? html`<tr class="virtual-spacer" style=${`--loomi-data-grid-spacer-height:${topHeight}px`}>
               <td colspan=${colSpan}></td>
             </tr>`
-          : nothing}
+            : nothing
+        }
         ${rows.slice(startIndex, endIndex).map((row, offset) => renderRow(row, startIndex + offset))}
-        ${bottomHeight > 0
-          ? html`<tr class="virtual-spacer" style=${`--loomi-data-grid-spacer-height:${bottomHeight}px`}>
+        ${
+          bottomHeight > 0
+            ? html`<tr class="virtual-spacer" style=${`--loomi-data-grid-spacer-height:${bottomHeight}px`}>
               <td colspan=${colSpan}></td>
             </tr>`
-          : nothing}
+            : nothing
+        }
       `;
-    }
+    },
   });
 }

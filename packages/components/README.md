@@ -22,7 +22,6 @@ It also re-exports the theming utilities from `@loomidev/theme`:
 import { LOOMI_COLORS, isLoomiColor, type LoomiColor } from "@loomidev/components";
 ```
 
-
 ## Accessibility
 
 loomi-button is built on semantic markup where the browser gives us the right behavior, and it adds ARIA only where the component has custom interaction. Keyboard users should be able to reach the same controls as pointer users, with visible focus treatment unless you explicitly turn it off on controls that support `show-focus-ring="false"`.
@@ -37,7 +36,6 @@ loomi-button is designed to fit the layout you place it in. It uses fluid widths
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-button uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -45,6 +43,7 @@ loomi-button uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surf
 Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
 
 - Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
+
 ## Want a smaller footprint?
 
 Install only the components you use — each is a standalone package:
@@ -64,26 +63,26 @@ import "@loomidev/components/select";
 
 ## Included components
 
-| Element | Package |
-| --- | --- |
-| `<loomi-button>` | [`@loomidev/button`](../button) |
-| `<loomi-input>` | [`@loomidev/input`](../input) |
-| `<loomi-password>` | [`@loomidev/password`](../password) |
-| `<loomi-textarea>` | [`@loomidev/textarea`](../textarea) |
-| `<loomi-text-editor>` | [`@loomidev/text-editor`](../text-editor) |
-| `<loomi-checkbox>` | [`@loomidev/checkbox`](../checkbox) |
-| `<loomi-radio>` | [`@loomidev/radio`](../radio) |
-| `<loomi-toggle>` | [`@loomidev/toggle`](../toggle) |
-| `<loomi-number>` | [`@loomidev/number`](../number) |
-| `<loomi-select>` | [`@loomidev/select`](../select) |
-| `<loomi-divider>` | [`@loomidev/divider`](../divider) |
-| `<loomi-qrcode>` | [`@loomidev/qrcode`](../qrcode) |
-| `<loomi-clipboard>` | [`@loomidev/clipboard`](../clipboard) |
+| Element                | Package                                     |
+| ---------------------- | ------------------------------------------- |
+| `<loomi-button>`       | [`@loomidev/button`](../button)             |
+| `<loomi-input>`        | [`@loomidev/input`](../input)               |
+| `<loomi-password>`     | [`@loomidev/password`](../password)         |
+| `<loomi-textarea>`     | [`@loomidev/textarea`](../textarea)         |
+| `<loomi-text-editor>`  | [`@loomidev/text-editor`](../text-editor)   |
+| `<loomi-checkbox>`     | [`@loomidev/checkbox`](../checkbox)         |
+| `<loomi-radio>`        | [`@loomidev/radio`](../radio)               |
+| `<loomi-toggle>`       | [`@loomidev/toggle`](../toggle)             |
+| `<loomi-number>`       | [`@loomidev/number`](../number)             |
+| `<loomi-select>`       | [`@loomidev/select`](../select)             |
+| `<loomi-divider>`      | [`@loomidev/divider`](../divider)           |
+| `<loomi-qrcode>`       | [`@loomidev/qrcode`](../qrcode)             |
+| `<loomi-clipboard>`    | [`@loomidev/clipboard`](../clipboard)       |
 | `<loomi-context-menu>` | [`@loomidev/context-menu`](../context-menu) |
 | `<loomi-profile-menu>` | [`@loomidev/profile-menu`](../profile-menu) |
-| `<loomi-side-nav>` | [`@loomidev/side-nav`](../side-nav) |
-| `<loomi-timer>` | [`@loomidev/timer`](../timer) |
-| `<loomi-arc-meter>` | [`@loomidev/arc-meter`](../arc-meter) |
+| `<loomi-side-nav>`     | [`@loomidev/side-nav`](../side-nav)         |
+| `<loomi-timer>`        | [`@loomidev/timer`](../timer)               |
+| `<loomi-arc-meter>`    | [`@loomidev/arc-meter`](../arc-meter)       |
 
 <!-- BEGIN loomi-framework-guide -->
 

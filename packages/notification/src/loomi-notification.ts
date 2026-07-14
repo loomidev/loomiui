@@ -6,12 +6,7 @@ import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiNotificationType = "success" | "info" | "warning" | "error";
 export type LoomiNotificationPlacement =
-  | "top-right"
-  | "top-center"
-  | "top-left"
-  | "bottom-right"
-  | "bottom-center"
-  | "bottom-left";
+  "top-right" | "top-center" | "top-left" | "bottom-right" | "bottom-center" | "bottom-left";
 
 export interface LoomiNotifyOptions {
   title?: string;
@@ -92,7 +87,11 @@ export class LoomiNotification extends LoomiElement {
 
   private arm(id: number, dismissIn: number): void {
     clearTimeout(this.timers.get(id));
-    if (dismissIn > 0) this.timers.set(id, setTimeout(() => this.dismiss(id), dismissIn * 1000));
+    if (dismissIn > 0)
+      this.timers.set(
+        id,
+        setTimeout(() => this.dismiss(id), dismissIn * 1000),
+      );
   }
 
   dismiss(id: number): void {

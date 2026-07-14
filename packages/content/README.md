@@ -10,32 +10,31 @@ npm install @loomidev/content lit
 import "@loomidev/content"; // registers all content elements
 ```
 
-| Package |
-| --- |
-| [`@loomidev/card`](../card) |
-| [`@loomidev/divider`](../divider) |
-| [`@loomidev/qrcode`](../qrcode) |
-| [`@loomidev/avatar`](../avatar) |
-| [`@loomidev/accordion`](../accordion) |
-| [`@loomidev/tag`](../tag) |
-| [`@loomidev/tooltip`](../tooltip) |
-| [`@loomidev/popover`](../popover) |
-| [`@loomidev/empty-state`](../empty-state) |
-| [`@loomidev/statistic`](../statistic) |
-| [`@loomidev/rating`](../rating) |
-| [`@loomidev/arc-meter`](../arc-meter) |
-| [`@loomidev/timeline`](../timeline) |
-| [`@loomidev/progress`](../progress) |
-| [`@loomidev/listview`](../listview) |
-| [`@loomidev/contact-card`](../contact-card) |
-| [`@loomidev/centered-content`](../centered-content) |
-| [`@loomidev/sortable`](../sortable) |
-| [`@loomidev/processing`](../processing) |
+| Package                                                       |
+| ------------------------------------------------------------- |
+| [`@loomidev/card`](../card)                                   |
+| [`@loomidev/divider`](../divider)                             |
+| [`@loomidev/qrcode`](../qrcode)                               |
+| [`@loomidev/avatar`](../avatar)                               |
+| [`@loomidev/accordion`](../accordion)                         |
+| [`@loomidev/tag`](../tag)                                     |
+| [`@loomidev/tooltip`](../tooltip)                             |
+| [`@loomidev/popover`](../popover)                             |
+| [`@loomidev/empty-state`](../empty-state)                     |
+| [`@loomidev/statistic`](../statistic)                         |
+| [`@loomidev/rating`](../rating)                               |
+| [`@loomidev/arc-meter`](../arc-meter)                         |
+| [`@loomidev/timeline`](../timeline)                           |
+| [`@loomidev/progress`](../progress)                           |
+| [`@loomidev/listview`](../listview)                           |
+| [`@loomidev/contact-card`](../contact-card)                   |
+| [`@loomidev/centered-content`](../centered-content)           |
+| [`@loomidev/sortable`](../sortable)                           |
+| [`@loomidev/processing`](../processing)                       |
 | [`@loomidev/horizontal-line-graph`](../horizontal-line-graph) |
-| [`@loomidev/chart`](../chart) |
+| [`@loomidev/chart`](../chart)                                 |
 
 <!-- BEGIN loomi-framework-guide -->
-
 
 ## Accessibility
 
@@ -51,7 +50,6 @@ loomi-* is designed to fit the layout you place it in. It uses fluid widths, `mi
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-* uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -59,6 +57,7 @@ loomi-* uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-b
 Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
 
 - Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
+
 ## Framework integration
 
 `@loomidev/content` registers all LoomiUI content/display components. Use it when you want one import for a whole category instead of installing each component separately.

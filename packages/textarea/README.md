@@ -11,7 +11,6 @@ npm install @loomidev/textarea lit
 import "@loomidev/textarea";
 ```
 
-
 ## Basic Usage
 
 By default the textarea renders with three rows. Use `placeholder` for simple hint text.
@@ -119,12 +118,12 @@ so `foo@bar.com` does **not** open it, but `hi @bar` does.
 
 Each item in `mentionData` accepts these fields:
 
-| Field | Type | Description |
-| --- | --- | --- |
-| `label` | `string` | **Required.** Inserted into the textarea as `trigger + label + " "`. |
-| `value` | `string?` | Opaque value included in `loomi-mention-select` detail. |
-| `description` | `string?` | Secondary text shown on the right of the item. |
-| `image` | `string?` | URL of an avatar/icon shown on the left. |
+| Field         | Type      | Description                                                          |
+| ------------- | --------- | -------------------------------------------------------------------- |
+| `label`       | `string`  | **Required.** Inserted into the textarea as `trigger + label + " "`. |
+| `value`       | `string?` | Opaque value included in `loomi-mention-select` detail.              |
+| `description` | `string?` | Secondary text shown on the right of the item.                       |
+| `image`       | `string?` | URL of an avatar/icon shown on the left.                             |
 
 **Keyboard navigation:** ↑/↓ to move, Enter or Tab to confirm, Escape to close.
 The picker closes automatically when clicking outside or scrolling.
@@ -162,7 +161,6 @@ loomi-textarea is designed to fit the layout you place it in. It uses fluid widt
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-textarea uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -173,21 +171,21 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `name` | _(blank)_ | Submitted with the form. |
-| `label` | _(blank)_ | Floating label. |
-| `placeholder` | _(blank)_ | Placeholder text. |
-| `value` | _(blank)_ | Current value (also a property). |
-| `rows` | `3` | Height in rows. |
-| `required` | `false` | Marks the field required. _(boolean)_ |
-| `disabled` | `false` | Disable the field. _(boolean)_ |
-| `readonly` | `false` | Read-only field. _(boolean)_ |
-| `error-message` | _(blank)_ | Message shown when validation fails. |
-| `show-error-inline` | `false` | Render the error beneath the field. _(boolean)_ |
-| `variant` | `default` | `default` \| `minimal` (bottom border only, no box) |
-| `no-clearing` | `false` | Remove the default bottom margin. _(boolean)_ |
-| `mention-triggers` | `[]` | JSON array of trigger characters, e.g. `'["@","#","/"]'`. |
+| Attribute           | Default   | Description                                               |
+| ------------------- | --------- | --------------------------------------------------------- |
+| `name`              | _(blank)_ | Submitted with the form.                                  |
+| `label`             | _(blank)_ | Floating label.                                           |
+| `placeholder`       | _(blank)_ | Placeholder text.                                         |
+| `value`             | _(blank)_ | Current value (also a property).                          |
+| `rows`              | `3`       | Height in rows.                                           |
+| `required`          | `false`   | Marks the field required. _(boolean)_                     |
+| `disabled`          | `false`   | Disable the field. _(boolean)_                            |
+| `readonly`          | `false`   | Read-only field. _(boolean)_                              |
+| `error-message`     | _(blank)_ | Message shown when validation fails.                      |
+| `show-error-inline` | `false`   | Render the error beneath the field. _(boolean)_           |
+| `variant`           | `default` | `default` \| `minimal` (bottom border only, no box)       |
+| `no-clearing`       | `false`   | Remove the default bottom margin. _(boolean)_             |
+| `mention-triggers`  | `[]`      | JSON array of trigger characters, e.g. `'["@","#","/"]'`. |
 
 **Properties (JS only):** `mentionData` — `Record<string, { label, value?, description?, image? }[]>`.
 
@@ -257,7 +255,6 @@ In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the pac
 ```js
 import "@loomidev/textarea";
 ```
-
 
 Because this is a form-capable component, give it a `name` when it should submit with a native `<form>`. Read its value with `new FormData(form).get("the-name")` just like you would for a built-in input.
 

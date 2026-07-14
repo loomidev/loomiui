@@ -68,14 +68,14 @@ const TOOL_ALIASES: Record<string, string> = {
   italics: "italic",
   strike: "strikethrough",
   "strike-through": "strikethrough",
-  "bullet": "bullet-list",
+  bullet: "bullet-list",
   bullets: "lists",
   "dot-list": "bullet-list",
   dots: "bullet-list",
   "number-list": "ordered-list",
   "numbered-list": "ordered-list",
   numbers: "ordered-list",
-  "ordered": "ordered-list",
+  ordered: "ordered-list",
   "unordered-list": "bullet-list",
   "text-alignments": "align",
   alignment: "align",
@@ -88,7 +88,7 @@ const TOOL_ALIASES: Record<string, string> = {
   justify: "align-justify",
   code: "code-tools",
   "code-inline": "inline-code",
-  "inlinecode": "inline-code",
+  inlinecode: "inline-code",
   quote: "blockquote",
   embeds: "embed",
   media: "media",
@@ -101,7 +101,15 @@ const TOOL_GROUPS: Record<string, readonly string[]> = {
   none: [],
   default: ["basic", "heading", "lists", "align", "embed"],
   basic: ["bold", "italic", "underline", "strikethrough"],
-  marks: ["bold", "italic", "underline", "strikethrough", "inline-code", "superscript", "subscript"],
+  marks: [
+    "bold",
+    "italic",
+    "underline",
+    "strikethrough",
+    "inline-code",
+    "superscript",
+    "subscript",
+  ],
   colors: ["font-color", "highlight-color"],
   colour: ["font-color", "highlight-color"],
   font: ["font-family", "font-size"],
@@ -203,7 +211,10 @@ const HEADING_OPTIONS = [
 ];
 
 function normalizeToken(value: string): string {
-  return value.trim().toLowerCase().replace(/[\s_]+/g, "-");
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[\s_]+/g, "-");
 }
 
 function normalizeEditorHtml(value: string): string {
@@ -211,7 +222,10 @@ function normalizeEditorHtml(value: string): string {
 }
 
 function stripTags(value: string): string {
-  return value.replace(/<style[\s\S]*?<\/style>/gi, "").replace(/<script[\s\S]*?<\/script>/gi, "").replace(/<[^>]*>/g, "");
+  return value
+    .replace(/<style[\s\S]*?<\/style>/gi, "")
+    .replace(/<script[\s\S]*?<\/script>/gi, "")
+    .replace(/<[^>]*>/g, "");
 }
 
 function escapeHtml(value: string): string {
@@ -362,7 +376,12 @@ export class LoomiTextEditor extends LoomiElement {
   }
 
   override willUpdate(changed: PropertyValues<this>): void {
-    if (changed.has("value") || changed.has("required") || changed.has("disabled") || changed.has("readonly")) {
+    if (
+      changed.has("value") ||
+      changed.has("required") ||
+      changed.has("disabled") ||
+      changed.has("readonly")
+    ) {
       this.internals.setFormValue(this.value);
       this.syncValidity();
     }
@@ -416,7 +435,9 @@ export class LoomiTextEditor extends LoomiElement {
     const empty = this.required && !this.disabled && !this.readonly && text.trim() === "";
     this.invalid = empty && showInvalid;
     const validity = empty ? { valueMissing: true } : {};
-    const message = empty ? this.errorMessage || loomiT("validation.requiredField", {}, this.locale) : "";
+    const message = empty
+      ? this.errorMessage || loomiT("validation.requiredField", {}, this.locale)
+      : "";
     if (this.editorEl) this.internals.setValidity(validity, message, this.editorEl);
     else this.internals.setValidity(validity, message);
     return !empty;
@@ -610,7 +631,8 @@ export class LoomiTextEditor extends LoomiElement {
     this.focus();
     if (!this.savedRange) return;
     const root = this.getRootNode() as Document | ShadowRoot;
-    const rootSelection = (root as Document & { getSelection?: () => Selection | null }).getSelection;
+    const rootSelection = (root as Document & { getSelection?: () => Selection | null })
+      .getSelection;
     const selection = rootSelection ? rootSelection.call(root) : document.getSelection();
     selection?.removeAllRanges();
     selection?.addRange(this.savedRange);
@@ -717,7 +739,8 @@ export class LoomiTextEditor extends LoomiElement {
 
   private currentSelection(): Selection | null {
     const root = this.getRootNode() as Document | ShadowRoot;
-    const rootSelection = (root as Document & { getSelection?: () => Selection | null }).getSelection;
+    const rootSelection = (root as Document & { getSelection?: () => Selection | null })
+      .getSelection;
     const selection = rootSelection ? rootSelection.call(root) : document.getSelection();
     if (!selection || selection.rangeCount === 0) return null;
     return this.selectionInsideEditor(selection) ? selection : null;
@@ -762,7 +785,8 @@ export class LoomiTextEditor extends LoomiElement {
     while (node && node !== this.editorEl) {
       if (node instanceof HTMLElement) {
         const tag = node.tagName.toLowerCase();
-        if (/^h[1-6]$/.test(tag) || tag === "blockquote" || tag === "pre" || tag === "p") return tag;
+        if (/^h[1-6]$/.test(tag) || tag === "blockquote" || tag === "pre" || tag === "p")
+          return tag;
       }
       node = node.parentNode;
     }
@@ -816,12 +840,8 @@ export class LoomiTextEditor extends LoomiElement {
     }
 
     if (tool === "font-family") {
-      return this.renderToolbarSelect(
-        tool,
-        FONT_FAMILIES,
-        "Font",
-        "",
-        (value) => this.setFontFamily(value),
+      return this.renderToolbarSelect(tool, FONT_FAMILIES, "Font", "", (value) =>
+        this.setFontFamily(value),
       );
     }
 
@@ -978,17 +998,21 @@ export class LoomiTextEditor extends LoomiElement {
     const isEmpty = text.trim() === "";
 
     return html`
-      ${hasLabel
-        ? html`<label class="loomi-label loomi-label-static"
+      ${
+        hasLabel
+          ? html`<label class="loomi-label loomi-label-static"
             >${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label
           >`
-        : nothing}
+          : nothing
+      }
       <div class="loomi-field variant-${this.variant}" part="field">
-        ${tools.length
-          ? html`<div class="loomi-toolbar" part="toolbar" role="toolbar">
+        ${
+          tools.length
+            ? html`<div class="loomi-toolbar" part="toolbar" role="toolbar">
               ${tools.map((tool) => this.renderTool(tool))}
             </div>`
-          : nothing}
+            : nothing
+        }
         <div
           class="loomi-editor"
           part="editor"

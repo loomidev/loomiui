@@ -11,7 +11,6 @@ npm install @loomidev/rating lit
 import "@loomidev/rating";
 ```
 
-
 ## Basic Usage
 
 ```html
@@ -94,7 +93,6 @@ loomi-rating is designed to fit the layout you place it in. It uses fluid widths
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-rating uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -105,14 +103,14 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `name` | _(blank)_ | Submitted with the form. |
-| `rating` | `0` | Current rating (0–5). |
-| `type` | `star` | `star` \| `heart` \| `thumbsup` |
-| `color` | `warning` | Any loomi color. |
-| `size` | `small` | `small` \| `medium` \| `big` |
-| `clickable` | `true` | Allow changing the rating. _(boolean)_ |
+| Attribute   | Default   | Description                            |
+| ----------- | --------- | -------------------------------------- |
+| `name`      | _(blank)_ | Submitted with the form.               |
+| `rating`    | `0`       | Current rating (0–5).                  |
+| `type`      | `star`    | `star` \| `heart` \| `thumbsup`        |
+| `color`     | `warning` | Any loomi color.                       |
+| `size`      | `small`   | `small` \| `medium` \| `big`           |
+| `clickable` | `true`    | Allow changing the rating. _(boolean)_ |
 
 **Event:** `change` (`detail: { rating }`).
 
@@ -175,7 +173,6 @@ In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the pac
 ```js
 import "@loomidev/rating";
 ```
-
 
 Because this is a form-capable component, give it a `name` when it should submit with a native `<form>`. Read its value with `new FormData(form).get("the-name")` just like you would for a built-in input.
 

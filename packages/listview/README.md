@@ -12,7 +12,6 @@ npm install @loomidev/listview lit
 import "@loomidev/listview";
 ```
 
-
 ## Basic Usage
 
 Each `<loomi-listview-item>` is a flex container, so laying out an avatar next to text
@@ -69,13 +68,11 @@ loomi-listview is built on semantic markup where the browser gives us the right 
 
 When the component displays status, progress, validation, or temporary feedback, pair it with clear labels or nearby text in your app so assistive technology users get the same context a sighted user gets from the visual treatment.
 
-
 ## Responsive behavior
 
 loomi-listview is designed to fit the layout you place it in. It uses fluid widths, `min-width: 0`, wrapping, truncation, or stacked layouts where that keeps the component usable in cards, forms, sidebars, and mobile screens.
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
-
 
 ## Dark mode
 
@@ -83,15 +80,14 @@ loomi-listview uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-su
 
 Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
 
-
 ## Attributes
 
 ### `<loomi-listview>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
+| Attribute     | Default | Description                              |
+| ------------- | ------- | ---------------------------------------- |
 | `transparent` | `false` | Remove the white background. _(boolean)_ |
-| `compact` | `false` | Reduce row padding. _(boolean)_ |
+| `compact`     | `false` | Reduce row padding. _(boolean)_          |
 
 **Slots:** default (`<loomi-listview-item>` children); item default (row content).
 

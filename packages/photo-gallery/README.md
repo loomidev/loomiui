@@ -13,7 +13,6 @@ npm install @loomidev/photo-gallery lit
 import "@loomidev/photo-gallery";
 ```
 
-
 ## Basic Usage
 
 Each photo is a `<loomi-photo-gallery-item>` child — a plain data holder, like an
@@ -156,26 +155,26 @@ with `@loomidev/theme-switcher`, or provide your own token overrides.
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `album-view` | `sidebar` | `sidebar` or `thumbnails` layout for the album panel. |
-| `square-thumbnails` | `false` | Force 1:1 cropped grid thumbnails. _(boolean)_ |
-| `thumb-size` | `160` | Grid thumbnail size in pixels (96–320). _(number)_ |
-| `slideshow-interval` | `3000` | Milliseconds between slides while running. _(number)_ |
-| `album-panel-open` | `true` | Whether the album panel is currently open. _(boolean, reflected)_ |
-| `show-album-toggle` | `true` | Show the album-list toolbar button. _(boolean)_ |
-| `show-zoom-in` | `true` | Show the grid zoom-in button. _(boolean)_ |
-| `show-zoom-out` | `true` | Show the grid zoom-out button. _(boolean)_ |
-| `show-square-toggle` | `true` | Show the square-thumbnails toolbar button. _(boolean)_ |
-| `show-slideshow` | `true` | Show the slideshow toolbar button. _(boolean)_ |
-| `lightbox-show-zoom-in` | `true` | Show the lightbox zoom-in button. _(boolean)_ |
-| `lightbox-show-zoom-out` | `true` | Show the lightbox zoom-out button. _(boolean)_ |
-| `lightbox-show-favourite` | `true` | Show the lightbox favourite button. _(boolean)_ |
-| `lightbox-show-rotate` | `true` | Show the lightbox rotate-left button. _(boolean)_ |
-| `lightbox-show-share` | `true` | Show the lightbox share button. _(boolean)_ |
-| `lightbox-show-close` | `true` | Show the lightbox close button. _(boolean)_ |
-| `color` | `primary` | Accent color for active toolbar/album states. |
-| `locale` | _(blank)_ | Locale override for built-in aria labels. |
+| Attribute                 | Default   | Description                                                       |
+| ------------------------- | --------- | ----------------------------------------------------------------- |
+| `album-view`              | `sidebar` | `sidebar` or `thumbnails` layout for the album panel.             |
+| `square-thumbnails`       | `false`   | Force 1:1 cropped grid thumbnails. _(boolean)_                    |
+| `thumb-size`              | `160`     | Grid thumbnail size in pixels (96–320). _(number)_                |
+| `slideshow-interval`      | `3000`    | Milliseconds between slides while running. _(number)_             |
+| `album-panel-open`        | `true`    | Whether the album panel is currently open. _(boolean, reflected)_ |
+| `show-album-toggle`       | `true`    | Show the album-list toolbar button. _(boolean)_                   |
+| `show-zoom-in`            | `true`    | Show the grid zoom-in button. _(boolean)_                         |
+| `show-zoom-out`           | `true`    | Show the grid zoom-out button. _(boolean)_                        |
+| `show-square-toggle`      | `true`    | Show the square-thumbnails toolbar button. _(boolean)_            |
+| `show-slideshow`          | `true`    | Show the slideshow toolbar button. _(boolean)_                    |
+| `lightbox-show-zoom-in`   | `true`    | Show the lightbox zoom-in button. _(boolean)_                     |
+| `lightbox-show-zoom-out`  | `true`    | Show the lightbox zoom-out button. _(boolean)_                    |
+| `lightbox-show-favourite` | `true`    | Show the lightbox favourite button. _(boolean)_                   |
+| `lightbox-show-rotate`    | `true`    | Show the lightbox rotate-left button. _(boolean)_                 |
+| `lightbox-show-share`     | `true`    | Show the lightbox share button. _(boolean)_                       |
+| `lightbox-show-close`     | `true`    | Show the lightbox close button. _(boolean)_                       |
+| `color`                   | `primary` | Accent color for active toolbar/album states.                     |
+| `locale`                  | _(blank)_ | Locale override for built-in aria labels.                         |
 
 Boolean attributes can be omitted, present, or set to `"false"` in HTML.
 

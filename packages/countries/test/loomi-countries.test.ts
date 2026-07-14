@@ -4,7 +4,7 @@ import type { LoomiCountries } from "../dist/index.js";
 
 describe("loomi-countries", () => {
   describe("names mode (default)", () => {
-    it("defaults to mode=\"names\" and lists the full built-in country set", async () => {
+    it('defaults to mode="names" and lists the full built-in country set', async () => {
       const el = await fixture<LoomiCountries>(html`<loomi-countries></loomi-countries>`);
       expect(el.mode).to.equal("names");
       const trigger = el.shadowRoot!.querySelector(".loomi-trigger") as HTMLButtonElement;
@@ -17,7 +17,9 @@ describe("loomi-countries", () => {
       const el = await fixture<LoomiCountries>(html`<loomi-countries></loomi-countries>`);
       const trigger = el.shadowRoot!.querySelector(".loomi-trigger") as HTMLButtonElement;
       trigger.focus();
-      trigger.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }));
+      trigger.dispatchEvent(
+        new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }),
+      );
       await el.updateComplete;
 
       expect(trigger.getAttribute("aria-expanded")).to.equal("true");
@@ -31,7 +33,9 @@ describe("loomi-countries", () => {
       trigger.click();
       await el.updateComplete;
 
-      wrapper.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, cancelable: true }));
+      wrapper.dispatchEvent(
+        new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, cancelable: true }),
+      );
       await el.updateComplete;
 
       expect(trigger.getAttribute("aria-activedescendant")).to.equal("loomi-country-1");
@@ -46,10 +50,16 @@ describe("loomi-countries", () => {
       trigger.click();
       await el.updateComplete;
 
-      const secondOptionName = el.shadowRoot!.querySelectorAll(".loomi-option")[1].textContent!.trim();
-      wrapper.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, cancelable: true }));
+      const secondOptionName = el
+        .shadowRoot!.querySelectorAll(".loomi-option")[1]
+        .textContent!.trim();
+      wrapper.dispatchEvent(
+        new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, cancelable: true }),
+      );
       await el.updateComplete;
-      wrapper.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }));
+      wrapper.dispatchEvent(
+        new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }),
+      );
       await el.updateComplete;
 
       expect(trigger.getAttribute("aria-expanded")).to.equal("false");
@@ -59,13 +69,17 @@ describe("loomi-countries", () => {
     });
 
     it("Escape closes the panel without changing the selection", async () => {
-      const el = await fixture<LoomiCountries>(html`<loomi-countries selection="GH"></loomi-countries>`);
+      const el = await fixture<LoomiCountries>(
+        html`<loomi-countries selection="GH"></loomi-countries>`,
+      );
       const wrapper = el.shadowRoot!.querySelector(".loomi-countries") as HTMLElement;
       const trigger = el.shadowRoot!.querySelector(".loomi-trigger") as HTMLButtonElement;
       trigger.click();
       await el.updateComplete;
 
-      wrapper.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }));
+      wrapper.dispatchEvent(
+        new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }),
+      );
       await el.updateComplete;
 
       expect(trigger.getAttribute("aria-expanded")).to.equal("false");
@@ -101,41 +115,56 @@ describe("loomi-countries", () => {
 
       expect(sizer.textContent).to.equal("Where are you from? *");
       expect(getComputedStyle(sizer).visibility).to.equal("hidden");
-      expect(trigger.getBoundingClientRect().width).to.be.greaterThan(label.getBoundingClientRect().width);
+      expect(trigger.getBoundingClientRect().width).to.be.greaterThan(
+        label.getBoundingClientRect().width,
+      );
     });
   });
 
   describe("selection property", () => {
     it("resolves by ISO alpha-2 code", async () => {
-      const el = await fixture<LoomiCountries>(html`<loomi-countries selection="GH"></loomi-countries>`);
+      const el = await fixture<LoomiCountries>(
+        html`<loomi-countries selection="GH"></loomi-countries>`,
+      );
       expect(el.shadowRoot!.querySelector(".loomi-trigger")!.textContent).to.include("Ghana");
     });
 
     it("resolves by country name, case-insensitively", async () => {
-      const el = await fixture<LoomiCountries>(html`<loomi-countries selection="ghana"></loomi-countries>`);
+      const el = await fixture<LoomiCountries>(
+        html`<loomi-countries selection="ghana"></loomi-countries>`,
+      );
       expect(el.shadowRoot!.querySelector(".loomi-trigger")!.textContent).to.include("Ghana");
     });
 
     it("resolves by dial code", async () => {
-      const el = await fixture<LoomiCountries>(html`<loomi-countries selection="+233"></loomi-countries>`);
+      const el = await fixture<LoomiCountries>(
+        html`<loomi-countries selection="+233"></loomi-countries>`,
+      );
       expect(el.shadowRoot!.querySelector(".loomi-trigger")!.textContent).to.include("Ghana");
     });
 
     it("leaves nothing selected when the value doesn't match any country", async () => {
-      const el = await fixture<LoomiCountries>(html`<loomi-countries selection="not-a-country"></loomi-countries>`);
-      expect(el.shadowRoot!.querySelector(".loomi-value")!.classList.contains("placeholder")).to.be.true;
+      const el = await fixture<LoomiCountries>(
+        html`<loomi-countries selection="not-a-country"></loomi-countries>`,
+      );
+      expect(el.shadowRoot!.querySelector(".loomi-value")!.classList.contains("placeholder")).to.be
+        .true;
     });
   });
 
   describe("phone mode", () => {
     it("shows a placeholder flag and no dial code until a country is chosen", async () => {
-      const el = await fixture<LoomiCountries>(html`<loomi-countries mode="phone"></loomi-countries>`);
+      const el = await fixture<LoomiCountries>(
+        html`<loomi-countries mode="phone"></loomi-countries>`,
+      );
       expect(el.shadowRoot!.querySelector(".loomi-dial-code")).to.not.exist;
       expect(el.shadowRoot!.querySelector(".loomi-flag-trigger .loomi-flag")).to.exist;
     });
 
     it("shows the dial code once a country is selected", async () => {
-      const el = await fixture<LoomiCountries>(html`<loomi-countries mode="phone" selection="GH"></loomi-countries>`);
+      const el = await fixture<LoomiCountries>(
+        html`<loomi-countries mode="phone" selection="GH"></loomi-countries>`,
+      );
       expect(el.shadowRoot!.querySelector(".loomi-dial-code")!.textContent).to.equal("+233");
     });
 
@@ -154,7 +183,9 @@ describe("loomi-countries", () => {
     });
 
     it("strips non-digit characters as the user types, independent of masking", async () => {
-      const el = await fixture<LoomiCountries>(html`<loomi-countries mode="phone"></loomi-countries>`);
+      const el = await fixture<LoomiCountries>(
+        html`<loomi-countries mode="phone"></loomi-countries>`,
+      );
       const input = el.shadowRoot!.querySelector(".loomi-phone-input") as HTMLInputElement;
       input.value = "24abc 12-34!567";
       input.dispatchEvent(new Event("input"));
@@ -197,7 +228,9 @@ describe("loomi-countries", () => {
     });
 
     it("auto-formats using the selected country's own mask when none is set explicitly", async () => {
-      const el = await fixture<LoomiCountries>(html`<loomi-countries mode="phone" selection="US"></loomi-countries>`);
+      const el = await fixture<LoomiCountries>(
+        html`<loomi-countries mode="phone" selection="US"></loomi-countries>`,
+      );
       const input = el.shadowRoot!.querySelector(".loomi-phone-input") as HTMLInputElement;
       input.value = "2125551234";
       input.dispatchEvent(new Event("input"));
@@ -221,7 +254,9 @@ describe("loomi-countries", () => {
     it("leaves the number unformatted for territories with no known national format", async () => {
       // Åland Islands shares Finland's dial code but country-telephone-data has no
       // national-number format for it, so its generated `mask` is "".
-      const el = await fixture<LoomiCountries>(html`<loomi-countries mode="phone" selection="AX"></loomi-countries>`);
+      const el = await fixture<LoomiCountries>(
+        html`<loomi-countries mode="phone" selection="AX"></loomi-countries>`,
+      );
       const input = el.shadowRoot!.querySelector(".loomi-phone-input") as HTMLInputElement;
       input.value = "123456789";
       input.dispatchEvent(new Event("input"));
@@ -231,7 +266,9 @@ describe("loomi-countries", () => {
     });
 
     it("re-formats an already-typed number when the country changes", async () => {
-      const el = await fixture<LoomiCountries>(html`<loomi-countries mode="phone" selection="US"></loomi-countries>`);
+      const el = await fixture<LoomiCountries>(
+        html`<loomi-countries mode="phone" selection="US"></loomi-countries>`,
+      );
       const input = el.shadowRoot!.querySelector(".loomi-phone-input") as HTMLInputElement;
       input.value = "2125551234";
       input.dispatchEvent(new Event("input"));
@@ -252,7 +289,9 @@ describe("loomi-countries", () => {
     });
 
     it("choosing a country from the panel updates the dial code", async () => {
-      const el = await fixture<LoomiCountries>(html`<loomi-countries mode="phone"></loomi-countries>`);
+      const el = await fixture<LoomiCountries>(
+        html`<loomi-countries mode="phone"></loomi-countries>`,
+      );
       const flagTrigger = el.shadowRoot!.querySelector(".loomi-flag-trigger") as HTMLButtonElement;
       flagTrigger.click();
       await el.updateComplete;

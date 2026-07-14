@@ -1,6 +1,7 @@
 import js from "@eslint/js";
 import tseslint from "typescript-eslint";
 import globals from "globals";
+import prettier from "eslint-config-prettier";
 
 // Flat ESLint config for the whole monorepo. Type-aware linting is intentionally left off
 // to keep it fast across ~80 packages; this catches unparseable files (e.g. leftover merge
@@ -25,7 +26,10 @@ export default tseslint.config(
     },
     rules: {
       // Allow intentionally-unused args/vars when prefixed with an underscore.
-      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
     },
   },
   {
@@ -39,4 +43,6 @@ export default tseslint.config(
       "@typescript-eslint/no-unused-expressions": "off",
     },
   },
+  // Turn off any stylistic rules that would conflict with Prettier. Keep last.
+  prettier,
 );

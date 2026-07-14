@@ -14,12 +14,35 @@
   width: min(22rem, calc(100vw - 2rem));
   pointer-events: none;
 }
-.placement-top-right { top: max(1rem, env(safe-area-inset-top)); right: max(1rem, env(safe-area-inset-right)); }
-.placement-top-center { top: max(1rem, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); }
-.placement-top-left { top: max(1rem, env(safe-area-inset-top)); left: max(1rem, env(safe-area-inset-left)); }
-.placement-bottom-right { bottom: max(1rem, env(safe-area-inset-bottom)); right: max(1rem, env(safe-area-inset-right)); flex-direction: column-reverse; }
-.placement-bottom-center { bottom: max(1rem, env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); flex-direction: column-reverse; }
-.placement-bottom-left { bottom: max(1rem, env(safe-area-inset-bottom)); left: max(1rem, env(safe-area-inset-left)); flex-direction: column-reverse; }
+.placement-top-right {
+  top: max(1rem, env(safe-area-inset-top));
+  right: max(1rem, env(safe-area-inset-right));
+}
+.placement-top-center {
+  top: max(1rem, env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+}
+.placement-top-left {
+  top: max(1rem, env(safe-area-inset-top));
+  left: max(1rem, env(safe-area-inset-left));
+}
+.placement-bottom-right {
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  right: max(1rem, env(safe-area-inset-right));
+  flex-direction: column-reverse;
+}
+.placement-bottom-center {
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  flex-direction: column-reverse;
+}
+.placement-bottom-left {
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  left: max(1rem, env(safe-area-inset-left));
+  flex-direction: column-reverse;
+}
 
 .loomi-stack.full-width {
   left: 0;

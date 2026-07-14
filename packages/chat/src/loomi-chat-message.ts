@@ -51,9 +51,11 @@ export class LoomiChatMessage extends LoomiElement {
       </span>
       <span class="loomi-chat-attachment-copy">
         <span class="loomi-chat-attachment-name">${this.attachment.name}</span>
-        ${this.attachment.meta
-          ? html`<span class="loomi-chat-attachment-meta">${this.attachment.meta}</span>`
-          : nothing}
+        ${
+          this.attachment.meta
+            ? html`<span class="loomi-chat-attachment-meta">${this.attachment.meta}</span>`
+            : nothing
+        }
       </span>
       <loomi-icon class="loomi-chat-attachment-download" name="arrow-down-tray"></loomi-icon>
     </div>`;
@@ -67,8 +69,9 @@ export class LoomiChatMessage extends LoomiElement {
     const showBubble = !!this.text || !this.attachment;
 
     return html`<div class="loomi-chat-row ${this.outgoing ? "outgoing" : "incoming"}">
-      ${this.showAvatar && !this.outgoing
-        ? html`<loomi-avatar
+      ${
+        this.showAvatar && !this.outgoing
+          ? html`<loomi-avatar
             class="loomi-chat-row-avatar"
             size="small"
             image=${this.image}
@@ -76,21 +79,27 @@ export class LoomiChatMessage extends LoomiElement {
             alt=${this.sender || label}
             bg-color=${color as LoomiColor}
           ></loomi-avatar>`
-        : nothing}
+          : nothing
+      }
       <div class="loomi-chat-row-body">
-        ${this.showSender && this.sender
-          ? html`<div class="loomi-chat-sender">${this.sender}</div>`
-          : nothing}
-        ${showBubble
-          ? html`<div class="loomi-chat-bubble ${tail}" style=${bubbleVars(color)}>
+        ${
+          this.showSender && this.sender
+            ? html`<div class="loomi-chat-sender">${this.sender}</div>`
+            : nothing
+        }
+        ${
+          showBubble
+            ? html`<div class="loomi-chat-bubble ${tail}" style=${bubbleVars(color)}>
               <slot>${this.text}</slot>
             </div>`
-          : nothing}
+            : nothing
+        }
         ${this.renderAttachment()}
         ${this.time ? html`<div class="loomi-chat-time">${this.time}</div>` : nothing}
       </div>
-      ${this.showAvatar && this.outgoing
-        ? html`<loomi-avatar
+      ${
+        this.showAvatar && this.outgoing
+          ? html`<loomi-avatar
             class="loomi-chat-row-avatar"
             size="small"
             image=${this.image}
@@ -98,7 +107,8 @@ export class LoomiChatMessage extends LoomiElement {
             alt=${this.sender || label}
             bg-color=${color as LoomiColor}
           ></loomi-avatar>`
-        : nothing}
+          : nothing
+      }
     </div>`;
   }
 }

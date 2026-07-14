@@ -69,12 +69,18 @@ export function getWeekDays(date: Date, weekStarts: CalendarWeekStarts) {
   return Array.from({ length: 7 }, (_, index) => addDays(anchor, index));
 }
 
-export function getVisibleWeekDays(date: Date, weekStarts: CalendarWeekStarts, showWeekends: boolean) {
+export function getVisibleWeekDays(
+  date: Date,
+  weekStarts: CalendarWeekStarts,
+  showWeekends: boolean,
+) {
   const days = getWeekDays(date, weekStarts);
-  return showWeekends ? days : days.filter((day) => {
-    const weekday = day.getDay();
-    return weekday !== 0 && weekday !== 6;
-  });
+  return showWeekends
+    ? days
+    : days.filter((day) => {
+        const weekday = day.getDay();
+        return weekday !== 0 && weekday !== 6;
+      });
 }
 
 export function getMonthGridDays(date: Date, weekStarts: CalendarWeekStarts) {
@@ -89,7 +95,7 @@ export function getMonthGridDays(date: Date, weekStarts: CalendarWeekStarts) {
   for (let index = offset - 1; index >= 0; index -= 1) {
     cells.push({
       date: new Date(year, month - 1, prevMonthDays - index),
-      isOtherMonth: true
+      isOtherMonth: true,
     });
   }
 
@@ -152,29 +158,37 @@ export function layoutTimedEvents(
   date: Date,
   startHour: number,
   endHour: number,
-  hourHeight = HOUR_HEIGHT
+  hourHeight = HOUR_HEIGHT,
 ): PositionedEvent[] {
   const timed = getTimedEventsForDate(events, date);
   if (!timed.length) {
     return [];
   }
 
-  const segments = timed.map((event) => {
-    const { start, end } = clampEventToDay(event, date);
-    const startMinutes = Math.max(0, minutesFromDayStart(start, startHour));
-    const endMinutes = Math.min((endHour - startHour) * 60, minutesFromDayStart(end, startHour));
-    const duration = Math.max(15, endMinutes - startMinutes);
-    return {
-      event,
-      startMinutes,
-      endMinutes: startMinutes + duration
-    };
-  }).sort((left, right) => left.startMinutes - right.startMinutes || right.endMinutes - left.endMinutes);
+  const segments = timed
+    .map((event) => {
+      const { start, end } = clampEventToDay(event, date);
+      const startMinutes = Math.max(0, minutesFromDayStart(start, startHour));
+      const endMinutes = Math.min((endHour - startHour) * 60, minutesFromDayStart(end, startHour));
+      const duration = Math.max(15, endMinutes - startMinutes);
+      return {
+        event,
+        startMinutes,
+        endMinutes: startMinutes + duration,
+      };
+    })
+    .sort(
+      (left, right) => left.startMinutes - right.startMinutes || right.endMinutes - left.endMinutes,
+    );
 
   const clusters: Array<typeof segments> = [];
 
   for (const segment of segments) {
-    const cluster = clusters.find((group) => group.some((item) => segment.startMinutes < item.endMinutes && segment.endMinutes > item.startMinutes));
+    const cluster = clusters.find((group) =>
+      group.some(
+        (item) => segment.startMinutes < item.endMinutes && segment.endMinutes > item.startMinutes,
+      ),
+    );
     if (cluster) {
       cluster.push(segment);
     } else {
@@ -188,7 +202,12 @@ export function layoutTimedEvents(
     const columns: Array<typeof segments> = [];
 
     for (const segment of cluster.sort((left, right) => left.startMinutes - right.startMinutes)) {
-      const column = columns.find((items) => items.every((item) => segment.startMinutes >= item.endMinutes || segment.endMinutes <= item.startMinutes));
+      const column = columns.find((items) =>
+        items.every(
+          (item) =>
+            segment.startMinutes >= item.endMinutes || segment.endMinutes <= item.startMinutes,
+        ),
+      );
       if (column) {
         column.push(segment);
       } else {
@@ -201,14 +220,17 @@ export function layoutTimedEvents(
     columns.forEach((column, columnIndex) => {
       for (const segment of column) {
         const top = (segment.startMinutes / 60) * hourHeight;
-        const height = Math.max(MIN_EVENT_HEIGHT, ((segment.endMinutes - segment.startMinutes) / 60) * hourHeight);
+        const height = Math.max(
+          MIN_EVENT_HEIGHT,
+          ((segment.endMinutes - segment.startMinutes) / 60) * hourHeight,
+        );
         positioned.push({
           event: segment.event,
           top,
           height,
           left: (columnIndex / columnCount) * 100,
           width: 100 / columnCount,
-          zIndex: columnIndex + 1
+          zIndex: columnIndex + 1,
         });
       }
     });
@@ -220,7 +242,7 @@ export function layoutTimedEvents(
 export function buildAgendaGroups(
   events: CalendarEvent[],
   rangeStart: Date,
-  rangeEnd: Date
+  rangeEnd: Date,
 ): AgendaGroup[] {
   const groups = new Map<string, AgendaGroup>();
   const cursor = startOfDay(rangeStart);
@@ -232,7 +254,9 @@ export function buildAgendaGroups(
     cursor.setDate(cursor.getDate() + 1);
   }
 
-  for (const event of [...events].sort((left, right) => left.start.getTime() - right.start.getTime())) {
+  for (const event of [...events].sort(
+    (left, right) => left.start.getTime() - right.start.getTime(),
+  )) {
     const day = startOfDay(event.start);
     if (day < startOfDay(rangeStart) || day > startOfDay(rangeEnd)) {
       continue;
@@ -253,7 +277,7 @@ export function dateFromGridPosition(
   offsetY: number,
   startHour: number,
   hourHeight: number,
-  slotMinutes: number
+  slotMinutes: number,
 ) {
   const minutes = snapMinutes((offsetY / hourHeight) * 60, slotMinutes);
   const next = startOfDay(day);
@@ -265,15 +289,11 @@ export function formatTime(date: Date, locale: string, timeZone?: string) {
   return new Intl.DateTimeFormat(locale, {
     hour: "numeric",
     minute: "2-digit",
-    timeZone: timeZone || undefined
+    timeZone: timeZone || undefined,
   }).format(date);
 }
 
-export function formatEventRange(
-  event: CalendarEvent,
-  locale: string,
-  timeZone?: string
-) {
+export function formatEventRange(event: CalendarEvent, locale: string, timeZone?: string) {
   if (event.isAllDay) {
     return "All day";
   }
@@ -286,7 +306,7 @@ export function formatTimezoneLabel(timeZone: string, locale: string) {
   try {
     const parts = new Intl.DateTimeFormat(locale, {
       timeZone,
-      timeZoneName: "shortOffset"
+      timeZoneName: "shortOffset",
     }).formatToParts(new Date());
     const name = parts.find((part) => part.type === "timeZoneName")?.value;
     return name ? `${timeZone} (${name})` : timeZone;
@@ -295,7 +315,12 @@ export function formatTimezoneLabel(timeZone: string, locale: string) {
   }
 }
 
-export function getNowOffset(startHour: number, endHour: number, hourHeight: number, reference = new Date()) {
+export function getNowOffset(
+  startHour: number,
+  endHour: number,
+  hourHeight: number,
+  reference = new Date(),
+) {
   const minutes = minutesFromDayStart(reference, startHour);
   const totalMinutes = (endHour - startHour) * 60;
   if (minutes < 0 || minutes > totalMinutes) {
@@ -338,20 +363,25 @@ export function layoutResourceDayEvents(
   resourceId: string,
   date: Date,
   startHour: number,
-  endHour: number
+  endHour: number,
 ): PositionedResourceEvent[] {
   const totalMinutes = (endHour - startHour) * 60;
 
   return events
-    .filter((event) => event.resourceId === resourceId && overlapsDay(event, date) && !event.isAllDay)
+    .filter(
+      (event) => event.resourceId === resourceId && overlapsDay(event, date) && !event.isAllDay,
+    )
     .map((event) => {
       const { start, end } = clampEventToDay(event, date);
       const startMinutes = Math.max(0, minutesFromDayStart(start, startHour));
-      const endMinutes = Math.min(totalMinutes, Math.max(startMinutes + 15, minutesFromDayStart(end, startHour)));
+      const endMinutes = Math.min(
+        totalMinutes,
+        Math.max(startMinutes + 15, minutesFromDayStart(end, startHour)),
+      );
       return {
         event,
         left: (startMinutes / totalMinutes) * 100,
-        width: Math.max(2, ((endMinutes - startMinutes) / totalMinutes) * 100)
+        width: Math.max(2, ((endMinutes - startMinutes) / totalMinutes) * 100),
       };
     })
     .sort((left, right) => left.event.start.getTime() - right.event.start.getTime());
@@ -363,7 +393,7 @@ export function dateFromResourcePosition(
   trackWidth: number,
   startHour: number,
   endHour: number,
-  slotMinutes: number
+  slotMinutes: number,
 ) {
   const totalMinutes = (endHour - startHour) * 60;
   const ratio = Math.min(1, Math.max(0, offsetX / trackWidth));
@@ -397,7 +427,10 @@ export function layoutSpanningEvents(days: Date[], events: CalendarEvent[]): Spa
   const rangeEnd = endOfDay(days[days.length - 1]);
   const candidates = events
     .filter((event) => event.start <= rangeEnd && event.end >= rangeStart && isMultiDayEvent(event))
-    .sort((left, right) => left.start.getTime() - right.start.getTime() || right.end.getTime() - left.end.getTime());
+    .sort(
+      (left, right) =>
+        left.start.getTime() - right.start.getTime() || right.end.getTime() - left.end.getTime(),
+    );
 
   const lanes: Array<Array<{ startIndex: number; endIndex: number }>> = [];
   const positioned: SpanningEventLayout[] = [];
@@ -418,7 +451,7 @@ export function layoutSpanningEvents(days: Date[], events: CalendarEvent[]): Spa
     }
 
     let laneIndex = lanes.findIndex((lane) =>
-      lane.every((segment) => endIndex < segment.startIndex || startIndex > segment.endIndex)
+      lane.every((segment) => endIndex < segment.startIndex || startIndex > segment.endIndex),
     );
     if (laneIndex === -1) {
       laneIndex = lanes.length;
@@ -450,7 +483,9 @@ export function hasEventsOnDate(events: CalendarEvent[], date: Date) {
 export function summarizeInvitees(invitees: CalendarEventInvitee[] = []) {
   const total = invitees.length;
   const yes = invitees.filter((invitee) => invitee.status === "yes").length;
-  const awaiting = invitees.filter((invitee) => invitee.status === "awaiting" || !invitee.status).length;
+  const awaiting = invitees.filter(
+    (invitee) => invitee.status === "awaiting" || !invitee.status,
+  ).length;
   const no = invitees.filter((invitee) => invitee.status === "no").length;
   return { total, yes, awaiting, no };
 }

@@ -139,30 +139,59 @@
   outline-offset: -2px;
   border-radius: 0.2rem;
 }
-.dir-n, .dir-s {
+.dir-n,
+.dir-s {
   left: 0.5rem;
   right: 0.5rem;
   height: 0.5rem;
   cursor: ns-resize;
 }
-.dir-n { top: -0.25rem; }
-.dir-s { bottom: -0.25rem; }
-.dir-e, .dir-w {
+.dir-n {
+  top: -0.25rem;
+}
+.dir-s {
+  bottom: -0.25rem;
+}
+.dir-e,
+.dir-w {
   top: 0.5rem;
   bottom: 0.5rem;
   width: 0.5rem;
   cursor: ew-resize;
 }
-.dir-e { right: -0.25rem; }
-.dir-w { left: -0.25rem; }
-.dir-ne, .dir-nw, .dir-se, .dir-sw {
+.dir-e {
+  right: -0.25rem;
+}
+.dir-w {
+  left: -0.25rem;
+}
+.dir-ne,
+.dir-nw,
+.dir-se,
+.dir-sw {
   width: 0.9rem;
   height: 0.9rem;
 }
-.dir-ne { top: -0.25rem; right: -0.25rem; cursor: nesw-resize; }
-.dir-nw { top: -0.25rem; left: -0.25rem; cursor: nwse-resize; }
-.dir-se { bottom: -0.25rem; right: -0.25rem; cursor: nwse-resize; }
-.dir-sw { bottom: -0.25rem; left: -0.25rem; cursor: nesw-resize; }
+.dir-ne {
+  top: -0.25rem;
+  right: -0.25rem;
+  cursor: nesw-resize;
+}
+.dir-nw {
+  top: -0.25rem;
+  left: -0.25rem;
+  cursor: nwse-resize;
+}
+.dir-se {
+  bottom: -0.25rem;
+  right: -0.25rem;
+  cursor: nwse-resize;
+}
+.dir-sw {
+  bottom: -0.25rem;
+  left: -0.25rem;
+  cursor: nesw-resize;
+}
 
 @media (max-width: 30rem) {
   .loomi-header {
@@ -177,5 +206,8 @@
    centering transform, so it can't reuse the shared `loomi-pop-in` keyframe from
    @loomidev/core (which assumes no pre-existing transform). */
 @keyframes loomi-floating-panel-pop-centered {
-  from { opacity: 0; transform: translate(-50%, -50%) scale(0.98); }
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.98);
+  }
 }

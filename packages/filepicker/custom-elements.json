@@ -79,7 +79,7 @@
               "kind": "field",
               "name": "cropDrag",
               "type": {
-                "text": "{ mode: \"move\" | \"resize\"; startX: number; startY: number; rect: CropRect } | null"
+                "text": "{\n    mode: \"move\" | \"resize\";\n    startX: number;\n    startY: number;\n    rect: CropRect;\n  } | null"
               },
               "privacy": "private",
               "default": "null"

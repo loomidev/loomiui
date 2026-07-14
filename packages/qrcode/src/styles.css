@@ -88,16 +88,16 @@
 }
 
 .loomi-scan {
-  animation: loomi-qrcode-scan var(--_loomi-qrcode-scan-duration, 2.4s) ease-in-out var(--_loomi-qrcode-scan-count, infinite);
-  background:
-    linear-gradient(
-      to bottom,
-      transparent 0%,
-      color-mix(in srgb, var(--_loomi-qrcode-scan-color) 18%, transparent) 32%,
-      var(--_loomi-qrcode-scan-color) 50%,
-      color-mix(in srgb, var(--_loomi-qrcode-scan-color) 18%, transparent) 68%,
-      transparent 100%
-    );
+  animation: loomi-qrcode-scan var(--_loomi-qrcode-scan-duration, 2.4s) ease-in-out
+    var(--_loomi-qrcode-scan-count, infinite);
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    color-mix(in srgb, var(--_loomi-qrcode-scan-color) 18%, transparent) 32%,
+    var(--_loomi-qrcode-scan-color) 50%,
+    color-mix(in srgb, var(--_loomi-qrcode-scan-color) 18%, transparent) 68%,
+    transparent 100%
+  );
   filter: drop-shadow(0 0 6px var(--_loomi-qrcode-scan-color));
   height: 14%;
   left: 0;

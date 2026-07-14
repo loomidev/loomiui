@@ -6,13 +6,7 @@ export interface DateRangeValue {
 }
 
 export type DateRangePresetKind =
-  | "today"
-  | "yesterday"
-  | "last-7-days"
-  | "last-30-days"
-  | "this-month"
-  | "last-month"
-  | "custom";
+  "today" | "yesterday" | "last-7-days" | "last-30-days" | "this-month" | "last-month" | "custom";
 
 export interface DateRangePreset {
   id: DateRangePresetKind | string;

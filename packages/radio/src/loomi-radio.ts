@@ -1,6 +1,12 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, accentVars, isLoomiColor, type LoomiColor } from "@loomidev/core";
+import {
+  LoomiElement,
+  loomiStyles,
+  accentVars,
+  isLoomiColor,
+  type LoomiColor,
+} from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 /**
@@ -63,9 +69,11 @@ export class LoomiRadio extends LoomiElement {
           @change=${() => this.select()}
         />
         <span class="loomi-dot" part="dot"></span>
-        ${this.label || this.hasChildNodes()
-          ? html`<span class="loomi-label"><slot>${this.label}</slot></span>`
-          : nothing}
+        ${
+          this.label || this.hasChildNodes()
+            ? html`<span class="loomi-label"><slot>${this.label}</slot></span>`
+            : nothing
+        }
       </label>
     `;
   }

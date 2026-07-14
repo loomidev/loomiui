@@ -4,7 +4,9 @@
   color: var(--loomi-text);
   font-family: inherit;
 }
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 

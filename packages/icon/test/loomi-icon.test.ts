@@ -17,7 +17,9 @@ describe("loomi-icon", () => {
   });
 
   it("renders Heroicons solid when variant is solid", async () => {
-    const el = await fixture<LoomiIcon>(html`<loomi-icon name="bell-alert" variant="solid"></loomi-icon>`);
+    const el = await fixture<LoomiIcon>(
+      html`<loomi-icon name="bell-alert" variant="solid"></loomi-icon>`,
+    );
     const svg = el.shadowRoot!.querySelector("svg")!;
 
     expect(svg.getAttribute("fill")).to.equal("currentColor");
@@ -48,7 +50,9 @@ describe("loomi-icon", () => {
   });
 
   it("renders an Iconsax outline icon fetched from disk", async () => {
-    const el = await fixture<LoomiIcon>(html`<loomi-icon source="iconsax" name="add"></loomi-icon>`);
+    const el = await fixture<LoomiIcon>(
+      html`<loomi-icon source="iconsax" name="add"></loomi-icon>`,
+    );
     await diskIconReady(el);
     const svg = el.shadowRoot!.querySelector("svg")!;
     const path = svg.querySelector("path")!;
@@ -69,7 +73,9 @@ describe("loomi-icon", () => {
   });
 
   it("renders an Untitled UI outline icon fetched from disk", async () => {
-    const el = await fixture<LoomiIcon>(html`<loomi-icon source="untitledui" name="triangle"></loomi-icon>`);
+    const el = await fixture<LoomiIcon>(
+      html`<loomi-icon source="untitledui" name="triangle"></loomi-icon>`,
+    );
     await diskIconReady(el);
     const svg = el.shadowRoot!.querySelector("svg")!;
     const path = svg.querySelector("path")!;
@@ -140,7 +146,10 @@ describe("loomi-icon", () => {
         html`<loomi-icon name="bell-alert" branded radius=${radius}></loomi-icon>`,
       );
       const badge = el.shadowRoot!.querySelector(".loomi-icon-badge")!;
-      expect(badge.classList.contains(expectedClass), `radius="${radius}" -> ${expectedClass}`).to.equal(true);
+      expect(
+        badge.classList.contains(expectedClass),
+        `radius="${radius}" -> ${expectedClass}`,
+      ).to.equal(true);
     }
   });
 

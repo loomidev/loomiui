@@ -11,13 +11,7 @@
 
 import { createRequire } from "node:module";
 import { spawnSync } from "node:child_process";
-import {
-  readFileSync,
-  writeFileSync,
-  mkdirSync,
-  rmSync,
-  existsSync,
-} from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -44,9 +38,7 @@ export function buildComponentStyles(callerUrl, options = {}) {
   const pkgRoot = resolve(scriptsDir, "..");
 
   // --- palette (single source of truth, from @loomidev/theme) ---
-  const palette = JSON.parse(
-    readFileSync(require.resolve("@loomidev/theme/palette.json"), "utf8"),
-  );
+  const palette = JSON.parse(readFileSync(require.resolve("@loomidev/theme/palette.json"), "utf8"));
   const { colors, shades } = palette;
   const prefix = palette.prefix ?? "loomi";
 
@@ -70,14 +62,10 @@ export function buildComponentStyles(callerUrl, options = {}) {
   // boundary), so expand each bare color-token reference to the override chain
   // `var(--<prefix>-red-400, var(--_<prefix>-red-400-default))`. Refs that already
   // carry a fallback, and non-color tokens (font, white, accent, pad-*), are left as-is.
-  const colorRe = new RegExp(
-    `var\\(--${prefix}-(${colors.join("|")})-(\\d{2,3})\\)`,
-    "g",
-  );
+  const colorRe = new RegExp(`var\\(--${prefix}-(${colors.join("|")})-(\\d{2,3})\\)`, "g");
   passthrough = passthrough.replace(
     colorRe,
-    (_m, c, s) =>
-      `var(--${prefix}-${c}-${s}, var(--_${prefix}-${c}-${s}-default))`,
+    (_m, c, s) => `var(--${prefix}-${c}-${s}, var(--_${prefix}-${c}-${s}-default))`,
   );
 
   // Safelist for runtime-interpolated class names (`bg-${color}-600`, etc.).
@@ -130,9 +118,7 @@ ${passthrough}
   const cliDir = dirname(cliPkgJson);
   const cliManifest = JSON.parse(readFileSync(cliPkgJson, "utf8"));
   const binRel =
-    typeof cliManifest.bin === "string"
-      ? cliManifest.bin
-      : cliManifest.bin.tailwindcss;
+    typeof cliManifest.bin === "string" ? cliManifest.bin : cliManifest.bin.tailwindcss;
   const cliEntry = resolve(cliDir, binRel);
 
   const result = spawnSync(
@@ -148,9 +134,7 @@ ${passthrough}
 
   const compiled = readFileSync(outputPath, "utf8").trim();
 
-  const pkgName = JSON.parse(
-    readFileSync(resolve(pkgRoot, "package.json"), "utf8"),
-  ).name;
+  const pkgName = JSON.parse(readFileSync(resolve(pkgRoot, "package.json"), "utf8")).name;
 
   const exportName = options.exportName ?? "componentStyles";
   const styleDoc =
@@ -170,9 +154,7 @@ export const ${exportName} = unsafeCSS(${JSON.stringify(compiled)});
   rmSync(inputPath, { force: true });
   if (existsSync(outputPath)) rmSync(outputPath, { force: true });
 
-  const safelisted = options.safelist
-    ? ` with ${colors.length} colors safelisted`
-    : "";
+  const safelisted = options.safelist ? ` with ${colors.length} colors safelisted` : "";
   console.log(
     `[${pkgName}] compiled styles (${(compiled.length / 1024).toFixed(1)} kB)${safelisted}.`,
   );

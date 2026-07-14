@@ -4,7 +4,15 @@ import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const packagesDir = path.join(rootDir, "packages");
-const skip = new Set(["mcp-server", "icons", "components", "forms", "navigation", "content", "theme"]);
+const skip = new Set([
+  "mcp-server",
+  "icons",
+  "components",
+  "forms",
+  "navigation",
+  "content",
+  "theme",
+]);
 
 const requiredSections = ["## Accessibility", "## Responsive behavior", "## Dark mode"];
 const errors = [];
@@ -20,7 +28,7 @@ function packageNames() {
 function scanSource(packageName) {
   const srcDir = path.join(packagesDir, packageName, "src");
   const files = readdirSync(srcDir).filter(
-    (file) => (file.endsWith(".ts") || file.endsWith(".css")) && file !== "brand-icons.ts"
+    (file) => (file.endsWith(".ts") || file.endsWith(".css")) && file !== "brand-icons.ts",
   );
   let source = "";
 
@@ -37,14 +45,17 @@ function scanSource(packageName) {
   const lines = source.split("\n");
   // A flagged token opts out when the marker sits on its own line or the line directly above.
   const hardcodedSurface = lines.some(
-    (line, i) => hardcodedToken.test(line) && !line.includes(allowMarker) && !(lines[i - 1] || "").includes(allowMarker)
+    (line, i) =>
+      hardcodedToken.test(line) &&
+      !line.includes(allowMarker) &&
+      !(lines[i - 1] || "").includes(allowMarker),
   );
 
   return {
     hasAria: /aria-[a-z-]+=|role=/.test(source),
     hasMedia: /@media/.test(source),
     hasSemanticSurface: /--loomi-surface[^-]|var\(--loomi-text\)/.test(source),
-    hardcodedSurface
+    hardcodedSurface,
   };
 }
 
@@ -64,7 +75,9 @@ for (const packageName of packageNames()) {
 
   const scan = scanSource(packageName);
   if (scan.hardcodedSurface) {
-    warnings.push(`${packageName}: source may use non-semantic gray/white tokens (see docs/COMPONENT_QUALITY.md)`);
+    warnings.push(
+      `${packageName}: source may use non-semantic gray/white tokens (see docs/COMPONENT_QUALITY.md)`,
+    );
   }
   if (scan.hasAria && !readme.includes("## Accessibility")) {
     errors.push(`${packageName}: implements ARIA but README lacks Accessibility section`);

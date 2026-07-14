@@ -66,8 +66,7 @@ export class LoomiNumber extends LoomiElement {
     this.value = String(clamped);
     this.syncValidity();
     this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
-    if (emitChange)
-      this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
+    if (emitChange) this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
   }
 
   private bump(dir: 1 | -1): void {
@@ -124,8 +123,7 @@ export class LoomiNumber extends LoomiElement {
 
   private renderStep(dir: 1 | -1): TemplateResult {
     const atLimit =
-      this.value !== "" &&
-      (dir === 1 ? this.current >= this.max : this.current <= this.min);
+      this.value !== "" && (dir === 1 ? this.current >= this.max : this.current <= this.min);
     const cls = `loomi-step ${dir === 1 ? "inc" : "dec"}${this.transparentIcons ? "" : " solid"}`;
     return html`<button
       type="button"
@@ -166,9 +164,11 @@ export class LoomiNumber extends LoomiElement {
             @change=${this.onChange}
             @blur=${this.showValidation}
           />
-          ${hasLabel
-            ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
-            : nothing}
+          ${
+            hasLabel
+              ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
+              : nothing
+          }
         </span>
         ${this.renderStep(1)}
       </div>

@@ -14,7 +14,6 @@ npm install @loomidev/creditcard lit
 import "@loomidev/creditcard";
 ```
 
-
 ## Basic Usage
 
 ```html
@@ -148,7 +147,6 @@ loomi-creditcard is designed to fit the layout you place it in. It uses fluid wi
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-creditcard uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -159,25 +157,25 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `name` | _(blank)_ | Targeting class only (see `LoomiElement`) — not a form field, since this component doesn't submit. |
-| `cardholder-name` | _(blank)_ | Name printed on the card. |
-| `number` | _(blank)_ | Card number, auto-grouped per network as the user types. Masked saved-card values like `**** **** **** 4242` are preserved for edit screens. |
-| `expiry-month` | _(blank)_ | Two-digit month, `"01"`–`"12"`. |
-| `expiry-year` | _(blank)_ | Two-digit year. |
-| `cvc` | _(blank)_ | Security code (3 digits, 4 for Amex). |
-| `brand` | _(auto-detected)_ | Force a network logo: `visa`, `mastercard`, `amex`, `discover`, `diners`, `jcb`, `unionpay`, `maestro`. |
-| `color` | `"primary"` | Gradient color, from the shared loomi palette. Ignored in `outline` variant. |
-| `variant` | `"gradient"` | `"gradient"` for the full-color accent face, `"outline"` for a bare silhouette, or `"inline"` for card number, expiry, and CVC fields only. |
-| `locale` | _(blank)_ | Overrides the global locale for this instance. |
-| `flipped` | `false` | Shows the back face. _(boolean)_ |
-| `disabled` | `false` | Disables every field and the flip button. _(boolean)_ |
-| `readonly` | `false` | Read-only fields. _(boolean)_ |
-| `required` | `false` | Fails `validate()` while any field is incomplete. _(boolean)_ |
-| `error-message` | _(blank)_ | Message shown when validation fails. |
-| `show-error-inline` | `false` | Render the error beneath the card. _(boolean)_ |
-| `no-clearing` | `false` | Remove the default bottom margin. _(boolean)_ |
+| Attribute           | Default           | Description                                                                                                                                  |
+| ------------------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`              | _(blank)_         | Targeting class only (see `LoomiElement`) — not a form field, since this component doesn't submit.                                           |
+| `cardholder-name`   | _(blank)_         | Name printed on the card.                                                                                                                    |
+| `number`            | _(blank)_         | Card number, auto-grouped per network as the user types. Masked saved-card values like `**** **** **** 4242` are preserved for edit screens. |
+| `expiry-month`      | _(blank)_         | Two-digit month, `"01"`–`"12"`.                                                                                                              |
+| `expiry-year`       | _(blank)_         | Two-digit year.                                                                                                                              |
+| `cvc`               | _(blank)_         | Security code (3 digits, 4 for Amex).                                                                                                        |
+| `brand`             | _(auto-detected)_ | Force a network logo: `visa`, `mastercard`, `amex`, `discover`, `diners`, `jcb`, `unionpay`, `maestro`.                                      |
+| `color`             | `"primary"`       | Gradient color, from the shared loomi palette. Ignored in `outline` variant.                                                                 |
+| `variant`           | `"gradient"`      | `"gradient"` for the full-color accent face, `"outline"` for a bare silhouette, or `"inline"` for card number, expiry, and CVC fields only.  |
+| `locale`            | _(blank)_         | Overrides the global locale for this instance.                                                                                               |
+| `flipped`           | `false`           | Shows the back face. _(boolean)_                                                                                                             |
+| `disabled`          | `false`           | Disables every field and the flip button. _(boolean)_                                                                                        |
+| `readonly`          | `false`           | Read-only fields. _(boolean)_                                                                                                                |
+| `required`          | `false`           | Fails `validate()` while any field is incomplete. _(boolean)_                                                                                |
+| `error-message`     | _(blank)_         | Message shown when validation fails.                                                                                                         |
+| `show-error-inline` | `false`           | Render the error beneath the card. _(boolean)_                                                                                               |
+| `no-clearing`       | `false`           | Remove the default bottom margin. _(boolean)_                                                                                                |
 
 **Properties:** `value` (read-only `LoomiCreditcardValue`), `activeBrand` (read-only,
 the currently displayed `LoomiCardBrand`).

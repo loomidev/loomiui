@@ -5,8 +5,7 @@ import "@loomidev/icon/loomi-icon.js";
 import type { LoomiFilepicker } from "@loomidev/filepicker";
 import { componentStyles } from "./generated/styles.css.js";
 
-export type LoomiAvatarSize =
-  | "tiny" | "small" | "medium" | "regular" | "big" | "huge" | "omg";
+export type LoomiAvatarSize = "tiny" | "small" | "medium" | "regular" | "big" | "huge" | "omg";
 
 /**
  * `<loomi-avatar>` — a rounded image or initials avatar with optional status dot.
@@ -51,7 +50,12 @@ export class LoomiAvatar extends LoomiElement {
   }
 
   protected override willUpdate(changed: PropertyValues): void {
-    if (changed.has("editable") && this.editable && !this.filepickerReady && !this.filepickerLoading) {
+    if (
+      changed.has("editable") &&
+      this.editable &&
+      !this.filepickerReady &&
+      !this.filepickerLoading
+    ) {
       this.filepickerLoading = true;
       import("@loomidev/filepicker/loomi-filepicker.js").then(() => {
         this.filepickerReady = true;
@@ -82,7 +86,11 @@ export class LoomiAvatar extends LoomiElement {
     this.imageObjectUrl = URL.createObjectURL(file);
     this.image = this.imageObjectUrl;
     this.dispatchEvent(
-      new CustomEvent("change", { bubbles: true, composed: true, detail: { file, image: this.imageObjectUrl } }),
+      new CustomEvent("change", {
+        bubbles: true,
+        composed: true,
+        detail: { file, image: this.imageObjectUrl },
+      }),
     );
   }
 
@@ -101,25 +109,32 @@ export class LoomiAvatar extends LoomiElement {
       @keydown=${this.editable ? this.onEditKeydown : nothing}
     >
       ${inner}
-      ${this.dotted
-        ? html`<span
+      ${
+        this.dotted
+          ? html`<span
             class="loomi-dot ${this.dotPosition} ${this.pulseDot ? "pulse" : ""}"
             style=${`background:${cssColor(this.dotColor, 500)};--loomi-dot-pulse:${cssColor(this.dotColor, 400)}`}
           ></span>`
-        : nothing}
-      ${this.verified
-        ? html`<span class="loomi-verified" part="verified">
+          : nothing
+      }
+      ${
+        this.verified
+          ? html`<span class="loomi-verified" part="verified">
             <loomi-icon name="check-badge" variant="solid"></loomi-icon>
           </span>`
-        : nothing}
-      ${this.editable
-        ? html`<span class="loomi-edit-overlay" part="edit-overlay">
+          : nothing
+      }
+      ${
+        this.editable
+          ? html`<span class="loomi-edit-overlay" part="edit-overlay">
             <loomi-icon name="camera" variant="solid"></loomi-icon>
           </span>`
-        : nothing}
+          : nothing
+      }
     </span>
-    ${this.editable && this.filepickerReady
-      ? html`<loomi-filepicker
+    ${
+      this.editable && this.filepickerReady
+        ? html`<loomi-filepicker
           class="loomi-edit-fp"
           stealth
           crop
@@ -127,7 +142,8 @@ export class LoomiAvatar extends LoomiElement {
           accepted-file-types="image/*"
           @change=${(e: CustomEvent<{ files: File[] }>) => this.onFilepickerChange(e)}
         ></loomi-filepicker>`
-      : nothing}`;
+        : nothing
+    }`;
   }
 }
 
@@ -182,9 +198,7 @@ export class LoomiAvatars extends LoomiElement {
   override render(): TemplateResult {
     return html`<span class="loomi-row size-${this.size}">
       <slot @slotchange=${this.syncChildren}></slot>
-      ${this.plus > 0
-        ? html`<span class="loomi-plus" part="plus">+${this.plus}</span>`
-        : nothing}
+      ${this.plus > 0 ? html`<span class="loomi-plus" part="plus">+${this.plus}</span>` : nothing}
     </span>`;
   }
 }

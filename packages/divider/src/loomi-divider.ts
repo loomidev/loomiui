@@ -64,10 +64,12 @@ export class LoomiDivider extends LoomiElement {
       aria-orientation=${orientation}
     >
       <span class="loomi-line" aria-hidden="true"></span>
-      ${this.hasContent
-        ? html`<span class="loomi-content"><slot @slotchange=${this.syncSlottedContent}>${this.label}</slot></span>
+      ${
+        this.hasContent
+          ? html`<span class="loomi-content"><slot @slotchange=${this.syncSlottedContent}>${this.label}</slot></span>
             <span class="loomi-line" aria-hidden="true"></span>`
-        : html`<slot @slotchange=${this.syncSlottedContent}></slot>`}
+          : html`<slot @slotchange=${this.syncSlottedContent}></slot>`
+      }
     </div>`;
   }
 }

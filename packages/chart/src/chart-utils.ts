@@ -7,14 +7,7 @@ import type {
   LoomiChartType,
 } from "./types.js";
 
-export const PALETTE = [
-  "primary",
-  "success",
-  "warning",
-  "error",
-  "secondary",
-  "gray",
-] as const;
+export const PALETTE = ["primary", "success", "warning", "error", "secondary", "gray"] as const;
 
 export const BAR_WIDTH_RATIO = 0.45;
 export const HOVER_HIT_PCT = 9;
@@ -141,7 +134,9 @@ export function resolveGroupedSeriesFill(
   for (const d of data) {
     const sub = d.values?.find((v) => v.label === seriesLabel);
     if (sub?.color) {
-      return /^[a-z]+$/.test(sub.color) ? cssColor(sub.color, segmentFillShade(ctx.shade)) : sub.color;
+      return /^[a-z]+$/.test(sub.color)
+        ? cssColor(sub.color, segmentFillShade(ctx.shade))
+        : sub.color;
     }
   }
   return cssColor(PALETTE[seriesIndex % PALETTE.length], segmentFillShade(ctx.shade));
@@ -264,7 +259,13 @@ export function roundedTopRectPath(x: number, y: number, w: number, h: number, r
 }
 
 /** Open path for a bar border — no bottom edge (sits on the axis). */
-export function roundedTopRectBorderPath(x: number, y: number, w: number, h: number, r: number): string {
+export function roundedTopRectBorderPath(
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  r: number,
+): string {
   const rr = Math.max(0, Math.min(r, w / 2, h));
   if (rr <= 0) return `M${x},${y + h} V${y} H${x + w} V${y + h}`;
   return [
@@ -297,13 +298,22 @@ export function cartesianLayout(
     return [x, y];
   });
 
-  return { width: W, height: H, pad, padLeft, padRight, padTop, padBottom, max, step, bandWidth, points };
+  return {
+    width: W,
+    height: H,
+    pad,
+    padLeft,
+    padRight,
+    padTop,
+    padBottom,
+    max,
+    step,
+    bandWidth,
+    points,
+  };
 }
 
-export function verticalLineLayout(
-  data: LoomiChartPoint[],
-  showYAxis: boolean,
-): CartesianLayout {
+export function verticalLineLayout(data: LoomiChartPoint[], showYAxis: boolean): CartesianLayout {
   const W = CARTESIAN.width;
   const H = CARTESIAN.height;
   const padLeft = 40;
@@ -398,9 +408,7 @@ export function hoverTargets(
   if (type === "bar") {
     const layout = cartesianLayout(data, opts);
     const { width: W, height: H, padLeft, bandWidth } = layout;
-    return data.map((d, i) =>
-      bandTarget(padLeft + i * bandWidth, 0, bandWidth, H, W, H, i, d),
-    );
+    return data.map((d, i) => bandTarget(padLeft + i * bandWidth, 0, bandWidth, H, W, H, i, d));
   }
 
   if (type === "line" && opts.vertical) {
@@ -448,8 +456,7 @@ export function hoverTargets(
   // pie / donut
   const { cx, cy, radius: r } = POLAR;
   const S = POLAR.size;
-  const innerR =
-    type === "donut" ? Math.max(0, Math.min(r - 4, opts.donutRadius)) : 0;
+  const innerR = type === "donut" ? Math.max(0, Math.min(r - 4, opts.donutRadius)) : 0;
   const total = data.reduce((s, d) => s + d.value, 0) || 1;
   let angle = 0;
   return data.map((d, i) => {
@@ -490,7 +497,13 @@ export function nearestIndex(
     return best;
   }
 
-  if (type === "bar" || type === "line" || type === "area" || type === "scatter" || type === "heatmap") {
+  if (
+    type === "bar" ||
+    type === "line" ||
+    type === "area" ||
+    type === "scatter" ||
+    type === "heatmap"
+  ) {
     const layout = cartesianLayout(data, opts);
     const x = clamped * layout.width;
 
@@ -525,7 +538,9 @@ export function nearestIndex(
 }
 
 export function formatValue(value: number): string {
-  return Number.isInteger(value) ? String(value) : value.toLocaleString(undefined, { maximumFractionDigits: 1 });
+  return Number.isInteger(value)
+    ? String(value)
+    : value.toLocaleString(undefined, { maximumFractionDigits: 1 });
 }
 
 export function pieTotal(data: LoomiChartPoint[]): number {

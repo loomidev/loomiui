@@ -12,7 +12,6 @@ npm install @loomidev/button-group lit
 import "@loomidev/button-group";
 ```
 
-
 ## Basic Usage
 
 Place `<loomi-button-group-item>` elements inside a group. One item can be marked
@@ -102,8 +101,8 @@ entire group with `disabled` on `<loomi-button-group>`.
 
 ## Events
 
-| Event | Detail |
-| --- | --- |
+| Event                       | Detail                                                   |
+| --------------------------- | -------------------------------------------------------- |
 | `loomi-button-group-change` | `{ value, label, index }` when the selected item changes |
 
 ## Accessibility
@@ -133,28 +132,28 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ### `<loomi-button-group>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `color` | `primary` | Accent color for the selected item text and focus ring. Accepts any Loomi color name. |
-| `size` | `regular` | Button size. `tiny` \| `small` \| `regular` \| `medium` \| `big`. |
-| `radius` | `medium` | Bar corner radius. `none` \| `small` \| `medium` \| `full`. |
-| `outline` | `false` | Outline-only treatment: transparent track and selected item outline. _(boolean)_ |
-| `icon-only` | `false` | Hide every item label visually and render square icon buttons. _(boolean)_ |
-| `aria-label` | _(blank)_ | Accessible label for the internal `role="group"` wrapper. |
-| `disabled` | `false` | Disable every item in the group. _(boolean)_ |
+| Attribute    | Default   | Description                                                                           |
+| ------------ | --------- | ------------------------------------------------------------------------------------- |
+| `color`      | `primary` | Accent color for the selected item text and focus ring. Accepts any Loomi color name. |
+| `size`       | `regular` | Button size. `tiny` \| `small` \| `regular` \| `medium` \| `big`.                     |
+| `radius`     | `medium`  | Bar corner radius. `none` \| `small` \| `medium` \| `full`.                           |
+| `outline`    | `false`   | Outline-only treatment: transparent track and selected item outline. _(boolean)_      |
+| `icon-only`  | `false`   | Hide every item label visually and render square icon buttons. _(boolean)_            |
+| `aria-label` | _(blank)_ | Accessible label for the internal `role="group"` wrapper.                             |
+| `disabled`   | `false`   | Disable every item in the group. _(boolean)_                                          |
 
 ### `<loomi-button-group-item>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `label` | _(blank)_ | Visible label text. Also used as the accessible name when `icon-only` is set. |
-| `value` | _(blank)_ | Value emitted in `loomi-button-group-change`; falls back to the label or text content. |
-| `icon` | _(blank)_ | Built-in icon name from `@loomidev/icons`. |
-| `icon-right` | `false` | Place the icon after the label. _(boolean)_ |
-| `icon-only` | `false` | Hide this item's label visually and render a square icon button. _(boolean)_ |
-| `aria-label` | _(blank)_ | Accessible label for icon-only items when `label` is not enough. |
-| `selected` | `false` | Mark this item as active. _(boolean)_ |
-| `disabled` | `false` | Disable only this item. _(boolean)_ |
+| Attribute    | Default   | Description                                                                            |
+| ------------ | --------- | -------------------------------------------------------------------------------------- |
+| `label`      | _(blank)_ | Visible label text. Also used as the accessible name when `icon-only` is set.          |
+| `value`      | _(blank)_ | Value emitted in `loomi-button-group-change`; falls back to the label or text content. |
+| `icon`       | _(blank)_ | Built-in icon name from `@loomidev/icons`.                                             |
+| `icon-right` | `false`   | Place the icon after the label. _(boolean)_                                            |
+| `icon-only`  | `false`   | Hide this item's label visually and render a square icon button. _(boolean)_           |
+| `aria-label` | _(blank)_ | Accessible label for icon-only items when `label` is not enough.                       |
+| `selected`   | `false`   | Mark this item as active. _(boolean)_                                                  |
+| `disabled`   | `false`   | Disable only this item. _(boolean)_                                                    |
 
 ## Dependencies
 

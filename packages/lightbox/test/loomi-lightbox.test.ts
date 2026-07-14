@@ -44,7 +44,9 @@ describe("loomi-lightbox-image", () => {
   });
 
   it("fires loomi-open and loomi-close", async () => {
-    const el = await fixture<LoomiLightboxImage>(html`<loomi-lightbox-image src="/full.jpg"></loomi-lightbox-image>`);
+    const el = await fixture<LoomiLightboxImage>(
+      html`<loomi-lightbox-image src="/full.jpg"></loomi-lightbox-image>`,
+    );
     const events: string[] = [];
     el.addEventListener("loomi-open", () => events.push("open"));
     el.addEventListener("loomi-close", () => events.push("close"));
@@ -69,7 +71,8 @@ describe("loomi-lightbox-image", () => {
       wrap.querySelectorAll<LoomiLightboxImage>("loomi-lightbox-image"),
     );
     const states = () => [first.open, second.open, third.open];
-    const settle = () => Promise.all([first.updateComplete, second.updateComplete, third.updateComplete]);
+    const settle = () =>
+      Promise.all([first.updateComplete, second.updateComplete, third.updateComplete]);
 
     first.show();
     await settle();

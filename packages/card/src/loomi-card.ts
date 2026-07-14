@@ -33,8 +33,10 @@ export class LoomiCard extends LoomiElement {
   @property({ reflect: true }) size: LoomiCardSize = "default";
   @property() url = "";
   @property({ type: Boolean, attribute: "has-hover" }) hasHover = false;
-  @property({ type: Boolean, attribute: "has-shadow", converter: booleanAttribute }) hasShadow = true;
-  @property({ type: Boolean, attribute: "has-border", converter: booleanAttribute }) hasBorder = true;
+  @property({ type: Boolean, attribute: "has-shadow", converter: booleanAttribute }) hasShadow =
+    true;
+  @property({ type: Boolean, attribute: "has-border", converter: booleanAttribute }) hasBorder =
+    true;
   @property({ type: Boolean, reflect: true }) transparent = false;
 
   private onClick = (): void => {

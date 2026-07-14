@@ -23,9 +23,11 @@ export class LoomiBell extends LoomiElement {
   override render(): TemplateResult {
     return html`<span class="loomi-bell size-${this.size} ${this.invert ? "invert" : ""}" style=${accentVars(this.color)}>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${BELL}</svg>
-      ${this.showDot
-        ? html`${this.animateDot ? html`<span class="loomi-ping"></span>` : nothing}<span class="loomi-dot"></span>`
-        : nothing}
+      ${
+        this.showDot
+          ? html`${this.animateDot ? html`<span class="loomi-ping"></span>` : nothing}<span class="loomi-dot"></span>`
+          : nothing
+      }
     </span>`;
   }
 }

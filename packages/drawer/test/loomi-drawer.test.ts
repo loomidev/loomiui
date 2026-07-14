@@ -14,7 +14,9 @@ describe("loomi-drawer", () => {
 
   afterEach(async () => {
     await Promise.all(
-      Array.from(document.querySelectorAll<LoomiDrawer>("loomi-drawer")).map((drawer) => drawer.hide()),
+      Array.from(document.querySelectorAll<LoomiDrawer>("loomi-drawer")).map((drawer) =>
+        drawer.hide(),
+      ),
     );
   });
 
@@ -66,7 +68,9 @@ describe("loomi-drawer", () => {
     expect(document.body.style.overflow).to.equal(previousBodyOverflow);
     expect(document.documentElement.style.overflow).to.equal(previousDocumentOverflow);
 
-    const unlocked = await fixture<LoomiDrawer>(html`<loomi-drawer prevent-scroll="false"></loomi-drawer>`);
+    const unlocked = await fixture<LoomiDrawer>(
+      html`<loomi-drawer prevent-scroll="false"></loomi-drawer>`,
+    );
     unlocked.show();
     await unlocked.updateComplete;
     expect(document.body.style.overflow).to.equal(previousBodyOverflow);
@@ -126,7 +130,9 @@ describe("loomi-drawer", () => {
     // (the close button, inside the shadow root — so document.activeElement retargets to `el`).
     fieldB.focus();
     expect(document.activeElement).to.equal(fieldB);
-    document.dispatchEvent(new KeyboardEvent("keydown", { key: "Tab", bubbles: true, cancelable: true }));
+    document.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Tab", bubbles: true, cancelable: true }),
+    );
     expect(document.activeElement).to.equal(el);
     expect(el.shadowRoot!.activeElement).to.equal(closeBtn);
 
@@ -139,12 +145,16 @@ describe("loomi-drawer", () => {
   });
 
   it("does not trap Tab focus and reports aria-modal=false when backdrop is disabled", async () => {
-    const el = await fixture<LoomiDrawer>(html`<loomi-drawer backdrop="false"><input id="a" /></loomi-drawer>`);
+    const el = await fixture<LoomiDrawer>(
+      html`<loomi-drawer backdrop="false"><input id="a" /></loomi-drawer>`,
+    );
     el.show();
     await el.updateComplete;
     await nextFrame();
 
-    expect(el.shadowRoot!.querySelector(".loomi-panel")!.getAttribute("aria-modal")).to.equal("false");
+    expect(el.shadowRoot!.querySelector(".loomi-panel")!.getAttribute("aria-modal")).to.equal(
+      "false",
+    );
 
     (el.querySelector("#a") as HTMLInputElement).focus();
     const evt = new KeyboardEvent("keydown", { key: "Tab", bubbles: true, cancelable: true });
@@ -172,7 +182,9 @@ describe("loomi-drawer", () => {
     await new Promise((r) => setTimeout(r, 100));
     expect(el.open).to.be.false;
 
-    const locked = await fixture<LoomiDrawer>(html`<loomi-drawer close-on-outside-click="false"></loomi-drawer>`);
+    const locked = await fixture<LoomiDrawer>(
+      html`<loomi-drawer close-on-outside-click="false"></loomi-drawer>`,
+    );
     locked.show();
     await locked.updateComplete;
     (locked.shadowRoot!.querySelector(".loomi-backdrop") as HTMLElement).click();
@@ -192,7 +204,9 @@ describe("loomi-drawer", () => {
   });
 
   it("does not close when clicking inside the panel", async () => {
-    const el = await fixture<LoomiDrawer>(html`<loomi-drawer><button id="inside">Inside</button></loomi-drawer>`);
+    const el = await fixture<LoomiDrawer>(
+      html`<loomi-drawer><button id="inside">Inside</button></loomi-drawer>`,
+    );
     el.show();
     await el.updateComplete;
     (el.querySelector("#inside") as HTMLElement).click();
@@ -210,7 +224,9 @@ describe("loomi-drawer", () => {
   });
 
   it("applies placement and size classes to the panel", async () => {
-    const el = await fixture<LoomiDrawer>(html`<loomi-drawer placement="left" size="large"></loomi-drawer>`);
+    const el = await fixture<LoomiDrawer>(
+      html`<loomi-drawer placement="left" size="large"></loomi-drawer>`,
+    );
     el.show();
     await el.updateComplete;
     const panel = el.shadowRoot!.querySelector(".loomi-panel")!;
@@ -224,7 +240,9 @@ describe("loomi-drawer", () => {
     await el.updateComplete;
     expect(el.shadowRoot!.querySelector(".loomi-close loomi-icon[name='x-mark']")).to.exist;
 
-    const noClose = await fixture<LoomiDrawer>(html`<loomi-drawer show-close-icon="false"></loomi-drawer>`);
+    const noClose = await fixture<LoomiDrawer>(
+      html`<loomi-drawer show-close-icon="false"></loomi-drawer>`,
+    );
     noClose.show();
     await noClose.updateComplete;
     expect(noClose.shadowRoot!.querySelector(".loomi-close")).to.not.exist;

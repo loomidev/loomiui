@@ -4,14 +4,7 @@ import { formatCellValue } from "../grid-utils.js";
 import type { DataGridColumn, DataGridRecord } from "../types.js";
 
 export type DataGridFilterOperator =
-  | "contains"
-  | "equals"
-  | "startsWith"
-  | "endsWith"
-  | "gt"
-  | "gte"
-  | "lt"
-  | "lte";
+  "contains" | "equals" | "startsWith" | "endsWith" | "gt" | "gte" | "lt" | "lte";
 
 export interface DataGridFilter {
   key: string;
@@ -33,12 +26,16 @@ export interface FilteringModuleOptions {
   searchableColumns?: string[];
 }
 
-export type FilteringModule<TRecord extends DataGridRecord = DataGridRecord> = GridModule<TRecord> & {
-  getFilterState(): FilteringModuleState;
-  setFilterState(state: Partial<FilteringModuleState>): void;
-};
+export type FilteringModule<TRecord extends DataGridRecord = DataGridRecord> =
+  GridModule<TRecord> & {
+    getFilterState(): FilteringModuleState;
+    setFilterState(state: Partial<FilteringModuleState>): void;
+  };
 
-function matchesFilter<TRecord extends DataGridRecord>(row: TRecord, filter: DataGridFilter): boolean {
+function matchesFilter<TRecord extends DataGridRecord>(
+  row: TRecord,
+  filter: DataGridFilter,
+): boolean {
   const rawValue = row[filter.key];
   const value = formatCellValue(rawValue).toLowerCase();
   const filterValue = filter.value.toLowerCase();
@@ -79,7 +76,7 @@ function matchesFilter<TRecord extends DataGridRecord>(row: TRecord, filter: Dat
  * ```
  */
 export function filteringModule<TRecord extends DataGridRecord = DataGridRecord>(
-  options: FilteringModuleOptions = {}
+  options: FilteringModuleOptions = {},
 ): FilteringModule<TRecord> {
   let globalSearch = "";
   const columnFilters = new Map<string, DataGridFilter>();
@@ -97,7 +94,9 @@ export function filteringModule<TRecord extends DataGridRecord = DataGridRecord>
           search.length === 0 ||
           searchableKeys.some((key) => formatCellValue(row[key]).toLowerCase().includes(search));
 
-        const matchesColumnFilters = [...columnFilters.values()].every((filter) => matchesFilter(row, filter));
+        const matchesColumnFilters = [...columnFilters.values()].every((filter) =>
+          matchesFilter(row, filter),
+        );
 
         return matchesSearch && matchesColumnFilters;
       });
@@ -144,14 +143,14 @@ export function filteringModule<TRecord extends DataGridRecord = DataGridRecord>
           }}
         />
       `;
-    }
+    },
   });
 
   return Object.assign(module, {
     getFilterState(): FilteringModuleState {
       return {
         globalSearch,
-        columnFilters: [...columnFilters.values()]
+        columnFilters: [...columnFilters.values()],
       };
     },
 
@@ -165,6 +164,6 @@ export function filteringModule<TRecord extends DataGridRecord = DataGridRecord>
           columnFilters.set(filter.key, filter);
         }
       }
-    }
+    },
   });
 }

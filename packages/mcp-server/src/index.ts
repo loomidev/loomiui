@@ -17,7 +17,11 @@ interface LoomiComponentDoc {
 const components = manifest.components as LoomiComponentDoc[];
 
 function find(name: string): LoomiComponentDoc | undefined {
-  const q = name.trim().toLowerCase().replace(/^<|>$/g, "").replace(/^loomi-/, "");
+  const q = name
+    .trim()
+    .toLowerCase()
+    .replace(/^<|>$/g, "")
+    .replace(/^loomi-/, "");
   return components.find(
     (c) => c.name === q || c.tag.toLowerCase() === `<loomi-${q}>` || c.package === `@loomidev/${q}`,
   );
@@ -91,12 +95,13 @@ server.registerTool(
   {
     title: "Search loomi components",
     description: "Find loomi components by keyword (matches name, tag, and description).",
-    inputSchema: { query: z.string().describe("Keyword to search for, e.g. \"date\" or \"form\".") },
+    inputSchema: { query: z.string().describe('Keyword to search for, e.g. "date" or "form".') },
   },
   async ({ query }) => {
     const q = query.toLowerCase();
     const matches = components.filter(
-      (c) => c.name.includes(q) || c.description.toLowerCase().includes(q) || c.category.includes(q),
+      (c) =>
+        c.name.includes(q) || c.description.toLowerCase().includes(q) || c.category.includes(q),
     );
     return { content: [{ type: "text", text: listingFor(matches) }] };
   },
@@ -108,8 +113,10 @@ server.registerTool(
     title: "Get loomi component docs",
     description:
       "Get the full documentation (usage examples, attribute table, events) for one loomi " +
-      "component by name, e.g. \"button\" or \"loomi-button\".",
-    inputSchema: { name: z.string().describe("Component name or tag, e.g. \"button\" or \"<loomi-button>\".") },
+      'component by name, e.g. "button" or "loomi-button".',
+    inputSchema: {
+      name: z.string().describe('Component name or tag, e.g. "button" or "<loomi-button>".'),
+    },
   },
   async ({ name }) => {
     const doc = find(name);

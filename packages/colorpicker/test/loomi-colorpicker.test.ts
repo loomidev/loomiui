@@ -11,7 +11,9 @@ describe("loomi-colorpicker", () => {
     );
     const trigger = el.shadowRoot!.querySelector(".loomi-swatch") as HTMLButtonElement;
     trigger.focus();
-    trigger.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }));
+    trigger.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }),
+    );
     await el.updateComplete;
 
     expect(trigger.getAttribute("aria-expanded")).to.equal("true");
@@ -19,31 +21,43 @@ describe("loomi-colorpicker", () => {
   });
 
   it("ArrowRight/ArrowDown move aria-activedescendant across the 4-column grid", async () => {
-    const el = await fixture<LoomiColorpicker>(html`<loomi-colorpicker colors=${COLORS}></loomi-colorpicker>`);
+    const el = await fixture<LoomiColorpicker>(
+      html`<loomi-colorpicker colors=${COLORS}></loomi-colorpicker>`,
+    );
     const trigger = el.shadowRoot!.querySelector(".loomi-swatch") as HTMLButtonElement;
     trigger.click();
     await el.updateComplete;
 
-    trigger.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true, cancelable: true }));
+    trigger.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true, cancelable: true }),
+    );
     await el.updateComplete;
     expect(trigger.getAttribute("aria-activedescendant")).to.equal("loomi-color-1");
     expect(el.shadowRoot!.querySelectorAll(".loomi-chip.active")).to.have.lengthOf(1);
 
     // 5 colors in a 4-column grid: index 1 + 4 would overflow, so it clamps to the last chip (4).
-    trigger.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, cancelable: true }));
+    trigger.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, cancelable: true }),
+    );
     await el.updateComplete;
     expect(trigger.getAttribute("aria-activedescendant")).to.equal("loomi-color-4");
   });
 
   it("Enter chooses the highlighted chip and closes the panel", async () => {
-    const el = await fixture<LoomiColorpicker>(html`<loomi-colorpicker colors=${COLORS}></loomi-colorpicker>`);
+    const el = await fixture<LoomiColorpicker>(
+      html`<loomi-colorpicker colors=${COLORS}></loomi-colorpicker>`,
+    );
     const trigger = el.shadowRoot!.querySelector(".loomi-swatch") as HTMLButtonElement;
     trigger.click();
     await el.updateComplete;
 
-    trigger.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true, cancelable: true }));
+    trigger.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true, cancelable: true }),
+    );
     await el.updateComplete;
-    trigger.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }));
+    trigger.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }),
+    );
     await el.updateComplete;
 
     expect(trigger.getAttribute("aria-expanded")).to.equal("false");
@@ -58,7 +72,9 @@ describe("loomi-colorpicker", () => {
     trigger.click();
     await el.updateComplete;
 
-    trigger.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }));
+    trigger.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }),
+    );
     await el.updateComplete;
 
     expect(trigger.getAttribute("aria-expanded")).to.equal("false");

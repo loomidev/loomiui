@@ -68,7 +68,8 @@ export class LoomiArcMeter extends LoomiElement {
   }
 
   private get resolvedMarkerColor(): string {
-    const rawColor = String(this.markerColor || DEFAULT_MARKER_COLOR).trim() || DEFAULT_MARKER_COLOR;
+    const rawColor =
+      String(this.markerColor || DEFAULT_MARKER_COLOR).trim() || DEFAULT_MARKER_COLOR;
     const color = rawColor === "yellow" ? "warning" : rawColor;
     return isLoomiColor(color) ? cssColor(color, 600) : color;
   }

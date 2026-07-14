@@ -41,13 +41,20 @@ export class LoomiColorpicker extends LoomiElement {
   }
 
   private get palette(): string[] {
-    return this.colors ? this.colors.split(",").map((c) => c.trim()).filter(Boolean) : [];
+    return this.colors
+      ? this.colors
+          .split(",")
+          .map((c) => c.trim())
+          .filter(Boolean)
+      : [];
   }
 
   private setValue(v: string): void {
     this.selectedValue = v;
     this.internals.setFormValue(v);
-    this.dispatchEvent(new CustomEvent("change", { bubbles: true, composed: true, detail: { value: v } }));
+    this.dispatchEvent(
+      new CustomEvent("change", { bubbles: true, composed: true, detail: { value: v } }),
+    );
   }
 
   private toggle(): void {
@@ -59,7 +66,9 @@ export class LoomiColorpicker extends LoomiElement {
     if (this.open) return;
     this.open = true;
     const palette = this.palette;
-    const selectedIndex = palette.findIndex((c) => c.toLowerCase() === this.selectedValue.toLowerCase());
+    const selectedIndex = palette.findIndex(
+      (c) => c.toLowerCase() === this.selectedValue.toLowerCase(),
+    );
     this.activeIndex = selectedIndex >= 0 ? selectedIndex : palette.length ? 0 : -1;
     this.cleanup = onClickOutside(this, () => this.close());
   }
@@ -117,7 +126,10 @@ export class LoomiColorpicker extends LoomiElement {
         break;
       case "End":
         e.preventDefault();
-        this.activeIndex = Math.min(this.activeIndex - (this.activeIndex % GRID_COLUMNS) + GRID_COLUMNS - 1, palette.length - 1);
+        this.activeIndex = Math.min(
+          this.activeIndex - (this.activeIndex % GRID_COLUMNS) + GRID_COLUMNS - 1,
+          palette.length - 1,
+        );
         break;
       case "Enter":
       case " ":
@@ -132,7 +144,10 @@ export class LoomiColorpicker extends LoomiElement {
 
   override render(): TemplateResult {
     const palette = this.palette;
-    const activeId = this.open && this.activeIndex >= 0 && palette[this.activeIndex] ? `loomi-color-${this.activeIndex}` : nothing;
+    const activeId =
+      this.open && this.activeIndex >= 0 && palette[this.activeIndex]
+        ? `loomi-color-${this.activeIndex}`
+        : nothing;
     const swatch = palette.length
       ? html`<button
             class="loomi-swatch size-${this.size}"
@@ -144,8 +159,9 @@ export class LoomiColorpicker extends LoomiElement {
             @click=${() => this.toggle()}
             @keydown=${this.onTriggerKeydown}
           ></button>
-          ${this.open
-            ? html`<div class="loomi-panel" role="listbox">
+          ${
+            this.open
+              ? html`<div class="loomi-panel" role="listbox">
                 ${palette.map(
                   (c, i) => html`<button
                     id="loomi-color-${i}"
@@ -162,7 +178,8 @@ export class LoomiColorpicker extends LoomiElement {
                   ></button>`,
                 )}
               </div>`
-            : nothing}`
+              : nothing
+          }`
       : html`<input class="loomi-native size-${this.size}" type="color" name=${this.name || nothing} .value=${this.selectedValue} @input=${(e: Event) => this.setValue((e.target as HTMLInputElement).value)} />`;
 
     return html`<div class="loomi-cp">

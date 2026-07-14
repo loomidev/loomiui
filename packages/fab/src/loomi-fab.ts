@@ -1,6 +1,13 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, loomiT, accentVars, onClickOutside, type LoomiColor } from "@loomidev/core";
+import {
+  LoomiElement,
+  loomiStyles,
+  loomiT,
+  accentVars,
+  onClickOutside,
+  type LoomiColor,
+} from "@loomidev/core";
 import type { LoomiIconSource } from "@loomidev/icons";
 import "@loomidev/icon/loomi-icon.js";
 import type { LoomiTooltipPlacement } from "@loomidev/tooltip";
@@ -107,9 +114,11 @@ export class LoomiFabItem extends LoomiElement {
         @click=${this.onClick}
       >
         <span class="loomi-pill-icon" aria-hidden="true">
-          ${this.icon
-            ? html`<loomi-icon class="loomi-pill-icon-glyph" name=${this.icon} source=${this.effectiveIconSource}></loomi-icon>`
-            : nothing}
+          ${
+            this.icon
+              ? html`<loomi-icon class="loomi-pill-icon-glyph" name=${this.icon} source=${this.effectiveIconSource}></loomi-icon>`
+              : nothing
+          }
         </span>
         ${!iconOnly && this.label ? html`<span class="loomi-pill-label">${this.label}</span>` : nothing}
       </button>
@@ -273,7 +282,9 @@ export class LoomiFab extends LoomiElement {
   }
 
   private getItems(): LoomiFabItem[] {
-    return Array.from(this.children).filter((child): child is LoomiFabItem => child instanceof LoomiFabItem);
+    return Array.from(this.children).filter(
+      (child): child is LoomiFabItem => child instanceof LoomiFabItem,
+    );
   }
 
   private getEnabledItems(): LoomiFabItem[] {
@@ -301,7 +312,9 @@ export class LoomiFab extends LoomiElement {
 
   private onSlotChange = (event: Event): void => {
     const slot = event.target as HTMLSlotElement;
-    this.hasItems = slot.assignedElements({ flatten: true }).some((el) => el instanceof LoomiFabItem);
+    this.hasItems = slot
+      .assignedElements({ flatten: true })
+      .some((el) => el instanceof LoomiFabItem);
     this.syncItemDefaults();
   };
 

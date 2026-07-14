@@ -240,7 +240,7 @@
               "kind": "field",
               "name": "mentionData",
               "type": {
-                "text": "Record<string, LoomiMentionItem[]>"
+                "text": "Record<\n    string,\n    LoomiMentionItem[]\n  >"
               },
               "default": "{}",
               "description": "Items per trigger character, e.g. `{ \"@\": [{ label: \"Jane\" }] }`.",
@@ -642,7 +642,7 @@
             {
               "name": "mention-data",
               "type": {
-                "text": "Record<string, LoomiMentionItem[]>"
+                "text": "Record<\n    string,\n    LoomiMentionItem[]\n  >"
               },
               "default": "{}",
               "description": "Items per trigger character, e.g. `{ \"@\": [{ label: \"Jane\" }] }`.",

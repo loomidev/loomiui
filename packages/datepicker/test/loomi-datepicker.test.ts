@@ -31,12 +31,15 @@ describe("loomi-datepicker", () => {
 
     expect(styles.whiteSpace).to.equal("nowrap");
     expect(styles.textOverflow).to.equal("ellipsis");
-    expect(el.shadowRoot!.querySelector<HTMLElement>(".loomi-field")!.scrollHeight)
-      .to.equal(el.shadowRoot!.querySelector<HTMLElement>(".loomi-field")!.clientHeight);
+    expect(el.shadowRoot!.querySelector<HTMLElement>(".loomi-field")!.scrollHeight).to.equal(
+      el.shadowRoot!.querySelector<HTMLElement>(".loomi-field")!.clientHeight,
+    );
   });
 
   it("switches between month and year grids from the header", async () => {
-    const el = await fixture<LoomiDatepicker>(html`<loomi-datepicker selected-value="2026-06-22"></loomi-datepicker>`);
+    const el = await fixture<LoomiDatepicker>(
+      html`<loomi-datepicker selected-value="2026-06-22"></loomi-datepicker>`,
+    );
 
     el.shadowRoot!.querySelector<HTMLElement>(".loomi-field")!.click();
     await el.updateComplete;
@@ -85,7 +88,9 @@ describe("loomi-datepicker", () => {
   });
 
   it("renders the calendar inline without a triggering field when dp-style is inline", async () => {
-    const el = await fixture<LoomiDatepicker>(html`<loomi-datepicker dp-style="inline" selected-value="2026-06-22"></loomi-datepicker>`);
+    const el = await fixture<LoomiDatepicker>(
+      html`<loomi-datepicker dp-style="inline" selected-value="2026-06-22"></loomi-datepicker>`,
+    );
 
     expect(el.shadowRoot!.querySelector(".loomi-field")).to.not.exist;
     expect(el.shadowRoot!.querySelector(".loomi-cal.inline")).to.exist;
@@ -94,8 +99,9 @@ describe("loomi-datepicker", () => {
     const selectedDay = el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-day.selected")!;
     expect(selectedDay.textContent?.trim()).to.equal("22");
 
-    const day23 = Array.from(el.shadowRoot!.querySelectorAll<HTMLButtonElement>(".loomi-day"))
-      .find((button) => button.textContent?.trim() === "23")!;
+    const day23 = Array.from(el.shadowRoot!.querySelectorAll<HTMLButtonElement>(".loomi-day")).find(
+      (button) => button.textContent?.trim() === "23",
+    )!;
     day23.click();
     await el.updateComplete;
 

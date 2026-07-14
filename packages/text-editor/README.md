@@ -15,7 +15,6 @@ npm install @loomidev/text-editor lit
 import "@loomidev/text-editor";
 ```
 
-
 ## Basic Usage
 
 ```html
@@ -70,54 +69,54 @@ use the editor as a plain rich-text field.
 
 ## Individual Tools
 
-| Tool value | What it shows |
-| --- | --- |
-| `heading` | A block style picker with Body and H1-H6. |
-| `font-family` | Font family picker. |
-| `font-size` | Relative font size picker. |
-| `bold` | Bold text. |
-| `italic` | Italic text. `italics` is accepted as an alias. |
-| `underline` | Underlined text. |
-| `strikethrough` | Struck-through text. `strike` is accepted as an alias. |
-| `font-color` | Text color picker. `color`, `text-color`, and `font-colour` are accepted aliases. |
-| `highlight-color` | Highlight/background color picker. `highlight` and `highlight-colour` are accepted aliases. |
-| `bullet-list` | Dotted list. `bullets`, `dots`, and `unordered-list` are accepted aliases. |
-| `ordered-list` | Numbered list. `numbers` and `numbered-list` are accepted aliases. |
-| `align-left` | Left alignment. |
-| `align-center` | Center alignment. `centre` and `align-centre` are accepted aliases. |
-| `align-right` | Right alignment. |
-| `align-justify` | Justified alignment. |
-| `inline-code` | Inline code formatting. |
-| `superscript` | Superscript text. |
-| `subscript` | Subscript text. |
-| `blockquote` | Blockquote formatting. |
-| `code-block` | Preformatted code block. |
-| `link` | Opens a Loomi modal with URL and display text inputs. |
-| `image` | Opens a Loomi modal with URL, alt text, and a `loomi-filepicker` image option. |
-| `video` | Opens a Loomi modal with URL and a `loomi-filepicker` video option. YouTube and Vimeo URLs are normalized to embed URLs. |
-| `ai` | Shows an AI generate button and dispatches `loomi-ai-generate` for your app to handle. `generate` and `ai-generate` are accepted aliases. |
+| Tool value        | What it shows                                                                                                                             |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `heading`         | A block style picker with Body and H1-H6.                                                                                                 |
+| `font-family`     | Font family picker.                                                                                                                       |
+| `font-size`       | Relative font size picker.                                                                                                                |
+| `bold`            | Bold text.                                                                                                                                |
+| `italic`          | Italic text. `italics` is accepted as an alias.                                                                                           |
+| `underline`       | Underlined text.                                                                                                                          |
+| `strikethrough`   | Struck-through text. `strike` is accepted as an alias.                                                                                    |
+| `font-color`      | Text color picker. `color`, `text-color`, and `font-colour` are accepted aliases.                                                         |
+| `highlight-color` | Highlight/background color picker. `highlight` and `highlight-colour` are accepted aliases.                                               |
+| `bullet-list`     | Dotted list. `bullets`, `dots`, and `unordered-list` are accepted aliases.                                                                |
+| `ordered-list`    | Numbered list. `numbers` and `numbered-list` are accepted aliases.                                                                        |
+| `align-left`      | Left alignment.                                                                                                                           |
+| `align-center`    | Center alignment. `centre` and `align-centre` are accepted aliases.                                                                       |
+| `align-right`     | Right alignment.                                                                                                                          |
+| `align-justify`   | Justified alignment.                                                                                                                      |
+| `inline-code`     | Inline code formatting.                                                                                                                   |
+| `superscript`     | Superscript text.                                                                                                                         |
+| `subscript`       | Subscript text.                                                                                                                           |
+| `blockquote`      | Blockquote formatting.                                                                                                                    |
+| `code-block`      | Preformatted code block.                                                                                                                  |
+| `link`            | Opens a Loomi modal with URL and display text inputs.                                                                                     |
+| `image`           | Opens a Loomi modal with URL, alt text, and a `loomi-filepicker` image option.                                                            |
+| `video`           | Opens a Loomi modal with URL and a `loomi-filepicker` video option. YouTube and Vimeo URLs are normalized to embed URLs.                  |
+| `ai`              | Shows an AI generate button and dispatches `loomi-ai-generate` for your app to handle. `generate` and `ai-generate` are accepted aliases. |
 
 ## Tool Groups
 
 Groups let you keep templates readable.
 
-| Group | Expands to |
-| --- | --- |
-| `default` | `basic`, `heading`, `lists`, `align`, `embed` |
-| `basic` | `bold`, `italic`, `underline`, `strikethrough` |
-| `marks` | `basic`, `inline-code`, `superscript`, `subscript` |
-| `colors` | `font-color`, `highlight-color` |
-| `font` | `font-family`, `font-size` |
+| Group        | Expands to                                                             |
+| ------------ | ---------------------------------------------------------------------- |
+| `default`    | `basic`, `heading`, `lists`, `align`, `embed`                          |
+| `basic`      | `bold`, `italic`, `underline`, `strikethrough`                         |
+| `marks`      | `basic`, `inline-code`, `superscript`, `subscript`                     |
+| `colors`     | `font-color`, `highlight-color`                                        |
+| `font`       | `font-family`, `font-size`                                             |
 | `typography` | `heading`, `font-family`, `font-size`, `font-color`, `highlight-color` |
-| `lists` | `bullet-list`, `ordered-list` |
-| `align` | `align-left`, `align-center`, `align-right`, `align-justify` |
-| `script` | `superscript`, `subscript` |
-| `code` | `inline-code`, `code-block` |
-| `blocks` | `blockquote`, `code-block` |
-| `embed` | `link`, `image`, `video` |
-| `media` | `image`, `video` |
-| `all` | Everything listed above, including `ai` |
-| `none` | No toolbar |
+| `lists`      | `bullet-list`, `ordered-list`                                          |
+| `align`      | `align-left`, `align-center`, `align-right`, `align-justify`           |
+| `script`     | `superscript`, `subscript`                                             |
+| `code`       | `inline-code`, `code-block`                                            |
+| `blocks`     | `blockquote`, `code-block`                                             |
+| `embed`      | `link`, `image`, `video`                                               |
+| `media`      | `image`, `video`                                                       |
+| `all`        | Everything listed above, including `ai`                                |
+| `none`       | No toolbar                                                             |
 
 You can mix groups and individual values:
 
@@ -316,10 +315,10 @@ editor.addEventListener("loomi-ai-generate", async (event) => {
 
 ### Event detail
 
-| Detail | Description |
-| --- | --- |
-| `html` | The editor's current HTML value. Use this for full-document prompts such as summarize, expand, or rewrite. |
-| `selection` | The plain-text selection at click time, if any. Empty when the caret is collapsed or nothing is selected. |
+| Detail         | Description                                                                                                                                                                           |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `html`         | The editor's current HTML value. Use this for full-document prompts such as summarize, expand, or rewrite.                                                                            |
+| `selection`    | The plain-text selection at click time, if any. Empty when the caret is collapsed or nothing is selected.                                                                             |
 | `insert(html)` | Helper that restores the saved selection and inserts generated HTML at that point. If the user had text selected, replace or wrap that range in your handler before calling `insert`. |
 
 ### Selection behavior
@@ -372,21 +371,21 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes and Properties
 
-| Attribute / property | Default | Description |
-| --- | --- | --- |
-| `name` | _(blank)_ | Submitted with the nearest form. |
-| `label` | _(blank)_ | Label above the editor. |
-| `placeholder` | _(blank)_ | Placeholder text shown when the editor is empty. |
-| `value` | _(blank)_ | Current value as HTML. |
-| `tools` | `default` | Comma-separated string attribute, or string array property. |
-| `rows` | `3` | Minimum height in text rows. |
-| `required` | `false` | Marks the editor required. |
-| `disabled` | `false` | Disables editing and toolbar controls. |
-| `readonly` | `false` | Makes content readable but not editable. |
-| `error-message` | _(blank)_ | Message used when validation fails. |
-| `show-error-inline` | `false` | Shows `error-message` under the field. |
-| `no-clearing` | `false` | Removes the default bottom margin. |
-| `variant` | `default` | `default` \| `minimal` (bottom border only, no box) |
+| Attribute / property | Default   | Description                                                 |
+| -------------------- | --------- | ----------------------------------------------------------- |
+| `name`               | _(blank)_ | Submitted with the nearest form.                            |
+| `label`              | _(blank)_ | Label above the editor.                                     |
+| `placeholder`        | _(blank)_ | Placeholder text shown when the editor is empty.            |
+| `value`              | _(blank)_ | Current value as HTML.                                      |
+| `tools`              | `default` | Comma-separated string attribute, or string array property. |
+| `rows`               | `3`       | Minimum height in text rows.                                |
+| `required`           | `false`   | Marks the editor required.                                  |
+| `disabled`           | `false`   | Disables editing and toolbar controls.                      |
+| `readonly`           | `false`   | Makes content readable but not editable.                    |
+| `error-message`      | _(blank)_ | Message used when validation fails.                         |
+| `show-error-inline`  | `false`   | Shows `error-message` under the field.                      |
+| `no-clearing`        | `false`   | Removes the default bottom margin.                          |
+| `variant`            | `default` | `default` \| `minimal` (bottom border only, no box)         |
 
 **Methods:** `focus()`, `validate()`, `checkValidity()`, `reportValidity()`.
 

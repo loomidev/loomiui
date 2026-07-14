@@ -13,7 +13,6 @@ npm install @loomidev/tab lit
 import "@loomidev/tab";
 ```
 
-
 ## Basic Usage
 
 Wrap any number of `<loomi-tab>` elements in a `<loomi-tabs>`. The tab marked `active`
@@ -191,32 +190,30 @@ loomi-tabs is designed to fit the layout you place it in. It uses fluid widths, 
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-tabs uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
 
 Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
 
-
 ## Attributes
 
 ### `<loomi-tabs>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `color` | primary | Active-tab color. Any loomi color. |
-| `tab-style` | simple | `simple` \| `system` \| `pills` |
+| Attribute   | Default | Description                        |
+| ----------- | ------- | ---------------------------------- |
+| `color`     | primary | Active-tab color. Any loomi color. |
+| `tab-style` | simple  | `simple` \| `system` \| `pills`    |
 
 ### `<loomi-tab>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `label` | _(blank)_ | Heading text. |
-| `icon` | _(blank)_ | Heading icon name (see [`@loomidev/icons`](../icons)). |
-| `active` | `false` | Selected by default. _(boolean)_ |
-| `disabled` | `false` | Disabled tab — faded out, ignores clicks and keyboard focus. _(boolean)_ |
-| `url` | _(blank)_ | Navigate to this URL instead of switching panels. |
+| Attribute  | Default   | Description                                                              |
+| ---------- | --------- | ------------------------------------------------------------------------ |
+| `label`    | _(blank)_ | Heading text.                                                            |
+| `icon`     | _(blank)_ | Heading icon name (see [`@loomidev/icons`](../icons)).                   |
+| `active`   | `false`   | Selected by default. _(boolean)_                                         |
+| `disabled` | `false`   | Disabled tab — faded out, ignores clicks and keyboard focus. _(boolean)_ |
+| `url`      | _(blank)_ | Navigate to this URL instead of switching panels.                        |
 
 **Event:** `loomi-tab-change` (`detail: { label }`), fired on `<loomi-tabs>` when the active
 tab changes by click or keyboard.

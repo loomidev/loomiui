@@ -22,6 +22,7 @@ Instead, report it privately using one of these methods:
    `npm view @loomidev/core`).
 
 When reporting, please include:
+
 - The affected package(s) and version(s).
 - A description of the vulnerability and its potential impact.
 - Steps to reproduce, or a minimal repro if possible.

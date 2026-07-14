@@ -12,7 +12,6 @@ npm install @loomidev/contact-card lit
 import "@loomidev/contact-card";
 ```
 
-
 ## Basic Usage
 
 A default avatar placeholder is used when `image` isn't set.
@@ -92,7 +91,6 @@ loomi-contact-card is designed to fit the layout you place it in. It uses fluid 
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-contact-card uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -103,19 +101,19 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `name` | _(blank)_ | Contact name (initials avatar when no image). |
-| `position` | _(blank)_ | Job title, shown under the name. |
-| `department` | _(blank)_ | Department, shown under the name. |
-| `image` | _(blank)_ | Avatar image URL. |
-| `email` | _(blank)_ | Email address row, shown with an icon. |
-| `mobile` | _(blank)_ | Phone number row, shown with an icon. |
-| `birthday` | _(blank)_ | Birthday row, shown with an icon. |
-| `centered` | `false` | Vertically center the layout. _(boolean)_ |
-| `has-shadow` | `true` | Show a drop shadow. _(boolean)_ |
-| `has-hover` | `false` | Lift the card on hover. _(boolean)_ |
-| `url` | _(blank)_ | Navigate on click. |
+| Attribute    | Default   | Description                                   |
+| ------------ | --------- | --------------------------------------------- |
+| `name`       | _(blank)_ | Contact name (initials avatar when no image). |
+| `position`   | _(blank)_ | Job title, shown under the name.              |
+| `department` | _(blank)_ | Department, shown under the name.             |
+| `image`      | _(blank)_ | Avatar image URL.                             |
+| `email`      | _(blank)_ | Email address row, shown with an icon.        |
+| `mobile`     | _(blank)_ | Phone number row, shown with an icon.         |
+| `birthday`   | _(blank)_ | Birthday row, shown with an icon.             |
+| `centered`   | `false`   | Vertically center the layout. _(boolean)_     |
+| `has-shadow` | `true`    | Show a drop shadow. _(boolean)_               |
+| `has-hover`  | `false`   | Lift the card on hover. _(boolean)_           |
+| `url`        | _(blank)_ | Navigate on click.                            |
 
 **Slot:** default (extra content below the details).
 

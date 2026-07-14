@@ -21,7 +21,7 @@ export interface RowGroupingModuleOptions<TRecord extends DataGridRecord = DataG
  * ```
  */
 export function rowGroupingModule<TRecord extends DataGridRecord = DataGridRecord>(
-  options: RowGroupingModuleOptions<TRecord>
+  options: RowGroupingModuleOptions<TRecord>,
 ): GridModule<TRecord> {
   const expandedGroups = new Set<string>();
   let initialized = false;
@@ -61,7 +61,7 @@ export function rowGroupingModule<TRecord extends DataGridRecord = DataGridRecor
         for (const [columnKey, aggregate] of Object.entries(options.aggregates ?? {})) {
           aggregates[columnKey] = aggregateValues(
             groupRows.map((row) => row[columnKey]),
-            aggregate as DataGridAggregate
+            aggregate as DataGridAggregate,
           );
         }
 
@@ -73,7 +73,7 @@ export function rowGroupingModule<TRecord extends DataGridRecord = DataGridRecor
           aggregates,
           expanded,
           hasChildren: true,
-          depth: 0
+          depth: 0,
         });
 
         shaped.push(groupHeader);
@@ -103,6 +103,6 @@ export function rowGroupingModule<TRecord extends DataGridRecord = DataGridRecor
         expandedGroups.delete(meta.groupKey);
       }
       ctx.requestUpdate();
-    }
+    },
   });
 }

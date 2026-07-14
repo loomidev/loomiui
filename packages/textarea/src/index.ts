@@ -1,1 +1,6 @@
-export { LoomiTextarea, type LoomiMentionItem, type LoomiTextareaMentionSearchDetail, type LoomiTextareaMentionSelectDetail } from "./loomi-textarea.js";
+export {
+  LoomiTextarea,
+  type LoomiMentionItem,
+  type LoomiTextareaMentionSearchDetail,
+  type LoomiTextareaMentionSelectDetail,
+} from "./loomi-textarea.js";

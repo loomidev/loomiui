@@ -1,6 +1,12 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, accentVars, watchDarkMode, type LoomiColor } from "@loomidev/core";
+import {
+  LoomiElement,
+  loomiStyles,
+  accentVars,
+  watchDarkMode,
+  type LoomiColor,
+} from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -82,7 +88,11 @@ export class LoomiTabs extends LoomiElement {
     for (const t of this.tabs) t.active = t === tab;
     this.requestUpdate();
     this.dispatchEvent(
-      new CustomEvent("loomi-tab-change", { bubbles: true, composed: true, detail: { label: tab.label } }),
+      new CustomEvent("loomi-tab-change", {
+        bubbles: true,
+        composed: true,
+        detail: { label: tab.label },
+      }),
     );
   }
 
@@ -97,7 +107,8 @@ export class LoomiTabs extends LoomiElement {
 
   private syncIndicator(): void {
     const headings = this.shadowRoot?.querySelector<HTMLElement>(".loomi-headings");
-    const activeButton = this.shadowRoot?.querySelectorAll<HTMLButtonElement>(".loomi-head")[this.activeTabIndex];
+    const activeButton =
+      this.shadowRoot?.querySelectorAll<HTMLButtonElement>(".loomi-head")[this.activeTabIndex];
     if (!headings || !activeButton) {
       headings?.style.setProperty("--loomi-tab-indicator-opacity", "0");
       return;
@@ -105,9 +116,15 @@ export class LoomiTabs extends LoomiElement {
 
     const headingsRect = headings.getBoundingClientRect();
     const buttonRect = activeButton.getBoundingClientRect();
-    headings.style.setProperty("--loomi-tab-indicator-x", `${buttonRect.left - headingsRect.left}px`);
+    headings.style.setProperty(
+      "--loomi-tab-indicator-x",
+      `${buttonRect.left - headingsRect.left}px`,
+    );
     headings.style.setProperty("--loomi-tab-indicator-y", `${buttonRect.top - headingsRect.top}px`);
-    headings.style.setProperty("--loomi-tab-indicator-line-y", `${buttonRect.bottom - headingsRect.top - 2}px`);
+    headings.style.setProperty(
+      "--loomi-tab-indicator-line-y",
+      `${buttonRect.bottom - headingsRect.top - 2}px`,
+    );
     headings.style.setProperty("--loomi-tab-indicator-width", `${buttonRect.width}px`);
     headings.style.setProperty("--loomi-tab-indicator-height", `${buttonRect.height}px`);
     headings.style.setProperty("--loomi-tab-indicator-opacity", "1");
@@ -133,7 +150,9 @@ export class LoomiTabs extends LoomiElement {
 
   override updated(changed: PropertyValues<this>): void {
     if (changed.has("tabStyle") || changed.has("color")) {
-      this.shadowRoot?.querySelector<HTMLElement>(".loomi-headings")?.classList.remove("indicator-ready");
+      this.shadowRoot
+        ?.querySelector<HTMLElement>(".loomi-headings")
+        ?.classList.remove("indicator-ready");
     }
     this.observeIndicatorTargets();
     this.scheduleIndicatorSync();
@@ -206,9 +225,11 @@ export class LoomiTabs extends LoomiElement {
             ?disabled=${tab.disabled}
             @click=${() => this.activate(tab)}
           >
-            ${tab.icon && getLoomiIcon(tab.icon)
-              ? html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${getLoomiIcon(tab.icon)}</svg>`
-              : nothing}
+            ${
+              tab.icon && getLoomiIcon(tab.icon)
+                ? html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${getLoomiIcon(tab.icon)}</svg>`
+                : nothing
+            }
             <span>${tab.label}</span>
           </button>`,
         )}

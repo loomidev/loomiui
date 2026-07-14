@@ -11,7 +11,6 @@ npm install @loomidev/drawer lit
 import "@loomidev/drawer";
 ```
 
-
 ## Default Drawer
 
 Drawers are usually triggered by an action — a button click, say. Every LoomiUI drawer is
@@ -117,12 +116,12 @@ rather than a true overlay.
 Every part of the slide animation is overridable through CSS custom properties — no
 rebuild required:
 
-| Property | Default |
-| --- | --- |
-| `--loomi-drawer-duration` | `0.3s` |
-| `--loomi-drawer-easing` | `cubic-bezier(0.32, 0.72, 0, 1)` |
-| `--loomi-drawer-enter-animation` | `loomi-drawer-in-<placement>` |
-| `--loomi-drawer-exit-animation` | `loomi-drawer-out-<placement>` |
+| Property                         | Default                          |
+| -------------------------------- | -------------------------------- |
+| `--loomi-drawer-duration`        | `0.3s`                           |
+| `--loomi-drawer-easing`          | `cubic-bezier(0.32, 0.72, 0, 1)` |
+| `--loomi-drawer-enter-animation` | `loomi-drawer-in-<placement>`    |
+| `--loomi-drawer-exit-animation`  | `loomi-drawer-out-<placement>`   |
 
 Override the timing globally:
 
@@ -158,13 +157,11 @@ loomi-drawer is built on semantic markup where the browser gives us the right be
 
 When the component displays status, progress, validation, or temporary feedback, pair it with clear labels or nearby text in your app so assistive technology users get the same context a sighted user gets from the visual treatment.
 
-
 ## Responsive behavior
 
 loomi-drawer is designed to fit the layout you place it in. It uses fluid widths, `min-width: 0`, wrapping, truncation, or stacked layouts where that keeps the component usable in cards, forms, sidebars, and mobile screens.
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
-
 
 ## Dark mode
 
@@ -172,21 +169,20 @@ loomi-drawer uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surf
 
 Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
 
-
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `name` | _(blank)_ | Unique name for `showLoomiDrawer()` / `hideLoomiDrawer()`. |
-| `title` | _(blank)_ | Header text. |
-| `placement` | `right` | `left` \| `right` \| `top` \| `bottom` |
-| `size` | `medium` | `small` \| `medium` \| `large` |
-| `open` | `false` | Open state (reflected). _(boolean)_ |
-| `show-close-icon` | `true` | Show the header close (X) button. _(boolean)_ |
-| `backdrop` | `true` | Dim the page behind the drawer and block interaction with it. _(boolean)_ |
-| `close-on-outside-click` | `true` | Clicking outside the panel closes it. _(boolean)_ |
-| `prevent-scroll` | `true` | Prevent document scrolling while open. _(boolean)_ |
-| `locale` | _(blank)_ | Locale override for built-in aria labels. |
+| Attribute                | Default   | Description                                                               |
+| ------------------------ | --------- | ------------------------------------------------------------------------- |
+| `name`                   | _(blank)_ | Unique name for `showLoomiDrawer()` / `hideLoomiDrawer()`.                |
+| `title`                  | _(blank)_ | Header text.                                                              |
+| `placement`              | `right`   | `left` \| `right` \| `top` \| `bottom`                                    |
+| `size`                   | `medium`  | `small` \| `medium` \| `large`                                            |
+| `open`                   | `false`   | Open state (reflected). _(boolean)_                                       |
+| `show-close-icon`        | `true`    | Show the header close (X) button. _(boolean)_                             |
+| `backdrop`               | `true`    | Dim the page behind the drawer and block interaction with it. _(boolean)_ |
+| `close-on-outside-click` | `true`    | Clicking outside the panel closes it. _(boolean)_                         |
+| `prevent-scroll`         | `true`    | Prevent document scrolling while open. _(boolean)_                        |
+| `locale`                 | _(blank)_ | Locale override for built-in aria labels.                                 |
 
 Boolean attributes can be omitted, present, or set to `"false"` in HTML, for example
 `backdrop="false"` or `show-close-icon`.

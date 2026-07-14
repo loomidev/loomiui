@@ -31,7 +31,7 @@ export interface ExportModuleOptions {
  * ```
  */
 export function exportModule<TRecord extends DataGridRecord = DataGridRecord>(
-  options: ExportModuleOptions = {}
+  options: ExportModuleOptions = {},
 ): GridModule<TRecord> {
   const formats = options.formats ?? ["csv", "json"];
   const filename = options.filename ?? "export";
@@ -40,7 +40,9 @@ export function exportModule<TRecord extends DataGridRecord = DataGridRecord>(
     name: "export",
 
     renderToolbarEnd(ctx) {
-      const dataRows = ctx.rows.filter((row) => getRowMeta(row) == null || getRowMeta(row)?.type === "data");
+      const dataRows = ctx.rows.filter(
+        (row) => getRowMeta(row) == null || getRowMeta(row)?.type === "data",
+      );
       const selectedOnly = (options.preferSelection ?? true) && ctx.grid.selectedKeys.length > 0;
       const rowsToExport = selectedOnly
         ? dataRows.filter((row) => ctx.grid.selectedKeys.includes(ctx.getRowKey(row)))
@@ -51,13 +53,17 @@ export function exportModule<TRecord extends DataGridRecord = DataGridRecord>(
         if (format === "csv") {
           downloadTextFile(`${filename}.csv`, rowsToCsv(rowsToExport, columns), "text/csv");
         } else if (format === "json") {
-          downloadTextFile(`${filename}.json`, JSON.stringify(rowsToExport, null, 2), "application/json");
+          downloadTextFile(
+            `${filename}.json`,
+            JSON.stringify(rowsToExport, null, 2),
+            "application/json",
+          );
         }
         ctx.dispatch<DataGridExportRequestDetail<TRecord>>("loomi-export-request", {
           format,
           rows: rowsToExport,
           columns,
-          selectedOnly
+          selectedOnly,
         });
       };
 
@@ -65,9 +71,9 @@ export function exportModule<TRecord extends DataGridRecord = DataGridRecord>(
         ${formats.map(
           (format) => html`
             <button type="button" @click=${() => runExport(format)}>Export ${format.toUpperCase()}</button>
-          `
+          `,
         )}
       `;
-    }
+    },
   });
 }

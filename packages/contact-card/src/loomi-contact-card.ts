@@ -31,7 +31,11 @@ export class LoomiContactCard extends LoomiElement {
   @property() url = "";
 
   private initials(): string {
-    return this.name.split(/\s+/).map((w) => w[0]).slice(0, 2).join("");
+    return this.name
+      .split(/\s+/)
+      .map((w) => w[0])
+      .slice(0, 2)
+      .join("");
   }
 
   private onClick = (): void => {
@@ -53,14 +57,18 @@ export class LoomiContactCard extends LoomiElement {
     return html`<loomi-card size="sm" .url=${this.url} ?has-hover=${this.hasHover}>
       <loomi-card-content>
         <div class=${cls} @click=${this.url ? this.onClick : nothing}>
-          ${this.image
-            ? html`<img class="loomi-avatar" src=${this.image} alt=${this.name} />`
-            : html`<span class="loomi-avatar">${this.initials()}</span>`}
+          ${
+            this.image
+              ? html`<img class="loomi-avatar" src=${this.image} alt=${this.name} />`
+              : html`<span class="loomi-avatar">${this.initials()}</span>`
+          }
           <div class="loomi-body">
             <div class="loomi-name">${this.name}</div>
-            ${this.position || this.department
-              ? html`<div class="loomi-position">${[this.position, this.department].filter(Boolean).join(" · ")}</div>`
-              : nothing}
+            ${
+              this.position || this.department
+                ? html`<div class="loomi-position">${[this.position, this.department].filter(Boolean).join(" · ")}</div>`
+                : nothing
+            }
             ${this.email ? html`<div class="loomi-row">${icon("envelope")}<a href="mailto:${this.email}">${this.email}</a></div>` : nothing}
             ${this.mobile ? html`<div class="loomi-row">${icon("phone")}<a href="tel:${this.mobile}">${this.mobile}</a></div>` : nothing}
             ${this.birthday ? html`<div class="loomi-row">${icon("cake")}<span>${this.birthday}</span></div>` : nothing}

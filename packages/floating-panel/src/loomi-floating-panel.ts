@@ -150,9 +150,17 @@ export class LoomiFloatingPanel extends LoomiElement {
   protected override updated(changed: PropertyValues<this>): void {
     super.updated(changed);
     if (changed.has("title") || changed.has("locale")) {
-      this.setAttribute("aria-label", this.title || loomiT("floatingPanel.dialog", {}, this.locale));
+      this.setAttribute(
+        "aria-label",
+        this.title || loomiT("floatingPanel.dialog", {}, this.locale),
+      );
     }
-    if (changed.has("top") || changed.has("left") || changed.has("width") || changed.has("height")) {
+    if (
+      changed.has("top") ||
+      changed.has("left") ||
+      changed.has("width") ||
+      changed.has("height")
+    ) {
       this.syncPosition();
     }
   }
@@ -195,7 +203,9 @@ export class LoomiFloatingPanel extends LoomiElement {
     if (!this.originalParent) return;
 
     const nextSibling =
-      this.originalNextSibling?.parentNode === this.originalParent ? this.originalNextSibling : null;
+      this.originalNextSibling?.parentNode === this.originalParent
+        ? this.originalNextSibling
+        : null;
 
     if (this.originalParent.isConnected) {
       this.originalParent.insertBefore(this, nextSibling);
@@ -217,7 +227,11 @@ export class LoomiFloatingPanel extends LoomiElement {
       if (!raw) return null;
       const parsed = JSON.parse(raw) as Partial<Rect>;
       const { top, left, width, height } = parsed;
-      if ([top, left, width, height].every((value) => typeof value === "number" && Number.isFinite(value))) {
+      if (
+        [top, left, width, height].every(
+          (value) => typeof value === "number" && Number.isFinite(value),
+        )
+      ) {
         return { top, left, width, height } as Rect;
       }
     } catch {
@@ -269,7 +283,11 @@ export class LoomiFloatingPanel extends LoomiElement {
     if (this.maximized) this.maximized = false;
     this.minimized = !this.minimized;
     this.dispatchEvent(
-      new CustomEvent("loomi-minimize", { detail: { minimized: this.minimized }, bubbles: true, composed: true }),
+      new CustomEvent("loomi-minimize", {
+        detail: { minimized: this.minimized },
+        bubbles: true,
+        composed: true,
+      }),
     );
   };
 
@@ -278,7 +296,11 @@ export class LoomiFloatingPanel extends LoomiElement {
     if (this.minimized) this.minimized = false;
     this.maximized = !this.maximized;
     this.dispatchEvent(
-      new CustomEvent("loomi-maximize", { detail: { maximized: this.maximized }, bubbles: true, composed: true }),
+      new CustomEvent("loomi-maximize", {
+        detail: { maximized: this.maximized },
+        bubbles: true,
+        composed: true,
+      }),
     );
   };
 
@@ -288,7 +310,8 @@ export class LoomiFloatingPanel extends LoomiElement {
   };
 
   private onHeaderPointerDown = (e: PointerEvent): void => {
-    if (this.dragHandle && !(e.currentTarget as HTMLElement).classList.contains("loomi-grip")) return;
+    if (this.dragHandle && !(e.currentTarget as HTMLElement).classList.contains("loomi-grip"))
+      return;
     if (this.noDrag || this.maximized || e.button !== 0) return;
     if ((e.target as HTMLElement | null)?.closest(".loomi-header-btn")) return;
     e.preventDefault();
@@ -332,17 +355,27 @@ export class LoomiFloatingPanel extends LoomiElement {
   };
 
   private onHeaderKeyDown = (e: KeyboardEvent): void => {
-    if (this.dragHandle && !(e.currentTarget as HTMLElement).classList.contains("loomi-grip")) return;
+    if (this.dragHandle && !(e.currentTarget as HTMLElement).classList.contains("loomi-grip"))
+      return;
     if (this.noDrag || this.maximized) return;
     const step = e.shiftKey ? 10 : 1;
     let dx = 0;
     let dy = 0;
     switch (e.key) {
-      case "ArrowLeft": dx = -step; break;
-      case "ArrowRight": dx = step; break;
-      case "ArrowUp": dy = -step; break;
-      case "ArrowDown": dy = step; break;
-      default: return;
+      case "ArrowLeft":
+        dx = -step;
+        break;
+      case "ArrowRight":
+        dx = step;
+        break;
+      case "ArrowUp":
+        dy = -step;
+        break;
+      case "ArrowDown":
+        dy = step;
+        break;
+      default:
+        return;
     }
     e.preventDefault();
     const start = this.getBoundingClientRect();
@@ -355,16 +388,22 @@ export class LoomiFloatingPanel extends LoomiElement {
     this.rect = { top, left, width: start.width, height: start.height };
     this.syncPosition();
     this.persistRect();
-    this.dispatchEvent(new CustomEvent("loomi-drag", { detail: { top, left }, bubbles: true, composed: true }));
+    this.dispatchEvent(
+      new CustomEvent("loomi-drag", { detail: { top, left }, bubbles: true, composed: true }),
+    );
   };
 
   /** Resizes from `start` by pointer/keyboard delta `(dx, dy)`, re-anchoring the edge opposite the drag direction so it doesn't move once width/height clamp. */
   private computeResizedRect(dir: ResizeDir, start: Rect, dx: number, dy: number): Rect {
     let { top, left, width, height } = start;
     if (dir.includes("e")) width = start.width + dx;
-    if (dir.includes("w")) { width = start.width - dx; }
+    if (dir.includes("w")) {
+      width = start.width - dx;
+    }
     if (dir.includes("s")) height = start.height + dy;
-    if (dir.includes("n")) { height = start.height - dy; }
+    if (dir.includes("n")) {
+      height = start.height - dy;
+    }
 
     width = clamp(width, this.minWidth, this.maxWidth);
     height = clamp(height, this.minHeight, this.maxHeight);
@@ -394,7 +433,12 @@ export class LoomiFloatingPanel extends LoomiElement {
     this.classList.add("is-resizing");
 
     const onMove = (moveEvent: PointerEvent): void => {
-      this.rect = this.computeResizedRect(dir, start, moveEvent.clientX - startX, moveEvent.clientY - startY);
+      this.rect = this.computeResizedRect(
+        dir,
+        start,
+        moveEvent.clientX - startX,
+        moveEvent.clientY - startY,
+      );
       this.syncPosition();
     };
     const onUp = (): void => {
@@ -404,7 +448,13 @@ export class LoomiFloatingPanel extends LoomiElement {
       this.classList.remove("is-resizing");
       this.persistRect();
       if (this.rect) {
-        this.dispatchEvent(new CustomEvent("loomi-resize", { detail: { ...this.rect }, bubbles: true, composed: true }));
+        this.dispatchEvent(
+          new CustomEvent("loomi-resize", {
+            detail: { ...this.rect },
+            bubbles: true,
+            composed: true,
+          }),
+        );
       }
     };
     handle.addEventListener("pointermove", onMove);
@@ -418,11 +468,20 @@ export class LoomiFloatingPanel extends LoomiElement {
     let dx = 0;
     let dy = 0;
     switch (e.key) {
-      case "ArrowLeft": dx = -step; break;
-      case "ArrowRight": dx = step; break;
-      case "ArrowUp": dy = -step; break;
-      case "ArrowDown": dy = step; break;
-      default: return;
+      case "ArrowLeft":
+        dx = -step;
+        break;
+      case "ArrowRight":
+        dx = step;
+        break;
+      case "ArrowUp":
+        dy = -step;
+        break;
+      case "ArrowDown":
+        dy = step;
+        break;
+      default:
+        return;
     }
     e.preventDefault();
     const rect = this.getBoundingClientRect();
@@ -430,15 +489,25 @@ export class LoomiFloatingPanel extends LoomiElement {
     this.rect = this.computeResizedRect(dir, start, dx, dy);
     this.syncPosition();
     this.persistRect();
-    this.dispatchEvent(new CustomEvent("loomi-resize", { detail: { ...this.rect }, bubbles: true, composed: true }));
+    this.dispatchEvent(
+      new CustomEvent("loomi-resize", { detail: { ...this.rect }, bubbles: true, composed: true }),
+    );
   };
 
   override render(): TemplateResult | typeof nothing {
     if (!this.open) return nothing;
     const moveLabel = loomiT("floatingPanel.move", {}, this.locale);
     const resizeLabel = loomiT("floatingPanel.resize", {}, this.locale);
-    const minimizeLabel = loomiT(this.minimized ? "floatingPanel.restore" : "floatingPanel.minimize", {}, this.locale);
-    const maximizeLabel = loomiT(this.maximized ? "floatingPanel.restore" : "floatingPanel.maximize", {}, this.locale);
+    const minimizeLabel = loomiT(
+      this.minimized ? "floatingPanel.restore" : "floatingPanel.minimize",
+      {},
+      this.locale,
+    );
+    const maximizeLabel = loomiT(
+      this.maximized ? "floatingPanel.restore" : "floatingPanel.maximize",
+      {},
+      this.locale,
+    );
     const grabLabel = this.title ? `${this.title} — ${moveLabel}` : moveLabel;
 
     return html`
@@ -450,8 +519,9 @@ export class LoomiFloatingPanel extends LoomiElement {
         @keydown=${this.onHeaderKeyDown}
         @dblclick=${this.onHeaderDoubleClick}
       >
-        ${this.dragHandle
-          ? html`<span
+        ${
+          this.dragHandle
+            ? html`<span
               class="loomi-grip"
               tabindex="0"
               role="button"
@@ -460,20 +530,24 @@ export class LoomiFloatingPanel extends LoomiElement {
               @keydown=${this.onHeaderKeyDown}
               >${GRIP}</span
             >`
-          : nothing}
+            : nothing
+        }
         <div class="loomi-title">${this.title}</div>
         <div class="loomi-header-actions">
-          ${this.minimize
-            ? html`<button
+          ${
+            this.minimize
+              ? html`<button
                 class="loomi-header-btn loomi-minimize"
                 aria-label=${minimizeLabel}
                 @click=${this.toggleMinimize}
               >
                 <loomi-icon name=${this.minimized ? "chevron-up" : "minus"} size="1.05rem" stroke-width="2"></loomi-icon>
               </button>`
-            : nothing}
-          ${this.maximize
-            ? html`<button
+              : nothing
+          }
+          ${
+            this.maximize
+              ? html`<button
                 class="loomi-header-btn loomi-maximize"
                 aria-label=${maximizeLabel}
                 @click=${this.toggleMaximize}
@@ -484,22 +558,26 @@ export class LoomiFloatingPanel extends LoomiElement {
                   stroke-width="2"
                 ></loomi-icon>
               </button>`
-            : nothing}
-          ${this.showCloseIcon
-            ? html`<button
+              : nothing
+          }
+          ${
+            this.showCloseIcon
+              ? html`<button
                 class="loomi-header-btn loomi-close"
                 aria-label=${loomiT("common.close", {}, this.locale)}
                 @click=${() => this.hide()}
               >
                 <loomi-icon name="x-mark" size="1.05rem" stroke-width="2"></loomi-icon>
               </button>`
-            : nothing}
+              : nothing
+          }
         </div>
       </div>
       <div class="loomi-body"><slot></slot></div>
-      ${this.resizable
-        ? RESIZE_DIRS.map(
-            (dir) => html`
+      ${
+        this.resizable
+          ? RESIZE_DIRS.map(
+              (dir) => html`
               <div
                 class="loomi-resize dir-${dir}"
                 tabindex="0"
@@ -510,8 +588,9 @@ export class LoomiFloatingPanel extends LoomiElement {
                 @keydown=${(e: KeyboardEvent) => this.onResizeKeyDown(dir, e)}
               ></div>
             `,
-          )
-        : nothing}
+            )
+          : nothing
+      }
     `;
   }
 }

@@ -15,7 +15,9 @@ describe("loomi-photo-gallery", () => {
   // container @open-wc/testing's fixtureCleanup() removes after each test — close any
   // lightbox left open so it doesn't leak into the next test's DOM.
   afterEach(() => {
-    document.querySelectorAll<LoomiPhotoGallery>("loomi-photo-gallery").forEach((gallery) => gallery.closeLightbox());
+    document
+      .querySelectorAll<LoomiPhotoGallery>("loomi-photo-gallery")
+      .forEach((gallery) => gallery.closeLightbox());
   });
 
   it("renders a grid tile per item and hides the items themselves", async () => {
@@ -38,7 +40,9 @@ describe("loomi-photo-gallery", () => {
     expect(detail.index).to.equal(1);
     expect(detail.src).to.equal("/b-full.jpg");
     expect(el.parentNode).to.equal(document.body);
-    expect(el.shadowRoot!.querySelector(".loomi-lightbox-img")?.getAttribute("src")).to.equal("/b-full.jpg");
+    expect(el.shadowRoot!.querySelector(".loomi-lightbox-img")?.getAttribute("src")).to.equal(
+      "/b-full.jpg",
+    );
   });
 
   it("closes on Escape and restores the gallery to its original position", async () => {
@@ -63,11 +67,15 @@ describe("loomi-photo-gallery", () => {
 
     el.nextPhoto();
     await el.updateComplete;
-    expect(el.shadowRoot!.querySelector(".loomi-lightbox-img")?.getAttribute("src")).to.equal("/a-full.jpg");
+    expect(el.shadowRoot!.querySelector(".loomi-lightbox-img")?.getAttribute("src")).to.equal(
+      "/a-full.jpg",
+    );
 
     el.prevPhoto();
     await el.updateComplete;
-    expect(el.shadowRoot!.querySelector(".loomi-lightbox-img")?.getAttribute("src")).to.equal("/c-full.jpg");
+    expect(el.shadowRoot!.querySelector(".loomi-lightbox-img")?.getAttribute("src")).to.equal(
+      "/c-full.jpg",
+    );
   });
 
   it("toggles favourite from the grid tile and fires loomi-favourite", async () => {
@@ -104,7 +112,8 @@ describe("loomi-photo-gallery", () => {
     const single = await fixture<LoomiPhotoGallery>(html`
       <loomi-photo-gallery><loomi-photo-gallery-item src="/x.jpg"></loomi-photo-gallery-item></loomi-photo-gallery>
     `);
-    expect(single.shadowRoot!.querySelector(".loomi-toolbar-btn.is-active, .loomi-albums")).to.not.exist;
+    expect(single.shadowRoot!.querySelector(".loomi-toolbar-btn.is-active, .loomi-albums")).to.not
+      .exist;
 
     const multi = await fixture<LoomiPhotoGallery>(THREE_PHOTOS);
     expect(multi.shadowRoot!.querySelector(".loomi-albums")).to.exist;
@@ -112,9 +121,9 @@ describe("loomi-photo-gallery", () => {
 
   it("filters the grid by the selected album", async () => {
     const el = await fixture<LoomiPhotoGallery>(THREE_PHOTOS);
-    const tripsButton = Array.from(el.shadowRoot!.querySelectorAll<HTMLButtonElement>(".loomi-album-btn")).find(
-      (btn) => btn.textContent?.includes("Trips"),
-    )!;
+    const tripsButton = Array.from(
+      el.shadowRoot!.querySelectorAll<HTMLButtonElement>(".loomi-album-btn"),
+    ).find((btn) => btn.textContent?.includes("Trips"))!;
 
     tripsButton.click();
     await el.updateComplete;
@@ -123,10 +132,12 @@ describe("loomi-photo-gallery", () => {
   });
 
   it("clamps thumb-size between the min and max on zoom", async () => {
-    const el = await fixture<LoomiPhotoGallery>(html`<loomi-photo-gallery thumb-size="300">${THREE_PHOTOS}</loomi-photo-gallery>`);
-    const zoomIn = Array.from(el.shadowRoot!.querySelectorAll<HTMLButtonElement>(".loomi-toolbar-btn")).find(
-      (btn) => btn.getAttribute("aria-label") === "Zoom in",
-    )!;
+    const el = await fixture<LoomiPhotoGallery>(
+      html`<loomi-photo-gallery thumb-size="300">${THREE_PHOTOS}</loomi-photo-gallery>`,
+    );
+    const zoomIn = Array.from(
+      el.shadowRoot!.querySelectorAll<HTMLButtonElement>(".loomi-toolbar-btn"),
+    ).find((btn) => btn.getAttribute("aria-label") === "Zoom in")!;
 
     zoomIn.click();
     await el.updateComplete;
@@ -152,7 +163,9 @@ describe("loomi-photo-gallery", () => {
   });
 
   it("starts and stops the slideshow", async () => {
-    const el = await fixture<LoomiPhotoGallery>(html`<loomi-photo-gallery slideshow-interval="20">${THREE_PHOTOS}</loomi-photo-gallery>`);
+    const el = await fixture<LoomiPhotoGallery>(
+      html`<loomi-photo-gallery slideshow-interval="20">${THREE_PHOTOS}</loomi-photo-gallery>`,
+    );
 
     const started = oneEvent(el, "loomi-slideshow-start");
     el.startSlideshow();

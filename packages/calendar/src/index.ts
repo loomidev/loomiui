@@ -17,5 +17,5 @@ export type {
   CalendarSlotSelectDetail,
   CalendarView,
   CalendarViewChangeDetail,
-  CalendarWeekStarts
+  CalendarWeekStarts,
 } from "./types.js";

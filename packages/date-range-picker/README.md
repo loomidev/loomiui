@@ -18,7 +18,6 @@ loomi-date-range-picker is designed to fit the layout you place it in. It uses f
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-date-range-picker uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -26,7 +25,6 @@ loomi-date-range-picker uses Loomi semantic tokens such as `--loomi-surface`, `-
 Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
 
 ## Installation
-
 
 ```sh
 npm install @loomidev/date-range-picker
@@ -39,13 +37,13 @@ import "@loomidev/date-range-picker";
 
 ```
 
-```
+````
 
 ## Basic Usage
 
 ```html
 <loomi-date-range-picker label="Reporting period"></loomi-date-range-picker>
-```
+````
 
 Set an initial range with attributes:
 
@@ -97,11 +95,11 @@ picker.addEventListener("loomi-date-range-apply", (event) => {
 
 ## Events
 
-| Event | Detail |
-| --- | --- |
-| `loomi-date-range-change` | `{ value, presetId }` |
-| `loomi-date-range-apply` | `{ value, presetId }` |
-| `loomi-date-range-open-change` | `{ open }` |
+| Event                          | Detail                |
+| ------------------------------ | --------------------- |
+| `loomi-date-range-change`      | `{ value, presetId }` |
+| `loomi-date-range-apply`       | `{ value, presetId }` |
+| `loomi-date-range-open-change` | `{ open }`            |
 
 ## Design Notes
 

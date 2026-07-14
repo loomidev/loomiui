@@ -18,7 +18,8 @@ const MIN_CROP_SIZE = 24;
 // applying — the crop box would silently lose its position/spotlight/cursor styling.
 const CROP_STAGE_STYLE =
   "position:relative;display:inline-block;line-height:0;max-width:100%;max-height:55vh;overflow:hidden;border-radius:0.4rem;";
-const CROP_IMG_STYLE = "display:block;max-width:100%;max-height:55vh;-webkit-user-drag:none;user-select:none;";
+const CROP_IMG_STYLE =
+  "display:block;max-width:100%;max-height:55vh;-webkit-user-drag:none;user-select:none;";
 const CROP_RECT_STYLE =
   "position:absolute;box-shadow:0 0 0 9999px rgba(15,23,42,.55);border:1px solid var(--loomi-surface-border);cursor:move;touch-action:none;";
 const CROP_HANDLE_STYLE =
@@ -52,7 +53,10 @@ const booleanAttribute = {
 };
 
 function parseSize(s: string): number {
-  const m = s.trim().toLowerCase().match(/^([\d.]+)\s*(kb|mb|gb)?$/);
+  const m = s
+    .trim()
+    .toLowerCase()
+    .match(/^([\d.]+)\s*(kb|mb|gb)?$/);
   if (!m) return Infinity;
   const n = parseFloat(m[1]);
   return n * { kb: 1024, mb: 1024 ** 2, gb: 1024 ** 3, "": 1 }[m[2] ?? ""]!;
@@ -97,7 +101,12 @@ export class LoomiFilepicker extends LoomiElement {
   private validationVisible = false;
   private cropResolve: ((file: File | null) => void) | null = null;
   private cropImgRef: HTMLImageElement | null = null;
-  private cropDrag: { mode: "move" | "resize"; startX: number; startY: number; rect: CropRect } | null = null;
+  private cropDrag: {
+    mode: "move" | "resize";
+    startX: number;
+    startY: number;
+    rect: CropRect;
+  } | null = null;
 
   @property({ reflect: true }) name = "";
   @property({ attribute: "accepted-file-types" }) acceptedFileTypes = "image/*,application/pdf";
@@ -106,7 +115,8 @@ export class LoomiFilepicker extends LoomiElement {
   @property() locale = "";
   @property({ type: Number, attribute: "max-files" }) maxFiles = 1;
   @property({ attribute: "max-file-size" }) maxFileSize = "5mb";
-  @property({ type: Boolean, attribute: "can-browse", converter: booleanAttribute }) canBrowse = true;
+  @property({ type: Boolean, attribute: "can-browse", converter: booleanAttribute }) canBrowse =
+    true;
   @property({ type: Boolean, attribute: "can-drop", converter: booleanAttribute }) canDrop = true;
   @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean, attribute: "show-image-preview", converter: booleanAttribute })
@@ -119,7 +129,8 @@ export class LoomiFilepicker extends LoomiElement {
   @property({ type: Number, attribute: "resize-width" }) resizeWidth = 0;
   @property({ type: Number, attribute: "resize-height" }) resizeHeight = 0;
   @property({ type: Boolean, reflect: true, converter: booleanAttribute }) transparent = false;
-  @property({ type: Boolean, attribute: "has-border", converter: booleanAttribute }) hasBorder = true;
+  @property({ type: Boolean, attribute: "has-border", converter: booleanAttribute }) hasBorder =
+    true;
   @property({ type: Boolean, reflect: true, converter: booleanAttribute }) stealth = false;
 
   @state() private files: File[] = [];
@@ -223,7 +234,9 @@ export class LoomiFilepicker extends LoomiElement {
     if (this.input) this.input.files = dt.files;
     this.syncFormValue();
     this.syncValidity();
-    this.dispatchEvent(new CustomEvent("change", { bubbles: true, composed: true, detail: { files: this.files } }));
+    this.dispatchEvent(
+      new CustomEvent("change", { bubbles: true, composed: true, detail: { files: this.files } }),
+    );
   }
 
   private async add(list: FileList | null): Promise<void> {
@@ -239,7 +252,8 @@ export class LoomiFilepicker extends LoomiElement {
             loomiT("filepicker.fileTooLargeTitle", {}, this.locale),
             loomiT("filepicker.fileTooLarge", { name: f.name, limit: human(limit) }, this.locale),
             "error",
-          ));
+          ),
+        );
         continue;
       }
       if (count >= this.maxFiles) break;
@@ -289,7 +303,9 @@ export class LoomiFilepicker extends LoomiElement {
       DEFAULT_PLACEHOLDER_LINE2,
       "filepicker.placeholderLine2",
       this.locale,
-    ).replace("%s", this.acceptedFileTypes).replace("%s", this.maxFileSize);
+    )
+      .replace("%s", this.acceptedFileTypes)
+      .replace("%s", this.maxFileSize);
   }
 
   private isImage(f: File): boolean {
@@ -440,7 +456,11 @@ export class LoomiFilepicker extends LoomiElement {
     ctx.drawImage(img, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
     const type = session.file.type || "image/png";
     const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, type));
-    this.finishCrop(blob ? new File([blob], session.file.name, { type: blob.type, lastModified: Date.now() }) : session.file);
+    this.finishCrop(
+      blob
+        ? new File([blob], session.file.name, { type: blob.type, lastModified: Date.now() })
+        : session.file,
+    );
     this.cropModalEl?.hide();
   }
 
@@ -508,8 +528,9 @@ export class LoomiFilepicker extends LoomiElement {
       @cancel=${() => this.cancelCrop()}
       @close=${this.onCropModalDismiss}
     >
-      ${session
-        ? html`<div class="loomi-crop-stage" style=${CROP_STAGE_STYLE}>
+      ${
+        session
+          ? html`<div class="loomi-crop-stage" style=${CROP_STAGE_STYLE}>
             <img
               class="loomi-crop-img"
               src=${session.url}
@@ -520,17 +541,20 @@ export class LoomiFilepicker extends LoomiElement {
               @error=${() => this.finishCrop(session.file)}
               @dragstart=${(e: Event) => e.preventDefault()}
             />
-            ${session.displayW
-              ? html`<div
+            ${
+              session.displayW
+                ? html`<div
                   class="loomi-crop-rect"
                   style="${CROP_RECT_STYLE}left:${this.cropRect.x}px;top:${this.cropRect.y}px;width:${this.cropRect.w}px;height:${this.cropRect.h}px;"
                   @pointerdown=${(e: PointerEvent) => this.onCropPointerDown(e, "move")}
                 >
                   <span class="loomi-crop-handle" style=${CROP_HANDLE_STYLE} @pointerdown=${(e: PointerEvent) => this.onCropPointerDown(e, "resize")}></span>
                 </div>`
-              : nothing}
+                : nothing
+            }
           </div>`
-        : nothing}
+          : nothing
+      }
     </loomi-modal>`;
   }
 
@@ -545,7 +569,12 @@ export class LoomiFilepicker extends LoomiElement {
       <div
         class="loomi-drop ${this.over ? "over" : ""} ${this.disabled ? "disabled" : ""} ${this.hasBorder ? "" : "borderless"}"
         @click=${() => this.canBrowse && !this.disabled && !this.cropping && this.input.click()}
-        @dragover=${(e: DragEvent) => { if (this.canDrop && !this.disabled && !this.cropping) { e.preventDefault(); this.over = true; } }}
+        @dragover=${(e: DragEvent) => {
+          if (this.canDrop && !this.disabled && !this.cropping) {
+            e.preventDefault();
+            this.over = true;
+          }
+        }}
         @dragleave=${() => (this.over = false)}
         @drop=${(e: DragEvent) => this.onDrop(e)}
       >
@@ -567,13 +596,17 @@ export class LoomiFilepicker extends LoomiElement {
           @change=${(e: Event) => this.add((e.target as HTMLInputElement).files)}
         />
       </div>
-      ${this.files.length
-        ? html`<div class="loomi-files">
-            ${this.files.map((f, i) => html`<div class="loomi-file">
+      ${
+        this.files.length
+          ? html`<div class="loomi-files">
+            ${this.files.map(
+              (f, i) => html`<div class="loomi-file">
               <span class="loomi-thumb">
-                ${this.showImagePreview && this.isImage(f)
-                  ? html`<img class="loomi-thumb" src=${URL.createObjectURL(f)} alt="" />`
-                  : html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${FILE}</svg>`}
+                ${
+                  this.showImagePreview && this.isImage(f)
+                    ? html`<img class="loomi-thumb" src=${URL.createObjectURL(f)} alt="" />`
+                    : html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${FILE}</svg>`
+                }
               </span>
               <span class="loomi-meta">
                 <div class="loomi-fname">${f.name}</div>
@@ -582,9 +615,11 @@ export class LoomiFilepicker extends LoomiElement {
               <button class="loomi-remove" aria-label=${loomiT("common.remove", {}, this.locale)} @click=${() => this.removeFile(i)}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${X}</svg>
               </button>
-            </div>`)}
+            </div>`,
+            )}
           </div>`
-        : nothing}
+          : nothing
+      }
       ${this.renderCropModal()}
     </div>`;
   }

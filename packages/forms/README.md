@@ -10,29 +10,28 @@ npm install @loomidev/forms lit
 import "@loomidev/forms"; // registers all form elements
 ```
 
-| Package |
-| --- |
-| [`@loomidev/input`](../input) |
-| [`@loomidev/password`](../password) |
-| [`@loomidev/textarea`](../textarea) |
+| Package                                   |
+| ----------------------------------------- |
+| [`@loomidev/input`](../input)             |
+| [`@loomidev/password`](../password)       |
+| [`@loomidev/textarea`](../textarea)       |
 | [`@loomidev/text-editor`](../text-editor) |
-| [`@loomidev/select`](../select) |
-| [`@loomidev/checkbox`](../checkbox) |
-| [`@loomidev/radio`](../radio) |
-| [`@loomidev/toggle`](../toggle) |
-| [`@loomidev/number`](../number) |
-| [`@loomidev/slider`](../slider) |
-| [`@loomidev/otp`](../otp) |
-| [`@loomidev/checkcards`](../checkcards) |
-| [`@loomidev/datepicker`](../datepicker) |
-| [`@loomidev/timepicker`](../timepicker) |
+| [`@loomidev/select`](../select)           |
+| [`@loomidev/checkbox`](../checkbox)       |
+| [`@loomidev/radio`](../radio)             |
+| [`@loomidev/toggle`](../toggle)           |
+| [`@loomidev/number`](../number)           |
+| [`@loomidev/slider`](../slider)           |
+| [`@loomidev/otp`](../otp)                 |
+| [`@loomidev/checkcards`](../checkcards)   |
+| [`@loomidev/datepicker`](../datepicker)   |
+| [`@loomidev/timepicker`](../timepicker)   |
 | [`@loomidev/colorpicker`](../colorpicker) |
-| [`@loomidev/filepicker`](../filepicker) |
+| [`@loomidev/filepicker`](../filepicker)   |
 
 All form controls are **form-associated** — their values submit with a native `<form>` via `ElementInternals`.
 
 <!-- BEGIN loomi-framework-guide -->
-
 
 ## Accessibility
 
@@ -48,7 +47,6 @@ loomi-* is designed to fit the layout you place it in. It uses fluid widths, `mi
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-* uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -56,6 +54,7 @@ loomi-* uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-b
 Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
 
 - Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
+
 ## Framework integration
 
 `@loomidev/forms` registers all LoomiUI form controls. Use it when you want one import for a whole category instead of installing each component separately.

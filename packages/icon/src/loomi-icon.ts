@@ -76,7 +76,12 @@ export class LoomiIcon extends LoomiElement {
   }
 
   protected override willUpdate(changed: PropertyValues): void {
-    if (!changed.has("name") && !changed.has("source") && !changed.has("variant") && !changed.has("directory")) {
+    if (
+      !changed.has("name") &&
+      !changed.has("source") &&
+      !changed.has("variant") &&
+      !changed.has("directory")
+    ) {
       return;
     }
     const source = this.source;

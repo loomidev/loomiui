@@ -11,7 +11,6 @@ npm install @loomidev/statistic lit
 import "@loomidev/statistic";
 ```
 
-
 ## Basic Usage
 
 Numbers render as-is — format thousand separators and decimals yourself before setting
@@ -110,7 +109,6 @@ loomi-statistic is designed to fit the layout you place it in. It uses fluid wid
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-statistic uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -121,21 +119,21 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `label` | _(blank)_ | Description text. |
-| `number` | _(blank)_ | The value to display (format it yourself). |
-| `label-position` | `top` | `top` \| `bottom` |
-| `currency` | _(blank)_ | Currency symbol shown beside the number. |
-| `currency-position` | `left` | `left` \| `right` |
-| `icon-position` | `left` | `left` \| `right` |
-| `icon-color` | _(blank)_ | CSS color applied to the icon slot wrapper. |
-| `icon-size` | _(blank)_ | CSS size applied to slotted icons. |
-| `has-shadow` | `true` | Show a drop shadow. _(boolean)_ |
-| `has-border` | `true` | Show a border. _(boolean)_ |
-| `radius` | `medium` | `none` \| `small` \| `medium` \| `large` \| `xl`. Presets over `--loomi-panel-radius`; `medium` follows the theme, the rest override it. |
-| `show-spinner` | `false` | Show a loading spinner instead of the number. _(boolean)_ |
-| `url` | _(blank)_ | Navigate on click. |
+| Attribute           | Default   | Description                                                                                                                              |
+| ------------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `label`             | _(blank)_ | Description text.                                                                                                                        |
+| `number`            | _(blank)_ | The value to display (format it yourself).                                                                                               |
+| `label-position`    | `top`     | `top` \| `bottom`                                                                                                                        |
+| `currency`          | _(blank)_ | Currency symbol shown beside the number.                                                                                                 |
+| `currency-position` | `left`    | `left` \| `right`                                                                                                                        |
+| `icon-position`     | `left`    | `left` \| `right`                                                                                                                        |
+| `icon-color`        | _(blank)_ | CSS color applied to the icon slot wrapper.                                                                                              |
+| `icon-size`         | _(blank)_ | CSS size applied to slotted icons.                                                                                                       |
+| `has-shadow`        | `true`    | Show a drop shadow. _(boolean)_                                                                                                          |
+| `has-border`        | `true`    | Show a border. _(boolean)_                                                                                                               |
+| `radius`            | `medium`  | `none` \| `small` \| `medium` \| `large` \| `xl`. Presets over `--loomi-panel-radius`; `medium` follows the theme, the rest override it. |
+| `show-spinner`      | `false`   | Show a loading spinner instead of the number. _(boolean)_                                                                                |
+| `url`               | _(blank)_ | Navigate on click.                                                                                                                       |
 
 **Slot:** `icon`.
 

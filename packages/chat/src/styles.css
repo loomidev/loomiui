@@ -79,9 +79,16 @@
 }
 .loomi-chat-loading.custom {
   background:
-    linear-gradient(110deg, transparent 0%, color-mix(in srgb, var(--loomi-white) 35%, transparent) 45%, transparent 90%),
+    linear-gradient(
+      110deg,
+      transparent 0%,
+      color-mix(in srgb, var(--loomi-white) 35%, transparent) 45%,
+      transparent 90%
+    ),
     var(--loomi-surface-muted);
-  background-size: 220% 100%, 100% 100%;
+  background-size:
+    220% 100%,
+    100% 100%;
   animation: loomi-chat-shimmer 1.35s linear infinite;
 }
 .loomi-chat-loading loomi-icon {
@@ -293,7 +300,11 @@
 }
 
 .loomi-chat-conversation.active {
-  background: color-mix(in srgb, var(--loomi-primary-500, var(--_loomi-primary-500-default)) 10%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--loomi-primary-500, var(--_loomi-primary-500-default)) 10%,
+    transparent
+  );
 }
 
 .loomi-chat-conversation-avatar {
@@ -658,7 +669,9 @@
 }
 
 @keyframes loomi-chat-dot {
-  0%, 80%, 100% {
+  0%,
+  80%,
+  100% {
     opacity: 0.35;
     transform: translateY(0);
   }
@@ -670,9 +683,13 @@
 
 @keyframes loomi-chat-shimmer {
   from {
-    background-position: 140% 0, 0 0;
+    background-position:
+      140% 0,
+      0 0;
   }
   to {
-    background-position: -140% 0, 0 0;
+    background-position:
+      -140% 0,
+      0 0;
   }
 }

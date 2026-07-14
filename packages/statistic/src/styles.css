@@ -36,11 +36,21 @@
 }
 /* `radius` preset. `medium` (the default) defers to the theme's --loomi-panel-radius so a
    theme rounds these cards; explicit presets keep literal values and win over it. */
-.r-none { border-radius: 0; }
-.r-small { border-radius: 0.5rem; }
-.r-medium { border-radius: var(--loomi-panel-radius, 0.75rem); }
-.r-large { border-radius: 1rem; }
-.r-xl { border-radius: 1.5rem; }
+.r-none {
+  border-radius: 0;
+}
+.r-small {
+  border-radius: 0.5rem;
+}
+.r-medium {
+  border-radius: var(--loomi-panel-radius, 0.75rem);
+}
+.r-large {
+  border-radius: 1rem;
+}
+.r-xl {
+  border-radius: 1.5rem;
+}
 
 .loomi-ico {
   flex: none;

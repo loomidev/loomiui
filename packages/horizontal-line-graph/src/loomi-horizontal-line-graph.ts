@@ -39,21 +39,27 @@ export class LoomiHorizontalLineGraph extends LoomiElement {
 
     return html`<div class="loomi-hlg" role="img" aria-label=${ariaLabel}>
       <div class="loomi-bar" aria-hidden="true">
-        ${this.data.map((seg, i) => html`<div
+        ${this.data.map(
+          (seg, i) => html`<div
           class="loomi-seg"
           style="width:${((seg.value || 0) / total) * 100}%;background:${this.color(seg, i)}"
           title="${seg.label}: ${seg.value}"
-        ></div>`)}
+        ></div>`,
+        )}
       </div>
-      ${this.showLegend
-        ? html`<div class="loomi-legend">
-            ${this.data.map((seg, i) => html`<span class="loomi-key">
+      ${
+        this.showLegend
+          ? html`<div class="loomi-legend">
+            ${this.data.map(
+              (seg, i) => html`<span class="loomi-key">
               <span class="loomi-dot" style="background:${this.color(seg, i)}"></span>
               ${seg.label}
               ${this.showValues ? html`<span class="loomi-val">${Math.round(((seg.value || 0) / total) * 100)}%</span>` : nothing}
-            </span>`)}
+            </span>`,
+            )}
           </div>`
-        : nothing}
+          : nothing
+      }
     </div>`;
   }
 }

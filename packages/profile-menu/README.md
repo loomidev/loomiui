@@ -108,27 +108,27 @@ menu inherit your app theme.
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `name` | _(blank)_ | Main identity text. Also used for avatar initials when `avatar-label` is blank. |
-| `description` | _(blank)_ | Secondary text under the name, often an email or role. |
-| `avatar` | _(blank)_ | Avatar image URL. |
-| `avatar-label` | derived | Initials/fallback label for the internal `<loomi-avatar>`. |
-| `avatar-alt` | derived | Accessible alt text for the avatar image. |
-| `avatar-size` | `regular` | Avatar size — defers to the internal `<loomi-avatar>` `size`. |
-| `avatar-bg-color` | `gray` | Initials background color passed to `<loomi-avatar>`. |
-| `dotted` | `false` | Show avatar status dot. _(boolean)_ |
-| `pulse-dot` | `false` | Animate the avatar status dot. _(boolean)_ |
-| `dot-color` | `success` | Status dot color. |
-| `dot-position` | `bottom` | `top` \| `bottom`. |
-| `verified` | `false` | Show the avatar verification badge. _(boolean)_ |
-| `has-hover` | `false` | Show a subtle border on trigger hover/focus. _(boolean)_ |
-| `transparent` | `false` | Remove the trigger card fill. _(boolean)_ |
-| `placement` | `right` | Dropmenu placement. `auto` \| `left` \| `right`. Defaults to `right` so the menu opens right-aligned, under the chevron. |
-| `divided` | `false` | Add dividers between menu items. _(boolean)_ |
-| `scrollable` | `false` | Cap menu height and scroll overflow. _(boolean)_ |
-| `height` | `200` | Scrollable menu height in pixels. |
-| `hide-after-click` | `true` | Close the menu after clicking a non-toggle item. _(boolean)_ |
+| Attribute          | Default   | Description                                                                                                              |
+| ------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `name`             | _(blank)_ | Main identity text. Also used for avatar initials when `avatar-label` is blank.                                          |
+| `description`      | _(blank)_ | Secondary text under the name, often an email or role.                                                                   |
+| `avatar`           | _(blank)_ | Avatar image URL.                                                                                                        |
+| `avatar-label`     | derived   | Initials/fallback label for the internal `<loomi-avatar>`.                                                               |
+| `avatar-alt`       | derived   | Accessible alt text for the avatar image.                                                                                |
+| `avatar-size`      | `regular` | Avatar size — defers to the internal `<loomi-avatar>` `size`.                                                            |
+| `avatar-bg-color`  | `gray`    | Initials background color passed to `<loomi-avatar>`.                                                                    |
+| `dotted`           | `false`   | Show avatar status dot. _(boolean)_                                                                                      |
+| `pulse-dot`        | `false`   | Animate the avatar status dot. _(boolean)_                                                                               |
+| `dot-color`        | `success` | Status dot color.                                                                                                        |
+| `dot-position`     | `bottom`  | `top` \| `bottom`.                                                                                                       |
+| `verified`         | `false`   | Show the avatar verification badge. _(boolean)_                                                                          |
+| `has-hover`        | `false`   | Show a subtle border on trigger hover/focus. _(boolean)_                                                                 |
+| `transparent`      | `false`   | Remove the trigger card fill. _(boolean)_                                                                                |
+| `placement`        | `right`   | Dropmenu placement. `auto` \| `left` \| `right`. Defaults to `right` so the menu opens right-aligned, under the chevron. |
+| `divided`          | `false`   | Add dividers between menu items. _(boolean)_                                                                             |
+| `scrollable`       | `false`   | Cap menu height and scroll overflow. _(boolean)_                                                                         |
+| `height`           | `200`     | Scrollable menu height in pixels.                                                                                        |
+| `hide-after-click` | `true`    | Close the menu after clicking a non-toggle item. _(boolean)_                                                             |
 
 **Slot:** default (`<loomi-dropmenu-item>` children).
 

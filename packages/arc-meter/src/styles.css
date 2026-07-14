@@ -40,13 +40,18 @@
 
 .loomi-fill {
   stroke: var(--loomi-marker-color);
-  transition: d 0.28s ease, stroke 0.18s ease;
+  transition:
+    d 0.28s ease,
+    stroke 0.18s ease;
 }
 
 .loomi-marker-ring {
   fill: var(--loomi-surface);
   stroke: var(--loomi-marker-color);
-  transition: cx 0.28s ease, cy 0.28s ease, stroke 0.18s ease;
+  transition:
+    cx 0.28s ease,
+    cy 0.28s ease,
+    stroke 0.18s ease;
 }
 
 .loomi-copy {

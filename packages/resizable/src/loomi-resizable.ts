@@ -32,7 +32,9 @@ function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
 }
 
-function getDirectLayoutChildren(parent: Element): Array<LoomiResizablePanel | LoomiResizableHandle> {
+function getDirectLayoutChildren(
+  parent: Element,
+): Array<LoomiResizablePanel | LoomiResizableHandle> {
   return Array.from(parent.children).filter(
     (child): child is LoomiResizablePanel | LoomiResizableHandle =>
       child instanceof LoomiResizablePanel || child instanceof LoomiResizableHandle,

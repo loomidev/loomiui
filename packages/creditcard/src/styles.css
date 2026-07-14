@@ -440,7 +440,9 @@
   color: var(--loomi-text-on-primary, var(--loomi-white));
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-  transition: background 0.15s ease, transform 0.15s ease;
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
 }
 .loomi-cc-flip-btn svg {
   width: 1.05rem;

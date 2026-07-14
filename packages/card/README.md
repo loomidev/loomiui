@@ -11,7 +11,6 @@ npm install @loomidev/card lit
 import "@loomidev/card";
 ```
 
-
 ## Composition
 
 ```text
@@ -163,37 +162,35 @@ loomi-card is designed to fit the layout you place it in. It uses fluid widths, 
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-card uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
 
 Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
 
-
 ## Attributes
 
 ### `<loomi-card>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `size` | `default` | `default` \| `sm` — controls section spacing. |
-| `has-shadow` | `true` | Restrained, theme-aware panel shadow. _(boolean)_ |
-| `has-border` | `true` | Hairline border. _(boolean)_ |
-| `has-hover` | `false` | Extra shadow on hover. _(boolean)_ |
-| `transparent` | `false` | Remove the card surface fill. _(boolean)_ |
-| `url` | _(blank)_ | Navigate on click (path, `fn()` call, or full URL). |
+| Attribute     | Default   | Description                                         |
+| ------------- | --------- | --------------------------------------------------- |
+| `size`        | `default` | `default` \| `sm` — controls section spacing.       |
+| `has-shadow`  | `true`    | Restrained, theme-aware panel shadow. _(boolean)_   |
+| `has-border`  | `true`    | Hairline border. _(boolean)_                        |
+| `has-hover`   | `false`   | Extra shadow on hover. _(boolean)_                  |
+| `transparent` | `false`   | Remove the card surface fill. _(boolean)_           |
+| `url`         | _(blank)_ | Navigate on click (path, `fn()` call, or full URL). |
 
 ### Parts
 
-| Element | Description |
-| --- | --- |
-| `<loomi-card-header>` | Title, description, and optional action. |
-| `<loomi-card-title>` | Card heading. |
-| `<loomi-card-description>` | Muted helper text under the title. |
-| `<loomi-card-action>` | Top-right header action (button, badge, link). |
-| `<loomi-card-content>` | Main card body. |
-| `<loomi-card-footer>` | Bottom actions; gets a muted background and top border. |
+| Element                    | Description                                             |
+| -------------------------- | ------------------------------------------------------- |
+| `<loomi-card-header>`      | Title, description, and optional action.                |
+| `<loomi-card-title>`       | Card heading.                                           |
+| `<loomi-card-description>` | Muted helper text under the title.                      |
+| `<loomi-card-action>`      | Top-right header action (button, badge, link).          |
+| `<loomi-card-content>`     | Main card body.                                         |
+| `<loomi-card-footer>`      | Bottom actions; gets a muted background and top border. |
 
 <!-- BEGIN loomi-framework-guide -->
 

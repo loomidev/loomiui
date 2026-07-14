@@ -18,13 +18,13 @@ const people: Person[] = [
   { id: "1", name: "Ama", age: 32, department: "Engineering" },
   { id: "2", name: "Kojo", age: 28, department: "Engineering" },
   { id: "3", name: "Zainab", age: 41, department: "Sales" },
-  { id: "4", name: "Yaw", age: 24, department: "Sales" }
+  { id: "4", name: "Yaw", age: 24, department: "Sales" },
 ];
 
 const columns = [
   { key: "name", label: "Name", sortable: true, editable: true, filterable: true },
   { key: "age", label: "Age", sortable: true, align: "end" as const },
-  { key: "department", label: "Department" }
+  { key: "department", label: "Department" },
 ];
 
 async function renderGrid(overrides: Partial<LoomiDataGrid<Person>> = {}) {
@@ -71,7 +71,7 @@ describe("loomi-data-grid (core)", () => {
     expect(el.shadowRoot!.querySelectorAll("tbody tr")).to.have.length(2);
 
     const nextButton = [...el.shadowRoot!.querySelectorAll(".pagination button")].find(
-      (button) => button.textContent?.trim() === "Next"
+      (button) => button.textContent?.trim() === "Next",
     ) as HTMLButtonElement;
 
     const eventPromise = oneEvent(el, "loomi-page-change");
@@ -84,7 +84,9 @@ describe("loomi-data-grid (core)", () => {
 
   it("selects rows via checkboxes and emits loomi-selection-change", async () => {
     const el = await renderGrid({ selectable: true });
-    const firstRowCheckbox = el.shadowRoot!.querySelector("tbody tr input[type=checkbox]") as HTMLInputElement;
+    const firstRowCheckbox = el.shadowRoot!.querySelector(
+      "tbody tr input[type=checkbox]",
+    ) as HTMLInputElement;
 
     const eventPromise = oneEvent(el, "loomi-selection-change");
     firstRowCheckbox.click();
@@ -96,17 +98,25 @@ describe("loomi-data-grid (core)", () => {
   it("supports keyboard navigation between cells and Enter for row actions", async () => {
     const el = await renderGrid();
     const table = el.shadowRoot!.querySelector("table")!;
-    const firstCell = el.shadowRoot!.querySelector('td[data-row-index="0"][data-col-index="0"]') as HTMLElement;
+    const firstCell = el.shadowRoot!.querySelector(
+      'td[data-row-index="0"][data-col-index="0"]',
+    ) as HTMLElement;
     firstCell.focus();
 
-    table.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true, composed: true }));
-    await el.updateComplete;
-    expect(el.shadowRoot!.querySelector('td[data-row-index="0"][data-col-index="1"]')!.getAttribute("data-active-cell")).to.equal(
-      "true"
+    table.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true, composed: true }),
     );
+    await el.updateComplete;
+    expect(
+      el
+        .shadowRoot!.querySelector('td[data-row-index="0"][data-col-index="1"]')!
+        .getAttribute("data-active-cell"),
+    ).to.equal("true");
 
     const rowActionPromise = oneEvent(el, "loomi-row-action");
-    table.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true, composed: true }));
+    table.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Enter", bubbles: true, composed: true }),
+    );
     const rowActionEvent = await rowActionPromise;
     expect((rowActionEvent.detail.row as Person).id).to.equal("1");
   });
@@ -118,9 +128,9 @@ describe("loomi-data-grid (core)", () => {
         {
           key: "id",
           label: "Badge",
-          cellRenderer: ({ value }) => html`<span class="badge">#${value}</span>`
-        }
-      ]
+          cellRenderer: ({ value }) => html`<span class="badge">#${value}</span>`,
+        },
+      ],
     });
     expect(el.shadowRoot!.querySelector(".badge")!.textContent).to.equal("#1");
   });
@@ -132,7 +142,9 @@ describe("loomi-data-grid (core)", () => {
 
     handle.setPointerCapture = () => {};
     const eventPromise = oneEvent(el, "loomi-column-resize");
-    handle.dispatchEvent(new PointerEvent("pointerdown", { clientX: 100, pointerId: 1, bubbles: true }));
+    handle.dispatchEvent(
+      new PointerEvent("pointerdown", { clientX: 100, pointerId: 1, bubbles: true }),
+    );
     handle.dispatchEvent(new PointerEvent("pointermove", { clientX: 140, pointerId: 1 }));
     handle.dispatchEvent(new PointerEvent("pointerup", { pointerId: 1 }));
     const event = await eventPromise;
@@ -144,14 +156,18 @@ describe("loomi-data-grid (core)", () => {
       columns: [
         { key: "name", label: "Name", pinned: "start", width: "120px" },
         { key: "age", label: "Age", align: "end" as const },
-        { key: "department", label: "Department", pinned: "end", width: "140px" }
-      ]
+        { key: "department", label: "Department", pinned: "end", width: "140px" },
+      ],
     });
 
     expect(el.shadowRoot!.querySelector("th.pinned-start")).to.exist;
     expect(el.shadowRoot!.querySelector("th.pinned-end")).to.exist;
-    expect(el.shadowRoot!.querySelector("td.pinned-start")!.getAttribute("style")).to.include("left:");
-    expect(el.shadowRoot!.querySelector("td.pinned-end")!.getAttribute("style")).to.include("right:");
+    expect(el.shadowRoot!.querySelector("td.pinned-start")!.getAttribute("style")).to.include(
+      "left:",
+    );
+    expect(el.shadowRoot!.querySelector("td.pinned-end")!.getAttribute("style")).to.include(
+      "right:",
+    );
   });
 
   it("pins the selection column when selectable is enabled", async () => {
@@ -202,12 +218,16 @@ describe("loomi-data-grid modules", () => {
 
   it("inlineEditingModule edits a cell and emits loomi-cell-edit", async () => {
     const el = await renderGrid({ modules: [inlineEditingModule()] });
-    const firstCell = el.shadowRoot!.querySelector('td[data-row-index="0"][data-col-index="0"]') as HTMLElement;
+    const firstCell = el.shadowRoot!.querySelector(
+      'td[data-row-index="0"][data-col-index="0"]',
+    ) as HTMLElement;
 
     firstCell.dispatchEvent(new MouseEvent("dblclick", { bubbles: true, composed: true }));
     await el.updateComplete;
 
-    const input = el.shadowRoot!.querySelector('td[data-row-index="0"][data-col-index="0"] input') as HTMLInputElement;
+    const input = el.shadowRoot!.querySelector(
+      'td[data-row-index="0"][data-col-index="0"] input',
+    ) as HTMLInputElement;
     expect(input).to.exist;
     input.value = "Amara";
 
@@ -223,12 +243,16 @@ describe("loomi-data-grid modules", () => {
       modules: [
         filteringModule(),
         savedViewsModule({
-          views: [{ id: "sales", label: "Sales team", filters: [{ key: "department", value: "Sales" }] }],
+          views: [
+            { id: "sales", label: "Sales team", filters: [{ key: "department", value: "Sales" }] },
+          ],
         }),
       ],
     });
 
-    const select = el.shadowRoot!.querySelector('select[aria-label="Saved view"]') as HTMLSelectElement;
+    const select = el.shadowRoot!.querySelector(
+      'select[aria-label="Saved view"]',
+    ) as HTMLSelectElement;
     expect(select).to.exist;
 
     const eventPromise = oneEvent(el, "loomi-saved-view-change");
@@ -248,7 +272,9 @@ describe("loomi-data-grid modules", () => {
       modules: [
         filteringModule(),
         savedViewsModule({
-          views: [{ id: "sales", label: "Sales team", filters: [{ key: "department", value: "Sales" }] }],
+          views: [
+            { id: "sales", label: "Sales team", filters: [{ key: "department", value: "Sales" }] },
+          ],
           activeViewId: "sales",
         }),
       ],

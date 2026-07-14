@@ -5,7 +5,9 @@ import { generateQrCode } from "../dist/qrcode-generator.js";
 
 describe("loomi-qrcode", () => {
   it("renders an SVG QR code from a url", async () => {
-    const el = await fixture<LoomiQrCode>(html`<loomi-qrcode url="https://loomiui.com"></loomi-qrcode>`);
+    const el = await fixture<LoomiQrCode>(
+      html`<loomi-qrcode url="https://loomiui.com"></loomi-qrcode>`,
+    );
     const svg = el.shadowRoot!.querySelector("svg")!;
     const modules = el.shadowRoot!.querySelector(".loomi-qrcode-modules")!;
 
@@ -29,7 +31,9 @@ describe("loomi-qrcode", () => {
     );
 
     const wrapper = el.shadowRoot!.querySelector<HTMLElement>(".loomi-qrcode")!;
-    expect(wrapper.style.getPropertyValue("--_loomi-qrcode-scan-count").trim()).to.equal("infinite");
+    expect(wrapper.style.getPropertyValue("--_loomi-qrcode-scan-count").trim()).to.equal(
+      "infinite",
+    );
   });
 
   it("passes through a finite scan-count as the iteration count", async () => {
@@ -47,13 +51,17 @@ describe("loomi-qrcode", () => {
     );
 
     const wrapper = el.shadowRoot!.querySelector<HTMLElement>(".loomi-qrcode")!;
-    expect(wrapper.style.getPropertyValue("--_loomi-qrcode-scan-count").trim()).to.equal("infinite");
+    expect(wrapper.style.getPropertyValue("--_loomi-qrcode-scan-count").trim()).to.equal(
+      "infinite",
+    );
   });
 
   it("uses value when url is absent", async () => {
     const el = await fixture<LoomiQrCode>(html`<loomi-qrcode value="hello"></loomi-qrcode>`);
 
-    expect(el.shadowRoot!.querySelector("svg")!.getAttribute("aria-label")).to.equal("QR code for hello");
+    expect(el.shadowRoot!.querySelector("svg")!.getAttribute("aria-label")).to.equal(
+      "QR code for hello",
+    );
   });
 
   it("renders a placeholder when no value is provided", async () => {
@@ -64,7 +72,9 @@ describe("loomi-qrcode", () => {
   });
 
   it("adds a generated loomi name class to the host", async () => {
-    const el = await fixture<LoomiQrCode>(html`<loomi-qrcode url="https://loomiui.com"></loomi-qrcode>`);
+    const el = await fixture<LoomiQrCode>(
+      html`<loomi-qrcode url="https://loomiui.com"></loomi-qrcode>`,
+    );
 
     expect([...el.classList].some((cls) => /^loomi-qrcode-[a-z0-9]{5}$/.test(cls))).to.be.true;
   });

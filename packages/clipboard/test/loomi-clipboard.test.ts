@@ -44,7 +44,7 @@ describe("loomi-clipboard", () => {
     const copied = oneEvent(el, "loomi-copied");
 
     el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-copy-button")!.click();
-    const event = await copied as CustomEvent<{ value: string }>;
+    const event = (await copied) as CustomEvent<{ value: string }>;
 
     expect(copiedText).to.equal("https://example.com/share");
     expect(event.detail.value).to.equal("https://example.com/share");

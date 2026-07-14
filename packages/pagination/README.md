@@ -14,7 +14,6 @@ npm install @loomidev/pagination lit
 import "@loomidev/pagination";
 ```
 
-
 ## Basic Usage
 
 ```html
@@ -113,7 +112,6 @@ loomi-pagination is designed to fit the layout you place it in. It uses fluid wi
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-pagination uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -124,15 +122,15 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `total` | `0` | Total number of items. |
-| `page-size` | `10` | Items per page. |
-| `page` | `1` | Current page (1-based). |
-| `pagination-style` | `arrows` | `arrows` \| `numbers` \| `dropdown` |
-| `show-total` | `true` | Show the "Showing :a to :b of :c" label. _(boolean)_ |
-| `total-label` | `Showing :a to :b of :c` | Label format (`:a` start, `:b` end, `:c` total). |
-| `color` | `primary` | Active-page color. |
+| Attribute          | Default                  | Description                                          |
+| ------------------ | ------------------------ | ---------------------------------------------------- |
+| `total`            | `0`                      | Total number of items.                               |
+| `page-size`        | `10`                     | Items per page.                                      |
+| `page`             | `1`                      | Current page (1-based).                              |
+| `pagination-style` | `arrows`                 | `arrows` \| `numbers` \| `dropdown`                  |
+| `show-total`       | `true`                   | Show the "Showing :a to :b of :c" label. _(boolean)_ |
+| `total-label`      | `Showing :a to :b of :c` | Label format (`:a` start, `:b` end, `:c` total).     |
+| `color`            | `primary`                | Active-page color.                                   |
 
 **Event:** `loomi-page-change` (`detail: { page }`). **Property:** `pageCount` (read-only).
 

@@ -71,9 +71,9 @@ describe("loomi-bottom-nav", () => {
     `);
     const items = el.querySelectorAll<LoomiBottomNavItem>("loomi-bottom-nav-item");
 
-    el.shadowRoot!
-      .querySelector("nav")!
-      .dispatchEvent(new KeyboardEvent("keydown", { key: "End", bubbles: true, cancelable: true }));
+    el.shadowRoot!.querySelector("nav")!.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "End", bubbles: true, cancelable: true }),
+    );
     await el.updateComplete;
 
     const profileButton = items[2].shadowRoot!.querySelector("button")!;

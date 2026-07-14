@@ -1,6 +1,14 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
-import { LoomiElement, controlSizeStyles, fieldStyles, loomiDefaultText, loomiStyles, loomiT, onClickOutside } from "@loomidev/core";
+import {
+  LoomiElement,
+  controlSizeStyles,
+  fieldStyles,
+  loomiDefaultText,
+  loomiStyles,
+  loomiT,
+  onClickOutside,
+} from "@loomidev/core";
 import "@loomidev/modal/loomi-modal.js";
 import type { LoomiModal } from "@loomidev/modal";
 import { componentStyles } from "./generated/styles.css.js";
@@ -98,7 +106,8 @@ export class LoomiTimepicker extends LoomiElement {
   @property() variant: LoomiTimepickerVariant = "default";
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) invalid = false;
-  @property({ type: Boolean, attribute: "show-focus-ring", converter: booleanAttribute }) showFocusRing = true;
+  @property({ type: Boolean, attribute: "show-focus-ring", converter: booleanAttribute })
+  showFocusRing = true;
 
   @state() private hour: number | null = null;
   @state() private minute: number | null = null;
@@ -141,7 +150,9 @@ export class LoomiTimepicker extends LoomiElement {
   private commit(): void {
     this.internals.setFormValue(this.value);
     this.syncValidity();
-    this.dispatchEvent(new CustomEvent("change", { bubbles: true, composed: true, detail: { value: this.value } }));
+    this.dispatchEvent(
+      new CustomEvent("change", { bubbles: true, composed: true, detail: { value: this.value } }),
+    );
   }
 
   validate(): boolean {
@@ -198,11 +209,14 @@ export class LoomiTimepicker extends LoomiElement {
   }
 
   private renderSelects(): TemplateResult {
-    const hours = this.format === "24"
-      ? Array.from({ length: 24 }, (_, i) => i)
-      : Array.from({ length: 12 }, (_, i) => i + 1);
+    const hours =
+      this.format === "24"
+        ? Array.from({ length: 24 }, (_, i) => i)
+        : Array.from({ length: 12 }, (_, i) => i + 1);
     return html`<div class="loomi-selects">
-      <select aria-label=${loomiT("timepicker.hour", {}, this.locale)} @blur=${this.showValidation} @change=${(e: Event) => {
+      <select aria-label=${loomiT("timepicker.hour", {}, this.locale)} @blur=${this.showValidation} @change=${(
+        e: Event,
+      ) => {
         const value = (e.target as HTMLSelectElement).value;
         this.hour = value === "" ? null : Number(value);
         this.commit();
@@ -211,7 +225,9 @@ export class LoomiTimepicker extends LoomiElement {
         ${hours.map((h) => html`<option value=${h} ?selected=${this.hour === h}>${this.format === "24" ? pad(h) : h}</option>`)}
       </select>
       <span class="loomi-colon">:</span>
-      <select aria-label=${loomiT("timepicker.minute", {}, this.locale)} @blur=${this.showValidation} @change=${(e: Event) => {
+      <select aria-label=${loomiT("timepicker.minute", {}, this.locale)} @blur=${this.showValidation} @change=${(
+        e: Event,
+      ) => {
         const value = (e.target as HTMLSelectElement).value;
         this.minute = value === "" ? null : Number(value);
         this.commit();
@@ -219,12 +235,19 @@ export class LoomiTimepicker extends LoomiElement {
         <option value="" ?selected=${this.minute === null}>MM</option>
         ${Array.from({ length: 60 }, (_, i) => i).map((m) => html`<option value=${m} ?selected=${this.minute === m}>${pad(m)}</option>`)}
       </select>
-      ${this.format === "12"
-        ? html`<select aria-label=${loomiT("timepicker.ampm", {}, this.locale)} @blur=${this.showValidation} @change=${(e: Event) => { this.ampm = (e.target as HTMLSelectElement).value as "AM" | "PM"; this.commit(); }}>
+      ${
+        this.format === "12"
+          ? html`<select aria-label=${loomiT("timepicker.ampm", {}, this.locale)} @blur=${this.showValidation} @change=${(
+              e: Event,
+            ) => {
+              this.ampm = (e.target as HTMLSelectElement).value as "AM" | "PM";
+              this.commit();
+            }}>
             <option value="AM" ?selected=${this.ampm === "AM"}>AM</option>
             <option value="PM" ?selected=${this.ampm === "PM"}>PM</option>
           </select>`
-        : nothing}
+          : nothing
+      }
     </div>`;
   }
 
@@ -269,9 +292,10 @@ export class LoomiTimepicker extends LoomiElement {
   }
 
   private renderClock(): TemplateResult {
-    const hours = this.format === "24"
-      ? Array.from({ length: 24 }, (_, i) => i)
-      : Array.from({ length: 12 }, (_, i) => i + 1);
+    const hours =
+      this.format === "24"
+        ? Array.from({ length: 24 }, (_, i) => i)
+        : Array.from({ length: 12 }, (_, i) => i + 1);
     const minuteMarks = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
     return html`<style>${CLOCK_STYLE}</style>
     <div class="loomi-clock">
@@ -281,7 +305,7 @@ export class LoomiTimepicker extends LoomiElement {
             // Hour 12 (or 0 in 24h) belongs at the top of the dial, like a real clock —
             // not wherever it happens to fall as the first entry in the hours array.
             const position = hour % hours.length;
-            const angle = ((position / hours.length) * 360) - 90;
+            const angle = (position / hours.length) * 360 - 90;
             return html`<button
               type="button"
               class="loomi-clock-hour ${this.hour === hour ? "active" : ""}"
@@ -292,12 +316,15 @@ export class LoomiTimepicker extends LoomiElement {
         </div>
         <div class="loomi-clock-ring minutes" role="group" aria-label=${loomiT("timepicker.minute", {}, this.locale)} @click=${this.onMinuteRingClick}>
           ${minuteMarks.map((minute, index) => {
-            const angle = ((index / minuteMarks.length) * 360) - 90;
+            const angle = (index / minuteMarks.length) * 360 - 90;
             return html`<button
               type="button"
               class="loomi-clock-minute ${this.minute === minute ? "active" : ""}"
               style=${`--loomi-clock-angle:${angle}deg`}
-              @click=${(e: Event) => { e.stopPropagation(); this.selectClockMinute(minute); }}
+              @click=${(e: Event) => {
+                e.stopPropagation();
+                this.selectClockMinute(minute);
+              }}
             >${pad(minute)}</button>`;
           })}
         </div>
@@ -308,11 +335,19 @@ export class LoomiTimepicker extends LoomiElement {
           @click=${() => this.toggleFormat()}
         >${this.format}H</button>
       </div>
-      ${this.format === "12"
-        ? html`<div class="loomi-clock-ampm">
-            ${(["AM", "PM"] as const).map((period) => html`<button type="button" class=${this.ampm === period ? "active" : ""} @click=${() => { this.ampm = period; this.commit(); }}>${period}</button>`)}
+      ${
+        this.format === "12"
+          ? html`<div class="loomi-clock-ampm">
+            ${(["AM", "PM"] as const).map(
+              (period) =>
+                html`<button type="button" class=${this.ampm === period ? "active" : ""} @click=${() => {
+                  this.ampm = period;
+                  this.commit();
+                }}>${period}</button>`,
+            )}
           </div>`
-        : nothing}
+          : nothing
+      }
     </div>`;
   }
 
@@ -332,8 +367,13 @@ export class LoomiTimepicker extends LoomiElement {
         size="medium"
         locale=${this.locale}
         cancel-button-label=""
-        @open=${() => { this.open = true; }}
-        @close=${() => { this.open = false; this.showValidation(); }}
+        @open=${() => {
+          this.open = true;
+        }}
+        @close=${() => {
+          this.open = false;
+          this.showValidation();
+        }}
       >${this.renderClock()}</loomi-modal>
     </div>`;
   }
