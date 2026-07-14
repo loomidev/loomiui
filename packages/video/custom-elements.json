@@ -38,6 +38,14 @@
             "name": "LoomiVideoCrossOrigin",
             "module": "./loomi-video.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiVideoErrorDetail",
+          "declaration": {
+            "name": "LoomiVideoErrorDetail",
+            "module": "./loomi-video.js"
+          }
         }
       ]
     },

@@ -22,6 +22,22 @@
             "name": "LoomiPaginationStyle",
             "module": "./loomi-pagination.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiPaginationPageChangeDetail",
+          "declaration": {
+            "name": "LoomiPaginationPageChangeDetail",
+            "module": "./loomi-pagination.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiPaginationEventMap",
+          "declaration": {
+            "name": "LoomiPaginationEventMap",
+            "module": "./loomi-pagination.js"
+          }
         }
       ]
     },

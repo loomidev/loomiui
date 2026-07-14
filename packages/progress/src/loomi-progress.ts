@@ -77,7 +77,7 @@ export class LoomiProgressCircle extends LoomiElement {
     return Math.min(100, Math.max(0, this.percentage));
   }
   private get px(): number {
-    return SIZES[this.size] ?? Number(this.size) ?? 120;
+    return SIZES[this.size] ?? (Number(this.size) || 120);
   }
 
   override render(): TemplateResult {

@@ -30,6 +30,22 @@
             "name": "LoomiTimezoneRecord",
             "module": "./loomi-timezonepicker.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTimezonepickerSelectDetail",
+          "declaration": {
+            "name": "LoomiTimezonepickerSelectDetail",
+            "module": "./loomi-timezonepicker.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTimezonepickerEventMap",
+          "declaration": {
+            "name": "LoomiTimezonepickerEventMap",
+            "module": "./loomi-timezonepicker.js"
+          }
         }
       ]
     },

@@ -22,6 +22,14 @@
             "name": "LoomiPopoverPlacement",
             "module": "./loomi-popover.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiPopoverToggleDetail",
+          "declaration": {
+            "name": "LoomiPopoverToggleDetail",
+            "module": "./loomi-popover.js"
+          }
         }
       ]
     },

@@ -38,6 +38,30 @@
             "name": "LoomiSortableItem",
             "module": "./loomi-sortable.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSortableItemDetail",
+          "declaration": {
+            "name": "LoomiSortableItemDetail",
+            "module": "./loomi-sortable.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSortableReorderDetail",
+          "declaration": {
+            "name": "LoomiSortableReorderDetail",
+            "module": "./loomi-sortable.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSortableTransferDetail",
+          "declaration": {
+            "name": "LoomiSortableTransferDetail",
+            "module": "./loomi-sortable.js"
+          }
         }
       ]
     },

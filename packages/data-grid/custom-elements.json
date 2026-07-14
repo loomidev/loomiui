@@ -662,6 +662,22 @@
         },
         {
           "kind": "js",
+          "name": "DataGridToggleRowDetail",
+          "declaration": {
+            "name": "DataGridToggleRowDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DataGridEventMap",
+          "declaration": {
+            "name": "DataGridEventMap",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
           "name": "defineGridModule",
           "declaration": {
             "name": "defineGridModule",

@@ -72,7 +72,8 @@ export class LoomiPopover extends LoomiElement {
     this.previouslyFocused = null;
   }
   toggle(): void {
-    this.open ? this.hide() : this.show();
+    if (this.open) this.hide();
+    else this.show();
   }
 
   private onKeyDown = (e: KeyboardEvent): void => {

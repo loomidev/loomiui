@@ -1550,7 +1550,7 @@ export class LoomiCalendar extends LoomiElement {
   private handlePointerUp(pointerEvent: PointerEvent) {
     if (this._slotDragState && pointerEvent.pointerId === this._slotDragState.pointerId) {
       const { start, end } = this.normalizeSlotRange(this._slotDragState.start, this._slotDragState.end);
-      let nextStart = start;
+      const nextStart = start;
       let nextEnd = end;
       if (nextEnd.getTime() - nextStart.getTime() < this.slotMinutes * 60 * 1000) {
         nextEnd = addMinutes(nextStart, this.slotMinutes);

@@ -73,6 +73,22 @@
         },
         {
           "kind": "js",
+          "name": "LoomiFabSelectDetail",
+          "declaration": {
+            "name": "LoomiFabSelectDetail",
+            "module": "./loomi-fab.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiFabEventMap",
+          "declaration": {
+            "name": "LoomiFabEventMap",
+            "module": "./loomi-fab.js"
+          }
+        },
+        {
+          "kind": "js",
           "name": "LoomiIconSource",
           "declaration": {
             "name": "LoomiIconSource",

@@ -30,6 +30,14 @@
             "name": "LoomiTagInputSize",
             "module": "./loomi-tag-input.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTagInputAutocompleteSelectDetail",
+          "declaration": {
+            "name": "LoomiTagInputAutocompleteSelectDetail",
+            "module": "./loomi-tag-input.js"
+          }
         }
       ]
     },

@@ -24,6 +24,25 @@ jobs:
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
+
+      # Fast static checks first — cheap to run, fail early before build/test.
+      - name: No merge-conflict markers
+        run: pnpm check:conflicts
+      - name: Bundle packages in sync
+        run: pnpm check:bundles
+      - name: Lint
+        run: pnpm lint
+
       - run: pnpm build
       - run: pnpm typecheck
       - run: pnpm test
+
+      # Generated custom-elements.json manifests must match their source.
+      - name: Component manifests up to date
+        run: pnpm check:cem
+
+      # Component quality audit (semantic tokens, a11y expectations, README sections).
+      - name: Quality audit
+        run: pnpm audit:quality
+      - name: README quality sections up to date
+        run: pnpm quality:readmes && git diff --exit-code -- packages

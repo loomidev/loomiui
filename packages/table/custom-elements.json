@@ -22,6 +22,54 @@
             "name": "LoomiActionIcon",
             "module": "./loomi-table.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTableActionDetail",
+          "declaration": {
+            "name": "LoomiTableActionDetail",
+            "module": "./loomi-table.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTableRowClickDetail",
+          "declaration": {
+            "name": "LoomiTableRowClickDetail",
+            "module": "./loomi-table.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTableSelectionChangeDetail",
+          "declaration": {
+            "name": "LoomiTableSelectionChangeDetail",
+            "module": "./loomi-table.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTableEmptyActionDetail",
+          "declaration": {
+            "name": "LoomiTableEmptyActionDetail",
+            "module": "./loomi-table.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTablePageChangeDetail",
+          "declaration": {
+            "name": "LoomiTablePageChangeDetail",
+            "module": "./loomi-table.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTableEventMap",
+          "declaration": {
+            "name": "LoomiTableEventMap",
+            "module": "./loomi-table.js"
+          }
         }
       ]
     },
@@ -1138,14 +1186,6 @@
                   }
                 }
               ]
-            },
-            {
-              "kind": "field",
-              "name": "cleanupDarkWatch",
-              "type": {
-                "text": "() => void | undefined"
-              },
-              "privacy": "private"
             },
             {
               "kind": "field",

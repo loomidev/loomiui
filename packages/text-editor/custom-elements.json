@@ -14,6 +14,14 @@
             "name": "LoomiTextEditor",
             "module": "./loomi-text-editor.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTextEditorAiGenerateDetail",
+          "declaration": {
+            "name": "LoomiTextEditorAiGenerateDetail",
+            "module": "./loomi-text-editor.js"
+          }
         }
       ]
     },

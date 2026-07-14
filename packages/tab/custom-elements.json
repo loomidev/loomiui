@@ -30,6 +30,14 @@
             "name": "LoomiTabStyle",
             "module": "./loomi-tab.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTabChangeDetail",
+          "declaration": {
+            "name": "LoomiTabChangeDetail",
+            "module": "./loomi-tab.js"
+          }
         }
       ]
     },
@@ -208,6 +216,14 @@
               },
               "privacy": "private",
               "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "cleanupDarkWatch",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
             },
             {
               "kind": "method",

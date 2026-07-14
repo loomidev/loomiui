@@ -63,6 +63,14 @@
             "name": "LoomiEmojiPickerSize",
             "module": "./loomi-emoji-picker.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiEmojiSelectDetail",
+          "declaration": {
+            "name": "LoomiEmojiSelectDetail",
+            "module": "./loomi-emoji-picker.js"
+          }
         }
       ]
     },

@@ -198,6 +198,46 @@
         },
         {
           "kind": "js",
+          "name": "LoomiChatSendDetail",
+          "declaration": {
+            "name": "LoomiChatSendDetail",
+            "module": "./loomi-chat-window.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiChatAttachDetail",
+          "declaration": {
+            "name": "LoomiChatAttachDetail",
+            "module": "./loomi-chat-window.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiChatRecordDetail",
+          "declaration": {
+            "name": "LoomiChatRecordDetail",
+            "module": "./loomi-chat-window.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiChatRecordErrorDetail",
+          "declaration": {
+            "name": "LoomiChatRecordErrorDetail",
+            "module": "./loomi-chat-window.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiChatConversationSelectDetail",
+          "declaration": {
+            "name": "LoomiChatConversationSelectDetail",
+            "module": "./loomi-chat-window.js"
+          }
+        },
+        {
+          "kind": "js",
           "name": "PARTICIPANT_COLORS",
           "declaration": {
             "name": "PARTICIPANT_COLORS",

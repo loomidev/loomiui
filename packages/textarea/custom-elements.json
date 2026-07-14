@@ -22,6 +22,22 @@
             "name": "LoomiMentionItem",
             "module": "./loomi-textarea.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTextareaMentionSearchDetail",
+          "declaration": {
+            "name": "LoomiTextareaMentionSearchDetail",
+            "module": "./loomi-textarea.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTextareaMentionSelectDetail",
+          "declaration": {
+            "name": "LoomiTextareaMentionSelectDetail",
+            "module": "./loomi-textarea.js"
+          }
         }
       ]
     },

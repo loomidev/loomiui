@@ -22,6 +22,30 @@
             "name": "LoomiSelectSize",
             "module": "./loomi-select.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSelectSelectDetail",
+          "declaration": {
+            "name": "LoomiSelectSelectDetail",
+            "module": "./loomi-select.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSelectEmptyActionDetail",
+          "declaration": {
+            "name": "LoomiSelectEmptyActionDetail",
+            "module": "./loomi-select.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSelectEventMap",
+          "declaration": {
+            "name": "LoomiSelectEventMap",
+            "module": "./loomi-select.js"
+          }
         }
       ]
     },

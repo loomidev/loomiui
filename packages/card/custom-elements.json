@@ -146,24 +146,6 @@
             },
             {
               "kind": "field",
-              "name": "isDarkContext",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "default": "false",
-              "description": "Whether an ancestor has the `dark` class — see `isDarkContext` in `loomi-button.ts`."
-            },
-            {
-              "kind": "field",
-              "name": "cleanupDarkWatch",
-              "type": {
-                "text": "() => void | undefined"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
               "name": "onClick",
               "privacy": "private"
             },
