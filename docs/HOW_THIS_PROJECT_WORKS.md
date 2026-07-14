@@ -680,9 +680,11 @@ package.
 
 `forms`, `content`, and `navigation` are the same pattern at a smaller scale — each
 re-exports just the components in its category (per
-[`packages/forms/src/index.ts`](../packages/forms/src/index.ts): input, password, textarea,
-text-editor, select, checkbox, radio, toggle, number, slider, pin, checkcards,
-datepicker, timepicker, colorpicker, filepicker, countries, and creditcard). They exist
+[`packages/forms/src/index.ts`](../packages/forms/src/index.ts): input, autocomplete,
+password, textarea, text-editor, select, checkbox, radio, toggle, number, slider, otp,
+checkcards, tag-input, emoji-picker, datepicker, timepicker, timezonepicker,
+date-range-picker, colorpicker, filepicker, filter-builder, countries, and creditcard).
+They exist
 purely as a convenience layer; deleting all four umbrella packages would not break any
 individual component package's functionality.
 

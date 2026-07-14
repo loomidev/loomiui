@@ -24,3 +24,6 @@ export * from "@loomidev/chat";
 export * from "@loomidev/calendar";
 export * from "@loomidev/data-grid";
 export * from "@loomidev/video";
+export * from "@loomidev/photo-gallery";
+export * from "@loomidev/lightbox";
+export * from "@loomidev/timer";

@@ -54,7 +54,10 @@
     "@loomidev/chat": "workspace:^",
     "@loomidev/calendar": "workspace:^",
     "@loomidev/data-grid": "workspace:^",
-    "@loomidev/video": "workspace:^"
+    "@loomidev/video": "workspace:^",
+    "@loomidev/photo-gallery": "workspace:^",
+    "@loomidev/lightbox": "workspace:^",
+    "@loomidev/timer": "workspace:^"
   },
   "peerDependencies": {
     "lit": "^3.0.0"

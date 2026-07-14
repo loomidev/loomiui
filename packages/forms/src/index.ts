@@ -1,5 +1,6 @@
 // @loomidev/forms grouping. Importing this registers the category's elements.
 export * from "@loomidev/input";
+export * from "@loomidev/autocomplete";
 export * from "@loomidev/password";
 export * from "@loomidev/textarea";
 export * from "@loomidev/text-editor";
@@ -11,6 +12,8 @@ export * from "@loomidev/number";
 export * from "@loomidev/slider";
 export * from "@loomidev/otp";
 export * from "@loomidev/checkcards";
+export * from "@loomidev/tag-input";
+export * from "@loomidev/emoji-picker";
 export * from "@loomidev/date-range-picker";
 export * from "@loomidev/filter-builder";
 export * from "@loomidev/datepicker";
