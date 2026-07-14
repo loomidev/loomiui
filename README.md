@@ -22,7 +22,7 @@ custom elements that work in any framework, or none at all.
   instantly — no Tailwind install, no rebuild, on the consumer's side.
 - **Zero runtime Tailwind.** Tailwind is compiled once at *our* build time and inlined
   into each component's Shadow DOM styles. Nothing Tailwind-related ships to you.
-- **Install only what you need.** 46 components, each its own npm package — pull in a
+- **Install only what you need.** 76 components, each its own npm package — pull in a
   single button or the entire library.
 - **Real form participation.** Every form control is form-associated via
   `ElementInternals` — they submit inside a native `<form>` like any built-in input.

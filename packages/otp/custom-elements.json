@@ -14,8 +14,6 @@
             "name": "LoomiOtp",
             "module": "./loomi-otp.js"
           }
-<<<<<<< Updated upstream:packages/pin/custom-elements.json
-=======
         },
         {
           "kind": "js",
@@ -40,7 +38,6 @@
             "name": "LoomiOtpVerifyDetail",
             "module": "./loomi-otp.js"
           }
->>>>>>> Stashed changes:packages/otp/custom-elements.json
         }
       ]
     },
