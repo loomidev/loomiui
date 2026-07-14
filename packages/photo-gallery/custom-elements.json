@@ -30,6 +30,38 @@
             "name": "LoomiPhotoGalleryAlbumView",
             "module": "./loomi-photo-gallery.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiPhotoGalleryPhotoDetail",
+          "declaration": {
+            "name": "LoomiPhotoGalleryPhotoDetail",
+            "module": "./loomi-photo-gallery.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiPhotoGalleryFavouriteDetail",
+          "declaration": {
+            "name": "LoomiPhotoGalleryFavouriteDetail",
+            "module": "./loomi-photo-gallery.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiPhotoGalleryAlbumChangeDetail",
+          "declaration": {
+            "name": "LoomiPhotoGalleryAlbumChangeDetail",
+            "module": "./loomi-photo-gallery.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiPhotoGalleryRotateDetail",
+          "declaration": {
+            "name": "LoomiPhotoGalleryRotateDetail",
+            "module": "./loomi-photo-gallery.js"
+          }
         }
       ]
     },

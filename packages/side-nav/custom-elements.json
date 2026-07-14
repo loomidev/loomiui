@@ -38,6 +38,14 @@
             "name": "LoomiSideNavCollapseMode",
             "module": "./loomi-side-nav.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSideNavIconSize",
+          "declaration": {
+            "name": "LoomiSideNavIconSize",
+            "module": "./loomi-side-nav.js"
+          }
         }
       ]
     },
@@ -269,6 +277,16 @@
               "kind": "field",
               "name": "syncItemState",
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderToggleIcon",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
             }
           ],
           "attributes": [

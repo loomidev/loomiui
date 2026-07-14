@@ -1219,7 +1219,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<loomi-chart>` — SVG charts inspired by shadcn/ui and Untitled UI: `bar`, `line`,\n`area`, `pie`, `donut`, `radar`, `radial`, or `scatter`. Pass a single series via\n`data` (`{ label, value, color? }`).",
+          "description": "`<loomi-chart>` — SVG charts inspired by shadcn/ui and Untitled UI: `bar`, `line`,\n`area`, `pie`, `donut`, `radar`, `radial`, `scatter`, or `heatmap`. Pass a single series via\n`data` (`{ label, value, color? }`).",
           "name": "LoomiChart",
           "members": [
             {
@@ -1408,6 +1408,15 @@
             {
               "kind": "field",
               "name": "hoverIndex",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "-1"
+            },
+            {
+              "kind": "field",
+              "name": "heatmapRowIndex",
               "type": {
                 "text": "number"
               },
@@ -1661,6 +1670,34 @@
                   "text": "SVGTemplateResult"
                 }
               }
+            },
+            {
+              "kind": "method",
+              "name": "renderHeatmap",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "SVGTemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "heatmapPadLeft",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "number"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "rows",
+                  "type": {
+                    "text": "string[]"
+                  }
+                }
+              ]
             },
             {
               "kind": "method",

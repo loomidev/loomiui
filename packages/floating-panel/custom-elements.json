@@ -30,6 +30,38 @@
             "name": "hideLoomiFloatingPanel",
             "module": "./loomi-floating-panel.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiFloatingPanelMinimizeDetail",
+          "declaration": {
+            "name": "LoomiFloatingPanelMinimizeDetail",
+            "module": "./loomi-floating-panel.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiFloatingPanelMaximizeDetail",
+          "declaration": {
+            "name": "LoomiFloatingPanelMaximizeDetail",
+            "module": "./loomi-floating-panel.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiFloatingPanelDragDetail",
+          "declaration": {
+            "name": "LoomiFloatingPanelDragDetail",
+            "module": "./loomi-floating-panel.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiFloatingPanelResizeDetail",
+          "declaration": {
+            "name": "LoomiFloatingPanelResizeDetail",
+            "module": "./loomi-floating-panel.js"
+          }
         }
       ]
     },

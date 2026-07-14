@@ -38,6 +38,14 @@
             "name": "LoomiBottomNavVariant",
             "module": "./loomi-bottom-nav.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiBottomNavChangeDetail",
+          "declaration": {
+            "name": "LoomiBottomNavChangeDetail",
+            "module": "./loomi-bottom-nav.js"
+          }
         }
       ]
     },

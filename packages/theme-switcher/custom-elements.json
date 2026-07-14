@@ -46,6 +46,14 @@
             "name": "LoomiThemeSwitcherVariant",
             "module": "./loomi-theme-switcher.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiThemeChangeDetail",
+          "declaration": {
+            "name": "LoomiThemeChangeDetail",
+            "module": "./loomi-theme-switcher.js"
+          }
         }
       ]
     },

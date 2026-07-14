@@ -22,6 +22,14 @@
             "name": "LoomiCheckcard",
             "module": "./loomi-checkcards.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCheckcardClickDetail",
+          "declaration": {
+            "name": "LoomiCheckcardClickDetail",
+            "module": "./loomi-checkcards.js"
+          }
         }
       ]
     },

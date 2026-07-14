@@ -77,7 +77,7 @@ export class LoomiNumber extends LoomiElement {
 
   private onInput = (e: Event): void => {
     const raw = (e.target as HTMLInputElement).value;
-    let v = raw.replace(this.withDots ? /[^0-9.\-]/g : /[^0-9\-]/g, "");
+    const v = raw.replace(this.withDots ? /[^0-9.-]/g : /[^0-9-]/g, "");
     this.value = v;
     this.syncValidity();
     this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));

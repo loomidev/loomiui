@@ -22,6 +22,14 @@
             "name": "LoomiTags",
             "module": "./loomi-tag.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTagClickDetail",
+          "declaration": {
+            "name": "LoomiTagClickDetail",
+            "module": "./loomi-tag.js"
+          }
         }
       ]
     },

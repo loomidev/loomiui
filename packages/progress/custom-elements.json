@@ -70,6 +70,22 @@
             "name": "LoomiProgressStepsOrientation",
             "module": "./loomi-progress.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProgressStepSelectDetail",
+          "declaration": {
+            "name": "LoomiProgressStepSelectDetail",
+            "module": "./loomi-progress.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProgressStepsChangeDetail",
+          "declaration": {
+            "name": "LoomiProgressStepsChangeDetail",
+            "module": "./loomi-progress.js"
+          }
         }
       ]
     },

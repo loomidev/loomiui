@@ -22,6 +22,14 @@
             "name": "LoomiTimerDirection",
             "module": "./loomi-timer.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTimerEventDetail",
+          "declaration": {
+            "name": "LoomiTimerEventDetail",
+            "module": "./loomi-timer.js"
+          }
         }
       ]
     },

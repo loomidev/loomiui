@@ -74,19 +74,18 @@ export class LoomiNotification extends LoomiElement {
 
   /** Show a notification. Re-renders an existing one when `name` matches. */
   notify(opts: LoomiNotifyOptions): void {
-    const type = opts.type ?? "success";
+    const resolvedType = opts.type ?? "success";
     const dismissIn = opts.dismissIn ?? 15;
-    let toast: Toast;
     if (opts.name) {
       const existing = this.toasts.find((t) => t.name === opts.name);
       if (existing) {
-        Object.assign(existing, opts, { type });
+        Object.assign(existing, opts, { type: resolvedType });
         this.toasts = [...this.toasts];
         this.arm(existing.id, dismissIn);
         return;
       }
     }
-    toast = { ...opts, id: ++uid, type };
+    const toast: Toast = { ...opts, id: ++uid, type: resolvedType };
     this.toasts = [...this.toasts, toast];
     this.arm(toast.id, dismissIn);
   }

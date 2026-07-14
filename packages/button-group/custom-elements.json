@@ -38,6 +38,22 @@
             "name": "LoomiButtonGroupSize",
             "module": "./loomi-button-group.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiButtonGroupClickDetail",
+          "declaration": {
+            "name": "LoomiButtonGroupClickDetail",
+            "module": "./loomi-button-group.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiButtonGroupChangeDetail",
+          "declaration": {
+            "name": "LoomiButtonGroupChangeDetail",
+            "module": "./loomi-button-group.js"
+          }
         }
       ]
     },

@@ -61,6 +61,22 @@
             "name": "LoomiAutocompleteSize",
             "module": "./loomi-autocomplete.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiAutocompleteSelectDetail",
+          "declaration": {
+            "name": "LoomiAutocompleteSelectDetail",
+            "module": "./loomi-autocomplete.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiAutocompleteEventMap",
+          "declaration": {
+            "name": "LoomiAutocompleteEventMap",
+            "module": "./loomi-autocomplete.js"
+          }
         }
       ]
     },

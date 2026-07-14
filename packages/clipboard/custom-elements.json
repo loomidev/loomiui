@@ -22,6 +22,22 @@
             "name": "LoomiClipboardStatus",
             "module": "./loomi-clipboard.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiClipboardCopiedDetail",
+          "declaration": {
+            "name": "LoomiClipboardCopiedDetail",
+            "module": "./loomi-clipboard.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiClipboardCopyErrorDetail",
+          "declaration": {
+            "name": "LoomiClipboardCopyErrorDetail",
+            "module": "./loomi-clipboard.js"
+          }
         }
       ]
     },

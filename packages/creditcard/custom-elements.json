@@ -134,6 +134,14 @@
         },
         {
           "kind": "js",
+          "name": "LoomiCreditcardFlipDetail",
+          "declaration": {
+            "name": "LoomiCreditcardFlipDetail",
+            "module": "./loomi-creditcard.js"
+          }
+        },
+        {
+          "kind": "js",
           "name": "detectCardBrand",
           "declaration": {
             "name": "detectCardBrand",

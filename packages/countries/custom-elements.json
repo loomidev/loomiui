@@ -30,6 +30,22 @@
             "name": "LoomiCountriesSize",
             "module": "./loomi-countries.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCountriesSelectDetail",
+          "declaration": {
+            "name": "LoomiCountriesSelectDetail",
+            "module": "./loomi-countries.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCountriesEventMap",
+          "declaration": {
+            "name": "LoomiCountriesEventMap",
+            "module": "./loomi-countries.js"
+          }
         }
       ]
     },
