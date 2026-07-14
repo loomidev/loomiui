@@ -28,11 +28,23 @@ function scanSource(packageName) {
     source += readFileSync(path.join(srcDir, file), "utf8");
   }
 
+  // A raw gray/white token is only a problem when it stands in for a surface or body-text
+  // color that should flip in dark mode. A few uses are deliberate (e.g. white chrome on
+  // permanently-dark media, or a manual Firefox `.is-dark` fallback that mirrors a semantic
+  // token). Those lines opt out with a `loomi-audit-allow-token: <reason>` comment.
+  const hardcodedToken = /--loomi-gray-[0-9]{3}|#fff\b|#ffffff\b|bg-white/;
+  const allowMarker = "loomi-audit-allow-token";
+  const lines = source.split("\n");
+  // A flagged token opts out when the marker sits on its own line or the line directly above.
+  const hardcodedSurface = lines.some(
+    (line, i) => hardcodedToken.test(line) && !line.includes(allowMarker) && !(lines[i - 1] || "").includes(allowMarker)
+  );
+
   return {
     hasAria: /aria-[a-z-]+=|role=/.test(source),
     hasMedia: /@media/.test(source),
     hasSemanticSurface: /--loomi-surface[^-]|var\(--loomi-text\)/.test(source),
-    hardcodedSurface: /--loomi-gray-[0-9]{3}|#fff\b|#ffffff\b|bg-white/.test(source)
+    hardcodedSurface
   };
 }
 

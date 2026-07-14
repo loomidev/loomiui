@@ -103,6 +103,7 @@
 
 .loomi-btn.loomi-btn--secondary:hover {
   background: var(--loomi-surface-hover, #f9fbfc);
+  /* loomi-audit-allow-token: deliberate neutral hover border; dark mode handled via .is-dark below */
   border-color: var(--loomi-gray-400, var(--_loomi-gray-400-default));
 }
 
@@ -117,6 +118,7 @@
  * it as this class on its own root element (see `isDarkContext` in loomi-button.ts).
  */
 .loomi-btn.loomi-btn--secondary.is-dark:hover {
+  /* loomi-audit-allow-token: dark-mode counterpart of the neutral hover border (see comment above) */
   border-color: var(--loomi-gray-500, var(--_loomi-gray-500-default));
 }
 

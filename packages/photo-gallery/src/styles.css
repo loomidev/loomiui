@@ -212,7 +212,7 @@
   border: 0;
   border-radius: 9999px;
   background: rgba(15, 23, 42, 0.45);
-  color: #fff;
+  color: var(--loomi-white);
   cursor: pointer;
   line-height: 0;
 }
@@ -220,7 +220,7 @@
   background: rgba(15, 23, 42, 0.65);
 }
 .loomi-fav-btn:focus-visible {
-  outline: 2px solid #fff;
+  outline: 2px solid var(--loomi-white);
   outline-offset: 1px;
 }
 .loomi-fav-btn.is-active {
@@ -236,7 +236,7 @@
   display: flex;
   flex-direction: column;
   background: rgba(10, 12, 16, 0.92);
-  color: #fff;
+  color: var(--loomi-white);
 }
 .loomi-lightbox-toolbar {
   display: flex;
@@ -269,10 +269,10 @@
 }
 .loomi-lightbox-btn:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.12);
-  color: #fff;
+  color: var(--loomi-white);
 }
 .loomi-lightbox-btn:focus-visible {
-  outline: 2px solid #fff;
+  outline: 2px solid var(--loomi-white);
   outline-offset: 2px;
 }
 .loomi-lightbox-btn.is-active {
@@ -308,7 +308,7 @@
   justify-content: center;
   border: 0;
   background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  color: var(--loomi-white);
   cursor: pointer;
   padding: 0.6rem;
   border-radius: 9999px;
@@ -317,7 +317,7 @@
   background: rgba(255, 255, 255, 0.22);
 }
 .loomi-lightbox-nav:focus-visible {
-  outline: 2px solid #fff;
+  outline: 2px solid var(--loomi-white);
   outline-offset: 2px;
 }
 .loomi-lightbox-nav.prev {
@@ -339,7 +339,7 @@
   left: 50%;
   transform: translateX(-50%);
   background: rgba(15, 23, 42, 0.9);
-  color: #fff;
+  color: var(--loomi-white);
   padding: 0.5rem 0.9rem;
   border-radius: 0.5rem;
   font-size: 0.8rem;

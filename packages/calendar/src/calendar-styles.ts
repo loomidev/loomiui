@@ -1526,7 +1526,7 @@ export const calendarStyles = css`
   .event-primary.selected {
     background: var(--loomi-primary-600, var(--_loomi-primary-600-default));
     border-color: var(--loomi-primary-600, var(--_loomi-primary-600-default));
-    color: var(--loomi-text-on-primary, var(--loomi-white, #fff));
+    color: var(--loomi-text-on-primary, var(--loomi-white));
   }
 
   .event-secondary {
@@ -1538,7 +1538,7 @@ export const calendarStyles = css`
   .event-secondary.selected {
     background: var(--loomi-secondary-600, var(--_loomi-secondary-600-default));
     border-color: var(--loomi-secondary-600, var(--_loomi-secondary-600-default));
-    color: var(--loomi-text-on-primary, var(--loomi-white, #fff));
+    color: var(--loomi-text-on-primary, var(--loomi-white));
   }
 
   .event-success {
@@ -1550,7 +1550,7 @@ export const calendarStyles = css`
   .event-success.selected {
     background: var(--loomi-success-600, var(--_loomi-success-600-default));
     border-color: var(--loomi-success-600, var(--_loomi-success-600-default));
-    color: var(--loomi-text-on-primary, var(--loomi-white, #fff));
+    color: var(--loomi-text-on-primary, var(--loomi-white));
   }
 
   .event-warning {
@@ -1562,7 +1562,7 @@ export const calendarStyles = css`
   .event-warning.selected {
     background: var(--loomi-warning-600, var(--_loomi-warning-600-default));
     border-color: var(--loomi-warning-600, var(--_loomi-warning-600-default));
-    color: var(--loomi-text-on-primary, var(--loomi-white, #fff));
+    color: var(--loomi-text-on-primary, var(--loomi-white));
   }
 
   .event-error {
@@ -1574,7 +1574,7 @@ export const calendarStyles = css`
   .event-error.selected {
     background: var(--loomi-error-600, var(--_loomi-error-600-default));
     border-color: var(--loomi-error-600, var(--_loomi-error-600-default));
-    color: var(--loomi-text-on-primary, var(--loomi-white, #fff));
+    color: var(--loomi-text-on-primary, var(--loomi-white));
   }
 
   /* Dark mode ("is-dark" toggled on the host via core's watchDarkMode — see

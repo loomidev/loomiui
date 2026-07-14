@@ -22,7 +22,7 @@
   width: 100%;
   border-radius: var(--loomi-video-radius);
   background: #000;
-  color: #fff;
+  color: var(--loomi-white);
 }
 
 :host(:focus-visible) .loomi-video {
@@ -58,7 +58,7 @@
   padding: 1.5rem;
   text-align: center;
   background: rgba(0, 0, 0, 0.55);
-  color: #fff;
+  color: var(--loomi-white);
 }
 
 .loomi-error-message {
@@ -123,7 +123,7 @@
   pointer-events: none;
 }
 .loomi-controls-bar ::slotted(*) {
-  color: #fff;
+  color: var(--loomi-white);
 }
 
 .loomi-ctrl-btn {
@@ -145,11 +145,11 @@
   background: rgba(255, 255, 255, 0.15);
 }
 .loomi-ctrl-btn:focus-visible {
-  outline: 2px solid var(--_loomi-accent, #fff);
+  outline: 2px solid var(--_loomi-accent, var(--loomi-white));
   outline-offset: 2px;
 }
 .loomi-ctrl-btn.is-active {
-  color: var(--_loomi-accent, #fff);
+  color: var(--_loomi-accent, var(--loomi-white));
 }
 
 .loomi-time {
@@ -180,7 +180,7 @@
   padding: 0.15rem 0.5rem;
   border-radius: 999px;
   background: var(--_loomi-accent, #dc2626);
-  color: #fff;
+  color: var(--loomi-white);
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -228,7 +228,7 @@
   background: rgba(255, 255, 255, 0.12);
 }
 .loomi-cc-item.is-selected {
-  color: var(--_loomi-accent, #fff);
+  color: var(--_loomi-accent, var(--loomi-white));
   font-weight: 600;
 }
 

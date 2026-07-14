@@ -34,7 +34,7 @@
 }
 
 .loomi-track-segment {
-  stroke: var(--loomi-gray-200);
+  stroke: var(--loomi-surface-border);
   stroke-width: 11;
 }
 
