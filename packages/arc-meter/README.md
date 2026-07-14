@@ -99,13 +99,13 @@ mode from your app theme or `@loomidev/theme-switcher`.
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `markers` | `4` | Number of marker positions distributed inside the semi-circle. |
-| `active-marker` | `1` | Selected marker position, clamped from `1` to `markers`. |
-| `marker-color` | `error` | Colour of the filled arc and active marker. Use a Loomi color name or CSS color. |
-| `title` | `Low` | Main label shown inside the meter. |
-| `description` | `Protection level` | Supporting label shown under the title. |
+| Attribute       | Default            | Description                                                                      |
+| --------------- | ------------------ | -------------------------------------------------------------------------------- |
+| `markers`       | `4`                | Number of marker positions distributed inside the semi-circle.                   |
+| `active-marker` | `1`                | Selected marker position, clamped from `1` to `markers`.                         |
+| `marker-color`  | `error`            | Colour of the filled arc and active marker. Use a Loomi color name or CSS color. |
+| `title`         | `Low`              | Main label shown inside the meter.                                               |
+| `description`   | `Protection level` | Supporting label shown under the title.                                          |
 
 ## Full Example
 

@@ -159,7 +159,9 @@
 }
 
 .loomi-bg-btn.selected:focus-visible {
-  box-shadow: 0 0 0 2px var(--_loomi-accent-ring), var(--loomi-bg-selected-shadow);
+  box-shadow:
+    0 0 0 2px var(--_loomi-accent-ring),
+    var(--loomi-bg-selected-shadow);
 }
 
 .loomi-bg-icon {

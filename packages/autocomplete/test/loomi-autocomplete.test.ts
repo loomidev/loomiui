@@ -11,7 +11,9 @@ const DATA = [
 
 describe("loomi-autocomplete", () => {
   it("opens a filtered panel while typing", async () => {
-    const el = await fixture<LoomiAutocomplete>(html`<loomi-autocomplete .data=${DATA}></loomi-autocomplete>`);
+    const el = await fixture<LoomiAutocomplete>(
+      html`<loomi-autocomplete .data=${DATA}></loomi-autocomplete>`,
+    );
     const input = el.shadowRoot!.querySelector("input")!;
     input.focus();
     input.value = "g";
@@ -23,7 +25,9 @@ describe("loomi-autocomplete", () => {
   });
 
   it("fires loomi-select when an option is chosen", async () => {
-    const el = await fixture<LoomiAutocomplete>(html`<loomi-autocomplete .data=${DATA}></loomi-autocomplete>`);
+    const el = await fixture<LoomiAutocomplete>(
+      html`<loomi-autocomplete .data=${DATA}></loomi-autocomplete>`,
+    );
     const input = el.shadowRoot!.querySelector("input")!;
     input.focus();
     input.value = "ken";

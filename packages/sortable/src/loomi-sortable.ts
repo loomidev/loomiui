@@ -189,7 +189,12 @@ export class LoomiSortable extends LoomiElement {
     return other !== this && other.canPullTo(this) && this.canPutFrom(other);
   }
 
-  private rowClasses(item: LoomiSortableItem, i: number, locked: boolean, filtered: boolean): string {
+  private rowClasses(
+    item: LoomiSortableItem,
+    i: number,
+    locked: boolean,
+    filtered: boolean,
+  ): string {
     const classes = ["loomi-row"];
     if (this.dragIndex === i) classes.push("dragging");
     if (this.overIndex === i) {
@@ -225,7 +230,9 @@ export class LoomiSortable extends LoomiElement {
   }
 
   private emitFilter(item: LoomiSortableItem): void {
-    this.dispatchEvent(new CustomEvent("loomi-filter", { bubbles: true, composed: true, detail: { item } }));
+    this.dispatchEvent(
+      new CustomEvent("loomi-filter", { bubbles: true, composed: true, detail: { item } }),
+    );
   }
 
   private onRowClick(item: LoomiSortableItem, e: MouseEvent): void {
@@ -242,7 +249,9 @@ export class LoomiSortable extends LoomiElement {
       this.selectedIds = next;
       return;
     }
-    this.dispatchEvent(new CustomEvent("loomi-item-click", { bubbles: true, composed: true, detail: { item } }));
+    this.dispatchEvent(
+      new CustomEvent("loomi-item-click", { bubbles: true, composed: true, detail: { item } }),
+    );
   }
 
   private onDragStart(i: number, e: DragEvent): void {
@@ -313,14 +322,22 @@ export class LoomiSortable extends LoomiElement {
     } else {
       const targetId = target?.id;
       const remaining = this.items.filter((it) => !draggedIds.has(it.id));
-      const targetIdx = targetId ? remaining.findIndex((it) => it.id === targetId) : remaining.length;
+      const targetIdx = targetId
+        ? remaining.findIndex((it) => it.id === targetId)
+        : remaining.length;
       remaining.splice(targetIdx === -1 ? remaining.length : targetIdx, 0, ...dragged);
       this.items = remaining;
     }
     this.selectedIds = new Set();
     this.endDrag();
     if (this.order.join("\u0000") !== before) {
-      this.dispatchEvent(new CustomEvent("loomi-reorder", { bubbles: true, composed: true, detail: { order: this.order } }));
+      this.dispatchEvent(
+        new CustomEvent("loomi-reorder", {
+          bubbles: true,
+          composed: true,
+          detail: { order: this.order },
+        }),
+      );
     }
   }
 
@@ -366,10 +383,18 @@ export class LoomiSortable extends LoomiElement {
     source.dragOverContainer = false;
     this.endDrag();
     source.dispatchEvent(
-      new CustomEvent("loomi-transfer", { bubbles: true, composed: true, detail: { order: source.order, items: dragged } }),
+      new CustomEvent("loomi-transfer", {
+        bubbles: true,
+        composed: true,
+        detail: { order: source.order, items: dragged },
+      }),
     );
     this.dispatchEvent(
-      new CustomEvent("loomi-transfer", { bubbles: true, composed: true, detail: { order: this.order, items: incoming } }),
+      new CustomEvent("loomi-transfer", {
+        bubbles: true,
+        composed: true,
+        detail: { order: this.order, items: incoming },
+      }),
     );
   }
 
@@ -406,31 +431,37 @@ export class LoomiSortable extends LoomiElement {
           @dragend=${() => this.endDrag()}
           @click=${(e: MouseEvent) => this.onRowClick(item, e)}
         >
-          ${this.handleMode
-            ? html`<span class="loomi-handle" draggable=${handleDraggable} data-handle="true"
+          ${
+            this.handleMode
+              ? html`<span class="loomi-handle" draggable=${handleDraggable} data-handle="true"
                 ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                   ${handleSvg}
                 </svg></span
               >`
-            : nothing}
+              : nothing
+          }
           <span class="loomi-text">
             <span class="loomi-label">${item.label}</span>
             ${item.meta ? html`<span class="loomi-meta">${item.meta}</span>` : nothing}
           </span>
-          ${item.avatarLabel || item.avatarImage
-            ? html`<span class="loomi-avatar-slot"
+          ${
+            item.avatarLabel || item.avatarImage
+              ? html`<span class="loomi-avatar-slot"
                 ><loomi-avatar
                   size="tiny"
                   label=${item.avatarLabel ?? ""}
                   image=${item.avatarImage ?? ""}
                 ></loomi-avatar
               ></span>`
-            : nothing}
-          ${item.locked || filtered
-            ? html`<svg class="loomi-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              : nothing
+          }
+          ${
+            item.locked || filtered
+              ? html`<svg class="loomi-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 ${getLoomiIcon("lock-closed")}
               </svg>`
-            : nothing}
+              : nothing
+          }
         </div>`;
       })}
       ${this.items.length === 0 ? html`<div class="loomi-empty-hint">${loomiT("sortable.dropHere", {}, this.locale)}</div>` : nothing}

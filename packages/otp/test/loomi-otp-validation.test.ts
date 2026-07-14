@@ -87,20 +87,29 @@ describe("loomi-otp validation", () => {
 
     // The toast module is lazy-imported on the first failure, so the host (and its keyed
     // re-render — earlier tests in this file leave a stale toast host behind) appears asynchronously.
-    await waitUntil(() =>
-      document.body.querySelector("loomi-notification")?.shadowRoot?.textContent?.includes("Yikes, check your code") ?? false,
+    await waitUntil(
+      () =>
+        document.body
+          .querySelector("loomi-notification")
+          ?.shadowRoot?.textContent?.includes("Yikes, check your code") ?? false,
     );
     const host = document.body.querySelector("loomi-notification") as LoomiNotification;
     expect(host).to.exist;
     await host.updateComplete;
 
-    expect(host.shadowRoot!.querySelector(".loomi-message")!.textContent).to.equal("Yikes, check your code");
-    expect(host.shadowRoot!.querySelector(".loomi-title")!.textContent).to.equal("Verification code");
+    expect(host.shadowRoot!.querySelector(".loomi-message")!.textContent).to.equal(
+      "Yikes, check your code",
+    );
+    expect(host.shadowRoot!.querySelector(".loomi-title")!.textContent).to.equal(
+      "Verification code",
+    );
     expect(el.shadowRoot!.querySelector(".loomi-error")).to.not.exist;
   });
 
   it("does not stack a new toast on every re-validation while still invalid", async () => {
-    const el = await fixture<LoomiOtp>(html`<loomi-otp error-message="Yikes, check your code"></loomi-otp>`);
+    const el = await fixture<LoomiOtp>(
+      html`<loomi-otp error-message="Yikes, check your code"></loomi-otp>`,
+    );
 
     el.showError();
     await el.updateComplete;
@@ -124,7 +133,9 @@ describe("loomi-otp validation", () => {
     await el.updateComplete;
 
     expect(el.errorMessage).to.equal("Too many attempts, try again later");
-    expect(el.shadowRoot!.querySelector(".loomi-error")!.textContent).to.equal("Too many attempts, try again later");
+    expect(el.shadowRoot!.querySelector(".loomi-error")!.textContent).to.equal(
+      "Too many attempts, try again later",
+    );
   });
 
   it("resets validating/valid/invalid state as soon as the user edits a box again", async () => {

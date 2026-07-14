@@ -46,7 +46,6 @@ loomi-tag-input is designed to fit the layout you place it in. It uses fluid wid
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-tag-input uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -57,33 +56,33 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `name` | _(blank)_ | Submitted with the form. |
-| `label` | _(blank)_ | Floating label. |
-| `placeholder` | _(blank)_ | Placeholder text for the draft input. |
-| `value` | _(blank)_ | Comma-separated tag value. |
-| `mode` | `inside` | `inside` or `below`. |
-| `size` | `medium` | `tiny`, `small`, `regular`, `medium`, or `big`. |
-| `variant` | `default` | `default` or `minimal` (bottom border only, no box). |
-| `color` | `primary` | Chip color. |
-| `shade` | `light` | `light`, `faint`, or `dark`. |
-| `required` | `false` | Requires at least one tag. |
-| `disabled` | `false` | Disables input and tag removal. |
-| `readonly` | `false` | Prevents editing and tag removal. |
-| `suffix` | _(blank)_ | Optional text suffix. |
-| `suffix-icon` | _(blank)_ | Optional icon-name suffix (see `@loomidev/icons`). |
+| Attribute     | Default   | Description                                          |
+| ------------- | --------- | ---------------------------------------------------- |
+| `name`        | _(blank)_ | Submitted with the form.                             |
+| `label`       | _(blank)_ | Floating label.                                      |
+| `placeholder` | _(blank)_ | Placeholder text for the draft input.                |
+| `value`       | _(blank)_ | Comma-separated tag value.                           |
+| `mode`        | `inside`  | `inside` or `below`.                                 |
+| `size`        | `medium`  | `tiny`, `small`, `regular`, `medium`, or `big`.      |
+| `variant`     | `default` | `default` or `minimal` (bottom border only, no box). |
+| `color`       | `primary` | Chip color.                                          |
+| `shade`       | `light`   | `light`, `faint`, or `dark`.                         |
+| `required`    | `false`   | Requires at least one tag.                           |
+| `disabled`    | `false`   | Disables input and tag removal.                      |
+| `readonly`    | `false`   | Prevents editing and tag removal.                    |
+| `suffix`      | _(blank)_ | Optional text suffix.                                |
+| `suffix-icon` | _(blank)_ | Optional icon-name suffix (see `@loomidev/icons`).   |
 
 ## Methods & Events
 
-| Member | Description |
-| --- | --- |
-| `.tags` | Get or set the tag array. |
-| `.value` | Comma-separated submitted value. |
-| `focus()` / `clear()` | Focus the draft input or remove all tags. |
-| `validate()` | Runs required validation and returns whether the control is valid. |
-| `input` | Fires when draft text changes or tags change. |
-| `change` | Fires when tags are added or removed. |
+| Member                | Description                                                        |
+| --------------------- | ------------------------------------------------------------------ |
+| `.tags`               | Get or set the tag array.                                          |
+| `.value`              | Comma-separated submitted value.                                   |
+| `focus()` / `clear()` | Focus the draft input or remove all tags.                          |
+| `validate()`          | Runs required validation and returns whether the control is valid. |
+| `input`               | Fires when draft text changes or tags change.                      |
+| `change`              | Fires when tags are added or removed.                              |
 
 ## Dependencies
 

@@ -13,7 +13,6 @@ npm install @loomidev/table lit
 import "@loomidev/table";
 ```
 
-
 ## Basic Usage
 
 Pass an array of row objects via the `.data` property (or a JSON-string `data`
@@ -63,15 +62,15 @@ staff list is reused across every variant below.
 </script>
 ```
 
-| Toggle | Effect |
-| --- | --- |
-| `striped` | Alternating row backgrounds. |
-| `divided="false"` | Removes row divider lines. |
-| `divider="thin"` | Thinner dividers. |
-| `has-hover` | Highlights rows on hover. |
-| `compact` | Tighter row padding. |
-| `celled` | Borders on every cell, like a spreadsheet. |
-| `has-border has-shadow` | Outer border and drop shadow. |
+| Toggle                  | Effect                                     |
+| ----------------------- | ------------------------------------------ |
+| `striped`               | Alternating row backgrounds.               |
+| `divided="false"`       | Removes row divider lines.                 |
+| `divider="thin"`        | Thinner dividers.                          |
+| `has-hover`             | Highlights rows on hover.                  |
+| `compact`               | Tighter row padding.                       |
+| `celled`                | Borders on every cell, like a spreadsheet. |
+| `has-border has-shadow` | Outer border and drop shadow.              |
 
 ## Choosing & Renaming Columns
 
@@ -402,13 +401,11 @@ loomi-table is built on semantic markup where the browser gives us the right beh
 
 When the component displays status, progress, validation, or temporary feedback, pair it with clear labels or nearby text in your app so assistive technology users get the same context a sighted user gets from the visual treatment.
 
-
 ## Responsive behavior
 
 loomi-table is designed to fit the layout you place it in. It uses fluid widths, `min-width: 0`, wrapping, truncation, or stacked layouts where that keeps the component usable in cards, forms, sidebars, and mobile screens.
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
-
 
 ## Dark mode
 
@@ -416,58 +413,57 @@ loomi-table uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surfa
 
 Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
 
-
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `name` | auto | Stable class/name hook, matching Loomi targeting patterns. |
-| `data` | `[]` | Row objects — property (`.data`) or JSON-string attribute. |
-| `columns` | _(auto)_ | Column keys (defaults to the first row's keys). |
-| `layout` | `auto` | `auto` \| `custom`; custom uses row/header templates or slotted rows. |
-| `row-template` | _(blank)_ | Template string for `layout="custom"`; `{key}` placeholders are filled from row data. |
-| `include-columns` | _(blank)_ | Comma-separated key allow list. |
-| `exclude-columns` | _(blank)_ | Comma-separated key deny list (`include` wins if both are set). |
-| `column-aliases` | `{}` | Map of `key -> display name` (property or JSON). |
-| `searchable` | `false` | Show a search box. _(boolean)_ |
-| `search-container` | _(blank)_ | DOM selector where the search input should be rendered. |
-| `search-placeholder` | `Search table below...` | Search input placeholder. |
-| `sortable` | `false` | Enable column sorting. _(boolean)_ |
-| `sortable-columns` | _(all)_ | Comma-separated sortable keys. |
-| `paginated` | `false` | Enable pagination. _(boolean)_ |
-| `page-size` | `25` | Rows per page. |
-| `pagination-style` | `arrows` | `arrows` \| `numbers` \| `dropdown` |
-| `show-total` | `true` | Show the pagination total label. _(boolean)_ |
-| `show-page-number` | `true` | Show current page between arrow controls. _(boolean)_ |
-| `show-total-pages` | `false` | Show `current / total` for arrow pagination. _(boolean)_ |
-| `default-page` | `1` | Initial selected page. |
-| `limit` | `0` | Max total rows to display (`0` = no limit). |
-| `total-label` | `Showing :a to :b of :c records` | Pagination total label placeholders. |
-| `selectable` | `false` | Row clicks toggle selection. _(boolean)_ |
-| `checkable` | `false` | Add a checkbox column. _(boolean)_ |
-| `id-key` | `id` | Row key used as the selection id. |
-| `selected-value` | _(blank)_ | Comma-separated ids to pre-check. |
-| `action-icons` | `[]` | Array of `{ icon, name?, tip?, color?, click?, iconType?, buttonOutline? }`. |
-| `actions-title` | `actions` | Heading for the action-icons column. |
-| `show-row-numbers` | `false` | Show a leading `#` column. _(boolean)_ |
-| `groupby` | _(blank)_ | Key used to render group heading rows. |
-| `striped` | `false` | Alternating row backgrounds. _(boolean)_ |
-| `divided` | `true` | Row divider lines. _(boolean)_ |
-| `celled` | `false` | Borders on every cell, like a spreadsheet. _(boolean)_ |
-| `compact` | `false` | Tighter row padding. _(boolean)_ |
-| `transparent` | `false` | Removes the table's own background. _(boolean)_ |
-| `has-hover` | `false` | Highlights rows on hover. _(boolean)_ |
-| `has-shadow` | `true` | Outer drop shadow. _(boolean)_ |
-| `has-border` | `false` | Outer border. _(boolean)_ |
-| `divider` | `regular` | `regular` \| `thin` |
-| `no-data-message` | `No records to display` | Shown when there are no rows. |
-| `message-as-empty-state` | `false` | Render no-data content as an empty state. _(boolean)_ |
-| `image` | `empty-state.svg` | Empty-state image URL. |
-| `heading` | _(blank)_ | Empty-state heading. |
-| `button-label` | _(blank)_ | Empty-state CTA label. |
-| `show-image` | `true` | Show empty-state image. _(boolean)_ |
-| `onclick` | _(blank)_ | empty-state action string, also emitted in `loomi-empty-action`. |
-| `nonce` | _(blank)_ | Accepted as a no-op compatibility attribute. |
+| Attribute                | Default                          | Description                                                                           |
+| ------------------------ | -------------------------------- | ------------------------------------------------------------------------------------- |
+| `name`                   | auto                             | Stable class/name hook, matching Loomi targeting patterns.                            |
+| `data`                   | `[]`                             | Row objects — property (`.data`) or JSON-string attribute.                            |
+| `columns`                | _(auto)_                         | Column keys (defaults to the first row's keys).                                       |
+| `layout`                 | `auto`                           | `auto` \| `custom`; custom uses row/header templates or slotted rows.                 |
+| `row-template`           | _(blank)_                        | Template string for `layout="custom"`; `{key}` placeholders are filled from row data. |
+| `include-columns`        | _(blank)_                        | Comma-separated key allow list.                                                       |
+| `exclude-columns`        | _(blank)_                        | Comma-separated key deny list (`include` wins if both are set).                       |
+| `column-aliases`         | `{}`                             | Map of `key -> display name` (property or JSON).                                      |
+| `searchable`             | `false`                          | Show a search box. _(boolean)_                                                        |
+| `search-container`       | _(blank)_                        | DOM selector where the search input should be rendered.                               |
+| `search-placeholder`     | `Search table below...`          | Search input placeholder.                                                             |
+| `sortable`               | `false`                          | Enable column sorting. _(boolean)_                                                    |
+| `sortable-columns`       | _(all)_                          | Comma-separated sortable keys.                                                        |
+| `paginated`              | `false`                          | Enable pagination. _(boolean)_                                                        |
+| `page-size`              | `25`                             | Rows per page.                                                                        |
+| `pagination-style`       | `arrows`                         | `arrows` \| `numbers` \| `dropdown`                                                   |
+| `show-total`             | `true`                           | Show the pagination total label. _(boolean)_                                          |
+| `show-page-number`       | `true`                           | Show current page between arrow controls. _(boolean)_                                 |
+| `show-total-pages`       | `false`                          | Show `current / total` for arrow pagination. _(boolean)_                              |
+| `default-page`           | `1`                              | Initial selected page.                                                                |
+| `limit`                  | `0`                              | Max total rows to display (`0` = no limit).                                           |
+| `total-label`            | `Showing :a to :b of :c records` | Pagination total label placeholders.                                                  |
+| `selectable`             | `false`                          | Row clicks toggle selection. _(boolean)_                                              |
+| `checkable`              | `false`                          | Add a checkbox column. _(boolean)_                                                    |
+| `id-key`                 | `id`                             | Row key used as the selection id.                                                     |
+| `selected-value`         | _(blank)_                        | Comma-separated ids to pre-check.                                                     |
+| `action-icons`           | `[]`                             | Array of `{ icon, name?, tip?, color?, click?, iconType?, buttonOutline? }`.          |
+| `actions-title`          | `actions`                        | Heading for the action-icons column.                                                  |
+| `show-row-numbers`       | `false`                          | Show a leading `#` column. _(boolean)_                                                |
+| `groupby`                | _(blank)_                        | Key used to render group heading rows.                                                |
+| `striped`                | `false`                          | Alternating row backgrounds. _(boolean)_                                              |
+| `divided`                | `true`                           | Row divider lines. _(boolean)_                                                        |
+| `celled`                 | `false`                          | Borders on every cell, like a spreadsheet. _(boolean)_                                |
+| `compact`                | `false`                          | Tighter row padding. _(boolean)_                                                      |
+| `transparent`            | `false`                          | Removes the table's own background. _(boolean)_                                       |
+| `has-hover`              | `false`                          | Highlights rows on hover. _(boolean)_                                                 |
+| `has-shadow`             | `true`                           | Outer drop shadow. _(boolean)_                                                        |
+| `has-border`             | `false`                          | Outer border. _(boolean)_                                                             |
+| `divider`                | `regular`                        | `regular` \| `thin`                                                                   |
+| `no-data-message`        | `No records to display`          | Shown when there are no rows.                                                         |
+| `message-as-empty-state` | `false`                          | Render no-data content as an empty state. _(boolean)_                                 |
+| `image`                  | `empty-state.svg`                | Empty-state image URL.                                                                |
+| `heading`                | _(blank)_                        | Empty-state heading.                                                                  |
+| `button-label`           | _(blank)_                        | Empty-state CTA label.                                                                |
+| `show-image`             | `true`                           | Show empty-state image. _(boolean)_                                                   |
+| `onclick`                | _(blank)_                        | empty-state action string, also emitted in `loomi-empty-action`.                      |
+| `nonce`                  | _(blank)_                        | Accepted as a no-op compatibility attribute.                                          |
 
 **Events:** `loomi-row-click` (`{ row }`), `action` (`{ name, row }`),
 `loomi-action-call`, `loomi-selection-change` (`{ ids, rows, selectedValue }`), `loomi-empty-action`,
@@ -566,7 +562,6 @@ In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the pac
 ```js
 import "@loomidev/table";
 ```
-
 
 This component accepts `data` as a JavaScript property. Use an HTML attribute only for simple strings; use a property when you pass arrays, objects, or functions.
 

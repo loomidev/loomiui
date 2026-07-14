@@ -32,6 +32,8 @@ jobs:
         run: pnpm check:bundles
       - name: Lint
         run: pnpm lint
+      - name: Formatting
+        run: pnpm format:check
 
       - run: pnpm build
       - run: pnpm typecheck

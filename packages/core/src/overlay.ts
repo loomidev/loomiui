@@ -64,7 +64,9 @@ export class OverlayReparent {
   restore(): void {
     if (!this.originalParent) return;
     const nextSibling =
-      this.originalNextSibling?.parentNode === this.originalParent ? this.originalNextSibling : null;
+      this.originalNextSibling?.parentNode === this.originalParent
+        ? this.originalNextSibling
+        : null;
     this.isMovingInDom = true;
     if ((this.originalParent as Node).isConnected) {
       (this.originalParent as ParentNode).insertBefore(this.el, nextSibling);

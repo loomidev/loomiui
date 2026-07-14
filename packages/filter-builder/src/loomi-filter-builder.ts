@@ -9,7 +9,7 @@ import type {
   FilterBuilderLogic,
   FilterBuilderOperator,
   FilterBuilderRule,
-  FilterBuilderValue
+  FilterBuilderValue,
 } from "./types.js";
 
 const OPERATORS_BY_TYPE: Record<FilterBuilderFieldType, FilterBuilderOperator[]> = {
@@ -17,7 +17,7 @@ const OPERATORS_BY_TYPE: Record<FilterBuilderFieldType, FilterBuilderOperator[]>
   number: ["equals", "notEquals", "gt", "gte", "lt", "lte"],
   date: ["equals", "before", "after"],
   boolean: ["isTrue", "isFalse"],
-  select: ["equals", "notEquals"]
+  select: ["equals", "notEquals"],
 };
 
 const OPERATOR_LABELS: Record<FilterBuilderOperator, string> = {
@@ -33,7 +33,7 @@ const OPERATOR_LABELS: Record<FilterBuilderOperator, string> = {
   before: "is before",
   after: "is after",
   isTrue: "is true",
-  isFalse: "is false"
+  isFalse: "is false",
 };
 
 function createRuleId() {
@@ -51,7 +51,7 @@ export class LoomiFilterBuilder extends LoomiElement {
     addLabel: { attribute: "add-label" },
     applyLabel: { attribute: "apply-label" },
     emptyLabel: { attribute: "empty-label" },
-    showApply: { attribute: "show-apply", type: Boolean, reflect: true }
+    showApply: { attribute: "show-apply", type: Boolean, reflect: true },
   };
 
   static override styles = loomiStyles(css`
@@ -216,15 +216,19 @@ export class LoomiFilterBuilder extends LoomiElement {
           </div>
         </header>
         <div class="rules">
-          ${this.rules.length === 0
-            ? html`<div class="empty">${this.emptyLabel}</div>`
-            : this.rules.map((rule) => this.renderRule(rule))}
+          ${
+            this.rules.length === 0
+              ? html`<div class="empty">${this.emptyLabel}</div>`
+              : this.rules.map((rule) => this.renderRule(rule))
+          }
         </div>
         <footer class="footer">
           <button class="command" type="button" @click=${this.addRule}>${this.addLabel}</button>
-          ${this.showApply
-            ? html`<button class="command apply" type="button" @click=${this.applyFilters}>${this.applyLabel}</button>`
-            : nothing}
+          ${
+            this.showApply
+              ? html`<button class="command apply" type="button" @click=${this.applyFilters}>${this.applyLabel}</button>`
+              : nothing
+          }
         </footer>
       </section>
     `;
@@ -272,7 +276,8 @@ export class LoomiFilterBuilder extends LoomiElement {
       `;
     }
 
-    const inputType = field?.type === "number" ? "number" : field?.type === "date" ? "date" : "text";
+    const inputType =
+      field?.type === "number" ? "number" : field?.type === "date" ? "date" : "text";
 
     return html`
       <input
@@ -298,8 +303,8 @@ export class LoomiFilterBuilder extends LoomiElement {
         id: createRuleId(),
         field: firstField.key,
         operator,
-        value: this.defaultValueForField(firstField, operator)
-      }
+        value: this.defaultValueForField(firstField, operator),
+      },
     ];
     this.dispatchChange();
   };
@@ -325,7 +330,7 @@ export class LoomiFilterBuilder extends LoomiElement {
     this.rules = this.rules.map((rule) =>
       rule.id === id
         ? { ...rule, field: field.key, operator, value: this.defaultValueForField(field, operator) }
-        : rule
+        : rule,
     );
     this.dispatchChange();
   }
@@ -364,8 +369,8 @@ export class LoomiFilterBuilder extends LoomiElement {
       new CustomEvent<FilterBuilderApplyDetail>("loomi-filter-apply", {
         bubbles: true,
         composed: true,
-        detail: { value: this.getValue() }
-      })
+        detail: { value: this.getValue() },
+      }),
     );
   };
 
@@ -374,15 +379,15 @@ export class LoomiFilterBuilder extends LoomiElement {
       new CustomEvent<FilterBuilderChangeDetail>("loomi-filter-change", {
         bubbles: true,
         composed: true,
-        detail: { value: this.getValue() }
-      })
+        detail: { value: this.getValue() },
+      }),
     );
   }
 
   private getValue(): FilterBuilderValue {
     return {
       logic: this.logic,
-      rules: this.rules
+      rules: this.rules,
     };
   }
 
@@ -398,7 +403,11 @@ export class LoomiFilterBuilder extends LoomiElement {
     return field.operators ?? OPERATORS_BY_TYPE[field.type];
   }
 
-  private defaultValueForField(field: FilterBuilderField | undefined, operator: FilterBuilderOperator, currentValue: unknown = "") {
+  private defaultValueForField(
+    field: FilterBuilderField | undefined,
+    operator: FilterBuilderOperator,
+    currentValue: unknown = "",
+  ) {
     if (operator === "isTrue") {
       return true;
     }

@@ -14,7 +14,9 @@ describe("loomi-divider", () => {
   });
 
   it("supports vertical orientation", async () => {
-    const el = await fixture<LoomiDivider>(html`<loomi-divider orientation="vertical"></loomi-divider>`);
+    const el = await fixture<LoomiDivider>(
+      html`<loomi-divider orientation="vertical"></loomi-divider>`,
+    );
     const divider = el.shadowRoot!.querySelector<HTMLElement>(".loomi-divider")!;
 
     expect(divider.getAttribute("aria-orientation")).to.equal("vertical");
@@ -29,7 +31,9 @@ describe("loomi-divider", () => {
   });
 
   it("uses slotted content in place of the label fallback", async () => {
-    const el = await fixture<LoomiDivider>(html`<loomi-divider label="fallback"><span>custom</span></loomi-divider>`);
+    const el = await fixture<LoomiDivider>(
+      html`<loomi-divider label="fallback"><span>custom</span></loomi-divider>`,
+    );
     const slot = el.shadowRoot!.querySelector<HTMLSlotElement>("slot")!;
 
     expect(slot.assignedElements()).to.have.length(1);

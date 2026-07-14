@@ -13,18 +13,16 @@ export interface SavedViewsModuleOptions {
 }
 
 function isFilteringModule<TRecord extends DataGridRecord>(
-  module: GridModule<TRecord>
+  module: GridModule<TRecord>,
 ): module is FilteringModule<TRecord> {
   return module.name === "filtering" && "setFilterState" in module && "getFilterState" in module;
 }
 
-function normalizeFilters(
-  filters: DataGridSavedView["filters"] = []
-): DataGridFilter[] {
+function normalizeFilters(filters: DataGridSavedView["filters"] = []): DataGridFilter[] {
   return filters.map((filter) => ({
     key: filter.key,
     value: filter.value,
-    operator: (filter.operator ?? "contains") as DataGridFilterOperator
+    operator: (filter.operator ?? "contains") as DataGridFilterOperator,
   }));
 }
 
@@ -45,14 +43,16 @@ function normalizeFilters(
  * ```
  */
 export function savedViewsModule<TRecord extends DataGridRecord = DataGridRecord>(
-  options: SavedViewsModuleOptions = {}
+  options: SavedViewsModuleOptions = {},
 ): GridModule<TRecord> {
   let views = options.views ?? [];
   let activeViewId = options.activeViewId ?? null;
   let hiddenColumnKeys = new Set<string>();
   let fallbackFilters: DataGridFilter[] = [];
 
-  function findFilteringModule(ctx: GridModuleContext<TRecord>): FilteringModule<TRecord> | undefined {
+  function findFilteringModule(
+    ctx: GridModuleContext<TRecord>,
+  ): FilteringModule<TRecord> | undefined {
     return ctx.grid.modules.find(isFilteringModule);
   }
 
@@ -63,7 +63,7 @@ export function savedViewsModule<TRecord extends DataGridRecord = DataGridRecord
     if (filtering) {
       filtering.setFilterState({
         globalSearch: view?.globalSearch ?? "",
-        columnFilters: nextFilters
+        columnFilters: nextFilters,
       });
       fallbackFilters = [];
       return;
@@ -119,7 +119,7 @@ export function savedViewsModule<TRecord extends DataGridRecord = DataGridRecord
           const value = String(row[filter.key] ?? "").toLowerCase();
           const filterValue = filter.value.toLowerCase();
           return filter.operator === "equals" ? value === filterValue : value.includes(filterValue);
-        })
+        }),
       );
     },
 
@@ -144,13 +144,14 @@ export function savedViewsModule<TRecord extends DataGridRecord = DataGridRecord
             .value=${activeViewId ?? ""}
             @change=${(event: Event) => {
               const viewId = (event.target as HTMLSelectElement).value;
-              const view = viewId ? views.find((entry) => entry.id === viewId) ?? null : null;
+              const view = viewId ? (views.find((entry) => entry.id === viewId) ?? null) : null;
               applyView(view, ctx);
             }}
           >
             <option value="">${options.defaultLabel ?? "All rows"}</option>
             ${views.map(
-              (view) => html`<option value=${view.id} ?selected=${view.id === activeViewId}>${view.label}</option>`
+              (view) =>
+                html`<option value=${view.id} ?selected=${view.id === activeViewId}>${view.label}</option>`,
             )}
           </select>
         </label>
@@ -168,12 +169,12 @@ export function savedViewsModule<TRecord extends DataGridRecord = DataGridRecord
       }
       if (config.activeViewId !== undefined) {
         const view = config.activeViewId
-          ? views.find((entry) => entry.id === config.activeViewId) ?? null
+          ? (views.find((entry) => entry.id === config.activeViewId) ?? null)
           : null;
         applyView(view, ctx);
       } else {
         ctx.requestUpdate();
       }
-    }
+    },
   });
 }

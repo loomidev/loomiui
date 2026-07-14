@@ -21,9 +21,15 @@
   margin-bottom: 0.25rem;
   display: flex;
 }
-.loomi-bar-label-out.left { justify-content: flex-start; }
-.loomi-bar-label-out.center { justify-content: center; }
-.loomi-bar-label-out.right { justify-content: flex-end; }
+.loomi-bar-label-out.left {
+  justify-content: flex-start;
+}
+.loomi-bar-label-out.center {
+  justify-content: center;
+}
+.loomi-bar-label-out.right {
+  justify-content: flex-end;
+}
 
 .loomi-track {
   position: relative;
@@ -108,8 +114,12 @@
   transform: translateX(-50%);
 }
 @keyframes loomi-stripes {
-  from { background-position: 1rem 0; }
-  to { background-position: 0 0; }
+  from {
+    background-position: 1rem 0;
+  }
+  to {
+    background-position: 0 0;
+  }
 }
 
 /* ---- progress circle ---- */

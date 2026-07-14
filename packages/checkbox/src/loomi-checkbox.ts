@@ -1,6 +1,12 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, accentVars, isLoomiColor, type LoomiColor } from "@loomidev/core";
+import {
+  LoomiElement,
+  loomiStyles,
+  accentVars,
+  isLoomiColor,
+  type LoomiColor,
+} from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 /**
@@ -55,9 +61,11 @@ export class LoomiCheckbox extends LoomiElement {
             <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
           </svg>
         </span>
-        ${this.label || this.hasChildNodes()
-          ? html`<span class="loomi-label"><slot>${this.label}</slot></span>`
-          : nothing}
+        ${
+          this.label || this.hasChildNodes()
+            ? html`<span class="loomi-label"><slot>${this.label}</slot></span>`
+            : nothing
+        }
       </label>
     `;
   }

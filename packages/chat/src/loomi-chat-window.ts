@@ -143,7 +143,8 @@ export class LoomiChatWindow extends LoomiElement {
       id: message.id ?? createMessageId(),
       text: message.text,
       senderId,
-      time: message.time ?? new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      time:
+        message.time ?? new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
       attachment: message.attachment,
       role: message.role,
     };
@@ -205,8 +206,7 @@ export class LoomiChatWindow extends LoomiElement {
     input.style.height = "0px";
     const styles = getComputedStyle(input);
     const lineHeight = Number.parseFloat(styles.lineHeight) || 20;
-    const padding =
-      Number.parseFloat(styles.paddingTop) + Number.parseFloat(styles.paddingBottom);
+    const padding = Number.parseFloat(styles.paddingTop) + Number.parseFloat(styles.paddingBottom);
     const minHeight = lineHeight * this.inputRows + padding;
     const maxHeight = lineHeight * this.inputMaxRows + padding;
     const contentHeight = input.scrollHeight;
@@ -244,27 +244,33 @@ export class LoomiChatWindow extends LoomiElement {
     else this.dispatchEvent(new CustomEvent("loomi-add-user", { bubbles: true, composed: true }));
   }
 
-  private onAttachmentPicked = (type: "file" | "picture") => (event: Event): void => {
-    const input = event.currentTarget as HTMLInputElement;
-    const files = Array.from(input.files ?? []);
-    if (!files.length) return;
-    this.dispatchEvent(
-      new CustomEvent(type === "file" ? "loomi-attach-file" : "loomi-attach-picture", {
-        bubbles: true,
-        composed: true,
-        detail: { files },
-      }),
-    );
-    input.value = "";
-  };
+  private onAttachmentPicked =
+    (type: "file" | "picture") =>
+    (event: Event): void => {
+      const input = event.currentTarget as HTMLInputElement;
+      const files = Array.from(input.files ?? []);
+      if (!files.length) return;
+      this.dispatchEvent(
+        new CustomEvent(type === "file" ? "loomi-attach-file" : "loomi-attach-picture", {
+          bubbles: true,
+          composed: true,
+          detail: { files },
+        }),
+      );
+      input.value = "";
+    };
 
   private onRecord = async (): Promise<void> => {
     if (this.busy || this.readOnly) return;
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      this.dispatchEvent(new CustomEvent("loomi-record", { bubbles: true, composed: true, detail: { stream } }));
+      this.dispatchEvent(
+        new CustomEvent("loomi-record", { bubbles: true, composed: true, detail: { stream } }),
+      );
     } catch (error) {
-      this.dispatchEvent(new CustomEvent("loomi-record-error", { bubbles: true, composed: true, detail: { error } }));
+      this.dispatchEvent(
+        new CustomEvent("loomi-record-error", { bubbles: true, composed: true, detail: { error } }),
+      );
     }
   };
 
@@ -324,22 +330,28 @@ export class LoomiChatWindow extends LoomiElement {
         ></loomi-avatar>
         ${avatarsOnly && unread > 0 ? html`<span class="loomi-chat-conversation-dot"></span>` : nothing}
       </span>
-      ${avatarsOnly
-        ? nothing
-        : html`<span class="loomi-chat-conversation-copy">
+      ${
+        avatarsOnly
+          ? nothing
+          : html`<span class="loomi-chat-conversation-copy">
             <span class="loomi-chat-conversation-top">
               <span class="loomi-chat-conversation-name">${conversation.name}</span>
-              ${conversation.time
-                ? html`<span class="loomi-chat-conversation-time">${conversation.time}</span>`
-                : nothing}
+              ${
+                conversation.time
+                  ? html`<span class="loomi-chat-conversation-time">${conversation.time}</span>`
+                  : nothing
+              }
             </span>
             <span class="loomi-chat-conversation-bottom">
-              ${conversation.preview
-                ? html`<span class="loomi-chat-conversation-preview">${conversation.preview}</span>`
-                : nothing}
+              ${
+                conversation.preview
+                  ? html`<span class="loomi-chat-conversation-preview">${conversation.preview}</span>`
+                  : nothing
+              }
               ${unread > 0 ? html`<span class="loomi-chat-conversation-unread">${unread}</span>` : nothing}
             </span>
-          </span>`}
+          </span>`
+      }
     </button>`;
   }
 
@@ -353,9 +365,11 @@ export class LoomiChatWindow extends LoomiElement {
       </div>
       <div class="loomi-chat-conversation-list" role="listbox" aria-label="Conversations">
         ${this.conversations.map((conversation) => this.renderConversationRow(conversation))}
-        ${this.conversations.length === 0
-          ? html`<div class="loomi-chat-conversations-empty">No conversations</div>`
-          : nothing}
+        ${
+          this.conversations.length === 0
+            ? html`<div class="loomi-chat-conversations-empty">No conversations</div>`
+            : nothing
+        }
       </div>
     </aside>`;
   }
@@ -395,11 +409,13 @@ export class LoomiChatWindow extends LoomiElement {
         <div class="loomi-chat-loading ${custom ? "custom" : ""}">
           ${this.loadingIcon ? html`<loomi-icon name=${this.loadingIcon}></loomi-icon>` : nothing}
           ${this.loadingText ? html`<span>${this.loadingText}</span>` : nothing}
-          ${custom
-            ? nothing
-            : html`<span class="loomi-typing-dots" aria-label="Typing">
+          ${
+            custom
+              ? nothing
+              : html`<span class="loomi-typing-dots" aria-label="Typing">
                 <span></span><span></span><span></span>
-              </span>`}
+              </span>`
+          }
         </div>
       </div>
     </div>`;
@@ -414,9 +430,11 @@ export class LoomiChatWindow extends LoomiElement {
           ${this.showConversations ? this.renderConversations() : nothing}
           <div class="loomi-chat-main">
           <header class="loomi-chat-header">
-            ${this.showHeaderAvatars && this.roster.length > 1
-              ? html`<div class="loomi-chat-header-avatars">${this.renderHeaderAvatars()}</div>`
-              : nothing}
+            ${
+              this.showHeaderAvatars && this.roster.length > 1
+                ? html`<div class="loomi-chat-header-avatars">${this.renderHeaderAvatars()}</div>`
+                : nothing
+            }
             <div class="loomi-chat-header-copy">
               <div class="loomi-chat-title">${this.title}</div>
               <div class="loomi-chat-description">${this.description}</div>
@@ -424,8 +442,9 @@ export class LoomiChatWindow extends LoomiElement {
             <div class="loomi-chat-header-actions">
               <slot name="header-actions"></slot>
             </div>
-            ${this.showReset
-              ? html`<loomi-tooltip content="Reset">
+            ${
+              this.showReset
+                ? html`<loomi-tooltip content="Reset">
                   <loomi-button
                     class="loomi-chat-reset-btn"
                     type="secondary"
@@ -437,12 +456,14 @@ export class LoomiChatWindow extends LoomiElement {
                     @click=${this.onReset}
                   ></loomi-button>
                 </loomi-tooltip>`
-              : nothing}
+                : nothing
+            }
           </header>
 
           <div class="loomi-chat-body">
-            ${hasMessages
-              ? html`<div class="loomi-chat-transcript-wrap">
+            ${
+              hasMessages
+                ? html`<div class="loomi-chat-transcript-wrap">
                   <div
                     class="loomi-chat-transcript"
                     role="log"
@@ -463,11 +484,12 @@ export class LoomiChatWindow extends LoomiElement {
                     <loomi-icon name="arrow-down"></loomi-icon>
                   </button>
                 </div>`
-              : html`<div class="loomi-chat-empty">
+                : html`<div class="loomi-chat-empty">
                   <loomi-icon name="chat-bubble-left-ellipsis" class="loomi-chat-empty-icon"></loomi-icon>
                   <div class="loomi-chat-empty-title">${this.emptyTitle}</div>
                   <div class="loomi-chat-empty-copy">${this.emptyDescription}</div>
-                </div>`}
+                </div>`
+            }
           </div>
 
           <footer class="loomi-chat-composer">
@@ -483,9 +505,11 @@ export class LoomiChatWindow extends LoomiElement {
                   @keydown=${this.onComposerKeydown}
                 ></textarea>
                 <div class="loomi-chat-input-actions">
-                  ${this.busy
-                    ? html`<loomi-spinner type="dot" size="small" color="gray"></loomi-spinner>`
-                    : nothing}
+                  ${
+                    this.busy
+                      ? html`<loomi-spinner type="dot" size="small" color="gray"></loomi-spinner>`
+                      : nothing
+                  }
                   <input
                     class="loomi-chat-file-input"
                     type="file"
@@ -540,9 +564,11 @@ export class LoomiChatWindow extends LoomiElement {
           </div>
         </div>
       </div>
-      ${this.footerNote
-        ? html`<div class="loomi-chat-footer-note">${this.footerNote}</div>`
-        : nothing}
+      ${
+        this.footerNote
+          ? html`<div class="loomi-chat-footer-note">${this.footerNote}</div>`
+          : nothing
+      }
     </div>`;
   }
 }

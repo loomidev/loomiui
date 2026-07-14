@@ -19,7 +19,7 @@ Before hand-rolling new CSS/behavior in a component, check `@loomidev/core` firs
 - A short random id -> `randomSuffix()`.
 - Arrow/Home/End menu navigation -> `nextMenuFocusIndex(event, currentIndex, itemCount)`, for a flat top-level menu that moves real DOM focus (dropmenu/context-menu's shape). Don't force it onto a component with a different navigation model (roving-tabindex toolbars, aria-activedescendant listboxes, grids) — those diverge enough that a shared helper would just add indirection.
 
-Full reference, including when *not* to reuse a token and why: `packages/core/README.md`.
+Full reference, including when _not_ to reuse a token and why: `packages/core/README.md`.
 
 Prefer package-local verification over broad `pnpm --filter ...` commands if pnpm starts reinstalling, asking no-TTY install prompts, or hitting network errors. Keep generated artifacts and source changes scoped to the packages you actually touched.
 

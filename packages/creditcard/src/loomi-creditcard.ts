@@ -1,7 +1,14 @@
 import { html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { unsafeSVG } from "lit/directives/unsafe-svg.js";
-import { LoomiElement, accentVars, isLoomiColor, loomiStyles, loomiT, type LoomiColor } from "@loomidev/core";
+import {
+  LoomiElement,
+  accentVars,
+  isLoomiColor,
+  loomiStyles,
+  loomiT,
+  type LoomiColor,
+} from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 import {
   detectCardBrand,
@@ -220,8 +227,9 @@ export class LoomiCreditcard extends LoomiElement {
       this.invalid = false;
       return true;
     }
-    const numberComplete = digitsOnly(this.number).length === LOOMI_CARD_BRAND_LENGTH[this.activeBrand]
-      || (this.activeBrand === "unknown" && digitsOnly(this.number).length >= 12);
+    const numberComplete =
+      digitsOnly(this.number).length === LOOMI_CARD_BRAND_LENGTH[this.activeBrand] ||
+      (this.activeBrand === "unknown" && digitsOnly(this.number).length >= 12);
     const cvcComplete = this.cvc.length === LOOMI_CARD_BRAND_CVC_LENGTH[this.activeBrand];
     const nameComplete = this.variant === "inline" || this.cardholderName.trim() !== "";
     const valid = numberComplete && nameComplete && this.isExpiryValid() && cvcComplete;
@@ -235,13 +243,21 @@ export class LoomiCreditcard extends LoomiElement {
   }
 
   private emit(type: "input" | "change"): void {
-    this.dispatchEvent(new CustomEvent(type, { bubbles: true, composed: true, detail: this.value }));
+    this.dispatchEvent(
+      new CustomEvent(type, { bubbles: true, composed: true, detail: this.value }),
+    );
   }
 
   private toggleFlip(): void {
     if (this.disabled) return;
     this.flipped = !this.flipped;
-    this.dispatchEvent(new CustomEvent("loomi-flip", { bubbles: true, composed: true, detail: { flipped: this.flipped } }));
+    this.dispatchEvent(
+      new CustomEvent("loomi-flip", {
+        bubbles: true,
+        composed: true,
+        detail: { flipped: this.flipped },
+      }),
+    );
     void this.updateComplete.then(() => {
       if (this.flipped) this.cvcInputEl?.focus();
       else this.numberInputEl?.focus();
@@ -302,9 +318,10 @@ export class LoomiCreditcard extends LoomiElement {
   }
 
   private renderBrandTray(): TemplateResult {
-    const brands = this.activeBrand === "unknown"
-      ? (["visa", "mastercard", "amex", "discover", "jcb"] as LoomiCardBrand[])
-      : [this.activeBrand];
+    const brands =
+      this.activeBrand === "unknown"
+        ? (["visa", "mastercard", "amex", "discover", "jcb"] as LoomiCardBrand[])
+        : [this.activeBrand];
     return html`<span class="loomi-cc-inline-brands" aria-hidden="true">
       ${brands.map((brand) => html`<span>${unsafeSVG(LOOMI_CARD_BRAND_ICONS[brand])}</span>`)}
     </span>`;
@@ -462,7 +479,11 @@ export class LoomiCreditcard extends LoomiElement {
 
   override render(): TemplateResult {
     const showError = this.invalid && this.showErrorInline && this.errorMessage;
-    const flipLabel = loomiT(this.flipped ? "creditcard.flipToFront" : "creditcard.flipToBack", {}, this.locale);
+    const flipLabel = loomiT(
+      this.flipped ? "creditcard.flipToFront" : "creditcard.flipToBack",
+      {},
+      this.locale,
+    );
     if (this.variant === "inline") {
       return html`
         <div class="loomi-creditcard inline" style=${accentVars(this.accentColor)}>
@@ -494,7 +515,6 @@ export class LoomiCreditcard extends LoomiElement {
       </div>
     `;
   }
-
 }
 
 export interface LoomiCreditcardFlipDetail {

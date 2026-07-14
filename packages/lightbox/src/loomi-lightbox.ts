@@ -67,7 +67,9 @@ export class LoomiLightboxImage extends LoomiElement {
 
   private onSlotChange = (event: Event): void => {
     const slot = event.target as HTMLSlotElement;
-    const img = slot.assignedElements({ flatten: true }).find((el): el is HTMLImageElement => el instanceof HTMLImageElement);
+    const img = slot
+      .assignedElements({ flatten: true })
+      .find((el): el is HTMLImageElement => el instanceof HTMLImageElement);
     this.slottedAlt = img?.alt ?? "";
   };
 
@@ -199,31 +201,37 @@ export class LoomiLightboxImage extends LoomiElement {
           >
             <loomi-icon name="x-mark" size="1.4rem" stroke-width="2"></loomi-icon>
           </button>
-          ${showNav
-            ? html`<button
+          ${
+            showNav
+              ? html`<button
                 class="loomi-lightbox-nav prev"
                 aria-label=${loomiT("lightbox.previous", {}, this.locale)}
                 @click=${this.prev}
               >
                 <loomi-icon name="chevron-left" size="1.5rem" stroke-width="2"></loomi-icon>
               </button>`
-            : nothing}
+              : nothing
+          }
           <img class="loomi-lightbox-image" src=${this.src} alt=${this.effectiveAlt} />
-          ${showNav
-            ? html`<button
+          ${
+            showNav
+              ? html`<button
                 class="loomi-lightbox-nav next"
                 aria-label=${loomiT("lightbox.next", {}, this.locale)}
                 @click=${this.next}
               >
                 <loomi-icon name="chevron-right" size="1.5rem" stroke-width="2"></loomi-icon>
               </button>`
-            : nothing}
+              : nothing
+          }
           ${this.caption ? html`<div class="loomi-lightbox-caption">${this.caption}</div>` : nothing}
-          ${showNav
-            ? html`<div class="loomi-lightbox-counter">
+          ${
+            showNav
+              ? html`<div class="loomi-lightbox-counter">
                 ${loomiT("lightbox.counter", { current: index + 1, total: members.length }, this.locale)}
               </div>`
-            : nothing}
+              : nothing
+          }
         </div>
       </div>
     `;

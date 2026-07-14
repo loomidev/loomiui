@@ -13,7 +13,6 @@ npm install @loomidev/sortable lit
 import "@loomidev/sortable";
 ```
 
-
 ## Basic Usage
 
 ```html
@@ -346,7 +345,6 @@ loomi-sortable is designed to fit the layout you place it in. It uses fluid widt
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-sortable uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -357,18 +355,18 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `items` | `[]` | Rows to display/reorder — `{ id, label, meta? }[]` (property or JSON). |
-| `group` | _(blank)_ | String group name, or JS property object `{ name, pull, put }`. |
-| `clone` | `false` | Clone dragged items into another shared list instead of moving them. |
-| `sort` | `true` | Enable same-list sorting. When `false`, compatible outbound drags still work. |
-| `sortable` | `true` | Enable drag-starting from the list. |
-| `has-handle` | `false` | Drag rows only from the built-in handle. |
-| `handle` | _(blank)_ | SortableJS-style handle selector; enables the built-in handle. |
-| `filter` | _(blank)_ | Selector for rows/elements that should not drag. |
-| `multi-drag` | `false` | Click-select multiple rows and drag them together. |
-| `swap` | `false` | Swap the dragged row with the hovered row. |
+| Attribute    | Default   | Description                                                                   |
+| ------------ | --------- | ----------------------------------------------------------------------------- |
+| `items`      | `[]`      | Rows to display/reorder — `{ id, label, meta? }[]` (property or JSON).        |
+| `group`      | _(blank)_ | String group name, or JS property object `{ name, pull, put }`.               |
+| `clone`      | `false`   | Clone dragged items into another shared list instead of moving them.          |
+| `sort`       | `true`    | Enable same-list sorting. When `false`, compatible outbound drags still work. |
+| `sortable`   | `true`    | Enable drag-starting from the list.                                           |
+| `has-handle` | `false`   | Drag rows only from the built-in handle.                                      |
+| `handle`     | _(blank)_ | SortableJS-style handle selector; enables the built-in handle.                |
+| `filter`     | _(blank)_ | Selector for rows/elements that should not drag.                              |
+| `multi-drag` | `false`   | Click-select multiple rows and drag them together.                            |
+| `swap`       | `false`   | Swap the dragged row with the hovered row.                                    |
 
 **Property:** `order` (array of ids). **Events:** `loomi-reorder` (`detail: { order }`, same-list
 drag), `loomi-transfer` (`detail: { order, items }`, fired on both lists after a cross-list move),
@@ -444,7 +442,6 @@ In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the pac
 ```js
 import "@loomidev/sortable";
 ```
-
 
 This component accepts `items` as a JavaScript property. Use an HTML attribute only for simple strings; use a property when you pass arrays, objects, or functions.
 

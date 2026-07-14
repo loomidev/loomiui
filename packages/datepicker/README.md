@@ -11,7 +11,6 @@ npm install @loomidev/datepicker lit
 import "@loomidev/datepicker";
 ```
 
-
 ## Basic Usage
 
 By default the datepicker fills the width of its parent container; wrap it to constrain
@@ -161,7 +160,6 @@ loomi-datepicker is designed to fit the layout you place it in. It uses fluid wi
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-datepicker uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -172,22 +170,22 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `name` | _(blank)_ | Submitted with the form. |
-| `dp-style` | `popup` | `popup` (input + panel) \| `inline` (calendar always visible, no triggering input). |
-| `range` | `false` | Select a start/end range. _(boolean)_ |
-| `selected-value` | _(blank)_ | Default ISO date, or `"start - end"` for range. |
-| `min-date` | _(blank)_ | ISO lower bound; earlier days are disabled. |
-| `max-date` | _(blank)_ | ISO upper bound; later days are disabled. |
-| `format` | `yyyy-mm-dd` | `yyyy-mm-dd` \| `dd-mm-yyyy` \| `mm-dd-yyyy` \| `yyyy/mm/dd` \| `dd/mm/yyyy` \| `mm/dd/yyyy` \| `D d M, Y` |
-| `week-starts` | `sunday` | `sunday` \| `monday` |
-| `placeholder` | `Select a date` | Closed-field placeholder text. |
-| `label` | _(blank)_ | Optional field label. |
-| `locale` | _(global)_ | Override the shared Loomi locale for this datepicker. |
-| `required` | `false` | Append an asterisk. _(boolean)_ |
-| `size` | `regular` | `tiny` \| `small` \| `regular` \| `medium` \| `big` |
-| `variant` | `default` | `default` \| `minimal` (bottom border only, no box) |
+| Attribute        | Default         | Description                                                                                                |
+| ---------------- | --------------- | ---------------------------------------------------------------------------------------------------------- |
+| `name`           | _(blank)_       | Submitted with the form.                                                                                   |
+| `dp-style`       | `popup`         | `popup` (input + panel) \| `inline` (calendar always visible, no triggering input).                        |
+| `range`          | `false`         | Select a start/end range. _(boolean)_                                                                      |
+| `selected-value` | _(blank)_       | Default ISO date, or `"start - end"` for range.                                                            |
+| `min-date`       | _(blank)_       | ISO lower bound; earlier days are disabled.                                                                |
+| `max-date`       | _(blank)_       | ISO upper bound; later days are disabled.                                                                  |
+| `format`         | `yyyy-mm-dd`    | `yyyy-mm-dd` \| `dd-mm-yyyy` \| `mm-dd-yyyy` \| `yyyy/mm/dd` \| `dd/mm/yyyy` \| `mm/dd/yyyy` \| `D d M, Y` |
+| `week-starts`    | `sunday`        | `sunday` \| `monday`                                                                                       |
+| `placeholder`    | `Select a date` | Closed-field placeholder text.                                                                             |
+| `label`          | _(blank)_       | Optional field label.                                                                                      |
+| `locale`         | _(global)_      | Override the shared Loomi locale for this datepicker.                                                      |
+| `required`       | `false`         | Append an asterisk. _(boolean)_                                                                            |
+| `size`           | `regular`       | `tiny` \| `small` \| `regular` \| `medium` \| `big`                                                        |
+| `variant`        | `default`       | `default` \| `minimal` (bottom border only, no box)                                                        |
 
 **Property:** `value`. **Event:** `change` (`detail: { value, dates }`).
 
@@ -254,7 +252,6 @@ In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the pac
 ```js
 import "@loomidev/datepicker";
 ```
-
 
 Because this is a form-capable component, give it a `name` when it should submit with a native `<form>`. Read its value with `new FormData(form).get("the-name")` just like you would for a built-in input.
 

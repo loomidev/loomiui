@@ -52,8 +52,12 @@
   font-weight: 700;
   line-height: 1;
 }
-.size-small { --loomi-otp-size: 2.75rem; }
-.size-big { --loomi-otp-size: 3.75rem; }
+.size-small {
+  --loomi-otp-size: 2.75rem;
+}
+.size-big {
+  --loomi-otp-size: 3.75rem;
+}
 .loomi-box:focus {
   border-color: var(--loomi-primary-600);
 }

@@ -24,7 +24,9 @@ describe("loomi-chart tooltips", () => {
   });
 
   it("hides tooltips when show-tooltip is false", async () => {
-    const el = await fixture<LoomiChart>(html`<loomi-chart type="pie" show-tooltip="false"></loomi-chart>`);
+    const el = await fixture<LoomiChart>(
+      html`<loomi-chart type="pie" show-tooltip="false"></loomi-chart>`,
+    );
     el.data = series;
     await el.updateComplete;
     expect(el.shadowRoot!.querySelector(".loomi-hits")).to.not.exist;
@@ -43,7 +45,9 @@ describe("loomi-chart tooltips", () => {
       value: () => ({ left: 0, top: 0, width: 320, height: 180, right: 320, bottom: 180 }),
     });
 
-    canvas.dispatchEvent(new PointerEvent("pointermove", { clientX: 200, clientY: 80, bubbles: true }));
+    canvas.dispatchEvent(
+      new PointerEvent("pointermove", { clientX: 200, clientY: 80, bubbles: true }),
+    );
     await el.updateComplete;
 
     expect(el.shadowRoot!.querySelector(".loomi-floating-tip")).to.exist;
@@ -81,7 +85,11 @@ describe("loomi-chart tooltips", () => {
     });
 
     canvas.dispatchEvent(
-      new PointerEvent("pointermove", { clientX: 320 * layoutRatio(1), clientY: 40, bubbles: true }),
+      new PointerEvent("pointermove", {
+        clientX: 320 * layoutRatio(1),
+        clientY: 40,
+        bubbles: true,
+      }),
     );
     await el.updateComplete;
 

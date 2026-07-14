@@ -13,7 +13,6 @@ npm install @loomidev/theme-switcher lit
 import "@loomidev/theme-switcher";
 ```
 
-
 ## Basic Usage
 
 ```html
@@ -118,7 +117,6 @@ loomi-theme-switcher is designed to fit the layout you place it in. It uses flui
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-theme-switcher uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -129,17 +127,17 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `light-text` | `Light` | Label for the light option (translatable). |
-| `dark-text` | `Dark` | Label for the dark option (translatable). |
-| `system-text` | `System` | Label for the system option (translatable). |
-| `light-icon` | `sun` | Icon name for the light option. |
-| `dark-icon` | `moon` | Icon name for the dark option. |
-| `system-icon` | `computer-desktop` | Icon name for the system option. |
-| `show-labels` | `false` | Show visible text labels beside the icons. _(boolean)_ |
-| `icon-right` | `false` | Place icons after the text. _(boolean)_ |
-| `variant` | `horizontal` | Render style: `horizontal` or `dropmenu`. |
+| Attribute     | Default            | Description                                            |
+| ------------- | ------------------ | ------------------------------------------------------ |
+| `light-text`  | `Light`            | Label for the light option (translatable).             |
+| `dark-text`   | `Dark`             | Label for the dark option (translatable).              |
+| `system-text` | `System`           | Label for the system option (translatable).            |
+| `light-icon`  | `sun`              | Icon name for the light option.                        |
+| `dark-icon`   | `moon`             | Icon name for the dark option.                         |
+| `system-icon` | `computer-desktop` | Icon name for the system option.                       |
+| `show-labels` | `false`            | Show visible text labels beside the icons. _(boolean)_ |
+| `icon-right`  | `false`            | Place icons after the text. _(boolean)_                |
+| `variant`     | `horizontal`       | Render style: `horizontal` or `dropmenu`.              |
 
 **Helpers:** `applyLoomiTheme(mode)`, `getLoomiTheme()`. **Event:** `loomi-theme-change`
 (`detail: { theme }`).

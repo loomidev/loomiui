@@ -19,8 +19,12 @@
   height: 100%;
   transition: width 0.5s ease;
 }
-.loomi-seg:first-child { border-radius: 9999px 0 0 9999px; }
-.loomi-seg:last-child { border-radius: 0 9999px 9999px 0; }
+.loomi-seg:first-child {
+  border-radius: 9999px 0 0 9999px;
+}
+.loomi-seg:last-child {
+  border-radius: 0 9999px 9999px 0;
+}
 .loomi-legend {
   display: flex;
   flex-wrap: wrap;

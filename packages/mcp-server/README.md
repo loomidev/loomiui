@@ -56,11 +56,11 @@ Add the same shape to `~/.cursor/mcp.json` or Claude Desktop's `claude_desktop_c
 
 ## What it exposes
 
-| Tool | Description |
-| --- | --- |
-| `list_components` | List every component (optionally filtered by `category`: `standalone` \| `forms` \| `content` \| `navigation`). |
-| `search_components` | Find components by keyword (matches name, description, category). |
-| `get_component_docs` | Get the full docs (usage, attribute table, events) for one component by name or tag. |
+| Tool                 | Description                                                                                                     |
+| -------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `list_components`    | List every component (optionally filtered by `category`: `standalone` \| `forms` \| `content` \| `navigation`). |
+| `search_components`  | Find components by keyword (matches name, description, category).                                               |
+| `get_component_docs` | Get the full docs (usage, attribute table, events) for one component by name or tag.                            |
 
 Plus one MCP **resource** per component at `loomi://docs/<name>` (e.g.
 `loomi://docs/button`) for direct reads.

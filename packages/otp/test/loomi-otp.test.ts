@@ -9,22 +9,42 @@ describe("loomi-otp", () => {
   it("splits odd digit counts with the larger group on the right", async () => {
     const el = await fixture<LoomiOtp>(html`<loomi-otp total-digits="7" separator></loomi-otp>`);
     const children = Array.from(el.shadowRoot!.querySelector(".loomi-otp")!.children);
-    const separatorIndex = children.findIndex((child) => child.classList.contains("loomi-separator"));
+    const separatorIndex = children.findIndex((child) =>
+      child.classList.contains("loomi-separator"),
+    );
 
     expect(inputs(el)).to.have.lengthOf(7);
     expect(separatorIndex).to.equal(3);
-    expect(children.slice(0, separatorIndex).filter((child) => child.classList.contains("loomi-box-wrap"))).to.have.lengthOf(3);
-    expect(children.slice(separatorIndex + 1).filter((child) => child.classList.contains("loomi-box-wrap"))).to.have.lengthOf(4);
+    expect(
+      children
+        .slice(0, separatorIndex)
+        .filter((child) => child.classList.contains("loomi-box-wrap")),
+    ).to.have.lengthOf(3);
+    expect(
+      children
+        .slice(separatorIndex + 1)
+        .filter((child) => child.classList.contains("loomi-box-wrap")),
+    ).to.have.lengthOf(4);
   });
 
   it("splits even digit counts equally around the separator", async () => {
     const el = await fixture<LoomiOtp>(html`<loomi-otp total-digits="6" separator></loomi-otp>`);
     const children = Array.from(el.shadowRoot!.querySelector(".loomi-otp")!.children);
-    const separatorIndex = children.findIndex((child) => child.classList.contains("loomi-separator"));
+    const separatorIndex = children.findIndex((child) =>
+      child.classList.contains("loomi-separator"),
+    );
 
     expect(separatorIndex).to.equal(3);
-    expect(children.slice(0, separatorIndex).filter((child) => child.classList.contains("loomi-box-wrap"))).to.have.lengthOf(3);
-    expect(children.slice(separatorIndex + 1).filter((child) => child.classList.contains("loomi-box-wrap"))).to.have.lengthOf(3);
+    expect(
+      children
+        .slice(0, separatorIndex)
+        .filter((child) => child.classList.contains("loomi-box-wrap")),
+    ).to.have.lengthOf(3);
+    expect(
+      children
+        .slice(separatorIndex + 1)
+        .filter((child) => child.classList.contains("loomi-box-wrap")),
+    ).to.have.lengthOf(3);
   });
 
   it("hides entered digits behind custom dot elements", async () => {
@@ -59,7 +79,9 @@ describe("loomi-otp", () => {
       </form>
     `);
     const el = form.querySelector<LoomiOtp>("loomi-otp")!;
-    const verify = oneEvent(el, "loomi-verify") as Promise<CustomEvent<{ pin: string; code: string }>>;
+    const verify = oneEvent(el, "loomi-verify") as Promise<
+      CustomEvent<{ pin: string; code: string }>
+    >;
 
     for (const [index, value] of ["1", "2", "3", "4"].entries()) {
       const box = inputs(el)[index];

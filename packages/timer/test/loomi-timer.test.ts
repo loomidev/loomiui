@@ -7,14 +7,18 @@ const segmentText = (el: LoomiTimer) =>
 
 describe("loomi-timer", () => {
   it("renders a countdown from days/hours/mins by default", async () => {
-    const el = await fixture<LoomiTimer>(html`<loomi-timer mins="1" hours="0" days="0"></loomi-timer>`);
+    const el = await fixture<LoomiTimer>(
+      html`<loomi-timer mins="1" hours="0" days="0"></loomi-timer>`,
+    );
 
     expect(el.direction).to.equal("down");
     expect(segmentText(el)).to.deep.equal(["00", "00", "01", "00"]);
   });
 
   it("combines days, hours, and mins into a single countdown", async () => {
-    const el = await fixture<LoomiTimer>(html`<loomi-timer days="1" hours="2" mins="3"></loomi-timer>`);
+    const el = await fixture<LoomiTimer>(
+      html`<loomi-timer days="1" hours="2" mins="3"></loomi-timer>`,
+    );
 
     expect(segmentText(el)).to.deep.equal(["01", "02", "03", "00"]);
   });
@@ -27,7 +31,9 @@ describe("loomi-timer", () => {
 
   it("shows a label under each digit segment", async () => {
     const el = await fixture<LoomiTimer>(html`<loomi-timer></loomi-timer>`);
-    const units = Array.from(el.shadowRoot!.querySelectorAll(".loomi-unit")).map((node) => node.textContent);
+    const units = Array.from(el.shadowRoot!.querySelectorAll(".loomi-unit")).map(
+      (node) => node.textContent,
+    );
 
     expect(units).to.deep.equal(["Days", "Hours", "Mins", "Secs"]);
   });
@@ -36,8 +42,12 @@ describe("loomi-timer", () => {
     const plain = await fixture<LoomiTimer>(html`<loomi-timer></loomi-timer>`);
     const bordered = await fixture<LoomiTimer>(html`<loomi-timer show-border></loomi-timer>`);
 
-    expect(plain.shadowRoot!.querySelector(".loomi-face")!.classList.contains("bordered")).to.equal(false);
-    expect(bordered.shadowRoot!.querySelector(".loomi-face")!.classList.contains("bordered")).to.equal(true);
+    expect(plain.shadowRoot!.querySelector(".loomi-face")!.classList.contains("bordered")).to.equal(
+      false,
+    );
+    expect(
+      bordered.shadowRoot!.querySelector(".loomi-face")!.classList.contains("bordered"),
+    ).to.equal(true);
   });
 
   it("renders optional controls", async () => {
@@ -51,11 +61,19 @@ describe("loomi-timer", () => {
     style.textContent = ".timer-large { font-size: 32px; }";
     document.head.append(style);
 
-    const inline = await fixture<LoomiTimer>(html`<loomi-timer style="font-size: 28px"></loomi-timer>`);
-    const classed = await fixture<LoomiTimer>(html`<loomi-timer class="timer-large"></loomi-timer>`);
+    const inline = await fixture<LoomiTimer>(
+      html`<loomi-timer style="font-size: 28px"></loomi-timer>`,
+    );
+    const classed = await fixture<LoomiTimer>(
+      html`<loomi-timer class="timer-large"></loomi-timer>`,
+    );
 
-    expect(getComputedStyle(inline.shadowRoot!.querySelector(".loomi-timer")!).fontSize).to.equal("28px");
-    expect(getComputedStyle(classed.shadowRoot!.querySelector(".loomi-timer")!).fontSize).to.equal("32px");
+    expect(getComputedStyle(inline.shadowRoot!.querySelector(".loomi-timer")!).fontSize).to.equal(
+      "28px",
+    );
+    expect(getComputedStyle(classed.shadowRoot!.querySelector(".loomi-timer")!).fontSize).to.equal(
+      "32px",
+    );
 
     style.remove();
   });

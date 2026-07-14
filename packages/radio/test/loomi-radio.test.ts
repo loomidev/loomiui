@@ -5,7 +5,9 @@ import type { LoomiRadio } from "../dist/index.js";
 
 describe("loomi-radio", () => {
   it("checks and fires change on click", async () => {
-    const el = await fixture<LoomiRadio>(html`<loomi-radio name="plan" value="pro" label="Pro"></loomi-radio>`);
+    const el = await fixture<LoomiRadio>(
+      html`<loomi-radio name="plan" value="pro" label="Pro"></loomi-radio>`,
+    );
     const native = el.shadowRoot!.querySelector(".loomi-native") as HTMLInputElement;
     expect(el.checked).to.equal(false);
 

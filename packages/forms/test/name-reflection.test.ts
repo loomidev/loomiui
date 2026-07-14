@@ -42,7 +42,10 @@ const NAMED_FORM_TAGS = [
 describe("named form controls", () => {
   for (const tag of NAMED_FORM_TAGS) {
     it(`${tag} reflects programmatic name changes`, async () => {
-      const el = document.createElement(tag) as HTMLElement & { name: string; updateComplete?: Promise<unknown> };
+      const el = document.createElement(tag) as HTMLElement & {
+        name: string;
+        updateComplete?: Promise<unknown>;
+      };
       document.body.append(el);
       el.name = "field";
       await el.updateComplete;

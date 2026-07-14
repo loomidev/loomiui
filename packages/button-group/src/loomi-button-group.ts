@@ -10,11 +10,11 @@ export type LoomiButtonGroupRadius = "none" | "small" | "medium" | "full";
 
 /** Size CSS vars aligned with `<loomi-button>` control tokens. */
 const SIZE_VARS: Record<LoomiButtonGroupSize, string> = {
-  tiny:    "--loomi-bg-height:2rem;--loomi-bg-pad-x:0.625rem;--loomi-bg-font:0.75rem",
-  small:   "--loomi-bg-height:2.25rem;--loomi-bg-pad-x:0.75rem;--loomi-bg-font:0.875rem",
+  tiny: "--loomi-bg-height:2rem;--loomi-bg-pad-x:0.625rem;--loomi-bg-font:0.75rem",
+  small: "--loomi-bg-height:2.25rem;--loomi-bg-pad-x:0.75rem;--loomi-bg-font:0.875rem",
   regular: "--loomi-bg-height:2.5rem;--loomi-bg-pad-x:1rem;--loomi-bg-font:0.875rem",
-  medium:  "--loomi-bg-height:2.75rem;--loomi-bg-pad-x:1.25rem;--loomi-bg-font:1rem",
-  big:     "--loomi-bg-height:3rem;--loomi-bg-pad-x:1.5rem;--loomi-bg-font:1.125rem",
+  medium: "--loomi-bg-height:2.75rem;--loomi-bg-pad-x:1.25rem;--loomi-bg-font:1rem",
+  big: "--loomi-bg-height:3rem;--loomi-bg-pad-x:1.5rem;--loomi-bg-font:1.125rem",
 };
 
 const RADIUS_VARS: Record<LoomiButtonGroupRadius, string> = {
@@ -64,7 +64,8 @@ export class LoomiButtonGroupItem extends LoomiElement {
   @property() value = "";
 
   private get parentGroupState(): { disabled: boolean; iconOnly: boolean } {
-    const parent = this.parentElement as (HTMLElement & { disabled?: boolean; iconOnly?: boolean }) | null;
+    const parent = this.parentElement as
+      (HTMLElement & { disabled?: boolean; iconOnly?: boolean }) | null;
     if (parent?.localName !== "loomi-button-group") {
       return { disabled: false, iconOnly: false };
     }
@@ -113,7 +114,8 @@ export class LoomiButtonGroupItem extends LoomiElement {
     const trailing = this.iconRight ? icon : nothing;
     const inheritedState = this.parentGroupState;
     const disabled = this.disabled || inheritedState.disabled;
-    const iconOnly = this.iconOnly || inheritedState.iconOnly || (!this.labelText && Boolean(this.icon));
+    const iconOnly =
+      this.iconOnly || inheritedState.iconOnly || (!this.labelText && Boolean(this.icon));
     const cls = ["loomi-bg-btn", this.selected ? "selected" : ""].filter(Boolean).join(" ");
 
     return html`
@@ -179,9 +181,7 @@ export class LoomiButtonGroup extends LoomiElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
 
   private get items(): LoomiButtonGroupItem[] {
-    return Array.from(
-      this.querySelectorAll<LoomiButtonGroupItem>("loomi-button-group-item"),
-    );
+    return Array.from(this.querySelectorAll<LoomiButtonGroupItem>("loomi-button-group-item"));
   }
 
   private get groupStyleVars(): string {

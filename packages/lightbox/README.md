@@ -110,14 +110,14 @@ white-on-dark by design, not something that should flip with `.dark`.
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `src` | _(required)_ | Full-size image URL, shown in the fullscreen view. |
-| `alt` | _(blank)_ | Alt text for the fullscreen image and the trigger's label. Falls back to the slotted `<img>`'s own `alt` when left unset. |
-| `caption` | _(blank)_ | Optional caption shown below the image in the fullscreen view. |
-| `group` | _(blank)_ | Instances sharing this value get Next/Prev navigation between them. Leave unset for a standalone viewer. |
-| `open` | `false` | Whether the fullscreen view is currently showing. _(boolean, reflected)_ |
-| `locale` | _(blank)_ | Locale override for built-in aria labels. |
+| Attribute | Default      | Description                                                                                                               |
+| --------- | ------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| `src`     | _(required)_ | Full-size image URL, shown in the fullscreen view.                                                                        |
+| `alt`     | _(blank)_    | Alt text for the fullscreen image and the trigger's label. Falls back to the slotted `<img>`'s own `alt` when left unset. |
+| `caption` | _(blank)_    | Optional caption shown below the image in the fullscreen view.                                                            |
+| `group`   | _(blank)_    | Instances sharing this value get Next/Prev navigation between them. Leave unset for a standalone viewer.                  |
+| `open`    | `false`      | Whether the fullscreen view is currently showing. _(boolean, reflected)_                                                  |
+| `locale`  | _(blank)_    | Locale override for built-in aria labels.                                                                                 |
 
 **Methods:** `show()`, `hide()`. **Events:** `loomi-open`, `loomi-close`. **Slot:**
 default (the trigger image — falls back to an `<img src alt>` built from the attributes

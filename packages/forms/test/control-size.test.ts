@@ -33,7 +33,11 @@ describe("form control sizes", () => {
         </div>
       `);
 
-      await Promise.all(Array.from(wrapper.children).map((child) => (child as { updateComplete?: Promise<unknown> }).updateComplete));
+      await Promise.all(
+        Array.from(wrapper.children).map(
+          (child) => (child as { updateComplete?: Promise<unknown> }).updateComplete,
+        ),
+      );
 
       const heights = selectors.map(([tag, selector]) => {
         const el = wrapper.querySelector(tag)!;

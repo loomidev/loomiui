@@ -124,7 +124,8 @@ export function detectCardBrand(digits: string): LoomiCardBrand {
   if (/^3(?:0[0-5]|[68])/.test(digits)) return "diners";
   if (/^35(?:2[89]|[3-8]\d)/.test(digits)) return "jcb";
   if (/^(5[1-5]|222[1-9]|22[3-9]\d|2[3-6]\d{2}|27[01]\d|2720)/.test(digits)) return "mastercard";
-  if (/^6(?:011|5\d{2}|4[4-9]\d|22(?:1\d{2}|[2-8]\d{2}|9[01]\d|92[0-5]))/.test(digits)) return "discover";
+  if (/^6(?:011|5\d{2}|4[4-9]\d|22(?:1\d{2}|[2-8]\d{2}|9[01]\d|92[0-5]))/.test(digits))
+    return "discover";
   if (/^62/.test(digits)) return "unionpay";
   if (/^(5[0678]\d{2}|6304|6390|67\d{2})/.test(digits)) return "maestro";
   if (/^4/.test(digits)) return "visa";

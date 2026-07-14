@@ -3,5 +3,5 @@ export type {
   CommandPaletteItem,
   CommandPaletteOpenChangeDetail,
   CommandPaletteQueryChangeDetail,
-  CommandPaletteSelectDetail
+  CommandPaletteSelectDetail,
 } from "./types.js";

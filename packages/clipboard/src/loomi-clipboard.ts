@@ -100,18 +100,22 @@ export class LoomiClipboard extends LoomiElement {
     try {
       await this.writeToClipboard(value);
       this.setTemporaryStatus("copied");
-      this.dispatchEvent(new CustomEvent("loomi-copied", {
-        detail: { value },
-        bubbles: true,
-        composed: true,
-      }));
+      this.dispatchEvent(
+        new CustomEvent("loomi-copied", {
+          detail: { value },
+          bubbles: true,
+          composed: true,
+        }),
+      );
     } catch (error) {
       this.setTemporaryStatus("error");
-      this.dispatchEvent(new CustomEvent("loomi-copy-error", {
-        detail: { value, error },
-        bubbles: true,
-        composed: true,
-      }));
+      this.dispatchEvent(
+        new CustomEvent("loomi-copy-error", {
+          detail: { value, error },
+          bubbles: true,
+          composed: true,
+        }),
+      );
     }
   }
 

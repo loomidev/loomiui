@@ -12,7 +12,6 @@ npm install @loomidev/select lit
 import "@loomidev/select";
 ```
 
-
 ## Basic Usage (Data-Driven)
 
 Pass an array via the `.data` property, or a JSON string via the `data` attribute. Keys
@@ -198,13 +197,11 @@ loomi-select is built on semantic markup where the browser gives us the right be
 
 When the component displays status, progress, validation, or temporary feedback, pair it with clear labels or nearby text in your app so assistive technology users get the same context a sighted user gets from the visual treatment.
 
-
 ## Responsive behavior
 
 loomi-select is designed to fit the layout you place it in. It uses fluid widths, `min-width: 0`, wrapping, truncation, or stacked layouts where that keeps the component usable in cards, forms, sidebars, and mobile screens.
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
-
 
 ## Dark mode
 
@@ -212,36 +209,34 @@ loomi-select uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surf
 
 Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
 
-
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `name` | _(blank)_ | Submitted with the form. |
-| `placeholder` | `Select One` | Trigger text when nothing is selected. |
-| `label` | _(blank)_ | Floating label (takes precedence over placeholder). |
-| `data` | `[]` | Options array — property (`.data`) or JSON-string attribute. |
-| `label-key` | `label` | Row key used as each option's display text. |
-| `value-key` | `value` | Row key used as each option's submitted value. |
-| `image-key` | _(blank)_ | Key holding an image URL to show beside each option. |
-| `selected-value` | _(blank)_ | Default value(s); comma-separated for multiple. |
-| `searchable` | `false` | Show a search box. _(boolean)_ |
-| `multiple` | `false` | Allow multiple selection. _(boolean)_ |
-| `max-selectable` | `-1` | Max items when multiple (`-1` = no limit). |
-| `disabled` | `false` | Disable the select. _(boolean)_ |
-| `readonly` | `false` | Read-only (cannot open). _(boolean)_ |
-| `required` | `false` | Marks the field required. _(boolean)_ |
-| `size` | `medium` | `small` \| `regular` \| `medium` \| `big` |
-| `variant` | `default` | `default` \| `minimal` (bottom border only, no box) |
-| `empty-placeholder` | `No options available` | Text shown when there are no options. |
-| `empty-action-label` | _(blank)_ | CTA label shown in the empty state. |
-| `empty-action-url` | _(blank)_ | Optional URL to navigate to when the empty CTA is clicked. |
-| `no-clearing` | `false` | Remove the default bottom margin. _(boolean)_ |
+| Attribute            | Default                | Description                                                  |
+| -------------------- | ---------------------- | ------------------------------------------------------------ |
+| `name`               | _(blank)_              | Submitted with the form.                                     |
+| `placeholder`        | `Select One`           | Trigger text when nothing is selected.                       |
+| `label`              | _(blank)_              | Floating label (takes precedence over placeholder).          |
+| `data`               | `[]`                   | Options array — property (`.data`) or JSON-string attribute. |
+| `label-key`          | `label`                | Row key used as each option's display text.                  |
+| `value-key`          | `value`                | Row key used as each option's submitted value.               |
+| `image-key`          | _(blank)_              | Key holding an image URL to show beside each option.         |
+| `selected-value`     | _(blank)_              | Default value(s); comma-separated for multiple.              |
+| `searchable`         | `false`                | Show a search box. _(boolean)_                               |
+| `multiple`           | `false`                | Allow multiple selection. _(boolean)_                        |
+| `max-selectable`     | `-1`                   | Max items when multiple (`-1` = no limit).                   |
+| `disabled`           | `false`                | Disable the select. _(boolean)_                              |
+| `readonly`           | `false`                | Read-only (cannot open). _(boolean)_                         |
+| `required`           | `false`                | Marks the field required. _(boolean)_                        |
+| `size`               | `medium`               | `small` \| `regular` \| `medium` \| `big`                    |
+| `variant`            | `default`              | `default` \| `minimal` (bottom border only, no box)          |
+| `empty-placeholder`  | `No options available` | Text shown when there are no options.                        |
+| `empty-action-label` | _(blank)_              | CTA label shown in the empty state.                          |
+| `empty-action-url`   | _(blank)_              | Optional URL to navigate to when the empty CTA is clicked.   |
+| `no-clearing`        | `false`                | Remove the default bottom margin. _(boolean)_                |
 
 **Slot:** default (manual `<option>` children). **Parts:** `trigger`, `panel`.
 **Methods:** `reset()`, `validate()`. **Events:** `loomi-select` (`detail: { value, label, values }`),
 `change` (composed), `loomi-empty-action` (`detail: { url }`).
-
 
 ## Full Example
 
@@ -310,7 +305,6 @@ In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the pac
 ```js
 import "@loomidev/select";
 ```
-
 
 Because this is a form-capable component, give it a `name` when it should submit with a native `<form>`. Read its value with `new FormData(form).get("the-name")` just like you would for a built-in input.
 

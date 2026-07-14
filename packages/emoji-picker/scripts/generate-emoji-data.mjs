@@ -55,4 +55,6 @@ export const GENERATED_EMOJIS: ReadonlyArray<
 `;
 
 writeFileSync(outFile, output);
-console.log(`Generated ${rows.length} emoji across ${new Set(rows.map((r) => r[2])).size} categories.`);
+console.log(
+  `Generated ${rows.length} emoji across ${new Set(rows.map((r) => r[2])).size} categories.`,
+);

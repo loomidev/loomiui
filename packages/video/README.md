@@ -92,15 +92,15 @@ the `loomi-video-error` event to hook in your own logging/telemetry.
 
 With the player focused (click it, or Tab to it):
 
-| Key | Action |
-| --- | --- |
-| `Space` / `k` | Toggle play/pause |
-| `←` / `→` | Seek 5s back/forward |
-| `↑` / `↓` | Volume up/down |
-| `m` | Toggle mute |
-| `f` | Toggle fullscreen |
-| `c` | Toggle captions (if a track is present) |
-| `Home` / `End` | Seek to start/end |
+| Key            | Action                                  |
+| -------------- | --------------------------------------- |
+| `Space` / `k`  | Toggle play/pause                       |
+| `←` / `→`      | Seek 5s back/forward                    |
+| `↑` / `↓`      | Volume up/down                          |
+| `m`            | Toggle mute                             |
+| `f`            | Toggle fullscreen                       |
+| `c`            | Toggle captions (if a track is present) |
+| `Home` / `End` | Seek to start/end                       |
 
 Every control in the bar (buttons, sliders) is independently focusable and
 reachable by Tab, in addition to these shortcuts.
@@ -145,30 +145,30 @@ from `@loomidev/theme-switcher` the same as every other loomi component.
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `src` | _(blank)_ | Video URL. Omit it and use `<source>` children instead for format fallback. |
-| `poster` | _(blank)_ | Poster image URL, shown before playback starts. |
-| `controls` | `false` | Shows the themed control bar, loading/error states, and click-to-play overlay. _(boolean)_ |
-| `autoplay` | `false` | _(boolean)_ |
-| `loop` | `false` | _(boolean)_ |
-| `muted` | `false` | _(boolean)_ |
-| `preload` | `metadata` | `none` \| `metadata` \| `auto`. |
-| `playsinline` | `true` | Defaults to `true` (unlike native `<video>`) so iOS Safari doesn't hijack playback into its own native fullscreen player, which would hide the control bar. Set `playsinline="false"` to opt back into that native behavior. _(boolean)_ |
-| `crossorigin` | _(blank)_ | `""` \| `anonymous` \| `use-credentials`. |
-| `color` | `primary` | Accent color for the control bar. Any loomi color. |
-| `aspect-ratio` | `16 / 9` | Any valid CSS `aspect-ratio` value. |
-| `fit` | `contain` | `contain` \| `cover` \| `fill` — maps to `object-fit`. |
-| `autohide-controls` | `true` | Hides the control bar after a few seconds of inactivity while playing. _(boolean)_ |
-| `disable-pip` | `false` | Always hides the picture-in-picture button. _(boolean)_ |
-| `disable-fullscreen` | `false` | Always hides the fullscreen button. _(boolean)_ |
+| Attribute            | Default    | Description                                                                                                                                                                                                                              |
+| -------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src`                | _(blank)_  | Video URL. Omit it and use `<source>` children instead for format fallback.                                                                                                                                                              |
+| `poster`             | _(blank)_  | Poster image URL, shown before playback starts.                                                                                                                                                                                          |
+| `controls`           | `false`    | Shows the themed control bar, loading/error states, and click-to-play overlay. _(boolean)_                                                                                                                                               |
+| `autoplay`           | `false`    | _(boolean)_                                                                                                                                                                                                                              |
+| `loop`               | `false`    | _(boolean)_                                                                                                                                                                                                                              |
+| `muted`              | `false`    | _(boolean)_                                                                                                                                                                                                                              |
+| `preload`            | `metadata` | `none` \| `metadata` \| `auto`.                                                                                                                                                                                                          |
+| `playsinline`        | `true`     | Defaults to `true` (unlike native `<video>`) so iOS Safari doesn't hijack playback into its own native fullscreen player, which would hide the control bar. Set `playsinline="false"` to opt back into that native behavior. _(boolean)_ |
+| `crossorigin`        | _(blank)_  | `""` \| `anonymous` \| `use-credentials`.                                                                                                                                                                                                |
+| `color`              | `primary`  | Accent color for the control bar. Any loomi color.                                                                                                                                                                                       |
+| `aspect-ratio`       | `16 / 9`   | Any valid CSS `aspect-ratio` value.                                                                                                                                                                                                      |
+| `fit`                | `contain`  | `contain` \| `cover` \| `fill` — maps to `object-fit`.                                                                                                                                                                                   |
+| `autohide-controls`  | `true`     | Hides the control bar after a few seconds of inactivity while playing. _(boolean)_                                                                                                                                                       |
+| `disable-pip`        | `false`    | Always hides the picture-in-picture button. _(boolean)_                                                                                                                                                                                  |
+| `disable-fullscreen` | `false`    | Always hides the fullscreen button. _(boolean)_                                                                                                                                                                                          |
 
 ## Slots
 
-| Slot | Description |
-| --- | --- |
+| Slot        | Description                                                           |
+| ----------- | --------------------------------------------------------------------- |
 | _(default)_ | `<source>`/`<track>` children, forwarded onto the internal `<video>`. |
-| `controls` | Replaces the entire built-in control bar with custom markup. |
+| `controls`  | Replaces the entire built-in control bar with custom markup.          |
 
 ## Methods
 
@@ -196,14 +196,14 @@ Read-only getters mirror the underlying media element: `paused`, `ended`,
 `<video>` lives behind the Shadow DOM boundary, so this is how consumers
 observe it without reaching into internals):
 
-| Event | Detail |
-| --- | --- |
-| `play` / `pause` / `ended` | _(none)_ |
-| `timeupdate` | `{ currentTime, duration }` |
-| `volumechange` | `{ volume, muted }` |
-| `fullscreenchange` | `{ fullscreen }` |
-| `enterpictureinpicture` / `leavepictureinpicture` | _(none)_ |
-| `loomi-video-error` | `{ code, message }`. Not named `error` — that type bubbling to `window` reads as an uncaught page error to test harnesses and error-tracking tools. |
+| Event                                             | Detail                                                                                                                                              |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `play` / `pause` / `ended`                        | _(none)_                                                                                                                                            |
+| `timeupdate`                                      | `{ currentTime, duration }`                                                                                                                         |
+| `volumechange`                                    | `{ volume, muted }`                                                                                                                                 |
+| `fullscreenchange`                                | `{ fullscreen }`                                                                                                                                    |
+| `enterpictureinpicture` / `leavepictureinpicture` | _(none)_                                                                                                                                            |
+| `loomi-video-error`                               | `{ code, message }`. Not named `error` — that type bubbling to `window` reads as an uncaught page error to test harnesses and error-tracking tools. |
 
 ## Dependencies
 

@@ -272,7 +272,7 @@
               "kind": "field",
               "name": "autocompleteData",
               "type": {
-                "text": "Array<Record<string, unknown>>"
+                "text": "Array<\n    Record<string, unknown>\n  >"
               },
               "default": "[]",
               "attribute": "autocomplete-data"
@@ -857,7 +857,7 @@
             {
               "name": "autocomplete-data",
               "type": {
-                "text": "Array<Record<string, unknown>>"
+                "text": "Array<\n    Record<string, unknown>\n  >"
               },
               "default": "[]",
               "fieldName": "autocompleteData"

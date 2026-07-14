@@ -11,7 +11,6 @@ npm install @loomidev/clipboard lit
 import "@loomidev/clipboard";
 ```
 
-
 ## Basic Usage
 
 ```html
@@ -60,7 +59,6 @@ loomi-clipboard is designed to fit the layout you place it in. It uses fluid wid
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-clipboard uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -71,12 +69,12 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `value` | _(blank)_ | Explicit clipboard value. Falls back to slotted text content. |
-| `copy-label` | `Copy to clipboard` | Accessible label before copy. |
-| `copied-label` | `Copied` | Feedback text and accessible label after copy. |
-| `disabled` | `false` | Disables the copy button. _(boolean)_ |
+| Attribute      | Default             | Description                                                   |
+| -------------- | ------------------- | ------------------------------------------------------------- |
+| `value`        | _(blank)_           | Explicit clipboard value. Falls back to slotted text content. |
+| `copy-label`   | `Copy to clipboard` | Accessible label before copy.                                 |
+| `copied-label` | `Copied`            | Feedback text and accessible label after copy.                |
+| `disabled`     | `false`             | Disables the copy button. _(boolean)_                         |
 
 **Slot:** default text or content to display and copy.
 

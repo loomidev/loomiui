@@ -88,7 +88,9 @@ thead th.uppercasing {
 thead th.sortable {
   cursor: pointer;
   user-select: none;
-  transition: background-color 0.12s ease, color 0.12s ease;
+  transition:
+    background-color 0.12s ease,
+    color 0.12s ease;
 }
 thead th.sortable:hover {
   background: var(--loomi-surface-hover);
@@ -103,7 +105,9 @@ thead th.sortable:hover {
   width: 0.875rem;
   height: 0.875rem;
   opacity: 0.45;
-  transition: opacity 0.12s ease, color 0.12s ease;
+  transition:
+    opacity 0.12s ease,
+    color 0.12s ease;
 }
 .loomi-sort-ico.active {
   opacity: 1;

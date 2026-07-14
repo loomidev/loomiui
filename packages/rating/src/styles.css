@@ -27,6 +27,12 @@
   width: var(--loomi-star-size, 1.25rem);
   height: var(--loomi-star-size, 1.25rem);
 }
-.size-small { --loomi-star-size: 1.25rem; }
-.size-medium { --loomi-star-size: 1.75rem; }
-.size-big { --loomi-star-size: 2.25rem; }
+.size-small {
+  --loomi-star-size: 1.25rem;
+}
+.size-medium {
+  --loomi-star-size: 1.75rem;
+}
+.size-big {
+  --loomi-star-size: 2.25rem;
+}

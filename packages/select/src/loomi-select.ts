@@ -1,6 +1,14 @@
 import { html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
-import { LoomiElement, controlSizeStyles, fieldStyles, loomiDefaultText, loomiT, onClickOutside, themeStyles } from "@loomidev/core";
+import {
+  LoomiElement,
+  controlSizeStyles,
+  fieldStyles,
+  loomiDefaultText,
+  loomiT,
+  onClickOutside,
+  themeStyles,
+} from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiSelectSize = "tiny" | "small" | "regular" | "medium" | "big";
@@ -65,7 +73,8 @@ export class LoomiSelect extends LoomiElement {
   @property({ attribute: "empty-action-label" }) emptyActionLabel = "";
   @property({ attribute: "empty-action-url" }) emptyActionUrl = "";
   @property({ type: Boolean, reflect: true }) invalid = false;
-  @property({ type: Boolean, attribute: "show-focus-ring", converter: booleanAttribute }) showFocusRing = true;
+  @property({ type: Boolean, attribute: "show-focus-ring", converter: booleanAttribute })
+  showFocusRing = true;
 
   @state() private open = false;
   @state() private search = "";
@@ -278,11 +287,18 @@ export class LoomiSelect extends LoomiElement {
       ? this.selected.map((v) => this.labelFor(v)).join(", ")
       : reserveLabelSpace
         ? `${this.label}${this.required ? " *" : ""}`
-        : loomiDefaultText(this.placeholder, DEFAULT_PLACEHOLDER, "select.placeholder", this.locale);
+        : loomiDefaultText(
+            this.placeholder,
+            DEFAULT_PLACEHOLDER,
+            "select.placeholder",
+            this.locale,
+          );
     const opts = this.filtered;
 
     const activeId =
-      this.open && this.activeIndex >= 0 && opts[this.activeIndex] ? `loomi-opt-${this.activeIndex}` : nothing;
+      this.open && this.activeIndex >= 0 && opts[this.activeIndex]
+        ? `loomi-opt-${this.activeIndex}`
+        : nothing;
 
     return html`
       <div
@@ -303,13 +319,17 @@ export class LoomiSelect extends LoomiElement {
           <span class="loomi-value ${hasSelection ? "" : "placeholder"} ${reserveLabelSpace ? "sizer" : ""}">${displayText}</span>
           <svg class="loomi-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${CHEVRON}</svg>
         </button>
-        ${hasLabel
-          ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
-          : nothing}
-        ${this.open
-          ? html`<div class="loomi-panel" part="panel" role="listbox" aria-multiselectable=${this.multiple ? "true" : nothing}>
-              ${this.searchable && this.options.length
-                ? html`<div class="loomi-searchbox">
+        ${
+          hasLabel
+            ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
+            : nothing
+        }
+        ${
+          this.open
+            ? html`<div class="loomi-panel" part="panel" role="listbox" aria-multiselectable=${this.multiple ? "true" : nothing}>
+              ${
+                this.searchable && this.options.length
+                  ? html`<div class="loomi-searchbox">
                     <input
                       class="loomi-search"
                       type="text"
@@ -321,12 +341,14 @@ export class LoomiSelect extends LoomiElement {
                       }}
                     />
                   </div>`
-                : nothing}
+                  : nothing
+              }
               <div class="loomi-list">
-                ${opts.length
-                  ? opts.map((o, i) => {
-                      const sel = this.selected.includes(o.value);
-                      return html`<div
+                ${
+                  opts.length
+                    ? opts.map((o, i) => {
+                        const sel = this.selected.includes(o.value);
+                        return html`<div
                         id="loomi-opt-${i}"
                         class="loomi-option ${sel ? "selected" : ""} ${i === this.activeIndex ? "active" : ""}"
                         role="option"
@@ -336,20 +358,26 @@ export class LoomiSelect extends LoomiElement {
                       >
                         ${o.image ? html`<img src=${o.image} alt="" />` : nothing}
                         <span>${o.label}</span>
-                        ${sel
-                          ? html`<svg class="loomi-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">${CHECK}</svg>`
-                          : nothing}
+                        ${
+                          sel
+                            ? html`<svg class="loomi-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">${CHECK}</svg>`
+                            : nothing
+                        }
                       </div>`;
-                    })
-                  : html`<div class="loomi-empty">
+                      })
+                    : html`<div class="loomi-empty">
                       <span>${loomiDefaultText(this.emptyPlaceholder, DEFAULT_EMPTY_PLACEHOLDER, "select.emptyPlaceholder", this.locale)}</span>
-                      ${this.emptyActionLabel
-                        ? html`<button type="button" class="loomi-empty-action" @click=${this.onEmptyAction}>${this.emptyActionLabel}</button>`
-                        : nothing}
-                    </div>`}
+                      ${
+                        this.emptyActionLabel
+                          ? html`<button type="button" class="loomi-empty-action" @click=${this.onEmptyAction}>${this.emptyActionLabel}</button>`
+                          : nothing
+                      }
+                    </div>`
+                }
               </div>
             </div>`
-          : nothing}
+            : nothing
+        }
         <slot @slotchange=${() => this.requestUpdate()} hidden></slot>
       </div>
     `;

@@ -1,7 +1,13 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { LoomiElement, loomiStyles, accentVars, onClickOutside, type LoomiColor } from "@loomidev/core";
+import {
+  LoomiElement,
+  loomiStyles,
+  accentVars,
+  onClickOutside,
+  type LoomiColor,
+} from "@loomidev/core";
 import "@loomidev/button/loomi-button.js";
 import "@loomidev/icon/loomi-icon.js";
 import "@loomidev/slider/loomi-slider.js";
@@ -414,7 +420,8 @@ export class LoomiVideo extends LoomiElement {
     const error = this.videoEl?.error;
     this.errored = true;
     this.buffering = false;
-    this.errorMessage = (error && ERROR_MESSAGES[error.code]) || "Something went wrong playing this video.";
+    this.errorMessage =
+      (error && ERROR_MESSAGES[error.code]) || "Something went wrong playing this video.";
     this.dispatchEvent(
       // Not named "error": that event type bubbling all the way to `window` gets
       // misread as an uncaught page error by test harnesses and error-tracking tools
@@ -481,7 +488,9 @@ export class LoomiVideo extends LoomiElement {
   private openCaptionsMenu(): void {
     this.showCaptionsMenu = true;
     if (this.ccGroupEl) {
-      this.closeCaptionsMenuCleanup = onClickOutside(this.ccGroupEl, () => this.closeCaptionsMenu());
+      this.closeCaptionsMenuCleanup = onClickOutside(this.ccGroupEl, () =>
+        this.closeCaptionsMenu(),
+      );
     }
   }
   private closeCaptionsMenu(): void {
@@ -698,8 +707,9 @@ export class LoomiVideo extends LoomiElement {
           ></loomi-slider>
         </div>
 
-        ${this.hasTracks
-          ? html`<div class="loomi-cc-group">
+        ${
+          this.hasTracks
+            ? html`<div class="loomi-cc-group">
               <button
                 class="loomi-ctrl-btn ${this.activeTrackIndex >= 0 ? "is-active" : ""}"
                 type="button"
@@ -711,9 +721,11 @@ export class LoomiVideo extends LoomiElement {
               </button>
               ${this.showCaptionsMenu ? this.renderCaptionsMenu() : nothing}
             </div>`
-          : nothing}
-        ${this.pipAvailable
-          ? html`<button
+            : nothing
+        }
+        ${
+          this.pipAvailable
+            ? html`<button
               class="loomi-ctrl-btn"
               type="button"
               aria-label=${this.isPiP ? "Exit picture-in-picture" : "Picture-in-picture"}
@@ -721,9 +733,11 @@ export class LoomiVideo extends LoomiElement {
             >
               <loomi-icon name="rectangle-group" size="1.1rem"></loomi-icon>
             </button>`
-          : nothing}
-        ${!this.disableFullscreen
-          ? html`<button
+            : nothing
+        }
+        ${
+          !this.disableFullscreen
+            ? html`<button
               class="loomi-ctrl-btn"
               type="button"
               aria-label=${this.isFullscreen ? "Exit fullscreen" : "Fullscreen"}
@@ -734,7 +748,8 @@ export class LoomiVideo extends LoomiElement {
                 size="1.15rem"
               ></loomi-icon>
             </button>`
-          : nothing}
+            : nothing
+        }
       </slot>
     </div>`;
   }
@@ -784,7 +799,6 @@ export class LoomiVideo extends LoomiElement {
       )}
     </div>`;
   }
-
 }
 
 export interface LoomiVideoErrorDetail {

@@ -14,7 +14,6 @@ npm install @loomidev/timezonepicker lit
 import "@loomidev/timezonepicker";
 ```
 
-
 ## Basic Usage
 
 Ships with its own built-in zone list — there's no `data` attribute to wire up.
@@ -111,7 +110,6 @@ loomi-timezonepicker is designed to fit the layout you place it in. It uses flui
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-timezonepicker uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -122,20 +120,20 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `name` | _(blank)_ | Submitted with the form. |
-| `placeholder` | `Select a timezone` | Trigger text when nothing is selected. |
-| `label` | _(blank)_ | Floating label (takes precedence over placeholder). |
-| `selection` | _(blank)_ | Canonical IANA id or bare city name; resolves to the canonical id. |
-| `locale` | _(blank)_ | Locale used to format each zone's current local time. |
-| `disabled` | `false` | Disable the picker. _(boolean)_ |
-| `readonly` | `false` | Read-only (cannot open). _(boolean)_ |
-| `required` | `false` | Marks the field required. _(boolean)_ |
-| `size` | `medium` | `tiny` \| `small` \| `regular` \| `medium` \| `big` |
-| `variant` | `default` | `default` \| `minimal` (bottom border only, no box) |
-| `empty-placeholder` | `No timezones found` | Text shown when search matches nothing. |
-| `no-clearing` | `false` | Remove the default bottom margin. _(boolean)_ |
+| Attribute           | Default              | Description                                                        |
+| ------------------- | -------------------- | ------------------------------------------------------------------ |
+| `name`              | _(blank)_            | Submitted with the form.                                           |
+| `placeholder`       | `Select a timezone`  | Trigger text when nothing is selected.                             |
+| `label`             | _(blank)_            | Floating label (takes precedence over placeholder).                |
+| `selection`         | _(blank)_            | Canonical IANA id or bare city name; resolves to the canonical id. |
+| `locale`            | _(blank)_            | Locale used to format each zone's current local time.              |
+| `disabled`          | `false`              | Disable the picker. _(boolean)_                                    |
+| `readonly`          | `false`              | Read-only (cannot open). _(boolean)_                               |
+| `required`          | `false`              | Marks the field required. _(boolean)_                              |
+| `size`              | `medium`             | `tiny` \| `small` \| `regular` \| `medium` \| `big`                |
+| `variant`           | `default`            | `default` \| `minimal` (bottom border only, no box)                |
+| `empty-placeholder` | `No timezones found` | Text shown when search matches nothing.                            |
+| `no-clearing`       | `false`              | Remove the default bottom margin. _(boolean)_                      |
 
 **Parts:** `trigger`, `panel`. **Methods:** `reset()`, `validate()`. **Events:**
 `loomi-select` (`detail: { id, city, region, offsetLabel }`), `change` (composed).

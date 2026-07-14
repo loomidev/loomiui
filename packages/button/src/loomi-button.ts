@@ -15,10 +15,7 @@ const BUTTON_COLORS = ["primary", "secondary", "success", "error", "warning", "g
 export type LoomiButtonColor = (typeof BUTTON_COLORS)[number];
 
 function isLoomiButtonColor(value: unknown): value is LoomiButtonColor {
-  return (
-    typeof value === "string" &&
-    (BUTTON_COLORS as readonly string[]).includes(value)
-  );
+  return typeof value === "string" && (BUTTON_COLORS as readonly string[]).includes(value);
 }
 
 /** Padding + font-size per size. Literal strings so Tailwind's scanner picks them up. */
@@ -244,8 +241,7 @@ export class LoomiButton extends LoomiElement {
       : !this.iconRight
         ? this.renderIcon()
         : nothing;
-    const trailing =
-      !this.spinning && this.iconRight ? this.renderIcon() : nothing;
+    const trailing = !this.spinning && this.iconRight ? this.renderIcon() : nothing;
 
     return html`
       <slot name="prefix"></slot>

@@ -11,7 +11,6 @@ npm install @loomidev/icon lit
 import "@loomidev/icon";
 ```
 
-
 ## Basic Usage
 
 ```html
@@ -42,10 +41,10 @@ a correctly-sized empty placeholder, so there's no layout jump.
 
 `variant` picks the visual style. Not every source ships every style:
 
-| Source | Available `variant` values |
-| --- | --- |
-| `heroicons` | `outline` (default), `solid` |
-| `iconsax` | `outline` (default), `solid`, `twotone` |
+| Source       | Available `variant` values                   |
+| ------------ | -------------------------------------------- |
+| `heroicons`  | `outline` (default), `solid`                 |
+| `iconsax`    | `outline` (default), `solid`, `twotone`      |
 | `untitledui` | `outline` (default; the only style it ships) |
 
 Requesting a `variant` a source doesn't have (e.g. `source="untitledui" variant="solid"`)
@@ -123,11 +122,11 @@ steps, or notification list items.
 <loomi-icon source="untitledui" name="file-02" branded shade="light"></loomi-icon>
 ```
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `branded` | `false` | Renders the icon on a background badge instead of bare. |
-| `shade` | `light` | `light` (soft primary tint behind a darker primary icon) \| `dark` (solid primary fill behind a white icon). Only applies when `branded`. |
-| `radius` | `medium` | Badge corner rounding: `none` \| `small` \| `medium` \| `full`. Only applies when `branded`. |
+| Attribute | Default  | Description                                                                                                                               |
+| --------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `branded` | `false`  | Renders the icon on a background badge instead of bare.                                                                                   |
+| `shade`   | `light`  | `light` (soft primary tint behind a darker primary icon) \| `dark` (solid primary fill behind a white icon). Only applies when `branded`. |
+| `radius`  | `medium` | Badge corner rounding: `none` \| `small` \| `medium` \| `full`. Only applies when `branded`.                                              |
 
 The badge always uses the theme's `primary` color (the same `--loomi-primary-*` slots
 every other component reads), so a single `:root { --loomi-primary-600: ...; }` override
@@ -137,7 +136,7 @@ itself both scale with `size`/`--loomi-icon-size`, so a bigger badge stays propo
 ## Accessible Labels
 
 By default an icon is purely decorative (`aria-hidden="true"`) — appropriate when it
-sits next to visible text (as in a button or tab heading). If the icon is the *only*
+sits next to visible text (as in a button or tab heading). If the icon is the _only_
 content conveying meaning (e.g. an icon-only button), set `label` so screen readers
 announce it.
 
@@ -191,7 +190,6 @@ loomi-icon is designed to fit the layout you place it in. It uses fluid widths, 
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-icon uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -202,18 +200,18 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `name` | _(blank)_ | Registered icon name (see [`@loomidev/icons`](../icons)). |
-| `source` | `heroicons` | Icon set. `heroicons` \| `iconsax` \| `untitledui`. Ignored when `directory` is set. |
-| `variant` | `outline` | Visual style. `outline` \| `solid` \| `twotone` — availability depends on `source` (see [Outline, Solid, and Twotone](#outline-solid-and-twotone)). Ignored when `directory` is set. |
-| `directory` | _(blank)_ | Directory URL for file-based icons. Written directly to `<img src>`, so relative paths resolve from the current page URL; `.svg` is added when `name` has no extension. |
-| `size` | _(blank)_ | CSS size, e.g. `1.5rem`, `32px`. Sets `--loomi-icon-size`. |
-| `stroke-width` | `1.5` | Stroke width. Heroicons `outline` only — `iconsax` and `untitledui` ship a fixed weight per icon. |
-| `label` | _(blank)_ | Accessible label; when omitted the icon is `aria-hidden`. |
-| `branded` | `false` | Renders the icon on a primary-colored background badge (see [Branded Badges](#branded-badges)). |
-| `shade` | `light` | Badge background: `light` \| `dark`. Only applies when `branded`. |
-| `radius` | `medium` | Badge corner radius: `none` \| `small` \| `medium` \| `full`. Only applies when `branded`. |
+| Attribute      | Default     | Description                                                                                                                                                                          |
+| -------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `name`         | _(blank)_   | Registered icon name (see [`@loomidev/icons`](../icons)).                                                                                                                            |
+| `source`       | `heroicons` | Icon set. `heroicons` \| `iconsax` \| `untitledui`. Ignored when `directory` is set.                                                                                                 |
+| `variant`      | `outline`   | Visual style. `outline` \| `solid` \| `twotone` — availability depends on `source` (see [Outline, Solid, and Twotone](#outline-solid-and-twotone)). Ignored when `directory` is set. |
+| `directory`    | _(blank)_   | Directory URL for file-based icons. Written directly to `<img src>`, so relative paths resolve from the current page URL; `.svg` is added when `name` has no extension.              |
+| `size`         | _(blank)_   | CSS size, e.g. `1.5rem`, `32px`. Sets `--loomi-icon-size`.                                                                                                                           |
+| `stroke-width` | `1.5`       | Stroke width. Heroicons `outline` only — `iconsax` and `untitledui` ship a fixed weight per icon.                                                                                    |
+| `label`        | _(blank)_   | Accessible label; when omitted the icon is `aria-hidden`.                                                                                                                            |
+| `branded`      | `false`     | Renders the icon on a primary-colored background badge (see [Branded Badges](#branded-badges)).                                                                                      |
+| `shade`        | `light`     | Badge background: `light` \| `dark`. Only applies when `branded`.                                                                                                                    |
+| `radius`       | `medium`    | Badge corner radius: `none` \| `small` \| `medium` \| `full`. Only applies when `branded`.                                                                                           |
 
 **Slot:** default (custom `<svg>`, used when no registered icon matches `name`/`source`).
 

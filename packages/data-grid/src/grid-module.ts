@@ -76,7 +76,7 @@ export interface GridModule<TRecord extends DataGridRecord = DataGridRecord> {
   /** Add, remove, or reshape columns (e.g. pivot's dynamic columns). */
   transformColumns?(
     columns: DataGridColumn<TRecord>[],
-    ctx: GridModuleContext<TRecord>
+    ctx: GridModuleContext<TRecord>,
   ): DataGridColumn<TRecord>[];
 
   /**
@@ -102,7 +102,7 @@ export interface GridModule<TRecord extends DataGridRecord = DataGridRecord> {
     rows: TRecord[],
     columns: DataGridColumn<TRecord>[],
     renderRow: (row: TRecord, rowIndex: number) => unknown,
-    ctx: GridModuleContext<TRecord>
+    ctx: GridModuleContext<TRecord>,
   ): unknown;
 
   /**
@@ -112,19 +112,38 @@ export interface GridModule<TRecord extends DataGridRecord = DataGridRecord> {
   renderCell?(
     value: unknown,
     cell: GridCellCoordinates<TRecord>,
-    ctx: GridModuleContext<TRecord>
+    ctx: GridModuleContext<TRecord>,
   ): unknown | undefined;
 
   /** Extra CSS class(es) for a rendered `<tr>`. */
   getRowClass?(row: TRecord, rowIndex: number, ctx: GridModuleContext<TRecord>): string | undefined;
   /** Extra CSS class(es) for a rendered `<td>`/`<th>` cell. */
-  getCellClass?(cell: GridCellCoordinates<TRecord>, ctx: GridModuleContext<TRecord>): string | undefined;
+  getCellClass?(
+    cell: GridCellCoordinates<TRecord>,
+    ctx: GridModuleContext<TRecord>,
+  ): string | undefined;
 
   /** Return `true` to mark the keydown as handled and stop core keyboard nav. */
-  onCellKeydown?(event: KeyboardEvent, cell: GridCellCoordinates<TRecord>, ctx: GridModuleContext<TRecord>): boolean;
-  onCellPointerDown?(cell: GridCellCoordinates<TRecord>, event: PointerEvent, ctx: GridModuleContext<TRecord>): void;
-  onCellPointerEnter?(cell: GridCellCoordinates<TRecord>, event: PointerEvent, ctx: GridModuleContext<TRecord>): void;
-  onCellDblClick?(cell: GridCellCoordinates<TRecord>, event: MouseEvent, ctx: GridModuleContext<TRecord>): void;
+  onCellKeydown?(
+    event: KeyboardEvent,
+    cell: GridCellCoordinates<TRecord>,
+    ctx: GridModuleContext<TRecord>,
+  ): boolean;
+  onCellPointerDown?(
+    cell: GridCellCoordinates<TRecord>,
+    event: PointerEvent,
+    ctx: GridModuleContext<TRecord>,
+  ): void;
+  onCellPointerEnter?(
+    cell: GridCellCoordinates<TRecord>,
+    event: PointerEvent,
+    ctx: GridModuleContext<TRecord>,
+  ): void;
+  onCellDblClick?(
+    cell: GridCellCoordinates<TRecord>,
+    event: MouseEvent,
+    ctx: GridModuleContext<TRecord>,
+  ): void;
 
   /** Observe every event the grid dispatches (sort/page/selection/etc.). */
   onGridEvent?(name: string, detail: unknown, ctx: GridModuleContext<TRecord>): void;
@@ -132,7 +151,7 @@ export interface GridModule<TRecord extends DataGridRecord = DataGridRecord> {
 
 /** Identity helper that gives module factories precise generic inference. */
 export function defineGridModule<TRecord extends DataGridRecord = DataGridRecord>(
-  module: GridModule<TRecord>
+  module: GridModule<TRecord>,
 ): GridModule<TRecord> {
   return module;
 }

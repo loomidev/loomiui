@@ -23,7 +23,12 @@ describe("loomi-notification", () => {
   it("renders notification icons through loomi-icon", async () => {
     const el = await mountNotification(html`<loomi-notification></loomi-notification>`);
 
-    el.notify({ title: "Saved", message: "Your changes were saved.", type: "success", dismissIn: 0 });
+    el.notify({
+      title: "Saved",
+      message: "Your changes were saved.",
+      type: "success",
+      dismissIn: 0,
+    });
     await el.updateComplete;
 
     expect(el.shadowRoot!.querySelector('.loomi-toast > loomi-icon[name="check-circle"]')).to.exist;
@@ -33,7 +38,12 @@ describe("loomi-notification", () => {
   it("dismisses a notification from the close button", async () => {
     const el = await mountNotification(html`<loomi-notification></loomi-notification>`);
 
-    el.notify({ title: "Saved", message: "Your changes were saved.", type: "success", dismissIn: 0 });
+    el.notify({
+      title: "Saved",
+      message: "Your changes were saved.",
+      type: "success",
+      dismissIn: 0,
+    });
     await el.updateComplete;
 
     const close = el.shadowRoot!.querySelector(".loomi-close") as HTMLButtonElement;
@@ -54,7 +64,9 @@ describe("loomi-notification", () => {
   });
 
   it("positions the stack from the selected corner", async () => {
-    const el = await mountNotification(html`<loomi-notification placement="bottom-left"></loomi-notification>`);
+    const el = await mountNotification(
+      html`<loomi-notification placement="bottom-left"></loomi-notification>`,
+    );
 
     el.notify({ title: "Saved", message: "Your changes were saved.", dismissIn: 0 });
     await el.updateComplete;
@@ -81,7 +93,9 @@ describe("loomi-notification", () => {
       return Math.abs(rect.left + rect.width / 2 - window.innerWidth / 2) < 1;
     };
 
-    const el = await mountNotification(html`<loomi-notification placement="top-center"></loomi-notification>`);
+    const el = await mountNotification(
+      html`<loomi-notification placement="top-center"></loomi-notification>`,
+    );
 
     el.notify({ title: "Saved", message: "Your changes were saved.", dismissIn: 0 });
     await el.updateComplete;
@@ -98,7 +112,9 @@ describe("loomi-notification", () => {
   });
 
   it("spans the full viewport width and anchors flush to the top edge", async () => {
-    const el = await mountNotification(html`<loomi-notification placement="top-left" full-width></loomi-notification>`);
+    const el = await mountNotification(
+      html`<loomi-notification placement="top-left" full-width></loomi-notification>`,
+    );
 
     el.notify({ title: "Saved", message: "Your changes were saved.", dismissIn: 0 });
     await el.updateComplete;
@@ -112,7 +128,9 @@ describe("loomi-notification", () => {
   });
 
   it("anchors flush to the bottom edge when full-width with a bottom position", async () => {
-    const el = await mountNotification(html`<loomi-notification placement="bottom-center" full-width></loomi-notification>`);
+    const el = await mountNotification(
+      html`<loomi-notification placement="bottom-center" full-width></loomi-notification>`,
+    );
 
     el.notify({ title: "Saved", message: "Your changes were saved.", dismissIn: 0 });
     await el.updateComplete;
@@ -122,7 +140,9 @@ describe("loomi-notification", () => {
   });
 
   it("flips the accent border to the inline-end side for left placements", async () => {
-    const el = await mountNotification(html`<loomi-notification placement="bottom-left"></loomi-notification>`);
+    const el = await mountNotification(
+      html`<loomi-notification placement="bottom-left"></loomi-notification>`,
+    );
 
     el.notify({ title: "Saved", message: "Your changes were saved.", dismissIn: 0 });
     await el.updateComplete;
@@ -140,8 +160,10 @@ describe("loomi-notification", () => {
     expect(style.borderInlineEndWidth).to.equal("1px");
   });
 
-  it("treats full-width=\"false\" as off, matching other boolean attributes", async () => {
-    const el = await mountNotification(html`<loomi-notification full-width="false"></loomi-notification>`);
+  it('treats full-width="false" as off, matching other boolean attributes', async () => {
+    const el = await mountNotification(
+      html`<loomi-notification full-width="false"></loomi-notification>`,
+    );
 
     expect(el.fullWidth).to.be.false;
   });

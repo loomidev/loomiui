@@ -14,7 +14,9 @@ describe("loomi-creditcard", () => {
   });
 
   it("preserves masked card numbers passed for edit mode", async () => {
-    const el = await fixture<LoomiCreditcard>(html`<loomi-creditcard brand="visa" number="************4242"></loomi-creditcard>`);
+    const el = await fixture<LoomiCreditcard>(
+      html`<loomi-creditcard brand="visa" number="************4242"></loomi-creditcard>`,
+    );
     const input = el.shadowRoot!.querySelector(".loomi-cc-number") as HTMLInputElement;
 
     expect(el.activeBrand).to.equal("visa");
@@ -73,7 +75,9 @@ describe("loomi-creditcard", () => {
   });
 
   it("reflects the `variant` attribute so outline styling can be targeted from CSS", async () => {
-    const el = await fixture<LoomiCreditcard>(html`<loomi-creditcard variant="outline"></loomi-creditcard>`);
+    const el = await fixture<LoomiCreditcard>(
+      html`<loomi-creditcard variant="outline"></loomi-creditcard>`,
+    );
     expect(el.variant).to.equal("outline");
     expect(el.getAttribute("variant")).to.equal("outline");
   });

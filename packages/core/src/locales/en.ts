@@ -32,7 +32,7 @@ export const en: LoomiTranslations = {
     cropApply: "Apply",
     cropCancel: "Cancel",
     fileTooLargeTitle: "File too large",
-    fileTooLarge: "\":name\" exceeds the :limit limit.",
+    fileTooLarge: '":name" exceeds the :limit limit.',
   },
   select: {
     placeholder: "Select One",

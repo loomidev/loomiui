@@ -14,14 +14,18 @@ describe("loomi-table", () => {
     await el.updateComplete;
 
     const scroll = el.shadowRoot!.querySelector(".loomi-shell")!;
-    const headings = [...el.shadowRoot!.querySelectorAll("thead th")].map((th) => th.textContent!.trim());
+    const headings = [...el.shadowRoot!.querySelectorAll("thead th")].map((th) =>
+      th.textContent!.trim(),
+    );
     expect(scroll.classList.contains("bordered")).to.equal(true);
     expect(scroll.classList.contains("shadow")).to.equal(false);
     expect(headings).to.deep.equal(["name", "team"]);
   });
 
   it("groups dynamic rows and toggles selectable row state", async () => {
-    const el = await fixture<LoomiTable>(html`<loomi-table selectable groupby="department"></loomi-table>`);
+    const el = await fixture<LoomiTable>(
+      html`<loomi-table selectable groupby="department"></loomi-table>`,
+    );
     el.data = [
       { id: 1, name: "Ama", department: "Design" },
       { id: 2, name: "Kojo", department: "Design" },
@@ -30,12 +34,16 @@ describe("loomi-table", () => {
     await el.updateComplete;
 
     const groupRows = el.shadowRoot!.querySelectorAll(".loomi-group-row");
-    const firstDataRow = el.shadowRoot!.querySelector<HTMLTableRowElement>("tbody tr:not(.loomi-group-row)")!;
+    const firstDataRow = el.shadowRoot!.querySelector<HTMLTableRowElement>(
+      "tbody tr:not(.loomi-group-row)",
+    )!;
     const selection = oneEvent(el, "loomi-selection-change") as Promise<CustomEvent>;
     firstDataRow.click();
     const event = await selection;
     await el.updateComplete;
-    const selectedRow = el.shadowRoot!.querySelector<HTMLTableRowElement>("tbody tr:not(.loomi-group-row)")!;
+    const selectedRow = el.shadowRoot!.querySelector<HTMLTableRowElement>(
+      "tbody tr:not(.loomi-group-row)",
+    )!;
 
     expect(groupRows.length).to.equal(2);
     expect(event.detail.ids).to.deep.equal(["1"]);
@@ -44,7 +52,9 @@ describe("loomi-table", () => {
   });
 
   it("filters rows through a loomi-input search field", async () => {
-    const el = await fixture<LoomiTable>(html`<loomi-table searchable search-placeholder="Find staff"></loomi-table>`);
+    const el = await fixture<LoomiTable>(
+      html`<loomi-table searchable search-placeholder="Find staff"></loomi-table>`,
+    );
     el.data = [
       { id: 1, name: "Ada", department: "Engineering" },
       { id: 2, name: "Sara", department: "Design" },
@@ -101,7 +111,9 @@ describe("loomi-table", () => {
     await el.updateComplete;
 
     const bodyText = el.shadowRoot!.querySelector("tbody")!.textContent!;
-    const pagination = el.shadowRoot!.querySelector<HTMLElement & { showTotalPages: boolean }>("loomi-pagination")!;
+    const pagination = el.shadowRoot!.querySelector<HTMLElement & { showTotalPages: boolean }>(
+      "loomi-pagination",
+    )!;
     expect(bodyText).to.contain("Ama <ama@example.com>");
     expect(pagination.showTotalPages).to.equal(true);
   });

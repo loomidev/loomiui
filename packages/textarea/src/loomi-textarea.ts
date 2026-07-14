@@ -1,6 +1,13 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
-import { LoomiElement, fieldStyles, findMentionTrigger, loomiT, onClickOutside, themeStyles } from "@loomidev/core";
+import {
+  LoomiElement,
+  fieldStyles,
+  findMentionTrigger,
+  loomiT,
+  onClickOutside,
+  themeStyles,
+} from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export interface LoomiMentionItem {
@@ -57,12 +64,16 @@ export class LoomiTextarea extends LoomiElement {
   @property({ attribute: "error-message" }) errorMessage = "";
   @property({ type: Boolean, attribute: "show-error-inline" }) showErrorInline = false;
   @property({ type: Boolean, reflect: true }) invalid = false;
-  @property({ type: Boolean, attribute: "show-focus-ring", converter: booleanAttribute }) showFocusRing = true;
+  @property({ type: Boolean, attribute: "show-focus-ring", converter: booleanAttribute })
+  showFocusRing = true;
   @property() variant: LoomiTextareaVariant = "default";
   /** Characters that open the mention picker, e.g. `["@", "#", "/"]`. Empty disables it. */
   @property({ type: Array, attribute: "mention-triggers" }) mentionTriggers: string[] = [];
   /** Items per trigger character, e.g. `{ "@": [{ label: "Jane" }] }`. */
-  @property({ type: Object, attribute: "mention-data" }) mentionData: Record<string, LoomiMentionItem[]> = {};
+  @property({ type: Object, attribute: "mention-data" }) mentionData: Record<
+    string,
+    LoomiMentionItem[]
+  > = {};
 
   @state() private mentionOpen = false;
   @state() private mentionTrigger = "";
@@ -108,7 +119,9 @@ export class LoomiTextarea extends LoomiElement {
     const empty = this.required && !this.disabled && !this.readonly && this.value.trim() === "";
     this.invalid = empty && showInvalid;
     const validity = empty ? { valueMissing: true } : {};
-    const message = empty ? this.errorMessage || loomiT("validation.requiredField", {}, this.locale) : "";
+    const message = empty
+      ? this.errorMessage || loomiT("validation.requiredField", {}, this.locale)
+      : "";
     if (this.textareaEl) this.internals.setValidity(validity, message, this.textareaEl);
     else this.internals.setValidity(validity, message);
     return !empty;
@@ -198,7 +211,11 @@ export class LoomiTextarea extends LoomiElement {
     const newCaret = start + insertText.length;
     this.closeMention();
     this.dispatchEvent(
-      new CustomEvent("loomi-mention-select", { bubbles: true, composed: true, detail: { trigger, item } }),
+      new CustomEvent("loomi-mention-select", {
+        bubbles: true,
+        composed: true,
+        detail: { trigger, item },
+      }),
     );
     this.emit("input");
     void this.updateComplete.then(() => {
@@ -229,7 +246,9 @@ export class LoomiTextarea extends LoomiElement {
         break;
       case "ArrowUp":
         e.preventDefault();
-        this.mentionActiveIndex = items.length ? (this.mentionActiveIndex - 1 + items.length) % items.length : -1;
+        this.mentionActiveIndex = items.length
+          ? (this.mentionActiveIndex - 1 + items.length) % items.length
+          : -1;
         break;
       case "Enter":
       case "Tab":
@@ -257,9 +276,10 @@ export class LoomiTextarea extends LoomiElement {
         role="listbox"
         style="top:${this.mentionPos.top}px;left:${this.mentionPos.left}px"
       >
-        ${items.length
-          ? items.map(
-              (item, i) => html`
+        ${
+          items.length
+            ? items.map(
+                (item, i) => html`
                 <div
                   class="loomi-mention-item ${i === this.mentionActiveIndex ? "active" : ""}"
                   role="option"
@@ -273,8 +293,9 @@ export class LoomiTextarea extends LoomiElement {
                   ${item.description ? html`<span class="loomi-mention-desc">${item.description}</span>` : nothing}
                 </div>
               `,
-            )
-          : html`<div class="loomi-mention-empty">${loomiT("mention.emptyPlaceholder", {}, this.locale)}</div>`}
+              )
+            : html`<div class="loomi-mention-empty">${loomiT("mention.emptyPlaceholder", {}, this.locale)}</div>`
+        }
       </div>
     `;
   }
@@ -305,9 +326,11 @@ export class LoomiTextarea extends LoomiElement {
           @change=${() => this.emit("change")}
           @blur=${this.showValidation}
         ></textarea>
-        ${hasLabel
-          ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
-          : nothing}
+        ${
+          hasLabel
+            ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
+            : nothing
+        }
         ${this.mentionTriggers.length ? html`<div class="loomi-textarea loomi-mention-mirror" aria-hidden="true"></div>` : nothing}
         ${this.mentionOpen ? this.renderMentionPanel() : nothing}
       </div>

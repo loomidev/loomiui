@@ -20,7 +20,8 @@ export function applyLoomiTheme(mode: LoomiTheme): void {
   } catch {
     /* ignore */
   }
-  const dark = mode === "dark" || (mode === "system" && matchMedia("(prefers-color-scheme: dark)").matches);
+  const dark =
+    mode === "dark" || (mode === "system" && matchMedia("(prefers-color-scheme: dark)").matches);
   document.documentElement.classList.toggle("dark", dark);
 }
 
@@ -75,14 +76,42 @@ export class LoomiThemeSwitcher extends LoomiElement {
   private select(mode: LoomiTheme): void {
     this.mode = mode;
     applyLoomiTheme(mode);
-    this.dispatchEvent(new CustomEvent("loomi-theme-change", { bubbles: true, composed: true, detail: { theme: mode } }));
+    this.dispatchEvent(
+      new CustomEvent("loomi-theme-change", {
+        bubbles: true,
+        composed: true,
+        detail: { theme: mode },
+      }),
+    );
   }
 
   private options(): Array<{ mode: LoomiTheme; text: string; icon: string }> {
     return [
-      { mode: "light", text: loomiDefaultText(this.lightText, DEFAULT_LIGHT_TEXT, "themeSwitcher.light", this.locale), icon: this.lightIcon },
-      { mode: "dark", text: loomiDefaultText(this.darkText, DEFAULT_DARK_TEXT, "themeSwitcher.dark", this.locale), icon: this.darkIcon },
-      { mode: "system", text: loomiDefaultText(this.systemText, DEFAULT_SYSTEM_TEXT, "themeSwitcher.system", this.locale), icon: this.systemIcon },
+      {
+        mode: "light",
+        text: loomiDefaultText(
+          this.lightText,
+          DEFAULT_LIGHT_TEXT,
+          "themeSwitcher.light",
+          this.locale,
+        ),
+        icon: this.lightIcon,
+      },
+      {
+        mode: "dark",
+        text: loomiDefaultText(this.darkText, DEFAULT_DARK_TEXT, "themeSwitcher.dark", this.locale),
+        icon: this.darkIcon,
+      },
+      {
+        mode: "system",
+        text: loomiDefaultText(
+          this.systemText,
+          DEFAULT_SYSTEM_TEXT,
+          "themeSwitcher.system",
+          this.locale,
+        ),
+        icon: this.systemIcon,
+      },
     ];
   }
 
@@ -128,8 +157,9 @@ export class LoomiThemeSwitcher extends LoomiElement {
           @click=${() => this.select(mode)}
         >
           <span class="loomi-menu-item-text">${text}</span>
-          ${this.mode === mode && checkPath
-            ? html`<svg
+          ${
+            this.mode === mode && checkPath
+              ? html`<svg
                 class="loomi-menu-check"
                 viewBox="0 0 24 24"
                 fill="none"
@@ -139,7 +169,8 @@ export class LoomiThemeSwitcher extends LoomiElement {
               >
                 ${checkPath}
               </svg>`
-            : nothing}
+              : nothing
+          }
         </loomi-dropmenu-item>`,
       )}
     </loomi-dropmenu>`;

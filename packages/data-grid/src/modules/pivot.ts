@@ -26,7 +26,7 @@ export interface PivotModuleOptions<TRecord extends DataGridRecord = DataGridRec
  * ```
  */
 export function pivotModule<TRecord extends DataGridRecord = DataGridRecord>(
-  options: PivotModuleOptions<TRecord>
+  options: PivotModuleOptions<TRecord>,
 ): GridModule<TRecord> {
   let computedColumns: DataGridColumn<DataGridRecord>[] = [];
 
@@ -52,25 +52,29 @@ export function pivotModule<TRecord extends DataGridRecord = DataGridRecord>(
 
       const sortedColumnValues = [...columnValues].sort();
       computedColumns = [
-        { key: options.rowField, label: options.rowLabel ?? String(options.rowField), sortable: true },
-        ...sortedColumnValues.map(
-          (columnValue): DataGridColumn<DataGridRecord> => ({
-            key: columnValue,
-            label: columnValue || "(blank)",
-            align: "end",
-            sortable: true
-          })
-        )
+        {
+          key: options.rowField,
+          label: options.rowLabel ?? String(options.rowField),
+          sortable: true,
+        },
+        ...sortedColumnValues.map((columnValue): DataGridColumn<DataGridRecord> => ({
+          key: columnValue,
+          label: columnValue || "(blank)",
+          align: "end",
+          sortable: true,
+        })),
       ];
 
       const pivotRows: DataGridRecord[] = [];
       for (const [rowValue, bucketRows] of buckets) {
         const pivotRow: DataGridRecord = { [options.rowField]: rowValue };
         for (const columnValue of sortedColumnValues) {
-          const matching = bucketRows.filter((row) => formatCellValue(row[options.columnField]) === columnValue);
+          const matching = bucketRows.filter(
+            (row) => formatCellValue(row[options.columnField]) === columnValue,
+          );
           pivotRow[columnValue] = aggregateValues(
             matching.map((row) => row[options.valueField]),
-            options.aggregate ?? "sum"
+            options.aggregate ?? "sum",
           );
         }
         pivotRows.push(pivotRow);
@@ -81,6 +85,6 @@ export function pivotModule<TRecord extends DataGridRecord = DataGridRecord>(
 
     transformColumns() {
       return computedColumns as unknown as DataGridColumn<TRecord>[];
-    }
+    },
   });
 }

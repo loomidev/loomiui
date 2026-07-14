@@ -1,6 +1,13 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { LoomiElement, loomiDefaultText, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomidev/core";
+import {
+  LoomiElement,
+  loomiDefaultText,
+  loomiStyles,
+  loomiT,
+  accentVars,
+  type LoomiColor,
+} from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiPaginationStyle = "arrows" | "numbers" | "dropdown";
@@ -33,9 +40,11 @@ export class LoomiPagination extends LoomiElement {
   @property({ converter: booleanConverter, attribute: "show-total" }) showTotal = true;
   @property({ converter: booleanConverter, attribute: "show_total" }) showTotalAlias?: boolean;
   @property({ converter: booleanConverter, attribute: "show-page-number" }) showPageNumber = true;
-  @property({ converter: booleanConverter, attribute: "show_page_number" }) showPageNumberAlias?: boolean;
+  @property({ converter: booleanConverter, attribute: "show_page_number" })
+  showPageNumberAlias?: boolean;
   @property({ converter: booleanConverter, attribute: "show-total-pages" }) showTotalPages = true;
-  @property({ converter: booleanConverter, attribute: "show_total_pages" }) showTotalPagesAlias?: boolean;
+  @property({ converter: booleanConverter, attribute: "show_total_pages" })
+  showTotalPagesAlias?: boolean;
   @property({ attribute: "total-label" }) totalLabel = DEFAULT_TOTAL_LABEL;
   @property({ attribute: "total_label" }) totalLabelAlias = "";
   @property() locale = "";
@@ -50,7 +59,11 @@ export class LoomiPagination extends LoomiElement {
     if (clamped === this.page) return;
     this.page = clamped;
     this.dispatchEvent(
-      new CustomEvent("loomi-page-change", { bubbles: true, composed: true, detail: { page: clamped } }),
+      new CustomEvent("loomi-page-change", {
+        bubbles: true,
+        composed: true,
+        detail: { page: clamped },
+      }),
     );
   }
 
@@ -58,7 +71,12 @@ export class LoomiPagination extends LoomiElement {
     if (this.total === 0) return loomiT("pagination.noRecords", {}, this.locale);
     const a = (this.page - 1) * this.pageSize + 1;
     const b = Math.min(this.total, this.page * this.pageSize);
-    return loomiDefaultText(this.totalLabelAlias || this.totalLabel, DEFAULT_TOTAL_LABEL, "pagination.totalLabel", this.locale)
+    return loomiDefaultText(
+      this.totalLabelAlias || this.totalLabel,
+      DEFAULT_TOTAL_LABEL,
+      "pagination.totalLabel",
+      this.locale,
+    )
       .replace(":a", String(a))
       .replace(":b", String(b))
       .replace(":c", String(this.total));
@@ -79,7 +97,10 @@ export class LoomiPagination extends LoomiElement {
     return out;
   }
 
-  private btn(content: TemplateResult | string, opts: { disabled?: boolean; active?: boolean; onClick: () => void }): TemplateResult {
+  private btn(
+    content: TemplateResult | string,
+    opts: { disabled?: boolean; active?: boolean; onClick: () => void },
+  ): TemplateResult {
     return html`<button
       class="loomi-page ${opts.active ? "active" : ""}"
       ?disabled=${opts.disabled}
@@ -100,7 +121,8 @@ export class LoomiPagination extends LoomiElement {
         ${this.btn(prev, { disabled: this.page <= 1, onClick: () => this.go(this.page - 1) })}
         <select class="loomi-select" .value=${String(this.page)} @change=${(e: Event) => this.go(Number((e.target as HTMLSelectElement).value))}>
           ${Array.from({ length: this.pageCount }, (_, i) => i + 1).map(
-            (p) => html`<option value=${p} ?selected=${p === this.page}>${loomiT("pagination.pageOf", { page: p, pages: this.pageCount }, this.locale)}</option>`,
+            (p) =>
+              html`<option value=${p} ?selected=${p === this.page}>${loomiT("pagination.pageOf", { page: p, pages: this.pageCount }, this.locale)}</option>`,
           )}
         </select>
         ${this.btn(next, { disabled: this.page >= this.pageCount, onClick: () => this.go(this.page + 1) })}
@@ -122,9 +144,11 @@ export class LoomiPagination extends LoomiElement {
     // arrows
     return html`<span class="loomi-controls">
       ${this.btn(prev, { disabled: this.page <= 1, onClick: () => this.go(this.page - 1) })}
-      ${showPageNumber
-        ? html`<span class="loomi-total">${showTotalPages ? `${this.page} / ${this.pageCount}` : this.page}</span>`
-        : nothing}
+      ${
+        showPageNumber
+          ? html`<span class="loomi-total">${showTotalPages ? `${this.page} / ${this.pageCount}` : this.page}</span>`
+          : nothing
+      }
       ${this.btn(next, { disabled: this.page >= this.pageCount, onClick: () => this.go(this.page + 1) })}
     </span>`;
   }

@@ -1,4 +1,11 @@
-import { html, nothing, render as litRender, svg, type PropertyValues, type TemplateResult } from "lit";
+import {
+  html,
+  nothing,
+  render as litRender,
+  svg,
+  type PropertyValues,
+  type TemplateResult,
+} from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { customElement, property, state } from "lit/decorators.js";
 import { LoomiElement, accentVars, loomiDefaultText, loomiStyles, cssColor } from "@loomidev/core";
@@ -39,7 +46,10 @@ const booleanConverter = {
 };
 
 function csv(value: string): string[] {
-  return value.split(",").map((s) => s.trim()).filter(Boolean);
+  return value
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
 }
 
 function escapeHtml(value: unknown): string {
@@ -81,8 +91,12 @@ export class LoomiTable extends LoomiElement {
   @property({ attribute: "exclude_columns" }) excludeColumnsAlias = "";
   @property({ attribute: "include-columns" }) includeColumns = "";
   @property({ attribute: "include_columns" }) includeColumnsAlias = "";
-  @property({ type: Object, attribute: "column-aliases" }) columnAliases: Record<string, string> = {};
-  @property({ type: Object, attribute: "column_aliases" }) columnAliasesAlias?: Record<string, string>;
+  @property({ type: Object, attribute: "column-aliases" }) columnAliases: Record<string, string> =
+    {};
+  @property({ type: Object, attribute: "column_aliases" }) columnAliasesAlias?: Record<
+    string,
+    string
+  >;
   @property() layout: "auto" | "custom" = "auto";
   @property({ attribute: "row-template" }) rowTemplate = "";
   @property({ attribute: "row_template" }) rowTemplateAlias = "";
@@ -116,13 +130,16 @@ export class LoomiTable extends LoomiElement {
   @property({ attribute: "pagination-style" }) paginationStyle = "arrows";
   @property({ attribute: "pagination_style" }) paginationStyleAlias = "";
   @property({ converter: booleanConverter, attribute: "show-row-numbers" }) showRowNumbers = false;
-  @property({ converter: booleanConverter, attribute: "show_row_numbers" }) showRowNumbersAlias?: boolean;
+  @property({ converter: booleanConverter, attribute: "show_row_numbers" })
+  showRowNumbersAlias?: boolean;
   @property({ converter: booleanConverter, attribute: "show-total" }) showTotal = true;
   @property({ converter: booleanConverter, attribute: "show_total" }) showTotalAlias?: boolean;
   @property({ converter: booleanConverter, attribute: "show-page-number" }) showPageNumber = true;
-  @property({ converter: booleanConverter, attribute: "show_page_number" }) showPageNumberAlias?: boolean;
+  @property({ converter: booleanConverter, attribute: "show_page_number" })
+  showPageNumberAlias?: boolean;
   @property({ converter: booleanConverter, attribute: "show-total-pages" }) showTotalPages = false;
-  @property({ converter: booleanConverter, attribute: "show_total_pages" }) showTotalPagesAlias?: boolean;
+  @property({ converter: booleanConverter, attribute: "show_total_pages" })
+  showTotalPagesAlias?: boolean;
   @property({ type: Number, attribute: "default-page" }) defaultPage = 1;
   @property({ type: Number, attribute: "default_page" }) defaultPageAlias?: number;
   @property({ type: Number }) limit = 0;
@@ -142,8 +159,10 @@ export class LoomiTable extends LoomiElement {
   @property({ attribute: "actions_title" }) actionsTitleAlias = "";
   @property({ attribute: "no-data-message" }) noDataMessage = DEFAULT_NO_DATA_MESSAGE;
   @property({ attribute: "no_data_message" }) noDataMessageAlias = "";
-  @property({ converter: booleanConverter, attribute: "message-as-empty-state" }) messageAsEmptyState = false;
-  @property({ converter: booleanConverter, attribute: "message_as_empty_state" }) messageAsEmptyStateAlias?: boolean;
+  @property({ converter: booleanConverter, attribute: "message-as-empty-state" })
+  messageAsEmptyState = false;
+  @property({ converter: booleanConverter, attribute: "message_as_empty_state" })
+  messageAsEmptyStateAlias?: boolean;
   @property() image = "empty-state.svg";
   @property() heading = "";
   @property({ attribute: "button-label" }) buttonLabel = "";
@@ -245,13 +264,21 @@ export class LoomiTable extends LoomiElement {
     let rows = [...this.sourceRows];
     if (this.query) {
       const q = this.query.toLowerCase();
-      rows = rows.filter((r) => this.effectiveColumns.some((c) => String(r[c] ?? "").toLowerCase().includes(q)));
+      rows = rows.filter((r) =>
+        this.effectiveColumns.some((c) =>
+          String(r[c] ?? "")
+            .toLowerCase()
+            .includes(q),
+        ),
+      );
     }
     if (this.sortKey) {
       const k = this.sortKey;
       rows.sort((a, b) => {
-        const av = a[k], bv = b[k];
-        const an = Number(av), bn = Number(bv);
+        const av = a[k],
+          bv = b[k];
+        const an = Number(av),
+          bn = Number(bv);
         let cmp: number;
         if (!Number.isNaN(an) && !Number.isNaN(bn)) cmp = an - bn;
         else cmp = String(av ?? "").localeCompare(String(bv ?? ""));
@@ -300,7 +327,11 @@ export class LoomiTable extends LoomiElement {
       new CustomEvent("loomi-selection-change", {
         bubbles: true,
         composed: true,
-        detail: { ids: this.selectedIds, rows: this.selectedRows, selectedValue: this.selectedValue },
+        detail: {
+          ids: this.selectedIds,
+          rows: this.selectedRows,
+          selectedValue: this.selectedValue,
+        },
       }),
     );
   }
@@ -334,7 +365,9 @@ export class LoomiTable extends LoomiElement {
   }
 
   private callNamedAction(action: string, detail: Record<string, unknown>): void {
-    this.dispatchEvent(new CustomEvent("loomi-action-call", { bubbles: true, composed: true, detail }));
+    this.dispatchEvent(
+      new CustomEvent("loomi-action-call", { bubbles: true, composed: true, detail }),
+    );
     const match = action.match(/^([A-Za-z_$][\w$]*)\(\)$/);
     if (!match) return;
     const fn = (globalThis as unknown as Record<string, unknown>)[match[1]];
@@ -355,19 +388,36 @@ export class LoomiTable extends LoomiElement {
         e.stopPropagation();
         const name = item.name ?? item.icon;
         const resolvedClick = item.click ? this.resolveClick(item.click, row) : "";
-        this.dispatchEvent(new CustomEvent("loomi-action", { bubbles: true, composed: true, detail: { name, row, action: item, click: item.click, resolvedClick } }));
-        if (resolvedClick) this.callNamedAction(resolvedClick, { name, row, action: item, click: item.click, resolvedClick });
+        this.dispatchEvent(
+          new CustomEvent("loomi-action", {
+            bubbles: true,
+            composed: true,
+            detail: { name, row, action: item, click: item.click, resolvedClick },
+          }),
+        );
+        if (resolvedClick)
+          this.callNamedAction(resolvedClick, {
+            name,
+            row,
+            action: item,
+            click: item.click,
+            resolvedClick,
+          });
       }}
     >
-      ${path
-        ? html`<svg viewBox="0 0 24 24" fill=${variant === "solid" ? "currentColor" : "none"} stroke=${variant === "solid" ? "none" : "currentColor"} stroke-width="1.6" aria-hidden="true">${path}</svg>`
-        : item.icon}
+      ${
+        path
+          ? html`<svg viewBox="0 0 24 24" fill=${variant === "solid" ? "currentColor" : "none"} stroke=${variant === "solid" ? "none" : "currentColor"} stroke-width="1.6" aria-hidden="true">${path}</svg>`
+          : item.icon
+      }
     </button>`;
   }
 
   private onRowClick(row: Row, id: string): void {
     if (this.selectable) this.toggleRow(id, !this.checked.has(id));
-    this.dispatchEvent(new CustomEvent("loomi-row-click", { bubbles: true, composed: true, detail: { row, id } }));
+    this.dispatchEvent(
+      new CustomEvent("loomi-row-click", { bubbles: true, composed: true, detail: { row, id } }),
+    );
   }
 
   override updated(changed: PropertyValues<this>): void {
@@ -434,7 +484,8 @@ export class LoomiTable extends LoomiElement {
 
   private renderEmpty(colSpan: number, noDataMessage: string): TemplateResult {
     const messageAsEmptyState = this.messageAsEmptyStateAlias ?? this.messageAsEmptyState;
-    if (!messageAsEmptyState) return html`<tr><td class="loomi-empty" colspan=${colSpan}>${noDataMessage}</td></tr>`;
+    if (!messageAsEmptyState)
+      return html`<tr><td class="loomi-empty" colspan=${colSpan}>${noDataMessage}</td></tr>`;
     const showImage = this.showImageAlias ?? this.showImage;
     const buttonLabel = this.buttonLabelAlias || this.buttonLabel;
     return html`<tr><td class="loomi-empty" colspan=${colSpan}>
@@ -442,13 +493,21 @@ export class LoomiTable extends LoomiElement {
         ${showImage ? html`<img src=${this.image} alt="" />` : nothing}
         ${this.heading ? html`<div class="loomi-empty-heading">${this.heading}</div>` : nothing}
         <div>${noDataMessage}</div>
-        ${buttonLabel
-          ? html`<button class="loomi-empty-button" type="button" @click=${() => {
-              const action = this.emptyOnclick;
-              this.dispatchEvent(new CustomEvent("loomi-empty-action", { bubbles: true, composed: true, detail: { action } }));
-              if (action) this.callNamedAction(action, { action });
-            }}>${buttonLabel}</button>`
-          : nothing}
+        ${
+          buttonLabel
+            ? html`<button class="loomi-empty-button" type="button" @click=${() => {
+                const action = this.emptyOnclick;
+                this.dispatchEvent(
+                  new CustomEvent("loomi-empty-action", {
+                    bubbles: true,
+                    composed: true,
+                    detail: { action },
+                  }),
+                );
+                if (action) this.callNamedAction(action, { action });
+              }}>${buttonLabel}</button>`
+            : nothing
+        }
       </div>
     </td></tr>`;
   }
@@ -471,14 +530,18 @@ export class LoomiTable extends LoomiElement {
     const cols = this.effectiveColumns;
     const offset = this.paginated ? (this.page - 1) * this.effectivePageSize : 0;
     return html`<tr class=${selected ? "selected" : ""} data-id=${id} @click=${() => this.onRowClick(row, id)}>
-      ${this.checkable
-        ? html`<td class="loomi-check-col"><loomi-checkbox no-clearing .checked=${selected} @click=${(e: Event) => e.stopPropagation()} @change=${(e: Event) => this.toggleRow(id, (e.target as HTMLInputElement & { checked: boolean }).checked)}></loomi-checkbox></td>`
-        : nothing}
+      ${
+        this.checkable
+          ? html`<td class="loomi-check-col"><loomi-checkbox no-clearing .checked=${selected} @click=${(e: Event) => e.stopPropagation()} @change=${(e: Event) => this.toggleRow(id, (e.target as HTMLInputElement & { checked: boolean }).checked)}></loomi-checkbox></td>`
+          : nothing
+      }
       ${(this.showRowNumbersAlias ?? this.showRowNumbers) ? html`<td class="loomi-num-col">${offset + index + 1}</td>` : nothing}
       ${cols.map((c) => html`<td data-row-id=${id} data-column=${c}>${row[c] as string}</td>`)}
-      ${this.effectiveActions.length
-        ? html`<td class="loomi-actions-col"><span class="loomi-actions" @click=${(e: Event) => e.stopPropagation()}>${this.effectiveActions.map((a) => this.renderActionIcon(a, row))}</span></td>`
-        : nothing}
+      ${
+        this.effectiveActions.length
+          ? html`<td class="loomi-actions-col"><span class="loomi-actions" @click=${(e: Event) => e.stopPropagation()}>${this.effectiveActions.map((a) => this.renderActionIcon(a, row))}</span></td>`
+          : nothing
+      }
     </tr>`;
   }
 
@@ -492,8 +555,10 @@ export class LoomiTable extends LoomiElement {
     if (this.data.length === 0 && this.hasManualRows) return html`<slot></slot>`;
 
     if (this.layout === "custom") {
-      if (this.pageRows.length === 0 && this.data.length > 0) return this.renderEmpty(colSpan, noDataMessage);
-      if (this.data.length === 0 && this.rowTemplateHtml) return this.renderEmpty(colSpan, noDataMessage);
+      if (this.pageRows.length === 0 && this.data.length > 0)
+        return this.renderEmpty(colSpan, noDataMessage);
+      if (this.data.length === 0 && this.rowTemplateHtml)
+        return this.renderEmpty(colSpan, noDataMessage);
       return this.renderCustomRows();
     }
 
@@ -511,7 +576,9 @@ export class LoomiTable extends LoomiElement {
         groups.set(key, [...(groups.get(key) ?? []), entry]);
       });
       groups.forEach((entries, groupValue) => {
-        out.push(html`<tr class="loomi-group-row"><td colspan=${colSpan}>${groupValue as string}</td></tr>`);
+        out.push(
+          html`<tr class="loomi-group-row"><td colspan=${colSpan}>${groupValue as string}</td></tr>`,
+        );
         entries.forEach(({ row, pageIndex, absoluteIndex }) => {
           const id = this.rowId(row, absoluteIndex);
           out.push(this.renderAutoRow(row, id, pageIndex, this.checked.has(id)));
@@ -528,14 +595,25 @@ export class LoomiTable extends LoomiElement {
 
   override render(): TemplateResult {
     const cols = this.effectiveColumns;
-    const actionsTitle = loomiDefaultText(this.actionsTitleAlias || this.actionsTitle, DEFAULT_ACTIONS_TITLE, "table.actionsTitle", this.locale);
+    const actionsTitle = loomiDefaultText(
+      this.actionsTitleAlias || this.actionsTitle,
+      DEFAULT_ACTIONS_TITLE,
+      "table.actionsTitle",
+      this.locale,
+    );
     const noDataMessage = loomiDefaultText(
       this.noDataMessageAlias || this.noDataMessage,
       DEFAULT_NO_DATA_MESSAGE,
       "table.noDataMessage",
       this.locale,
     );
-    const colSpan = Math.max(1, cols.length + (this.checkable ? 1 : 0) + ((this.showRowNumbersAlias ?? this.showRowNumbers) ? 1 : 0) + (this.effectiveActions.length ? 1 : 0));
+    const colSpan = Math.max(
+      1,
+      cols.length +
+        (this.checkable ? 1 : 0) +
+        ((this.showRowNumbersAlias ?? this.showRowNumbers) ? 1 : 0) +
+        (this.effectiveActions.length ? 1 : 0),
+    );
     const tableCls = [
       this.striped ? "striped" : "",
       this.divided ? "divided" : "",
@@ -543,7 +621,7 @@ export class LoomiTable extends LoomiElement {
       (this.hasHoverAlias ?? this.hasHover) ? "hoverable" : "",
       this.compact ? "compact" : "",
       this.celled ? "celled" : "",
-      (this.selectable || this.clickable) ? "clickable" : "",
+      this.selectable || this.clickable ? "clickable" : "",
       this.transparent ? "transparent" : "",
     ].join(" ");
     const hasData = this.data.length > 0;
@@ -556,25 +634,31 @@ export class LoomiTable extends LoomiElement {
 
     return html`<div class="loomi-wrap">
       <div class="loomi-shell ${shellCls}">
-        ${this.searchable
-          ? this.searchContainer
-            ? nothing
-            : html`<div class="loomi-toolbar">${this.searchField}</div>`
-          : nothing}
+        ${
+          this.searchable
+            ? this.searchContainer
+              ? nothing
+              : html`<div class="loomi-toolbar">${this.searchField}</div>`
+            : nothing
+        }
 
         <div class="loomi-scroll">
           <table class=${tableCls} data-current-page=${this.page}>
             <thead>
               <tr>
-                ${this.checkable && hasData
-                  ? html`<th class="loomi-check-col"><loomi-checkbox no-clearing .checked=${this.allChecked} @change=${(e: Event) => this.toggleAll((e.target as HTMLInputElement & { checked: boolean }).checked)}></loomi-checkbox></th>`
-                  : nothing}
+                ${
+                  this.checkable && hasData
+                    ? html`<th class="loomi-check-col"><loomi-checkbox no-clearing .checked=${this.allChecked} @change=${(e: Event) => this.toggleAll((e.target as HTMLInputElement & { checked: boolean }).checked)}></loomi-checkbox></th>`
+                    : nothing
+                }
                 ${(this.showRowNumbersAlias ?? this.showRowNumbers) && hasData ? html`<th class="loomi-num-col ${this.uppercasing ? "uppercasing" : ""}">#</th>` : nothing}
-                ${hasTemplateHeader
-                  ? unsafeHTML(this.headerTemplateHtml)
-                  : cols.length
-                    ? cols.map((c) => this.renderHeadingCell(c))
-                    : html`<slot name="header"></slot>`}
+                ${
+                  hasTemplateHeader
+                    ? unsafeHTML(this.headerTemplateHtml)
+                    : cols.length
+                      ? cols.map((c) => this.renderHeadingCell(c))
+                      : html`<slot name="header"></slot>`
+                }
                 ${this.effectiveActions.length && hasData ? html`<th class="loomi-actions-col ${this.uppercasing ? "uppercasing" : ""}">${actionsTitle}</th>` : nothing}
               </tr>
             </thead>
@@ -584,8 +668,9 @@ export class LoomiTable extends LoomiElement {
           </table>
         </div>
 
-        ${this.paginated && this.processed.length > this.effectivePageSize
-          ? html`<div class="loomi-footer">
+        ${
+          this.paginated && this.processed.length > this.effectivePageSize
+            ? html`<div class="loomi-footer">
               <loomi-pagination
                 .total=${this.processed.length}
                 .pageSize=${this.effectivePageSize}
@@ -596,10 +681,20 @@ export class LoomiTable extends LoomiElement {
                 .showPageNumber=${this.showPageNumberAlias ?? this.showPageNumber}
                 .showTotalPages=${this.showTotalPagesAlias ?? this.showTotalPages}
                 .totalLabel=${this.totalLabelAlias || this.totalLabel}
-                @loomi-page-change=${(e: CustomEvent) => { this.page = e.detail.page; this.dispatchEvent(new CustomEvent("loomi-page-change", { bubbles: true, composed: true, detail: e.detail })); }}
+                @loomi-page-change=${(e: CustomEvent) => {
+                  this.page = e.detail.page;
+                  this.dispatchEvent(
+                    new CustomEvent("loomi-page-change", {
+                      bubbles: true,
+                      composed: true,
+                      detail: e.detail,
+                    }),
+                  );
+                }}
               ></loomi-pagination>
             </div>`
-          : nothing}
+            : nothing
+        }
       </div>
     </div>`;
   }

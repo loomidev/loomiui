@@ -1,0 +1,12 @@
+# Build output and deps
+**/dist/
+**/node_modules/
+
+# Generated artifacts (rebuilt by tooling — never hand-format)
+**/src/generated/
+**/custom-elements.json
+
+# Managed by other tools
+pnpm-lock.yaml
+**/CHANGELOG.md
+.changeset/

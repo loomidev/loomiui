@@ -49,7 +49,9 @@ export class LoomiPopover extends LoomiElement {
   private setOpen(open: boolean): void {
     if (this.open === open) return;
     this.open = open;
-    this.dispatchEvent(new CustomEvent("loomi-toggle", { bubbles: true, composed: true, detail: { open } }));
+    this.dispatchEvent(
+      new CustomEvent("loomi-toggle", { bubbles: true, composed: true, detail: { open } }),
+    );
   }
 
   /** True while focus is somewhere inside the trigger or the open panel. */
@@ -110,12 +112,14 @@ export class LoomiPopover extends LoomiElement {
         ${path ? html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${path}</svg>` : "?"}
       </slot>
     </button>
-    ${this.open
-      ? html`<div class="loomi-panel placement-${this.placement}" role="dialog" style="--loomi-pop-width:${this.width}px">
+    ${
+      this.open
+        ? html`<div class="loomi-panel placement-${this.placement}" role="dialog" style="--loomi-pop-width:${this.width}px">
           ${this.title ? html`<div class="loomi-title">${this.title}</div>` : nothing}
           <div class="loomi-content"><slot></slot></div>
         </div>`
-      : nothing}`;
+        : nothing
+    }`;
   }
 }
 

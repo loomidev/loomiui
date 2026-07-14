@@ -21,11 +21,21 @@
   width: var(--loomi-empty-size, 8rem);
   height: auto;
 }
-.size-small { --loomi-empty-size: 5rem; }
-.size-medium { --loomi-empty-size: 8rem; }
-.size-large { --loomi-empty-size: 11rem; }
-.size-xl { --loomi-empty-size: 14rem; }
-.size-omg { --loomi-empty-size: 18rem; }
+.size-small {
+  --loomi-empty-size: 5rem;
+}
+.size-medium {
+  --loomi-empty-size: 8rem;
+}
+.size-large {
+  --loomi-empty-size: 11rem;
+}
+.size-xl {
+  --loomi-empty-size: 14rem;
+}
+.size-omg {
+  --loomi-empty-size: 18rem;
+}
 
 .loomi-heading {
   font-weight: 600;

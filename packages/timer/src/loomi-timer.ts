@@ -196,7 +196,9 @@ export class LoomiTimer extends LoomiElement {
 
     const isComplete =
       (this.normalizedDirection === "down" && nextValue <= 0) ||
-      (this.normalizedDirection === "up" && this.boundedCountUpMs > 0 && nextValue >= this.boundedCountUpMs);
+      (this.normalizedDirection === "up" &&
+        this.boundedCountUpMs > 0 &&
+        nextValue >= this.boundedCountUpMs);
 
     if (isComplete) {
       this.running = false;
@@ -293,12 +295,14 @@ export class LoomiTimer extends LoomiElement {
           <span>${this.running ? "Running" : this.complete ? "Complete" : "Paused"}</span>
         </div>
       </div>
-      ${this.showControls
-        ? html`<div class="loomi-controls">
+      ${
+        this.showControls
+          ? html`<div class="loomi-controls">
             <button type="button" @click=${this.onToggle}>${this.running ? "Pause" : "Start"}</button>
             <button type="button" @click=${() => this.reset()}>Reset</button>
           </div>`
-        : nothing}
+          : nothing
+      }
     </div>`;
   }
 }

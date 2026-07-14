@@ -14,7 +14,6 @@ npm install @loomidev/filepicker lit
 import "@loomidev/filepicker";
 ```
 
-
 ## Basic Usage
 
 Supports both click-to-browse and drag-and-drop out of the box.
@@ -225,7 +224,6 @@ loomi-filepicker is designed to fit the layout you place it in. It uses fluid wi
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-filepicker uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -236,28 +234,28 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `name` | _(blank)_ | File input name (becomes `name[]` when `max-files > 1`). |
-| `accepted-file-types` | `image/*,application/pdf` | Comma-separated MIME types / extensions. |
-| `placeholder-line1` | `Choose files or drag and drop to upload` | Drop-zone heading text. |
-| `placeholder-line2` | `%s up to %s` | Drop-zone subtext (`%s` → accepted types, then max size). |
-| `locale` | _(global)_ | Override the shared Loomi locale for this filepicker. |
-| `max-files` | `1` | Maximum number of files. |
-| `max-file-size` | `5mb` | Max size per file (`kb` / `mb` / `gb`). |
-| `can-browse` | `true` | Allow click-to-browse. _(boolean)_ |
-| `can-drop` | `true` | Allow drag-and-drop. _(boolean)_ |
-| `show-image-preview` | `true` | Thumbnail previews for images. _(boolean)_ |
-| `disabled` | `false` | Disable the picker. _(boolean)_ |
-| `required` | `false` | Mark the field required. _(boolean)_ |
-| `crop` | `false` | Launch a crop dialog when an image is selected/dropped. _(boolean)_ |
-| `crop-aspect-ratio` | `16:9` | `16:9`, `4:3`, `2:3`, `1:1`, or `free`. |
-| `resize` | `false` | Resize uploaded images to fit `resize-width`/`resize-height`. _(boolean)_ |
-| `resize-width` | _(unset)_ | Target width in pixels; aspect ratio is preserved. |
-| `resize-height` | _(unset)_ | Target height in pixels; aspect ratio is preserved. |
-| `transparent` | `false` | Make the drop-zone background transparent. _(boolean)_ |
-| `has-border` | `true` | Show the drop-zone border. _(boolean)_ |
-| `stealth` | `false` | Hide the drop-zone/file list; drive selection via `open()`/`clear()`. _(boolean)_ |
+| Attribute             | Default                                   | Description                                                                       |
+| --------------------- | ----------------------------------------- | --------------------------------------------------------------------------------- |
+| `name`                | _(blank)_                                 | File input name (becomes `name[]` when `max-files > 1`).                          |
+| `accepted-file-types` | `image/*,application/pdf`                 | Comma-separated MIME types / extensions.                                          |
+| `placeholder-line1`   | `Choose files or drag and drop to upload` | Drop-zone heading text.                                                           |
+| `placeholder-line2`   | `%s up to %s`                             | Drop-zone subtext (`%s` → accepted types, then max size).                         |
+| `locale`              | _(global)_                                | Override the shared Loomi locale for this filepicker.                             |
+| `max-files`           | `1`                                       | Maximum number of files.                                                          |
+| `max-file-size`       | `5mb`                                     | Max size per file (`kb` / `mb` / `gb`).                                           |
+| `can-browse`          | `true`                                    | Allow click-to-browse. _(boolean)_                                                |
+| `can-drop`            | `true`                                    | Allow drag-and-drop. _(boolean)_                                                  |
+| `show-image-preview`  | `true`                                    | Thumbnail previews for images. _(boolean)_                                        |
+| `disabled`            | `false`                                   | Disable the picker. _(boolean)_                                                   |
+| `required`            | `false`                                   | Mark the field required. _(boolean)_                                              |
+| `crop`                | `false`                                   | Launch a crop dialog when an image is selected/dropped. _(boolean)_               |
+| `crop-aspect-ratio`   | `16:9`                                    | `16:9`, `4:3`, `2:3`, `1:1`, or `free`.                                           |
+| `resize`              | `false`                                   | Resize uploaded images to fit `resize-width`/`resize-height`. _(boolean)_         |
+| `resize-width`        | _(unset)_                                 | Target width in pixels; aspect ratio is preserved.                                |
+| `resize-height`       | _(unset)_                                 | Target height in pixels; aspect ratio is preserved.                               |
+| `transparent`         | `false`                                   | Make the drop-zone background transparent. _(boolean)_                            |
+| `has-border`          | `true`                                    | Show the drop-zone border. _(boolean)_                                            |
+| `stealth`             | `false`                                   | Hide the drop-zone/file list; drive selection via `open()`/`clear()`. _(boolean)_ |
 
 **Property:** `selectedFiles`. **Methods:** `open()`, `clear()`. **Event:** `change` (`detail: { files }`).
 
@@ -327,7 +325,6 @@ In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the pac
 ```js
 import "@loomidev/filepicker";
 ```
-
 
 Because this is a form-capable component, give it a `name` when it should submit with a native `<form>`. Read its value with `new FormData(form).get("the-name")` just like you would for a built-in input.
 

@@ -4,7 +4,9 @@ import type { LoomiTimezonepicker } from "../dist/index.js";
 
 describe("loomi-timezonepicker", () => {
   it("lists the full IANA timezone set when opened", async () => {
-    const el = await fixture<LoomiTimezonepicker>(html`<loomi-timezonepicker></loomi-timezonepicker>`);
+    const el = await fixture<LoomiTimezonepicker>(
+      html`<loomi-timezonepicker></loomi-timezonepicker>`,
+    );
     const trigger = el.shadowRoot!.querySelector(".loomi-trigger") as HTMLButtonElement;
     trigger.click();
     await el.updateComplete;
@@ -12,10 +14,14 @@ describe("loomi-timezonepicker", () => {
   });
 
   it("opens on Enter and highlights the first option", async () => {
-    const el = await fixture<LoomiTimezonepicker>(html`<loomi-timezonepicker></loomi-timezonepicker>`);
+    const el = await fixture<LoomiTimezonepicker>(
+      html`<loomi-timezonepicker></loomi-timezonepicker>`,
+    );
     const trigger = el.shadowRoot!.querySelector(".loomi-trigger") as HTMLButtonElement;
     trigger.focus();
-    trigger.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }));
+    trigger.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }),
+    );
     await el.updateComplete;
 
     expect(trigger.getAttribute("aria-expanded")).to.equal("true");
@@ -23,13 +29,17 @@ describe("loomi-timezonepicker", () => {
   });
 
   it("ArrowDown moves the highlight without choosing a value yet", async () => {
-    const el = await fixture<LoomiTimezonepicker>(html`<loomi-timezonepicker></loomi-timezonepicker>`);
+    const el = await fixture<LoomiTimezonepicker>(
+      html`<loomi-timezonepicker></loomi-timezonepicker>`,
+    );
     const wrapper = el.shadowRoot!.querySelector(".loomi-timezonepicker") as HTMLElement;
     const trigger = el.shadowRoot!.querySelector(".loomi-trigger") as HTMLButtonElement;
     trigger.click();
     await el.updateComplete;
 
-    wrapper.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, cancelable: true }));
+    wrapper.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, cancelable: true }),
+    );
     await el.updateComplete;
 
     expect(trigger.getAttribute("aria-activedescendant")).to.equal("loomi-timezone-1");
@@ -38,15 +48,21 @@ describe("loomi-timezonepicker", () => {
   });
 
   it("Enter chooses the highlighted option and closes the panel", async () => {
-    const el = await fixture<LoomiTimezonepicker>(html`<loomi-timezonepicker></loomi-timezonepicker>`);
+    const el = await fixture<LoomiTimezonepicker>(
+      html`<loomi-timezonepicker></loomi-timezonepicker>`,
+    );
     const wrapper = el.shadowRoot!.querySelector(".loomi-timezonepicker") as HTMLElement;
     const trigger = el.shadowRoot!.querySelector(".loomi-trigger") as HTMLButtonElement;
     trigger.click();
     await el.updateComplete;
 
-    wrapper.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, cancelable: true }));
+    wrapper.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, cancelable: true }),
+    );
     await el.updateComplete;
-    wrapper.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }));
+    wrapper.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }),
+    );
     await el.updateComplete;
 
     expect(trigger.getAttribute("aria-expanded")).to.equal("false");
@@ -55,13 +71,17 @@ describe("loomi-timezonepicker", () => {
   });
 
   it("Escape closes the panel without changing the selection", async () => {
-    const el = await fixture<LoomiTimezonepicker>(html`<loomi-timezonepicker selection="Africa/Accra"></loomi-timezonepicker>`);
+    const el = await fixture<LoomiTimezonepicker>(
+      html`<loomi-timezonepicker selection="Africa/Accra"></loomi-timezonepicker>`,
+    );
     const wrapper = el.shadowRoot!.querySelector(".loomi-timezonepicker") as HTMLElement;
     const trigger = el.shadowRoot!.querySelector(".loomi-trigger") as HTMLButtonElement;
     trigger.click();
     await el.updateComplete;
 
-    wrapper.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }));
+    wrapper.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }),
+    );
     await el.updateComplete;
 
     expect(trigger.getAttribute("aria-expanded")).to.equal("false");
@@ -69,7 +89,9 @@ describe("loomi-timezonepicker", () => {
   });
 
   it("filters the list via the search box", async () => {
-    const el = await fixture<LoomiTimezonepicker>(html`<loomi-timezonepicker></loomi-timezonepicker>`);
+    const el = await fixture<LoomiTimezonepicker>(
+      html`<loomi-timezonepicker></loomi-timezonepicker>`,
+    );
     const trigger = el.shadowRoot!.querySelector(".loomi-trigger") as HTMLButtonElement;
     trigger.click();
     await el.updateComplete;
@@ -86,19 +108,26 @@ describe("loomi-timezonepicker", () => {
 
   describe("selection property", () => {
     it("resolves by canonical IANA id", async () => {
-      const el = await fixture<LoomiTimezonepicker>(html`<loomi-timezonepicker selection="Africa/Accra"></loomi-timezonepicker>`);
+      const el = await fixture<LoomiTimezonepicker>(
+        html`<loomi-timezonepicker selection="Africa/Accra"></loomi-timezonepicker>`,
+      );
       expect(el.shadowRoot!.querySelector(".loomi-trigger")!.textContent).to.include("Accra");
       expect(el.shadowRoot!.querySelector(".loomi-trigger")!.textContent).to.include("UTC+00:00");
     });
 
     it("resolves by bare city name, case-insensitively", async () => {
-      const el = await fixture<LoomiTimezonepicker>(html`<loomi-timezonepicker selection="accra"></loomi-timezonepicker>`);
+      const el = await fixture<LoomiTimezonepicker>(
+        html`<loomi-timezonepicker selection="accra"></loomi-timezonepicker>`,
+      );
       expect(el.shadowRoot!.querySelector(".loomi-trigger")!.textContent).to.include("Accra");
     });
 
     it("leaves nothing selected when the value doesn't match any zone", async () => {
-      const el = await fixture<LoomiTimezonepicker>(html`<loomi-timezonepicker selection="not-a-zone"></loomi-timezonepicker>`);
-      expect(el.shadowRoot!.querySelector(".loomi-value")!.classList.contains("placeholder")).to.be.true;
+      const el = await fixture<LoomiTimezonepicker>(
+        html`<loomi-timezonepicker selection="not-a-zone"></loomi-timezonepicker>`,
+      );
+      expect(el.shadowRoot!.querySelector(".loomi-value")!.classList.contains("placeholder")).to.be
+        .true;
     });
   });
 
@@ -113,7 +142,9 @@ describe("loomi-timezonepicker", () => {
 
   describe("use my timezone", () => {
     it("shows a pinned detect row and selects the browser's zone when clicked", async () => {
-      const el = await fixture<LoomiTimezonepicker>(html`<loomi-timezonepicker></loomi-timezonepicker>`);
+      const el = await fixture<LoomiTimezonepicker>(
+        html`<loomi-timezonepicker></loomi-timezonepicker>`,
+      );
       const trigger = el.shadowRoot!.querySelector(".loomi-trigger") as HTMLButtonElement;
       trigger.click();
       await el.updateComplete;
@@ -129,12 +160,15 @@ describe("loomi-timezonepicker", () => {
 
   describe("reset()", () => {
     it("clears the selection", async () => {
-      const el = await fixture<LoomiTimezonepicker>(html`<loomi-timezonepicker selection="Africa/Accra"></loomi-timezonepicker>`);
+      const el = await fixture<LoomiTimezonepicker>(
+        html`<loomi-timezonepicker selection="Africa/Accra"></loomi-timezonepicker>`,
+      );
       el.reset();
       await el.updateComplete;
 
       expect(el.selection).to.equal("");
-      expect(el.shadowRoot!.querySelector(".loomi-value")!.classList.contains("placeholder")).to.be.true;
+      expect(el.shadowRoot!.querySelector(".loomi-value")!.classList.contains("placeholder")).to.be
+        .true;
     });
   });
 });

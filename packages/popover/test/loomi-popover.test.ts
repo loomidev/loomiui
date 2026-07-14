@@ -32,7 +32,9 @@ describe("loomi-popover", () => {
   });
 
   it("does not open when disabled", async () => {
-    const el = await fixture<LoomiPopover>(html`<loomi-popover disabled><p>Content</p></loomi-popover>`);
+    const el = await fixture<LoomiPopover>(
+      html`<loomi-popover disabled><p>Content</p></loomi-popover>`,
+    );
 
     el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!.click();
     await el.updateComplete;
@@ -50,7 +52,14 @@ describe("loomi-popover", () => {
     await el.updateComplete;
     trigger.focus();
 
-    el.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true, composed: true, cancelable: true }));
+    el.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: "Escape",
+        bubbles: true,
+        composed: true,
+        cancelable: true,
+      }),
+    );
     await el.updateComplete;
 
     expect(el.isOpen).to.equal(false);
@@ -71,7 +80,9 @@ describe("loomi-popover", () => {
     await el.updateComplete;
     trigger.focus();
 
-    trigger.dispatchEvent(new FocusEvent("focusout", { relatedTarget: outside, bubbles: true, composed: true }));
+    trigger.dispatchEvent(
+      new FocusEvent("focusout", { relatedTarget: outside, bubbles: true, composed: true }),
+    );
     outside.focus();
     await el.updateComplete;
 

@@ -84,7 +84,12 @@ export class LoomiCheckcards extends LoomiElement {
 
   override willUpdate(): void {
     if (!this.initialized) {
-      this.selected = this.selectedValue ? this.selectedValue.split(",").map((s) => s.trim()).filter(Boolean) : [];
+      this.selected = this.selectedValue
+        ? this.selectedValue
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean)
+        : [];
       this.initialized = true;
     }
     this.internals.setFormValue(this.selected.join(","));
@@ -119,7 +124,13 @@ export class LoomiCheckcards extends LoomiElement {
     }
     this.internals.setFormValue(this.selected.join(","));
     this.sync();
-    this.dispatchEvent(new CustomEvent("change", { bubbles: true, composed: true, detail: { values: [...this.selected] } }));
+    this.dispatchEvent(
+      new CustomEvent("change", {
+        bubbles: true,
+        composed: true,
+        detail: { values: [...this.selected] },
+      }),
+    );
   };
 
   override render(): TemplateResult {

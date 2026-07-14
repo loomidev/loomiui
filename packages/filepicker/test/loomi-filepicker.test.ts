@@ -80,8 +80,12 @@ describe("loomi-filepicker", () => {
   });
 
   it("shows a loomi-notification toast and skips files over max-file-size", async () => {
-    const el = await fixture<LoomiFilepicker>(html`<loomi-filepicker max-file-size="1kb"></loomi-filepicker>`);
-    const bigFile = new File([new Uint8Array(2048)], "big.bin", { type: "application/octet-stream" });
+    const el = await fixture<LoomiFilepicker>(
+      html`<loomi-filepicker max-file-size="1kb"></loomi-filepicker>`,
+    );
+    const bigFile = new File([new Uint8Array(2048)], "big.bin", {
+      type: "application/octet-stream",
+    });
 
     selectFiles(el, [bigFile]);
     await el.updateComplete;
@@ -113,7 +117,9 @@ describe("loomi-filepicker", () => {
     await waitUntil(() => (document.querySelector(".loomi-crop-modal") as LoomiModal | null)?.open);
     const modal = document.querySelector(".loomi-crop-modal") as LoomiModal;
 
-    const cancelBtn = modal.shadowRoot!.querySelector(".loomi-footer loomi-button[type='secondary']") as HTMLElement;
+    const cancelBtn = modal.shadowRoot!.querySelector(
+      ".loomi-footer loomi-button[type='secondary']",
+    ) as HTMLElement;
     cancelBtn.click();
     await waitUntil(() => !modal.open);
 
@@ -129,7 +135,9 @@ describe("loomi-filepicker", () => {
     await waitUntil(() => document.querySelector(".loomi-crop-rect"));
     const modal = document.querySelector(".loomi-crop-modal") as LoomiModal;
 
-    const okBtn = modal.shadowRoot!.querySelector(".loomi-footer loomi-button:not([type='secondary'])") as HTMLElement;
+    const okBtn = modal.shadowRoot!.querySelector(
+      ".loomi-footer loomi-button:not([type='secondary'])",
+    ) as HTMLElement;
     okBtn.click();
     await waitUntil(() => el.selectedFiles.length > 0);
 
@@ -143,7 +151,9 @@ describe("loomi-filepicker", () => {
     let clicked = false;
     input.addEventListener("click", () => (clicked = true));
 
-    expect(getComputedStyle(el.shadowRoot!.querySelector(".loomi-drop")!).position).to.equal("absolute");
+    expect(getComputedStyle(el.shadowRoot!.querySelector(".loomi-drop")!).position).to.equal(
+      "absolute",
+    );
 
     el.open();
     expect(clicked).to.be.true;

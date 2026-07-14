@@ -3,12 +3,16 @@ import "../dist/loomi-tag-input.js";
 import type { LoomiTagInput } from "../dist/index.js";
 
 const pressEnter = (input: HTMLInputElement) => {
-  input.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true, composed: true }));
+  input.dispatchEvent(
+    new KeyboardEvent("keydown", { key: "Enter", bubbles: true, composed: true }),
+  );
 };
 
 describe("loomi-tag-input", () => {
   it("turns the draft text into an inside tag on Enter", async () => {
-    const el = await fixture<LoomiTagInput>(html`<loomi-tag-input placeholder="Add tag"></loomi-tag-input>`);
+    const el = await fixture<LoomiTagInput>(
+      html`<loomi-tag-input placeholder="Add tag"></loomi-tag-input>`,
+    );
     const input = el.shadowRoot!.querySelector("input")!;
 
     input.value = "Design";
@@ -21,11 +25,15 @@ describe("loomi-tag-input", () => {
     expect(el.value).to.equal("Design");
     expect(el.tags).to.deep.equal(["Design"]);
     expect(input.value).to.equal("");
-    expect(el.shadowRoot!.querySelector(".loomi-field .loomi-tag")!.textContent!.trim()).to.equal("Design");
+    expect(el.shadowRoot!.querySelector(".loomi-field .loomi-tag")!.textContent!.trim()).to.equal(
+      "Design",
+    );
   });
 
   it("keeps tags beneath the field in below mode", async () => {
-    const el = await fixture<LoomiTagInput>(html`<loomi-tag-input mode="below" value="Marketing,mike"></loomi-tag-input>`);
+    const el = await fixture<LoomiTagInput>(
+      html`<loomi-tag-input mode="below" value="Marketing,mike"></loomi-tag-input>`,
+    );
     await el.updateComplete;
 
     const fieldTags = el.shadowRoot!.querySelectorAll(".loomi-field .loomi-tag");
@@ -37,7 +45,9 @@ describe("loomi-tag-input", () => {
   });
 
   it("removes a tag with its x button", async () => {
-    const el = await fixture<LoomiTagInput>(html`<loomi-tag-input value="Design,Engineering"></loomi-tag-input>`);
+    const el = await fixture<LoomiTagInput>(
+      html`<loomi-tag-input value="Design,Engineering"></loomi-tag-input>`,
+    );
     await el.updateComplete;
 
     const changed = oneEvent(el, "change");

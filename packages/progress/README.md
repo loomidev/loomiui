@@ -11,7 +11,6 @@ npm install @loomidev/progress lit
 import "@loomidev/progress";
 ```
 
-
 ## Progress Bar — Basic Usage
 
 ```html
@@ -120,7 +119,6 @@ loomi-progress-bar is designed to fit the layout you place it in. It uses fluid 
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-progress-bar uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -133,59 +131,59 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ### Shared (bar and circle)
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `percentage` | `0` | Fill percentage 0–100. |
-| `color` | `primary` | Any loomi color. |
-| `shade` | `faint` | `faint` \| `dark` |
+| Attribute    | Default   | Description            |
+| ------------ | --------- | ---------------------- |
+| `percentage` | `0`       | Fill percentage 0–100. |
+| `color`      | `primary` | Any loomi color.       |
+| `shade`      | `faint`   | `faint` \| `dark`      |
 
 ### `<loomi-progress-bar>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `show-percentage-label` | `false` | Show the % label. _(boolean)_ |
-| `show-percentage-tooltip` | `false` | Show the percentage in a tooltip above the bar. _(boolean)_ |
-| `show-percentage-label-inline` | `true` | Inside the bar vs. outside. _(boolean)_ |
-| `percentage-label-position` | `top-left` | Outside-label placement. |
-| `percentage-prefix` | _(blank)_ | Text shown before the percentage label. |
-| `percentage-suffix` | _(blank)_ | Text shown after the percentage label. |
-| `striped` | `false` | Diagonal-striped fill. _(boolean)_ |
-| `animated` | `false` | Animates the stripes (requires `striped`). _(boolean)_ |
+| Attribute                      | Default    | Description                                                 |
+| ------------------------------ | ---------- | ----------------------------------------------------------- |
+| `show-percentage-label`        | `false`    | Show the % label. _(boolean)_                               |
+| `show-percentage-tooltip`      | `false`    | Show the percentage in a tooltip above the bar. _(boolean)_ |
+| `show-percentage-label-inline` | `true`     | Inside the bar vs. outside. _(boolean)_                     |
+| `percentage-label-position`    | `top-left` | Outside-label placement.                                    |
+| `percentage-prefix`            | _(blank)_  | Text shown before the percentage label.                     |
+| `percentage-suffix`            | _(blank)_  | Text shown after the percentage label.                      |
+| `striped`                      | `false`    | Diagonal-striped fill. _(boolean)_                          |
+| `animated`                     | `false`    | Animates the stripes (requires `striped`). _(boolean)_      |
 
 ### `<loomi-progress-circle>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `size` | `medium` | `tiny` \| `small` \| `medium` \| `big` \| `large`, or a pixel number. |
-| `circle-width` | `10` | Stroke thickness (viewBox units). |
-| `show-label` | `false` | Show the percentage in the center. _(boolean)_ |
-| `show-percent` | `false` | Append a `%` sign. _(boolean)_ |
+| Attribute      | Default  | Description                                                           |
+| -------------- | -------- | --------------------------------------------------------------------- |
+| `size`         | `medium` | `tiny` \| `small` \| `medium` \| `big` \| `large`, or a pixel number. |
+| `circle-width` | `10`     | Stroke thickness (viewBox units).                                     |
+| `show-label`   | `false`  | Show the percentage in the center. _(boolean)_                        |
+| `show-percent` | `false`  | Append a `%` sign. _(boolean)_                                        |
 
 ### `<loomi-progress-steps>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `current` | `1` | Current step number, starting at 1. |
-| `color` | `primary` | Any loomi color. |
-| `orientation` | `horizontal` | `horizontal` \| `vertical` |
-| `size` | `regular` | `regular` \| `small` |
-| `clickable` | `false` | Lets child steps update `current` when selected. _(boolean)_ |
+| Attribute     | Default      | Description                                                  |
+| ------------- | ------------ | ------------------------------------------------------------ |
+| `current`     | `1`          | Current step number, starting at 1.                          |
+| `color`       | `primary`    | Any loomi color.                                             |
+| `orientation` | `horizontal` | `horizontal` \| `vertical`                                   |
+| `size`        | `regular`    | `regular` \| `small`                                         |
+| `clickable`   | `false`      | Lets child steps update `current` when selected. _(boolean)_ |
 
 ### `<loomi-progress-step>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `label` | _(blank)_ | Step label. |
-| `description` | _(blank)_ | Secondary step text. |
-| `href` | _(blank)_ | Renders the step as a link. |
-| `state` | `upcoming` | `complete` \| `current` \| `upcoming` \| `error` |
-| `value` | `0` | Optional value included in `loomi-progress-step-select` events. |
-| `active` | `false` | Marks this step current, same as `state="current"`. _(boolean)_ |
-| `completed` | `false` | Marks this step complete, same as `state="complete"`. _(boolean)_ |
-| `error` | `false` | Marks this step errored, same as `state="error"`. _(boolean)_ |
-| `disabled` | `false` | Prevents selection. _(boolean)_ |
-| `clickable` | `false` | Renders a selectable button when not using `href`. _(boolean)_ |
-| `hide-index` | `false` | Hides the step number in incomplete markers. _(boolean)_ |
+| Attribute     | Default    | Description                                                       |
+| ------------- | ---------- | ----------------------------------------------------------------- |
+| `label`       | _(blank)_  | Step label.                                                       |
+| `description` | _(blank)_  | Secondary step text.                                              |
+| `href`        | _(blank)_  | Renders the step as a link.                                       |
+| `state`       | `upcoming` | `complete` \| `current` \| `upcoming` \| `error`                  |
+| `value`       | `0`        | Optional value included in `loomi-progress-step-select` events.   |
+| `active`      | `false`    | Marks this step current, same as `state="current"`. _(boolean)_   |
+| `completed`   | `false`    | Marks this step complete, same as `state="complete"`. _(boolean)_ |
+| `error`       | `false`    | Marks this step errored, same as `state="error"`. _(boolean)_     |
+| `disabled`    | `false`    | Prevents selection. _(boolean)_                                   |
+| `clickable`   | `false`    | Renders a selectable button when not using `href`. _(boolean)_    |
+| `hide-index`  | `false`    | Hides the step number in incomplete markers. _(boolean)_          |
 
 ## Full Example
 

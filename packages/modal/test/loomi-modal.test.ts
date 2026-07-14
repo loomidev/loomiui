@@ -62,7 +62,9 @@ describe("loomi-modal", () => {
     expect(document.body.style.overflow).to.equal(previousBodyOverflow);
     expect(document.documentElement.style.overflow).to.equal(previousDocumentOverflow);
 
-    const unlocked = await fixture<LoomiModal>(html`<loomi-modal prevent-scroll="false"></loomi-modal>`);
+    const unlocked = await fixture<LoomiModal>(
+      html`<loomi-modal prevent-scroll="false"></loomi-modal>`,
+    );
     unlocked.show();
     await unlocked.updateComplete;
     expect(document.body.style.overflow).to.equal(previousBodyOverflow);
@@ -73,7 +75,9 @@ describe("loomi-modal", () => {
     const el = await fixture<LoomiModal>(html`<loomi-modal ok-button-label="Yes"></loomi-modal>`);
     el.show();
     await el.updateComplete;
-    const btn = el.shadowRoot!.querySelector(".loomi-footer loomi-button:not([type='secondary'])") as HTMLElement;
+    const btn = el.shadowRoot!.querySelector(
+      ".loomi-footer loomi-button:not([type='secondary'])",
+    ) as HTMLElement;
     const okEvent = oneEvent(el, "ok");
     btn.click();
     await okEvent;
@@ -110,7 +114,9 @@ describe("loomi-modal", () => {
     await nextFrame();
     // first focusable in the dialog (no close icon here) is the "No" (cancel) button
     expect(document.activeElement).to.equal(el);
-    const cancelAction = el.shadowRoot!.querySelector(".loomi-footer loomi-button[type='secondary']") as HTMLElement;
+    const cancelAction = el.shadowRoot!.querySelector(
+      ".loomi-footer loomi-button[type='secondary']",
+    ) as HTMLElement;
     expect(el.shadowRoot!.activeElement).to.equal(cancelAction);
     expect(cancelAction.shadowRoot!.activeElement).to.equal(actionControl(cancelAction));
 
@@ -127,15 +133,21 @@ describe("loomi-modal", () => {
     await el.updateComplete;
     await nextFrame();
 
-    const cancelAction = el.shadowRoot!.querySelector(".loomi-footer loomi-button[type='secondary']") as HTMLElement;
-    const okAction = el.shadowRoot!.querySelector(".loomi-footer loomi-button:not([type='secondary'])") as HTMLElement;
+    const cancelAction = el.shadowRoot!.querySelector(
+      ".loomi-footer loomi-button[type='secondary']",
+    ) as HTMLElement;
+    const okAction = el.shadowRoot!.querySelector(
+      ".loomi-footer loomi-button:not([type='secondary'])",
+    ) as HTMLElement;
     const cancelBtn = actionControl(cancelAction);
     const okBtn = actionControl(okAction);
 
     // Tab forward from the LAST focusable element wraps to the FIRST.
     okBtn.focus();
     expect(okAction.shadowRoot!.activeElement).to.equal(okBtn);
-    document.dispatchEvent(new KeyboardEvent("keydown", { key: "Tab", bubbles: true, cancelable: true }));
+    document.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Tab", bubbles: true, cancelable: true }),
+    );
     expect(el.shadowRoot!.activeElement).to.equal(cancelAction);
     expect(cancelAction.shadowRoot!.activeElement).to.equal(cancelBtn);
 
@@ -148,7 +160,9 @@ describe("loomi-modal", () => {
   });
 
   it('honors backdrop-can-close="false" for backdrop clicks and Escape', async () => {
-    const el = await fixture<LoomiModal>(html`<loomi-modal backdrop-can-close="false"></loomi-modal>`);
+    const el = await fixture<LoomiModal>(
+      html`<loomi-modal backdrop-can-close="false"></loomi-modal>`,
+    );
     el.show();
     await el.updateComplete;
 
@@ -168,13 +182,18 @@ describe("loomi-modal", () => {
     el.show();
     await el.updateComplete;
 
-    expect(el.shadowRoot!.querySelector('.loomi-icon-wrap loomi-icon[name="exclamation-triangle"]')).to.exist;
+    expect(el.shadowRoot!.querySelector('.loomi-icon-wrap loomi-icon[name="exclamation-triangle"]'))
+      .to.exist;
     expect(el.shadowRoot!.querySelector('.loomi-close loomi-icon[name="x-mark"]')).to.exist;
-    expect(el.shadowRoot!.querySelectorAll('.loomi-footer loomi-button[size="small"]')).to.have.length(2);
+    expect(
+      el.shadowRoot!.querySelectorAll('.loomi-footer loomi-button[size="small"]'),
+    ).to.have.length(2);
   });
 
   it('defaults the icon to "heroicons" and honors a custom icon-source', async () => {
-    const defaultEl = await fixture<LoomiModal>(html`<loomi-modal icon="cloud-arrow-down"></loomi-modal>`);
+    const defaultEl = await fixture<LoomiModal>(
+      html`<loomi-modal icon="cloud-arrow-down"></loomi-modal>`,
+    );
     defaultEl.show();
     await defaultEl.updateComplete;
     const defaultIcon = defaultEl.shadowRoot!.querySelector(".loomi-icon-wrap loomi-icon")!;

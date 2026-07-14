@@ -31,7 +31,10 @@ export function watchDarkMode(listener: DarkModeListener): () => void {
   if (!sharedObserver) {
     lastIsDark = readIsDark();
     sharedObserver = new MutationObserver(notifyAll);
-    sharedObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    sharedObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
   }
   listener(readIsDark());
   listeners.add(listener);

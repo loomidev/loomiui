@@ -1,6 +1,14 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
-import { LoomiElement, controlSizeStyles, fieldStyles, loomiT, onClickOutside, randomSuffix, themeStyles } from "@loomidev/core";
+import {
+  LoomiElement,
+  controlSizeStyles,
+  fieldStyles,
+  loomiT,
+  onClickOutside,
+  randomSuffix,
+  themeStyles,
+} from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -113,7 +121,11 @@ export class LoomiPassword extends LoomiElement {
 
   private syncValidity(showInvalid = this.validationVisible): boolean {
     const empty = this.required && !this.disabled && !this.readonly && this.value.trim() === "";
-    const weak = !empty && !this.disabled && !this.readonly && this.strengthRequirements().some((requirement) => !requirement.met);
+    const weak =
+      !empty &&
+      !this.disabled &&
+      !this.readonly &&
+      this.strengthRequirements().some((requirement) => !requirement.met);
     const wasInvalid = this.invalid;
     this.invalid = (empty || weak) && showInvalid;
     const validity = empty ? { valueMissing: true } : weak ? { customError: true } : {};
@@ -128,7 +140,14 @@ export class LoomiPassword extends LoomiElement {
     if (this.invalid && !wasInvalid && !this.showErrorInline && message) {
       // Lazy import — see @loomidev/input's syncValidity for the rationale.
       void import("@loomidev/notification").then(({ showLoomiNotification }) =>
-        showLoomiNotification(this.label, message, "error", undefined, `loomi-password-validation-${this.name || this.instanceId}`));
+        showLoomiNotification(
+          this.label,
+          message,
+          "error",
+          undefined,
+          `loomi-password-validation-${this.name || this.instanceId}`,
+        ),
+      );
     }
 
     return !empty && !weak;
@@ -166,7 +185,8 @@ export class LoomiPassword extends LoomiElement {
     if (trimmed.startsWith("[")) {
       try {
         const parsed = JSON.parse(trimmed);
-        if (Array.isArray(parsed)) return parsed.map((option) => String(option).trim()).filter(Boolean);
+        if (Array.isArray(parsed))
+          return parsed.map((option) => String(option).trim()).filter(Boolean);
       } catch {
         // Fall through to simple delimited parsing.
       }
@@ -191,7 +211,9 @@ export class LoomiPassword extends LoomiElement {
     this.prefixValue = value;
     this.prefix = value;
     this.prefixOpen = false;
-    this.dispatchEvent(new CustomEvent("loomi-prefix-change", { detail: { value }, bubbles: true, composed: true }));
+    this.dispatchEvent(
+      new CustomEvent("loomi-prefix-change", { detail: { value }, bubbles: true, composed: true }),
+    );
   }
 
   private onPrefixTriggerKeydown = (e: KeyboardEvent): void => {
@@ -214,8 +236,9 @@ export class LoomiPassword extends LoomiElement {
         <span class="loomi-affix-value">${value}</span>
         ${this.renderIcon("chevron-down", "loomi-affix-chevron")}
       </button>
-      ${this.prefixOpen
-        ? html`<div class="loomi-affix-panel" role="listbox">
+      ${
+        this.prefixOpen
+          ? html`<div class="loomi-affix-panel" role="listbox">
             ${options.map(
               (option) => html`<div
                 class="loomi-affix-option ${option === value ? "selected" : ""}"
@@ -228,7 +251,8 @@ export class LoomiPassword extends LoomiElement {
               </div>`,
             )}
           </div>`
-        : nothing}
+          : nothing
+      }
     </span>`;
   }
 
@@ -248,20 +272,26 @@ export class LoomiPassword extends LoomiElement {
     if (!showClear && !showReveal) return nothing;
 
     return html`<span class="loomi-suffix">
-      ${showClear
-        ? html`<button type="button" class="loomi-iconbtn" aria-label=${loomiT("common.clear", {}, this.locale)} @click=${this.clear}>${this.renderIcon("x-circle")}</button>`
-        : nothing}
-      ${showReveal
-        ? html`<button type="button" class="loomi-iconbtn" aria-label=${loomiT("input.togglePassword", {}, this.locale)} @click=${() => (this.revealed = !this.revealed)}>${this.renderIcon(this.revealed ? "eye-slash" : "eye")}</button>`
-        : nothing}
+      ${
+        showClear
+          ? html`<button type="button" class="loomi-iconbtn" aria-label=${loomiT("common.clear", {}, this.locale)} @click=${this.clear}>${this.renderIcon("x-circle")}</button>`
+          : nothing
+      }
+      ${
+        showReveal
+          ? html`<button type="button" class="loomi-iconbtn" aria-label=${loomiT("input.togglePassword", {}, this.locale)} @click=${() => (this.revealed = !this.revealed)}>${this.renderIcon(this.revealed ? "eye-slash" : "eye")}</button>`
+          : nothing
+      }
     </span>`;
   }
 
   private strengthRequirements(): StrengthRequirement[] {
     const tokens = STRENGTH_ORDER.filter((token) => this.strength.includes(token));
     return tokens.map((token) => {
-      if (token === "A") return { token, label: "One uppercase letter", met: /[A-Z]/.test(this.value) };
-      if (token === "a") return { token, label: "One lowercase letter", met: /[a-z]/.test(this.value) };
+      if (token === "A")
+        return { token, label: "One uppercase letter", met: /[A-Z]/.test(this.value) };
+      if (token === "a")
+        return { token, label: "One lowercase letter", met: /[a-z]/.test(this.value) };
       if (token === "1") return { token, label: "One number", met: /[0-9]/.test(this.value) };
       return { token, label: "One special character", met: /[^A-Za-z0-9]/.test(this.value) };
     });

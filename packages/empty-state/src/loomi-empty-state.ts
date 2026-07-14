@@ -39,9 +39,11 @@ export class LoomiEmptyState extends LoomiElement {
       </div>
       ${this.heading ? html`<div class="loomi-heading" id="loomi-empty-heading">${this.heading}</div>` : nothing}
       ${this.message ? html`<div class="loomi-message">${this.message}</div>` : nothing}
-      ${this.buttonLabel
-        ? html`<button class="loomi-btn" type="button" @click=${() => this.dispatchEvent(new Event("action", { bubbles: true, composed: true }))}>${this.buttonLabel}</button>`
-        : nothing}
+      ${
+        this.buttonLabel
+          ? html`<button class="loomi-btn" type="button" @click=${() => this.dispatchEvent(new Event("action", { bubbles: true, composed: true }))}>${this.buttonLabel}</button>`
+          : nothing
+      }
     </div>`;
   }
 }

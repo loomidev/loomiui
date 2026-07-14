@@ -13,7 +13,9 @@ describe("loomi-select", () => {
     const el = await fixture<LoomiSelect>(html`<loomi-select .data=${DATA}></loomi-select>`);
     const trigger = el.shadowRoot!.querySelector(".loomi-trigger") as HTMLButtonElement;
     trigger.focus();
-    trigger.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }));
+    trigger.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }),
+    );
     await el.updateComplete;
 
     expect(trigger.getAttribute("aria-expanded")).to.equal("true");
@@ -27,7 +29,9 @@ describe("loomi-select", () => {
     trigger.click();
     await el.updateComplete;
 
-    wrapper.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, cancelable: true }));
+    wrapper.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, cancelable: true }),
+    );
     await el.updateComplete;
 
     expect(trigger.getAttribute("aria-activedescendant")).to.equal("loomi-opt-1");
@@ -41,9 +45,13 @@ describe("loomi-select", () => {
     trigger.click();
     await el.updateComplete;
 
-    wrapper.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, cancelable: true }));
+    wrapper.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, cancelable: true }),
+    );
     await el.updateComplete;
-    wrapper.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }));
+    wrapper.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }),
+    );
     await el.updateComplete;
 
     expect(trigger.getAttribute("aria-expanded")).to.equal("false");
@@ -51,13 +59,17 @@ describe("loomi-select", () => {
   });
 
   it("Escape closes the listbox without changing the selection", async () => {
-    const el = await fixture<LoomiSelect>(html`<loomi-select .data=${DATA} selected-value="gh"></loomi-select>`);
+    const el = await fixture<LoomiSelect>(
+      html`<loomi-select .data=${DATA} selected-value="gh"></loomi-select>`,
+    );
     const wrapper = el.shadowRoot!.querySelector(".loomi-select") as HTMLElement;
     const trigger = el.shadowRoot!.querySelector(".loomi-trigger") as HTMLButtonElement;
     trigger.click();
     await el.updateComplete;
 
-    wrapper.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }));
+    wrapper.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true }),
+    );
     await el.updateComplete;
 
     expect(trigger.getAttribute("aria-expanded")).to.equal("false");
@@ -77,6 +89,8 @@ describe("loomi-select", () => {
 
     expect(sizer.textContent).to.equal("Where are you from? *");
     expect(getComputedStyle(sizer).visibility).to.equal("hidden");
-    expect(trigger.getBoundingClientRect().width).to.be.greaterThan(label.getBoundingClientRect().width);
+    expect(trigger.getBoundingClientRect().width).to.be.greaterThan(
+      label.getBoundingClientRect().width,
+    );
   });
 });

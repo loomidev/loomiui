@@ -11,7 +11,6 @@ npm install @loomidev/divider lit
 import "@loomidev/divider";
 ```
 
-
 ## Basic Usage
 
 ```html
@@ -71,7 +70,6 @@ loomi-divider is designed to fit the layout you place it in. It uses fluid width
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-divider uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -82,15 +80,15 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `orientation` | `horizontal` | `horizontal` \| `vertical` |
-| `label` | _(blank)_ | Simple divider text. The default slot takes precedence when present. |
-| `align` | `center` | Content alignment: `start` \| `center` \| `end`. |
-| `variant` | `solid` | Rule style: `solid` \| `dashed` \| `dotted`. |
-| `color` | `gray` | Any loomi color. |
-| `thickness` | `1px` | CSS length for the rule thickness. |
-| `spacing` | `0.75rem` | CSS length for the gap around divider content. |
+| Attribute     | Default      | Description                                                          |
+| ------------- | ------------ | -------------------------------------------------------------------- |
+| `orientation` | `horizontal` | `horizontal` \| `vertical`                                           |
+| `label`       | _(blank)_    | Simple divider text. The default slot takes precedence when present. |
+| `align`       | `center`     | Content alignment: `start` \| `center` \| `end`.                     |
+| `variant`     | `solid`      | Rule style: `solid` \| `dashed` \| `dotted`.                         |
+| `color`       | `gray`       | Any loomi color.                                                     |
+| `thickness`   | `1px`        | CSS length for the rule thickness.                                   |
+| `spacing`     | `0.75rem`    | CSS length for the gap around divider content.                       |
 
 **Slot:** default (optional content).
 

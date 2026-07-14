@@ -1,7 +1,10 @@
 :host(loomi-card) {
   display: block;
   --loomi-card-spacing: 1rem;
-  --loomi-card-radius: var(--loomi-panel-radius, var(--loomi-component-panel-radius, var(--_loomi-panel-radius-default, 0.875rem)));
+  --loomi-card-radius: var(
+    --loomi-panel-radius,
+    var(--loomi-component-panel-radius, var(--_loomi-panel-radius-default, 0.875rem))
+  );
   --loomi-card-shadow: var(--loomi-component-card-shadow, 0 1px 3px rgba(15, 23, 42, 0.06));
 }
 

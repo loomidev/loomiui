@@ -8,5 +8,5 @@ export type {
   FilterBuilderOperator,
   FilterBuilderOption,
   FilterBuilderRule,
-  FilterBuilderValue
+  FilterBuilderValue,
 } from "./types.js";

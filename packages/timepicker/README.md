@@ -12,7 +12,6 @@ npm install @loomidev/timepicker lit
 import "@loomidev/timepicker";
 ```
 
-
 ## Basic Usage
 
 ```html
@@ -108,7 +107,6 @@ loomi-timepicker is designed to fit the layout you place it in. It uses fluid wi
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-timepicker uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -119,16 +117,16 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `name` | _(blank)_ | Submitted with the form. |
-| `tp-style` | `popup` | `popup` \| `inline` \| `clock` (analog clock in a modal; the attribute is `tp-style`, `style` is reserved). |
-| `format` | `12` | `12` \| `24` |
-| `variant` | `default` | `default` \| `minimal` (bottom border only, no box) |
-| `selected-value` | _(blank)_ | Default time (e.g. `3:25PM` or `03:25`). |
-| `label` | _(blank)_ | Optional field label. |
-| `placeholder` | `HH:MM` | Popup field placeholder text. |
-| `required` | `false` | Append an asterisk. _(boolean)_ |
+| Attribute        | Default   | Description                                                                                                 |
+| ---------------- | --------- | ----------------------------------------------------------------------------------------------------------- |
+| `name`           | _(blank)_ | Submitted with the form.                                                                                    |
+| `tp-style`       | `popup`   | `popup` \| `inline` \| `clock` (analog clock in a modal; the attribute is `tp-style`, `style` is reserved). |
+| `format`         | `12`      | `12` \| `24`                                                                                                |
+| `variant`        | `default` | `default` \| `minimal` (bottom border only, no box)                                                         |
+| `selected-value` | _(blank)_ | Default time (e.g. `3:25PM` or `03:25`).                                                                    |
+| `label`          | _(blank)_ | Optional field label.                                                                                       |
+| `placeholder`    | `HH:MM`   | Popup field placeholder text.                                                                               |
+| `required`       | `false`   | Append an asterisk. _(boolean)_                                                                             |
 
 **Property:** `value`. **Event:** `change` (`detail: { value }`).
 
@@ -193,7 +191,6 @@ In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the pac
 ```js
 import "@loomidev/timepicker";
 ```
-
 
 Because this is a form-capable component, give it a `name` when it should submit with a native `<form>`. Read its value with `new FormData(form).get("the-name")` just like you would for a built-in input.
 

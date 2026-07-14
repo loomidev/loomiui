@@ -158,69 +158,68 @@ loomi-chat-window uses Loomi semantic tokens such as `--loomi-surface`, `--loomi
 
 Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
 
-
 ## Attributes
 
 ### `<loomi-chat-window>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `title` | `New Chat` | Header title. |
-| `description` | `How can I help you today?` | Header subtitle. |
-| `current-user-id` | `you` | Outgoing messages use this sender id. |
-| `participants` | `[]` | Group roster with `id`, `name`, optional `image`, `label`, `color`. |
-| `empty-title` | `Morning!` | Empty-state heading. |
-| `empty-description` | … | Empty-state body copy. |
-| `input-placeholder` | `Message…` | Composer placeholder. |
-| `input-rows` | `1` | Initial composer height in rows. |
-| `input-max-rows` | `5` | Maximum composer growth in rows. |
-| `window-height` | `35rem` | Card height. |
-| `auto-scroll` | `true` | Follow new messages while pinned to the bottom. |
-| `show-avatars` | `false` | Show avatars beside transcript messages. Auto-enabled when there are more than two participants. |
-| `show-header-avatars` | `true` | Show stacked participant avatars in the header. |
-| `busy` | `false` | Disables composer and marks transcript busy. |
-| `typing` | `false` | Shows a three-dot typing indicator, or the custom loading row when loading content is provided. |
-| `loading-icon` | `""` | Icon name to show in the typing/loading row. |
-| `loading-text` | `""` | Text to show in the typing/loading row. |
-| `read-only` | `false` | Disables the composer. |
-| `show-reset` | `true` | Shows the reset button. |
-| `show-conversations` | `false` | Render the conversation list pane. |
-| `conversations` | `[]` | Conversation rows with `id`, `name`, optional `preview`, `time`, `unread`, `image`, `label`, `color`. |
-| `active-conversation-id` | `""` | Highlights the active conversation row. |
-| `conversations-avatars-only` | `false` | Collapse the conversation pane to an avatar rail. |
+| Attribute                    | Default                     | Description                                                                                           |
+| ---------------------------- | --------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `title`                      | `New Chat`                  | Header title.                                                                                         |
+| `description`                | `How can I help you today?` | Header subtitle.                                                                                      |
+| `current-user-id`            | `you`                       | Outgoing messages use this sender id.                                                                 |
+| `participants`               | `[]`                        | Group roster with `id`, `name`, optional `image`, `label`, `color`.                                   |
+| `empty-title`                | `Morning!`                  | Empty-state heading.                                                                                  |
+| `empty-description`          | …                           | Empty-state body copy.                                                                                |
+| `input-placeholder`          | `Message…`                  | Composer placeholder.                                                                                 |
+| `input-rows`                 | `1`                         | Initial composer height in rows.                                                                      |
+| `input-max-rows`             | `5`                         | Maximum composer growth in rows.                                                                      |
+| `window-height`              | `35rem`                     | Card height.                                                                                          |
+| `auto-scroll`                | `true`                      | Follow new messages while pinned to the bottom.                                                       |
+| `show-avatars`               | `false`                     | Show avatars beside transcript messages. Auto-enabled when there are more than two participants.      |
+| `show-header-avatars`        | `true`                      | Show stacked participant avatars in the header.                                                       |
+| `busy`                       | `false`                     | Disables composer and marks transcript busy.                                                          |
+| `typing`                     | `false`                     | Shows a three-dot typing indicator, or the custom loading row when loading content is provided.       |
+| `loading-icon`               | `""`                        | Icon name to show in the typing/loading row.                                                          |
+| `loading-text`               | `""`                        | Text to show in the typing/loading row.                                                               |
+| `read-only`                  | `false`                     | Disables the composer.                                                                                |
+| `show-reset`                 | `true`                      | Shows the reset button.                                                                               |
+| `show-conversations`         | `false`                     | Render the conversation list pane.                                                                    |
+| `conversations`              | `[]`                        | Conversation rows with `id`, `name`, optional `preview`, `time`, `unread`, `image`, `label`, `color`. |
+| `active-conversation-id`     | `""`                        | Highlights the active conversation row.                                                               |
+| `conversations-avatars-only` | `false`                     | Collapse the conversation pane to an avatar rail.                                                     |
 
 ### `<loomi-chat-message>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `text` | `""` | Message body. |
-| `sender` | `""` | Display name shown above the bubble. |
-| `time` | `""` | Optional message time label shown beneath the bubble text. |
-| `sender-id` | `""` | Used to pick a fallback bubble color. |
-| `bubble-color` | auto | Any loomi palette color (`primary`, `success`, `warning`, …). |
-| `image` | `""` | Avatar image URL. |
-| `avatar-label` | initials | Avatar fallback label. |
-| `outgoing` | `false` | Right-align the bubble with a trailing tail. |
-| `show-avatar` | `false` | Render an avatar beside the bubble. |
-| `show-sender` | `false` | Render the sender name above the bubble. |
-| `attachment` | — | File card under the bubble: `{ name, meta?, icon? }`. Property or JSON attribute. |
+| Attribute      | Default  | Description                                                                       |
+| -------------- | -------- | --------------------------------------------------------------------------------- |
+| `text`         | `""`     | Message body.                                                                     |
+| `sender`       | `""`     | Display name shown above the bubble.                                              |
+| `time`         | `""`     | Optional message time label shown beneath the bubble text.                        |
+| `sender-id`    | `""`     | Used to pick a fallback bubble color.                                             |
+| `bubble-color` | auto     | Any loomi palette color (`primary`, `success`, `warning`, …).                     |
+| `image`        | `""`     | Avatar image URL.                                                                 |
+| `avatar-label` | initials | Avatar fallback label.                                                            |
+| `outgoing`     | `false`  | Right-align the bubble with a trailing tail.                                      |
+| `show-avatar`  | `false`  | Render an avatar beside the bubble.                                               |
+| `show-sender`  | `false`  | Render the sender name above the bubble.                                          |
+| `attachment`   | —        | File card under the bubble: `{ name, meta?, icon? }`. Property or JSON attribute. |
 
 ## Events
 
-| Event | Detail | Description |
-| --- | --- | --- |
-| `loomi-send` | `{ message }` | Current user submitted the composer. |
-| `loomi-reset` | — | Transcript cleared. |
-| `loomi-conversation-select` | `{ conversation }` | A conversation row was clicked. |
+| Event                       | Detail             | Description                          |
+| --------------------------- | ------------------ | ------------------------------------ |
+| `loomi-send`                | `{ message }`      | Current user submitted the composer. |
+| `loomi-reset`               | —                  | Transcript cleared.                  |
+| `loomi-conversation-select` | `{ conversation }` | A conversation row was clicked.      |
 
 ## Methods
 
-| Method | Description |
-| --- | --- |
-| `appendMessage(message)` | Push a message onto the transcript. |
+| Method                        | Description                           |
+| ----------------------------- | ------------------------------------- |
+| `appendMessage(message)`      | Push a message onto the transcript.   |
 | `updateMessageText(id, text)` | Replace message text while streaming. |
-| `reset()` | Clear messages and composer. |
-| `scrollToBottom()` | Jump to the latest message. |
+| `reset()`                     | Clear messages and composer.          |
+| `scrollToBottom()`            | Jump to the latest message.           |
 
 <!-- BEGIN loomi-framework-guide -->
 
@@ -287,7 +286,6 @@ In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the pac
 ```js
 import "@loomidev/chat";
 ```
-
 
 `<loomi-chat-window>` accepts `participants` and `messages` as JavaScript properties. Use HTML attributes only for simple strings; use a property when you pass arrays, objects, or functions.
 

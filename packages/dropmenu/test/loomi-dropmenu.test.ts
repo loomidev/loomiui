@@ -2,7 +2,8 @@ import { html, fixture, expect } from "@open-wc/testing";
 import "../dist/loomi-dropmenu.js";
 import type { LoomiDropmenu } from "../dist/index.js";
 
-const nextFrame = (): Promise<void> => new Promise((resolve) => requestAnimationFrame(() => resolve()));
+const nextFrame = (): Promise<void> =>
+  new Promise((resolve) => requestAnimationFrame(() => resolve()));
 
 async function open(el: LoomiDropmenu): Promise<HTMLElement> {
   el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!.click();
@@ -80,7 +81,9 @@ describe("loomi-dropmenu", () => {
     await nextFrame();
     await item.updateComplete;
 
-    expect(item.shadowRoot!.querySelector(".loomi-item")!.classList.contains("right")).to.equal(true);
+    expect(item.shadowRoot!.querySelector(".loomi-item")!.classList.contains("right")).to.equal(
+      true,
+    );
   });
 
   it("toggles a checkbox item and keeps the menu open", async () => {
@@ -149,7 +152,9 @@ describe("loomi-dropmenu", () => {
     item.shadowRoot!.querySelector<HTMLElement>(".loomi-item")!.click();
 
     expect(clicked).to.equal(false);
-    expect(item.shadowRoot!.querySelector(".loomi-item")!.getAttribute("aria-disabled")).to.equal("true");
+    expect(item.shadowRoot!.querySelector(".loomi-item")!.getAttribute("aria-disabled")).to.equal(
+      "true",
+    );
   });
 
   it("excludes disabled items from arrow-key navigation", async () => {
@@ -165,7 +170,9 @@ describe("loomi-dropmenu", () => {
     await profile.updateComplete;
     await settings.updateComplete;
 
-    menu.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, composed: true }));
+    menu.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, composed: true }),
+    );
     await settings.updateComplete;
 
     expect(settings.shadowRoot!.activeElement).not.to.equal(null);
@@ -182,7 +189,9 @@ describe("loomi-dropmenu", () => {
     const item = el.querySelector("loomi-dropmenu-item")!;
     await item.updateComplete;
 
-    expect(item.shadowRoot!.querySelector(".loomi-item")!.classList.contains("destructive")).to.equal(true);
+    expect(
+      item.shadowRoot!.querySelector(".loomi-item")!.classList.contains("destructive"),
+    ).to.equal(true);
   });
 
   it("closes the menu on Tab without trapping focus", async () => {
@@ -194,7 +203,9 @@ describe("loomi-dropmenu", () => {
     `);
 
     const menu = await open(el);
-    menu.dispatchEvent(new KeyboardEvent("keydown", { key: "Tab", bubbles: true, composed: true, cancelable: true }));
+    menu.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Tab", bubbles: true, composed: true, cancelable: true }),
+    );
     await el.updateComplete;
 
     expect(el.shadowRoot!.querySelector(".loomi-menu")).to.equal(null);
@@ -208,7 +219,14 @@ describe("loomi-dropmenu", () => {
     `);
 
     const menu = await open(el);
-    menu.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true, composed: true, cancelable: true }));
+    menu.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: "Escape",
+        bubbles: true,
+        composed: true,
+        cancelable: true,
+      }),
+    );
     await el.updateComplete;
 
     expect(el.shadowRoot!.activeElement).to.equal(el.shadowRoot!.querySelector(".loomi-trigger"));
@@ -233,6 +251,8 @@ describe("loomi-dropmenu", () => {
     await item.updateComplete;
 
     expect(item.shadowRoot!.querySelector(".loomi-submenu-icon")).not.to.equal(null);
-    expect(item.shadowRoot!.querySelector(".loomi-submenu")!.classList.contains("open")).to.equal(true);
+    expect(item.shadowRoot!.querySelector(".loomi-submenu")!.classList.contains("open")).to.equal(
+      true,
+    );
   });
 });

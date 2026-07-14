@@ -21,9 +21,7 @@ const require = createRequire(import.meta.url);
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const pkgRoot = resolve(__dirname, "..");
 
-const palette = JSON.parse(
-  readFileSync(resolve(pkgRoot, "palette.json"), "utf8"),
-);
+const palette = JSON.parse(readFileSync(resolve(pkgRoot, "palette.json"), "utf8"));
 const { colors, shades, ramps } = palette;
 const prefix = palette.prefix ?? "loomi";
 const pub = (color, shade) => `--${prefix}-${color}-${shade}`; // public override slot
@@ -84,7 +82,7 @@ const gray = (shade) => `var(${pub("gray", shade)}, var(${priv("gray", shade)}))
 const primary = (shade) => `var(${pub("primary", shade)}, var(${priv("primary", shade)}))`;
 
 const SEMANTIC_LIGHT = {
-  "surface": null, // resolved to white by surfaceLines(); key kept here only for ordering
+  surface: null, // resolved to white by surfaceLines(); key kept here only for ordering
   "surface-border": gray(200),
   "surface-border-subtle": gray(100),
   "surface-hover": gray(100),
@@ -92,14 +90,14 @@ const SEMANTIC_LIGHT = {
   "surface-muted": gray(50),
   "focus-ring": primary(100),
   "focus-ring-color": primary(600),
-  "text": gray(900),
+  text: gray(900),
   "text-on-primary": `var(--${prefix}-white, #ffffff)`,
   "text-secondary": gray(700),
   "text-muted": gray(500),
   "text-faint": gray(400),
 };
 const SEMANTIC_DARK = {
-  "surface": gray(800),
+  surface: gray(800),
   "surface-border": gray(700),
   "surface-border-subtle": gray(700),
   "surface-hover": gray(700),
@@ -107,7 +105,7 @@ const SEMANTIC_DARK = {
   "surface-muted": gray(900),
   "focus-ring": `color-mix(in srgb, ${primary(500)} 40%, transparent)`,
   "focus-ring-color": primary(500),
-  "text": gray(100),
+  text: gray(100),
   "text-on-primary": `var(--${prefix}-white, #ffffff)`,
   "text-secondary": gray(300),
   "text-muted": gray(400),
@@ -209,9 +207,7 @@ writeFileSync(resolve(pkgRoot, "src/generated/palette.gen.ts"), paletteTs);
 const mapLines = [];
 for (const color of colors) {
   for (const shade of shades) {
-    mapLines.push(
-      `  --color-${color}-${shade}: var(${pub(color, shade)}, ${priv(color, shade)});`,
-    );
+    mapLines.push(`  --color-${color}-${shade}: var(${pub(color, shade)}, ${priv(color, shade)});`);
   }
 }
 

@@ -123,13 +123,13 @@ calendar.addEventListener("loomi-reminder-change", async (event) => {
 
 Event color is controlled by the optional `color` field on each `CalendarEvent`. The calendar does **not** infer colors automatically — you choose the token when mapping data from your API.
 
-| `color` value | Typical use | Visual |
-| --- | --- | --- |
-| `primary` | Default meetings, internal events | Primary palette |
-| `secondary` | Neutral blocks, focus time | Gray palette |
-| `success` | Confirmed client meetings, completed milestones | Green palette |
-| `warning` | Pending reviews, travel, deadlines | Amber palette |
-| `error` | Critical incidents, cancellations | Red palette |
+| `color` value | Typical use                                     | Visual          |
+| ------------- | ----------------------------------------------- | --------------- |
+| `primary`     | Default meetings, internal events               | Primary palette |
+| `secondary`   | Neutral blocks, focus time                      | Gray palette    |
+| `success`     | Confirmed client meetings, completed milestones | Green palette   |
+| `warning`     | Pending reviews, travel, deadlines              | Amber palette   |
+| `error`       | Critical incidents, cancellations               | Red palette     |
 
 If `color` is omitted, events render with the **primary** palette. In the resource view, an event can also inherit color from its assigned `CalendarResource.color` when the event itself has no color.
 
@@ -139,54 +139,54 @@ Colors follow Loomi theme tokens (`--loomi-primary-*`, `--loomi-success-*`, etc.
 
 ### `CalendarEvent`
 
-| Field | Type | Required | Notes |
-| --- | --- | --- | --- |
-| `id` | `string` | yes | Stable unique id from your system |
-| `title` | `string` | yes | Shown on pills, timed blocks, and sidebar detail |
-| `start` | `Date` | yes | Event start |
-| `end` | `Date` | yes | Event end (must be after `start`) |
-| `color` | `CalendarEventColor` | no | Semantic palette token (see above) |
-| `description` | `string` | no | Long-form notes; shown in sidebar “About this event” |
-| `isAllDay` | `boolean` | no | Renders in all-day / spanning lanes |
-| `resourceId` | `string` | no | Links to `CalendarResource.id` for resource view |
-| `recurrence` | `{ frequency, label? }` | no | Display metadata (`daily` / `weekly` / `monthly` / `yearly`) |
-| `reminder` | `{ label, minutesBefore? }` | no | e.g. `{ label: "10 min before" }` |
-| `invitees` | `CalendarEventInvitee[]` | no | Guest list with RSVP status for sidebar avatars |
-| `timezone` | `string` | no | IANA zone for per-event time labels |
-| `editable` | `boolean` | no | Override global `editable` for this event |
-| `draggable` | `boolean` | no | Override drag behavior for this event |
+| Field         | Type                        | Required | Notes                                                        |
+| ------------- | --------------------------- | -------- | ------------------------------------------------------------ |
+| `id`          | `string`                    | yes      | Stable unique id from your system                            |
+| `title`       | `string`                    | yes      | Shown on pills, timed blocks, and sidebar detail             |
+| `start`       | `Date`                      | yes      | Event start                                                  |
+| `end`         | `Date`                      | yes      | Event end (must be after `start`)                            |
+| `color`       | `CalendarEventColor`        | no       | Semantic palette token (see above)                           |
+| `description` | `string`                    | no       | Long-form notes; shown in sidebar “About this event”         |
+| `isAllDay`    | `boolean`                   | no       | Renders in all-day / spanning lanes                          |
+| `resourceId`  | `string`                    | no       | Links to `CalendarResource.id` for resource view             |
+| `recurrence`  | `{ frequency, label? }`     | no       | Display metadata (`daily` / `weekly` / `monthly` / `yearly`) |
+| `reminder`    | `{ label, minutesBefore? }` | no       | e.g. `{ label: "10 min before" }`                            |
+| `invitees`    | `CalendarEventInvitee[]`    | no       | Guest list with RSVP status for sidebar avatars              |
+| `timezone`    | `string`                    | no       | IANA zone for per-event time labels                          |
+| `editable`    | `boolean`                   | no       | Override global `editable` for this event                    |
+| `draggable`   | `boolean`                   | no       | Override drag behavior for this event                        |
 
 ### `CalendarEventInvitee`
 
-| Field | Type | Notes |
-| --- | --- | --- |
-| `id` | `string` | Optional stable id |
-| `name` | `string` | Display name |
-| `email` | `string` | Optional |
-| `avatarUrl` | `string` | Optional image URL |
-| `initials` | `string` | Optional override when no avatar |
-| `status` | `"yes" \| "no" \| "awaiting"` | Drives sidebar RSVP summary |
+| Field       | Type                          | Notes                            |
+| ----------- | ----------------------------- | -------------------------------- |
+| `id`        | `string`                      | Optional stable id               |
+| `name`      | `string`                      | Display name                     |
+| `email`     | `string`                      | Optional                         |
+| `avatarUrl` | `string`                      | Optional image URL               |
+| `initials`  | `string`                      | Optional override when no avatar |
+| `status`    | `"yes" \| "no" \| "awaiting"` | Drives sidebar RSVP summary      |
 
 ### `CalendarReminder`
 
-| Field | Type | Required | Notes |
-| --- | --- | --- | --- |
-| `id` | `string` | yes | Stable unique id from your system |
-| `title` | `string` | yes | Shown in reminder pills and delete confirmations |
-| `due` | `Date` | yes | Reminder date/time |
-| `color` | `CalendarEventColor` | no | Semantic palette token; defaults to `warning` |
-| `description` | `string` | no | Long-form notes for your app to persist |
-| `done` | `boolean` | no | Drives the reminder checkbox and completed styling |
-| `editable` | `boolean` | no | Override global `editable` for this reminder |
+| Field         | Type                 | Required | Notes                                              |
+| ------------- | -------------------- | -------- | -------------------------------------------------- |
+| `id`          | `string`             | yes      | Stable unique id from your system                  |
+| `title`       | `string`             | yes      | Shown in reminder pills and delete confirmations   |
+| `due`         | `Date`               | yes      | Reminder date/time                                 |
+| `color`       | `CalendarEventColor` | no       | Semantic palette token; defaults to `warning`      |
+| `description` | `string`             | no       | Long-form notes for your app to persist            |
+| `done`        | `boolean`            | no       | Drives the reminder checkbox and completed styling |
+| `editable`    | `boolean`            | no       | Override global `editable` for this reminder       |
 
 ### `CalendarResource`
 
-| Field | Type | Notes |
-| --- | --- | --- |
-| `id` | `string` | Referenced by `event.resourceId` |
-| `label` | `string` | Room / person / asset name |
-| `color` | `CalendarEventColor` | Default color for events on this resource |
-| `description` | `string` | Optional |
+| Field         | Type                 | Notes                                     |
+| ------------- | -------------------- | ----------------------------------------- |
+| `id`          | `string`             | Referenced by `event.resourceId`          |
+| `label`       | `string`             | Room / person / asset name                |
+| `color`       | `CalendarEventColor` | Default color for events on this resource |
+| `description` | `string`             | Optional                                  |
 
 ### Example: fully populated event
 
@@ -332,50 +332,50 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Type | Default | Notes |
-| --- | --- | --- | --- |
-| `events` | `CalendarEvent[]` | `[]` | JavaScript property. |
-| `reminders` | `CalendarReminder[]` | `[]` | JavaScript property. |
-| `resources` | `CalendarResource[]` | `[]` | Used by the resource view. |
-| `view` | `"month" \| "week" \| "day" \| "agenda" \| "resource"` | `"month"` | Reflected attribute. |
-| `date` | `Date` | `new Date()` | Focus date for the active view. |
-| `locale` | `string` | `"en"` | Passed to Loomi i18n helpers. |
-| `week-starts` | `"sunday" \| "monday"` | `"sunday"` | First day of the week. |
-| `timezone` | `string` | browser timezone | IANA timezone used for labels. |
-| `show-timezone` | `boolean` | `false` | Shows a timezone badge in the toolbar. |
-| `show-weekends` / `show_weekends` | `boolean` | `false` | Shows Saturday/Sunday in week and month views when true. |
-| `show-sidebar` | `boolean` | `true` | Shows the left pane with mini calendar and upcoming detail. |
-| `sidebar-open` | `boolean` | `false` | Toggles the left pane visibility. Reflected attribute. When unset, restores the last choice from `localStorage` (`loomi-calendar-sidebar-open`). |
-| `editable` | `boolean` | `false` | Enables create modal, drag, and resize. |
-| `loading` | `boolean` | `false` | Shows a loading overlay. |
-| `start-hour` | `number` | `6` | First visible hour in timed views. |
-| `end-hour` | `number` | `18` | Last visible hour in timed views. |
-| `slot-minutes` | `number` | `30` | Snap interval for create/drag actions. |
+| Attribute                         | Type                                                   | Default          | Notes                                                                                                                                            |
+| --------------------------------- | ------------------------------------------------------ | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `events`                          | `CalendarEvent[]`                                      | `[]`             | JavaScript property.                                                                                                                             |
+| `reminders`                       | `CalendarReminder[]`                                   | `[]`             | JavaScript property.                                                                                                                             |
+| `resources`                       | `CalendarResource[]`                                   | `[]`             | Used by the resource view.                                                                                                                       |
+| `view`                            | `"month" \| "week" \| "day" \| "agenda" \| "resource"` | `"month"`        | Reflected attribute.                                                                                                                             |
+| `date`                            | `Date`                                                 | `new Date()`     | Focus date for the active view.                                                                                                                  |
+| `locale`                          | `string`                                               | `"en"`           | Passed to Loomi i18n helpers.                                                                                                                    |
+| `week-starts`                     | `"sunday" \| "monday"`                                 | `"sunday"`       | First day of the week.                                                                                                                           |
+| `timezone`                        | `string`                                               | browser timezone | IANA timezone used for labels.                                                                                                                   |
+| `show-timezone`                   | `boolean`                                              | `false`          | Shows a timezone badge in the toolbar.                                                                                                           |
+| `show-weekends` / `show_weekends` | `boolean`                                              | `false`          | Shows Saturday/Sunday in week and month views when true.                                                                                         |
+| `show-sidebar`                    | `boolean`                                              | `true`           | Shows the left pane with mini calendar and upcoming detail.                                                                                      |
+| `sidebar-open`                    | `boolean`                                              | `false`          | Toggles the left pane visibility. Reflected attribute. When unset, restores the last choice from `localStorage` (`loomi-calendar-sidebar-open`). |
+| `editable`                        | `boolean`                                              | `false`          | Enables create modal, drag, and resize.                                                                                                          |
+| `loading`                         | `boolean`                                              | `false`          | Shows a loading overlay.                                                                                                                         |
+| `start-hour`                      | `number`                                               | `6`              | First visible hour in timed views.                                                                                                               |
+| `end-hour`                        | `number`                                               | `18`             | Last visible hour in timed views.                                                                                                                |
+| `slot-minutes`                    | `number`                                               | `30`             | Snap interval for create/drag actions.                                                                                                           |
 
 ## Events
 
-| Event | Detail |
-| --- | --- |
-| `loomi-view-change` | `{ view }` |
-| `loomi-date-change` | `{ date }` |
-| `loomi-event-click` | `{ event }` |
-| `loomi-event-create` | `{ event }` |
-| `loomi-event-change` | `{ event, previousStart, previousEnd, previousResourceId? }` |
-| `loomi-event-delete` | `{ event }` |
-| `loomi-event-duplicate` | `{ event }` |
-| `loomi-reminder-click` | `{ reminder }` |
-| `loomi-reminder-create` | `{ reminder }` |
-| `loomi-reminder-change` | `{ reminder, previousDue }` |
-| `loomi-reminder-delete` | `{ reminder }` |
-| `loomi-sidebar-toggle` | `{ open }` |
-| `loomi-slot-select` | `{ start, end, resourceId?, allDay? }` |
+| Event                   | Detail                                                       |
+| ----------------------- | ------------------------------------------------------------ |
+| `loomi-view-change`     | `{ view }`                                                   |
+| `loomi-date-change`     | `{ date }`                                                   |
+| `loomi-event-click`     | `{ event }`                                                  |
+| `loomi-event-create`    | `{ event }`                                                  |
+| `loomi-event-change`    | `{ event, previousStart, previousEnd, previousResourceId? }` |
+| `loomi-event-delete`    | `{ event }`                                                  |
+| `loomi-event-duplicate` | `{ event }`                                                  |
+| `loomi-reminder-click`  | `{ reminder }`                                               |
+| `loomi-reminder-create` | `{ reminder }`                                               |
+| `loomi-reminder-change` | `{ reminder, previousDue }`                                  |
+| `loomi-reminder-delete` | `{ reminder }`                                               |
+| `loomi-sidebar-toggle`  | `{ open }`                                                   |
+| `loomi-slot-select`     | `{ start, end, resourceId?, allDay? }`                       |
 
 ## Keyboard Shortcuts
 
-| Key | Action |
-| --- | --- |
-| `←` / `→` | Previous / next range |
-| `T` | Jump to today |
+| Key                         | Action                                               |
+| --------------------------- | ---------------------------------------------------- |
+| `←` / `→`                   | Previous / next range                                |
+| `T`                         | Jump to today                                        |
 | `M` / `W` / `D` / `A` / `R` | Switch to month, week, day, agenda, or resource view |
 
 ## Design Notes

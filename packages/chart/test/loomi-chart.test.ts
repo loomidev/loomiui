@@ -11,17 +11,23 @@ const series: LoomiChartPoint[] = [
 
 describe("loomi-chart", () => {
   it("renders the line stroke in the chosen color once data is set", async () => {
-    const el = await fixture<LoomiChart>(html`<loomi-chart type="line" color="violet"></loomi-chart>`);
+    const el = await fixture<LoomiChart>(
+      html`<loomi-chart type="line" color="violet"></loomi-chart>`,
+    );
     el.data = series;
     await el.updateComplete;
     expect(el.shadowRoot!.querySelector(".loomi-line")).to.exist;
   });
 
   it("fills bars with the chart color by default", async () => {
-    const el = await fixture<LoomiChart>(html`<loomi-chart type="bar" color="green"></loomi-chart>`);
+    const el = await fixture<LoomiChart>(
+      html`<loomi-chart type="bar" color="green"></loomi-chart>`,
+    );
     el.data = series;
     await el.updateComplete;
-    const fills = [...el.shadowRoot!.querySelectorAll(".loomi-bar-fill")].map((p) => p.getAttribute("fill"));
+    const fills = [...el.shadowRoot!.querySelectorAll(".loomi-bar-fill")].map((p) =>
+      p.getAttribute("fill"),
+    );
     expect(fills.every((f) => f === fills[0])).to.be.true;
   });
 
@@ -29,12 +35,16 @@ describe("loomi-chart", () => {
     const el = await fixture<LoomiChart>(html`<loomi-chart type="pie"></loomi-chart>`);
     el.data = series;
     await el.updateComplete;
-    const fills = [...el.shadowRoot!.querySelectorAll(".loomi-slice")].map((p) => p.getAttribute("fill"));
+    const fills = [...el.shadowRoot!.querySelectorAll(".loomi-slice")].map((p) =>
+      p.getAttribute("fill"),
+    );
     expect(new Set(fills).size).to.equal(4);
   });
 
   it("renders area charts with gradient fill and no dots", async () => {
-    const el = await fixture<LoomiChart>(html`<loomi-chart type="area" color="primary"></loomi-chart>`);
+    const el = await fixture<LoomiChart>(
+      html`<loomi-chart type="area" color="primary"></loomi-chart>`,
+    );
     el.data = series;
     await el.updateComplete;
     expect(el.shadowRoot!.querySelector(".loomi-area")).to.exist;
@@ -67,7 +77,9 @@ describe("loomi-chart", () => {
   });
 
   it("renders radar grid spokes with dedicated classes", async () => {
-    const el = await fixture<LoomiChart>(html`<loomi-chart type="radar" color="warning"></loomi-chart>`);
+    const el = await fixture<LoomiChart>(
+      html`<loomi-chart type="radar" color="warning"></loomi-chart>`,
+    );
     el.data = series;
     await el.updateComplete;
 
@@ -76,7 +88,9 @@ describe("loomi-chart", () => {
   });
 
   it("renders grouped bars when value2 is present", async () => {
-    const el = await fixture<LoomiChart>(html`<loomi-chart type="bar" color="primary" color2="success"></loomi-chart>`);
+    const el = await fixture<LoomiChart>(
+      html`<loomi-chart type="bar" color="primary" color2="success"></loomi-chart>`,
+    );
     el.data = [
       { label: "Jan", value: 30, value2: 22 },
       { label: "Feb", value: 55, value2: 40 },
@@ -129,8 +143,22 @@ describe("loomi-chart", () => {
   it("renders a heatmap cell for every column and row", async () => {
     const el = await fixture<LoomiChart>(html`<loomi-chart type="heatmap"></loomi-chart>`);
     el.data = [
-      { label: "Mon", value: 0, values: [{ label: "Morning", value: 2 }, { label: "Evening", value: 7 }] },
-      { label: "Tue", value: 0, values: [{ label: "Morning", value: 5 }, { label: "Evening", value: 9 }] },
+      {
+        label: "Mon",
+        value: 0,
+        values: [
+          { label: "Morning", value: 2 },
+          { label: "Evening", value: 7 },
+        ],
+      },
+      {
+        label: "Tue",
+        value: 0,
+        values: [
+          { label: "Morning", value: 5 },
+          { label: "Evening", value: 9 },
+        ],
+      },
     ];
     await el.updateComplete;
 

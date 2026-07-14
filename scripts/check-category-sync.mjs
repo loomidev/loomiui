@@ -11,7 +11,16 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const packagesDir = path.join(rootDir, "packages");
 
 // Infra / aggregators / tooling — these are not re-exportable leaf components.
-const nonComponents = new Set(["core", "theme", "icons", "mcp-server", "components", "forms", "content", "navigation"]);
+const nonComponents = new Set([
+  "core",
+  "theme",
+  "icons",
+  "mcp-server",
+  "components",
+  "forms",
+  "content",
+  "navigation",
+]);
 const bundles = ["forms", "content", "navigation"];
 
 const readJson = (p) => JSON.parse(readFileSync(p, "utf8"));
@@ -19,7 +28,12 @@ const scoped = (name) => `@loomidev/${name}`;
 
 // Every workspace package that ships custom elements (has a src/ dir and isn't infra).
 const componentDirs = readdirSync(packagesDir, { withFileTypes: true })
-  .filter((e) => e.isDirectory() && !nonComponents.has(e.name) && existsSync(path.join(packagesDir, e.name, "src")))
+  .filter(
+    (e) =>
+      e.isDirectory() &&
+      !nonComponents.has(e.name) &&
+      existsSync(path.join(packagesDir, e.name, "src")),
+  )
   .map((e) => e.name)
   .sort();
 
@@ -33,7 +47,11 @@ function reexportsOf(pkg) {
 
 function depsOf(pkg) {
   const deps = readJson(path.join(packagesDir, pkg, "package.json")).dependencies || {};
-  return new Set(Object.keys(deps).filter((d) => d.startsWith("@loomidev/")).map((d) => d.replace("@loomidev/", "")));
+  return new Set(
+    Object.keys(deps)
+      .filter((d) => d.startsWith("@loomidev/"))
+      .map((d) => d.replace("@loomidev/", "")),
+  );
 }
 
 const errors = [];
@@ -42,13 +60,22 @@ const errors = [];
 //    cover every component package.
 const umbrellaPkg = readJson(path.join(packagesDir, "components", "package.json"));
 const umbrellaIndex = reexportsOf("components");
-const umbrellaDeps = new Set(Object.keys(umbrellaPkg.dependencies || {}).map((d) => d.replace("@loomidev/", "")));
-const umbrellaExports = new Set(Object.keys(umbrellaPkg.exports || {}).filter((k) => k !== ".").map((k) => k.slice(2)));
+const umbrellaDeps = new Set(
+  Object.keys(umbrellaPkg.dependencies || {}).map((d) => d.replace("@loomidev/", "")),
+);
+const umbrellaExports = new Set(
+  Object.keys(umbrellaPkg.exports || {})
+    .filter((k) => k !== ".")
+    .map((k) => k.slice(2)),
+);
 
 for (const c of componentDirs) {
-  if (!umbrellaIndex.has(c)) errors.push(`components/src/index.ts is missing "export * from \\"${scoped(c)}\\";"`);
-  if (!umbrellaDeps.has(c)) errors.push(`components/package.json dependencies is missing "${scoped(c)}"`);
-  if (!umbrellaExports.has(c)) errors.push(`components/package.json exports is missing subpath "./${c}"`);
+  if (!umbrellaIndex.has(c))
+    errors.push(`components/src/index.ts is missing "export * from \\"${scoped(c)}\\";"`);
+  if (!umbrellaDeps.has(c))
+    errors.push(`components/package.json dependencies is missing "${scoped(c)}"`);
+  if (!umbrellaExports.has(c))
+    errors.push(`components/package.json exports is missing subpath "./${c}"`);
 }
 
 // 2. Each category bundle: index.ts re-exports must exactly match its dependencies.
@@ -57,13 +84,21 @@ for (const bundle of bundles) {
   const deps = depsOf(bundle);
   const missingDeps = [...idx].filter((c) => !deps.has(c));
   const missingExports = [...deps].filter((c) => !idx.has(c));
-  if (missingDeps.length) errors.push(`${bundle}: re-exported but not a dependency: ${missingDeps.sort().join(", ")}`);
-  if (missingExports.length) errors.push(`${bundle}: a dependency but not re-exported in src/index.ts: ${missingExports.sort().join(", ")}`);
+  if (missingDeps.length)
+    errors.push(`${bundle}: re-exported but not a dependency: ${missingDeps.sort().join(", ")}`);
+  if (missingExports.length)
+    errors.push(
+      `${bundle}: a dependency but not re-exported in src/index.ts: ${missingExports.sort().join(", ")}`,
+    );
 }
 
 if (errors.length) {
-  console.error("Category/umbrella bundle drift detected:\n" + errors.map((e) => `  - ${e}`).join("\n"));
+  console.error(
+    "Category/umbrella bundle drift detected:\n" + errors.map((e) => `  - ${e}`).join("\n"),
+  );
   process.exit(1);
 }
 
-console.log(`[check-category-sync] OK — ${componentDirs.length} component packages, umbrella + ${bundles.length} bundles in sync.`);
+console.log(
+  `[check-category-sync] OK — ${componentDirs.length} component packages, umbrella + ${bundles.length} bundles in sync.`,
+);

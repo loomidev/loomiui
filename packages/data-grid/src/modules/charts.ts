@@ -26,7 +26,7 @@ export interface ChartsModuleOptions<TRecord extends DataGridRecord = DataGridRe
  * ```
  */
 export function chartsModule<TRecord extends DataGridRecord = DataGridRecord>(
-  options: ChartsModuleOptions<TRecord>
+  options: ChartsModuleOptions<TRecord>,
 ): GridModule<TRecord> {
   return defineGridModule<TRecord>({
     name: "charts",
@@ -39,7 +39,7 @@ export function chartsModule<TRecord extends DataGridRecord = DataGridRecord>(
 
       const points: LoomiChartPoint[] = dataRows.slice(0, options.limit ?? 20).map((row) => ({
         label: String(row[options.labelField] ?? ""),
-        value: Number(row[options.valueField]) || 0
+        value: Number(row[options.valueField]) || 0,
       }));
 
       if (points.length === 0) {
@@ -47,6 +47,6 @@ export function chartsModule<TRecord extends DataGridRecord = DataGridRecord>(
       }
 
       return html`<loomi-chart type=${options.type ?? "bar"} color=${options.color ?? "primary"} .data=${points}></loomi-chart>`;
-    }
+    },
   });
 }

@@ -12,7 +12,6 @@ npm install @loomidev/dropmenu lit
 import "@loomidev/dropmenu";
 ```
 
-
 ## Basic Usage
 
 Import the package once, then place `<loomi-dropmenu-item>` elements inside the menu.
@@ -309,7 +308,6 @@ loomi-dropmenu is designed to fit the layout you place it in. It uses fluid widt
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-dropmenu uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -322,34 +320,34 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ### `<loomi-dropmenu>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `trigger` | _(ellipsis)_ | Icon name for the trigger. The `-icon` suffix is optional. |
-| `trigger-on` | `click` | Open interaction: `click` or `mouseover`. |
-| `placement` | `auto` | Menu alignment. `auto` \| `left` \| `right` |
-| `divided` | `false` | Divider lines between items. _(boolean)_ |
-| `scrollable` | `false` | Scroll items past `height`. _(boolean)_ |
-| `height` | `200` | Max menu height (px) when scrollable. |
-| `hide-after-click` | `true` | Close the menu after an item click. _(boolean)_ |
-| `icon-right` | `false` | Place every item's icon after its label. _(boolean)_ |
+| Attribute          | Default      | Description                                                |
+| ------------------ | ------------ | ---------------------------------------------------------- |
+| `trigger`          | _(ellipsis)_ | Icon name for the trigger. The `-icon` suffix is optional. |
+| `trigger-on`       | `click`      | Open interaction: `click` or `mouseover`.                  |
+| `placement`        | `auto`       | Menu alignment. `auto` \| `left` \| `right`                |
+| `divided`          | `false`      | Divider lines between items. _(boolean)_                   |
+| `scrollable`       | `false`      | Scroll items past `height`. _(boolean)_                    |
+| `height`           | `200`        | Max menu height (px) when scrollable.                      |
+| `hide-after-click` | `true`       | Close the menu after an item click. _(boolean)_            |
+| `icon-right`       | `false`      | Place every item's icon after its label. _(boolean)_       |
 
 ### `<loomi-dropmenu-item>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `icon` | _(blank)_ | Leading icon name. |
-| `shortcut` | _(blank)_ | Right-aligned keyboard shortcut hint. |
-| `icon-right` | `false` | Place the icon after the label. _(boolean)_ |
-| `header` | `false` | Non-clickable section header. _(boolean)_ |
-| `divider` | `false` | Render a divider line. _(boolean)_ |
-| `hover` | `true` | Enable hover styling for a normal item. _(boolean)_ |
-| `disabled` | `false` | Skip navigation/clicks and dim the row. _(boolean)_ |
-| `variant` | `default` | `default` \| `destructive` (tints the row red). |
-| `checkbox` | `false` | Render as a checkbox row; toggles `checked` on click. _(boolean)_ |
-| `radio` | `false` | Render as a radio row; use with `group` and `value`. _(boolean)_ |
-| `group` | _(blank)_ | Shared name that makes `radio` items mutually exclusive. |
-| `value` | _(blank)_ | Value carried by a `radio` item. |
-| `checked` | `false` | Current state of a `checkbox`/`radio` item. _(boolean)_ |
+| Attribute    | Default   | Description                                                       |
+| ------------ | --------- | ----------------------------------------------------------------- |
+| `icon`       | _(blank)_ | Leading icon name.                                                |
+| `shortcut`   | _(blank)_ | Right-aligned keyboard shortcut hint.                             |
+| `icon-right` | `false`   | Place the icon after the label. _(boolean)_                       |
+| `header`     | `false`   | Non-clickable section header. _(boolean)_                         |
+| `divider`    | `false`   | Render a divider line. _(boolean)_                                |
+| `hover`      | `true`    | Enable hover styling for a normal item. _(boolean)_               |
+| `disabled`   | `false`   | Skip navigation/clicks and dim the row. _(boolean)_               |
+| `variant`    | `default` | `default` \| `destructive` (tints the row red).                   |
+| `checkbox`   | `false`   | Render as a checkbox row; toggles `checked` on click. _(boolean)_ |
+| `radio`      | `false`   | Render as a radio row; use with `group` and `value`. _(boolean)_  |
+| `group`      | _(blank)_ | Shared name that makes `radio` items mutually exclusive.          |
+| `value`      | _(blank)_ | Value carried by a `radio` item.                                  |
+| `checked`    | `false`   | Current state of a `checkbox`/`radio` item. _(boolean)_           |
 
 **Events:** `change` — fired on a `checkbox`/`radio` item when its `checked` state
 changes (bubbles, composed).

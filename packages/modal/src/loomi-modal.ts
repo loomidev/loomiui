@@ -98,7 +98,8 @@ export class LoomiModal extends LoomiElement {
   @property({ type: Boolean, attribute: "stretch-action-buttons", converter: booleanAttribute })
   stretchActionButtons = false;
   @property({ attribute: "align-buttons" }) alignButtons: "left" | "center" | "right" = "right";
-  @property({ attribute: "blur-size" }) blurSize: "none" | "small" | "medium" | "large" | "xl" | "omg" = "medium";
+  @property({ attribute: "blur-size" }) blurSize:
+    "none" | "small" | "medium" | "large" | "xl" | "omg" = "medium";
 
   /** The element focused before `show()` was called, restored when the modal closes. */
   private previouslyFocused: HTMLElement | null = null;
@@ -215,10 +216,14 @@ export class LoomiModal extends LoomiElement {
     const iconName = this.icon || t?.icon || "";
     const actionColor = t?.color ?? ("primary" as LoomiColor);
     const accent = accentVars(actionColor);
-    const okLabel = this.okButtonLabel === DEFAULT_OK_LABEL ? loomiT("modal.ok", {}, this.locale) : this.okButtonLabel;
-    const cancelLabel = this.cancelButtonLabel === DEFAULT_CANCEL_LABEL
-      ? loomiT("modal.cancel", {}, this.locale)
-      : this.cancelButtonLabel;
+    const okLabel =
+      this.okButtonLabel === DEFAULT_OK_LABEL
+        ? loomiT("modal.ok", {}, this.locale)
+        : this.okButtonLabel;
+    const cancelLabel =
+      this.cancelButtonLabel === DEFAULT_CANCEL_LABEL
+        ? loomiT("modal.cancel", {}, this.locale)
+        : this.cancelButtonLabel;
     const showOk = this.showActionButtons && this.okButtonLabel;
     const showCancel = this.showActionButtons && this.cancelButtonLabel;
     const dialogClasses = [
@@ -226,7 +231,9 @@ export class LoomiModal extends LoomiElement {
       `size-${this.size}`,
       iconName ? "has-icon" : "is-default",
       this.showCloseIcon ? "has-close" : "",
-    ].filter(Boolean).join(" ");
+    ]
+      .filter(Boolean)
+      .join(" ");
 
     return html`<div class="loomi-backdrop blur-${this.blurSize}" @click=${this.onBackdrop}>
       <div
@@ -237,26 +244,32 @@ export class LoomiModal extends LoomiElement {
         tabindex="-1"
         style=${accent}
       >
-        ${this.showCloseIcon
-          ? html`<button class="loomi-close" aria-label=${loomiT("common.close", {}, this.locale)} @click=${() => this.hide()}>
+        ${
+          this.showCloseIcon
+            ? html`<button class="loomi-close" aria-label=${loomiT("common.close", {}, this.locale)} @click=${() => this.hide()}>
               <loomi-icon name="x-mark" size="1.15rem" stroke-width="2"></loomi-icon>
             </button>`
-          : nothing}
+            : nothing
+        }
         <div class="loomi-content">
-          ${iconName
-            ? html`<div class="loomi-icon-wrap">
+          ${
+            iconName
+              ? html`<div class="loomi-icon-wrap">
                 <loomi-icon class="loomi-ico" name=${iconName} source=${this.iconSource} size="1.5rem"></loomi-icon>
               </div>`
-            : nothing}
+              : nothing
+          }
           <div class="loomi-main">
             ${this.title ? html`<div class="loomi-title">${this.title}</div>` : nothing}
             <div class="loomi-body"><slot></slot></div>
           </div>
         </div>
-        ${showOk || showCancel
-          ? html`<div class="loomi-footer ${this.stretchActionButtons ? "stretch" : this.alignButtons}">
-              ${showCancel
-                ? html`<loomi-button
+        ${
+          showOk || showCancel
+            ? html`<div class="loomi-footer ${this.stretchActionButtons ? "stretch" : this.alignButtons}">
+              ${
+                showCancel
+                  ? html`<loomi-button
                     class="loomi-action"
                     type="secondary"
                     size="small"
@@ -264,9 +277,11 @@ export class LoomiModal extends LoomiElement {
                     @click=${this.onCancel}
                     >${cancelLabel}</loomi-button
                   >`
-                : nothing}
-              ${showOk
-                ? html`<loomi-button
+                  : nothing
+              }
+              ${
+                showOk
+                  ? html`<loomi-button
                     class="loomi-action"
                     size="small"
                     color=${actionColor}
@@ -274,9 +289,11 @@ export class LoomiModal extends LoomiElement {
                     @click=${this.onOk}
                     >${okLabel}</loomi-button
                   >`
-                : nothing}
+                  : nothing
+              }
             </div>`
-          : nothing}
+            : nothing
+        }
       </div>
     </div>`;
   }

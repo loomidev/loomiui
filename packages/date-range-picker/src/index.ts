@@ -5,5 +5,5 @@ export type {
   DateRangeOpenChangeDetail,
   DateRangePreset,
   DateRangePresetKind,
-  DateRangeValue
+  DateRangeValue,
 } from "./types.js";

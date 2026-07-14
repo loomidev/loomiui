@@ -16,7 +16,7 @@ const ICON_SIZES: Record<LoomiSideNavIconSize, string> = {
 const booleanAttribute = {
   fromAttribute(value: string | null): boolean {
     return value !== null && value !== "false";
-  }
+  },
 };
 
 @customElement("loomi-side-nav-item")
@@ -267,8 +267,9 @@ export class LoomiSideNav extends LoomiElement {
       <aside class="panel" aria-label=${this.label}>
         <div class="header">
           <span class="title">${this.label}</span>
-          ${this.collapsible
-            ? html`<button
+          ${
+            this.collapsible
+              ? html`<button
                 class="toggle"
                 type="button"
                 aria-label=${this.state === "expanded" ? "Collapse navigation" : "Expand navigation"}
@@ -277,7 +278,8 @@ export class LoomiSideNav extends LoomiElement {
               >
                 ${this.renderToggleIcon()}
               </button>`
-            : nothing}
+              : nothing
+          }
         </div>
         <nav><slot @slotchange=${this.syncItemState}></slot></nav>
       </aside>

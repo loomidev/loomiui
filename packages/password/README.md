@@ -24,12 +24,12 @@ import "@loomidev/password"; // registers <loomi-password>
 
 Set `strength` with any combination of these optional tokens:
 
-| Token | Requirement |
-| --- | --- |
-| `A` | At least one uppercase letter. |
-| `a` | At least one lowercase letter. |
-| `1` | At least one number. |
-| `#` | At least one special character. |
+| Token | Requirement                     |
+| ----- | ------------------------------- |
+| `A`   | At least one uppercase letter.  |
+| `a`   | At least one lowercase letter.  |
+| `1`   | At least one number.            |
+| `#`   | At least one special character. |
 
 ```html
 <loomi-password label="Password" strength="Aa1#"></loomi-password>
@@ -86,7 +86,6 @@ loomi-password is designed to fit the layout you place it in. It uses fluid widt
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-password uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
@@ -97,39 +96,39 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `name` | _(blank)_ | Submitted with the form. |
-| `label` | _(blank)_ | Floating label. |
-| `placeholder` | _(blank)_ | Placeholder text. |
-| `value` | _(blank)_ | Current value. |
-| `required` | `false` | Marks the field required. _(boolean)_ |
-| `disabled` | `false` | Disable the field. _(boolean)_ |
-| `readonly` | `false` | Read-only field. _(boolean)_ |
-| `size` | `medium` | `tiny` \| `small` \| `regular` \| `medium` \| `big` |
-| `variant` | `default` | `default` \| `minimal` (bottom border only, no box) |
-| `prefix` | _(blank)_ | Text prefix. |
-| `prefix-icon` | _(blank)_ | Icon-name prefix. |
-| `prefix-options` | _(blank)_ | Comma, pipe, or JSON array of dropdown options. |
-| `prefix-value` | _(blank)_ | Selected prefix dropdown value. |
-| `transparent-prefix` | `true` | Transparent (vs solid) prefix. _(boolean)_ |
-| `viewable` | `true` | Show a reveal eye. _(boolean)_ |
-| `clearable` | `false` | Show a clear button when the field has a value. _(boolean)_ |
-| `strength` | _(blank)_ | Requirement tokens: `A`, `a`, `1`, `#`. |
-| `strength-color` | _(blank)_ | Custom color for met strength labels. Defaults to a darker success green. |
-| `error-message` | _(blank)_ | Message shown when validation fails. |
-| `show-error-inline` | `false` | Render `error-message` beneath the field. _(boolean)_ |
-| `show-placeholder-always` | `false` | Keep the placeholder visible even with a label. _(boolean)_ |
+| Attribute                 | Default   | Description                                                               |
+| ------------------------- | --------- | ------------------------------------------------------------------------- |
+| `name`                    | _(blank)_ | Submitted with the form.                                                  |
+| `label`                   | _(blank)_ | Floating label.                                                           |
+| `placeholder`             | _(blank)_ | Placeholder text.                                                         |
+| `value`                   | _(blank)_ | Current value.                                                            |
+| `required`                | `false`   | Marks the field required. _(boolean)_                                     |
+| `disabled`                | `false`   | Disable the field. _(boolean)_                                            |
+| `readonly`                | `false`   | Read-only field. _(boolean)_                                              |
+| `size`                    | `medium`  | `tiny` \| `small` \| `regular` \| `medium` \| `big`                       |
+| `variant`                 | `default` | `default` \| `minimal` (bottom border only, no box)                       |
+| `prefix`                  | _(blank)_ | Text prefix.                                                              |
+| `prefix-icon`             | _(blank)_ | Icon-name prefix.                                                         |
+| `prefix-options`          | _(blank)_ | Comma, pipe, or JSON array of dropdown options.                           |
+| `prefix-value`            | _(blank)_ | Selected prefix dropdown value.                                           |
+| `transparent-prefix`      | `true`    | Transparent (vs solid) prefix. _(boolean)_                                |
+| `viewable`                | `true`    | Show a reveal eye. _(boolean)_                                            |
+| `clearable`               | `false`   | Show a clear button when the field has a value. _(boolean)_               |
+| `strength`                | _(blank)_ | Requirement tokens: `A`, `a`, `1`, `#`.                                   |
+| `strength-color`          | _(blank)_ | Custom color for met strength labels. Defaults to a darker success green. |
+| `error-message`           | _(blank)_ | Message shown when validation fails.                                      |
+| `show-error-inline`       | `false`   | Render `error-message` beneath the field. _(boolean)_                     |
+| `show-placeholder-always` | `false`   | Keep the placeholder visible even with a label. _(boolean)_               |
 
 ### Methods & Events
 
-| Member | Description |
-| --- | --- |
-| `.value` | Get/set the current value. |
-| `focus()` / `clear()` | Focus or clear the field. |
-| `validate()` | Run validation now; returns `true` when valid. |
-| `input` / `change` | Native events (composed). |
-| `loomi-prefix-change` | Fired when a prefix dropdown changes. |
+| Member                | Description                                    |
+| --------------------- | ---------------------------------------------- |
+| `.value`              | Get/set the current value.                     |
+| `focus()` / `clear()` | Focus or clear the field.                      |
+| `validate()`          | Run validation now; returns `true` when valid. |
+| `input` / `change`    | Native events (composed).                      |
+| `loomi-prefix-change` | Fired when a prefix dropdown changes.          |
 
 ## Dependencies
 

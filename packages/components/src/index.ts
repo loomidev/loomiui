@@ -79,6 +79,12 @@ export * from "@loomidev/profile-menu";
 export { registerLoomiIcon, getLoomiIcon, loomiIconNames } from "@loomidev/icons";
 
 export {
-  LOOMI_COLORS, LOOMI_SHADES, isLoomiColor, themeStyles, accentVars, cssColor,
-  type LoomiColor, type LoomiShade,
+  LOOMI_COLORS,
+  LOOMI_SHADES,
+  isLoomiColor,
+  themeStyles,
+  accentVars,
+  cssColor,
+  type LoomiColor,
+  type LoomiShade,
 } from "@loomidev/core";

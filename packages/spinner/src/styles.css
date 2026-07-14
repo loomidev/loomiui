@@ -70,7 +70,9 @@
   --loomi-spinner-size: 4.5rem;
 }
 @keyframes loomi-typing-dot {
-  0%, 80%, 100% {
+  0%,
+  80%,
+  100% {
     opacity: 0.35;
     transform: translateY(0);
   }

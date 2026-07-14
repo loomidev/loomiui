@@ -57,8 +57,16 @@ describe("loomi-avatar", () => {
 
     const avatars = [...el.querySelectorAll("loomi-avatar")] as LoomiAvatar[];
 
-    expect(avatars.map((avatar) => avatar.hasAttribute("dotted"))).to.deep.equal([true, true, true]);
-    expect(avatars.map((avatar) => avatar.getAttribute("dot-color"))).to.deep.equal(["primary", "gray", "red"]);
+    expect(avatars.map((avatar) => avatar.hasAttribute("dotted"))).to.deep.equal([
+      true,
+      true,
+      true,
+    ]);
+    expect(avatars.map((avatar) => avatar.getAttribute("dot-color"))).to.deep.equal([
+      "primary",
+      "gray",
+      "red",
+    ]);
   });
 
   it("verified shows a primary-colored check-badge icon", async () => {
@@ -99,7 +107,9 @@ describe("loomi-avatar", () => {
 
     await waitUntil(() => (document.querySelector(".loomi-crop-modal") as LoomiModal | null)?.open);
     const modal = document.querySelector(".loomi-crop-modal") as LoomiModal;
-    const okBtn = modal.shadowRoot!.querySelector(".loomi-footer loomi-button:not([type='secondary'])") as HTMLElement;
+    const okBtn = modal.shadowRoot!.querySelector(
+      ".loomi-footer loomi-button:not([type='secondary'])",
+    ) as HTMLElement;
     okBtn.click();
 
     await waitUntil(() => !!detail);

@@ -153,41 +153,41 @@ accent, which is also dark-mode aware.
 
 ## Attributes — `<loomi-bottom-nav>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `active` | _(blank)_ | The active item's `value`/`name`. Controlled — set it from your router. |
-| `active-style` | `pill` | `pill` \| `underline` \| `top-line` \| `background` \| `icon-only` \| `dot` \| `border` \| `minimal`. |
-| `variant` | `fixed` | `fixed` (edge-to-edge dock) \| `floating` (rounded, elevated island). |
-| `color` | `primary` | Accent for the active item's color/background/border/dot. Any loomi color. |
-| `icon-source` | `heroicons` | Default icon set for every item — see `<loomi-icon>`'s `source`. |
-| `label` | `Primary` | `aria-label` for the `<nav>` landmark. |
-| `mobile-only` | `false` | Hides the bar at 768px and up. _(boolean)_ |
+| Attribute      | Default     | Description                                                                                           |
+| -------------- | ----------- | ----------------------------------------------------------------------------------------------------- |
+| `active`       | _(blank)_   | The active item's `value`/`name`. Controlled — set it from your router.                               |
+| `active-style` | `pill`      | `pill` \| `underline` \| `top-line` \| `background` \| `icon-only` \| `dot` \| `border` \| `minimal`. |
+| `variant`      | `fixed`     | `fixed` (edge-to-edge dock) \| `floating` (rounded, elevated island).                                 |
+| `color`        | `primary`   | Accent for the active item's color/background/border/dot. Any loomi color.                            |
+| `icon-source`  | `heroicons` | Default icon set for every item — see `<loomi-icon>`'s `source`.                                      |
+| `label`        | `Primary`   | `aria-label` for the `<nav>` landmark.                                                                |
+| `mobile-only`  | `false`     | Hides the bar at 768px and up. _(boolean)_                                                            |
 
 ## Attributes — `<loomi-bottom-nav-item>`
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `label` | _(blank)_ | Label text. Falls back to slotted text if empty. |
-| `icon` | _(blank)_ | Built-in icon name. |
-| `icon-source` | _(blank)_ | Per-item icon set override. Empty = inherit from the parent. |
-| `badge` | _(blank)_ | Count/label shown as a small pill on the icon. Empty = no badge. |
-| `disabled` | `false` | Blocks navigation, clicks, and arrow-key focus. _(boolean)_ |
-| `value` | _(blank)_ | Identifier matched against the parent's `active`. Falls back to `name`, then slot text. |
-| `href` | _(blank)_ | Renders a real `<a>` instead of a `<button>`. |
-| `target` | _(blank)_ | Anchor `target`. `_blank` always keeps native new-tab behavior. |
-| `rel` | _(blank)_ | Anchor `rel`. Defaults to `noopener noreferrer` when `target="_blank"`. |
-| `prevent-default` | `false` | Always suppress real navigation, even with `href` set. _(boolean)_ |
-| `active` | `false` | Normally set by the parent. Set directly only when using this element standalone. _(boolean)_ |
+| Attribute         | Default   | Description                                                                                   |
+| ----------------- | --------- | --------------------------------------------------------------------------------------------- |
+| `label`           | _(blank)_ | Label text. Falls back to slotted text if empty.                                              |
+| `icon`            | _(blank)_ | Built-in icon name.                                                                           |
+| `icon-source`     | _(blank)_ | Per-item icon set override. Empty = inherit from the parent.                                  |
+| `badge`           | _(blank)_ | Count/label shown as a small pill on the icon. Empty = no badge.                              |
+| `disabled`        | `false`   | Blocks navigation, clicks, and arrow-key focus. _(boolean)_                                   |
+| `value`           | _(blank)_ | Identifier matched against the parent's `active`. Falls back to `name`, then slot text.       |
+| `href`            | _(blank)_ | Renders a real `<a>` instead of a `<button>`.                                                 |
+| `target`          | _(blank)_ | Anchor `target`. `_blank` always keeps native new-tab behavior.                               |
+| `rel`             | _(blank)_ | Anchor `rel`. Defaults to `noopener noreferrer` when `target="_blank"`.                       |
+| `prevent-default` | `false`   | Always suppress real navigation, even with `href` set. _(boolean)_                            |
+| `active`          | `false`   | Normally set by the parent. Set directly only when using this element standalone. _(boolean)_ |
 
 ## Parts
 
-| Part | Element |
-| --- | --- |
-| `nav` | The `<loomi-bottom-nav>`'s internal `<nav>`. |
-| `link` | The item's underlying `<a>`/`<button>`. |
-| `icon` | The item's `<loomi-icon>`. |
-| `label` | The item's label wrapper. |
-| `badge` | The badge pill (only rendered when `badge` is set). |
+| Part               | Element                                                                     |
+| ------------------ | --------------------------------------------------------------------------- |
+| `nav`              | The `<loomi-bottom-nav>`'s internal `<nav>`.                                |
+| `link`             | The item's underlying `<a>`/`<button>`.                                     |
+| `icon`             | The item's `<loomi-icon>`.                                                  |
+| `label`            | The item's label wrapper.                                                   |
+| `badge`            | The badge pill (only rendered when `badge` is set).                         |
 | `active-indicator` | The underline/top-line/dot marker (only visible for those `active-style`s). |
 
 ```css
@@ -200,15 +200,15 @@ loomi-bottom-nav-item::part(active-indicator) { }
 
 ## Styling hooks
 
-| Variable | Default |
-| --- | --- |
-| `--loomi-bottom-nav-active-bg` | the `color` accent's soft tint |
-| `--loomi-bottom-nav-active-color` | the `color` accent's foreground shade |
-| `--loomi-bottom-nav-active-border` | the `color` accent |
-| `--loomi-bottom-nav-active-radius` | `999px` |
-| `--loomi-bottom-nav-active-dot-size` | `6px` |
-| `--loomi-bottom-nav-badge-bg` | `var(--loomi-error-600)` |
-| `--loomi-bottom-nav-badge-color` | `var(--loomi-white)` |
+| Variable                             | Default                               |
+| ------------------------------------ | ------------------------------------- |
+| `--loomi-bottom-nav-active-bg`       | the `color` accent's soft tint        |
+| `--loomi-bottom-nav-active-color`    | the `color` accent's foreground shade |
+| `--loomi-bottom-nav-active-border`   | the `color` accent                    |
+| `--loomi-bottom-nav-active-radius`   | `999px`                               |
+| `--loomi-bottom-nav-active-dot-size` | `6px`                                 |
+| `--loomi-bottom-nav-badge-bg`        | `var(--loomi-error-600)`              |
+| `--loomi-bottom-nav-badge-color`     | `var(--loomi-white)`                  |
 
 ```css
 loomi-bottom-nav {
@@ -222,8 +222,8 @@ loomi-bottom-nav {
 
 ## Events
 
-| Event | Detail |
-| --- | --- |
+| Event          | Detail                                                                                                                                                                        |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `loomi-change` | `{ item, value, name, href }`. Fired by the clicked item, bubbles through the parent. Cancelable — `event.preventDefault()` suppresses real anchor navigation for that click. |
 
 ## Dependencies

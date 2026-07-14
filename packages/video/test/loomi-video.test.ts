@@ -80,7 +80,9 @@ describe("loomi-video", () => {
     const captionsBtn = ctrlBtn(el, "Captions")!;
     captionsBtn.dispatchEvent(new Event("click", { bubbles: true, composed: true }));
     await el.updateComplete;
-    const items = Array.from(el.shadowRoot!.querySelectorAll(".loomi-cc-item")).map((n) => n.textContent?.trim());
+    const items = Array.from(el.shadowRoot!.querySelectorAll(".loomi-cc-item")).map((n) =>
+      n.textContent?.trim(),
+    );
     expect(items).to.deep.equal(["Off", "English"]);
     const englishItem = Array.from(
       el.shadowRoot!.querySelectorAll<HTMLButtonElement>(".loomi-cc-item"),

@@ -5,7 +5,7 @@ import type {
   CommandPaletteItem,
   CommandPaletteOpenChangeDetail,
   CommandPaletteQueryChangeDetail,
-  CommandPaletteSelectDetail
+  CommandPaletteSelectDetail,
 } from "./types.js";
 
 @customElement("loomi-command-palette")
@@ -19,7 +19,7 @@ export class LoomiCommandPalette extends LoomiElement {
     emptyTitle: { attribute: "empty-title" },
     emptyDescription: { attribute: "empty-description" },
     shortcut: {},
-    _activeIndex: { state: true }
+    _activeIndex: { state: true },
   };
 
   static override styles = loomiStyles(css`
@@ -229,7 +229,9 @@ export class LoomiCommandPalette extends LoomiElement {
     this.open = true;
     this._activeIndex = this.getFirstEnabledIndex(this.getFilteredItems());
     this.dispatchOpenChange();
-    this.updateComplete.then(() => this.renderRoot.querySelector<HTMLInputElement>(".search")?.focus());
+    this.updateComplete.then(() =>
+      this.renderRoot.querySelector<HTMLInputElement>(".search")?.focus(),
+    );
   };
 
   closePalette = () => {
@@ -375,8 +377,8 @@ export class LoomiCommandPalette extends LoomiElement {
       new CustomEvent<CommandPaletteQueryChangeDetail>("loomi-command-query-change", {
         bubbles: true,
         composed: true,
-        detail: { query: this.query }
-      })
+        detail: { query: this.query },
+      }),
     );
   };
 
@@ -389,8 +391,8 @@ export class LoomiCommandPalette extends LoomiElement {
       new CustomEvent<CommandPaletteSelectDetail>("loomi-command-select", {
         bubbles: true,
         composed: true,
-        detail: { item }
-      })
+        detail: { item },
+      }),
     );
 
     if (item.href) {
@@ -425,7 +427,13 @@ export class LoomiCommandPalette extends LoomiElement {
     }
 
     return this.items.filter((item) => {
-      const haystack = [item.label, item.description, item.group, item.href, ...(item.keywords ?? [])]
+      const haystack = [
+        item.label,
+        item.description,
+        item.group,
+        item.href,
+        ...(item.keywords ?? []),
+      ]
         .filter(Boolean)
         .join(" ")
         .toLowerCase();
@@ -455,8 +463,8 @@ export class LoomiCommandPalette extends LoomiElement {
       new CustomEvent<CommandPaletteOpenChangeDetail>("loomi-command-open-change", {
         bubbles: true,
         composed: true,
-        detail: { open: this.open }
-      })
+        detail: { open: this.open },
+      }),
     );
   }
 }

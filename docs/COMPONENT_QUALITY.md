@@ -72,15 +72,15 @@ except inside `theme-switcher`.
 
 ### Semantic tokens (required for surfaces and text)
 
-| Role | Token |
-|------|--------|
-| Card / panel background | `var(--loomi-surface)` |
-| Page / muted background | `var(--loomi-surface-muted)` |
-| Hover row / subtle fill | `var(--loomi-surface-hover)` |
-| Borders | `var(--loomi-surface-border)` |
-| Primary text | `var(--loomi-text)` |
-| Secondary / labels | `var(--loomi-text-secondary)` |
-| Muted helper text | `var(--loomi-text-muted)` |
+| Role                    | Token                                                  |
+| ----------------------- | ------------------------------------------------------ |
+| Card / panel background | `var(--loomi-surface)`                                 |
+| Page / muted background | `var(--loomi-surface-muted)`                           |
+| Hover row / subtle fill | `var(--loomi-surface-hover)`                           |
+| Borders                 | `var(--loomi-surface-border)`                          |
+| Primary text            | `var(--loomi-text)`                                    |
+| Secondary / labels      | `var(--loomi-text-secondary)`                          |
+| Muted helper text       | `var(--loomi-text-muted)`                              |
 | Text on primary buttons | `var(--loomi-text-on-primary)` or `var(--loomi-white)` |
 
 **Avoid** `--loomi-gray-*`, `#ffffff`, and `#fff` for surfaces or body text — they do not

@@ -15,9 +15,7 @@ export default {
   // for determinism, which is the right tradeoff for a suite this small (a few dozen
   // tests). Revisit if/when this becomes slow enough to matter.
   concurrency: 1,
-  browsers: [
-    puppeteerLauncher({ launchOptions: { args: ["--no-sandbox"] } }),
-  ],
+  browsers: [puppeteerLauncher({ launchOptions: { args: ["--no-sandbox"] } })],
   plugins: [esbuildPlugin({ ts: true, target: "es2022" })],
   testFramework: {
     config: { ui: "bdd", timeout: "10000" },

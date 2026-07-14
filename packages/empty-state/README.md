@@ -12,7 +12,6 @@ npm install @loomidev/empty-state lit
 import "@loomidev/empty-state";
 ```
 
-
 ## Basic Usage
 
 ```html
@@ -125,24 +124,22 @@ loomi-empty-state is designed to fit the layout you place it in. It uses fluid w
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-empty-state uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
 
 Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
 
-
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `heading` | _(blank)_ | Optional heading. |
-| `message` | _(blank)_ | Main message text. |
-| `button-label` | _(blank)_ | Action button text (omit to hide). |
-| `image` | _(blank)_ | Custom image URL (defaults to a built-in illustration). |
-| `image-size` | `medium` | `small` \| `medium` \| `large` \| `xl` \| `omg` |
-| `show-image` | `true` | Show the illustration. Set `false` to use the slot. _(boolean)_ |
+| Attribute      | Default   | Description                                                     |
+| -------------- | --------- | --------------------------------------------------------------- |
+| `heading`      | _(blank)_ | Optional heading.                                               |
+| `message`      | _(blank)_ | Main message text.                                              |
+| `button-label` | _(blank)_ | Action button text (omit to hide).                              |
+| `image`        | _(blank)_ | Custom image URL (defaults to a built-in illustration).         |
+| `image-size`   | `medium`  | `small` \| `medium` \| `large` \| `xl` \| `omg`                 |
+| `show-image`   | `true`    | Show the illustration. Set `false` to use the slot. _(boolean)_ |
 
 **Slot:** default (custom content when `show-image="false"`). **Event:** `action`
 (button click).

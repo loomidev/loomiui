@@ -22,7 +22,7 @@ export interface InlineEditingModuleOptions {
  * ```
  */
 export function inlineEditingModule<TRecord extends DataGridRecord = DataGridRecord>(
-  options: InlineEditingModuleOptions = {}
+  options: InlineEditingModuleOptions = {},
 ): GridModule<TRecord> {
   const trigger = options.trigger ?? "both";
   let editing: { rowKey: string; columnKey: string } | null = null;
@@ -79,7 +79,9 @@ export function inlineEditingModule<TRecord extends DataGridRecord = DataGridRec
     },
 
     getCellClass(cell, ctx) {
-      return isEditingCell(ctx.getRowKey(cell.row), cell.column.key) ? "loomi-grid-cell-editing" : undefined;
+      return isEditingCell(ctx.getRowKey(cell.row), cell.column.key)
+        ? "loomi-grid-cell-editing"
+        : undefined;
     },
 
     onCellDblClick(cell, _event, ctx) {
@@ -91,7 +93,12 @@ export function inlineEditingModule<TRecord extends DataGridRecord = DataGridRec
     },
 
     onCellKeydown(event, cell, ctx) {
-      if (trigger === "dblclick" || event.key !== "Enter" || !cell.column.editable || getRowMeta(cell.row)) {
+      if (
+        trigger === "dblclick" ||
+        event.key !== "Enter" ||
+        !cell.column.editable ||
+        getRowMeta(cell.row)
+      ) {
         return false;
       }
       if (editing) {
@@ -100,6 +107,6 @@ export function inlineEditingModule<TRecord extends DataGridRecord = DataGridRec
       editing = { rowKey: ctx.getRowKey(cell.row), columnKey: cell.column.key };
       ctx.requestUpdate();
       return true;
-    }
+    },
   });
 }

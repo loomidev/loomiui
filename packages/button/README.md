@@ -196,11 +196,11 @@ attribute above.)
 </loomi-button>
 ```
 
-| Slot | Description |
-| --- | --- |
-| _(default)_ | The button label. |
-| `prefix` | Content rendered before the icon/label. |
-| `suffix` | Content rendered after the label. |
+| Slot        | Description                             |
+| ----------- | --------------------------------------- |
+| _(default)_ | The button label.                       |
+| `prefix`    | Content rendered before the icon/label. |
+| `suffix`    | Content rendered after the label.       |
 
 ## Events
 
@@ -247,13 +247,11 @@ loomi-button is built on semantic markup where the browser gives us the right be
 
 When the component displays status, progress, validation, or temporary feedback, pair it with clear labels or nearby text in your app so assistive technology users get the same context a sighted user gets from the visual treatment.
 
-
 ## Responsive behavior
 
 loomi-button is designed to fit the layout you place it in. It uses fluid widths, `min-width: 0`, wrapping, truncation, or stacked layouts where that keeps the component usable in cards, forms, sidebars, and mobile screens.
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
-
 
 ## Dark mode
 
@@ -261,41 +259,40 @@ loomi-button uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surf
 
 Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
 
-
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `type` | `primary` | Structural variant. `primary` \| `secondary` |
-| `color` | _(derived from `type`)_ | Palette override. See available colors above. |
-| `size` | `regular` | `tiny` \| `small` \| `regular` \| `medium` \| `big` |
-| `radius` | `medium` | `none` \| `small` \| `medium` \| `full` |
-| `outline` | `false` | Outline only, no fill. _(boolean)_ |
-| `border-width` | `2` | Outline border width. `2` \| `4` \| `8` |
-| `icon` | _(blank)_ | Built-in or registered icon name. |
-| `icon-right` | `false` | Position the icon after the label. Ignored while spinning. _(boolean)_ |
-| `has-spinner` | `false` | Include a spinner (hidden until shown). _(boolean)_ |
-| `show-spinner` | `false` | Show the spinner. Only when `has-spinner`. _(boolean)_ |
-| `disabled` | `false` | Disable the button. _(boolean)_ |
-| `tag` | `button` | Element to render. `button` \| `a` |
-| `href` | _(blank)_ | Link target when `tag="a"`. |
-| `can-submit` | `false` | Render as `type="submit"`. _(boolean)_ |
-| `show-focus-ring` | `true` | Show the keyboard focus ring. _(boolean)_ |
-| `uppercase` | `false` | Uppercase the label. _(boolean)_ |
-| `name` | _(blank)_ | Optional name, reflected as an attribute for targeting. |
+| Attribute         | Default                 | Description                                                            |
+| ----------------- | ----------------------- | ---------------------------------------------------------------------- |
+| `type`            | `primary`               | Structural variant. `primary` \| `secondary`                           |
+| `color`           | _(derived from `type`)_ | Palette override. See available colors above.                          |
+| `size`            | `regular`               | `tiny` \| `small` \| `regular` \| `medium` \| `big`                    |
+| `radius`          | `medium`                | `none` \| `small` \| `medium` \| `full`                                |
+| `outline`         | `false`                 | Outline only, no fill. _(boolean)_                                     |
+| `border-width`    | `2`                     | Outline border width. `2` \| `4` \| `8`                                |
+| `icon`            | _(blank)_               | Built-in or registered icon name.                                      |
+| `icon-right`      | `false`                 | Position the icon after the label. Ignored while spinning. _(boolean)_ |
+| `has-spinner`     | `false`                 | Include a spinner (hidden until shown). _(boolean)_                    |
+| `show-spinner`    | `false`                 | Show the spinner. Only when `has-spinner`. _(boolean)_                 |
+| `disabled`        | `false`                 | Disable the button. _(boolean)_                                        |
+| `tag`             | `button`                | Element to render. `button` \| `a`                                     |
+| `href`            | _(blank)_               | Link target when `tag="a"`.                                            |
+| `can-submit`      | `false`                 | Render as `type="submit"`. _(boolean)_                                 |
+| `show-focus-ring` | `true`                  | Show the keyboard focus ring. _(boolean)_                              |
+| `uppercase`       | `false`                 | Uppercase the label. _(boolean)_                                       |
+| `name`            | _(blank)_               | Optional name, reflected as an attribute for targeting.                |
 
 ### Properties & methods (JS)
 
-| Member | Description |
-| --- | --- |
+| Member               | Description                                                               |
+| -------------------- | ------------------------------------------------------------------------- |
 | All attributes above | Available as camelCase properties (e.g. `el.iconRight`, `el.hasSpinner`). |
-| `startSpinner()` | Show the spinner (no-op unless `has-spinner` is set). |
-| `stopSpinner()` | Hide the spinner. |
+| `startSpinner()`     | Show the spinner (no-op unless `has-spinner` is set).                     |
+| `stopSpinner()`      | Hide the spinner.                                                         |
 
 ## CSS Parts
 
-| Part | Description |
-| --- | --- |
+| Part     | Description                                |
+| -------- | ------------------------------------------ |
 | `button` | The underlying `<button>` / `<a>` element. |
 
 ## Full Example

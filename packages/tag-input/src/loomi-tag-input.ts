@@ -1,7 +1,15 @@
 import { html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { live } from "lit/directives/live.js";
-import { LoomiElement, accentVars, controlSizeStyles, fieldStyles, loomiT, themeStyles, type LoomiColor } from "@loomidev/core";
+import {
+  LoomiElement,
+  accentVars,
+  controlSizeStyles,
+  fieldStyles,
+  loomiT,
+  themeStyles,
+  type LoomiColor,
+} from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -64,11 +72,15 @@ export class LoomiTagInput extends LoomiElement {
   @property({ attribute: "error-message" }) errorMessage = "";
   @property({ type: Boolean, attribute: "show-error-inline" }) showErrorInline = false;
   @property({ type: Boolean, reflect: true }) invalid = false;
-  @property({ type: Boolean, attribute: "show-focus-ring", converter: booleanAttribute }) showFocusRing = true;
-  @property({ type: Array, attribute: "autocomplete-data" }) autocompleteData: Array<Record<string, unknown>> = [];
+  @property({ type: Boolean, attribute: "show-focus-ring", converter: booleanAttribute })
+  showFocusRing = true;
+  @property({ type: Array, attribute: "autocomplete-data" }) autocompleteData: Array<
+    Record<string, unknown>
+  > = [];
   @property({ attribute: "autocomplete-label-key" }) autocompleteLabelKey = "label";
   @property({ attribute: "autocomplete-value-key" }) autocompleteValueKey = "value";
-  @property({ attribute: "autocomplete-description-key" }) autocompleteDescriptionKey = "description";
+  @property({ attribute: "autocomplete-description-key" }) autocompleteDescriptionKey =
+    "description";
   @property({ attribute: "autocomplete-image-key" }) autocompleteImageKey = "image";
 
   @state() private draft = "";
@@ -163,7 +175,9 @@ export class LoomiTagInput extends LoomiElement {
     const empty = this.required && !this.disabled && !this.readonly && this.tagValues.length === 0;
     this.invalid = empty && showInvalid;
     const validity = empty ? { valueMissing: true } : {};
-    const message = empty ? this.errorMessage || loomiT("validation.requiredField", {}, this.locale) : "";
+    const message = empty
+      ? this.errorMessage || loomiT("validation.requiredField", {}, this.locale)
+      : "";
     if (this.inputEl) this.internals.setValidity(validity, message, this.inputEl);
     else this.internals.setValidity(validity, message);
     return !empty;
@@ -194,11 +208,16 @@ export class LoomiTagInput extends LoomiElement {
       .map((row) => ({
         label: String(row[this.autocompleteLabelKey] ?? ""),
         value: String(row[this.autocompleteValueKey] ?? row[this.autocompleteLabelKey] ?? ""),
-        description: this.autocompleteDescriptionKey ? String(row[this.autocompleteDescriptionKey] ?? "") : "",
+        description: this.autocompleteDescriptionKey
+          ? String(row[this.autocompleteDescriptionKey] ?? "")
+          : "",
         image: this.autocompleteImageKey ? String(row[this.autocompleteImageKey] ?? "") : "",
       }))
       .filter((item) => item.label && !this.tagValues.includes(item.value || item.label))
-      .filter((item) => item.label.toLowerCase().includes(q) || (item.value ?? "").toLowerCase().includes(q));
+      .filter(
+        (item) =>
+          item.label.toLowerCase().includes(q) || (item.value ?? "").toLowerCase().includes(q),
+      );
   }
 
   private chooseAutocomplete(item: LoomiTagInputAutocompleteItem): void {
@@ -206,12 +225,21 @@ export class LoomiTagInput extends LoomiElement {
     this.draft = "";
     this.autocompleteOpen = false;
     this.setTags([...this.tagValues, item.value || item.label], true);
-    this.dispatchEvent(new CustomEvent("loomi-autocomplete-select", { bubbles: true, composed: true, detail: { item } }));
+    this.dispatchEvent(
+      new CustomEvent("loomi-autocomplete-select", {
+        bubbles: true,
+        composed: true,
+        detail: { item },
+      }),
+    );
   }
 
   private removeTag(index: number): void {
     if (this.disabled || this.readonly) return;
-    this.setTags(this.tagValues.filter((_, i) => i !== index), true);
+    this.setTags(
+      this.tagValues.filter((_, i) => i !== index),
+      true,
+    );
     this.focus();
   }
 
@@ -233,7 +261,8 @@ export class LoomiTagInput extends LoomiElement {
       }
       if (e.key === "ArrowUp") {
         e.preventDefault();
-        this.autocompleteActiveIndex = (this.autocompleteActiveIndex - 1 + options.length) % options.length;
+        this.autocompleteActiveIndex =
+          (this.autocompleteActiveIndex - 1 + options.length) % options.length;
         return;
       }
       if (e.key === "Escape") {
@@ -268,16 +297,18 @@ export class LoomiTagInput extends LoomiElement {
   private renderTag(tag: string, index: number): TemplateResult {
     return html`<span class=${`loomi-tag ${this.shade}`} part="tag">
       <span class="loomi-tag-label">${tag}</span>
-      ${this.disabled || this.readonly
-        ? nothing
-        : html`<button
+      ${
+        this.disabled || this.readonly
+          ? nothing
+          : html`<button
             type="button"
             class="loomi-tag-remove"
             aria-label=${loomiT("common.remove", {}, this.locale)}
             @click=${() => this.removeTag(index)}
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">${X}</svg>
-          </button>`}
+          </button>`
+      }
     </span>`;
   }
 
@@ -298,7 +329,8 @@ export class LoomiTagInput extends LoomiElement {
     const options = this.autocompleteOptions;
     if (!this.autocompleteOpen || !options.length) return nothing;
     return html`<div class="loomi-autocomplete-panel" role="listbox">
-      ${options.map((item, index) => html`<div
+      ${options.map(
+        (item, index) => html`<div
         class="loomi-autocomplete-option ${index === this.autocompleteActiveIndex ? "active" : ""}"
         role="option"
         aria-selected=${index === this.autocompleteActiveIndex ? "true" : "false"}
@@ -311,7 +343,8 @@ export class LoomiTagInput extends LoomiElement {
           <span class="loomi-autocomplete-label">${item.label}</span>
           ${item.description ? html`<span class="loomi-autocomplete-desc">${item.description}</span>` : nothing}
         </span>
-      </div>`)}
+      </div>`,
+      )}
     </div>`;
   }
 

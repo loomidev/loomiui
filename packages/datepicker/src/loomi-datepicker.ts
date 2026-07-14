@@ -1,16 +1,27 @@
 import { html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { LoomiElement, controlSizeStyles, fieldStyles, loomiDateFormatter,
+import {
+  LoomiElement,
+  controlSizeStyles,
+  fieldStyles,
+  loomiDateFormatter,
   loomiDefaultText,
   loomiMonthName,
   loomiStyles,
   loomiT,
   loomiWeekdayNames,
-  onClickOutside, } from "@loomidev/core";
+  onClickOutside,
+} from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiDateFormat =
-  | "yyyy-mm-dd" | "dd-mm-yyyy" | "mm-dd-yyyy" | "yyyy/mm/dd" | "dd/mm/yyyy" | "mm/dd/yyyy" | "D d M, Y";
+  | "yyyy-mm-dd"
+  | "dd-mm-yyyy"
+  | "mm-dd-yyyy"
+  | "yyyy/mm/dd"
+  | "dd/mm/yyyy"
+  | "mm/dd/yyyy"
+  | "D d M, Y";
 export type LoomiDatepickerSize = "tiny" | "small" | "regular" | "medium" | "big";
 export type LoomiDatepickerStyle = "popup" | "inline";
 export type LoomiDatepickerVariant = "default" | "minimal";
@@ -71,8 +82,8 @@ export class LoomiDatepicker extends LoomiElement {
   override willUpdate(changed: PropertyValues<this>): void {
     if (changed.has("selectedValue") || (!this.parsed && this.selectedValue)) {
       const parts = this.selectedValue.split(" - ");
-      this.start = parts[0] ? parseISO(parts[0]) ?? null : null;
-      this.end = parts[1] ? parseISO(parts[1]) ?? null : null;
+      this.start = parts[0] ? (parseISO(parts[0]) ?? null) : null;
+      this.end = parts[1] ? (parseISO(parts[1]) ?? null) : null;
       if (this.start) this.view = new Date(this.start);
       this.parsed = true;
     }
@@ -84,31 +95,44 @@ export class LoomiDatepicker extends LoomiElement {
   }
 
   private fmt(d: Date): string {
-    const y = d.getFullYear(), mm = pad(d.getMonth() + 1), dd = pad(d.getDate());
+    const y = d.getFullYear(),
+      mm = pad(d.getMonth() + 1),
+      dd = pad(d.getDate());
     switch (this.format) {
-      case "dd-mm-yyyy": return `${dd}-${mm}-${y}`;
-      case "mm-dd-yyyy": return `${mm}-${dd}-${y}`;
-      case "yyyy/mm/dd": return `${y}/${mm}/${dd}`;
-      case "dd/mm/yyyy": return `${dd}/${mm}/${y}`;
-      case "mm/dd/yyyy": return `${mm}/${dd}/${y}`;
+      case "dd-mm-yyyy":
+        return `${dd}-${mm}-${y}`;
+      case "mm-dd-yyyy":
+        return `${mm}-${dd}-${y}`;
+      case "yyyy/mm/dd":
+        return `${y}/${mm}/${dd}`;
+      case "dd/mm/yyyy":
+        return `${dd}/${mm}/${y}`;
+      case "mm/dd/yyyy":
+        return `${mm}/${dd}/${y}`;
       case "D d M, Y": {
         const wd = loomiDateFormatter(this.locale, { weekday: "short" }).format(d);
         const mo = loomiDateFormatter(this.locale, { month: "short" }).format(d);
         return `${wd} ${d.getDate()} ${mo}, ${y}`;
       }
-      default: return `${y}-${mm}-${dd}`;
+      default:
+        return `${y}-${mm}-${dd}`;
     }
   }
 
   /** Formatted value (range joined with " - "). */
   get value(): string {
     if (!this.start) return "";
-    if (this.range) return this.end ? `${this.fmt(this.start)} - ${this.fmt(this.end)}` : this.fmt(this.start);
+    if (this.range)
+      return this.end ? `${this.fmt(this.start)} - ${this.fmt(this.end)}` : this.fmt(this.start);
     return this.fmt(this.start);
   }
 
-  private get min(): Date | null { return this.minDate ? parseISO(this.minDate) : null; }
-  private get max(): Date | null { return this.maxDate ? parseISO(this.maxDate) : null; }
+  private get min(): Date | null {
+    return this.minDate ? parseISO(this.minDate) : null;
+  }
+  private get max(): Date | null {
+    return this.maxDate ? parseISO(this.maxDate) : null;
+  }
 
   private disabled(d: Date): boolean {
     if (this.min && d < this.min) return true;
@@ -122,8 +146,7 @@ export class LoomiDatepicker extends LoomiElement {
       this.calendarView = "days";
       this.yearRangeStart = this.yearRangeFor(this.view.getFullYear());
       this.cleanup = onClickOutside(this, () => (this.open = false));
-    }
-    else this.cleanup?.();
+    } else this.cleanup?.();
   }
 
   private pick(d: Date): void {
@@ -140,10 +163,16 @@ export class LoomiDatepicker extends LoomiElement {
       this.cleanup?.();
     }
     this.internals.setFormValue(this.value);
-    this.dispatchEvent(new CustomEvent("change", {
-      bubbles: true, composed: true,
-      detail: { value: this.value, dates: [this.start, this.end].filter(Boolean).map((d) => d && iso(d)) },
-    }));
+    this.dispatchEvent(
+      new CustomEvent("change", {
+        bubbles: true,
+        composed: true,
+        detail: {
+          value: this.value,
+          dates: [this.start, this.end].filter(Boolean).map((d) => d && iso(d)),
+        },
+      }),
+    );
   }
 
   private shiftMonth(delta: number): void {
@@ -182,12 +211,18 @@ export class LoomiDatepicker extends LoomiElement {
   }
 
   override render(): TemplateResult {
-    const y = this.view.getFullYear(), m = this.view.getMonth();
+    const y = this.view.getFullYear(),
+      m = this.view.getMonth();
     const first = new Date(y, m, 1);
     const offset = (first.getDay() - (this.weekStarts === "monday" ? 1 : 0) + 7) % 7;
     const daysInMonth = new Date(y, m + 1, 0).getDate();
     const today = new Date();
-    const placeholder = loomiDefaultText(this.placeholder, DEFAULT_PLACEHOLDER, "datepicker.placeholder", this.locale);
+    const placeholder = loomiDefaultText(
+      this.placeholder,
+      DEFAULT_PLACEHOLDER,
+      "datepicker.placeholder",
+      this.locale,
+    );
 
     const cells: TemplateResult[] = [];
     for (let i = 0; i < offset; i++) cells.push(html`<span class="loomi-empty"></span>`);
@@ -221,29 +256,33 @@ export class LoomiDatepicker extends LoomiElement {
 
     const calendarBody = html`
       <div class="loomi-head">
-        ${this.calendarView === "years"
-          ? html`<button class="loomi-nav" aria-label=${loomiT("datepicker.previousYears", {}, this.locale)} @click=${() => this.shiftYearRange(-1)}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${PREV}</svg></button>
+        ${
+          this.calendarView === "years"
+            ? html`<button class="loomi-nav" aria-label=${loomiT("datepicker.previousYears", {}, this.locale)} @click=${() => this.shiftYearRange(-1)}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${PREV}</svg></button>
             <span class="loomi-month">${this.yearRangeStart} - ${this.yearRangeStart + 11}</span>
             <button class="loomi-nav" aria-label=${loomiT("datepicker.nextYears", {}, this.locale)} @click=${() => this.shiftYearRange(1)}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${NEXT}</svg></button>`
-          : this.calendarView === "months"
-            ? html`<span class="loomi-nav-spacer"></span>
+            : this.calendarView === "months"
+              ? html`<span class="loomi-nav-spacer"></span>
               <button class="loomi-head-button" aria-label=${loomiT("datepicker.chooseYear", {}, this.locale)} @click=${() => this.showYears()}>${y}</button>
               <span class="loomi-nav-spacer"></span>`
-            : html`<button class="loomi-nav" aria-label=${loomiT("datepicker.previousMonth", {}, this.locale)} @click=${() => this.shiftMonth(-1)}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${PREV}</svg></button>
+              : html`<button class="loomi-nav" aria-label=${loomiT("datepicker.previousMonth", {}, this.locale)} @click=${() => this.shiftMonth(-1)}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${PREV}</svg></button>
               <span class="loomi-title">
                 <button class="loomi-head-button" aria-label=${loomiT("datepicker.chooseMonth", {}, this.locale)} @click=${() => this.showMonths()}>${loomiMonthName(this.locale, this.view.getMonth(), "long")}</button>
                 <button class="loomi-head-button" aria-label=${loomiT("datepicker.chooseYear", {}, this.locale)} @click=${() => this.showYears()}>${y}</button>
               </span>
-              <button class="loomi-nav" aria-label=${loomiT("datepicker.nextMonth", {}, this.locale)} @click=${() => this.shiftMonth(1)}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${NEXT}</svg></button>`}
+              <button class="loomi-nav" aria-label=${loomiT("datepicker.nextMonth", {}, this.locale)} @click=${() => this.shiftMonth(1)}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${NEXT}</svg></button>`
+        }
       </div>
-      ${this.calendarView === "years"
-        ? html`<div class="loomi-picker-grid years">${years}</div>`
-        : this.calendarView === "months"
-          ? html`<div class="loomi-picker-grid months">${months}</div>`
-          : html`<div class="loomi-grid">
+      ${
+        this.calendarView === "years"
+          ? html`<div class="loomi-picker-grid years">${years}</div>`
+          : this.calendarView === "months"
+            ? html`<div class="loomi-picker-grid months">${months}</div>`
+            : html`<div class="loomi-grid">
             ${this.weekdays().map((w) => html`<span class="loomi-wd">${w}</span>`)}
             ${cells}
-          </div>`}
+          </div>`
+      }
     `;
 
     if (this.dpStyle === "inline") {
@@ -259,9 +298,11 @@ export class LoomiDatepicker extends LoomiElement {
         <span class="loomi-text ${this.value ? "" : "placeholder"}">${this.value || placeholder}${!this.value && this.required ? html`<span class="loomi-req"> *</span>` : nothing}</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${CAL}</svg>
       </div>
-      ${this.open
-        ? html`<div class="loomi-cal" @click=${(e: Event) => e.stopPropagation()}>${calendarBody}</div>`
-        : nothing}
+      ${
+        this.open
+          ? html`<div class="loomi-cal" @click=${(e: Event) => e.stopPropagation()}>${calendarBody}</div>`
+          : nothing
+      }
     </div>`;
   }
 }

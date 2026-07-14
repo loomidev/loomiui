@@ -111,29 +111,29 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes and properties
 
-| Name | Default | Description |
-| --- | --- | --- |
-| `name` | `""` | Form field name. |
-| `selected-value` | `""` | Current submitted value. Defaults to the emoji itself. |
-| `label` | `""` | Optional field label. |
-| `placeholder` | `Pick an emoji` | Closed trigger placeholder. |
-| `inline` | `false` | Render the panel directly instead of a trigger dropdown. |
-| `searchable` | `true` | Show the search input. |
-| `show-categories` | `true` | Show category tabs. |
-| `show-text` | `false` | Show the selected emoji's name (or placeholder) next to the trigger emoji. |
-| `required` | `false` | Mark the picker invalid until a value is selected. |
-| `disabled` | `false` | Disable the trigger. |
-| `readonly` | `false` | Prevent changes while keeping the current value readable. |
-| `size` | `medium` | `small`, `regular`, `medium`, or `big`. |
+| Name              | Default         | Description                                                                |
+| ----------------- | --------------- | -------------------------------------------------------------------------- |
+| `name`            | `""`            | Form field name.                                                           |
+| `selected-value`  | `""`            | Current submitted value. Defaults to the emoji itself.                     |
+| `label`           | `""`            | Optional field label.                                                      |
+| `placeholder`     | `Pick an emoji` | Closed trigger placeholder.                                                |
+| `inline`          | `false`         | Render the panel directly instead of a trigger dropdown.                   |
+| `searchable`      | `true`          | Show the search input.                                                     |
+| `show-categories` | `true`          | Show category tabs.                                                        |
+| `show-text`       | `false`         | Show the selected emoji's name (or placeholder) next to the trigger emoji. |
+| `required`        | `false`         | Mark the picker invalid until a value is selected.                         |
+| `disabled`        | `false`         | Disable the trigger.                                                       |
+| `readonly`        | `false`         | Prevent changes while keeping the current value readable.                  |
+| `size`            | `medium`        | `small`, `regular`, `medium`, or `big`.                                    |
 
 ## Methods
 
-| Method | Description |
-| --- | --- |
-| `reset()` | Clears the selected value. |
-| `validate()` | Shows validation and returns whether the picker is valid. |
-| `checkValidity()` | Mirrors native form validity. |
-| `reportValidity()` | Shows the browser validation UI where supported. |
+| Method             | Description                                               |
+| ------------------ | --------------------------------------------------------- |
+| `reset()`          | Clears the selected value.                                |
+| `validate()`       | Shows validation and returns whether the picker is valid. |
+| `checkValidity()`  | Mirrors native form validity.                             |
+| `reportValidity()` | Shows the browser validation UI where supported.          |
 
 ## Dependencies
 

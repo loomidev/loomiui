@@ -20,7 +20,9 @@
   box-shadow: 0 0 0 1px var(--loomi-surface-border);
 }
 .loomi-av.ring {
-  box-shadow: 0 0 0 2px var(--loomi-surface), 0 0 0 4px var(--_loomi-accent-ring, var(--loomi-surface-border));
+  box-shadow:
+    0 0 0 2px var(--loomi-surface),
+    0 0 0 4px var(--_loomi-accent-ring, var(--loomi-surface-border));
 }
 .loomi-av img {
   width: 100%;
@@ -182,7 +184,9 @@ slot {
   font-weight: 600;
   font-size: calc(var(--loomi-av-size) * 0.3);
   margin-left: var(--loomi-av-stack-offset);
-  box-shadow: 0 0 0 2px var(--loomi-surface), 0 0 0 3px var(--loomi-surface-border);
+  box-shadow:
+    0 0 0 2px var(--loomi-surface),
+    0 0 0 3px var(--loomi-surface-border);
   cursor: default;
 }
 .loomi-row {

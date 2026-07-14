@@ -108,7 +108,10 @@ class BitBuffer {
   }
 }
 
-export function generateQrCode(value: string, errorCorrection: LoomiQrErrorCorrection = "M"): LoomiQrMatrix {
+export function generateQrCode(
+  value: string,
+  errorCorrection: LoomiQrErrorCorrection = "M",
+): LoomiQrMatrix {
   const bytes = Array.from(new TextEncoder().encode(value));
   const normalizedErrorCorrection = normalizeErrorCorrection(errorCorrection);
   const version = chooseVersion(bytes.length, normalizedErrorCorrection);
@@ -123,8 +126,10 @@ function normalizeErrorCorrection(value: LoomiQrErrorCorrection): LoomiQrErrorCo
 
 function chooseVersion(byteLength: number, errorCorrection: LoomiQrErrorCorrection): number {
   for (let version = 1; version <= MAX_VERSION; version += 1) {
-    const dataCodewords = getRsBlocks(version, errorCorrection)
-      .reduce((total, block) => total + block.dataCodewords, 0);
+    const dataCodewords = getRsBlocks(version, errorCorrection).reduce(
+      (total, block) => total + block.dataCodewords,
+      0,
+    );
     const countBits = version < 10 ? 8 : 16;
     const requiredBits = 4 + countBits + byteLength * 8;
     if (requiredBits <= dataCodewords * 8) return version;
@@ -133,7 +138,11 @@ function chooseVersion(byteLength: number, errorCorrection: LoomiQrErrorCorrecti
   throw new Error(`QR value is too long for supported QR versions 1-${MAX_VERSION}.`);
 }
 
-function createDataCodewords(bytes: number[], version: number, errorCorrection: LoomiQrErrorCorrection): number[] {
+function createDataCodewords(
+  bytes: number[],
+  version: number,
+  errorCorrection: LoomiQrErrorCorrection,
+): number[] {
   const blocks = getRsBlocks(version, errorCorrection);
   const capacity = blocks.reduce((total, block) => total + block.dataCodewords, 0);
   const buffer = new BitBuffer();
@@ -161,7 +170,11 @@ function createDataCodewords(bytes: number[], version: number, errorCorrection: 
   return codewords;
 }
 
-function addErrorCorrection(dataCodewords: number[], version: number, errorCorrection: LoomiQrErrorCorrection): number[] {
+function addErrorCorrection(
+  dataCodewords: number[],
+  version: number,
+  errorCorrection: LoomiQrErrorCorrection,
+): number[] {
   const blocks = getRsBlocks(version, errorCorrection);
   const dataBlocks: number[][] = [];
   const eccBlocks: number[][] = [];
@@ -171,7 +184,9 @@ function addErrorCorrection(dataCodewords: number[], version: number, errorCorre
     const data = dataCodewords.slice(offset, offset + block.dataCodewords);
     offset += block.dataCodewords;
     dataBlocks.push(data);
-    eccBlocks.push(createErrorCorrectionCodewords(data, block.totalCodewords - block.dataCodewords));
+    eccBlocks.push(
+      createErrorCorrectionCodewords(data, block.totalCodewords - block.dataCodewords),
+    );
   }
 
   const result: number[] = [];
@@ -314,7 +329,13 @@ function addFinderPattern(modules: boolean[][], reserved: boolean[][], x: number
       const yy = y + dy;
       if (yy < 0 || yy >= modules.length || xx < 0 || xx >= modules.length) continue;
       const inPattern = dx >= 0 && dx <= 6 && dy >= 0 && dy <= 6;
-      const dark = inPattern && (dx === 0 || dx === 6 || dy === 0 || dy === 6 || (dx >= 2 && dx <= 4 && dy >= 2 && dy <= 4));
+      const dark =
+        inPattern &&
+        (dx === 0 ||
+          dx === 6 ||
+          dy === 0 ||
+          dy === 6 ||
+          (dx >= 2 && dx <= 4 && dy >= 2 && dy <= 4));
       setModule(modules, reserved, xx, yy, dark);
     }
   }
@@ -361,7 +382,12 @@ function reserveVersionInfoAreas(reserved: boolean[][]): void {
   }
 }
 
-function placeDataBits(modules: boolean[][], reserved: boolean[][], bits: number[], mask: number): void {
+function placeDataBits(
+  modules: boolean[][],
+  reserved: boolean[][],
+  bits: number[],
+  mask: number,
+): void {
   const size = modules.length;
   let bitIndex = 0;
   let upward = true;
@@ -405,7 +431,11 @@ function maskApplies(mask: number, x: number, y: number): boolean {
   }
 }
 
-function placeFormatInfo(modules: boolean[][], errorCorrection: LoomiQrErrorCorrection, mask: number): void {
+function placeFormatInfo(
+  modules: boolean[][],
+  errorCorrection: LoomiQrErrorCorrection,
+  mask: number,
+): void {
   const size = modules.length;
   const bits = calculateBchTypeInfo((FORMAT_ECC_BITS[errorCorrection] << 3) | mask);
 
@@ -457,7 +487,12 @@ function bchDigit(data: number): number {
 }
 
 function calculatePenalty(modules: boolean[][]): number {
-  return penaltyRuns(modules) + penaltyBlocks(modules) + penaltyPatterns(modules) + penaltyBalance(modules);
+  return (
+    penaltyRuns(modules) +
+    penaltyBlocks(modules) +
+    penaltyPatterns(modules) +
+    penaltyBalance(modules)
+  );
 }
 
 function penaltyRuns(modules: boolean[][]): number {
@@ -500,7 +535,11 @@ function penaltyBlocks(modules: boolean[][]): number {
   for (let y = 0; y < modules.length - 1; y += 1) {
     for (let x = 0; x < modules.length - 1; x += 1) {
       const color = modules[y][x];
-      if (color === modules[y][x + 1] && color === modules[y + 1][x] && color === modules[y + 1][x + 1]) {
+      if (
+        color === modules[y][x + 1] &&
+        color === modules[y + 1][x] &&
+        color === modules[y + 1][x + 1]
+      ) {
         penalty += 3;
       }
     }

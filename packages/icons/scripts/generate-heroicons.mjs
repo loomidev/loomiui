@@ -17,9 +17,7 @@ const kebab = (name) =>
     .toLowerCase();
 
 const attrName = (name) =>
-  name
-    .replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`)
-    .replace(/^class-name$/, "class");
+  name.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`).replace(/^class-name$/, "class");
 
 const unquote = (value) => {
   if (value.startsWith('"')) return JSON.parse(value);

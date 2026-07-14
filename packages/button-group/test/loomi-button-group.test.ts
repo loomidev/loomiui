@@ -27,7 +27,9 @@ describe("loomi-button-group", () => {
     const track = el.shadowRoot!.querySelector<HTMLElement>(".loomi-bg-group")!;
 
     expect(getComputedStyle(track).display).to.equal("inline-flex");
-    expect(track.getBoundingClientRect().width).to.be.lessThan(wrapper.getBoundingClientRect().width);
+    expect(track.getBoundingClientRect().width).to.be.lessThan(
+      wrapper.getBoundingClientRect().width,
+    );
   });
 
   it("applies button-compatible radius vars on the host and inner buttons", async () => {

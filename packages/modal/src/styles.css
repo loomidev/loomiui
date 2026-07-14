@@ -49,12 +49,24 @@
   animation: loomi-rise-in var(--loomi-motion-duration) var(--loomi-motion-ease);
   position: relative;
 }
-.size-tiny { max-width: 18rem; }
-.size-small { max-width: 24rem; }
-.size-medium { max-width: 32rem; }
-.size-large { max-width: 60rem; }
-.size-xl { max-width: 86rem; }
-.size-omg { max-width: 100%; }
+.size-tiny {
+  max-width: 18rem;
+}
+.size-small {
+  max-width: 24rem;
+}
+.size-medium {
+  max-width: 32rem;
+}
+.size-large {
+  max-width: 60rem;
+}
+.size-xl {
+  max-width: 86rem;
+}
+.size-omg {
+  max-width: 100%;
+}
 
 .loomi-close {
   position: absolute;
@@ -127,10 +139,18 @@
   background: var(--loomi-surface-muted);
   border-top: 1px solid var(--loomi-surface-border);
 }
-.loomi-footer.right { justify-content: flex-end; }
-.loomi-footer.center { justify-content: center; }
-.loomi-footer.left { justify-content: flex-start; }
-.loomi-footer.stretch { flex-direction: column; }
+.loomi-footer.right {
+  justify-content: flex-end;
+}
+.loomi-footer.center {
+  justify-content: center;
+}
+.loomi-footer.left {
+  justify-content: flex-start;
+}
+.loomi-footer.stretch {
+  flex-direction: column;
+}
 .loomi-action {
   flex: none;
 }

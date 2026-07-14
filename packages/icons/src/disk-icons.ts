@@ -41,7 +41,10 @@ export function isLoomiDiskIconSource(source: string): source is LoomiDiskIconSo
 
 /** Names registered for a disk-based source/type. Falls back to `outline`
  * when `type` isn't available for that source (e.g. untitledui + "twotone"). */
-export function loomiDiskIconNames(source: LoomiDiskIconSource, type: LoomiIconType = DEFAULT_TYPE): string[] {
+export function loomiDiskIconNames(
+  source: LoomiDiskIconSource,
+  type: LoomiIconType = DEFAULT_TYPE,
+): string[] {
   const names = NAME_SETS[source][type] ?? NAME_SETS[source][DEFAULT_TYPE];
   return names ? Array.from(names) : [];
 }
@@ -65,7 +68,10 @@ export function getLoomiDiskIconUrl(
   const bySource = NAME_SETS[source];
   const resolvedType = bySource[type]?.has(name) ? type : DEFAULT_TYPE;
   if (!bySource[resolvedType]?.has(name)) return undefined;
-  return new URL(`${source}/${resolvedType}/${encodeURIComponent(name)}.svg`, ASSET_BASE_URL).toString();
+  return new URL(
+    `${source}/${resolvedType}/${encodeURIComponent(name)}.svg`,
+    ASSET_BASE_URL,
+  ).toString();
 }
 
 type UnsafeSvgResult = ReturnType<typeof unsafeSVG>;

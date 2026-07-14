@@ -1,6 +1,13 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, loomiT, onClickOutside, lockBodyScroll, unlockBodyScroll } from "@loomidev/core";
+import {
+  LoomiElement,
+  loomiStyles,
+  loomiT,
+  onClickOutside,
+  lockBodyScroll,
+  unlockBodyScroll,
+} from "@loomidev/core";
 import "@loomidev/icon/loomi-icon.js";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -194,7 +201,9 @@ export class LoomiDrawer extends LoomiElement {
     if (!this.originalParent) return;
 
     const nextSibling =
-      this.originalNextSibling?.parentNode === this.originalParent ? this.originalNextSibling : null;
+      this.originalNextSibling?.parentNode === this.originalParent
+        ? this.originalNextSibling
+        : null;
 
     this.isMovingInDom = true;
     if (this.originalParent.isConnected) {
@@ -286,20 +295,24 @@ export class LoomiDrawer extends LoomiElement {
         aria-label=${this.title || loomiT("drawer.dialog", {}, this.locale)}
         tabindex="-1"
       >
-        ${this.title || this.showCloseIcon
-          ? html`<div class="loomi-header">
+        ${
+          this.title || this.showCloseIcon
+            ? html`<div class="loomi-header">
               ${this.title ? html`<div class="loomi-title">${this.title}</div>` : nothing}
-              ${this.showCloseIcon
-                ? html`<button
+              ${
+                this.showCloseIcon
+                  ? html`<button
                     class="loomi-close"
                     aria-label=${loomiT("common.close", {}, this.locale)}
                     @click=${() => this.hide()}
                   >
                     <loomi-icon name="x-mark" size="1.15rem" stroke-width="2"></loomi-icon>
                   </button>`
-                : nothing}
+                  : nothing
+              }
             </div>`
-          : nothing}
+            : nothing
+        }
         <div class="loomi-body"><slot></slot></div>
       </div>
     `;

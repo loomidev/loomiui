@@ -63,13 +63,13 @@ builder.rules = [
 
 Each `fields` entry's `type` picks the value control it renders (a `select` for `"select"`, a typed `<input>` otherwise) and the default operator list offered for that row — override per-field with `field.operators`.
 
-| `type` | Value control | Default operators |
-| --- | --- | --- |
-| `text` | Text input | `contains`, `equals`, `notEquals`, `startsWith`, `endsWith` |
-| `number` | Number input | `equals`, `notEquals`, `gt`, `gte`, `lt`, `lte` |
-| `date` | Date input | `equals`, `before`, `after` |
-| `boolean` | _(none — operator alone is the value)_ | `isTrue`, `isFalse` |
-| `select` | `field.options` dropdown | `equals`, `notEquals` |
+| `type`    | Value control                          | Default operators                                           |
+| --------- | -------------------------------------- | ----------------------------------------------------------- |
+| `text`    | Text input                             | `contains`, `equals`, `notEquals`, `startsWith`, `endsWith` |
+| `number`  | Number input                           | `equals`, `notEquals`, `gt`, `gte`, `lt`, `lte`             |
+| `date`    | Date input                             | `equals`, `before`, `after`                                 |
+| `boolean` | _(none — operator alone is the value)_ | `isTrue`, `isFalse`                                         |
+| `select`  | `field.options` dropdown               | `equals`, `notEquals`                                       |
 
 ```js
 builder.fields = [
@@ -102,23 +102,23 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Properties
 
-| Property | Type | Default | Notes |
-| --- | --- | --- | --- |
-| `fields` | `FilterBuilderField[]` | `[]` | JavaScript property. Drives the field picker, value control, and operator list per row. |
-| `rules` | `FilterBuilderRule[]` | `[]` | JavaScript property. Each rule is `{ id, field, operator, value }`. |
-| `logic` | `"and" \| "or"` | `"and"` | Reflected attribute. Combinator shown in the header toggle. |
-| `title` | `string` | `"Filters"` | Heading text. |
-| `add-label` | `string` | `"Add filter"` | Label for the add-rule button. |
-| `apply-label` | `string` | `"Apply filters"` | Label for the apply button (only rendered when `show-apply`). |
-| `empty-label` | `string` | `"No filters added"` | Shown in place of the rule list when `rules` is empty. |
-| `show-apply` | `boolean` | `true` | Reflected attribute. Hides the apply button when `false` — use this for filters that should apply live via `loomi-filter-change` instead. |
+| Property      | Type                   | Default              | Notes                                                                                                                                     |
+| ------------- | ---------------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `fields`      | `FilterBuilderField[]` | `[]`                 | JavaScript property. Drives the field picker, value control, and operator list per row.                                                   |
+| `rules`       | `FilterBuilderRule[]`  | `[]`                 | JavaScript property. Each rule is `{ id, field, operator, value }`.                                                                       |
+| `logic`       | `"and" \| "or"`        | `"and"`              | Reflected attribute. Combinator shown in the header toggle.                                                                               |
+| `title`       | `string`               | `"Filters"`          | Heading text.                                                                                                                             |
+| `add-label`   | `string`               | `"Add filter"`       | Label for the add-rule button.                                                                                                            |
+| `apply-label` | `string`               | `"Apply filters"`    | Label for the apply button (only rendered when `show-apply`).                                                                             |
+| `empty-label` | `string`               | `"No filters added"` | Shown in place of the rule list when `rules` is empty.                                                                                    |
+| `show-apply`  | `boolean`              | `true`               | Reflected attribute. Hides the apply button when `false` — use this for filters that should apply live via `loomi-filter-change` instead. |
 
 ## Events
 
-| Event | Detail |
-| --- | --- |
+| Event                 | Detail                                                                  |
+| --------------------- | ----------------------------------------------------------------------- |
 | `loomi-filter-change` | `{ value }` — fires on every add/remove/edit of a rule or logic change. |
-| `loomi-filter-apply` | `{ value }` — fires when the apply button is clicked. |
+| `loomi-filter-apply`  | `{ value }` — fires when the apply button is clicked.                   |
 
 Both detail shapes are `{ logic, rules }` — the same object `fields`/`rules` describe.
 

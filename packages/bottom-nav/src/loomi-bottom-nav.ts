@@ -7,14 +7,7 @@ import "@loomidev/icon/loomi-icon.js";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiBottomNavActiveStyle =
-  | "pill"
-  | "underline"
-  | "top-line"
-  | "background"
-  | "icon-only"
-  | "dot"
-  | "border"
-  | "minimal";
+  "pill" | "underline" | "top-line" | "background" | "icon-only" | "dot" | "border" | "minimal";
 
 export type LoomiBottomNavVariant = "fixed" | "floating";
 
@@ -76,7 +69,8 @@ export class LoomiBottomNavItem extends LoomiElement {
   @property({ type: Boolean, reflect: true }) active = false;
 
   /** Active visual treatment. Normally pushed down by the parent's `active-style`. */
-  @property({ attribute: "active-style", reflect: true }) activeStyle: LoomiBottomNavActiveStyle = "pill";
+  @property({ attribute: "active-style", reflect: true }) activeStyle: LoomiBottomNavActiveStyle =
+    "pill";
 
   /** Fallback icon source inherited from the parent. Set internally — not a public API. */
   @property({ attribute: false }) hostIconSource: LoomiIconSource = "heroicons";
@@ -113,7 +107,12 @@ export class LoomiBottomNavItem extends LoomiElement {
       bubbles: true,
       composed: true,
       cancelable: true,
-      detail: { item: this, value: this.itemValue, name: this.itemValue, href: this.href || undefined },
+      detail: {
+        item: this,
+        value: this.itemValue,
+        name: this.itemValue,
+        href: this.href || undefined,
+      },
     });
     const notCanceled = this.dispatchEvent(changeEvent);
 
@@ -133,15 +132,17 @@ export class LoomiBottomNavItem extends LoomiElement {
   private renderInner(): TemplateResult {
     return html`
       <span class="loomi-bnavi-icon-wrap">
-        ${this.icon
-          ? html`<loomi-icon
+        ${
+          this.icon
+            ? html`<loomi-icon
               class="loomi-bnavi-icon"
               part="icon"
               name=${this.icon}
               source=${this.effectiveIconSource}
               size="1.4rem"
             ></loomi-icon>`
-          : nothing}
+            : nothing
+        }
         ${this.renderBadge()}
       </span>
       <span class="loomi-bnavi-label" part="label"><slot>${this.label}</slot></span>
@@ -201,7 +202,8 @@ export class LoomiBottomNav extends LoomiElement {
   @property({ reflect: true }) active = "";
 
   /** Visual treatment for the active item. */
-  @property({ attribute: "active-style", reflect: true }) activeStyle: LoomiBottomNavActiveStyle = "pill";
+  @property({ attribute: "active-style", reflect: true }) activeStyle: LoomiBottomNavActiveStyle =
+    "pill";
 
   /** `fixed` docks edge-to-edge at the viewport bottom (default); `floating` detaches into a rounded, elevated island. */
   @property({ reflect: true }) variant: LoomiBottomNavVariant = "fixed";

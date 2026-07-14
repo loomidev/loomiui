@@ -9,8 +9,11 @@ describe("loomi-listview", () => {
     );
 
     expect(el.shadowRoot!.querySelector(".loomi-listview")!.getAttribute("role")).to.equal("list");
-    expect(el.querySelector("loomi-listview-item")!.shadowRoot!.querySelector(".loomi-li")!.getAttribute("role")).to.equal(
-      "listitem",
-    );
+    expect(
+      el
+        .querySelector("loomi-listview-item")!
+        .shadowRoot!.querySelector(".loomi-li")!
+        .getAttribute("role"),
+    ).to.equal("listitem");
   });
 });

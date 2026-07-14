@@ -14,7 +14,11 @@ export interface LoomiMentionMatch {
  * doesn't match but `"hi @bar"` does. Returns `null` once whitespace/newline is hit
  * first, since that means the current word has no trigger in it.
  */
-export function findMentionTrigger(text: string, caret: number, triggers: string[]): LoomiMentionMatch | null {
+export function findMentionTrigger(
+  text: string,
+  caret: number,
+  triggers: string[],
+): LoomiMentionMatch | null {
   if (!triggers.length) return null;
   for (let i = caret - 1; i >= 0; i--) {
     const ch = text[i];

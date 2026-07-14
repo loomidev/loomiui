@@ -12,7 +12,6 @@ npm install @loomidev/horizontal-line-graph lit
 import "@loomidev/horizontal-line-graph";
 ```
 
-
 ## Basic Usage
 
 ```html
@@ -90,21 +89,19 @@ loomi-horizontal-line-graph is designed to fit the layout you place it in. It us
 
 For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
-
 ## Dark mode
 
 loomi-horizontal-line-graph uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
 
 Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
 
-
 ## Attributes
 
-| Attribute | Default | Description |
-| --- | --- | --- |
-| `data` | `[]` | Segments — `{ label, value, color? }[]` (loomi color name or any CSS color). |
-| `show-legend` | `true` | Show the legend. _(boolean)_ |
-| `show-values` | `true` | Show each segment's percentage. _(boolean)_ |
+| Attribute     | Default | Description                                                                  |
+| ------------- | ------- | ---------------------------------------------------------------------------- |
+| `data`        | `[]`    | Segments — `{ label, value, color? }[]` (loomi color name or any CSS color). |
+| `show-legend` | `true`  | Show the legend. _(boolean)_                                                 |
+| `show-values` | `true`  | Show each segment's percentage. _(boolean)_                                  |
 
 ## Full Example
 
@@ -166,7 +163,6 @@ In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the pac
 ```js
 import "@loomidev/horizontal-line-graph";
 ```
-
 
 This component accepts `data` as a JavaScript property. Use an HTML attribute only for simple strings; use a property when you pass arrays, objects, or functions.
 

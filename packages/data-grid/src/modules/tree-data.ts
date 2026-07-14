@@ -20,7 +20,7 @@ export interface TreeDataModuleOptions {
  * ```
  */
 export function treeDataModule<TRecord extends DataGridRecord = DataGridRecord>(
-  options: TreeDataModuleOptions = {}
+  options: TreeDataModuleOptions = {},
 ): GridModule<TRecord> {
   const childrenKey = options.childrenKey ?? "children";
   const expandedState = new Map<string, boolean>();
@@ -69,6 +69,6 @@ export function treeDataModule<TRecord extends DataGridRecord = DataGridRecord>(
       }
       expandedState.set(ctx.getRowKey(row), expanded);
       ctx.requestUpdate();
-    }
+    },
   });
 }

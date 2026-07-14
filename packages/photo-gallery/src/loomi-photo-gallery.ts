@@ -99,26 +99,42 @@ export class LoomiPhotoGallery extends LoomiElement {
   /** Visual style of the album list panel when it's open. */
   @property({ attribute: "album-view" }) albumView: LoomiPhotoGalleryAlbumView = "sidebar";
   /** Force every grid thumbnail to a 1:1 square crop instead of its natural aspect ratio. */
-  @property({ type: Boolean, attribute: "square-thumbnails", reflect: true, converter: booleanAttribute })
+  @property({
+    type: Boolean,
+    attribute: "square-thumbnails",
+    reflect: true,
+    converter: booleanAttribute,
+  })
   squareThumbnails = false;
   /** Grid thumbnail size in pixels. Adjusted by the zoom in/out buttons. */
   @property({ type: Number, attribute: "thumb-size" }) thumbSize = DEFAULT_THUMB_SIZE;
   /** Milliseconds between slides while the slideshow is running. */
-  @property({ type: Number, attribute: "slideshow-interval" }) slideshowInterval = DEFAULT_SLIDESHOW_INTERVAL;
+  @property({ type: Number, attribute: "slideshow-interval" }) slideshowInterval =
+    DEFAULT_SLIDESHOW_INTERVAL;
   /** Whether the album list panel is currently open. Only rendered when there's more than one album. */
-  @property({ type: Boolean, attribute: "album-panel-open", reflect: true, converter: booleanAttribute })
+  @property({
+    type: Boolean,
+    attribute: "album-panel-open",
+    reflect: true,
+    converter: booleanAttribute,
+  })
   albumPanelOpen = true;
 
   /** Show the toolbar button that toggles the album list panel. */
-  @property({ type: Boolean, attribute: "show-album-toggle", converter: booleanAttribute }) showAlbumToggle = true;
+  @property({ type: Boolean, attribute: "show-album-toggle", converter: booleanAttribute })
+  showAlbumToggle = true;
   /** Show the grid zoom-in toolbar button. */
-  @property({ type: Boolean, attribute: "show-zoom-in", converter: booleanAttribute }) showZoomIn = true;
+  @property({ type: Boolean, attribute: "show-zoom-in", converter: booleanAttribute }) showZoomIn =
+    true;
   /** Show the grid zoom-out toolbar button. */
-  @property({ type: Boolean, attribute: "show-zoom-out", converter: booleanAttribute }) showZoomOut = true;
+  @property({ type: Boolean, attribute: "show-zoom-out", converter: booleanAttribute })
+  showZoomOut = true;
   /** Show the square-thumbnails toggle button. */
-  @property({ type: Boolean, attribute: "show-square-toggle", converter: booleanAttribute }) showSquareToggle = true;
+  @property({ type: Boolean, attribute: "show-square-toggle", converter: booleanAttribute })
+  showSquareToggle = true;
   /** Show the slideshow toolbar button. */
-  @property({ type: Boolean, attribute: "show-slideshow", converter: booleanAttribute }) showSlideshow = true;
+  @property({ type: Boolean, attribute: "show-slideshow", converter: booleanAttribute })
+  showSlideshow = true;
 
   /** Show the lightbox zoom-in button. */
   @property({ type: Boolean, attribute: "lightbox-show-zoom-in", converter: booleanAttribute })
@@ -204,7 +220,9 @@ export class LoomiPhotoGallery extends LoomiElement {
   }
 
   private albumCount(album: string): number {
-    return album === ALL_ALBUM ? this.items.length : this.items.filter((item) => item.album === album).length;
+    return album === ALL_ALBUM
+      ? this.items.length
+      : this.items.filter((item) => item.album === album).length;
   }
 
   private onSlotChange = (): void => {
@@ -230,7 +248,9 @@ export class LoomiPhotoGallery extends LoomiElement {
   private setActiveAlbum(album: string): void {
     if (this.activeAlbum === album) return;
     this.activeAlbum = album;
-    this.dispatchEvent(new CustomEvent("loomi-album-change", { detail: { album }, bubbles: true, composed: true }));
+    this.dispatchEvent(
+      new CustomEvent("loomi-album-change", { detail: { album }, bubbles: true, composed: true }),
+    );
   }
 
   private toggleAlbumPanel = (): void => {
@@ -295,7 +315,9 @@ export class LoomiPhotoGallery extends LoomiElement {
       }),
     );
     this.updateComplete.then(() => {
-      this.shadowRoot?.querySelector<HTMLElement>(".loomi-lightbox-close, .loomi-lightbox")?.focus();
+      this.shadowRoot
+        ?.querySelector<HTMLElement>(".loomi-lightbox-close, .loomi-lightbox")
+        ?.focus();
     });
   }
 
@@ -421,7 +443,9 @@ export class LoomiPhotoGallery extends LoomiElement {
   private restoreOriginalPosition(): void {
     if (!this.originalParent) return;
     const nextSibling =
-      this.originalNextSibling?.parentNode === this.originalParent ? this.originalNextSibling : null;
+      this.originalNextSibling?.parentNode === this.originalParent
+        ? this.originalNextSibling
+        : null;
     this.isMovingInDom = true;
     if (this.originalParent.isConnected) this.originalParent.insertBefore(this, nextSibling);
     this.isMovingInDom = false;
@@ -436,7 +460,9 @@ export class LoomiPhotoGallery extends LoomiElement {
   }
 
   private getLightboxFocusable(): HTMLElement[] {
-    return Array.from(this.shadowRoot?.querySelectorAll<HTMLElement>(`.loomi-lightbox ${FOCUSABLE_SELECTOR}`) ?? []);
+    return Array.from(
+      this.shadowRoot?.querySelectorAll<HTMLElement>(`.loomi-lightbox ${FOCUSABLE_SELECTOR}`) ?? [],
+    );
   }
 
   private onKeyDown = (e: KeyboardEvent): void => {
@@ -504,8 +530,9 @@ export class LoomiPhotoGallery extends LoomiElement {
     const t = (key: string) => loomiT(`photoGallery.${key}`, {}, this.locale);
     return html`
       <div class="loomi-toolbar" role="toolbar" aria-label=${t("toolbar")}>
-        ${this.showAlbumToggle && this.hasAlbums
-          ? html`<button
+        ${
+          this.showAlbumToggle && this.hasAlbums
+            ? html`<button
               class="loomi-toolbar-btn ${this.albumPanelOpen ? "is-active" : ""}"
               type="button"
               aria-pressed=${this.albumPanelOpen ? "true" : "false"}
@@ -515,9 +542,11 @@ export class LoomiPhotoGallery extends LoomiElement {
             >
               <loomi-icon name="bars-3" size="1.1rem"></loomi-icon>
             </button>`
-          : nothing}
-        ${this.showZoomOut
-          ? html`<button
+            : nothing
+        }
+        ${
+          this.showZoomOut
+            ? html`<button
               class="loomi-toolbar-btn"
               type="button"
               ?disabled=${this.thumbSize <= MIN_THUMB_SIZE}
@@ -527,9 +556,11 @@ export class LoomiPhotoGallery extends LoomiElement {
             >
               <loomi-icon name="magnifying-glass-minus" size="1.1rem"></loomi-icon>
             </button>`
-          : nothing}
-        ${this.showZoomIn
-          ? html`<button
+            : nothing
+        }
+        ${
+          this.showZoomIn
+            ? html`<button
               class="loomi-toolbar-btn"
               type="button"
               ?disabled=${this.thumbSize >= MAX_THUMB_SIZE}
@@ -539,9 +570,11 @@ export class LoomiPhotoGallery extends LoomiElement {
             >
               <loomi-icon name="magnifying-glass-plus" size="1.1rem"></loomi-icon>
             </button>`
-          : nothing}
-        ${this.showSquareToggle
-          ? html`<button
+            : nothing
+        }
+        ${
+          this.showSquareToggle
+            ? html`<button
               class="loomi-toolbar-btn ${this.squareThumbnails ? "is-active" : ""}"
               type="button"
               aria-pressed=${this.squareThumbnails ? "true" : "false"}
@@ -551,9 +584,11 @@ export class LoomiPhotoGallery extends LoomiElement {
             >
               <loomi-icon name="squares-2-x-2" size="1.1rem"></loomi-icon>
             </button>`
-          : nothing}
-        ${this.showSlideshow
-          ? html`<button
+            : nothing
+        }
+        ${
+          this.showSlideshow
+            ? html`<button
               class="loomi-toolbar-btn ${this.slideshowActive ? "is-active" : ""}"
               type="button"
               ?disabled=${!this.visibleItems.length}
@@ -564,14 +599,20 @@ export class LoomiPhotoGallery extends LoomiElement {
             >
               <loomi-icon name=${this.slideshowActive ? "pause" : "play"} size="1.1rem"></loomi-icon>
             </button>`
-          : nothing}
+            : nothing
+        }
       </div>
     `;
   }
 
   // ---- render: album panel ----
 
-  private renderAlbumButton(album: string, label: string, thumbSrc: string, style: LoomiPhotoGalleryAlbumView): TemplateResult {
+  private renderAlbumButton(
+    album: string,
+    label: string,
+    thumbSrc: string,
+    style: LoomiPhotoGalleryAlbumView,
+  ): TemplateResult {
     const active = this.activeAlbum === album;
     return html`
       <button
@@ -651,7 +692,8 @@ export class LoomiPhotoGallery extends LoomiElement {
     const list = this.visibleItems;
     const item = list[this.lightboxIndex];
     if (!item) return nothing;
-    const t = (key: string, params: Record<string, string | number> = {}) => loomiT(`photoGallery.${key}`, params, this.locale);
+    const t = (key: string, params: Record<string, string | number> = {}) =>
+      loomiT(`photoGallery.${key}`, params, this.locale);
     const favLabel = item.favourite ? t("unfavourite") : t("favourite");
     const imgStyle = `transform: scale(${this.lightboxZoom}) rotate(${this.lightboxRotation}deg);`;
 
@@ -668,8 +710,9 @@ export class LoomiPhotoGallery extends LoomiElement {
         <div class="loomi-lightbox-toolbar" role="toolbar" aria-label=${t("lightboxToolbar")}>
           <span class="loomi-lightbox-counter">${t("counter", { current: this.lightboxIndex + 1, total: list.length })}</span>
           <div class="loomi-lightbox-actions">
-            ${this.lightboxShowZoomOut
-              ? html`<button
+            ${
+              this.lightboxShowZoomOut
+                ? html`<button
                   class="loomi-lightbox-btn"
                   type="button"
                   ?disabled=${this.lightboxZoom <= MIN_ZOOM}
@@ -679,9 +722,11 @@ export class LoomiPhotoGallery extends LoomiElement {
                 >
                   <loomi-icon name="magnifying-glass-minus" size="1.15rem"></loomi-icon>
                 </button>`
-              : nothing}
-            ${this.lightboxShowZoomIn
-              ? html`<button
+                : nothing
+            }
+            ${
+              this.lightboxShowZoomIn
+                ? html`<button
                   class="loomi-lightbox-btn"
                   type="button"
                   ?disabled=${this.lightboxZoom >= MAX_ZOOM}
@@ -691,9 +736,11 @@ export class LoomiPhotoGallery extends LoomiElement {
                 >
                   <loomi-icon name="magnifying-glass-plus" size="1.15rem"></loomi-icon>
                 </button>`
-              : nothing}
-            ${this.lightboxShowFavourite
-              ? html`<button
+                : nothing
+            }
+            ${
+              this.lightboxShowFavourite
+                ? html`<button
                   class="loomi-lightbox-btn ${item.favourite ? "is-active" : ""}"
                   type="button"
                   aria-pressed=${item.favourite ? "true" : "false"}
@@ -703,9 +750,11 @@ export class LoomiPhotoGallery extends LoomiElement {
                 >
                   <loomi-icon name="heart" variant=${item.favourite ? "solid" : "outline"} size="1.15rem"></loomi-icon>
                 </button>`
-              : nothing}
-            ${this.lightboxShowRotate
-              ? html`<button
+                : nothing
+            }
+            ${
+              this.lightboxShowRotate
+                ? html`<button
                   class="loomi-lightbox-btn"
                   type="button"
                   aria-label=${t("rotate")}
@@ -714,14 +763,18 @@ export class LoomiPhotoGallery extends LoomiElement {
                 >
                   <loomi-icon name="arrow-uturn-left" size="1.15rem"></loomi-icon>
                 </button>`
-              : nothing}
-            ${this.lightboxShowShare
-              ? html`<button class="loomi-lightbox-btn" type="button" aria-label=${t("share")} title=${t("share")} @click=${this.onShare}>
+                : nothing
+            }
+            ${
+              this.lightboxShowShare
+                ? html`<button class="loomi-lightbox-btn" type="button" aria-label=${t("share")} title=${t("share")} @click=${this.onShare}>
                   <loomi-icon name="share" size="1.15rem"></loomi-icon>
                 </button>`
-              : nothing}
-            ${this.lightboxShowClose
-              ? html`<button
+                : nothing
+            }
+            ${
+              this.lightboxShowClose
+                ? html`<button
                   class="loomi-lightbox-btn loomi-lightbox-close"
                   type="button"
                   aria-label=${t("close")}
@@ -730,22 +783,27 @@ export class LoomiPhotoGallery extends LoomiElement {
                 >
                   <loomi-icon name="x-mark" size="1.15rem"></loomi-icon>
                 </button>`
-              : nothing}
+                : nothing
+            }
           </div>
         </div>
 
         <div class="loomi-lightbox-stage">
-          ${list.length > 1
-            ? html`<button class="loomi-lightbox-nav prev" type="button" aria-label=${t("previous")} @click=${() => this.prevPhoto()}>
+          ${
+            list.length > 1
+              ? html`<button class="loomi-lightbox-nav prev" type="button" aria-label=${t("previous")} @click=${() => this.prevPhoto()}>
                 <loomi-icon name="chevron-left" size="1.5rem"></loomi-icon>
               </button>`
-            : nothing}
+              : nothing
+          }
           <img class="loomi-lightbox-img" src=${item.src} alt=${item.alt} style=${imgStyle} />
-          ${list.length > 1
-            ? html`<button class="loomi-lightbox-nav next" type="button" aria-label=${t("next")} @click=${() => this.nextPhoto()}>
+          ${
+            list.length > 1
+              ? html`<button class="loomi-lightbox-nav next" type="button" aria-label=${t("next")} @click=${() => this.nextPhoto()}>
                 <loomi-icon name="chevron-right" size="1.5rem"></loomi-icon>
               </button>`
-            : nothing}
+              : nothing
+          }
         </div>
 
         ${item.caption || item.alt ? html`<div class="loomi-lightbox-caption">${item.caption || item.alt}</div>` : nothing}

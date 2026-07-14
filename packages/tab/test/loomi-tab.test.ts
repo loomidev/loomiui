@@ -3,7 +3,8 @@ import "../dist/loomi-tab.js";
 import type { LoomiTabs } from "../dist/index.js";
 
 describe("loomi-tabs", () => {
-  const nextFrame = (): Promise<void> => new Promise((resolve) => requestAnimationFrame(() => resolve()));
+  const nextFrame = (): Promise<void> =>
+    new Promise((resolve) => requestAnimationFrame(() => resolve()));
 
   it("activates the first tab by default", async () => {
     const el = await fixture<LoomiTabs>(html`
@@ -50,9 +51,9 @@ describe("loomi-tabs", () => {
     expect(buttons()[0].tabIndex).to.equal(0);
     expect(buttons()[1].tabIndex).to.equal(-1);
 
-    el.shadowRoot!
-      .querySelector(".loomi-headings")!
-      .dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true, cancelable: true }));
+    el.shadowRoot!.querySelector(".loomi-headings")!.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true, cancelable: true }),
+    );
     await el.updateComplete;
 
     expect(tabs[0].active).to.be.false;
@@ -69,9 +70,9 @@ describe("loomi-tabs", () => {
         <loomi-tab label="Three">Third</loomi-tab>
       </loomi-tabs>
     `);
-    el.shadowRoot!
-      .querySelector(".loomi-headings")!
-      .dispatchEvent(new KeyboardEvent("keydown", { key: "End", bubbles: true, cancelable: true }));
+    el.shadowRoot!.querySelector(".loomi-headings")!.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "End", bubbles: true, cancelable: true }),
+    );
     await el.updateComplete;
 
     const tabs = el.querySelectorAll("loomi-tab");

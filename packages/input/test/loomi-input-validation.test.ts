@@ -60,7 +60,9 @@ describe("loomi-input validation", () => {
     expect(host).to.exist;
     await host.updateComplete;
 
-    expect(host.shadowRoot!.querySelector(".loomi-message")!.textContent).to.equal("Your name is required");
+    expect(host.shadowRoot!.querySelector(".loomi-message")!.textContent).to.equal(
+      "Your name is required",
+    );
     expect(host.shadowRoot!.querySelector(".loomi-title")!.textContent).to.equal("Full name");
     expect(el.shadowRoot!.querySelector(".loomi-error")).to.not.exist;
   });
@@ -112,7 +114,9 @@ describe("loomi-input validation", () => {
   });
 
   it("does not notify for a field that passes validation", async () => {
-    const el = await fixture<LoomiInput>(html`<loomi-input label="Full name" error-message="Your name is required"></loomi-input>`);
+    const el = await fixture<LoomiInput>(
+      html`<loomi-input label="Full name" error-message="Your name is required"></loomi-input>`,
+    );
 
     const ok = el.validate();
     await el.updateComplete;

@@ -5,7 +5,9 @@ import type { LoomiPagination } from "../dist/index.js";
 
 describe("loomi-pagination", () => {
   it("fires loomi-page-change when navigating", async () => {
-    const el = await fixture<LoomiPagination>(html`<loomi-pagination total="50" page-size="10"></loomi-pagination>`);
+    const el = await fixture<LoomiPagination>(
+      html`<loomi-pagination total="50" page-size="10"></loomi-pagination>`,
+    );
     const buttons = el.shadowRoot!.querySelectorAll("button");
     expect(buttons.length).to.be.greaterThan(0);
 

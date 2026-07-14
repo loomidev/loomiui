@@ -1,7 +1,14 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
-import { LoomiElement, controlSizeStyles, fieldStyles, loomiT, randomSuffix, themeStyles } from "@loomidev/core";
+import {
+  LoomiElement,
+  controlSizeStyles,
+  fieldStyles,
+  loomiT,
+  randomSuffix,
+  themeStyles,
+} from "@loomidev/core";
 import "@loomidev/popover";
 import { getLoomiIcon } from "./icons.js";
 import { componentStyles } from "./generated/styles.css.js";
@@ -9,11 +16,7 @@ import { componentStyles } from "./generated/styles.css.js";
 export type LoomiInputType = "text" | "email" | "password" | "search" | "tel" | "url";
 export type LoomiInputSize = "tiny" | "small" | "regular" | "medium" | "big";
 export type LoomiInputVariant = "default" | "minimal";
-export type LoomiInputDynamicMask =
-  | ""
-  | "creditcard"
-  | "credit-card"
-  | ((input: string) => string);
+export type LoomiInputDynamicMask = "" | "creditcard" | "credit-card" | ((input: string) => string);
 
 const MASK_TOKEN_TESTS: Record<string, (char: string) => boolean> = {
   "9": (char) => /[0-9]/.test(char),
@@ -87,7 +90,8 @@ export class LoomiInput extends LoomiElement {
   @property({ attribute: "error-message" }) errorMessage = "";
   @property({ type: Boolean, attribute: "show-error-inline" }) showErrorInline = false;
   @property({ type: Boolean, attribute: "show-placeholder-always" }) showPlaceholderAlways = false;
-  @property({ type: Boolean, attribute: "show-focus-ring", converter: booleanAttribute }) showFocusRing = true;
+  @property({ type: Boolean, attribute: "show-focus-ring", converter: booleanAttribute })
+  showFocusRing = true;
 
   @property({ type: Boolean, reflect: true }) invalid = false;
 
@@ -152,7 +156,9 @@ export class LoomiInput extends LoomiElement {
     const wasInvalid = this.invalid;
     this.invalid = empty && showInvalid;
     const validity = empty ? { valueMissing: true } : {};
-    const message = empty ? this.errorMessage || loomiT("validation.requiredField", {}, this.locale) : "";
+    const message = empty
+      ? this.errorMessage || loomiT("validation.requiredField", {}, this.locale)
+      : "";
     if (this.inputEl) this.internals.setValidity(validity, message, this.inputEl);
     else this.internals.setValidity(validity, message);
 
@@ -163,7 +169,14 @@ export class LoomiInput extends LoomiElement {
     if (this.invalid && !wasInvalid && !this.showErrorInline && this.errorMessage) {
       // Lazy import: apps that render errors inline (or never fail validation) don't load the toast system.
       void import("@loomidev/notification").then(({ showLoomiNotification }) =>
-        showLoomiNotification(this.label, this.errorMessage, "error", undefined, `loomi-input-validation-${this.name || this.instanceId}`));
+        showLoomiNotification(
+          this.label,
+          this.errorMessage,
+          "error",
+          undefined,
+          `loomi-input-validation-${this.name || this.instanceId}`,
+        ),
+      );
     }
     return !empty;
   }
@@ -236,7 +249,14 @@ export class LoomiInput extends LoomiElement {
   }
 
   private hasRemainingTokenInput(raw: string, startIndex: number, mask: string): boolean {
-    const tokenTests = Array.from(new Set(mask.split("").map((char) => MASK_TOKEN_TESTS[char]).filter(Boolean)));
+    const tokenTests = Array.from(
+      new Set(
+        mask
+          .split("")
+          .map((char) => MASK_TOKEN_TESTS[char])
+          .filter(Boolean),
+      ),
+    );
     return raw
       .slice(startIndex)
       .split("")
@@ -277,7 +297,8 @@ export class LoomiInput extends LoomiElement {
     if (trimmed.startsWith("[")) {
       try {
         const parsed = JSON.parse(trimmed);
-        if (Array.isArray(parsed)) return parsed.map((option) => String(option).trim()).filter(Boolean);
+        if (Array.isArray(parsed))
+          return parsed.map((option) => String(option).trim()).filter(Boolean);
       } catch {
         // Fall through to simple delimited parsing.
       }
@@ -363,13 +384,16 @@ export class LoomiInput extends LoomiElement {
   private renderSuffix(): TemplateResult | typeof nothing {
     const options = this.parseOptions(this.suffixOptions);
     const showClear = this.clearable && this.value !== "" && !this.disabled && !this.readonly;
-    const hasSuffix = this.suffix || this.suffixIcon || options.length > 0 || showClear || this.hint;
+    const hasSuffix =
+      this.suffix || this.suffixIcon || options.length > 0 || showClear || this.hint;
     if (!hasSuffix) return nothing;
     const cls = `loomi-suffix${this.transparentSuffix ? "" : " loomi-affix-solid"}`;
     return html`<span class=${cls}>
-      ${showClear
-        ? html`<button type="button" class="loomi-iconbtn" aria-label=${loomiT("common.clear", {}, this.locale)} @click=${this.clear}>${this.renderIcon("x-circle")}</button>`
-        : nothing}
+      ${
+        showClear
+          ? html`<button type="button" class="loomi-iconbtn" aria-label=${loomiT("common.clear", {}, this.locale)} @click=${this.clear}>${this.renderIcon("x-circle")}</button>`
+          : nothing
+      }
       <slot name="suffix">${options.length > 0 ? this.renderAffixSelect("suffix", options) : this.suffixIcon ? this.renderIcon(this.suffixIcon) : this.suffix}</slot>
       ${this.renderHint()}
     </span>`;
@@ -378,8 +402,7 @@ export class LoomiInput extends LoomiElement {
   override render(): TemplateResult {
     const hasLabel = !!this.label;
     const forceFloat = hasLabel && this.showPlaceholderAlways;
-    const placeholderAttr =
-      hasLabel && !this.showPlaceholderAlways ? " " : this.placeholder || " ";
+    const placeholderAttr = hasLabel && !this.showPlaceholderAlways ? " " : this.placeholder || " ";
     const showError = this.invalid && this.showErrorInline && this.errorMessage;
 
     return html`
@@ -403,9 +426,11 @@ export class LoomiInput extends LoomiElement {
             @change=${this.onChange}
             @blur=${this.showValidation}
           />
-          ${hasLabel
-            ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
-            : nothing}
+          ${
+            hasLabel
+              ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
+              : nothing
+          }
         </span>
         ${this.renderSuffix()}
       </div>
