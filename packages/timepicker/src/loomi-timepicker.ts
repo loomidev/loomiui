@@ -54,7 +54,7 @@ const CLOCK_STYLE = `
     position: absolute; left: 50%; top: 50%; width: 3.2rem; height: 3.2rem; margin: -1.6rem;
     z-index: 2; border: 1px solid var(--loomi-surface-border, oklch(92.8% 0.006 264.531));
     border-radius: 9999px;
-    background: var(--loomi-surface, #fff); color: var(--loomi-primary-700, oklch(45.7% 0.24 277.023));
+    background: var(--loomi-surface, var(--loomi-white)); color: var(--loomi-primary-700, oklch(45.7% 0.24 277.023));
     font: inherit; font-weight: 700; font-size: 0.85rem; cursor: pointer;
   }
   .loomi-clock-center:hover { background: var(--loomi-primary-100, oklch(93% 0.034 272.788)); }

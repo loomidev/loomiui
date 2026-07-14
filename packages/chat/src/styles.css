@@ -367,7 +367,7 @@
   height: 1.15rem;
   border-radius: 9999px;
   background: var(--loomi-primary-600, var(--_loomi-primary-600-default));
-  color: #fff;
+  color: var(--loomi-text-on-primary, var(--loomi-white));
   padding-inline: 0.3rem;
   font-size: 0.68rem;
   font-weight: 700;

@@ -699,6 +699,7 @@ export class LoomiChart extends LoomiElement {
     const ctx = canvas.getContext("2d");
     if (!ctx) throw new Error("Unable to create chart export canvas");
     if (type === "image/jpeg") {
+      // loomi-audit-allow-token: opaque matte for JPEG export (can't be transparent) when --loomi-surface is unset
       ctx.fillStyle = getComputedStyle(this).getPropertyValue("--loomi-surface") || "#ffffff";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     }

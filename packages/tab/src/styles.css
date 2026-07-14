@@ -82,6 +82,7 @@
   border-bottom: 1px solid var(--loomi-surface-border);
 }
 :host(.is-dark) .loomi-headings.simple {
+  /* loomi-audit-allow-token: manual .is-dark fallback mirroring --loomi-surface-border's dark value (Firefox lacks :host-context) */
   border-bottom-color: var(--loomi-gray-700, var(--_loomi-gray-700-default));
 }
 .simple .loomi-head {
