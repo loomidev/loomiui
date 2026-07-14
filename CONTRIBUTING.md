@@ -9,6 +9,28 @@ test the work, and prepare releases. For the system-design overview, read
 > [§9.7](#97-how-this-ties-to-the-github-repo) for how GitHub Actions handles CI and
 > releases.
 
+## Quick start (the happy path)
+
+If you just want a working checkout, this is the whole setup. The sections below explain
+what each step does and why — reach for them when a step fails or when you start changing
+the library itself.
+
+```bash
+# Prerequisite: Node 20 or later (check with `node -v`)
+corepack enable      # turns on pnpm, which ships bundled with Node 16.9+
+pnpm install         # install every package's deps + link the workspace packages together
+pnpm build           # compile each package's styles + TypeScript into its dist/
+```
+
+You now have a fully built library. From here:
+
+- `pnpm dev` — rebuild every package on change (watch mode)
+- `pnpm test` — run the smoke-test suite (build first)
+- `pnpm --filter @loomidev/<name> build` — build just one package
+
+Stuck on `corepack enable`? See [§2](#2-pnpm-vs-npm-and-how-to-set-it-up) for the `EACCES`
+fallback and the full explanation of why this project uses pnpm.
+
 ## Table of contents
 
 1. [What this is](#1-what-this-is-in-one-paragraph)
@@ -44,6 +66,11 @@ components from their own page CSS with zero build step and zero Tailwind depend
 
 This project uses **pnpm**, not npm, as its package manager. If you've only used npm
 before, here's what's different and why it matters for this specific repo.
+
+> **In short:** pnpm saves disk space (one shared copy of each dependency), catches
+> "I imported something I never declared" bugs at install time, and understands this
+> repo's internal `workspace:` links. If you just want to get running, the
+> [Quick start](#quick-start-the-happy-path) is enough; read on when you want the why.
 
 ### What pnpm actually changes
 
