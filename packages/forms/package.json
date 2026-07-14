@@ -50,7 +50,10 @@
     "@loomidev/countries": "workspace:^",
     "@loomidev/creditcard": "workspace:^",
     "@loomidev/date-range-picker": "workspace:^",
-    "@loomidev/filter-builder": "workspace:^"
+    "@loomidev/filter-builder": "workspace:^",
+    "@loomidev/autocomplete": "workspace:^",
+    "@loomidev/tag-input": "workspace:^",
+    "@loomidev/emoji-picker": "workspace:^"
   },
   "peerDependencies": {
     "lit": "^3.0.0"

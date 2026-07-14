@@ -836,9 +836,15 @@ importers:
       '@loomidev/horizontal-line-graph':
         specifier: workspace:^
         version: link:../horizontal-line-graph
+      '@loomidev/lightbox':
+        specifier: workspace:^
+        version: link:../lightbox
       '@loomidev/listview':
         specifier: workspace:^
         version: link:../listview
+      '@loomidev/photo-gallery':
+        specifier: workspace:^
+        version: link:../photo-gallery
       '@loomidev/popover':
         specifier: workspace:^
         version: link:../popover
@@ -866,6 +872,9 @@ importers:
       '@loomidev/timeline':
         specifier: workspace:^
         version: link:../timeline
+      '@loomidev/timer':
+        specifier: workspace:^
+        version: link:../timer
       '@loomidev/tooltip':
         specifier: workspace:^
         version: link:../tooltip
@@ -1252,6 +1261,9 @@ importers:
 
   packages/forms:
     dependencies:
+      '@loomidev/autocomplete':
+        specifier: workspace:^
+        version: link:../autocomplete
       '@loomidev/checkbox':
         specifier: workspace:^
         version: link:../checkbox
@@ -1273,6 +1285,9 @@ importers:
       '@loomidev/datepicker':
         specifier: workspace:^
         version: link:../datepicker
+      '@loomidev/emoji-picker':
+        specifier: workspace:^
+        version: link:../emoji-picker
       '@loomidev/filepicker':
         specifier: workspace:^
         version: link:../filepicker
@@ -1300,6 +1315,9 @@ importers:
       '@loomidev/slider':
         specifier: workspace:^
         version: link:../slider
+      '@loomidev/tag-input':
+        specifier: workspace:^
+        version: link:../tag-input
       '@loomidev/text-editor':
         specifier: workspace:^
         version: link:../text-editor
@@ -1518,6 +1536,15 @@ importers:
       '@loomidev/pagination':
         specifier: workspace:^
         version: link:../pagination
+      '@loomidev/profile-menu':
+        specifier: workspace:^
+        version: link:../profile-menu
+      '@loomidev/progress-steps':
+        specifier: workspace:^
+        version: link:../progress-steps
+      '@loomidev/side-nav':
+        specifier: workspace:^
+        version: link:../side-nav
       '@loomidev/tab':
         specifier: workspace:^
         version: link:../tab

@@ -36,7 +36,10 @@
     "@loomidev/dropmenu": "workspace:^",
     "@loomidev/pagination": "workspace:^",
     "@loomidev/tab": "workspace:^",
-    "@loomidev/theme-switcher": "workspace:^"
+    "@loomidev/theme-switcher": "workspace:^",
+    "@loomidev/side-nav": "workspace:^",
+    "@loomidev/progress-steps": "workspace:^",
+    "@loomidev/profile-menu": "workspace:^"
   },
   "peerDependencies": {
     "lit": "^3.0.0"
