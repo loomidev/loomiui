@@ -895,18 +895,11 @@ keep doing dependencies-first anyway.
   (`id-token: write` permission, so npm can cryptographically attest the package was
   built from this exact commit in CI rather than someone's laptop) once that PR merges.
 
-CI can run without npm credentials. The publish step in `release.yml` needs:
-
-- `NPM_TOKEN` — an npm **automation** token with publish rights on the `@loomidev` org.
-  Create one at npmjs.com → avatar → **Access Tokens** → **Generate New Token** →
-  **Granular Access Token** (or **Classic Token** → **Automation**, on older accounts).
-  npm shows the token **once**, at creation time, and never again — copy it immediately
-  and paste it straight into the GitHub repo secret (`github.com/loomidev/loomiui` →
-  Settings → Secrets and variables → Actions → New repository secret → name it
-  `NPM_TOKEN`). If you navigated away before copying it, the token can't be retrieved;
-  delete the unusable one from npm's Access Tokens list and generate a new one.
-
-`GITHUB_TOKEN` is provided automatically by Actions; no setup is needed for it.
+CI runs without npm credentials. The `release.yml` publish step additionally needs an
+`NPM_TOKEN` repo secret — an npm **automation** token with publish rights on the
+`@loomidev` org — which a maintainer configures in the repo's GitHub settings. Publishing
+is a maintainer task; general contributors never need this. `GITHUB_TOKEN` is provided
+automatically by Actions.
 
 ### 9.7 How this ties to the GitHub repo
 
@@ -933,11 +926,9 @@ changeset`, [§9.3](#93-versioning-strategy)), the Changesets GitHub Action open
    repo, commit, and workflow run, not assembled by hand on a laptop. Only packages
    published through this CI path get that badge; a manual `pnpm publish` from a local
    machine ([§9.4](#94-manual-publish-no-tooling-one-off-release)) never does.
-5. The repo secrets from [§9.6](#96-ci) live on GitHub itself —
-   `github.com/loomidev/loomiui` → Settings → Secrets and variables → Actions — not
-   anywhere in this codebase. Until `NPM_TOKEN` is set there, `release.yml` still runs
-   and will still open the "Version Packages" PR, but the `pnpm changeset publish` step
-   fails for lack of registry credentials.
+5. The `NPM_TOKEN` secret lives on GitHub (repo Settings → Secrets and variables →
+   Actions), never in this codebase. Without it, `release.yml` still opens the "Version
+   Packages" PR, but the `pnpm changeset publish` step can't authenticate to the registry.
 
 Each package should keep its `"repository"` metadata pointed at the monorepo and its own
 package directory, e.g.
@@ -1000,8 +991,8 @@ publish time, not by splitting the source into many git repos.
 - **`SECURITY.md`** with a private disclosure path, plus GitHub issue templates
   (`bug_report.yml`, `feature_request.yml`) and a PR template.
 - **npm publish provenance**: wired into `release.yml` (`id-token: write` +
-  Changesets' action), see [§9.7](#97-how-this-ties-to-the-github-repo). The `NPM_TOKEN`
-  repo secret is now set on `github.com/loomidev/loomiui`, so publishing is live.
+  Changesets' action), see [§9.7](#97-how-this-ties-to-the-github-repo). Publishing is
+  handled by maintainers through this CI path once the release secret is configured.
 - **Versioning/changelog automation** via Changesets — see [§9.3](#93-versioning-strategy).
 - **Explicit browser support matrix**, a **React/Vue/Angular interop note**, a
   **zero-install CDN quick start**, and the **`@loomidev/mcp-server`** highlight — all now
