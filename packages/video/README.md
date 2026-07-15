@@ -127,7 +127,7 @@ captions menu uses `role="menu"`/`menuitemradio`.
 - Full keyboard shortcut set (see above) in addition to individually tabbable
   controls.
 
-For the library-wide baseline, see [Component foundations — Accessibility](https://loomiui.com/customization/component-foundations/#accessibility).
+For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
@@ -137,7 +137,7 @@ layouts. The control bar's volume slider and time labels hide automatically
 in narrow containers (via CSS container queries) rather than overflowing or
 wrapping awkwardly.
 
-For the shared container and viewport rules, see [Component foundations — Responsive behavior](https://loomiui.com/customization/component-foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
@@ -147,7 +147,7 @@ design, not the light/dark semantic tokens. The accent color (play button,
 sliders, focus rings) still follows `color` and picks up `.dark` overrides
 from `@loomidev/theme-switcher` the same as every other loomi component.
 
-For theme activation, token overrides, and contrast guidance, see [Component foundations — Dark mode](https://loomiui.com/customization/component-foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

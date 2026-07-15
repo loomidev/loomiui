@@ -242,7 +242,7 @@ loomi-fab {
 - Supports keyboard focus with visible `:focus-visible` styling on the trigger and every
   item.
 
-For the library-wide baseline, see [Component foundations — Accessibility](https://loomiui.com/customization/component-foundations/#accessibility).
+For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
@@ -251,7 +251,7 @@ unmodified from small phone screens to desktop. `variant="floating"` keeps a
 `--loomi-fab-offset` margin from the viewport edge on any screen size; `variant="docked"`
 just follows its parent's own responsive layout.
 
-For the shared container and viewport rules, see [Component foundations — Responsive behavior](https://loomiui.com/customization/component-foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
@@ -260,7 +260,7 @@ Item pills and their icon circles use `--loomi-surface`, `--loomi-surface-border
 `--loomi-<color>-*` tokens as every other component. Respects `.dark` on `<html>` via
 `@loomidev/theme-switcher` or your app theme.
 
-For theme activation, token overrides, and contrast guidance, see [Component foundations — Dark mode](https://loomiui.com/customization/component-foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes — `<loomi-fab>`
 

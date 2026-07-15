@@ -82,17 +82,17 @@ builder.fields = [
 - Each rule row exposes labelled field, operator, and value controls.
 - Remove actions include an accessible name.
 
-For the library-wide baseline, see [Component foundations — Accessibility](https://loomiui.com/customization/component-foundations/#accessibility).
+For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
 - Each rule row collapses to a single column below `720px`.
 
-For the shared container and viewport rules, see [Component foundations — Responsive behavior](https://loomiui.com/customization/component-foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Component foundations — Dark mode](https://loomiui.com/customization/component-foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Properties
 

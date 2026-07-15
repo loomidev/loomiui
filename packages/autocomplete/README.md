@@ -41,21 +41,21 @@ suggestion list, and emits a normal `change` event when a value is chosen. Users
 type freely, use Up/Down to move through suggestions, press Enter to select, and press
 Escape to close the panel.
 
-For the library-wide baseline, see [Component foundations — Accessibility](https://loomiui.com/customization/component-foundations/#accessibility).
+For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
 The field fills its container, truncates long option labels, and keeps descriptions on
 one readable line so the panel remains compact in forms, modals, and narrow layouts.
 
-For the shared container and viewport rules, see [Component foundations — Responsive behavior](https://loomiui.com/customization/component-foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
 The field, panel, borders, hover states, and focus ring use Loomi semantic tokens, so
 they follow the app theme and `.dark` mode without custom overrides.
 
-For theme activation, token overrides, and contrast guidance, see [Component foundations — Dark mode](https://loomiui.com/customization/component-foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
