@@ -31,7 +31,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<loomi-alert>` — an inline alert message. Four prebuilt types with default icons,\n`faint`/`dark` shades, palette overrides, an optional avatar and a dismiss button.",
+          "description": "`<loomi-alert>` — an inline alert message. The untyped default uses the primary\npalette without a leading icon; four explicit types provide semantic colors and\nicons. Supports `faint`/`dark` shades, palette overrides, an optional avatar and a\ndismiss button.",
           "name": "LoomiAlert",
           "slots": [
             {
@@ -46,7 +46,7 @@
               "type": {
                 "text": "LoomiAlertType"
               },
-              "default": "\"info\"",
+              "default": "\"\"",
               "attribute": "type"
             },
             {
@@ -166,7 +166,7 @@
               "type": {
                 "text": "LoomiAlertType"
               },
-              "default": "\"info\"",
+              "default": "\"\"",
               "fieldName": "type"
             },
             {

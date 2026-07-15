@@ -4,15 +4,17 @@ import { LoomiElement, loomiStyles, loomiT, accentVars, type LoomiColor } from "
 import { getLoomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
-export type LoomiAlertType = "info" | "error" | "warning" | "success";
+export type LoomiAlertType = "" | "info" | "error" | "warning" | "success";
 
 const TYPE_COLOR: Record<LoomiAlertType, LoomiColor> = {
+  "": "primary" as LoomiColor,
   info: "info" as LoomiColor,
   error: "error" as LoomiColor,
   warning: "warning" as LoomiColor,
   success: "success" as LoomiColor,
 };
 const TYPE_ICON: Record<LoomiAlertType, string> = {
+  "": "",
   info: "information-circle",
   error: "x-circle",
   warning: "exclamation-triangle",
@@ -30,8 +32,10 @@ const booleanAttribute = {
 };
 
 /**
- * `<loomi-alert>` — an inline alert message. Four prebuilt types with default icons,
- * `faint`/`dark` shades, palette overrides, an optional avatar and a dismiss button.
+ * `<loomi-alert>` — an inline alert message. The untyped default uses the primary
+ * palette without a leading icon; four explicit types provide semantic colors and
+ * icons. Supports `faint`/`dark` shades, palette overrides, an optional avatar and a
+ * dismiss button.
  *
  * @slot - The alert message (may contain HTML/links).
  * @fires close - Fired when dismissed (the alert hides itself unless prevented).
@@ -40,7 +44,7 @@ const booleanAttribute = {
 export class LoomiAlert extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
-  @property() type: LoomiAlertType = "info";
+  @property() type: LoomiAlertType = "";
   @property() shade: "faint" | "dark" = "faint";
   @property() color: LoomiColor | "transparent" | "" = "";
   @property({ type: Boolean, attribute: "show-icon", converter: booleanAttribute }) showIcon = true;
