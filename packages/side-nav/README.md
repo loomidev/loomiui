@@ -46,7 +46,7 @@ of leaving its icons visible.
 loomi-side-nav uses an `<aside>` with a labelled `<nav>`. Items render as links when
 `href` is present and buttons otherwise. Active links set `aria-current="page"`.
 
-For the library-wide baseline, see [Component foundations — Accessibility](https://loomiui.com/customization/component-foundations/#accessibility).
+For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
@@ -54,14 +54,14 @@ The component owns its width and animates it, so parent layouts can place it bes
 content with flex or grid. Set `--loomi-side-nav-width` and
 `--loomi-side-nav-icon-width` when the layout needs custom rails.
 
-For the shared container and viewport rules, see [Component foundations — Responsive behavior](https://loomiui.com/customization/component-foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
 loomi-side-nav uses Loomi semantic surface, border, text, and hover tokens, so it follows
 the active theme.
 
-For theme activation, token overrides, and contrast guidance, see [Component foundations — Dark mode](https://loomiui.com/customization/component-foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

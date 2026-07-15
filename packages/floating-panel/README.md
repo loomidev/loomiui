@@ -138,7 +138,7 @@ was focused before, and <kbd>Escape</kbd> closes the panel only while focus is i
 - <kbd>Escape</kbd> — close, while focus is inside the panel.
 - Visible `:focus-visible` rings on the header, grip, header buttons, and resize handles.
 
-For the library-wide baseline, see [Component foundations — Accessibility](https://loomiui.com/customization/component-foundations/#accessibility).
+For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
@@ -147,7 +147,7 @@ The panel caps itself to `100dvw`/`100dvh` so it can never overflow the viewport
 edges from being dragged or resized outside the viewport. On narrow viewports the header
 and body padding tighten below a `480px` breakpoint.
 
-For the shared container and viewport rules, see [Component foundations — Responsive behavior](https://loomiui.com/customization/component-foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
@@ -156,7 +156,7 @@ Uses semantic `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and
 `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token
 overrides, and the panel inherits the dark-mode values through its shadow DOM.
 
-For theme activation, token overrides, and contrast guidance, see [Component foundations — Dark mode](https://loomiui.com/customization/component-foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

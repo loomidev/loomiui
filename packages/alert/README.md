@@ -95,6 +95,7 @@ To hide the close icon, set `show-close-icon="false"`.
 ```
 
 <p>&nbsp;</p>
+
 It is possible to also hide the leading icon by setting `show-icon="false"`.
 
 ```html
@@ -104,6 +105,7 @@ It is possible to also hide the leading icon by setting `show-icon="false"`.
 ```
 
 <p>&nbsp;</p>
+
 Setting both `show-icon="false"` and `show-close-icon="false"` will hide both icons.
 
 ```html
@@ -149,8 +151,8 @@ Use `color="transparent"` when you want a minimal, borderless, no-fill presentat
 still preserves alert structure and content spacing.
 
 ```html
-<loomi-alert color="error">I am a error alert.</loomi-alert>
-<loomi-alert color="gray" shade="dark">I am a error alert. Dark version.</loomi-alert>
+<loomi-alert color="error">I am an error alert.</loomi-alert>
+<loomi-alert color="gray" shade="dark">I am a dark shaded error alert.</loomi-alert>
 <loomi-alert color="warning">I am a warning alert.</loomi-alert>
 <loomi-alert color="success">I am a violet alert.</loomi-alert>
 <loomi-alert color="transparent">I am a transparent alert.</loomi-alert>
@@ -160,12 +162,12 @@ still preserves alert structure and content spacing.
 
 The untyped default has no leading icon. The four explicit types have default icons:
 
-| Type    | Icon                   |
-| ------- | ---------------------- |
-| info    | `information-circle`   |
-| error   | `hand-raised`          |
-| warning | `exclamation-triangle` |
-| success | `check-circle`         |
+| Type    | Description                          | Icon                   |
+| ------- | ------------------------------------ | ---------------------- |
+| info    | General informational messages.      | `information-circle`   |
+| error   | Errors that require immediate action. | `hand-raised`          |
+| warning | Cautions about potential issues.     | `exclamation-triangle` |
+| success | Confirmations of successful actions. | `check-circle`         |
 
 <p>&nbsp;</p>
 
@@ -247,7 +249,7 @@ To keep alerts accessible and easy to understand for everyone:
 - Use clear, plain-language alert text that explains what happened and what the user should do next.
 - When showing status, progress, validation, or temporary feedback, include nearby labels or helper text so screen reader users get the same context as sighted users.
 
-For the library-wide baseline, see [Component foundations — Accessibility](https://loomiui.com/customization/component-foundations/#accessibility).
+For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
@@ -263,7 +265,7 @@ To get the best responsive behavior:
 
 In dense layouts, keep alert content short and action labels clear so users can scan and respond quickly on smaller screens.
 
-For the shared container and viewport rules, see [Component foundations — Responsive behavior](https://loomiui.com/customization/component-foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Component Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
@@ -284,7 +286,7 @@ For the best results:
 - Verify hover and focus-visible states are still clear in dark backgrounds.
 - Test each alert type (`info`, `warning`, `error`, `success`) to confirm status colors remain distinct.
 
-For theme activation, token overrides, and contrast guidance, see [Component foundations — Dark mode](https://loomiui.com/customization/component-foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Component Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
@@ -300,7 +302,17 @@ For theme activation, token overrides, and contrast guidance, see [Component fou
 | `show-close-icon` | `true`    | Show the dismiss button. _(boolean)_                               |
 | `show-ring`       | `false`   | Ring around the avatar. _(boolean)_                                |
 
-**Slot:** default (message, may contain HTML). **Event:** `close` (cancelable).
+## Slots
+
+| Slot      | Description                                                                 |
+| --------- | --------------------------------------------------------------------------- |
+| _default_ | Alert message content. Supports plain text or inline HTML (links, emphasis). |
+
+## Events
+
+| Event   | Description                                                                 |
+| ------- | --------------------------------------------------------------------------- |
+| `close` | Fired when the dismiss button is activated. Cancelable via `event.preventDefault()`. |
 
 ## Full Example
 
@@ -310,9 +322,8 @@ For theme activation, token overrides, and contrast guidance, see [Component fou
   shade="dark"
   color="error"
   icon="key"
-  show-close-icon="true"
->
-  Stay safe. Wash your hands for 20 seconds.
+  show-close-icon="false">
+  Your key is being used on another device.
 </loomi-alert>
 ```
 
@@ -320,18 +331,25 @@ For theme activation, token overrides, and contrast guidance, see [Component fou
 
 ## Framework integration
 
-`<loomi-alert>` is a standard custom element, so the browser can use it in plain HTML, Blade, React, Vue, Angular, Svelte, Astro, and most other frameworks. The important beginner rule is: install the package, import it once before the tag is rendered, then write the Loomi tag in your template.
+`<loomi-alert>` is a standard custom element, which means it works in plain HTML and in most modern frameworks (Blade, React, Vue, Angular, Svelte, Astro, and more). If you are new to web components, think of setup in 3 simple steps: 
+1) install the package, 
+2) import it once in your app startup or entry file, and 
+3) use the `<loomi-alert>` tag in your page/template. As long as the import runs before the component is rendered, it should work as expected.
 
 ### Where to run commands
 
-Run install commands from the app where you want to use this component. That means the folder that contains that app's `package.json`. Do not run these install commands from `packages/alert` unless you are editing LoomiUI itself.
+Run install commands from the **app project** where you plan to use `<loomi-alert>`. In practice, this means opening a terminal in the folder that contains your app's `package.json` (for example, your React/Vue/Angular app root).
+
+If you're unsure you're in the right place, run `ls` (or `dir` on Windows) and confirm you can see a `package.json` file before installing.
 
 ```bash
 cd /path/to/your-app
 npm install @loomidev/alert lit
 ```
 
-If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter ...` commands should be run from there:
+<p>&nbsp;</p>
+
+If you are contributing to LoomiUI itself, first move to the top-level `components` folder. That is where the main `package.json` for all packages lives, and `pnpm --filter` commands should be run from there:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components
@@ -340,6 +358,10 @@ pnpm --filter @loomidev/alert typecheck
 ```
 
 ### Choose your framework
+
+Pick the setup that matches how your app is built. Each option below shows the recommended way to load `<loomi-alert>` so it is registered before use.
+
+<p>&nbsp;</p>
 
 <loomi-tabs>
 <loomi-tab label="HTML" active>
@@ -465,7 +487,15 @@ import "@loomidev/alert";
 
 ### Server-side rendering notes
 
-Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on the server before browser-only code runs. If your framework complains, move the Loomi import to client-side code. In Next.js, that usually means a component with `"use client"`; in Nuxt, it often means a `.client.ts` plugin.
+Frameworks like Next.js, Nuxt, SvelteKit, and Astro can render pages on the server first. Because Loomi components rely on browser APIs, importing them during server render can sometimes cause errors.
+
+If you see messages such as `window is not defined`, `customElements is not defined`, or hydration warnings, move the Loomi import so it runs only in the browser.
+
+- **Next.js (App Router):** import Loomi inside a component marked with `"use client"`.
+- **Nuxt:** register Loomi in a client-only plugin (for example, `plugins/loomi.client.ts`).
+- **SvelteKit / Astro:** keep the import in code that runs on the client side where the component is used.
+
+Once loaded on the client, `<loomi-alert>` works as expected.
 
 <!-- END loomi-framework-guide -->
 

@@ -82,7 +82,7 @@ loomi-arc-meter exposes the visual summary as a single image-style status with a
 ARIA label that includes the title, description, active marker, and total marker count.
 Pair it with nearby text when the meter changes something important in the user flow.
 
-For the library-wide baseline, see [Component foundations — Accessibility](https://loomiui.com/customization/component-foundations/#accessibility).
+For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
@@ -93,7 +93,7 @@ Set that CSS variable on the component when a card or dashboard needs a specific
 <loomi-arc-meter style="--loomi-arc-meter-width: 14rem"></loomi-arc-meter>
 ```
 
-For the shared container and viewport rules, see [Component foundations — Responsive behavior](https://loomiui.com/customization/component-foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
@@ -101,7 +101,7 @@ loomi-arc-meter uses Loomi semantic tokens such as `--loomi-surface`,
 `--loomi-surface-border`, `--loomi-text`, and palette color tokens. It inherits dark
 mode from your app theme or `@loomidev/theme-switcher`.
 
-For theme activation, token overrides, and contrast guidance, see [Component foundations — Dark mode](https://loomiui.com/customization/component-foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

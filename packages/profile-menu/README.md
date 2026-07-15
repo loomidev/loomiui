@@ -94,7 +94,7 @@ menu rows keep the menu roles and keyboard behavior from `<loomi-dropmenu-item>`
 - Use `avatar-alt` when the avatar image needs a specific accessible description.
 - Keep destructive actions marked with `variant="destructive"` on the menu item.
 
-For the library-wide baseline, see [Component foundations — Accessibility](https://loomiui.com/customization/component-foundations/#accessibility).
+For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
@@ -102,7 +102,7 @@ The trigger is shrink-wrapped by default, with text truncation for long names an
 descriptions. It works well in headers, sidebars, app shells, and compact account
 menus.
 
-For the shared container and viewport rules, see [Component foundations — Responsive behavior](https://loomiui.com/customization/component-foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
@@ -110,7 +110,7 @@ loomi-profile-menu uses Loomi semantic tokens such as `--loomi-surface`,
 `--loomi-surface-border`, `--loomi-text`, and `--loomi-text-muted`, so the trigger and
 menu inherit your app theme.
 
-For theme activation, token overrides, and contrast guidance, see [Component foundations — Dark mode](https://loomiui.com/customization/component-foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

@@ -140,7 +140,7 @@ gallery.addEventListener("loomi-album-change", (e) => console.log(e.detail)); //
 - The favourite, album, slideshow, and square-thumbnail toggle buttons expose their state
   via `aria-pressed`.
 
-For the library-wide baseline, see [Component foundations — Accessibility](https://loomiui.com/customization/component-foundations/#accessibility).
+For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
@@ -148,7 +148,7 @@ The grid uses `repeat(auto-fill, minmax(var(--loomi-pg-tile), 1fr))`, so tiles r
 fit the container at any width — no explicit column count to manage. The album sidebar
 narrows on viewports under `480px`.
 
-For the shared container and viewport rules, see [Component foundations — Responsive behavior](https://loomiui.com/customization/component-foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
@@ -157,7 +157,7 @@ Uses semantic `--loomi-surface-border`, `--loomi-text`, `--loomi-text-secondary`
 dark scrim regardless of theme, like most photo viewers). Add `.dark` to your app root
 with `@loomidev/theme-switcher`, or provide your own token overrides.
 
-For theme activation, token overrides, and contrast guidance, see [Component foundations — Dark mode](https://loomiui.com/customization/component-foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
