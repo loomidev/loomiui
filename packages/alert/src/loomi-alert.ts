@@ -5,6 +5,7 @@ import { getLoomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiAlertType = "" | "info" | "error" | "warning" | "success";
+export type LoomiAlertIconPlacement = "top" | "center";
 
 const TYPE_COLOR: Record<LoomiAlertType, LoomiColor> = {
   "": "primary" as LoomiColor,
@@ -16,7 +17,7 @@ const TYPE_COLOR: Record<LoomiAlertType, LoomiColor> = {
 const TYPE_ICON: Record<LoomiAlertType, string> = {
   "": "",
   info: "information-circle",
-  error: "x-circle",
+  error: "hand-raised",
   warning: "exclamation-triangle",
   success: "check-circle",
 };
@@ -51,6 +52,9 @@ export class LoomiAlert extends LoomiElement {
   @property({ type: Boolean, attribute: "show-close-icon", converter: booleanAttribute })
   showCloseIcon = true;
   @property() icon = "";
+  /** Vertical placement for the leading icon/avatar and dismiss button. */
+  @property({ attribute: "icon-placement", reflect: true })
+  iconPlacement: LoomiAlertIconPlacement = "center";
   @property() avatar = "";
   @property() locale = "";
   @property({ type: Boolean, attribute: "show-ring" }) showRing = false;

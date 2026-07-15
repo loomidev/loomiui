@@ -19,6 +19,9 @@
   border: 1px solid transparent;
   line-height: 1.45;
 }
+:host([icon-placement="top"]) .loomi-alert {
+  align-items: flex-start;
+}
 .loomi-alert.faint {
   background: var(--_loomi-accent-softer);
   border-color: var(--_loomi-accent-soft);
