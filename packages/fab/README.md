@@ -242,6 +242,8 @@ loomi-fab {
 - Supports keyboard focus with visible `:focus-visible` styling on the trigger and every
   item.
 
+For the library-wide baseline, see [Component foundations — Accessibility](https://loomiui.com/customization/component-foundations/#accessibility).
+
 ## Responsive behavior
 
 The trigger is a fixed-diameter circle and the menu sizes to its content — both work
@@ -249,12 +251,16 @@ unmodified from small phone screens to desktop. `variant="floating"` keeps a
 `--loomi-fab-offset` margin from the viewport edge on any screen size; `variant="docked"`
 just follows its parent's own responsive layout.
 
+For the shared container and viewport rules, see [Component foundations — Responsive behavior](https://loomiui.com/customization/component-foundations/#responsive-behavior).
+
 ## Dark mode
 
 Item pills and their icon circles use `--loomi-surface`, `--loomi-surface-border`, and
 `--loomi-text-secondary`; the trigger and item-icon accent flow through the same
 `--loomi-<color>-*` tokens as every other component. Respects `.dark` on `<html>` via
 `@loomidev/theme-switcher` or your app theme.
+
+For theme activation, token overrides, and contrast guidance, see [Component foundations — Dark mode](https://loomiui.com/customization/component-foundations/#dark-mode).
 
 ## Attributes — `<loomi-fab>`
 
@@ -265,7 +271,7 @@ Item pills and their icon circles use `--loomi-surface`, `--loomi-surface-border
 | `trigger`         | `click`        | `click` \| `hover`                                                                                  |
 | `variant`         | `floating`     | `floating` \| `docked`                                                                              |
 | `size`            | `regular`      | `small` \| `medium` \| `regular`                                                                    |
-| `color`           | `primary`      | `primary` \| `secondary` \| `info` \| `success` \| `error` \| `warning` \| `gray`                    |
+| `color`           | `primary`      | `primary` \| `secondary` \| `info` \| `success` \| `error` \| `warning` \| `gray`                   |
 | `icon`            | `plus`         | Trigger icon name.                                                                                  |
 | `icon-source`     | `heroicons`    | `heroicons` \| `iconsax` \| `untitledui`                                                            |
 | `icons-only`      | `false`        | Hide every item's visible label; show it as a `<loomi-tooltip>` on hover/focus instead. _(boolean)_ |

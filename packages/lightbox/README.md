@@ -94,6 +94,8 @@ lightbox.addEventListener("loomi-close", () => console.log("closed"));
 - Supports keyboard focus with visible `:focus-visible` styling on the trigger and every
   viewer control.
 
+For the library-wide baseline, see [Component foundations — Accessibility](https://loomiui.com/customization/component-foundations/#accessibility).
+
 ## Responsive behavior
 
 The trigger is `display: inline-block` and only wraps its slotted content — it adds no
@@ -101,12 +103,16 @@ layout of its own, so it never disturbs the image's existing flow in a paragraph
 or grid. The fullscreen image scales to fit the viewport (`object-fit: contain`) at any
 screen size, and viewer controls shrink slightly under 480px.
 
+For the shared container and viewport rules, see [Component foundations — Responsive behavior](https://loomiui.com/customization/component-foundations/#responsive-behavior).
+
 ## Dark mode
 
 The trigger's `:focus-visible` ring uses the shared `--loomi-focus-ring-color` token, so
 it follows the same theme as every other component. The fullscreen viewer itself is
 always a dark scrim regardless of theme, like most image viewers — its controls are
 white-on-dark by design, not something that should flip with `.dark`.
+
+For theme activation, token overrides, and contrast guidance, see [Component foundations — Dark mode](https://loomiui.com/customization/component-foundations/#dark-mode).
 
 ## Attributes
 

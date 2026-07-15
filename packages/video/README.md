@@ -127,6 +127,8 @@ captions menu uses `role="menu"`/`menuitemradio`.
 - Full keyboard shortcut set (see above) in addition to individually tabbable
   controls.
 
+For the library-wide baseline, see [Component foundations — Accessibility](https://loomiui.com/customization/component-foundations/#accessibility).
+
 ## Responsive behavior
 
 The player fills its container width (`width: 100%`) and reserves height via
@@ -135,6 +137,8 @@ layouts. The control bar's volume slider and time labels hide automatically
 in narrow containers (via CSS container queries) rather than overflowing or
 wrapping awkwardly.
 
+For the shared container and viewport rules, see [Component foundations — Responsive behavior](https://loomiui.com/customization/component-foundations/#responsive-behavior).
+
 ## Dark mode
 
 `loomi-video`'s control bar is designed to sit over video content regardless
@@ -142,6 +146,8 @@ of your page's theme — it uses a translucent dark scrim and white icons by
 design, not the light/dark semantic tokens. The accent color (play button,
 sliders, focus rings) still follows `color` and picks up `.dark` overrides
 from `@loomidev/theme-switcher` the same as every other loomi component.
+
+For theme activation, token overrides, and contrast guidance, see [Component foundations — Dark mode](https://loomiui.com/customization/component-foundations/#dark-mode).
 
 ## Attributes
 

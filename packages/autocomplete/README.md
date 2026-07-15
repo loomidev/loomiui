@@ -36,32 +36,26 @@ with a form.
 
 ## Accessibility
 
-loomi-autocomplete is built on semantic markup where the browser gives us the right behavior, and it adds ARIA only where the component has custom interaction. Keyboard users should be able to reach the same controls as pointer users, with visible focus treatment unless you explicitly turn it off on controls that support `show-focus-ring="false"`.
-
-When the component displays status, progress, validation, or temporary feedback, pair it with clear labels or nearby text in your app so assistive technology users get the same context a sighted user gets from the visual treatment.
-
 The input announces itself as a list autocomplete, keeps keyboard navigation inside the
 suggestion list, and emits a normal `change` event when a value is chosen. Users can
 type freely, use Up/Down to move through suggestions, press Enter to select, and press
 Escape to close the panel.
 
+For the library-wide baseline, see [Component foundations — Accessibility](https://loomiui.com/customization/component-foundations/#accessibility).
+
 ## Responsive behavior
-
-loomi-autocomplete is designed to fit the layout you place it in. It uses fluid widths, `min-width: 0`, wrapping, truncation, or stacked layouts where that keeps the component usable in cards, forms, sidebars, and mobile screens.
-
-For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
 
 The field fills its container, truncates long option labels, and keeps descriptions on
 one readable line so the panel remains compact in forms, modals, and narrow layouts.
 
+For the shared container and viewport rules, see [Component foundations — Responsive behavior](https://loomiui.com/customization/component-foundations/#responsive-behavior).
+
 ## Dark mode
-
-loomi-autocomplete uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
-
-Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
 
 The field, panel, borders, hover states, and focus ring use Loomi semantic tokens, so
 they follow the app theme and `.dark` mode without custom overrides.
+
+For theme activation, token overrides, and contrast guidance, see [Component foundations — Dark mode](https://loomiui.com/customization/component-foundations/#dark-mode).
 
 ## Attributes
 

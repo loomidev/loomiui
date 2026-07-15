@@ -107,26 +107,20 @@ entire group with `disabled` on `<loomi-button-group>`.
 
 ## Accessibility
 
-loomi-button-group is built on semantic markup where the browser gives us the right behavior, and it adds ARIA only where the component has custom interaction. Keyboard users should be able to reach the same controls as pointer users, with visible focus treatment on each item.
-
-When the component displays status, progress, validation, or temporary feedback, pair it with clear labels or nearby text in your app so assistive technology users get the same context a sighted user gets from the visual treatment.
-
 - Supports keyboard focus with visible `:focus-visible` styling on each button.
 - Icon-only items should provide `label` or `aria-label` so the button still has an accessible name.
 
-## Responsive behavior
+For the library-wide baseline, see [Component foundations — Accessibility](https://loomiui.com/customization/component-foundations/#accessibility).
 
-loomi-button-group is designed to fit the layout you place it in. It uses fluid widths, `min-width: 0`, wrapping, truncation, or stacked layouts where that keeps the component usable in cards, forms, sidebars, and mobile screens.
+## Responsive behavior
 
 For dense layouts, let the component keep its natural shrink-wrapped width and give the surrounding layout room to scroll or wrap. For long labels or user-provided content, prefer concise text instead of fixed pixel assumptions.
 
+For the shared container and viewport rules, see [Component foundations — Responsive behavior](https://loomiui.com/customization/component-foundations/#responsive-behavior).
+
 ## Dark mode
 
-loomi-button-group uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
-
-Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
-
-- Respects `.dark` on `<html>` via `@loomidev/theme-switcher` or your app theme.
+For theme activation, token overrides, and contrast guidance, see [Component foundations — Dark mode](https://loomiui.com/customization/component-foundations/#dark-mode).
 
 ## Attributes
 
