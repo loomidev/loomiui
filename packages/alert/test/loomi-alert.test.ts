@@ -25,6 +25,15 @@ describe("loomi-alert", () => {
     expect(el.shadowRoot!.querySelector(".loomi-ico")).to.exist;
   });
 
+  it('uses the hand-raised icon for type="error"', async () => {
+    const el = await fixture<LoomiAlert>(
+      html`<loomi-alert type="error">Your payment could not be processed.</loomi-alert>`,
+    );
+    const path = el.shadowRoot!.querySelector(".loomi-ico path") as SVGPathElement;
+
+    expect(path.getAttribute("d")).to.contain("M10.05 4.575");
+  });
+
   it("centers the leading and close icons beside multi-line content", async () => {
     const el = await fixture<LoomiAlert>(html`
       <loomi-alert type="info" style="width: 16rem">
@@ -44,6 +53,25 @@ describe("loomi-alert", () => {
     expect(getComputedStyle(alert).alignItems).to.equal("center");
     expect(Math.abs(iconCenter - alertCenter)).to.be.lessThan(1);
     expect(Math.abs(closeCenter - alertCenter)).to.be.lessThan(1);
+  });
+
+  it('top-aligns the leading and close icons with icon-placement="top"', async () => {
+    const el = await fixture<LoomiAlert>(html`
+      <loomi-alert type="info" icon-placement="top" style="width: 16rem">
+        Your subscription is expiring soon. Renew it now to keep uninterrupted access to
+        every workspace feature.
+      </loomi-alert>
+    `);
+    const alert = el.shadowRoot!.querySelector(".loomi-alert") as HTMLElement;
+    const icon = el.shadowRoot!.querySelector(".loomi-ico") as SVGElement;
+    const close = el.shadowRoot!.querySelector(".loomi-close") as HTMLButtonElement;
+
+    expect(el.iconPlacement).to.equal("top");
+    expect(el.getAttribute("icon-placement")).to.equal("top");
+    expect(getComputedStyle(alert).alignItems).to.equal("flex-start");
+    expect(
+      Math.abs(icon.getBoundingClientRect().top - close.getBoundingClientRect().top),
+    ).to.be.lessThan(1);
   });
 
   it("adds a generated loomi name class to the host", async () => {

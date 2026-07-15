@@ -17,6 +17,14 @@
         },
         {
           "kind": "js",
+          "name": "LoomiAlertIconPlacement",
+          "declaration": {
+            "name": "LoomiAlertIconPlacement",
+            "module": "./loomi-alert.js"
+          }
+        },
+        {
+          "kind": "js",
           "name": "LoomiAlertType",
           "declaration": {
             "name": "LoomiAlertType",
@@ -93,6 +101,17 @@
               },
               "default": "\"\"",
               "attribute": "icon"
+            },
+            {
+              "kind": "field",
+              "name": "iconPlacement",
+              "type": {
+                "text": "LoomiAlertIconPlacement"
+              },
+              "default": "\"center\"",
+              "description": "Vertical placement for the leading icon/avatar and dismiss button.",
+              "attribute": "icon-placement",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -208,6 +227,15 @@
               },
               "default": "\"\"",
               "fieldName": "icon"
+            },
+            {
+              "name": "icon-placement",
+              "type": {
+                "text": "LoomiAlertIconPlacement"
+              },
+              "default": "\"center\"",
+              "description": "Vertical placement for the leading icon/avatar and dismiss button.",
+              "fieldName": "iconPlacement"
             },
             {
               "name": "avatar",

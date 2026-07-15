@@ -15,25 +15,72 @@ import "@loomidev/alert";
 
 ## Basic Usage
 
-With no `type`, the alert uses the primary `faint` treatment and has no leading icon.
-Set `type` for a semantic color and its matching icon:
+Use `<loomi-alert>` for concise, inline messages that keep users informed without
+interrupting their workflow.
 
 ```html
-<loomi-alert>Your subscription is expiring in 19 days. <a href="#">Renew now</a></loomi-alert>
-<loomi-alert type="info">A new version is available.</loomi-alert>
-<loomi-alert type="error">You do not have permission to upload files.</loomi-alert>
-<loomi-alert type="warning">Well, this is your first warning.</loomi-alert>
-<loomi-alert type="success">Files were successfully uploaded.</loomi-alert>
+<loomi-alert>
+  Your subscription expires in 19 days. <a href="#">Renew now</a>
+</loomi-alert>
+```
+
+## Types
+
+Use the `type` attribute to clearly express the purpose of your message. The component has four types: `info`, `success`, `warning` and `error`.
+Each type automatically applies matching semantic colors and an icon, making alerts easier for users to scan and understand at a glance.
+
+### Info
+
+Use the `info` alert for neutral, contextual updates that help users stay aware of changes without requiring immediate action.
+
+```html
+<loomi-alert type="info">
+  A new version is available.
+</loomi-alert>
+```
+
+### Error
+
+Use the `error` alert for critical issues that block progress or require immediate user attention.
+
+```html
+<loomi-alert type="error">
+  You do not have permission to upload files.
+</loomi-alert>
+```
+
+### Warning
+
+Use the `warning` alert for important notices about potential issues or risky actions that users should review before continuing.
+
+```html
+<loomi-alert type="warning">
+  Well, this is your first warning.
+</loomi-alert>
+```
+
+### Success
+
+Use the `success` alert to confirm completed actions and reassure users that a task finished as expected.
+
+```html
+<loomi-alert type="success">
+  Files were successfully uploaded.
+</loomi-alert>
 ```
 
 ## Shades
 
-Set `shade="dark"` for a solid-fill variant instead of the default tinted `faint`
-background.
+Use the `shade` attribute to control how strong the alert looks:
+The default is `shade="faint"`. This provides a softer, tinted background for everyday messages.
+Set `shade="dark"` to get a stronger, solid-fill style for higher visual emphasis.
 
 ```html
 <loomi-alert shade="dark">Your subscription is expiring in 19 days.</loomi-alert>
+<loomi-alert type="info" shade="dark">Your subscription has expired.</loomi-alert>
 <loomi-alert type="error" shade="dark">You do not have permission to upload files.</loomi-alert>
+<loomi-alert type="warning" shade="dark">Continuing will delete all your files.</loomi-alert>
+<loomi-alert type="success" shade="dark">Transfer completed successfully.</loomi-alert>
 ```
 
 ## Hiding Icons
@@ -51,10 +98,39 @@ The type icon and the dismiss (×) icon can each be hidden independently.
 <loomi-alert type="info" show-icon="false" show-close-icon="false">Message here.</loomi-alert>
 ```
 
+## Icon Placement
+
+Leading icons, avatars, and the dismiss button are vertically centered by default. Set
+`icon-placement="top"` when you want them aligned with the first line of longer content.
+
+```html
+<!--
+  icon-placement="center" is the default so you do not need to add it
+  -->
+<loomi-alert type="info">
+  Your subscription is expiring in 19 days. Renew now to keep
+  uninterrupted access. Your current plan and workspace settings
+  will stay the same.  If you are broke, just call our support line
+  and we'll figure something out. What are friends for!
+</loomi-alert>
+
+<loomi-alert type="warning" icon-placement="top">
+  Your payment method needs attention. Update it before the next
+  billing date. This will prevent an interruption to your subscription.
+  If you are broke, just call our support line and we'll figure something
+  out. What are friends for!
+</loomi-alert>
+```
+
 ## Custom Colors
 
-`color` overrides the type's default palette — any loomi color, on either shade, plus a
-`transparent` background for a borderless, no-fill look.
+`color` overrides the palette that comes from `type`, giving you direct control over the
+alert's visual treatment. You can use any standard loomi color token (for example,
+`primary`, `success`, `warning`, or `error`) and pair it with either `shade="light"` or
+`shade="dark"`.
+
+Use `color="transparent"` when you want a minimal, borderless, no-fill presentation that
+still preserves alert structure and content spacing.
 
 ```html
 <loomi-alert color="error">I am a error alert.</loomi-alert>
@@ -67,9 +143,9 @@ The type icon and the dismiss (×) icon can each be hidden independently.
 ## Custom Icons
 
 The untyped default has no leading icon. The four explicit types have default icons:
-`information-circle`, `x-circle`, `exclamation-triangle`, and `check-circle`. Set `icon`
-to use a different one from the shared [`@loomidev/icons`](../icons) registry — most
-useful together with a custom `color`.
+`information-circle`, `hand-raised`, `exclamation-triangle`, and `check-circle`. Set
+`icon` to use a different one from the shared [`@loomidev/icons`](../icons) registry —
+most useful together with a custom `color`.
 
 ```html
 <loomi-alert color="primary" icon="bell-alert">No more snoozing. Wake up!</loomi-alert>
@@ -129,16 +205,17 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 ## Attributes
 
-| Attribute         | Default   | Description                                             |
-| ----------------- | --------- | ------------------------------------------------------- |
-| `type`            | _(blank)_ | `info` \| `error` \| `warning` \| `success`             |
-| `shade`           | `faint`   | `faint` \| `dark`                                       |
-| `color`           | _(blank)_ | Override color — any loomi color, or `transparent`.     |
-| `icon`            | _(blank)_ | Icon name override (see [`@loomidev/icons`](../icons)). |
-| `avatar`          | _(blank)_ | Image URL shown instead of the icon.                    |
-| `show-icon`       | `true`    | Show the type icon. _(boolean)_                         |
-| `show-close-icon` | `true`    | Show the dismiss button. _(boolean)_                    |
-| `show-ring`       | `false`   | Ring around the avatar. _(boolean)_                     |
+| Attribute         | Default   | Description                                                        |
+| ----------------- | --------- | ------------------------------------------------------------------ |
+| `type`            | _(blank)_ | `info` \| `error` \| `warning` \| `success`                        |
+| `shade`           | `faint`   | `faint` \| `dark`                                                  |
+| `color`           | _(blank)_ | Override color — any loomi color, or `transparent`.                |
+| `icon`            | _(blank)_ | Icon name override (see [`@loomidev/icons`](../icons)).            |
+| `icon-placement`  | `center`  | `center` \| `top`; applies to the leading icon/avatar and dismiss. |
+| `avatar`          | _(blank)_ | Image URL shown instead of the icon.                               |
+| `show-icon`       | `true`    | Show the type icon. _(boolean)_                                    |
+| `show-close-icon` | `true`    | Show the dismiss button. _(boolean)_                               |
+| `show-ring`       | `false`   | Ring around the avatar. _(boolean)_                                |
 
 **Slot:** default (message, may contain HTML). **Event:** `close` (cancelable).
 

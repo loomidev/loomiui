@@ -1,1 +1,1 @@
-export { LoomiAlert, type LoomiAlertType } from "./loomi-alert.js";
+export { LoomiAlert, type LoomiAlertIconPlacement, type LoomiAlertType } from "./loomi-alert.js";
