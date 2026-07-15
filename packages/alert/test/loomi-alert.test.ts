@@ -13,6 +13,8 @@ describe("loomi-alert", () => {
     expect(alert.classList.contains("faint")).to.be.true;
     expect(alert.getAttribute("style")).to.contain("--loomi-primary-600");
     expect(el.shadowRoot!.querySelector(".loomi-ico")).to.not.exist;
+    expect(el.showCloseIcon).to.be.false;
+    expect(el.shadowRoot!.querySelector(".loomi-close")).to.not.exist;
   });
 
   it('uses the info palette and information icon for type="info"', async () => {
@@ -36,7 +38,7 @@ describe("loomi-alert", () => {
 
   it("centers the leading and close icons beside multi-line content", async () => {
     const el = await fixture<LoomiAlert>(html`
-      <loomi-alert type="info" style="width: 16rem">
+      <loomi-alert type="info" show-close-icon style="width: 16rem">
         Your subscription is expiring soon. Renew it now to keep uninterrupted access to
         every workspace feature.
       </loomi-alert>
@@ -57,7 +59,7 @@ describe("loomi-alert", () => {
 
   it('top-aligns the leading and close icons with icon-placement="top"', async () => {
     const el = await fixture<LoomiAlert>(html`
-      <loomi-alert type="info" icon-placement="top" style="width: 16rem">
+      <loomi-alert type="info" icon-placement="top" show-close-icon style="width: 16rem">
         Your subscription is expiring soon. Renew it now to keep uninterrupted access to
         every workspace feature.
       </loomi-alert>
@@ -97,5 +99,14 @@ describe("loomi-alert", () => {
     expect(el.showCloseIcon).to.be.false;
     expect(el.shadowRoot!.querySelector(".loomi-ico")).to.not.exist;
     expect(el.shadowRoot!.querySelector(".loomi-close")).to.not.exist;
+  });
+
+  it("shows the dismiss button when show-close-icon is enabled", async () => {
+    const el = await fixture<LoomiAlert>(
+      html`<loomi-alert show-close-icon>Dismissible alert</loomi-alert>`,
+    );
+
+    expect(el.showCloseIcon).to.be.true;
+    expect(el.shadowRoot!.querySelector(".loomi-close")).to.exist;
   });
 });

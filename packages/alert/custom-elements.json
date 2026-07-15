@@ -90,7 +90,7 @@
               "type": {
                 "text": "boolean"
               },
-              "default": "true",
+              "default": "false",
               "attribute": "show-close-icon"
             },
             {
@@ -217,7 +217,7 @@
               "type": {
                 "text": "boolean"
               },
-              "default": "true",
+              "default": "false",
               "fieldName": "showCloseIcon"
             },
             {

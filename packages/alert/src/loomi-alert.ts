@@ -50,7 +50,7 @@ export class LoomiAlert extends LoomiElement {
   @property() color: LoomiColor | "transparent" | "" = "";
   @property({ type: Boolean, attribute: "show-icon", converter: booleanAttribute }) showIcon = true;
   @property({ type: Boolean, attribute: "show-close-icon", converter: booleanAttribute })
-  showCloseIcon = true;
+  showCloseIcon = false;
   @property() icon = "";
   /** Vertical placement for the leading icon/avatar and dismiss button. */
   @property({ attribute: "icon-placement", reflect: true })
