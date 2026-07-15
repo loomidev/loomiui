@@ -83,13 +83,13 @@ Set `shade="dark"` to get a stronger, solid-fill style for higher visual emphasi
 <loomi-alert type="success" shade="dark">Transfer completed successfully.</loomi-alert>
 ```
 
-## Hiding Icons
+## Showing and Hiding Icons
 
-The component has a close icon and an optional leading icon. The leading icons are displayed when you either set the `type` or `icon` attributes.
-To hide the close icon, set `show-close-icon="false"`.
+The close icon is hidden by default. Set `show-close-icon` to make the alert dismissible.
+Leading icons are displayed when you set either the `type` or `icon` attribute.
 
 ```html
-<loomi-alert icon="archive-box" show-close-icon="false">
+<loomi-alert icon="archive-box" show-close-icon>
   You should archive some mails now to free up space. <a href="#">Archive</a>
 </loomi-alert>
 ```
@@ -106,10 +106,10 @@ It is possible to also hide the leading icon by setting `show-icon="false"`.
 
 <p>&nbsp;</p>
 
-Setting both `show-icon="false"` and `show-close-icon="false"` will hide both icons.
+With the default close-icon behavior, setting `show-icon="false"` hides both icons.
 
 ```html
-<loomi-alert type="warning" show-icon="false" show-close-icon="false">
+<loomi-alert type="warning" show-icon="false">
   We have noticed multiple logins on your account.
 </loomi-alert>
 ```
@@ -162,12 +162,12 @@ still preserves alert structure and content spacing.
 
 The untyped default has no leading icon. The four explicit types have default icons:
 
-| Type    | Description                          | Icon                   |
-| ------- | ------------------------------------ | ---------------------- |
-| info    | General informational messages.      | `information-circle`   |
+| Type    | Description                           | Icon                   |
+| ------- | ------------------------------------- | ---------------------- |
+| info    | General informational messages.       | `information-circle`   |
 | error   | Errors that require immediate action. | `hand-raised`          |
-| warning | Cautions about potential issues.     | `exclamation-triangle` |
-| success | Confirmations of successful actions. | `check-circle`         |
+| warning | Cautions about potential issues.      | `exclamation-triangle` |
+| success | Confirmations of successful actions.  | `check-circle`         |
 
 <p>&nbsp;</p>
 
@@ -209,7 +209,8 @@ Tip: combine `avatar` with `show-ring` when you want the avatar to stand out mor
 
 ## Dismissing
 
-By default, clicking the close icon immediately closes the alert by removing it from the DOM.
+When `show-close-icon` is enabled, clicking the close icon immediately closes the alert
+by removing it from the DOM.
 
 If you want more control, listen for the `close` event. Inside that handler, call
 `event.preventDefault()` to stop the default removal behavior. This is useful when
@@ -222,7 +223,7 @@ it visible.
 
 ```js
 // assuming the alert was defined as
-// <loomi-alert id="subscription-expiry">...</loomi-alert>
+// <loomi-alert id="subscription-expiry" show-close-icon>...</loomi-alert>
 
 const alert = document.querySelector("#subscription-expiry");
 
@@ -299,19 +300,19 @@ For theme activation, token overrides, and contrast guidance, see [Component Fou
 | `icon-placement`  | `center`  | `center` \| `top`; applies to the leading icon/avatar and dismiss. |
 | `avatar`          | _(blank)_ | Image URL shown instead of the icon.                               |
 | `show-icon`       | `true`    | Show the type icon. _(boolean)_                                    |
-| `show-close-icon` | `true`    | Show the dismiss button. _(boolean)_                               |
+| `show-close-icon` | `false`   | Show the dismiss button. _(boolean)_                               |
 | `show-ring`       | `false`   | Ring around the avatar. _(boolean)_                                |
 
 ## Slots
 
-| Slot      | Description                                                                 |
-| --------- | --------------------------------------------------------------------------- |
+| Slot      | Description                                                                  |
+| --------- | ---------------------------------------------------------------------------- |
 | _default_ | Alert message content. Supports plain text or inline HTML (links, emphasis). |
 
 ## Events
 
-| Event   | Description                                                                 |
-| ------- | --------------------------------------------------------------------------- |
+| Event   | Description                                                                          |
+| ------- | ------------------------------------------------------------------------------------ |
 | `close` | Fired when the dismiss button is activated. Cancelable via `event.preventDefault()`. |
 
 ## Full Example
@@ -322,7 +323,7 @@ For theme activation, token overrides, and contrast guidance, see [Component Fou
   shade="dark"
   color="error"
   icon="key"
-  show-close-icon="false">
+  show-close-icon>
   Your key is being used on another device.
 </loomi-alert>
 ```
@@ -331,10 +332,11 @@ For theme activation, token overrides, and contrast guidance, see [Component Fou
 
 ## Framework integration
 
-`<loomi-alert>` is a standard custom element, which means it works in plain HTML and in most modern frameworks (Blade, React, Vue, Angular, Svelte, Astro, and more). If you are new to web components, think of setup in 3 simple steps: 
-1) install the package, 
-2) import it once in your app startup or entry file, and 
-3) use the `<loomi-alert>` tag in your page/template. As long as the import runs before the component is rendered, it should work as expected.
+`<loomi-alert>` is a standard custom element, which means it works in plain HTML and in most modern frameworks (Blade, React, Vue, Angular, Svelte, Astro, and more). If you are new to web components, think of setup in 3 simple steps:
+
+1. install the package,
+2. import it once in your app startup or entry file, and
+3. use the `<loomi-alert>` tag in your page/template. As long as the import runs before the component is rendered, it should work as expected.
 
 ### Where to run commands
 
