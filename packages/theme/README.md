@@ -21,6 +21,10 @@ class MyComponent extends LitElement {
 }
 ```
 
+The built-in palette colors are `primary`, `secondary`, `info`, `success`, `error`,
+`warning`, and `gray`. `info` uses Tailwind's blue ramp by default and can be
+customized through `--loomi-info-50` to `--loomi-info-950`.
+
 ## Accessibility
 
 loomi-theme is built on semantic markup where the browser gives us the right behavior, and it adds ARIA only where the component has custom interaction. Keyboard users should be able to reach the same controls as pointer users, with visible focus treatment unless you explicitly turn it off on controls that support `show-focus-ring="false"`.

@@ -41,7 +41,7 @@ calendar.events = payload.map((record) => ({
   title: record.title,
   start: new Date(record.startsAt),
   end: new Date(record.endsAt),
-  color: record.category, // "primary" | "secondary" | "success" | "warning" | "error"
+  color: record.category, // "primary" | "secondary" | "info" | "success" | "warning" | "error"
   description: record.notes,
   isAllDay: record.allDay,
   resourceId: record.roomId,
@@ -127,6 +127,7 @@ Event color is controlled by the optional `color` field on each `CalendarEvent`.
 | ------------- | ----------------------------------------------- | --------------- |
 | `primary`     | Default meetings, internal events               | Primary palette |
 | `secondary`   | Neutral blocks, focus time                      | Gray palette    |
+| `info`        | General updates, informational events            | Blue palette    |
 | `success`     | Confirmed client meetings, completed milestones | Green palette   |
 | `warning`     | Pending reviews, travel, deadlines              | Amber palette   |
 | `error`       | Critical incidents, cancellations               | Red palette     |

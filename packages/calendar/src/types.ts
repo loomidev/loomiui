@@ -1,4 +1,4 @@
-export type CalendarEventColor = "primary" | "secondary" | "success" | "warning" | "error";
+export type CalendarEventColor = "primary" | "secondary" | "info" | "success" | "warning" | "error";
 
 export type CalendarView = "month" | "week" | "day" | "agenda" | "resource";
 

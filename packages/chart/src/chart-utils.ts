@@ -7,7 +7,7 @@ import type {
   LoomiChartType,
 } from "./types.js";
 
-export const PALETTE = ["primary", "success", "warning", "error", "secondary", "gray"] as const;
+export const PALETTE = ["primary", "info", "success", "warning", "error", "secondary", "gray"] as const;
 
 export const BAR_WIDTH_RATIO = 0.45;
 export const HOVER_HIT_PCT = 9;

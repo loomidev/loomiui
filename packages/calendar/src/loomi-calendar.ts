@@ -162,7 +162,14 @@ interface ReminderDraft {
 type CalendarSelection =
   { kind: "event"; event: CalendarEvent } | { kind: "reminder"; reminder: CalendarReminder };
 
-const EVENT_COLORS: CalendarEventColor[] = ["primary", "secondary", "success", "warning", "error"];
+const EVENT_COLORS: CalendarEventColor[] = [
+  "primary",
+  "secondary",
+  "info",
+  "success",
+  "warning",
+  "error",
+];
 const REMINDER_MINUTES = ["0", "5", "10", "15", "30", "60", "1440"] as const;
 
 interface SlotDragState {

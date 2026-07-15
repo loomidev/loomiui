@@ -1,11 +1,12 @@
 {
   "comment": "Single source of truth for the loomi palette. `prefix` is the brand prefix for the CSS custom property slots, exposed to consumers as `--<prefix>-<color>-<shade>` (defaults live in `--_<prefix>-<color>-<shade>-default`). `colors` is the finite set of overridable palette slots. `ramps` maps each color name onto a built-in Tailwind color ramp, which is the source of the *default* values. `shades` is the tonal scale every color provides. Change `prefix` here and rebuild to rebrand every custom property in one place.",
   "prefix": "loomi",
-  "colors": ["primary", "secondary", "success", "error", "warning", "gray"],
+  "colors": ["primary", "secondary", "info", "success", "error", "warning", "gray"],
   "shades": [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
   "ramps": {
     "primary": "indigo",
     "secondary": "gray",
+    "info": "blue",
     "success": "green",
     "error": "red",
     "warning": "amber",

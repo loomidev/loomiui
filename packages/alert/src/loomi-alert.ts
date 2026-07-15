@@ -7,7 +7,7 @@ import { componentStyles } from "./generated/styles.css.js";
 export type LoomiAlertType = "info" | "error" | "warning" | "success";
 
 const TYPE_COLOR: Record<LoomiAlertType, LoomiColor> = {
-  info: "primary" as LoomiColor,
+  info: "info" as LoomiColor,
   error: "error" as LoomiColor,
   warning: "warning" as LoomiColor,
   success: "success" as LoomiColor,

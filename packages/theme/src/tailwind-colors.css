@@ -33,6 +33,17 @@
   --color-secondary-800: var(--loomi-secondary-800, --_loomi-secondary-800-default);
   --color-secondary-900: var(--loomi-secondary-900, --_loomi-secondary-900-default);
   --color-secondary-950: var(--loomi-secondary-950, --_loomi-secondary-950-default);
+  --color-info-50: var(--loomi-info-50, --_loomi-info-50-default);
+  --color-info-100: var(--loomi-info-100, --_loomi-info-100-default);
+  --color-info-200: var(--loomi-info-200, --_loomi-info-200-default);
+  --color-info-300: var(--loomi-info-300, --_loomi-info-300-default);
+  --color-info-400: var(--loomi-info-400, --_loomi-info-400-default);
+  --color-info-500: var(--loomi-info-500, --_loomi-info-500-default);
+  --color-info-600: var(--loomi-info-600, --_loomi-info-600-default);
+  --color-info-700: var(--loomi-info-700, --_loomi-info-700-default);
+  --color-info-800: var(--loomi-info-800, --_loomi-info-800-default);
+  --color-info-900: var(--loomi-info-900, --_loomi-info-900-default);
+  --color-info-950: var(--loomi-info-950, --_loomi-info-950-default);
   --color-success-50: var(--loomi-success-50, --_loomi-success-50-default);
   --color-success-100: var(--loomi-success-100, --_loomi-success-100-default);
   --color-success-200: var(--loomi-success-200, --_loomi-success-200-default);

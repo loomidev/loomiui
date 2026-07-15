@@ -33,7 +33,7 @@ Checked and disabled, by default:
 
 ## Colored Checkboxes
 
-Any loomi color works: `primary` `secondary` `success` `error` `warning` `gray`
+Any loomi color works: `primary` `secondary` `info` `success` `error` `warning` `gray`
 `success` `warning` `error` `primary`.
 
 ```html

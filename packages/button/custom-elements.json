@@ -143,7 +143,7 @@
                 "text": "LoomiButtonColor | \"\""
               },
               "default": "\"\"",
-              "description": "Palette override. Empty = derive from `type`. `primary` | `secondary` | `success` | `error` | `warning` | `gray`.",
+              "description": "Palette override. Empty = derive from `type`. `primary` | `secondary` | `info` | `success` | `error` | `warning` | `gray`.",
               "attribute": "color"
             },
             {
@@ -444,7 +444,7 @@
                 "text": "LoomiButtonColor | \"\""
               },
               "default": "\"\"",
-              "description": "Palette override. Empty = derive from `type`. `primary` | `secondary` | `success` | `error` | `warning` | `gray`.",
+              "description": "Palette override. Empty = derive from `type`. `primary` | `secondary` | `info` | `success` | `error` | `warning` | `gray`.",
               "fieldName": "color"
             },
             {

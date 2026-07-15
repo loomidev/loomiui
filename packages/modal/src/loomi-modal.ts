@@ -22,7 +22,7 @@ export type LoomiModalType = "" | "info" | "error" | "warning" | "success";
 export type LoomiModalSize = "tiny" | "small" | "medium" | "large" | "xl" | "omg";
 
 const TYPE: Record<string, { color: LoomiColor; icon: string }> = {
-  info: { color: "primary" as LoomiColor, icon: "information-circle" },
+  info: { color: "info" as LoomiColor, icon: "information-circle" },
   error: { color: "error" as LoomiColor, icon: "exclamation-circle" },
   warning: { color: "warning" as LoomiColor, icon: "exclamation-triangle" },
   success: { color: "success" as LoomiColor, icon: "check-circle" },
