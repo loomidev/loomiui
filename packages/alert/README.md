@@ -1,6 +1,7 @@
 # @loomidev/alert
 
-`<loomi-alert>` — an inline alert message. Four prebuilt types with default icons,
+`<loomi-alert>` — an inline alert message. The default uses the primary palette with no
+leading icon. Four explicit types add semantic colors and icons. Alerts also support
 `faint`/`dark` shades, palette overrides, an optional avatar, and a dismiss button.
 For floating/overlay alerts instead, see [`@loomidev/notification`](../notification).
 
@@ -14,10 +15,12 @@ import "@loomidev/alert";
 
 ## Basic Usage
 
-Four prebuilt types, each with its own default icon and color:
+With no `type`, the alert uses the primary `faint` treatment and has no leading icon.
+Set `type` for a semantic color and its matching icon:
 
 ```html
 <loomi-alert>Your subscription is expiring in 19 days. <a href="#">Renew now</a></loomi-alert>
+<loomi-alert type="info">A new version is available.</loomi-alert>
 <loomi-alert type="error">You do not have permission to upload files.</loomi-alert>
 <loomi-alert type="warning">Well, this is your first warning.</loomi-alert>
 <loomi-alert type="success">Files were successfully uploaded.</loomi-alert>
@@ -42,10 +45,10 @@ The type icon and the dismiss (×) icon can each be hidden independently.
 <loomi-alert show-close-icon="false">Message here.</loomi-alert>
 
 <!-- hide the type icon only -->
-<loomi-alert show-icon="false">Message here.</loomi-alert>
+<loomi-alert type="info" show-icon="false">Message here.</loomi-alert>
 
 <!-- hide both -->
-<loomi-alert show-icon="false" show-close-icon="false">Message here.</loomi-alert>
+<loomi-alert type="info" show-icon="false" show-close-icon="false">Message here.</loomi-alert>
 ```
 
 ## Custom Colors
@@ -63,9 +66,10 @@ The type icon and the dismiss (×) icon can each be hidden independently.
 
 ## Custom Icons
 
-The four prebuilt types already have default icons (`information-circle`, `x-circle`,
-`exclamation-triangle`, `check-circle`). Set `icon` to use a different one from the
-shared [`@loomidev/icons`](../icons) registry — most useful together with a custom `color`.
+The untyped default has no leading icon. The four explicit types have default icons:
+`information-circle`, `x-circle`, `exclamation-triangle`, and `check-circle`. Set `icon`
+to use a different one from the shared [`@loomidev/icons`](../icons) registry — most
+useful together with a custom `color`.
 
 ```html
 <loomi-alert color="primary" icon="bell-alert">No more snoozing. Wake up!</loomi-alert>
@@ -77,12 +81,12 @@ shared [`@loomidev/icons`](../icons) registry — most useful together with a cu
 Use an image as the prefix instead of an icon by setting `avatar` to an image URL.
 
 ```html
-<loomi-alert color="success" shade="dark" avatar="/images/jane.jpg">
+<loomi-alert color="success" shade="dark" avatar="/avatars/female.jpg">
   Jane has been added to your friends list.
 </loomi-alert>
 
 <!-- with a ring -->
-<loomi-alert color="warning" shade="dark" avatar="/images/jane.jpg" show-ring>
+<loomi-alert color="warning" shade="dark" avatar="/avatars/female.jpg" show-ring>
   <strong>New friend request</strong><br />
   Jane C. Doe wants to connect.
 </loomi-alert>
@@ -127,7 +131,7 @@ Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your ow
 
 | Attribute         | Default   | Description                                             |
 | ----------------- | --------- | ------------------------------------------------------- |
-| `type`            | `info`    | `info` \| `error` \| `warning` \| `success`             |
+| `type`            | _(blank)_ | `info` \| `error` \| `warning` \| `success`             |
 | `shade`           | `faint`   | `faint` \| `dark`                                       |
 | `color`           | _(blank)_ | Override color — any loomi color, or `transparent`.     |
 | `icon`            | _(blank)_ | Icon name override (see [`@loomidev/icons`](../icons)). |
