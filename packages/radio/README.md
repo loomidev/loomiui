@@ -44,7 +44,7 @@ Radios can also be disabled:
 
 ## Colored Radio Buttons
 
-Any loomi color works: `primary` `secondary` `success` `error` `warning` `gray`
+Any loomi color works: `primary` `secondary` `info` `success` `error` `warning` `gray`
 `success` `warning` `error` `primary`.
 
 ```html

@@ -29,7 +29,7 @@ shade stronger than the tag color, or `shade="dark"` for a deeper solid fill.
 <loomi-tag label="pending" color="success" shade="dark"></loomi-tag>
 ```
 
-Common semantic colors: `primary` `secondary` `success` `error` `warning` `gray`.
+Common semantic colors: `primary` `secondary` `info` `success` `error` `warning` `gray`.
 
 ## With Close Icons
 

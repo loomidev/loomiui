@@ -74,7 +74,7 @@ child tab.
 </loomi-tabs>
 ```
 
-Common semantic colors: `primary` `secondary` `success` `error` `warning` `gray`.
+Common semantic colors: `primary` `secondary` `info` `success` `error` `warning` `gray`.
 
 ## Other Tab Styles
 

@@ -162,7 +162,7 @@ stays exactly where you put it.
 ## Color
 
 `color` accents the trigger's fill and softly tints each item's icon circle —
-`primary` (default), `secondary`, `success`, `error`, `warning`, or `gray`.
+`primary` (default), `secondary`, `info`, `success`, `error`, `warning`, or `gray`.
 
 ```html
 <loomi-fab color="success" icon="check">
@@ -265,7 +265,7 @@ Item pills and their icon circles use `--loomi-surface`, `--loomi-surface-border
 | `trigger`         | `click`        | `click` \| `hover`                                                                                  |
 | `variant`         | `floating`     | `floating` \| `docked`                                                                              |
 | `size`            | `regular`      | `small` \| `medium` \| `regular`                                                                    |
-| `color`           | `primary`      | `primary` \| `secondary` \| `success` \| `error` \| `warning` \| `gray`                             |
+| `color`           | `primary`      | `primary` \| `secondary` \| `info` \| `success` \| `error` \| `warning` \| `gray`                    |
 | `icon`            | `plus`         | Trigger icon name.                                                                                  |
 | `icon-source`     | `heroicons`    | `heroicons` \| `iconsax` \| `untitledui`                                                            |
 | `icons-only`      | `false`        | Hide every item's visible label; show it as a `<loomi-tooltip>` on hover/focus instead. _(boolean)_ |

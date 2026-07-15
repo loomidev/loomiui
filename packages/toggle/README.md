@@ -56,11 +56,12 @@ Three bar thicknesses are available — `thin` (Android-style), `thick` (default
 
 ## Different Colors
 
-Any loomi color works for the active/checked state: `primary` `secondary` `success`
-`error` `warning` `gray` `success` `warning` `error` `primary`.
+Any loomi color works for the active/checked state: `primary` `secondary` `info`
+`success` `error` `warning` `gray`.
 
 ```html
 <loomi-toggle color="error" checked>Red</loomi-toggle>
+<loomi-toggle color="info" checked>Info</loomi-toggle>
 <loomi-toggle color="error" checked>Error</loomi-toggle>
 <loomi-toggle color="warning" checked>Warning</loomi-toggle>
 <loomi-toggle color="success" checked>Success</loomi-toggle>
