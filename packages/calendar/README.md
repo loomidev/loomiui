@@ -127,7 +127,7 @@ Event color is controlled by the optional `color` field on each `CalendarEvent`.
 | ------------- | ----------------------------------------------- | --------------- |
 | `primary`     | Default meetings, internal events               | Primary palette |
 | `secondary`   | Neutral blocks, focus time                      | Gray palette    |
-| `info`        | General updates, informational events            | Blue palette    |
+| `info`        | General updates, informational events           | Blue palette    |
 | `success`     | Confirmed client meetings, completed milestones | Green palette   |
 | `warning`     | Pending reviews, travel, deadlines              | Amber palette   |
 | `error`       | Critical incidents, cancellations               | Red palette     |
@@ -311,25 +311,19 @@ reminder flows.
 
 ## Accessibility
 
-loomi-calendar is built on semantic markup where the browser gives us the right behavior, and it adds ARIA only where the component has custom interaction. Keyboard users should be able to reach the same controls as pointer users, with visible focus treatment unless you explicitly turn it off on controls that support `show-focus-ring="false"`.
-
-When the component displays status, progress, validation, or temporary feedback, pair it with clear labels or nearby text in your app so assistive technology users get the same context a sighted user gets from the visual treatment.
-
 - Previous/next month buttons are labelled; Escape closes popover parents.
+
+For the library-wide baseline, see [Component foundations — Accessibility](https://loomiui.com/customization/component-foundations/#accessibility).
 
 ## Responsive behavior
 
-loomi-calendar is designed to fit the layout you place it in. It uses fluid widths, `min-width: 0`, wrapping, truncation, or stacked layouts where that keeps the component usable in cards, forms, sidebars, and mobile screens.
-
-For dense layouts, give the parent container an intentional width and let the component fill it. For long labels or user-provided content, prefer real text that can wrap or truncate instead of fixed pixel assumptions.
+For the shared container and viewport rules, see [Component foundations — Responsive behavior](https://loomiui.com/customization/component-foundations/#responsive-behavior).
 
 ## Dark mode
 
-loomi-calendar uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. Borders, panels, hover states, and muted text are expected to shift with the active theme.
-
-Add `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token overrides, and the component will inherit the dark-mode values through its shadow DOM.
-
 - Selected days and primary actions use `--loomi-text-on-primary` on accent fills.
+
+For theme activation, token overrides, and contrast guidance, see [Component foundations — Dark mode](https://loomiui.com/customization/component-foundations/#dark-mode).
 
 ## Attributes
 

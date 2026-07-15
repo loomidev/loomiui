@@ -134,6 +134,8 @@ free. The active item gets `aria-current="page"`.
   tab order (`tabindex="-1"` for links, native `disabled` for buttons).
 - Focus is visible via `:focus-visible`, ringed with the component's accent color.
 
+For the library-wide baseline, see [Component foundations — Accessibility](https://loomiui.com/customization/component-foundations/#accessibility).
+
 ## Responsive behavior
 
 Designed for mobile: `<loomi-bottom-nav>` docks itself with `position: fixed` at the
@@ -143,6 +145,8 @@ pattern where a sidebar or top nav takes over on larger screens. Items share the
 width equally (`flex: 1`) and truncate long labels rather than wrapping — designed for
 3–5 items.
 
+For the shared container and viewport rules, see [Component foundations — Responsive behavior](https://loomiui.com/customization/component-foundations/#responsive-behavior).
+
 ## Dark mode
 
 Uses semantic `--loomi-surface` / `--loomi-surface-border` / `--loomi-text-muted` tokens
@@ -150,6 +154,8 @@ for the bar background, divider, and inactive icon/label color, so it flips auto
 with `.dark` on `<html>` (via `@loomidev/theme-switcher` or your own theme toggle). The
 active-state tokens (see **Styling hooks** below) default to the instance's `color`
 accent, which is also dark-mode aware.
+
+For theme activation, token overrides, and contrast guidance, see [Component foundations — Dark mode](https://loomiui.com/customization/component-foundations/#dark-mode).
 
 ## Attributes — `<loomi-bottom-nav>`
 
