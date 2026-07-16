@@ -121,7 +121,13 @@ export class LoomiScroller extends LoomiElement {
 
   protected override firstUpdated(): void {
     if (typeof ResizeObserver !== "undefined") {
-      this.resizeObserver = new ResizeObserver(() => this.syncMeasurements());
+      this.resizeObserver = new ResizeObserver((entries) => {
+        if (entries.some((entry) => entry.target === this.primaryGroupEl)) {
+          this.syncClones(true);
+          return;
+        }
+        this.syncMeasurements();
+      });
       this.resizeObserver.observe(this.viewportEl);
       this.resizeObserver.observe(this.primaryGroupEl);
     }
@@ -199,12 +205,43 @@ export class LoomiScroller extends LoomiElement {
     for (let repeat = 0; repeat < repeats; repeat += 1) {
       nodes.forEach((node, index) => {
         const clone = node.cloneNode(true);
+        if (node instanceof Element && clone instanceof Element) {
+          this.copyComputedStyles(node, clone);
+        }
         if (clone instanceof HTMLElement) this.prepareClone(clone, index);
         this.cloneGroupEl.append(clone);
       });
     }
 
     this.syncMeasurements();
+  }
+
+  /**
+   * Light-DOM items can be styled by page-level selectors, but their seamless copies
+   * live in shadow DOM where those selectors do not cross the boundary. Snapshot the
+   * resulting styles so every copy has the same geometry and the loop reset is invisible.
+   */
+  private copyComputedStyles(source: Element, clone: Element): void {
+    if (
+      (clone instanceof HTMLElement || clone instanceof SVGElement) &&
+      typeof getComputedStyle !== "undefined"
+    ) {
+      const computedStyle = getComputedStyle(source);
+      for (const property of computedStyle) {
+        clone.style.setProperty(
+          property,
+          computedStyle.getPropertyValue(property),
+          computedStyle.getPropertyPriority(property),
+        );
+      }
+    }
+
+    const sourceChildren = Array.from(source.children);
+    const cloneChildren = Array.from(clone.children);
+    sourceChildren.forEach((child, index) => {
+      const cloneChild = cloneChildren[index];
+      if (cloneChild) this.copyComputedStyles(child, cloneChild);
+    });
   }
 
   private prepareClone(clone: HTMLElement, index: number): void {
@@ -284,8 +321,14 @@ export class LoomiScroller extends LoomiElement {
     if (!allowed) event.preventDefault();
   };
 
-  private onAnimationEnd = (): void => {
+  private onAnimationEnd = (event: AnimationEvent): void => {
     if (this.scrollCount === "infinite") return;
+    if (
+      event.target !== this.trackEl ||
+      event.animationName !== `loomi-scroller-${this.safeDirection}`
+    ) {
+      return;
+    }
     this.dispatchEvent(
       new CustomEvent<LoomiScrollerScrollCompleteDetail>("loomi-scroll-complete", {
         detail: { count: Math.max(1, Math.floor(this.scrollCount)), direction: this.safeDirection },
