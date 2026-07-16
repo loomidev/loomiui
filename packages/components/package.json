@@ -215,6 +215,10 @@
       "types": "./dist/resizable.d.ts",
       "import": "./dist/resizable.js"
     },
+    "./scroller": {
+      "types": "./dist/scroller.d.ts",
+      "import": "./dist/scroller.js"
+    },
     "./timeline": {
       "types": "./dist/timeline.d.ts",
       "import": "./dist/timeline.js"
@@ -392,6 +396,7 @@
     "@loomidev/radio": "workspace:^",
     "@loomidev/rating": "workspace:^",
     "@loomidev/resizable": "workspace:^",
+    "@loomidev/scroller": "workspace:^",
     "@loomidev/select": "workspace:^",
     "@loomidev/side-nav": "workspace:^",
     "@loomidev/slider": "workspace:^",

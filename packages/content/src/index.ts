@@ -10,6 +10,7 @@ export * from "@loomidev/popover";
 export * from "@loomidev/empty-state";
 export * from "@loomidev/statistic";
 export * from "@loomidev/rating";
+export * from "@loomidev/scroller";
 export * from "@loomidev/arc-meter";
 export * from "@loomidev/timeline";
 export * from "@loomidev/progress";
