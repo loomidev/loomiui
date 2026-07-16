@@ -148,17 +148,17 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 ## Slots
 
-| Slot | Description |
-| ---- | ----------- |
+| Slot        | Description                          |
+| ----------- | ------------------------------------ |
 | _(default)_ | Content placed inside the component. |
 
 ## Events
 
-| Event | Description |
-| ----- | ----------- |
-| `change` | Fired when the value is committed or changed. |
-| `close` | Fired when the component closes. |
-| `loomi-tag-click` | Fired when a tag is activated. |
+| Event             | Description                                   |
+| ----------------- | --------------------------------------------- |
+| `change`          | Fired when the value is committed or changed. |
+| `close`           | Fired when the component closes.              |
+| `loomi-tag-click` | Fired when a tag is activated.                |
 
 ## Full Example
 

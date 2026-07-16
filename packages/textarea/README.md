@@ -167,12 +167,12 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 
 ## Events
 
-| Event | Detail | Description |
-| ----- | ------ | ----------- |
-| `input` | — | The text or mention value changed. |
-| `change` | — | The edited value was committed. |
+| Event                  | Detail               | Description                           |
+| ---------------------- | -------------------- | ------------------------------------- |
+| `input`                | —                    | The text or mention value changed.    |
+| `change`               | —                    | The edited value was committed.       |
 | `loomi-mention-search` | `{ trigger, query }` | A mention query needs matching items. |
-| `loomi-mention-select` | `{ trigger, item }` | A mention item was inserted. |
+| `loomi-mention-select` | `{ trigger, item }`  | A mention item was inserted.          |
 
 ```html
 <loomi-textarea

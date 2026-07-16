@@ -10,9 +10,9 @@
           "kind": "variable",
           "name": "PALETTE",
           "type": {
-            "text": "[\"primary\", \"info\", \"success\", \"warning\", \"error\", \"secondary\", \"gray\"]"
+            "text": "[\n  \"primary\",\n  \"info\",\n  \"success\",\n  \"warning\",\n  \"error\",\n  \"secondary\",\n  \"gray\",\n]"
           },
-          "default": "[\"primary\", \"info\", \"success\", \"warning\", \"error\", \"secondary\", \"gray\"]"
+          "default": "[ \"primary\", \"info\", \"success\", \"warning\", \"error\", \"secondary\", \"gray\", ]"
         },
         {
           "kind": "variable",

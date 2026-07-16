@@ -11,7 +11,15 @@ export type LoomiButtonRadius = "none" | "small" | "medium" | "full";
 export type LoomiButtonTag = "button" | "a";
 
 /** Closed palette for buttons: brand primary/secondary, plus semantic state colors. */
-const BUTTON_COLORS = ["primary", "secondary", "info", "success", "error", "warning", "gray"] as const;
+const BUTTON_COLORS = [
+  "primary",
+  "secondary",
+  "info",
+  "success",
+  "error",
+  "warning",
+  "gray",
+] as const;
 export type LoomiButtonColor = (typeof BUTTON_COLORS)[number];
 
 function isLoomiButtonColor(value: unknown): value is LoomiButtonColor {

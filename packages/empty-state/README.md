@@ -137,14 +137,14 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 ## Slots
 
-| Slot | Description |
-| ---- | ----------- |
+| Slot        | Description                          |
+| ----------- | ------------------------------------ |
 | _(default)_ | Content placed inside the component. |
 
 ## Events
 
-| Event | Description |
-| ----- | ----------- |
+| Event    | Description                                             |
+| -------- | ------------------------------------------------------- |
 | `action` | Fired when the component's primary action is activated. |
 
 ## Full Example

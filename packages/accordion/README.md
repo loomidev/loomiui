@@ -141,15 +141,15 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 ## Slots
 
-| Slot | Description |
-| ---- | ----------- |
+| Slot        | Description                          |
+| ----------- | ------------------------------------ |
 | _(default)_ | Content placed inside the component. |
-| `title` | Custom title content. |
+| `title`     | Custom title content.                |
 
 ## Events
 
-| Event | Description |
-| ----- | ----------- |
+| Event                    | Description                          |
+| ------------------------ | ------------------------------------ |
 | `loomi-accordion-toggle` | Fired when the accordion is toggled. |
 
 ## Full Example

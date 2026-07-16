@@ -187,16 +187,16 @@ close animation finishes and the drawer unmounts).
 
 ## Slots
 
-| Slot | Description |
-| ---- | ----------- |
+| Slot        | Description                          |
+| ----------- | ------------------------------------ |
 | _(default)_ | Content placed inside the component. |
 
 ## Events
 
-| Event | Description |
-| ----- | ----------- |
+| Event   | Description                      |
+| ------- | -------------------------------- |
 | `close` | Fired when the component closes. |
-| `open` | Fired when the component opens. |
+| `open`  | Fired when the component opens.  |
 
 ## Focus Handling
 

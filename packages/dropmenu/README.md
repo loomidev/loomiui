@@ -341,16 +341,16 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 ## Slots
 
-| Slot | Description |
-| ---- | ----------- |
-| _(default)_ | Content placed inside the component. |
-| `submenu` | Nested menu items. |
-| `trigger` | Custom content used to open the component. |
+| Slot        | Description                                |
+| ----------- | ------------------------------------------ |
+| _(default)_ | Content placed inside the component.       |
+| `submenu`   | Nested menu items.                         |
+| `trigger`   | Custom content used to open the component. |
 
 ## Events
 
-| Event | Description |
-| ----- | ----------- |
+| Event    | Description                                   |
+| -------- | --------------------------------------------- |
 | `change` | Fired when the value is committed or changed. |
 
 ## Full Example

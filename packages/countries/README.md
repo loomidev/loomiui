@@ -196,11 +196,11 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 ## Events
 
-| Event | Description |
-| ----- | ----------- |
-| `change` | Fired when the value is committed or changed. |
-| `input` | Fired while the value is edited. |
-| `loomi-select` | Fired when a country is selected. |
+| Event          | Description                                   |
+| -------------- | --------------------------------------------- |
+| `change`       | Fired when the value is committed or changed. |
+| `input`        | Fired while the value is edited.              |
+| `loomi-select` | Fired when a country is selected.             |
 
 ## Full Example
 

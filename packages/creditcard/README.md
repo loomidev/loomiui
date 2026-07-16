@@ -176,11 +176,11 @@ the currently displayed `LoomiCardBrand`).
 
 ## Events
 
-| Event | Description |
-| ----- | ----------- |
-| `change` | Fired when the value is committed or changed. |
-| `input` | Fired while the value is edited. |
-| `loomi-flip` | Fired when the visible card face changes. |
+| Event        | Description                                   |
+| ------------ | --------------------------------------------- |
+| `change`     | Fired when the value is committed or changed. |
+| `input`      | Fired while the value is edited.              |
+| `loomi-flip` | Fired when the visible card face changes.     |
 
 ## Full Example
 

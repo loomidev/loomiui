@@ -126,8 +126,8 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 ## Events
 
-| Event | Description |
-| ----- | ----------- |
+| Event               | Description                  |
+| ------------------- | ---------------------------- |
 | `loomi-page-change` | Fired when the page changes. |
 
 ## Full Example

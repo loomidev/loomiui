@@ -245,26 +245,26 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 ### Parts
 
-| Part | Description |
-| ---- | ----------- |
+| Part    | Description             |
+| ------- | ----------------------- |
 | `field` | The bordered container. |
-| `input` | The native `<input>`. |
+| `input` | The native `<input>`.   |
 
 ## Slots
 
-| Slot | Description |
-| ---- | ----------- |
+| Slot     | Description                                      |
+| -------- | ------------------------------------------------ |
 | `prefix` | Content rendered before the main value or label. |
-| `suffix` | Content rendered after the main value or label. |
+| `suffix` | Content rendered after the main value or label.  |
 
 ## Events
 
-| Event | Description |
-| ----- | ----------- |
-| `change` | Fired when the value is committed or changed. |
-| `input` | Fired while the value is edited. |
-| `loomi-prefix-change` | Fired when the prefix changes. |
-| `loomi-suffix-change` | Fired when the suffix changes. |
+| Event                 | Description                                   |
+| --------------------- | --------------------------------------------- |
+| `change`              | Fired when the value is committed or changed. |
+| `input`               | Fired while the value is edited.              |
+| `loomi-prefix-change` | Fired when the prefix changes.                |
+| `loomi-suffix-change` | Fired when the suffix changes.                |
 
 ## Theming
 
