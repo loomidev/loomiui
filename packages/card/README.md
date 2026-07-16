@@ -186,6 +186,12 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `<loomi-card-content>`     | Main card body.                                         |
 | `<loomi-card-footer>`      | Bottom actions; gets a muted background and top border. |
 
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+
 <!-- BEGIN loomi-framework-guide -->
 
 ## Framework integration

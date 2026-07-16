@@ -176,6 +176,21 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 | _(default)_ | `<source>`/`<track>` children, forwarded onto the internal `<video>`. |
 | `controls`  | Replaces the entire built-in control bar with custom markup.          |
 
+## Events
+
+`loomi-video` re-dispatches key media events from the host element (the real
+`<video>` lives behind the Shadow DOM boundary, so this is how consumers
+observe it without reaching into internals):
+
+| Event                                             | Detail                                                                                                                                              |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `play` / `pause` / `ended`                        | _(none)_                                                                                                                                            |
+| `timeupdate`                                      | `{ currentTime, duration }`                                                                                                                         |
+| `volumechange`                                    | `{ volume, muted }`                                                                                                                                 |
+| `fullscreenchange`                                | `{ fullscreen }`                                                                                                                                    |
+| `enterpictureinpicture` / `leavepictureinpicture` | _(none)_                                                                                                                                            |
+| `loomi-video-error`                               | `{ code, message }`. Not named `error` — that type bubbling to `window` reads as an uncaught page error to test harnesses and error-tracking tools. |
+
 ## Methods
 
 ```js
@@ -195,21 +210,6 @@ player.selectTrack(0); // index into player's text tracks, or -1 for "off"
 Read-only getters mirror the underlying media element: `paused`, `ended`,
 `currentTime`, `duration`. `currentTime` is also settable (`player.currentTime
 = 30`), and forwards to `seek()`.
-
-## Events
-
-`loomi-video` re-dispatches key media events from the host element (the real
-`<video>` lives behind the Shadow DOM boundary, so this is how consumers
-observe it without reaching into internals):
-
-| Event                                             | Detail                                                                                                                                              |
-| ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `play` / `pause` / `ended`                        | _(none)_                                                                                                                                            |
-| `timeupdate`                                      | `{ currentTime, duration }`                                                                                                                         |
-| `volumechange`                                    | `{ volume, muted }`                                                                                                                                 |
-| `fullscreenchange`                                | `{ fullscreen }`                                                                                                                                    |
-| `enterpictureinpicture` / `leavepictureinpicture` | _(none)_                                                                                                                                            |
-| `loomi-video-error`                               | `{ code, message }`. Not named `error` — that type bubbling to `window` reads as an uncaught page error to test harnesses and error-tracking tools. |
 
 ## Dependencies
 

@@ -113,16 +113,6 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 Each digit segment (Days, Hours, Mins, Secs) is always shown, with its label
 rendered directly underneath.
 
-## Methods
-
-```js
-const timer = document.querySelector("loomi-timer");
-
-timer.start();
-timer.pause();
-timer.reset();
-```
-
 ## Events
 
 `loomi-timer-start`, `loomi-timer-pause`, `loomi-timer-reset`, `loomi-timer-tick`, and `loomi-timer-complete`
@@ -138,6 +128,16 @@ bubble and include:
   progress: number;
   complete: boolean;
 }
+```
+
+## Methods
+
+```js
+const timer = document.querySelector("loomi-timer");
+
+timer.start();
+timer.pause();
+timer.reset();
 ```
 
 ## Dependencies

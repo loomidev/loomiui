@@ -339,11 +339,19 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `value`      | _(blank)_ | Value carried by a `radio` item.                                  |
 | `checked`    | `false`   | Current state of a `checkbox`/`radio` item. _(boolean)_           |
 
-**Events:** `change` â€” fired on a `checkbox`/`radio` item when its `checked` state
-changes (bubbles, composed).
+## Slots
 
-**Slots:** default (items), `trigger` (custom trigger markup), `submenu` (nested
-`<loomi-dropmenu-item>` children on an item).
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+| `submenu` | Nested menu items. |
+| `trigger` | Custom content used to open the component. |
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `change` | Fired when the value is committed or changed. |
 
 ## Full Example
 

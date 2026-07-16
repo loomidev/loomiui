@@ -85,6 +85,14 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `divider`    | `false`   | Renders a separator line.                 |
 | `hover`      | `true`    | Enables hover/focus background styling.   |
 
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+| `submenu` | Nested menu items. |
+| `target` | The element that opens the context menu. |
+
 ## Methods
 
 | Method                     | Description                             |

@@ -122,7 +122,13 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `total-label`      | `Showing :a to :b of :c` | Label format (`:a` start, `:b` end, `:c` total).     |
 | `color`            | `primary`                | Active-page color.                                   |
 
-**Event:** `loomi-page-change` (`detail: { page }`). **Property:** `pageCount` (read-only).
+**Property:** `pageCount` (read-only).
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `loomi-page-change` | Fired when the page changes. |
 
 ## Full Example
 

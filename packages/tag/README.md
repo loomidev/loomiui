@@ -137,9 +137,6 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `can-close`   | `false`   | Show a close button. _(boolean)_            |
 | `value`       | _(blank)_ | Submitted value when inside `<loomi-tags>`. |
 
-**Slot:** default (content). **Event:** `close` (cancelable; the tag removes itself
-unless prevented).
-
 ### `<loomi-tags>` (selectable group)
 
 | Attribute        | Default   | Description                                |
@@ -149,7 +146,19 @@ unless prevented).
 | `selected-value` | _(blank)_ | Comma-separated values to pre-select.      |
 | `required`       | `false`   | Marks the field required. _(boolean)_      |
 
-**Event:** `change` (`detail: { values }`).
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `change` | Fired when the value is committed or changed. |
+| `close` | Fired when the component closes. |
+| `loomi-tag-click` | Fired when a tag is activated. |
 
 ## Full Example
 

@@ -285,8 +285,6 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 Boolean attributes can be omitted, present, or set to `"false"` in HTML.
 
 **Methods:** `show()`, `hide()`, `toggle()` (all void; no-ops when there are no items).
-**Events:** `open`, `close`.
-**Slot:** default (`<loomi-fab-item>` children).
 
 ## Attributes — `<loomi-fab-item>`
 
@@ -300,6 +298,20 @@ Boolean attributes can be omitted, present, or set to `"false"` in HTML.
 
 **Fires:** `loomi-select` — `detail: { value, label }`, bubbles/composed (also reaches a
 listener on the parent `<loomi-fab>`).
+
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `close` | Fired when the component closes. |
+| `loomi-select` | Fired when a FAB item is selected. |
+| `open` | Fired when the component opens. |
 
 ## Full Example
 

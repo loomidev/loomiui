@@ -175,6 +175,21 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `clickable`   | `false`    | Renders a selectable button when not using `href`. _(boolean)_    |
 | `hide-index`  | `false`    | Hides the step number in incomplete markers. _(boolean)_          |
 
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+| `description` | Custom description content. |
+| `label` | Custom label content. |
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `loomi-progress-step-select` | Fired when a progress step is selected. |
+| `loomi-progress-steps-change` | Fired when the progress-step selection changes. |
+
 ## Full Example
 
 ```html

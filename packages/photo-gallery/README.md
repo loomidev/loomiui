@@ -115,20 +115,6 @@ individually via its own `show-*` attribute, all `true` by default.
 The lightbox's close (×) button follows the same pattern (`lightbox-show-close`) —
 <kbd>Escape</kbd> and clicking the backdrop still close it either way.
 
-## Events
-
-```js
-gallery.addEventListener("loomi-favourite", (e) => console.log(e.detail)); // { index, src, favourite }
-gallery.addEventListener("loomi-photo-open", (e) => console.log(e.detail)); // { index, src }
-gallery.addEventListener("loomi-photo-close", () => console.log("closed"));
-gallery.addEventListener("loomi-photo-change", (e) => console.log(e.detail)); // { index, src }
-gallery.addEventListener("loomi-rotate", (e) => console.log(e.detail)); // { index, rotation }
-gallery.addEventListener("loomi-share", (e) => console.log(e.detail)); // { index, src }
-gallery.addEventListener("loomi-slideshow-start", () => console.log("slideshow started"));
-gallery.addEventListener("loomi-slideshow-end", () => console.log("slideshow stopped"));
-gallery.addEventListener("loomi-album-change", (e) => console.log(e.detail)); // { album }
-```
-
 ## Accessibility
 
 - The grid toolbar and lightbox toolbar both render as `role="toolbar"`; the lightbox
@@ -189,10 +175,26 @@ Boolean attributes can be omitted, present, or set to `"false"` in HTML.
 
 **Methods:** `openLightbox(index)`, `closeLightbox()`, `nextPhoto()`, `prevPhoto()`,
 `startSlideshow()`, `stopSlideshow()`.
-**Events:** `loomi-favourite`, `loomi-photo-open`, `loomi-photo-close`,
-`loomi-photo-change`, `loomi-rotate`, `loomi-share`, `loomi-slideshow-start`,
-`loomi-slideshow-end`, `loomi-album-change`.
-**Slot:** default (`<loomi-photo-gallery-item>` children).
+
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+
+## Events
+
+```js
+gallery.addEventListener("loomi-favourite", (e) => console.log(e.detail)); // { index, src, favourite }
+gallery.addEventListener("loomi-photo-open", (e) => console.log(e.detail)); // { index, src }
+gallery.addEventListener("loomi-photo-close", () => console.log("closed"));
+gallery.addEventListener("loomi-photo-change", (e) => console.log(e.detail)); // { index, src }
+gallery.addEventListener("loomi-rotate", (e) => console.log(e.detail)); // { index, rotation }
+gallery.addEventListener("loomi-share", (e) => console.log(e.detail)); // { index, src }
+gallery.addEventListener("loomi-slideshow-start", () => console.log("slideshow started"));
+gallery.addEventListener("loomi-slideshow-end", () => console.log("slideshow stopped"));
+gallery.addEventListener("loomi-album-change", (e) => console.log(e.detail)); // { album }
+```
 
 <!-- BEGIN loomi-framework-guide -->
 

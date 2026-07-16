@@ -198,6 +198,14 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `show-sender`  | `false`  | Render the sender name above the bubble.                                          |
 | `attachment`   | â€”        | File card under the bubble: `{ name, meta?, icon? }`. Property or JSON attribute. |
 
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+| `conversations-header` | Custom content above the conversation list. |
+| `header-actions` | Actions rendered in the chat header. |
+
 ## Events
 
 | Event                       | Detail             | Description                          |
@@ -205,6 +213,11 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `loomi-send`                | `{ message }`      | Current user submitted the composer. |
 | `loomi-reset`               | â€”                  | Transcript cleared.                  |
 | `loomi-conversation-select` | `{ conversation }` | A conversation row was clicked.      |
+| `loomi-add-user`            | â€”                  | The add-user action was activated.   |
+| `loomi-attach-file`         | `{ files }`        | One or more files were selected.     |
+| `loomi-attach-picture`      | `{ files }`        | One or more images were selected.    |
+| `loomi-record`              | `{ stream }`       | Microphone capture started.          |
+| `loomi-record-error`        | `{ error }`        | Microphone capture failed.           |
 
 ## Methods
 

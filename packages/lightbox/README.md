@@ -125,9 +125,20 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `open`    | `false`      | Whether the fullscreen view is currently showing. _(boolean, reflected)_                                                  |
 | `locale`  | _(blank)_    | Locale override for built-in aria labels.                                                                                 |
 
-**Methods:** `show()`, `hide()`. **Events:** `loomi-open`, `loomi-close`. **Slot:**
-default (the trigger image â€” falls back to an `<img src alt>` built from the attributes
-above when empty).
+**Methods:** `show()`, `hide()`.
+
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `loomi-close` | Fired when the lightbox closes. |
+| `loomi-open` | Fired when the lightbox opens. |
 
 ## Full Example
 

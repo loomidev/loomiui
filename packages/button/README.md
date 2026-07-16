@@ -183,36 +183,6 @@ the tab order.
 <loomi-button show-focus-ring="false">No Focus Ring</loomi-button>
 ```
 
-## Slots
-
-For arbitrary content, use the named slots. (For known icon sets, prefer the `icon`
-attribute above.)
-
-```html
-<loomi-button>
-  <img slot="prefix" src="/avatar.png" width="16" height="16" alt="" />
-  Profile
-  <span slot="suffix">▾</span>
-</loomi-button>
-```
-
-| Slot        | Description                             |
-| ----------- | --------------------------------------- |
-| _(default)_ | The button label.                       |
-| `prefix`    | Content rendered before the icon/label. |
-| `suffix`    | Content rendered after the label.       |
-
-## Events
-
-The native `click` event is composed and crosses the shadow boundary, so you listen for
-it exactly as you would on a normal button:
-
-```html
-<loomi-button onclick="alert('you clicked me')">Click Me</loomi-button>
-```
-
-Clicks are suppressed while the button is `disabled`.
-
 ## Theming
 
 Override any palette slot from your page — no build step, no Tailwind:
@@ -282,6 +252,36 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 | All attributes above | Available as camelCase properties (e.g. `el.iconRight`, `el.hasSpinner`). |
 | `startSpinner()`     | Show the spinner (no-op unless `has-spinner` is set).                     |
 | `stopSpinner()`      | Hide the spinner.                                                         |
+
+## Slots
+
+For arbitrary content, use the named slots. (For known icon sets, prefer the `icon`
+attribute above.)
+
+```html
+<loomi-button>
+  <img slot="prefix" src="/avatar.png" width="16" height="16" alt="" />
+  Profile
+  <span slot="suffix">▾</span>
+</loomi-button>
+```
+
+| Slot        | Description                             |
+| ----------- | --------------------------------------- |
+| _(default)_ | The button label.                       |
+| `prefix`    | Content rendered before the icon/label. |
+| `suffix`    | Content rendered after the label.       |
+
+## Events
+
+The native `click` event is composed and crosses the shadow boundary, so you listen for
+it exactly as you would on a normal button:
+
+```html
+<loomi-button onclick="alert('you clicked me')">Click Me</loomi-button>
+```
+
+Clicks are suppressed while the button is `disabled`.
 
 ## CSS Parts
 

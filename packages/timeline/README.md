@@ -180,6 +180,13 @@ per-item side attribute to set.
 Shares `stacked`, `completed`, `anchor`, `icon`, `color`, and `placement` with all
 children.
 
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+| `content` | Custom body content. |
+
 ## Full Example
 
 ```html

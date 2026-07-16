@@ -105,7 +105,11 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `has-hover`  | `false`   | Lift the card on hover. _(boolean)_           |
 | `url`        | _(blank)_ | Navigate on click.                            |
 
-**Slot:** default (extra content below the details).
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
 
 ## Full Example
 

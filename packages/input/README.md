@@ -234,7 +234,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `show-placeholder-always` | `false`   | Keep the placeholder visible even with a label. _(boolean)_                                                                               |
 | `no-clearing`             | `false`   | Remove the default bottom margin. _(boolean, attribute on host)_                                                                          |
 
-### Methods & events
+### Methods
 
 | Member                | Description                                                                                                                                     |
 | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -242,15 +242,29 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `.dynamicMask`        | Set a custom dynamic mask function, or a named built-in such as `"creditcard"`.                                                                 |
 | `focus()` / `clear()` | Focus or clear the field.                                                                                                                       |
 | `validate()`          | Run the required check now (independent of `blur`); sets `invalid` and surfaces `error-message` inline or via toast. Returns `true` when valid. |
-| `input` / `change`    | Native events (composed).                                                                                                                       |
 
-### Slots & parts
+### Parts
 
-| Slot / Part              | Description             |
-| ------------------------ | ----------------------- |
-| slot `prefix` / `suffix` | Custom affix content.   |
-| part `field`             | The bordered container. |
-| part `input`             | The native `<input>`.   |
+| Part | Description |
+| ---- | ----------- |
+| `field` | The bordered container. |
+| `input` | The native `<input>`. |
+
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| `prefix` | Content rendered before the main value or label. |
+| `suffix` | Content rendered after the main value or label. |
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `change` | Fired when the value is committed or changed. |
+| `input` | Fired while the value is edited. |
+| `loomi-prefix-change` | Fired when the prefix changes. |
+| `loomi-suffix-change` | Fired when the suffix changes. |
 
 ## Theming
 

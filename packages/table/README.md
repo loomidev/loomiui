@@ -461,10 +461,25 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `onclick`                | _(blank)_                        | empty-state action string, also emitted in `loomi-empty-action`.                      |
 | `nonce`                  | _(blank)_                        | Accepted as a no-op compatibility attribute.                                          |
 
-**Events:** `loomi-row-click` (`{ row }`), `action` (`{ name, row }`),
-`loomi-action-call`, `loomi-selection-change` (`{ ids, rows, selectedValue }`), `loomi-empty-action`,
-`loomi-page-change` (`{ page }`).
 **Properties:** `selectedIds`, `selectedRows` (read-only current selection).
+
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+| `header` | Custom header content. |
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `loomi-action` | Fired when a configured row action is activated. |
+| `loomi-action-call` | Fired when an action-cell callback is requested. |
+| `loomi-empty-action` | Fired when the empty-state action is activated. |
+| `loomi-page-change` | Fired when the page changes. |
+| `loomi-row-click` | Fired when a row is activated. |
+| `loomi-selection-change` | Fired when the selection changes. |
 
 ## Full Example
 

@@ -136,7 +136,11 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `height`           | `200`     | Scrollable menu height in pixels.                                                                                        |
 | `hide-after-click` | `true`    | Close the menu after clicking a non-toggle item. _(boolean)_                                                             |
 
-**Slot:** default (`<loomi-dropmenu-item>` children).
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
 
 ## Dependencies
 

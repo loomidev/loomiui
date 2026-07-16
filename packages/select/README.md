@@ -228,9 +228,21 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `empty-action-url`   | _(blank)_              | Optional URL to navigate to when the empty CTA is clicked.   |
 | `no-clearing`        | `false`                | Remove the default bottom margin. _(boolean)_                |
 
-**Slot:** default (manual `<option>` children). **Parts:** `trigger`, `panel`.
-**Methods:** `reset()`, `validate()`. **Events:** `loomi-select` (`detail: { value, label, values }`),
-`change` (composed), `loomi-empty-action` (`detail: { url }`).
+**Parts:** `trigger`, `panel`. **Methods:** `reset()`, `validate()`.
+
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `change` | Fired when the value is committed or changed. |
+| `loomi-empty-action` | Fired when the empty-state action is activated. |
+| `loomi-select` | Fired when an option is selected. |
 
 ## Full Example
 

@@ -132,6 +132,12 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 **Helpers:** `applyLoomiTheme(mode)`, `getLoomiTheme()`. **Event:** `loomi-theme-change`
 (`detail: { theme }`).
 
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `loomi-theme-change` | Fired when the theme changes. |
+
 ## Full Example
 
 ```html

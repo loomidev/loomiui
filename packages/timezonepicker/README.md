@@ -125,8 +125,14 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `empty-placeholder` | `No timezones found` | Text shown when search matches nothing.                            |
 | `no-clearing`       | `false`              | Remove the default bottom margin. _(boolean)_                      |
 
-**Parts:** `trigger`, `panel`. **Methods:** `reset()`, `validate()`. **Events:**
-`loomi-select` (`detail: { id, city, region, offsetLabel }`), `change` (composed).
+**Parts:** `trigger`, `panel`. **Methods:** `reset()`, `validate()`.
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `change` | Fired when the value is committed or changed. |
+| `loomi-select` | Fired when a timezone is selected. |
 
 ## Full Example
 

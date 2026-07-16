@@ -128,25 +128,6 @@ Each item in `mentionData` accepts these fields:
 **Keyboard navigation:** ↑/↓ to move, Enter or Tab to confirm, Escape to close.
 The picker closes automatically when clicking outside or scrolling.
 
-## Events
-
-```html
-<loomi-textarea
-  label="Comment"
-  onfocus="this.part.field?.classList.add('ring-2')"
-></loomi-textarea>
-```
-
-Like any element, you can attach standard listeners (`input`, `focus`, `blur`) directly,
-or use the exported `field`/`textarea` CSS parts to style focus/blur states from outside
-the shadow root.
-
-```js
-document.querySelector("loomi-textarea").addEventListener("input", (e) => {
-  console.log(e.target.value);
-});
-```
-
 ## Accessibility
 
 For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
@@ -179,11 +160,36 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 
 **Properties (JS only):** `mentionData` — `Record<string, { label, value?, description?, image? }[]>`.
 
-**Methods:** `focus()`, `validate()`. **Events:** `input`, `change`, `loomi-mention-search`, `loomi-mention-select` (all composed).
-**Parts:** `field`, `textarea`, `mention-panel`.
+**Methods:** `focus()`, `validate()`. **Parts:** `field`, `textarea`, `mention-panel`.
 
 > Looking for a rich-text editor? See [`@loomidev/text-editor`](../text-editor),
 > split out from this component's former `toolbar` mode.
+
+## Events
+
+| Event | Detail | Description |
+| ----- | ------ | ----------- |
+| `input` | — | The text or mention value changed. |
+| `change` | — | The edited value was committed. |
+| `loomi-mention-search` | `{ trigger, query }` | A mention query needs matching items. |
+| `loomi-mention-select` | `{ trigger, item }` | A mention item was inserted. |
+
+```html
+<loomi-textarea
+  label="Comment"
+  onfocus="this.part.field?.classList.add('ring-2')"
+></loomi-textarea>
+```
+
+Like any element, you can attach standard listeners (`input`, `focus`, `blur`) directly,
+or use the exported `field`/`textarea` CSS parts to style focus/blur states from outside
+the shadow root.
+
+```js
+document.querySelector("loomi-textarea").addEventListener("input", (e) => {
+  console.log(e.target.value);
+});
+```
 
 ## Full Example
 

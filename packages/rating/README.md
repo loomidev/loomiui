@@ -102,7 +102,11 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `size`      | `small`   | `small` \| `medium` \| `big`           |
 | `clickable` | `true`    | Allow changing the rating. _(boolean)_ |
 
-**Event:** `change` (`detail: { rating }`).
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `change` | Fired when the value is committed or changed. |
 
 ## Full Example
 

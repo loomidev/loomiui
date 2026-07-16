@@ -203,7 +203,11 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `shade`        | `light`     | Badge background: `light` \| `dark`. Only applies when `branded`.                                                                                                                    |
 | `radius`       | `medium`    | Badge corner radius: `none` \| `small` \| `medium` \| `full`. Only applies when `branded`.                                                                                           |
 
-**Slot:** default (custom `<svg>`, used when no registered icon matches `name`/`source`).
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
 
 ## Full Example
 

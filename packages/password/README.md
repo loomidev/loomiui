@@ -110,15 +110,27 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `show-error-inline`       | `false`   | Render `error-message` beneath the field. _(boolean)_                     |
 | `show-placeholder-always` | `false`   | Keep the placeholder visible even with a label. _(boolean)_               |
 
-### Methods & Events
+### Methods
 
 | Member                | Description                                    |
 | --------------------- | ---------------------------------------------- |
 | `.value`              | Get/set the current value.                     |
 | `focus()` / `clear()` | Focus or clear the field.                      |
 | `validate()`          | Run validation now; returns `true` when valid. |
-| `input` / `change`    | Native events (composed).                      |
-| `loomi-prefix-change` | Fired when a prefix dropdown changes.          |
+
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| `prefix` | Content rendered before the main value or label. |
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `change` | Fired when the value is committed or changed. |
+| `input` | Fired while the value is edited. |
+| `loomi-prefix-change` | Fired when the prefix changes. |
 
 ## Dependencies
 

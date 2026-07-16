@@ -99,12 +99,6 @@ entire group with `disabled` on `<loomi-button-group>`.
 </loomi-button-group>
 ```
 
-## Events
-
-| Event                       | Detail                                                   |
-| --------------------------- | -------------------------------------------------------- |
-| `loomi-button-group-change` | `{ value, label, index }` when the selected item changes |
-
 ## Accessibility
 
 - Supports keyboard focus with visible `:focus-visible` styling on each button.
@@ -148,6 +142,19 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `aria-label` | _(blank)_ | Accessible label for icon-only items when `label` is not enough.                       |
 | `selected`   | `false`   | Mark this item as active. _(boolean)_                                                  |
 | `disabled`   | `false`   | Disable only this item. _(boolean)_                                                    |
+
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+
+## Events
+
+| Event                       | Detail                                                   |
+| --------------------------- | -------------------------------------------------------- |
+| `loomi-bg-click`            | `{ value }` from the activated group item                |
+| `loomi-button-group-change` | `{ value, label, index }` when the selected item changes |
 
 ## Dependencies
 

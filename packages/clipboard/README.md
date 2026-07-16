@@ -37,14 +37,6 @@ Use `value` when the visible content differs from the clipboard value.
 </loomi-clipboard>
 ```
 
-## Events
-
-```js
-document.querySelector("loomi-clipboard").addEventListener("copied", (event) => {
-  console.log(event.detail.value);
-});
-```
-
 ## Accessibility
 
 For the library-wide baseline, see [Foundations â€” Accessibility](https://loomiui.com/foundations/#accessibility).
@@ -66,7 +58,24 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `copied-label` | `Copied`            | Feedback text and accessible label after copy.                |
 | `disabled`     | `false`             | Disables the copy button. _(boolean)_                         |
 
-**Slot:** default text or content to display and copy.
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+
+## Events
+
+| Event | Detail | Description |
+| ----- | ------ | ----------- |
+| `loomi-copied` | `{ value }` | The value was copied successfully. |
+| `loomi-copy-error` | `{ value, error }` | Copying failed. |
+
+```js
+document.querySelector("loomi-clipboard").addEventListener("loomi-copied", (event) => {
+  console.log(event.detail.value);
+});
+```
 
 ## Dependencies
 

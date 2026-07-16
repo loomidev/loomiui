@@ -85,6 +85,12 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `label`   | _(blank)_ | Item text. Also used as fallback slot content.                |
 | `active`  | `false`   | Marks the item as the current page.                           |
 
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+
 ## Methods
 
 | Method        | Description                                      |
