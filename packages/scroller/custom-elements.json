@@ -290,6 +290,31 @@
             },
             {
               "kind": "method",
+              "name": "copyComputedStyles",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "source",
+                  "type": {
+                    "text": "Element"
+                  }
+                },
+                {
+                  "name": "clone",
+                  "type": {
+                    "text": "Element"
+                  }
+                }
+              ],
+              "description": "Light-DOM items can be styled by page-level selectors, but their seamless copies\nlive in shadow DOM where those selectors do not cross the boundary. Snapshot the\nresulting styles so every copy has the same geometry and the loop reset is invisible."
+            },
+            {
+              "kind": "method",
               "name": "prepareClone",
               "privacy": "private",
               "return": {
