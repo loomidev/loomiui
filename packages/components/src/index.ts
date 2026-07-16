@@ -49,6 +49,7 @@ export * from "@loomidev/lightbox";
 export * from "@loomidev/empty-state";
 export * from "@loomidev/statistic";
 export * from "@loomidev/resizable";
+export * from "@loomidev/scroller";
 export * from "@loomidev/rating";
 export * from "@loomidev/timeline";
 export * from "@loomidev/progress";

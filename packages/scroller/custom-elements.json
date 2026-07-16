@@ -1,0 +1,457 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiScroller",
+          "declaration": {
+            "name": "LoomiScroller",
+            "module": "./loomi-scroller.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiScrollerDirection",
+          "declaration": {
+            "name": "LoomiScrollerDirection",
+            "module": "./loomi-scroller.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiScrollerItemClickDetail",
+          "declaration": {
+            "name": "LoomiScrollerItemClickDetail",
+            "module": "./loomi-scroller.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiScrollerScrollCompleteDetail",
+          "declaration": {
+            "name": "LoomiScrollerScrollCompleteDetail",
+            "module": "./loomi-scroller.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-scroller.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-scroller>` — continuously scrolls every item in its default slot as one\nseamless ticker. Direct child elements are treated as clickable items.",
+          "name": "LoomiScroller",
+          "slots": [
+            {
+              "description": "Content items to scroll.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "speed",
+              "default": "50",
+              "description": "Travel speed in pixels per second.",
+              "attribute": "speed",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "direction",
+              "type": {
+                "text": "LoomiScrollerDirection"
+              },
+              "default": "\"left\"",
+              "description": "Physical direction in which the content moves.",
+              "attribute": "direction",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "pauseOnHover",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Pause the animation while the pointer is over the scroller.",
+              "attribute": "pause-on-hover",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "scrollCount",
+              "type": {
+                "text": "number | \"infinite\""
+              },
+              "default": "\"infinite\"",
+              "description": "Number of complete passes, or `infinite`.",
+              "attribute": "scroll-count",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "blurredEdges",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Fade content into the leading and trailing viewport edges.",
+              "attribute": "blurred-edges",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "edgeSize",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"3rem\"",
+              "description": "Width or height of each faded edge.",
+              "attribute": "edge-size"
+            },
+            {
+              "kind": "field",
+              "name": "viewportEl",
+              "type": {
+                "text": "HTMLElement"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "primaryGroupEl",
+              "type": {
+                "text": "HTMLElement"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "cloneGroupEl",
+              "type": {
+                "text": "HTMLElement"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "trackEl",
+              "type": {
+                "text": "HTMLElement"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "slotEl",
+              "type": {
+                "text": "HTMLSlotElement"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "travelDistance",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "duration",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "1"
+            },
+            {
+              "kind": "field",
+              "name": "hasItems",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "resizeObserver",
+              "type": {
+                "text": "ResizeObserver | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "mutationObserver",
+              "type": {
+                "text": "MutationObserver | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "cloneRepeats",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "cloneSyncQueued",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "safeDirection",
+              "type": {
+                "text": "LoomiScrollerDirection"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "safeSpeed",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "iterationCount",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "trackStyle",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "queueCloneSync",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onSlotChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "syncClones",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "force",
+                  "default": "false"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "prepareClone",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "clone",
+                  "type": {
+                    "text": "HTMLElement"
+                  }
+                },
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "measurePrimary",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "number"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "measureViewport",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "number"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "syncMeasurements",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "restartAnimation",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onTrackClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onAnimationEnd",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "description": "A direct item or its seamless clone was clicked.",
+              "name": "loomi-scroller-item-click"
+            },
+            {
+              "description": "A finite `scroll-count` finished.",
+              "name": "loomi-scroll-complete"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "speed",
+              "default": "DEFAULT_SPEED",
+              "description": "Travel speed in pixels per second.",
+              "fieldName": "speed"
+            },
+            {
+              "name": "direction",
+              "type": {
+                "text": "LoomiScrollerDirection"
+              },
+              "default": "\"left\"",
+              "description": "Physical direction in which the content moves.",
+              "fieldName": "direction"
+            },
+            {
+              "name": "pause-on-hover",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Pause the animation while the pointer is over the scroller.",
+              "fieldName": "pauseOnHover"
+            },
+            {
+              "name": "scroll-count",
+              "type": {
+                "text": "number | \"infinite\""
+              },
+              "default": "\"infinite\"",
+              "description": "Number of complete passes, or `infinite`.",
+              "fieldName": "scrollCount"
+            },
+            {
+              "name": "blurred-edges",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Fade content into the leading and trailing viewport edges.",
+              "fieldName": "blurredEdges"
+            },
+            {
+              "name": "edge-size",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"3rem\"",
+              "description": "Width or height of each faded edge.",
+              "fieldName": "edgeSize"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-scroller",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiScroller",
+          "declaration": {
+            "name": "LoomiScroller",
+            "module": "src/loomi-scroller.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-scroller",
+          "declaration": {
+            "name": "LoomiScroller",
+            "module": "src/loomi-scroller.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

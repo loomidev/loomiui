@@ -14,6 +14,7 @@ import "@loomidev/content"; // registers all content elements
 | ------------------------------------------------------------- |
 | [`@loomidev/card`](../card)                                   |
 | [`@loomidev/divider`](../divider)                             |
+| [`@loomidev/scroller`](../scroller)                           |
 | [`@loomidev/qrcode`](../qrcode)                               |
 | [`@loomidev/avatar`](../avatar)                               |
 | [`@loomidev/accordion`](../accordion)                         |
@@ -217,6 +218,7 @@ In Next.js, Nuxt, SvelteKit, and other SSR frameworks, put the bundle import in 
 - `@loomidev/progress`
 - `@loomidev/qrcode`
 - `@loomidev/rating`
+- `@loomidev/scroller`
 - `@loomidev/sortable`
 - `@loomidev/statistic`
 - `@loomidev/tag`

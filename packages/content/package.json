@@ -42,6 +42,7 @@
     "@loomidev/empty-state": "workspace:^",
     "@loomidev/statistic": "workspace:^",
     "@loomidev/rating": "workspace:^",
+    "@loomidev/scroller": "workspace:^",
     "@loomidev/timeline": "workspace:^",
     "@loomidev/progress": "workspace:^",
     "@loomidev/listview": "workspace:^",

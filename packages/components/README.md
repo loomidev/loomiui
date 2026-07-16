@@ -66,6 +66,7 @@ import "@loomidev/components/select";
 | `<loomi-number>`       | [`@loomidev/number`](../number)             |
 | `<loomi-select>`       | [`@loomidev/select`](../select)             |
 | `<loomi-divider>`      | [`@loomidev/divider`](../divider)           |
+| `<loomi-scroller>`     | [`@loomidev/scroller`](../scroller)         |
 | `<loomi-qrcode>`       | [`@loomidev/qrcode`](../qrcode)             |
 | `<loomi-clipboard>`    | [`@loomidev/clipboard`](../clipboard)       |
 | `<loomi-context-menu>` | [`@loomidev/context-menu`](../context-menu) |
@@ -274,6 +275,7 @@ In Next.js, Nuxt, SvelteKit, and other SSR frameworks, put the bundle import in 
 - `@loomidev/radio`
 - `@loomidev/rating`
 - `@loomidev/resizable`
+- `@loomidev/scroller`
 - `@loomidev/select`
 - `@loomidev/side-nav`
 - `@loomidev/slider`

@@ -1,0 +1,168 @@
+:host {
+  display: block;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+:host([hidden]) {
+  display: none;
+}
+:host([direction="up"]),
+:host([direction="down"]) {
+  height: 12rem;
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.loomi-viewport {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+.loomi-viewport.horizontal.has-blurred-edges {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black var(--_loomi-scroller-edge-size, 3rem),
+    black calc(100% - var(--_loomi-scroller-edge-size, 3rem)),
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black var(--_loomi-scroller-edge-size, 3rem),
+    black calc(100% - var(--_loomi-scroller-edge-size, 3rem)),
+    transparent
+  );
+}
+.loomi-viewport.vertical.has-blurred-edges {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black var(--_loomi-scroller-edge-size, 3rem),
+    black calc(100% - var(--_loomi-scroller-edge-size, 3rem)),
+    transparent
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black var(--_loomi-scroller-edge-size, 3rem),
+    black calc(100% - var(--_loomi-scroller-edge-size, 3rem)),
+    transparent
+  );
+}
+
+.loomi-track {
+  display: flex;
+  direction: ltr;
+  width: max-content;
+  will-change: transform;
+  animation-duration: var(--_loomi-scroller-duration, 10s);
+  animation-timing-function: linear;
+  animation-iteration-count: var(--_loomi-scroller-iterations, infinite);
+  animation-fill-mode: forwards;
+  animation-play-state: paused;
+}
+.loomi-track.vertical {
+  flex-direction: column;
+  width: 100%;
+  height: max-content;
+}
+.loomi-track.is-ready {
+  animation-play-state: running;
+}
+.loomi-track.direction-left {
+  animation-name: loomi-scroller-left;
+}
+.loomi-track.direction-right {
+  animation-name: loomi-scroller-right;
+}
+.loomi-track.direction-up {
+  animation-name: loomi-scroller-up;
+}
+.loomi-track.direction-down {
+  animation-name: loomi-scroller-down;
+}
+
+.loomi-group {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--loomi-scroller-gap, 2rem);
+  padding-inline-end: var(--loomi-scroller-gap, 2rem);
+  min-width: max-content;
+}
+.vertical .loomi-group {
+  width: 100%;
+  min-width: 0;
+  min-height: max-content;
+  flex-direction: column;
+  align-items: stretch;
+  padding-inline-end: 0;
+  padding-block-end: var(--loomi-scroller-gap, 2rem);
+}
+slot {
+  display: contents;
+}
+::slotted(*) {
+  flex: none;
+}
+:host(:dir(rtl)) .loomi-group {
+  direction: rtl;
+}
+
+.loomi-viewport:hover .loomi-track.pause-on-hover,
+.loomi-viewport:focus-within .loomi-track {
+  animation-play-state: paused;
+}
+
+@keyframes loomi-scroller-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(calc(-1 * var(--_loomi-scroller-distance)), 0, 0);
+  }
+}
+@keyframes loomi-scroller-right {
+  from {
+    transform: translate3d(calc(-1 * var(--_loomi-scroller-distance)), 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes loomi-scroller-up {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, calc(-1 * var(--_loomi-scroller-distance)), 0);
+  }
+}
+@keyframes loomi-scroller-down {
+  from {
+    transform: translate3d(0, calc(-1 * var(--_loomi-scroller-distance)), 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loomi-viewport {
+    overflow: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .loomi-track {
+    animation: none;
+    transform: none;
+  }
+  .clone {
+    display: none;
+  }
+}

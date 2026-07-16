@@ -714,6 +714,9 @@ importers:
       '@loomidev/resizable':
         specifier: workspace:^
         version: link:../resizable
+      '@loomidev/scroller':
+        specifier: workspace:^
+        version: link:../scroller
       '@loomidev/select':
         specifier: workspace:^
         version: link:../select
@@ -878,6 +881,9 @@ importers:
       '@loomidev/rating':
         specifier: workspace:^
         version: link:../rating
+      '@loomidev/scroller':
+        specifier: workspace:^
+        version: link:../scroller
       '@loomidev/sortable':
         specifier: workspace:^
         version: link:../sortable
@@ -1056,6 +1062,28 @@ importers:
         version: 5.9.3
 
   packages/divider:
+    dependencies:
+      '@loomidev/core':
+        specifier: workspace:^
+        version: link:../core
+    devDependencies:
+      '@loomidev/theme':
+        specifier: workspace:^
+        version: link:../theme
+      '@tailwindcss/cli':
+        specifier: ^4.0.0
+        version: 4.3.2
+      lit:
+        specifier: ^3.3.3
+        version: 3.3.3
+      tailwindcss:
+        specifier: ^4.0.0
+        version: 4.3.2
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+
+  packages/scroller:
     dependencies:
       '@loomidev/core':
         specifier: workspace:^
