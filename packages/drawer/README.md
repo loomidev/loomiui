@@ -184,8 +184,19 @@ Boolean attributes can be omitted, present, or set to `"false"` in HTML, for exa
 **Methods:** `show()` (void), `hide()` (returns a `Promise<void>` that resolves once the
 close animation finishes and the drawer unmounts).
 **Helpers:** `showLoomiDrawer(name)`, `hideLoomiDrawer(name)`.
-**Events:** `open`, `close` (fires as the close animation starts, not when it finishes).
-**Slot:** default (body).
+
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `close` | Fired when the component closes. |
+| `open` | Fired when the component opens. |
 
 ## Focus Handling
 

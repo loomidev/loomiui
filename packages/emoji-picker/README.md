@@ -81,12 +81,6 @@ markup works as expected too:
 <loomi-emoji-picker show-text="false"></loomi-emoji-picker>
 ```
 
-## Events
-
-`change` fires with `detail: { value, emoji, item }` after selection.
-
-`loomi-emoji-select` fires with `detail: { value, emoji, name, category, item }`.
-
 ## Accessibility
 
 For the library-wide baseline, see [Foundations â€” Accessibility](https://loomiui.com/foundations/#accessibility).
@@ -115,6 +109,12 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `disabled`        | `false`         | Disable the trigger.                                                       |
 | `readonly`        | `false`         | Prevent changes while keeping the current value readable.                  |
 | `size`            | `medium`        | `small`, `regular`, `medium`, or `big`.                                    |
+
+## Events
+
+`change` fires with `detail: { value, emoji, item }` after selection.
+
+`loomi-emoji-select` fires with `detail: { value, emoji, name, category, item }`.
 
 ## Methods
 

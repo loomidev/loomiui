@@ -159,7 +159,18 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `icon`    | _(blank)_ | Leading icon name.                            |
 | `avatar`  | _(blank)_ | Image URL, or â‰¤3 chars for an initials label. |
 
-**Slot:** default (card body). **Event:** `change` (`detail: { values }`).
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `change` | Fired when the value is committed or changed. |
+| `loomi-checkcard-click` | Fired when a checkcard is activated. |
 
 ## Full Example
 

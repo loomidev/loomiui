@@ -66,16 +66,6 @@ Set `auto-save-id` on a group to store panel sizes in `localStorage`. Provide
 </loomi-resizable-panel-group>
 ```
 
-## Events
-
-Listen for `loomi-layout-change` on the group:
-
-```js
-group.addEventListener("loomi-layout-change", (event) => {
-  console.log(event.detail.sizes, event.detail.layout);
-});
-```
-
 ## Accessibility
 
 For the library-wide baseline, see [Foundations â€” Accessibility](https://loomiui.com/foundations/#accessibility).
@@ -117,6 +107,22 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `disabled`    | `false` | Disable dragging.         |
 
 **Keyboard:** focus a handle and use arrow keys (hold Shift for larger steps).
+
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+
+## Events
+
+Listen for `loomi-layout-change` on the group:
+
+```js
+group.addEventListener("loomi-layout-change", (event) => {
+  console.log(event.detail.sizes, event.detail.layout);
+});
+```
 
 ## Dependencies
 

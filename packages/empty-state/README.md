@@ -135,8 +135,17 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `image-size`   | `medium`  | `small` \| `medium` \| `large` \| `xl` \| `omg`                 |
 | `show-image`   | `true`    | Show the illustration. Set `false` to use the slot. _(boolean)_ |
 
-**Slot:** default (custom content when `show-image="false"`). **Event:** `action`
-(button click).
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `action` | Fired when the component's primary action is activated. |
 
 ## Full Example
 

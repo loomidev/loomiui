@@ -261,7 +261,21 @@ Boolean attributes can be omitted, present, or set to `"false"` in HTML, for exa
 `backdrop-can-close="false"` or `show-close-icon`.
 
 **Methods:** `show()`, `hide()`. **Helpers:** `showLoomiModal(name)`, `hideLoomiModal(name)`.
-**Events:** `ok`, `cancel`, `close`, `open`. **Slot:** default (body).
+
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `cancel` | Fired when the cancel action is activated. |
+| `close` | Fired when the component closes. |
+| `ok` | Fired when the confirm action is activated. |
+| `open` | Fired when the component opens. |
 
 ## Full Example
 

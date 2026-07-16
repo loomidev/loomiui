@@ -209,8 +209,17 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `disabled` | `false`   | Disabled tab â€” faded out, ignores clicks and keyboard focus. _(boolean)_ |
 | `url`      | _(blank)_ | Navigate to this URL instead of switching panels.                        |
 
-**Event:** `loomi-tab-change` (`detail: { label }`), fired on `<loomi-tabs>` when the active
-tab changes by click or keyboard.
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `loomi-tab-change` | Fired when the tab changes. |
 
 ## Full Example
 

@@ -150,9 +150,20 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `width`      | `280`                | Panel width in pixels.                                                               |
 | `disabled`   | `false`              | Disable the trigger.                                                                 |
 
-**Methods:** `show()`, `hide()`, `toggle()`. **Getters:** `isOpen`. **Events:**
-`loomi-toggle` (`detail: { open }`). **Slots:** default (content), `trigger`
-(custom trigger).
+**Methods:** `show()`, `hide()`, `toggle()`. **Getter:** `isOpen`.
+
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+| `trigger` | Custom content used to open the component. |
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `loomi-toggle` | Fired when the popover opens or closes. |
 
 ## Full Example
 

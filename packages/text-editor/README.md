@@ -379,9 +379,15 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 **Methods:** `focus()`, `validate()`, `checkValidity()`, `reportValidity()`.
 
-**Events:** `input`, `change`, `loomi-ai-generate`.
-
 **CSS parts:** `field`, `toolbar`, `editor`.
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `change` | Fired when the value is committed or changed. |
+| `input` | Fired while the value is edited. |
+| `loomi-ai-generate` | Fired when the AI generation action is requested. |
 
 ## Framework integration
 

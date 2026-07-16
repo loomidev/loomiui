@@ -185,6 +185,18 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 | `prevent-default` | `false`   | Always suppress real navigation, even with `href` set. _(boolean)_                            |
 | `active`          | `false`   | Normally set by the parent. Set directly only when using this element standalone. _(boolean)_ |
 
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+
+## Events
+
+| Event          | Detail                                                                                                                                                                        |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `loomi-change` | `{ item, value, name, href }`. Fired by the clicked item, bubbles through the parent. Cancelable — `event.preventDefault()` suppresses real anchor navigation for that click. |
+
 ## Parts
 
 | Part               | Element                                                                     |
@@ -225,12 +237,6 @@ loomi-bottom-nav {
   --loomi-bottom-nav-active-dot-size: 6px;
 }
 ```
-
-## Events
-
-| Event          | Detail                                                                                                                                                                        |
-| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `loomi-change` | `{ item, value, name, href }`. Fired by the clicked item, bubbles through the parent. Cancelable — `event.preventDefault()` suppresses real anchor navigation for that click. |
 
 ## Dependencies
 

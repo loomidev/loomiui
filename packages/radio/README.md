@@ -93,8 +93,17 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `color`       | `primary` | Active color (any loomi color).               |
 | `no-clearing` | `false`   | Remove the default bottom margin. _(boolean)_ |
 
-**Slot:** default (label). **Part:** `dot`. **Event:** `change` (composed, fired on the
-radio that becomes checked).
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `change` | Fired when the value is committed or changed. |
 
 ## Full Example
 

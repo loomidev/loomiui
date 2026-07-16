@@ -141,7 +141,12 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `track-radius`   | `999px`   | Slider bar roundness.                                                  |
 | `value-target`   | _(blank)_ | Selector for an input/output field to update as the slider moves.      |
 
-**Events:** `input`, `change` (composed).
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `change` | Fired when the value is committed or changed. |
+| `input` | Fired while the value is edited. |
 
 ## Full Example
 

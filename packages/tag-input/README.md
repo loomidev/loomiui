@@ -63,7 +63,21 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `suffix`      | _(blank)_ | Optional text suffix.                                |
 | `suffix-icon` | _(blank)_ | Optional icon-name suffix (see `@loomidev/icons`).   |
 
-## Methods & Events
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| `suffix` | Content rendered after the main value or label. |
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `change` | Fired when the value is committed or changed. |
+| `input` | Fired while the value is edited. |
+| `loomi-autocomplete-select` | Fired when an autocomplete suggestion is selected. |
+
+## Methods
 
 | Member                | Description                                                        |
 | --------------------- | ------------------------------------------------------------------ |
@@ -71,8 +85,6 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `.value`              | Comma-separated submitted value.                                   |
 | `focus()` / `clear()` | Focus the draft input or remove all tags.                          |
 | `validate()`          | Runs required validation and returns whether the control is valid. |
-| `input`               | Fires when draft text changes or tags change.                      |
-| `change`              | Fires when tags are added or removed.                              |
 
 ## Dependencies
 

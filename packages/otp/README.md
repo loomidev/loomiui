@@ -181,6 +181,12 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 (reflected), `invalid` (reflected). **Event:** `loomi-verify` (`detail: { code, pin }`, where
 `pin` is a deprecated alias of `code`; fired when all boxes are filled).
 
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `loomi-verify` | Fired when every code box is filled. |
+
 ## Full Example
 
 ```html

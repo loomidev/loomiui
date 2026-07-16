@@ -242,8 +242,6 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `editable`     | `false`       | Clicking (or Enter/Space) launches a crop dialog to replace the image. _(boolean)_ |
 | `edit-label`   | `Edit avatar` | Accessible label for the editable avatar's button role.                            |
 
-**Event:** `change` (fires after `editable` applies a crop) â€” `detail: { file, image }`.
-
 ### `<loomi-avatars>` (group)
 
 | Attribute      | Default   | Description                                                         |
@@ -256,6 +254,18 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `pulse-dot`    | `false`   | Apply pulsing dots to children when `dotted` is set. _(boolean)_    |
 | `dot-color`    | `success` | Propagated to children without their own `dot-color`.               |
 | `dot-position` | `bottom`  | Propagated to children without their own `dot-position`.            |
+
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `change` | Fired when the value is committed or changed. |
 
 ## Full Example
 

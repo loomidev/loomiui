@@ -125,7 +125,11 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `show-spinner`      | `false`   | Show a loading spinner instead of the number. _(boolean)_                                                                                |
 | `url`               | _(blank)_ | Navigate on click.                                                                                                                       |
 
-**Slot:** `icon`.
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| `icon` | Custom icon content. |
 
 ## Full Example
 

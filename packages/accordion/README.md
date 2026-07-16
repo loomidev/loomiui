@@ -139,7 +139,18 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `color`      | _(blank)_ | Standalone background color.           |
 | `no-padding` | `false`   | Remove body padding. _(boolean)_       |
 
-**Slots:** default (body), `title`.
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+| `title` | Custom title content. |
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `loomi-accordion-toggle` | Fired when the accordion is toggled. |
 
 ## Full Example
 

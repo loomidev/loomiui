@@ -172,9 +172,15 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 **Properties:** `value` (read-only `LoomiCreditcardValue`), `activeBrand` (read-only,
 the currently displayed `LoomiCardBrand`).
 **Methods:** `validate()`.
-**Events:** `input`, `change` (both `detail: LoomiCreditcardValue`, composed), `loomi-flip`
-(`detail: { flipped }`, composed).
 **Parts:** `front`, `back`, `number`, `name`, `expiry`, `cvc`, `flip-button`.
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `change` | Fired when the value is committed or changed. |
+| `input` | Fired while the value is edited. |
+| `loomi-flip` | Fired when the visible card face changes. |
 
 ## Full Example
 

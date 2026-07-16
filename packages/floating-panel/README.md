@@ -109,18 +109,6 @@ page reloads.
 </loomi-floating-panel>
 ```
 
-## Events
-
-```js
-const panel = document.querySelector('loomi-floating-panel[name="help"]');
-panel.addEventListener("open", () => console.log("opened"));
-panel.addEventListener("close", () => console.log("closed"));
-panel.addEventListener("loomi-drag", (e) => console.log("moved to", e.detail)); // { top, left }
-panel.addEventListener("loomi-resize", (e) => console.log("resized to", e.detail)); // { top, left, width, height }
-panel.addEventListener("loomi-minimize", (e) => console.log("minimized:", e.detail.minimized));
-panel.addEventListener("loomi-maximize", (e) => console.log("maximized:", e.detail.maximized));
-```
-
 ## Accessibility
 
 `<loomi-floating-panel>` renders as `role="dialog"` with `aria-modal="false"` — it never
@@ -190,10 +178,24 @@ Boolean attributes can be omitted, present, or set to `"false"` in HTML, for exa
 
 **Methods:** `show()`, `hide()` (both void).
 **Helpers:** `showLoomiFloatingPanel(name)`, `hideLoomiFloatingPanel(name)`.
-**Events:** `open`, `close`, `loomi-drag` (`detail: { top, left }`), `loomi-resize`
-(`detail: { top, left, width, height }`), `loomi-minimize` (`detail: { minimized }`),
-`loomi-maximize` (`detail: { maximized }`).
-**Slot:** default (body).
+
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+
+## Events
+
+```js
+const panel = document.querySelector('loomi-floating-panel[name="help"]');
+panel.addEventListener("open", () => console.log("opened"));
+panel.addEventListener("close", () => console.log("closed"));
+panel.addEventListener("loomi-drag", (e) => console.log("moved to", e.detail)); // { top, left }
+panel.addEventListener("loomi-resize", (e) => console.log("resized to", e.detail)); // { top, left, width, height }
+panel.addEventListener("loomi-minimize", (e) => console.log("minimized:", e.detail.minimized));
+panel.addEventListener("loomi-maximize", (e) => console.log("maximized:", e.detail.maximized));
+```
 
 ## Full Example
 

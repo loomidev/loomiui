@@ -89,7 +89,12 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `placement` | `top`     | `top` \| `bottom` \| `left` \| `right`    |
 | `shade`     | `dark`    | `dark` \| `light`                         |
 
-**Slots:** default (trigger), `content` (rich tooltip body).
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
+| `content` | Custom body content. |
 
 ## Full Example
 

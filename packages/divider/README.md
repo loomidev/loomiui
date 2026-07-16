@@ -80,7 +80,11 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `thickness`   | `1px`        | CSS length for the rule thickness.                                   |
 | `spacing`     | `0.75rem`    | CSS length for the gap around divider content.                       |
 
-**Slot:** default (optional content).
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
 
 ## Dependencies
 

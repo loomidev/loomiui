@@ -98,7 +98,11 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `show-value`     | `false`   | Show the selected HEX value. _(boolean)_             |
 | `size`           | `regular` | `small` \| `regular` \| `medium` \| `big`            |
 
-**Event:** `change` (`detail: { value }`).
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `change` | Fired when the value is committed or changed. |
 
 ## Full Example
 

@@ -103,7 +103,14 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `disabled`          | `false`   | Disable the control. _(boolean)_                    |
 | `no-clearing`       | `false`   | Remove the default bottom margin. _(boolean)_       |
 
-**Methods:** `focus()`. **Events:** `input`, `change` (composed). **Parts:** `field`, `input`.
+**Methods:** `focus()`. **Parts:** `field`, `input`.
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `change` | Fired when the value is committed or changed. |
+| `input` | Fired while the value is edited. |
 
 ## Full Example
 

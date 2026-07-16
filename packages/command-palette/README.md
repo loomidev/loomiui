@@ -31,6 +31,14 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `shortcut`          | `string`               | `"Cmd K"`                        | Shortcut hint shown in the trigger.                     |
 | `items`             | `CommandPaletteItem[]` | `[]`                             | JavaScript property only; assign it from your app code. |
 
+## Events
+
+| Event                        | Detail      |
+| ---------------------------- | ----------- |
+| `loomi-command-select`       | `{ item }`  |
+| `loomi-command-open-change`  | `{ open }`  |
+| `loomi-command-query-change` | `{ query }` |
+
 ## Installation
 
 ```sh
@@ -86,14 +94,6 @@ Use `empty-title` and `empty-description` when no commands match the current que
   empty-description="Try a project, customer, or setting"
 ></loomi-command-palette>
 ```
-
-## Events
-
-| Event                        | Detail      |
-| ---------------------------- | ----------- |
-| `loomi-command-select`       | `{ item }`  |
-| `loomi-command-open-change`  | `{ open }`  |
-| `loomi-command-query-change` | `{ query }` |
 
 ## Design Notes
 

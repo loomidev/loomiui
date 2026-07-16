@@ -83,7 +83,11 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `transparent` | `false` | Remove the white background. _(boolean)_ |
 | `compact`     | `false` | Reduce row padding. _(boolean)_          |
 
-**Slots:** default (`<loomi-listview-item>` children); item default (row content).
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
 
 ## Full Example
 

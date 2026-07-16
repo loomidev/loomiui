@@ -78,7 +78,11 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `min-height` | `60vh`  | Height of the centering area (any CSS length).   |
 | `max-width`  | `28rem` | Max width of the inner content (any CSS length). |
 
-**Slot:** default (centered content).
+## Slots
+
+| Slot | Description |
+| ---- | ----------- |
+| _(default)_ | Content placed inside the component. |
 
 ## Full Example
 

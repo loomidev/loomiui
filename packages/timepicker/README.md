@@ -120,6 +120,12 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 **Property:** `value`. **Event:** `change` (`detail: { value }`).
 
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `change` | Fired when the value is committed or changed. |
+
 ## Full Example
 
 ```html

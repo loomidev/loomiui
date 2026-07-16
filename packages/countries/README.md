@@ -188,13 +188,19 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 **Parts:** `trigger`, `panel`, `field` (`phone` mode), `input` (`phone` mode).
 **Methods:** `reset()`, `validate()`, `checkValidity()`, `reportValidity()`.
-**Events:** `loomi-select` (`detail: { code, name, dialCode }`), `change` (composed),
-`input` (composed, `phone` mode only, fires while typing the number).
 
 > Flags are circle-flags (HatScripts, MIT) rather than the more detailed flag-icons set â€”
 > at the ~20px size these render at, simplified circular artwork looks just as good and
 > is roughly 10x lighter, and every flag gets the same circular footprint regardless of
 > its native aspect ratio, which keeps names aligned down a long list.
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `change` | Fired when the value is committed or changed. |
+| `input` | Fired while the value is edited. |
+| `loomi-select` | Fired when a country is selected. |
 
 ## Full Example
 

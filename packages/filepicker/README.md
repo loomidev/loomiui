@@ -247,10 +247,16 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `has-border`          | `true`                                    | Show the drop-zone border. _(boolean)_                                            |
 | `stealth`             | `false`                                   | Hide the drop-zone/file list; drive selection via `open()`/`clear()`. _(boolean)_ |
 
-**Property:** `selectedFiles`. **Methods:** `open()`, `clear()`. **Event:** `change` (`detail: { files }`).
+**Property:** `selectedFiles`. **Methods:** `open()`, `clear()`.
 
 > Not ported from the older Filepond-style wrapper: auto-upload-to-route. Use the `change`
 > event with your own upload logic, or submit the form for manual upload.
+
+## Events
+
+| Event | Description |
+| ----- | ----------- |
+| `change` | Fired when the value is committed or changed. |
 
 ## Full Example
 
