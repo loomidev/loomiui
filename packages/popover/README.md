@@ -154,15 +154,15 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 ## Slots
 
-| Slot | Description |
-| ---- | ----------- |
-| _(default)_ | Content placed inside the component. |
-| `trigger` | Custom content used to open the component. |
+| Slot        | Description                                |
+| ----------- | ------------------------------------------ |
+| _(default)_ | Content placed inside the component.       |
+| `trigger`   | Custom content used to open the component. |
 
 ## Events
 
-| Event | Description |
-| ----- | ----------- |
+| Event          | Description                             |
+| -------------- | --------------------------------------- |
 | `loomi-toggle` | Fired when the popover opens or closes. |
 
 ## Full Example

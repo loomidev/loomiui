@@ -365,12 +365,12 @@ mode).
 
 ## Events
 
-| Event | Description |
-| ----- | ----------- |
-| `loomi-filter` | Fired when the filter action is activated. |
-| `loomi-item-click` | Fired when an item is activated. |
-| `loomi-reorder` | Fired after items are reordered within a list. |
-| `loomi-transfer` | Fired after an item moves between connected lists. |
+| Event              | Description                                        |
+| ------------------ | -------------------------------------------------- |
+| `loomi-filter`     | Fired when the filter action is activated.         |
+| `loomi-item-click` | Fired when an item is activated.                   |
+| `loomi-reorder`    | Fired after items are reordered within a list.     |
+| `loomi-transfer`   | Fired after an item moves between connected lists. |
 
 ## Full Example
 

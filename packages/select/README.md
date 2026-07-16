@@ -232,17 +232,17 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 ## Slots
 
-| Slot | Description |
-| ---- | ----------- |
+| Slot        | Description                          |
+| ----------- | ------------------------------------ |
 | _(default)_ | Content placed inside the component. |
 
 ## Events
 
-| Event | Description |
-| ----- | ----------- |
-| `change` | Fired when the value is committed or changed. |
+| Event                | Description                                     |
+| -------------------- | ----------------------------------------------- |
+| `change`             | Fired when the value is committed or changed.   |
 | `loomi-empty-action` | Fired when the empty-state action is activated. |
-| `loomi-select` | Fired when an option is selected. |
+| `loomi-select`       | Fired when an option is selected.               |
 
 ## Full Example
 

@@ -120,17 +120,17 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 ## Slots
 
-| Slot | Description |
-| ---- | ----------- |
+| Slot     | Description                                      |
+| -------- | ------------------------------------------------ |
 | `prefix` | Content rendered before the main value or label. |
 
 ## Events
 
-| Event | Description |
-| ----- | ----------- |
-| `change` | Fired when the value is committed or changed. |
-| `input` | Fired while the value is edited. |
-| `loomi-prefix-change` | Fired when the prefix changes. |
+| Event                 | Description                                   |
+| --------------------- | --------------------------------------------- |
+| `change`              | Fired when the value is committed or changed. |
+| `input`               | Fired while the value is edited.              |
+| `loomi-prefix-change` | Fired when the prefix changes.                |
 
 ## Dependencies
 

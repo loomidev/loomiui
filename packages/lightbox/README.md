@@ -129,16 +129,16 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 ## Slots
 
-| Slot | Description |
-| ---- | ----------- |
+| Slot        | Description                          |
+| ----------- | ------------------------------------ |
 | _(default)_ | Content placed inside the component. |
 
 ## Events
 
-| Event | Description |
-| ----- | ----------- |
+| Event         | Description                     |
+| ------------- | ------------------------------- |
 | `loomi-close` | Fired when the lightbox closes. |
-| `loomi-open` | Fired when the lightbox opens. |
+| `loomi-open`  | Fired when the lightbox opens.  |
 
 ## Full Example
 

@@ -87,11 +87,11 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 ## Slots
 
-| Slot | Description |
-| ---- | ----------- |
-| _(default)_ | Content placed inside the component. |
-| `submenu` | Nested menu items. |
-| `target` | The element that opens the context menu. |
+| Slot        | Description                              |
+| ----------- | ---------------------------------------- |
+| _(default)_ | Content placed inside the component.     |
+| `submenu`   | Nested menu items.                       |
+| `target`    | The element that opens the context menu. |
 
 ## Methods
 

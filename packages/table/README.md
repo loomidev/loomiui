@@ -465,21 +465,21 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 ## Slots
 
-| Slot | Description |
-| ---- | ----------- |
+| Slot        | Description                          |
+| ----------- | ------------------------------------ |
 | _(default)_ | Content placed inside the component. |
-| `header` | Custom header content. |
+| `header`    | Custom header content.               |
 
 ## Events
 
-| Event | Description |
-| ----- | ----------- |
-| `loomi-action` | Fired when a configured row action is activated. |
-| `loomi-action-call` | Fired when an action-cell callback is requested. |
-| `loomi-empty-action` | Fired when the empty-state action is activated. |
-| `loomi-page-change` | Fired when the page changes. |
-| `loomi-row-click` | Fired when a row is activated. |
-| `loomi-selection-change` | Fired when the selection changes. |
+| Event                    | Description                                      |
+| ------------------------ | ------------------------------------------------ |
+| `loomi-action`           | Fired when a configured row action is activated. |
+| `loomi-action-call`      | Fired when an action-cell callback is requested. |
+| `loomi-empty-action`     | Fired when the empty-state action is activated.  |
+| `loomi-page-change`      | Fired when the page changes.                     |
+| `loomi-row-click`        | Fired when a row is activated.                   |
+| `loomi-selection-change` | Fired when the selection changes.                |
 
 ## Full Example
 

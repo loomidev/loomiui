@@ -177,17 +177,17 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 ## Slots
 
-| Slot | Description |
-| ---- | ----------- |
-| _(default)_ | Content placed inside the component. |
-| `description` | Custom description content. |
-| `label` | Custom label content. |
+| Slot          | Description                          |
+| ------------- | ------------------------------------ |
+| _(default)_   | Content placed inside the component. |
+| `description` | Custom description content.          |
+| `label`       | Custom label content.                |
 
 ## Events
 
-| Event | Description |
-| ----- | ----------- |
-| `loomi-progress-step-select` | Fired when a progress step is selected. |
+| Event                         | Description                                     |
+| ----------------------------- | ----------------------------------------------- |
+| `loomi-progress-step-select`  | Fired when a progress step is selected.         |
 | `loomi-progress-steps-change` | Fired when the progress-step selection changes. |
 
 ## Full Example

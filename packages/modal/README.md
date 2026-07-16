@@ -264,18 +264,18 @@ Boolean attributes can be omitted, present, or set to `"false"` in HTML, for exa
 
 ## Slots
 
-| Slot | Description |
-| ---- | ----------- |
+| Slot        | Description                          |
+| ----------- | ------------------------------------ |
 | _(default)_ | Content placed inside the component. |
 
 ## Events
 
-| Event | Description |
-| ----- | ----------- |
-| `cancel` | Fired when the cancel action is activated. |
-| `close` | Fired when the component closes. |
-| `ok` | Fired when the confirm action is activated. |
-| `open` | Fired when the component opens. |
+| Event    | Description                                 |
+| -------- | ------------------------------------------- |
+| `cancel` | Fired when the cancel action is activated.  |
+| `close`  | Fired when the component closes.            |
+| `ok`     | Fired when the confirm action is activated. |
+| `open`   | Fired when the component opens.             |
 
 ## Full Example
 

@@ -127,8 +127,8 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 ## Slots
 
-| Slot | Description |
-| ---- | ----------- |
+| Slot   | Description          |
+| ------ | -------------------- |
 | `icon` | Custom icon content. |
 
 ## Full Example

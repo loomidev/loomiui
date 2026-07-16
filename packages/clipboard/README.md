@@ -60,16 +60,16 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 ## Slots
 
-| Slot | Description |
-| ---- | ----------- |
+| Slot        | Description                          |
+| ----------- | ------------------------------------ |
 | _(default)_ | Content placed inside the component. |
 
 ## Events
 
-| Event | Detail | Description |
-| ----- | ------ | ----------- |
-| `loomi-copied` | `{ value }` | The value was copied successfully. |
-| `loomi-copy-error` | `{ value, error }` | Copying failed. |
+| Event              | Detail             | Description                        |
+| ------------------ | ------------------ | ---------------------------------- |
+| `loomi-copied`     | `{ value }`        | The value was copied successfully. |
+| `loomi-copy-error` | `{ value, error }` | Copying failed.                    |
 
 ```js
 document.querySelector("loomi-clipboard").addEventListener("loomi-copied", (event) => {

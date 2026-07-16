@@ -161,16 +161,16 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 ## Slots
 
-| Slot | Description |
-| ---- | ----------- |
+| Slot        | Description                          |
+| ----------- | ------------------------------------ |
 | _(default)_ | Content placed inside the component. |
 
 ## Events
 
-| Event | Description |
-| ----- | ----------- |
-| `change` | Fired when the value is committed or changed. |
-| `loomi-checkcard-click` | Fired when a checkcard is activated. |
+| Event                   | Description                                   |
+| ----------------------- | --------------------------------------------- |
+| `change`                | Fired when the value is committed or changed. |
+| `loomi-checkcard-click` | Fired when a checkcard is activated.          |
 
 ## Full Example
 

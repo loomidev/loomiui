@@ -134,8 +134,8 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 ## Events
 
-| Event | Description |
-| ----- | ----------- |
+| Event                | Description                   |
+| -------------------- | ----------------------------- |
 | `loomi-theme-change` | Fired when the theme changes. |
 
 ## Full Example

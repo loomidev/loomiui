@@ -178,8 +178,8 @@ Boolean attributes can be omitted, present, or set to `"false"` in HTML.
 
 ## Slots
 
-| Slot | Description |
-| ---- | ----------- |
+| Slot        | Description                          |
+| ----------- | ------------------------------------ |
 | _(default)_ | Content placed inside the component. |
 
 ## Events

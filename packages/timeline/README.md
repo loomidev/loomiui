@@ -182,10 +182,10 @@ children.
 
 ## Slots
 
-| Slot | Description |
-| ---- | ----------- |
+| Slot        | Description                          |
+| ----------- | ------------------------------------ |
 | _(default)_ | Content placed inside the component. |
-| `content` | Custom body content. |
+| `content`   | Custom body content.                 |
 
 ## Full Example
 

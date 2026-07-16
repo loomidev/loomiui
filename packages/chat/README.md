@@ -200,11 +200,11 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 ## Slots
 
-| Slot | Description |
-| ---- | ----------- |
-| _(default)_ | Content placed inside the component. |
+| Slot                   | Description                                 |
+| ---------------------- | ------------------------------------------- |
+| _(default)_            | Content placed inside the component.        |
 | `conversations-header` | Custom content above the conversation list. |
-| `header-actions` | Actions rendered in the chat header. |
+| `header-actions`       | Actions rendered in the chat header.        |
 
 ## Events
 

@@ -254,8 +254,8 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 ## Events
 
-| Event | Description |
-| ----- | ----------- |
+| Event    | Description                                   |
+| -------- | --------------------------------------------- |
 | `change` | Fired when the value is committed or changed. |
 
 ## Full Example
