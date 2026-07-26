@@ -7,6 +7,7 @@ import {
   loomiT,
   onClickOutside,
   themeStyles,
+  type LoomiFieldLabelPosition,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -54,6 +55,8 @@ export class LoomiTextarea extends LoomiElement {
 
   @property({ reflect: true }) name = "";
   @property() label = "";
+  @property({ attribute: "label-position", reflect: true })
+  labelPosition: LoomiFieldLabelPosition = "default";
   @property() locale = "";
   @property() placeholder = "";
   @property() value = "";

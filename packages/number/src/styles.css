@@ -82,7 +82,7 @@
 
 .loomi-label {
   position: absolute;
-  left: calc(var(--loomi-control-pad-x) - var(--loomi-control-height));
+  left: var(--loomi-control-pad-x);
   top: 50%;
   transform: translateY(-50%);
   transform-origin: left center;
@@ -90,7 +90,8 @@
   pointer-events: none;
   transition: all 0.15s ease;
   background: var(--loomi-surface);
-  padding: 0 0.25rem;
+  padding: 0;
+  box-shadow: 0 0 0 0.25rem var(--loomi-surface);
   white-space: nowrap;
   max-width: calc(100% - var(--loomi-control-pad-x));
   overflow: hidden;

@@ -148,6 +148,14 @@ call, handy for server-provided errors (e.g. "Too many attempts, try again in 30
 el.showError("Too many attempts, try again in 30s");
 ```
 
+## Minimal variant
+
+Use `variant="minimal"` to show only the bottom border of each code box:
+
+```html
+<loomi-otp total-digits="6" variant="minimal"></loomi-otp>
+```
+
 ## Accessibility
 
 For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).

@@ -1,6 +1,12 @@
 import { css, type CSSResultGroup } from "lit";
 
 /**
+ * Keeps each field's existing label treatment by default, or places a compact,
+ * always-visible label inside the top of the control.
+ */
+export type LoomiFieldLabelPosition = "default" | "inside";
+
+/**
  * Shared sizing scale for form controls. Every field-style component (input, select,
  * datepicker, ...) offers the same five sizes; these classes set the control vars the
  * component's own CSS consumes (`--loomi-control-height` / `-pad-x` / `-font-size`).
@@ -153,5 +159,47 @@ export const fieldStyles: CSSResultGroup = css`
   :host([disabled]) .variant-minimal .loomi-trigger,
   :host([disabled]) .loomi-trigger.variant-minimal {
     background: transparent;
+  }
+
+  /*
+   * Inset labels stay below the control's top edge instead of straddling its border.
+   * The extra height and top padding reserve a separate line for the value so the two
+   * never overlap, including at the compact size presets.
+   */
+  :host([label-position="inside"]) .loomi-field,
+  :host([label-position="inside"]) .loomi-trigger {
+    min-height: calc(var(--loomi-control-height, 2.5rem) + 0.75rem);
+  }
+  :host([label-position="inside"]) .loomi-label.loomi-label {
+    position: absolute;
+    inset-inline-start: var(--loomi-control-pad-x, 1rem);
+    top: 0.5rem;
+    z-index: 1;
+    display: block;
+    max-width: calc(
+      100% - var(--loomi-control-pad-x, 1rem) - var(--loomi-control-pad-x, 1rem)
+    );
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    color: var(--loomi-text-muted);
+    background: transparent;
+    box-shadow: none;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    pointer-events: none;
+    transform: none;
+  }
+  :host([label-position="inside"]) .loomi-field > input,
+  :host([label-position="inside"]) .loomi-inputwrap > input,
+  :host([label-position="inside"]) .loomi-field > textarea,
+  :host([label-position="inside"]) .loomi-trigger {
+    padding-top: 0.9rem;
+  }
+  :host([label-position="inside"]) .loomi-field > .loomi-text {
+    padding-top: 0.9rem;
   }
 `;

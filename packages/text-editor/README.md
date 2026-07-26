@@ -347,6 +347,21 @@ Typical flows:
 
 This keeps LoomiUI provider-neutral while still giving users a real toolbar affordance.
 
+## Field appearance
+
+Use `variant="minimal"` for a bottom-border-only editor:
+
+```html
+<loomi-text-editor label="Notes" variant="minimal"></loomi-text-editor>
+```
+
+Use `label-position="inside"` to keep a compact label inside the top of the editor,
+with the toolbar and editable text displayed beneath it:
+
+```html
+<loomi-text-editor label="Notes" label-position="inside"></loomi-text-editor>
+```
+
 ## Accessibility
 
 For the library-wide baseline, see [Foundations â€” Accessibility](https://loomiui.com/foundations/#accessibility).
@@ -361,21 +376,22 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 ## Attributes and Properties
 
-| Attribute / property | Default   | Description                                                 |
-| -------------------- | --------- | ----------------------------------------------------------- |
-| `name`               | _(blank)_ | Submitted with the nearest form.                            |
-| `label`              | _(blank)_ | Label above the editor.                                     |
-| `placeholder`        | _(blank)_ | Placeholder text shown when the editor is empty.            |
-| `value`              | _(blank)_ | Current value as HTML.                                      |
-| `tools`              | `default` | Comma-separated string attribute, or string array property. |
-| `rows`               | `3`       | Minimum height in text rows.                                |
-| `required`           | `false`   | Marks the editor required.                                  |
-| `disabled`           | `false`   | Disables editing and toolbar controls.                      |
-| `readonly`           | `false`   | Makes content readable but not editable.                    |
-| `error-message`      | _(blank)_ | Message used when validation fails.                         |
-| `show-error-inline`  | `false`   | Shows `error-message` under the field.                      |
-| `no-clearing`        | `false`   | Removes the default bottom margin.                          |
-| `variant`            | `default` | `default` \| `minimal` (bottom border only, no box)         |
+| Attribute / property | Default   | Description                                                                                     |
+| -------------------- | --------- | ----------------------------------------------------------------------------------------------- |
+| `name`               | _(blank)_ | Submitted with the nearest form.                                                                |
+| `label`              | _(blank)_ | Label above the editor.                                                                         |
+| `label-position`     | `default` | `default` keeps the label above the editor; `inside` keeps a compact label inside its top edge. |
+| `placeholder`        | _(blank)_ | Placeholder text shown when the editor is empty.                                                |
+| `value`              | _(blank)_ | Current value as HTML.                                                                          |
+| `tools`              | `default` | Comma-separated string attribute, or string array property.                                     |
+| `rows`               | `3`       | Minimum height in text rows.                                                                    |
+| `required`           | `false`   | Marks the editor required.                                                                      |
+| `disabled`           | `false`   | Disables editing and toolbar controls.                                                          |
+| `readonly`           | `false`   | Makes content readable but not editable.                                                        |
+| `error-message`      | _(blank)_ | Message used when validation fails.                                                             |
+| `show-error-inline`  | `false`   | Shows `error-message` under the field.                                                          |
+| `no-clearing`        | `false`   | Removes the default bottom margin.                                                              |
+| `variant`            | `default` | `default` \| `minimal` (bottom border only, no box)                                             |
 
 **Methods:** `focus()`, `validate()`, `checkValidity()`, `reportValidity()`.
 

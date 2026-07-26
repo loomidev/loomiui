@@ -128,6 +128,21 @@ Each item in `mentionData` accepts these fields:
 **Keyboard navigation:** ↑/↓ to move, Enter or Tab to confirm, Escape to close.
 The picker closes automatically when clicking outside or scrolling.
 
+## Field appearance
+
+Use `variant="minimal"` for a bottom-border-only field:
+
+```html
+<loomi-textarea label="Message" variant="minimal"></loomi-textarea>
+```
+
+Use `label-position="inside"` to keep a compact label inside the top of the field,
+with the entered text displayed beneath it:
+
+```html
+<loomi-textarea label="Message" label-position="inside"></loomi-textarea>
+```
+
 ## Accessibility
 
 For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
@@ -142,21 +157,22 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 
 ## Attributes
 
-| Attribute           | Default   | Description                                               |
-| ------------------- | --------- | --------------------------------------------------------- |
-| `name`              | _(blank)_ | Submitted with the form.                                  |
-| `label`             | _(blank)_ | Floating label.                                           |
-| `placeholder`       | _(blank)_ | Placeholder text.                                         |
-| `value`             | _(blank)_ | Current value (also a property).                          |
-| `rows`              | `3`       | Height in rows.                                           |
-| `required`          | `false`   | Marks the field required. _(boolean)_                     |
-| `disabled`          | `false`   | Disable the field. _(boolean)_                            |
-| `readonly`          | `false`   | Read-only field. _(boolean)_                              |
-| `error-message`     | _(blank)_ | Message shown when validation fails.                      |
-| `show-error-inline` | `false`   | Render the error beneath the field. _(boolean)_           |
-| `variant`           | `default` | `default` \| `minimal` (bottom border only, no box)       |
-| `no-clearing`       | `false`   | Remove the default bottom margin. _(boolean)_             |
-| `mention-triggers`  | `[]`      | JSON array of trigger characters, e.g. `'["@","#","/"]'`. |
+| Attribute           | Default   | Description                                                                                     |
+| ------------------- | --------- | ----------------------------------------------------------------------------------------------- |
+| `name`              | _(blank)_ | Submitted with the form.                                                                        |
+| `label`             | _(blank)_ | Floating label.                                                                                 |
+| `label-position`    | `default` | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field. |
+| `placeholder`       | _(blank)_ | Placeholder text.                                                                               |
+| `value`             | _(blank)_ | Current value (also a property).                                                                |
+| `rows`              | `3`       | Height in rows.                                                                                 |
+| `required`          | `false`   | Marks the field required. _(boolean)_                                                           |
+| `disabled`          | `false`   | Disable the field. _(boolean)_                                                                  |
+| `readonly`          | `false`   | Read-only field. _(boolean)_                                                                    |
+| `error-message`     | _(blank)_ | Message shown when validation fails.                                                            |
+| `show-error-inline` | `false`   | Render the error beneath the field. _(boolean)_                                                 |
+| `variant`           | `default` | `default` \| `minimal` (bottom border only, no box)                                             |
+| `no-clearing`       | `false`   | Remove the default bottom margin. _(boolean)_                                                   |
+| `mention-triggers`  | `[]`      | JSON array of trigger characters, e.g. `'["@","#","/"]'`.                                       |
 
 **Properties (JS only):** `mentionData` — `Record<string, { label, value?, description?, image? }[]>`.
 

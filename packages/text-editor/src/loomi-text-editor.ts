@@ -1,6 +1,12 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
-import { LoomiElement, fieldStyles, loomiStyles, loomiT } from "@loomidev/core";
+import {
+  LoomiElement,
+  fieldStyles,
+  loomiStyles,
+  loomiT,
+  type LoomiFieldLabelPosition,
+} from "@loomidev/core";
 import "@loomidev/filepicker/loomi-filepicker.js";
 import "@loomidev/icon/loomi-icon.js";
 import "@loomidev/input/loomi-input.js";
@@ -309,6 +315,8 @@ export class LoomiTextEditor extends LoomiElement {
 
   @property({ reflect: true }) name = "";
   @property() label = "";
+  @property({ attribute: "label-position", reflect: true })
+  labelPosition: LoomiFieldLabelPosition = "default";
   @property() locale = "";
   @property() placeholder = "";
   @property() value = "";
@@ -996,16 +1004,16 @@ export class LoomiTextEditor extends LoomiElement {
     const tools = this.resolvedTools;
     const text = this.editorEl?.textContent ?? stripTags(this.value);
     const isEmpty = text.trim() === "";
+    const labelEl = hasLabel
+      ? html`<label class="loomi-label loomi-label-static"
+          >${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label
+        >`
+      : nothing;
 
     return html`
-      ${
-        hasLabel
-          ? html`<label class="loomi-label loomi-label-static"
-            >${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label
-          >`
-          : nothing
-      }
+      ${this.labelPosition === "inside" ? nothing : labelEl}
       <div class="loomi-field variant-${this.variant}" part="field">
+        ${this.labelPosition === "inside" ? labelEl : nothing}
         ${
           tools.length
             ? html`<div class="loomi-toolbar" part="toolbar" role="toolbar">

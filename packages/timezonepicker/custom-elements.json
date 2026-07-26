@@ -112,6 +112,16 @@
             },
             {
               "kind": "field",
+              "name": "labelPosition",
+              "type": {
+                "text": "LoomiFieldLabelPosition"
+              },
+              "default": "\"default\"",
+              "attribute": "label-position",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "placeholder",
               "default": "\"Select a timezone\"",
               "attribute": "placeholder",
@@ -522,6 +532,14 @@
               },
               "default": "\"\"",
               "fieldName": "label"
+            },
+            {
+              "name": "label-position",
+              "type": {
+                "text": "LoomiFieldLabelPosition"
+              },
+              "default": "\"default\"",
+              "fieldName": "labelPosition"
             },
             {
               "name": "placeholder",

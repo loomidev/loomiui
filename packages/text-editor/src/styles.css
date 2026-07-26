@@ -33,6 +33,10 @@
   background: transparent;
   padding: 0;
 }
+:host([label-position="inside"]) .loomi-field {
+  position: relative;
+  padding-top: 1.6rem;
+}
 .loomi-req {
   color: var(--loomi-error-500);
   margin-left: 0.15rem;

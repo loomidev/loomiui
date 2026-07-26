@@ -11,6 +11,7 @@ import {
   loomiT,
   loomiWeekdayNames,
   onClickOutside,
+  type LoomiFieldLabelPosition,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -64,6 +65,8 @@ export class LoomiDatepicker extends LoomiElement {
   @property() format: LoomiDateFormat = "yyyy-mm-dd";
   @property() placeholder = DEFAULT_PLACEHOLDER;
   @property() label = "";
+  @property({ attribute: "label-position", reflect: true })
+  labelPosition: LoomiFieldLabelPosition = "default";
   @property() locale = "";
   @property({ type: Boolean }) required = false;
   @property({ attribute: "week-starts" }) weekStarts: "sunday" | "monday" = "sunday";

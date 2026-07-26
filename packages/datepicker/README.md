@@ -146,6 +146,21 @@ document.querySelector("loomi-datepicker").addEventListener("change", (e) => {
 });
 ```
 
+## Field appearance
+
+Use `variant="minimal"` for a bottom-border-only field:
+
+```html
+<loomi-datepicker variant="minimal" placeholder="Choose a date"></loomi-datepicker>
+```
+
+Use `label-position="inside"` to keep a compact label inside the top of the field,
+with the selected date displayed beneath it:
+
+```html
+<loomi-datepicker label="Start date" label-position="inside"></loomi-datepicker>
+```
+
 ## Accessibility
 
 For the library-wide baseline, see [Foundations â€” Accessibility](https://loomiui.com/foundations/#accessibility).
@@ -172,6 +187,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `week-starts`    | `sunday`        | `sunday` \| `monday`                                                                                       |
 | `placeholder`    | `Select a date` | Closed-field placeholder text.                                                                             |
 | `label`          | _(blank)_       | Optional field label.                                                                                      |
+| `label-position` | `default`       | `default` keeps the label above the field; `inside` keeps a compact label inside the top of the field.     |
 | `locale`         | _(global)_      | Override the shared Loomi locale for this datepicker.                                                      |
 | `required`       | `false`         | Append an asterisk. _(boolean)_                                                                            |
 | `size`           | `regular`       | `tiny` \| `small` \| `regular` \| `medium` \| `big`                                                        |

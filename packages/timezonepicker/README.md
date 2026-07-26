@@ -96,6 +96,21 @@ new FormData(form).get("timezone"); // "Africa/Accra"
 <loomi-timezonepicker size="big" label="Timezone"></loomi-timezonepicker>
 ```
 
+## Field appearance
+
+Use `variant="minimal"` for a bottom-border-only field:
+
+```html
+<loomi-timezonepicker variant="minimal" placeholder="Choose a timezone"></loomi-timezonepicker>
+```
+
+Use `label-position="inside"` to keep a compact label inside the top of the field,
+with the selected timezone displayed beneath it:
+
+```html
+<loomi-timezonepicker label="Timezone" label-position="inside"></loomi-timezonepicker>
+```
+
 ## Accessibility
 
 For the library-wide baseline, see [Foundations â€” Accessibility](https://loomiui.com/foundations/#accessibility).
@@ -110,20 +125,21 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 ## Attributes
 
-| Attribute           | Default              | Description                                                        |
-| ------------------- | -------------------- | ------------------------------------------------------------------ |
-| `name`              | _(blank)_            | Submitted with the form.                                           |
-| `placeholder`       | `Select a timezone`  | Trigger text when nothing is selected.                             |
-| `label`             | _(blank)_            | Floating label (takes precedence over placeholder).                |
-| `selection`         | _(blank)_            | Canonical IANA id or bare city name; resolves to the canonical id. |
-| `locale`            | _(blank)_            | Locale used to format each zone's current local time.              |
-| `disabled`          | `false`              | Disable the picker. _(boolean)_                                    |
-| `readonly`          | `false`              | Read-only (cannot open). _(boolean)_                               |
-| `required`          | `false`              | Marks the field required. _(boolean)_                              |
-| `size`              | `medium`             | `tiny` \| `small` \| `regular` \| `medium` \| `big`                |
-| `variant`           | `default`            | `default` \| `minimal` (bottom border only, no box)                |
-| `empty-placeholder` | `No timezones found` | Text shown when search matches nothing.                            |
-| `no-clearing`       | `false`              | Remove the default bottom margin. _(boolean)_                      |
+| Attribute           | Default              | Description                                                                                     |
+| ------------------- | -------------------- | ----------------------------------------------------------------------------------------------- |
+| `name`              | _(blank)_            | Submitted with the form.                                                                        |
+| `placeholder`       | `Select a timezone`  | Trigger text when nothing is selected.                                                          |
+| `label`             | _(blank)_            | Floating label (takes precedence over placeholder).                                             |
+| `label-position`    | `default`            | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field. |
+| `selection`         | _(blank)_            | Canonical IANA id or bare city name; resolves to the canonical id.                              |
+| `locale`            | _(blank)_            | Locale used to format each zone's current local time.                                           |
+| `disabled`          | `false`              | Disable the picker. _(boolean)_                                                                 |
+| `readonly`          | `false`              | Read-only (cannot open). _(boolean)_                                                            |
+| `required`          | `false`              | Marks the field required. _(boolean)_                                                           |
+| `size`              | `medium`             | `tiny` \| `small` \| `regular` \| `medium` \| `big`                                             |
+| `variant`           | `default`            | `default` \| `minimal` (bottom border only, no box)                                             |
+| `empty-placeholder` | `No timezones found` | Text shown when search matches nothing.                                                         |
+| `no-clearing`       | `false`              | Remove the default bottom margin. _(boolean)_                                                   |
 
 **Parts:** `trigger`, `panel`. **Methods:** `reset()`, `validate()`.
 

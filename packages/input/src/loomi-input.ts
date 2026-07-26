@@ -8,6 +8,7 @@ import {
   loomiT,
   randomSuffix,
   themeStyles,
+  type LoomiFieldLabelPosition,
 } from "@loomidev/core";
 import "@loomidev/popover";
 import { getLoomiIcon } from "./icons.js";
@@ -60,6 +61,8 @@ export class LoomiInput extends LoomiElement {
   @property({ reflect: true }) name = "";
   @property() type: LoomiInputType = "text";
   @property() label = "";
+  @property({ attribute: "label-position", reflect: true })
+  labelPosition: LoomiFieldLabelPosition = "default";
   @property() locale = "";
   @property() placeholder = "";
   @property() value = "";
