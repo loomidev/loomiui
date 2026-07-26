@@ -125,6 +125,16 @@
             },
             {
               "kind": "field",
+              "name": "labelPosition",
+              "type": {
+                "text": "LoomiFieldLabelPosition"
+              },
+              "default": "\"default\"",
+              "attribute": "label-position",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "locale",
               "type": {
                 "text": "string"
@@ -1117,6 +1127,14 @@
               },
               "default": "\"\"",
               "fieldName": "label"
+            },
+            {
+              "name": "label-position",
+              "type": {
+                "text": "LoomiFieldLabelPosition"
+              },
+              "default": "\"default\"",
+              "fieldName": "labelPosition"
             },
             {
               "name": "locale",

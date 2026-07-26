@@ -9,6 +9,7 @@ import {
   loomiT,
   onClickOutside,
   themeStyles,
+  type LoomiFieldLabelPosition,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 import { LOOMI_COUNTRIES, type LoomiCountryRecord } from "./generated/countries-data.js";
@@ -149,6 +150,8 @@ export class LoomiCountries extends LoomiElement {
   @property({ reflect: true }) name = "";
   @property() mode: LoomiCountriesMode = "names";
   @property() label = "";
+  @property({ attribute: "label-position", reflect: true })
+  labelPosition: LoomiFieldLabelPosition = "default";
   @property() placeholder = DEFAULT_PLACEHOLDER;
   @property() locale = "";
   @property() selection = "";

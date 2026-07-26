@@ -1,6 +1,13 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
-import { LoomiElement, controlSizeStyles, fieldStyles, loomiT, themeStyles } from "@loomidev/core";
+import {
+  LoomiElement,
+  controlSizeStyles,
+  fieldStyles,
+  loomiT,
+  themeStyles,
+  type LoomiFieldLabelPosition,
+} from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiNumberSize = "tiny" | "small" | "regular" | "medium" | "big";
@@ -28,6 +35,8 @@ export class LoomiNumber extends LoomiElement {
 
   @property({ reflect: true }) name = "";
   @property() label = "";
+  @property({ attribute: "label-position", reflect: true })
+  labelPosition: LoomiFieldLabelPosition = "default";
   @property() locale = "";
   @property() value = "";
   @property({ type: Number }) min = 0;

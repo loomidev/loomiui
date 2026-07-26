@@ -9,6 +9,7 @@ import {
   loomiT,
   themeStyles,
   type LoomiColor,
+  type LoomiFieldLabelPosition,
 } from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
@@ -56,6 +57,8 @@ export class LoomiTagInput extends LoomiElement {
 
   @property({ reflect: true }) name = "";
   @property() label = "";
+  @property({ attribute: "label-position", reflect: true })
+  labelPosition: LoomiFieldLabelPosition = "default";
   @property() locale = "";
   @property() placeholder = "";
   @property() value = "";

@@ -8,6 +8,7 @@ import {
   loomiT,
   onClickOutside,
   themeStyles,
+  type LoomiFieldLabelPosition,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -55,6 +56,8 @@ export class LoomiSelect extends LoomiElement {
   @property({ reflect: true }) name = "";
   @property() placeholder = DEFAULT_PLACEHOLDER;
   @property() label = "";
+  @property({ attribute: "label-position", reflect: true })
+  labelPosition: LoomiFieldLabelPosition = "default";
   @property() locale = "";
   @property({ type: Array }) data: Array<Record<string, unknown>> = [];
   @property({ attribute: "label-key" }) labelKey = "label";

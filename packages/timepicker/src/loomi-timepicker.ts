@@ -8,6 +8,7 @@ import {
   loomiStyles,
   loomiT,
   onClickOutside,
+  type LoomiFieldLabelPosition,
 } from "@loomidev/core";
 import "@loomidev/modal/loomi-modal.js";
 import type { LoomiModal } from "@loomidev/modal";
@@ -100,6 +101,8 @@ export class LoomiTimepicker extends LoomiElement {
   @property() format: "12" | "24" = "12";
   @property({ attribute: "selected-value" }) selectedValue = "";
   @property() label = "";
+  @property({ attribute: "label-position", reflect: true })
+  labelPosition: LoomiFieldLabelPosition = "default";
   @property() placeholder = DEFAULT_PLACEHOLDER;
   @property() locale = "";
   @property() size: LoomiTimepickerSize = "medium";

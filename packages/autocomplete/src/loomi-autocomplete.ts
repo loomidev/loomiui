@@ -8,6 +8,7 @@ import {
   loomiT,
   onClickOutside,
   themeStyles,
+  type LoomiFieldLabelPosition,
 } from "@loomidev/core";
 import { getLoomiIcon } from "./icons.js";
 
@@ -85,7 +86,8 @@ export class LoomiAutocomplete extends LoomiElement {
         transition: all 0.15s ease;
         background: var(--loomi-surface);
         padding-block: 0;
-        padding-inline: 0.25rem;
+        padding-inline: 0;
+        box-shadow: 0 0 0 0.25rem var(--loomi-surface);
         max-width: calc(100% - var(--loomi-control-pad-x));
         overflow: hidden;
         white-space: nowrap;
@@ -188,6 +190,8 @@ export class LoomiAutocomplete extends LoomiElement {
 
   @property({ reflect: true }) name = "";
   @property() label = "";
+  @property({ attribute: "label-position", reflect: true })
+  labelPosition: LoomiFieldLabelPosition = "default";
   @property() placeholder = DEFAULT_PLACEHOLDER;
   @property() value = "";
   @property({ attribute: "selected-value" }) selectedValue = "";

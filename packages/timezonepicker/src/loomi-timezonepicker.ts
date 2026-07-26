@@ -8,6 +8,7 @@ import {
   loomiStyles,
   loomiT,
   onClickOutside,
+  type LoomiFieldLabelPosition,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -205,6 +206,8 @@ export class LoomiTimezonepicker extends LoomiElement {
 
   @property({ reflect: true }) name = "";
   @property() label = "";
+  @property({ attribute: "label-position", reflect: true })
+  labelPosition: LoomiFieldLabelPosition = "default";
   @property() placeholder = DEFAULT_PLACEHOLDER;
   @property() locale = "";
   @property() selection = "";

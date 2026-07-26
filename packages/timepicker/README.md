@@ -93,6 +93,21 @@ document.querySelector("loomi-timepicker").addEventListener("change", (e) => {
 });
 ```
 
+## Field appearance
+
+Use `variant="minimal"` for a bottom-border-only field:
+
+```html
+<loomi-timepicker variant="minimal" placeholder="Choose a time"></loomi-timepicker>
+```
+
+Use `label-position="inside"` to keep a compact label inside the top of the field,
+with the selected time displayed beneath it:
+
+```html
+<loomi-timepicker label="Start time" label-position="inside"></loomi-timepicker>
+```
+
 ## Accessibility
 
 For the library-wide baseline, see [Foundations â€” Accessibility](https://loomiui.com/foundations/#accessibility).
@@ -115,6 +130,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `variant`        | `default` | `default` \| `minimal` (bottom border only, no box)                                                         |
 | `selected-value` | _(blank)_ | Default time (e.g. `3:25PM` or `03:25`).                                                                    |
 | `label`          | _(blank)_ | Optional field label.                                                                                       |
+| `label-position` | `default` | `default` keeps the label above the field; `inside` keeps a compact label inside the top of the field.      |
 | `placeholder`    | `HH:MM`   | Popup field placeholder text.                                                                               |
 | `required`       | `false`   | Append an asterisk. _(boolean)_                                                                             |
 

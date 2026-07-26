@@ -34,6 +34,21 @@ When an option is selected, the field displays the option `label` and optional `
 The component value remains the option `value`, and that value is what gets submitted
 with a form.
 
+## Field appearance
+
+Use `variant="minimal"` for a bottom-border-only field:
+
+```html
+<loomi-autocomplete variant="minimal" placeholder="Search people"></loomi-autocomplete>
+```
+
+Use `label-position="inside"` to keep a compact label inside the top of the field,
+with the entered text displayed beneath it:
+
+```html
+<loomi-autocomplete label="Assignee" label-position="inside"></loomi-autocomplete>
+```
+
 ## Accessibility
 
 The input announces itself as a list autocomplete, keeps keyboard navigation inside the
@@ -62,6 +77,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | Attribute         | Default       | Description                                                                                                               |
 | ----------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | `label`           | _(blank)_     | Floating label text.                                                                                                      |
+| `label-position`  | `default`     | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field.                           |
 | `placeholder`     | `Search...`   | Placeholder when no label is shown.                                                                                       |
 | `selected-value`  | _(blank)_     | Sets the submitted value; matching options display their label and image.                                                 |
 | `size`            | `medium`      | `tiny` \| `small` \| `regular` \| `medium` \| `big`.                                                                      |

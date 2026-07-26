@@ -184,6 +184,21 @@ before a manual submit or API call). It:
      toast instead of inline text, but the red border still appears either way -->
 ```
 
+## Field appearance
+
+Use `variant="minimal"` for a bottom-border-only input:
+
+```html
+<loomi-input label="Email" type="email" variant="minimal"></loomi-input>
+```
+
+Use `label-position="inside"` to keep a compact label inside the top of the input,
+with the entered text displayed beneath it:
+
+```html
+<loomi-input label="Email" type="email" label-position="inside" required></loomi-input>
+```
+
 ## Accessibility
 
 For the library-wide baseline, see [Foundations â€” Accessibility](https://loomiui.com/foundations/#accessibility).
@@ -203,6 +218,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `name`                    | _(blank)_ | Submitted with the form.                                                                                                                  |
 | `type`                    | `text`    | `text` \| `email` \| `password` \| `search` \| `tel` \| `url`                                                                             |
 | `label`                   | _(blank)_ | Floating label (sits in the placeholder spot, floats on focus/fill).                                                                      |
+| `label-position`          | `default` | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field.                                           |
 | `placeholder`             | _(blank)_ | Placeholder text.                                                                                                                         |
 | `value`                   | _(blank)_ | Current value (also a property).                                                                                                          |
 | `required`                | `false`   | Marks the field required (red asterisk on the label). _(boolean)_                                                                         |

@@ -154,6 +154,15 @@ document.querySelector("loomi-countries").reset();
 <loomi-countries size="big"></loomi-countries>
 ```
 
+## Label inside the field
+
+Use `label-position="inside"` to keep a compact label inside the top of the field,
+with the selected country or phone number displayed beneath it:
+
+```html
+<loomi-countries label="Country" label-position="inside"></loomi-countries>
+```
+
 ## Accessibility
 
 For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
@@ -174,6 +183,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 | `mode`              | `names`              | `names` \| `phone`.                                                                                                                  |
 | `placeholder`       | `Select a country`   | Trigger text when nothing is selected (`names` mode).                                                                                |
 | `label`             | _(blank)_            | Floating label (takes precedence over placeholder).                                                                                  |
+| `label-position`    | `default`            | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field.                                      |
 | `selection`         | _(blank)_            | Country name, ISO alpha-2 code, or dial code. Resolves to the alpha-2 code.                                                          |
 | `value`             | _(blank)_            | The phone number portion, excluding the dial code (`phone` mode, digits only).                                                       |
 | `mask`              | _(blank)_            | Overrides the selected country's auto-detected formatting mask — `9`/`a`/`*` wildcards, same as `<loomi-input>` (`phone` mode only). |
