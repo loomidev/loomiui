@@ -22,6 +22,22 @@
             "name": "LoomiTextEditorAiGenerateDetail",
             "module": "./loomi-text-editor.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTextEditorUploadHandler",
+          "declaration": {
+            "name": "LoomiTextEditorUploadHandler",
+            "module": "./loomi-text-editor.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTextEditorUploadKind",
+          "declaration": {
+            "name": "LoomiTextEditorUploadKind",
+            "module": "./loomi-text-editor.js"
+          }
         }
       ]
     },
@@ -61,6 +77,12 @@
               "kind": "field",
               "name": "internals",
               "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "instanceId",
+              "privacy": "private",
+              "readonly": true
             },
             {
               "kind": "field",
@@ -244,6 +266,24 @@
               },
               "default": "\"default\"",
               "attribute": "variant"
+            },
+            {
+              "kind": "field",
+              "name": "noFileUpload",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "no-file-upload",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "uploadHandler",
+              "type": {
+                "text": "LoomiTextEditorUploadHandler | undefined"
+              },
+              "description": "Property only — a function can't be expressed as an attribute, so set it in JS\n(`editor.uploadHandler = fn`), the same way `<loomi-input>`'s `dynamicMask` works.\nUnset, picked files keep falling back to an inline `data:` URL."
             },
             {
               "kind": "field",
@@ -723,6 +763,56 @@
             },
             {
               "kind": "method",
+              "name": "resolveFileSrc",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Promise<string>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "file",
+                  "type": {
+                    "text": "File"
+                  }
+                },
+                {
+                  "name": "kind",
+                  "type": {
+                    "text": "LoomiTextEditorUploadKind"
+                  }
+                }
+              ],
+              "description": "Turns a file picked in the embed dialog into the `src` to insert. With an\n`uploadHandler` set, that's whatever URL the app's upload resolves to; without one,\nthe legacy inline `data:` URL. Returns `\"\"` when nothing should be inserted — every\nsuch path notifies the user first, since a silently dropped upload is the exact\nfailure mode this hook exists to remove."
+            },
+            {
+              "kind": "method",
+              "name": "notifyEmbedFailure",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "kind",
+                  "type": {
+                    "text": "LoomiTextEditorUploadKind"
+                  }
+                },
+                {
+                  "name": "error",
+                  "optional": true,
+                  "type": {
+                    "text": "unknown"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
               "name": "confirmImage",
               "privacy": "private",
               "return": {
@@ -1052,6 +1142,30 @@
             },
             {
               "kind": "method",
+              "name": "renderEmbedUpload",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "kind",
+                  "type": {
+                    "text": "LoomiTextEditorUploadKind"
+                  }
+                },
+                {
+                  "name": "separator",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
               "name": "renderEmbedDialogBody",
               "privacy": "private",
               "return": {
@@ -1231,6 +1345,14 @@
               },
               "default": "\"default\"",
               "fieldName": "variant"
+            },
+            {
+              "name": "no-file-upload",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "noFileUpload"
             }
           ],
           "superclass": {

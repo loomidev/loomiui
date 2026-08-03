@@ -40,6 +40,7 @@
     "@loomidev/icon": "workspace:^",
     "@loomidev/input": "workspace:^",
     "@loomidev/modal": "workspace:^",
+    "@loomidev/notification": "workspace:^",
     "@loomidev/select": "workspace:^",
     "@loomidev/theme": "workspace:^",
     "@loomidev/tooltip": "workspace:^"

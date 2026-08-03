@@ -5,6 +5,7 @@ import {
   fieldStyles,
   loomiStyles,
   loomiT,
+  randomSuffix,
   type LoomiFieldLabelPosition,
 } from "@loomidev/core";
 import "@loomidev/filepicker/loomi-filepicker.js";
@@ -47,6 +48,17 @@ export type LoomiTextEditorTool = (typeof TOOL_ORDER)[number];
 export type LoomiTextEditorTools = string | readonly string[];
 export type LoomiTextEditorEmbedTool = "link" | "image" | "video";
 export type LoomiTextEditorVariant = "default" | "minimal";
+export type LoomiTextEditorUploadKind = "image" | "video";
+
+/**
+ * Uploads a file picked in the image/video embed dialog and resolves to the URL to
+ * insert. Resolve `undefined` (or reject) to insert nothing; the editor surfaces the
+ * failure as a `loomi-notification` toast rather than failing silently.
+ */
+export type LoomiTextEditorUploadHandler = (
+  file: File,
+  kind: LoomiTextEditorUploadKind,
+) => Promise<string | undefined>;
 
 const TOOL_SET = new Set<string>(TOOL_ORDER);
 
@@ -281,6 +293,24 @@ function videoEmbedUrl(value: string): string {
   return url;
 }
 
+/**
+ * A URL produced by the consumer's own `uploadHandler` is first-party code, so it is not
+ * held to the http/https allowlist `safeUrl()` applies to user-typed input — a handler
+ * returning a relative storage path, or a `blob:`/`data:` URL for an optimistic preview,
+ * is legitimate. Only the schemes that actually execute are rejected. Control characters
+ * are stripped first because browsers ignore them when resolving a URL, so a scheme
+ * split across an embedded newline would otherwise slip past the check.
+ */
+function trustedMediaUrl(value: string): string {
+  const cleaned = Array.from(value.trim())
+    .filter((char) => {
+      const code = char.charCodeAt(0);
+      return code > 0x1f && code !== 0x7f;
+    })
+    .join("");
+  return /^(javascript|vbscript):/i.test(cleaned) ? "" : cleaned;
+}
+
 function readFileAsDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -307,6 +337,7 @@ export class LoomiTextEditor extends LoomiElement {
   static formAssociated = true;
 
   private internals = this.attachInternals();
+  private readonly instanceId = randomSuffix();
   private validationVisible = false;
   private valueSetFromEditor = false;
   private savedRange: Range | null = null;
@@ -329,6 +360,14 @@ export class LoomiTextEditor extends LoomiElement {
   @property({ type: Boolean, attribute: "show-error-inline" }) showErrorInline = false;
   @property({ type: Boolean, reflect: true }) invalid = false;
   @property() variant: LoomiTextEditorVariant = "default";
+  @property({ type: Boolean, attribute: "no-file-upload", reflect: true }) noFileUpload = false;
+
+  /**
+   * Property only — a function can't be expressed as an attribute, so set it in JS
+   * (`editor.uploadHandler = fn`), the same way `<loomi-input>`'s `dynamicMask` works.
+   * Unset, picked files keep falling back to an inline `data:` URL.
+   */
+  @property({ attribute: false }) uploadHandler?: LoomiTextEditorUploadHandler;
 
   @state() private activeTools: readonly string[] = [];
   @state() private currentBlock = "p";
@@ -679,9 +718,52 @@ export class LoomiTextEditor extends LoomiElement {
     return true;
   }
 
+  /**
+   * Turns a file picked in the embed dialog into the `src` to insert. With an
+   * `uploadHandler` set, that's whatever URL the app's upload resolves to; without one,
+   * the legacy inline `data:` URL. Returns `""` when nothing should be inserted — every
+   * such path notifies the user first, since a silently dropped upload is the exact
+   * failure mode this hook exists to remove.
+   */
+  private async resolveFileSrc(file: File, kind: LoomiTextEditorUploadKind): Promise<string> {
+    if (!this.uploadHandler) {
+      try {
+        return await readFileAsDataUrl(file);
+      } catch (error) {
+        this.notifyEmbedFailure(kind, error);
+        return "";
+      }
+    }
+
+    try {
+      const uploaded = await this.uploadHandler(file, kind);
+      const src = uploaded ? trustedMediaUrl(uploaded) : "";
+      if (!src) this.notifyEmbedFailure(kind);
+      return src;
+    } catch (error) {
+      this.notifyEmbedFailure(kind, error);
+      return "";
+    }
+  }
+
+  private notifyEmbedFailure(kind: LoomiTextEditorUploadKind, error?: unknown): void {
+    const reason = error instanceof Error && error.message ? error.message : "";
+    // Lazy import, matching input/filepicker: apps whose uploads never fail don't pay for
+    // the toast system.
+    void import("@loomidev/notification").then(({ showLoomiNotification }) =>
+      showLoomiNotification(
+        kind === "image" ? "Image upload failed" : "Video upload failed",
+        reason || `The ${kind} could not be uploaded, so nothing was inserted.`,
+        "error",
+        undefined,
+        `loomi-text-editor-upload-${this.name || this.instanceId}`,
+      ),
+    );
+  }
+
   private async confirmImage(): Promise<boolean> {
     const file = this.embedFiles.find((item) => item.type.startsWith("image/"));
-    const src = file ? await readFileAsDataUrl(file) : safeUrl(this.embedUrl);
+    const src = file ? await this.resolveFileSrc(file, "image") : safeUrl(this.embedUrl);
     if (!src) return false;
     this.restoreSavedSelection();
     this.insertHtml(`<img src="${escapeHtml(src)}" alt="${escapeHtml(this.embedAlt)}">`);
@@ -691,7 +773,7 @@ export class LoomiTextEditor extends LoomiElement {
   private async confirmVideo(): Promise<boolean> {
     const file = this.embedFiles.find((item) => item.type.startsWith("video/"));
     if (file) {
-      const src = await readFileAsDataUrl(file);
+      const src = await this.resolveFileSrc(file, "video");
       if (!src) return false;
       this.restoreSavedSelection();
       this.insertHtml(`<video controls src="${escapeHtml(src)}"></video>`);
@@ -939,6 +1021,15 @@ export class LoomiTextEditor extends LoomiElement {
     ></loomi-filepicker>`;
   }
 
+  private renderEmbedUpload(
+    kind: LoomiTextEditorUploadKind,
+    separator: string,
+  ): TemplateResult | typeof nothing {
+    if (this.noFileUpload) return nothing;
+    return html`<div class="loomi-embed-separator">${separator}</div>
+      ${this.renderEmbedFilepicker(kind)}`;
+  }
+
   private renderEmbedDialogBody(): TemplateResult {
     if (!this.embedTool) return html``;
 
@@ -953,15 +1044,13 @@ export class LoomiTextEditor extends LoomiElement {
       return html`<div class="loomi-embed-form">
         ${this.renderEmbedInput("Image URL", this.embedUrl, "photo", (value) => (this.embedUrl = value))}
         ${this.renderEmbedInput("Image description", this.embedAlt, "tag", (value) => (this.embedAlt = value))}
-        <div class="loomi-embed-separator">Or choose an image file</div>
-        ${this.renderEmbedFilepicker("image")}
+        ${this.renderEmbedUpload("image", "Or choose an image file")}
       </div>`;
     }
 
     return html`<div class="loomi-embed-form">
       ${this.renderEmbedInput("Video URL", this.embedUrl, "video-camera", (value) => (this.embedUrl = value))}
-      <div class="loomi-embed-separator">Or choose a video file</div>
-      ${this.renderEmbedFilepicker("video")}
+      ${this.renderEmbedUpload("video", "Or choose a video file")}
     </div>`;
   }
 
