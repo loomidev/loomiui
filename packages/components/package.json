@@ -287,6 +287,10 @@
       "types": "./dist/sortable.d.ts",
       "import": "./dist/sortable.js"
     },
+    "./split-button": {
+      "types": "./dist/split-button.d.ts",
+      "import": "./dist/split-button.js"
+    },
     "./processing": {
       "types": "./dist/processing.d.ts",
       "import": "./dist/processing.js"
@@ -402,6 +406,7 @@
     "@loomidev/slider": "workspace:^",
     "@loomidev/sortable": "workspace:^",
     "@loomidev/spinner": "workspace:^",
+    "@loomidev/split-button": "workspace:^",
     "@loomidev/statistic": "workspace:^",
     "@loomidev/tab": "workspace:^",
     "@loomidev/table": "workspace:^",

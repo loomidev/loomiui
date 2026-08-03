@@ -67,6 +67,7 @@ export * from "@loomidev/timepicker";
 export * from "@loomidev/colorpicker";
 export * from "@loomidev/emoji-picker";
 export * from "@loomidev/sortable";
+export * from "@loomidev/split-button";
 export * from "@loomidev/processing";
 export * from "@loomidev/horizontal-line-graph";
 export * from "@loomidev/chart";
