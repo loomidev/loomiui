@@ -17,6 +17,7 @@
     </script>
     <script type="module">
       import "../packages/dropmenu/dist/loomi-dropmenu.js";
+      import "../packages/split-button/dist/loomi-split-button.js";
       import "../packages/popover/dist/loomi-popover.js";
       import "../packages/empty-state/dist/loomi-empty-state.js";
       import "../packages/statistic/dist/loomi-statistic.js";
@@ -34,6 +35,45 @@
   </head>
   <body>
     <h1>loomi widgets</h1>
+
+    <h2>Split button</h2>
+    <div class="row">
+      <loomi-split-button>
+        Create course
+        <loomi-dropmenu-item slot="menu" icon="arrow-down-tray">Import courses</loomi-dropmenu-item>
+        <loomi-dropmenu-item slot="menu" icon="document-duplicate">Course templates</loomi-dropmenu-item>
+      </loomi-split-button>
+
+      <loomi-split-button type="secondary">
+        Save
+        <loomi-dropmenu-item slot="menu">Save as draft</loomi-dropmenu-item>
+        <loomi-dropmenu-item slot="menu">Save and close</loomi-dropmenu-item>
+      </loomi-split-button>
+
+      <loomi-split-button color="error" outline size="small">
+        Delete
+        <loomi-dropmenu-item slot="menu" variant="destructive">Delete all</loomi-dropmenu-item>
+      </loomi-split-button>
+
+      <loomi-split-button color="success" radius="full" icon="plus" divided>
+        Add
+        <loomi-dropmenu-item slot="menu" header>From existing</loomi-dropmenu-item>
+        <loomi-dropmenu-item slot="menu" shortcut="⌘I">Import</loomi-dropmenu-item>
+        <loomi-dropmenu-item slot="menu">Duplicate</loomi-dropmenu-item>
+      </loomi-split-button>
+
+      <loomi-split-button disabled>Disabled</loomi-split-button>
+    </div>
+
+    <!-- The reason this component exists: a dropmenu's panel would be clipped here. -->
+    <h2>Split button inside <code>overflow: hidden</code></h2>
+    <div style="overflow: hidden; border: 1px dashed #cbd5e1; border-radius: 0.75rem; padding: 1rem; height: 72px">
+      <loomi-split-button size="small">
+        Publish
+        <loomi-dropmenu-item slot="menu">Schedule…</loomi-dropmenu-item>
+        <loomi-dropmenu-item slot="menu" variant="destructive">Unpublish</loomi-dropmenu-item>
+      </loomi-split-button>
+    </div>
 
     <h2>Dropmenu &amp; Popover</h2>
     <div class="row">

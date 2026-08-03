@@ -1,0 +1,130 @@
+:host {
+  display: inline-block;
+  --loomi-split-panel-padding: 0.25rem;
+  --loomi-split-panel-radius: var(--loomi-panel-radius, 0.625rem);
+}
+:host([hidden]) {
+  display: none;
+}
+
+/* ---------------------------------------------------------------- the pair */
+
+.loomi-split {
+  display: inline-flex;
+  align-items: stretch;
+  /* Set from `border-width` in the template so the seam below collapses to exactly one
+     border, whatever width the bordered variants are using. */
+  --loomi-split-seam: 2px;
+}
+
+/* Join the two halves into one control. Both are real <loomi-button>s, so their fill,
+   hover, focus ring and size all come from the button package unchanged — the only thing
+   overridden here is the corner that faces the seam. */
+.loomi-primary::part(button) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.loomi-caret::part(button) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  padding-left: var(--loomi-split-caret-pad, 0.5rem);
+  padding-right: var(--loomi-split-caret-pad, 0.5rem);
+}
+
+/* Keep the caret's focus ring from being clipped by the primary half sitting next to it. */
+.loomi-caret:focus-within {
+  position: relative;
+  z-index: 1;
+}
+
+.loomi-caret-icon {
+  width: 1em;
+  height: 1em;
+  flex: none;
+  transition: transform 0.15s ease;
+}
+:host([open-menu]) .loomi-caret-icon {
+  transform: rotate(180deg);
+}
+
+/* The seam. A solid button has no border of its own to divide the halves, so draw one;
+   bordered variants (secondary / outline) already have two adjacent borders, so hide this
+   and pull them into a single shared edge instead. */
+.loomi-divider {
+  width: 1px;
+  align-self: stretch;
+  flex: none;
+  background: var(--loomi-split-divider-color, rgba(255, 255, 255, 0.35));
+  pointer-events: none;
+}
+:host([type="secondary"]) .loomi-divider,
+:host([outline]) .loomi-divider {
+  display: none;
+}
+:host([type="secondary"]) .loomi-caret,
+:host([outline]) .loomi-caret {
+  margin-left: calc(-1 * var(--loomi-split-seam));
+}
+
+:host([disabled]) .loomi-divider {
+  opacity: 0.6;
+}
+
+/* ---------------------------------------------------------------- the panel */
+
+/* `popover` promotes this to the top layer, which is what keeps it clear of any
+   ancestor's `overflow`. The UA stylesheet for [popover] centers it with `inset: 0;
+   margin: auto` and paints it with system colors, so all of that is reset here — the
+   real coordinates are written as inline left/top by positionPanel(). */
+.loomi-panel {
+  display: none;
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  z-index: var(--loomi-split-z-index, 1000);
+  flex-direction: column;
+  width: max-content;
+  min-width: var(--loomi-split-panel-min-width, max-content);
+  max-width: min(22rem, calc(100vw - 1rem));
+  padding: var(--loomi-split-panel-padding);
+  background: var(--loomi-surface);
+  color: var(--loomi-text);
+  border: 1px solid var(--loomi-surface-border);
+  border-radius: var(--loomi-split-panel-radius);
+  box-shadow:
+    0 1px 3px rgba(15, 23, 42, 0.06),
+    0 8px 24px rgba(15, 23, 42, 0.08);
+  overflow: visible;
+}
+
+/* `.open` rather than `:popover-open` alone so the panel still shows on a browser with no
+   popover support, where the [popover] attribute is inert and the UA's `display: none`
+   rule never applies. The class is only ever set once showPopover() has been called. */
+.loomi-panel.open {
+  display: flex;
+  animation: loomi-drop-in var(--loomi-motion-duration) var(--loomi-motion-ease);
+}
+/* Flipped above the pair — enter from below instead, so the motion still reads as coming
+   out of the button. */
+.loomi-panel.place-top.open {
+  animation-name: loomi-rise-in;
+}
+
+/* Closing: the panel stays in the top layer while it plays the reverse of whichever
+   entrance it used. `forwards` so the last frame holds rather than flashing back to full
+   opacity, and no pointer events so a click can't land on a panel that is leaving. */
+.loomi-panel.open.closing {
+  animation-name: loomi-drop-out;
+  animation-fill-mode: forwards;
+  pointer-events: none;
+}
+.loomi-panel.place-top.open.closing {
+  animation-name: loomi-rise-out;
+}
+
+::slotted(loomi-dropmenu-item) {
+  display: block;
+}
+:host([divided]) ::slotted(loomi-dropmenu-item:not(:last-child)) {
+  border-bottom: 1px solid var(--loomi-surface-border-subtle);
+}

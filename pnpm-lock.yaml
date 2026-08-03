@@ -732,6 +732,9 @@ importers:
       '@loomidev/spinner':
         specifier: workspace:^
         version: link:../spinner
+      '@loomidev/split-button':
+        specifier: workspace:^
+        version: link:../split-button
       '@loomidev/statistic':
         specifier: workspace:^
         version: link:../statistic
@@ -1062,28 +1065,6 @@ importers:
         version: 5.9.3
 
   packages/divider:
-    dependencies:
-      '@loomidev/core':
-        specifier: workspace:^
-        version: link:../core
-    devDependencies:
-      '@loomidev/theme':
-        specifier: workspace:^
-        version: link:../theme
-      '@tailwindcss/cli':
-        specifier: ^4.0.0
-        version: 4.3.2
-      lit:
-        specifier: ^3.3.3
-        version: 3.3.3
-      tailwindcss:
-        specifier: ^4.0.0
-        version: 4.3.2
-      typescript:
-        specifier: ^5.6.3
-        version: 5.9.3
-
-  packages/scroller:
     dependencies:
       '@loomidev/core':
         specifier: workspace:^
@@ -1962,6 +1943,28 @@ importers:
         specifier: ^5.6.3
         version: 5.9.3
 
+  packages/scroller:
+    dependencies:
+      '@loomidev/core':
+        specifier: workspace:^
+        version: link:../core
+    devDependencies:
+      '@loomidev/theme':
+        specifier: workspace:^
+        version: link:../theme
+      '@tailwindcss/cli':
+        specifier: ^4.0.0
+        version: 4.3.2
+      lit:
+        specifier: ^3.3.3
+        version: 3.3.3
+      tailwindcss:
+        specifier: ^4.0.0
+        version: 4.3.2
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+
   packages/select:
     dependencies:
       '@loomidev/core':
@@ -2052,6 +2055,34 @@ importers:
       '@loomidev/core':
         specifier: workspace:^
         version: link:../core
+    devDependencies:
+      '@loomidev/theme':
+        specifier: workspace:^
+        version: link:../theme
+      '@tailwindcss/cli':
+        specifier: ^4.0.0
+        version: 4.3.2
+      lit:
+        specifier: ^3.3.3
+        version: 3.3.3
+      tailwindcss:
+        specifier: ^4.0.0
+        version: 4.3.2
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+
+  packages/split-button:
+    dependencies:
+      '@loomidev/button':
+        specifier: workspace:^
+        version: link:../button
+      '@loomidev/core':
+        specifier: workspace:^
+        version: link:../core
+      '@loomidev/dropmenu':
+        specifier: workspace:^
+        version: link:../dropmenu
     devDependencies:
       '@loomidev/theme':
         specifier: workspace:^
@@ -2220,6 +2251,9 @@ importers:
       '@loomidev/modal':
         specifier: workspace:^
         version: link:../modal
+      '@loomidev/notification':
+        specifier: workspace:^
+        version: link:../notification
       '@loomidev/select':
         specifier: workspace:^
         version: link:../select

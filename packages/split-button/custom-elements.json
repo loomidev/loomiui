@@ -1,0 +1,876 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiSplitButton",
+          "declaration": {
+            "name": "LoomiSplitButton",
+            "module": "./loomi-split-button.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSplitButtonColor",
+          "declaration": {
+            "name": "LoomiSplitButtonColor",
+            "module": "./loomi-split-button.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSplitButtonPlacement",
+          "declaration": {
+            "name": "LoomiSplitButtonPlacement",
+            "module": "./loomi-split-button.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSplitButtonRadius",
+          "declaration": {
+            "name": "LoomiSplitButtonRadius",
+            "module": "./loomi-split-button.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSplitButtonSize",
+          "declaration": {
+            "name": "LoomiSplitButtonSize",
+            "module": "./loomi-split-button.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSplitButtonToggleDetail",
+          "declaration": {
+            "name": "LoomiSplitButtonToggleDetail",
+            "module": "./loomi-split-button.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSplitButtonType",
+          "declaration": {
+            "name": "LoomiSplitButtonType",
+            "module": "./loomi-split-button.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-split-button.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-split-button>` — a primary action joined to a caret that opens a menu of\nrelated actions (\"Create course ▾\" → Import courses, Course templates).\n\nBoth halves are real `<loomi-button>`s, so every visual attribute below behaves exactly\nas it does on a plain button and the two halves can't drift apart. Menu rows are\n`<loomi-dropmenu-item>`s, so item styling, icons, shortcuts, checkbox/radio rows and\ndestructive variants all come along unchanged.\n\nThe panel is promoted to the **top layer** via the popover API and placed with core's\n`positionFloatingPanel()` — the same mechanism `<loomi-dropmenu>` uses — so it is never\nclipped by an ancestor's `overflow`. That's what makes this usable in table rows and\ncard headers.",
+          "name": "LoomiSplitButton",
+          "cssParts": [
+            {
+              "description": "The wrapper holding both halves.",
+              "name": "split"
+            },
+            {
+              "description": "The primary half (`<loomi-button>` host).",
+              "name": "primary"
+            },
+            {
+              "description": "The primary half's inner `<button>`/`<a>`.",
+              "name": "primary-button"
+            },
+            {
+              "description": "The hairline between the two halves.",
+              "name": "divider"
+            },
+            {
+              "description": "The caret half (`<loomi-button>` host).",
+              "name": "caret"
+            },
+            {
+              "description": "The caret's inner `<button>`.",
+              "name": "caret-button"
+            },
+            {
+              "description": "The floating menu panel.",
+              "name": "panel"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The primary half's label.",
+              "name": ""
+            },
+            {
+              "description": "`<loomi-dropmenu-item>` rows for the caret's menu.",
+              "name": "menu"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "ShadowRootInit"
+              },
+              "static": true,
+              "default": "{ ...LoomiElement.shadowRootOptions, delegatesFocus: true, }",
+              "description": "`delegatesFocus` so the host participates in focus like a native control — clicking\nthe padding focuses the primary half, and `:focus-within`-style styling works. The\nexplicit `focus()` below is still needed: delegation only finds focusable *shadow*\ndescendants, and a `<loomi-button>` host isn't one."
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "LoomiSplitButtonType"
+              },
+              "default": "\"primary\"",
+              "attribute": "type",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiSplitButtonColor | \"\""
+              },
+              "default": "\"\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "LoomiSplitButtonSize"
+              },
+              "default": "\"regular\"",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "radius",
+              "type": {
+                "text": "LoomiSplitButtonRadius"
+              },
+              "default": "\"medium\"",
+              "attribute": "radius",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "outline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "outline",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "borderWidth",
+              "type": {
+                "text": "number"
+              },
+              "default": "2",
+              "attribute": "border-width"
+            },
+            {
+              "kind": "field",
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "icon"
+            },
+            {
+              "kind": "field",
+              "name": "iconRight",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "icon-right"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tag",
+              "type": {
+                "text": "\"button\" | \"a\""
+              },
+              "default": "\"button\"",
+              "attribute": "tag",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "href"
+            },
+            {
+              "kind": "field",
+              "name": "canSubmit",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "can-submit"
+            },
+            {
+              "kind": "field",
+              "name": "hasSpinner",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "has-spinner"
+            },
+            {
+              "kind": "field",
+              "name": "showSpinner",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "show-spinner"
+            },
+            {
+              "kind": "field",
+              "name": "uppercase",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "uppercase"
+            },
+            {
+              "kind": "field",
+              "name": "placement",
+              "type": {
+                "text": "LoomiSplitButtonPlacement"
+              },
+              "default": "\"auto\"",
+              "attribute": "placement"
+            },
+            {
+              "kind": "field",
+              "name": "divided",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "divided",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "hideAfterClick",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "hide-after-click"
+            },
+            {
+              "kind": "field",
+              "name": "menuLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"More actions\"",
+              "description": "Accessible name for the caret, which has no visible text of its own.",
+              "attribute": "menu-label"
+            },
+            {
+              "kind": "field",
+              "name": "menuDisabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disable only the caret, leaving the primary action usable.",
+              "attribute": "menu-disabled"
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "closing",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "resolvedPlacement",
+              "type": {
+                "text": "LoomiResolvedSide"
+              },
+              "privacy": "private",
+              "default": "\"bottom\""
+            },
+            {
+              "kind": "field",
+              "name": "focusedIndex",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "-1"
+            },
+            {
+              "kind": "field",
+              "name": "cleanupOutside",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "cleanupReposition",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "cancelExit",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "repositionFrame",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "primaryEl",
+              "type": {
+                "text": "LoomiButton | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "caretEl",
+              "type": {
+                "text": "LoomiButton | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "panelEl",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions"
+                  }
+                }
+              ],
+              "description": "Focus the primary half. See `shadowRootOptions` for why this can't be delegation alone."
+            },
+            {
+              "kind": "method",
+              "name": "blur",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Open the menu."
+            },
+            {
+              "kind": "method",
+              "name": "hide",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Close the menu."
+            },
+            {
+              "kind": "field",
+              "name": "isOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "`true` while the menu panel is open.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "openMenu",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "closeMenu",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "options",
+                  "default": "{}",
+                  "type": {
+                    "text": "{ restoreFocus?: boolean }"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "startExit",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Keeps the panel in the top layer while it plays its `-out` keyframe, then hides it."
+            },
+            {
+              "kind": "method",
+              "name": "releaseOpenState",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "hidePanel",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "teardownOpenState",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "emitToggle",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "toggleMenu",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "observeReposition",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "() => void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "scheduleReposition",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "positionPanel",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "`auto` aligns to the caret (end) edge, since that's the half the menu belongs to —\nwhich is the shared helper's own default, so the placement passes straight through.\nThe helper also publishes `--loomi-anchor-width` on the panel."
+            },
+            {
+              "kind": "method",
+              "name": "menuItems",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "LoomiDropmenuItem[]"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "focusItemAt",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "openAndFocus",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "onCaretClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onCaretKeyDown",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onPanelKeyDown",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onPanelClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "syncCaretAria",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              },
+              "description": "The caret's accessible semantics have to land on the real `<button>` inside\n`<loomi-button>`'s shadow root — ARIA on the host wouldn't reach the node that\nactually takes focus. `controlElement` is `@loomidev/button`'s supported way in."
+            },
+            {
+              "kind": "method",
+              "name": "renderCaretIcon",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "loomi-split-toggle",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { open }` when the menu opens or closes."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "type",
+              "type": {
+                "text": "LoomiSplitButtonType"
+              },
+              "default": "\"primary\"",
+              "fieldName": "type"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiSplitButtonColor | \"\""
+              },
+              "default": "\"\"",
+              "fieldName": "color"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "LoomiSplitButtonSize"
+              },
+              "default": "\"regular\"",
+              "fieldName": "size"
+            },
+            {
+              "name": "radius",
+              "type": {
+                "text": "LoomiSplitButtonRadius"
+              },
+              "default": "\"medium\"",
+              "fieldName": "radius"
+            },
+            {
+              "name": "outline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "outline"
+            },
+            {
+              "name": "border-width",
+              "type": {
+                "text": "number"
+              },
+              "default": "2",
+              "fieldName": "borderWidth"
+            },
+            {
+              "name": "icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "icon"
+            },
+            {
+              "name": "icon-right",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "iconRight"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "tag",
+              "type": {
+                "text": "\"button\" | \"a\""
+              },
+              "default": "\"button\"",
+              "fieldName": "tag"
+            },
+            {
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "href"
+            },
+            {
+              "name": "can-submit",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "canSubmit"
+            },
+            {
+              "name": "has-spinner",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "hasSpinner"
+            },
+            {
+              "name": "show-spinner",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showSpinner"
+            },
+            {
+              "name": "uppercase",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "uppercase"
+            },
+            {
+              "name": "placement",
+              "type": {
+                "text": "LoomiSplitButtonPlacement"
+              },
+              "default": "\"auto\"",
+              "fieldName": "placement"
+            },
+            {
+              "name": "divided",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "divided"
+            },
+            {
+              "name": "hide-after-click",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "hideAfterClick"
+            },
+            {
+              "name": "menu-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"More actions\"",
+              "description": "Accessible name for the caret, which has no visible text of its own.",
+              "fieldName": "menuLabel"
+            },
+            {
+              "name": "menu-disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disable only the caret, leaving the primary action usable.",
+              "fieldName": "menuDisabled"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-split-button",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiSplitButton",
+          "declaration": {
+            "name": "LoomiSplitButton",
+            "module": "src/loomi-split-button.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-split-button",
+          "declaration": {
+            "name": "LoomiSplitButton",
+            "module": "src/loomi-split-button.ts"
+          }
+        }
+      ]
+    }
+  ]
+}
