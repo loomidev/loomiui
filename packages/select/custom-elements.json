@@ -383,6 +383,17 @@
               "description": "Reset the selection."
             },
             {
+              "kind": "method",
+              "name": "parseSelectedValue",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string[]"
+                }
+              },
+              "description": "Turns `selectedValue` into the list of chosen option values.\n\nAn empty string is deliberately not treated as \"nothing selected\" out of\nhand. A filter whose unfiltered choice is `value=\"\"` — \"All categories\",\n\"Any status\" — is a real selection, and discarding it left those controls\nshowing the placeholder instead of the option the caller had chosen.\n\nSo an empty value counts when, and only when, the options actually offer\none. With no such option there is nothing it could refer to, and it means\nwhat it used to: no selection."
+            },
+            {
               "kind": "field",
               "name": "options",
               "type": {

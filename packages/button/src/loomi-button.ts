@@ -61,6 +61,20 @@ const BORDER_WIDTH: Record<number, string> = {
 export class LoomiButton extends LoomiElement {
   static override styles = loomiStyles(buttonStyles);
 
+  /**
+   * `delegatesFocus` so the host behaves like the native control it stands in for:
+   * `el.focus()` reaches the inner `<button>`, clicking the padding focuses it, and a
+   * component that has to hand focus back to a trigger — a menu closing, a dialog
+   * returning — can do so without reaching through the shadow root for it.
+   *
+   * Without this the host is simply not focusable, and `focus()` on it silently does
+   * nothing, which is the kind of failure that only shows up in keyboard testing.
+   */
+  static override shadowRootOptions: ShadowRootInit = {
+    ...LoomiElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
+
   /** Structural variant: `primary` is a solid fill; `secondary` is a bordered ghost. `color` overrides the hue. */
   @property({ reflect: true }) type: LoomiButtonType = "primary";
 
@@ -135,6 +149,31 @@ export class LoomiButton extends LoomiElement {
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.cleanupDarkWatch?.();
+  }
+
+  /**
+   * The real `<button>`/`<a>` inside the shadow root — the element that actually takes
+   * focus and carries the accessible semantics. Exposed because a composed control
+   * (`@loomidev/split-button`'s caret, `@loomidev/modal`'s focus trap) needs to focus it
+   * or set `aria-*` on it: ARIA placed on this host wouldn't reach the focusable node.
+   * Prefer `focus()` below when focusing is all you need.
+   */
+  get controlElement(): HTMLButtonElement | HTMLAnchorElement | null {
+    return this.renderRoot.querySelector<HTMLButtonElement | HTMLAnchorElement>('[part="button"]');
+  }
+
+  /**
+   * Focus the button. Overridden because the host itself isn't focusable, so the
+   * inherited `HTMLElement.focus()` is a silent no-op — which breaks any consumer that
+   * needs to return focus here (a menu restoring focus to its trigger, a validation
+   * summary focusing the first bad control).
+   */
+  override focus(options?: FocusOptions): void {
+    this.controlElement?.focus(options);
+  }
+
+  override blur(): void {
+    this.controlElement?.blur();
   }
 
   /** Make the spinner visible. No-op unless `has-spinner` is set. */
@@ -264,8 +303,38 @@ export class LoomiButton extends LoomiElement {
     if (this.disabled) {
       event.preventDefault();
       event.stopImmediatePropagation();
+      return;
     }
+
+    if (this.canSubmit) this.submitOwningForm();
   };
+
+  /**
+   * Submits the `<form>` this button sits in, crossing the shadow boundary.
+   *
+   * `type="submit"` alone is not enough. The rendered `<button>` lives in this
+   * component's shadow root, and form association never crosses a shadow
+   * boundary — so a consumer's `<form>` in the light DOM has no idea the button
+   * exists, and clicking it did nothing at all. Silently: no error, no submit,
+   * just a form that will not send.
+   *
+   * `requestSubmit()` rather than `submit()` so the form's own validation and
+   * its `submit` listeners still run — which is what a framework's
+   * `@submit.prevent` handler is attached to.
+   */
+  private submitOwningForm(): void {
+    for (let node: Element | null = this.parentElement ?? this; node;) {
+      const form = node.closest("form");
+
+      if (form instanceof HTMLFormElement) {
+        form.requestSubmit();
+        return;
+      }
+
+      const root: Node = node.getRootNode();
+      node = root instanceof ShadowRoot ? root.host : null;
+    }
+  }
 
   override render(): TemplateResult {
     const cls = this.computeClasses();

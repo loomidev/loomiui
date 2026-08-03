@@ -93,4 +93,40 @@ describe("loomi-select", () => {
       label.getBoundingClientRect().width,
     );
   });
+
+  it("treats an empty value as a selection when the options offer one", async () => {
+    // "All categories" filters carry value="" as their unfiltered choice. Read
+    // as "nothing selected", the trigger fell back to the placeholder and the
+    // caller's chosen option went unshown.
+    const withAll = [{ label: "All categories", value: "" }, ...DATA];
+    const el = await fixture<LoomiSelect>(
+      html`<loomi-select .data=${withAll} selected-value=""></loomi-select>`,
+    );
+    await el.updateComplete;
+
+    const trigger = el.shadowRoot!.querySelector(".loomi-trigger") as HTMLButtonElement;
+    expect(trigger.textContent).to.contain("All categories");
+  });
+
+  it("still shows the placeholder when no option has an empty value", async () => {
+    const el = await fixture<LoomiSelect>(
+      html`<loomi-select .data=${DATA} placeholder="Pick one" selected-value=""></loomi-select>`,
+    );
+    await el.updateComplete;
+
+    const trigger = el.shadowRoot!.querySelector(".loomi-trigger") as HTMLButtonElement;
+    expect(trigger.textContent).to.contain("Pick one");
+  });
+
+  it("re-resolves the selection when options arrive after the value", async () => {
+    // Frameworks commonly set `selected-value` before `.data` has loaded.
+    const el = await fixture<LoomiSelect>(html`<loomi-select selected-value=""></loomi-select>`);
+    await el.updateComplete;
+
+    el.data = [{ label: "Everything", value: "" }, ...DATA];
+    await el.updateComplete;
+
+    const trigger = el.shadowRoot!.querySelector(".loomi-trigger") as HTMLButtonElement;
+    expect(trigger.textContent).to.contain("Everything");
+  });
 });

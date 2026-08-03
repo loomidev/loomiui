@@ -127,6 +127,16 @@
           "members": [
             {
               "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "ShadowRootInit"
+              },
+              "static": true,
+              "default": "{ ...LoomiElement.shadowRootOptions, delegatesFocus: true, }",
+              "description": "`delegatesFocus` so the host behaves like the native control it stands in for:\n`el.focus()` reaches the inner `<button>`, clicking the padding focuses it, and a\ncomponent that has to hand focus back to a trigger — a menu closing, a dialog\nreturning — can do so without reaching through the shadow root for it.\n\nWithout this the host is simply not focusable, and `focus()` on it silently does\nnothing, which is the kind of failure that only shows up in keyboard testing."
+            },
+            {
+              "kind": "field",
               "name": "type",
               "type": {
                 "text": "LoomiButtonType"
@@ -320,6 +330,43 @@
               "privacy": "private"
             },
             {
+              "kind": "field",
+              "name": "controlElement",
+              "type": {
+                "text": "HTMLButtonElement | HTMLAnchorElement | null"
+              },
+              "description": "The real `<button>`/`<a>` inside the shadow root — the element that actually takes\nfocus and carries the accessible semantics. Exposed because a composed control\n(`@loomidev/split-button`'s caret, `@loomidev/modal`'s focus trap) needs to focus it\nor set `aria-*` on it: ARIA placed on this host wouldn't reach the focusable node.\nPrefer `focus()` below when focusing is all you need.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions"
+                  }
+                }
+              ],
+              "description": "Focus the button. Overridden because the host itself isn't focusable, so the\ninherited `HTMLElement.focus()` is a silent no-op — which breaks any consumer that\nneeds to return focus here (a menu restoring focus to its trigger, a validation\nsummary focusing the first bad control)."
+            },
+            {
+              "kind": "method",
+              "name": "blur",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
               "kind": "method",
               "name": "startSpinner",
               "return": {
@@ -420,6 +467,17 @@
               "kind": "field",
               "name": "onClick",
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "submitOwningForm",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Submits the `<form>` this button sits in, crossing the shadow boundary.\n\n`type=\"submit\"` alone is not enough. The rendered `<button>` lives in this\ncomponent's shadow root, and form association never crosses a shadow\nboundary — so a consumer's `<form>` in the light DOM has no idea the button\nexists, and clicking it did nothing at all. Silently: no error, no submit,\njust a form that will not send.\n\n`requestSubmit()` rather than `submit()` so the form's own validation and\nits `submit` listeners still run — which is what a framework's\n`@submit.prevent` handler is attached to."
             }
           ],
           "events": [
