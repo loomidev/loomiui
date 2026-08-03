@@ -1,5 +1,5 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import {
   LoomiElement,
   loomiStyles,
@@ -11,6 +11,7 @@ import {
   trapTabFocus,
   FOCUSABLE_SELECTOR,
   OverlayReparent,
+  onExitAnimationEnd,
   type LoomiColor,
 } from "@loomidev/core";
 import "@loomidev/button/loomi-button.js";
@@ -101,8 +102,12 @@ export class LoomiModal extends LoomiElement {
   @property({ attribute: "blur-size" }) blurSize:
     "none" | "small" | "medium" | "large" | "xl" | "omg" = "medium";
 
+  /** Rendered-but-leaving: the dialog and backdrop are playing their exit animation. */
+  @state() private closing = false;
+
   /** The element focused before `show()` was called, restored when the modal closes. */
   private previouslyFocused: HTMLElement | null = null;
+  private cancelExit?: () => void;
   private hasScrollLock = false;
   private reparent = new OverlayReparent(this);
 
@@ -115,7 +120,11 @@ export class LoomiModal extends LoomiElement {
     super.disconnectedCallback();
     if (this.name) registry.delete(this.name);
     document.removeEventListener("keydown", this.onKey);
-    if (!this.reparent.isMovingInDom) this.releaseScrollLock();
+    if (this.reparent.isMovingInDom) return;
+    this.releaseScrollLock();
+    this.cancelExit?.();
+    this.cancelExit = undefined;
+    this.setClosing(false);
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
@@ -125,7 +134,21 @@ export class LoomiModal extends LoomiElement {
     }
   }
 
+  /**
+   * `open` is reflected and is what `:host` keys its `display` off; while the exit plays,
+   * `open` is already false, so the host needs its own reason to keep generating boxes.
+   */
+  private setClosing(value: boolean): void {
+    this.closing = value;
+    this.toggleAttribute("closing", value);
+  }
+
   show(): void {
+    // Reopened mid-close: drop the pending exit so it can't tear down the modal we're
+    // about to show, and clear the class so the entrance plays from the top.
+    this.cancelExit?.();
+    this.cancelExit = undefined;
+    this.setClosing(false);
     this.previouslyFocused = deepActiveElement() as HTMLElement | null;
     this.reparent.moveToBody();
     this.open = true;
@@ -141,12 +164,42 @@ export class LoomiModal extends LoomiElement {
       });
   }
   hide(): void {
+    if (!this.open) return;
     this.open = false;
+    // The scroll lock, the `close` event and focus all release now — only the dialog's own
+    // visibility waits, so nothing observable is delayed by the animation.
     this.releaseScrollLock();
     this.dispatchEvent(new Event("close", { bubbles: true, composed: true }));
-    this.reparent.restore();
     this.previouslyFocused?.focus();
     this.previouslyFocused = null;
+    this.startExit();
+  }
+
+  /**
+   * Keeps the backdrop and dialog rendered while they play their `-out` keyframes, then
+   * unmounts and returns the host to where the author put it.
+   *
+   * `reparent.restore()` waits for the same reason: moving a node re-inserts it, which
+   * cancels any animation running on it.
+   */
+  private startExit(): void {
+    const backdrop = this.shadowRoot?.querySelector<HTMLElement>(".loomi-backdrop");
+    if (!backdrop) {
+      this.reparent.restore();
+      return;
+    }
+    this.setClosing(true);
+    // Wait for the `closing` class to land before listening: the entrance animation is
+    // replaced (not finished) by the exit, so listening any earlier could catch the
+    // entrance's own `animationend` on a modal opened and closed in quick succession.
+    void this.updateComplete.then(() => {
+      if (!this.closing) return;
+      this.cancelExit = onExitAnimationEnd(backdrop, () => {
+        this.cancelExit = undefined;
+        this.setClosing(false);
+        this.reparent.restore();
+      });
+    });
   }
 
   private syncScrollLock(): void {
@@ -211,7 +264,7 @@ export class LoomiModal extends LoomiElement {
   };
 
   override render(): TemplateResult | typeof nothing {
-    if (!this.open) return nothing;
+    if (!this.open && !this.closing) return nothing;
     const t = this.type ? TYPE[this.type] : undefined;
     const iconName = this.icon || t?.icon || "";
     const actionColor = t?.color ?? ("primary" as LoomiColor);
@@ -228,6 +281,7 @@ export class LoomiModal extends LoomiElement {
     const showCancel = this.showActionButtons && this.cancelButtonLabel;
     const dialogClasses = [
       "loomi-dialog",
+      this.closing ? "closing" : "",
       `size-${this.size}`,
       iconName ? "has-icon" : "is-default",
       this.showCloseIcon ? "has-close" : "",
@@ -235,7 +289,10 @@ export class LoomiModal extends LoomiElement {
       .filter(Boolean)
       .join(" ");
 
-    return html`<div class="loomi-backdrop blur-${this.blurSize}" @click=${this.onBackdrop}>
+    return html`<div
+      class="loomi-backdrop blur-${this.blurSize} ${this.closing ? "closing" : ""}"
+      @click=${this.onBackdrop}
+    >
       <div
         class=${dialogClasses}
         role="dialog"

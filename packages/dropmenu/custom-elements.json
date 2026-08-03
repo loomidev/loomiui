@@ -22,6 +22,22 @@
             "name": "LoomiDropmenuItem",
             "module": "./loomi-dropmenu.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiDropmenuItemVariant",
+          "declaration": {
+            "name": "LoomiDropmenuItemVariant",
+            "module": "./loomi-dropmenu.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiDropmenuPlacement",
+          "declaration": {
+            "name": "LoomiDropmenuPlacement",
+            "module": "./loomi-dropmenu.js"
+          }
         }
       ]
     },
@@ -33,6 +49,12 @@
           "kind": "class",
           "description": "`<loomi-dropmenu-item>` — a single menu line. Put links/handlers inside, or set `icon`.\nSet `checkbox` or `radio` to turn it into a toggle row (see `checked`, `group`).",
           "name": "LoomiDropmenuItem",
+          "cssParts": [
+            {
+              "description": "The floating submenu panel; `data-side` is the side it opened on.",
+              "name": "submenu"
+            }
+          ],
           "slots": [
             {
               "description": "Item content.",
@@ -192,10 +214,87 @@
             },
             {
               "kind": "field",
+              "name": "submenuClosing",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "submenuSide",
+              "type": {
+                "text": "LoomiSubmenuSide"
+              },
+              "privacy": "private",
+              "default": "\"right\""
+            },
+            {
+              "kind": "field",
+              "name": "submenuCloseTimer",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "submenuFrame",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "cleanupSubmenu",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "cancelSubmenuExit",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "itemEl",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "submenuEl",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
               "name": "hasSubmenu",
               "type": {
                 "text": "boolean"
               },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "resolvedSubmenuSide",
+              "type": {
+                "text": "LoomiSubmenuSide"
+              },
+              "description": "Which side this item's submenu opened on — nested submenus follow it.",
               "readonly": true
             },
             {
@@ -244,6 +343,93 @@
             {
               "kind": "field",
               "name": "onSubmenuSlotChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "openSubmenu",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              },
+              "description": "Opening is JS rather than a `:host(:hover)` rule because the panel has to be measured\nand placed once it's visible — and promoted to the top layer, which is what keeps it\nclear of a `scrollable` menu's own `overflow`."
+            },
+            {
+              "kind": "method",
+              "name": "closeSubmenu",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Close this item's submenu. The parent menu calls this when it closes."
+            },
+            {
+              "kind": "method",
+              "name": "hideSubmenuPanel",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "teardownSubmenu",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "scheduleSubmenuClose",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Crossing the gap between a row and its submenu leaves both boxes for an instant. The\ngrace period is what keeps that from closing the menu under the pointer — the reason\nthe old CSS-only `:host(:hover)` version was fiddly to use."
+            },
+            {
+              "kind": "method",
+              "name": "observeSubmenu",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "() => void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "positionSubmenu",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onItemPointerEnter",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onItemFocusIn",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onItemFocusOut",
               "privacy": "private"
             },
             {
@@ -401,8 +587,14 @@
         },
         {
           "kind": "class",
-          "description": "`<loomi-dropmenu>` — a dropdown action menu. Trigger via the default ellipsis icon, an\nicon name (`trigger`), or custom markup in the `trigger` slot.",
+          "description": "`<loomi-dropmenu>` — a dropdown action menu. Trigger via the default ellipsis icon, an\nicon name (`trigger`), or custom markup in the `trigger` slot.\n\nThe panel is promoted to the **top layer** via the popover API and positioned against\nthe viewport, so it is never clipped by an ancestor's `overflow` — that's what makes it\nusable from a row deep inside a scrolling table — and it flips above the trigger when\nthere isn't room below.",
           "name": "LoomiDropmenu",
+          "cssParts": [
+            {
+              "description": "The floating menu panel.",
+              "name": "menu"
+            }
+          ],
           "slots": [
             {
               "description": "`<loomi-dropmenu-item>` children.",
@@ -446,7 +638,7 @@
               "kind": "field",
               "name": "placement",
               "type": {
-                "text": "\"auto\" | \"left\" | \"right\""
+                "text": "LoomiDropmenuPlacement"
               },
               "default": "\"auto\"",
               "attribute": "placement"
@@ -498,12 +690,21 @@
             },
             {
               "kind": "field",
-              "name": "resolvedPlacement",
+              "name": "closing",
               "type": {
-                "text": "\"left\" | \"right\""
+                "text": "boolean"
               },
               "privacy": "private",
-              "default": "\"left\""
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "resolvedSide",
+              "type": {
+                "text": "LoomiResolvedSide"
+              },
+              "privacy": "private",
+              "default": "\"bottom\""
             },
             {
               "kind": "field",
@@ -532,12 +733,93 @@
             },
             {
               "kind": "field",
+              "name": "cancelExit",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
               "name": "placementFrame",
               "type": {
                 "text": "number"
               },
               "privacy": "private",
               "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "menuEl",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "triggerEl",
+              "type": {
+                "text": "HTMLButtonElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "isOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "`true` while the menu panel is open.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions"
+                  }
+                }
+              ],
+              "description": "Focus the trigger. The trigger is a `<button>` in the shadow root, which the\ninherited `focus()` can't reach — so without this a consumer had no way to hand\nfocus back to a row's menu button (after closing a dialog the menu opened, say),\nwhich is the kind of thing that forces a hand-rolled menu instead."
+            },
+            {
+              "kind": "method",
+              "name": "blur",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Open the menu."
+            },
+            {
+              "kind": "method",
+              "name": "hide",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Close the menu."
             },
             {
               "kind": "method",
@@ -555,7 +837,7 @@
               "privacy": "private",
               "return": {
                 "type": {
-                  "text": "void"
+                  "text": "Promise<void>"
                 }
               }
             },
@@ -580,6 +862,47 @@
             },
             {
               "kind": "method",
+              "name": "startExit",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Keeps the panel rendered and in the top layer while it plays its `-out` keyframe,\nthen hides it for real."
+            },
+            {
+              "kind": "method",
+              "name": "releaseOpenState",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "hidePanel",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "teardownOpenState",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
               "name": "observePlacement",
               "privacy": "private",
               "return": {
@@ -600,7 +923,7 @@
             },
             {
               "kind": "method",
-              "name": "resolvePlacement",
+              "name": "positionMenu",
               "privacy": "private",
               "return": {
                 "type": {
@@ -662,6 +985,24 @@
               "privacy": "private"
             },
             {
+              "kind": "method",
+              "name": "openAndFocus",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
               "kind": "field",
               "name": "onTriggerKeyDown",
               "privacy": "private"
@@ -709,7 +1050,7 @@
             {
               "name": "placement",
               "type": {
-                "text": "\"auto\" | \"left\" | \"right\""
+                "text": "LoomiDropmenuPlacement"
               },
               "default": "\"auto\"",
               "fieldName": "placement"

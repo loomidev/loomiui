@@ -6,6 +6,19 @@ function actionControl(action: Element): HTMLButtonElement {
   return action.shadowRoot!.querySelector('[part="button"]') as HTMLButtonElement;
 }
 
+/**
+ * Waits for a closing modal to finish its exit animation. `open`, focus, the `close`
+ * event and the scroll lock are all released synchronously by `hide()`; only unmounting
+ * and the move back to the original parent wait for the animation.
+ */
+async function closed(el: LoomiModal): Promise<void> {
+  const deadline = Date.now() + 1000;
+  while (el.hasAttribute("closing") && Date.now() < deadline) {
+    await new Promise((resolve) => setTimeout(resolve, 16));
+  }
+  await el.updateComplete;
+}
+
 describe("loomi-modal", () => {
   afterEach(() => {
     for (const modal of Array.from(document.querySelectorAll<LoomiModal>("loomi-modal"))) {
@@ -42,7 +55,7 @@ describe("loomi-modal", () => {
     expect(el.parentNode).to.equal(document.body);
 
     el.hide();
-    await el.updateComplete;
+    await closed(el);
     expect(el.parentNode).to.equal(section);
     expect(el.nextElementSibling).to.equal(after);
   });
@@ -83,6 +96,37 @@ describe("loomi-modal", () => {
     await okEvent;
     await el.updateComplete;
     expect(el.open).to.be.false;
+  });
+
+  it("plays an exit animation before it unmounts, and cancels it if reopened", async () => {
+    const el = await fixture<LoomiModal>(html`<loomi-modal title="Leaving">Body</loomi-modal>`);
+    el.show();
+    await el.updateComplete;
+
+    el.hide();
+    await el.updateComplete;
+    // Still rendered, playing the reverse of its entrance.
+    const backdrop = el.shadowRoot!.querySelector<HTMLElement>(".loomi-backdrop")!;
+    const dialog = el.shadowRoot!.querySelector<HTMLElement>(".loomi-dialog")!;
+    expect(el.open).to.be.false;
+    expect(el.hasAttribute("closing")).to.be.true;
+    expect(getComputedStyle(backdrop).animationName).to.equal("loomi-fade-out");
+    expect(getComputedStyle(dialog).animationName).to.equal("loomi-rise-out");
+
+    await closed(el);
+    expect(el.shadowRoot!.querySelector(".loomi-backdrop")).to.not.exist;
+
+    // Reopening mid-exit drops the pending close rather than letting it unmount the modal.
+    el.show();
+    await el.updateComplete;
+    el.hide();
+    await el.updateComplete;
+    el.show();
+    await el.updateComplete;
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    expect(el.open).to.be.true;
+    expect(el.hasAttribute("closing")).to.be.false;
+    expect(el.shadowRoot!.querySelector(".loomi-backdrop")).to.exist;
   });
 
   it("opens and closes via the global showLoomiModal()/hideLoomiModal() helpers", async () => {

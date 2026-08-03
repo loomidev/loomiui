@@ -1,6 +1,15 @@
 import { html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, nextMenuFocusIndex, onClickOutside } from "@loomidev/core";
+import { customElement, property, query, state } from "lit/decorators.js";
+import {
+  LoomiElement,
+  loomiStyles,
+  nextMenuFocusIndex,
+  onClickOutside,
+  onExitAnimationEnd,
+  positionFloatingSubmenu,
+  supportsPopover,
+  type LoomiSubmenuSide,
+} from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -14,6 +23,7 @@ export type LoomiContextMenuPlacement = "auto" | "left" | "right";
  *
  * @slot - Item content.
  * @slot submenu - Nested `<loomi-context-menu-item>` children.
+ * @csspart submenu - The floating submenu panel; `data-side` is the side it opened on.
  */
 @customElement("loomi-context-menu-item")
 export class LoomiContextMenuItem extends LoomiElement {
@@ -29,6 +39,16 @@ export class LoomiContextMenuItem extends LoomiElement {
   @state() private hasSubmenuItems = false;
   @state() private menuIconRight = false;
   @state() private submenuOpen = false;
+  @state() private submenuClosing = false;
+  @state() private submenuSide: LoomiSubmenuSide = "right";
+
+  private submenuCloseTimer = 0;
+  private submenuFrame = 0;
+  private cleanupSubmenu?: () => void;
+  private cancelSubmenuExit?: () => void;
+
+  @query(".loomi-item") private itemEl?: HTMLElement;
+  @query(".loomi-submenu") private submenuEl?: HTMLElement;
 
   get hasSubmenu(): boolean {
     return this.hasSubmenuItems;
@@ -36,6 +56,16 @@ export class LoomiContextMenuItem extends LoomiElement {
 
   get selectable(): boolean {
     return !this.header && !this.divider;
+  }
+
+  /** Which side this item's submenu opened on — nested submenus follow it. */
+  get resolvedSubmenuSide(): LoomiSubmenuSide {
+    return this.submenuSide;
+  }
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.teardownSubmenu();
   }
 
   setMenuIconRight(value: boolean): void {
@@ -52,8 +82,142 @@ export class LoomiContextMenuItem extends LoomiElement {
   };
 
   private onItemClick(): void {
-    if (this.hasSubmenuItems) this.submenuOpen = !this.submenuOpen;
+    if (!this.hasSubmenuItems) return;
+    if (this.submenuOpen) this.closeSubmenu();
+    else void this.openSubmenu();
   }
+
+  // ---------------------------------------------------------------- submenu
+
+  /**
+   * Opening is JS rather than a `:host(:hover)` rule because the panel has to be measured
+   * and placed once it's visible — and promoted to the top layer, which is what keeps it
+   * clear of a `scrollable` menu's own `overflow`.
+   */
+  private async openSubmenu(): Promise<void> {
+    if (!this.hasSubmenuItems) return;
+    clearTimeout(this.submenuCloseTimer);
+    // Re-hovered mid-close: drop the pending exit rather than letting it hide the panel.
+    this.cancelSubmenuExit?.();
+    this.cancelSubmenuExit = undefined;
+    this.submenuClosing = false;
+    if (this.submenuOpen) {
+      this.positionSubmenu();
+      return;
+    }
+    this.submenuOpen = true;
+    this.cleanupSubmenu = this.observeSubmenu();
+
+    await this.updateComplete;
+    const panel = this.submenuEl;
+    if (!panel || !this.submenuOpen) return;
+    if (supportsPopover(panel) && !panel.matches(":popover-open")) {
+      try {
+        panel.showPopover();
+      } catch {
+        // Already open, or detached mid-flight — either way, nothing to do.
+      }
+    }
+    this.positionSubmenu();
+  }
+
+  /** Close this item's submenu. The parent menu calls this when it closes. */
+  closeSubmenu(): void {
+    if (!this.submenuOpen) return;
+    this.submenuOpen = false;
+    clearTimeout(this.submenuCloseTimer);
+    cancelAnimationFrame(this.submenuFrame);
+    this.cleanupSubmenu?.();
+    this.cleanupSubmenu = undefined;
+
+    const panel = this.submenuEl;
+    if (!panel) {
+      this.hideSubmenuPanel();
+      return;
+    }
+    this.submenuClosing = true;
+    void this.updateComplete.then(() => {
+      if (!this.submenuClosing) return;
+      this.cancelSubmenuExit = onExitAnimationEnd(panel, () => {
+        this.cancelSubmenuExit = undefined;
+        this.submenuClosing = false;
+        this.hideSubmenuPanel();
+      });
+    });
+  }
+
+  private hideSubmenuPanel(): void {
+    const panel = this.submenuEl;
+    if (panel && supportsPopover(panel) && panel.matches(":popover-open")) {
+      try {
+        panel.hidePopover();
+      } catch {
+        // Already hidden — nothing to do.
+      }
+    }
+  }
+
+  private teardownSubmenu(): void {
+    clearTimeout(this.submenuCloseTimer);
+    cancelAnimationFrame(this.submenuFrame);
+    this.cleanupSubmenu?.();
+    this.cleanupSubmenu = undefined;
+    this.cancelSubmenuExit?.();
+    this.cancelSubmenuExit = undefined;
+    this.submenuClosing = false;
+    this.hideSubmenuPanel();
+  }
+
+  /**
+   * Crossing the gap between a row and its submenu leaves both boxes for an instant. The
+   * grace period is what keeps that from closing the menu under the pointer — the reason
+   * the old CSS-only `:host(:hover)` version was fiddly to use.
+   */
+  private scheduleSubmenuClose(): void {
+    clearTimeout(this.submenuCloseTimer);
+    this.submenuCloseTimer = window.setTimeout(() => this.closeSubmenu(), 150);
+  }
+
+  private observeSubmenu(): () => void {
+    const reposition = (): void => {
+      cancelAnimationFrame(this.submenuFrame);
+      this.submenuFrame = requestAnimationFrame(() => this.positionSubmenu());
+    };
+    window.addEventListener("resize", reposition);
+    // Capture phase so scrolling the menu body itself repositions the submenu, which is in
+    // the top layer and won't move with it.
+    window.addEventListener("scroll", reposition, true);
+    return () => {
+      window.removeEventListener("resize", reposition);
+      window.removeEventListener("scroll", reposition, true);
+    };
+  }
+
+  private positionSubmenu(): void {
+    const panel = this.submenuEl;
+    const row = this.itemEl;
+    if (!panel || !row || !this.submenuOpen) return;
+    const parent = this.parentElement;
+    this.submenuSide = positionFloatingSubmenu(row, panel, {
+      prefer: parent instanceof LoomiContextMenuItem ? parent.resolvedSubmenuSide : undefined,
+    });
+  }
+
+  private onItemPointerEnter = (): void => {
+    void this.openSubmenu();
+  };
+
+  private onItemFocusIn = (): void => {
+    void this.openSubmenu();
+  };
+
+  private onItemFocusOut = (event: FocusEvent): void => {
+    // Focus moving into a submenu item retargets to that item's host, which is a child of
+    // this one — that isn't leaving.
+    const next = event.relatedTarget as Node | null;
+    if (next && this.contains(next)) return;
+    this.scheduleSubmenuClose();
+  };
 
   override render(): TemplateResult {
     if (this.divider) return html`<div class="loomi-divider"></div>`;
@@ -69,6 +233,10 @@ export class LoomiContextMenuItem extends LoomiElement {
         aria-haspopup=${this.hasSubmenuItems ? "menu" : nothing}
         aria-expanded=${this.hasSubmenuItems ? (this.submenuOpen ? "true" : "false") : nothing}
         @click=${this.onItemClick}
+        @mouseenter=${this.hasSubmenuItems ? this.onItemPointerEnter : nothing}
+        @mouseleave=${this.hasSubmenuItems ? () => this.scheduleSubmenuClose() : nothing}
+        @focusin=${this.hasSubmenuItems ? this.onItemFocusIn : nothing}
+        @focusout=${this.hasSubmenuItems ? this.onItemFocusOut : nothing}
       >
       ${path ? html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${path}</svg>` : nothing}
       <span class="loomi-label"><slot></slot></span>
@@ -81,7 +249,17 @@ export class LoomiContextMenuItem extends LoomiElement {
           : nothing
       }
     </div>
-    <div class="loomi-submenu ${this.hasSubmenuItems ? "ready" : ""} ${this.submenuOpen ? "open" : ""}" role="menu">
+    <div
+      class="loomi-submenu ${this.submenuOpen || this.submenuClosing ? "open" : ""} ${
+        this.submenuClosing ? "closing" : ""
+      }"
+      part="submenu"
+      popover="manual"
+      role="menu"
+      data-side=${this.submenuSide}
+      @mouseenter=${this.hasSubmenuItems ? () => clearTimeout(this.submenuCloseTimer) : nothing}
+      @mouseleave=${this.hasSubmenuItems ? () => this.scheduleSubmenuClose() : nothing}
+    >
       <slot name="submenu" @slotchange=${this.onSubmenuSlotChange}></slot>
     </div>`;
   }
@@ -137,6 +315,9 @@ export class LoomiContextMenu extends LoomiElement {
   }
 
   hide(): void {
+    // Submenus are in the top layer in their own right, so hiding the menu that holds them
+    // isn't enough — each one has to be told to close.
+    for (const item of this.querySelectorAll("loomi-context-menu-item")) item.closeSubmenu();
     this.open = false;
     this.focusedIndex = -1;
     this.cleanupOutside?.();
@@ -147,17 +328,14 @@ export class LoomiContextMenu extends LoomiElement {
   }
 
   private observePlacement(): () => void {
+    // A right-click elsewhere closing this menu is `onClickOutside`'s job — it watches
+    // `contextmenu` as well as `click`, so there's nothing to duplicate here.
     const reposition = (): void => this.schedulePlacement();
-    const onOutsideContextMenu = (event: MouseEvent): void => {
-      if (!event.composedPath().includes(this)) this.hide();
-    };
     window.addEventListener("resize", reposition);
     window.addEventListener("scroll", reposition, true);
-    document.addEventListener("contextmenu", onOutsideContextMenu, true);
     return () => {
       window.removeEventListener("resize", reposition);
       window.removeEventListener("scroll", reposition, true);
-      document.removeEventListener("contextmenu", onOutsideContextMenu, true);
     };
   }
 

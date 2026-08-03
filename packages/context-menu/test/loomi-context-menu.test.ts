@@ -1,9 +1,28 @@
 import { html, fixture, expect } from "@open-wc/testing";
 import "../dist/loomi-context-menu.js";
-import type { LoomiContextMenu } from "../dist/index.js";
+import type { LoomiContextMenu, LoomiContextMenuItem } from "../dist/index.js";
 
 const nextFrame = (): Promise<void> =>
   new Promise((resolve) => requestAnimationFrame(() => resolve()));
+
+/** Waits for a closing submenu to finish its exit animation and actually hide. */
+async function closed(panel: HTMLElement): Promise<void> {
+  const deadline = Date.now() + 1000;
+  while (panel.classList.contains("open") && Date.now() < deadline) {
+    await new Promise((resolve) => setTimeout(resolve, 16));
+  }
+}
+
+/** Hover a parent row and wait for its submenu to be shown and placed. */
+async function openSubmenu(item: LoomiContextMenuItem): Promise<HTMLElement> {
+  await nextFrame();
+  await item.updateComplete;
+  item.shadowRoot!.querySelector(".loomi-item")!.dispatchEvent(new MouseEvent("mouseenter"));
+  await item.updateComplete;
+  await nextFrame();
+  await item.updateComplete;
+  return item.shadowRoot!.querySelector<HTMLElement>(".loomi-submenu")!;
+}
 
 async function openAt(
   el: LoomiContextMenu,
@@ -114,5 +133,101 @@ describe("loomi-context-menu", () => {
     expect(item.shadowRoot!.querySelector(".loomi-submenu")!.classList.contains("open")).to.equal(
       true,
     );
+  });
+
+  it("opens a submenu on hover, beside the row that owns it", async () => {
+    const el = await fixture<LoomiContextMenu>(html`
+      <loomi-context-menu>
+        <span slot="target">Help</span>
+        <loomi-context-menu-item>
+          Support
+          <loomi-context-menu-item slot="submenu">Documentation</loomi-context-menu-item>
+          <loomi-context-menu-item slot="submenu">Contact us</loomi-context-menu-item>
+        </loomi-context-menu-item>
+      </loomi-context-menu>
+    `);
+
+    await openAt(el, 24, 24);
+    const item = el.querySelector<LoomiContextMenuItem>("loomi-context-menu-item")!;
+    const submenu = await openSubmenu(item);
+    const row = item.shadowRoot!.querySelector(".loomi-item")!.getBoundingClientRect();
+    const rect = submenu.getBoundingClientRect();
+
+    expect(submenu.dataset.side).to.equal("right");
+    expect(rect.left).to.be.greaterThan(row.right);
+    expect(rect.top).to.be.at.most(row.top);
+  });
+
+  it("flips a submenu to the left when it would run off the right of the viewport", async () => {
+    const el = await fixture<LoomiContextMenu>(html`
+      <loomi-context-menu>
+        <span slot="target">Help</span>
+        <loomi-context-menu-item>
+          Support
+          <loomi-context-menu-item slot="submenu">Documentation</loomi-context-menu-item>
+          <loomi-context-menu-item slot="submenu">Contact us</loomi-context-menu-item>
+        </loomi-context-menu-item>
+      </loomi-context-menu>
+    `);
+
+    await openAt(el, document.documentElement.clientWidth - 24, 24);
+    const item = el.querySelector<LoomiContextMenuItem>("loomi-context-menu-item")!;
+    const submenu = await openSubmenu(item);
+    const row = item.shadowRoot!.querySelector(".loomi-item")!.getBoundingClientRect();
+    const rect = submenu.getBoundingClientRect();
+
+    expect(submenu.dataset.side).to.equal("left");
+    expect(rect.right).to.be.at.most(row.left);
+    expect(rect.left).to.be.at.least(0);
+  });
+
+  it("keeps a submenu clear of a scrollable menu's own overflow", async () => {
+    const el = await fixture<LoomiContextMenu>(html`
+      <loomi-context-menu scrollable height="56">
+        <span slot="target">Help</span>
+        <loomi-context-menu-item>
+          Support
+          <loomi-context-menu-item slot="submenu">Documentation</loomi-context-menu-item>
+          <loomi-context-menu-item slot="submenu">Contact us</loomi-context-menu-item>
+        </loomi-context-menu-item>
+        <loomi-context-menu-item>Settings</loomi-context-menu-item>
+        <loomi-context-menu-item>Sign out</loomi-context-menu-item>
+      </loomi-context-menu>
+    `);
+
+    const menu = await openAt(el, 24, 24);
+    const item = el.querySelector<LoomiContextMenuItem>("loomi-context-menu-item")!;
+    const submenu = await openSubmenu(item);
+    const rect = submenu.getBoundingClientRect();
+
+    // The submenu is taller than the scrolling menu, so it can only be whole by escaping it.
+    expect(rect.bottom).to.be.greaterThan(menu.getBoundingClientRect().bottom);
+    const hit = document.elementFromPoint(rect.left + rect.width / 2, rect.bottom - 8);
+    expect(item.contains(hit)).to.equal(true);
+  });
+
+  it("closes an open submenu when the menu itself closes", async () => {
+    const el = await fixture<LoomiContextMenu>(html`
+      <loomi-context-menu>
+        <span slot="target">Help</span>
+        <loomi-context-menu-item>
+          Support
+          <loomi-context-menu-item slot="submenu">Documentation</loomi-context-menu-item>
+        </loomi-context-menu-item>
+      </loomi-context-menu>
+    `);
+
+    await openAt(el, 24, 24);
+    const item = el.querySelector<LoomiContextMenuItem>("loomi-context-menu-item")!;
+    const submenu = await openSubmenu(item);
+    expect(submenu.matches(":popover-open")).to.equal(true);
+
+    el.hide();
+    await el.updateComplete;
+    await item.updateComplete;
+    await closed(submenu);
+
+    expect(submenu.classList.contains("open")).to.equal(false);
+    expect(submenu.matches(":popover-open")).to.equal(false);
   });
 });

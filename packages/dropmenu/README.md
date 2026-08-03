@@ -256,14 +256,73 @@ menu open and shows a chevron automatically.
 
 ## Menu Placement
 
-By default the menu chooses the side with the most visible space. This helps menus in
-tables, sidebars, and documentation shells stay on screen.
+The panel is placed against the **viewport**, not inside the component's own box, and is
+promoted to the top layer with the popover API. Two consequences worth knowing:
+
+- **No ancestor can clip it.** A menu opened from the last row of a table with
+  `overflow: auto`, from inside a card with `overflow: hidden`, or from a sticky
+  toolbar opens whole. This is what makes `<loomi-dropmenu>` usable for row-level action
+  menus; nothing has to be teleported to `<body>` by hand.
+- **It flips and shifts to stay on screen.** With no room below the trigger the panel
+  opens upward instead, and the arrow moves to the underside to keep pointing at the
+  trigger. Alignment swaps the same way near a left or right edge.
+
+`placement` is therefore a _preference_, not a guarantee — a panel that would leave the
+viewport still moves.
 
 ```html
 <loomi-dropmenu placement="auto">…</loomi-dropmenu>
 <loomi-dropmenu placement="left">…</loomi-dropmenu>
 <loomi-dropmenu placement="right">…</loomi-dropmenu>
 ```
+
+`left` and `right` align the panel's left or right edge with the trigger, opening
+downward. To choose the side as well, use the same `bottom-*`/`top-*` names the other
+floating panels take (`<loomi-split-button>`, `<loomi-popover>`) — `start`/`end` are the
+left/right edges:
+
+```html
+<loomi-dropmenu placement="top-end">…</loomi-dropmenu>
+```
+
+| `placement`    | Alignment          | Opens              |
+| -------------- | ------------------ | ------------------ |
+| `auto`         | left edge (`left`) | downward, flips up |
+| `left`         | left edge          | downward, flips up |
+| `right`        | right edge         | downward, flips up |
+| `bottom-start` | left edge          | downward, flips up |
+| `bottom-end`   | right edge         | downward, flips up |
+| `top-start`    | left edge          | upward, flips down |
+| `top-end`      | right edge         | upward, flips down |
+
+### Styling the panel
+
+The panel is exposed as the `menu` part, and the arrow's minimum distance from the
+panel's corners is `--loomi-dropmenu-arrow-inset`:
+
+```css
+loomi-dropmenu::part(menu) {
+  --loomi-dropmenu-arrow-inset: 1rem;
+  min-width: 14rem;
+}
+```
+
+Because the panel lives in the top layer, `--loomi-dropmenu-z-index` only matters as a
+fallback on browsers without popover support.
+
+### Submenus
+
+A submenu is a floating panel in its own right, on the same terms as the menu: it opens
+beside the row that owns it, flips to that row's left when it would run off the right of
+the screen, slides up when it is taller than the room beneath the row, and is in the top
+layer — so `scrollable` menus don't clip it either. A nested submenu follows whichever
+side its parent settled on, rather than zig-zagging back across it.
+
+The resolved side is published as `data-side="left" | "right"` on the submenu, and the
+submenu is exposed as the `submenu` part.
+
+Submenus open on hover and on keyboard focus, and close a moment after the pointer leaves
+both the row and the panel — the delay is what lets you cross the gap between them.
 
 ## Scrollable Menus
 
@@ -294,6 +353,18 @@ items contain controls such as toggles or checkboxes.
 See [`<loomi-bell>`'s README](../bell#wrapping-it-in-a-trigger) for a worked example of
 `<loomi-dropmenu>` as a notifications panel.
 
+## Opening and closing motion
+
+The panel drops in from the trigger and plays the reverse on close — a panel that flipped
+_above_ its trigger rises in and sinks back down instead, so the motion always reads as
+coming out of and returning to the trigger. Submenus fade. `prefers-reduced-motion:
+reduce` shortens all of it to near-zero.
+
+The menu counts as closed the moment it is dismissed — `isOpen` is `false`, listeners are
+released, focus goes back to the trigger — and only the panel's own visibility waits for
+the animation. While it does, the panel keeps its `open` class, gains a `closing` one, and
+stops taking pointer events so a click can't land on a menu that is leaving.
+
 ## Accessibility
 
 For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
@@ -310,16 +381,16 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 
 ### `<loomi-dropmenu>`
 
-| Attribute          | Default      | Description                                                |
-| ------------------ | ------------ | ---------------------------------------------------------- |
-| `trigger`          | _(ellipsis)_ | Icon name for the trigger. The `-icon` suffix is optional. |
-| `trigger-on`       | `click`      | Open interaction: `click` or `mouseover`.                  |
-| `placement`        | `auto`       | Menu alignment. `auto` \| `left` \| `right`                |
-| `divided`          | `false`      | Divider lines between items. _(boolean)_                   |
-| `scrollable`       | `false`      | Scroll items past `height`. _(boolean)_                    |
-| `height`           | `200`        | Max menu height (px) when scrollable.                      |
-| `hide-after-click` | `true`       | Close the menu after an item click. _(boolean)_            |
-| `icon-right`       | `false`      | Place every item's icon after its label. _(boolean)_       |
+| Attribute          | Default      | Description                                                                                                            |
+| ------------------ | ------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| `trigger`          | _(ellipsis)_ | Icon name for the trigger. The `-icon` suffix is optional.                                                             |
+| `trigger-on`       | `click`      | Open interaction: `click` or `mouseover`.                                                                              |
+| `placement`        | `auto`       | Panel placement (see above). `auto` \| `left` \| `right` \| `bottom-start` \| `bottom-end` \| `top-start` \| `top-end` |
+| `divided`          | `false`      | Divider lines between items. _(boolean)_                                                                               |
+| `scrollable`       | `false`      | Scroll items past `height`. _(boolean)_                                                                                |
+| `height`           | `200`        | Max menu height (px) when scrollable.                                                                                  |
+| `hide-after-click` | `true`       | Close the menu after an item click. _(boolean)_                                                                        |
+| `icon-right`       | `false`      | Place every item's icon after its label. _(boolean)_                                                                   |
 
 ### `<loomi-dropmenu-item>`
 
@@ -346,6 +417,16 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 | _(default)_ | Content placed inside the component.       |
 | `submenu`   | Nested menu items.                         |
 | `trigger`   | Custom content used to open the component. |
+
+## Methods
+
+| Method    | Description                                                                  |
+| --------- | ---------------------------------------------------------------------------- |
+| `show()`  | Open the menu.                                                               |
+| `hide()`  | Close the menu.                                                              |
+| `isOpen`  | _(getter)_ `true` while the menu is open.                                    |
+| `focus()` | Focus the trigger — e.g. to hand focus back after a dialog it opened closes. |
+| `blur()`  | Blur the trigger.                                                            |
 
 ## Events
 

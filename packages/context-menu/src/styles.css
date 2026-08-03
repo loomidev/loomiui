@@ -129,11 +129,17 @@
   background: var(--loomi-surface-border-subtle);
   margin: 0.3rem -0.3rem;
 }
+/* A submenu is its own popover, for the same two reasons the menu itself is viewport-
+   positioned: it has to escape the menu body's `overflow` when the menu is `scrollable`,
+   and it has to be free to flip to the other side of its row near the edge of the screen.
+   Coordinates are written inline by positionFloatingSubmenu(); `data-side` records where
+   it landed. */
 .loomi-submenu {
   display: none;
-  position: absolute;
-  top: -0.3rem;
-  left: calc(100% + 0.35rem);
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  z-index: var(--loomi-context-menu-z-index, var(--loomi-dropmenu-z-index, 1000));
   width: max-content;
   min-width: max-content;
   max-width: min(22rem, calc(100vw - 1rem));
@@ -145,10 +151,16 @@
     0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -4px rgba(0, 0, 0, 0.1);
 }
-:host(:hover) .loomi-submenu.ready,
-:host(:focus-within) .loomi-submenu.ready,
-.loomi-submenu.ready.open {
+.loomi-submenu.open {
   display: block;
+  animation: loomi-fade-in var(--loomi-motion-duration) var(--loomi-motion-ease);
+}
+/* `forwards` so the last frame holds rather than flashing back to full opacity, and no
+   pointer events so a click can't land on a submenu that is leaving. */
+.loomi-submenu.open.closing {
+  animation-name: loomi-fade-out;
+  animation-fill-mode: forwards;
+  pointer-events: none;
 }
 ::slotted([slot="submenu"]) {
   display: block;

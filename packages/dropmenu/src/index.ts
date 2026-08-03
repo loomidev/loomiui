@@ -1,1 +1,6 @@
-export { LoomiDropmenu, LoomiDropmenuItem } from "./loomi-dropmenu.js";
+export {
+  LoomiDropmenu,
+  LoomiDropmenuItem,
+  type LoomiDropmenuItemVariant,
+  type LoomiDropmenuPlacement,
+} from "./loomi-dropmenu.js";

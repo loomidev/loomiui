@@ -146,13 +146,21 @@ export function accentVars(color: LoomiColor | string): string {
 /**
  * Call `handler` when a pointer event lands outside `el` (crossing shadow boundaries
  * via composedPath). Returns a cleanup function. Handy for selects, dropmenus, popovers.
+ *
+ * `contextmenu` counts as well as `click`: a right-click elsewhere is just as much "the
+ * user has moved on" as a left-click, and an open panel left sitting under the browser's
+ * own context menu — or under another component's — reads as stuck.
  */
 export function onClickOutside(el: Element, handler: () => void): () => void {
-  const listener = (e: MouseEvent) => {
+  const listener = (e: Event) => {
     if (!e.composedPath().includes(el)) handler();
   };
   document.addEventListener("click", listener, true);
-  return () => document.removeEventListener("click", listener, true);
+  document.addEventListener("contextmenu", listener, true);
+  return () => {
+    document.removeEventListener("click", listener, true);
+    document.removeEventListener("contextmenu", listener, true);
+  };
 }
 
 let scrollLockCount = 0;
