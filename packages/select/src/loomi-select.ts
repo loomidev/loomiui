@@ -106,13 +106,10 @@ export class LoomiSelect extends LoomiElement {
     // again afterwards (e.g. swapping which record a select reflects) — but never when
     // `selected` itself just changed from a user pick, since that doesn't touch
     // `selectedValue` at all.
-    if (changed.has("selectedValue")) {
-      this.selected = this.selectedValue
-        ? this.selectedValue
-            .split(",")
-            .map((s) => s.trim())
-            .filter(Boolean)
-        : [];
+    // Also on `data`: the options often arrive after `selectedValue` does, and
+    // whether an empty value counts as a selection depends on them.
+    if (changed.has("selectedValue") || changed.has("data")) {
+      this.selected = this.parseSelectedValue();
     }
     this.internals.setFormValue(this.selected.join(","));
     this.syncValidity();
@@ -122,6 +119,29 @@ export class LoomiSelect extends LoomiElement {
   reset(): void {
     this.selected = [];
     this.emitChange();
+  }
+
+  /**
+   * Turns `selectedValue` into the list of chosen option values.
+   *
+   * An empty string is deliberately not treated as "nothing selected" out of
+   * hand. A filter whose unfiltered choice is `value=""` — "All categories",
+   * "Any status" — is a real selection, and discarding it left those controls
+   * showing the placeholder instead of the option the caller had chosen.
+   *
+   * So an empty value counts when, and only when, the options actually offer
+   * one. With no such option there is nothing it could refer to, and it means
+   * what it used to: no selection.
+   */
+  private parseSelectedValue(): string[] {
+    if (this.selectedValue === "") {
+      return this.options.some((option) => option.value === "") ? [""] : [];
+    }
+
+    return this.selectedValue
+      .split(",")
+      .map((value) => value.trim())
+      .filter((value) => value !== "");
   }
 
   private get options(): LoomiOption[] {

@@ -64,4 +64,66 @@ describe("loomi-button", () => {
     await el.updateComplete;
     expect(btn().classList.contains("is-dark")).to.be.false;
   });
+
+  it("focuses the inner control when the host is focused", async () => {
+    // Components that hand focus back to a trigger — a menu closing, a dialog
+    // returning — call focus() on the host. Without delegatesFocus that is a
+    // silent no-op, and the failure only shows up in keyboard testing.
+    const el = await fixture<LoomiButton>(html`<loomi-button>Save</loomi-button>`);
+    el.focus();
+    await el.updateComplete;
+
+    expect(el.shadowRoot!.activeElement).to.equal(el.shadowRoot!.querySelector("button"));
+  });
+
+  it("submits the form it sits in, across the shadow boundary", async () => {
+    // `type="submit"` alone does nothing here: the rendered <button> is inside
+    // this component's shadow root, and form association never crosses one — so
+    // the consumer's <form> never hears about it.
+    const form = await fixture<HTMLFormElement>(
+      html`<form><loomi-button can-submit>Save</loomi-button></form>`,
+    );
+    let submitted = false;
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      submitted = true;
+    });
+
+    const el = form.querySelector<LoomiButton>("loomi-button")!;
+    await el.updateComplete;
+    el.shadowRoot!.querySelector("button")!.click();
+    expect(submitted).to.be.true;
+  });
+
+  it("does not submit when it is not a submit button", async () => {
+    const form = await fixture<HTMLFormElement>(
+      html`<form><loomi-button>Cancel</loomi-button></form>`,
+    );
+    let submitted = false;
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      submitted = true;
+    });
+
+    const el = form.querySelector<LoomiButton>("loomi-button")!;
+    await el.updateComplete;
+    el.shadowRoot!.querySelector("button")!.click();
+    expect(submitted).to.be.false;
+  });
+
+  it("does not submit while disabled", async () => {
+    const form = await fixture<HTMLFormElement>(
+      html`<form><loomi-button can-submit disabled>Save</loomi-button></form>`,
+    );
+    let submitted = false;
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      submitted = true;
+    });
+
+    const el = form.querySelector<LoomiButton>("loomi-button")!;
+    await el.updateComplete;
+    el.shadowRoot!.querySelector("button")!.click();
+    expect(submitted).to.be.false;
+  });
 });
