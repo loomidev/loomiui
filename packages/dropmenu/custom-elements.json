@@ -617,6 +617,16 @@
             },
             {
               "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Names the trigger and the menu panel for assistive technology.\n\nRequired whenever the trigger is the default icon glyph, which carries no\ntext: the button lives in this component's shadow root, so an `aria-label`\nplaced on the host does not reach it and the control is left unnamed. A\ntrigger slotted with visible text names itself and needs nothing here.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
               "name": "triggerOn",
               "type": {
                 "text": "\"click\" | \"mouseover\""
@@ -1030,6 +1040,15 @@
               },
               "default": "\"\"",
               "fieldName": "trigger"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Names the trigger and the menu panel for assistive technology.\n\nRequired whenever the trigger is the default icon glyph, which carries no\ntext: the button lives in this component's shadow root, so an `aria-label`\nplaced on the host does not reach it and the control is left unnamed. A\ntrigger slotted with visible text names itself and needs nothing here.",
+              "fieldName": "label"
             },
             {
               "name": "trigger-on",
