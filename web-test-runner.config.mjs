@@ -16,6 +16,15 @@ export default {
   // tests). Revisit if/when this becomes slow enough to matter.
   concurrency: 1,
   browsers: [puppeteerLauncher({ launchOptions: { args: ["--no-sandbox"] } })],
+  // Loaded before the test framework so every package's assertions are covered — see the
+  // file for why a failed assertion on a DOM node would otherwise hang the whole run.
+  testRunnerHtml: (testFramework) => `<!doctype html>
+    <html>
+      <body>
+        <script type="module" src="/test/chai-dom-diff.js"></script>
+        <script type="module" src="${testFramework}"></script>
+      </body>
+    </html>`,
   plugins: [esbuildPlugin({ ts: true, target: "es2022" })],
   testFramework: {
     config: { ui: "bdd", timeout: "10000" },
