@@ -149,6 +149,31 @@ describe("loomi-dropmenu", () => {
     );
   });
 
+  it("names the icon-only trigger and the panel from `label`", async () => {
+    const el = await fixture<LoomiDropmenu>(html`
+      <loomi-dropmenu label="Actions for Web Basics">
+        <loomi-dropmenu-item>Edit</loomi-dropmenu-item>
+      </loomi-dropmenu>
+    `);
+
+    const trigger = el.shadowRoot!.querySelector(".loomi-trigger")!;
+    expect(trigger.getAttribute("aria-label")).to.equal("Actions for Web Basics");
+    expect(el.shadowRoot!.querySelector('[role="menu"]')!.getAttribute("aria-label")).to.equal(
+      "Actions for Web Basics",
+    );
+  });
+
+  it("leaves a self-naming trigger unlabelled rather than overriding it", async () => {
+    const el = await fixture<LoomiDropmenu>(html`
+      <loomi-dropmenu>
+        <span slot="trigger">Options</span>
+        <loomi-dropmenu-item>Edit</loomi-dropmenu-item>
+      </loomi-dropmenu>
+    `);
+
+    expect(el.shadowRoot!.querySelector(".loomi-trigger")!.hasAttribute("aria-label")).to.equal(false);
+  });
+
   it("closes the panel when the trigger is clicked again", async () => {
     const el = await fixture<LoomiDropmenu>(html`
       <loomi-dropmenu>

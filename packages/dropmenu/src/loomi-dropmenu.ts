@@ -403,6 +403,15 @@ export class LoomiDropmenu extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property() trigger = "";
+  /**
+   * Names the trigger and the menu panel for assistive technology.
+   *
+   * Required whenever the trigger is the default icon glyph, which carries no
+   * text: the button lives in this component's shadow root, so an `aria-label`
+   * placed on the host does not reach it and the control is left unnamed. A
+   * trigger slotted with visible text names itself and needs nothing here.
+   */
+  @property() label = "";
   @property({ attribute: "trigger-on" }) triggerOn: "click" | "mouseover" = "click";
   @property({ type: Boolean, reflect: true }) divided = false;
   @property() placement: LoomiDropmenuPlacement = "auto";
@@ -687,6 +696,7 @@ export class LoomiDropmenu extends LoomiElement {
     return html`
       <button
         class="loomi-trigger"
+        aria-label=${this.label || nothing}
         aria-haspopup="menu"
         aria-expanded=${this.open ? "true" : "false"}
         @click=${this.triggerOn === "click" ? () => this.toggle() : nothing}
@@ -704,6 +714,7 @@ export class LoomiDropmenu extends LoomiElement {
         part="menu"
         popover="manual"
         role="menu"
+        aria-label=${this.label || nothing}
         @click=${this.onItemsClick}
         @keydown=${this.onMenuKeyDown}
       >
