@@ -273,13 +273,60 @@ prompts.
 
 Links are hardened with `target="_blank"` and `rel="noopener noreferrer"`. Image and video
 URL fields accept HTTP, HTTPS, and relative URLs. YouTube and Vimeo links render as iframe
-embeds. Files chosen through `loomi-filepicker` are inserted as data URLs, which works
-well for immediate previews and simple forms; production upload flows should upload the
-file first and insert the returned CDN or storage URL.
+embeds.
 
-If your product needs a media library, upload flow, or custom link picker, keep `image`,
-`video`, or `link` out of `tools` and provide your own buttons outside the editor. Those
-buttons can update `editor.value` or use your own app-level insertion flow.
+By default, a file chosen through `loomi-filepicker` is inserted as a data URL. That works
+for immediate previews and simple forms, but it inlines the whole file into the saved
+value and is stripped outright by any sanitizer whose media allowlist is HTTP/HTTPS only.
+Set `uploadHandler` to upload the file instead and insert the URL you get back.
+
+### Uploading picked files
+
+`uploadHandler` is a **property, not an attribute** — a function can't be expressed in
+markup, so assign it in JavaScript (the same shape as `<loomi-input>`'s `dynamicMask`).
+
+```js
+const editor = document.querySelector("loomi-text-editor");
+
+editor.uploadHandler = async (file, kind) => {
+  const body = new FormData();
+  body.append("file", file);
+
+  // `kind` is "image" or "video" — route each to the endpoint that validates it.
+  const response = await fetch(`/api/media/${kind}`, { method: "POST", body });
+  if (!response.ok) throw new Error("Upload failed. Please try again.");
+
+  const { url } = await response.json();
+  return url; // inserted as the <img>/<video> src
+};
+```
+
+| Argument | Description                                                        |
+| -------- | ------------------------------------------------------------------ |
+| `file`   | The `File` the user picked.                                        |
+| `kind`   | `"image"` or `"video"`, matching the embed dialog that was opened. |
+
+Resolve the URL to insert, or resolve `undefined` to insert nothing. If the handler
+rejects or resolves `undefined`, the editor inserts nothing, leaves the dialog open, and
+shows a `<loomi-notification>` error toast — a thrown `Error`'s message is used as the
+toast body, so throw something you're happy showing the author. Because the handler is
+your own code, its return value isn't held to the HTTP/HTTPS allowlist that user-typed
+URLs are: relative storage paths and `blob:` preview URLs are inserted as-is, and only
+executable schemes (`javascript:`, `vbscript:`) are rejected.
+
+### Turning file upload off
+
+Add `no-file-upload` to drop the file picker from the image and video dialogs, leaving URL
+entry only. Use it when the app accepts media library URLs exclusively, rather than
+showing a control that can't do anything useful.
+
+```html
+<loomi-text-editor tools="basic,embed" no-file-upload></loomi-text-editor>
+```
+
+If your product needs a full media library or custom link picker, keep `image`, `video`,
+or `link` out of `tools` and provide your own buttons outside the editor. Those buttons can
+update `editor.value` or use your own app-level insertion flow.
 
 ## AI Generate Option
 
@@ -376,22 +423,24 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 
 ## Attributes and Properties
 
-| Attribute / property | Default   | Description                                                                                     |
-| -------------------- | --------- | ----------------------------------------------------------------------------------------------- |
-| `name`               | _(blank)_ | Submitted with the nearest form.                                                                |
-| `label`              | _(blank)_ | Label above the editor.                                                                         |
-| `label-position`     | `default` | `default` keeps the label above the editor; `inside` keeps a compact label inside its top edge. |
-| `placeholder`        | _(blank)_ | Placeholder text shown when the editor is empty.                                                |
-| `value`              | _(blank)_ | Current value as HTML.                                                                          |
-| `tools`              | `default` | Comma-separated string attribute, or string array property.                                     |
-| `rows`               | `3`       | Minimum height in text rows.                                                                    |
-| `required`           | `false`   | Marks the editor required.                                                                      |
-| `disabled`           | `false`   | Disables editing and toolbar controls.                                                          |
-| `readonly`           | `false`   | Makes content readable but not editable.                                                        |
-| `error-message`      | _(blank)_ | Message used when validation fails.                                                             |
-| `show-error-inline`  | `false`   | Shows `error-message` under the field.                                                          |
-| `no-clearing`        | `false`   | Removes the default bottom margin.                                                              |
-| `variant`            | `default` | `default` \| `minimal` (bottom border only, no box)                                             |
+| Attribute / property | Default   | Description                                                                                                                                                 |
+| -------------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`               | _(blank)_ | Submitted with the nearest form.                                                                                                                            |
+| `label`              | _(blank)_ | Label above the editor.                                                                                                                                     |
+| `label-position`     | `default` | `default` keeps the label above the editor; `inside` keeps a compact label inside its top edge.                                                             |
+| `placeholder`        | _(blank)_ | Placeholder text shown when the editor is empty.                                                                                                            |
+| `value`              | _(blank)_ | Current value as HTML.                                                                                                                                      |
+| `tools`              | `default` | Comma-separated string attribute, or string array property.                                                                                                 |
+| `rows`               | `3`       | Minimum height in text rows.                                                                                                                                |
+| `required`           | `false`   | Marks the editor required.                                                                                                                                  |
+| `disabled`           | `false`   | Disables editing and toolbar controls.                                                                                                                      |
+| `readonly`           | `false`   | Makes content readable but not editable.                                                                                                                    |
+| `error-message`      | _(blank)_ | Message used when validation fails.                                                                                                                         |
+| `show-error-inline`  | `false`   | Shows `error-message` under the field.                                                                                                                      |
+| `no-clearing`        | `false`   | Removes the default bottom margin.                                                                                                                          |
+| `variant`            | `default` | `default` \| `minimal` (bottom border only, no box)                                                                                                         |
+| `no-file-upload`     | `false`   | Hides the file picker in the image and video dialogs, leaving URL entry only.                                                                               |
+| `.uploadHandler`     | _(unset)_ | Property only. `(file, kind) => Promise<string \| undefined>` — uploads a picked file and returns the URL to insert. Unset, files are inlined as data URLs. |
 
 **Methods:** `focus()`, `validate()`, `checkValidity()`, `reportValidity()`.
 
