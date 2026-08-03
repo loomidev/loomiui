@@ -41,6 +41,12 @@
           "kind": "class",
           "description": "`<loomi-context-menu-item>` — a single right-click menu line. Put links/handlers\ninside, or set `icon`.",
           "name": "LoomiContextMenuItem",
+          "cssParts": [
+            {
+              "description": "The floating submenu panel; `data-side` is the side it opened on.",
+              "name": "submenu"
+            }
+          ],
           "slots": [
             {
               "description": "Item content.",
@@ -135,6 +141,74 @@
             },
             {
               "kind": "field",
+              "name": "submenuClosing",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "submenuSide",
+              "type": {
+                "text": "LoomiSubmenuSide"
+              },
+              "privacy": "private",
+              "default": "\"right\""
+            },
+            {
+              "kind": "field",
+              "name": "submenuCloseTimer",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "submenuFrame",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "cleanupSubmenu",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "cancelSubmenuExit",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "itemEl",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "submenuEl",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
               "name": "hasSubmenu",
               "type": {
                 "text": "boolean"
@@ -147,6 +221,15 @@
               "type": {
                 "text": "boolean"
               },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "resolvedSubmenuSide",
+              "type": {
+                "text": "LoomiSubmenuSide"
+              },
+              "description": "Which side this item's submenu opened on — nested submenus follow it.",
               "readonly": true
             },
             {
@@ -189,6 +272,93 @@
                   "text": "void"
                 }
               }
+            },
+            {
+              "kind": "method",
+              "name": "openSubmenu",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              },
+              "description": "Opening is JS rather than a `:host(:hover)` rule because the panel has to be measured\nand placed once it's visible — and promoted to the top layer, which is what keeps it\nclear of a `scrollable` menu's own `overflow`."
+            },
+            {
+              "kind": "method",
+              "name": "closeSubmenu",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Close this item's submenu. The parent menu calls this when it closes."
+            },
+            {
+              "kind": "method",
+              "name": "hideSubmenuPanel",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "teardownSubmenu",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "scheduleSubmenuClose",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Crossing the gap between a row and its submenu leaves both boxes for an instant. The\ngrace period is what keeps that from closing the menu under the pointer — the reason\nthe old CSS-only `:host(:hover)` version was fiddly to use."
+            },
+            {
+              "kind": "method",
+              "name": "observeSubmenu",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "() => void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "positionSubmenu",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "onItemPointerEnter",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onItemFocusIn",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onItemFocusOut",
+              "privacy": "private"
             }
           ],
           "attributes": [

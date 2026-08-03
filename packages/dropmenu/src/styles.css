@@ -1,3 +1,6 @@
+/* This sheet backs both <loomi-dropmenu> and <loomi-dropmenu-item>. `position: relative`
+   is what makes an item the containing block for its own `.loomi-submenu` — the menu
+   panel itself no longer needs it (it is positioned against the viewport). */
 :host {
   display: inline-block;
   position: relative;
@@ -41,16 +44,23 @@
   height: 1.25rem;
 }
 
+/* `popover` promotes the panel to the top layer, which is what keeps it clear of any
+   ancestor's `overflow` — a menu opened from a row near the bottom of a scrolling table
+   stays whole instead of being cut off. The UA stylesheet for [popover] centers it with
+   `inset: 0; margin: auto` and paints it with system colors, so all of that is reset
+   here; the real coordinates are written as inline left/top by positionFloatingPanel(). */
 .loomi-menu {
-  position: absolute;
+  display: none;
+  position: fixed;
+  inset: auto;
+  margin: 0;
   z-index: var(--loomi-dropmenu-z-index, 1000);
-  top: calc(100% + 0.375rem);
-  display: flex;
   flex-direction: column;
   width: max-content;
   min-width: max-content;
   max-width: min(22rem, calc(100vw - 1rem));
   background: var(--loomi-surface);
+  color: var(--loomi-text);
   border: 1px solid var(--loomi-surface-border);
   border-radius: var(--loomi-dropmenu-radius);
   box-shadow:
@@ -58,13 +68,30 @@
     0 8px 24px rgba(15, 23, 42, 0.08);
   padding: var(--loomi-dropmenu-padding);
   overflow: visible;
+}
+
+/* `.open` rather than `:popover-open` alone so the panel still shows on a browser with no
+   popover support, where the [popover] attribute is inert and the UA's `display: none`
+   rule never applies. The class is only ever set once showPopover() has been called. */
+.loomi-menu.open {
+  display: flex;
   animation: loomi-drop-in var(--loomi-motion-duration) var(--loomi-motion-ease);
 }
-.loomi-menu.right {
-  right: 0;
+.loomi-menu.place-top.open {
+  animation-name: loomi-rise-in;
 }
-.loomi-menu.left {
-  left: 0;
+
+/* Closing: the panel stays rendered (and in the top layer) while it plays the reverse of
+   whichever entrance it used — the component holds it there until `animationend`.
+   `forwards` so the last frame holds rather than flashing back to full opacity. */
+.loomi-menu.open.closing {
+  animation-name: loomi-drop-out;
+  animation-fill-mode: forwards;
+  /* A click must not land on a panel that is leaving. */
+  pointer-events: none;
+}
+.loomi-menu.place-top.open.closing {
+  animation-name: loomi-rise-out;
 }
 .loomi-viewport {
   display: flex;
@@ -76,35 +103,55 @@
 }
 
 /* Arrow pointing at the trigger, like the tooltip: an outer border-colored
-   triangle with a surface-colored one 1px inside it. */
+   triangle with a surface-colored one 1px inside it.
+
+   The panel is free-floating now, so the arrow can't just be inset from whichever edge
+   the panel aligned to: `--loomi-dropmenu-arrow-x` is the trigger's center measured from
+   the panel's own left edge, written inline once the panel has been positioned. The
+   clamp keeps the tip off the rounded corners when the panel has shifted far enough that
+   the trigger no longer sits under it — `--loomi-dropmenu-arrow-inset` is the closest the
+   triangle may come to either edge. */
 .loomi-menu::before,
 .loomi-menu::after {
   content: "";
   position: absolute;
-  bottom: 100%;
   width: 0;
   height: 0;
   border: var(--loomi-dropmenu-arrow-size) solid transparent;
-  border-top: none;
-  border-bottom-color: var(--loomi-surface-border);
+  left: clamp(
+    calc(var(--loomi-dropmenu-arrow-inset) + var(--loomi-dropmenu-arrow-size)),
+    var(--loomi-dropmenu-arrow-x, 50%),
+    calc(100% - var(--loomi-dropmenu-arrow-inset) - var(--loomi-dropmenu-arrow-size))
+  );
+  margin-left: calc(-1 * var(--loomi-dropmenu-arrow-size));
 }
 .loomi-menu::after {
   border-width: calc(var(--loomi-dropmenu-arrow-size) - 1px);
+  margin-left: calc(1px - var(--loomi-dropmenu-arrow-size));
+}
+
+/* Opened downward: the arrow sits on top of the panel, pointing up at the trigger. */
+.loomi-menu.place-bottom::before,
+.loomi-menu.place-bottom::after {
+  bottom: 100%;
   border-top: none;
+  border-bottom-color: var(--loomi-surface-border);
+}
+.loomi-menu.place-bottom::after {
   border-bottom-color: var(--loomi-surface);
   margin-bottom: -1px;
 }
-.loomi-menu.left::before {
-  left: var(--loomi-dropmenu-arrow-inset);
+
+/* Flipped above the trigger: the arrow moves underneath and points down at it. */
+.loomi-menu.place-top::before,
+.loomi-menu.place-top::after {
+  top: 100%;
+  border-bottom: none;
+  border-top-color: var(--loomi-surface-border);
 }
-.loomi-menu.left::after {
-  left: calc(var(--loomi-dropmenu-arrow-inset) + 1px);
-}
-.loomi-menu.right::before {
-  right: var(--loomi-dropmenu-arrow-inset);
-}
-.loomi-menu.right::after {
-  right: calc(var(--loomi-dropmenu-arrow-inset) + 1px);
+.loomi-menu.place-top::after {
+  border-top-color: var(--loomi-surface);
+  margin-top: -1px;
 }
 
 ::slotted(loomi-dropmenu-item) {
@@ -249,11 +296,16 @@
   background: var(--loomi-surface-border-subtle);
   margin: 0.3125rem calc(-1 * var(--loomi-dropmenu-padding));
 }
+/* A submenu is its own popover, for the same two reasons the menu panel is one: it has to
+   escape the menu body's `overflow` when the menu is `scrollable`, and it has to be free
+   to flip to the other side of its row near the edge of the screen. Coordinates are
+   written inline by positionFloatingSubmenu(); `data-side` records where it landed. */
 .loomi-submenu {
   display: none;
-  position: absolute;
-  top: calc(-1 * var(--loomi-dropmenu-padding));
-  left: calc(100% + 0.375rem);
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  z-index: var(--loomi-dropmenu-z-index, 1000);
   flex-direction: column;
   width: max-content;
   min-width: max-content;
@@ -266,10 +318,14 @@
     0 1px 3px rgba(15, 23, 42, 0.06),
     0 8px 24px rgba(15, 23, 42, 0.08);
 }
-:host(:hover) .loomi-submenu.ready,
-:host(:focus-within) .loomi-submenu.ready,
-.loomi-submenu.ready.open {
+.loomi-submenu.open {
   display: flex;
+  animation: loomi-fade-in var(--loomi-motion-duration) var(--loomi-motion-ease);
+}
+.loomi-submenu.open.closing {
+  animation-name: loomi-fade-out;
+  animation-fill-mode: forwards;
+  pointer-events: none;
 }
 ::slotted([slot="submenu"]) {
   display: block;

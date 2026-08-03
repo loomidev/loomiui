@@ -48,6 +48,23 @@ Keyboard users can focus the target and press the Context Menu key or `Shift+F10
 </loomi-context-menu>
 ```
 
+### Where the menu is drawn
+
+The menu is positioned against the viewport (`position: fixed`) at the pointer, so no
+ancestor's `overflow` clips it.
+
+A submenu is a floating panel in its own right, on the same terms: it opens beside the row
+that owns it, flips to that row's left when it would run off the right of the screen,
+slides up when it is taller than the room beneath the row, and is in the top layer — so
+`scrollable` menus don't clip it either. A nested submenu follows whichever side its
+parent settled on, rather than zig-zagging back across it.
+
+The resolved side is published as `data-side="left" | "right"` on the submenu, and the
+submenu is exposed as the `submenu` part.
+
+Submenus open on hover and on keyboard focus, and close a moment after the pointer leaves
+both the row and the panel — the delay is what lets you cross the gap between them.
+
 ## Accessibility
 
 For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).

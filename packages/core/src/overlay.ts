@@ -76,3 +76,141 @@ export class OverlayReparent {
     this.originalNextSibling = null;
   }
 }
+
+/**
+ * Whether `el` can be promoted to the top layer with the popover API.
+ *
+ * The top layer is what keeps a floating panel out of an ancestor's `overflow` and
+ * stacking contexts. Panels still work without it — they fall back to plain
+ * `position: fixed`, which only loses to a transformed ancestor — so callers should
+ * degrade rather than refuse to open.
+ */
+export function supportsPopover(el: HTMLElement): boolean {
+  return typeof (el as HTMLElement & { showPopover?: unknown }).showPopover === "function";
+}
+
+/** Where a floating panel may sit relative to its anchor. */
+export type LoomiPanelPlacement = "auto" | "bottom-start" | "bottom-end" | "top-start" | "top-end";
+
+/** Which side a panel actually ended up on. */
+export type LoomiResolvedSide = "top" | "bottom";
+
+/** Which side of its anchor row a submenu opened on. */
+export type LoomiSubmenuSide = "left" | "right";
+
+/** Gap between an anchor and its panel. */
+const PANEL_GAP = 6;
+
+/** How close to the viewport edge a panel may come. */
+const VIEWPORT_MARGIN = 8;
+
+/**
+ * Places a floating panel beside its anchor, in viewport coordinates.
+ *
+ * Menus, dropdowns and popovers all face the same two problems: an ancestor
+ * with `overflow` clips them, and near a viewport edge they need to flip or
+ * shift to stay on screen. Both are solved by taking the panel out of flow —
+ * `position: fixed`, ideally with `popover`, so it escapes `overflow` and
+ * stacking contexts — and then writing its coordinates here.
+ *
+ * The panel must already be laid out (visible, or in the top layer) when this
+ * is called: its measured height is what decides whether it flips above. It may
+ * still be mid-entrance-animation — the measurement below ignores transforms.
+ *
+ * Returns the side it settled on, so the caller can point an arrow the right
+ * way or animate from the right direction.
+ */
+export function positionFloatingPanel(
+  anchor: HTMLElement,
+  panel: HTMLElement,
+  placement: LoomiPanelPlacement = "auto",
+): LoomiResolvedSide {
+  const anchorRect = anchor.getBoundingClientRect();
+  // `offsetWidth`/`offsetHeight` rather than a rect: this runs in the same task the panel
+  // is revealed in, so its entrance animation is at its first keyframe and a rect would
+  // come back shrunk by the `scale()` and shifted by the `translateY()` (see
+  // `motionStyles`) — enough to misjudge a flip and land the panel a few pixels off.
+  const panelSize = { width: panel.offsetWidth, height: panel.offsetHeight };
+  const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
+  const viewportHeight = document.documentElement.clientHeight || window.innerHeight;
+
+  const fitsBelow =
+    anchorRect.bottom + PANEL_GAP + panelSize.height <= viewportHeight - VIEWPORT_MARGIN;
+  const fitsAbove = anchorRect.top - PANEL_GAP - panelSize.height >= VIEWPORT_MARGIN;
+  const prefersTop = placement.startsWith("top");
+  // Flipping is a last resort below, and a preference above: a menu asked to
+  // open upwards should, unless there is no room for it there.
+  const onTop = prefersTop ? fitsAbove || !fitsBelow : !fitsBelow && fitsAbove;
+
+  const prefersEnd = placement === "auto" || placement.endsWith("-end");
+  const endAligned = anchorRect.right - panelSize.width;
+  const startAligned = anchorRect.left;
+
+  let left = prefersEnd ? endAligned : startAligned;
+  // Swap alignment rather than merely clamping: a panel pinned to the viewport
+  // edge reads as detached from the control that opened it.
+  if (left < VIEWPORT_MARGIN) left = startAligned;
+  if (left + panelSize.width > viewportWidth - VIEWPORT_MARGIN) left = endAligned;
+  const maxLeft = Math.max(VIEWPORT_MARGIN, viewportWidth - VIEWPORT_MARGIN - panelSize.width);
+  left = Math.min(Math.max(left, VIEWPORT_MARGIN), maxLeft);
+
+  const top = onTop ? anchorRect.top - PANEL_GAP - panelSize.height : anchorRect.bottom + PANEL_GAP;
+
+  panel.style.left = `${Math.round(left)}px`;
+  panel.style.top = `${Math.round(top)}px`;
+  panel.style.setProperty("--loomi-anchor-width", `${Math.round(anchorRect.width)}px`);
+
+  return onTop ? "top" : "bottom";
+}
+
+/**
+ * Places a submenu beside the menu row that opened it, in viewport coordinates.
+ *
+ * The sibling of `positionFloatingPanel` for the one case it can't express: a submenu
+ * belongs to the *side* of its anchor, not above or below it. It opens to the right and
+ * flips to the left when that would run off screen, and slides up when it is taller than
+ * the room beneath the row.
+ *
+ * Same preconditions as `positionFloatingPanel`: the panel must be laid out (visible, or
+ * in the top layer), and it may still be mid-entrance-animation — the measurement below
+ * ignores transforms.
+ *
+ * Returns the side it settled on. Pass that back as `prefer` for a *nested* submenu, so a
+ * chain that had to flip keeps going the same way instead of zig-zagging back over its
+ * own parent.
+ */
+export function positionFloatingSubmenu(
+  anchor: HTMLElement,
+  panel: HTMLElement,
+  options: { prefer?: LoomiSubmenuSide } = {},
+): LoomiSubmenuSide {
+  const anchorRect = anchor.getBoundingClientRect();
+  const width = panel.offsetWidth;
+  const height = panel.offsetHeight;
+  const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
+  const viewportHeight = document.documentElement.clientHeight || window.innerHeight;
+
+  const rightX = anchorRect.right + PANEL_GAP;
+  const leftX = anchorRect.left - PANEL_GAP - width;
+  const fitsRight = rightX + width <= viewportWidth - VIEWPORT_MARGIN;
+  const fitsLeft = leftX >= VIEWPORT_MARGIN;
+  // Same shape as the vertical flip: a last resort to the right, a preference to the left.
+  const onLeft = options.prefer === "left" ? fitsLeft || !fitsRight : !fitsRight && fitsLeft;
+
+  const maxLeft = Math.max(VIEWPORT_MARGIN, viewportWidth - VIEWPORT_MARGIN - width);
+  const left = Math.min(Math.max(onLeft ? leftX : rightX, VIEWPORT_MARGIN), maxLeft);
+
+  // Line the submenu's first row up with the row that opened it, which means starting a
+  // panel padding *above* the row — otherwise the two read as visibly misaligned.
+  const panelStyle = getComputedStyle(panel);
+  const topInset =
+    (Number.parseFloat(panelStyle.paddingTop) || 0) +
+    (Number.parseFloat(panelStyle.borderTopWidth) || 0);
+  const maxTop = Math.max(VIEWPORT_MARGIN, viewportHeight - VIEWPORT_MARGIN - height);
+  const top = Math.min(Math.max(anchorRect.top - topInset, VIEWPORT_MARGIN), maxTop);
+
+  panel.style.left = `${Math.round(left)}px`;
+  panel.style.top = `${Math.round(top)}px`;
+
+  return onLeft ? "left" : "right";
+}

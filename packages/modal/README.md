@@ -223,6 +223,20 @@ focusable element, otherwise the dialog itself) and traps <kbd>Tab</kbd> inside 
 open. Closing it restores focus to whatever was focused before — all automatic, no setup
 needed.
 
+## Opening and closing motion
+
+The backdrop fades in and the dialog rises into place; closing plays both in reverse
+rather than making the modal vanish. `prefers-reduced-motion: reduce` shortens every
+loomi animation to near-zero, so the modal appears and disappears at once for readers who
+ask for that.
+
+Everything observable happens as soon as `hide()` is called — `open` flips to `false`, the
+`close` event fires, focus returns to whatever had it, and the page scroll lock is
+released. Only the visuals wait for the animation, which also means the element returns
+from `document.body` to its original position in the DOM when the exit finishes rather
+than immediately (moving a node cancels the animation running on it). If you need the old
+instant behavior, set `open = false` directly instead of calling `hide()`.
+
 ## Accessibility
 
 For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).

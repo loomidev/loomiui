@@ -265,6 +265,16 @@
             },
             {
               "kind": "field",
+              "name": "closing",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "Rendered-but-leaving: the dialog and backdrop are playing their exit animation."
+            },
+            {
+              "kind": "field",
               "name": "previouslyFocused",
               "type": {
                 "text": "HTMLElement | null"
@@ -272,6 +282,14 @@
               "privacy": "private",
               "default": "null",
               "description": "The element focused before `show()` was called, restored when the modal closes."
+            },
+            {
+              "kind": "field",
+              "name": "cancelExit",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
             },
             {
               "kind": "field",
@@ -290,6 +308,25 @@
             },
             {
               "kind": "method",
+              "name": "setClosing",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ],
+              "description": "`open` is reflected and is what `:host` keys its `display` off; while the exit plays,\n`open` is already false, so the host needs its own reason to keep generating boxes."
+            },
+            {
+              "kind": "method",
               "name": "show",
               "return": {
                 "type": {
@@ -305,6 +342,17 @@
                   "text": "void"
                 }
               }
+            },
+            {
+              "kind": "method",
+              "name": "startExit",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Keeps the backdrop and dialog rendered while they play their `-out` keyframes, then\nunmounts and returns the host to where the author put it.\n\n`reparent.restore()` waits for the same reason: moving a node re-inserts it, which\ncancels any animation running on it."
             },
             {
               "kind": "method",
