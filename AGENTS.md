@@ -10,6 +10,8 @@ This repo is a package-per-component monorepo. Public component changes usually 
 - Package-local TypeScript verification with `./node_modules/.bin/tsc -p packages/<component>/tsconfig.json` when possible.
 - Focused tests with `./node_modules/.bin/web-test-runner packages/<component>/test/<file>.test.ts --config web-test-runner.config.mjs` when a package has tests.
 
+If a test run ever dies with "Browser tests did not finish within 120000ms" and reports zero results, suspect a failed assertion whose `actual`/`expected` are live DOM nodes — web-test-runner serializes those back to Node to render the diff, and the payload is effectively the whole document. `test/chai-dom-diff.js` (injected into every test page by `testRunnerHtml`) now shortens node values to `<tag#id.class>` so those failures report normally; keep it wired up if you touch the runner config.
+
 Before hand-rolling new CSS/behavior in a component, check `@loomidev/core` first — every component already pulls it in via `loomiStyles(componentStyles)`, so reusing what's there beats copy-pasting a new version:
 
 - Entrance/loading `@keyframes` -> `motionStyles` (`packages/core/src/motion.ts`): `loomi-fade-in`, `loomi-pop-in`, `loomi-rise-in`, `loomi-drop-in`, `loomi-slide-in`, `loomi-spin`.
