@@ -22,6 +22,11 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    # NPM_TOKEN lives in this environment rather than in repo secrets, so a merge to main
+    # cannot publish on its own — the environment's required reviewers must approve the
+    # run first. Configure those under Settings → Environments → npm (needs a public repo
+    # or a paid plan; until then this line is inert but harmless).
+    environment: npm
     permissions:
       contents: write
       pull-requests: write

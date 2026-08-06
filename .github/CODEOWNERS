@@ -1,0 +1,13 @@
+# Code owners are requested for review automatically on every pull request, and — once
+# `main` has a ruleset with "require review from Code Owners" — their approval is
+# required before a PR can merge. See CONTRIBUTING.md §9.7.
+
+* @mkocansey
+
+# Supply-chain-sensitive paths. Listed separately so they stay explicitly owned even if
+# the catch-all above is ever narrowed: these decide what CI runs and what ships to npm.
+/.github/workflows/ @mkocansey
+/package.json       @mkocansey
+/pnpm-lock.yaml     @mkocansey
+/pnpm-workspace.yaml @mkocansey
+/scripts/           @mkocansey
