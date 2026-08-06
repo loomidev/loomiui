@@ -1,0 +1,26 @@
+version: 2
+
+updates:
+  # Keep the pinned action versions current — an unmaintained action is the most common
+  # supply-chain hole in a public repo's CI.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci
+
+  # Root devDependencies (build, lint, test tooling). Package deps are workspace-local
+  # and mostly peer/lit, so grouping the noise here keeps PR volume sane.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      dev-tooling:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
