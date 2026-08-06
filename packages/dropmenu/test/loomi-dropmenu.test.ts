@@ -171,7 +171,9 @@ describe("loomi-dropmenu", () => {
       </loomi-dropmenu>
     `);
 
-    expect(el.shadowRoot!.querySelector(".loomi-trigger")!.hasAttribute("aria-label")).to.equal(false);
+    expect(el.shadowRoot!.querySelector(".loomi-trigger")!.hasAttribute("aria-label")).to.equal(
+      false,
+    );
   });
 
   it("closes the panel when the trigger is clicked again", async () => {
