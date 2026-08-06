@@ -44,7 +44,7 @@
   "devDependencies": {
     "@loomidev/theme": "workspace:^",
     "lit": "^3.3.3",
-    "typescript": "^5.6.3"
+    "typescript": "^6.0.3"
   },
   "keywords": [
     "web-components",
