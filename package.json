@@ -39,7 +39,10 @@
     "check:conflicts": "node scripts/check-no-conflicts.mjs",
     "check:cem": "node scripts/generate-cem.mjs && git diff --exit-code -- \"packages/*/custom-elements.json\"",
     "docs:watch-readmes": "pnpm --dir ../docs run watch:components",
-    "cem": "node scripts/generate-cem.mjs"
+    "cem": "node scripts/generate-cem.mjs",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
