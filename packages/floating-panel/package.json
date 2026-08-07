@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/floating-panel",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "<loomi-floating-panel> — a draggable, resizable panel that floats above the page.",
   "repository": {
     "type": "git",

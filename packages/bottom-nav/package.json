@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/bottom-nav",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "<loomi-bottom-nav>/<loomi-bottom-nav-item> — a mobile bottom navigation bar with badges, active-state styles, and framework-agnostic routing.",
   "repository": {
     "type": "git",

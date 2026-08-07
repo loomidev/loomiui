@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/select",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "<loomi-select> — a themeable custom select web component (searchable, multiple, form-ready).",
   "repository": {
     "type": "git",

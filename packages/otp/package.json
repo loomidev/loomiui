@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/otp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "<loomi-otp> — a one-time-passcode (OTP/PIN) input.",
   "repository": {
     "type": "git",
