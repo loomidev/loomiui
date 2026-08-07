@@ -60,3 +60,9 @@ All commits, pull requests and release notes must appear as if written entirely 
 If a tool attempts to insert AI attribution automatically, remove it before committing.
 
 Do not mention AI usage anywhere in the repository unless explicitly requested.
+
+Cursor attribution settings are separate from this file and will ignore these rules if
+left on: keep CLI `~/.cursor/cli-config.json` → `attribution.attributeCommitsToAgent` /
+`attributePRsToAgent` set to `false`, and turn off **Cursor Settings → Agent →
+Attribution** in the IDE. Do not open Copilot coding-agent PRs against this repo — their
+merge commits inject `Co-authored-by: copilot-swe-agent[bot]` regardless of this file.
