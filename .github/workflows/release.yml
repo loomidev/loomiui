@@ -1,51 +1,80 @@
 name: Release
 
-# Changesets-driven release. On every push to main, either:
-#   - opens/updates a "Version Packages" PR if there are unconsumed .changeset/*.md files, or
-#   - publishes to npm (with provenance) if that PR was just merged (i.e. versions were
-#     already bumped and the changesets already consumed).
+# Changesets-driven release workflow.
 #
-# Requires two repo secrets to actually run:
-#   NPM_TOKEN   — an npm automation token with publish rights on the @loomi org.
-#   (GITHUB_TOKEN is provided automatically by Actions.)
+# On every push to main, this workflow will either:
 #
-# id-token: write is required for npm provenance (--provenance, handled internally by
-# the changesets/action + npm CLI when run inside GitHub Actions with OIDC).
+#   1. Open or update a "Version Packages" pull request when there are
+#      unconsumed .changeset/*.md files.
+#
+#   2. Publish packages to npm when the Version Packages PR has been merged
+#      and the changesets have already been consumed.
+#
+# Required secrets:
+#
+#   CHANGESETS_TOKEN
+#     Fine-grained GitHub Personal Access Token scoped to this repository.
+#     Required repository permissions:
+#       - Contents: Read and write
+#       - Pull requests: Read and write
+#       - Workflows: Read and write
+#
+#   NPM_TOKEN
+#     npm token with publish rights for packages under the @loomi scope.
+#
+# id-token: write is required for npm provenance.
+#
+# The CHANGESETS_TOKEN is also supplied to actions/checkout so Git operations
+# performed later by changesets/action use the PAT instead of the default
+# GitHub Actions token. This is required when the release branch contains
+# changes under .github/workflows/.
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
-concurrency: ${{ github.workflow }}-${{ github.ref }}
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    # NPM_TOKEN lives in this environment rather than in repo secrets, so a merge to main
-    # cannot publish on its own — the environment's required reviewers must approve the
-    # run first. Configure those under Settings → Environments → npm (needs a public repo
-    # or a paid plan; until then this line is inert but harmless).
+
+    # NPM_TOKEN can be stored in this environment instead of directly as a
+    # repository secret. If required reviewers are configured for the
+    # environment, publishing will require approval before this job proceeds.
     environment: npm
+
     permissions:
       contents: write
       pull-requests: write
       id-token: write
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.CHANGESETS_TOKEN }}
 
-      - uses: pnpm/action-setup@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
           registry-url: "https://registry.npmjs.org"
 
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm build
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm build
 
       - name: Create release PR or publish
         uses: changesets/action@v1
