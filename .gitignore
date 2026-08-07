@@ -12,3 +12,10 @@ coverage/
 /.pnpm-store
 /.idea
 AGENTS.md
+# Personal notes and the local-only handbook build (docs/architecture.md is the
+# public-facing architecture document)
+docs/HOW_THIS_PROJECT_WORKS.md
+docs/defaults.yaml
+docs/metadata.yaml
+docs/epub-cover.png
+docs/LoomiUI_Handbook.epub
