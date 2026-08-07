@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/lightbox",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "<loomi-lightbox-image> — click an image to view it fullscreen. Wraps a single existing image with no shared container; give matching `group` values to enable Next/Prev between scattered images.",
   "repository": {
     "type": "git",
