@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/drawer",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "<loomi-drawer> — a sliding edge panel with optional backdrop, focus trap, and customizable animations.",
   "repository": {
     "type": "git",

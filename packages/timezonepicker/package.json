@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/timezonepicker",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "<loomi-timezonepicker> — a searchable IANA timezone dropdown with live UTC offsets and local time.",
   "repository": {
     "type": "git",
