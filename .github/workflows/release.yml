@@ -19,10 +19,7 @@ name: Release
 #       - Pull requests: Read and write
 #       - Workflows: Read and write
 #
-#   NPM_TOKEN
-#     npm token with publish rights for packages under the @loomi scope.
-#
-# id-token: write is required for npm provenance.
+# id-token: write is required for npm trusted publishing + provenance.
 #
 # The CHANGESETS_TOKEN is also supplied to actions/checkout so Git operations
 # performed later by changesets/action use the PAT instead of the default
@@ -43,9 +40,6 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
 
-    # NPM_TOKEN can be stored in this environment instead of directly as a
-    # repository secret. If required reviewers are configured for the
-    # environment, publishing will require approval before this job proceeds.
     environment: npm
 
     permissions:
@@ -79,20 +73,10 @@ jobs:
       - name: Build packages
         run: pnpm build
 
-      - name: Verify NPM token
-        run: |
-          if [ -z "$NPM_TOKEN" ]; then
-            echo "NPM_TOKEN is missing"
-            exit 1
-          fi
-          echo "NPM_TOKEN is present"
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-    
       - name: Create release PR or publish
         uses: changesets/action@v1
         with:
           publish: pnpm release
         env:
           GITHUB_TOKEN: ${{ secrets.CHANGESETS_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
