@@ -20,6 +20,19 @@ function nativeInput(el: LoomiFilepicker): HTMLInputElement {
   return el.shadowRoot!.querySelector("input")!;
 }
 
+/**
+ * The crop dialog belonging to the test that is currently running.
+ *
+ * `loomi-modal` relocates itself to `document.body` on `show()` and stays there after it
+ * closes, so every earlier crop test leaves a spent modal behind. A plain
+ * `document.querySelector(".loomi-crop-modal")` returns the oldest of those rather than
+ * this test's, and clicking its footer fires `ok` at a filepicker whose crop session is
+ * long finished. Selecting on `open` picks the live one.
+ */
+function openCropModal(): LoomiModal | undefined {
+  return [...document.querySelectorAll<LoomiModal>(".loomi-crop-modal")].find((m) => m.open);
+}
+
 function selectFiles(el: LoomiFilepicker, files: File[]): void {
   const input = nativeInput(el);
   const dt = new DataTransfer();
@@ -114,8 +127,8 @@ describe("loomi-filepicker", () => {
     const el = await fixture<LoomiFilepicker>(html`<loomi-filepicker crop></loomi-filepicker>`);
 
     selectFiles(el, [pngFile()]);
-    await waitUntil(() => (document.querySelector(".loomi-crop-modal") as LoomiModal | null)?.open);
-    const modal = document.querySelector(".loomi-crop-modal") as LoomiModal;
+    await waitUntil(() => !!openCropModal());
+    const modal = openCropModal()!;
 
     const cancelBtn = modal.shadowRoot!.querySelector(
       ".loomi-footer loomi-button[type='secondary']",
@@ -132,8 +145,9 @@ describe("loomi-filepicker", () => {
     );
 
     selectFiles(el, [pngFile()]);
-    await waitUntil(() => document.querySelector(".loomi-crop-rect"));
-    const modal = document.querySelector(".loomi-crop-modal") as LoomiModal;
+    await waitUntil(() => !!openCropModal());
+    const modal = openCropModal()!;
+    await waitUntil(() => !!modal.querySelector(".loomi-crop-rect"));
 
     const okBtn = modal.shadowRoot!.querySelector(
       ".loomi-footer loomi-button:not([type='secondary'])",
