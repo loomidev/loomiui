@@ -26,9 +26,9 @@ custom elements that work in any framework, or none at all.
   single button or the entire library.
 - **Real form participation.** Every form control is form-associated via
   `ElementInternals` — they submit inside a native `<form>` like any built-in input.
-- **An MCP server included.** [`@loomidev/mcp-server`](packages/mcp-server) lets AI coding
-  assistants (Claude Code, Cursor, etc.) look up real attribute tables instead of
-  guessing. See [below](#ai-assisted-development).
+- **An MCP server included.** [`@loomidev/mcp-server`](packages/mcp-server) exposes every
+  component's docs to MCP clients so tools can look up real attribute tables instead of
+  guessing. See [below](#mcp-documentation-server).
 
 > **Status:** LoomiUI is pre-1.0. Every package is versioned independently starting at
 > `0.x` — expect breaking changes between minor versions until packages reach `1.0`.
@@ -198,18 +198,17 @@ Form-associated custom elements (`ElementInternals`-based form participation, us
 every form control) require **Safari 16.4+** — older Safari versions can render the
 components but won't submit their values inside a native `<form>`.
 
-## AI-assisted development
+## MCP documentation server
 
 [`@loomidev/mcp-server`](packages/mcp-server) is an [MCP](https://modelcontextprotocol.io)
-server that exposes every component's real documentation to AI coding tools:
+server that exposes every component's real documentation to MCP clients:
 
 ```bash
 npx @loomidev/mcp-server
 ```
 
-Point Claude Code, Cursor, or Claude Desktop at it (see the package README for the exact
-config) and the assistant can look up accurate attribute tables and usage examples
-instead of guessing at an API.
+See the package README for client config. Once connected, the client can look up accurate
+attribute tables and usage examples instead of guessing at an API.
 
 ## Contributing
 
