@@ -315,7 +315,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 
 <loomi-avatars>
   <loomi-avatar label="AO" bg-color="success"></loomi-avatar>
-  <loomi-avatar image="/avatars/female.jpg" alt="Ama" show-ring></loomi-avatar>
+  <loomi-avatar image="/avatars/female.jpg" alt="Emma" show-ring></loomi-avatar>
 </loomi-avatars>
 ```
 
@@ -347,7 +347,7 @@ import "@loomidev/avatar";
 ```blade
 <loomi-avatars>
   <loomi-avatar label="AO" bg-color="success"></loomi-avatar>
-  <loomi-avatar image="/images/team/jdoe.jpg" alt="Ama" show-ring></loomi-avatar>
+  <loomi-avatar image="/images/team/jdoe.jpg" alt="Emma" show-ring></loomi-avatar>
 </loomi-avatars>
 ```
 
@@ -363,7 +363,7 @@ export function LoomiExample() {
   return (
     <loomi-avatars>
       <loomi-avatar label="AO" bg-color="success"></loomi-avatar>
-      <loomi-avatar image="/images/team/jdoe.jpg" alt="Ama"></loomi-avatar>
+      <loomi-avatar image="/images/team/jdoe.jpg" alt="Emma"></loomi-avatar>
     </loomi-avatars>
   );
 }
@@ -384,7 +384,7 @@ import "@loomidev/avatar";
 <template>
   <loomi-avatars>
     <loomi-avatar label="AO" bg-color="success"></loomi-avatar>
-    <loomi-avatar image="/images/team/jdoe.jpg" alt="Ama" show-ring></loomi-avatar>
+    <loomi-avatar image="/images/team/jdoe.jpg" alt="Emma" show-ring></loomi-avatar>
   </loomi-avatars>
 </template>
 ```
@@ -408,7 +408,7 @@ import "@loomidev/avatar";
   template: `
     <loomi-avatars>
       <loomi-avatar label="AO" bg-color="success"></loomi-avatar>
-      <loomi-avatar image="/images/team/jdoe.jpg" alt="Ama" show-ring></loomi-avatar>
+      <loomi-avatar image="/images/team/jdoe.jpg" alt="Emma" show-ring></loomi-avatar>
     </loomi-avatars>
   `,
 })
@@ -427,7 +427,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 
 <loomi-avatars>
   <loomi-avatar label="AO" bg-color="success"></loomi-avatar>
-  <loomi-avatar image="/images/team/jdoe.jpg" alt="Ama" show-ring></loomi-avatar>
+  <loomi-avatar image="/images/team/jdoe.jpg" alt="Emma" show-ring></loomi-avatar>
 </loomi-avatars>
 ```
 
@@ -438,7 +438,7 @@ import "@loomidev/avatar";
 
 <loomi-avatars>
   <loomi-avatar label="AO" bg-color="success"></loomi-avatar>
-  <loomi-avatar image="/images/team/jdoe.jpg" alt="Ama" show-ring></loomi-avatar>
+  <loomi-avatar image="/images/team/jdoe.jpg" alt="Emma" show-ring></loomi-avatar>
 </loomi-avatars>
 ```
 

@@ -134,10 +134,10 @@ explicit height so it behaves like a window through which the cards move.
   aria-label="Customer testimonials"
 >
   <blockquote class="testimonial">
-    “Setup took minutes, and the result feels polished.” — Ama
+    “Setup took minutes, and the result feels polished.” — Emma
   </blockquote>
   <blockquote class="testimonial">
-    “Our support team ships replies much faster now.” — Kojo
+    “Our support team ships replies much faster now.” — Diego
   </blockquote>
   <blockquote class="testimonial">
     “It works beautifully in both English and Arabic.” — Mariam

@@ -246,7 +246,7 @@ collected under a heading row for that value, in the order the groups first appe
   document.getElementById("staff-by-team").data = [
     { first_name: "Ada", last_name: "Quint", department: "Engineering", email: "ada@loomiui.dev" },
     { first_name: "Zane", last_name: "Hart", department: "Engineering", email: "zane@loomiui.dev" },
-    { first_name: "Leo", last_name: "Mensah", department: "Engineering", email: "leo@loomiui.dev" },
+    { first_name: "Leo", last_name: "Martin", department: "Engineering", email: "leo@loomiui.dev" },
     { first_name: "Priya", last_name: "Nair", department: "Engineering", email: "priya@loomiui.dev" },
     { first_name: "Sara", last_name: "Field", department: "Design", email: "sara@loomiui.dev" },
     { first_name: "Joe", last_name: "Diaz", department: "Design", email: "joe@loomiui.dev" },
@@ -364,7 +364,7 @@ pagination still works from the `data` array.
     { id: 4, name: "Rita Boon", email: "rita@loomiui.dev" },
     { id: 5, name: "Joe Diaz", email: "joe@loomiui.dev" },
     { id: 6, name: "Nia Cole", email: "nia@loomiui.dev" },
-    { id: 7, name: "Leo Mensah", email: "leo@loomiui.dev" },
+    { id: 7, name: "Leo Martin", email: "leo@loomiui.dev" },
   ];
 </script>
 ```
@@ -512,7 +512,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
     { id: 4, first_name: "Rita", last_name: "Boon", department: "Marketing", email: "rita@loomiui.dev" },
     { id: 5, first_name: "Joe", last_name: "Diaz", department: "Design", email: "joe@loomiui.dev" },
     { id: 6, first_name: "Nia", last_name: "Cole", department: "Marketing", email: "nia@loomiui.dev" },
-    { id: 7, first_name: "Leo", last_name: "Mensah", department: "Engineering", email: "leo@loomiui.dev" },
+    { id: 7, first_name: "Leo", last_name: "Martin", department: "Engineering", email: "leo@loomiui.dev" },
     { id: 8, first_name: "Wren", last_name: "Ortiz", department: "Finance", email: "wren@loomiui.dev" },
     { id: 9, first_name: "Priya", last_name: "Nair", department: "Engineering", email: "priya@loomiui.dev" },
     { id: 10, first_name: "Tom", last_name: "Brandt", department: "Finance", email: "tom@loomiui.dev" },
@@ -578,7 +578,7 @@ This component accepts `data` as a JavaScript property. Use an HTML attribute on
 
 ```js
 const el = document.querySelector("loomi-table");
-el.data = [{ id: 1, name: "Ama", email: "ama@example.com" }, { id: 2, name: "Kofi", email: "kofi@example.com" }];
+el.data = [{ id: 1, name: "Emma", email: "emma@example.com" }, { id: 2, name: "Chris", email: "chris@example.com" }];
 ```
 
 </loomi-tab>
@@ -614,7 +614,7 @@ export function LoomiExample() {
   const el = useRef(null);
 
   useEffect(() => {
-    el.current.data = [{ id: 1, name: "Ama", email: "ama@example.com" }, { id: 2, name: "Kofi", email: "kofi@example.com" }];
+    el.current.data = [{ id: 1, name: "Emma", email: "emma@example.com" }, { id: 2, name: "Chris", email: "chris@example.com" }];
   }, []);
 
   return <loomi-table ref={el}></loomi-table>;
@@ -636,7 +636,7 @@ import "@loomidev/table";
 const el = ref(null);
 
 onMounted(() => {
-  el.value.data = [{ id: 1, name: "Ama", email: "ama@example.com" }, { id: 2, name: "Kofi", email: "kofi@example.com" }];
+  el.value.data = [{ id: 1, name: "Emma", email: "emma@example.com" }, { id: 2, name: "Chris", email: "chris@example.com" }];
 });
 </script>
 
@@ -669,7 +669,7 @@ export class AppComponent implements AfterViewInit {
   @ViewChild("el") el!: ElementRef<any>;
 
   ngAfterViewInit() {
-    this.el.nativeElement.data = [{ id: 1, name: "Ama", email: "ama@example.com" }, { id: 2, name: "Kofi", email: "kofi@example.com" }];
+    this.el.nativeElement.data = [{ id: 1, name: "Emma", email: "emma@example.com" }, { id: 2, name: "Chris", email: "chris@example.com" }];
   }
 }
 ```
@@ -687,7 +687,7 @@ Svelte can import the package inside a component script. Astro can import it in 
   let el;
 
   onMount(() => {
-    el.data = [{ id: 1, name: "Ama", email: "ama@example.com" }, { id: 2, name: "Kofi", email: "kofi@example.com" }];
+    el.data = [{ id: 1, name: "Emma", email: "emma@example.com" }, { id: 2, name: "Chris", email: "chris@example.com" }];
   });
 </script>
 

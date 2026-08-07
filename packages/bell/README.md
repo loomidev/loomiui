@@ -76,7 +76,7 @@ with no extra JS:
 <loomi-dropmenu placement="left">
   <loomi-bell slot="trigger" animate-dot></loomi-bell>
   <loomi-dropmenu-item header>Notifications</loomi-dropmenu-item>
-  <loomi-dropmenu-item icon="bell-alert">Michael assigned a task to you</loomi-dropmenu-item>
+  <loomi-dropmenu-item icon="bell-alert">Alex assigned a task to you</loomi-dropmenu-item>
   <loomi-dropmenu-item icon="check-circle">Your upload finished</loomi-dropmenu-item>
 </loomi-dropmenu>
 ```

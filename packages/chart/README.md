@@ -197,7 +197,7 @@ each entry in `values` is one bar with its own name and height.
 | Field            | Role                                                     |
 | ---------------- | -------------------------------------------------------- |
 | `label`          | X-axis category (`Mon`, `Tue`, …)                        |
-| `values[].label` | Series name in the legend and tooltip (`Mike`, `Sam`, …) |
+| `values[].label` | Series name in the legend and tooltip (`Alex`, `Sam`, …) |
 | `values[].value` | Bar height                                               |
 | `values[].color` | Optional — overrides the palette for that series         |
 
@@ -220,7 +220,7 @@ more bars per category or labels that differ from `series-label`.
       label: "Mon",
       value: 0,
       values: [
-        { label: "Mike", value: 4, color: "primary" },
+        { label: "Alex", value: 4, color: "primary" },
         { label: "Sam", value: 6, color: "success" },
         { label: "Fred", value: 3, color: "warning" },
         { label: "Sara", value: 8, color: "success" },
@@ -230,7 +230,7 @@ more bars per category or labels that differ from `series-label`.
       label: "Tue",
       value: 0,
       values: [
-        { label: "Mike", value: 5, color: "primary" },
+        { label: "Alex", value: 5, color: "primary" },
         { label: "Sam", value: 4, color: "success" },
         { label: "Fred", value: 7, color: "warning" },
         { label: "Sara", value: 6, color: "success" },
@@ -240,7 +240,7 @@ more bars per category or labels that differ from `series-label`.
       label: "Wed",
       value: 0,
       values: [
-        { label: "Mike", value: 3, color: "primary" },
+        { label: "Alex", value: 3, color: "primary" },
         { label: "Sam", value: 8, color: "success" },
         { label: "Fred", value: 5, color: "warning" },
         { label: "Sara", value: 7, color: "success" },
@@ -250,7 +250,7 @@ more bars per category or labels that differ from `series-label`.
       label: "Thu",
       value: 0,
       values: [
-        { label: "Mike", value: 6, color: "primary" },
+        { label: "Alex", value: 6, color: "primary" },
         { label: "Sam", value: 5, color: "success" },
         { label: "Fred", value: 4, color: "warning" },
         { label: "Sara", value: 9, color: "success" },
@@ -260,7 +260,7 @@ more bars per category or labels that differ from `series-label`.
       label: "Fri",
       value: 0,
       values: [
-        { label: "Mike", value: 7, color: "primary" },
+        { label: "Alex", value: 7, color: "primary" },
         { label: "Sam", value: 6, color: "success" },
         { label: "Fred", value: 8, color: "warning" },
         { label: "Sara", value: 5, color: "success" },

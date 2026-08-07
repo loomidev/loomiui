@@ -88,11 +88,11 @@ label) can be set directly on `<loomi-checkcard>`. The `color` attribute on the 
 
 <loomi-checkcards name="hosting-avatars" max="2">
   <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem">
-    <loomi-checkcard value="mike" title="Michael Ocansey" avatar="/avatars/mike.jpg">
-      Follow Michael to know when they post a new update.
+    <loomi-checkcard value="alex" title="Alex Bennett" avatar="/avatars/alex.jpg">
+      Follow Alex to know when they post a new update.
     </loomi-checkcard>
-    <loomi-checkcard value="francis" title="Francis Appiah" avatar="FA">
-      Follow Francis to know when they post a new update.
+    <loomi-checkcard value="fiona" title="Fiona Adams" avatar="FA">
+      Follow Fiona to know when they post a new update.
     </loomi-checkcard>
   </div>
 </loomi-checkcards>
