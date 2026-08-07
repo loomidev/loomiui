@@ -5,8 +5,7 @@ for contributors and curious users who want to understand the system design with
 reading every package first.
 
 For setup commands, publishing steps, and the exact checklist for adding a component, see
-[`CONTRIBUTING.md`](CONTRIBUTING.md). For a slower beginner-oriented tour of the same
-ideas, see [`HOW_THIS_PROJECT_WORKS.md`](docs/HOW_THIS_PROJECT_WORKS.md).
+[`CONTRIBUTING.md`](../CONTRIBUTING.md).
 
 ## If You Are New Here
 
