@@ -1,31 +1,5 @@
 name: Release
 
-# Changesets-driven release workflow.
-#
-# On every push to main, this workflow will either:
-#
-#   1. Open or update a "Version Packages" pull request when there are
-#      unconsumed .changeset/*.md files.
-#
-#   2. Publish packages to npm when the Version Packages PR has been merged
-#      and the changesets have already been consumed.
-#
-# Required secrets:
-#
-#   CHANGESETS_TOKEN
-#     Fine-grained GitHub Personal Access Token scoped to this repository.
-#     Required repository permissions:
-#       - Contents: Read and write
-#       - Pull requests: Read and write
-#       - Workflows: Read and write
-#
-# id-token: write is required for npm trusted publishing + provenance.
-#
-# The CHANGESETS_TOKEN is also supplied to actions/checkout so Git operations
-# performed later by changesets/action use the PAT instead of the default
-# GitHub Actions token. This is required when the release branch contains
-# changes under .github/workflows/.
-
 on:
   push:
     branches:
@@ -33,13 +7,12 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-
     environment: npm
 
     permissions:
@@ -73,10 +46,27 @@ jobs:
       - name: Build packages
         run: pnpm build
 
+      - name: Verify NPM token
+        run: |
+          if [ -z "$NPM_TOKEN" ]; then
+            echo "NPM_TOKEN is missing"
+            exit 1
+          fi
+          echo "NPM_TOKEN is present"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    
+      - name: Verify npm authentication
+        run: |
+          npm whoami
+          npm config get @loomidev:registry
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    
       - name: Create release PR or publish
         uses: changesets/action@v1
         with:
           publish: pnpm release
         env:
           GITHUB_TOKEN: ${{ secrets.CHANGESETS_TOKEN }}
-          NPM_CONFIG_PROVENANCE: true
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
