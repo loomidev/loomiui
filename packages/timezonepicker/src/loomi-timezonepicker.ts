@@ -78,7 +78,7 @@ const FALLBACK_ZONE_IDS = [
   "Pacific/Kiritimati",
 ];
 
-function allTimezoneIds(): string[] {
+function supportedTimezoneIds(): string[] {
   try {
     const supportedValuesOf = (Intl as unknown as { supportedValuesOf?: (key: string) => string[] })
       .supportedValuesOf;
@@ -90,6 +90,16 @@ function allTimezoneIds(): string[] {
     /* fall through to the fallback list */
   }
   return FALLBACK_ZONE_IDS;
+}
+
+function allTimezoneIds(): string[] {
+  const zones = supportedTimezoneIds();
+  // `Intl.supportedValuesOf("timeZone")` lists only canonical zone ids, but engines can
+  // resolve to an id outside that list — a machine set to UTC reports a bare "UTC", which
+  // the canonical set omits. Union the browser's own zone in so it is always selectable;
+  // otherwise `browserZone` finds nothing and the "use my timezone" row silently vanishes.
+  const mine = browserZoneId();
+  return mine && !zones.includes(mine) ? [mine, ...zones] : zones;
 }
 
 function splitZoneId(id: string): { city: string; region: string } {
