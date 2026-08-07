@@ -6,6 +6,20 @@ import type { LoomiNotification } from "@loomidev/notification";
 const inputs = (el: LoomiOtp): HTMLInputElement[] =>
   Array.from(el.shadowRoot!.querySelectorAll<HTMLInputElement>("input"));
 
+/**
+ * The toast row carrying `message`, across every notification host on the page.
+ *
+ * The toast module is lazy-imported, so a toast queued by an earlier test can resolve and
+ * land *after* `beforeEach` has cleared the hosts — arriving in this test's host alongside
+ * its own toast. Matching on the message keeps the assertions pointed at the row this test
+ * created rather than whichever one happens to be first in the DOM.
+ */
+function toastWithMessage(message: string): Element | undefined {
+  return [...document.body.querySelectorAll("loomi-notification")]
+    .flatMap((host) => [...(host.shadowRoot?.querySelectorAll(".loomi-toast") ?? [])])
+    .find((toast) => toast.querySelector(".loomi-message")?.textContent === message);
+}
+
 describe("loomi-otp validation", () => {
   // The toast system is lazy-imported, so a toast triggered in one test can land on
   // document.body asynchronously during the next. Flush pending toasts and clear the
@@ -85,24 +99,15 @@ describe("loomi-otp validation", () => {
     el.showError();
     await el.updateComplete;
 
-    // The toast module is lazy-imported on the first failure, so the host (and its keyed
-    // re-render — earlier tests in this file leave a stale toast host behind) appears asynchronously.
-    await waitUntil(
-      () =>
-        document.body
-          .querySelector("loomi-notification")
-          ?.shadowRoot?.textContent?.includes("Yikes, check your code") ?? false,
-    );
+    // The toast module is lazy-imported on the first failure, so the host and its rows
+    // appear asynchronously.
+    await waitUntil(() => !!toastWithMessage("Yikes, check your code"));
     const host = document.body.querySelector("loomi-notification") as LoomiNotification;
     expect(host).to.exist;
     await host.updateComplete;
 
-    expect(host.shadowRoot!.querySelector(".loomi-message")!.textContent).to.equal(
-      "Yikes, check your code",
-    );
-    expect(host.shadowRoot!.querySelector(".loomi-title")!.textContent).to.equal(
-      "Verification code",
-    );
+    const toast = toastWithMessage("Yikes, check your code")!;
+    expect(toast.querySelector(".loomi-title")!.textContent).to.equal("Verification code");
     expect(el.shadowRoot!.querySelector(".loomi-error")).to.not.exist;
   });
 
