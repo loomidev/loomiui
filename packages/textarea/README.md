@@ -89,8 +89,8 @@ so `foo@bar.com` does **not** open it, but `hi @bar` does.
   // Supply items per trigger character.
   el.mentionData = {
     "@": [
-      { label: "ama.osei",   description: "Ama Osei" },
-      { label: "kwame.b",    description: "Kwame Boateng" },
+      { label: "emma.reid",  description: "Emma Reid" },
+      { label: "chris.b",    description: "Chris Brooks" },
     ],
     "#": [
       { label: "bug" },

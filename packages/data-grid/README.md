@@ -55,8 +55,8 @@ grid.columns = [
 ];
 
 grid.data = [
-  { id: "usr_001", name: "Ama Mensah", email: "ama@example.com", role: "Owner", status: "Active" },
-  { id: "usr_002", name: "Kojo Boateng", email: "kojo@example.com", role: "Admin", status: "Invited" }
+  { id: "usr_001", name: "Emma Miller", email: "emma@example.com", role: "Owner", status: "Active" },
+  { id: "usr_002", name: "Diego Barros", email: "diego@example.com", role: "Admin", status: "Invited" }
 ];
 ```
 

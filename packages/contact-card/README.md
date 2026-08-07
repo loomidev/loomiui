@@ -18,10 +18,10 @@ A default avatar placeholder is used when `image` isn't set.
 
 ```html
 <loomi-contact-card
-  name="Michael K. Ocansey"
+  name="Alex R. Bennett"
   position="Senior Developer"
   department="Tech"
-  email="mike@loomiui.dev"
+  email="alex@loomiui.dev"
   mobile="+233 123 456 789"
   birthday="01 May"
 ></loomi-contact-card>
@@ -43,9 +43,9 @@ instead — same fallback behavior as [`<loomi-avatar>`](../avatar).
 
 ```html
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem">
-  <loomi-contact-card name="Michael K. Ocansey" position="Senior Developer" centered></loomi-contact-card>
+  <loomi-contact-card name="Alex R. Bennett" position="Senior Developer" centered></loomi-contact-card>
   <loomi-contact-card name="Sara Field" image="/sara.jpg" position="Designer" centered></loomi-contact-card>
-  <loomi-contact-card name="Ada Boateng" position="Product" centered></loomi-contact-card>
+  <loomi-contact-card name="Ada Brooks" position="Product" centered></loomi-contact-card>
 </div>
 ```
 
@@ -55,7 +55,7 @@ Same `url` semantics as [`<loomi-card>`](../card) — a path, full URL, or JS fu
 call.
 
 ```html
-<loomi-contact-card name="Michael K. Ocansey" position="Senior Developer" has-hover url="/team/mike"></loomi-contact-card>
+<loomi-contact-card name="Alex R. Bennett" position="Senior Developer" has-hover url="/team/alex"></loomi-contact-card>
 ```
 
 ## Extra Content
@@ -64,7 +64,7 @@ The default slot renders below the contact details — useful for tags, a short 
 action buttons.
 
 ```html
-<loomi-contact-card name="Michael K. Ocansey" position="Senior Developer">
+<loomi-contact-card name="Alex R. Bennett" position="Senior Developer">
   <loomi-tag label="On leave" color="warning"></loomi-tag>
 </loomi-contact-card>
 ```
@@ -74,7 +74,7 @@ action buttons.
 `has-shadow` and `has-hover` work exactly like on [`<loomi-card>`](../card).
 
 ```html
-<loomi-contact-card name="Michael K. Ocansey" has-shadow="false"></loomi-contact-card>
+<loomi-contact-card name="Alex R. Bennett" has-shadow="false"></loomi-contact-card>
 ```
 
 ## Accessibility
@@ -115,15 +115,15 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 
 ```html
 <loomi-contact-card
-  name="Michael K. Ocansey"
+  name="Alex R. Bennett"
   position="Senior Copywriter"
   department="Tech"
-  email="mike@loomiui.dev"
+  email="alex@loomiui.dev"
   mobile="+233.123.456.789"
   birthday="01-May"
   has-hover
   centered
-  url="/team/mike"
+  url="/team/alex"
 >
   <loomi-tag label="Available" color="success"></loomi-tag>
 </loomi-contact-card>
@@ -166,10 +166,10 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <script type="module" src="https://esm.sh/@loomidev/contact-card"></script>
 
 <loomi-contact-card
-  name="Ama Mensah"
+  name="Emma Miller"
   position="Product Manager"
   department="Growth"
-  email="ama@example.com"
+  email="emma@example.com"
 ></loomi-contact-card>
 ```
 
@@ -200,10 +200,10 @@ import "@loomidev/contact-card";
 
 ```blade
 <loomi-contact-card
-  name="Ama Mensah"
+  name="Emma Miller"
   position="Product Manager"
   department="Growth"
-  email="ama@example.com"
+  email="emma@example.com"
 ></loomi-contact-card>
 ```
 
@@ -218,10 +218,10 @@ import "@loomidev/contact-card";
 export function LoomiExample() {
   return (
     <loomi-contact-card
-      name="Ama Mensah"
+      name="Emma Miller"
       position="Product Manager"
       department="Growth"
-      email="ama@example.com"
+      email="emma@example.com"
     ></loomi-contact-card>
   );
 }
@@ -241,10 +241,10 @@ import "@loomidev/contact-card";
 
 <template>
   <loomi-contact-card
-    name="Ama Mensah"
+    name="Emma Miller"
     position="Product Manager"
     department="Growth"
-    email="ama@example.com"
+    email="emma@example.com"
   ></loomi-contact-card>
 </template>
 ```
@@ -267,10 +267,10 @@ import "@loomidev/contact-card";
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
     <loomi-contact-card
-      name="Ama Mensah"
+      name="Emma Miller"
       position="Product Manager"
       department="Growth"
-      email="ama@example.com"
+      email="emma@example.com"
     ></loomi-contact-card>
   `,
 })
@@ -288,10 +288,10 @@ Svelte can import the package inside a component script. Astro can import it in 
 </script>
 
 <loomi-contact-card
-  name="Ama Mensah"
+  name="Emma Miller"
   position="Product Manager"
   department="Growth"
-  email="ama@example.com"
+  email="emma@example.com"
 ></loomi-contact-card>
 ```
 
@@ -301,10 +301,10 @@ import "@loomidev/contact-card";
 ---
 
 <loomi-contact-card
-  name="Ama Mensah"
+  name="Emma Miller"
   position="Product Manager"
   department="Growth"
-  email="ama@example.com"
+  email="emma@example.com"
 ></loomi-contact-card>
 ```
 

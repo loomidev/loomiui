@@ -99,13 +99,13 @@ on the left of the transcript. Each conversation carries `id`, `name`, and optio
 `messages` (and header `title`/`description`) from your handler.
 
 ```html
-<loomi-chat-window show-conversations active-conversation-id="akosua"></loomi-chat-window>
+<loomi-chat-window show-conversations active-conversation-id="nina"></loomi-chat-window>
 
 <script type="module">
   const chat = document.querySelector("loomi-chat-window");
   chat.conversations = [
-    { id: "akosua", name: "Akosua Boateng", preview: "Can you share the wireframes?", time: "10:24 AM", unread: 2, image: "/avatars/akosua.jpg" },
-    { id: "kofi", name: "Kofi Asare", preview: "API integration is complete.", time: "9:15 AM", unread: 1 },
+    { id: "nina", name: "Nina Barros", preview: "Can you share the wireframes?", time: "10:24 AM", unread: 2, image: "/avatars/nina.jpg" },
+    { id: "chris", name: "Chris Ashton", preview: "API integration is complete.", time: "9:15 AM", unread: 1 },
   ];
   chat.addEventListener("loomi-conversation-select", (event) => {
     chat.messages = loadTranscript(event.detail.conversation.id);

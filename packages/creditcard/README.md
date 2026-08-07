@@ -17,7 +17,7 @@ import "@loomidev/creditcard";
 ## Basic Usage
 
 ```html
-<loomi-creditcard cardholder-name="Ama Osei"></loomi-creditcard>
+<loomi-creditcard cardholder-name="Emma Reid"></loomi-creditcard>
 ```
 
 Typing a number auto-detects and shows the matching network logo, auto-groups the digits
@@ -63,7 +63,7 @@ such as `**** **** **** 4242`:
 
 ```html
 <loomi-creditcard
-  cardholder-name="Ama Osei"
+  cardholder-name="Emma Reid"
   number="4242424242424242"
   expiry-month="07"
   expiry-year="28"
@@ -99,7 +99,7 @@ Set `variant="outline"` for a bare card silhouette instead of the full-color gra
 face — a soft gray border with no background fill, for light or minimal UIs:
 
 ```html
-<loomi-creditcard variant="outline" cardholder-name="Ama Osei"></loomi-creditcard>
+<loomi-creditcard variant="outline" cardholder-name="Emma Reid"></loomi-creditcard>
 ```
 
 ## Inline Card Information
@@ -186,7 +186,7 @@ the currently displayed `LoomiCardBrand`).
 
 ```html
 <loomi-creditcard
-  cardholder-name="Ama Osei"
+  cardholder-name="Emma Reid"
   number="5555555555554444"
   expiry-month="11"
   expiry-year="27"
@@ -231,7 +231,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 </script>
 <script type="module" src="https://esm.sh/@loomidev/creditcard"></script>
 
-<loomi-creditcard cardholder-name="Ama Osei"></loomi-creditcard>
+<loomi-creditcard cardholder-name="Emma Reid"></loomi-creditcard>
 ```
 
 </loomi-tab>
@@ -275,7 +275,7 @@ import "@loomidev/creditcard";
 
 export function LoomiExample() {
   return (
-    <loomi-creditcard cardholder-name="Ama Osei"></loomi-creditcard>
+    <loomi-creditcard cardholder-name="Emma Reid"></loomi-creditcard>
   );
 }
 ```
@@ -293,7 +293,7 @@ import "@loomidev/creditcard";
 </script>
 
 <template>
-  <loomi-creditcard cardholder-name="Ama Osei"></loomi-creditcard>
+  <loomi-creditcard cardholder-name="Emma Reid"></loomi-creditcard>
 </template>
 ```
 
@@ -314,7 +314,7 @@ import "@loomidev/creditcard";
   standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
-    <loomi-creditcard cardholder-name="Ama Osei"></loomi-creditcard>
+    <loomi-creditcard cardholder-name="Emma Reid"></loomi-creditcard>
   `,
 })
 export class AppComponent {}
@@ -330,7 +330,7 @@ Svelte can import the package inside a component script. Astro can import it in 
   import "@loomidev/creditcard";
 </script>
 
-<loomi-creditcard cardholder-name="Ama Osei"></loomi-creditcard>
+<loomi-creditcard cardholder-name="Emma Reid"></loomi-creditcard>
 ```
 
 ```astro
@@ -338,7 +338,7 @@ Svelte can import the package inside a component script. Astro can import it in 
 import "@loomidev/creditcard";
 ---
 
-<loomi-creditcard cardholder-name="Ama Osei"></loomi-creditcard>
+<loomi-creditcard cardholder-name="Emma Reid"></loomi-creditcard>
 ```
 
 </loomi-tab>

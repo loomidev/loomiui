@@ -18,7 +18,7 @@ import "@loomidev/tag-input";
 
 ```html
 <loomi-tag-input placeholder="Add tag"></loomi-tag-input>
-<loomi-tag-input mode="below" placeholder="Add tag" value="Marketing,mike"></loomi-tag-input>
+<loomi-tag-input mode="below" placeholder="Add tag" value="Marketing,alex"></loomi-tag-input>
 ```
 
 Use `mode="inside"` (default) to keep tags inside the field, or `mode="below"` to
