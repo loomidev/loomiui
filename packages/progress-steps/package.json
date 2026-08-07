@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/progress-steps",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "<loomi-progress-steps>/<loomi-progress-step> — a standalone progress stepper package.",
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/icon",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "<loomi-icon> — render a registered icon or raw SVG, themeable via currentColor.",
   "repository": {
     "type": "git",
