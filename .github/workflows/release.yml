@@ -46,23 +46,17 @@ jobs:
       - name: Build packages
         run: pnpm build
 
-      - name: Verify NPM token
-        run: |
-          if [ -z "$NPM_TOKEN" ]; then
-            echo "NPM_TOKEN is missing"
-            exit 1
-          fi
-          echo "NPM_TOKEN is present"
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-    
       - name: Verify npm authentication
         run: |
+          if [ -z "$NODE_AUTH_TOKEN" ]; then
+            echo "NPM_TOKEN secret is missing (expected as NODE_AUTH_TOKEN)"
+            exit 1
+          fi
           npm whoami
           npm config get @loomidev:registry
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-    
+
       - name: Create release PR or publish
         uses: changesets/action@v1
         with:
