@@ -1,11 +1,10 @@
 # @loomidev/mcp-server
 
 An [MCP](https://modelcontextprotocol.io) server that exposes loomi's component
-documentation to AI coding tools (Claude Code, Cursor, Claude Desktop, etc.) — so the
-assistant can look up real attribute tables and usage examples instead of guessing.
-Mirrors the shape of the familiar component-docs MCP connector: a `list_components` /
-`search_components` / `get_component_docs` tool set, plus one readable resource per
-component at `loomi://docs/<name>`.
+documentation to MCP clients — so a connected client can look up real attribute tables
+and usage examples instead of guessing. Mirrors the shape of a typical component-docs
+MCP connector: a `list_components` / `search_components` / `get_component_docs` tool
+set, plus one readable resource per component at `loomi://docs/<name>`.
 
 It ships every component's documentation **bundled into the package** (generated from
 each component's README at build time), so it works standalone — no network access, no
@@ -23,25 +22,10 @@ Or install it and point your MCP client at the binary directly:
 npm install -g @loomidev/mcp-server
 ```
 
-## Configure in Claude Code
+## Configure an MCP client
 
-Add to your MCP settings (`.claude/settings.json` or via `/mcp` in an interactive
-session):
-
-```json
-{
-  "mcpServers": {
-    "loomiui": {
-      "command": "npx",
-      "args": ["-y", "@loomidev/mcp-server"]
-    }
-  }
-}
-```
-
-## Configure in Cursor / Claude Desktop
-
-Add the same shape to `~/.cursor/mcp.json` or Claude Desktop's `claude_desktop_config.json`:
+Add this server to your client's MCP settings (path varies by client — for example
+`.claude/settings.json`, `~/.cursor/mcp.json`, or a desktop client's MCP config):
 
 ```json
 {

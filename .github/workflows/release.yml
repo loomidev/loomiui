@@ -50,6 +50,11 @@ jobs:
         uses: changesets/action@v1
         with:
           publish: pnpm release
+          # Attribute Version Packages commits to the CHANGESETS_TOKEN owner (the
+          # human maintainer), not github-actions[bot]. Avoids Co-authored-by trailers
+          # from the bot when those PRs are squash-merged.
+          setupGitUser: false
+          commitMode: github-api
         env:
           GITHUB_TOKEN: ${{ secrets.CHANGESETS_TOKEN }}
           # Publish via npm Trusted Publishing (OIDC). Do not set NODE_AUTH_TOKEN /
