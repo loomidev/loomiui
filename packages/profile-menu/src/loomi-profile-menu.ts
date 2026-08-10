@@ -10,6 +10,7 @@ import "@loomidev/dropmenu/loomi-dropmenu.js";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiProfileMenuPlacement = "auto" | "left" | "right";
+export type LoomiProfileMenuAvatarPosition = "left" | "right";
 
 const CHEVRON_DOWN = getLoomiIcon("chevron-down");
 
@@ -43,6 +44,8 @@ export class LoomiProfileMenu extends LoomiElement {
   @property({ attribute: "avatar-alt" }) avatarAlt = "";
   @property({ attribute: "avatar-size" }) avatarSize: LoomiAvatarSize = "regular";
   @property({ attribute: "avatar-bg-color" }) avatarBgColor: LoomiColor = "gray" as LoomiColor;
+  @property({ attribute: "avatar-position", reflect: true })
+  avatarPosition: LoomiProfileMenuAvatarPosition = "left";
   @property({ type: Boolean }) dotted = false;
   @property({ type: Boolean, attribute: "pulse-dot" }) pulseDot = false;
   @property({ attribute: "dot-color" }) dotColor: LoomiColor = "success" as LoomiColor;
