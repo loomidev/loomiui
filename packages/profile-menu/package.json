@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/profile-menu",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "<loomi-profile-menu> — a profile trigger card with avatar, identity text, chevron, and dropdown menu actions.",
   "repository": {
     "type": "git",

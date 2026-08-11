@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/split-button",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "<loomi-split-button> — a primary action plus a caret that opens a menu of related actions.",
   "repository": {
     "type": "git",

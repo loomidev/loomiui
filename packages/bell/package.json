@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/bell",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "<loomi-bell> — a notification bell with an optional status dot.",
   "repository": {
     "type": "git",
