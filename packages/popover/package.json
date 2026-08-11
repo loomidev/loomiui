@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/popover",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "<loomi-popover> — a floating rich-content panel on click/hover.",
   "repository": {
     "type": "git",

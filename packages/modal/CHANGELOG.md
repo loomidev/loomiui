@@ -1,5 +1,13 @@
 # @loomidev/modal
 
+## 0.3.0
+
+### Patch Changes
+
+- @loomidev/button@0.3.0
+- @loomidev/core@0.3.0
+- @loomidev/icon@0.3.0
+
 ## 0.2.0
 
 ### Minor Changes

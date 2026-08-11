@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/horizontal-line-graph",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "<loomi-horizontal-line-graph> — a labeled proportion bar.",
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/autocomplete",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "<loomi-autocomplete> — a text input with suggestions, styled like Loomi form controls.",
   "repository": {
     "type": "git",

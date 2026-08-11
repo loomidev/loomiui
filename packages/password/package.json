@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/password",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "<loomi-password> — a form-associated password field with reveal, prefixes, validation and strength hints.",
   "repository": {
     "type": "git",
