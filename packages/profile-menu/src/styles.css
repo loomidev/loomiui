@@ -39,6 +39,24 @@ loomi-card {
     background-color var(--loomi-motion-duration) var(--loomi-motion-ease);
 }
 
+/* Avatar-on-the-right variant: copy leads, avatar sits after it, and the chevron
+   stays trailing so the menu arrow inset and default placement still line up. */
+:host([avatar-position="right"]) .loomi-pm-trigger {
+  grid-template-columns: minmax(0, 1fr) auto auto;
+}
+
+:host([avatar-position="right"]) .loomi-pm-copy {
+  order: 1;
+}
+
+:host([avatar-position="right"]) loomi-avatar {
+  order: 2;
+}
+
+:host([avatar-position="right"]) .loomi-pm-chevron {
+  order: 3;
+}
+
 :host([transparent]) .loomi-pm-trigger {
   background: transparent;
 }

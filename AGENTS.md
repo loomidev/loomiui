@@ -44,6 +44,10 @@ Never write `:host-context(.dark)` (or `::host-context(.dark)`) in a component's
 
 The human developer is the sole author of this repository.
 
+This applies to **every** AI assistant, agent, IDE, or CLI — Claude, Codex, Copilot,
+Cursor, Gemini, Devin, Aider, Windsurf, and anything else — not just the tool that
+happens to be running.
+
 Never:
 
 - add "Co-authored-by"
@@ -55,11 +59,27 @@ Never:
 - add yourself as author or contributor
 - modify git author or committer information
 
-All commits, pull requests and release notes must appear as if written entirely by the human developer unless explicitly instructed otherwise.
+All commits, pull requests and release notes must appear as if written entirely by the
+human developer unless explicitly instructed otherwise.
 
 If a tool attempts to insert AI attribution automatically, remove it before committing.
 
 Do not mention AI usage anywhere in the repository unless explicitly requested.
+
+## Enforcement
+
+`.githooks/commit-msg` strips AI attribution from commit messages, so the rule holds
+even when a tool ignores this file. Git does not clone hooks, so each fresh clone needs
+this once:
+
+```sh
+git config core.hooksPath .githooks
+```
+
+The hook removes `Co-authored-by`/`Signed-off-by` trailers naming an AI or bot identity
+and free-standing "Generated with …"/"AI-assisted" lines. Human co-authors are kept.
+
+## Tool settings this file cannot reach
 
 Cursor attribution settings are separate from this file and will ignore these rules if
 left on: keep CLI `~/.cursor/cli-config.json` → `attribution.attributeCommitsToAgent` /

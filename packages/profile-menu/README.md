@@ -56,6 +56,28 @@ Avatar behavior is passed to the internal `<loomi-avatar>`.
 If `avatar` is blank, initials are derived from `name`. Set `avatar-label` to control
 the fallback text yourself.
 
+## Avatar on the Right
+
+By default the avatar leads the trigger. Set `avatar-position="right"` to flip it: the
+name and description lead, the avatar follows, and the chevron stays at the trailing
+edge — so the menu still opens aligned under the chevron.
+
+```html
+<loomi-profile-menu
+  avatar-position="right"
+  name="Alice Wonderland"
+  description="alice@loomiui.com"
+  avatar="/avatars/female.jpg"
+>
+  <loomi-dropmenu-item icon="user-circle">Profile</loomi-dropmenu-item>
+  <loomi-dropmenu-item icon="cog-6-tooth">Settings</loomi-dropmenu-item>
+</loomi-profile-menu>
+```
+
+This variant suits right-aligned app headers, where the avatar reads better closest to
+the edge of the screen. Everything else — avatar dots, verification badge, transparent
+trigger, and menu behavior — works exactly the same.
+
 ## Transparent Trigger
 
 Use `transparent` when the profile menu sits on an existing surface and should not add
@@ -123,6 +145,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 | `avatar-alt`       | derived   | Accessible alt text for the avatar image.                                                                                |
 | `avatar-size`      | `regular` | Avatar size — defers to the internal `<loomi-avatar>` `size`.                                                            |
 | `avatar-bg-color`  | `gray`    | Initials background color passed to `<loomi-avatar>`.                                                                    |
+| `avatar-position`  | `left`    | Where the avatar sits in the trigger. `left` \| `right`. With `right`, the copy leads and the chevron stays trailing.    |
 | `dotted`           | `false`   | Show avatar status dot. _(boolean)_                                                                                      |
 | `pulse-dot`        | `false`   | Animate the avatar status dot. _(boolean)_                                                                               |
 | `dot-color`        | `success` | Status dot color.                                                                                                        |

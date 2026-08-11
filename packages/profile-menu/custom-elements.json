@@ -97,6 +97,16 @@
             },
             {
               "kind": "field",
+              "name": "avatarPosition",
+              "type": {
+                "text": "LoomiProfileMenuAvatarPosition"
+              },
+              "default": "\"left\"",
+              "attribute": "avatar-position",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "dotted",
               "type": {
                 "text": "boolean"
@@ -325,6 +335,14 @@
               },
               "default": "\"gray\"",
               "fieldName": "avatarBgColor"
+            },
+            {
+              "name": "avatar-position",
+              "type": {
+                "text": "LoomiProfileMenuAvatarPosition"
+              },
+              "default": "\"left\"",
+              "fieldName": "avatarPosition"
             },
             {
               "name": "dotted",

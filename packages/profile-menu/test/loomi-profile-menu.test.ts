@@ -43,6 +43,22 @@ describe("loomi-profile-menu", () => {
     expect(dropmenu.querySelectorAll("loomi-dropmenu-item")).to.have.length(2);
   });
 
+  it("places the avatar after the identity text when avatar-position is right", async () => {
+    const el = await fixture<LoomiProfileMenu>(html`
+      <loomi-profile-menu name="Alice Wonderland" avatar-position="right"></loomi-profile-menu>
+    `);
+    await el.updateComplete;
+
+    expect(el.avatarPosition).to.equal("right");
+    const avatar = el.shadowRoot!.querySelector("loomi-avatar")!;
+    const copy = el.shadowRoot!.querySelector(".loomi-pm-copy")!;
+    expect(getComputedStyle(avatar).order).to.equal("2");
+    expect(getComputedStyle(copy).order).to.equal("1");
+    expect(avatar.getBoundingClientRect().left).to.be.greaterThan(
+      copy.getBoundingClientRect().left,
+    );
+  });
+
   it("opens the dropmenu from the profile trigger", async () => {
     const el = await fixture<LoomiProfileMenu>(html`
       <loomi-profile-menu name="Alice Wonderland">
