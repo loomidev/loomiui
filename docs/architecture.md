@@ -487,7 +487,8 @@ During publish, workspace ranges are converted into normal semver ranges for npm
 Consumers never see `workspace:^`.
 
 The release flow is intentionally separate from architecture. See
-[`CONTRIBUTING.md`](CONTRIBUTING.md) for the operational details.
+[`operations.md`](operations.md) for the release/rollback runbook and
+[`CONTRIBUTING.md`](../CONTRIBUTING.md) for contributor-facing release details.
 
 ## Public Extension Points
 
