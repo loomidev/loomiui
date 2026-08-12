@@ -101,7 +101,8 @@
 .loomi-input:not(:placeholder-shown) ~ .loomi-label,
 .force-float .loomi-label {
   top: 0;
-  transform: translateY(-50%) scale(0.85);
+  /* Number text is centered; shift the floated label clear of the value. */
+  transform: translate(-2.1875rem, -50%) scale(0.85);
   color: var(--loomi-primary-600);
 }
 :host([invalid]) .loomi-input:focus ~ .loomi-label,
