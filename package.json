@@ -22,6 +22,8 @@
     "format": "prettier --write \"**/*.{ts,mjs,js,css,json,md}\"",
     "format:check": "prettier --check \"**/*.{ts,mjs,js,css,json,md}\"",
     "audit:quality": "node scripts/audit-component-quality.mjs",
+    "check:styles": "node scripts/check-generated-styles.mjs",
+    "styles:manifest": "node scripts/check-generated-styles.mjs --write",
     "quality:readmes": "node scripts/ensure-quality-readmes.mjs",
     "check:bundles": "node scripts/check-category-sync.mjs",
     "check:conflicts": "node scripts/check-no-conflicts.mjs",

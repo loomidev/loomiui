@@ -366,6 +366,11 @@ What the shared script does, in order:
    `CSSResult` via `unsafeCSS(...)`, exported as `componentStyles` (name overridable via
    the `exportName` option).
 
+Generated style modules remain ignored because every build recreates them. Their SHA-256
+outputs are recorded in `scripts/generated-styles-manifest.json`, and CI compares the
+fresh build with that manifest. After an intentional CSS, palette, safelist, or compiler
+change, run `pnpm build && pnpm styles:manifest` and commit the manifest update.
+
 `@loomidev/button` is the one package whose shim passes an **options object** (see
 `packages/button/scripts/build-styles.mjs`): a `safelist` of
 `{ variants, props, shades }`, expanded against every palette color into an
