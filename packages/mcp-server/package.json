@@ -31,6 +31,7 @@
     "zod": "^4.0.0"
   },
   "devDependencies": {
+    "@loomidev/core": "workspace:^",
     "typescript": "^5.6.3"
   },
   "keywords": [
