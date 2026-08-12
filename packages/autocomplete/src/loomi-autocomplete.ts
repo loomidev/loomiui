@@ -187,6 +187,7 @@ export class LoomiAutocomplete extends LoomiElement {
 
   private internals = this.attachInternals();
   private cleanup?: () => void;
+  private initialValue = "";
 
   @property({ reflect: true }) name = "";
   @property() label = "";
@@ -222,6 +223,11 @@ export class LoomiAutocomplete extends LoomiElement {
   @query("input") private inputEl?: HTMLInputElement;
   private suppressValueDisplaySync = false;
 
+  override connectedCallback(): void {
+    if (!this.hasUpdated) this.initialValue = this.value;
+    super.connectedCallback();
+  }
+
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.cleanup?.();
@@ -256,6 +262,15 @@ export class LoomiAutocomplete extends LoomiElement {
 
   override focus(): void {
     this.inputEl?.focus();
+  }
+
+  formResetCallback(): void {
+    this.value = this.initialValue;
+    this.selectedValue = this.initialValue;
+    this.displayValue = "";
+    this.selectedImage = "";
+    this.open = false;
+    this.invalid = false;
   }
 
   /** Clear the field and reopen the suggestion panel. */

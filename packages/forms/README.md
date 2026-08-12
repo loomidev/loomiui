@@ -29,7 +29,10 @@ import "@loomidev/forms"; // registers all form elements
 | [`@loomidev/colorpicker`](../colorpicker) |
 | [`@loomidev/filepicker`](../filepicker)   |
 
-All form controls are **form-associated** — their values submit with a native `<form>` via `ElementInternals`.
+All form controls are **form-associated** — their values submit with a native `<form>` via
+`ElementInternals`. Native `FormData` includes their current submitted values and excludes
+unchecked, disabled, or unnamed controls. Input, password, and autocomplete fields also
+participate in `form.reset()`, restoring the value they had when first connected.
 
 <!-- BEGIN loomi-framework-guide -->
 
