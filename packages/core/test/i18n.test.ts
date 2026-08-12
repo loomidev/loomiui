@@ -1,10 +1,5 @@
 import { expect } from "@open-wc/testing";
-import {
-  defineLoomiTranslations,
-  getLoomiLocale,
-  loomiT,
-  setLoomiLocale,
-} from "../dist/index.js";
+import { defineLoomiTranslations, getLoomiLocale, loomiT, setLoomiLocale } from "../dist/index.js";
 
 describe("Loomi i18n fallbacks", () => {
   const originalLocale = getLoomiLocale();

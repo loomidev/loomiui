@@ -142,6 +142,15 @@
             },
             {
               "kind": "field",
+              "name": "initialValue",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
               "name": "instanceId",
               "privacy": "private",
               "readonly": true,
@@ -484,6 +493,15 @@
                 "text": "HTMLInputElement"
               },
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
             },
             {
               "kind": "method",
