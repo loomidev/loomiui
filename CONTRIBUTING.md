@@ -118,10 +118,10 @@ before, here's what's different and why it matters for this specific repo.
 
    ```bash
    corepack enable
-   corepack use pnpm@9.15.9
+   corepack use pnpm@11.9.0
    ```
 
-   The root `package.json` pins `"packageManager": "pnpm@9.15.9"` specifically so that,
+   The root `package.json` pins `"packageManager": "pnpm@11.9.0"` specifically so that,
    once Corepack is enabled, running `pnpm` _anywhere in this repo_ transparently fetches
    and uses exactly that version regardless of what else is installed globally — this
    keeps the lockfile behavior identical across every contributor's machine.
@@ -133,14 +133,14 @@ before, here's what's different and why it matters for this specific repo.
    ```bash
    mkdir -p "$HOME/.npm-global"
    npm config set prefix "$HOME/.npm-global"
-   npm install -g pnpm@9
+   npm install -g pnpm@11
    export PATH="$HOME/.npm-global/bin:$PATH"   # add this to your shell profile too
    ```
 
    Or use the official standalone installer, which doesn't touch global npm config at
    all: `curl -fsSL https://get.pnpm.io/install.sh | sh -`
 
-3. **Verify:** `pnpm -v` should print `9.x.x`.
+3. **Verify:** `pnpm -v` should print `11.x.x`.
 4. **Install everything:**
    ```bash
    pnpm install
@@ -181,7 +181,7 @@ components/                          (repo root)
 {
   "name": "@loomidev/root",
   "private": true,
-  "packageManager": "pnpm@9.15.9",
+  "packageManager": "pnpm@11.9.0",
   "engines": { "node": ">=20" },
   "workspaces": ["packages/*"],
   "scripts": {
@@ -205,10 +205,15 @@ depends on it).
 ```yaml
 packages:
   - "packages/*"
+linkWorkspacePackages: true
+preferWorkspacePackages: true
+autoInstallPeers: true
+strictPeerDependencies: false
 ```
 
 Makes pnpm treat every immediate subfolder of `packages/` as its own installable package.
-Without this file, `workspace:^` ranges wouldn't resolve.
+Without this file, `workspace:^` ranges wouldn't resolve. It also holds pnpm's project
+settings, including dependency overrides and workspace linking behavior.
 
 ### `tsconfig.base.json`
 
@@ -219,14 +224,11 @@ compiler flag for the whole library is a one-file edit, not a package-by-package
 ### `.npmrc`
 
 ```
-link-workspace-packages=true
-prefer-workspace-packages=true
-auto-install-peers=true
+@loomidev:registry=https://registry.npmjs.org/
 ```
 
-Tells pnpm to symlink in-workspace `@loomidev/*` dependencies locally instead of fetching
-them from the registry, and to silently satisfy `peerDependencies` (like `lit`) so you
-don't get nagged about them in local dev.
+Keeps the public `@loomidev` scope on npm. Authentication belongs in the user-level
+`~/.npmrc` or npm Trusted Publishing, never in the committed project configuration.
 
 ### `examples/`
 

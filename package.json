@@ -5,25 +5,13 @@
   "description": "framework-agnostic Lit web component library",
   "license": "MIT",
   "type": "module",
-  "packageManager": "pnpm@9.15.9",
+  "packageManager": "pnpm@11.9.0",
   "engines": {
     "node": ">=20"
   },
   "workspaces": [
     "packages/*"
   ],
-  "pnpm": {
-    "comments": {
-      "overrides": "Security advisories in transitive dependencies whose own parents have not released a bump yet. All are patch-level except ip-address, which needs 10.3.x to clear its high. Deliberately not overridden: @hono/node-server (fix is a major, and its serve-static path traversal is unreachable — @loomidev/mcp-server uses StdioServerTransport and never starts an HTTP listener) and esbuild 0.27.x (a 0.x minor is potentially breaking for a low-severity, dev-only, Windows-only file read). Drop an entry once the parent dependency ships the fix."
-    },
-    "overrides": {
-      "hono": "^4.12.34",
-      "fast-uri": "^3.1.5",
-      "js-yaml@3": "^3.15.1",
-      "js-yaml@4": "^4.3.1",
-      "ip-address": "^10.3.1"
-    }
-  },
   "scripts": {
     "build": "pnpm -r --filter \"./packages/*\" build",
     "clean": "pnpm -r exec rm -rf dist tsconfig.tsbuildinfo && rm -rf node_modules/.cache",
