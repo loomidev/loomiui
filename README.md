@@ -217,6 +217,10 @@ Want to add a component, understand the build steps, or publish a release? See
 implementation, how to add a new component end to end, and the npm publish process in
 detail.
 
+For task-focused references, see the [contributor workflow](docs/contributor-workflow.md),
+[operations runbook](docs/operations.md), [maintainer guide](docs/maintainer-guide.md),
+and [release communication templates](docs/release-communication.md).
+
 ## License
 
 [MIT](LICENSE)

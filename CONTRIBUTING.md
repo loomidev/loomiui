@@ -2,7 +2,7 @@
 
 This is the contributor guide: how to set up the repo, change packages, add components,
 test the work, and prepare releases. For the system-design overview, read
-[`architecture.md`](architecture.md) first; this file is the procedural companion.
+[`docs/architecture.md`](docs/architecture.md) first; this file is the procedural companion.
 
 > **Repo note:** this is one monorepo, not one git repository per component. See
 > [§10](#10-should-each-component-be-its-own-git-repository) for the reasoning, and
@@ -10,6 +10,10 @@ test the work, and prepare releases. For the system-design overview, read
 > releases.
 
 ## Quick start (the happy path)
+
+For the compact issue-to-review checklist, use
+[`docs/contributor-workflow.md`](docs/contributor-workflow.md). This guide keeps the full
+explanation and reference material.
 
 If you just want a working checkout, this is the whole setup. The sections below explain
 what each step does and why — reach for them when a step fails or when you start changing
@@ -169,7 +173,7 @@ components/                          (repo root)
 ├─ LICENSE                            MIT
 ├─ SECURITY.md                        private vulnerability disclosure policy
 ├─ README.md                          user-facing docs: what it is, quick start, theming
-├─ architecture.md                    system design: how the packages fit together
+├─ docs/architecture.md               system design: how the packages fit together
 ├─ CONTRIBUTING.md                    this file — setup, workflow, publishing
 ├─ examples/                          hand-written HTML demo pages (not published)
 └─ packages/                          every package lives here, one folder each
