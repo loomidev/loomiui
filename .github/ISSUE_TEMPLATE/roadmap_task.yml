@@ -1,0 +1,138 @@
+name: Roadmap task
+description: Define an implementation-ready task within an existing roadmap feature.
+labels: ["task"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: State the concrete implementation work.
+    validations:
+      required: true
+
+  - type: textarea
+    id: purpose
+    attributes:
+      label: Purpose
+      description: Explain the outcome this task enables.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance criteria
+      description: List observable, verifiable completion conditions.
+      placeholder: |
+        - [ ] Implementation is complete.
+        - [ ] Appropriate tests pass.
+        - [ ] Public documentation is current.
+    validations:
+      required: true
+
+  - type: input
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: List prerequisite issue numbers or roadmap keys; enter None when independent.
+      placeholder: "#123 or None"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: release
+    attributes:
+      label: Release
+      options:
+        - v0.1 Foundation
+        - v0.2 Core Platform
+        - v0.3 Alpha
+        - v0.4 Beta
+        - v0.5 Release Candidate
+        - v1.0 Production
+        - v1.1 Enhancements
+    validations:
+      required: true
+
+  - type: input
+    id: milestone
+    attributes:
+      label: Milestone
+      placeholder: Documentation MCP and Localization
+    validations:
+      required: true
+
+  - type: input
+    id: epic
+    attributes:
+      label: Epic
+      placeholder: Docs MCP and Localization
+    validations:
+      required: true
+
+  - type: input
+    id: feature
+    attributes:
+      label: Feature
+      placeholder: MCP i18n Quality
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Frontend
+        - Design System
+        - Accessibility
+        - Localization
+        - Testing
+        - Build Tooling
+        - Developer Experience
+        - Documentation
+        - Security
+        - Infrastructure
+        - Analytics
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options: [Low, Medium, High, Critical]
+    validations:
+      required: true
+
+  - type: dropdown
+    id: estimate
+    attributes:
+      label: Estimate
+      options: ["4h", "1d", "2d", "3d", "5d+"]
+    validations:
+      required: true
+
+  - type: dropdown
+    id: complexity
+    attributes:
+      label: Complexity
+      options: [Simple, Medium, Complex]
+    validations:
+      required: true
+
+  - type: dropdown
+    id: risk
+    attributes:
+      label: Risk
+      options: [Low, Medium, High]
+    validations:
+      required: true
+
+  - type: dropdown
+    id: status
+    attributes:
+      label: Status
+      options: [Backlog, Ready, In Progress, Blocked]
+    validations:
+      required: true
