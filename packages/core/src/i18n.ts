@@ -28,6 +28,12 @@ function normalizeLocale(locale?: string): string {
   return loomiTranslations[base] ? base : raw;
 }
 
+function translationLocaleKey(locale: LoomiLocale): string {
+  const raw = locale.replace("-", "_");
+  const lower = raw.toLowerCase();
+  return Object.keys(loomiTranslations).find((key) => key.toLowerCase() === lower) ?? raw;
+}
+
 function intlLocale(locale?: string): string {
   return normalizeLocale(locale).replace("_", "-");
 }
@@ -70,11 +76,9 @@ function mergeTranslations(
 }
 
 function formatTemplate(template: string, params: Record<string, string | number> = {}): string {
-  let out = template;
-  for (const [key, value] of Object.entries(params)) {
-    out = out.replaceAll(`:${key}`, String(value));
-  }
-  return out;
+  return template.replace(/:([A-Za-z0-9_]+)/g, (placeholder, key: string) =>
+    Object.hasOwn(params, key) ? String(params[key]) : placeholder,
+  );
 }
 
 export interface LoomiLocaleChangeDetail {
@@ -104,7 +108,10 @@ export function defineLoomiTranslations(
   locale: LoomiLocale,
   translations: LoomiTranslations,
 ): void {
-  const key = normalizeLocale(locale);
+  // Registration must preserve an exact regional key. Resolving `fr-CA` through
+  // normalizeLocale() first would collapse it to the existing `fr` base locale,
+  // causing regional overrides to mutate the base translations instead.
+  const key = translationLocaleKey(locale);
   loomiTranslations[key] = mergeTranslations(
     loomiTranslations[key] ? { ...loomiTranslations[key] } : {},
     translations,
