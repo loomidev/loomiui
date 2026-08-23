@@ -715,8 +715,17 @@ reinvent it.**
 15. **Generate the API manifest:** `pnpm cem` (repo root) writes/updates the package's
     `custom-elements.json`; commit it. Rerun whenever the public API (properties,
     events, slots, JSDoc) changes.
-16. **Add it to the root `README.md`'s component table.**
-17. **Record the change:** `pnpm changeset` (see [§9.3](#93-versioning-strategy)).
+16. **Regenerate the React packages** — both `@loomidev/react-types` (JSX declarations)
+    and `@loomidev/react` (wrapper components) are generated from the CEM manifests.
+    After step 15, run:
+    ```bash
+    pnpm check:react-types   # regenerates packages/react-types/src/index.ts
+    pnpm check:react         # regenerates packages/react/src/index.ts
+    ```
+    Both scripts regenerate the file and exit with code 1 if the committed copy is
+    stale — so they also serve as the CI freshness check. Commit the updated files.
+17. **Add it to the root `README.md`'s component table.**
+18. **Record the change:** `pnpm changeset` (see [§9.3](#93-versioning-strategy)).
 
 ---
 
