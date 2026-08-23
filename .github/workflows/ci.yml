@@ -57,6 +57,8 @@ jobs:
         run: pnpm check:styles
       - name: React type declarations up to date
         run: pnpm check:react-types
+      - name: React wrapper components up to date
+        run: pnpm check:react
       - run: pnpm typecheck
       - run: pnpm test
 

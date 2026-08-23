@@ -19,6 +19,7 @@ const skip = new Set([
   "navigation",
   "content",
   "react-types",
+  "react", // React wrapper package with no Lit declarations
 ]);
 
 const cemBin = path.join(rootDir, "node_modules", ".bin", "cem");
