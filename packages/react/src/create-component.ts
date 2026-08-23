@@ -15,6 +15,8 @@ type AnyProps = Record<string, unknown>;
 export function createComponent<T extends HTMLElement = HTMLElement>(
   tagName: string,
   events: EventsMap,
+  // camelCase prop name → hyphenated HTML attribute name (e.g. { labelKey: "label-key" })
+  attrAliases: Record<string, string> = {},
 ): ForwardRefExoticComponent<AnyProps & { ref?: Ref<T> }> {
   const propToEvent = new Map<string, string>();
   for (const [eventName, propName] of Object.entries(events)) {
@@ -75,13 +77,16 @@ export function createComponent<T extends HTMLElement = HTMLElement>(
       }
     });
 
-    // Pass scalars (string/number/boolean), style, className, and children to createElement.
-    // Objects/arrays are set on the DOM element above; event callbacks are wired via addEventListener.
+    // Build the props to pass to React's createElement:
+    // - translate camelCase aliases to their hyphenated attribute names
+    // - keep scalars (string/number/boolean), style, className, children
+    // - exclude event callbacks and object/array values (handled above)
     const htmlProps: AnyProps = { ref: setRef };
     for (const [key, value] of Object.entries(props)) {
       if (eventPropNames.has(key)) continue;
       if (key !== "style" && value !== null && typeof value === "object") continue;
-      htmlProps[key] = value;
+      const attrName = attrAliases[key] ?? key;
+      htmlProps[attrName] = value;
     }
 
     return createElement(tagName, htmlProps);
