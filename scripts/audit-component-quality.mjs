@@ -12,6 +12,10 @@ const skip = new Set([
   "navigation",
   "content",
   "theme",
+  // React integration packages: they ship types and wrappers for the components
+  // audited below, so the per-component README contract does not apply to them.
+  "react",
+  "react-types",
 ]);
 
 const requiredSections = ["## Accessibility", "## Responsive behavior", "## Dark mode"];
