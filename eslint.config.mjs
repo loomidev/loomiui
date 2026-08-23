@@ -15,6 +15,11 @@ export default tseslint.config(
       "**/src/generated/**",
       "**/*.css.ts",
       "**/custom-elements.json",
+      // Generated React integration surfaces. Named individually rather than by
+      // directory: their siblings (e.g. react/src/create-component.ts) are
+      // hand-written and must stay linted.
+      "packages/react/src/index.ts",
+      "packages/react-types/src/index.ts",
     ],
   },
   js.configs.recommended,
@@ -41,6 +46,15 @@ export default tseslint.config(
     },
     rules: {
       "@typescript-eslint/no-unused-expressions": "off",
+    },
+  },
+  {
+    // Hand-written minimal React type shim for the react-types type tests. Its empty
+    // `IntrinsicElements` interfaces are the declaration-merging targets the generated
+    // types merge into, so they have to stay empty and have to stay interfaces.
+    files: ["packages/react-types/test/react.d.ts"],
+    rules: {
+      "@typescript-eslint/no-empty-object-type": "off",
     },
   },
   // Turn off any stylistic rules that would conflict with Prettier. Keep last.

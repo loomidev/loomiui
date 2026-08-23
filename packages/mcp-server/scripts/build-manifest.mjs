@@ -19,6 +19,10 @@ const nonComponents = new Set([
   "icons",
   "mcp-server",
   "components",
+  // React integration packages: they ship types and wrappers for the components
+  // documented below, not components of their own.
+  "react",
+  "react-types",
   ...bundleNames,
 ]);
 const CATEGORY = Object.fromEntries(

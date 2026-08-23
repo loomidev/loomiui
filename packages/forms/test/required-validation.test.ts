@@ -1,4 +1,4 @@
-import { html, fixture, expect } from "@open-wc/testing";
+import { expect } from "@open-wc/testing";
 import "../../filepicker/dist/loomi-filepicker.js";
 import "../../input/dist/loomi-input.js";
 import "../../number/dist/loomi-number.js";
