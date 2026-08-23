@@ -55,6 +55,8 @@ jobs:
       - run: pnpm build
       - name: Generated styles up to date
         run: pnpm check:styles
+      - name: React type declarations up to date
+        run: pnpm check:react-types
       - run: pnpm typecheck
       - run: pnpm test
 

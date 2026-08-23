@@ -7,6 +7,20 @@ const packageRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const packagesRoot = join(packageRoot, "..");
 const outputPath = join(packageRoot, "src", "index.ts");
 
+// Maps a CEM attribute type string to a TypeScript type. Primitives and simple
+// string-literal unions get their exact type; anything else falls back to the
+// permissive LoomiAttributeValue union so the generated file never needs
+// additional imports for component-specific types.
+const cemTypeToTs = (text) => {
+  if (!text) return "LoomiAttributeValue";
+  const t = text.trim();
+  if (t === "boolean") return "boolean";
+  if (t === "string") return "string";
+  if (t === "number") return "number";
+  if (/^"[^"]*"(\s*\|\s*"[^"]*")*$/.test(t)) return t;
+  return "LoomiAttributeValue";
+};
+
 const componentDefinitions = [];
 
 for (const packageName of await readdir(packagesRoot)) {
@@ -25,8 +39,8 @@ for (const packageName of await readdir(packagesRoot)) {
       componentDefinitions.push({
         tagName: declaration.tagName,
         attributes: (declaration.attributes ?? [])
-          .map((attribute) => attribute.name)
-          .filter((name) => typeof name === "string" && name.includes("-")),
+          .filter((attr) => typeof attr.name === "string" && attr.name.includes("-"))
+          .map((attr) => ({ name: attr.name, type: cemTypeToTs(attr.type?.text) })),
       });
     }
   }
@@ -47,9 +61,13 @@ const typeName = (tagName) =>
 
 const attributeTypes = componentDefinitions
   .map(({ tagName, attributes }) => {
-    const entries = [...new Set(attributes)]
-      .sort()
-      .map((attribute) => `  ${JSON.stringify(attribute)}?: LoomiAttributeValue;`)
+    const seen = new Map();
+    for (const { name, type } of attributes) {
+      if (!seen.has(name)) seen.set(name, type);
+    }
+    const entries = [...seen.entries()]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([name, type]) => `  ${JSON.stringify(name)}?: ${type};`)
       .join("\n");
     return `interface ${typeName(tagName)} {\n${entries}\n}`;
   })

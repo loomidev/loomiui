@@ -22,103 +22,103 @@ export type LoomiReactProps<
   };
 
 interface LoomiAccordionAttributes {
-  "can-open-multiple"?: LoomiAttributeValue;
+  "can-open-multiple"?: boolean;
 }
 
 interface LoomiAccordionItemAttributes {
-  "no-padding"?: LoomiAttributeValue;
+  "no-padding"?: boolean;
 }
 
 interface LoomiAlertAttributes {
   "icon-placement"?: LoomiAttributeValue;
-  "show-close-icon"?: LoomiAttributeValue;
-  "show-icon"?: LoomiAttributeValue;
-  "show-ring"?: LoomiAttributeValue;
+  "show-close-icon"?: boolean;
+  "show-icon"?: boolean;
+  "show-ring"?: boolean;
 }
 
 interface LoomiArcMeterAttributes {
-  "active-marker"?: LoomiAttributeValue;
+  "active-marker"?: number;
   "marker-color"?: LoomiAttributeValue;
 }
 
 interface LoomiAutocompleteAttributes {
-  "description-key"?: LoomiAttributeValue;
-  "image-key"?: LoomiAttributeValue;
-  "label-key"?: LoomiAttributeValue;
+  "description-key"?: string;
+  "image-key"?: string;
+  "label-key"?: string;
   "label-position"?: LoomiAttributeValue;
-  "selected-value"?: LoomiAttributeValue;
-  "show-focus-ring"?: LoomiAttributeValue;
-  "value-key"?: LoomiAttributeValue;
+  "selected-value"?: string;
+  "show-focus-ring"?: boolean;
+  "value-key"?: string;
 }
 
 interface LoomiAvatarAttributes {
   "bg-color"?: LoomiAttributeValue;
   "dot-color"?: LoomiAttributeValue;
-  "dot-position"?: LoomiAttributeValue;
-  "edit-label"?: LoomiAttributeValue;
-  "pulse-dot"?: LoomiAttributeValue;
-  "show-ring"?: LoomiAttributeValue;
+  "dot-position"?: "top" | "bottom";
+  "edit-label"?: string;
+  "pulse-dot"?: boolean;
+  "show-ring"?: boolean;
 }
 
 interface LoomiAvatarsAttributes {
   "dot-color"?: LoomiAttributeValue;
-  "dot-position"?: LoomiAttributeValue;
-  "pulse-dot"?: LoomiAttributeValue;
-  "stack-space"?: LoomiAttributeValue;
+  "dot-position"?: "top" | "bottom";
+  "pulse-dot"?: boolean;
+  "stack-space"?: string;
 }
 
 interface LoomiBellAttributes {
-  "animate-dot"?: LoomiAttributeValue;
-  "show-dot"?: LoomiAttributeValue;
+  "animate-dot"?: boolean;
+  "show-dot"?: boolean;
 }
 
 interface LoomiBottomNavAttributes {
   "active-style"?: LoomiAttributeValue;
   "icon-source"?: LoomiAttributeValue;
-  "mobile-only"?: LoomiAttributeValue;
+  "mobile-only"?: boolean;
 }
 
 interface LoomiBottomNavItemAttributes {
   "active-style"?: LoomiAttributeValue;
   "icon-source"?: LoomiAttributeValue;
-  "prevent-default"?: LoomiAttributeValue;
+  "prevent-default"?: boolean;
 }
 
 interface LoomiButtonAttributes {
-  "border-width"?: LoomiAttributeValue;
-  "can-submit"?: LoomiAttributeValue;
-  "has-spinner"?: LoomiAttributeValue;
-  "icon-right"?: LoomiAttributeValue;
-  "show-focus-ring"?: LoomiAttributeValue;
-  "show-spinner"?: LoomiAttributeValue;
+  "border-width"?: number;
+  "can-submit"?: boolean;
+  "has-spinner"?: boolean;
+  "icon-right"?: boolean;
+  "show-focus-ring"?: boolean;
+  "show-spinner"?: boolean;
 }
 
 interface LoomiButtonGroupAttributes {
-  "aria-label"?: LoomiAttributeValue;
-  "icon-only"?: LoomiAttributeValue;
+  "aria-label"?: string;
+  "icon-only"?: boolean;
 }
 
 interface LoomiButtonGroupItemAttributes {
-  "aria-label"?: LoomiAttributeValue;
-  "icon-only"?: LoomiAttributeValue;
-  "icon-right"?: LoomiAttributeValue;
+  "aria-label"?: string;
+  "icon-only"?: boolean;
+  "icon-right"?: boolean;
 }
 
 interface LoomiCalendarAttributes {
-  "end-hour"?: LoomiAttributeValue;
-  "show-sidebar"?: LoomiAttributeValue;
-  "show-timezone"?: LoomiAttributeValue;
-  "show-weekends"?: LoomiAttributeValue;
-  "sidebar-open"?: LoomiAttributeValue;
-  "slot-minutes"?: LoomiAttributeValue;
-  "start-hour"?: LoomiAttributeValue;
+  "end-hour"?: number;
+  "show-sidebar"?: boolean;
+  "show-timezone"?: boolean;
+  "show-weekends"?: boolean;
+  "sidebar-open"?: boolean;
+  "slot-minutes"?: number;
+  "start-hour"?: number;
   "week-starts"?: LoomiAttributeValue;
 }
 
 interface LoomiCardAttributes {
-  "has-border"?: LoomiAttributeValue;
-  "has-hover"?: LoomiAttributeValue;
-  "has-shadow"?: LoomiAttributeValue;
+  "has-border"?: boolean;
+  "has-hover"?: boolean;
+  "has-shadow"?: boolean;
 }
 
 interface LoomiCardActionAttributes {}
@@ -134,96 +134,96 @@ interface LoomiCardHeaderAttributes {}
 interface LoomiCardTitleAttributes {}
 
 interface LoomiCenteredContentAttributes {
-  "max-width"?: LoomiAttributeValue;
-  "min-height"?: LoomiAttributeValue;
+  "max-width"?: string;
+  "min-height"?: string;
 }
 
 interface LoomiChartAttributes {
-  "donut-radius"?: LoomiAttributeValue;
+  "donut-radius"?: number;
   "legend-position"?: LoomiAttributeValue;
-  "series-label"?: LoomiAttributeValue;
-  "series2-label"?: LoomiAttributeValue;
+  "series-label"?: string;
+  "series2-label"?: string;
   "series2-type"?: LoomiAttributeValue;
-  "series3-label"?: LoomiAttributeValue;
-  "show-border"?: LoomiAttributeValue;
-  "show-grid"?: LoomiAttributeValue;
-  "show-legend"?: LoomiAttributeValue;
-  "show-tooltip"?: LoomiAttributeValue;
-  "show-y-axis"?: LoomiAttributeValue;
-  "with-gap"?: LoomiAttributeValue;
+  "series3-label"?: string;
+  "show-border"?: boolean;
+  "show-grid"?: boolean;
+  "show-legend"?: boolean;
+  "show-tooltip"?: boolean;
+  "show-y-axis"?: boolean;
+  "with-gap"?: boolean;
 }
 
 interface LoomiChatMessageAttributes {
-  "avatar-label"?: LoomiAttributeValue;
+  "avatar-label"?: string;
   "bubble-color"?: LoomiAttributeValue;
-  "sender-id"?: LoomiAttributeValue;
-  "show-avatar"?: LoomiAttributeValue;
-  "show-sender"?: LoomiAttributeValue;
+  "sender-id"?: string;
+  "show-avatar"?: boolean;
+  "show-sender"?: boolean;
 }
 
 interface LoomiChatWindowAttributes {
-  "active-conversation-id"?: LoomiAttributeValue;
-  "auto-scroll"?: LoomiAttributeValue;
-  "conversations-avatars-only"?: LoomiAttributeValue;
-  "current-user-id"?: LoomiAttributeValue;
-  "empty-description"?: LoomiAttributeValue;
-  "empty-title"?: LoomiAttributeValue;
-  "footer-note"?: LoomiAttributeValue;
-  "input-max-rows"?: LoomiAttributeValue;
-  "input-placeholder"?: LoomiAttributeValue;
-  "input-rows"?: LoomiAttributeValue;
-  "loading-icon"?: LoomiAttributeValue;
-  "loading-text"?: LoomiAttributeValue;
-  "read-only"?: LoomiAttributeValue;
-  "show-avatars"?: LoomiAttributeValue;
-  "show-conversations"?: LoomiAttributeValue;
-  "show-header-avatars"?: LoomiAttributeValue;
-  "show-reset"?: LoomiAttributeValue;
-  "window-height"?: LoomiAttributeValue;
+  "active-conversation-id"?: string;
+  "auto-scroll"?: boolean;
+  "conversations-avatars-only"?: boolean;
+  "current-user-id"?: string;
+  "empty-description"?: string;
+  "empty-title"?: string;
+  "footer-note"?: string;
+  "input-max-rows"?: number;
+  "input-placeholder"?: string;
+  "input-rows"?: number;
+  "loading-icon"?: string;
+  "loading-text"?: string;
+  "read-only"?: boolean;
+  "show-avatars"?: boolean;
+  "show-conversations"?: boolean;
+  "show-header-avatars"?: boolean;
+  "show-reset"?: boolean;
+  "window-height"?: string;
 }
 
 interface LoomiCheckboxAttributes {}
 
 interface LoomiCheckcardAttributes {
-  "align-items"?: LoomiAttributeValue;
+  "align-items"?: "top" | "center";
 }
 
 interface LoomiCheckcardsAttributes {
-  "align-items"?: LoomiAttributeValue;
-  "auto-select-new"?: LoomiAttributeValue;
+  "align-items"?: "top" | "center";
+  "auto-select-new"?: boolean;
   "border-color"?: LoomiAttributeValue;
-  "border-width"?: LoomiAttributeValue;
-  "selected-value"?: LoomiAttributeValue;
+  "border-width"?: number;
+  "selected-value"?: string;
 }
 
 interface LoomiClipboardAttributes {
-  "copied-label"?: LoomiAttributeValue;
-  "copy-label"?: LoomiAttributeValue;
+  "copied-label"?: string;
+  "copy-label"?: string;
 }
 
 interface LoomiColorpickerAttributes {
-  "selected-value"?: LoomiAttributeValue;
-  "show-value"?: LoomiAttributeValue;
+  "selected-value"?: string;
+  "show-value"?: boolean;
 }
 
 interface LoomiCommandPaletteAttributes {
-  "empty-description"?: LoomiAttributeValue;
-  "empty-title"?: LoomiAttributeValue;
+  "empty-description"?: string;
+  "empty-title"?: string;
 }
 
 interface LoomiContactCardAttributes {
-  "has-hover"?: LoomiAttributeValue;
-  "has-shadow"?: LoomiAttributeValue;
-  "no-padding"?: LoomiAttributeValue;
+  "has-hover"?: boolean;
+  "has-shadow"?: boolean;
+  "no-padding"?: boolean;
 }
 
 interface LoomiContextMenuAttributes {
-  "hide-after-click"?: LoomiAttributeValue;
-  "icon-right"?: LoomiAttributeValue;
+  "hide-after-click"?: boolean;
+  "icon-right"?: boolean;
 }
 
 interface LoomiContextMenuItemAttributes {
-  "icon-right"?: LoomiAttributeValue;
+  "icon-right"?: boolean;
 }
 
 interface LoomiCountriesAttributes {
@@ -232,77 +232,77 @@ interface LoomiCountriesAttributes {
 }
 
 interface LoomiCreditcardAttributes {
-  "cardholder-name"?: LoomiAttributeValue;
-  "error-message"?: LoomiAttributeValue;
-  "expiry-month"?: LoomiAttributeValue;
-  "expiry-year"?: LoomiAttributeValue;
-  "show-error-inline"?: LoomiAttributeValue;
+  "cardholder-name"?: string;
+  "error-message"?: string;
+  "expiry-month"?: string;
+  "expiry-year"?: string;
+  "show-error-inline"?: boolean;
 }
 
 interface LoomiDataGridAttributes {
-  "empty-description"?: LoomiAttributeValue;
-  "empty-title"?: LoomiAttributeValue;
-  "max-height"?: LoomiAttributeValue;
-  "page-size"?: LoomiAttributeValue;
-  "row-key"?: LoomiAttributeValue;
-  "server-side"?: LoomiAttributeValue;
-  "sticky-header"?: LoomiAttributeValue;
-  "total-rows"?: LoomiAttributeValue;
+  "empty-description"?: string;
+  "empty-title"?: string;
+  "max-height"?: string;
+  "page-size"?: number;
+  "row-key"?: string;
+  "server-side"?: boolean;
+  "sticky-header"?: boolean;
+  "total-rows"?: number;
 }
 
 interface LoomiDateRangePickerAttributes {
-  "compare-end-date"?: LoomiAttributeValue;
-  "compare-start-date"?: LoomiAttributeValue;
-  "end-date"?: LoomiAttributeValue;
-  "preset-id"?: LoomiAttributeValue;
-  "show-presets"?: LoomiAttributeValue;
-  "start-date"?: LoomiAttributeValue;
+  "compare-end-date"?: string;
+  "compare-start-date"?: string;
+  "end-date"?: string;
+  "preset-id"?: string;
+  "show-presets"?: boolean;
+  "start-date"?: string;
 }
 
 interface LoomiDatepickerAttributes {
   "dp-style"?: LoomiAttributeValue;
   "label-position"?: LoomiAttributeValue;
-  "max-date"?: LoomiAttributeValue;
-  "min-date"?: LoomiAttributeValue;
-  "selected-value"?: LoomiAttributeValue;
-  "week-starts"?: LoomiAttributeValue;
+  "max-date"?: string;
+  "min-date"?: string;
+  "selected-value"?: string;
+  "week-starts"?: "sunday" | "monday";
 }
 
 interface LoomiDividerAttributes {}
 
 interface LoomiDrawerAttributes {
-  "close-on-outside-click"?: LoomiAttributeValue;
-  "prevent-scroll"?: LoomiAttributeValue;
-  "show-close-icon"?: LoomiAttributeValue;
+  "close-on-outside-click"?: boolean;
+  "prevent-scroll"?: boolean;
+  "show-close-icon"?: boolean;
 }
 
 interface LoomiDropmenuAttributes {
-  "hide-after-click"?: LoomiAttributeValue;
-  "icon-right"?: LoomiAttributeValue;
-  "trigger-on"?: LoomiAttributeValue;
+  "hide-after-click"?: boolean;
+  "icon-right"?: boolean;
+  "trigger-on"?: "click" | "mouseover";
 }
 
 interface LoomiDropmenuItemAttributes {
-  "icon-right"?: LoomiAttributeValue;
+  "icon-right"?: boolean;
 }
 
 interface LoomiEmojiPickerAttributes {
   "empty-text"?: LoomiAttributeValue;
-  "selected-value"?: LoomiAttributeValue;
-  "show-categories"?: LoomiAttributeValue;
-  "show-text"?: LoomiAttributeValue;
+  "selected-value"?: string;
+  "show-categories"?: boolean;
+  "show-text"?: boolean;
 }
 
 interface LoomiEmptyStateAttributes {
-  "button-label"?: LoomiAttributeValue;
+  "button-label"?: string;
   "image-size"?: LoomiAttributeValue;
-  "show-image"?: LoomiAttributeValue;
+  "show-image"?: boolean;
 }
 
 interface LoomiFabAttributes {
-  "close-on-select"?: LoomiAttributeValue;
+  "close-on-select"?: boolean;
   "icon-source"?: LoomiAttributeValue;
-  "icons-only"?: LoomiAttributeValue;
+  "icons-only"?: boolean;
 }
 
 interface LoomiFabItemAttributes {
@@ -310,63 +310,63 @@ interface LoomiFabItemAttributes {
 }
 
 interface LoomiFilepickerAttributes {
-  "accepted-file-types"?: LoomiAttributeValue;
-  "can-browse"?: LoomiAttributeValue;
-  "can-drop"?: LoomiAttributeValue;
+  "accepted-file-types"?: string;
+  "can-browse"?: boolean;
+  "can-drop"?: boolean;
   "crop-aspect-ratio"?: LoomiAttributeValue;
-  "has-border"?: LoomiAttributeValue;
-  "max-file-size"?: LoomiAttributeValue;
-  "max-files"?: LoomiAttributeValue;
+  "has-border"?: boolean;
+  "max-file-size"?: string;
+  "max-files"?: number;
   "placeholder-line1"?: LoomiAttributeValue;
   "placeholder-line2"?: LoomiAttributeValue;
-  "resize-height"?: LoomiAttributeValue;
-  "resize-width"?: LoomiAttributeValue;
-  "show-image-preview"?: LoomiAttributeValue;
+  "resize-height"?: number;
+  "resize-width"?: number;
+  "show-image-preview"?: boolean;
 }
 
 interface LoomiFilterBuilderAttributes {
-  "add-label"?: LoomiAttributeValue;
-  "apply-label"?: LoomiAttributeValue;
-  "empty-label"?: LoomiAttributeValue;
-  "show-apply"?: LoomiAttributeValue;
+  "add-label"?: string;
+  "apply-label"?: string;
+  "empty-label"?: string;
+  "show-apply"?: boolean;
 }
 
 interface LoomiFloatingPanelAttributes {
-  "auto-save-id"?: LoomiAttributeValue;
-  "drag-handle"?: LoomiAttributeValue;
+  "auto-save-id"?: string;
+  "drag-handle"?: boolean;
   "max-height"?: LoomiAttributeValue;
   "max-width"?: LoomiAttributeValue;
-  "min-height"?: LoomiAttributeValue;
-  "min-width"?: LoomiAttributeValue;
-  "no-drag"?: LoomiAttributeValue;
-  "show-close-icon"?: LoomiAttributeValue;
+  "min-height"?: number;
+  "min-width"?: number;
+  "no-drag"?: boolean;
+  "show-close-icon"?: boolean;
 }
 
 interface LoomiHorizontalLineGraphAttributes {
-  "show-legend"?: LoomiAttributeValue;
-  "show-values"?: LoomiAttributeValue;
+  "show-legend"?: boolean;
+  "show-values"?: boolean;
 }
 
 interface LoomiIconAttributes {
-  "stroke-width"?: LoomiAttributeValue;
+  "stroke-width"?: string;
 }
 
 interface LoomiInputAttributes {
   "dynamic-mask"?: LoomiAttributeValue;
-  "error-message"?: LoomiAttributeValue;
+  "error-message"?: string;
   "label-position"?: LoomiAttributeValue;
-  "prefix-icon"?: LoomiAttributeValue;
-  "prefix-options"?: LoomiAttributeValue;
-  "prefix-value"?: LoomiAttributeValue;
-  "show-error-inline"?: LoomiAttributeValue;
-  "show-focus-ring"?: LoomiAttributeValue;
-  "show-placeholder-always"?: LoomiAttributeValue;
-  "suffix-icon"?: LoomiAttributeValue;
-  "suffix-options"?: LoomiAttributeValue;
-  "suffix-value"?: LoomiAttributeValue;
-  "transparent-prefix"?: LoomiAttributeValue;
-  "transparent-suffix"?: LoomiAttributeValue;
-  "with-dots"?: LoomiAttributeValue;
+  "prefix-icon"?: string;
+  "prefix-options"?: string;
+  "prefix-value"?: string;
+  "show-error-inline"?: boolean;
+  "show-focus-ring"?: boolean;
+  "show-placeholder-always"?: boolean;
+  "suffix-icon"?: string;
+  "suffix-options"?: string;
+  "suffix-value"?: string;
+  "transparent-prefix"?: boolean;
+  "transparent-suffix"?: boolean;
+  "with-dots"?: boolean;
 }
 
 interface LoomiLightboxImageAttributes {}
@@ -374,139 +374,139 @@ interface LoomiLightboxImageAttributes {}
 interface LoomiListviewAttributes {}
 
 interface LoomiListviewItemAttributes {
-  "as-flex"?: LoomiAttributeValue;
+  "as-flex"?: boolean;
 }
 
 interface LoomiModalAttributes {
-  "align-buttons"?: LoomiAttributeValue;
-  "backdrop-can-close"?: LoomiAttributeValue;
-  "blur-size"?: LoomiAttributeValue;
+  "align-buttons"?: "left" | "center" | "right";
+  "backdrop-can-close"?: boolean;
+  "blur-size"?: "none" | "small" | "medium" | "large" | "xl" | "omg";
   "cancel-button-label"?: LoomiAttributeValue;
-  "close-after-action"?: LoomiAttributeValue;
+  "close-after-action"?: boolean;
   "icon-source"?: LoomiAttributeValue;
   "ok-button-label"?: LoomiAttributeValue;
-  "prevent-scroll"?: LoomiAttributeValue;
-  "show-action-buttons"?: LoomiAttributeValue;
-  "show-close-icon"?: LoomiAttributeValue;
-  "stretch-action-buttons"?: LoomiAttributeValue;
+  "prevent-scroll"?: boolean;
+  "show-action-buttons"?: boolean;
+  "show-close-icon"?: boolean;
+  "stretch-action-buttons"?: boolean;
 }
 
 interface LoomiNotificationAttributes {
-  "full-width"?: LoomiAttributeValue;
+  "full-width"?: boolean;
 }
 
 interface LoomiNumberAttributes {
   "label-position"?: LoomiAttributeValue;
-  "transparent-icons"?: LoomiAttributeValue;
-  "with-dots"?: LoomiAttributeValue;
+  "transparent-icons"?: boolean;
+  "with-dots"?: boolean;
 }
 
 interface LoomiOtpAttributes {
   "error-message"?: LoomiAttributeValue;
-  "hide-digits"?: LoomiAttributeValue;
-  "show-error-inline"?: LoomiAttributeValue;
-  "total-digits"?: LoomiAttributeValue;
+  "hide-digits"?: boolean;
+  "show-error-inline"?: boolean;
+  "total-digits"?: number;
 }
 
 interface LoomiPaginationAttributes {
-  "page-size"?: LoomiAttributeValue;
+  "page-size"?: number;
   "pagination-style"?: LoomiAttributeValue;
-  "show-page-number"?: LoomiAttributeValue;
-  "show-total"?: LoomiAttributeValue;
-  "show-total-pages"?: LoomiAttributeValue;
+  "show-page-number"?: boolean;
+  "show-total"?: boolean;
+  "show-total-pages"?: boolean;
   "total-label"?: LoomiAttributeValue;
 }
 
 interface LoomiPasswordAttributes {
-  "error-message"?: LoomiAttributeValue;
+  "error-message"?: string;
   "label-position"?: LoomiAttributeValue;
-  "prefix-icon"?: LoomiAttributeValue;
-  "prefix-options"?: LoomiAttributeValue;
-  "prefix-value"?: LoomiAttributeValue;
-  "show-error-inline"?: LoomiAttributeValue;
-  "show-placeholder-always"?: LoomiAttributeValue;
-  "strength-color"?: LoomiAttributeValue;
-  "transparent-prefix"?: LoomiAttributeValue;
+  "prefix-icon"?: string;
+  "prefix-options"?: string;
+  "prefix-value"?: string;
+  "show-error-inline"?: boolean;
+  "show-placeholder-always"?: boolean;
+  "strength-color"?: string;
+  "transparent-prefix"?: boolean;
 }
 
 interface LoomiPhotoGalleryAttributes {
-  "album-panel-open"?: LoomiAttributeValue;
+  "album-panel-open"?: boolean;
   "album-view"?: LoomiAttributeValue;
-  "lightbox-show-close"?: LoomiAttributeValue;
-  "lightbox-show-favourite"?: LoomiAttributeValue;
-  "lightbox-show-rotate"?: LoomiAttributeValue;
-  "lightbox-show-share"?: LoomiAttributeValue;
-  "lightbox-show-zoom-in"?: LoomiAttributeValue;
-  "lightbox-show-zoom-out"?: LoomiAttributeValue;
-  "show-album-toggle"?: LoomiAttributeValue;
-  "show-slideshow"?: LoomiAttributeValue;
-  "show-square-toggle"?: LoomiAttributeValue;
-  "show-zoom-in"?: LoomiAttributeValue;
-  "show-zoom-out"?: LoomiAttributeValue;
+  "lightbox-show-close"?: boolean;
+  "lightbox-show-favourite"?: boolean;
+  "lightbox-show-rotate"?: boolean;
+  "lightbox-show-share"?: boolean;
+  "lightbox-show-zoom-in"?: boolean;
+  "lightbox-show-zoom-out"?: boolean;
+  "show-album-toggle"?: boolean;
+  "show-slideshow"?: boolean;
+  "show-square-toggle"?: boolean;
+  "show-zoom-in"?: boolean;
+  "show-zoom-out"?: boolean;
   "slideshow-interval"?: LoomiAttributeValue;
-  "square-thumbnails"?: LoomiAttributeValue;
+  "square-thumbnails"?: boolean;
   "thumb-size"?: LoomiAttributeValue;
 }
 
 interface LoomiPhotoGalleryItemAttributes {}
 
 interface LoomiPopoverAttributes {
-  "trigger-on"?: LoomiAttributeValue;
+  "trigger-on"?: "click" | "mouseover";
 }
 
 interface LoomiProcessingAttributes {}
 
 interface LoomiProfileMenuAttributes {
-  "avatar-alt"?: LoomiAttributeValue;
+  "avatar-alt"?: string;
   "avatar-bg-color"?: LoomiAttributeValue;
-  "avatar-label"?: LoomiAttributeValue;
+  "avatar-label"?: string;
   "avatar-position"?: LoomiAttributeValue;
   "avatar-size"?: LoomiAttributeValue;
   "dot-color"?: LoomiAttributeValue;
-  "dot-position"?: LoomiAttributeValue;
-  "has-hover"?: LoomiAttributeValue;
-  "hide-after-click"?: LoomiAttributeValue;
-  "pulse-dot"?: LoomiAttributeValue;
-  "trigger-label"?: LoomiAttributeValue;
+  "dot-position"?: "top" | "bottom";
+  "has-hover"?: boolean;
+  "hide-after-click"?: boolean;
+  "pulse-dot"?: boolean;
+  "trigger-label"?: string;
 }
 
 interface LoomiProgressBarAttributes {
   "percentage-label-position"?: LoomiAttributeValue;
-  "percentage-prefix"?: LoomiAttributeValue;
-  "percentage-suffix"?: LoomiAttributeValue;
-  "show-percentage-label"?: LoomiAttributeValue;
-  "show-percentage-label-inline"?: LoomiAttributeValue;
-  "show-percentage-tooltip"?: LoomiAttributeValue;
+  "percentage-prefix"?: string;
+  "percentage-suffix"?: string;
+  "show-percentage-label"?: boolean;
+  "show-percentage-label-inline"?: boolean;
+  "show-percentage-tooltip"?: boolean;
 }
 
 interface LoomiProgressCircleAttributes {
-  "circle-width"?: LoomiAttributeValue;
-  "show-label"?: LoomiAttributeValue;
-  "show-percent"?: LoomiAttributeValue;
+  "circle-width"?: number;
+  "show-label"?: boolean;
+  "show-percent"?: boolean;
 }
 
 interface LoomiProgressStepAttributes {
-  "hide-index"?: LoomiAttributeValue;
-  "step-index"?: LoomiAttributeValue;
+  "hide-index"?: boolean;
+  "step-index"?: number;
 }
 
 interface LoomiProgressStepsAttributes {}
 
 interface LoomiQrcodeAttributes {
-  "aria-label"?: LoomiAttributeValue;
-  "corner-border-color"?: LoomiAttributeValue;
-  "corner-border-length"?: LoomiAttributeValue;
-  "corner-border-width"?: LoomiAttributeValue;
-  "corner-borders"?: LoomiAttributeValue;
+  "aria-label"?: string;
+  "corner-border-color"?: string;
+  "corner-border-length"?: string;
+  "corner-border-width"?: string;
+  "corner-borders"?: boolean;
   "error-correction"?: LoomiAttributeValue;
-  "gradient-from"?: LoomiAttributeValue;
-  "gradient-scan"?: LoomiAttributeValue;
-  "gradient-to"?: LoomiAttributeValue;
-  "module-radius"?: LoomiAttributeValue;
-  "quiet-zone"?: LoomiAttributeValue;
-  "scan-color"?: LoomiAttributeValue;
+  "gradient-from"?: string;
+  "gradient-scan"?: boolean;
+  "gradient-to"?: string;
+  "module-radius"?: number;
+  "quiet-zone"?: number;
+  "scan-color"?: string;
   "scan-count"?: LoomiAttributeValue;
-  "scan-duration"?: LoomiAttributeValue;
+  "scan-duration"?: string;
 }
 
 interface LoomiRadioAttributes {}
@@ -514,39 +514,39 @@ interface LoomiRadioAttributes {}
 interface LoomiRatingAttributes {}
 
 interface LoomiResizableHandleAttributes {
-  "with-handle"?: LoomiAttributeValue;
+  "with-handle"?: boolean;
 }
 
 interface LoomiResizablePanelAttributes {
-  "collapsed-size"?: LoomiAttributeValue;
+  "collapsed-size"?: number;
   "default-size"?: LoomiAttributeValue;
-  "max-size"?: LoomiAttributeValue;
-  "min-size"?: LoomiAttributeValue;
-  "panel-id"?: LoomiAttributeValue;
+  "max-size"?: number;
+  "min-size"?: number;
+  "panel-id"?: string;
 }
 
 interface LoomiResizablePanelGroupAttributes {
-  "auto-save-id"?: LoomiAttributeValue;
+  "auto-save-id"?: string;
 }
 
 interface LoomiScrollerAttributes {
-  "blurred-edges"?: LoomiAttributeValue;
-  "edge-size"?: LoomiAttributeValue;
-  "pause-on-hover"?: LoomiAttributeValue;
+  "blurred-edges"?: boolean;
+  "edge-size"?: string;
+  "pause-on-hover"?: boolean;
   "scroll-count"?: LoomiAttributeValue;
 }
 
 interface LoomiSelectAttributes {
-  "empty-action-label"?: LoomiAttributeValue;
-  "empty-action-url"?: LoomiAttributeValue;
+  "empty-action-label"?: string;
+  "empty-action-url"?: string;
   "empty-placeholder"?: LoomiAttributeValue;
-  "image-key"?: LoomiAttributeValue;
-  "label-key"?: LoomiAttributeValue;
+  "image-key"?: string;
+  "label-key"?: string;
   "label-position"?: LoomiAttributeValue;
-  "max-selectable"?: LoomiAttributeValue;
-  "selected-value"?: LoomiAttributeValue;
-  "show-focus-ring"?: LoomiAttributeValue;
-  "value-key"?: LoomiAttributeValue;
+  "max-selectable"?: number;
+  "selected-value"?: string;
+  "show-focus-ring"?: boolean;
+  "value-key"?: string;
 }
 
 interface LoomiSideNavAttributes {
@@ -557,45 +557,45 @@ interface LoomiSideNavAttributes {
 interface LoomiSideNavItemAttributes {}
 
 interface LoomiSliderAttributes {
-  "handle-variant"?: LoomiAttributeValue;
-  "handle-width"?: LoomiAttributeValue;
-  "selected-end"?: LoomiAttributeValue;
-  "show-tooltip"?: LoomiAttributeValue;
-  "show-values"?: LoomiAttributeValue;
-  "track-radius"?: LoomiAttributeValue;
-  "value-target"?: LoomiAttributeValue;
+  "handle-variant"?: "default" | "square" | "line";
+  "handle-width"?: string;
+  "selected-end"?: number;
+  "show-tooltip"?: boolean;
+  "show-values"?: boolean;
+  "track-radius"?: string;
+  "value-target"?: string;
 }
 
 interface LoomiSortableAttributes {
-  "handle-icon"?: LoomiAttributeValue;
-  "has-handle"?: LoomiAttributeValue;
-  "multi-drag"?: LoomiAttributeValue;
-  "selected-class"?: LoomiAttributeValue;
-  "swap-class"?: LoomiAttributeValue;
+  "handle-icon"?: string;
+  "has-handle"?: boolean;
+  "multi-drag"?: boolean;
+  "selected-class"?: string;
+  "swap-class"?: string;
 }
 
 interface LoomiSpinnerAttributes {}
 
 interface LoomiSplitButtonAttributes {
-  "border-width"?: LoomiAttributeValue;
-  "can-submit"?: LoomiAttributeValue;
-  "has-spinner"?: LoomiAttributeValue;
-  "hide-after-click"?: LoomiAttributeValue;
-  "icon-right"?: LoomiAttributeValue;
-  "menu-disabled"?: LoomiAttributeValue;
-  "menu-label"?: LoomiAttributeValue;
-  "show-spinner"?: LoomiAttributeValue;
+  "border-width"?: number;
+  "can-submit"?: boolean;
+  "has-spinner"?: boolean;
+  "hide-after-click"?: boolean;
+  "icon-right"?: boolean;
+  "menu-disabled"?: boolean;
+  "menu-label"?: string;
+  "show-spinner"?: boolean;
 }
 
 interface LoomiStatisticAttributes {
-  "currency-position"?: LoomiAttributeValue;
-  "has-border"?: LoomiAttributeValue;
-  "has-shadow"?: LoomiAttributeValue;
-  "icon-color"?: LoomiAttributeValue;
-  "icon-position"?: LoomiAttributeValue;
-  "icon-size"?: LoomiAttributeValue;
-  "label-position"?: LoomiAttributeValue;
-  "show-spinner"?: LoomiAttributeValue;
+  "currency-position"?: "left" | "right";
+  "has-border"?: boolean;
+  "has-shadow"?: boolean;
+  "icon-color"?: string;
+  "icon-position"?: "left" | "right";
+  "icon-size"?: string;
+  "label-position"?: "top" | "bottom";
+  "show-spinner"?: boolean;
 }
 
 interface LoomiTabAttributes {}
@@ -603,30 +603,30 @@ interface LoomiTabAttributes {}
 interface LoomiTableAttributes {
   "action-icons"?: LoomiAttributeValue;
   "actions-title"?: LoomiAttributeValue;
-  "button-label"?: LoomiAttributeValue;
+  "button-label"?: string;
   "column-aliases"?: LoomiAttributeValue;
-  "default-page"?: LoomiAttributeValue;
-  "exclude-columns"?: LoomiAttributeValue;
-  "group-by"?: LoomiAttributeValue;
-  "has-border"?: LoomiAttributeValue;
-  "has-hover"?: LoomiAttributeValue;
-  "has-shadow"?: LoomiAttributeValue;
-  "id-key"?: LoomiAttributeValue;
-  "include-columns"?: LoomiAttributeValue;
-  "message-as-empty-state"?: LoomiAttributeValue;
+  "default-page"?: number;
+  "exclude-columns"?: string;
+  "group-by"?: string;
+  "has-border"?: boolean;
+  "has-hover"?: boolean;
+  "has-shadow"?: boolean;
+  "id-key"?: string;
+  "include-columns"?: string;
+  "message-as-empty-state"?: boolean;
   "no-data-message"?: LoomiAttributeValue;
-  "page-size"?: LoomiAttributeValue;
-  "pagination-style"?: LoomiAttributeValue;
-  "row-template"?: LoomiAttributeValue;
-  "search-container"?: LoomiAttributeValue;
+  "page-size"?: number;
+  "pagination-style"?: string;
+  "row-template"?: string;
+  "search-container"?: string;
   "search-placeholder"?: LoomiAttributeValue;
-  "selected-value"?: LoomiAttributeValue;
-  "show-image"?: LoomiAttributeValue;
-  "show-page-number"?: LoomiAttributeValue;
-  "show-row-numbers"?: LoomiAttributeValue;
-  "show-total"?: LoomiAttributeValue;
-  "show-total-pages"?: LoomiAttributeValue;
-  "sortable-columns"?: LoomiAttributeValue;
+  "selected-value"?: string;
+  "show-image"?: boolean;
+  "show-page-number"?: boolean;
+  "show-row-numbers"?: boolean;
+  "show-total"?: boolean;
+  "show-total-pages"?: boolean;
+  "sortable-columns"?: string;
   "total-label"?: LoomiAttributeValue;
 }
 
@@ -635,51 +635,51 @@ interface LoomiTabsAttributes {
 }
 
 interface LoomiTagAttributes {
-  "can-close"?: LoomiAttributeValue;
-  "icon-position"?: LoomiAttributeValue;
+  "can-close"?: boolean;
+  "icon-position"?: "prefix" | "suffix";
 }
 
 interface LoomiTagInputAttributes {
   "autocomplete-data"?: LoomiAttributeValue;
-  "autocomplete-description-key"?: LoomiAttributeValue;
-  "autocomplete-image-key"?: LoomiAttributeValue;
-  "autocomplete-label-key"?: LoomiAttributeValue;
-  "autocomplete-value-key"?: LoomiAttributeValue;
-  "error-message"?: LoomiAttributeValue;
+  "autocomplete-description-key"?: string;
+  "autocomplete-image-key"?: string;
+  "autocomplete-label-key"?: string;
+  "autocomplete-value-key"?: string;
+  "error-message"?: string;
   "label-position"?: LoomiAttributeValue;
-  "show-error-inline"?: LoomiAttributeValue;
-  "show-focus-ring"?: LoomiAttributeValue;
-  "suffix-icon"?: LoomiAttributeValue;
+  "show-error-inline"?: boolean;
+  "show-focus-ring"?: boolean;
+  "suffix-icon"?: string;
 }
 
 interface LoomiTagsAttributes {
-  "selected-value"?: LoomiAttributeValue;
+  "selected-value"?: string;
 }
 
 interface LoomiTextEditorAttributes {
-  "error-message"?: LoomiAttributeValue;
+  "error-message"?: string;
   "label-position"?: LoomiAttributeValue;
-  "no-file-upload"?: LoomiAttributeValue;
-  "show-error-inline"?: LoomiAttributeValue;
+  "no-file-upload"?: boolean;
+  "show-error-inline"?: boolean;
 }
 
 interface LoomiTextareaAttributes {
-  "error-message"?: LoomiAttributeValue;
+  "error-message"?: string;
   "label-position"?: LoomiAttributeValue;
   "mention-data"?: LoomiAttributeValue;
   "mention-triggers"?: LoomiAttributeValue;
-  "show-error-inline"?: LoomiAttributeValue;
-  "show-focus-ring"?: LoomiAttributeValue;
+  "show-error-inline"?: boolean;
+  "show-focus-ring"?: boolean;
 }
 
 interface LoomiThemeSwitcherAttributes {
-  "dark-icon"?: LoomiAttributeValue;
+  "dark-icon"?: string;
   "dark-text"?: LoomiAttributeValue;
-  "icon-right"?: LoomiAttributeValue;
-  "light-icon"?: LoomiAttributeValue;
+  "icon-right"?: boolean;
+  "light-icon"?: string;
   "light-text"?: LoomiAttributeValue;
-  "show-labels"?: LoomiAttributeValue;
-  "system-icon"?: LoomiAttributeValue;
+  "show-labels"?: boolean;
+  "system-icon"?: string;
   "system-text"?: LoomiAttributeValue;
 }
 
@@ -689,16 +689,16 @@ interface LoomiTimelineItemAttributes {}
 
 interface LoomiTimepickerAttributes {
   "label-position"?: LoomiAttributeValue;
-  "selected-value"?: LoomiAttributeValue;
-  "show-focus-ring"?: LoomiAttributeValue;
-  "tp-style"?: LoomiAttributeValue;
+  "selected-value"?: string;
+  "show-focus-ring"?: boolean;
+  "tp-style"?: "popup" | "inline" | "clock";
 }
 
 interface LoomiTimerAttributes {
-  "auto-start"?: LoomiAttributeValue;
-  "show-border"?: LoomiAttributeValue;
-  "show-controls"?: LoomiAttributeValue;
-  "start-value"?: LoomiAttributeValue;
+  "auto-start"?: boolean;
+  "show-border"?: boolean;
+  "show-controls"?: boolean;
+  "start-value"?: number;
 }
 
 interface LoomiTimezonepickerAttributes {
@@ -713,10 +713,10 @@ interface LoomiToggleAttributes {
 interface LoomiTooltipAttributes {}
 
 interface LoomiVideoAttributes {
-  "aspect-ratio"?: LoomiAttributeValue;
-  "autohide-controls"?: LoomiAttributeValue;
-  "disable-fullscreen"?: LoomiAttributeValue;
-  "disable-pip"?: LoomiAttributeValue;
+  "aspect-ratio"?: string;
+  "autohide-controls"?: boolean;
+  "disable-fullscreen"?: boolean;
+  "disable-pip"?: boolean;
 }
 
 declare module "react" {

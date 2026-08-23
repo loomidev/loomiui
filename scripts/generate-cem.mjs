@@ -8,7 +8,8 @@ import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const packagesDir = path.join(rootDir, "packages");
-// No custom elements to document: infra, aggregators and the MCP server.
+// No custom elements to document: infra, aggregators, the MCP server, and
+// react-types (a generated types-only package with no Lit declarations).
 const skip = new Set([
   "core",
   "theme",
@@ -17,6 +18,7 @@ const skip = new Set([
   "forms",
   "navigation",
   "content",
+  "react-types",
 ]);
 
 const cemBin = path.join(rootDir, "node_modules", ".bin", "cem");

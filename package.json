@@ -28,6 +28,7 @@
     "check:bundles": "node scripts/check-category-sync.mjs",
     "check:conflicts": "node scripts/check-no-conflicts.mjs",
     "check:cem": "node scripts/generate-cem.mjs && git diff --exit-code -- \"packages/*/custom-elements.json\"",
+    "check:react-types": "node packages/react-types/scripts/generate-react-types.mjs && git diff --exit-code -- packages/react-types/src/index.ts",
     "docs:watch-readmes": "pnpm --dir ../docs run watch:components",
     "cem": "node scripts/generate-cem.mjs",
     "changeset": "changeset",
