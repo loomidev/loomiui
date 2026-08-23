@@ -58,6 +58,15 @@
             },
             {
               "kind": "field",
+              "name": "initialRating",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
               "name": "name",
               "type": {
                 "text": "string"
@@ -128,6 +137,15 @@
               },
               "privacy": "private",
               "default": "0"
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
             },
             {
               "kind": "method",

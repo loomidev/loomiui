@@ -27,6 +27,7 @@ export class LoomiToggle extends LoomiElement {
   static formAssociated = true;
 
   private internals = this.attachInternals();
+  private initialChecked = false;
 
   @property({ reflect: true }) name = "";
   @property() value = "on";
@@ -37,6 +38,15 @@ export class LoomiToggle extends LoomiElement {
   @property({ type: Boolean, reflect: true }) justified = false;
   @property() bar: LoomiToggleBar = "thick";
   @property() color: LoomiColor = "primary" as LoomiColor;
+
+  override connectedCallback(): void {
+    if (!this.hasUpdated) this.initialChecked = this.checked;
+    super.connectedCallback();
+  }
+
+  formResetCallback(): void {
+    this.checked = this.initialChecked;
+  }
 
   override willUpdate(): void {
     this.internals.setFormValue(this.checked ? this.value : null);

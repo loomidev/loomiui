@@ -96,6 +96,15 @@
             },
             {
               "kind": "field",
+              "name": "initialItems",
+              "type": {
+                "text": "LoomiSortableItem[]"
+              },
+              "privacy": "private",
+              "default": "[]"
+            },
+            {
+              "kind": "field",
               "name": "items",
               "type": {
                 "text": "LoomiSortableItem[]"
@@ -314,6 +323,15 @@
               },
               "description": "Current order of ids.",
               "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
             },
             {
               "kind": "method",

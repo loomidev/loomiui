@@ -19,6 +19,7 @@ export class LoomiColorpicker extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
   static formAssociated = true;
   private internals = this.attachInternals();
+  private initialSelectedValue = "#000000";
 
   @property({ reflect: true }) name = "";
   @property({ attribute: "selected-value" }) selectedValue = "#000000";
@@ -31,6 +32,16 @@ export class LoomiColorpicker extends LoomiElement {
   /** Index of the keyboard-highlighted chip within `this.palette`, while open. */
   @state() private activeIndex = -1;
   private cleanup?: () => void;
+
+  override connectedCallback(): void {
+    if (!this.hasUpdated) this.initialSelectedValue = this.selectedValue;
+    super.connectedCallback();
+  }
+
+  formResetCallback(): void {
+    this.selectedValue = this.initialSelectedValue;
+    this.close();
+  }
 
   override willUpdate(): void {
     this.internals.setFormValue(this.selectedValue);

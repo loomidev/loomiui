@@ -95,6 +95,15 @@
             },
             {
               "kind": "field",
+              "name": "initialValue",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
               "name": "valueSetFromEditor",
               "type": {
                 "text": "boolean"
@@ -363,6 +372,15 @@
               },
               "privacy": "private",
               "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
             },
             {
               "kind": "method",

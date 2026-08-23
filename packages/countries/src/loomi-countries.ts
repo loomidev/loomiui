@@ -146,6 +146,8 @@ export class LoomiCountries extends LoomiElement {
 
   private internals = this.attachInternals();
   private validationVisible = false;
+  private initialSelection = "";
+  private initialValue = "";
 
   @property({ reflect: true }) name = "";
   @property() mode: LoomiCountriesMode = "names";
@@ -180,10 +182,25 @@ export class LoomiCountries extends LoomiElement {
   private cleanupClickOutside?: () => void;
 
   override connectedCallback(): void {
+    if (!this.hasUpdated) {
+      this.initialSelection = this.selection;
+      this.initialValue = this.value;
+    }
     super.connectedCallback();
     this.cleanupClickOutside = onClickOutside(this, () => {
       if (this.open) this.close(true);
     });
+  }
+
+  formResetCallback(): void {
+    this.selection = this.initialSelection;
+    this.value = this.initialValue;
+    this.selectedCode = resolveCountry(this.initialSelection)?.code ?? "";
+    this.open = false;
+    this.search = "";
+    this.activeIndex = -1;
+    this.validationVisible = false;
+    this.invalid = false;
   }
   override disconnectedCallback(): void {
     super.disconnectedCallback();

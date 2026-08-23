@@ -61,6 +61,12 @@ export class LoomiOtp extends LoomiElement {
     this.digits = Array(this.totalDigits).fill("");
   }
 
+  formResetCallback(): void {
+    this.digits = Array(this.totalDigits).fill("");
+    this.internals.setFormValue("");
+    this.resetValidationState();
+  }
+
   /** The current code. */
   get code(): string {
     return this.digits.join("");

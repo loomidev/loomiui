@@ -116,9 +116,22 @@ export class LoomiTags extends LoomiElement {
 
   private _selected: string[] = [];
   private _initialized = false;
+  private initialSelectedValue = "";
 
   private get tags(): LoomiTag[] {
     return Array.from(this.querySelectorAll<LoomiTag>("loomi-tag"));
+  }
+
+  formResetCallback(): void {
+    this.selectedValue = this.initialSelectedValue;
+    this._selected = this.initialSelectedValue
+      ? this.initialSelectedValue
+          .split(",")
+          .map((value) => value.trim())
+          .filter(Boolean)
+      : [];
+    this.internals.setFormValue(this.name ? this._selected.join(",") : null);
+    this.sync();
   }
 
   override willUpdate(): void {
@@ -173,6 +186,7 @@ export class LoomiTags extends LoomiElement {
   };
 
   override connectedCallback(): void {
+    if (!this.hasUpdated) this.initialSelectedValue = this.selectedValue;
     super.connectedCallback();
     this.setAttribute("data-group", "");
   }

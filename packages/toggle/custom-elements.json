@@ -74,6 +74,15 @@
             },
             {
               "kind": "field",
+              "name": "initialChecked",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
               "name": "name",
               "type": {
                 "text": "string"
@@ -156,6 +165,15 @@
               },
               "default": "\"primary\"",
               "attribute": "color"
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
             },
             {
               "kind": "field",

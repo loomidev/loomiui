@@ -1,4 +1,4 @@
-import { html, fixture, expect } from "@open-wc/testing";
+import { expect } from "@open-wc/testing";
 import "../../button/dist/loomi-button.js";
 import "../../input/dist/loomi-input.js";
 import "../../number/dist/loomi-number.js";
@@ -21,17 +21,18 @@ const selectors = [
 describe("form control sizes", () => {
   for (const size of sizes) {
     it(`renders matching ${size} control heights`, async () => {
-      const wrapper = await fixture<HTMLElement>(html`
-        <div style="display:flex;align-items:flex-start;gap:8px">
-          <loomi-button size=${size}>Save</loomi-button>
-          <loomi-input size=${size} placeholder="Name" no-clearing></loomi-input>
-          <loomi-number size=${size} no-clearing></loomi-number>
-          <loomi-password size=${size} placeholder="Password" no-clearing></loomi-password>
-          <loomi-select size=${size} placeholder="Status" no-clearing></loomi-select>
-          <loomi-datepicker size=${size} placeholder="Date"></loomi-datepicker>
-          <loomi-timepicker size=${size} placeholder="Time"></loomi-timepicker>
-        </div>
-      `);
+      const wrapper = document.createElement("div");
+      wrapper.style.cssText = "display:flex;align-items:flex-start;gap:8px";
+      wrapper.innerHTML = `
+        <loomi-button size="${size}">Save</loomi-button>
+        <loomi-input size="${size}" placeholder="Name" no-clearing></loomi-input>
+        <loomi-number size="${size}" no-clearing></loomi-number>
+        <loomi-password size="${size}" placeholder="Password" no-clearing></loomi-password>
+        <loomi-select size="${size}" placeholder="Status" no-clearing></loomi-select>
+        <loomi-datepicker size="${size}" placeholder="Date"></loomi-datepicker>
+        <loomi-timepicker size="${size}" placeholder="Time"></loomi-timepicker>
+      `;
+      document.body.append(wrapper);
 
       await Promise.all(
         Array.from(wrapper.children).map(
@@ -49,6 +50,7 @@ describe("form control sizes", () => {
       for (const height of rest) {
         expect(Math.abs(height - expected)).to.be.lessThan(0.5);
       }
+      wrapper.remove();
     });
   }
 });

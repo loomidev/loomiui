@@ -167,6 +167,15 @@ export class LoomiFilepicker extends LoomiElement {
     this.syncInput();
   }
 
+  formResetCallback(): void {
+    this.files = [];
+    this.over = false;
+    this.validationVisible = false;
+    this.invalid = false;
+    if (this.input) this.input.value = "";
+    this.syncFormValue();
+  }
+
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     window.removeEventListener("pointermove", this.onCropPointerMove);

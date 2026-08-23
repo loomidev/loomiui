@@ -51,6 +51,15 @@
             },
             {
               "kind": "field",
+              "name": "initialSelectedValue",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
               "name": "name",
               "type": {
                 "text": "string"
@@ -231,6 +240,15 @@
                 "text": "LoomiModal | undefined"
               },
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
             },
             {
               "kind": "method",

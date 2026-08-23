@@ -54,6 +54,7 @@ export class LoomiDatepicker extends LoomiElement {
   static override styles = loomiStyles(controlSizeStyles, fieldStyles, componentStyles);
   static formAssociated = true;
   private internals = this.attachInternals();
+  private initialSelectedValue = "";
 
   @property({ reflect: true }) name = "";
   /** `popup` (input + panel) or `inline`. Attribute is `dp-style` (`style` is reserved). */
@@ -82,19 +83,37 @@ export class LoomiDatepicker extends LoomiElement {
   @state() private yearRangeStart = Math.floor(new Date().getFullYear() / 12) * 12;
   private cleanup?: () => void;
 
+  override connectedCallback(): void {
+    if (!this.hasUpdated) this.initialSelectedValue = this.selectedValue;
+    super.connectedCallback();
+  }
+
+  formResetCallback(): void {
+    this.selectedValue = this.initialSelectedValue;
+    this.applySelectedValue(this.initialSelectedValue);
+    this.open = false;
+    this.calendarView = "days";
+    this.cleanup?.();
+    this.cleanup = undefined;
+  }
+
   override willUpdate(changed: PropertyValues<this>): void {
     if (changed.has("selectedValue") || (!this.parsed && this.selectedValue)) {
-      const parts = this.selectedValue.split(" - ");
-      this.start = parts[0] ? (parseISO(parts[0]) ?? null) : null;
-      this.end = parts[1] ? (parseISO(parts[1]) ?? null) : null;
-      if (this.start) this.view = new Date(this.start);
-      this.parsed = true;
+      this.applySelectedValue(this.selectedValue);
     }
     this.internals.setFormValue(this.value);
   }
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.cleanup?.();
+  }
+
+  private applySelectedValue(value: string): void {
+    const parts = value.split(" - ");
+    this.start = parts[0] ? (parseISO(parts[0]) ?? null) : null;
+    this.end = parts[1] ? (parseISO(parts[1]) ?? null) : null;
+    if (this.start) this.view = new Date(this.start);
+    this.parsed = true;
   }
 
   private fmt(d: Date): string {

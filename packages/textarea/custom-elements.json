@@ -89,6 +89,15 @@
             },
             {
               "kind": "field",
+              "name": "initialValue",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
               "name": "cleanupMentionOutside",
               "type": {
                 "text": "() => void | undefined"
@@ -325,6 +334,15 @@
                 "text": "HTMLDivElement | undefined"
               },
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
             },
             {
               "kind": "method",

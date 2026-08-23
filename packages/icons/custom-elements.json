@@ -8,6 +8,34 @@
       "declarations": [
         {
           "kind": "function",
+          "name": "setLoomiIconBasePath",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "path",
+              "type": {
+                "text": "string | undefined"
+              }
+            }
+          ],
+          "description": "Serve the raw `.svg` files from somewhere you control — a folder you copied\n`@loomidev/icons/dist/svg/` into, or a CDN — instead of loading icons from\nthe bundled JS modules. Trailing slash optional; relative paths resolve\nagainst the document.\n\n```js\nsetLoomiIconBasePath(\"/icons\");                            // copied into public/\nsetLoomiIconBasePath(\"https://esm.sh/@loomidev/icons/dist/svg\");\n```\n\nPass `undefined` to go back to the default module-based loading. Only\naffects icons not yet loaded — anything already cached stays cached."
+        },
+        {
+          "kind": "function",
+          "name": "getLoomiIconBasePath",
+          "return": {
+            "type": {
+              "text": "string | undefined"
+            }
+          },
+          "description": "The base path set by setLoomiIconBasePath, or `undefined` when\nicons load from the generated modules."
+        },
+        {
+          "kind": "function",
           "name": "isLoomiDiskIconSource",
           "return": {
             "type": {
@@ -68,6 +96,37 @@
         },
         {
           "kind": "function",
+          "name": "hasLoomiDiskIcon",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "parameters": [
+            {
+              "name": "source",
+              "type": {
+                "text": "LoomiDiskIconSource"
+              }
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "type",
+              "default": "DEFAULT_TYPE",
+              "type": {
+                "text": "LoomiIconType"
+              }
+            }
+          ],
+          "description": "Whether `(source, name)` is a real icon in this package. Cheap and\nsynchronous — it only consults the generated name manifest."
+        },
+        {
+          "kind": "function",
           "name": "getLoomiDiskIconUrl",
           "return": {
             "type": {
@@ -95,7 +154,44 @@
               }
             }
           ],
-          "description": "Resolves `(source, name, type)` to the .svg file's URL, or `undefined` if\n`name` isn't registered. Lenient on `type`: an unavailable type (e.g.\n`untitledui` + `\"twotone\"`) falls back to `\"outline\"` rather than failing,\nmatching how `<loomi-icon>` already treats an unknown Heroicons `variant`."
+          "description": "The `.svg` file's URL for `(source, name, type)`, or `undefined` if `name`\nisn't registered. Points at whatever setLoomiIconBasePath was given,\nfalling back to this package's own `dist/svg/`.\n\nOnly meaningful where those files are actually served: a bundled app that\nnever set a base path loads icons from the generated modules instead, and\nthis URL will not resolve there."
+        },
+        {
+          "kind": "function",
+          "name": "registerLoomiDiskIcon",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "source",
+              "type": {
+                "text": "LoomiDiskIconSource"
+              }
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "markup",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "type",
+              "default": "DEFAULT_TYPE",
+              "type": {
+                "text": "LoomiIconType"
+              }
+            }
+          ],
+          "description": "Register a statically imported icon so it renders with no network request\nand no dynamic chunk — the tree-shakeable path:\n\n```js\nimport home from \"@loomidev/icons/icons/iconsax/outline/home.js\";\nregisterLoomiDiskIcon(\"iconsax\", \"home\", home, \"outline\");\n```"
         },
         {
           "kind": "function",
@@ -126,10 +222,26 @@
               }
             }
           ],
-          "description": "Fetches (and caches) the inner markup for a disk-based icon, ready to drop\ninto a Lit `html` template: `` html`<svg>${await loadLoomiDiskIcon(...)}</svg>` ``.\nResolves to `undefined` for an unregistered name or a failed fetch — callers\nshould fall back to their own placeholder/slot in that case."
+          "description": "Loads (and caches) the inner markup for a disk-based icon, ready to drop\ninto a Lit `html` template: `` html`<svg>${await loadLoomiDiskIcon(...)}</svg>` ``.\nResolves to `undefined` for an unregistered name or a failed load — callers\nshould fall back to their own placeholder/slot in that case."
         }
       ],
       "exports": [
+        {
+          "kind": "js",
+          "name": "setLoomiIconBasePath",
+          "declaration": {
+            "name": "setLoomiIconBasePath",
+            "module": "src/disk-icons.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getLoomiIconBasePath",
+          "declaration": {
+            "name": "getLoomiIconBasePath",
+            "module": "src/disk-icons.ts"
+          }
+        },
         {
           "kind": "js",
           "name": "isLoomiDiskIconSource",
@@ -156,9 +268,25 @@
         },
         {
           "kind": "js",
+          "name": "hasLoomiDiskIcon",
+          "declaration": {
+            "name": "hasLoomiDiskIcon",
+            "module": "src/disk-icons.ts"
+          }
+        },
+        {
+          "kind": "js",
           "name": "getLoomiDiskIconUrl",
           "declaration": {
             "name": "getLoomiDiskIconUrl",
+            "module": "src/disk-icons.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "registerLoomiDiskIcon",
+          "declaration": {
+            "name": "registerLoomiDiskIcon",
             "module": "src/disk-icons.ts"
           }
         },

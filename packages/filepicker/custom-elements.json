@@ -361,6 +361,15 @@
             },
             {
               "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
               "name": "validate",
               "return": {
                 "type": {

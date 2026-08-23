@@ -56,6 +56,7 @@ export class LoomiSortable extends LoomiElement {
 
   private internals = this.attachInternals();
   private rowRects = new Map<string, DOMRect>();
+  private initialItems: LoomiSortableItem[] = [];
 
   @property({ type: Array }) items: LoomiSortableItem[] = [];
   /** Form-control name; when set, the host submits the order as a JSON array of ids. */
@@ -100,6 +101,17 @@ export class LoomiSortable extends LoomiElement {
   /** Current order of ids. */
   get order(): string[] {
     return this.items.map((i) => i.id);
+  }
+
+  override connectedCallback(): void {
+    if (!this.hasUpdated) this.initialItems = [...this.items];
+    super.connectedCallback();
+  }
+
+  formResetCallback(): void {
+    this.items = [...this.initialItems];
+    this.selectedIds = new Set();
+    this.endDrag();
   }
 
   override willUpdate(changed: Map<string, unknown>): void {

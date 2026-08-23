@@ -94,6 +94,7 @@ export class LoomiTimepicker extends LoomiElement {
   static formAssociated = true;
   private internals = this.attachInternals();
   private validationVisible = false;
+  private initialSelectedValue = "";
 
   @property({ reflect: true }) name = "";
   /** `popup` (input + panel) or `inline`. Attribute is `tp-style` (`style` is reserved). */
@@ -120,6 +121,25 @@ export class LoomiTimepicker extends LoomiElement {
   private cleanup?: () => void;
 
   @query(".loomi-clock-modal", true) private clockModalEl?: LoomiModal;
+
+  override connectedCallback(): void {
+    if (!this.hasUpdated) this.initialSelectedValue = this.selectedValue;
+    super.connectedCallback();
+  }
+
+  formResetCallback(): void {
+    this.selectedValue = this.initialSelectedValue;
+    this.hour = null;
+    this.minute = null;
+    this.ampm = "AM";
+    if (this.initialSelectedValue) this.parse(this.initialSelectedValue);
+    this.parsed = true;
+    this.open = false;
+    this.validationVisible = false;
+    this.invalid = false;
+    this.cleanup?.();
+    this.cleanup = undefined;
+  }
 
   override willUpdate(): void {
     if (!this.parsed && this.selectedValue) {

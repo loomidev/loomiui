@@ -10,7 +10,9 @@
   --loomi-dropmenu-item-min-height: 2.25rem;
   --loomi-dropmenu-radius: var(--loomi-panel-radius, 0.625rem);
   --loomi-dropmenu-item-radius: 0.375rem;
-  --loomi-dropmenu-arrow-size: 6px;
+  /* Half the triangle's width. 6px read as a barely-visible nub against the panel's
+     light border; 9px reads as an actual pointer at the same panel/border colors. */
+  --loomi-dropmenu-arrow-size: 9px;
   --loomi-dropmenu-arrow-inset: 0.75rem;
 }
 :host([hidden]) {

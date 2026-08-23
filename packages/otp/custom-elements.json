@@ -232,6 +232,15 @@
               "privacy": "private"
             },
             {
+              "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
               "kind": "field",
               "name": "code",
               "type": {

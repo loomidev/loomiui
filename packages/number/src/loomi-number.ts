@@ -32,6 +32,7 @@ export class LoomiNumber extends LoomiElement {
 
   private internals = this.attachInternals();
   private validationVisible = false;
+  private initialValue = "";
 
   @property({ reflect: true }) name = "";
   @property() label = "";
@@ -51,6 +52,17 @@ export class LoomiNumber extends LoomiElement {
   @property({ type: Boolean, reflect: true }) invalid = false;
 
   @query("input") private inputEl!: HTMLInputElement;
+
+  override connectedCallback(): void {
+    if (!this.hasUpdated) this.initialValue = this.value;
+    super.connectedCallback();
+  }
+
+  formResetCallback(): void {
+    this.value = this.initialValue;
+    this.validationVisible = false;
+    this.invalid = false;
+  }
 
   override willUpdate(): void {
     this.internals.setFormValue(this.value);

@@ -3,7 +3,7 @@ import { customElement, property, state } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, accentVars } from "@loomidev/core";
 import {
   getLoomiIcon,
-  getLoomiDiskIconUrl,
+  hasLoomiDiskIcon,
   loadLoomiDiskIcon,
   isLoomiDiskIconSource,
   type LoomiIconSource,
@@ -117,12 +117,12 @@ export class LoomiIcon extends LoomiElement {
 
     const source = this.source;
     if (isLoomiDiskIconSource(source)) {
-      const known = this.name && getLoomiDiskIconUrl(source, this.name, this.variant);
+      const known = this.name && hasLoomiDiskIcon(source, this.name, this.variant);
       if (!known) {
         // Unregistered name for this source — render whatever SVG is slotted.
         return html`<slot role=${role} aria-label=${ariaLabel} aria-hidden=${ariaHidden}></slot>`;
       }
-      // Sized placeholder until the fetch resolves, so there's no layout jump.
+      // Sized placeholder until the icon resolves, so there's no layout jump.
       return html`<svg viewBox="0 0 24 24" fill="none" role=${role} aria-label=${ariaLabel} aria-hidden=${ariaHidden}
         >${this._diskIcon ?? nothing}</svg
       >`;

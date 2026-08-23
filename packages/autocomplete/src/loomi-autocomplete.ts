@@ -188,6 +188,7 @@ export class LoomiAutocomplete extends LoomiElement {
   private internals = this.attachInternals();
   private cleanup?: () => void;
   private initialValue = "";
+  private initialSelectedValue = "";
 
   @property({ reflect: true }) name = "";
   @property() label = "";
@@ -224,7 +225,10 @@ export class LoomiAutocomplete extends LoomiElement {
   private suppressValueDisplaySync = false;
 
   override connectedCallback(): void {
-    if (!this.hasUpdated) this.initialValue = this.value;
+    if (!this.hasUpdated) {
+      this.initialSelectedValue = this.selectedValue;
+      this.initialValue = this.value || this.selectedValue;
+    }
     super.connectedCallback();
   }
 
@@ -266,10 +270,11 @@ export class LoomiAutocomplete extends LoomiElement {
 
   formResetCallback(): void {
     this.value = this.initialValue;
-    this.selectedValue = this.initialValue;
+    this.selectedValue = this.initialSelectedValue;
     this.displayValue = "";
     this.selectedImage = "";
     this.open = false;
+    this.activeIndex = -1;
     this.invalid = false;
   }
 

@@ -10,29 +10,68 @@ npm install @loomidev/forms lit
 import "@loomidev/forms"; // registers all form elements
 ```
 
-| Package                                   |
-| ----------------------------------------- |
-| [`@loomidev/input`](../input)             |
-| [`@loomidev/password`](../password)       |
-| [`@loomidev/textarea`](../textarea)       |
-| [`@loomidev/text-editor`](../text-editor) |
-| [`@loomidev/select`](../select)           |
-| [`@loomidev/checkbox`](../checkbox)       |
-| [`@loomidev/radio`](../radio)             |
-| [`@loomidev/toggle`](../toggle)           |
-| [`@loomidev/number`](../number)           |
-| [`@loomidev/slider`](../slider)           |
-| [`@loomidev/otp`](../otp)                 |
-| [`@loomidev/checkcards`](../checkcards)   |
-| [`@loomidev/datepicker`](../datepicker)   |
-| [`@loomidev/timepicker`](../timepicker)   |
-| [`@loomidev/colorpicker`](../colorpicker) |
-| [`@loomidev/filepicker`](../filepicker)   |
+| Package                                               |
+| ----------------------------------------------------- |
+| [`@loomidev/input`](../input)                         |
+| [`@loomidev/password`](../password)                   |
+| [`@loomidev/textarea`](../textarea)                   |
+| [`@loomidev/text-editor`](../text-editor)             |
+| [`@loomidev/select`](../select)                       |
+| [`@loomidev/checkbox`](../checkbox)                   |
+| [`@loomidev/radio`](../radio)                         |
+| [`@loomidev/toggle`](../toggle)                       |
+| [`@loomidev/number`](../number)                       |
+| [`@loomidev/slider`](../slider)                       |
+| [`@loomidev/otp`](../otp)                             |
+| [`@loomidev/checkcards`](../checkcards)               |
+| [`@loomidev/tag-input`](../tag-input)                 |
+| [`@loomidev/emoji-picker`](../emoji-picker)           |
+| [`@loomidev/datepicker`](../datepicker)               |
+| [`@loomidev/timepicker`](../timepicker)               |
+| [`@loomidev/timezonepicker`](../timezonepicker)       |
+| [`@loomidev/date-range-picker`](../date-range-picker) |
+| [`@loomidev/colorpicker`](../colorpicker)             |
+| [`@loomidev/filepicker`](../filepicker)               |
+| [`@loomidev/filter-builder`](../filter-builder)       |
+| [`@loomidev/countries`](../countries)                 |
+| [`@loomidev/creditcard`](../creditcard)               |
+| [`@loomidev/autocomplete`](../autocomplete)           |
 
-All form controls are **form-associated** — their values submit with a native `<form>` via
-`ElementInternals`. Native `FormData` includes their current submitted values and excludes
-unchecked, disabled, or unnamed controls. Input, password, and autocomplete fields also
-participate in `form.reset()`, restoring the value they had when first connected.
+Controls that represent a native form value are **form-associated**. Their values submit
+with a native `<form>` via `ElementInternals`. Native `FormData` includes current values
+and excludes unchecked, disabled, or unnamed controls. Calling `form.reset()` restores
+each form-associated control to the value, selection, checked state, or item order it had
+when first connected. The reset also clears temporary interaction and visible validation
+state without firing a user `change` event.
+
+## Submitted values
+
+The table below shows exactly what each specialized form-associated control adds to
+`FormData` under its `name`.
+
+| Control                                                          | Submitted value                                                                                                   |
+| ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Input, password, textarea, number, autocomplete, and text editor | The current string value. Text editor values contain HTML.                                                        |
+| Checkbox, radio, and toggle                                      | The `value` string only when checked. The default checkbox and toggle value is `"on"`.                            |
+| Select                                                           | The selected option value. Multiple selections are joined with commas.                                            |
+| Checkcards and tags                                              | Selected child values joined with commas.                                                                         |
+| Tag input                                                        | Tag values joined with commas.                                                                                    |
+| Emoji picker                                                     | The selected emoji or configured item value.                                                                      |
+| Datepicker                                                       | The formatted date. A range is submitted as `start - end`.                                                        |
+| Timepicker                                                       | A time such as `3:25PM` in 12-hour mode or `15:25` in 24-hour mode.                                               |
+| Timezonepicker                                                   | The selected IANA time zone identifier, such as `America/Toronto`.                                                |
+| Countries                                                        | The ISO country code in `names` mode. In `phone` mode, the dial code and normalized national number are combined. |
+| Colorpicker                                                      | The selected color string, such as `#2563eb`.                                                                     |
+| Slider                                                           | A number for a single slider, or `start - end` for a range slider.                                                |
+| OTP                                                              | The completed code as one string.                                                                                 |
+| Filepicker                                                       | A `File` for one file. With `max-files` greater than one, files use the `name[]` key.                             |
+| Rating                                                           | The selected rating as a number string from `0` through `5`.                                                      |
+| Sortable                                                         | A JSON array containing the item IDs in their current order.                                                      |
+
+`loomi-date-range-picker` and `loomi-filter-builder` are stateful interface components,
+not native form controls. Read their values from their public properties or events.
+`loomi-creditcard` is intentionally not form-associated because payment details should
+normally be passed to a tokenization provider instead of submitted as plain form data.
 
 <!-- BEGIN loomi-framework-guide -->
 

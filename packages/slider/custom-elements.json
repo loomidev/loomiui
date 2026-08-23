@@ -42,6 +42,24 @@
             },
             {
               "kind": "field",
+              "name": "initialSelected",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "initialSelectedEnd",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "100"
+            },
+            {
+              "kind": "field",
               "name": "name",
               "type": {
                 "text": "string"
@@ -234,6 +252,15 @@
                 "text": "ReturnType<typeof setTimeout> | undefined"
               },
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
             },
             {
               "kind": "field",

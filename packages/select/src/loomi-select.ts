@@ -52,6 +52,7 @@ export class LoomiSelect extends LoomiElement {
 
   private internals = this.attachInternals();
   private validationVisible = false;
+  private initialSelectedValue = "";
 
   @property({ reflect: true }) name = "";
   @property() placeholder = DEFAULT_PLACEHOLDER;
@@ -91,10 +92,21 @@ export class LoomiSelect extends LoomiElement {
   private cleanupClickOutside?: () => void;
 
   override connectedCallback(): void {
+    if (!this.hasUpdated) this.initialSelectedValue = this.selectedValue;
     super.connectedCallback();
     this.cleanupClickOutside = onClickOutside(this, () => {
       if (this.open) this.close(true);
     });
+  }
+
+  formResetCallback(): void {
+    this.selectedValue = this.initialSelectedValue;
+    this.selected = this.parseSelectedValue();
+    this.open = false;
+    this.search = "";
+    this.activeIndex = -1;
+    this.validationVisible = false;
+    this.invalid = false;
   }
   override disconnectedCallback(): void {
     super.disconnectedCallback();

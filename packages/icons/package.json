@@ -23,12 +23,16 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./icons/*": {
+      "types": "./dist/icons/icon-module.d.ts",
+      "import": "./dist/icons/*"
     }
   },
   "scripts": {
     "generate": "node scripts/generate-heroicons.mjs",
-    "build": "node scripts/build-disk-manifest.mjs && tsc -p tsconfig.json && node scripts/copy-svg-assets.mjs",
-    "dev": "node scripts/build-disk-manifest.mjs && node scripts/copy-svg-assets.mjs && tsc -p tsconfig.json --watch",
+    "build": "node scripts/build-disk-manifest.mjs && node scripts/build-disk-modules.mjs && tsc -p tsconfig.json && node scripts/copy-svg-assets.mjs",
+    "dev": "node scripts/build-disk-manifest.mjs && node scripts/build-disk-modules.mjs && node scripts/copy-svg-assets.mjs && tsc -p tsconfig.json --watch",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "peerDependencies": {

@@ -24,6 +24,7 @@ export class LoomiRadio extends LoomiElement {
   static formAssociated = true;
 
   private internals = this.attachInternals();
+  private initialChecked = false;
 
   @property({ reflect: true }) name = "";
   @property() value = "";
@@ -31,6 +32,15 @@ export class LoomiRadio extends LoomiElement {
   @property({ type: Boolean, reflect: true }) checked = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property() color: LoomiColor = "primary" as LoomiColor;
+
+  override connectedCallback(): void {
+    if (!this.hasUpdated) this.initialChecked = this.checked;
+    super.connectedCallback();
+  }
+
+  formResetCallback(): void {
+    this.checked = this.initialChecked;
+  }
 
   override willUpdate(): void {
     this.internals.setFormValue(this.checked ? this.value : null);

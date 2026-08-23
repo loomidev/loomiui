@@ -60,21 +60,22 @@ describe("required form validation", () => {
   }
 
   it("participates in native form validation", async () => {
-    const form = await fixture<HTMLFormElement>(html`
-      <form>
-        <loomi-input required name="input"></loomi-input>
-        <loomi-select required name="select"></loomi-select>
-        <loomi-filepicker required name="file"></loomi-filepicker>
-        <loomi-timepicker required name="time"></loomi-timepicker>
-        <loomi-textarea required name="textarea"></loomi-textarea>
-        <loomi-number required name="number"></loomi-number>
-        <loomi-password required name="password"></loomi-password>
-      </form>
-    `);
+    const form = document.createElement("form");
+    form.innerHTML = `
+      <loomi-input required name="input"></loomi-input>
+      <loomi-select required name="select"></loomi-select>
+      <loomi-filepicker required name="file"></loomi-filepicker>
+      <loomi-timepicker required name="time"></loomi-timepicker>
+      <loomi-textarea required name="textarea"></loomi-textarea>
+      <loomi-number required name="number"></loomi-number>
+      <loomi-password required name="password"></loomi-password>
+    `;
+    document.body.append(form);
     await Promise.all(
       Array.from(form.children).map((child) => (child as Validatable).updateComplete),
     );
 
     expect(form.checkValidity()).to.equal(false);
+    form.remove();
   });
 });

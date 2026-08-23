@@ -50,6 +50,15 @@
             },
             {
               "kind": "field",
+              "name": "initialSelectedValue",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"#000000\""
+            },
+            {
+              "kind": "field",
               "name": "name",
               "type": {
                 "text": "string"
@@ -129,6 +138,15 @@
                 "text": "() => void | undefined"
               },
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
             },
             {
               "kind": "field",

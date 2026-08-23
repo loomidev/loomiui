@@ -164,6 +164,7 @@ export class LoomiEmojiPicker extends LoomiElement {
 
   private internals = this.attachInternals();
   private validationVisible = false;
+  private initialSelectedValue = "";
 
   @property({ reflect: true }) name = "";
   @property({ attribute: "selected-value" }) selectedValue = "";
@@ -201,6 +202,22 @@ export class LoomiEmojiPicker extends LoomiElement {
   @query(".loomi-tone-picker") private toneMenuEl?: HTMLElement;
 
   private toneMenuCleanup?: () => void;
+
+  override connectedCallback(): void {
+    if (!this.hasUpdated) this.initialSelectedValue = this.selectedValue;
+    super.connectedCallback();
+  }
+
+  formResetCallback(): void {
+    this.selectedValue = this.initialSelectedValue;
+    this.open = false;
+    this.search = "";
+    this.category = "all";
+    this.activeIndex = 0;
+    this.toneMenuOpen = false;
+    this.validationVisible = false;
+    this.invalid = false;
+  }
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
