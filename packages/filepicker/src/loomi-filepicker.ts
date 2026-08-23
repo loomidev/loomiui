@@ -634,6 +634,17 @@ export class LoomiFilepicker extends LoomiElement {
   }
 }
 
+export interface LoomiFilepickerChangeDetail {
+  /** The full current selection, not just the files added by this change. */
+  files: File[];
+}
+
+/** Event map for `<loomi-filepicker>`. `change` carries a filepicker-specific detail,
+ * so it is typed per package instead of globally on `HTMLElementEventMap`. */
+export interface LoomiFilepickerEventMap {
+  change: CustomEvent<LoomiFilepickerChangeDetail>;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-filepicker": LoomiFilepicker;

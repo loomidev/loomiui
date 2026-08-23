@@ -329,6 +329,19 @@ export class LoomiDatepicker extends LoomiElement {
   }
 }
 
+export interface LoomiDatepickerChangeDetail {
+  /** Formatted value — one ISO date, or a range joined with `" - "`. */
+  value: string;
+  /** Selected dates as ISO `yyyy-mm-dd` strings: one entry, or two for a range. */
+  dates: string[];
+}
+
+/** Event map for `<loomi-datepicker>`. `change` carries a datepicker-specific detail,
+ * so it is typed per package instead of globally on `HTMLElementEventMap`. */
+export interface LoomiDatepickerEventMap {
+  change: CustomEvent<LoomiDatepickerChangeDetail>;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-datepicker": LoomiDatepicker;

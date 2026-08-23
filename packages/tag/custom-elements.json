@@ -30,6 +30,22 @@
             "name": "LoomiTagClickDetail",
             "module": "./loomi-tag.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTagsChangeDetail",
+          "declaration": {
+            "name": "LoomiTagsChangeDetail",
+            "module": "./loomi-tag.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTagEventMap",
+          "declaration": {
+            "name": "LoomiTagEventMap",
+            "module": "./loomi-tag.js"
+          }
         }
       ]
     },

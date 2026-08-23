@@ -89,6 +89,12 @@ export class LoomiRadio extends LoomiElement {
   }
 }
 
+/** Event map for `<loomi-radio>`. `change` is a plain `Event`; read `value`/`checked`
+ * off the element itself. */
+export interface LoomiRadioEventMap {
+  change: Event;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-radio": LoomiRadio;

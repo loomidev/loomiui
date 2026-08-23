@@ -1387,6 +1387,14 @@
         },
         {
           "kind": "js",
+          "name": "LoomiCalendarEventMap",
+          "declaration": {
+            "name": "LoomiCalendarEventMap",
+            "module": "./loomi-calendar.js"
+          }
+        },
+        {
+          "kind": "js",
           "name": "CalendarDateChangeDetail",
           "declaration": {
             "name": "CalendarDateChangeDetail",
@@ -1478,6 +1486,46 @@
           "name": "CalendarInviteeStatus",
           "declaration": {
             "name": "CalendarInviteeStatus",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarReminder",
+          "declaration": {
+            "name": "CalendarReminder",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarReminderChangeDetail",
+          "declaration": {
+            "name": "CalendarReminderChangeDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarReminderClickDetail",
+          "declaration": {
+            "name": "CalendarReminderClickDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarReminderCreateDetail",
+          "declaration": {
+            "name": "CalendarReminderCreateDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarReminderDeleteDetail",
+          "declaration": {
+            "name": "CalendarReminderDeleteDetail",
             "module": "./types.js"
           }
         },

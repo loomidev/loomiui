@@ -203,6 +203,20 @@ export interface LoomiTagClickDetail {
   value: string;
 }
 
+export interface LoomiTagsChangeDetail {
+  /** Values of every currently selected `<loomi-tag>`. */
+  values: string[];
+}
+
+/** Event map covering both `<loomi-tag>` (`close`, `loomi-tag-click`) and
+ * `<loomi-tags>` (`change`). `close` is cancelable — calling `preventDefault()`
+ * keeps the tag in the DOM — and carries no detail. */
+export interface LoomiTagEventMap {
+  close: CustomEvent<null>;
+  "loomi-tag-click": CustomEvent<LoomiTagClickDetail>;
+  change: CustomEvent<LoomiTagsChangeDetail>;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-tag": LoomiTag;

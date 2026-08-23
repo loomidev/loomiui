@@ -22,6 +22,22 @@
             "name": "LoomiColorpickerSize",
             "module": "./loomi-colorpicker.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiColorpickerChangeDetail",
+          "declaration": {
+            "name": "LoomiColorpickerChangeDetail",
+            "module": "./loomi-colorpicker.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiColorpickerEventMap",
+          "declaration": {
+            "name": "LoomiColorpickerEventMap",
+            "module": "./loomi-colorpicker.js"
+          }
         }
       ]
     },

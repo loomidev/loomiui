@@ -38,6 +38,22 @@
             "name": "LoomiDatepickerStyle",
             "module": "./loomi-datepicker.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiDatepickerChangeDetail",
+          "declaration": {
+            "name": "LoomiDatepickerChangeDetail",
+            "module": "./loomi-datepicker.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiDatepickerEventMap",
+          "declaration": {
+            "name": "LoomiDatepickerEventMap",
+            "module": "./loomi-datepicker.js"
+          }
         }
       ]
     },

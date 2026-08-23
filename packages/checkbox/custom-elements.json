@@ -14,6 +14,14 @@
             "name": "LoomiCheckbox",
             "module": "./loomi-checkbox.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiCheckboxEventMap",
+          "declaration": {
+            "name": "LoomiCheckboxEventMap",
+            "module": "./loomi-checkbox.js"
+          }
         }
       ]
     },

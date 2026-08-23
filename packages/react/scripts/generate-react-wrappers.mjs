@@ -54,11 +54,11 @@ const extractEventMap = async (packageName) => {
     if (!mapMatch) continue;
     const mapName = mapMatch[1];
     const eventNames = new Set();
-    const bodyMatch = content.match(
-      new RegExp(`interface ${mapName}\\s*\\{([\\s\\S]+?)\\}`),
-    );
+    const bodyMatch = content.match(new RegExp(`interface ${mapName}\\s*\\{([\\s\\S]+?)\\}`));
     if (bodyMatch) {
-      for (const m of bodyMatch[1].matchAll(/"([^"]+)":/g)) {
+      // Keys may be quoted ("loomi-select") or bare (change) — prettier drops
+      // quotes from identifier-safe names, so accept both.
+      for (const m of bodyMatch[1].matchAll(/^\s*"?([\w-]+)"?\s*:/gm)) {
         eventNames.add(m[1]);
       }
     }

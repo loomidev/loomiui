@@ -1,1 +1,6 @@
-export { LoomiColorpicker, type LoomiColorpickerSize } from "./loomi-colorpicker.js";
+export {
+  LoomiColorpicker,
+  type LoomiColorpickerSize,
+  type LoomiColorpickerChangeDetail,
+  type LoomiColorpickerEventMap,
+} from "./loomi-colorpicker.js";

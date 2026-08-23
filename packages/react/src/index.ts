@@ -3,12 +3,26 @@ import { type ForwardRefExoticComponent } from "react";
 import type {} from "@loomidev/react-types";
 import type {
   LoomiAutocompleteEventMap,
+  LoomiCalendarEventMap,
+  LoomiCheckboxEventMap,
+  LoomiColorpickerEventMap,
   LoomiCountriesEventMap,
+  LoomiDatepickerEventMap,
+  LoomiDrawerEventMap,
   LoomiFabEventMap,
+  LoomiFilepickerEventMap,
+  LoomiModalEventMap,
   LoomiPaginationEventMap,
+  LoomiRadioEventMap,
+  LoomiRatingEventMap,
   LoomiSelectEventMap,
+  LoomiSliderEventMap,
+  LoomiSortableEventMap,
   LoomiTableEventMap,
+  LoomiTagEventMap,
+  LoomiTimepickerEventMap,
   LoomiTimezonepickerEventMap,
+  LoomiToggleEventMap,
 } from "@loomidev/components";
 import { createComponent } from "./create-component.js";
 
@@ -404,18 +418,18 @@ export const Calendar: ForwardRefExoticComponent<
     | "onLoomiReminderDelete"
     | "onLoomiEventDuplicate"
   > & {
-    onLoomiEventChange?: (e: CustomEvent) => void;
-    onLoomiSlotSelect?: (e: CustomEvent) => void;
-    onLoomiEventClick?: (e: CustomEvent) => void;
-    onLoomiReminderClick?: (e: CustomEvent) => void;
-    onLoomiViewChange?: (e: CustomEvent) => void;
-    onLoomiDateChange?: (e: CustomEvent) => void;
-    onLoomiSidebarToggle?: (e: CustomEvent) => void;
-    onLoomiEventCreate?: (e: CustomEvent) => void;
-    onLoomiEventDelete?: (e: CustomEvent) => void;
-    onLoomiReminderChange?: (e: CustomEvent) => void;
-    onLoomiReminderDelete?: (e: CustomEvent) => void;
-    onLoomiEventDuplicate?: (e: CustomEvent) => void;
+    onLoomiEventChange?: (e: LoomiCalendarEventMap["loomi-event-change"]) => void;
+    onLoomiSlotSelect?: (e: LoomiCalendarEventMap["loomi-slot-select"]) => void;
+    onLoomiEventClick?: (e: LoomiCalendarEventMap["loomi-event-click"]) => void;
+    onLoomiReminderClick?: (e: LoomiCalendarEventMap["loomi-reminder-click"]) => void;
+    onLoomiViewChange?: (e: LoomiCalendarEventMap["loomi-view-change"]) => void;
+    onLoomiDateChange?: (e: LoomiCalendarEventMap["loomi-date-change"]) => void;
+    onLoomiSidebarToggle?: (e: LoomiCalendarEventMap["loomi-sidebar-toggle"]) => void;
+    onLoomiEventCreate?: (e: LoomiCalendarEventMap["loomi-event-create"]) => void;
+    onLoomiEventDelete?: (e: LoomiCalendarEventMap["loomi-event-delete"]) => void;
+    onLoomiReminderChange?: (e: LoomiCalendarEventMap["loomi-reminder-change"]) => void;
+    onLoomiReminderDelete?: (e: LoomiCalendarEventMap["loomi-reminder-delete"]) => void;
+    onLoomiEventDuplicate?: (e: LoomiCalendarEventMap["loomi-event-duplicate"]) => void;
     weekStarts?: JSX.IntrinsicElements["loomi-calendar"]["week-starts"];
     showTimezone?: JSX.IntrinsicElements["loomi-calendar"]["show-timezone"];
     showWeekends?: JSX.IntrinsicElements["loomi-calendar"]["show-weekends"];
@@ -467,18 +481,18 @@ export const Calendar: ForwardRefExoticComponent<
     | "onLoomiReminderDelete"
     | "onLoomiEventDuplicate"
   > & {
-    onLoomiEventChange?: (e: CustomEvent) => void;
-    onLoomiSlotSelect?: (e: CustomEvent) => void;
-    onLoomiEventClick?: (e: CustomEvent) => void;
-    onLoomiReminderClick?: (e: CustomEvent) => void;
-    onLoomiViewChange?: (e: CustomEvent) => void;
-    onLoomiDateChange?: (e: CustomEvent) => void;
-    onLoomiSidebarToggle?: (e: CustomEvent) => void;
-    onLoomiEventCreate?: (e: CustomEvent) => void;
-    onLoomiEventDelete?: (e: CustomEvent) => void;
-    onLoomiReminderChange?: (e: CustomEvent) => void;
-    onLoomiReminderDelete?: (e: CustomEvent) => void;
-    onLoomiEventDuplicate?: (e: CustomEvent) => void;
+    onLoomiEventChange?: (e: LoomiCalendarEventMap["loomi-event-change"]) => void;
+    onLoomiSlotSelect?: (e: LoomiCalendarEventMap["loomi-slot-select"]) => void;
+    onLoomiEventClick?: (e: LoomiCalendarEventMap["loomi-event-click"]) => void;
+    onLoomiReminderClick?: (e: LoomiCalendarEventMap["loomi-reminder-click"]) => void;
+    onLoomiViewChange?: (e: LoomiCalendarEventMap["loomi-view-change"]) => void;
+    onLoomiDateChange?: (e: LoomiCalendarEventMap["loomi-date-change"]) => void;
+    onLoomiSidebarToggle?: (e: LoomiCalendarEventMap["loomi-sidebar-toggle"]) => void;
+    onLoomiEventCreate?: (e: LoomiCalendarEventMap["loomi-event-create"]) => void;
+    onLoomiEventDelete?: (e: LoomiCalendarEventMap["loomi-event-delete"]) => void;
+    onLoomiReminderChange?: (e: LoomiCalendarEventMap["loomi-reminder-change"]) => void;
+    onLoomiReminderDelete?: (e: LoomiCalendarEventMap["loomi-reminder-delete"]) => void;
+    onLoomiEventDuplicate?: (e: LoomiCalendarEventMap["loomi-event-duplicate"]) => void;
     weekStarts?: JSX.IntrinsicElements["loomi-calendar"]["week-starts"];
     showTimezone?: JSX.IntrinsicElements["loomi-calendar"]["show-timezone"];
     showWeekends?: JSX.IntrinsicElements["loomi-calendar"]["show-weekends"];
@@ -720,7 +734,7 @@ export const ChatWindow: ForwardRefExoticComponent<
 
 export const Checkbox: ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-checkbox"], "onChange"> & {
-    onChange?: (e: CustomEvent) => void;
+    onChange?: (e: LoomiCheckboxEventMap["change"]) => void;
   }
 > = createComponent(
   "loomi-checkbox",
@@ -728,7 +742,7 @@ export const Checkbox: ForwardRefExoticComponent<
   {},
 ) as unknown as ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-checkbox"], "onChange"> & {
-    onChange?: (e: CustomEvent) => void;
+    onChange?: (e: LoomiCheckboxEventMap["change"]) => void;
   }
 >;
 
@@ -800,7 +814,7 @@ export const Clipboard: ForwardRefExoticComponent<
 
 export const Colorpicker: ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-colorpicker"], "onChange"> & {
-    onChange?: (e: CustomEvent) => void;
+    onChange?: (e: LoomiColorpickerEventMap["change"]) => void;
     selectedValue?: JSX.IntrinsicElements["loomi-colorpicker"]["selected-value"];
     showValue?: JSX.IntrinsicElements["loomi-colorpicker"]["show-value"];
   }
@@ -810,7 +824,7 @@ export const Colorpicker: ForwardRefExoticComponent<
   { selectedValue: "selected-value", showValue: "show-value" },
 ) as unknown as ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-colorpicker"], "onChange"> & {
-    onChange?: (e: CustomEvent) => void;
+    onChange?: (e: LoomiColorpickerEventMap["change"]) => void;
     selectedValue?: JSX.IntrinsicElements["loomi-colorpicker"]["selected-value"];
     showValue?: JSX.IntrinsicElements["loomi-colorpicker"]["show-value"];
   }
@@ -1027,7 +1041,7 @@ export const DateRangePicker: ForwardRefExoticComponent<
 
 export const Datepicker: ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-datepicker"], "onChange"> & {
-    onChange?: (e: CustomEvent) => void;
+    onChange?: (e: LoomiDatepickerEventMap["change"]) => void;
     dpStyle?: JSX.IntrinsicElements["loomi-datepicker"]["dp-style"];
     selectedValue?: JSX.IntrinsicElements["loomi-datepicker"]["selected-value"];
     minDate?: JSX.IntrinsicElements["loomi-datepicker"]["min-date"];
@@ -1048,7 +1062,7 @@ export const Datepicker: ForwardRefExoticComponent<
   },
 ) as unknown as ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-datepicker"], "onChange"> & {
-    onChange?: (e: CustomEvent) => void;
+    onChange?: (e: LoomiDatepickerEventMap["change"]) => void;
     dpStyle?: JSX.IntrinsicElements["loomi-datepicker"]["dp-style"];
     selectedValue?: JSX.IntrinsicElements["loomi-datepicker"]["selected-value"];
     minDate?: JSX.IntrinsicElements["loomi-datepicker"]["min-date"];
@@ -1065,8 +1079,8 @@ export const Divider: ForwardRefExoticComponent<JSX.IntrinsicElements["loomi-div
 
 export const Drawer: ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-drawer"], "onOpen" | "onClose"> & {
-    onOpen?: (e: Event) => void;
-    onClose?: (e: Event) => void;
+    onOpen?: (e: LoomiDrawerEventMap["open"]) => void;
+    onClose?: (e: LoomiDrawerEventMap["close"]) => void;
     showCloseIcon?: JSX.IntrinsicElements["loomi-drawer"]["show-close-icon"];
     closeOnOutsideClick?: JSX.IntrinsicElements["loomi-drawer"]["close-on-outside-click"];
     preventScroll?: JSX.IntrinsicElements["loomi-drawer"]["prevent-scroll"];
@@ -1081,8 +1095,8 @@ export const Drawer: ForwardRefExoticComponent<
   },
 ) as unknown as ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-drawer"], "onOpen" | "onClose"> & {
-    onOpen?: (e: Event) => void;
-    onClose?: (e: Event) => void;
+    onOpen?: (e: LoomiDrawerEventMap["open"]) => void;
+    onClose?: (e: LoomiDrawerEventMap["close"]) => void;
     showCloseIcon?: JSX.IntrinsicElements["loomi-drawer"]["show-close-icon"];
     closeOnOutsideClick?: JSX.IntrinsicElements["loomi-drawer"]["close-on-outside-click"];
     preventScroll?: JSX.IntrinsicElements["loomi-drawer"]["prevent-scroll"];
@@ -1214,7 +1228,7 @@ export const FabItem: ForwardRefExoticComponent<
 
 export const Filepicker: ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-filepicker"], "onChange"> & {
-    onChange?: (e: CustomEvent) => void;
+    onChange?: (e: LoomiFilepickerEventMap["change"]) => void;
     acceptedFileTypes?: JSX.IntrinsicElements["loomi-filepicker"]["accepted-file-types"];
     placeholderLine1?: JSX.IntrinsicElements["loomi-filepicker"]["placeholder-line1"];
     placeholderLine2?: JSX.IntrinsicElements["loomi-filepicker"]["placeholder-line2"];
@@ -1247,7 +1261,7 @@ export const Filepicker: ForwardRefExoticComponent<
   },
 ) as unknown as ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-filepicker"], "onChange"> & {
-    onChange?: (e: CustomEvent) => void;
+    onChange?: (e: LoomiFilepickerEventMap["change"]) => void;
     acceptedFileTypes?: JSX.IntrinsicElements["loomi-filepicker"]["accepted-file-types"];
     placeholderLine1?: JSX.IntrinsicElements["loomi-filepicker"]["placeholder-line1"];
     placeholderLine2?: JSX.IntrinsicElements["loomi-filepicker"]["placeholder-line2"];
@@ -1483,9 +1497,9 @@ export const ListviewItem: ForwardRefExoticComponent<
 
 export const Modal: ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-modal"], "onOpen" | "onClose" | "onOk"> & {
-    onOpen?: (e: Event) => void;
-    onClose?: (e: Event) => void;
-    onOk?: (e: CustomEvent) => void;
+    onOpen?: (e: LoomiModalEventMap["open"]) => void;
+    onClose?: (e: LoomiModalEventMap["close"]) => void;
+    onOk?: (e: LoomiModalEventMap["ok"]) => void;
     iconSource?: JSX.IntrinsicElements["loomi-modal"]["icon-source"];
     okButtonLabel?: JSX.IntrinsicElements["loomi-modal"]["ok-button-label"];
     cancelButtonLabel?: JSX.IntrinsicElements["loomi-modal"]["cancel-button-label"];
@@ -1516,9 +1530,9 @@ export const Modal: ForwardRefExoticComponent<
   },
 ) as unknown as ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-modal"], "onOpen" | "onClose" | "onOk"> & {
-    onOpen?: (e: Event) => void;
-    onClose?: (e: Event) => void;
-    onOk?: (e: CustomEvent) => void;
+    onOpen?: (e: LoomiModalEventMap["open"]) => void;
+    onClose?: (e: LoomiModalEventMap["close"]) => void;
+    onOk?: (e: LoomiModalEventMap["ok"]) => void;
     iconSource?: JSX.IntrinsicElements["loomi-modal"]["icon-source"];
     okButtonLabel?: JSX.IntrinsicElements["loomi-modal"]["ok-button-label"];
     cancelButtonLabel?: JSX.IntrinsicElements["loomi-modal"]["cancel-button-label"];
@@ -2010,7 +2024,7 @@ export const Qrcode: ForwardRefExoticComponent<
 
 export const Radio: ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-radio"], "onChange"> & {
-    onChange?: (e: Event) => void;
+    onChange?: (e: LoomiRadioEventMap["change"]) => void;
   }
 > = createComponent(
   "loomi-radio",
@@ -2018,13 +2032,13 @@ export const Radio: ForwardRefExoticComponent<
   {},
 ) as unknown as ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-radio"], "onChange"> & {
-    onChange?: (e: Event) => void;
+    onChange?: (e: LoomiRadioEventMap["change"]) => void;
   }
 >;
 
 export const Rating: ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-rating"], "onChange"> & {
-    onChange?: (e: CustomEvent) => void;
+    onChange?: (e: LoomiRatingEventMap["change"]) => void;
   }
 > = createComponent(
   "loomi-rating",
@@ -2032,7 +2046,7 @@ export const Rating: ForwardRefExoticComponent<
   {},
 ) as unknown as ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-rating"], "onChange"> & {
-    onChange?: (e: CustomEvent) => void;
+    onChange?: (e: LoomiRatingEventMap["change"]) => void;
   }
 >;
 
@@ -2214,8 +2228,8 @@ export const SideNavItem: ForwardRefExoticComponent<JSX.IntrinsicElements["loomi
 
 export const Slider: ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-slider"], "onInput" | "onChange"> & {
-    onInput?: (e: Event) => void;
-    onChange?: (e: Event) => void;
+    onInput?: (e: LoomiSliderEventMap["input"]) => void;
+    onChange?: (e: LoomiSliderEventMap["change"]) => void;
     selectedEnd?: JSX.IntrinsicElements["loomi-slider"]["selected-end"];
     handleWidth?: JSX.IntrinsicElements["loomi-slider"]["handle-width"];
     trackRadius?: JSX.IntrinsicElements["loomi-slider"]["track-radius"];
@@ -2238,8 +2252,8 @@ export const Slider: ForwardRefExoticComponent<
   },
 ) as unknown as ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-slider"], "onInput" | "onChange"> & {
-    onInput?: (e: Event) => void;
-    onChange?: (e: Event) => void;
+    onInput?: (e: LoomiSliderEventMap["input"]) => void;
+    onChange?: (e: LoomiSliderEventMap["change"]) => void;
     selectedEnd?: JSX.IntrinsicElements["loomi-slider"]["selected-end"];
     handleWidth?: JSX.IntrinsicElements["loomi-slider"]["handle-width"];
     trackRadius?: JSX.IntrinsicElements["loomi-slider"]["track-radius"];
@@ -2255,10 +2269,10 @@ export const Sortable: ForwardRefExoticComponent<
     JSX.IntrinsicElements["loomi-sortable"],
     "onLoomiFilter" | "onLoomiItemClick" | "onLoomiReorder" | "onLoomiTransfer"
   > & {
-    onLoomiFilter?: (e: CustomEvent) => void;
-    onLoomiItemClick?: (e: CustomEvent) => void;
-    onLoomiReorder?: (e: CustomEvent) => void;
-    onLoomiTransfer?: (e: CustomEvent) => void;
+    onLoomiFilter?: (e: LoomiSortableEventMap["loomi-filter"]) => void;
+    onLoomiItemClick?: (e: LoomiSortableEventMap["loomi-item-click"]) => void;
+    onLoomiReorder?: (e: LoomiSortableEventMap["loomi-reorder"]) => void;
+    onLoomiTransfer?: (e: LoomiSortableEventMap["loomi-transfer"]) => void;
     hasHandle?: JSX.IntrinsicElements["loomi-sortable"]["has-handle"];
     handleIcon?: JSX.IntrinsicElements["loomi-sortable"]["handle-icon"];
     multiDrag?: JSX.IntrinsicElements["loomi-sortable"]["multi-drag"];
@@ -2285,10 +2299,10 @@ export const Sortable: ForwardRefExoticComponent<
     JSX.IntrinsicElements["loomi-sortable"],
     "onLoomiFilter" | "onLoomiItemClick" | "onLoomiReorder" | "onLoomiTransfer"
   > & {
-    onLoomiFilter?: (e: CustomEvent) => void;
-    onLoomiItemClick?: (e: CustomEvent) => void;
-    onLoomiReorder?: (e: CustomEvent) => void;
-    onLoomiTransfer?: (e: CustomEvent) => void;
+    onLoomiFilter?: (e: LoomiSortableEventMap["loomi-filter"]) => void;
+    onLoomiItemClick?: (e: LoomiSortableEventMap["loomi-item-click"]) => void;
+    onLoomiReorder?: (e: LoomiSortableEventMap["loomi-reorder"]) => void;
+    onLoomiTransfer?: (e: LoomiSortableEventMap["loomi-transfer"]) => void;
     hasHandle?: JSX.IntrinsicElements["loomi-sortable"]["has-handle"];
     handleIcon?: JSX.IntrinsicElements["loomi-sortable"]["handle-icon"];
     multiDrag?: JSX.IntrinsicElements["loomi-sortable"]["multi-drag"];
@@ -2531,8 +2545,8 @@ export const Tabs: ForwardRefExoticComponent<
 
 export const Tag: ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-tag"], "onClose" | "onLoomiTagClick"> & {
-    onClose?: (e: CustomEvent) => void;
-    onLoomiTagClick?: (e: CustomEvent) => void;
+    onClose?: (e: LoomiTagEventMap["close"]) => void;
+    onLoomiTagClick?: (e: LoomiTagEventMap["loomi-tag-click"]) => void;
     canClose?: JSX.IntrinsicElements["loomi-tag"]["can-close"];
     iconPosition?: JSX.IntrinsicElements["loomi-tag"]["icon-position"];
   }
@@ -2542,8 +2556,8 @@ export const Tag: ForwardRefExoticComponent<
   { canClose: "can-close", iconPosition: "icon-position" },
 ) as unknown as ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-tag"], "onClose" | "onLoomiTagClick"> & {
-    onClose?: (e: CustomEvent) => void;
-    onLoomiTagClick?: (e: CustomEvent) => void;
+    onClose?: (e: LoomiTagEventMap["close"]) => void;
+    onLoomiTagClick?: (e: LoomiTagEventMap["loomi-tag-click"]) => void;
     canClose?: JSX.IntrinsicElements["loomi-tag"]["can-close"];
     iconPosition?: JSX.IntrinsicElements["loomi-tag"]["icon-position"];
   }
@@ -2613,7 +2627,7 @@ export const TagInput: ForwardRefExoticComponent<
 
 export const Tags: ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-tags"], "onChange"> & {
-    onChange?: (e: CustomEvent) => void;
+    onChange?: (e: LoomiTagEventMap["change"]) => void;
     selectedValue?: JSX.IntrinsicElements["loomi-tags"]["selected-value"];
   }
 > = createComponent(
@@ -2622,7 +2636,7 @@ export const Tags: ForwardRefExoticComponent<
   { selectedValue: "selected-value" },
 ) as unknown as ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-tags"], "onChange"> & {
-    onChange?: (e: CustomEvent) => void;
+    onChange?: (e: LoomiTagEventMap["change"]) => void;
     selectedValue?: JSX.IntrinsicElements["loomi-tags"]["selected-value"];
   }
 >;
@@ -2775,7 +2789,7 @@ export const TimelineItem: ForwardRefExoticComponent<JSX.IntrinsicElements["loom
 
 export const Timepicker: ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-timepicker"], "onChange"> & {
-    onChange?: (e: CustomEvent) => void;
+    onChange?: (e: LoomiTimepickerEventMap["change"]) => void;
     tpStyle?: JSX.IntrinsicElements["loomi-timepicker"]["tp-style"];
     selectedValue?: JSX.IntrinsicElements["loomi-timepicker"]["selected-value"];
     labelPosition?: JSX.IntrinsicElements["loomi-timepicker"]["label-position"];
@@ -2792,7 +2806,7 @@ export const Timepicker: ForwardRefExoticComponent<
   },
 ) as unknown as ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-timepicker"], "onChange"> & {
-    onChange?: (e: CustomEvent) => void;
+    onChange?: (e: LoomiTimepickerEventMap["change"]) => void;
     tpStyle?: JSX.IntrinsicElements["loomi-timepicker"]["tp-style"];
     selectedValue?: JSX.IntrinsicElements["loomi-timepicker"]["selected-value"];
     labelPosition?: JSX.IntrinsicElements["loomi-timepicker"]["label-position"];
@@ -2882,7 +2896,7 @@ export const Timezonepicker: ForwardRefExoticComponent<
 
 export const Toggle: ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-toggle"], "onChange"> & {
-    onChange?: (e: CustomEvent) => void;
+    onChange?: (e: LoomiToggleEventMap["change"]) => void;
     labelPosition?: JSX.IntrinsicElements["loomi-toggle"]["label-position"];
   }
 > = createComponent(
@@ -2891,7 +2905,7 @@ export const Toggle: ForwardRefExoticComponent<
   { labelPosition: "label-position" },
 ) as unknown as ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-toggle"], "onChange"> & {
-    onChange?: (e: CustomEvent) => void;
+    onChange?: (e: LoomiToggleEventMap["change"]) => void;
     labelPosition?: JSX.IntrinsicElements["loomi-toggle"]["label-position"];
   }
 >;

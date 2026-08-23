@@ -14,6 +14,14 @@
             "name": "LoomiSlider",
             "module": "./loomi-slider.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSliderEventMap",
+          "declaration": {
+            "name": "LoomiSliderEventMap",
+            "module": "./loomi-slider.js"
+          }
         }
       ]
     },

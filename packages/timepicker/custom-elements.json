@@ -14,6 +14,22 @@
             "name": "LoomiTimepicker",
             "module": "./loomi-timepicker.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTimepickerChangeDetail",
+          "declaration": {
+            "name": "LoomiTimepickerChangeDetail",
+            "module": "./loomi-timepicker.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTimepickerEventMap",
+          "declaration": {
+            "name": "LoomiTimepickerEventMap",
+            "module": "./loomi-timepicker.js"
+          }
         }
       ]
     },

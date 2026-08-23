@@ -652,6 +652,7 @@ reinvent it.**
    instead of hand-writing the field border/focus/invalid/disabled chrome — keep only
    layout in your own CSS.
 6. **Write `src/loomi-<name>.ts`**:
+
    ```ts
    import { LoomiElement, loomiStyles /*, accentVars */ } from "@loomidev/core";
    import { componentStyles } from "./generated/styles.css.js";
@@ -664,9 +665,11 @@ reinvent it.**
      interface HTMLElementTagNameMap { "loomi-<name>": Loomi<Name>; }
    }
    ```
+
    **Extend `LoomiElement`, not `LitElement`.** `LoomiElement`
    (`packages/core/src/index.ts`) is a thin `LitElement` subclass that every component
    should extend, and it's what every component's `name` attribute is built on:
+
    ```ts
    export class LoomiElement extends LitElement {
      static override properties = { name: { type: String, reflect: true } };
@@ -674,6 +677,7 @@ reinvent it.**
      // connectedCallback() / update() keep a stable CSS class on the host element in sync
    }
    ```
+
    On `connectedCallback()` and every `update()`, it applies a CSS class to the host
    element — either a sanitized version of the `name` attribute if the consumer set one
    (`<loomi-button name="submit-btn">` → class `submit-btn`), or, if not, a generated
@@ -691,7 +695,44 @@ reinvent it.**
    glance which events are loomi-specific and bare names never collide with native
    events when composed. Dispatch with `{ bubbles: true, composed: true }` so the event
    crosses the Shadow DOM boundary.
+
+   **Every component that dispatches an event must export an `EventMap` — this is not
+   optional.** `@loomidev/react` generates a typed `on*` callback for each event, and
+   without a map it can only fall back to `(e: CustomEvent) => void`, i.e. `detail: any`.
+   Declare one exported `Loomi<Name>EventMap` per **package** (the generator reads one map
+   per package and applies it to every custom element in it), naming every event the
+   component fires, plus a named `Detail` interface for each event that carries one:
+
+   ```ts
+   export interface LoomiRatingChangeDetail {
+     /** The newly chosen rating, 0–5. */
+     rating: number;
+   }
+
+   /** Event map for `<loomi-rating>`. */
+   export interface LoomiRatingEventMap {
+     change: CustomEvent<LoomiRatingChangeDetail>;
+     "loomi-something": CustomEvent<LoomiRatingSomethingDetail>;
+     close: Event; // events with no detail are plain `Event`s
+   }
+   ```
+
+   Rules that keep the generator working:
+   - Put the map in the component source file (**not** `src/index.ts` — the generator
+     skips that file), and re-export it plus every `Detail` interface from `src/index.ts`.
+   - The key must be the **exact** dispatched event name, one per line. Quote hyphenated
+     names; prettier will strip quotes from bare ones, which is fine.
+   - Keep the interface body free of inline object literals — reference a named `Detail`
+     interface instead.
+   - `Detail` names land in the flat `@loomidev/components` barrel, so make them unique:
+     `Loomi<Name><Event>Detail`.
+   - Detail shapes are a **public API contract** — describe what the event actually
+     dispatches at runtime, not a convenient approximation.
+     Verify with `pnpm check:react` from the repo root: the callback for your event should
+     read `Loomi<Name>EventMap["<event-name>"]`, not a bare `CustomEvent`.
+
 7. **Write `src/index.ts`** — `export { Loomi<Name>, type ... } from "./loomi-<name>.js";`
+   Include the `EventMap` and every `Detail` interface from step 6.
 8. **Build it in isolation first:**
    ```bash
    pnpm install

@@ -319,6 +319,12 @@ export class LoomiDrawer extends LoomiElement {
   }
 }
 
+/** Event map for `<loomi-drawer>`. Both are plain `Event`s with no detail. */
+export interface LoomiDrawerEventMap {
+  open: Event;
+  close: Event;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-drawer": LoomiDrawer;

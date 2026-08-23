@@ -30,6 +30,14 @@
             "name": "LoomiLabelPosition",
             "module": "./loomi-toggle.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiToggleEventMap",
+          "declaration": {
+            "name": "LoomiToggleEventMap",
+            "module": "./loomi-toggle.js"
+          }
         }
       ]
     },

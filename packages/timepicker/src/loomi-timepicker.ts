@@ -402,6 +402,17 @@ export class LoomiTimepicker extends LoomiElement {
   }
 }
 
+export interface LoomiTimepickerChangeDetail {
+  /** The formatted time, or `""` while the selection is incomplete. */
+  value: string;
+}
+
+/** Event map for `<loomi-timepicker>`. `change` carries a timepicker-specific detail,
+ * so it is typed per package instead of globally on `HTMLElementEventMap`. */
+export interface LoomiTimepickerEventMap {
+  change: CustomEvent<LoomiTimepickerChangeDetail>;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-timepicker": LoomiTimepicker;

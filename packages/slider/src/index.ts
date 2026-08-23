@@ -1,1 +1,1 @@
-export { LoomiSlider } from "./loomi-slider.js";
+export { LoomiSlider, type LoomiSliderEventMap } from "./loomi-slider.js";

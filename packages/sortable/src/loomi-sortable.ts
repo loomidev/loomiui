@@ -494,6 +494,16 @@ export interface LoomiSortableTransferDetail {
   items: LoomiSortableItem[];
 }
 
+/** Event map for `<loomi-sortable>`. These names are dispatched by several loomi
+ * components with different detail shapes, so they are typed per package instead of
+ * globally on `HTMLElementEventMap`. */
+export interface LoomiSortableEventMap {
+  "loomi-reorder": CustomEvent<LoomiSortableReorderDetail>;
+  "loomi-filter": CustomEvent<LoomiSortableItemDetail>;
+  "loomi-item-click": CustomEvent<LoomiSortableItemDetail>;
+  "loomi-transfer": CustomEvent<LoomiSortableTransferDetail>;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-sortable": LoomiSortable;

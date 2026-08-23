@@ -310,6 +310,13 @@ export class LoomiSlider extends LoomiElement {
   }
 }
 
+/** Event map for `<loomi-slider>`. Both are plain `Event`s; read `value` off the
+ * element itself. `input` fires while dragging, `change` once the drag settles. */
+export interface LoomiSliderEventMap {
+  input: Event;
+  change: Event;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-slider": LoomiSlider;

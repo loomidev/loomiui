@@ -83,6 +83,17 @@ export class LoomiRating extends LoomiElement {
   }
 }
 
+export interface LoomiRatingChangeDetail {
+  /** The newly chosen rating, 0–5. */
+  rating: number;
+}
+
+/** Event map for `<loomi-rating>`. `change` carries a rating-specific detail, so it
+ * is typed per package instead of globally on `HTMLElementEventMap`. */
+export interface LoomiRatingEventMap {
+  change: CustomEvent<LoomiRatingChangeDetail>;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-rating": LoomiRating;

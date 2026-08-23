@@ -30,6 +30,22 @@
             "name": "LoomiRatingSize",
             "module": "./loomi-rating.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiRatingChangeDetail",
+          "declaration": {
+            "name": "LoomiRatingChangeDetail",
+            "module": "./loomi-rating.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiRatingEventMap",
+          "declaration": {
+            "name": "LoomiRatingEventMap",
+            "module": "./loomi-rating.js"
+          }
         }
       ]
     },

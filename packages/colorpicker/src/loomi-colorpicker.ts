@@ -200,6 +200,17 @@ export class LoomiColorpicker extends LoomiElement {
   }
 }
 
+export interface LoomiColorpickerChangeDetail {
+  /** The newly selected color. */
+  value: string;
+}
+
+/** Event map for `<loomi-colorpicker>`. `change` carries a colorpicker-specific detail,
+ * so it is typed per package instead of globally on `HTMLElementEventMap`. */
+export interface LoomiColorpickerEventMap {
+  change: CustomEvent<LoomiColorpickerChangeDetail>;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-colorpicker": LoomiColorpicker;

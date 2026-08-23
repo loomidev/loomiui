@@ -22,6 +22,22 @@
             "name": "LoomiCropAspectRatio",
             "module": "./loomi-filepicker.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiFilepickerChangeDetail",
+          "declaration": {
+            "name": "LoomiFilepickerChangeDetail",
+            "module": "./loomi-filepicker.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiFilepickerEventMap",
+          "declaration": {
+            "name": "LoomiFilepickerEventMap",
+            "module": "./loomi-filepicker.js"
+          }
         }
       ]
     },

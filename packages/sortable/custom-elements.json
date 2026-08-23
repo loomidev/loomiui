@@ -62,6 +62,14 @@
             "name": "LoomiSortableTransferDetail",
             "module": "./loomi-sortable.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSortableEventMap",
+          "declaration": {
+            "name": "LoomiSortableEventMap",
+            "module": "./loomi-sortable.js"
+          }
         }
       ]
     },

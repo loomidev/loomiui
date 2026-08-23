@@ -90,6 +90,12 @@ export class LoomiToggle extends LoomiElement {
   }
 }
 
+/** Event map for `<loomi-toggle>`. `change` is a plain `Event`; read `checked`
+ * off the element itself. */
+export interface LoomiToggleEventMap {
+  change: Event;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-toggle": LoomiToggle;

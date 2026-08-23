@@ -81,6 +81,12 @@ export class LoomiCheckbox extends LoomiElement {
   }
 }
 
+/** Event map for `<loomi-checkbox>`. `change` is a plain `Event`; read `checked`
+ * off the element itself. */
+export interface LoomiCheckboxEventMap {
+  change: Event;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-checkbox": LoomiCheckbox;

@@ -1,1 +1,1 @@
-export { LoomiRadio } from "./loomi-radio.js";
+export { LoomiRadio, type LoomiRadioEventMap } from "./loomi-radio.js";
