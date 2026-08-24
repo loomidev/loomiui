@@ -1004,6 +1004,19 @@
               "readonly": true
             },
             {
+              "kind": "field",
+              "name": "authoredState",
+              "privacy": "private",
+              "default": "new WeakSet<LoomiProgressStep>()",
+              "description": "Steps whose state the author set themselves, recorded the first time each step is\nseen. It cannot be re-derived from attributes on every sync: `active`, `completed`\nand `error` all reflect, so the state this group writes becomes an attribute, and a\nlater sync would read its own output back as author intent — freezing every step at\nwhatever the first render produced and leaving `current` unable to move."
+            },
+            {
+              "kind": "field",
+              "name": "seenSteps",
+              "privacy": "private",
+              "default": "new WeakSet<LoomiProgressStep>()"
+            },
+            {
               "kind": "method",
               "name": "hasExplicitState",
               "privacy": "private",

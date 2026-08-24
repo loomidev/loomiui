@@ -252,6 +252,16 @@ export class LoomiProgressSteps extends LoomiElement {
     return Array.from(this.querySelectorAll("loomi-progress-step"));
   }
 
+  /**
+   * Steps whose state the author set themselves, recorded the first time each step is
+   * seen. It cannot be re-derived from attributes on every sync: `active`, `completed`
+   * and `error` all reflect, so the state this group writes becomes an attribute, and a
+   * later sync would read its own output back as author intent — freezing every step at
+   * whatever the first render produced and leaving `current` unable to move.
+   */
+  private authoredState = new WeakSet<LoomiProgressStep>();
+  private seenSteps = new WeakSet<LoomiProgressStep>();
+
   private hasExplicitState(step: LoomiProgressStep): boolean {
     return (
       step.hasAttribute("state") ||
@@ -264,6 +274,10 @@ export class LoomiProgressSteps extends LoomiElement {
   private syncSteps = (): void => {
     const steps = this.steps;
     steps.forEach((step, index) => {
+      if (!this.seenSteps.has(step)) {
+        this.seenSteps.add(step);
+        if (this.hasExplicitState(step)) this.authoredState.add(step);
+      }
       const stepNumber = index + 1;
       step.stepIndex = stepNumber;
       step.last = stepNumber === steps.length;
@@ -272,7 +286,7 @@ export class LoomiProgressSteps extends LoomiElement {
       step.size = this.size;
       if (!step.hasAttribute("clickable")) step.clickable = this.clickable;
 
-      if (!this.hasExplicitState(step)) {
+      if (!this.authoredState.has(step)) {
         step.completed = stepNumber < this.current;
         step.active = stepNumber === this.current;
         step.error = false;

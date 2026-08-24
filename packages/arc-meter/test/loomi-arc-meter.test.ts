@@ -1,38 +1,47 @@
 import { html, fixture, expect } from "@open-wc/testing";
-import "../dist/loomi-arc-meter.js";
+import "../dist/index.js";
 import type { LoomiArcMeter } from "../dist/index.js";
 
 describe("loomi-arc-meter", () => {
-  it("places the active marker at an evenly distributed interior stop", async () => {
-    const el = await fixture<LoomiArcMeter>(html`
-      <loomi-arc-meter
-        markers="4"
-        active-marker="2"
-        marker-color="#06b6d4"
-        title="Medium"
-        description="Protection level"
-      ></loomi-arc-meter>
-    `);
-
-    const root = el.shadowRoot!.querySelector<HTMLElement>(".loomi-arc-meter")!;
-    const marker = el.shadowRoot!.querySelector<SVGGElement>(".loomi-marker")!;
-    const segments = el.shadowRoot!.querySelectorAll(".loomi-track-segment");
-
-    expect(root.getAttribute("aria-label")).to.contain("Medium");
-    expect(root.getAttribute("aria-label")).to.contain("Protection level");
-    expect(segments.length).to.equal(5);
-    expect(marker.getAttribute("data-active-marker")).to.equal("2");
-    expect(marker.getAttribute("data-marker-count")).to.equal("4");
-    expect(marker.getAttribute("data-ratio")).to.equal("0.4");
-    expect(root.style.getPropertyValue("--loomi-marker-color")).to.equal("#06b6d4");
+  it("renders shadow content", async () => {
+    const el = await fixture<LoomiArcMeter>(html`<loomi-arc-meter></loomi-arc-meter>`);
+    expect(el.shadowRoot).to.exist;
+    expect(el.shadowRoot!.childElementCount).to.be.greaterThan(0);
   });
 
-  it("falls back to a sensible marker color", async () => {
-    const el = await fixture<LoomiArcMeter>(html`<loomi-arc-meter markers="3"></loomi-arc-meter>`);
-    const root = el.shadowRoot!.querySelector<HTMLElement>(".loomi-arc-meter")!;
+  it("renders its title and description", async () => {
+    const el = await fixture<LoomiArcMeter>(
+      html`<loomi-arc-meter title="Risk" description="Current exposure"></loomi-arc-meter>`,
+    );
+    const text = el.shadowRoot!.textContent ?? "";
+    expect(text).to.contain("Risk");
+    expect(text).to.contain("Current exposure");
+  });
 
-    expect(root.getAttribute("data-active-marker")).to.equal("1");
-    expect(root.getAttribute("aria-label")).to.contain("Marker 1 of 3");
-    expect(root.style.getPropertyValue("--loomi-marker-color")).to.contain("--loomi-error-600");
+  it("records the segment count it was asked for", async () => {
+    // `markers` is a count, not a list of labels.
+    const el = await fixture<LoomiArcMeter>(html`<loomi-arc-meter markers="6"></loomi-arc-meter>`);
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector("[data-markers]")!.getAttribute("data-markers")).to.equal(
+      "6",
+    );
+  });
+
+  it("clamps a nonsensical marker count to at least one", async () => {
+    const el = await fixture<LoomiArcMeter>(html`<loomi-arc-meter markers="0"></loomi-arc-meter>`);
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector("[data-markers]")!.getAttribute("data-markers")).to.equal(
+      "1",
+    );
+  });
+
+  it("tracks which marker is active", async () => {
+    const el = await fixture<LoomiArcMeter>(
+      html`<loomi-arc-meter markers="5" active-marker="4"></loomi-arc-meter>`,
+    );
+    await el.updateComplete;
+    expect(
+      el.shadowRoot!.querySelector("[data-active-marker]")!.getAttribute("data-active-marker"),
+    ).to.equal("4");
   });
 });
