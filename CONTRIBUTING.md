@@ -1182,10 +1182,24 @@ publish time, not by splitting the source into many git repos.
   ([§8a](#visual-regression)), but its Linux baselines have never been recorded, so nothing
   guards appearance on a pull request yet. Seeding them once from a Linux runner is all
   that is outstanding.
-- **SSR hydration is not verified end to end.** `pnpm check:ssr` proves every component
-  produces valid Declarative Shadow DOM in Node; nothing yet exercises the round trip of
-  hydrating that markup in a browser with
-  `@lit-labs/ssr-client/lit-element-hydrate-support.js`.
+- **SSR hydration is not verified end to end, and is blocked on a module-duplication
+  problem.** `pnpm check:ssr` proves every component produces valid Declarative Shadow DOM
+  in Node. A harness for the other half — loading that markup in a browser with
+  `@lit-labs/ssr-client/lit-element-hydrate-support.js` and checking the server nodes are
+  adopted rather than replaced — was written and then withdrawn, because every component
+  failed with `_$AC is not a function`.
+
+  That error is not a component defect. `lit-element-hydrate-support` works by setting
+  `globalThis.litElementHydrateSupport`, which `lit-element` calls **once, at module
+  evaluation**, to patch `LitElement.prototype`. Under pnpm's isolated layout the page ends
+  up with two `lit-element` instances reachable by different URLs, so the hook patches one
+  class while the components extend the other, and the patched `_$AC` is missing from the
+  prototype chain that actually runs. Aligning them needs the `development` export
+  condition _and_ a single hoisted copy of `lit`, `lit-html`, `lit-element` and
+  `@lit/reactive-element` — an install-level change (`.npmrc` hoisting or a resolutions
+  pin) rather than something a test harness can arrange for itself. Worth doing, but it is
+  a dependency-layout decision, not a test to bolt on.
+
 - **Keyboard-interaction audits beyond the overlay components above.** Every component now
   passes an automated axe sweep (see [§8a](#the-accessibility-sweep)), which catches
   naming, roles and ARIA misuse — but axe cannot judge whether a component's _keyboard_

@@ -55,7 +55,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<loomi-command-palette>` — a searchable command menu opened with a trigger or a\nkeyboard shortcut.",
+          "description": "",
           "name": "LoomiCommandPalette",
           "members": [
             {
@@ -93,31 +93,41 @@
               "kind": "field",
               "name": "placeholder",
               "privacy": "public",
+              "default": "\"Search commands\"",
+              "attribute": "placeholder",
               "type": {
                 "text": "string"
-              },
-              "default": "\"Search commands\"",
-              "attribute": "placeholder"
+              }
             },
             {
               "kind": "field",
               "name": "emptyTitle",
               "privacy": "public",
+              "default": "\"No commands found\"",
+              "attribute": "empty-title",
               "type": {
                 "text": "string"
-              },
-              "default": "\"No commands found\"",
-              "attribute": "empty-title"
+              }
             },
             {
               "kind": "field",
               "name": "emptyDescription",
               "privacy": "public",
+              "default": "\"Try a different search term.\"",
+              "attribute": "empty-description",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "privacy": "public",
               "type": {
                 "text": "string"
               },
-              "default": "\"Try a different search term.\"",
-              "attribute": "empty-description"
+              "default": "\"\"",
+              "attribute": "locale"
             },
             {
               "kind": "field",
@@ -318,19 +328,13 @@
               "name": "loomi-command-select",
               "type": {
                 "text": "CustomEvent"
-              },
-              "description": "`detail: { item }` when a command is chosen."
+              }
             },
             {
               "name": "loomi-command-open-change",
               "type": {
                 "text": "CustomEvent"
-              },
-              "description": "`detail: { open }` when the palette opens or closes."
-            },
-            {
-              "description": "`detail: { query }` as the search query is typed.",
-              "name": "loomi-command-query-change"
+              }
             }
           ],
           "attributes": [
@@ -352,26 +356,17 @@
             },
             {
               "name": "placeholder",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"Search commands\"",
+              "default": "DEFAULT_PLACEHOLDER",
               "fieldName": "placeholder"
             },
             {
               "name": "empty-title",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"No commands found\"",
+              "default": "DEFAULT_EMPTY_TITLE",
               "fieldName": "emptyTitle"
             },
             {
               "name": "empty-description",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"Try a different search term.\"",
+              "default": "DEFAULT_EMPTY_DESCRIPTION",
               "fieldName": "emptyDescription"
             },
             {
@@ -381,6 +376,14 @@
               },
               "default": "\"Cmd K\"",
               "fieldName": "shortcut"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
             },
             {
               "name": "_activeIndex",

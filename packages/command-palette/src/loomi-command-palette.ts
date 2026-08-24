@@ -1,6 +1,6 @@
 import { css, html, nothing } from "lit";
 import { customElement } from "lit/decorators.js";
-import { LoomiElement, loomiStyles } from "@loomidev/core";
+import { LoomiElement, loomiDefaultText, loomiStyles, loomiT } from "@loomidev/core";
 import type {
   CommandPaletteItem,
   CommandPaletteOpenChangeDetail,
@@ -16,6 +16,12 @@ import type {
  * @fires loomi-command-open-change - `detail: { open }` when the palette opens or closes.
  * @fires loomi-command-query-change - `detail: { query }` as the search query is typed.
  */
+// Defaults are translated when left untouched, and used verbatim once a consumer sets
+// their own — see loomiDefaultText.
+const DEFAULT_PLACEHOLDER = "Search commands";
+const DEFAULT_EMPTY_TITLE = "No commands found";
+const DEFAULT_EMPTY_DESCRIPTION = "Try a different search term.";
+
 @customElement("loomi-command-palette")
 export class LoomiCommandPalette extends LoomiElement {
   static properties = {
@@ -27,6 +33,7 @@ export class LoomiCommandPalette extends LoomiElement {
     emptyTitle: { attribute: "empty-title" },
     emptyDescription: { attribute: "empty-description" },
     shortcut: {},
+    locale: {},
     _activeIndex: { state: true },
   };
 
@@ -205,9 +212,10 @@ export class LoomiCommandPalette extends LoomiElement {
   items: CommandPaletteItem[] = [];
   open = false;
   query = "";
-  placeholder = "Search commands";
-  emptyTitle = "No commands found";
-  emptyDescription = "Try a different search term.";
+  placeholder = DEFAULT_PLACEHOLDER;
+  emptyTitle = DEFAULT_EMPTY_TITLE;
+  emptyDescription = DEFAULT_EMPTY_DESCRIPTION;
+  locale = "";
   shortcut = "Cmd K";
   private _activeIndex = 0;
 
@@ -226,7 +234,7 @@ export class LoomiCommandPalette extends LoomiElement {
 
     return html`
       <button class="trigger" type="button" @click=${this.openPalette}>
-        <span>${this.placeholder}</span>
+        <span>${loomiDefaultText(this.placeholder, DEFAULT_PLACEHOLDER, "commandPalette.search", this.locale)}</span>
         <span class="shortcut">${this.shortcut}</span>
       </button>
       ${this.open ? this.renderDialog(filteredItems) : nothing}
@@ -273,7 +281,7 @@ export class LoomiCommandPalette extends LoomiElement {
           class="dialog"
           role="dialog"
           aria-modal="true"
-          aria-label="Command palette"
+          aria-label=${loomiT("commandPalette.label", {}, this.locale)}
           @click=${(event: Event) => event.stopPropagation()}
           @keydown=${this.handleDialogKeydown}
         >
@@ -281,15 +289,15 @@ export class LoomiCommandPalette extends LoomiElement {
             class="search"
             type="search"
             role="combobox"
-            aria-label="Search commands"
+            aria-label=${loomiT("commandPalette.search", {}, this.locale)}
             aria-expanded="true"
             aria-controls="loomi-cmd-listbox"
             aria-activedescendant=${items.length ? `loomi-cmd-option-${this._activeIndex}` : nothing}
-            placeholder=${this.placeholder}
+            placeholder=${loomiDefaultText(this.placeholder, DEFAULT_PLACEHOLDER, "commandPalette.search", this.locale)}
             .value=${this.query}
             @input=${this.handleQueryInput}
           />
-          <div id="loomi-cmd-listbox" class="list" role="listbox" aria-label="Commands">
+          <div id="loomi-cmd-listbox" class="list" role="listbox" aria-label=${loomiT("commandPalette.commands", {}, this.locale)}>
             ${items.length === 0 ? this.renderEmpty() : this.renderGroups(items)}
           </div>
         </section>
@@ -342,8 +350,8 @@ export class LoomiCommandPalette extends LoomiElement {
   private renderEmpty() {
     return html`
       <div class="empty">
-        <strong>${this.emptyTitle}</strong>
-        <span>${this.emptyDescription}</span>
+        <strong>${loomiDefaultText(this.emptyTitle, DEFAULT_EMPTY_TITLE, "commandPalette.emptyTitle", this.locale)}</strong>
+        <span>${loomiDefaultText(this.emptyDescription, DEFAULT_EMPTY_DESCRIPTION, "commandPalette.emptyDescription", this.locale)}</span>
       </div>
     `;
   }

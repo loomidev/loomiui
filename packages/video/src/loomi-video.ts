@@ -7,6 +7,7 @@ import {
   accentVars,
   onClickOutside,
   type LoomiColor,
+  loomiT,
 } from "@loomidev/core";
 import "@loomidev/button/loomi-button.js";
 import "@loomidev/icon/loomi-icon.js";
@@ -81,6 +82,7 @@ function formatTime(totalSeconds: number): string {
 export class LoomiVideo extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
+  @property() locale = "";
   @property() src = "";
   @property() poster = "";
   /** Shows the themed control bar, loading spinner, error state, and click-to-play
@@ -629,7 +631,7 @@ export class LoomiVideo extends LoomiElement {
 
   private renderLoading(): TemplateResult {
     return html`<div class="loomi-overlay loomi-loading" part="loading">
-      <loomi-spinner size="big" type="spinner" color=${this.color} label="Loading"></loomi-spinner>
+      <loomi-spinner size="big" type="spinner" color=${this.color} label=${loomiT("video.loading", {}, this.locale)}></loomi-spinner>
     </div>`;
   }
 
@@ -637,7 +639,7 @@ export class LoomiVideo extends LoomiElement {
     return html`<div class="loomi-overlay loomi-error" part="error" role="alert">
       <loomi-icon name="exclamation-circle" size="2.5rem"></loomi-icon>
       <p class="loomi-error-message">${this.errorMessage}</p>
-      <loomi-button color=${this.color} icon="arrow-path" @click=${this.onRetry}>Retry</loomi-button>
+      <loomi-button color=${this.color} icon="arrow-path" @click=${this.onRetry}>${loomiT("video.retry", {}, this.locale)}</loomi-button>
     </div>`;
   }
 
@@ -702,7 +704,7 @@ export class LoomiVideo extends LoomiElement {
             .selected=${this.muted ? 0 : this.volume}
             show-tooltip="false"
             show-values="false"
-            aria-label="Volume"
+            aria-label=${loomiT("video.volume", {}, this.locale)}
             @input=${this.onVolumeInput}
           ></loomi-slider>
         </div>
@@ -713,7 +715,7 @@ export class LoomiVideo extends LoomiElement {
               <button
                 class="loomi-ctrl-btn ${this.activeTrackIndex >= 0 ? "is-active" : ""}"
                 type="button"
-                aria-label="Captions"
+                aria-label=${loomiT("video.captions", {}, this.locale)}
                 aria-expanded=${this.showCaptionsMenu ? "true" : "false"}
                 @click=${this.onToggleCaptionsMenu}
               >
@@ -770,7 +772,7 @@ export class LoomiVideo extends LoomiElement {
         .selected=${this.displayTime}
         show-tooltip="false"
         show-values="false"
-        aria-label="Seek"
+        aria-label=${loomiT("video.seek", {}, this.locale)}
         @input=${this.onSeekInput}
         @change=${this.onSeekChange}
       ></loomi-slider>
