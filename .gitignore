@@ -21,3 +21,7 @@ docs/defaults.yaml
 docs/metadata.yaml
 docs/epub-cover.png
 docs/LoomiUI_Handbook.epub
+
+# Visual regression: baselines are committed, the failure and diff output is not.
+screenshots/*/*/failed/
+screenshots/*/*/diff/

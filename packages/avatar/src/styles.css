@@ -165,7 +165,7 @@
   display: inline-flex;
 }
 :host([stacked]) ::slotted(loomi-avatar:not(:first-child)) {
-  margin-left: var(--loomi-av-stack-offset);
+  margin-inline-start: var(--loomi-av-stack-offset);
 }
 slot {
   display: contents;
@@ -183,7 +183,7 @@ slot {
   color: var(--loomi-text-secondary);
   font-weight: 600;
   font-size: calc(var(--loomi-av-size) * 0.3);
-  margin-left: var(--loomi-av-stack-offset);
+  margin-inline-start: var(--loomi-av-stack-offset);
   box-shadow:
     0 0 0 2px var(--loomi-surface),
     0 0 0 3px var(--loomi-surface-border);

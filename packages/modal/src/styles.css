@@ -109,7 +109,7 @@
   padding: 1.5rem;
 }
 .has-close .loomi-content {
-  padding-right: 3.5rem;
+  padding-inline-end: 3.5rem;
 }
 .loomi-main {
   min-width: 0;
@@ -178,7 +178,7 @@
     padding: 1.25rem;
   }
   .has-close .loomi-content {
-    padding-right: 3rem;
+    padding-inline-end: 3rem;
   }
   .loomi-icon-wrap {
     width: 2.5rem;

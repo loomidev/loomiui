@@ -651,6 +651,18 @@ reinvent it.**
    `fieldStyles` + `controlSizeStyles` from `@loomidev/core` (see [§5](#5-the-three-foundation-packages))
    instead of hand-writing the field border/focus/invalid/disabled chrome — keep only
    layout in your own CSS.
+   **Use logical properties for spacing and borders**, not physical ones:
+   `margin-inline-start` rather than `margin-left`, `padding-inline-end` rather than
+   `padding-right`, `border-inline-start` rather than `border-left`. They resolve
+   identically in LTR and mirror automatically under `dir="rtl"`, which is what makes the
+   library usable in Arabic and Hebrew — one of the ten shipped locales is Arabic. The
+   visual regression suite captures every component under `dir="rtl"`, so a physical
+   property that breaks mirroring shows up as a failing baseline.
+
+   Absolute positioning is a separate question: `left: 0; right: 0` and `left: 50%` are
+   direction-neutral and fine as they are, and the floating-panel components set their
+   offsets from JavaScript rather than CSS.
+
 6. **Write `src/loomi-<name>.ts`**:
 
    ```ts
@@ -858,6 +870,31 @@ The sweep runs axe's default rule set, `color-contrast` included. The theme's te
 tokens are tuned so every tier clears WCAG AA against both the light and dark surface
 (see `packages/theme/scripts/build-tokens.mjs`), so a contrast failure means a token
 regressed rather than that the rule needs muting.
+
+### Visual regression
+
+`pnpm test:visual` renders every component in both themes and compares the result against
+a committed baseline image. It is the only thing in the repo that guards **appearance** —
+a change to a theme token alters how dozens of components render while the unit tests, the
+accessibility sweep and the SSR check all still pass.
+
+It runs as its own suite (`web-test-runner.visual.config.mjs`), not as part of `pnpm test`,
+because it is slower and because its baselines are bitmaps:
+
+```bash
+pnpm test:visual                           # compare against the baseline
+pnpm test:visual --update-visual-baseline  # re-record, after an intended change
+```
+
+**Baselines are per platform.** Font rasterisation differs between macOS and Linux, so a
+baseline recorded on a laptop will not match one recorded on a CI runner. They live under
+`screenshots/<platform>/`, and each platform's set has to be recorded once on that
+platform — which is why this suite is not yet wired into CI: the Linux baselines need
+seeding from a Linux machine or container first. Until then it is a local gate; run it
+before and after any change to `packages/theme` or to a component's `styles.css`.
+
+Markup comes from `packages/components/test/component-cases.js`, shared with the
+accessibility sweep, so the two suites exercise the same realistic usage.
 
 ### Current coverage
 
@@ -1135,6 +1172,16 @@ publish time, not by splitting the source into many git repos.
 - **Deeper test coverage** for component-specific edge cases — extend opportunistically
   per [§8a](#8a-automated-smoke-tests), especially when changing form controls,
   overlays, keyboard navigation, or generated styles.
+- **RTL is mechanically correct but not reviewed by eye.** Every stylesheet now uses
+  logical properties for spacing and borders, and the visual suite captures each component
+  under `dir="rtl"` — 69 of 100 mirror, the rest being genuinely symmetric. What has not
+  happened is a native reader looking at the result: icon direction, text alignment inside
+  composed widgets, and the numeric/date formats components emit are all beyond what a
+  pixel diff can judge.
+- **Visual regression is not in CI.** The suite exists and passes locally
+  ([§8a](#visual-regression)), but its Linux baselines have never been recorded, so nothing
+  guards appearance on a pull request yet. Seeding them once from a Linux runner is all
+  that is outstanding.
 - **SSR hydration is not verified end to end.** `pnpm check:ssr` proves every component
   produces valid Declarative Shadow DOM in Node; nothing yet exercises the round trip of
   hydrating that markup in a browser with

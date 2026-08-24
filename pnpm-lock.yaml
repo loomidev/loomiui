@@ -42,6 +42,9 @@ importers:
       '@web/test-runner-playwright':
         specifier: ^1.0.0
         version: 1.0.0
+      '@web/test-runner-visual-regression':
+        specifier: ^1.0.1
+        version: 1.0.1
       esbuild:
         specifier: ^0.28.1
         version: 0.28.1
@@ -3679,6 +3682,9 @@ packages:
   '@types/koa@2.15.2':
     resolution: {integrity: sha512-CB+iyjjh1uS5N6/CKwXvw0qA7USMS2WVc4Tjf660yCjhdvqzNr8gdFcIawB41zGGptOQ+d1fnpaQWIIUXYxR3w==}
 
+  '@types/mkdirp@1.0.2':
+    resolution: {integrity: sha512-o0K1tSO0Dx5X6xlU5F1D6625FawhC3dU3iqr25lluNv/+/QIVH8RLNEiVokgIZo+mz+87w/3Mkg/VvQS+J51fQ==}
+
   '@types/node@12.20.55':
     resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
 
@@ -3687,6 +3693,12 @@ packages:
 
   '@types/parse5@6.0.3':
     resolution: {integrity: sha512-SuT16Q1K51EAVPz1K29DJ/sXjhSQ0zjvsypYJ6tlwVsRV9jwW5Adq2ch8Dq8kDBCkYnELS7N7VNCSB5nC56t/g==}
+
+  '@types/pixelmatch@5.2.6':
+    resolution: {integrity: sha512-wC83uexE5KGuUODn6zkm9gMzTwdY5L0chiK+VrKcDfEjzxh1uadlWTvOmAbCpnM9zx/Ww3f8uKlYQVnO/TrqVg==}
+
+  '@types/pngjs@6.0.5':
+    resolution: {integrity: sha512-0k5eKfrA83JOZPppLtS2C7OUtyNAl2wKNxfyYl9Q5g9lPkgBl/9hNyAu6HuEH2J4XmIv2znEpkDd0SaZVxW6iQ==}
 
   '@types/prop-types@15.7.15':
     resolution: {integrity: sha512-F6bEyamV9jKGAFBEmlQnesRPGOQqS2+Uwi0Em15xenOxHaf2hv6L8YCVn3rPdPJOiJfPiCnLIRyvwVaqMY3MIw==}
@@ -3842,6 +3854,10 @@ packages:
     resolution: {integrity: sha512-zeLI6QdH0jzzJMDV5O42Pd8WLJtYqovgdt0JdytgHc0d1EpzXDsc7NTCJSImboc2NcayIsWAvvGGeRF69SMMYg==}
     engines: {node: '>=18.0.0'}
 
+  '@web/test-runner-commands@1.0.1':
+    resolution: {integrity: sha512-rvAvHJKlNzh5Tv8L2wGjnNX/hSkPmQx5eyKqeyExEvA7A2pVXiNYFstJzUGCD52TlAJSPF3BtW1yOwpf6vG7Eg==}
+    engines: {node: '>=22.0.0'}
+
   '@web/test-runner-core@0.13.4':
     resolution: {integrity: sha512-84E1025aUSjvZU1j17eCTwV7m5Zg3cZHErV3+CaJM9JPCesZwLraIa0ONIQ9w4KLgcDgJFw9UnJ0LbFf42h6tg==}
     engines: {node: '>=18.0.0'}
@@ -3864,6 +3880,10 @@ packages:
 
   '@web/test-runner-playwright@1.0.0':
     resolution: {integrity: sha512-aRSi/N2PIZfniXZHSFEQtlQO0u/hEt0098IGlQBeJj4PQEdoR6/vVxl1wfo1qNwAvwhB9qihjLoRTS8BnTQmGQ==}
+    engines: {node: '>=22.0.0'}
+
+  '@web/test-runner-visual-regression@1.0.1':
+    resolution: {integrity: sha512-x+/ZxR9Cf1vfAQ1f7qWTfEVryOOebhCexG1dDPLOOalBA8oAsZpprEa5Sp5uimZDne1YO3yqnSXEWeE1bNM2Kw==}
     engines: {node: '>=22.0.0'}
 
   '@web/test-runner@0.20.2':
@@ -5345,6 +5365,10 @@ packages:
     resolution: {integrity: sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==}
     engines: {node: '>=6'}
 
+  pixelmatch@5.3.0:
+    resolution: {integrity: sha512-o8mkY4E/+LNUf6LzX96ht6k6CEDi65k9G2rjMtBe9Oo+VPKSvl+0GKHuH/AlG+GA5LPG/i5hrekkxUc3s2HU+Q==}
+    hasBin: true
+
   pkce-challenge@5.0.1:
     resolution: {integrity: sha512-wQ0b/W4Fr01qtpHlqSqspcj3EhBvimsdh0KlHhH8HRZnMsEa0ea2fTULOXOS9ccQr3om+GcGRk4e+isrZWV8qQ==}
     engines: {node: '>=16.20.0'}
@@ -5358,6 +5382,14 @@ packages:
     resolution: {integrity: sha512-0M+L3LAD8/nm554LOla9Ayx0j0tmFZ0FBcoQ7F1VuVHpM/XpiC8RcDzBQB8W5+hA8L22THxELzeF+2WcUzvcLg==}
     engines: {node: '>=20'}
     hasBin: true
+
+  pngjs@6.0.0:
+    resolution: {integrity: sha512-TRzzuFRRmEoSW/p1KVAmiOgPco2Irlah+bGFCeNfJXxxYGwSw7YwAOAcd7X28K/m5bjBWKsC29KyoMfHbypayg==}
+    engines: {node: '>=12.13.0'}
+
+  pngjs@7.0.0:
+    resolution: {integrity: sha512-LKWqWJRhstyYo9pGvgor/ivk2w94eSjE3RGVuzLGlr3NmD8bf7RcYGze1mNdEHRP6TRP6rMuDHk5t44hnTRyow==}
+    engines: {node: '>=14.19.0'}
 
   portfinder@1.0.38:
     resolution: {integrity: sha512-rEwq/ZHlJIKw++XtLAO8PPuOQA/zaPJOZJ37BVuN97nLpMJeuDVLVGRwbFoBgLudgdTMP2hdRJP++H+8QOA3vg==}
@@ -6823,6 +6855,10 @@ snapshots:
       '@types/koa-compose': 3.2.9
       '@types/node': 26.1.0
 
+  '@types/mkdirp@1.0.2':
+    dependencies:
+      '@types/node': 26.1.0
+
   '@types/node@12.20.55': {}
 
   '@types/node@26.1.0':
@@ -6830,6 +6866,14 @@ snapshots:
       undici-types: 8.3.0
 
   '@types/parse5@6.0.3': {}
+
+  '@types/pixelmatch@5.2.6':
+    dependencies:
+      '@types/node': 26.1.0
+
+  '@types/pngjs@6.0.5':
+    dependencies:
+      '@types/node': 26.1.0
 
   '@types/prop-types@15.7.15': {}
 
@@ -7113,6 +7157,15 @@ snapshots:
       - supports-color
       - utf-8-validate
 
+  '@web/test-runner-commands@1.0.1':
+    dependencies:
+      '@web/test-runner-core': 1.0.0
+      mkdirp: 1.0.4
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+
   '@web/test-runner-core@0.13.4':
     dependencies:
       '@babel/code-frame': 7.29.7
@@ -7216,6 +7269,21 @@ snapshots:
       '@web/test-runner-core': 1.0.0
       '@web/test-runner-coverage-v8': 1.0.0
       playwright: 1.62.1
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+
+  '@web/test-runner-visual-regression@1.0.1':
+    dependencies:
+      '@types/mkdirp': 1.0.2
+      '@types/pixelmatch': 5.2.6
+      '@types/pngjs': 6.0.5
+      '@web/test-runner-commands': 1.0.1
+      '@web/test-runner-core': 1.0.0
+      mkdirp: 1.0.4
+      pixelmatch: 5.3.0
+      pngjs: 7.0.0
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -8695,6 +8763,10 @@ snapshots:
 
   pify@4.0.1: {}
 
+  pixelmatch@5.3.0:
+    dependencies:
+      pngjs: 6.0.0
+
   pkce-challenge@5.0.1: {}
 
   playwright-core@1.62.1: {}
@@ -8704,6 +8776,10 @@ snapshots:
       playwright-core: 1.62.1
     optionalDependencies:
       fsevents: 2.3.2
+
+  pngjs@6.0.0: {}
+
+  pngjs@7.0.0: {}
 
   portfinder@1.0.38:
     dependencies:

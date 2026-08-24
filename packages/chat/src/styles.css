@@ -255,7 +255,7 @@
   flex-direction: column;
   width: 17rem;
   min-height: 0;
-  border-right: 1px solid var(--loomi-surface-border-subtle);
+  border-inline-end: 1px solid var(--loomi-surface-border-subtle);
 }
 
 .loomi-chat-conversations.avatars-only {

@@ -113,7 +113,7 @@
 }
 .loomi-req {
   color: var(--loomi-error-500);
-  margin-left: 0.15rem;
+  margin-inline-start: 0.15rem;
 }
 
 /* ---- phone mode ---- */
@@ -134,9 +134,9 @@
   height: 100%;
   background: transparent;
   border: 0;
-  border-right: 1px solid var(--loomi-surface-border);
+  border-inline-end: 1px solid var(--loomi-surface-border);
   padding: 0 0.55rem;
-  margin-right: 0.6rem;
+  margin-inline-end: 0.6rem;
   cursor: pointer;
 }
 .loomi-flag-trigger:disabled {
@@ -149,7 +149,7 @@
 .loomi-dial-code {
   flex: none;
   color: var(--loomi-text-muted);
-  margin-right: 0.4rem;
+  margin-inline-end: 0.4rem;
   white-space: nowrap;
 }
 
@@ -256,13 +256,13 @@
 }
 .loomi-option-dial {
   flex: none;
-  margin-left: auto;
+  margin-inline-start: auto;
   color: var(--loomi-text-faint);
   font-size: 0.85em;
 }
 .loomi-check {
   flex: none;
-  margin-left: 0.4rem;
+  margin-inline-start: 0.4rem;
   width: 1.1rem;
   height: 1.1rem;
   color: var(--loomi-primary-600);

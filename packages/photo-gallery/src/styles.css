@@ -83,7 +83,7 @@
   flex-direction: column;
   width: 12rem;
   padding: 0.75rem;
-  border-right: 1px solid var(--loomi-surface-border);
+  border-inline-end: 1px solid var(--loomi-surface-border);
   overflow-y: auto;
 }
 .loomi-albums.thumbnails {
