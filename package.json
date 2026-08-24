@@ -29,6 +29,7 @@
     "check:conflicts": "node scripts/check-no-conflicts.mjs",
     "check:a11y-coverage": "node scripts/check-a11y-coverage.mjs",
     "check:ssr": "node scripts/check-ssr.mjs",
+    "check:hydration": "node scripts/check-hydration.mjs",
     "test:visual": "web-test-runner --config web-test-runner.visual.config.mjs",
     "check:cem": "node scripts/generate-cem.mjs && git diff --exit-code -- \"packages/*/custom-elements.json\"",
     "check:react-types": "node packages/react-types/scripts/generate-react-types.mjs && git diff --exit-code -- packages/react-types/src/index.ts",
@@ -44,6 +45,7 @@
     "@custom-elements-manifest/analyzer": "^0.11.0",
     "@eslint/js": "^9",
     "@lit-labs/ssr": "^4.1.0",
+    "@lit-labs/ssr-client": "^1.1.8",
     "@open-wc/testing": "^4.0.0",
     "@web/dev-server-esbuild": "^1.0.5",
     "@web/dev-server-rollup": "^0.6.4",
@@ -55,6 +57,7 @@
     "eslint-config-prettier": "^9",
     "globals": "^17.7.0",
     "lit": "^3.3.3",
+    "playwright": "^1.62.1",
     "prettier": "^3",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8"

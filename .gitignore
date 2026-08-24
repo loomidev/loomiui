@@ -25,3 +25,6 @@ docs/LoomiUI_Handbook.epub
 # Visual regression: baselines are committed, the failure and diff output is not.
 screenshots/*/*/failed/
 screenshots/*/*/diff/
+
+# Temp pages/bundles from scripts/check-hydration.mjs; removed on a clean exit.
+.hydration-*/

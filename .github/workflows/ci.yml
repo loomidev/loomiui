@@ -64,6 +64,9 @@ jobs:
       # Needs the built dist/, and runs in Node with no DOM — that is the point.
       - name: Components server-render
         run: pnpm check:ssr
+      # The other half: that a browser can adopt that markup rather than replace it.
+      - name: Server-rendered markup hydrates
+        run: pnpm check:hydration
       - run: pnpm test
 
       # Generated custom-elements.json manifests must match their source.

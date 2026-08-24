@@ -52,6 +52,13 @@
   border-radius: 1.5rem;
 }
 
+/* The icon wrapper always renders so the server and client agree on the template shape —
+   a conditional here produced a hydration mismatch. It collapses instead when the host has
+   no slotted icon, which is a purely declarative check both sides compute identically. */
+:host(:not(:has([slot="icon"]))) .loomi-ico {
+  display: none;
+}
+
 .loomi-ico {
   flex: none;
   color: var(--loomi-stat-icon-color, var(--loomi-text-muted));

@@ -269,8 +269,10 @@ trigger showing the selected label, where the `<option>` form renders the placeh
 until hydration. Note that this affects the _closed_ control only — a select's option
 list is not in the server HTML either way, since the panel is rendered only while open.
 
-CI runs `pnpm check:ssr`, which renders all 103 components in Node and fails if any of
-them throws or emits no shadow root.
+CI runs two checks over this. `pnpm check:ssr` renders all 103 components in Node and
+fails if any throws or emits no shadow root; `pnpm check:hydration` then loads that markup
+in a browser and fails if the client replaces the server-rendered DOM instead of adopting
+it — which is what would show up to a user as a flash of re-rendered content.
 
 ## Browser support
 

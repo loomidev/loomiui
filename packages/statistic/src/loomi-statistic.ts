@@ -1,4 +1,4 @@
-import { html, nothing, type TemplateResult, isServer } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, loomiT, watchDarkMode } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
@@ -63,12 +63,6 @@ export class LoomiStatistic extends LoomiElement {
     this.cleanupDarkWatch?.();
   }
 
-  private get hasIcon(): boolean {
-    // Assume slotted content exists on the server: rendering the slot keeps light-DOM content visible in the server HTML, whereas omitting it would drop that content until hydration.
-    if (isServer) return true;
-    return !!this.querySelector('[slot="icon"]');
-  }
-
   override render(): TemplateResult {
     const cls = [
       "loomi-stat",
@@ -92,7 +86,7 @@ export class LoomiStatistic extends LoomiElement {
         tabindex=${this.url ? "0" : nothing}
         @click=${this.url ? () => (location.href = this.url) : nothing}
       >
-        ${this.hasIcon ? html`<div class="loomi-ico" part="icon" style=${iconStyle}><slot name="icon"></slot></div>` : null}
+        <div class="loomi-ico" part="icon" style=${iconStyle}><slot name="icon"></slot></div>
         <div class="loomi-body ${this.labelPosition}">
           <div class="loomi-label">${this.label}</div>
           ${

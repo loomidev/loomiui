@@ -770,6 +770,24 @@ reinvent it.**
    `packages/timepicker` does. And `connectedCallback()` is **not** called during SSR, so
    DOM work there needs no guard.
 
+   **A guard must not change the template's shape.** `pnpm check:hydration` renders every
+   component on the server, loads the markup in a browser, and checks the client _adopts_
+   those nodes rather than replacing them. An `isServer` guard that flips a conditional
+   makes the two sides render different structures, and Lit fails hydration with
+   "Hydration value mismatch". Render the same structure on both sides and hide the
+   difference in CSS instead — `packages/statistic` does exactly this:
+
+   ```css
+   /* The icon wrapper always renders so both sides agree on the shape; it collapses when
+      the host has no slotted icon, which server and client compute identically. */
+   :host(:not(:has([slot="icon"]))) .loomi-ico {
+     display: none;
+   }
+   ```
+
+   So a guard that decides only _whether a `<slot>` is filled_ is safe; one that decides
+   _whether a wrapping element exists at all_ is not.
+
 7. **Write `src/index.ts`** — `export { Loomi<Name>, type ... } from "./loomi-<name>.js";`
    Include the `EventMap` and every `Detail` interface from step 6.
 8. **Build it in isolation first:**
@@ -1178,6 +1196,10 @@ publish time, not by splitting the source into many git repos.
   happened is a native reader looking at the result: icon direction, text alignment inside
   composed widgets, and the numeric/date formats components emit are all beyond what a
   pixel diff can judge.
+- **Visual regression is not in CI.** The suite exists and passes locally
+  ([§8a](#visual-regression)), but its Linux baselines have never been recorded, so nothing
+  guards appearance on a pull request yet. Seeding them once from a Linux runner is all
+  that is outstanding.
 - **Visual regression is not in CI.** The suite exists and passes locally
   ([§8a](#visual-regression)), but its Linux baselines have never been recorded, so nothing
   guards appearance on a pull request yet. Seeding them once from a Linux runner is all
