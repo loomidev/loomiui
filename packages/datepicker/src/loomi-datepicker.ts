@@ -81,6 +81,14 @@ export class LoomiDatepicker extends LoomiElement {
   @state() private parsed = false;
   @state() private calendarView: LoomiCalendarView = "days";
   @state() private yearRangeStart = Math.floor(new Date().getFullYear() / 12) * 12;
+  /**
+   * The day the grid's single tab stop sits on. A month is 28–31 buttons; making each one
+   * a tab stop means tabbing past the whole month to leave the calendar, so the grid uses
+   * the roving-tabindex pattern the WAI-ARIA APG specifies for a date grid instead.
+   */
+  @state() private focusedDay: Date | null = null;
+  /** Set when a keypress moved the roving focus, so `updated()` follows it in the DOM. */
+  private pendingFocusMove = false;
   private cleanup?: () => void;
 
   override connectedCallback(): void {
@@ -197,6 +205,96 @@ export class LoomiDatepicker extends LoomiElement {
     );
   }
 
+  /**
+   * Which day carries the grid's tab stop: the roving focus if the user has moved it, else
+   * the selected day, else the first of the month — so arriving by Tab lands somewhere
+   * meaningful rather than always on the 1st.
+   */
+  private rovingDay(year: number, month: number): Date {
+    if (
+      this.focusedDay &&
+      this.focusedDay.getFullYear() === year &&
+      this.focusedDay.getMonth() === month
+    ) {
+      return this.focusedDay;
+    }
+    for (const candidate of [this.start, this.end]) {
+      if (candidate && candidate.getFullYear() === year && candidate.getMonth() === month) {
+        return candidate;
+      }
+    }
+    return new Date(year, month, 1);
+  }
+
+  private moveFocus(days: number): void {
+    const from = this.rovingDay(this.view.getFullYear(), this.view.getMonth());
+    const next = new Date(from.getFullYear(), from.getMonth(), from.getDate() + days);
+    this.focusedDay = next;
+    // Stepping off either end of the month scrolls the grid rather than dead-ending.
+    if (
+      next.getMonth() !== this.view.getMonth() ||
+      next.getFullYear() !== this.view.getFullYear()
+    ) {
+      this.view = new Date(next.getFullYear(), next.getMonth(), 1);
+    }
+    this.pendingFocusMove = true;
+  }
+
+  private onGridKeydown = (event: KeyboardEvent): void => {
+    const current = this.rovingDay(this.view.getFullYear(), this.view.getMonth());
+    switch (event.key) {
+      case "ArrowLeft":
+        this.moveFocus(-1);
+        break;
+      case "ArrowRight":
+        this.moveFocus(1);
+        break;
+      case "ArrowUp":
+        this.moveFocus(-7);
+        break;
+      case "ArrowDown":
+        this.moveFocus(7);
+        break;
+      case "Home":
+        this.moveFocus(-current.getDay());
+        break;
+      case "End":
+        this.moveFocus(6 - current.getDay());
+        break;
+      case "PageUp":
+        this.focusedDay = new Date(
+          current.getFullYear(),
+          current.getMonth() - 1,
+          current.getDate(),
+        );
+        this.view = new Date(this.focusedDay.getFullYear(), this.focusedDay.getMonth(), 1);
+        this.pendingFocusMove = true;
+        break;
+      case "PageDown":
+        this.focusedDay = new Date(
+          current.getFullYear(),
+          current.getMonth() + 1,
+          current.getDate(),
+        );
+        this.view = new Date(this.focusedDay.getFullYear(), this.focusedDay.getMonth(), 1);
+        this.pendingFocusMove = true;
+        break;
+      default:
+        return;
+    }
+    event.preventDefault();
+  };
+
+  override updated(changed: Map<string, unknown>): void {
+    super.updated?.(changed as never);
+    if (!this.pendingFocusMove) return;
+    this.pendingFocusMove = false;
+    // Keyboard focus has to follow the roving tab stop, or the grid moves visually while
+    // the screen reader stays announcing the day the user started on.
+    const target = this.renderRoot.querySelector<HTMLButtonElement>('.loomi-day[tabindex="0"]');
+    target?.focus();
+  }
+
   private shiftMonth(delta: number): void {
     this.view = new Date(this.view.getFullYear(), this.view.getMonth() + delta, 1);
   }
@@ -253,8 +351,19 @@ export class LoomiDatepicker extends LoomiElement {
       const isStart = this.start && sameDay(d, this.start);
       const isEnd = this.end && sameDay(d, this.end);
       const inRange = this.range && this.start && this.end && d > this.start && d < this.end;
+      const isFocusTarget = sameDay(d, this.rovingDay(y, m));
       cells.push(html`<button
         class="loomi-day ${isStart || isEnd ? "selected" : ""} ${inRange ? "in-range" : ""} ${sameDay(d, today) ? "today" : ""}"
+        role="gridcell"
+        data-day=${day}
+        tabindex=${isFocusTarget ? "0" : "-1"}
+        aria-selected=${isStart || isEnd ? "true" : "false"}
+        aria-label=${loomiDateFormatter(this.locale, {
+          weekday: "long",
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        }).format(d)}
         ?disabled=${this.disabled(d)}
         @click=${() => this.pick(d)}
       >${day}</button>`);
@@ -300,8 +409,10 @@ export class LoomiDatepicker extends LoomiElement {
           ? html`<div class="loomi-picker-grid years">${years}</div>`
           : this.calendarView === "months"
             ? html`<div class="loomi-picker-grid months">${months}</div>`
-            : html`<div class="loomi-grid">
-            ${this.weekdays().map((w) => html`<span class="loomi-wd">${w}</span>`)}
+            : html`<div class="loomi-grid" role="grid" @keydown=${this.onGridKeydown}>
+            ${this.weekdays().map(
+              (w) => html`<span class="loomi-wd" role="columnheader">${w}</span>`,
+            )}
             ${cells}
           </div>`
       }

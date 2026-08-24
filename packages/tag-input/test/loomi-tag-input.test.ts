@@ -80,4 +80,65 @@ describe("loomi-tag-input", () => {
     expect(el.invalid).to.be.true;
     expect(el.hasAttribute("invalid")).to.be.true;
   });
+
+  describe("autocomplete combobox wiring", () => {
+    const DATA = [
+      { label: "Ghana", value: "gh" },
+      { label: "Guinea", value: "gn" },
+    ];
+
+    const field = (el: LoomiTagInput): HTMLInputElement =>
+      el.shadowRoot!.querySelector(".loomi-input") as HTMLInputElement;
+
+    const options = (el: LoomiTagInput): HTMLElement[] =>
+      Array.from(el.shadowRoot!.querySelectorAll('[role="option"]'));
+
+    async function type(el: LoomiTagInput, text: string): Promise<void> {
+      const input = field(el);
+      input.focus();
+      input.value = text;
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      await el.updateComplete;
+    }
+
+    const press = async (el: LoomiTagInput, key: string): Promise<void> => {
+      field(el).dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true }));
+      await el.updateComplete;
+    };
+
+    it("marks the field a combobox and tracks its expanded state", async () => {
+      const el = await fixture<LoomiTagInput>(
+        html`<loomi-tag-input .autocompleteData=${DATA}></loomi-tag-input>`,
+      );
+      expect(field(el).getAttribute("role")).to.equal("combobox");
+      expect(field(el).getAttribute("aria-expanded")).to.equal("false");
+
+      await type(el, "g");
+      expect(field(el).getAttribute("aria-expanded")).to.equal("true");
+      expect(options(el).length).to.be.greaterThan(0);
+    });
+
+    it("points aria-activedescendant at the highlighted suggestion", async () => {
+      const el = await fixture<LoomiTagInput>(
+        html`<loomi-tag-input .autocompleteData=${DATA}></loomi-tag-input>`,
+      );
+      await type(el, "g");
+      await press(el, "ArrowDown");
+
+      const active = options(el).find((o) => o.getAttribute("aria-selected") === "true")!;
+      // Focus stays in the text field, so the highlight is only announced through
+      // aria-activedescendant — aria-selected alone reaches nobody.
+      expect(active.id).to.not.be.empty;
+      expect(field(el).getAttribute("aria-activedescendant")).to.equal(active.id);
+    });
+
+    it("points the field at the listbox it controls", async () => {
+      const el = await fixture<LoomiTagInput>(
+        html`<loomi-tag-input .autocompleteData=${DATA}></loomi-tag-input>`,
+      );
+      await type(el, "g");
+      const listbox = el.shadowRoot!.querySelector('[role="listbox"]')!;
+      expect(field(el).getAttribute("aria-controls")).to.equal(listbox.id);
+    });
+  });
 });

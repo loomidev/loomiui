@@ -346,10 +346,11 @@ export class LoomiTagInput extends LoomiElement {
   private renderAutocomplete(): TemplateResult | typeof nothing {
     const options = this.autocompleteOptions;
     if (!this.autocompleteOpen || !options.length) return nothing;
-    return html`<div class="loomi-autocomplete-panel" role="listbox">
+    return html`<div class="loomi-autocomplete-panel" id="loomi-tag-input-listbox" role="listbox">
       ${options.map(
         (item, index) => html`<div
         class="loomi-autocomplete-option ${index === this.autocompleteActiveIndex ? "active" : ""}"
+        id=${`loomi-tag-input-option-${index}`}
         role="option"
         aria-selected=${index === this.autocompleteActiveIndex ? "true" : "false"}
         @mouseenter=${() => (this.autocompleteActiveIndex = index)}
@@ -402,6 +403,15 @@ export class LoomiTagInput extends LoomiElement {
             ?required=${this.required}
             aria-label=${hasLabel ? this.label : nothing}
             aria-invalid=${this.invalid ? "true" : "false"}
+            role="combobox"
+            aria-expanded=${this.autocompleteOpen ? "true" : "false"}
+            aria-controls="loomi-tag-input-listbox"
+            aria-autocomplete="list"
+            aria-activedescendant=${
+              this.autocompleteOpen && this.autocompleteActiveIndex >= 0
+                ? `loomi-tag-input-option-${this.autocompleteActiveIndex}`
+                : nothing
+            }
             @input=${this.onInput}
             @keydown=${this.onKeydown}
             @blur=${this.showValidation}
