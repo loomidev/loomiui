@@ -69,6 +69,14 @@ jobs:
         run: pnpm check:hydration
       - run: pnpm test
 
+      # Baselines are per-platform bitmaps and the Linux set is recorded by the
+      # "Visual baselines" workflow. Until it has run and those files are committed there is
+      # nothing to compare against, so this step waits rather than failing every pull
+      # request — it starts enforcing itself as soon as screenshots/linux/ exists.
+      - name: Visual regression
+        if: hashFiles('screenshots/linux/**') != ''
+        run: pnpm test:visual
+
       # Generated custom-elements.json manifests must match their source.
       - name: Component manifests up to date
         run: pnpm check:cem

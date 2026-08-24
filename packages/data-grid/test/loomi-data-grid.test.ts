@@ -6,6 +6,7 @@ import { exportModule } from "../dist/modules/export.js";
 import { rowGroupingModule } from "../dist/modules/row-grouping.js";
 import { inlineEditingModule } from "../dist/modules/inline-editing.js";
 import { savedViewsModule } from "../dist/modules/saved-views.js";
+import { virtualScrollingModule } from "../dist/modules/virtual-scrolling.js";
 
 interface Person extends Record<string, unknown> {
   id: string;
@@ -236,6 +237,66 @@ describe("loomi-data-grid modules", () => {
     const event = await eventPromise;
     expect(event.detail.value).to.equal("Amara");
     expect(el.data[0].name).to.equal("Amara");
+  });
+
+  it("inlineEditingModule focuses and selects the editor it opens", async () => {
+    // Regression: `ref` runs before Lit inserts the input, so focusing from
+    // there was a no-op on a disconnected node and the editor opened unusable —
+    // it rendered, but keystrokes went to the cell instead.
+    const el = await renderGrid({ modules: [inlineEditingModule()] });
+    const firstCell = el.shadowRoot!.querySelector(
+      'td[data-row-index="0"][data-col-index="0"]',
+    ) as HTMLElement;
+
+    firstCell.dispatchEvent(new MouseEvent("dblclick", { bubbles: true, composed: true }));
+    await el.updateComplete;
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    const input = el.shadowRoot!.querySelector(
+      'td[data-row-index="0"][data-col-index="0"] input',
+    ) as HTMLInputElement;
+    expect(input).to.exist;
+    expect(el.shadowRoot!.activeElement).to.equal(input);
+    expect(input.selectionStart).to.equal(0);
+    expect(input.selectionEnd).to.equal(input.value.length);
+  });
+
+  it("virtualScrollingModule re-windows on the first scroll after render", async () => {
+    // Regression: the module attached its scroll listener from `renderBody`,
+    // which first runs before `.grid-wrap` exists, so nothing listened until an
+    // unrelated second render happened to attach it.
+    //
+    // Everything is bound in the fixture template rather than assigned
+    // afterwards, so the grid renders exactly once before the scroll — assigning
+    // properties post-render forces the extra pass that masks this bug.
+    const many = Array.from({ length: 500 }, (_, index) => ({
+      id: String(index),
+      name: `Person ${index}`,
+      age: 20 + (index % 40),
+      department: index % 2 ? "Sales" : "Engineering",
+    }));
+    const el = await fixture<LoomiDataGrid<Person>>(html`
+      <loomi-data-grid
+        .columns=${columns}
+        .data=${many}
+        .modules=${[virtualScrollingModule<Person>({ rowHeight: 40 })]}
+        .pagination=${false}
+        max-height="200px"
+      ></loomi-data-grid>
+    `);
+    await el.updateComplete;
+
+    const firstRowText = () =>
+      el.shadowRoot!.querySelector("tbody tr td")?.textContent?.trim() ?? "";
+    const before = firstRowText();
+
+    const wrap = el.shadowRoot!.querySelector(".grid-wrap") as HTMLElement;
+    wrap.scrollTop = 4000;
+    wrap.dispatchEvent(new Event("scroll"));
+    await el.updateComplete;
+
+    expect(el.shadowRoot!.querySelectorAll("tbody tr").length).to.be.lessThan(many.length);
+    expect(firstRowText()).to.not.equal(before);
   });
 
   it("savedViewsModule applies a preset and emits loomi-saved-view-change", async () => {

@@ -1,0 +1,75 @@
+# Records the visual regression baselines for Linux, which is the platform CI runs on.
+#
+# Baselines are bitmaps, and font rasterisation differs between operating systems, so a set
+# recorded on a maintainer's macOS laptop will not match one recorded here. Each platform
+# needs its own set, recorded on that platform — which is why this is a workflow rather
+# than something anyone can produce locally.
+#
+# Run it once from the Actions tab, download the artifact, and commit `screenshots/linux/`.
+# The visual step in ci.yml is gated on those files existing, so it starts guarding pull
+# requests the moment they land. Re-run it after any deliberate visual change.
+name: Visual baselines
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit:
+        description: "Commit the baselines back to this branch instead of only uploading them"
+        type: boolean
+        default: false
+
+jobs:
+  record:
+    name: Record Linux baselines
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: playwright-${{ runner.os }}-
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      # The suite renders the built output, not the sources.
+      - run: pnpm build
+
+      - name: Record baselines
+        run: pnpm test:visual --update-visual-baseline
+
+      - name: Verify they now pass
+        run: pnpm test:visual
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: visual-baselines-linux
+          path: screenshots/linux/
+          if-no-files-found: error
+
+      - name: Commit baselines
+        if: ${{ inputs.commit }}
+        run: |
+          if [ -z "$(git status --porcelain screenshots/)" ]; then
+            echo "Baselines unchanged; nothing to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add screenshots/
+          git commit -m "Record Linux visual regression baselines"
+          git push

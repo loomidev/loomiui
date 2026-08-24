@@ -53,6 +53,16 @@ export function virtualScrollingModule<TRecord extends DataGridRecord = DataGrid
   return defineGridModule<TRecord>({
     name: "virtual-scrolling",
 
+    attach(ctx) {
+      // `.grid-wrap` is created by the grid's first render, and `attach` runs
+      // from `willUpdate` — before that render commits — so the element does not
+      // exist yet and `renderBody`'s own call finds nothing. Deferring to a
+      // microtask lands after the update cycle, so the listener is live for the
+      // user's first scroll instead of waiting for some unrelated second render
+      // to attach it.
+      queueMicrotask(() => ensureScrollListener(ctx));
+    },
+
     detach() {
       attachedEl?.removeEventListener("scroll", onScroll);
       attachedEl = null;

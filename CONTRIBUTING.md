@@ -907,9 +907,14 @@ pnpm test:visual --update-visual-baseline  # re-record, after an intended change
 **Baselines are per platform.** Font rasterisation differs between macOS and Linux, so a
 baseline recorded on a laptop will not match one recorded on a CI runner. They live under
 `screenshots/<platform>/`, and each platform's set has to be recorded once on that
-platform — which is why this suite is not yet wired into CI: the Linux baselines need
-seeding from a Linux machine or container first. Until then it is a local gate; run it
-before and after any change to `packages/theme` or to a component's `styles.css`.
+platform.
+
+Linux is CI's platform, and its set is recorded by the **Visual baselines** workflow: run
+it once from the Actions tab, then commit `screenshots/linux/`. The visual step in `ci.yml`
+is gated on those files existing, so it does nothing until they land and starts guarding
+pull requests the moment they do. Re-run the workflow after any deliberate visual change.
+Until then it is a local gate — run it before and after any change to `packages/theme` or a
+component's `styles.css`.
 
 Markup comes from `packages/components/test/component-cases.js`, shared with the
 accessibility sweep, so the two suites exercise the same realistic usage.
@@ -1198,10 +1203,10 @@ publish time, not by splitting the source into many git repos.
   three or fewer test blocks — all of them presentational (avatars, cards, spinners,
   timelines), which is why they are last — extend opportunistically per [§8a](#8a-automated-smoke-tests),
   especially when changing form controls, overlays, keyboard navigation, or generated styles.
-- **Visual regression is not in CI.** The suite exists and passes locally
-  ([§8a](#visual-regression)), but its baselines are per-platform bitmaps and the Linux set
-  has never been recorded, so nothing guards appearance on a pull request yet. Seeding them
-  once from a Linux runner is all that is outstanding.
+- **Visual regression is wired into CI but dormant.** The step is gated on
+  `screenshots/linux/` existing, and those baselines have not been recorded yet — run the
+  **Visual baselines** workflow once and commit its output to switch it on
+  ([§8a](#visual-regression)).
 - **RTL is mechanically correct but not reviewed by eye.** Every stylesheet uses logical
   properties for spacing and borders, and the visual suite captures each component under
   `dir="rtl"` — 69 of 100 mirror, the rest being genuinely symmetric. What has not happened
@@ -1211,9 +1216,6 @@ publish time, not by splitting the source into many git repos.
 - **Contrast beyond the default palette.** The shipped text tokens clear WCAG AA and the
   sweep enforces that. A consumer who overrides `--loomi-gray-*` or `--loomi-surface` can
   still land below 4.5:1, and nothing checks their palette for them.
-- **`extract-zip` advisory has no upstream fix.** It reaches the repo through
-  `@web/test-runner`'s built-in Chrome launcher and is confined to the test toolchain, so it
-  never ships to a consumer. Revisit if `@web/test-runner` bumps its puppeteer chain.
 
 ---
 

@@ -1,5 +1,5 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import { LoomiElement, loomiStyles } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -55,7 +55,6 @@ export function findResizablePanelGroup(el: Element | null): LoomiResizablePanel
  *
  * @slot - Panel content.
  */
-@customElement("loomi-resizable-panel")
 export class LoomiResizablePanel extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
@@ -129,7 +128,6 @@ export class LoomiResizablePanel extends LoomiElement {
 /**
  * `<loomi-resizable-handle>` — draggable separator between two panels.
  */
-@customElement("loomi-resizable-handle")
 export class LoomiResizableHandle extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
@@ -318,7 +316,6 @@ export class LoomiResizableHandle extends LoomiElement {
  * @slot - `<loomi-resizable-panel>` and `<loomi-resizable-handle>` children in order.
  * @fires loomi-layout-change - `detail: { sizes, layout }` when panel sizes change.
  */
-@customElement("loomi-resizable-panel-group")
 export class LoomiResizablePanelGroup extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
@@ -512,6 +509,31 @@ export class LoomiResizablePanelGroup extends LoomiElement {
   override render(): TemplateResult {
     return html`<div class="loomi-group"><slot @slotchange=${this.onSlotChange}></slot></div>`;
   }
+}
+
+/**
+ * Registered here rather than with `@customElement` on each class.
+ *
+ * These three elements reference one another — a panel walks up to find its
+ * group, the group reads back its panels and handles. A decorator registers its
+ * element the moment that class is evaluated, which upgrades any matching
+ * element already in the document right then, part-way down this module. A
+ * panel upgrading at line 58 would call `findResizablePanelGroup`, whose
+ * `instanceof LoomiResizablePanelGroup` referenced a class still in its
+ * temporal dead zone 260 lines below — `ReferenceError: Cannot access
+ * 'LoomiResizablePanelGroup' before initialization`, three times per page load.
+ *
+ * Defining after every class declaration removes the hazard. Panels and handles
+ * go first so the group finds them already upgraded when it reads its children;
+ * a panel that upgrades before the group simply gets `null` from the ancestor
+ * lookup and the group syncs the layout when it upgrades a moment later.
+ */
+for (const [tag, ctor] of [
+  ["loomi-resizable-panel", LoomiResizablePanel],
+  ["loomi-resizable-handle", LoomiResizableHandle],
+  ["loomi-resizable-panel-group", LoomiResizablePanelGroup],
+] as const) {
+  if (!customElements.get(tag)) customElements.define(tag, ctor);
 }
 
 declare global {
