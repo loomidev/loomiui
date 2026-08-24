@@ -1169,6 +1169,13 @@ publish time, not by splitting the source into many git repos.
 - **Explicit browser support matrix**, a **React/Vue/Angular interop note**, a
   **zero-install CDN quick start**, and the **`@loomidev/mcp-server`** highlight — all now
   in the user-facing `README.md` rather than buried here.
+- **Server-side rendering, verified both directions.** `check:ssr` renders all 103
+  components to Declarative Shadow DOM in Node; `check:hydration` loads that markup in a
+  browser and fails if the client replaces the server DOM instead of adopting it. Both run
+  in CI. See [§8](#8-adding-a-new-component-step-by-step) step 6 for the guard rules.
+- **A library-wide accessibility sweep** — every component checked with axe against
+  realistic markup, contrast rule included, with `check:a11y-coverage` blocking new
+  components from skipping it.
 - **An accessibility pass across the overlay/floating-panel components** — not a full
   audit, but every previously-known gap is closed. `modal` traps Tab focus, moves focus
   into the dialog on open, and restores it to the trigger on close. `tabs` supports the
@@ -1187,50 +1194,31 @@ publish time, not by splitting the source into many git repos.
 
 ### Still open
 
-- **Deeper test coverage** for component-specific edge cases — extend opportunistically
-  per [§8a](#8a-automated-smoke-tests), especially when changing form controls,
-  overlays, keyboard navigation, or generated styles.
-- **RTL is mechanically correct but not reviewed by eye.** Every stylesheet now uses
-  logical properties for spacing and borders, and the visual suite captures each component
-  under `dir="rtl"` — 69 of 100 mirror, the rest being genuinely symmetric. What has not
-  happened is a native reader looking at the result: icon direction, text alignment inside
-  composed widgets, and the numeric/date formats components emit are all beyond what a
-  pixel diff can judge.
+- **Deeper test coverage** for component-specific edge cases. Nineteen packages still carry
+  three or fewer test blocks — extend opportunistically per [§8a](#8a-automated-smoke-tests),
+  especially when changing form controls, overlays, keyboard navigation, or generated styles.
 - **Visual regression is not in CI.** The suite exists and passes locally
-  ([§8a](#visual-regression)), but its Linux baselines have never been recorded, so nothing
-  guards appearance on a pull request yet. Seeding them once from a Linux runner is all
-  that is outstanding.
-- **Visual regression is not in CI.** The suite exists and passes locally
-  ([§8a](#visual-regression)), but its Linux baselines have never been recorded, so nothing
-  guards appearance on a pull request yet. Seeding them once from a Linux runner is all
-  that is outstanding.
-- **SSR hydration is not verified end to end, and is blocked on a module-duplication
-  problem.** `pnpm check:ssr` proves every component produces valid Declarative Shadow DOM
-  in Node. A harness for the other half — loading that markup in a browser with
-  `@lit-labs/ssr-client/lit-element-hydrate-support.js` and checking the server nodes are
-  adopted rather than replaced — was written and then withdrawn, because every component
-  failed with `_$AC is not a function`.
-
-  That error is not a component defect. `lit-element-hydrate-support` works by setting
-  `globalThis.litElementHydrateSupport`, which `lit-element` calls **once, at module
-  evaluation**, to patch `LitElement.prototype`. Under pnpm's isolated layout the page ends
-  up with two `lit-element` instances reachable by different URLs, so the hook patches one
-  class while the components extend the other, and the patched `_$AC` is missing from the
-  prototype chain that actually runs. Aligning them needs the `development` export
-  condition _and_ a single hoisted copy of `lit`, `lit-html`, `lit-element` and
-  `@lit/reactive-element` — an install-level change (`.npmrc` hoisting or a resolutions
-  pin) rather than something a test harness can arrange for itself. Worth doing, but it is
-  a dependency-layout decision, not a test to bolt on.
-
-- **Keyboard-interaction audits beyond the overlay components above.** Every component now
-  passes an automated axe sweep (see [§8a](#the-accessibility-sweep)), which catches
-  naming, roles and ARIA misuse — but axe cannot judge whether a component's _keyboard_
-  behavior follows the WAI-ARIA APG. `command-palette`, `data-grid` and other components
-  with custom keyboard interaction still haven't been reviewed against the pattern the way
-  `modal`, `tabs`, `select` and `colorpicker` have.
-- **Contrast beyond the default palette.** The shipped text tokens clear WCAG AA, and the
+  ([§8a](#visual-regression)), but its baselines are per-platform bitmaps and the Linux set
+  has never been recorded, so nothing guards appearance on a pull request yet. Seeding them
+  once from a Linux runner is all that is outstanding.
+- **RTL is mechanically correct but not reviewed by eye.** Every stylesheet uses logical
+  properties for spacing and borders, and the visual suite captures each component under
+  `dir="rtl"` — 69 of 100 mirror, the rest being genuinely symmetric. What has not happened
+  is a native reader looking at the result: icon direction, text alignment inside composed
+  widgets, and the numeric and date formats components emit are all beyond what a pixel
+  diff can judge.
+- **Keyboard-interaction audits beyond the components covered so far.** axe catches naming,
+  roles and ARIA misuse, but cannot judge whether a component's _keyboard_ behavior follows
+  the WAI-ARIA APG. `modal`, `tabs`, `select`, `colorpicker`, `command-palette`,
+  `context-menu` and `data-grid` have been reviewed against their patterns; the remaining
+  components with custom key handling — `date-range-picker`, `emoji-picker`, `otp`,
+  `mention`, `tag-input` among them — have not.
+- **Contrast beyond the default palette.** The shipped text tokens clear WCAG AA and the
   sweep enforces that. A consumer who overrides `--loomi-gray-*` or `--loomi-surface` can
   still land below 4.5:1, and nothing checks their palette for them.
+- **`extract-zip` advisory has no upstream fix.** It reaches the repo through
+  `@web/test-runner`'s built-in Chrome launcher and is confined to the test toolchain, so it
+  never ships to a consumer. Revisit if `@web/test-runner` bumps its puppeteer chain.
 
 ---
 
