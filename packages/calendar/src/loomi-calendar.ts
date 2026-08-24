@@ -791,7 +791,11 @@ export class LoomiCalendar extends LoomiElement {
 
   private renderItemContextMenu() {
     return html`
-      <loomi-context-menu id="calendar-context-menu" ?disabled=${!this._contextTarget}>
+      <loomi-context-menu
+        id="calendar-context-menu"
+        label=${loomiT("calendar.eventActions", {}, this.locale)}
+        ?disabled=${!this._contextTarget}
+      >
         <loomi-context-menu-item icon="pencil-square" @click=${this.handleContextEdit}>Edit</loomi-context-menu-item>
         <loomi-context-menu-item icon="trash" @click=${this.handleContextDelete}>Delete</loomi-context-menu-item>
       </loomi-context-menu>

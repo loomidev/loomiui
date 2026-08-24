@@ -282,6 +282,12 @@ export class LoomiContextMenu extends LoomiElement {
   @property({ type: Number }) height = 200;
   @property({ type: Boolean, attribute: "hide-after-click" }) hideAfterClick = true;
   @property({ type: Boolean, attribute: "icon-right" }) iconRight = false;
+  /**
+   * Accessible name for the trigger. The target is a `role="button"`, so it needs a name;
+   * slotted text normally supplies one, but a target that is iconic — or empty until a
+   * right-click sets a subject, as in `<loomi-calendar>` — has to say it explicitly.
+   */
+  @property() label = "";
 
   @state() private open = false;
   @state() private resolvedPlacement: "left" | "right" = "left";
@@ -460,6 +466,8 @@ export class LoomiContextMenu extends LoomiElement {
   override render(): TemplateResult {
     return html`<span
       class="loomi-target"
+      role="button"
+      aria-label=${this.label || nothing}
       tabindex=${this.disabled ? nothing : "0"}
       aria-haspopup="menu"
       aria-expanded=${this.open ? "true" : "false"}

@@ -160,7 +160,27 @@ export class LoomiResizableHandle extends LoomiElement {
     this.dataset.orientation = orientation;
     this.setAttribute("aria-orientation", orientation === "horizontal" ? "vertical" : "horizontal");
     this.setAttribute("role", "separator");
+    // A focusable separator is a window splitter, and ARIA requires a current value on
+    // it. Panels are sized in percentages, so the handle reports how much of the group
+    // the panel before it occupies. applyLayout() re-runs this for every registered
+    // handle, so the value stays current through drags and programmatic layout changes.
+    this.setAttribute("aria-valuenow", String(Math.round(this.valuePercent(group))));
+    this.setAttribute("aria-valuemin", "0");
+    this.setAttribute("aria-valuemax", "100");
     this.setAttribute("tabindex", this.disabled ? "-1" : "0");
+  }
+
+  /**
+   * Size, in percent of the group, of the panel immediately before this handle — the
+   * value a window splitter reports. Falls back to 50 for a handle that is not between
+   * two panels yet (or at all), which keeps `aria-valuenow` present and in range rather
+   * than emitting an invalid value.
+   */
+  private valuePercent(group: LoomiResizablePanelGroup | null): number {
+    if (!group) return 50;
+    const indexes = this.getAdjacentPanelIndexes(group);
+    if (!indexes) return 50;
+    return group.panels[indexes[0]]?.effectiveSize ?? 50;
   }
 
   getAdjacentPanelIndexes(group: LoomiResizablePanelGroup): [number, number] | null {

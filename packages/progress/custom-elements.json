@@ -109,6 +109,25 @@
             },
             {
               "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for the progress bar. Falls back to a translated \"Progress\".",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
               "name": "color",
               "type": {
                 "text": "LoomiColor"
@@ -208,6 +227,16 @@
             },
             {
               "kind": "field",
+              "name": "accessibleName",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "description": "A `role=\"progressbar\"` with no name is unusable in a screen reader's landmark list.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
               "name": "text",
               "type": {
                 "text": "string"
@@ -224,6 +253,23 @@
               },
               "default": "0",
               "fieldName": "percentage"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for the progress bar. Falls back to a translated \"Progress\".",
+              "fieldName": "label"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
             },
             {
               "name": "color",
@@ -383,6 +429,35 @@
             },
             {
               "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for the progress circle. Falls back to a translated \"Progress\".",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "accessibleName",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "description": "A `role=\"progressbar\"` with no name is unusable in a screen reader's landmark list.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
               "name": "pct",
               "type": {
                 "text": "number"
@@ -456,6 +531,23 @@
               },
               "default": "10",
               "fieldName": "circleWidth"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for the progress circle. Falls back to a translated \"Progress\".",
+              "fieldName": "label"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
             }
           ],
           "superclass": {

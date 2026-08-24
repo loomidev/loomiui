@@ -429,6 +429,7 @@ export class LoomiAutocomplete extends LoomiElement {
           ?disabled=${this.disabled}
           ?readonly=${this.readonly}
           ?required=${this.required}
+          role="combobox"
           aria-autocomplete="list"
           aria-expanded=${this.open ? "true" : "false"}
           aria-label=${hasLabel ? this.label : nothing}

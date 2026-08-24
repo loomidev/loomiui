@@ -1,6 +1,6 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, type LoomiColor } from "@loomidev/core";
+import { LoomiElement, loomiStyles, loomiT, type LoomiColor } from "@loomidev/core";
 import "@loomidev/avatar/loomi-avatar.js";
 import "@loomidev/button/loomi-button.js";
 import "@loomidev/dropmenu/loomi-dropmenu.js";
@@ -55,6 +55,11 @@ const SCROLL_THRESHOLD = 24;
 export class LoomiChatWindow extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
+  /**
+   * BCP-47 locale for the component's own strings. Only the attachment-input labels read
+   * it today — the rest of this component's copy is still hardcoded English.
+   */
+  @property() locale = "";
   @property() title = "New Chat";
   @property() description = "How can I help you today?";
   @property({ attribute: "empty-title" }) emptyTitle = "Morning!";
@@ -514,6 +519,7 @@ export class LoomiChatWindow extends LoomiElement {
                     class="loomi-chat-file-input"
                     type="file"
                     tabindex="-1"
+                    aria-label=${loomiT("common.attachFile", {}, this.locale)}
                     @change=${this.onAttachmentPicked("file")}
                   />
                   <input
@@ -521,10 +527,11 @@ export class LoomiChatWindow extends LoomiElement {
                     type="file"
                     accept="image/*"
                     tabindex="-1"
+                    aria-label=${loomiT("common.attachPicture", {}, this.locale)}
                     @change=${this.onAttachmentPicked("picture")}
                   />
                   <div class="loomi-chat-send-tools">
-                    <loomi-dropmenu placement="right">
+                    <loomi-dropmenu placement="right" label="Attach">
                       <span slot="trigger" class="loomi-chat-attach-trigger" title="Attach">
                         <loomi-icon name="plus"></loomi-icon>
                       </span>

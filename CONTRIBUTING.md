@@ -773,8 +773,8 @@ reinvent it.**
 ## 8a. Automated smoke tests
 
 There is a real, running test suite — `packages/*/test/**/*.test.ts` — using
-[`@web/test-runner`](https://modern-web.dev/docs/test-runner/overview/) with a real
-headless Chromium (via `@web/test-runner-puppeteer`) and
+[`@web/test-runner`](https://modern-web.dev/docs/test-runner/overview/) driving real
+headless Chromium, Firefox and WebKit (via `@web/test-runner-playwright`) and
 [`@open-wc/testing`](https://open-wc.org/docs/testing/testing-package/)'s `fixture()` /
 `expect()` / `oneEvent()` helpers. Tests run against the **built `dist/` output**, not
 the TypeScript source — they exercise the same artifact a consumer would install, so
@@ -782,13 +782,21 @@ the TypeScript source — they exercise the same artifact a consumer would insta
 
 ```bash
 pnpm build
-pnpm test                                          # the whole suite
+pnpm test                                          # all three engines
+LOOMI_BROWSERS=chromium pnpm test                  # one engine, while iterating
 pnpm web-test-runner --files "packages/button/test/**/*.test.ts"   # one package only
 ```
 
 Config lives at the repo root in `web-test-runner.config.mjs`. Two things in there are
 deliberate, not defaults:
 
+- **All three engines by default.** The library is built on web-platform primitives whose
+  engine support genuinely differs (`ElementInternals` form association,
+  `adoptedStyleSheets`, focus delegation), so a Chromium-only pass is not evidence the
+  components work. `LOOMI_BROWSERS` narrows the matrix to a comma-separated subset for
+  local iteration; CI always runs all three. Note that Playwright's Firefox build does not
+  launch on macOS 27 prereleases — that is a browser/OS problem, not a library one, and
+  `LOOMI_BROWSERS=chromium,webkit` is the local workaround.
 - **`concurrency: 1`.** Running multiple test files' browser pages concurrently caused
   real, reproducible timeouts under CPU contention on a dev machine — every failing test
   was independently verified to pass reliably in isolation, confirming it was a resource
@@ -800,6 +808,29 @@ deliberate, not defaults:
   package's `tsconfig.json` only includes `src/**/*.ts`). A test file with a type error
   will still run; catch type issues by eye or add `test/**/*.ts` to a package's
   `tsconfig.json` `include` if you want stricter coverage.
+
+### The accessibility sweep
+
+`packages/components/test/a11y.test.ts` renders **every** custom element the library
+defines and checks it with axe-core (through `chai-a11y-axe`, which `@open-wc/testing`
+registers for you — there is no extra dependency to add).
+
+Each entry is `[tag, markup]`. `null` markup renders the element bare, which is only
+correct for components that are already meaningful with no attributes or content.
+Everything else gets markup representing **correct, realistic use** — a form control with
+its label, a menu item inside its menu, a button with a name. That distinction is the
+point: a bare `<loomi-input>` legitimately has no accessible name, so asserting on it
+would measure the fixture rather than the component. A violation against realistic markup
+is a real defect a consumer would hit.
+
+`pnpm check:a11y-coverage` (in CI) fails if any tag in a `custom-elements.json` is absent
+from that list, so **a new component cannot silently skip accessibility testing** — add
+your entry when you add the component.
+
+The sweep runs axe's default rule set, `color-contrast` included. The theme's text
+tokens are tuned so every tier clears WCAG AA against both the light and dark surface
+(see `packages/theme/scripts/build-tokens.mjs`), so a contrast failure means a token
+regressed rather than that the rule needs muting.
 
 ### Current coverage
 
@@ -1077,10 +1108,15 @@ publish time, not by splitting the source into many git repos.
 - **Deeper test coverage** for component-specific edge cases — extend opportunistically
   per [§8a](#8a-automated-smoke-tests), especially when changing form controls,
   overlays, keyboard navigation, or generated styles.
-- **Accessibility beyond the overlay components above** hasn't had a dedicated pass —
-  e.g. `context-menu`, `command-palette`, `data-grid`, and other components with custom
-  keyboard interaction haven't been audited against the WAI-ARIA APG the way the
-  components above have.
+- **Keyboard-interaction audits beyond the overlay components above.** Every component now
+  passes an automated axe sweep (see [§8a](#the-accessibility-sweep)), which catches
+  naming, roles and ARIA misuse — but axe cannot judge whether a component's _keyboard_
+  behavior follows the WAI-ARIA APG. `command-palette`, `data-grid` and other components
+  with custom keyboard interaction still haven't been reviewed against the pattern the way
+  `modal`, `tabs`, `select` and `colorpicker` have.
+- **Contrast beyond the default palette.** The shipped text tokens clear WCAG AA, and the
+  sweep enforces that. A consumer who overrides `--loomi-gray-*` or `--loomi-surface` can
+  still land below 4.5:1, and nothing checks their palette for them.
 
 ---
 

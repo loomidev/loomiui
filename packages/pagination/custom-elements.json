@@ -248,10 +248,28 @@
                 {
                   "name": "opts",
                   "type": {
-                    "text": "{ disabled?: boolean; active?: boolean; onClick: () => void }"
+                    "text": "{ disabled?: boolean; active?: boolean; onClick: () => void; label?: string }"
                   }
                 }
               ]
+            },
+            {
+              "kind": "field",
+              "name": "prevLabel",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "nextLabel",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
             },
             {
               "kind": "method",

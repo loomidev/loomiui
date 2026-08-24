@@ -23,30 +23,31 @@ jobs:
           node-version: 20
           cache: pnpm
 
-      # Chrome is downloaded by puppeteer's postinstall script, but it lands in
-      # ~/.cache/puppeteer — outside the pnpm store that `cache: pnpm` restores. pnpm skips
-      # that script whenever the store cache hits, so a warm store on a fresh runner leaves
-      # no browser anywhere and every test file fails to launch with "Could not find Chrome".
-      # Cache the browsers on their own key so they travel with the store.
-      - name: Cache Puppeteer browsers
+      # The test suite runs against Chromium, Firefox and WebKit (see
+      # web-test-runner.config.mjs). Playwright stores its browsers in ~/.cache/ms-playwright,
+      # outside the pnpm store that `cache: pnpm` restores, so cache them on their own key.
+      - name: Cache Playwright browsers
         uses: actions/cache@v4
         with:
-          path: ~/.cache/puppeteer
-          key: puppeteer-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: puppeteer-${{ runner.os }}-
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: playwright-${{ runner.os }}-
 
       - run: pnpm install --frozen-lockfile
 
-      # Covers the remaining gap: a store-cache hit with a cold browser cache still skips the
-      # postinstall. Rebuilding forces it to run; once the browsers exist it costs ~2s.
-      - name: Ensure Chrome for Puppeteer
-        run: pnpm rebuild puppeteer
+      # Idempotent: with a warm cache this revalidates and exits in seconds. --with-deps
+      # installs the system libraries Firefox and WebKit need on a bare runner, which the
+      # cache cannot carry.
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium firefox webkit
 
       # Fast static checks first — cheap to run, fail early before build/test.
       - name: No merge-conflict markers
         run: pnpm check:conflicts
       - name: Bundle packages in sync
         run: pnpm check:bundles
+      - name: Every component is in the accessibility sweep
+        run: pnpm check:a11y-coverage
       - name: Lint
         run: pnpm lint
       - name: Formatting

@@ -584,6 +584,16 @@
           "members": [
             {
               "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "BCP-47 locale for the component's own strings. Only the attachment-input labels read\nit today — the rest of this component's copy is still hardcoded English.",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
               "name": "title",
               "type": {
                 "text": "string"
@@ -1130,6 +1140,15 @@
             }
           ],
           "attributes": [
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "BCP-47 locale for the component's own strings. Only the attachment-input labels read\nit today — the rest of this component's copy is still hardcoded English.",
+              "fieldName": "locale"
+            },
             {
               "name": "title",
               "type": {

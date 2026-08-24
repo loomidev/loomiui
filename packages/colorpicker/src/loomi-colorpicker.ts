@@ -191,7 +191,7 @@ export class LoomiColorpicker extends LoomiElement {
               </div>`
               : nothing
           }`
-      : html`<input class="loomi-native size-${this.size}" type="color" name=${this.name || nothing} .value=${this.selectedValue} @input=${(e: Event) => this.setValue((e.target as HTMLInputElement).value)} />`;
+      : html`<input class="loomi-native size-${this.size}" type="color" aria-label=${loomiT("colorpicker.pickColor", {}, this.locale)} name=${this.name || nothing} .value=${this.selectedValue} @input=${(e: Event) => this.setValue((e.target as HTMLInputElement).value)} />`;
 
     return html`<div class="loomi-cp">
       ${swatch}

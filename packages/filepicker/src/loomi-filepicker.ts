@@ -597,6 +597,7 @@ export class LoomiFilepicker extends LoomiElement {
         <input
           class="loomi-native"
           type="file"
+          aria-label=${loomiT("filepicker.chooseFiles", {}, this.locale)}
           name=${(this.name ? (this.maxFiles > 1 ? this.name + "[]" : this.name) : "") || nothing}
           accept=${this.acceptedFileTypes}
           ?multiple=${this.maxFiles > 1}

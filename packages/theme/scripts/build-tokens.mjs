@@ -93,8 +93,12 @@ const SEMANTIC_LIGHT = {
   text: gray(900),
   "text-on-primary": `var(--${prefix}-white, #ffffff)`,
   "text-secondary": gray(700),
-  "text-muted": gray(500),
-  "text-faint": gray(400),
+  // The muted/faint tiers sit one step darker than the obvious choices so that every
+  // text token clears WCAG AA (4.5:1) against --loomi-surface. gray-400 on white is
+  // 2.60:1 and gray-500 is 4.84:1, so faint text — placeholders, most notably — has to
+  // start at gray-500, which in turn pushes muted to gray-600 to stay a distinct tier.
+  "text-muted": gray(600),
+  "text-faint": gray(500),
 };
 const SEMANTIC_DARK = {
   surface: gray(800),
@@ -107,9 +111,12 @@ const SEMANTIC_DARK = {
   "focus-ring-color": primary(500),
   text: gray(100),
   "text-on-primary": `var(--${prefix}-white, #ffffff)`,
-  "text-secondary": gray(300),
-  "text-muted": gray(400),
-  "text-faint": gray(500),
+  // Same AA constraint mirrored against the dark surface (gray-800): gray-500 is only
+  // 3.03:1 there, so faint starts at gray-400 (5.64:1) and the tiers above it shift one
+  // step lighter to stay distinguishable.
+  "text-secondary": gray(200),
+  "text-muted": gray(300),
+  "text-faint": gray(400),
 };
 const surfaceLines = (map, surfaceValue) =>
   Object.entries(map)

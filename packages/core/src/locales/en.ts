@@ -2,6 +2,8 @@ import type { LoomiTranslations } from "./types.js";
 
 export const en: LoomiTranslations = {
   common: {
+    attachFile: "Attach file",
+    attachPicture: "Attach picture",
     close: "Close",
     dismiss: "Dismiss",
     remove: "Remove",
@@ -26,6 +28,7 @@ export const en: LoomiTranslations = {
     dialog: "Date picker",
   },
   filepicker: {
+    chooseFiles: "Choose files",
     placeholderLine1: "Choose files or drag and drop to upload",
     placeholderLine2: "%s up to %s",
     cropTitle: "Crop image",
@@ -52,6 +55,9 @@ export const en: LoomiTranslations = {
     actionsTitle: "actions",
   },
   pagination: {
+    previous: "Previous page",
+    next: "Next page",
+    selectPage: "Select page",
     totalLabel: "Showing :a to :b of :c",
     noRecords: "No records",
     pageOf: "Page :page of :pages",
@@ -173,6 +179,9 @@ export const en: LoomiTranslations = {
     flipToBack: "Show security code",
     flipToFront: "Back to card",
   },
+  progress: {
+    label: "Progress",
+  },
   rating: {
     label: "Rating",
     valueLabel: "Rating :value of :max",
@@ -181,6 +190,7 @@ export const en: LoomiTranslations = {
     emptyPlaceholder: "No matches",
   },
   calendar: {
+    eventActions: "Event actions",
     today: "Today",
     addEvent: "Add event",
     previous: "Previous",

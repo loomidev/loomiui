@@ -323,6 +323,26 @@
             },
             {
               "kind": "field",
+              "name": "adoptedAriaLabel",
+              "type": {
+                "text": "string | null"
+              },
+              "privacy": "private",
+              "default": "null",
+              "description": "`aria-label` written on the host, moved to the inner control.\n\nThe host has no ARIA role of its own, so a label left on it is both ignored by\nassistive technology and reported by axe as a prohibited attribute — an icon-only\nbutton ends up with no accessible name at all. `<loomi-button aria-label=\"Close\">`\nis nevertheless what any consumer would naturally write (and what\n`@loomidev/chat` did), so adopt it rather than requiring `controlElement`.\n\nAdopted on connect and before each update, which covers markup and template-driven\nchanges. A bare `setAttribute(\"aria-label\", ...)` on an otherwise idle host is not\nobserved — use the `controlElement` escape hatch documented above for that."
+            },
+            {
+              "kind": "method",
+              "name": "adoptAriaLabel",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
               "name": "cleanupDarkWatch",
               "type": {
                 "text": "() => void | undefined"

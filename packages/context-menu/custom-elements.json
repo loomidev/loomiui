@@ -500,6 +500,16 @@
             },
             {
               "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for the trigger. The target is a `role=\"button\"`, so it needs a name;\nslotted text normally supplies one, but a target that is iconic — or empty until a\nright-click sets a subject, as in `<loomi-calendar>` — has to say it explicitly.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
               "name": "open",
               "type": {
                 "text": "boolean"
@@ -773,6 +783,15 @@
               },
               "default": "false",
               "fieldName": "iconRight"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for the trigger. The target is a `role=\"button\"`, so it needs a name;\nslotted text normally supplies one, but a target that is iconic — or empty until a\nright-click sets a subject, as in `<loomi-calendar>` — has to say it explicitly.",
+              "fieldName": "label"
             }
           ],
           "superclass": {
