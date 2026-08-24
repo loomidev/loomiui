@@ -47,6 +47,10 @@ const SCROLL_THRESHOLD = 24;
  * @fires loomi-send - `detail: { message: LoomiChatWindowMessage }` when the current user sends.
  * @fires loomi-reset - when the conversation is reset.
  * @fires loomi-conversation-select - `detail: { conversation }` when a conversation row is clicked.
+ * @fires loomi-attach-file - `detail: { files }` when files are attached from the composer.
+ * @fires loomi-attach-picture - `detail: { files }` when images are attached from the composer.
+ * @fires loomi-record - `detail: { stream }` when voice recording starts.
+ * @fires loomi-record-error - `detail: { error }` when recording cannot start.
  *
  * @slot conversations-header - Custom markup (filters, compose button) above the conversation list.
  * @slot header-actions - Action buttons in the chat header, before the reset button.

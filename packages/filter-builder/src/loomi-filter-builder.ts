@@ -47,6 +47,12 @@ function createRuleId() {
   return `rule-${Math.random().toString(36).slice(2, 8)}`;
 }
 
+/**
+ * `<loomi-filter-builder>` — a rule builder for composing and applying filters.
+ *
+ * @fires loomi-filter-change - `detail: { value }` whenever a rule is added, edited, or removed.
+ * @fires loomi-filter-apply - `detail: { value }` when the filters are applied.
+ */
 @customElement("loomi-filter-builder")
 export class LoomiFilterBuilder extends LoomiElement {
   static properties = {

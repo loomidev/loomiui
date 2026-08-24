@@ -914,23 +914,20 @@
           ],
           "events": [
             {
-              "name": "type",
-              "type": {
-                "text": "Event"
-              }
-            },
-            {
-              "type": {
-                "text": "CustomEvent"
-              }
-            },
-            {
               "description": "Native input event (composed).",
               "name": "input"
             },
             {
               "description": "Native change event (composed).",
               "name": "change"
+            },
+            {
+              "description": "`detail: { value }` when the prefix dropdown selection changes.",
+              "name": "loomi-prefix-change"
+            },
+            {
+              "description": "`detail: { value }` when the suffix dropdown selection changes.",
+              "name": "loomi-suffix-change"
             }
           ],
           "attributes": [

@@ -71,7 +71,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "`<loomi-date-range-picker>` — a two-month range picker with presets and an optional\ncomparison range.",
           "name": "LoomiDateRangePicker",
           "members": [
             {
@@ -448,10 +448,16 @@
           ],
           "events": [
             {
-              "name": "name",
-              "type": {
-                "text": "CustomEvent"
-              }
+              "description": "`detail: { value, presetId }` whenever the range changes.",
+              "name": "loomi-date-range-change"
+            },
+            {
+              "description": "`detail: { value, presetId }` when the range is applied.",
+              "name": "loomi-date-range-apply"
+            },
+            {
+              "description": "`detail: { open }` when the panel opens or closes.",
+              "name": "loomi-date-range-open-change"
             }
           ],
           "attributes": [

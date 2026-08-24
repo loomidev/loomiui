@@ -95,7 +95,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "`<loomi-filter-builder>` — a rule builder for composing and applying filters.",
           "name": "LoomiFilterBuilder",
           "members": [
             {
@@ -405,7 +405,12 @@
               "name": "loomi-filter-change",
               "type": {
                 "text": "CustomEvent"
-              }
+              },
+              "description": "`detail: { value }` whenever a rule is added, edited, or removed."
+            },
+            {
+              "description": "`detail: { value }` when the filters are applied.",
+              "name": "loomi-filter-apply"
             }
           ],
           "attributes": [

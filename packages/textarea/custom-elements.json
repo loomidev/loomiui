@@ -517,12 +517,6 @@
           ],
           "events": [
             {
-              "name": "type",
-              "type": {
-                "text": "Event"
-              }
-            },
-            {
               "name": "loomi-mention-search",
               "type": {
                 "text": "CustomEvent"

@@ -47,6 +47,8 @@ const booleanAttribute = {
  * @csspart input - The native `<input>`.
  * @fires input - Native input event (composed).
  * @fires change - Native change event (composed).
+ * @fires loomi-prefix-change - `detail: { value }` when the prefix dropdown selection changes.
+ * @fires loomi-suffix-change - `detail: { value }` when the suffix dropdown selection changes.
  */
 @customElement("loomi-input")
 export class LoomiInput extends LoomiElement {

@@ -1585,7 +1585,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "`<loomi-calendar>` — month, week, day, and agenda views with events and reminders.\n\nMost of its events are picked up from the source automatically; `loomi-reminder-create`\nis dispatched from a callback the analyzer cannot follow, so it is documented here.",
           "name": "LoomiCalendar",
           "members": [
             {
@@ -3594,6 +3594,10 @@
               "type": {
                 "text": "CustomEvent"
               }
+            },
+            {
+              "description": "`detail: { reminder }` when a reminder is created.",
+              "name": "loomi-reminder-create"
             }
           ],
           "attributes": [

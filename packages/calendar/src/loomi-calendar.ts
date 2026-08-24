@@ -180,6 +180,14 @@ interface SlotDragState {
   container: HTMLElement;
 }
 
+/**
+ * `<loomi-calendar>` — month, week, day, and agenda views with events and reminders.
+ *
+ * Most of its events are picked up from the source automatically; `loomi-reminder-create`
+ * is dispatched from a callback the analyzer cannot follow, so it is documented here.
+ *
+ * @fires loomi-reminder-create - `detail: { reminder }` when a reminder is created.
+ */
 @customElement("loomi-calendar")
 export class LoomiCalendar extends LoomiElement {
   static properties = {

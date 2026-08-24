@@ -8,6 +8,12 @@ import type {
   CommandPaletteSelectDetail,
 } from "./types.js";
 
+// Defaults are translated when left untouched, and used verbatim once a consumer sets
+// their own — see loomiDefaultText.
+const DEFAULT_PLACEHOLDER = "Search commands";
+const DEFAULT_EMPTY_TITLE = "No commands found";
+const DEFAULT_EMPTY_DESCRIPTION = "Try a different search term.";
+
 /**
  * `<loomi-command-palette>` — a searchable command menu opened with a trigger or a
  * keyboard shortcut.
@@ -16,12 +22,6 @@ import type {
  * @fires loomi-command-open-change - `detail: { open }` when the palette opens or closes.
  * @fires loomi-command-query-change - `detail: { query }` as the search query is typed.
  */
-// Defaults are translated when left untouched, and used verbatim once a consumer sets
-// their own — see loomiDefaultText.
-const DEFAULT_PLACEHOLDER = "Search commands";
-const DEFAULT_EMPTY_TITLE = "No commands found";
-const DEFAULT_EMPTY_DESCRIPTION = "Try a different search term.";
-
 @customElement("loomi-command-palette")
 export class LoomiCommandPalette extends LoomiElement {
   static properties = {

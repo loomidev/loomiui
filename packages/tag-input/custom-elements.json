@@ -709,12 +709,6 @@
           ],
           "events": [
             {
-              "name": "type",
-              "type": {
-                "text": "Event"
-              }
-            },
-            {
               "name": "loomi-autocomplete-select",
               "type": {
                 "text": "CustomEvent"

@@ -1223,12 +1223,6 @@
           ],
           "events": [
             {
-              "name": "type",
-              "type": {
-                "text": "Event"
-              }
-            },
-            {
               "name": "loomi-ai-generate",
               "type": {
                 "text": "CustomEvent"

@@ -636,12 +636,6 @@
           ],
           "events": [
             {
-              "name": "type",
-              "type": {
-                "text": "Event"
-              }
-            },
-            {
               "name": "loomi-prefix-change",
               "type": {
                 "text": "CustomEvent"

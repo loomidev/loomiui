@@ -1137,6 +1137,22 @@
             {
               "description": "`detail: { message: LoomiChatWindowMessage }` when the current user sends.",
               "name": "loomi-send"
+            },
+            {
+              "description": "`detail: { files }` when files are attached from the composer.",
+              "name": "loomi-attach-file"
+            },
+            {
+              "description": "`detail: { files }` when images are attached from the composer.",
+              "name": "loomi-attach-picture"
+            },
+            {
+              "description": "`detail: { stream }` when voice recording starts.",
+              "name": "loomi-record"
+            },
+            {
+              "description": "`detail: { error }` when recording cannot start.",
+              "name": "loomi-record-error"
             }
           ],
           "attributes": [

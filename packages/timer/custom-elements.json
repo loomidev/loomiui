@@ -402,12 +402,6 @@
           ],
           "events": [
             {
-              "name": "type",
-              "type": {
-                "text": "CustomEvent"
-              }
-            },
-            {
               "description": "Fired when the timer starts.",
               "name": "loomi-timer-start"
             },

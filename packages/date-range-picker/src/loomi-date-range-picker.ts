@@ -99,6 +99,14 @@ function createDefaultPresets(referenceDate = new Date()): DateRangePreset[] {
   ];
 }
 
+/**
+ * `<loomi-date-range-picker>` — a two-month range picker with presets and an optional
+ * comparison range.
+ *
+ * @fires loomi-date-range-change - `detail: { value, presetId }` whenever the range changes.
+ * @fires loomi-date-range-apply - `detail: { value, presetId }` when the range is applied.
+ * @fires loomi-date-range-open-change - `detail: { open }` when the panel opens or closes.
+ */
 @customElement("loomi-date-range-picker")
 export class LoomiDateRangePicker extends LoomiElement {
   static properties = {

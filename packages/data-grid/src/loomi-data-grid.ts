@@ -37,6 +37,11 @@ import type { DataGridExportRequestDetail } from "./modules/export.js";
 const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_MIN_COLUMN_WIDTH = 60;
 
+// Defaults are translated when left untouched, and used verbatim once a consumer sets
+// their own — see loomiDefaultText.
+const DEFAULT_EMPTY_TITLE = "No rows found";
+const DEFAULT_EMPTY_DESCRIPTION = "Try changing the filters or search term.";
+
 /**
  * `<loomi-data-grid>` — a data grid with sorting, pagination, selection, column resizing
  * and pluggable modules (filtering, grouping, inline editing, export, …).
@@ -54,11 +59,6 @@ const DEFAULT_MIN_COLUMN_WIDTH = 60;
  * @fires loomi-grid-toggle-row - `detail: { rowKey, row, expanded }` when a group or tree row is expanded or collapsed.
  * @fires loomi-export-request - `detail: { format, rows, columns, selectedOnly }` when an export is requested.
  */
-// Defaults are translated when left untouched, and used verbatim once a consumer sets
-// their own — see loomiDefaultText.
-const DEFAULT_EMPTY_TITLE = "No rows found";
-const DEFAULT_EMPTY_DESCRIPTION = "Try changing the filters or search term.";
-
 @customElement("loomi-data-grid")
 export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
   extends LoomiElement

@@ -100,11 +100,8 @@
               "name": "action",
               "type": {
                 "text": "Event"
-              }
-            },
-            {
-              "description": "Fired when the action button is clicked.",
-              "name": "loomi-action"
+              },
+              "description": "Fired when the action button is clicked."
             }
           ],
           "attributes": [
