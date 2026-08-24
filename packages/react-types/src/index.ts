@@ -207,8 +207,8 @@ interface LoomiColorpickerAttributes {
 }
 
 interface LoomiCommandPaletteAttributes {
-  "empty-description"?: string;
-  "empty-title"?: string;
+  "empty-description"?: LoomiAttributeValue;
+  "empty-title"?: LoomiAttributeValue;
 }
 
 interface LoomiContactCardAttributes {
@@ -240,8 +240,8 @@ interface LoomiCreditcardAttributes {
 }
 
 interface LoomiDataGridAttributes {
-  "empty-description"?: string;
-  "empty-title"?: string;
+  "empty-description"?: LoomiAttributeValue;
+  "empty-title"?: LoomiAttributeValue;
   "max-height"?: string;
   "page-size"?: number;
   "row-key"?: string;
@@ -325,9 +325,9 @@ interface LoomiFilepickerAttributes {
 }
 
 interface LoomiFilterBuilderAttributes {
-  "add-label"?: string;
-  "apply-label"?: string;
-  "empty-label"?: string;
+  "add-label"?: LoomiAttributeValue;
+  "apply-label"?: LoomiAttributeValue;
+  "empty-label"?: LoomiAttributeValue;
   "show-apply"?: boolean;
 }
 

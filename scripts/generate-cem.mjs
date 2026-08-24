@@ -108,4 +108,3 @@ function collectSources(dir) {
   }
   return files;
 }
-
