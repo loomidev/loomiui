@@ -1,11 +1,14 @@
-import { readdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { format, resolveConfig } from "prettier";
 
 const packageRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const packagesRoot = join(packageRoot, "..");
-const outputPath = join(packageRoot, "src", "index.ts");
+const srcDir = join(packageRoot, "src");
+const componentsDir = join(srcDir, "components");
+const indexPath = join(srcDir, "index.ts");
+const generatorPath = relative(packageRoot, fileURLToPath(import.meta.url));
 
 const skip = new Set([
   "core",
@@ -50,11 +53,15 @@ const extractEventMap = async (packageName) => {
   for (const file of files) {
     if (!file.endsWith(".ts") || file === "index.ts") continue;
     const content = await readFile(join(srcDir, file), "utf8");
-    const mapMatch = content.match(/export interface (Loomi\w+EventMap)\s*\{/);
+    // Most packages name theirs `Loomi<Component>EventMap`; data-grid's is
+    // `DataGridEventMap<TRecord>`, so allow any name and any type parameters.
+    const mapMatch = content.match(/export interface (\w+EventMap)(?:<[^>]*>)?\s*\{/);
     if (!mapMatch) continue;
     const mapName = mapMatch[1];
     const eventNames = new Set();
-    const bodyMatch = content.match(new RegExp(`interface ${mapName}\\s*\\{([\\s\\S]+?)\\}`));
+    const bodyMatch = content.match(
+      new RegExp(`interface ${mapName}(?:<[^>]*>)?\\s*\\{([\\s\\S]+?)\\n\\}`),
+    );
     if (bodyMatch) {
       // Keys may be quoted ("loomi-select") or bare (change) — prettier drops
       // quotes from identifier-safe names, so accept both.
@@ -134,70 +141,103 @@ for (const { events } of components) {
   }
 }
 
-const sideEffectImports = [
-  ...new Set(components.map((c) => `import "@loomidev/components/${c.packageName}";`)),
-].join("\n");
+// One module per component so consumers can pull in a handful of wrappers —
+// `import { DataGrid } from "@loomidev/react/data-grid"` — without registering
+// every element in the library. `src/index.ts` re-exports all of them.
+const moduleName = (tagName) => tagName.slice("loomi-".length);
 
-const typeImport =
-  neededEventMaps.size > 0
-    ? `import type { ${[...neededEventMaps].sort().join(", ")} } from "@loomidev/components";`
-    : "";
+const buildComponentModule = ({ tagName, componentName, packageName, events, attrAliases }) => {
+  const eventEntries = Object.entries(events);
+  const aliasEntries = Object.entries(attrAliases);
 
-const componentExports = components
-  .map(({ tagName, componentName, events, attrAliases }) => {
-    const eventEntries = Object.entries(events);
-    const aliasEntries = Object.entries(attrAliases);
+  const eventsLiteral =
+    eventEntries.length === 0
+      ? "{}"
+      : `{ ${eventEntries.map(([k, { propName }]) => `${JSON.stringify(k)}: ${JSON.stringify(propName)}`).join(", ")} }`;
 
-    const eventsLiteral =
-      eventEntries.length === 0
-        ? "{}"
-        : `{ ${eventEntries.map(([k, { propName }]) => `${JSON.stringify(k)}: ${JSON.stringify(propName)}`).join(", ")} }`;
+  const aliasesLiteral =
+    aliasEntries.length === 0
+      ? "{}"
+      : `{ ${aliasEntries.map(([camel, hyphen]) => `${JSON.stringify(camel)}: ${JSON.stringify(hyphen)}`).join(", ")} }`;
 
-    const aliasesLiteral =
-      aliasEntries.length === 0
-        ? "{}"
-        : `{ ${aliasEntries.map(([camel, hyphen]) => `${JSON.stringify(camel)}: ${JSON.stringify(hyphen)}`).join(", ")} }`;
+  const callbackLines = eventEntries
+    .map(([, { propName, cbType }]) => `  ${propName}?: (e: ${cbType}) => void;`)
+    .join("\n");
 
-    const callbackLines = eventEntries
-      .map(([, { propName, cbType }]) => `  ${propName}?: (e: ${cbType}) => void;`)
-      .join("\n");
+  const aliasLines = aliasEntries
+    .map(
+      ([camel, hyphen]) =>
+        `  ${camel}?: JSX.IntrinsicElements[${JSON.stringify(tagName)}][${JSON.stringify(hyphen)}];`,
+    )
+    .join("\n");
 
-    const aliasLines = aliasEntries
-      .map(
-        ([camel, hyphen]) =>
-          `  ${camel}?: JSX.IntrinsicElements[${JSON.stringify(tagName)}][${JSON.stringify(hyphen)}];`,
-      )
-      .join("\n");
+  const omitKeys = eventEntries.map(([, { propName }]) => JSON.stringify(propName)).join(" | ");
+  const base =
+    eventEntries.length > 0
+      ? `Omit<JSX.IntrinsicElements[${JSON.stringify(tagName)}], ${omitKeys}>`
+      : `JSX.IntrinsicElements[${JSON.stringify(tagName)}]`;
 
-    const omitKeys = eventEntries.map(([, { propName }]) => JSON.stringify(propName)).join(" | ");
-    const base =
-      eventEntries.length > 0
-        ? `Omit<JSX.IntrinsicElements[${JSON.stringify(tagName)}], ${omitKeys}>`
-        : `JSX.IntrinsicElements[${JSON.stringify(tagName)}]`;
+  const extras = [callbackLines, aliasLines].filter(Boolean).join("\n");
+  const typeBody = extras ? `${base} & {\n${extras}\n}` : base;
 
-    const extras = [callbackLines, aliasLines].filter(Boolean).join("\n");
-    const typeBody = extras ? `${base} & {\n${extras}\n}` : base;
+  // Only the EventMap types this one component references
+  const usedEventMaps = [
+    ...new Set(
+      eventEntries
+        .map(([, { cbType }]) => cbType.match(/^(\w+EventMap)/)?.[1])
+        .filter((name) => name !== undefined),
+    ),
+  ].sort();
 
-    return (
-      `export const ${componentName}: ForwardRefExoticComponent<\n  ${typeBody}\n> = createComponent(\n` +
-      `  ${JSON.stringify(tagName)},\n  ${eventsLiteral},\n  ${aliasesLiteral},\n` +
-      `) as unknown as ForwardRefExoticComponent<\n  ${typeBody}\n>;`
-    );
-  })
-  .join("\n\n");
+  const typeImport =
+    usedEventMaps.length > 0
+      ? `import type { ${usedEventMaps.join(", ")} } from "@loomidev/components";\n`
+      : "";
 
-const source = `\
-// Generated by ${relative(packageRoot, fileURLToPath(import.meta.url))}. Do not edit directly.
+  return `\
+// Generated by ${generatorPath}. Do not edit directly.
 import { type ForwardRefExoticComponent } from "react";
 import type {} from "@loomidev/react-types";
-${typeImport}
-import { createComponent } from "./create-component.js";
+${typeImport}import { createComponent } from "../create-component.js";
 
-${sideEffectImports}
+import "@loomidev/components/${packageName}";
 
-${componentExports}
+export const ${componentName}: ForwardRefExoticComponent<
+  ${typeBody}
+> = createComponent(
+  ${JSON.stringify(tagName)},
+  ${eventsLiteral},
+  ${aliasesLiteral},
+) as unknown as ForwardRefExoticComponent<
+  ${typeBody}
+>;
+`;
+};
+
+const barrelSource = `\
+// Generated by ${generatorPath}. Do not edit directly.
+// Re-exports every wrapper. Importing from here registers all elements; for a
+// smaller bundle import the component modules directly:
+//   import { DataGrid } from "@loomidev/react/data-grid";
+${components.map((c) => `export { ${c.componentName} } from "./components/${moduleName(c.tagName)}.js";`).join("\n")}
 `;
 
-const prettierConfig = (await resolveConfig(outputPath)) ?? {};
-await writeFile(outputPath, await format(source, { ...prettierConfig, parser: "typescript" }));
+const prettierConfig = (await resolveConfig(indexPath)) ?? {};
+const write = async (path, source) =>
+  writeFile(path, await format(source, { ...prettierConfig, parser: "typescript" }));
+
+// Rebuilt from scratch so wrappers for deleted components do not linger
+await rm(componentsDir, { recursive: true, force: true });
+await mkdir(componentsDir, { recursive: true });
+
+await Promise.all(
+  components.map((component) =>
+    write(
+      join(componentsDir, `${moduleName(component.tagName)}.ts`),
+      buildComponentModule(component),
+    ),
+  ),
+);
+await write(indexPath, barrelSource);
+
 console.log(`[react] Generated ${components.length} React wrapper components.`);

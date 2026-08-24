@@ -22,6 +22,21 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json",
+    "./*": {
+      "types": "./dist/components/*.d.ts",
+      "import": "./dist/components/*.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "index.d.ts": [
+        "./dist/index.d.ts"
+      ],
+      "*": [
+        "./dist/components/*.d.ts"
+      ]
     }
   },
   "scripts": {
