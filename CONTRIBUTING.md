@@ -1194,8 +1194,9 @@ publish time, not by splitting the source into many git repos.
 
 ### Still open
 
-- **Deeper test coverage** for component-specific edge cases. Nineteen packages still carry
-  three or fewer test blocks — extend opportunistically per [§8a](#8a-automated-smoke-tests),
+- **Deeper test coverage** for component-specific edge cases. Fifteen packages still carry
+  three or fewer test blocks — all of them presentational (avatars, cards, spinners,
+  timelines), which is why they are last — extend opportunistically per [§8a](#8a-automated-smoke-tests),
   especially when changing form controls, overlays, keyboard navigation, or generated styles.
 - **Visual regression is not in CI.** The suite exists and passes locally
   ([§8a](#visual-regression)), but its baselines are per-platform bitmaps and the Linux set
@@ -1207,12 +1208,6 @@ publish time, not by splitting the source into many git repos.
   is a native reader looking at the result: icon direction, text alignment inside composed
   widgets, and the numeric and date formats components emit are all beyond what a pixel
   diff can judge.
-- **Keyboard-interaction audits beyond the components covered so far.** axe catches naming,
-  roles and ARIA misuse, but cannot judge whether a component's _keyboard_ behavior follows
-  the WAI-ARIA APG. `modal`, `tabs`, `select`, `colorpicker`, `command-palette`,
-  `context-menu` and `data-grid` have been reviewed against their patterns; the remaining
-  components with custom key handling — `date-range-picker`, `emoji-picker`, `otp`,
-  `mention`, `tag-input` among them — have not.
 - **Contrast beyond the default palette.** The shipped text tokens clear WCAG AA and the
   sweep enforces that. A consumer who overrides `--loomi-gray-*` or `--loomi-surface` can
   still land below 4.5:1, and nothing checks their palette for them.
