@@ -55,7 +55,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "`<loomi-command-palette>` — a searchable command menu opened with a trigger or a\nkeyboard shortcut.",
           "name": "LoomiCommandPalette",
           "members": [
             {
@@ -138,6 +138,16 @@
               },
               "default": "0",
               "attribute": "_activeIndex"
+            },
+            {
+              "kind": "field",
+              "name": "previouslyFocused",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "privacy": "private",
+              "default": "null",
+              "description": "Where focus was before the palette opened, so closing can hand it back."
             },
             {
               "kind": "field",
@@ -286,6 +296,19 @@
             },
             {
               "kind": "method",
+              "name": "getLastEnabledIndex",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "items",
+                  "type": {
+                    "text": "CommandPaletteItem[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
               "name": "dispatchOpenChange",
               "privacy": "private"
             }
@@ -295,13 +318,19 @@
               "name": "loomi-command-select",
               "type": {
                 "text": "CustomEvent"
-              }
+              },
+              "description": "`detail: { item }` when a command is chosen."
             },
             {
               "name": "loomi-command-open-change",
               "type": {
                 "text": "CustomEvent"
-              }
+              },
+              "description": "`detail: { open }` when the palette opens or closes."
+            },
+            {
+              "description": "`detail: { query }` as the search query is typed.",
+              "name": "loomi-command-query-change"
             }
           ],
           "attributes": [

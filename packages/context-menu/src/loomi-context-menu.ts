@@ -87,6 +87,17 @@ export class LoomiContextMenuItem extends LoomiElement {
     else void this.openSubmenu();
   }
 
+  /** True while this item's submenu panel is showing. */
+  get isSubmenuOpen(): boolean {
+    return this.submenuOpen;
+  }
+
+  /** Opens the submenu, if this item has one. Used by the parent menu's ArrowRight. */
+  openSubmenuFromKeyboard(): void {
+    if (!this.hasSubmenuItems || this.submenuOpen) return;
+    void this.openSubmenu();
+  }
+
   // ---------------------------------------------------------------- submenu
 
   /**
@@ -445,6 +456,20 @@ export class LoomiContextMenu extends LoomiElement {
       event.preventDefault();
       this.hide();
       this.renderRoot.querySelector<HTMLElement>(".loomi-target")?.focus();
+      return;
+    }
+
+    // APG menu pattern: ArrowRight opens the focused item's submenu, ArrowLeft closes it
+    // again. Without these a submenu is reachable by pointer only.
+    const focused = this.focusedIndex >= 0 ? items[this.focusedIndex] : undefined;
+    if (event.key === "ArrowRight" && focused?.hasSubmenu) {
+      event.preventDefault();
+      focused.openSubmenuFromKeyboard();
+      return;
+    }
+    if (event.key === "ArrowLeft" && focused?.isSubmenuOpen) {
+      event.preventDefault();
+      focused.closeSubmenu();
       return;
     }
 

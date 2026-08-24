@@ -14,6 +14,24 @@ import { esbuildPlugin } from "@web/dev-server-esbuild";
 // launch on your machine at all — Playwright's Firefox build does not start on macOS 27
 // prereleases, which is a browser/OS problem rather than a library one:
 //   LOOMI_BROWSERS=chromium,webkit pnpm test
+/**
+ * WebKit on macOS regularly needs more than Playwright's default 30s to navigate a fresh
+ * test page. A page that misses the window is reported as a browser-level error rather
+ * than a test failure, so the file silently contributes no tests and the run still says
+ * "0 failed" — an infrastructure flake that looks like a pass. Raise both the page
+ * navigation timeout and the browser start timeout so a slow engine waits rather than
+ * quietly dropping coverage.
+ */
+const launcher = (product) =>
+  playwrightLauncher({
+    product,
+    createPage: async ({ context }) => {
+      const page = await context.newPage();
+      page.setDefaultNavigationTimeout(120000);
+      return page;
+    },
+  });
+
 export default {
   rootDir: ".",
   files: "packages/*/test/**/*.test.ts",
@@ -34,7 +52,7 @@ export default {
     .split(",")
     .map((product) => product.trim())
     .filter(Boolean)
-    .map((product) => playwrightLauncher({ product })),
+    .map(launcher),
   // Loaded before the test framework so every package's assertions are covered — see the
   // file for why a failed assertion on a DOM node would otherwise hang the whole run.
   testRunnerHtml: (testFramework) => `<!doctype html>

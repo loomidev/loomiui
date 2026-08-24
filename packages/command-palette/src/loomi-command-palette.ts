@@ -8,6 +8,14 @@ import type {
   CommandPaletteSelectDetail,
 } from "./types.js";
 
+/**
+ * `<loomi-command-palette>` — a searchable command menu opened with a trigger or a
+ * keyboard shortcut.
+ *
+ * @fires loomi-command-select - `detail: { item }` when a command is chosen.
+ * @fires loomi-command-open-change - `detail: { open }` when the palette opens or closes.
+ * @fires loomi-command-query-change - `detail: { query }` as the search query is typed.
+ */
 @customElement("loomi-command-palette")
 export class LoomiCommandPalette extends LoomiElement {
   static properties = {
@@ -225,7 +233,14 @@ export class LoomiCommandPalette extends LoomiElement {
     `;
   }
 
+  /** Where focus was before the palette opened, so closing can hand it back. */
+  private previouslyFocused: HTMLElement | null = null;
+
   openPalette = () => {
+    // Remember where focus came from: the palette can be opened by its own trigger or by
+    // the global shortcut from anywhere on the page, and closing must not strand focus.
+    this.previouslyFocused = (this.getRootNode() as Document | ShadowRoot)
+      .activeElement as HTMLElement | null;
     this.open = true;
     this._activeIndex = this.getFirstEnabledIndex(this.getFilteredItems());
     this.dispatchOpenChange();
@@ -239,6 +254,8 @@ export class LoomiCommandPalette extends LoomiElement {
     this.query = "";
     this._activeIndex = 0;
     this.dispatchOpenChange();
+    this.previouslyFocused?.focus();
+    this.previouslyFocused = null;
   };
 
   togglePalette = () => {
@@ -263,12 +280,16 @@ export class LoomiCommandPalette extends LoomiElement {
           <input
             class="search"
             type="search"
+            role="combobox"
             aria-label="Search commands"
+            aria-expanded="true"
+            aria-controls="loomi-cmd-listbox"
+            aria-activedescendant=${items.length ? `loomi-cmd-option-${this._activeIndex}` : nothing}
             placeholder=${this.placeholder}
             .value=${this.query}
             @input=${this.handleQueryInput}
           />
-          <div class="list" role="listbox" aria-label="Commands">
+          <div id="loomi-cmd-listbox" class="list" role="listbox" aria-label="Commands">
             ${items.length === 0 ? this.renderEmpty() : this.renderGroups(items)}
           </div>
         </section>
@@ -300,6 +321,8 @@ export class LoomiCommandPalette extends LoomiElement {
         class="item"
         type="button"
         role="option"
+        id=${`loomi-cmd-option-${index}`}
+        tabindex="-1"
         aria-selected=${this._activeIndex === index ? "true" : "false"}
         ?disabled=${item.disabled}
         @mouseenter=${() => {
@@ -357,12 +380,32 @@ export class LoomiCommandPalette extends LoomiElement {
       return;
     }
 
+    if (event.key === "Home") {
+      event.preventDefault();
+      this._activeIndex = this.getFirstEnabledIndex(items);
+      return;
+    }
+
+    if (event.key === "End") {
+      event.preventDefault();
+      this._activeIndex = this.getLastEnabledIndex(items);
+      return;
+    }
+
     if (event.key === "Enter") {
       event.preventDefault();
       const item = items[this._activeIndex];
       if (item) {
         this.selectItem(item);
       }
+      return;
+    }
+
+    // aria-modal="true" promises the rest of the page is inert, so Tab must not escape
+    // the dialog. The options are aria-activedescendant targets rather than tab stops,
+    // which leaves the search input as the only one — so Tab simply stays put.
+    if (event.key === "Tab") {
+      event.preventDefault();
     }
   };
 
@@ -456,6 +499,13 @@ export class LoomiCommandPalette extends LoomiElement {
   private getFirstEnabledIndex(items: CommandPaletteItem[]) {
     const index = items.findIndex((item) => !item.disabled);
     return index === -1 ? 0 : index;
+  }
+
+  private getLastEnabledIndex(items: CommandPaletteItem[]) {
+    for (let index = items.length - 1; index >= 0; index -= 1) {
+      if (!items[index].disabled) return index;
+    }
+    return 0;
   }
 
   private dispatchOpenChange() {

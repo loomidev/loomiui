@@ -288,3 +288,64 @@ describe("loomi-data-grid modules", () => {
     expect(rows).to.have.length(2);
   });
 });
+
+describe("loomi-data-grid (grid semantics)", () => {
+  it("exposes the table as an interactive grid", async () => {
+    const el = await renderGrid();
+    // Arrow-key cell navigation makes this a grid widget, not a static table: the two
+    // are announced differently and put screen readers in different reading modes.
+    expect(el.shadowRoot!.querySelector("table")!.getAttribute("role")).to.equal("grid");
+  });
+
+  it("reports sort state through aria-sort rather than the glyph alone", async () => {
+    const el = await renderGrid();
+    const headers = Array.from(el.shadowRoot!.querySelectorAll("th"));
+    const nameHeader = headers.find((h) => h.textContent!.includes("Name"))!;
+    expect(nameHeader.getAttribute("aria-sort")).to.equal("none");
+
+    (nameHeader.querySelector(".sort-button") as HTMLButtonElement).click();
+    await el.updateComplete;
+    expect(nameHeader.getAttribute("aria-sort")).to.equal("ascending");
+
+    (nameHeader.querySelector(".sort-button") as HTMLButtonElement).click();
+    await el.updateComplete;
+    expect(nameHeader.getAttribute("aria-sort")).to.equal("descending");
+  });
+
+  it("hides the decorative sort glyph from assistive technology", async () => {
+    const el = await renderGrid();
+    for (const indicator of el.shadowRoot!.querySelectorAll(".sort-indicator")) {
+      expect(indicator.getAttribute("aria-hidden")).to.equal("true");
+    }
+  });
+
+  it("leaves aria-sort off columns that cannot be sorted", async () => {
+    const el = await renderGrid();
+    const headers = Array.from(el.shadowRoot!.querySelectorAll("th"));
+    const plain = headers.find((h) => h.textContent!.includes("Department"))!;
+    expect(plain.hasAttribute("aria-sort")).to.be.false;
+  });
+
+  it("marks selected rows with aria-selected when selection is enabled", async () => {
+    const el = await renderGrid({ selectable: true } as Partial<LoomiDataGrid<Person>>);
+    const rows = Array.from(el.shadowRoot!.querySelectorAll("tbody tr"));
+    expect(rows[0].getAttribute("aria-selected")).to.equal("false");
+
+    (rows[0].querySelector('input[type="checkbox"]') as HTMLInputElement).click();
+    await el.updateComplete;
+    expect(rows[0].getAttribute("aria-selected")).to.equal("true");
+  });
+
+  it("omits aria-selected entirely when rows are not selectable", async () => {
+    const el = await renderGrid();
+    const row = el.shadowRoot!.querySelector("tbody tr")!;
+    expect(row.hasAttribute("aria-selected")).to.be.false;
+  });
+
+  it("keeps exactly one cell in the tab order", async () => {
+    const el = await renderGrid();
+    const cells = Array.from(el.shadowRoot!.querySelectorAll("tbody td"));
+    const tabbable = cells.filter((c) => c.getAttribute("tabindex") === "0");
+    expect(tabbable, "roving tabindex exposes a single entry point").to.have.lengthOf(1);
+  });
+});

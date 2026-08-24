@@ -37,6 +37,23 @@ import type { DataGridExportRequestDetail } from "./modules/export.js";
 const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_MIN_COLUMN_WIDTH = 60;
 
+/**
+ * `<loomi-data-grid>` — a data grid with sorting, pagination, selection, column resizing
+ * and pluggable modules (filtering, grouping, inline editing, export, …).
+ *
+ * Every event bubbles and is composed. `DataGridEventMap` in `./types.js` carries the
+ * typed detail for each one.
+ *
+ * @fires loomi-page-change - `detail: { page, pageSize }` when the page or page size changes.
+ * @fires loomi-sort-change - `detail: { sort }` when the sort column or direction changes.
+ * @fires loomi-selection-change - `detail: { selectedKeys, selectedRows }` when the selection changes.
+ * @fires loomi-row-action - `detail: { row, rowKey }` when a row action is triggered.
+ * @fires loomi-cell-edit - `detail: { row, rowKey, columnKey, previousValue, value }` after an inline edit commits.
+ * @fires loomi-column-resize - `detail: { key, width }` when a column is resized.
+ * @fires loomi-saved-view-change - `detail: { viewId, view }` when the active saved view changes.
+ * @fires loomi-grid-toggle-row - `detail: { rowKey, row, expanded }` when a group or tree row is expanded or collapsed.
+ * @fires loomi-export-request - `detail: { format, rows, columns, selectedOnly }` when an export is requested.
+ */
 @customElement("loomi-data-grid")
 export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
   extends LoomiElement
@@ -255,7 +272,7 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
       this.renderRow(columns, row, rowIndex, pinLayout);
 
     return html`
-      <table @keydown=${this.handleGridKeydown}>
+      <table role="grid" @keydown=${this.handleGridKeydown}>
         <colgroup>
           ${this.selectable ? html`<col style="width: ${SELECTION_COLUMN_WIDTH_PX}px" />` : nothing}
           ${columns.map((column) => html`<col style=${this.getColumnWidthStyle(column)} />`)}
@@ -287,8 +304,16 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
   }
 
   private renderHeaderCell(column: DataGridColumn<TRecord>, pinLayout: ColumnPinLayout) {
-    const sortIndicator =
-      this.sort?.key === column.key ? (this.sort.direction === "asc" ? "▲" : "▼") : "";
+    const sorted = this.sort?.key === column.key;
+    const sortIndicator = sorted ? (this.sort!.direction === "asc" ? "▲" : "▼") : "";
+    // The glyph above is decorative; aria-sort is what actually conveys sort state.
+    const ariaSort = !column.sortable
+      ? nothing
+      : sorted
+        ? this.sort!.direction === "asc"
+          ? "ascending"
+          : "descending"
+        : "none";
     const className = [this.getAlignClass(column), this.getPinCellClass(column, pinLayout)]
       .filter(Boolean)
       .join(" ");
@@ -303,6 +328,7 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
         class=${className || nothing}
         style=${[this.getColumnWidthStyle(column), pinStyle].filter(Boolean).join("; ")}
         title=${column.description ?? nothing}
+        aria-sort=${ariaSort}
       >
         <div class="th-content">
           ${
@@ -310,7 +336,7 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
               ? html`
                 <button type="button" class="sort-button" @click=${() => this.handleSort(column)}>
                   <span>${column.label}</span>
-                  <span class="sort-indicator">${sortIndicator}</span>
+                  <span class="sort-indicator" aria-hidden="true">${sortIndicator}</span>
                 </button>
               `
               : html`<span>${column.label}</span>`
@@ -354,6 +380,7 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
       <tr
         class=${extraRowClass || nothing}
         data-selected=${selected ? "true" : "false"}
+        aria-selected=${this.selectable ? (selected ? "true" : "false") : nothing}
         @click=${() => this.emitRowAction(row, rowKeyValue)}
       >
         ${

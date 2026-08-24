@@ -836,7 +836,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "`<loomi-data-grid>` — a data grid with sorting, pagination, selection, column resizing\nand pluggable modules (filtering, grouping, inline editing, export, …).\n\nEvery event bubbles and is composed. `DataGridEventMap` in `./types.js` carries the\ntyped detail for each one.",
           "name": "LoomiDataGrid",
           "members": [
             {
@@ -1953,6 +1953,42 @@
               "type": {
                 "text": "CustomEvent"
               }
+            },
+            {
+              "description": "`detail: { page, pageSize }` when the page or page size changes.",
+              "name": "loomi-page-change"
+            },
+            {
+              "description": "`detail: { sort }` when the sort column or direction changes.",
+              "name": "loomi-sort-change"
+            },
+            {
+              "description": "`detail: { selectedKeys, selectedRows }` when the selection changes.",
+              "name": "loomi-selection-change"
+            },
+            {
+              "description": "`detail: { row, rowKey }` when a row action is triggered.",
+              "name": "loomi-row-action"
+            },
+            {
+              "description": "`detail: { row, rowKey, columnKey, previousValue, value }` after an inline edit commits.",
+              "name": "loomi-cell-edit"
+            },
+            {
+              "description": "`detail: { key, width }` when a column is resized.",
+              "name": "loomi-column-resize"
+            },
+            {
+              "description": "`detail: { viewId, view }` when the active saved view changes.",
+              "name": "loomi-saved-view-change"
+            },
+            {
+              "description": "`detail: { rowKey, row, expanded }` when a group or tree row is expanded or collapsed.",
+              "name": "loomi-grid-toggle-row"
+            },
+            {
+              "description": "`detail: { format, rows, columns, selectedOnly }` when an export is requested.",
+              "name": "loomi-export-request"
             }
           ],
           "attributes": [

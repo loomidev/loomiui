@@ -1,14 +1,15 @@
-// Every custom element the library defines must appear in the accessibility sweep at
-// packages/components/test/a11y.test.ts. The sweep enumerates an explicit list rather
-// than discovering tags at runtime (there is no registry API for that), so without this
-// check a new component would silently opt out of accessibility testing.
+// Every custom element the library defines must appear in packages/components/test/
+// component-cases.js, the shared fixture list behind both the accessibility sweep and the
+// visual regression suite. That list is explicit rather than discovered at runtime (there
+// is no registry API for enumerating defined elements), so without this check a new
+// component would silently opt out of both.
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const packagesDir = path.join(rootDir, "packages");
-const sweepPath = path.join(packagesDir, "components", "test", "a11y.test.ts");
+const casesPath = path.join(packagesDir, "components", "test", "component-cases.js");
 
 const declared = new Set();
 for (const name of readdirSync(packagesDir)) {
@@ -22,7 +23,7 @@ for (const name of readdirSync(packagesDir)) {
   }
 }
 
-const sweep = readFileSync(sweepPath, "utf8");
+const sweep = readFileSync(casesPath, "utf8");
 // Prettier wraps long entries across lines, so allow whitespace after the bracket. Only
 // the tag in the first position of each `[tag, markup]` pair counts — tags that appear
 // inside a fixture's markup are being used as scaffolding, not covered in their own right.
@@ -44,7 +45,7 @@ if (missing.length || stale.length) {
       `Accessibility sweep lists ${stale.length} unknown element(s): ${stale.join(", ")}`,
     );
   }
-  console.error(`Add or remove the entries in ${path.relative(rootDir, sweepPath)}.`);
+  console.error(`Add or remove the entries in ${path.relative(rootDir, casesPath)}.`);
   process.exit(1);
 }
 
