@@ -1,4 +1,4 @@
-import { css, html, nothing, svg } from "lit";
+import { css, html, nothing, svg, isServer } from "lit";
 import { customElement } from "lit/decorators.js";
 import {
   LoomiElement,
@@ -297,7 +297,8 @@ export class LoomiCalendar extends LoomiElement {
 
   override render() {
     const hourCount = Math.max(1, this.endHour - this.startHour);
-    this.style.setProperty("--loomi-calendar-hour-count", String(hourCount));
+    // There is no host element to write inline styles to during server rendering.
+    if (!isServer) this.style.setProperty("--loomi-calendar-hour-count", String(hourCount));
 
     return html`
       <div class="shell ${this.showSidebar ? "has-sidebar" : ""} ${this.sidebarOpen ? "sidebar-open" : "sidebar-closed"}" @keydown=${this.handleKeydown}>

@@ -1,4 +1,4 @@
-import { html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult, isServer } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import {
   LoomiElement,
@@ -63,7 +63,8 @@ export class LoomiToggle extends LoomiElement {
 
   override render(): TemplateResult {
     const style = accentVars(this.accentColor);
-    const hasLabel = !!this.label || this.hasChildNodes();
+    // Assume slotted content exists on the server: rendering the slot keeps light-DOM content visible in the server HTML, whereas omitting it would drop that content until hydration.
+    const hasLabel = !!this.label || isServer || this.hasChildNodes();
     const labelEl = hasLabel
       ? html`<span class="loomi-label"><slot>${this.label}</slot></span>`
       : nothing;

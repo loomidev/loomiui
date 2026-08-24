@@ -1,4 +1,4 @@
-import { html, nothing, svg, type TemplateResult } from "lit";
+import { html, nothing, svg, type TemplateResult, isServer } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, accentVars, loomiT, type LoomiColor } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
@@ -247,6 +247,8 @@ export class LoomiProgressSteps extends LoomiElement {
   @property({ type: Boolean }) clickable = false;
 
   private get steps(): LoomiProgressStep[] {
+    // Light DOM is not readable during server rendering; hydration fills this in on the client.
+    if (isServer) return [];
     return Array.from(this.querySelectorAll("loomi-progress-step"));
   }
 

@@ -1,4 +1,4 @@
-import { html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult, isServer } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import {
   LoomiElement,
@@ -80,7 +80,10 @@ export class LoomiRadio extends LoomiElement {
         />
         <span class="loomi-dot" part="dot"></span>
         ${
-          this.label || this.hasChildNodes()
+          // Assume slotted content exists on the server: rendering the slot keeps light-DOM
+          // content visible in the server HTML, whereas omitting it would drop that content
+          // until hydration.
+          this.label || isServer || this.hasChildNodes()
             ? html`<span class="loomi-label"><slot>${this.label}</slot></span>`
             : nothing
         }

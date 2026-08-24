@@ -1,4 +1,4 @@
-import { html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult, isServer } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, loomiT, watchDarkMode } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
@@ -64,6 +64,8 @@ export class LoomiStatistic extends LoomiElement {
   }
 
   private get hasIcon(): boolean {
+    // Assume slotted content exists on the server: rendering the slot keeps light-DOM content visible in the server HTML, whereas omitting it would drop that content until hydration.
+    if (isServer) return true;
     return !!this.querySelector('[slot="icon"]');
   }
 

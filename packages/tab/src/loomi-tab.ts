@@ -1,4 +1,4 @@
-import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
+import { html, nothing, type PropertyValues, type TemplateResult, isServer } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import {
   LoomiElement,
@@ -50,6 +50,8 @@ export class LoomiTabs extends LoomiElement {
   @property({ attribute: "tab-style" }) tabStyle: LoomiTabStyle = "simple";
 
   private get tabs(): LoomiTab[] {
+    // Light DOM is not readable during server rendering; hydration fills this in on the client.
+    if (isServer) return [];
     return Array.from(this.querySelectorAll("loomi-tab"));
   }
 

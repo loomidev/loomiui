@@ -731,6 +731,33 @@ reinvent it.**
      Verify with `pnpm check:react` from the repo root: the callback for your event should
      read `Loomi<Name>EventMap["<event-name>"]`, not a bare `CustomEvent`.
 
+   **Keep `render()` server-safe.** Every component is rendered in Node by
+   `pnpm check:ssr` (CI) to produce Declarative Shadow DOM, which is what lets LoomiUI be
+   used from Astro, Rails, Laravel or a static site generator. There is no light DOM, no
+   layout and no host element on the server, so `this.children`, `this.querySelector*`,
+   `getBoundingClientRect()`, `this.renderRoot` and `this.style` are all unavailable
+   during `render()` and `willUpdate()`. Guard them with lit's `isServer`:
+
+   ```ts
+   import { isServer } from "lit";
+
+   // Collections of light-DOM children: empty on the server, filled in at hydration.
+   private get items(): LoomiThing[] {
+     if (isServer) return [];
+     return Array.from(this.querySelectorAll("loomi-thing"));
+   }
+
+   // "Is there slotted content?" checks: assume yes, so the <slot> is present in the
+   // server HTML and light-DOM content stays visible before hydration.
+   const hasLabel = !!this.label || isServer || this.hasChildNodes();
+   ```
+
+   Two further traps: lit-html cannot bind inside a `<style>` element (a raw-text
+   element) and `@lit-labs/ssr` rejects such a template outright — interpolate a constant
+   stylesheet as a _static_ value via `lit/static-html.js` instead, as
+   `packages/timepicker` does. And `connectedCallback()` is **not** called during SSR, so
+   DOM work there needs no guard.
+
 7. **Write `src/index.ts`** — `export { Loomi<Name>, type ... } from "./loomi-<name>.js";`
    Include the `EventMap` and every `Detail` interface from step 6.
 8. **Build it in isolation first:**
@@ -761,7 +788,7 @@ reinvent it.**
     After step 15, run:
     ```bash
     pnpm check:react-types   # regenerates packages/react-types/src/index.ts
-    pnpm check:react         # regenerates packages/react/src/index.ts
+    pnpm check:react         # regenerates packages/react/src/index.ts + src/components/
     ```
     Both scripts regenerate the file and exit with code 1 if the committed copy is
     stale — so they also serve as the CI freshness check. Commit the updated files.
@@ -1108,6 +1135,10 @@ publish time, not by splitting the source into many git repos.
 - **Deeper test coverage** for component-specific edge cases — extend opportunistically
   per [§8a](#8a-automated-smoke-tests), especially when changing form controls,
   overlays, keyboard navigation, or generated styles.
+- **SSR hydration is not verified end to end.** `pnpm check:ssr` proves every component
+  produces valid Declarative Shadow DOM in Node; nothing yet exercises the round trip of
+  hydrating that markup in a browser with
+  `@lit-labs/ssr-client/lit-element-hydrate-support.js`.
 - **Keyboard-interaction audits beyond the overlay components above.** Every component now
   passes an automated axe sweep (see [§8a](#the-accessibility-sweep)), which catches
   naming, roles and ARIA misuse — but axe cannot judge whether a component's _keyboard_

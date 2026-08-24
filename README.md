@@ -227,6 +227,51 @@ binding syntax. You do not need a ref:
 <loomi-select [data]="countries" placeholder="Country"></loomi-select>
 ```
 
+## Server-side rendering
+
+Every LoomiUI component renders on the server to [Declarative Shadow
+DOM](https://developer.mozilla.org/docs/Web/HTML/Element/template#shadowrootmode), so a
+page can contain real, styled markup before any JavaScript runs. This works from any
+stack that can run Node during the request or the build — Astro, Nuxt, Next.js, or a
+static site generator — and the resulting HTML is plain markup that Rails, Laravel or
+Django can serve just as well.
+
+```js
+import { render } from "@lit-labs/ssr";
+import { collectResultSync } from "@lit-labs/ssr/lib/render-result.js";
+import { html } from "lit";
+import "@loomidev/components/button";
+
+const markup = collectResultSync(render(html`<loomi-button>Save</loomi-button>`));
+// <loomi-button><template shadowrootmode="open"><style>…</style><button …>…</button></template></loomi-button>
+```
+
+Browsers parse that `<template shadowrootmode>` into a real shadow root during HTML
+parsing, so the component is visible and styled with no JavaScript at all. To make it
+interactive, load the component modules as usual; to have Lit adopt the server-rendered
+DOM rather than replace it, import Lit's hydration support **before** any component:
+
+```js
+import "@lit-labs/ssr-client/lit-element-hydrate-support.js";
+import "@loomidev/components/button";
+```
+
+**One limitation to know.** A handful of components inspect their light-DOM children to
+decide what to render — `<loomi-select>` reading `<option>` elements, `<loomi-tabs>`
+finding its `<loomi-tab>` children, `<loomi-table>` reading a `<template slot="row">`.
+The server has no light DOM to inspect, so anything derived from those children is absent
+from the server HTML and fills in at hydration. Nothing throws, and the rest of the
+component still renders.
+
+Passing the same data through a property avoids this, because properties are readable on
+the server. `<loomi-select .data=${options} selected-value="gh">` server-renders its
+trigger showing the selected label, where the `<option>` form renders the placeholder
+until hydration. Note that this affects the _closed_ control only — a select's option
+list is not in the server HTML either way, since the panel is rendered only while open.
+
+CI runs `pnpm check:ssr`, which renders all 103 components in Node and fails if any of
+them throws or emits no shadow root.
+
 ## Browser support
 
 LoomiUI supports recent versions of Chrome, Edge, Firefox, and Safari. LoomiUI form

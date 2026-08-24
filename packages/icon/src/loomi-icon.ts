@@ -1,4 +1,4 @@
-import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
+import { html, nothing, type PropertyValues, type TemplateResult, isServer } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, accentVars } from "@loomidev/core";
 import {
@@ -148,7 +148,9 @@ export class LoomiIcon extends LoomiElement {
   }
 
   override render(): TemplateResult {
-    if (this.size) this.style.setProperty("--loomi-icon-size", this.size);
+    // No host element to write inline styles to during server rendering; the size is
+    // reapplied on the client when the component first updates there.
+    if (this.size && !isServer) this.style.setProperty("--loomi-icon-size", this.size);
     const content = this.renderContent();
     if (!this.branded) return content;
 

@@ -15,6 +15,8 @@ import type { LoomiModal } from "@loomidev/modal";
 import { componentStyles } from "./generated/styles.css.js";
 
 const CLOCK = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />`;
+import { html as staticHtml, unsafeStatic } from "lit/static-html.js";
+
 const pad = (n: number) => String(n).padStart(2, "0");
 
 // The clock face renders inside <loomi-modal>, which relocates its slotted content to
@@ -70,6 +72,8 @@ const CLOCK_STYLE = `
   .loomi-clock-ampm { display: flex; justify-content: center; gap: 0.4rem; }
   .loomi-clock-ampm button { min-width: 3rem; padding: 0.4rem 0.65rem; }
 `;
+
+const CLOCK_STYLE_TAG = unsafeStatic(`<style>${CLOCK_STYLE}</style>`);
 export type LoomiTimepickerSize = "tiny" | "small" | "regular" | "medium" | "big";
 export type LoomiTimepickerVariant = "default" | "minimal";
 const DEFAULT_PLACEHOLDER = "HH:MM";
@@ -320,7 +324,11 @@ export class LoomiTimepicker extends LoomiElement {
         ? Array.from({ length: 24 }, (_, i) => i)
         : Array.from({ length: 12 }, (_, i) => i + 1);
     const minuteMarks = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
-    return html`<style>${CLOCK_STYLE}</style>
+    // Interpolated as a *static* value, not a binding: lit-html cannot bind inside a
+    // <style> element (a raw-text element), and @lit-labs/ssr rejects the template
+    // outright. CLOCK_STYLE is a module constant, so folding it into the static strings
+    // is safe and leaves the template server-renderable.
+    return staticHtml`${CLOCK_STYLE_TAG}
     <div class="loomi-clock">
       <div class="loomi-clock-face">
         <div class="loomi-clock-ring hours" role="group" aria-label=${loomiT("timepicker.hour", {}, this.locale)}>

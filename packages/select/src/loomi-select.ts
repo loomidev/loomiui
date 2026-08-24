@@ -1,4 +1,4 @@
-import { html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
+import { html, nothing, svg, type PropertyValues, type TemplateResult, isServer } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
 import {
   LoomiElement,
@@ -164,6 +164,8 @@ export class LoomiSelect extends LoomiElement {
         image: this.imageKey ? (row[this.imageKey] as string) : undefined,
       }));
     }
+    // Light DOM is not readable during server rendering; hydration fills this in.
+    if (isServer) return [];
     return Array.from(this.querySelectorAll("option")).map((o) => ({
       label: (o.textContent ?? "").trim(),
       value: o.getAttribute("value") ?? (o.textContent ?? "").trim(),

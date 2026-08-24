@@ -1,4 +1,4 @@
-import { html, nothing, svg, type TemplateResult } from "lit";
+import { html, nothing, svg, type TemplateResult, isServer } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, loomiT } from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
@@ -124,6 +124,8 @@ export class LoomiSortable extends LoomiElement {
   }
 
   private captureRects(): void {
+    // Measuring requires a live layout, which the server has no equivalent of.
+    if (isServer) return;
     this.rowRects.clear();
     this.renderRoot.querySelectorAll<HTMLElement>(".loomi-row").forEach((el) => {
       const id = el.dataset.id;

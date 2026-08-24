@@ -1,4 +1,4 @@
-import { html, nothing, type TemplateResult, type PropertyValues } from "lit";
+import { html, nothing, type TemplateResult, type PropertyValues, isServer } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomidev/core";
@@ -181,6 +181,8 @@ export class LoomiButtonGroup extends LoomiElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
 
   private get items(): LoomiButtonGroupItem[] {
+    // Light DOM is not readable during server rendering; hydration fills this in on the client.
+    if (isServer) return [];
     return Array.from(this.querySelectorAll<LoomiButtonGroupItem>("loomi-button-group-item"));
   }
 
@@ -192,6 +194,7 @@ export class LoomiButtonGroup extends LoomiElement {
   }
 
   private applyGroupStyleVars(): void {
+    if (isServer) return;
     for (const decl of this.groupStyleVars.split(";")) {
       if (!decl) continue;
       const idx = decl.indexOf(":");
