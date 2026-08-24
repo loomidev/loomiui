@@ -1199,10 +1199,10 @@ publish time, not by splitting the source into many git repos.
 
 ### Still open
 
-- **Deeper test coverage** for component-specific edge cases. Fifteen packages still carry
-  three or fewer test blocks — all of them presentational (avatars, cards, spinners,
-  timelines), which is why they are last — extend opportunistically per [§8a](#8a-automated-smoke-tests),
-  especially when changing form controls, overlays, keyboard navigation, or generated styles.
+- **Deeper test coverage** for component-specific edge cases. Every package now carries
+  behavioral tests rather than a bare smoke test, but coverage is uneven — extend it
+  opportunistically per [§8a](#8a-automated-smoke-tests), especially when changing form
+  controls, overlays, keyboard navigation, or generated styles.
 - **Visual regression is wired into CI but dormant.** The step is gated on
   `screenshots/linux/` existing, and those baselines have not been recorded yet — run the
   **Visual baselines** workflow once and commit its output to switch it on
