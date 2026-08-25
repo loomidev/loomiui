@@ -361,16 +361,6 @@
             },
             {
               "kind": "field",
-              "name": "mediaReady",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "default": "false",
-              "description": "False until just after the first render commits, then flipped once — guaranteeing\none extra render pass where `@query`-backed getters (like `pipAvailable`) see a real\n`<video>` element. Without this, a video with no tracks, no error, and default\nvolume/muted never gets a second render, so anything computed from `this.videoEl`\nat render time stays frozen at its (always-null-`videoEl`) first-render value."
-            },
-            {
-              "kind": "field",
               "name": "videoEl",
               "type": {
                 "text": "HTMLVideoElement | undefined"
@@ -584,6 +574,7 @@
                 "text": "boolean"
               },
               "privacy": "private",
+              "description": "Deliberately a capability check against the platform rather than against\n`this.videoEl`: the query-backed element is null during the first render, so asking\nit would report \"no PiP\" on the pass that actually builds the control bar and would\nneed a second render purely to correct itself. Support is a property of the engine,\nnot of this instance.",
               "readonly": true
             },
             {
@@ -610,9 +601,10 @@
               "privacy": "private",
               "return": {
                 "type": {
-                  "text": "void"
+                  "text": "boolean"
                 }
-              }
+              },
+              "description": "Moves the light-DOM children onto the internal `<video>` and subscribes to its\ntrack list. Pure DOM work: reading the resulting track state is reactive, so the\ncaller decides when that happens (see `firstUpdated`). Returns whether anything\nmoved."
             },
             {
               "kind": "method",
