@@ -1,8 +1,12 @@
 name: CI
 
 on:
+  # main only. A push to development that has an open pull request would otherwise
+  # match both triggers and build the same commit twice — ~6 minutes of runner time
+  # for a second, identical answer. Work on a branch is covered by its pull request;
+  # main is not, which is why it stays here.
   push:
-    branches: [main, development]
+    branches: [main]
   pull_request:
 
 concurrency:
