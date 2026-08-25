@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/table",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "<loomi-table> — data table with sorting, search, pagination, checkable rows and action icons.",
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/side-nav",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "<loomi-side-nav> — a sliding in-container side navigation.",
   "repository": {
     "type": "git",

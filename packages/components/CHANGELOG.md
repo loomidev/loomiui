@@ -1,5 +1,122 @@
 # @loomidev/components
 
+## 0.4.0
+
+### Patch Changes
+
+- 9344aad: Use CSS logical properties for spacing and borders throughout, so components mirror
+  correctly under `dir="rtl"`. 65 physical declarations across 22 stylesheets became their
+  logical equivalents (`margin-left` → `margin-inline-start` and so on); they resolve
+  identically in LTR, and the visual regression baselines are unchanged for every component
+  as a result. Under `dir="rtl"`, 69 of 100 components now mirror, the remainder being
+  symmetric by design. Arabic is one of the ten shipped locales, so this was already
+  load-bearing.
+- 9344aad: Add a visual regression suite. `pnpm test:visual` renders every component in both themes
+  and compares the result against a committed baseline, which is the only check in the repo
+  that guards appearance — a theme token change alters how dozens of components render while
+  the unit tests, the accessibility sweep and the SSR check all still pass.
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+  - @loomidev/theme@0.4.0
+  - @loomidev/button@0.4.0
+  - @loomidev/context-menu@0.4.0
+  - @loomidev/progress@0.4.0
+  - @loomidev/chat@0.4.0
+  - @loomidev/autocomplete@0.4.0
+  - @loomidev/calendar@0.4.0
+  - @loomidev/colorpicker@0.4.0
+  - @loomidev/core@0.4.0
+  - @loomidev/filepicker@0.4.0
+  - @loomidev/pagination@0.4.0
+  - @loomidev/resizable@0.4.0
+  - @loomidev/tag@0.4.0
+  - @loomidev/command-palette@0.4.0
+  - @loomidev/data-grid@0.4.0
+  - @loomidev/date-range-picker@0.4.0
+  - @loomidev/empty-state@0.4.0
+  - @loomidev/filter-builder@0.4.0
+  - @loomidev/input@0.4.0
+  - @loomidev/dropmenu@0.4.0
+  - @loomidev/profile-menu@0.4.0
+  - @loomidev/checkbox@0.4.0
+  - @loomidev/datepicker@0.4.0
+  - @loomidev/drawer@0.4.0
+  - @loomidev/modal@0.4.0
+  - @loomidev/radio@0.4.0
+  - @loomidev/rating@0.4.0
+  - @loomidev/slider@0.4.0
+  - @loomidev/sortable@0.4.0
+  - @loomidev/timepicker@0.4.0
+  - @loomidev/toggle@0.4.0
+  - @loomidev/password@0.4.0
+  - @loomidev/checkcards@0.4.0
+  - @loomidev/countries@0.4.0
+  - @loomidev/emoji-picker@0.4.0
+  - @loomidev/number@0.4.0
+  - @loomidev/otp@0.4.0
+  - @loomidev/select@0.4.0
+  - @loomidev/tag-input@0.4.0
+  - @loomidev/text-editor@0.4.0
+  - @loomidev/textarea@0.4.0
+  - @loomidev/timezonepicker@0.4.0
+  - @loomidev/statistic@0.4.0
+  - @loomidev/icons@0.4.0
+  - @loomidev/icon@0.4.0
+  - @loomidev/timeline@0.4.0
+  - @loomidev/creditcard@0.4.0
+  - @loomidev/timer@0.4.0
+  - @loomidev/bottom-nav@0.4.0
+  - @loomidev/button-group@0.4.0
+  - @loomidev/fab@0.4.0
+  - @loomidev/photo-gallery@0.4.0
+  - @loomidev/tab@0.4.0
+  - @loomidev/table@0.4.0
+  - @loomidev/video@0.4.0
+  - @loomidev/accordion@0.4.0
+  - @loomidev/alert@0.4.0
+  - @loomidev/arc-meter@0.4.0
+  - @loomidev/avatar@0.4.0
+  - @loomidev/bell@0.4.0
+  - @loomidev/card@0.4.0
+  - @loomidev/centered-content@0.4.0
+  - @loomidev/chart@0.4.0
+  - @loomidev/clipboard@0.4.0
+  - @loomidev/contact-card@0.4.0
+  - @loomidev/divider@0.4.0
+  - @loomidev/floating-panel@0.4.0
+  - @loomidev/horizontal-line-graph@0.4.0
+  - @loomidev/lightbox@0.4.0
+  - @loomidev/listview@0.4.0
+  - @loomidev/notification@0.4.0
+  - @loomidev/popover@0.4.0
+  - @loomidev/processing@0.4.0
+  - @loomidev/qrcode@0.4.0
+  - @loomidev/scroller@0.4.0
+  - @loomidev/spinner@0.4.0
+  - @loomidev/split-button@0.4.0
+  - @loomidev/theme-switcher@0.4.0
+  - @loomidev/tooltip@0.4.0
+  - @loomidev/progress-steps@0.4.0
+  - @loomidev/side-nav@0.4.0
+
 ## 0.3.0
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/photo-gallery",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "<loomi-photo-gallery> — an album grid with zoom/square/slideshow controls and a lightbox viewer.",
   "repository": {
     "type": "git",

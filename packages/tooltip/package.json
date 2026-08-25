@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/tooltip",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "<loomi-tooltip> — a hover/focus tooltip with four positions.",
   "repository": {
     "type": "git",

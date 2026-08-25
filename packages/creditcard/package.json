@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/creditcard",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "<loomi-creditcard> — a flippable, themeable credit card input with live network-logo detection.",
   "repository": {
     "type": "git",

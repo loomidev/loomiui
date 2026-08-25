@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/statistic",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "<loomi-statistic> — a dashboard stat with label, number, currency and icon.",
   "repository": {
     "type": "git",

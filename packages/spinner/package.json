@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/spinner",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "<loomi-spinner> — a themeable loading spinner in the full palette.",
   "repository": {
     "type": "git",

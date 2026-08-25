@@ -1,5 +1,19 @@
 # @loomidev/creditcard
 
+## 0.4.0
+
+### Patch Changes
+
+- 9344aad: Drop bogus events from the custom-elements manifests. A component that dispatches through
+  a helper — `new CustomEvent(name, …)` — made the analyzer record an event literally called
+  `name` (or `type`), which then showed up in editor completions and framework integrations.
+  `pnpm cem` now prunes any event named after a dispatch variable, along with unnamed ones.
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+  - @loomidev/theme@0.4.0
+  - @loomidev/core@0.4.0
+
 ## 0.3.0
 
 ### Patch Changes

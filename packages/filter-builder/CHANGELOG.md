@@ -1,5 +1,39 @@
 # @loomidev/filter-builder
 
+## 0.4.0
+
+### Minor Changes
+
+- 9344aad: Make the last five components with hardcoded English translatable. `<loomi-chat-window>`,
+  `<loomi-command-palette>`, `<loomi-data-grid>`, `<loomi-filter-builder>` and `<loomi-video>`
+  each gain a `locale` property and route their own copy through the translation table, with
+  new `en` keys for all of it.
+
+  The gap was worst for text a consumer could not reach: `aria-label` values baked into
+  templates were fixed English with no way to override them, which left screen reader users
+  of a non-English page hearing "Select all rows" and "Search commands" regardless of the
+  locale. Visible defaults (`emptyTitle`, `placeholder`, `addLabel`, …) now resolve through
+  `loomiDefaultText`, so they translate while still yielding to any value a consumer sets.
+
+### Patch Changes
+
+- 9344aad: Document the events that were missing from the custom-elements manifests. The analyzer
+  only sees `new CustomEvent("literal-name")`, so events dispatched through a helper or a
+  template literal — all nine `<loomi-data-grid>` events, the three
+  `<loomi-date-range-picker>` events, `loomi-command-query-change`, `loomi-filter-apply`,
+  `loomi-reminder-create`, the `<loomi-chat-window>` attachment and recording events, and
+  `<loomi-input>`'s affix events — never reached `custom-elements.json`, and so never
+  reached the React wrappers either. They are now declared with `@fires` and generate typed
+  `on*` callback props.
+
+  `<loomi-empty-state>` documented a `loomi-action` event it never fires; its JSDoc now
+  names the `action` event the component actually dispatches.
+
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+  - @loomidev/core@0.4.0
+
 ## 0.3.0
 
 ### Patch Changes

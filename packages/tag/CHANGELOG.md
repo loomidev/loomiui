@@ -1,5 +1,35 @@
 # @loomidev/tag
 
+## 0.4.0
+
+### Minor Changes
+
+- 9344aad: Export a typed `EventMap` (and named detail interfaces) from fourteen more component
+  packages. `@loomidev/react` derives each `on*` callback's type from these, so events on
+  these components now carry a typed `detail` instead of falling back to `any`.
+
+### Patch Changes
+
+- 9344aad: Deepen component test coverage. Eleven packages that carried one to three smoke tests now
+  cover their actual behavior: pagination's page arithmetic, boundary clamping and ellipsis
+  collapsing; accordion's single-open and multi-open semantics; autocomplete's filtering,
+  arrow-key wrapping and Enter selection; rating, toggle, textarea, number and tag form
+  participation; tooltip placement; and listview and statistic rendering.
+
+  One case documents behavior that was previously untested and is easy to trip over:
+  `<loomi-tags>` ties selection to form participation, so an instance without a `name`
+  ignores `selected-value` and marks nothing selectable.
+
+- 9344aad: Restore every form-associated control to its initial state through native form resets,
+  document submitted value formats, and add generated React 18 and React 19 JSX types.
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+  - @loomidev/core@0.4.0
+  - @loomidev/icon@0.4.0
+
 ## 0.3.0
 
 ### Patch Changes

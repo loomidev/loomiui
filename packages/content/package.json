@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/content",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "All loomi content/data-display components in one install.",
   "repository": {
     "type": "git",

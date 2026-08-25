@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/filepicker",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "<loomi-filepicker> — a drag-and-drop file picker with previews.",
   "repository": {
     "type": "git",

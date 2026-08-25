@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/tab",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "<loomi-tabs>/<loomi-tab> — tabbed content (simple/system/pills styles).",
   "repository": {
     "type": "git",
