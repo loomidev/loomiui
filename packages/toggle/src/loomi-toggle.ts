@@ -1,4 +1,4 @@
-import { html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult, isServer } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import {
   LoomiElement,
@@ -27,6 +27,7 @@ export class LoomiToggle extends LoomiElement {
   static formAssociated = true;
 
   private internals = this.attachInternals();
+  private initialChecked = false;
 
   @property({ reflect: true }) name = "";
   @property() value = "on";
@@ -37,6 +38,15 @@ export class LoomiToggle extends LoomiElement {
   @property({ type: Boolean, reflect: true }) justified = false;
   @property() bar: LoomiToggleBar = "thick";
   @property() color: LoomiColor = "primary" as LoomiColor;
+
+  override connectedCallback(): void {
+    if (!this.hasUpdated) this.initialChecked = this.checked;
+    super.connectedCallback();
+  }
+
+  formResetCallback(): void {
+    this.checked = this.initialChecked;
+  }
 
   override willUpdate(): void {
     this.internals.setFormValue(this.checked ? this.value : null);
@@ -53,7 +63,8 @@ export class LoomiToggle extends LoomiElement {
 
   override render(): TemplateResult {
     const style = accentVars(this.accentColor);
-    const hasLabel = !!this.label || this.hasChildNodes();
+    // Assume slotted content exists on the server: rendering the slot keeps light-DOM content visible in the server HTML, whereas omitting it would drop that content until hydration.
+    const hasLabel = !!this.label || isServer || this.hasChildNodes();
     const labelEl = hasLabel
       ? html`<span class="loomi-label"><slot>${this.label}</slot></span>`
       : nothing;
@@ -78,6 +89,12 @@ export class LoomiToggle extends LoomiElement {
       </label>
     `;
   }
+}
+
+/** Event map for `<loomi-toggle>`. `change` is a plain `Event`; read `checked`
+ * off the element itself. */
+export interface LoomiToggleEventMap {
+  change: Event;
 }
 
 declare global {

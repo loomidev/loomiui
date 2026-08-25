@@ -1,4 +1,4 @@
-import { css, html, nothing, svg } from "lit";
+import { css, html, nothing, svg, isServer } from "lit";
 import { customElement } from "lit/decorators.js";
 import {
   LoomiElement,
@@ -180,6 +180,14 @@ interface SlotDragState {
   container: HTMLElement;
 }
 
+/**
+ * `<loomi-calendar>` — month, week, day, and agenda views with events and reminders.
+ *
+ * Most of its events are picked up from the source automatically; `loomi-reminder-create`
+ * is dispatched from a callback the analyzer cannot follow, so it is documented here.
+ *
+ * @fires loomi-reminder-create - `detail: { reminder }` when a reminder is created.
+ */
 @customElement("loomi-calendar")
 export class LoomiCalendar extends LoomiElement {
   static properties = {
@@ -297,7 +305,8 @@ export class LoomiCalendar extends LoomiElement {
 
   override render() {
     const hourCount = Math.max(1, this.endHour - this.startHour);
-    this.style.setProperty("--loomi-calendar-hour-count", String(hourCount));
+    // There is no host element to write inline styles to during server rendering.
+    if (!isServer) this.style.setProperty("--loomi-calendar-hour-count", String(hourCount));
 
     return html`
       <div class="shell ${this.showSidebar ? "has-sidebar" : ""} ${this.sidebarOpen ? "sidebar-open" : "sidebar-closed"}" @keydown=${this.handleKeydown}>
@@ -791,7 +800,11 @@ export class LoomiCalendar extends LoomiElement {
 
   private renderItemContextMenu() {
     return html`
-      <loomi-context-menu id="calendar-context-menu" ?disabled=${!this._contextTarget}>
+      <loomi-context-menu
+        id="calendar-context-menu"
+        label=${loomiT("calendar.eventActions", {}, this.locale)}
+        ?disabled=${!this._contextTarget}
+      >
         <loomi-context-menu-item icon="pencil-square" @click=${this.handleContextEdit}>Edit</loomi-context-menu-item>
         <loomi-context-menu-item icon="trash" @click=${this.handleContextDelete}>Delete</loomi-context-menu-item>
       </loomi-context-menu>
@@ -2870,6 +2883,23 @@ export class LoomiCalendar extends LoomiElement {
       return "";
     }
   }
+}
+
+/** Event map for `<loomi-calendar>`. Detail shapes live in `./types.js`. */
+export interface LoomiCalendarEventMap {
+  "loomi-event-change": CustomEvent<CalendarEventChangeDetail>;
+  "loomi-event-click": CustomEvent<CalendarEventClickDetail>;
+  "loomi-event-create": CustomEvent<CalendarEventCreateDetail>;
+  "loomi-event-delete": CustomEvent<CalendarEventDeleteDetail>;
+  "loomi-event-duplicate": CustomEvent<CalendarEventDuplicateDetail>;
+  "loomi-slot-select": CustomEvent<CalendarSlotSelectDetail>;
+  "loomi-view-change": CustomEvent<CalendarViewChangeDetail>;
+  "loomi-date-change": CustomEvent<CalendarDateChangeDetail>;
+  "loomi-sidebar-toggle": CustomEvent<CalendarSidebarToggleDetail>;
+  "loomi-reminder-click": CustomEvent<CalendarReminderClickDetail>;
+  "loomi-reminder-create": CustomEvent<CalendarReminderCreateDetail>;
+  "loomi-reminder-change": CustomEvent<CalendarReminderChangeDetail>;
+  "loomi-reminder-delete": CustomEvent<CalendarReminderDeleteDetail>;
 }
 
 declare global {

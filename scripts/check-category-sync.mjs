@@ -20,6 +20,8 @@ const nonComponents = new Set([
   "forms",
   "content",
   "navigation",
+  "react-types", // types-only; not a component package
+  "react", // React wrapper; not a component package
 ]);
 const bundles = ["forms", "content", "navigation"];
 

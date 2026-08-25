@@ -1,4 +1,4 @@
-import { html, fixture, expect } from "@open-wc/testing";
+import { html, fixture, expect, nextFrame } from "@open-wc/testing";
 import "../dist/loomi-theme-switcher.js";
 import type { LoomiThemeSwitcher } from "../dist/index.js";
 
@@ -41,5 +41,25 @@ describe("loomi-theme-switcher", () => {
       el.shadowRoot!.querySelector(".loomi-menu-selected-icon")!.getAttribute("name"),
     ).to.equal("moon");
     expect(el.shadowRoot!.querySelector('loomi-icon[name="chevron-down"]')).to.exist;
+  });
+
+  it("applies the dark class to the document when switched to dark", async () => {
+    const { applyLoomiTheme } = await import("../dist/index.js");
+    applyLoomiTheme("dark");
+    expect(document.documentElement.classList.contains("dark")).to.be.true;
+
+    applyLoomiTheme("light");
+    expect(document.documentElement.classList.contains("dark")).to.be.false;
+  });
+
+  it("uses the configured labels for each mode", async () => {
+    const el = await fixture(html`
+      <loomi-theme-switcher light-text="Day" dark-text="Night" system-text="Auto"></loomi-theme-switcher>
+    `);
+    await nextFrame();
+    const markup = el.shadowRoot!.textContent ?? "";
+    expect(markup).to.contain("Day");
+    expect(markup).to.contain("Night");
+    expect(markup).to.contain("Auto");
   });
 });

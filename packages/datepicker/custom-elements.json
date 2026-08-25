@@ -38,6 +38,22 @@
             "name": "LoomiDatepickerStyle",
             "module": "./loomi-datepicker.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiDatepickerChangeDetail",
+          "declaration": {
+            "name": "LoomiDatepickerChangeDetail",
+            "module": "./loomi-datepicker.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiDatepickerEventMap",
+          "declaration": {
+            "name": "LoomiDatepickerEventMap",
+            "module": "./loomi-datepicker.js"
+          }
         }
       ]
     },
@@ -63,6 +79,15 @@
               "kind": "field",
               "name": "internals",
               "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "initialSelectedValue",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
             },
             {
               "kind": "field",
@@ -260,11 +285,58 @@
             },
             {
               "kind": "field",
+              "name": "focusedDay",
+              "type": {
+                "text": "Date | null"
+              },
+              "privacy": "private",
+              "default": "null",
+              "description": "The day the grid's single tab stop sits on. A month is 28–31 buttons; making each one\na tab stop means tabbing past the whole month to leave the calendar, so the grid uses\nthe roving-tabindex pattern the WAI-ARIA APG specifies for a date grid instead."
+            },
+            {
+              "kind": "field",
+              "name": "pendingFocusMove",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "Set when a keypress moved the roving focus, so `updated()` follows it in the DOM."
+            },
+            {
+              "kind": "field",
               "name": "cleanup",
               "type": {
                 "text": "() => void | undefined"
               },
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "applySelectedValue",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
             },
             {
               "kind": "method",
@@ -356,6 +428,54 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "rovingDay",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Date"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "year",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "month",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ],
+              "description": "Which day carries the grid's tab stop: the roving focus if the user has moved it, else\nthe selected day, else the first of the month — so arriving by Tab lands somewhere\nmeaningful rather than always on the 1st."
+            },
+            {
+              "kind": "method",
+              "name": "moveFocus",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "days",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "onGridKeydown",
+              "privacy": "private"
             },
             {
               "kind": "method",

@@ -138,14 +138,42 @@ export class LoomiButton extends LoomiElement {
    * — the CSS-only way to detect this — has no Firefox support.
    */
   @state() private isDarkContext = false;
+
+  /**
+   * `aria-label` written on the host, moved to the inner control.
+   *
+   * The host has no ARIA role of its own, so a label left on it is both ignored by
+   * assistive technology and reported by axe as a prohibited attribute — an icon-only
+   * button ends up with no accessible name at all. `<loomi-button aria-label="Close">`
+   * is nevertheless what any consumer would naturally write (and what
+   * `@loomidev/chat` did), so adopt it rather than requiring `controlElement`.
+   *
+   * Adopted on connect and before each update, which covers markup and template-driven
+   * changes. A bare `setAttribute("aria-label", ...)` on an otherwise idle host is not
+   * observed — use the `controlElement` escape hatch documented above for that.
+   */
+  @state() private adoptedAriaLabel: string | null = null;
+
+  private adoptAriaLabel(): void {
+    const label = this.getAttribute("aria-label");
+    if (label === null) return;
+    this.adoptedAriaLabel = label;
+    this.removeAttribute("aria-label");
+  }
   private cleanupDarkWatch?: () => void;
 
   override connectedCallback(): void {
     super.connectedCallback();
+    this.adoptAriaLabel();
     this.cleanupDarkWatch = watchDarkMode((isDark) => {
       this.isDarkContext = isDark;
     });
   }
+
+  override willUpdate(): void {
+    this.adoptAriaLabel();
+  }
+
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.cleanupDarkWatch?.();
@@ -346,6 +374,7 @@ export class LoomiButton extends LoomiElement {
         part="button"
         href=${ifDefined(this.disabled ? undefined : this.href || undefined)}
         role="button"
+        aria-label=${this.adoptedAriaLabel ?? nothing}
         aria-disabled=${this.disabled ? "true" : "false"}
         tabindex=${this.disabled ? "-1" : "0"}
         @click=${this.onClick}
@@ -357,6 +386,7 @@ export class LoomiButton extends LoomiElement {
       class=${cls}
       part="button"
       type=${this.canSubmit ? "submit" : "button"}
+      aria-label=${this.adoptedAriaLabel ?? nothing}
       ?disabled=${this.disabled}
       @click=${this.onClick}
     >

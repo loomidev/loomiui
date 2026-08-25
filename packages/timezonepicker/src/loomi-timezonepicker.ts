@@ -213,6 +213,7 @@ export class LoomiTimezonepicker extends LoomiElement {
 
   private internals = this.attachInternals();
   private validationVisible = false;
+  private initialSelection = "";
 
   @property({ reflect: true }) name = "";
   @property() label = "";
@@ -244,10 +245,21 @@ export class LoomiTimezonepicker extends LoomiElement {
   private cleanupClickOutside?: () => void;
 
   override connectedCallback(): void {
+    if (!this.hasUpdated) this.initialSelection = this.selection;
     super.connectedCallback();
     this.cleanupClickOutside = onClickOutside(this, () => {
       if (this.open) this.close(true);
     });
+  }
+
+  formResetCallback(): void {
+    this.selection = this.initialSelection;
+    this.selectedId = this.resolveZone(this.initialSelection)?.id ?? "";
+    this.open = false;
+    this.search = "";
+    this.activeIndex = -1;
+    this.validationVisible = false;
+    this.invalid = false;
   }
   override disconnectedCallback(): void {
     super.disconnectedCallback();

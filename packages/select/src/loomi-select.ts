@@ -1,4 +1,4 @@
-import { html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
+import { html, nothing, svg, type PropertyValues, type TemplateResult, isServer } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
 import {
   LoomiElement,
@@ -52,6 +52,7 @@ export class LoomiSelect extends LoomiElement {
 
   private internals = this.attachInternals();
   private validationVisible = false;
+  private initialSelectedValue = "";
 
   @property({ reflect: true }) name = "";
   @property() placeholder = DEFAULT_PLACEHOLDER;
@@ -91,10 +92,21 @@ export class LoomiSelect extends LoomiElement {
   private cleanupClickOutside?: () => void;
 
   override connectedCallback(): void {
+    if (!this.hasUpdated) this.initialSelectedValue = this.selectedValue;
     super.connectedCallback();
     this.cleanupClickOutside = onClickOutside(this, () => {
       if (this.open) this.close(true);
     });
+  }
+
+  formResetCallback(): void {
+    this.selectedValue = this.initialSelectedValue;
+    this.selected = this.parseSelectedValue();
+    this.open = false;
+    this.search = "";
+    this.activeIndex = -1;
+    this.validationVisible = false;
+    this.invalid = false;
   }
   override disconnectedCallback(): void {
     super.disconnectedCallback();
@@ -152,6 +164,8 @@ export class LoomiSelect extends LoomiElement {
         image: this.imageKey ? (row[this.imageKey] as string) : undefined,
       }));
     }
+    // Light DOM is not readable during server rendering; hydration fills this in.
+    if (isServer) return [];
     return Array.from(this.querySelectorAll("option")).map((o) => ({
       label: (o.textContent ?? "").trim(),
       value: o.getAttribute("value") ?? (o.textContent ?? "").trim(),

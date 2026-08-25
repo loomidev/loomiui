@@ -63,7 +63,7 @@
 }
 .loomi-req {
   color: var(--loomi-error-500);
-  margin-left: 0.15rem;
+  margin-inline-start: 0.15rem;
 }
 
 .loomi-error {
@@ -126,7 +126,7 @@
   font-weight: 500;
 }
 .loomi-mention-desc {
-  margin-left: auto;
+  margin-inline-start: auto;
   color: var(--loomi-text-faint);
   font-size: 0.8rem;
 }

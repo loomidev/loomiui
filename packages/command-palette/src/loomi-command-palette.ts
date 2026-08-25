@@ -1,6 +1,6 @@
 import { css, html, nothing } from "lit";
 import { customElement } from "lit/decorators.js";
-import { LoomiElement, loomiStyles } from "@loomidev/core";
+import { LoomiElement, loomiDefaultText, loomiStyles, loomiT } from "@loomidev/core";
 import type {
   CommandPaletteItem,
   CommandPaletteOpenChangeDetail,
@@ -8,6 +8,20 @@ import type {
   CommandPaletteSelectDetail,
 } from "./types.js";
 
+// Defaults are translated when left untouched, and used verbatim once a consumer sets
+// their own — see loomiDefaultText.
+const DEFAULT_PLACEHOLDER = "Search commands";
+const DEFAULT_EMPTY_TITLE = "No commands found";
+const DEFAULT_EMPTY_DESCRIPTION = "Try a different search term.";
+
+/**
+ * `<loomi-command-palette>` — a searchable command menu opened with a trigger or a
+ * keyboard shortcut.
+ *
+ * @fires loomi-command-select - `detail: { item }` when a command is chosen.
+ * @fires loomi-command-open-change - `detail: { open }` when the palette opens or closes.
+ * @fires loomi-command-query-change - `detail: { query }` as the search query is typed.
+ */
 @customElement("loomi-command-palette")
 export class LoomiCommandPalette extends LoomiElement {
   static properties = {
@@ -19,6 +33,7 @@ export class LoomiCommandPalette extends LoomiElement {
     emptyTitle: { attribute: "empty-title" },
     emptyDescription: { attribute: "empty-description" },
     shortcut: {},
+    locale: {},
     _activeIndex: { state: true },
   };
 
@@ -197,9 +212,10 @@ export class LoomiCommandPalette extends LoomiElement {
   items: CommandPaletteItem[] = [];
   open = false;
   query = "";
-  placeholder = "Search commands";
-  emptyTitle = "No commands found";
-  emptyDescription = "Try a different search term.";
+  placeholder = DEFAULT_PLACEHOLDER;
+  emptyTitle = DEFAULT_EMPTY_TITLE;
+  emptyDescription = DEFAULT_EMPTY_DESCRIPTION;
+  locale = "";
   shortcut = "Cmd K";
   private _activeIndex = 0;
 
@@ -218,14 +234,21 @@ export class LoomiCommandPalette extends LoomiElement {
 
     return html`
       <button class="trigger" type="button" @click=${this.openPalette}>
-        <span>${this.placeholder}</span>
+        <span>${loomiDefaultText(this.placeholder, DEFAULT_PLACEHOLDER, "commandPalette.search", this.locale)}</span>
         <span class="shortcut">${this.shortcut}</span>
       </button>
       ${this.open ? this.renderDialog(filteredItems) : nothing}
     `;
   }
 
+  /** Where focus was before the palette opened, so closing can hand it back. */
+  private previouslyFocused: HTMLElement | null = null;
+
   openPalette = () => {
+    // Remember where focus came from: the palette can be opened by its own trigger or by
+    // the global shortcut from anywhere on the page, and closing must not strand focus.
+    this.previouslyFocused = (this.getRootNode() as Document | ShadowRoot)
+      .activeElement as HTMLElement | null;
     this.open = true;
     this._activeIndex = this.getFirstEnabledIndex(this.getFilteredItems());
     this.dispatchOpenChange();
@@ -239,6 +262,8 @@ export class LoomiCommandPalette extends LoomiElement {
     this.query = "";
     this._activeIndex = 0;
     this.dispatchOpenChange();
+    this.previouslyFocused?.focus();
+    this.previouslyFocused = null;
   };
 
   togglePalette = () => {
@@ -256,19 +281,23 @@ export class LoomiCommandPalette extends LoomiElement {
           class="dialog"
           role="dialog"
           aria-modal="true"
-          aria-label="Command palette"
+          aria-label=${loomiT("commandPalette.label", {}, this.locale)}
           @click=${(event: Event) => event.stopPropagation()}
           @keydown=${this.handleDialogKeydown}
         >
           <input
             class="search"
             type="search"
-            aria-label="Search commands"
-            placeholder=${this.placeholder}
+            role="combobox"
+            aria-label=${loomiT("commandPalette.search", {}, this.locale)}
+            aria-expanded="true"
+            aria-controls="loomi-cmd-listbox"
+            aria-activedescendant=${items.length ? `loomi-cmd-option-${this._activeIndex}` : nothing}
+            placeholder=${loomiDefaultText(this.placeholder, DEFAULT_PLACEHOLDER, "commandPalette.search", this.locale)}
             .value=${this.query}
             @input=${this.handleQueryInput}
           />
-          <div class="list" role="listbox" aria-label="Commands">
+          <div id="loomi-cmd-listbox" class="list" role="listbox" aria-label=${loomiT("commandPalette.commands", {}, this.locale)}>
             ${items.length === 0 ? this.renderEmpty() : this.renderGroups(items)}
           </div>
         </section>
@@ -300,6 +329,8 @@ export class LoomiCommandPalette extends LoomiElement {
         class="item"
         type="button"
         role="option"
+        id=${`loomi-cmd-option-${index}`}
+        tabindex="-1"
         aria-selected=${this._activeIndex === index ? "true" : "false"}
         ?disabled=${item.disabled}
         @mouseenter=${() => {
@@ -319,8 +350,8 @@ export class LoomiCommandPalette extends LoomiElement {
   private renderEmpty() {
     return html`
       <div class="empty">
-        <strong>${this.emptyTitle}</strong>
-        <span>${this.emptyDescription}</span>
+        <strong>${loomiDefaultText(this.emptyTitle, DEFAULT_EMPTY_TITLE, "commandPalette.emptyTitle", this.locale)}</strong>
+        <span>${loomiDefaultText(this.emptyDescription, DEFAULT_EMPTY_DESCRIPTION, "commandPalette.emptyDescription", this.locale)}</span>
       </div>
     `;
   }
@@ -357,12 +388,32 @@ export class LoomiCommandPalette extends LoomiElement {
       return;
     }
 
+    if (event.key === "Home") {
+      event.preventDefault();
+      this._activeIndex = this.getFirstEnabledIndex(items);
+      return;
+    }
+
+    if (event.key === "End") {
+      event.preventDefault();
+      this._activeIndex = this.getLastEnabledIndex(items);
+      return;
+    }
+
     if (event.key === "Enter") {
       event.preventDefault();
       const item = items[this._activeIndex];
       if (item) {
         this.selectItem(item);
       }
+      return;
+    }
+
+    // aria-modal="true" promises the rest of the page is inert, so Tab must not escape
+    // the dialog. The options are aria-activedescendant targets rather than tab stops,
+    // which leaves the search input as the only one — so Tab simply stays put.
+    if (event.key === "Tab") {
+      event.preventDefault();
     }
   };
 
@@ -456,6 +507,13 @@ export class LoomiCommandPalette extends LoomiElement {
   private getFirstEnabledIndex(items: CommandPaletteItem[]) {
     const index = items.findIndex((item) => !item.disabled);
     return index === -1 ? 0 : index;
+  }
+
+  private getLastEnabledIndex(items: CommandPaletteItem[]) {
+    for (let index = items.length - 1; index >= 0; index -= 1) {
+      if (!items[index].disabled) return index;
+    }
+    return 0;
   }
 
   private dispatchOpenChange() {

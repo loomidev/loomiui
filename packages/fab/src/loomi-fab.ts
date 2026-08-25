@@ -1,4 +1,4 @@
-import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
+import { html, nothing, type PropertyValues, type TemplateResult, isServer } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import {
   LoomiElement,
@@ -282,6 +282,8 @@ export class LoomiFab extends LoomiElement {
   }
 
   private getItems(): LoomiFabItem[] {
+    // Light DOM is not readable during server rendering; hydration fills this in on the client.
+    if (isServer) return [];
     return Array.from(this.children).filter(
       (child): child is LoomiFabItem => child instanceof LoomiFabItem,
     );

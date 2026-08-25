@@ -30,6 +30,14 @@
             "name": "LoomiLabelPosition",
             "module": "./loomi-toggle.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiToggleEventMap",
+          "declaration": {
+            "name": "LoomiToggleEventMap",
+            "module": "./loomi-toggle.js"
+          }
         }
       ]
     },
@@ -71,6 +79,15 @@
               "kind": "field",
               "name": "internals",
               "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "initialChecked",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
             },
             {
               "kind": "field",
@@ -156,6 +173,15 @@
               },
               "default": "\"primary\"",
               "attribute": "color"
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
             },
             {
               "kind": "field",

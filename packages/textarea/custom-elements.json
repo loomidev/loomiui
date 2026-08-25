@@ -89,6 +89,15 @@
             },
             {
               "kind": "field",
+              "name": "initialValue",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
               "name": "cleanupMentionOutside",
               "type": {
                 "text": "() => void | undefined"
@@ -328,6 +337,15 @@
             },
             {
               "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
               "name": "focus",
               "return": {
                 "type": {
@@ -498,12 +516,6 @@
             }
           ],
           "events": [
-            {
-              "name": "type",
-              "type": {
-                "text": "Event"
-              }
-            },
             {
               "name": "loomi-mention-search",
               "type": {

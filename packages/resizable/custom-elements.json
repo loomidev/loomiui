@@ -364,6 +364,25 @@
             },
             {
               "kind": "method",
+              "name": "valuePercent",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "number"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "group",
+                  "type": {
+                    "text": "LoomiResizablePanelGroup | null"
+                  }
+                }
+              ],
+              "description": "Size, in percent of the group, of the panel immediately before this handle — the\nvalue a window splitter reports. Falls back to 50 for a handle that is not between\ntwo panels yet (or at all), which keeps `aria-valuenow` present and in range rather\nthan emitting an invalid value."
+            },
+            {
+              "kind": "method",
               "name": "getAdjacentPanelIndexes",
               "return": {
                 "type": {

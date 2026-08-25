@@ -6,4 +6,5 @@ export {
   type LoomiSortableItemDetail,
   type LoomiSortableReorderDetail,
   type LoomiSortableTransferDetail,
+  type LoomiSortableEventMap,
 } from "./loomi-sortable.js";

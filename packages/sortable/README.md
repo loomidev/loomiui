@@ -331,6 +331,14 @@ event.
 console.log(savedList.order); // current ids, top to bottom
 ```
 
+When `name` is set, the sortable also participates in native form submission. It submits
+the current item IDs as a JSON array string. A native `form.reset()` restores the item
+order that existed when the sortable first connected, without firing `loomi-reorder`.
+
+```js
+new FormData(form).get("task_order"); // '["research","draft","publish"]'
+```
+
 ## Accessibility
 
 For the library-wide baseline, see [Foundations â€” Accessibility](https://loomiui.com/foundations/#accessibility).
@@ -347,6 +355,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 | Attribute    | Default   | Description                                                                   |
 | ------------ | --------- | ----------------------------------------------------------------------------- |
+| `name`       | _(blank)_ | Form field name. When set, submits the current order as a JSON array of IDs.  |
 | `items`      | `[]`      | Rows to display/reorder â€” `{ id, label, meta? }[]` (property or JSON).        |
 | `group`      | _(blank)_ | String group name, or JS property object `{ name, pull, put }`.               |
 | `clone`      | `false`   | Clone dragged items into another shared list instead of moving them.          |
@@ -360,7 +369,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 
 **Property:** `order` (array of ids). **Events:** `loomi-reorder` (`detail: { order }`, same-list
 drag), `loomi-transfer` (`detail: { order, items }`, fired on both lists after a cross-list move),
-`filter` (`detail: { item }`), `loomi-item-click` (`detail: { item }`, a click outside multi-drag
+`loomi-filter` (`detail: { item }`), `loomi-item-click` (`detail: { item }`, a click outside multi-drag
 mode).
 
 ## Events

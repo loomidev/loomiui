@@ -5,7 +5,9 @@ import { categoryQuality, qualityOverrides } from "./lib/quality-overrides.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const packagesDir = path.join(rootDir, "packages");
-const skip = new Set(["mcp-server", "icons"]);
+// React integration packages are skipped for the same reason as in
+// audit-component-quality.mjs: they wrap components rather than being ones.
+const skip = new Set(["mcp-server", "icons", "react", "react-types"]);
 
 function bullets(items) {
   return items.map((item) => `- ${item}`).join("\n");

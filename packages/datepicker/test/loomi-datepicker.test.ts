@@ -1,4 +1,4 @@
-import { html, fixture, expect } from "@open-wc/testing";
+import { html, fixture, expect, nextFrame } from "@open-wc/testing";
 import "../dist/loomi-datepicker.js";
 import type { LoomiDatepicker } from "../dist/index.js";
 
@@ -107,5 +107,116 @@ describe("loomi-datepicker", () => {
 
     expect(el.value).to.equal("2026-06-23");
     expect(el.shadowRoot!.querySelector(".loomi-cal.inline")).to.exist;
+  });
+
+  describe("calendar keyboard (WAI-ARIA date grid)", () => {
+    const openCalendar = async (): Promise<LoomiDatepicker> => {
+      const el = await fixture<LoomiDatepicker>(
+        html`<loomi-datepicker dp-style="inline" selected-value="2026-03-10"></loomi-datepicker>`,
+      );
+      await el.updateComplete;
+      await nextFrame();
+      return el;
+    };
+
+    const grid = (el: LoomiDatepicker): HTMLElement =>
+      el.shadowRoot!.querySelector(".loomi-grid") as HTMLElement;
+
+    const tabStop = (el: LoomiDatepicker): HTMLButtonElement | null =>
+      el.shadowRoot!.querySelector('.loomi-day[tabindex="0"]');
+
+    const press = async (el: LoomiDatepicker, key: string): Promise<KeyboardEvent> => {
+      const event = new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true });
+      grid(el).dispatchEvent(event);
+      await el.updateComplete;
+      await nextFrame();
+      return event;
+    };
+
+    it("uses grid semantics for the month", async () => {
+      const el = await openCalendar();
+      expect(grid(el).getAttribute("role")).to.equal("grid");
+      expect(el.shadowRoot!.querySelectorAll('[role="columnheader"]')).to.have.lengthOf(7);
+      expect(
+        el.shadowRoot!.querySelectorAll('.loomi-day[role="gridcell"]').length,
+      ).to.be.greaterThan(27);
+    });
+
+    it("exposes exactly one tab stop, on the selected day", async () => {
+      const el = await openCalendar();
+      expect(el.shadowRoot!.querySelectorAll('.loomi-day[tabindex="0"]')).to.have.lengthOf(1);
+      expect(tabStop(el)!.textContent!.trim()).to.equal("10");
+    });
+
+    it("moves a day at a time with the left and right arrows", async () => {
+      const el = await openCalendar();
+      await press(el, "ArrowRight");
+      expect(tabStop(el)!.textContent!.trim()).to.equal("11");
+
+      await press(el, "ArrowLeft");
+      await press(el, "ArrowLeft");
+      expect(tabStop(el)!.textContent!.trim()).to.equal("9");
+    });
+
+    it("moves a week at a time with the up and down arrows", async () => {
+      const el = await openCalendar();
+      await press(el, "ArrowDown");
+      expect(tabStop(el)!.textContent!.trim()).to.equal("17");
+
+      await press(el, "ArrowUp");
+      await press(el, "ArrowUp");
+      expect(tabStop(el)!.textContent!.trim()).to.equal("3");
+    });
+
+    it("jumps to the ends of the week with Home and End", async () => {
+      const el = await openCalendar();
+      await press(el, "Home");
+      const start = Number(tabStop(el)!.textContent!.trim());
+      await press(el, "End");
+      const end = Number(tabStop(el)!.textContent!.trim());
+      expect(end - start, "Home and End bracket the same week").to.equal(6);
+    });
+
+    it("changes month with PageUp and PageDown", async () => {
+      const el = await openCalendar();
+      await press(el, "PageDown");
+      expect(el.shadowRoot!.textContent).to.contain("April");
+
+      await press(el, "PageUp");
+      await press(el, "PageUp");
+      expect(el.shadowRoot!.textContent).to.contain("February");
+    });
+
+    it("scrolls into the next month when arrowing off the end", async () => {
+      const el = await fixture<LoomiDatepicker>(
+        html`<loomi-datepicker dp-style="inline" selected-value="2026-03-31"></loomi-datepicker>`,
+      );
+      await el.updateComplete;
+      await nextFrame();
+      await press(el, "ArrowRight");
+      expect(el.shadowRoot!.textContent).to.contain("April");
+      expect(tabStop(el)!.textContent!.trim()).to.equal("1");
+    });
+
+    it("gives every day a full date as its accessible name", async () => {
+      const el = await openCalendar();
+      const label = tabStop(el)!.getAttribute("aria-label")!;
+      // "10" alone is meaningless read out of context.
+      expect(label).to.contain("10");
+      expect(label.length).to.be.greaterThan(6);
+    });
+
+    it("marks the selected day with aria-selected", async () => {
+      const el = await openCalendar();
+      const selected = el.shadowRoot!.querySelectorAll('.loomi-day[aria-selected="true"]');
+      expect(selected).to.have.lengthOf(1);
+      expect(selected[0].textContent!.trim()).to.equal("10");
+    });
+
+    it("consumes the keys it handles", async () => {
+      const el = await openCalendar();
+      expect((await press(el, "ArrowRight")).defaultPrevented).to.be.true;
+      expect((await press(el, "PageDown")).defaultPrevented).to.be.true;
+    });
   });
 });

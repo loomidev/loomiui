@@ -274,6 +274,25 @@
               }
             },
             {
+              "kind": "field",
+              "name": "isSubmenuOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "True while this item's submenu panel is showing.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "openSubmenuFromKeyboard",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Opens the submenu, if this item has one. Used by the parent menu's ArrowRight."
+            },
+            {
               "kind": "method",
               "name": "openSubmenu",
               "privacy": "private",
@@ -497,6 +516,16 @@
               },
               "default": "false",
               "attribute": "icon-right"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for the trigger. The target is a `role=\"button\"`, so it needs a name;\nslotted text normally supplies one, but a target that is iconic — or empty until a\nright-click sets a subject, as in `<loomi-calendar>` — has to say it explicitly.",
+              "attribute": "label"
             },
             {
               "kind": "field",
@@ -773,6 +802,15 @@
               },
               "default": "false",
               "fieldName": "iconRight"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for the trigger. The target is a `role=\"button\"`, so it needs a name;\nslotted text normally supplies one, but a target that is iconic — or empty until a\nright-click sets a subject, as in `<loomi-calendar>` — has to say it explicitly.",
+              "fieldName": "label"
             }
           ],
           "superclass": {

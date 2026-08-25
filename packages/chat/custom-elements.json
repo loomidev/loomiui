@@ -584,6 +584,16 @@
           "members": [
             {
               "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "BCP-47 locale for the component's own strings. Covers the component's own labels;\nthe visible copy properties below (`title`, `description`, `emptyTitle`, …) are\nconsumer-supplied text and are used as given.",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
               "name": "title",
               "type": {
                 "text": "string"
@@ -1127,9 +1137,34 @@
             {
               "description": "`detail: { message: LoomiChatWindowMessage }` when the current user sends.",
               "name": "loomi-send"
+            },
+            {
+              "description": "`detail: { files }` when files are attached from the composer.",
+              "name": "loomi-attach-file"
+            },
+            {
+              "description": "`detail: { files }` when images are attached from the composer.",
+              "name": "loomi-attach-picture"
+            },
+            {
+              "description": "`detail: { stream }` when voice recording starts.",
+              "name": "loomi-record"
+            },
+            {
+              "description": "`detail: { error }` when recording cannot start.",
+              "name": "loomi-record-error"
             }
           ],
           "attributes": [
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "BCP-47 locale for the component's own strings. Covers the component's own labels;\nthe visible copy properties below (`title`, `description`, `emptyTitle`, …) are\nconsumer-supplied text and are used as given.",
+              "fieldName": "locale"
+            },
             {
               "name": "title",
               "type": {

@@ -2,7 +2,7 @@
 
 This is the contributor guide: how to set up the repo, change packages, add components,
 test the work, and prepare releases. For the system-design overview, read
-[`architecture.md`](architecture.md) first; this file is the procedural companion.
+[`docs/architecture.md`](docs/architecture.md) first; this file is the procedural companion.
 
 > **Repo note:** this is one monorepo, not one git repository per component. See
 > [§10](#10-should-each-component-be-its-own-git-repository) for the reasoning, and
@@ -10,6 +10,10 @@ test the work, and prepare releases. For the system-design overview, read
 > releases.
 
 ## Quick start (the happy path)
+
+For the compact issue-to-review checklist, use
+[`docs/contributor-workflow.md`](docs/contributor-workflow.md). This guide keeps the full
+explanation and reference material.
 
 If you just want a working checkout, this is the whole setup. The sections below explain
 what each step does and why — reach for them when a step fails or when you start changing
@@ -118,10 +122,10 @@ before, here's what's different and why it matters for this specific repo.
 
    ```bash
    corepack enable
-   corepack use pnpm@9.15.9
+   corepack use pnpm@11.9.0
    ```
 
-   The root `package.json` pins `"packageManager": "pnpm@9.15.9"` specifically so that,
+   The root `package.json` pins `"packageManager": "pnpm@11.9.0"` specifically so that,
    once Corepack is enabled, running `pnpm` _anywhere in this repo_ transparently fetches
    and uses exactly that version regardless of what else is installed globally — this
    keeps the lockfile behavior identical across every contributor's machine.
@@ -133,14 +137,14 @@ before, here's what's different and why it matters for this specific repo.
    ```bash
    mkdir -p "$HOME/.npm-global"
    npm config set prefix "$HOME/.npm-global"
-   npm install -g pnpm@9
+   npm install -g pnpm@11
    export PATH="$HOME/.npm-global/bin:$PATH"   # add this to your shell profile too
    ```
 
    Or use the official standalone installer, which doesn't touch global npm config at
    all: `curl -fsSL https://get.pnpm.io/install.sh | sh -`
 
-3. **Verify:** `pnpm -v` should print `9.x.x`.
+3. **Verify:** `pnpm -v` should print `11.x.x`.
 4. **Install everything:**
    ```bash
    pnpm install
@@ -169,7 +173,7 @@ components/                          (repo root)
 ├─ LICENSE                            MIT
 ├─ SECURITY.md                        private vulnerability disclosure policy
 ├─ README.md                          user-facing docs: what it is, quick start, theming
-├─ architecture.md                    system design: how the packages fit together
+├─ docs/architecture.md               system design: how the packages fit together
 ├─ CONTRIBUTING.md                    this file — setup, workflow, publishing
 ├─ examples/                          hand-written HTML demo pages (not published)
 └─ packages/                          every package lives here, one folder each
@@ -181,7 +185,7 @@ components/                          (repo root)
 {
   "name": "@loomidev/root",
   "private": true,
-  "packageManager": "pnpm@9.15.9",
+  "packageManager": "pnpm@11.9.0",
   "engines": { "node": ">=20" },
   "workspaces": ["packages/*"],
   "scripts": {
@@ -205,10 +209,15 @@ depends on it).
 ```yaml
 packages:
   - "packages/*"
+linkWorkspacePackages: true
+preferWorkspacePackages: true
+autoInstallPeers: true
+strictPeerDependencies: false
 ```
 
 Makes pnpm treat every immediate subfolder of `packages/` as its own installable package.
-Without this file, `workspace:^` ranges wouldn't resolve.
+Without this file, `workspace:^` ranges wouldn't resolve. It also holds pnpm's project
+settings, including dependency overrides and workspace linking behavior.
 
 ### `tsconfig.base.json`
 
@@ -219,14 +228,11 @@ compiler flag for the whole library is a one-file edit, not a package-by-package
 ### `.npmrc`
 
 ```
-link-workspace-packages=true
-prefer-workspace-packages=true
-auto-install-peers=true
+@loomidev:registry=https://registry.npmjs.org/
 ```
 
-Tells pnpm to symlink in-workspace `@loomidev/*` dependencies locally instead of fetching
-them from the registry, and to silently satisfy `peerDependencies` (like `lit`) so you
-don't get nagged about them in local dev.
+Keeps the public `@loomidev` scope on npm. Authentication belongs in the user-level
+`~/.npmrc` or npm Trusted Publishing, never in the committed project configuration.
 
 ### `examples/`
 
@@ -363,6 +369,11 @@ What the shared script does, in order:
 5. Writes the compiled CSS into `src/generated/styles.css.ts`, wrapped as a Lit
    `CSSResult` via `unsafeCSS(...)`, exported as `componentStyles` (name overridable via
    the `exportName` option).
+
+Generated style modules remain ignored because every build recreates them. Their SHA-256
+outputs are recorded in `scripts/generated-styles-manifest.json`, and CI compares the
+fresh build with that manifest. After an intentional CSS, palette, safelist, or compiler
+change, run `pnpm build && pnpm styles:manifest` and commit the manifest update.
 
 `@loomidev/button` is the one package whose shim passes an **options object** (see
 `packages/button/scripts/build-styles.mjs`): a `safelist` of
@@ -640,7 +651,20 @@ reinvent it.**
    `fieldStyles` + `controlSizeStyles` from `@loomidev/core` (see [§5](#5-the-three-foundation-packages))
    instead of hand-writing the field border/focus/invalid/disabled chrome — keep only
    layout in your own CSS.
+   **Use logical properties for spacing and borders**, not physical ones:
+   `margin-inline-start` rather than `margin-left`, `padding-inline-end` rather than
+   `padding-right`, `border-inline-start` rather than `border-left`. They resolve
+   identically in LTR and mirror automatically under `dir="rtl"`, which is what makes the
+   library usable in Arabic and Hebrew — one of the ten shipped locales is Arabic. The
+   visual regression suite captures every component under `dir="rtl"`, so a physical
+   property that breaks mirroring shows up as a failing baseline.
+
+   Absolute positioning is a separate question: `left: 0; right: 0` and `left: 50%` are
+   direction-neutral and fine as they are, and the floating-panel components set their
+   offsets from JavaScript rather than CSS.
+
 6. **Write `src/loomi-<name>.ts`**:
+
    ```ts
    import { LoomiElement, loomiStyles /*, accentVars */ } from "@loomidev/core";
    import { componentStyles } from "./generated/styles.css.js";
@@ -653,9 +677,11 @@ reinvent it.**
      interface HTMLElementTagNameMap { "loomi-<name>": Loomi<Name>; }
    }
    ```
+
    **Extend `LoomiElement`, not `LitElement`.** `LoomiElement`
    (`packages/core/src/index.ts`) is a thin `LitElement` subclass that every component
    should extend, and it's what every component's `name` attribute is built on:
+
    ```ts
    export class LoomiElement extends LitElement {
      static override properties = { name: { type: String, reflect: true } };
@@ -663,6 +689,7 @@ reinvent it.**
      // connectedCallback() / update() keep a stable CSS class on the host element in sync
    }
    ```
+
    On `connectedCallback()` and every `update()`, it applies a CSS class to the host
    element — either a sanitized version of the `name` attribute if the consumer set one
    (`<loomi-button name="submit-btn">` → class `submit-btn`), or, if not, a generated
@@ -680,7 +707,89 @@ reinvent it.**
    glance which events are loomi-specific and bare names never collide with native
    events when composed. Dispatch with `{ bubbles: true, composed: true }` so the event
    crosses the Shadow DOM boundary.
+
+   **Every component that dispatches an event must export an `EventMap` — this is not
+   optional.** `@loomidev/react` generates a typed `on*` callback for each event, and
+   without a map it can only fall back to `(e: CustomEvent) => void`, i.e. `detail: any`.
+   Declare one exported `Loomi<Name>EventMap` per **package** (the generator reads one map
+   per package and applies it to every custom element in it), naming every event the
+   component fires, plus a named `Detail` interface for each event that carries one:
+
+   ```ts
+   export interface LoomiRatingChangeDetail {
+     /** The newly chosen rating, 0–5. */
+     rating: number;
+   }
+
+   /** Event map for `<loomi-rating>`. */
+   export interface LoomiRatingEventMap {
+     change: CustomEvent<LoomiRatingChangeDetail>;
+     "loomi-something": CustomEvent<LoomiRatingSomethingDetail>;
+     close: Event; // events with no detail are plain `Event`s
+   }
+   ```
+
+   Rules that keep the generator working:
+   - Put the map in the component source file (**not** `src/index.ts` — the generator
+     skips that file), and re-export it plus every `Detail` interface from `src/index.ts`.
+   - The key must be the **exact** dispatched event name, one per line. Quote hyphenated
+     names; prettier will strip quotes from bare ones, which is fine.
+   - Keep the interface body free of inline object literals — reference a named `Detail`
+     interface instead.
+   - `Detail` names land in the flat `@loomidev/components` barrel, so make them unique:
+     `Loomi<Name><Event>Detail`.
+   - Detail shapes are a **public API contract** — describe what the event actually
+     dispatches at runtime, not a convenient approximation.
+     Verify with `pnpm check:react` from the repo root: the callback for your event should
+     read `Loomi<Name>EventMap["<event-name>"]`, not a bare `CustomEvent`.
+
+   **Keep `render()` server-safe.** Every component is rendered in Node by
+   `pnpm check:ssr` (CI) to produce Declarative Shadow DOM, which is what lets LoomiUI be
+   used from Astro, Rails, Laravel or a static site generator. There is no light DOM, no
+   layout and no host element on the server, so `this.children`, `this.querySelector*`,
+   `getBoundingClientRect()`, `this.renderRoot` and `this.style` are all unavailable
+   during `render()` and `willUpdate()`. Guard them with lit's `isServer`:
+
+   ```ts
+   import { isServer } from "lit";
+
+   // Collections of light-DOM children: empty on the server, filled in at hydration.
+   private get items(): LoomiThing[] {
+     if (isServer) return [];
+     return Array.from(this.querySelectorAll("loomi-thing"));
+   }
+
+   // "Is there slotted content?" checks: assume yes, so the <slot> is present in the
+   // server HTML and light-DOM content stays visible before hydration.
+   const hasLabel = !!this.label || isServer || this.hasChildNodes();
+   ```
+
+   Two further traps: lit-html cannot bind inside a `<style>` element (a raw-text
+   element) and `@lit-labs/ssr` rejects such a template outright — interpolate a constant
+   stylesheet as a _static_ value via `lit/static-html.js` instead, as
+   `packages/timepicker` does. And `connectedCallback()` is **not** called during SSR, so
+   DOM work there needs no guard.
+
+   **A guard must not change the template's shape.** `pnpm check:hydration` renders every
+   component on the server, loads the markup in a browser, and checks the client _adopts_
+   those nodes rather than replacing them. An `isServer` guard that flips a conditional
+   makes the two sides render different structures, and Lit fails hydration with
+   "Hydration value mismatch". Render the same structure on both sides and hide the
+   difference in CSS instead — `packages/statistic` does exactly this:
+
+   ```css
+   /* The icon wrapper always renders so both sides agree on the shape; it collapses when
+      the host has no slotted icon, which server and client compute identically. */
+   :host(:not(:has([slot="icon"]))) .loomi-ico {
+     display: none;
+   }
+   ```
+
+   So a guard that decides only _whether a `<slot>` is filled_ is safe; one that decides
+   _whether a wrapping element exists at all_ is not.
+
 7. **Write `src/index.ts`** — `export { Loomi<Name>, type ... } from "./loomi-<name>.js";`
+   Include the `EventMap` and every `Detail` interface from step 6.
 8. **Build it in isolation first:**
    ```bash
    pnpm install
@@ -704,16 +813,25 @@ reinvent it.**
 15. **Generate the API manifest:** `pnpm cem` (repo root) writes/updates the package's
     `custom-elements.json`; commit it. Rerun whenever the public API (properties,
     events, slots, JSDoc) changes.
-16. **Add it to the root `README.md`'s component table.**
-17. **Record the change:** `pnpm changeset` (see [§9.3](#93-versioning-strategy)).
+16. **Regenerate the React packages** — both `@loomidev/react-types` (JSX declarations)
+    and `@loomidev/react` (wrapper components) are generated from the CEM manifests.
+    After step 15, run:
+    ```bash
+    pnpm check:react-types   # regenerates packages/react-types/src/index.ts
+    pnpm check:react         # regenerates packages/react/src/index.ts + src/components/
+    ```
+    Both scripts regenerate the file and exit with code 1 if the committed copy is
+    stale — so they also serve as the CI freshness check. Commit the updated files.
+17. **Add it to the root `README.md`'s component table.**
+18. **Record the change:** `pnpm changeset` (see [§9.3](#93-versioning-strategy)).
 
 ---
 
 ## 8a. Automated smoke tests
 
 There is a real, running test suite — `packages/*/test/**/*.test.ts` — using
-[`@web/test-runner`](https://modern-web.dev/docs/test-runner/overview/) with a real
-headless Chromium (via `@web/test-runner-puppeteer`) and
+[`@web/test-runner`](https://modern-web.dev/docs/test-runner/overview/) driving real
+headless Chromium, Firefox and WebKit (via `@web/test-runner-playwright`) and
 [`@open-wc/testing`](https://open-wc.org/docs/testing/testing-package/)'s `fixture()` /
 `expect()` / `oneEvent()` helpers. Tests run against the **built `dist/` output**, not
 the TypeScript source — they exercise the same artifact a consumer would install, so
@@ -721,13 +839,21 @@ the TypeScript source — they exercise the same artifact a consumer would insta
 
 ```bash
 pnpm build
-pnpm test                                          # the whole suite
+pnpm test                                          # all three engines
+LOOMI_BROWSERS=chromium pnpm test                  # one engine, while iterating
 pnpm web-test-runner --files "packages/button/test/**/*.test.ts"   # one package only
 ```
 
 Config lives at the repo root in `web-test-runner.config.mjs`. Two things in there are
 deliberate, not defaults:
 
+- **All three engines by default.** The library is built on web-platform primitives whose
+  engine support genuinely differs (`ElementInternals` form association,
+  `adoptedStyleSheets`, focus delegation), so a Chromium-only pass is not evidence the
+  components work. `LOOMI_BROWSERS` narrows the matrix to a comma-separated subset for
+  local iteration; CI always runs all three. Note that Playwright's Firefox build does not
+  launch on macOS 27 prereleases — that is a browser/OS problem, not a library one, and
+  `LOOMI_BROWSERS=chromium,webkit` is the local workaround.
 - **`concurrency: 1`.** Running multiple test files' browser pages concurrently caused
   real, reproducible timeouts under CPU contention on a dev machine — every failing test
   was independently verified to pass reliably in isolation, confirming it was a resource
@@ -739,6 +865,59 @@ deliberate, not defaults:
   package's `tsconfig.json` only includes `src/**/*.ts`). A test file with a type error
   will still run; catch type issues by eye or add `test/**/*.ts` to a package's
   `tsconfig.json` `include` if you want stricter coverage.
+
+### The accessibility sweep
+
+`packages/components/test/a11y.test.ts` renders **every** custom element the library
+defines and checks it with axe-core (through `chai-a11y-axe`, which `@open-wc/testing`
+registers for you — there is no extra dependency to add).
+
+Each entry is `[tag, markup]`. `null` markup renders the element bare, which is only
+correct for components that are already meaningful with no attributes or content.
+Everything else gets markup representing **correct, realistic use** — a form control with
+its label, a menu item inside its menu, a button with a name. That distinction is the
+point: a bare `<loomi-input>` legitimately has no accessible name, so asserting on it
+would measure the fixture rather than the component. A violation against realistic markup
+is a real defect a consumer would hit.
+
+`pnpm check:a11y-coverage` (in CI) fails if any tag in a `custom-elements.json` is absent
+from that list, so **a new component cannot silently skip accessibility testing** — add
+your entry when you add the component.
+
+The sweep runs axe's default rule set, `color-contrast` included. The theme's text
+tokens are tuned so every tier clears WCAG AA against both the light and dark surface
+(see `packages/theme/scripts/build-tokens.mjs`), so a contrast failure means a token
+regressed rather than that the rule needs muting.
+
+### Visual regression
+
+`pnpm test:visual` renders every component in both themes and compares the result against
+a committed baseline image. It is the only thing in the repo that guards **appearance** —
+a change to a theme token alters how dozens of components render while the unit tests, the
+accessibility sweep and the SSR check all still pass.
+
+It runs as its own suite (`web-test-runner.visual.config.mjs`), not as part of `pnpm test`,
+because it is slower and because its baselines are bitmaps:
+
+```bash
+pnpm test:visual                           # compare against the baseline
+pnpm test:visual --update-visual-baseline  # re-record, after an intended change
+```
+
+**Baselines are per platform.** Font rasterisation differs between macOS and Linux, so a
+baseline recorded on a laptop will not match one recorded on a CI runner. They live under
+`screenshots/<platform>/`, and each platform's set has to be recorded once on that
+platform.
+
+Linux is CI's platform, and its set is recorded by the **Visual baselines** workflow: run
+it once from the Actions tab, then commit `screenshots/linux/`. The visual step in `ci.yml`
+is gated on those files existing, so it does nothing until they land and starts guarding
+pull requests the moment they do. Re-run the workflow after any deliberate visual change.
+Until then it is a local gate — run it before and after any change to `packages/theme` or a
+component's `styles.css`.
+
+Markup comes from `packages/components/test/component-cases.js`, shared with the
+accessibility sweep, so the two suites exercise the same realistic usage.
 
 ### Current coverage
 
@@ -995,6 +1174,13 @@ publish time, not by splitting the source into many git repos.
 - **Explicit browser support matrix**, a **React/Vue/Angular interop note**, a
   **zero-install CDN quick start**, and the **`@loomidev/mcp-server`** highlight — all now
   in the user-facing `README.md` rather than buried here.
+- **Server-side rendering, verified both directions.** `check:ssr` renders all 103
+  components to Declarative Shadow DOM in Node; `check:hydration` loads that markup in a
+  browser and fails if the client replaces the server DOM instead of adopting it. Both run
+  in CI. See [§8](#8-adding-a-new-component-step-by-step) step 6 for the guard rules.
+- **A library-wide accessibility sweep** — every component checked with axe against
+  realistic markup, contrast rule included, with `check:a11y-coverage` blocking new
+  components from skipping it.
 - **An accessibility pass across the overlay/floating-panel components** — not a full
   audit, but every previously-known gap is closed. `modal` traps Tab focus, moves focus
   into the dialog on open, and restores it to the trigger on close. `tabs` supports the
@@ -1013,13 +1199,23 @@ publish time, not by splitting the source into many git repos.
 
 ### Still open
 
-- **Deeper test coverage** for component-specific edge cases — extend opportunistically
-  per [§8a](#8a-automated-smoke-tests), especially when changing form controls,
-  overlays, keyboard navigation, or generated styles.
-- **Accessibility beyond the overlay components above** hasn't had a dedicated pass —
-  e.g. `context-menu`, `command-palette`, `data-grid`, and other components with custom
-  keyboard interaction haven't been audited against the WAI-ARIA APG the way the
-  components above have.
+- **Deeper test coverage** for component-specific edge cases. Every package now carries
+  behavioral tests rather than a bare smoke test, but coverage is uneven — extend it
+  opportunistically per [§8a](#8a-automated-smoke-tests), especially when changing form
+  controls, overlays, keyboard navigation, or generated styles.
+- **Visual regression is wired into CI but dormant.** The step is gated on
+  `screenshots/linux/` existing, and those baselines have not been recorded yet — run the
+  **Visual baselines** workflow once and commit its output to switch it on
+  ([§8a](#visual-regression)).
+- **RTL is mechanically correct but not reviewed by eye.** Every stylesheet uses logical
+  properties for spacing and borders, and the visual suite captures each component under
+  `dir="rtl"` — 69 of 100 mirror, the rest being genuinely symmetric. What has not happened
+  is a native reader looking at the result: icon direction, text alignment inside composed
+  widgets, and the numeric and date formats components emit are all beyond what a pixel
+  diff can judge.
+- **Contrast beyond the default palette.** The shipped text tokens clear WCAG AA and the
+  sweep enforces that. A consumer who overrides `--loomi-gray-*` or `--loomi-surface` can
+  still land below 4.5:1, and nothing checks their palette for them.
 
 ---
 

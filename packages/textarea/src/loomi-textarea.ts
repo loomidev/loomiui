@@ -51,6 +51,7 @@ export class LoomiTextarea extends LoomiElement {
 
   private internals = this.attachInternals();
   private validationVisible = false;
+  private initialValue = "";
   private cleanupMentionOutside?: () => void;
 
   @property({ reflect: true }) name = "";
@@ -87,6 +88,22 @@ export class LoomiTextarea extends LoomiElement {
 
   @query("textarea") private textareaEl!: HTMLTextAreaElement;
   @query(".loomi-mention-mirror") private mirrorEl?: HTMLDivElement;
+
+  override connectedCallback(): void {
+    if (!this.hasUpdated) this.initialValue = this.value;
+    super.connectedCallback();
+  }
+
+  formResetCallback(): void {
+    this.value = this.initialValue;
+    this.validationVisible = false;
+    this.invalid = false;
+    this.mentionOpen = false;
+    this.mentionTrigger = "";
+    this.mentionStart = -1;
+    this.mentionQuery = "";
+    this.mentionActiveIndex = -1;
+  }
 
   override willUpdate(): void {
     this.internals.setFormValue(this.value);

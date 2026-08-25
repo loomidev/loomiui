@@ -1387,6 +1387,14 @@
         },
         {
           "kind": "js",
+          "name": "LoomiCalendarEventMap",
+          "declaration": {
+            "name": "LoomiCalendarEventMap",
+            "module": "./loomi-calendar.js"
+          }
+        },
+        {
+          "kind": "js",
           "name": "CalendarDateChangeDetail",
           "declaration": {
             "name": "CalendarDateChangeDetail",
@@ -1483,6 +1491,46 @@
         },
         {
           "kind": "js",
+          "name": "CalendarReminder",
+          "declaration": {
+            "name": "CalendarReminder",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarReminderChangeDetail",
+          "declaration": {
+            "name": "CalendarReminderChangeDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarReminderClickDetail",
+          "declaration": {
+            "name": "CalendarReminderClickDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarReminderCreateDetail",
+          "declaration": {
+            "name": "CalendarReminderCreateDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CalendarReminderDeleteDetail",
+          "declaration": {
+            "name": "CalendarReminderDeleteDetail",
+            "module": "./types.js"
+          }
+        },
+        {
+          "kind": "js",
           "name": "CalendarResource",
           "declaration": {
             "name": "CalendarResource",
@@ -1537,7 +1585,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "`<loomi-calendar>` — month, week, day, and agenda views with events and reminders.\n\nMost of its events are picked up from the source automatically; `loomi-reminder-create`\nis dispatched from a callback the analyzer cannot follow, so it is documented here.",
           "name": "LoomiCalendar",
           "members": [
             {
@@ -3546,6 +3594,10 @@
               "type": {
                 "text": "CustomEvent"
               }
+            },
+            {
+              "description": "`detail: { reminder }` when a reminder is created.",
+              "name": "loomi-reminder-create"
             }
           ],
           "attributes": [

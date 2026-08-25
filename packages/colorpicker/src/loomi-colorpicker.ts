@@ -19,6 +19,7 @@ export class LoomiColorpicker extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
   static formAssociated = true;
   private internals = this.attachInternals();
+  private initialSelectedValue = "#000000";
 
   @property({ reflect: true }) name = "";
   @property({ attribute: "selected-value" }) selectedValue = "#000000";
@@ -31,6 +32,16 @@ export class LoomiColorpicker extends LoomiElement {
   /** Index of the keyboard-highlighted chip within `this.palette`, while open. */
   @state() private activeIndex = -1;
   private cleanup?: () => void;
+
+  override connectedCallback(): void {
+    if (!this.hasUpdated) this.initialSelectedValue = this.selectedValue;
+    super.connectedCallback();
+  }
+
+  formResetCallback(): void {
+    this.selectedValue = this.initialSelectedValue;
+    this.close();
+  }
 
   override willUpdate(): void {
     this.internals.setFormValue(this.selectedValue);
@@ -180,13 +191,24 @@ export class LoomiColorpicker extends LoomiElement {
               </div>`
               : nothing
           }`
-      : html`<input class="loomi-native size-${this.size}" type="color" name=${this.name || nothing} .value=${this.selectedValue} @input=${(e: Event) => this.setValue((e.target as HTMLInputElement).value)} />`;
+      : html`<input class="loomi-native size-${this.size}" type="color" aria-label=${loomiT("colorpicker.pickColor", {}, this.locale)} name=${this.name || nothing} .value=${this.selectedValue} @input=${(e: Event) => this.setValue((e.target as HTMLInputElement).value)} />`;
 
     return html`<div class="loomi-cp">
       ${swatch}
       ${this.showValue ? html`<span class="loomi-value">${this.selectedValue}</span>` : nothing}
     </div>`;
   }
+}
+
+export interface LoomiColorpickerChangeDetail {
+  /** The newly selected color. */
+  value: string;
+}
+
+/** Event map for `<loomi-colorpicker>`. `change` carries a colorpicker-specific detail,
+ * so it is typed per package instead of globally on `HTMLElementEventMap`. */
+export interface LoomiColorpickerEventMap {
+  change: CustomEvent<LoomiColorpickerChangeDetail>;
 }
 
 declare global {

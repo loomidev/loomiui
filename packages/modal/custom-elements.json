@@ -46,6 +46,14 @@
             "name": "LoomiModalSize",
             "module": "./loomi-modal.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiModalEventMap",
+          "declaration": {
+            "name": "LoomiModalEventMap",
+            "module": "./loomi-modal.js"
+          }
         }
       ]
     },

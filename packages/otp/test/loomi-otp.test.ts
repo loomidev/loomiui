@@ -96,4 +96,68 @@ describe("loomi-otp", () => {
     expect(el.code).to.equal("1234");
     expect(new FormData(form).get("otp")).to.equal("1234");
   });
+
+  describe("keyboard navigation between boxes", () => {
+    const boxes = (el: LoomiOtp): HTMLInputElement[] =>
+      Array.from(el.shadowRoot!.querySelectorAll(".loomi-box"));
+
+    const press = (box: HTMLInputElement, key: string): KeyboardEvent => {
+      const event = new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true });
+      box.dispatchEvent(event);
+      return event;
+    };
+
+    it("walks between boxes with the left and right arrows", async () => {
+      const el = await fixture<LoomiOtp>(html`<loomi-otp total-digits="4"></loomi-otp>`);
+      const inputs = boxes(el);
+      inputs[2].focus();
+
+      press(inputs[2], "ArrowLeft");
+      expect(el.shadowRoot!.activeElement).to.equal(inputs[1]);
+
+      press(inputs[1], "ArrowRight");
+      expect(el.shadowRoot!.activeElement).to.equal(inputs[2]);
+    });
+
+    it("stops at each end rather than wrapping", async () => {
+      const el = await fixture<LoomiOtp>(html`<loomi-otp total-digits="4"></loomi-otp>`);
+      const inputs = boxes(el);
+
+      inputs[0].focus();
+      press(inputs[0], "ArrowLeft");
+      expect(el.shadowRoot!.activeElement, "first box holds").to.equal(inputs[0]);
+
+      inputs[3].focus();
+      press(inputs[3], "ArrowRight");
+      expect(el.shadowRoot!.activeElement, "last box holds").to.equal(inputs[3]);
+    });
+
+    it("jumps to the first and last box with Home and End", async () => {
+      const el = await fixture<LoomiOtp>(html`<loomi-otp total-digits="6"></loomi-otp>`);
+      const inputs = boxes(el);
+      inputs[3].focus();
+
+      press(inputs[3], "Home");
+      expect(el.shadowRoot!.activeElement).to.equal(inputs[0]);
+
+      press(inputs[0], "End");
+      expect(el.shadowRoot!.activeElement).to.equal(inputs[5]);
+    });
+
+    it("consumes the navigation keys so the caret does not also move", async () => {
+      const el = await fixture<LoomiOtp>(html`<loomi-otp total-digits="4"></loomi-otp>`);
+      const inputs = boxes(el);
+      inputs[1].focus();
+      expect(press(inputs[1], "ArrowRight").defaultPrevented).to.be.true;
+      expect(press(inputs[1], "Home").defaultPrevented).to.be.true;
+    });
+
+    it("still steps back on Backspace in an empty box", async () => {
+      const el = await fixture<LoomiOtp>(html`<loomi-otp total-digits="4"></loomi-otp>`);
+      const inputs = boxes(el);
+      inputs[2].focus();
+      press(inputs[2], "Backspace");
+      expect(el.shadowRoot!.activeElement).to.equal(inputs[1]);
+    });
+  });
 });

@@ -10,3 +10,4 @@
 pnpm-lock.yaml
 **/CHANGELOG.md
 .changeset/
+.hydration-*/

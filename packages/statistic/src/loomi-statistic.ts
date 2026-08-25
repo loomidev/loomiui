@@ -63,10 +63,6 @@ export class LoomiStatistic extends LoomiElement {
     this.cleanupDarkWatch?.();
   }
 
-  private get hasIcon(): boolean {
-    return !!this.querySelector('[slot="icon"]');
-  }
-
   override render(): TemplateResult {
     const cls = [
       "loomi-stat",
@@ -90,7 +86,7 @@ export class LoomiStatistic extends LoomiElement {
         tabindex=${this.url ? "0" : nothing}
         @click=${this.url ? () => (location.href = this.url) : nothing}
       >
-        ${this.hasIcon ? html`<div class="loomi-ico" part="icon" style=${iconStyle}><slot name="icon"></slot></div>` : null}
+        <div class="loomi-ico" part="icon" style=${iconStyle}><slot name="icon"></slot></div>
         <div class="loomi-body ${this.labelPosition}">
           <div class="loomi-label">${this.label}</div>
           ${

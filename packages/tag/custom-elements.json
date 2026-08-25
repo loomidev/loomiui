@@ -30,6 +30,22 @@
             "name": "LoomiTagClickDetail",
             "module": "./loomi-tag.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTagsChangeDetail",
+          "declaration": {
+            "name": "LoomiTagsChangeDetail",
+            "module": "./loomi-tag.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTagEventMap",
+          "declaration": {
+            "name": "LoomiTagEventMap",
+            "module": "./loomi-tag.js"
+          }
         }
       ]
     },
@@ -431,12 +447,30 @@
             },
             {
               "kind": "field",
+              "name": "initialSelectedValue",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
               "name": "tags",
               "type": {
                 "text": "LoomiTag[]"
               },
               "privacy": "private",
               "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
             },
             {
               "kind": "method",

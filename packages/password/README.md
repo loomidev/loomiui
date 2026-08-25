@@ -134,6 +134,9 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `focus()` / `clear()` | Focus or clear the field.                      |
 | `validate()`          | Run validation now; returns `true` when valid. |
 
+When used inside a native form, `form.reset()` restores the field's initial value and
+clears its visible validation state.
+
 ## Slots
 
 | Slot     | Description                                      |

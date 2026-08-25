@@ -7,6 +7,7 @@ import {
   accentVars,
   onClickOutside,
   type LoomiColor,
+  loomiT,
 } from "@loomidev/core";
 import "@loomidev/button/loomi-button.js";
 import "@loomidev/icon/loomi-icon.js";
@@ -81,6 +82,7 @@ function formatTime(totalSeconds: number): string {
 export class LoomiVideo extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
+  @property() locale = "";
   @property() src = "";
   @property() poster = "";
   /** Shows the themed control bar, loading spinner, error state, and click-to-play
@@ -121,13 +123,6 @@ export class LoomiVideo extends LoomiElement {
   @state() private showCaptionsMenu = false;
   @state() private activeTrackIndex = -1;
   @state() private tracksTick = 0;
-  /** False until just after the first render commits, then flipped once — guaranteeing
-   * one extra render pass where `@query`-backed getters (like `pipAvailable`) see a real
-   * `<video>` element. Without this, a video with no tracks, no error, and default
-   * volume/muted never gets a second render, so anything computed from `this.videoEl`
-   * at render time stays frozen at its (always-null-`videoEl`) first-render value. */
-  @state() private mediaReady = false;
-
   @query("video") private videoEl?: HTMLVideoElement;
   @query(".loomi-cc-group") private ccGroupEl?: HTMLElement;
 
@@ -200,11 +195,16 @@ export class LoomiVideo extends LoomiElement {
     video.addEventListener("enterpictureinpicture", this.onEnterPiP);
     video.addEventListener("leavepictureinpicture", this.onLeavePiP);
 
-    this.volume = video.volume;
-    this.syncMediaChildren();
-    this.mutationObserver = new MutationObserver(() => this.syncMediaChildren());
+    // The <track> children only live inside the <video> once this first render has
+    // committed, so whatever is derived from them necessarily belongs to a second
+    // update. Read it in a microtask rather than here: state set from firstUpdated
+    // trips Lit's change-in-update warning, and that warning is worth leaving armed
+    // for the accidental double renders it exists to catch.
+    if (this.syncMediaChildren()) queueMicrotask(() => this.onTracksChange());
+    this.mutationObserver = new MutationObserver(() => {
+      if (this.syncMediaChildren()) this.onTracksChange();
+    });
     this.mutationObserver.observe(this, { childList: true });
-    this.mediaReady = true;
   }
 
   // ---- public, imperative API (mirrors the parts of HTMLVideoElement that make sense
@@ -278,14 +278,19 @@ export class LoomiVideo extends LoomiElement {
   private get isLiveStream(): boolean {
     return this.mediaDuration === Infinity;
   }
+  /** Deliberately a capability check against the platform rather than against
+   * `this.videoEl`: the query-backed element is null during the first render, so asking
+   * it would report "no PiP" on the pass that actually builds the control bar and would
+   * need a second render purely to correct itself. Support is a property of the engine,
+   * not of this instance. */
   private get pipAvailable(): boolean {
     return (
-      this.mediaReady &&
       !this.disablePip &&
       typeof document !== "undefined" &&
       "pictureInPictureEnabled" in document &&
       document.pictureInPictureEnabled &&
-      typeof this.videoEl?.requestPictureInPicture === "function"
+      typeof HTMLVideoElement !== "undefined" &&
+      typeof HTMLVideoElement.prototype.requestPictureInPicture === "function"
     );
   }
   private get tracks(): Array<{ label: string }> {
@@ -302,16 +307,21 @@ export class LoomiVideo extends LoomiElement {
 
   // ---- <source>/<track> forwarding ----
 
-  private syncMediaChildren(): void {
+  /** Moves the light-DOM children onto the internal `<video>` and subscribes to its
+   * track list. Pure DOM work: reading the resulting track state is reactive, so the
+   * caller decides when that happens (see `firstUpdated`). Returns whether anything
+   * moved. */
+  private syncMediaChildren(): boolean {
     const video = this.videoEl;
-    if (!video) return;
+    if (!video) return false;
     const nodes = Array.from(this.children).filter(
       (el): el is HTMLSourceElement | HTMLTrackElement =>
         el.tagName === "SOURCE" || el.tagName === "TRACK",
     );
-    if (nodes.length === 0) return;
+    if (nodes.length === 0) return false;
     for (const node of nodes) video.appendChild(node);
     this.watchTracks();
+    return true;
   }
 
   private watchTracks(): void {
@@ -320,7 +330,6 @@ export class LoomiVideo extends LoomiElement {
     list.addEventListener("addtrack", this.onTracksChange);
     list.addEventListener("removetrack", this.onTracksChange);
     list.addEventListener("change", this.onTracksChange);
-    this.onTracksChange();
   }
 
   private onTracksChange = (): void => {
@@ -629,7 +638,7 @@ export class LoomiVideo extends LoomiElement {
 
   private renderLoading(): TemplateResult {
     return html`<div class="loomi-overlay loomi-loading" part="loading">
-      <loomi-spinner size="big" type="spinner" color=${this.color} label="Loading"></loomi-spinner>
+      <loomi-spinner size="big" type="spinner" color=${this.color} label=${loomiT("video.loading", {}, this.locale)}></loomi-spinner>
     </div>`;
   }
 
@@ -637,7 +646,7 @@ export class LoomiVideo extends LoomiElement {
     return html`<div class="loomi-overlay loomi-error" part="error" role="alert">
       <loomi-icon name="exclamation-circle" size="2.5rem"></loomi-icon>
       <p class="loomi-error-message">${this.errorMessage}</p>
-      <loomi-button color=${this.color} icon="arrow-path" @click=${this.onRetry}>Retry</loomi-button>
+      <loomi-button color=${this.color} icon="arrow-path" @click=${this.onRetry}>${loomiT("video.retry", {}, this.locale)}</loomi-button>
     </div>`;
   }
 
@@ -702,7 +711,7 @@ export class LoomiVideo extends LoomiElement {
             .selected=${this.muted ? 0 : this.volume}
             show-tooltip="false"
             show-values="false"
-            aria-label="Volume"
+            aria-label=${loomiT("video.volume", {}, this.locale)}
             @input=${this.onVolumeInput}
           ></loomi-slider>
         </div>
@@ -713,7 +722,7 @@ export class LoomiVideo extends LoomiElement {
               <button
                 class="loomi-ctrl-btn ${this.activeTrackIndex >= 0 ? "is-active" : ""}"
                 type="button"
-                aria-label="Captions"
+                aria-label=${loomiT("video.captions", {}, this.locale)}
                 aria-expanded=${this.showCaptionsMenu ? "true" : "false"}
                 @click=${this.onToggleCaptionsMenu}
               >
@@ -770,7 +779,7 @@ export class LoomiVideo extends LoomiElement {
         .selected=${this.displayTime}
         show-tooltip="false"
         show-values="false"
-        aria-label="Seek"
+        aria-label=${loomiT("video.seek", {}, this.locale)}
         @input=${this.onSeekInput}
         @change=${this.onSeekChange}
       ></loomi-slider>

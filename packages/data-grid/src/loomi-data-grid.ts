@@ -1,6 +1,6 @@
 import { html, nothing, type PropertyValues } from "lit";
 import { customElement } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, watchDarkMode } from "@loomidev/core";
+import { LoomiElement, loomiStyles, watchDarkMode, loomiT, loomiDefaultText } from "@loomidev/core";
 import { dataGridStyles } from "./data-grid-styles.js";
 import type {
   DataGridHost,
@@ -37,6 +37,28 @@ import type { DataGridExportRequestDetail } from "./modules/export.js";
 const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_MIN_COLUMN_WIDTH = 60;
 
+// Defaults are translated when left untouched, and used verbatim once a consumer sets
+// their own — see loomiDefaultText.
+const DEFAULT_EMPTY_TITLE = "No rows found";
+const DEFAULT_EMPTY_DESCRIPTION = "Try changing the filters or search term.";
+
+/**
+ * `<loomi-data-grid>` — a data grid with sorting, pagination, selection, column resizing
+ * and pluggable modules (filtering, grouping, inline editing, export, …).
+ *
+ * Every event bubbles and is composed. `DataGridEventMap` in `./types.js` carries the
+ * typed detail for each one.
+ *
+ * @fires loomi-page-change - `detail: { page, pageSize }` when the page or page size changes.
+ * @fires loomi-sort-change - `detail: { sort }` when the sort column or direction changes.
+ * @fires loomi-selection-change - `detail: { selectedKeys, selectedRows }` when the selection changes.
+ * @fires loomi-row-action - `detail: { row, rowKey }` when a row action is triggered.
+ * @fires loomi-cell-edit - `detail: { row, rowKey, columnKey, previousValue, value }` after an inline edit commits.
+ * @fires loomi-column-resize - `detail: { key, width }` when a column is resized.
+ * @fires loomi-saved-view-change - `detail: { viewId, view }` when the active saved view changes.
+ * @fires loomi-grid-toggle-row - `detail: { rowKey, row, expanded }` when a group or tree row is expanded or collapsed.
+ * @fires loomi-export-request - `detail: { format, rows, columns, selectedOnly }` when an export is requested.
+ */
 @customElement("loomi-data-grid")
 export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
   extends LoomiElement
@@ -52,6 +74,7 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
     density: { reflect: true },
     emptyTitle: { attribute: "empty-title" },
     emptyDescription: { attribute: "empty-description" },
+    locale: {},
     maxHeight: { attribute: "max-height" },
     page: { type: Number },
     pageSize: { attribute: "page-size", type: Number },
@@ -76,8 +99,9 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
   selectedKeys: string[] = [];
   rowKey = "id";
   density: DataGridDensity = "comfortable";
-  emptyTitle = "No rows found";
-  emptyDescription = "Try changing the filters or search term.";
+  emptyTitle = DEFAULT_EMPTY_TITLE;
+  emptyDescription = DEFAULT_EMPTY_DESCRIPTION;
+  locale = "";
   /** CSS max-height for the scroll container, e.g. `"420px"`. Pairs with `sticky-header` and virtual scrolling. */
   maxHeight = "";
   page = 1;
@@ -229,8 +253,8 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
   private renderLoading() {
     return html`
       <div class="loading" role="status">
-        <strong>Loading rows</strong>
-        <span>Fetching the latest grid data.</span>
+        <strong>${loomiT("dataGrid.loadingTitle", {}, this.locale)}</strong>
+        <span>${loomiT("dataGrid.loadingDescription", {}, this.locale)}</span>
       </div>
     `;
   }
@@ -238,8 +262,8 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
   private renderEmpty() {
     return html`
       <div class="empty">
-        <strong>${this.emptyTitle}</strong>
-        <span>${this.emptyDescription}</span>
+        <strong>${loomiDefaultText(this.emptyTitle, DEFAULT_EMPTY_TITLE, "dataGrid.emptyTitle", this.locale)}</strong>
+        <span>${loomiDefaultText(this.emptyDescription, DEFAULT_EMPTY_DESCRIPTION, "dataGrid.emptyDescription", this.locale)}</span>
       </div>
     `;
   }
@@ -255,7 +279,7 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
       this.renderRow(columns, row, rowIndex, pinLayout);
 
     return html`
-      <table @keydown=${this.handleGridKeydown}>
+      <table role="grid" @keydown=${this.handleGridKeydown}>
         <colgroup>
           ${this.selectable ? html`<col style="width: ${SELECTION_COLUMN_WIDTH_PX}px" />` : nothing}
           ${columns.map((column) => html`<col style=${this.getColumnWidthStyle(column)} />`)}
@@ -268,7 +292,7 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
                   <th class="pin-select-column">
                     <input
                       type="checkbox"
-                      aria-label="Select all rows"
+                      aria-label=${loomiT("dataGrid.selectAll", {}, this.locale)}
                       .checked=${this.areAllVisibleRowsSelected(rows)}
                       @change=${(event: Event) => this.handleSelectAll(event, rows)}
                     />
@@ -287,8 +311,16 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
   }
 
   private renderHeaderCell(column: DataGridColumn<TRecord>, pinLayout: ColumnPinLayout) {
-    const sortIndicator =
-      this.sort?.key === column.key ? (this.sort.direction === "asc" ? "▲" : "▼") : "";
+    const sorted = this.sort?.key === column.key;
+    const sortIndicator = sorted ? (this.sort!.direction === "asc" ? "▲" : "▼") : "";
+    // The glyph above is decorative; aria-sort is what actually conveys sort state.
+    const ariaSort = !column.sortable
+      ? nothing
+      : sorted
+        ? this.sort!.direction === "asc"
+          ? "ascending"
+          : "descending"
+        : "none";
     const className = [this.getAlignClass(column), this.getPinCellClass(column, pinLayout)]
       .filter(Boolean)
       .join(" ");
@@ -303,6 +335,7 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
         class=${className || nothing}
         style=${[this.getColumnWidthStyle(column), pinStyle].filter(Boolean).join("; ")}
         title=${column.description ?? nothing}
+        aria-sort=${ariaSort}
       >
         <div class="th-content">
           ${
@@ -310,7 +343,7 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
               ? html`
                 <button type="button" class="sort-button" @click=${() => this.handleSort(column)}>
                   <span>${column.label}</span>
-                  <span class="sort-indicator">${sortIndicator}</span>
+                  <span class="sort-indicator" aria-hidden="true">${sortIndicator}</span>
                 </button>
               `
               : html`<span>${column.label}</span>`
@@ -354,6 +387,7 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
       <tr
         class=${extraRowClass || nothing}
         data-selected=${selected ? "true" : "false"}
+        aria-selected=${this.selectable ? (selected ? "true" : "false") : nothing}
         @click=${() => this.emitRowAction(row, rowKeyValue)}
       >
         ${
@@ -362,7 +396,7 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
               <td class="pin-select-column">
                 <input
                   type="checkbox"
-                  aria-label=${`Select row ${rowKeyValue}`}
+                  aria-label=${loomiT("dataGrid.selectRow", { row: String(rowKeyValue) }, this.locale)}
                   .checked=${selected}
                   @click=${(event: Event) => event.stopPropagation()}
                   @change=${(event: Event) => this.handleRowSelect(event, row)}
@@ -520,7 +554,7 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
           <button type="button" ?disabled=${this.page >= totalPages} @click=${() => this.setPage(this.page + 1)}>
             Next
           </button>
-          <select aria-label="Rows per page" .value=${String(this.pageSize)} @change=${this.handlePageSizeChange}>
+          <select aria-label=${loomiT("dataGrid.rowsPerPage", {}, this.locale)} .value=${String(this.pageSize)} @change=${this.handlePageSizeChange}>
             ${[10, 25, 50, 100].map((size) => html`<option value=${size}>${size} rows</option>`)}
           </select>
         </div>

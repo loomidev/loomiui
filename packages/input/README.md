@@ -259,6 +259,9 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 | `focus()` / `clear()` | Focus or clear the field.                                                                                                                       |
 | `validate()`          | Run the required check now (independent of `blur`); sets `invalid` and surfaces `error-message` inline or via toast. Returns `true` when valid. |
 
+When used inside a native form, `form.reset()` restores the field's initial value and
+clears its visible validation state.
+
 ### Parts
 
 | Part    | Description             |

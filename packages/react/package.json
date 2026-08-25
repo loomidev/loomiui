@@ -1,0 +1,65 @@
+{
+  "name": "@loomidev/react",
+  "version": "0.0.0",
+  "description": "React wrapper components for LoomiUI with full TypeScript support.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/react"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json",
+    "./*": {
+      "types": "./dist/components/*.d.ts",
+      "import": "./dist/components/*.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "index.d.ts": [
+        "./dist/index.d.ts"
+      ],
+      "*": [
+        "./dist/components/*.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "generate": "node scripts/generate-react-wrappers.mjs",
+    "build": "node scripts/generate-react-wrappers.mjs && tsc -p tsconfig.json",
+    "typecheck": "node scripts/generate-react-wrappers.mjs && tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@loomidev/components": "workspace:^",
+    "@loomidev/react-types": "workspace:^"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.6.3"
+  },
+  "keywords": [
+    "loomiui",
+    "react",
+    "web-components",
+    "typescript"
+  ]
+}

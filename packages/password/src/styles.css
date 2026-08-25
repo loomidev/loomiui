@@ -26,20 +26,20 @@
   flex: none;
 }
 .loomi-prefix {
-  padding-left: var(--loomi-control-pad-x);
+  padding-inline-start: var(--loomi-control-pad-x);
 }
 .loomi-suffix {
-  padding-right: var(--loomi-control-pad-x);
+  padding-inline-end: var(--loomi-control-pad-x);
 }
 .loomi-affix-solid {
   align-self: stretch;
   background: var(--loomi-surface-hover);
-  padding-left: var(--loomi-control-pad-x);
-  padding-right: var(--loomi-control-pad-x);
+  padding-inline-start: var(--loomi-control-pad-x);
+  padding-inline-end: var(--loomi-control-pad-x);
   color: var(--loomi-text-secondary);
 }
 .loomi-prefix.loomi-affix-solid {
-  border-right: 1px solid var(--loomi-surface-border);
+  border-inline-end: 1px solid var(--loomi-surface-border);
   border-radius: 0.5rem 0 0 0.5rem;
 }
 .loomi-affix-dropdown {
@@ -182,7 +182,7 @@
 }
 .loomi-req {
   color: var(--loomi-error-500);
-  margin-left: 0.15rem;
+  margin-inline-start: 0.15rem;
 }
 
 .loomi-iconbtn {

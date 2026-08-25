@@ -59,10 +59,29 @@ export function inlineEditingModule<TRecord extends DataGridRecord = DataGridRec
           type="text"
           .value=${formatCellValue(value)}
           ${ref((el) => {
-            if (el instanceof HTMLInputElement) {
+            if (!(el instanceof HTMLInputElement)) {
+              return;
+            }
+            // Focused from a microtask, not from this callback.
+            //
+            // Lit runs `ref` while it builds the fragment, *before* inserting it
+            // into the grid's shadow root, so the input is still disconnected
+            // here and `focus()` is silently a no-op — which is why
+            // double-clicking a cell used to open an editor nobody could type
+            // into. A microtask runs after the commit, when the element is in
+            // the document. `requestAnimationFrame` would also work but is
+            // suspended while the page is hidden, so this stays a microtask.
+            queueMicrotask(() => {
+              if (!el.isConnected) {
+                return;
+              }
+              const root = el.getRootNode() as Document | ShadowRoot;
+              if (root.activeElement === el) {
+                return;
+              }
               el.focus();
               el.select();
-            }
+            });
           })}
           @click=${(event: Event) => event.stopPropagation()}
           @keydown=${(event: KeyboardEvent) => {

@@ -1,4 +1,4 @@
-import { html, nothing, svg, type TemplateResult } from "lit";
+import { html, nothing, svg, type TemplateResult, isServer } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, loomiT } from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
@@ -56,6 +56,7 @@ export class LoomiSortable extends LoomiElement {
 
   private internals = this.attachInternals();
   private rowRects = new Map<string, DOMRect>();
+  private initialItems: LoomiSortableItem[] = [];
 
   @property({ type: Array }) items: LoomiSortableItem[] = [];
   /** Form-control name; when set, the host submits the order as a JSON array of ids. */
@@ -102,6 +103,17 @@ export class LoomiSortable extends LoomiElement {
     return this.items.map((i) => i.id);
   }
 
+  override connectedCallback(): void {
+    if (!this.hasUpdated) this.initialItems = [...this.items];
+    super.connectedCallback();
+  }
+
+  formResetCallback(): void {
+    this.items = [...this.initialItems];
+    this.selectedIds = new Set();
+    this.endDrag();
+  }
+
   override willUpdate(changed: Map<string, unknown>): void {
     this.internals.setFormValue(this.name ? JSON.stringify(this.order) : null);
     if (changed.has("items")) this.captureRects();
@@ -112,6 +124,8 @@ export class LoomiSortable extends LoomiElement {
   }
 
   private captureRects(): void {
+    // Measuring requires a live layout, which the server has no equivalent of.
+    if (isServer) return;
     this.rowRects.clear();
     this.renderRoot.querySelectorAll<HTMLElement>(".loomi-row").forEach((el) => {
       const id = el.dataset.id;
@@ -480,6 +494,16 @@ export interface LoomiSortableReorderDetail {
 export interface LoomiSortableTransferDetail {
   order: string[];
   items: LoomiSortableItem[];
+}
+
+/** Event map for `<loomi-sortable>`. These names are dispatched by several loomi
+ * components with different detail shapes, so they are typed per package instead of
+ * globally on `HTMLElementEventMap`. */
+export interface LoomiSortableEventMap {
+  "loomi-reorder": CustomEvent<LoomiSortableReorderDetail>;
+  "loomi-filter": CustomEvent<LoomiSortableItemDetail>;
+  "loomi-item-click": CustomEvent<LoomiSortableItemDetail>;
+  "loomi-transfer": CustomEvent<LoomiSortableTransferDetail>;
 }
 
 declare global {

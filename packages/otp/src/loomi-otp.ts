@@ -61,6 +61,12 @@ export class LoomiOtp extends LoomiElement {
     this.digits = Array(this.totalDigits).fill("");
   }
 
+  formResetCallback(): void {
+    this.digits = Array(this.totalDigits).fill("");
+    this.internals.setFormValue("");
+    this.resetValidationState();
+  }
+
   /** The current code. */
   get code(): string {
     return this.digits.join("");
@@ -192,7 +198,32 @@ export class LoomiOtp extends LoomiElement {
   }
 
   private onKeydown(i: number, e: KeyboardEvent): void {
-    if (e.key === "Backspace" && !this.digits[i] && i > 0) this.boxes[i - 1]?.focus();
+    // A segmented code field behaves like one control split across boxes: the arrows walk
+    // between them, and Home/End jump to the ends. Without this the only way back to an
+    // earlier digit is the mouse, or clearing everything after it.
+    if (e.key === "Backspace" && !this.digits[i] && i > 0) {
+      this.boxes[i - 1]?.focus();
+      return;
+    }
+    if (e.key === "ArrowLeft" && i > 0) {
+      e.preventDefault();
+      this.boxes[i - 1]?.focus();
+      return;
+    }
+    if (e.key === "ArrowRight" && i < this.totalDigits - 1) {
+      e.preventDefault();
+      this.boxes[i + 1]?.focus();
+      return;
+    }
+    if (e.key === "Home") {
+      e.preventDefault();
+      this.boxes[0]?.focus();
+      return;
+    }
+    if (e.key === "End") {
+      e.preventDefault();
+      this.boxes[this.totalDigits - 1]?.focus();
+    }
   }
 
   private onPaste(e: ClipboardEvent): void {

@@ -107,6 +107,15 @@
             },
             {
               "kind": "field",
+              "name": "initialValue",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
               "name": "instanceId",
               "privacy": "private",
               "readonly": true
@@ -369,6 +378,15 @@
             },
             {
               "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
               "name": "focus",
               "return": {
                 "type": {
@@ -617,12 +635,6 @@
             }
           ],
           "events": [
-            {
-              "name": "type",
-              "type": {
-                "text": "Event"
-              }
-            },
             {
               "name": "loomi-prefix-change",
               "type": {

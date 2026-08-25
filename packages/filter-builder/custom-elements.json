@@ -95,7 +95,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "`<loomi-filter-builder>` — a rule builder for composing and applying filters.",
           "name": "LoomiFilterBuilder",
           "members": [
             {
@@ -131,41 +131,51 @@
               "kind": "field",
               "name": "title",
               "privacy": "public",
+              "default": "\"Filters\"",
+              "attribute": "title",
               "type": {
                 "text": "string"
-              },
-              "default": "\"Filters\"",
-              "attribute": "title"
+              }
             },
             {
               "kind": "field",
               "name": "addLabel",
               "privacy": "public",
+              "default": "\"Add filter\"",
+              "attribute": "add-label",
               "type": {
                 "text": "string"
-              },
-              "default": "\"Add filter\"",
-              "attribute": "add-label"
+              }
             },
             {
               "kind": "field",
               "name": "applyLabel",
               "privacy": "public",
+              "default": "\"Apply filters\"",
+              "attribute": "apply-label",
               "type": {
                 "text": "string"
-              },
-              "default": "\"Apply filters\"",
-              "attribute": "apply-label"
+              }
             },
             {
               "kind": "field",
               "name": "emptyLabel",
               "privacy": "public",
+              "default": "\"No filters added\"",
+              "attribute": "empty-label",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "privacy": "public",
               "type": {
                 "text": "string"
               },
-              "default": "\"No filters added\"",
-              "attribute": "empty-label"
+              "default": "\"\"",
+              "attribute": "locale"
             },
             {
               "kind": "field",
@@ -395,7 +405,12 @@
               "name": "loomi-filter-change",
               "type": {
                 "text": "CustomEvent"
-              }
+              },
+              "description": "`detail: { value }` whenever a rule is added, edited, or removed."
+            },
+            {
+              "description": "`detail: { value }` when the filters are applied.",
+              "name": "loomi-filter-apply"
             }
           ],
           "attributes": [
@@ -409,34 +424,22 @@
             },
             {
               "name": "title",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"Filters\"",
+              "default": "DEFAULT_TITLE",
               "fieldName": "title"
             },
             {
               "name": "add-label",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"Add filter\"",
+              "default": "DEFAULT_ADD_LABEL",
               "fieldName": "addLabel"
             },
             {
               "name": "apply-label",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"Apply filters\"",
+              "default": "DEFAULT_APPLY_LABEL",
               "fieldName": "applyLabel"
             },
             {
               "name": "empty-label",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"No filters added\"",
+              "default": "DEFAULT_EMPTY_LABEL",
               "fieldName": "emptyLabel"
             },
             {
@@ -446,6 +449,14 @@
               },
               "default": "true",
               "fieldName": "showApply"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
             }
           ],
           "superclass": {

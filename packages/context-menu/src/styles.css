@@ -106,7 +106,7 @@
 }
 .loomi-shortcut {
   flex: none;
-  margin-left: 1rem;
+  margin-inline-start: 1rem;
   border: 0;
   background: transparent;
   color: var(--loomi-text-faint);
@@ -116,13 +116,13 @@
   white-space: nowrap;
 }
 .loomi-item.right .loomi-shortcut {
-  margin-right: 1rem;
-  margin-left: 0;
+  margin-inline-end: 1rem;
+  margin-inline-start: 0;
 }
 .loomi-submenu-icon {
   width: 1rem;
   height: 1rem;
-  margin-left: auto;
+  margin-inline-start: auto;
 }
 .loomi-divider {
   height: 1px;

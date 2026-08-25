@@ -39,7 +39,7 @@
 }
 .loomi-req {
   color: var(--loomi-error-500);
-  margin-left: 0.15rem;
+  margin-inline-start: 0.15rem;
 }
 
 .loomi-error {
@@ -217,9 +217,9 @@
 }
 
 .loomi-editor blockquote {
-  border-left: 3px solid var(--loomi-primary-300);
+  border-inline-start: 3px solid var(--loomi-primary-300);
   color: var(--loomi-text-secondary);
-  padding-left: 0.85rem;
+  padding-inline-start: 0.85rem;
 }
 
 .loomi-editor code {
@@ -247,7 +247,7 @@
 
 .loomi-editor ul,
 .loomi-editor ol {
-  padding-left: 1.35rem;
+  padding-inline-start: 1.35rem;
 }
 
 .loomi-editor img,

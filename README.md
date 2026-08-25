@@ -2,12 +2,13 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-**Themeable, framework-agnostic web components built with Lit.** Pick a color palette,
-override it from your own CSS, compose components from independent attributes — the
-Laravel Blade-style component ergonomics translated to standards-based
-custom elements that work in any framework, or none at all.
+**Modern web components for every framework.** LoomiUI gives you
+components built on web standards, with clear HTML attributes for common options such as
+colors, sizes, states, icons, and layouts. More advanced components also provide
+JavaScript properties and custom events.
 
-📖 **Full docs, live previews and every component's API → [loomiui.com](https://loomiui.com)**
+📖 **Visit [loomiui.com](https://loomiui.com) for complete documentation, live previews,
+and API details for every component.**
 
 ```html
 <loomi-button color="error" outline radius="full" icon="trash">Delete</loomi-button>
@@ -15,27 +16,33 @@ custom elements that work in any framework, or none at all.
 
 ## Why LoomiUI
 
-- **It's just HTML.** Every component is a real custom element — drop it into React,
-  Vue, Angular, Svelte, a static site, or nothing at all. No wrapper libraries needed.
-- **Theme without a build step.** Colors resolve through CSS custom properties
-  (`--loomi-*`). Override them from your own page CSS and every component re-skins
-  instantly — no Tailwind install, no rebuild, on the consumer's side.
-- **Zero runtime Tailwind.** Tailwind is compiled once at _our_ build time and inlined
-  into each component's Shadow DOM styles. Nothing Tailwind-related ships to you.
-- **Install only what you need.** 76 components, each its own npm package — pull in a
-  single button or the entire library.
-- **Real form participation.** Every form control is form-associated via
-  `ElementInternals` — they submit inside a native `<form>` like any built-in input.
-- **An MCP server included.** [`@loomidev/mcp-server`](packages/mcp-server) exposes every
-  component's docs to MCP clients so tools can look up real attribute tables instead of
-  guessing. See [below](#mcp-documentation-server).
+- **Use familiar HTML.** Every LoomiUI component is a browser custom element. You can use
+  the same tags in React, Vue, Angular, Svelte, a static site, or plain HTML. A framework
+  wrapper is not required.
+- **Change the theme from CSS.** Component colors come from CSS custom properties whose
+  names start with `--loomi-`. Override those properties in your application CSS to
+  update every component. Your application does not need Tailwind or an extra theme
+  build step.
+- **Ship no Tailwind runtime.** LoomiUI compiles Tailwind while building each package and
+  includes the resulting CSS inside the component. Applications that use LoomiUI do not
+  load or run Tailwind in the browser.
+- **Install only what your application uses.** LoomiUI provides 76 components as separate
+  npm packages. You can install one component, a category of components, or the complete
+  library.
+- **Submit values with native forms.** LoomiUI form controls use `ElementInternals` to
+  participate in a normal HTML `<form>`. Their values are included when the form is
+  submitted, just like values from built-in inputs.
+- **Give coding tools accurate component documentation.** The included
+  [`@loomidev/mcp-server`](packages/mcp-server) lets compatible tools read the real usage
+  guides and attribute tables. See [MCP documentation server](#mcp-documentation-server).
 
-> **Status:** LoomiUI is pre-1.0. Every package is versioned independently starting at
-> `0.x` — expect breaking changes between minor versions until packages reach `1.0`.
+> **Project status:** LoomiUI has not reached version 1.0. Each package has its own `0.x`
+> version. A minor update may contain breaking changes until that package reaches 1.0.
 
 ## Quick start
 
-Try it with no install at all, straight from a CDN:
+To try one component without installing a package, load Lit and the LoomiUI component
+from a CDN:
 
 ```html
 <script type="importmap">
@@ -46,7 +53,7 @@ Try it with no install at all, straight from a CDN:
 <loomi-button>Hello LoomiUI</loomi-button>
 ```
 
-Or install it properly:
+For an application project, install the component and Lit from npm:
 
 ```bash
 npm install @loomidev/button lit
@@ -74,8 +81,8 @@ import "@loomidev/components"; // registers every LoomiUI element
 
 ### Install just what you need
 
-Each component is its own package, depending only on the tiny shared `@loomidev/core` and
-`@loomidev/theme` (pulled in automatically).
+Each component is available as its own package. Its shared LoomiUI dependencies, such as
+`@loomidev/core` and `@loomidev/theme`, are installed automatically.
 
 ```bash
 npm install @loomidev/select @loomidev/datepicker lit
@@ -86,17 +93,18 @@ import "@loomidev/select";
 import "@loomidev/datepicker";
 ```
 
-You can also install a whole category at once — see [`@loomidev/forms`](packages/forms),
-[`@loomidev/content`](packages/content), [`@loomidev/navigation`](packages/navigation) — or
-cherry-pick a single component from the umbrella package:
-`import "@loomidev/components/button"`.
+You can install a package that contains a whole category. Available category packages
+include [`@loomidev/forms`](packages/forms), [`@loomidev/content`](packages/content), and
+[`@loomidev/navigation`](packages/navigation). If you install `@loomidev/components`, you
+can still import only one component with `import "@loomidev/components/button"`.
 
-> Install `lit` alongside LoomiUI packages. This lets your app use one shared Lit version
-> instead of each Loomi package bringing its own copy.
+> Install `lit` alongside your LoomiUI packages. This allows the application and all
+> LoomiUI components to share one installed version of Lit.
 
 ## Theming
 
-Override any palette slot from your own page CSS — no build step, no Tailwind:
+Set LoomiUI color variables in your application CSS. You do not need Tailwind or another
+build step:
 
 ```css
 :root {
@@ -105,22 +113,24 @@ Override any palette slot from your own page CSS — no build step, no Tailwind:
 }
 ```
 
-That's the whole theming API. Every component resolves its colors through
-`--loomi-<color>-<shade>` custom properties, which inherit through the Shadow DOM
-boundary — one `:root` declaration restyles the entire library instantly.
+Every component reads its colors from CSS custom properties that follow the
+`--loomi-<color>-<shade>` naming pattern. These properties pass from your page into each
+component's Shadow DOM. Defining them on `:root` therefore updates every LoomiUI
+component on the page.
 
-**Supported colors:** `primary` `secondary` `success` `error` `warning` `gray` — each with the full
-`50`–`950` tonal scale (e.g. `--loomi-warning-500`).
+**Supported colors:** `primary`, `secondary`, `success`, `error`, `warning`, and `gray`.
+Each color includes shades from `50` through `950`, such as `--loomi-warning-500`.
 
-Curious how the override mechanism avoids the usual Shadow DOM custom-property pitfalls?
-See [`@loomidev/core`'s README](packages/core#--loomi--public-theme-vs---_loomi-accent-private-per-instance).
+For technical details about public theme variables and internal component colors, see
+[`@loomidev/core`'s README](packages/core#--loomi--public-theme-vs---_loomi-accent-private-per-instance).
 
 ## Internationalization
 
-Built-in component text is translated through `@loomidev/core`: placeholders, validation
-messages, aria labels, pagination text, and datepicker month/weekday names. Set a shared
-locale before rendering components, or use a component's `locale` attribute for a local
-override.
+`@loomidev/core` provides translations for text built into the components. This includes
+placeholders, validation messages, accessible labels, pagination text, and month and
+weekday names in the datepicker. Set one locale for the whole application before
+rendering components. You can also set the `locale` attribute on one component when it
+needs a different language.
 
 ```js
 import { setLoomiLocale, defineLoomiTranslations } from "@loomidev/core";
@@ -139,8 +149,9 @@ defineLoomiTranslations("ak", {
 <loomi-filepicker locale="pt_BR"></loomi-filepicker>
 ```
 
-Default locales: `en`, `ar`, `de`, `es`, `fr`, `it`, `ml`, `pt_BR`, `tr`, and
-`zh_CN`. Per-component text attributes still take precedence when you need custom copy.
+Included locales are `en`, `ar`, `de`, `es`, `fr`, `it`, `ml`, `pt_BR`, `tr`, and
+`zh_CN`. If a component provides an attribute for specific text, that attribute overrides
+the translated default.
 
 ## Components
 
@@ -151,18 +162,24 @@ Default locales: `en`, `ar`, `de`, `es`, `fr`, `it`, `ml`, `pt_BR`, `tr`, and
 | **Content**    | [`card`](packages/card) · [`divider`](packages/divider) · [`scroller`](packages/scroller) · [`qrcode`](packages/qrcode) · [`avatar`](packages/avatar) · [`accordion`](packages/accordion) · [`tag`](packages/tag) · [`tooltip`](packages/tooltip) · [`popover`](packages/popover) · [`empty-state`](packages/empty-state) · [`statistic`](packages/statistic) · [`rating`](packages/rating) · [`arc-meter`](packages/arc-meter) · [`timeline`](packages/timeline) · [`progress`](packages/progress) · [`timer`](packages/timer) · [`listview`](packages/listview) · [`contact-card`](packages/contact-card) · [`centered-content`](packages/centered-content) · [`sortable`](packages/sortable) · [`processing`](packages/processing) · [`horizontal-line-graph`](packages/horizontal-line-graph) · [`chart`](packages/chart) · [`chat`](packages/chat) · [`calendar`](packages/calendar) · [`data-grid`](packages/data-grid) · [`video`](packages/video) · [`photo-gallery`](packages/photo-gallery) · [`lightbox`](packages/lightbox) |
 | **Navigation** | [`bottom-nav`](packages/bottom-nav) · [`side-nav`](packages/side-nav) · [`tab`](packages/tab) · [`pagination`](packages/pagination) · [`dropmenu`](packages/dropmenu) · [`context-menu`](packages/context-menu) · [`command-palette`](packages/command-palette) · [`profile-menu`](packages/profile-menu) · [`progress-steps`](packages/progress-steps) · [`theme-switcher`](packages/theme-switcher)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 
-Each package's README has a full usage guide and attribute table. Or browse them all
-rendered live at [loomiui.com](https://loomiui.com).
+Each package README includes installation instructions, examples, and an attribute table.
+You can also browse the rendered documentation and live previews at
+[loomiui.com](https://loomiui.com).
 
 ## Using LoomiUI with a framework
 
-LoomiUI components are standard custom elements, so they work everywhere — the only thing
-that differs between frameworks is how you bind **non-string properties** (arrays,
-objects, booleans passed as real values rather than attribute strings), e.g.
-`<loomi-select>`'s `.data` array.
+LoomiUI components use the browser's custom elements standard, so they work with React,
+Vue, Angular, and other frameworks. Install the package, import it once to register the
+component, then use its `<loomi-*>` tag in your template.
 
-**React** doesn't bind custom-element properties through JSX attributes before React 19,
-so set them imperatively via a ref:
+Text values and simple attributes such as `color`, `size`, and `disabled` work like normal
+HTML attributes. Arrays, objects, and functions are JavaScript values, so they must be
+passed to the component as properties. For example, `<loomi-select>` receives its options
+through the `.data` property.
+
+**React 19** can pass these JavaScript values to custom-element properties through JSX.
+**React 18 and earlier** cannot do this directly. In those versions, create a ref for the
+LoomiUI element and set the property after the component mounts:
 
 ```jsx
 import { useEffect, useRef } from "react";
@@ -171,14 +188,36 @@ import "@loomidev/select";
 function CountryPicker() {
   const ref = useRef(null);
   useEffect(() => {
-    ref.current.data = [{ label: "Ghana", value: "gh" }, { label: "Nigeria", value: "ng" }];
+    ref.current.data = [
+      { label: "Canada", value: "ca" },
+      { label: "India", value: "in" },
+    ];
   }, []);
   return <loomi-select ref={ref} placeholder="Country" />;
 }
 ```
 
-**Vue** and **Angular** bind properties directly through their normal binding syntax —
-no refs needed:
+For JSX autocomplete and property checking in a TypeScript React project, install the
+types package and include it in your `tsconfig.json`:
+
+```bash
+npm install --save-dev @loomidev/react-types
+```
+
+```json
+{
+  "compilerOptions": {
+    "types": ["@loomidev/react-types"]
+  }
+}
+```
+
+`@loomidev/react-types` supports React 18 and React 19 without adding runtime wrappers.
+It improves TypeScript checking, but React 18 still needs refs for arrays, objects,
+functions, and custom DOM events.
+
+**Vue** and **Angular** can pass JavaScript values directly through their normal property
+binding syntax. You do not need a ref:
 
 ```html
 <!-- Vue -->
@@ -188,34 +227,83 @@ no refs needed:
 <loomi-select [data]="countries" placeholder="Country"></loomi-select>
 ```
 
-Simple attributes (`color`, `size`, `disabled`, etc.) work identically as plain HTML
-attributes in every framework.
+## Server-side rendering
+
+Every LoomiUI component renders on the server to [Declarative Shadow
+DOM](https://developer.mozilla.org/docs/Web/HTML/Element/template#shadowrootmode), so a
+page can contain real, styled markup before any JavaScript runs. This works from any
+stack that can run Node during the request or the build — Astro, Nuxt, Next.js, or a
+static site generator — and the resulting HTML is plain markup that Rails, Laravel or
+Django can serve just as well.
+
+```js
+import { render } from "@lit-labs/ssr";
+import { collectResultSync } from "@lit-labs/ssr/lib/render-result.js";
+import { html } from "lit";
+import "@loomidev/components/button";
+
+const markup = collectResultSync(render(html`<loomi-button>Save</loomi-button>`));
+// <loomi-button><template shadowrootmode="open"><style>…</style><button …>…</button></template></loomi-button>
+```
+
+Browsers parse that `<template shadowrootmode>` into a real shadow root during HTML
+parsing, so the component is visible and styled with no JavaScript at all. To make it
+interactive, load the component modules as usual; to have Lit adopt the server-rendered
+DOM rather than replace it, import Lit's hydration support **before** any component:
+
+```js
+import "@lit-labs/ssr-client/lit-element-hydrate-support.js";
+import "@loomidev/components/button";
+```
+
+**One limitation to know.** A handful of components inspect their light-DOM children to
+decide what to render — `<loomi-select>` reading `<option>` elements, `<loomi-tabs>`
+finding its `<loomi-tab>` children, `<loomi-table>` reading a `<template slot="row">`.
+The server has no light DOM to inspect, so anything derived from those children is absent
+from the server HTML and fills in at hydration. Nothing throws, and the rest of the
+component still renders.
+
+Passing the same data through a property avoids this, because properties are readable on
+the server. `<loomi-select .data=${options} selected-value="gh">` server-renders its
+trigger showing the selected label, where the `<option>` form renders the placeholder
+until hydration. Note that this affects the _closed_ control only — a select's option
+list is not in the server HTML either way, since the panel is rendered only while open.
+
+CI runs two checks over this. `pnpm check:ssr` renders all 103 components in Node and
+fails if any throws or emits no shadow root; `pnpm check:hydration` then loads that markup
+in a browser and fails if the client replaces the server-rendered DOM instead of adopting
+it — which is what would show up to a user as a flash of re-rendered content.
 
 ## Browser support
 
-LoomiUI targets modern evergreen browsers: recent Chrome, Edge, Firefox, and Safari.
-Form-associated custom elements (`ElementInternals`-based form participation, used by
-every form control) require **Safari 16.4+** — older Safari versions can render the
-components but won't submit their values inside a native `<form>`.
+LoomiUI supports recent versions of Chrome, Edge, Firefox, and Safari. LoomiUI form
+controls use the browser's `ElementInternals` API to submit values through native forms.
+This form behavior requires **Safari 16.4 or later**. Older Safari versions can display
+the components, but they cannot include LoomiUI control values when submitting a native
+`<form>`.
 
 ## MCP documentation server
 
-[`@loomidev/mcp-server`](packages/mcp-server) is an [MCP](https://modelcontextprotocol.io)
-server that exposes every component's real documentation to MCP clients:
+[`@loomidev/mcp-server`](packages/mcp-server) is a
+[Model Context Protocol (MCP)](https://modelcontextprotocol.io) server. It gives compatible
+coding tools access to LoomiUI documentation, including component attributes and usage
+examples.
 
 ```bash
 npx @loomidev/mcp-server
 ```
 
-See the package README for client config. Once connected, the client can look up accurate
-attribute tables and usage examples instead of guessing at an API.
+See the package README for instructions on connecting an MCP client. After the connection
+is configured, the client can look up accurate attribute tables and usage examples.
 
 ## Contributing
 
-Want to add a component, understand the build steps, or publish a release? See
-**[CONTRIBUTING.md](CONTRIBUTING.md)** — it explains the project structure, the theming
-implementation, how to add a new component end to end, and the npm publish process in
-detail.
+See **[CONTRIBUTING.md](CONTRIBUTING.md)** to learn about the project structure, theming
+implementation, component development process, build steps, and npm release process.
+
+For task-focused references, see the [contributor workflow](docs/contributor-workflow.md),
+[operations runbook](docs/operations.md), [maintainer guide](docs/maintainer-guide.md),
+and [release communication templates](docs/release-communication.md).
 
 ## License
 

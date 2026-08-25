@@ -1,1 +1,1 @@
-export { LoomiCheckbox } from "./loomi-checkbox.js";
+export { LoomiCheckbox, type LoomiCheckboxEventMap } from "./loomi-checkbox.js";

@@ -339,6 +339,7 @@ export class LoomiTextEditor extends LoomiElement {
   private internals = this.attachInternals();
   private readonly instanceId = randomSuffix();
   private validationVisible = false;
+  private initialValue = "";
   private valueSetFromEditor = false;
   private savedRange: Range | null = null;
   private embedFiles: File[] = [];
@@ -408,8 +409,18 @@ export class LoomiTextEditor extends LoomiElement {
   }
 
   override connectedCallback(): void {
+    if (!this.hasUpdated) this.initialValue = this.value;
     super.connectedCallback();
     document.addEventListener("selectionchange", this.onSelectionChange);
+  }
+
+  formResetCallback(): void {
+    this.value = this.initialValue;
+    this.validationVisible = false;
+    this.invalid = false;
+    this.savedRange = null;
+    this.resetEmbedDialog();
+    this.embedModalEl?.hide();
   }
 
   override disconnectedCallback(): void {

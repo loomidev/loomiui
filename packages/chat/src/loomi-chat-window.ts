@@ -1,6 +1,6 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, type LoomiColor } from "@loomidev/core";
+import { LoomiElement, loomiStyles, loomiT, type LoomiColor } from "@loomidev/core";
 import "@loomidev/avatar/loomi-avatar.js";
 import "@loomidev/button/loomi-button.js";
 import "@loomidev/dropmenu/loomi-dropmenu.js";
@@ -47,6 +47,10 @@ const SCROLL_THRESHOLD = 24;
  * @fires loomi-send - `detail: { message: LoomiChatWindowMessage }` when the current user sends.
  * @fires loomi-reset - when the conversation is reset.
  * @fires loomi-conversation-select - `detail: { conversation }` when a conversation row is clicked.
+ * @fires loomi-attach-file - `detail: { files }` when files are attached from the composer.
+ * @fires loomi-attach-picture - `detail: { files }` when images are attached from the composer.
+ * @fires loomi-record - `detail: { stream }` when voice recording starts.
+ * @fires loomi-record-error - `detail: { error }` when recording cannot start.
  *
  * @slot conversations-header - Custom markup (filters, compose button) above the conversation list.
  * @slot header-actions - Action buttons in the chat header, before the reset button.
@@ -55,6 +59,12 @@ const SCROLL_THRESHOLD = 24;
 export class LoomiChatWindow extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
+  /**
+   * BCP-47 locale for the component's own strings. Covers the component's own labels;
+   * the visible copy properties below (`title`, `description`, `emptyTitle`, …) are
+   * consumer-supplied text and are used as given.
+   */
+  @property() locale = "";
   @property() title = "New Chat";
   @property() description = "How can I help you today?";
   @property({ attribute: "empty-title" }) emptyTitle = "Morning!";
@@ -358,12 +368,12 @@ export class LoomiChatWindow extends LoomiElement {
   private renderConversations(): TemplateResult {
     return html`<aside
       class="loomi-chat-conversations ${this.conversationsAvatarsOnly ? "avatars-only" : ""}"
-      aria-label="Conversations"
+      aria-label=${loomiT("chat.conversations", {}, this.locale)}
     >
       <div class="loomi-chat-conversations-header">
         <slot name="conversations-header"></slot>
       </div>
-      <div class="loomi-chat-conversation-list" role="listbox" aria-label="Conversations">
+      <div class="loomi-chat-conversation-list" role="listbox" aria-label=${loomiT("chat.conversations", {}, this.locale)}>
         ${this.conversations.map((conversation) => this.renderConversationRow(conversation))}
         ${
           this.conversations.length === 0
@@ -412,7 +422,7 @@ export class LoomiChatWindow extends LoomiElement {
           ${
             custom
               ? nothing
-              : html`<span class="loomi-typing-dots" aria-label="Typing">
+              : html`<span class="loomi-typing-dots" aria-label=${loomiT("chat.typing", {}, this.locale)}>
                 <span></span><span></span><span></span>
               </span>`
           }
@@ -444,14 +454,14 @@ export class LoomiChatWindow extends LoomiElement {
             </div>
             ${
               this.showReset
-                ? html`<loomi-tooltip content="Reset">
+                ? html`<loomi-tooltip content=${loomiT("chat.reset", {}, this.locale)}>
                   <loomi-button
                     class="loomi-chat-reset-btn"
                     type="secondary"
                     size="small"
                     radius="medium"
                     icon="arrow-path"
-                    aria-label="Reset conversation"
+                    aria-label=${loomiT("chat.resetConversation", {}, this.locale)}
                     ?disabled=${this.busy || !hasMessages}
                     @click=${this.onReset}
                   ></loomi-button>
@@ -478,7 +488,7 @@ export class LoomiChatWindow extends LoomiElement {
                     class="loomi-chat-jump-btn"
                     data-active=${this.showJumpButton ? "true" : "false"}
                     ?hidden=${!this.showJumpButton}
-                    aria-label="Jump to latest message"
+                    aria-label=${loomiT("chat.jumpToLatest", {}, this.locale)}
                     @click=${() => this.scrollToBottom("smooth")}
                   >
                     <loomi-icon name="arrow-down"></loomi-icon>
@@ -514,6 +524,7 @@ export class LoomiChatWindow extends LoomiElement {
                     class="loomi-chat-file-input"
                     type="file"
                     tabindex="-1"
+                    aria-label=${loomiT("common.attachFile", {}, this.locale)}
                     @change=${this.onAttachmentPicked("file")}
                   />
                   <input
@@ -521,10 +532,11 @@ export class LoomiChatWindow extends LoomiElement {
                     type="file"
                     accept="image/*"
                     tabindex="-1"
+                    aria-label=${loomiT("common.attachPicture", {}, this.locale)}
                     @change=${this.onAttachmentPicked("picture")}
                   />
                   <div class="loomi-chat-send-tools">
-                    <loomi-dropmenu placement="right">
+                    <loomi-dropmenu placement="right" label="Attach">
                       <span slot="trigger" class="loomi-chat-attach-trigger" title="Attach">
                         <loomi-icon name="plus"></loomi-icon>
                       </span>
@@ -532,7 +544,7 @@ export class LoomiChatWindow extends LoomiElement {
                       <loomi-dropmenu-item icon="photo" @click=${() => this.chooseAttachment("picture")}>Attach picture</loomi-dropmenu-item>
                       <loomi-dropmenu-item icon="user-plus" @click=${() => this.chooseAttachment("user")}>Add user to chat</loomi-dropmenu-item>
                     </loomi-dropmenu>
-                    <loomi-tooltip content="Record voice message">
+                    <loomi-tooltip content=${loomiT("chat.recordVoice", {}, this.locale)}>
                       <loomi-button
                         class="loomi-chat-mic-btn"
                         type="secondary"
@@ -540,7 +552,7 @@ export class LoomiChatWindow extends LoomiElement {
                         radius="full"
                         block
                         icon="microphone"
-                        aria-label="Record voice message"
+                        aria-label=${loomiT("chat.recordVoice", {}, this.locale)}
                         ?disabled=${this.busy || this.readOnly}
                         @click=${this.onRecord}
                       ></loomi-button>
@@ -553,7 +565,7 @@ export class LoomiChatWindow extends LoomiElement {
                     radius="full"
                     block
                     icon="arrow-up"
-                    aria-label="Send message"
+                    aria-label=${loomiT("chat.sendMessage", {}, this.locale)}
                     ?disabled=${!this.draft.trim() || this.busy || this.readOnly}
                     @click=${this.onSubmit}
                   ></loomi-button>

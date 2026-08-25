@@ -30,6 +30,22 @@
             "name": "LoomiRatingSize",
             "module": "./loomi-rating.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiRatingChangeDetail",
+          "declaration": {
+            "name": "LoomiRatingChangeDetail",
+            "module": "./loomi-rating.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiRatingEventMap",
+          "declaration": {
+            "name": "LoomiRatingEventMap",
+            "module": "./loomi-rating.js"
+          }
         }
       ]
     },
@@ -55,6 +71,15 @@
               "kind": "field",
               "name": "internals",
               "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "initialRating",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
             },
             {
               "kind": "field",
@@ -128,6 +153,15 @@
               },
               "privacy": "private",
               "default": "0"
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
             },
             {
               "kind": "method",

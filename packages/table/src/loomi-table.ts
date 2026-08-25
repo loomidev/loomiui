@@ -5,6 +5,7 @@ import {
   svg,
   type PropertyValues,
   type TemplateResult,
+  isServer,
 } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { customElement, property, state } from "lit/decorators.js";
@@ -296,16 +297,22 @@ export class LoomiTable extends LoomiElement {
   }
 
   private get rowTemplateHtml(): string {
+    // A <template slot="row"> lives in the light DOM, which is unreadable while server
+    // rendering; fall back to the attribute forms, which are.
+    if (isServer) return this.rowTemplateAlias || this.rowTemplate;
     const template = this.querySelector<HTMLTemplateElement>('template[slot="row"]');
     return template?.innerHTML || this.rowTemplateAlias || this.rowTemplate;
   }
 
   private get headerTemplateHtml(): string {
+    if (isServer) return "";
     const template = this.querySelector<HTMLTemplateElement>('template[slot="header"]');
     return template?.innerHTML || "";
   }
 
   private get hasManualRows(): boolean {
+    // Light DOM is not readable during server rendering; hydration fills this in on the client.
+    if (isServer) return false;
     return [...this.children].some((child) => {
       if (child instanceof HTMLTemplateElement) return false;
       const slot = child.getAttribute("slot") || "";

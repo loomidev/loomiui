@@ -1,1 +1,6 @@
-export { LoomiToggle, type LoomiToggleBar, type LoomiLabelPosition } from "./loomi-toggle.js";
+export {
+  LoomiToggle,
+  type LoomiToggleBar,
+  type LoomiLabelPosition,
+  type LoomiToggleEventMap,
+} from "./loomi-toggle.js";

@@ -42,6 +42,7 @@ export class LoomiPassword extends LoomiElement {
 
   private internals = this.attachInternals();
   private validationVisible = false;
+  private initialValue = "";
   private readonly instanceId = randomSuffix();
 
   @property({ reflect: true }) name = "";
@@ -78,10 +79,17 @@ export class LoomiPassword extends LoomiElement {
   private cleanupClickOutside?: () => void;
 
   override connectedCallback(): void {
+    if (!this.hasUpdated) this.initialValue = this.value;
     super.connectedCallback();
     this.cleanupClickOutside = onClickOutside(this, () => {
       if (this.prefixOpen) this.prefixOpen = false;
     });
+  }
+
+  formResetCallback(): void {
+    this.value = this.initialValue;
+    this.validationVisible = false;
+    this.invalid = false;
   }
 
   override disconnectedCallback(): void {

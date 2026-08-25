@@ -81,6 +81,38 @@
         },
         {
           "kind": "js",
+          "name": "hasLoomiDiskIcon",
+          "declaration": {
+            "name": "hasLoomiDiskIcon",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "registerLoomiDiskIcon",
+          "declaration": {
+            "name": "registerLoomiDiskIcon",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "setLoomiIconBasePath",
+          "declaration": {
+            "name": "setLoomiIconBasePath",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getLoomiIconBasePath",
+          "declaration": {
+            "name": "getLoomiIconBasePath",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
           "name": "LoomiIconSource",
           "declaration": {
             "name": "LoomiIconSource",

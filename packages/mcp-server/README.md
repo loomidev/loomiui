@@ -56,6 +56,13 @@ Plus one MCP **resource** per component at `loomi://docs/<name>` (e.g.
 `src/generated/manifest.json` before compiling. Re-run it whenever a component's README
 changes.
 
+The build derives category membership from the published bundle packages instead of a
+second hand-maintained list. It fails when component package metadata or documentation is
+missing, when bundle membership is invalid, or when a locale adds keys/value shapes that
+do not match English. The manifest also records direct translation coverage for every
+built-in locale; missing non-English messages remain usable through the documented English
+fallback chain.
+
 ## Dependencies
 
 - No LoomiUI package dependencies.

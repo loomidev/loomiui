@@ -46,6 +46,14 @@
             "name": "LoomiDrawerSize",
             "module": "./loomi-drawer.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiDrawerEventMap",
+          "declaration": {
+            "name": "LoomiDrawerEventMap",
+            "module": "./loomi-drawer.js"
+          }
         }
       ]
     },

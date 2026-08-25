@@ -81,7 +81,7 @@
 }
 .loomi-avatar-slot {
   flex: none;
-  margin-left: auto;
+  margin-inline-start: auto;
   display: inline-flex;
 }
 .loomi-empty-hint {

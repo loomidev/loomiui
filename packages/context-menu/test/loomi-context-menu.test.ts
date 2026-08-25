@@ -230,4 +230,92 @@ describe("loomi-context-menu", () => {
     expect(submenu.classList.contains("open")).to.equal(false);
     expect(submenu.matches(":popover-open")).to.equal(false);
   });
+
+  describe("keyboard (WAI-ARIA menu pattern)", () => {
+    const openMenu = async (): Promise<LoomiContextMenu> => {
+      const el = await fixture<LoomiContextMenu>(html`
+        <loomi-context-menu label="Actions">
+          <span slot="target">Target</span>
+          <loomi-context-menu-item>Cut</loomi-context-menu-item>
+          <loomi-context-menu-item>Copy</loomi-context-menu-item>
+          <loomi-context-menu-item>
+            More
+            <loomi-context-menu-item slot="submenu">Paste special</loomi-context-menu-item>
+          </loomi-context-menu-item>
+        </loomi-context-menu>
+      `);
+      el.showAt(20, 20);
+      await el.updateComplete;
+      await nextFrame();
+      return el;
+    };
+
+    const items = (el: LoomiContextMenu): LoomiContextMenuItem[] =>
+      Array.from(el.querySelectorAll("loomi-context-menu-item")).filter(
+        (item) => item.getAttribute("slot") !== "submenu",
+      );
+
+    // The menu listens on its own panel inside the shadow root, not on the host.
+    const press = async (el: LoomiContextMenu, key: string): Promise<KeyboardEvent> => {
+      const event = new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true });
+      el.shadowRoot!.querySelector(".loomi-menu")!.dispatchEvent(event);
+      await el.updateComplete;
+      return event;
+    };
+
+    it("gives the menu and its rows menu semantics", async () => {
+      const el = await openMenu();
+      expect(el.shadowRoot!.querySelector('[role="menu"]')).to.exist;
+      for (const item of items(el)) {
+        const row = item.shadowRoot!.querySelector(".loomi-item")!;
+        expect(row.getAttribute("role")).to.equal("menuitem");
+        expect(row.getAttribute("tabindex"), "rows are not tab stops").to.equal("-1");
+      }
+    });
+
+    it("moves focus down and wraps past the last row", async () => {
+      const el = await openMenu();
+      const rows = items(el);
+
+      await press(el, "ArrowDown");
+      expect(document.activeElement).to.equal(rows[0]);
+
+      await press(el, "ArrowUp");
+      expect(document.activeElement, "wraps backwards to the last row").to.equal(rows.at(-1));
+    });
+
+    it("jumps to the first and last rows with Home and End", async () => {
+      const el = await openMenu();
+      const rows = items(el);
+
+      await press(el, "End");
+      expect(document.activeElement).to.equal(rows.at(-1));
+
+      await press(el, "Home");
+      expect(document.activeElement).to.equal(rows[0]);
+    });
+
+    it("opens a submenu with ArrowRight and closes it with ArrowLeft", async () => {
+      const el = await openMenu();
+      const parent = items(el).at(-1)!;
+
+      await press(el, "End"); // focus the row that owns the submenu
+      expect(parent.hasSubmenu).to.be.true;
+
+      await press(el, "ArrowRight");
+      await parent.updateComplete;
+      expect(parent.isSubmenuOpen, "ArrowRight opens the submenu").to.be.true;
+
+      await press(el, "ArrowLeft");
+      await parent.updateComplete;
+      expect(parent.isSubmenuOpen, "ArrowLeft closes it again").to.be.false;
+    });
+
+    it("closes on Escape and hands focus back to the target", async () => {
+      const el = await openMenu();
+      await press(el, "Escape");
+      await el.updateComplete;
+      expect(el.shadowRoot!.querySelector(".loomi-menu.open")).to.not.exist;
+    });
+  });
 });

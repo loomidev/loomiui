@@ -85,7 +85,11 @@ export class LoomiTimeline extends LoomiElement {
       if (this.completed) item.completed = true;
       if (this.anchor === "big") item.anchor = "big";
       if (this.icon && !item.icon) item.icon = this.icon;
-      if (this.placement !== "left") item.placement = this.placement;
+      // Guarded on the attribute, not the value: the group's placement is a default for
+      // its items, and an item that states its own must keep it. `icon` and `color` below
+      // already work this way — placement did not, so an explicit
+      // <loomi-timeline-item placement="left"> was silently overridden by its group.
+      if (!item.hasAttribute("placement")) item.placement = this.placement;
       if (this.color && item.color === ("primary" as LoomiColor)) item.color = this.color;
     });
   };

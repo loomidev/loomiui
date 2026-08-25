@@ -62,6 +62,14 @@
             "name": "LoomiSortableTransferDetail",
             "module": "./loomi-sortable.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSortableEventMap",
+          "declaration": {
+            "name": "LoomiSortableEventMap",
+            "module": "./loomi-sortable.js"
+          }
         }
       ]
     },
@@ -93,6 +101,15 @@
               "name": "rowRects",
               "privacy": "private",
               "default": "new Map<string, DOMRect>()"
+            },
+            {
+              "kind": "field",
+              "name": "initialItems",
+              "type": {
+                "text": "LoomiSortableItem[]"
+              },
+              "privacy": "private",
+              "default": "[]"
             },
             {
               "kind": "field",
@@ -314,6 +331,15 @@
               },
               "description": "Current order of ids.",
               "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
             },
             {
               "kind": "method",

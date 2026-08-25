@@ -91,7 +91,7 @@
 }
 .loomi-req {
   color: var(--loomi-error-500);
-  margin-left: 0.15rem;
+  margin-inline-start: 0.15rem;
 }
 
 .loomi-panel {
@@ -159,7 +159,7 @@
   flex: none;
 }
 .loomi-check {
-  margin-left: auto;
+  margin-inline-start: auto;
   width: 1.1rem;
   height: 1.1rem;
   color: var(--loomi-primary-600);

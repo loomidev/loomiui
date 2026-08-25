@@ -234,4 +234,18 @@ describe("loomi-emoji-picker", () => {
       );
     });
   });
+
+  it("announces the highlighted emoji through aria-activedescendant", async () => {
+    const el = await fixture<LoomiEmojiPicker>(
+      html`<loomi-emoji-picker inline></loomi-emoji-picker>`,
+    );
+    await el.updateComplete;
+    const active = el.shadowRoot!.querySelector("[aria-activedescendant]");
+    expect(active, "an element wires up activedescendant").to.exist;
+
+    const id = active!.getAttribute("aria-activedescendant");
+    if (id) {
+      expect(el.shadowRoot!.getElementById(id), "it points at a real option").to.exist;
+    }
+  });
 });

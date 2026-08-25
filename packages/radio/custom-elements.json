@@ -14,6 +14,14 @@
             "name": "LoomiRadio",
             "module": "./loomi-radio.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiRadioEventMap",
+          "declaration": {
+            "name": "LoomiRadioEventMap",
+            "module": "./loomi-radio.js"
+          }
         }
       ]
     },
@@ -51,6 +59,15 @@
               "kind": "field",
               "name": "internals",
               "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "initialChecked",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
             },
             {
               "kind": "field",
@@ -108,6 +125,15 @@
               },
               "default": "\"primary\"",
               "attribute": "color"
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
             },
             {
               "kind": "field",

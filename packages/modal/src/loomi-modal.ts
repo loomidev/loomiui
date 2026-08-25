@@ -356,6 +356,14 @@ export class LoomiModal extends LoomiElement {
   }
 }
 
+/** Event map for `<loomi-modal>`. All four are plain `Event`s with no detail. */
+export interface LoomiModalEventMap {
+  open: Event;
+  close: Event;
+  ok: Event;
+  cancel: Event;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     "loomi-modal": LoomiModal;

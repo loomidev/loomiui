@@ -2,6 +2,8 @@ import type { LoomiTranslations } from "./types.js";
 
 export const en: LoomiTranslations = {
   common: {
+    attachFile: "Attach file",
+    attachPicture: "Attach picture",
     close: "Close",
     dismiss: "Dismiss",
     remove: "Remove",
@@ -26,6 +28,7 @@ export const en: LoomiTranslations = {
     dialog: "Date picker",
   },
   filepicker: {
+    chooseFiles: "Choose files",
     placeholderLine1: "Choose files or drag and drop to upload",
     placeholderLine2: "%s up to %s",
     cropTitle: "Crop image",
@@ -52,6 +55,9 @@ export const en: LoomiTranslations = {
     actionsTitle: "actions",
   },
   pagination: {
+    previous: "Previous page",
+    next: "Next page",
+    selectPage: "Select page",
     totalLabel: "Showing :a to :b of :c",
     noRecords: "No records",
     pageOf: "Page :page of :pages",
@@ -173,6 +179,52 @@ export const en: LoomiTranslations = {
     flipToBack: "Show security code",
     flipToFront: "Back to card",
   },
+  filterBuilder: {
+    title: "Filters",
+    add: "Add filter",
+    apply: "Apply filters",
+    empty: "No filters added",
+    field: "Filter field",
+    logic: "Filter logic",
+    operator: "Filter operator",
+    value: "Filter value",
+    remove: "Remove filter",
+  },
+  video: {
+    loading: "Loading",
+    retry: "Retry",
+    captions: "Captions",
+    seek: "Seek",
+    volume: "Volume",
+  },
+  dataGrid: {
+    emptyTitle: "No rows found",
+    emptyDescription: "Try changing the filters or search term.",
+    loadingTitle: "Loading rows",
+    loadingDescription: "Fetching the latest grid data.",
+    rowsPerPage: "Rows per page",
+    selectAll: "Select all rows",
+    selectRow: "Select row :row",
+  },
+  commandPalette: {
+    label: "Command palette",
+    search: "Search commands",
+    commands: "Commands",
+    emptyTitle: "No commands found",
+    emptyDescription: "Try a different search term.",
+  },
+  chat: {
+    conversations: "Conversations",
+    reset: "Reset",
+    resetConversation: "Reset conversation",
+    jumpToLatest: "Jump to latest message",
+    recordVoice: "Record voice message",
+    sendMessage: "Send message",
+    typing: "Typing",
+  },
+  progress: {
+    label: "Progress",
+  },
   rating: {
     label: "Rating",
     valueLabel: "Rating :value of :max",
@@ -181,6 +233,7 @@ export const en: LoomiTranslations = {
     emptyPlaceholder: "No matches",
   },
   calendar: {
+    eventActions: "Event actions",
     today: "Today",
     addEvent: "Add event",
     previous: "Previous",

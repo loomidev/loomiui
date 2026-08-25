@@ -28,6 +28,8 @@ describe("loomi-profile-menu", () => {
     expect(avatar.dotted).to.be.true;
     expect(avatar.pulseDot).to.be.true;
     expect(avatar.verified).to.be.true;
+    const trigger = el.shadowRoot!.querySelector(".loomi-pm-trigger")!;
+    expect(getComputedStyle(trigger).columnGap).to.equal("6px");
   });
 
   it("moves menu items into the internal dropmenu", async () => {

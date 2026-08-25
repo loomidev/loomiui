@@ -54,6 +54,7 @@ export class LoomiTagInput extends LoomiElement {
 
   private internals = this.attachInternals();
   private validationVisible = false;
+  private initialValue = "";
 
   @property({ reflect: true }) name = "";
   @property() label = "";
@@ -92,6 +93,20 @@ export class LoomiTagInput extends LoomiElement {
   @state() private autocompleteActiveIndex = -1;
 
   @query("input") private inputEl!: HTMLInputElement;
+
+  override connectedCallback(): void {
+    if (!this.hasUpdated) this.initialValue = this.value;
+    super.connectedCallback();
+  }
+
+  formResetCallback(): void {
+    this.value = this.initialValue;
+    this.draft = "";
+    this.autocompleteOpen = false;
+    this.autocompleteActiveIndex = -1;
+    this.validationVisible = false;
+    this.invalid = false;
+  }
 
   override willUpdate(changed: PropertyValues<this>): void {
     if (changed.has("value")) {
@@ -331,10 +346,11 @@ export class LoomiTagInput extends LoomiElement {
   private renderAutocomplete(): TemplateResult | typeof nothing {
     const options = this.autocompleteOptions;
     if (!this.autocompleteOpen || !options.length) return nothing;
-    return html`<div class="loomi-autocomplete-panel" role="listbox">
+    return html`<div class="loomi-autocomplete-panel" id="loomi-tag-input-listbox" role="listbox">
       ${options.map(
         (item, index) => html`<div
         class="loomi-autocomplete-option ${index === this.autocompleteActiveIndex ? "active" : ""}"
+        id=${`loomi-tag-input-option-${index}`}
         role="option"
         aria-selected=${index === this.autocompleteActiveIndex ? "true" : "false"}
         @mouseenter=${() => (this.autocompleteActiveIndex = index)}
@@ -387,6 +403,15 @@ export class LoomiTagInput extends LoomiElement {
             ?required=${this.required}
             aria-label=${hasLabel ? this.label : nothing}
             aria-invalid=${this.invalid ? "true" : "false"}
+            role="combobox"
+            aria-expanded=${this.autocompleteOpen ? "true" : "false"}
+            aria-controls="loomi-tag-input-listbox"
+            aria-autocomplete="list"
+            aria-activedescendant=${
+              this.autocompleteOpen && this.autocompleteActiveIndex >= 0
+                ? `loomi-tag-input-option-${this.autocompleteActiveIndex}`
+                : nothing
+            }
             @input=${this.onInput}
             @keydown=${this.onKeydown}
             @blur=${this.showValidation}

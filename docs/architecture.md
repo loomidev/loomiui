@@ -224,6 +224,10 @@ Generated files are disposable. If a class is missing from the output, edit the 
 source, `src/styles.css`, the theme palette, or the safelist options in the package's
 build shim. Do not patch `src/generated/styles.css.ts` directly.
 
+CI rebuilds all style modules and runs `pnpm check:styles` against
+`scripts/generated-styles-manifest.json`. When an intentional source or compiler change
+alters generated CSS, refresh the tracked hashes with `pnpm build && pnpm styles:manifest`.
+
 ## Theme Architecture
 
 `@loomidev/theme` is the source of shared design tokens. The key file is
@@ -483,7 +487,8 @@ During publish, workspace ranges are converted into normal semver ranges for npm
 Consumers never see `workspace:^`.
 
 The release flow is intentionally separate from architecture. See
-[`CONTRIBUTING.md`](CONTRIBUTING.md) for the operational details.
+[`operations.md`](operations.md) for the release/rollback runbook and
+[`CONTRIBUTING.md`](../CONTRIBUTING.md) for contributor-facing release details.
 
 ## Public Extension Points
 

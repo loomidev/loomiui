@@ -60,7 +60,8 @@ the fallback text yourself.
 
 By default the avatar leads the trigger. Set `avatar-position="right"` to flip it: the
 name and description lead, the avatar follows, and the chevron stays at the trailing
-edge — so the menu still opens aligned under the chevron.
+edge — so the menu still opens aligned under the chevron. The avatar keeps a 6px gap
+from the identity labels in either position.
 
 ```html
 <loomi-profile-menu

@@ -1,6 +1,6 @@
 import { css, html, nothing } from "lit";
 import { customElement } from "lit/decorators.js";
-import { LoomiElement, loomiStyles } from "@loomidev/core";
+import { LoomiElement, loomiDefaultText, loomiStyles, loomiT } from "@loomidev/core";
 import type {
   FilterBuilderApplyDetail,
   FilterBuilderChangeDetail,
@@ -11,6 +11,13 @@ import type {
   FilterBuilderRule,
   FilterBuilderValue,
 } from "./types.js";
+
+// Defaults are translated when left untouched, and used verbatim once a consumer sets
+// their own — see loomiDefaultText.
+const DEFAULT_TITLE = "Filters";
+const DEFAULT_ADD_LABEL = "Add filter";
+const DEFAULT_APPLY_LABEL = "Apply filters";
+const DEFAULT_EMPTY_LABEL = "No filters added";
 
 const OPERATORS_BY_TYPE: Record<FilterBuilderFieldType, FilterBuilderOperator[]> = {
   text: ["contains", "equals", "notEquals", "startsWith", "endsWith"],
@@ -40,6 +47,12 @@ function createRuleId() {
   return `rule-${Math.random().toString(36).slice(2, 8)}`;
 }
 
+/**
+ * `<loomi-filter-builder>` — a rule builder for composing and applying filters.
+ *
+ * @fires loomi-filter-change - `detail: { value }` whenever a rule is added, edited, or removed.
+ * @fires loomi-filter-apply - `detail: { value }` when the filters are applied.
+ */
 @customElement("loomi-filter-builder")
 export class LoomiFilterBuilder extends LoomiElement {
   static properties = {
@@ -52,6 +65,7 @@ export class LoomiFilterBuilder extends LoomiElement {
     applyLabel: { attribute: "apply-label" },
     emptyLabel: { attribute: "empty-label" },
     showApply: { attribute: "show-apply", type: Boolean, reflect: true },
+    locale: {},
   };
 
   static override styles = loomiStyles(css`
@@ -199,18 +213,19 @@ export class LoomiFilterBuilder extends LoomiElement {
   fields: FilterBuilderField[] = [];
   rules: FilterBuilderRule[] = [];
   logic: FilterBuilderLogic = "and";
-  title = "Filters";
-  addLabel = "Add filter";
-  applyLabel = "Apply filters";
-  emptyLabel = "No filters added";
+  title = DEFAULT_TITLE;
+  addLabel = DEFAULT_ADD_LABEL;
+  applyLabel = DEFAULT_APPLY_LABEL;
+  emptyLabel = DEFAULT_EMPTY_LABEL;
+  locale = "";
   showApply = true;
 
   render() {
     return html`
       <section class="shell">
         <header class="header">
-          <h2 class="title">${this.title}</h2>
-          <div class="logic" aria-label="Filter logic">
+          <h2 class="title">${loomiDefaultText(this.title, DEFAULT_TITLE, "filterBuilder.title", this.locale)}</h2>
+          <div class="logic" aria-label=${loomiT("filterBuilder.logic", {}, this.locale)}>
             ${this.renderLogicButton("and", "And")}
             ${this.renderLogicButton("or", "Or")}
           </div>
@@ -218,15 +233,15 @@ export class LoomiFilterBuilder extends LoomiElement {
         <div class="rules">
           ${
             this.rules.length === 0
-              ? html`<div class="empty">${this.emptyLabel}</div>`
+              ? html`<div class="empty">${loomiDefaultText(this.emptyLabel, DEFAULT_EMPTY_LABEL, "filterBuilder.empty", this.locale)}</div>`
               : this.rules.map((rule) => this.renderRule(rule))
           }
         </div>
         <footer class="footer">
-          <button class="command" type="button" @click=${this.addRule}>${this.addLabel}</button>
+          <button class="command" type="button" @click=${this.addRule}>${loomiDefaultText(this.addLabel, DEFAULT_ADD_LABEL, "filterBuilder.add", this.locale)}</button>
           ${
             this.showApply
-              ? html`<button class="command apply" type="button" @click=${this.applyFilters}>${this.applyLabel}</button>`
+              ? html`<button class="command apply" type="button" @click=${this.applyFilters}>${loomiDefaultText(this.applyLabel, DEFAULT_APPLY_LABEL, "filterBuilder.apply", this.locale)}</button>`
               : nothing
           }
         </footer>
@@ -253,14 +268,14 @@ export class LoomiFilterBuilder extends LoomiElement {
 
     return html`
       <div class="rule">
-        <select aria-label="Filter field" .value=${rule.field} @change=${(event: Event) => this.updateRuleField(rule.id, event)}>
+        <select aria-label=${loomiT("filterBuilder.field", {}, this.locale)} .value=${rule.field} @change=${(event: Event) => this.updateRuleField(rule.id, event)}>
           ${this.fields.map((fieldOption) => html`<option value=${fieldOption.key}>${fieldOption.label}</option>`)}
         </select>
-        <select aria-label="Filter operator" .value=${rule.operator} @change=${(event: Event) => this.updateRuleOperator(rule.id, event)}>
+        <select aria-label=${loomiT("filterBuilder.operator", {}, this.locale)} .value=${rule.operator} @change=${(event: Event) => this.updateRuleOperator(rule.id, event)}>
           ${operators.map((operator) => html`<option value=${operator}>${OPERATOR_LABELS[operator]}</option>`)}
         </select>
         ${valueHidden ? html`<span></span>` : this.renderValueInput(rule, field)}
-        <button class="remove" type="button" aria-label="Remove filter" @click=${() => this.removeRule(rule.id)}>
+        <button class="remove" type="button" aria-label=${loomiT("filterBuilder.remove", {}, this.locale)} @click=${() => this.removeRule(rule.id)}>
           X
         </button>
       </div>
@@ -270,7 +285,7 @@ export class LoomiFilterBuilder extends LoomiElement {
   private renderValueInput(rule: FilterBuilderRule, field: FilterBuilderField | undefined) {
     if (field?.type === "select") {
       return html`
-        <select aria-label="Filter value" .value=${String(rule.value)} @change=${(event: Event) => this.updateRuleValue(rule.id, event)}>
+        <select aria-label=${loomiT("filterBuilder.value", {}, this.locale)} .value=${String(rule.value)} @change=${(event: Event) => this.updateRuleValue(rule.id, event)}>
           ${(field.options ?? []).map((option) => html`<option value=${option.value}>${option.label}</option>`)}
         </select>
       `;
@@ -281,7 +296,7 @@ export class LoomiFilterBuilder extends LoomiElement {
 
     return html`
       <input
-        aria-label="Filter value"
+        aria-label=${loomiT("filterBuilder.value", {}, this.locale)}
         type=${inputType}
         placeholder=${field?.placeholder ?? "Value"}
         .value=${String(rule.value ?? "")}

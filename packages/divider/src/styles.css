@@ -64,10 +64,10 @@
   border-top: var(--_loomi-divider-thickness, 1px) dotted var(--_loomi-accent-border);
 }
 .vertical.dashed .loomi-line {
-  border-left: var(--_loomi-divider-thickness, 1px) dashed var(--_loomi-accent-border);
+  border-inline-start: var(--_loomi-divider-thickness, 1px) dashed var(--_loomi-accent-border);
 }
 .vertical.dotted .loomi-line {
-  border-left: var(--_loomi-divider-thickness, 1px) dotted var(--_loomi-accent-border);
+  border-inline-start: var(--_loomi-divider-thickness, 1px) dotted var(--_loomi-accent-border);
 }
 
 .loomi-divider.empty {

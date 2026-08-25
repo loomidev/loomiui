@@ -202,6 +202,10 @@ defineLoomiTranslations("ak", {
 setLoomiLocale("ak");
 ```
 
+Regional locales resolve through an exact-to-general fallback chain. For example,
+`fr-CA` first uses messages registered for `fr-CA`, then fills missing keys from `fr`,
+then from English. Registering a regional locale never changes its base locale.
+
 ## `--loomi-*` (public theme) vs `--_loomi-accent` (private, per-instance)
 
 These are two different layers — this is the answer to "why `--loomi-accent` when

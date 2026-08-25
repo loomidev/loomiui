@@ -34,6 +34,9 @@ When an option is selected, the field displays the option `label` and optional `
 The component value remains the option `value`, and that value is what gets submitted
 with a form.
 
+Native `form.reset()` restores the initial submitted value and closes the suggestion
+panel.
+
 ## Field appearance
 
 Use `variant="minimal"` for a bottom-border-only field:

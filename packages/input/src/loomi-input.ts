@@ -47,6 +47,8 @@ const booleanAttribute = {
  * @csspart input - The native `<input>`.
  * @fires input - Native input event (composed).
  * @fires change - Native change event (composed).
+ * @fires loomi-prefix-change - `detail: { value }` when the prefix dropdown selection changes.
+ * @fires loomi-suffix-change - `detail: { value }` when the suffix dropdown selection changes.
  */
 @customElement("loomi-input")
 export class LoomiInput extends LoomiElement {
@@ -55,6 +57,7 @@ export class LoomiInput extends LoomiElement {
 
   private internals = this.attachInternals();
   private validationVisible = false;
+  private initialValue = "";
   /** Falls back to a stable per-instance id when `name` is blank, so a `loomi-notification` toast (see `syncValidity`) re-renders in place across repeated validation failures instead of stacking. */
   private readonly instanceId = randomSuffix();
 
@@ -99,6 +102,17 @@ export class LoomiInput extends LoomiElement {
   @property({ type: Boolean, reflect: true }) invalid = false;
 
   @query("input") private inputEl!: HTMLInputElement;
+
+  override connectedCallback(): void {
+    if (!this.hasUpdated) this.initialValue = this.value;
+    super.connectedCallback();
+  }
+
+  formResetCallback(): void {
+    this.value = this.initialValue;
+    this.validationVisible = false;
+    this.invalid = false;
+  }
 
   override willUpdate(changed: PropertyValues<this>): void {
     if (

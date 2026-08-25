@@ -23,6 +23,7 @@ export class LoomiRating extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
   static formAssociated = true;
   private internals = this.attachInternals();
+  private initialRating = 0;
 
   @property({ reflect: true }) name = "";
   @property() type: LoomiRatingType = "star";
@@ -33,6 +34,16 @@ export class LoomiRating extends LoomiElement {
   @property() locale = "";
 
   @state() private hover = 0;
+
+  override connectedCallback(): void {
+    if (!this.hasUpdated) this.initialRating = this.rating;
+    super.connectedCallback();
+  }
+
+  formResetCallback(): void {
+    this.rating = this.initialRating;
+    this.hover = 0;
+  }
 
   override willUpdate(): void {
     this.internals.setFormValue(String(this.rating));
@@ -70,6 +81,17 @@ export class LoomiRating extends LoomiElement {
       )}
     </div>`;
   }
+}
+
+export interface LoomiRatingChangeDetail {
+  /** The newly chosen rating, 0–5. */
+  rating: number;
+}
+
+/** Event map for `<loomi-rating>`. `change` carries a rating-specific detail, so it
+ * is typed per package instead of globally on `HTMLElementEventMap`. */
+export interface LoomiRatingEventMap {
+  change: CustomEvent<LoomiRatingChangeDetail>;
 }
 
 declare global {

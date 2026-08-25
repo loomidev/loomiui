@@ -32,10 +32,16 @@ import "@loomidev/icon";
 ```
 
 `heroicons` is inlined into `@loomidev/icon` at build time, so it renders instantly.
-`iconsax` and `untitledui` are disk-based: the first time a page uses a given icon, it's
-fetched as a real `.svg` file and cached in memory — every later use of that same icon,
-anywhere on the page, is instant. Until that first fetch resolves, `<loomi-icon>` renders
-a correctly-sized empty placeholder, so there's no layout jump.
+`iconsax` and `untitledui` are disk-based: the first time a page uses a given icon, that
+one icon is loaded and cached in memory — every later use of that same icon, anywhere on
+the page, is instant. Until that first load resolves, `<loomi-icon>` renders a
+correctly-sized empty placeholder, so there's no layout jump.
+
+Disk-based icons load from per-icon ES modules that ship inside `@loomidev/icons`, so
+they work under any bundler with no configuration and no asset-copying step. Two options
+if you want something else — importing an icon statically to skip the runtime lookup
+entirely, or serving the raw `.svg` files yourself with `setLoomiIconBasePath` — are
+covered in [`@loomidev/icons`](../icons#how-an-icon-is-resolved).
 
 ### Outline, Solid, and Twotone
 

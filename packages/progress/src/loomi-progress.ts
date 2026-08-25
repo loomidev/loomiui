@@ -1,6 +1,6 @@
-import { html, nothing, svg, type TemplateResult } from "lit";
+import { html, nothing, svg, type TemplateResult, isServer } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomidev/core";
+import { LoomiElement, loomiStyles, accentVars, loomiT, type LoomiColor } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiProgressLabelPosition =
@@ -19,6 +19,9 @@ export class LoomiProgressBar extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
   @property({ type: Number }) percentage = 0;
+  /** Accessible name for the progress bar. Falls back to a translated "Progress". */
+  @property() label = "";
+  @property() locale = "";
   @property() color: LoomiColor = "primary" as LoomiColor;
   @property() shade: "faint" | "dark" = "faint";
   @property({ type: Boolean, attribute: "show-percentage-label" }) showLabel = false;
@@ -34,6 +37,11 @@ export class LoomiProgressBar extends LoomiElement {
   private get pct(): number {
     return Math.min(100, Math.max(0, this.percentage));
   }
+  /** A `role="progressbar"` with no name is unusable in a screen reader's landmark list. */
+  private get accessibleName(): string {
+    return this.label || loomiT("progress.label", {}, this.locale);
+  }
+
   private get text(): string {
     return `${this.prefix}${this.pct}%${this.suffix ? " " + this.suffix : ""}`;
   }
@@ -46,7 +54,7 @@ export class LoomiProgressBar extends LoomiElement {
       : nothing;
     return html`<div class="loomi-bar-wrap" style=${accentVars(this.color)}>
       ${vpos === "top" ? labelEl : nothing}
-      <div class="loomi-track ${this.showLabel && this.inline ? "has-label" : ""}" role="progressbar" aria-valuenow=${this.pct} aria-valuemin="0" aria-valuemax="100">
+      <div class="loomi-track ${this.showLabel && this.inline ? "has-label" : ""}" role="progressbar" aria-label=${this.accessibleName} aria-valuenow=${this.pct} aria-valuemin="0" aria-valuemax="100">
         <div class="loomi-fill ${this.shade === "dark" ? "dark" : ""} ${this.striped ? "striped" : ""} ${this.animated ? "animated" : ""}" style="width:${this.pct}%">
           ${this.showLabel && this.inline ? html`<span class="loomi-fill-label">${this.pct}%</span>` : nothing}
         </div>
@@ -73,6 +81,14 @@ export class LoomiProgressCircle extends LoomiElement {
   @property({ type: Boolean, attribute: "show-label" }) showLabel = false;
   @property({ type: Boolean, attribute: "show-percent" }) showPercent = false;
   @property({ type: Number, attribute: "circle-width" }) circleWidth = 10;
+  /** Accessible name for the progress circle. Falls back to a translated "Progress". */
+  @property() label = "";
+  @property() locale = "";
+
+  /** A `role="progressbar"` with no name is unusable in a screen reader's landmark list. */
+  private get accessibleName(): string {
+    return this.label || loomiT("progress.label", {}, this.locale);
+  }
 
   private get pct(): number {
     return Math.min(100, Math.max(0, this.percentage));
@@ -87,7 +103,7 @@ export class LoomiProgressCircle extends LoomiElement {
     const offset = circ * (1 - this.pct / 100);
     const px = this.px;
     return html`<div class="loomi-circle" style=${accentVars(this.color) + `width:${px}px;height:${px}px`}>
-      <svg width=${px} height=${px} viewBox="0 0 100 100" role="progressbar" aria-valuenow=${this.pct} aria-valuemin="0" aria-valuemax="100">
+      <svg width=${px} height=${px} viewBox="0 0 100 100" role="progressbar" aria-label=${this.accessibleName} aria-valuenow=${this.pct} aria-valuemin="0" aria-valuemax="100">
         <circle class="track" cx="50" cy="50" r=${r} fill="none" stroke-width=${this.circleWidth}></circle>
         <circle class="bar ${this.shade === "dark" ? "dark" : ""}" cx="50" cy="50" r=${r} fill="none" stroke-width=${this.circleWidth}
           stroke-dasharray=${circ} stroke-dashoffset=${offset}></circle>
@@ -231,8 +247,20 @@ export class LoomiProgressSteps extends LoomiElement {
   @property({ type: Boolean }) clickable = false;
 
   private get steps(): LoomiProgressStep[] {
+    // Light DOM is not readable during server rendering; hydration fills this in on the client.
+    if (isServer) return [];
     return Array.from(this.querySelectorAll("loomi-progress-step"));
   }
+
+  /**
+   * Steps whose state the author set themselves, recorded the first time each step is
+   * seen. It cannot be re-derived from attributes on every sync: `active`, `completed`
+   * and `error` all reflect, so the state this group writes becomes an attribute, and a
+   * later sync would read its own output back as author intent — freezing every step at
+   * whatever the first render produced and leaving `current` unable to move.
+   */
+  private authoredState = new WeakSet<LoomiProgressStep>();
+  private seenSteps = new WeakSet<LoomiProgressStep>();
 
   private hasExplicitState(step: LoomiProgressStep): boolean {
     return (
@@ -246,6 +274,10 @@ export class LoomiProgressSteps extends LoomiElement {
   private syncSteps = (): void => {
     const steps = this.steps;
     steps.forEach((step, index) => {
+      if (!this.seenSteps.has(step)) {
+        this.seenSteps.add(step);
+        if (this.hasExplicitState(step)) this.authoredState.add(step);
+      }
       const stepNumber = index + 1;
       step.stepIndex = stepNumber;
       step.last = stepNumber === steps.length;
@@ -254,7 +286,7 @@ export class LoomiProgressSteps extends LoomiElement {
       step.size = this.size;
       if (!step.hasAttribute("clickable")) step.clickable = this.clickable;
 
-      if (!this.hasExplicitState(step)) {
+      if (!this.authoredState.has(step)) {
         step.completed = stepNumber < this.current;
         step.active = stepNumber === this.current;
         step.error = false;

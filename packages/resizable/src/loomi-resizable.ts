@@ -42,9 +42,26 @@ function getDirectLayoutChildren(
 }
 
 export function findResizablePanelGroup(el: Element | null): LoomiResizablePanelGroup | null {
+  // The group's constructor is looked up through the registry rather than
+  // referenced directly.
+  //
+  // `@customElement` registers each element as its class is evaluated, so
+  // `<loomi-resizable-panel>` upgrades — and runs this from `connectedCallback`
+  // — while `LoomiResizablePanelGroup`, declared later in this module, is still
+  // in its temporal dead zone. Naming it here threw `ReferenceError: Cannot
+  // access 'LoomiResizablePanelGroup' before initialization` on every load.
+  //
+  // `customElements.get` simply returns `undefined` until the group is defined,
+  // so an early panel gets `null` and its optional call short-circuits; the
+  // group syncs the layout itself once it upgrades a moment later. Keeping
+  // `instanceof` against the registered constructor still excludes elements
+  // that merely have the right tag but have not been upgraded yet.
+  const groupConstructor = customElements.get("loomi-resizable-panel-group");
+  if (!groupConstructor) return null;
+
   let node: Element | null = el;
   while (node) {
-    if (node instanceof LoomiResizablePanelGroup) return node;
+    if (node instanceof groupConstructor) return node as LoomiResizablePanelGroup;
     node = node.parentElement;
   }
   return null;
@@ -160,7 +177,27 @@ export class LoomiResizableHandle extends LoomiElement {
     this.dataset.orientation = orientation;
     this.setAttribute("aria-orientation", orientation === "horizontal" ? "vertical" : "horizontal");
     this.setAttribute("role", "separator");
+    // A focusable separator is a window splitter, and ARIA requires a current value on
+    // it. Panels are sized in percentages, so the handle reports how much of the group
+    // the panel before it occupies. applyLayout() re-runs this for every registered
+    // handle, so the value stays current through drags and programmatic layout changes.
+    this.setAttribute("aria-valuenow", String(Math.round(this.valuePercent(group))));
+    this.setAttribute("aria-valuemin", "0");
+    this.setAttribute("aria-valuemax", "100");
     this.setAttribute("tabindex", this.disabled ? "-1" : "0");
+  }
+
+  /**
+   * Size, in percent of the group, of the panel immediately before this handle — the
+   * value a window splitter reports. Falls back to 50 for a handle that is not between
+   * two panels yet (or at all), which keeps `aria-valuenow` present and in range rather
+   * than emitting an invalid value.
+   */
+  private valuePercent(group: LoomiResizablePanelGroup | null): number {
+    if (!group) return 50;
+    const indexes = this.getAdjacentPanelIndexes(group);
+    if (!indexes) return 50;
+    return group.panels[indexes[0]]?.effectiveSize ?? 50;
   }
 
   getAdjacentPanelIndexes(group: LoomiResizablePanelGroup): [number, number] | null {

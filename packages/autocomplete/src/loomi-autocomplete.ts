@@ -187,6 +187,8 @@ export class LoomiAutocomplete extends LoomiElement {
 
   private internals = this.attachInternals();
   private cleanup?: () => void;
+  private initialValue = "";
+  private initialSelectedValue = "";
 
   @property({ reflect: true }) name = "";
   @property() label = "";
@@ -222,6 +224,14 @@ export class LoomiAutocomplete extends LoomiElement {
   @query("input") private inputEl?: HTMLInputElement;
   private suppressValueDisplaySync = false;
 
+  override connectedCallback(): void {
+    if (!this.hasUpdated) {
+      this.initialSelectedValue = this.selectedValue;
+      this.initialValue = this.value || this.selectedValue;
+    }
+    super.connectedCallback();
+  }
+
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.cleanup?.();
@@ -256,6 +266,16 @@ export class LoomiAutocomplete extends LoomiElement {
 
   override focus(): void {
     this.inputEl?.focus();
+  }
+
+  formResetCallback(): void {
+    this.value = this.initialValue;
+    this.selectedValue = this.initialSelectedValue;
+    this.displayValue = "";
+    this.selectedImage = "";
+    this.open = false;
+    this.activeIndex = -1;
+    this.invalid = false;
   }
 
   /** Clear the field and reopen the suggestion panel. */
@@ -409,6 +429,7 @@ export class LoomiAutocomplete extends LoomiElement {
           ?disabled=${this.disabled}
           ?readonly=${this.readonly}
           ?required=${this.required}
+          role="combobox"
           aria-autocomplete="list"
           aria-expanded=${this.open ? "true" : "false"}
           aria-label=${hasLabel ? this.label : nothing}

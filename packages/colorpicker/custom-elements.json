@@ -22,6 +22,22 @@
             "name": "LoomiColorpickerSize",
             "module": "./loomi-colorpicker.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiColorpickerChangeDetail",
+          "declaration": {
+            "name": "LoomiColorpickerChangeDetail",
+            "module": "./loomi-colorpicker.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiColorpickerEventMap",
+          "declaration": {
+            "name": "LoomiColorpickerEventMap",
+            "module": "./loomi-colorpicker.js"
+          }
         }
       ]
     },
@@ -47,6 +63,15 @@
               "kind": "field",
               "name": "internals",
               "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "initialSelectedValue",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"#000000\""
             },
             {
               "kind": "field",
@@ -129,6 +154,15 @@
                 "text": "() => void | undefined"
               },
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
             },
             {
               "kind": "field",

@@ -584,12 +584,6 @@
           ],
           "events": [
             {
-              "name": "type",
-              "type": {
-                "text": "CustomEvent"
-              }
-            },
-            {
               "name": "loomi-flip",
               "type": {
                 "text": "CustomEvent"

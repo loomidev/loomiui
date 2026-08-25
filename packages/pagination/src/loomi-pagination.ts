@@ -99,13 +99,24 @@ export class LoomiPagination extends LoomiElement {
 
   private btn(
     content: TemplateResult | string,
-    opts: { disabled?: boolean; active?: boolean; onClick: () => void },
+    opts: { disabled?: boolean; active?: boolean; onClick: () => void; label?: string },
   ): TemplateResult {
+    // Numbered buttons name themselves through their text; the prev/next arrows are
+    // icon-only (the svg is aria-hidden), so they need an explicit label or they reach
+    // assistive tech as unlabelled buttons.
     return html`<button
       class="loomi-page ${opts.active ? "active" : ""}"
+      aria-label=${opts.label ?? nothing}
       ?disabled=${opts.disabled}
       @click=${opts.onClick}
     >${content}</button>`;
+  }
+
+  private get prevLabel(): string {
+    return loomiT("pagination.previous", {}, this.locale);
+  }
+  private get nextLabel(): string {
+    return loomiT("pagination.next", {}, this.locale);
   }
 
   private renderControls(): TemplateResult {
@@ -118,38 +129,38 @@ export class LoomiPagination extends LoomiElement {
 
     if (paginationStyle === "dropdown") {
       return html`<span class="loomi-controls">
-        ${this.btn(prev, { disabled: this.page <= 1, onClick: () => this.go(this.page - 1) })}
-        <select class="loomi-select" .value=${String(this.page)} @change=${(e: Event) => this.go(Number((e.target as HTMLSelectElement).value))}>
+        ${this.btn(prev, { disabled: this.page <= 1, label: this.prevLabel, onClick: () => this.go(this.page - 1) })}
+        <select class="loomi-select" aria-label=${loomiT("pagination.selectPage", {}, this.locale)} .value=${String(this.page)} @change=${(e: Event) => this.go(Number((e.target as HTMLSelectElement).value))}>
           ${Array.from({ length: this.pageCount }, (_, i) => i + 1).map(
             (p) =>
               html`<option value=${p} ?selected=${p === this.page}>${loomiT("pagination.pageOf", { page: p, pages: this.pageCount }, this.locale)}</option>`,
           )}
         </select>
-        ${this.btn(next, { disabled: this.page >= this.pageCount, onClick: () => this.go(this.page + 1) })}
+        ${this.btn(next, { disabled: this.page >= this.pageCount, label: this.nextLabel, onClick: () => this.go(this.page + 1) })}
       </span>`;
     }
 
     if (paginationStyle === "numbers") {
       return html`<span class="loomi-controls">
-        ${this.btn(prev, { disabled: this.page <= 1, onClick: () => this.go(this.page - 1) })}
+        ${this.btn(prev, { disabled: this.page <= 1, label: this.prevLabel, onClick: () => this.go(this.page - 1) })}
         ${this.numbers().map((p) =>
           p === "…"
             ? html`<span class="loomi-ellipsis">…</span>`
             : this.btn(String(p), { active: p === this.page, onClick: () => this.go(p) }),
         )}
-        ${this.btn(next, { disabled: this.page >= this.pageCount, onClick: () => this.go(this.page + 1) })}
+        ${this.btn(next, { disabled: this.page >= this.pageCount, label: this.nextLabel, onClick: () => this.go(this.page + 1) })}
       </span>`;
     }
 
     // arrows
     return html`<span class="loomi-controls">
-      ${this.btn(prev, { disabled: this.page <= 1, onClick: () => this.go(this.page - 1) })}
+      ${this.btn(prev, { disabled: this.page <= 1, label: this.prevLabel, onClick: () => this.go(this.page - 1) })}
       ${
         showPageNumber
           ? html`<span class="loomi-total">${showTotalPages ? `${this.page} / ${this.pageCount}` : this.page}</span>`
           : nothing
       }
-      ${this.btn(next, { disabled: this.page >= this.pageCount, onClick: () => this.go(this.page + 1) })}
+      ${this.btn(next, { disabled: this.page >= this.pageCount, label: this.nextLabel, onClick: () => this.go(this.page + 1) })}
     </span>`;
   }
 

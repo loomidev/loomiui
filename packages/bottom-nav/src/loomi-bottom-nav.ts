@@ -1,4 +1,4 @@
-import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
+import { html, nothing, type PropertyValues, type TemplateResult, isServer } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomidev/core";
@@ -221,6 +221,8 @@ export class LoomiBottomNav extends LoomiElement {
   @property({ type: Boolean, attribute: "mobile-only", reflect: true }) mobileOnly = false;
 
   private get items(): LoomiBottomNavItem[] {
+    // Light DOM is not readable during server rendering; hydration fills this in on the client.
+    if (isServer) return [];
     return Array.from(this.querySelectorAll<LoomiBottomNavItem>("loomi-bottom-nav-item"));
   }
 

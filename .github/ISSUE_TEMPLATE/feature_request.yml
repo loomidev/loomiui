@@ -36,3 +36,51 @@ body:
       label: Alternatives considered
     validations:
       required: false
+
+  - type: dropdown
+    id: release
+    attributes:
+      label: Target release
+      description: Select Unscheduled when this request has not yet been assigned to the roadmap.
+      options:
+        - Unscheduled
+        - v0.1 Foundation
+        - v0.2 Core Platform
+        - v0.3 Alpha
+        - v0.4 Beta
+        - v0.5 Release Candidate
+        - v1.0 Production
+        - v1.1 Enhancements
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Roadmap area
+      options:
+        - Frontend
+        - Design System
+        - Accessibility
+        - Localization
+        - Testing
+        - Build Tooling
+        - Developer Experience
+        - Documentation
+        - Security
+        - Infrastructure
+        - Analytics
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - Low
+        - Medium
+        - High
+        - Critical
+    validations:
+      required: true

@@ -68,11 +68,11 @@
   background: var(--loomi-surface-hover);
 }
 .loomi-step.dec {
-  border-right: 1px solid var(--loomi-surface-border);
+  border-inline-end: 1px solid var(--loomi-surface-border);
   border-radius: 0.5rem 0 0 0.5rem;
 }
 .loomi-step.inc {
-  border-left: 1px solid var(--loomi-surface-border);
+  border-inline-start: 1px solid var(--loomi-surface-border);
   border-radius: 0 0.5rem 0.5rem 0;
 }
 .loomi-icon {
@@ -101,7 +101,8 @@
 .loomi-input:not(:placeholder-shown) ~ .loomi-label,
 .force-float .loomi-label {
   top: 0;
-  transform: translateY(-50%) scale(0.85);
+  /* Number text is centered; shift the floated label clear of the value. */
+  transform: translate(-2.1875rem, -50%) scale(0.85);
   color: var(--loomi-primary-600);
 }
 :host([invalid]) .loomi-input:focus ~ .loomi-label,
@@ -110,5 +111,5 @@
 }
 .loomi-req {
   color: var(--loomi-error-500);
-  margin-left: 0.15rem;
+  margin-inline-start: 0.15rem;
 }

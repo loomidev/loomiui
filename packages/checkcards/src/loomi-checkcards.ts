@@ -77,9 +77,27 @@ export class LoomiCheckcards extends LoomiElement {
 
   private selected: string[] = [];
   private initialized = false;
+  private initialSelectedValue = "";
 
   private get cards(): LoomiCheckcard[] {
     return Array.from(this.querySelectorAll("loomi-checkcard"));
+  }
+
+  override connectedCallback(): void {
+    if (!this.hasUpdated) this.initialSelectedValue = this.selectedValue;
+    super.connectedCallback();
+  }
+
+  formResetCallback(): void {
+    this.selectedValue = this.initialSelectedValue;
+    this.selected = this.initialSelectedValue
+      ? this.initialSelectedValue
+          .split(",")
+          .map((value) => value.trim())
+          .filter(Boolean)
+      : [];
+    this.internals.setFormValue(this.selected.join(","));
+    this.sync();
   }
 
   override willUpdate(): void {

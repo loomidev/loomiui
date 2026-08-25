@@ -22,6 +22,22 @@
             "name": "LoomiCropAspectRatio",
             "module": "./loomi-filepicker.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiFilepickerChangeDetail",
+          "declaration": {
+            "name": "LoomiFilepickerChangeDetail",
+            "module": "./loomi-filepicker.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiFilepickerEventMap",
+          "declaration": {
+            "name": "LoomiFilepickerEventMap",
+            "module": "./loomi-filepicker.js"
+          }
         }
       ]
     },
@@ -358,6 +374,15 @@
                 }
               },
               "description": "Clears the current selection and resyncs the underlying `<input>`/form value. Call\nthis before `open()` when re-picking should replace rather than append — `add()`\nstops accepting new files once `max-files` is reached, so a `max-files=\"1\"` picker\n(the common case for `stealth`) would otherwise ignore a second pick."
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
             },
             {
               "kind": "method",

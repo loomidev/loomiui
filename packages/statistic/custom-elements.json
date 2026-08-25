@@ -183,15 +183,6 @@
                 "text": "() => void | undefined"
               },
               "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "hasIcon",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "readonly": true
             }
           ],
           "attributes": [

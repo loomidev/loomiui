@@ -72,13 +72,13 @@
 .placement-top::after {
   top: 100%;
   left: 50%;
-  margin-left: -6px;
+  margin-inline-start: -6px;
   border-top-color: var(--_loomi-tooltip-bg);
 }
 .placement-bottom::after {
   bottom: 100%;
   left: 50%;
-  margin-left: -6px;
+  margin-inline-start: -6px;
   border-bottom-color: var(--_loomi-tooltip-bg);
 }
 .placement-left::after {

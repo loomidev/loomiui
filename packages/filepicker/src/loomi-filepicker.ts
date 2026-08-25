@@ -167,6 +167,15 @@ export class LoomiFilepicker extends LoomiElement {
     this.syncInput();
   }
 
+  formResetCallback(): void {
+    this.files = [];
+    this.over = false;
+    this.validationVisible = false;
+    this.invalid = false;
+    if (this.input) this.input.value = "";
+    this.syncFormValue();
+  }
+
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     window.removeEventListener("pointermove", this.onCropPointerMove);
@@ -588,6 +597,7 @@ export class LoomiFilepicker extends LoomiElement {
         <input
           class="loomi-native"
           type="file"
+          aria-label=${loomiT("filepicker.chooseFiles", {}, this.locale)}
           name=${(this.name ? (this.maxFiles > 1 ? this.name + "[]" : this.name) : "") || nothing}
           accept=${this.acceptedFileTypes}
           ?multiple=${this.maxFiles > 1}
@@ -623,6 +633,17 @@ export class LoomiFilepicker extends LoomiElement {
       ${this.renderCropModal()}
     </div>`;
   }
+}
+
+export interface LoomiFilepickerChangeDetail {
+  /** The full current selection, not just the files added by this change. */
+  files: File[];
+}
+
+/** Event map for `<loomi-filepicker>`. `change` carries a filepicker-specific detail,
+ * so it is typed per package instead of globally on `HTMLElementEventMap`. */
+export interface LoomiFilepickerEventMap {
+  change: CustomEvent<LoomiFilepickerChangeDetail>;
 }
 
 declare global {

@@ -295,10 +295,23 @@ See `grid-module.ts` for the full hook list: `transformRows`,
 
 ## React usage
 
-React apps should use `@loomidev/react (planned)` once the wrapper for this
-component is implemented. The wrapper should pass arrays/objects as DOM
-properties and map custom events to callbacks — it should not reimplement
-grid rendering or behavior.
+React apps should use the `DataGrid` wrapper from `@loomidev/react`. It passes
+`columns`, `data`, and the other arrays and objects as DOM properties, and maps
+each custom event to a typed callback prop:
+
+```tsx
+import { DataGrid } from "@loomidev/react/data-grid";
+
+<DataGrid
+  selectable
+  columns={columns}
+  data={rows}
+  onLoomiSelectionChange={(event) => console.log(event.detail.selectedRows)}
+/>;
+```
+
+Importing from `@loomidev/react/data-grid` registers only this element; the
+package root registers every LoomiUI component.
 
 ## Events
 

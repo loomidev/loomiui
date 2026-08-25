@@ -1,4 +1,4 @@
-export { LoomiCalendar } from "./loomi-calendar.js";
+export { LoomiCalendar, type LoomiCalendarEventMap } from "./loomi-calendar.js";
 export type {
   CalendarDateChangeDetail,
   CalendarEvent,
@@ -12,6 +12,11 @@ export type {
   CalendarEventReminder,
   CalendarEventRecurrence,
   CalendarInviteeStatus,
+  CalendarReminder,
+  CalendarReminderChangeDetail,
+  CalendarReminderClickDetail,
+  CalendarReminderCreateDetail,
+  CalendarReminderDeleteDetail,
   CalendarResource,
   CalendarSidebarToggleDetail,
   CalendarSlotSelectDetail,

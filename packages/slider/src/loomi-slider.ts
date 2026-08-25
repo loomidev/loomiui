@@ -39,6 +39,8 @@ export class LoomiSlider extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
   static formAssociated = true;
   private internals = this.attachInternals();
+  private initialSelected = 0;
+  private initialSelectedEnd = 100;
 
   @property({ reflect: true }) name = "";
   @property() color: LoomiColor = "primary" as LoomiColor;
@@ -73,6 +75,21 @@ export class LoomiSlider extends LoomiElement {
    * be told apart from a drag (movement) in `onInput`. */
   private movedSincePointerDown = false;
   private clickAnimationTimer?: ReturnType<typeof setTimeout>;
+
+  override connectedCallback(): void {
+    if (!this.hasUpdated) {
+      this.initialSelected = this.selected;
+      this.initialSelectedEnd = this.selectedEnd;
+    }
+    super.connectedCallback();
+  }
+
+  formResetCallback(): void {
+    this.selected = this.initialSelected;
+    this.selectedEnd = this.initialSelectedEnd;
+    this.revealed = true;
+    this.animatingClick = false;
+  }
 
   override willUpdate(): void {
     this.internals.setFormValue(this.value);
@@ -291,6 +308,13 @@ export class LoomiSlider extends LoomiElement {
       </div>
     </div>`;
   }
+}
+
+/** Event map for `<loomi-slider>`. Both are plain `Event`s; read `value` off the
+ * element itself. `input` fires while dragging, `change` once the drag settles. */
+export interface LoomiSliderEventMap {
+  input: Event;
+  change: Event;
 }
 
 declare global {

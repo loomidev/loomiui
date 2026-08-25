@@ -1,6 +1,26 @@
 packages:
   - "packages/*"
+linkWorkspacePackages: true
+preferWorkspacePackages: true
+autoInstallPeers: true
+strictPeerDependencies: false
 allowBuilds:
-  '@parcel/watcher': true
+  "@parcel/watcher": true
   esbuild: true
   puppeteer: true
+  rs-module-lexer: true
+
+# Security advisories in transitive dependencies whose parents have not yet
+# released a bump. Drop an entry once the parent dependency ships the fix.
+overrides:
+  "@hono/node-server": ^1.19.17
+  # v3 replaced extract-zip (unpatched symlink path traversal, GHSA-jmr9-qjv8-65gv) with
+  # modern-tar. puppeteer-core still asks for ^2, but nothing here drives the Chrome
+  # launcher — the test runner uses Playwright — and the full suite passes on v3.
+  "@puppeteer/browsers": ^3.2.1
+  esbuild: ^0.28.1
+  hono: ^4.12.34
+  fast-uri: ^3.1.5
+  js-yaml@3: ^3.15.1
+  js-yaml@4: ^4.3.1
+  ip-address: ^10.3.1
