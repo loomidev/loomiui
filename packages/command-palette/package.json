@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/command-palette",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "<loomi-command-palette> — a keyboard-first navigation and action launcher.",
   "repository": {
     "type": "git",

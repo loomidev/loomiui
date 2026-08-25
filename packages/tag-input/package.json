@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/tag-input",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "<loomi-tag-input> — a form-associated tag entry field styled like loomi-input.",
   "repository": {
     "type": "git",

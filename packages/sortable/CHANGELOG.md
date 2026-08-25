@@ -1,5 +1,38 @@
 # @loomidev/sortable
 
+## 0.4.0
+
+### Minor Changes
+
+- 9344aad: Export a typed `EventMap` (and named detail interfaces) from fourteen more component
+  packages. `@loomidev/react` derives each `on*` callback's type from these, so events on
+  these components now carry a typed `detail` instead of falling back to `any`.
+
+### Patch Changes
+
+- 9344aad: Restore every form-associated control to its initial state through native form resets,
+  document submitted value formats, and add generated React 18 and React 19 JSX types.
+- 9344aad: Support server-side rendering. Every component now renders to Declarative Shadow DOM
+  under `@lit-labs/ssr`, so a page can ship real, styled markup before any JavaScript runs
+  — from Astro, Nuxt or Next.js, or as static HTML served by Rails, Laravel or Django.
+
+  Sixteen components previously threw when rendered without a DOM, because they read light
+  DOM children, measured layout, or wrote inline styles on the host during `render()`.
+  Those reads are now guarded with lit's `isServer`. Components that derive content from
+  light-DOM children (`<loomi-select>` with `<option>` elements, `<loomi-tabs>`,
+  `<loomi-table>` with a `<template slot="row">`) render without that content on the server
+  and fill it in at hydration; passing the same data through properties server-renders.
+
+  `<loomi-timepicker>`'s clock stylesheet is now interpolated as a static value rather than
+  a binding, since lit-html cannot bind inside a `<style>` element.
+
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+  - @loomidev/core@0.4.0
+  - @loomidev/icons@0.4.0
+
 ## 0.3.0
 
 ### Patch Changes

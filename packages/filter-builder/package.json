@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/filter-builder",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "<loomi-filter-builder> — a structured filter editor for tables, reports, and server-side query workflows.",
   "repository": {
     "type": "git",

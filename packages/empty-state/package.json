@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/empty-state",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "<loomi-empty-state> — a friendly placeholder for empty content.",
   "repository": {
     "type": "git",

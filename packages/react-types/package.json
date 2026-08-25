@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/react-types",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "TypeScript JSX declarations for using LoomiUI custom elements in React 18 and React 19.",
   "repository": {
     "type": "git",
