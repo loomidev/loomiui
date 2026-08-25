@@ -1,5 +1,11 @@
 # @loomidev/filter-builder
 
+## 0.3.0
+
+### Patch Changes
+
+- @loomidev/core@0.3.0
+
 ## 0.2.0
 
 ### Minor Changes

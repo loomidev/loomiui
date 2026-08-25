@@ -1,5 +1,17 @@
 # @loomidev/chat
 
+## 0.3.0
+
+### Patch Changes
+
+- @loomidev/avatar@0.3.0
+- @loomidev/button@0.3.0
+- @loomidev/core@0.3.0
+- @loomidev/dropmenu@0.3.0
+- @loomidev/icon@0.3.0
+- @loomidev/spinner@0.3.0
+- @loomidev/tooltip@0.3.0
+
 ## 0.2.0
 
 ### Minor Changes

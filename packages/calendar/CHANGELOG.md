@@ -1,5 +1,22 @@
 # @loomidev/calendar
 
+## 0.3.0
+
+### Patch Changes
+
+- @loomidev/context-menu@0.3.0
+- @loomidev/core@0.3.0
+- @loomidev/datepicker@0.3.0
+- @loomidev/dropmenu@0.3.0
+- @loomidev/input@0.3.0
+- @loomidev/modal@0.3.0
+- @loomidev/select@0.3.0
+- @loomidev/tag-input@0.3.0
+- @loomidev/textarea@0.3.0
+- @loomidev/timepicker@0.3.0
+- @loomidev/toggle@0.3.0
+- @loomidev/tooltip@0.3.0
+
 ## 0.2.0
 
 ### Minor Changes

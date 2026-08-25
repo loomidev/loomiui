@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/radio",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "<loomi-radio> — a themeable radio-button web component with name-based grouping.",
   "repository": {
     "type": "git",

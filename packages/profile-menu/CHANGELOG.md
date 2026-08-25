@@ -1,5 +1,21 @@
 # @loomidev/profile-menu
 
+## 0.3.0
+
+### Minor Changes
+
+- 868d518: Add an `avatar-position` attribute to `<loomi-profile-menu>`. Set it to `right` to put
+  the avatar after the name and description, with the chevron still trailing.
+
+### Patch Changes
+
+- @loomidev/avatar@0.3.0
+- @loomidev/card@0.3.0
+- @loomidev/core@0.3.0
+- @loomidev/dropmenu@0.3.0
+- @loomidev/icons@0.3.0
+- @loomidev/theme@0.3.0
+
 ## 0.2.0
 
 ### Minor Changes

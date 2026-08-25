@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/textarea",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "<loomi-textarea> — a themeable multi-line text input web component with floating labels.",
   "repository": {
     "type": "git",
