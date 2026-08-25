@@ -12,6 +12,13 @@ function pngFile(name = "pixel.png"): File {
   return new File([bytes], name, { type: "image/png" });
 }
 
+// The crop flow runs a file read, an image decode and a canvas export before the change
+// event lands. That is comfortably under a second on a warm machine and comfortably over
+// it on a loaded CI runner — WebKit especially — so these waits get a budget just under
+// the 10s test timeout rather than waitUntil's 1s default. Mocha stays the thing that
+// reports a genuine hang.
+const CROP_WAIT = { timeout: 8000 };
+
 describe("loomi-avatar", () => {
   afterEach(() => {
     // The avatar's internal filepicker portals its crop dialog to document.body — same
@@ -84,7 +91,7 @@ describe("loomi-avatar", () => {
     expect(av.getAttribute("role")).to.equal("button");
     expect(av.getAttribute("tabindex")).to.equal("0");
 
-    await waitUntil(() => el.shadowRoot!.querySelector(".loomi-edit-fp"));
+    await waitUntil(() => el.shadowRoot!.querySelector(".loomi-edit-fp"), undefined, CROP_WAIT);
     const fp = el.shadowRoot!.querySelector(".loomi-edit-fp") as LoomiFilepicker;
     expect(fp.stealth).to.be.true;
     expect(fp.crop).to.be.true;
@@ -93,7 +100,7 @@ describe("loomi-avatar", () => {
 
   it("swaps in the cropped image and fires change after a pick", async () => {
     const el = await fixture<LoomiAvatar>(html`<loomi-avatar label="MK" editable></loomi-avatar>`);
-    await waitUntil(() => el.shadowRoot!.querySelector(".loomi-edit-fp"));
+    await waitUntil(() => el.shadowRoot!.querySelector(".loomi-edit-fp"), undefined, CROP_WAIT);
     const fp = el.shadowRoot!.querySelector(".loomi-edit-fp") as LoomiFilepicker;
 
     let detail: { file: File; image: string } | undefined;
@@ -105,14 +112,18 @@ describe("loomi-avatar", () => {
     input.files = dt.files;
     input.dispatchEvent(new Event("change", { bubbles: true }));
 
-    await waitUntil(() => (document.querySelector(".loomi-crop-modal") as LoomiModal | null)?.open);
+    await waitUntil(
+      () => (document.querySelector(".loomi-crop-modal") as LoomiModal | null)?.open,
+      undefined,
+      CROP_WAIT,
+    );
     const modal = document.querySelector(".loomi-crop-modal") as LoomiModal;
     const okBtn = modal.shadowRoot!.querySelector(
       ".loomi-footer loomi-button:not([type='secondary'])",
     ) as HTMLElement;
     okBtn.click();
 
-    await waitUntil(() => !!detail);
+    await waitUntil(() => !!detail, undefined, CROP_WAIT);
     expect(detail!.file.type).to.equal("image/png");
     expect(el.image).to.equal(detail!.image);
     expect(el.image.startsWith("blob:")).to.be.true;
