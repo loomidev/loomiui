@@ -86,3 +86,28 @@ jobs:
         run: pnpm audit:quality
       - name: README quality sections up to date
         run: pnpm quality:readmes && git diff --exit-code -- packages
+
+      # CI notification. Every run on main, and only failures on pull requests — a green
+      # PR run is already visible on the PR itself, and posting each one would drown the
+      # channel in noise nobody acts on. The webhook is a secret (a bearer credential:
+      # holding the URL is enough to post), and a run without it skips rather than fails,
+      # so pull requests from forks do not go red over a missing secret.
+      - name: Notify Slack
+        if: always() && (github.ref_name == 'main' || job.status == 'failure')
+        env:
+          WEBHOOK: ${{ secrets.SLACK_CI_WEBHOOK }}
+          STATUS: ${{ job.status }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          WHERE: ${{ github.event_name == 'pull_request' && format('PR #{0}', github.event.number) || github.ref_name }}
+          TITLE: ${{ github.event.pull_request.title || github.event.head_commit.message }}
+        run: |
+          [ -n "$WEBHOOK" ] || { echo "No SLACK_CI_WEBHOOK configured; skipping."; exit 0; }
+          case "$STATUS" in
+            success) icon=":white_check_mark:" ;;
+            cancelled) icon=":black_square_for_stop:" ;;
+            *) icon=":x:" ;;
+          esac
+          # First line only: a commit body would otherwise paste a whole message into chat.
+          headline=$(printf '%s' "$TITLE" | head -1)
+          jq -n --arg text "$icon *CI $STATUS* on \`$WHERE\` — $headline (<$RUN_URL|run log>)" '{text: $text}' |
+            curl -sS --fail-with-body -X POST -H 'Content-type: application/json' --data @- "$WEBHOOK"
