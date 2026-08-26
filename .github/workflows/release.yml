@@ -5,9 +5,14 @@ on:
     branches:
       - main
 
+# Never cancel a release in flight. CI can be interrupted freely — it only recomputes an
+# answer — but this job publishes to npm, and npm versions are immutable: a run killed
+# part-way through leaves some packages published at the new version and the rest behind,
+# with no way to take the published ones back. Queue instead, so a merge that lands during
+# a publish waits its turn.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   release:
