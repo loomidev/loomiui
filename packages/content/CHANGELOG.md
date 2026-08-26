@@ -1,5 +1,39 @@
 # @loomidev/content
 
+## 0.4.1
+
+### Patch Changes
+
+- @loomidev/accordion@0.4.1
+- @loomidev/arc-meter@0.4.1
+- @loomidev/avatar@0.4.1
+- @loomidev/calendar@0.4.1
+- @loomidev/card@0.4.1
+- @loomidev/centered-content@0.4.1
+- @loomidev/chart@0.4.1
+- @loomidev/chat@0.4.1
+- @loomidev/contact-card@0.4.1
+- @loomidev/data-grid@0.4.1
+- @loomidev/divider@0.4.1
+- @loomidev/empty-state@0.4.1
+- @loomidev/horizontal-line-graph@0.4.1
+- @loomidev/lightbox@0.4.1
+- @loomidev/listview@0.4.1
+- @loomidev/photo-gallery@0.4.1
+- @loomidev/popover@0.4.1
+- @loomidev/processing@0.4.1
+- @loomidev/progress@0.4.1
+- @loomidev/qrcode@0.4.1
+- @loomidev/rating@0.4.1
+- @loomidev/scroller@0.4.1
+- @loomidev/sortable@0.4.1
+- @loomidev/statistic@0.4.1
+- @loomidev/tag@0.4.1
+- @loomidev/timeline@0.4.1
+- @loomidev/timer@0.4.1
+- @loomidev/tooltip@0.4.1
+- @loomidev/video@0.4.1
+
 ## 0.4.0
 
 ### Patch Changes

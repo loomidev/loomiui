@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/text-editor",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "<loomi-text-editor> — a themeable rich-text editor web component with configurable tools, a floating label, and inline validation.",
   "repository": {
     "type": "git",

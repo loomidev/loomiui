@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/arc-meter",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "<loomi-arc-meter> — a semi-circle status meter with colored marker stops.",
   "repository": {
     "type": "git",

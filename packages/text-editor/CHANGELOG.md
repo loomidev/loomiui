@@ -1,5 +1,19 @@
 # @loomidev/text-editor
 
+## 0.4.1
+
+### Patch Changes
+
+- @loomidev/core@0.4.1
+- @loomidev/filepicker@0.4.1
+- @loomidev/icon@0.4.1
+- @loomidev/input@0.4.1
+- @loomidev/modal@0.4.1
+- @loomidev/notification@0.4.1
+- @loomidev/select@0.4.1
+- @loomidev/theme@0.4.1
+- @loomidev/tooltip@0.4.1
+
 ## 0.4.0
 
 ### Patch Changes

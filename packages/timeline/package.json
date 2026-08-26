@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/timeline",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "<loomi-timeline>/<loomi-timelines> — a chronological feed.",
   "repository": {
     "type": "git",

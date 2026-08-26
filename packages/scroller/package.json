@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/scroller",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "<loomi-scroller> — a seamless, configurable ticker for any slotted content.",
   "repository": {
     "type": "git",

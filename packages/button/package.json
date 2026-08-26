@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/button",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "<loomi-button> — a themeable, framework-agnostic button web component built with Lit.",
   "repository": {
     "type": "git",
