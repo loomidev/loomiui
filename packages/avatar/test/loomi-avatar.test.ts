@@ -108,6 +108,12 @@ describe("loomi-avatar", () => {
 
     await waitFor(() => (document.querySelector(".loomi-crop-modal") as LoomiModal | null)?.open);
     const modal = document.querySelector(".loomi-crop-modal") as LoomiModal;
+    // The dialog opens before the image inside it has loaded, and `applyCrop` returns
+    // without doing anything until that load handler has measured the image — no event,
+    // no closed modal, nothing to wait for. `.loomi-crop-rect` renders off the same
+    // measurement, so its presence is the signal that OK will actually do something.
+    // (@loomidev/filepicker's own crop test waits on it for the same reason.)
+    await waitFor(() => !!modal.querySelector(".loomi-crop-rect"));
     const okBtn = modal.shadowRoot!.querySelector(
       ".loomi-footer loomi-button:not([type='secondary'])",
     ) as HTMLElement;
