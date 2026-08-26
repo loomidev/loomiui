@@ -1,5 +1,11 @@
 # @loomidev/progress-steps
 
+## 0.4.1
+
+### Patch Changes
+
+- @loomidev/progress@0.4.1
+
 ## 0.4.0
 
 ### Patch Changes

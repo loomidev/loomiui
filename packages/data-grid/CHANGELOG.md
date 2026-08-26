@@ -1,5 +1,12 @@
 # @loomidev/data-grid
 
+## 0.4.1
+
+### Patch Changes
+
+- @loomidev/chart@0.4.1
+- @loomidev/core@0.4.1
+
 ## 0.4.0
 
 ### Minor Changes

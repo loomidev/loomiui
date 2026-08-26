@@ -1,5 +1,34 @@
 # @loomidev/forms
 
+## 0.4.1
+
+### Patch Changes
+
+- @loomidev/autocomplete@0.4.1
+- @loomidev/checkbox@0.4.1
+- @loomidev/checkcards@0.4.1
+- @loomidev/colorpicker@0.4.1
+- @loomidev/countries@0.4.1
+- @loomidev/creditcard@0.4.1
+- @loomidev/date-range-picker@0.4.1
+- @loomidev/datepicker@0.4.1
+- @loomidev/emoji-picker@0.4.1
+- @loomidev/filepicker@0.4.1
+- @loomidev/filter-builder@0.4.1
+- @loomidev/input@0.4.1
+- @loomidev/number@0.4.1
+- @loomidev/otp@0.4.1
+- @loomidev/password@0.4.1
+- @loomidev/radio@0.4.1
+- @loomidev/select@0.4.1
+- @loomidev/slider@0.4.1
+- @loomidev/tag-input@0.4.1
+- @loomidev/text-editor@0.4.1
+- @loomidev/textarea@0.4.1
+- @loomidev/timepicker@0.4.1
+- @loomidev/timezonepicker@0.4.1
+- @loomidev/toggle@0.4.1
+
 ## 0.4.0
 
 ### Patch Changes

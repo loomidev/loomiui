@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/timer",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "<loomi-timer> - animated count up/down timer.",
   "repository": {
     "type": "git",

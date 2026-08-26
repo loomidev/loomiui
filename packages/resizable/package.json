@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/resizable",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "<loomi-resizable-panel-group> — resizable split-pane layouts with draggable handles.",
   "repository": {
     "type": "git",

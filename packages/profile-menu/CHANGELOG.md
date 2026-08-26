@@ -1,5 +1,16 @@
 # @loomidev/profile-menu
 
+## 0.4.1
+
+### Patch Changes
+
+- @loomidev/avatar@0.4.1
+- @loomidev/card@0.4.1
+- @loomidev/core@0.4.1
+- @loomidev/dropmenu@0.4.1
+- @loomidev/icons@0.4.1
+- @loomidev/theme@0.4.1
+
 ## 0.4.0
 
 ### Minor Changes

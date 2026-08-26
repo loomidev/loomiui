@@ -1,5 +1,13 @@
 # @loomidev/contact-card
 
+## 0.4.1
+
+### Patch Changes
+
+- @loomidev/card@0.4.1
+- @loomidev/core@0.4.1
+- @loomidev/icons@0.4.1
+
 ## 0.4.0
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/date-range-picker",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "<loomi-date-range-picker> — a reporting-friendly range control for dashboards, tables, and billing views.",
   "repository": {
     "type": "git",

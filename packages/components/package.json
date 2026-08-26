@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/components",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "The whole loomi component library in one install. Re-exports every individual @loomidev/* component package.",
   "repository": {
     "type": "git",

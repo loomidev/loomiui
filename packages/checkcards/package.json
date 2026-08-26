@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/checkcards",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "<loomi-checkcards>/<loomi-checkcard> — selectable cards (prettier checkboxes).",
   "repository": {
     "type": "git",

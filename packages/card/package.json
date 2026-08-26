@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/card",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "shadcn/ui-style card primitives: loomi-card and loomi-card-* composition parts.",
   "repository": {
     "type": "git",

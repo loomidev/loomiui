@@ -1,5 +1,13 @@
 # @loomidev/date-range-picker
 
+## 0.4.1
+
+### Patch Changes
+
+- @loomidev/button@0.4.1
+- @loomidev/core@0.4.1
+- @loomidev/datepicker@0.4.1
+
 ## 0.4.0
 
 ### Patch Changes
