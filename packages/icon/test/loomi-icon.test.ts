@@ -1,20 +1,14 @@
-import { html, fixture, expect, waitUntil } from "@open-wc/testing";
+import { html, fixture, expect } from "@open-wc/testing";
+import { waitFor } from "../../../test/wait.js";
 import "../dist/loomi-icon.js";
 import type { LoomiIcon } from "../dist/index.js";
 
 // Disk-based icons resolve through two dynamic imports (the source's barrel, then the
-// icon module). The first one in a run pays for a cold dev-server transform, which on a
-// loaded CI runner comfortably exceeds waitUntil's 1s default even though the icon
-// arrives fine — so wait most of the 10s test timeout instead, and let mocha be the one
-// that reports a genuine hang.
+// icon module). The first pair in a run pays for a cold dev-server transform, which a
+// loaded CI runner does not always finish inside waitUntil's 1s default even though the
+// icon arrives fine — hence the shared budget.
 async function diskIconReady(el: LoomiIcon) {
-  await waitUntil(
-    () => (el.shadowRoot!.querySelector("svg")?.childElementCount ?? 0) > 0,
-    undefined,
-    {
-      timeout: 8000,
-    },
-  );
+  await waitFor(() => (el.shadowRoot!.querySelector("svg")?.childElementCount ?? 0) > 0);
 }
 
 describe("loomi-icon", () => {
