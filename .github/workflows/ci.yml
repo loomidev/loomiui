@@ -98,8 +98,11 @@ jobs:
           WEBHOOK: ${{ secrets.SLACK_CI_WEBHOOK }}
           STATUS: ${{ job.status }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          WHERE: ${{ github.event_name == 'pull_request' && format('PR #{0}', github.event.number) || github.ref_name }}
-          TITLE: ${{ github.event.pull_request.title || github.event.head_commit.message }}
+          # Quoted, both of them: an unquoted YAML scalar treats " #" as the start of a
+          # comment, so `format('PR #{0}', ...)` silently truncated to an unterminated
+          # ${{ expression and GitHub refused to load this workflow at all.
+          WHERE: "${{ github.event_name == 'pull_request' && format('PR #{0}', github.event.number) || github.ref_name }}"
+          TITLE: "${{ github.event.pull_request.title || github.event.head_commit.message }}"
         run: |
           [ -n "$WEBHOOK" ] || { echo "No SLACK_CI_WEBHOOK configured; skipping."; exit 0; }
           case "$STATUS" in
