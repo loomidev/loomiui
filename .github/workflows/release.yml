@@ -69,6 +69,7 @@ jobs:
         run: pnpm build
 
       - name: Create release PR or publish
+        id: changesets
         uses: changesets/action@v1
         with:
           publish: pnpm release
@@ -81,3 +82,28 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.CHANGESETS_TOKEN }}
           # Publish via npm Trusted Publishing (OIDC). Do not set NODE_AUTH_TOKEN /
           # NPM_TOKEN here — a token forces legacy auth and bypasses OIDC.
+
+      # Deployment notification. The webhook is a secret because it is a bearer
+      # credential: anyone holding the URL can post into the channel. Skipped rather than
+      # failed when the secret is absent, so a fork's run does not go red over it.
+      - name: Notify Slack
+        if: always()
+        env:
+          WEBHOOK: ${{ secrets.SLACK_DEPLOY_WEBHOOK }}
+          STATUS: ${{ job.status }}
+          PUBLISHED: ${{ steps.changesets.outputs.published }}
+          PACKAGES: ${{ steps.changesets.outputs.publishedPackages }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+        run: |
+          [ -n "$WEBHOOK" ] || { echo "No SLACK_DEPLOY_WEBHOOK configured; skipping."; exit 0; }
+          if [ "$STATUS" != "success" ]; then
+            text=":x: *Release failed* — <$RUN_URL|run log> (\`${SHA:0:7}\`)"
+          elif [ "$PUBLISHED" = "true" ]; then
+            summary=$(printf '%s' "$PACKAGES" | jq -r '"\(length) packages at \(.[0].version)"')
+            text=":rocket: *Published* $summary — <$RUN_URL|run log> (\`${SHA:0:7}\`)"
+          else
+            text=":memo: Release ran with nothing to publish — version PR opened or already up to date (<$RUN_URL|run log>)"
+          fi
+          jq -n --arg text "$text" '{text: $text}' |
+            curl -sS --fail-with-body -X POST -H 'Content-type: application/json' --data @- "$WEBHOOK"
