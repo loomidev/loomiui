@@ -1,4 +1,5 @@
-import { html, fixture, expect, waitUntil } from "@open-wc/testing";
+import { html, fixture, expect } from "@open-wc/testing";
+import { waitFor } from "../../../test/wait.js";
 import "../dist/loomi-otp.js";
 import type { LoomiOtp } from "../dist/index.js";
 import type { LoomiNotification } from "@loomidev/notification";
@@ -108,7 +109,7 @@ describe("loomi-otp validation", () => {
 
     // The toast module is lazy-imported on the first failure, so the host and its rows
     // appear asynchronously.
-    await waitUntil(() => !!findToast("Yikes, check your code", "Verification code"));
+    await waitFor(() => !!findToast("Yikes, check your code", "Verification code"));
     const host = document.body.querySelector("loomi-notification") as LoomiNotification;
     expect(host).to.exist;
     await host.updateComplete;
@@ -129,7 +130,7 @@ describe("loomi-otp validation", () => {
     await el.updateComplete;
 
     // The toast module is lazy-imported on the first failure, so the host appears asynchronously.
-    await waitUntil(() => !!document.body.querySelector("loomi-notification"));
+    await waitFor(() => !!document.body.querySelector("loomi-notification"));
     const hosts = document.body.querySelectorAll("loomi-notification");
     expect(hosts).to.have.length(1);
     const host = hosts[0] as LoomiNotification;
