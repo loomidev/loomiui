@@ -66,6 +66,8 @@
       "@loomidev/qrcode",
       "@loomidev/radio",
       "@loomidev/rating",
+      "@loomidev/react",
+      "@loomidev/react-types",
       "@loomidev/resizable",
       "@loomidev/scroller",
       "@loomidev/select",
