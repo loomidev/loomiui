@@ -1,9 +1,17 @@
 name: Release
 
+# Runs only after CI has gone green on the very commit it is about to release. The two
+# workflows used to be independent: Release does `pnpm install` and `pnpm build` and never
+# runs the test suite, so the environment approval was the only place a human could notice
+# that CI had failed — and npm versions are immutable, so noticing late is not a recovery.
+# workflow_dispatch stays as the manual escape hatch when a release has to go out without
+# waiting for a fresh CI run.
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
 
 # Never cancel a release in flight. CI can be interrupted freely — it only recomputes an
 # answer — but this job publishes to npm, and npm versions are immutable: a run killed
@@ -17,6 +25,11 @@ concurrency:
 jobs:
   release:
     name: Release
+    # A cancelled or failed CI run must not release. Manual dispatch is the deliberate
+    # override and carries no CI result to check.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     environment: npm
 
@@ -31,6 +44,10 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.CHANGESETS_TOKEN }}
+          # The commit CI just verified, not whatever main has drifted to since. On a
+          # manual dispatch there is no triggering run, so this falls back to the ref the
+          # dispatch was aimed at.
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
