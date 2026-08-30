@@ -1,4 +1,5 @@
-import { html, fixture, expect, waitUntil } from "@open-wc/testing";
+import { html, fixture, expect } from "@open-wc/testing";
+import { waitFor } from "../../../test/wait.js";
 import "../dist/loomi-input.js";
 import type { LoomiInput } from "../dist/index.js";
 import type { LoomiNotification } from "@loomidev/notification";
@@ -55,7 +56,7 @@ describe("loomi-input validation", () => {
     await el.updateComplete;
 
     // The toast module is lazy-imported on the first failure, so the host appears asynchronously.
-    await waitUntil(() => !!document.body.querySelector("loomi-notification"));
+    await waitFor(() => !!document.body.querySelector("loomi-notification"));
     const host = document.body.querySelector("loomi-notification") as LoomiNotification;
     expect(host).to.exist;
     await host.updateComplete;
@@ -79,7 +80,7 @@ describe("loomi-input validation", () => {
     await el.updateComplete;
 
     // The toast module is lazy-imported on the first failure, so the host appears asynchronously.
-    await waitUntil(() => !!document.body.querySelector("loomi-notification"));
+    await waitFor(() => !!document.body.querySelector("loomi-notification"));
     const hosts = document.body.querySelectorAll("loomi-notification");
     expect(hosts).to.have.length(1);
     const host = hosts[0] as LoomiNotification;
@@ -105,7 +106,7 @@ describe("loomi-input validation", () => {
     await el.updateComplete;
 
     // The toast module is lazy-imported on the first failure, so the host appears asynchronously.
-    await waitUntil(() => !!document.body.querySelector("loomi-notification"));
+    await waitFor(() => !!document.body.querySelector("loomi-notification"));
     const hosts = document.body.querySelectorAll("loomi-notification");
     expect(hosts).to.have.length(1);
     const host = hosts[0] as LoomiNotification;

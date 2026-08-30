@@ -1,4 +1,5 @@
-import { html, fixture, expect, waitUntil } from "@open-wc/testing";
+import { html, fixture, expect } from "@open-wc/testing";
+import { waitFor } from "../../../test/wait.js";
 import "../dist/loomi-avatar.js";
 import type { LoomiAvatar, LoomiAvatars } from "../dist/index.js";
 import type { LoomiFilepicker } from "@loomidev/filepicker";
@@ -84,7 +85,7 @@ describe("loomi-avatar", () => {
     expect(av.getAttribute("role")).to.equal("button");
     expect(av.getAttribute("tabindex")).to.equal("0");
 
-    await waitUntil(() => el.shadowRoot!.querySelector(".loomi-edit-fp"));
+    await waitFor(() => el.shadowRoot!.querySelector(".loomi-edit-fp"));
     const fp = el.shadowRoot!.querySelector(".loomi-edit-fp") as LoomiFilepicker;
     expect(fp.stealth).to.be.true;
     expect(fp.crop).to.be.true;
@@ -93,7 +94,7 @@ describe("loomi-avatar", () => {
 
   it("swaps in the cropped image and fires change after a pick", async () => {
     const el = await fixture<LoomiAvatar>(html`<loomi-avatar label="MK" editable></loomi-avatar>`);
-    await waitUntil(() => el.shadowRoot!.querySelector(".loomi-edit-fp"));
+    await waitFor(() => el.shadowRoot!.querySelector(".loomi-edit-fp"));
     const fp = el.shadowRoot!.querySelector(".loomi-edit-fp") as LoomiFilepicker;
 
     let detail: { file: File; image: string } | undefined;
@@ -105,14 +106,20 @@ describe("loomi-avatar", () => {
     input.files = dt.files;
     input.dispatchEvent(new Event("change", { bubbles: true }));
 
-    await waitUntil(() => (document.querySelector(".loomi-crop-modal") as LoomiModal | null)?.open);
+    await waitFor(() => (document.querySelector(".loomi-crop-modal") as LoomiModal | null)?.open);
     const modal = document.querySelector(".loomi-crop-modal") as LoomiModal;
+    // The dialog opens before the image inside it has loaded, and `applyCrop` returns
+    // without doing anything until that load handler has measured the image — no event,
+    // no closed modal, nothing to wait for. `.loomi-crop-rect` renders off the same
+    // measurement, so its presence is the signal that OK will actually do something.
+    // (@loomidev/filepicker's own crop test waits on it for the same reason.)
+    await waitFor(() => !!modal.querySelector(".loomi-crop-rect"));
     const okBtn = modal.shadowRoot!.querySelector(
       ".loomi-footer loomi-button:not([type='secondary'])",
     ) as HTMLElement;
     okBtn.click();
 
-    await waitUntil(() => !!detail);
+    await waitFor(() => !!detail);
     expect(detail!.file.type).to.equal("image/png");
     expect(el.image).to.equal(detail!.image);
     expect(el.image.startsWith("blob:")).to.be.true;

@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/horizontal-line-graph",
-  "version": "0.3.0",
+  "version": "0.4.1",
   "description": "<loomi-horizontal-line-graph> — a labeled proportion bar.",
   "repository": {
     "type": "git",
@@ -42,9 +42,9 @@
   },
   "devDependencies": {
     "@loomidev/theme": "workspace:^",
-    "@tailwindcss/cli": "^4.0.0",
+    "@tailwindcss/cli": "^4.3.3",
     "lit": "^3.3.3",
-    "tailwindcss": "^4.0.0",
+    "tailwindcss": "^4.3.3",
     "typescript": "^5.6.3"
   },
   "keywords": [

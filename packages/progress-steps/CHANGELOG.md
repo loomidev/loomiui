@@ -1,5 +1,20 @@
 # @loomidev/progress-steps
 
+## 0.4.1
+
+### Patch Changes
+
+- @loomidev/progress@0.4.1
+
+## 0.4.0
+
+### Patch Changes
+
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+  - @loomidev/progress@0.4.0
+
 ## 0.3.0
 
 ### Patch Changes

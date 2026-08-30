@@ -1,4 +1,5 @@
-import { html, fixture, expect, waitUntil } from "@open-wc/testing";
+import { html, fixture, expect } from "@open-wc/testing";
+import { waitFor } from "../../../test/wait.js";
 import "../dist/index.js";
 
 type EmbedInternals = {
@@ -40,10 +41,9 @@ function clearNotifications(): void {
 }
 
 async function lastNotificationText(): Promise<string> {
-  await waitUntil(
+  await waitFor(
     () => !!document.querySelector("loomi-notification")?.shadowRoot?.textContent?.trim(),
     "a notification toast should be shown",
-    { timeout: 2000 },
   );
   return document.querySelector("loomi-notification")!.shadowRoot!.textContent ?? "";
 }

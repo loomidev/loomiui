@@ -1,5 +1,28 @@
 # @loomidev/checkcards
 
+## 0.4.1
+
+### Patch Changes
+
+- @loomidev/core@0.4.1
+- @loomidev/icon@0.4.1
+- @loomidev/icons@0.4.1
+
+## 0.4.0
+
+### Patch Changes
+
+- 9344aad: Restore every form-associated control to its initial state through native form resets,
+  document submitted value formats, and add generated React 18 and React 19 JSX types.
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+  - @loomidev/core@0.4.0
+  - @loomidev/icons@0.4.0
+  - @loomidev/icon@0.4.0
+
 ## 0.3.0
 
 ### Patch Changes

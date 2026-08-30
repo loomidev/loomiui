@@ -1,5 +1,44 @@
 # @loomidev/colorpicker
 
+## 0.4.1
+
+### Patch Changes
+
+- @loomidev/core@0.4.1
+
+## 0.4.0
+
+### Minor Changes
+
+- 9344aad: Export a typed `EventMap` (and named detail interfaces) from fourteen more component
+  packages. `@loomidev/react` derives each `on*` callback's type from these, so events on
+  these components now carry a typed `detail` instead of falling back to `any`.
+
+### Patch Changes
+
+- 9344aad: Fix accessibility defects found by a new library-wide axe sweep, and retune the theme's
+  text tokens so every tier meets WCAG AA contrast on both the light and dark surface —
+  `--loomi-text-muted` and `--loomi-text-faint` each shift one step (darker in light mode,
+  lighter in dark), which is visible wherever muted copy and placeholders are rendered.
+
+  `<loomi-button>` now forwards an `aria-label` written on the host to the inner control,
+  so icon-only buttons can be named the way consumers already expect. `<loomi-progress-bar>`
+  and `<loomi-progress-circle>` gain `label`, `<loomi-context-menu>` gains `label` for
+  triggers whose slotted content is not text, and `<loomi-chat-window>` gains `locale`.
+
+  Also fixed: `<loomi-autocomplete>` marks its input `role="combobox"` (`aria-expanded` was
+  not permitted without it), `<loomi-context-menu>`'s target carries a button role,
+  `<loomi-resizable-handle>` reports `aria-valuenow`, and the previously unnamed controls in
+  `<loomi-pagination>`, `<loomi-colorpicker>`, `<loomi-filepicker>` and `<loomi-chat-window>`
+  now have accessible names.
+
+- 9344aad: Restore every form-associated control to its initial state through native form resets,
+  document submitted value formats, and add generated React 18 and React 19 JSX types.
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+  - @loomidev/core@0.4.0
+
 ## 0.3.0
 
 ### Patch Changes

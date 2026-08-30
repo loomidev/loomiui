@@ -18,11 +18,11 @@ jobs:
     name: Build & typecheck
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: pnpm
@@ -31,7 +31,7 @@ jobs:
       # web-test-runner.config.mjs). Playwright stores its browsers in ~/.cache/ms-playwright,
       # outside the pnpm store that `cache: pnpm` restores, so cache them on their own key.
       - name: Cache Playwright browsers
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
@@ -90,3 +90,31 @@ jobs:
         run: pnpm audit:quality
       - name: README quality sections up to date
         run: pnpm quality:readmes && git diff --exit-code -- packages
+
+      # CI notification. Every run on main, and only failures on pull requests — a green
+      # PR run is already visible on the PR itself, and posting each one would drown the
+      # channel in noise nobody acts on. The webhook is a secret (a bearer credential:
+      # holding the URL is enough to post), and a run without it skips rather than fails,
+      # so pull requests from forks do not go red over a missing secret.
+      - name: Notify Slack
+        if: always() && (github.ref_name == 'main' || job.status == 'failure')
+        env:
+          WEBHOOK: ${{ secrets.SLACK_CI_WEBHOOK }}
+          STATUS: ${{ job.status }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          # Quoted, both of them: an unquoted YAML scalar treats " #" as the start of a
+          # comment, so `format('PR #{0}', ...)` silently truncated to an unterminated
+          # ${{ expression and GitHub refused to load this workflow at all.
+          WHERE: "${{ github.event_name == 'pull_request' && format('PR #{0}', github.event.number) || github.ref_name }}"
+          TITLE: "${{ github.event.pull_request.title || github.event.head_commit.message }}"
+        run: |
+          [ -n "$WEBHOOK" ] || { echo "No SLACK_CI_WEBHOOK configured; skipping."; exit 0; }
+          case "$STATUS" in
+            success) icon=":white_check_mark:" ;;
+            cancelled) icon=":black_square_for_stop:" ;;
+            *) icon=":x:" ;;
+          esac
+          # First line only: a commit body would otherwise paste a whole message into chat.
+          headline=$(printf '%s' "$TITLE" | head -1)
+          jq -n --arg text "$icon *CI $STATUS* on \`$WHERE\` — $headline (<$RUN_URL|run log>)" '{text: $text}' |
+            curl -sS --fail-with-body -X POST -H 'Content-type: application/json' --data @- "$WEBHOOK"

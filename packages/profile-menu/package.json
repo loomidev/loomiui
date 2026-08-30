@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/profile-menu",
-  "version": "0.3.0",
+  "version": "0.4.1",
   "description": "<loomi-profile-menu> — a profile trigger card with avatar, identity text, chevron, and dropdown menu actions.",
   "repository": {
     "type": "git",
@@ -46,9 +46,9 @@
     "lit": "^3.0.0"
   },
   "devDependencies": {
-    "@tailwindcss/cli": "^4.0.0",
+    "@tailwindcss/cli": "^4.3.3",
     "lit": "^3.3.3",
-    "tailwindcss": "^4.0.0",
+    "tailwindcss": "^4.3.3",
     "typescript": "^5.6.3"
   },
   "keywords": [

@@ -1,17 +1,108 @@
 name: Release
 
+# Runs only after CI has gone green on the very commit it is about to release. The two
+# workflows used to be independent: Release does `pnpm install` and `pnpm build` and never
+# runs the test suite, so the environment approval was the only place a human could notice
+# that CI had failed — and npm versions are immutable, so noticing late is not a recovery.
+# A lightweight preflight keeps docs/tooling-only merges out of the npm environment. It
+# admits either pending changesets (to create/update the Version Packages PR) or package
+# versions without matching Git tags (to publish a merged Version Packages PR).
+# workflow_dispatch stays as the manual escape hatch when a release has to go out without
+# waiting for a fresh CI run.
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
 
+# Never cancel a release in flight. CI can be interrupted freely — it only recomputes an
+# answer — but this job publishes to npm, and npm versions are immutable: a run killed
+# part-way through leaves some packages published at the new version and the rest behind,
+# with no way to take the published ones back. Queue instead, so a merge that lands during
+# a publish waits its turn.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
+  preflight:
+    name: Check release state
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    outputs:
+      should_release: ${{ steps.check.outputs.should_release }}
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Check for pending release work
+        id: check
+        env:
+          FORCE_RELEASE: ${{ github.event_name == 'workflow_dispatch' }}
+        run: |
+          if [ "$FORCE_RELEASE" = "true" ]; then
+            echo "Manual dispatch requested; running the release job."
+            echo "should_release=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          changeset=$(find .changeset -maxdepth 1 -type f -name '*.md' ! -name README.md -print -quit)
+          if [ -n "$changeset" ]; then
+            echo "Pending changeset found: $changeset"
+            echo "should_release=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          untagged=$(node <<'NODE'
+          const { execFileSync } = require('node:child_process');
+          const { existsSync, readFileSync, readdirSync } = require('node:fs');
+
+          const missing = [];
+          for (const directory of readdirSync('packages')) {
+            const manifest = `packages/${directory}/package.json`;
+            if (!existsSync(manifest)) continue;
+
+            const { name, private, version } = JSON.parse(readFileSync(manifest, 'utf8'));
+            if (private || !name || !version) continue;
+
+            const tag = `${name}@${version}`;
+            try {
+              execFileSync('git', ['rev-parse', '--quiet', '--verify', `refs/tags/${tag}`], {
+                stdio: 'ignore',
+              });
+            } catch {
+              missing.push(tag);
+            }
+          }
+
+          process.stdout.write(missing.join('\n'));
+          NODE
+          )
+
+          if [ -n "$untagged" ]; then
+            echo "Package versions awaiting publication:"
+            echo "$untagged"
+            echo "should_release=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "No pending changesets or untagged package versions; skipping release."
+          echo "should_release=false" >> "$GITHUB_OUTPUT"
+
   release:
     name: Release
+    needs: preflight
+    if: needs.preflight.outputs.should_release == 'true'
     runs-on: ubuntu-latest
     environment: npm
 
@@ -22,18 +113,22 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           token: ${{ secrets.CHANGESETS_TOKEN }}
+          # The commit CI just verified, not whatever main has drifted to since. On a
+          # manual dispatch there is no triggering run, so this falls back to the ref the
+          # dispatch was aimed at.
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
         with:
           version: 11.9.0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: pnpm
@@ -47,6 +142,7 @@ jobs:
         run: pnpm build
 
       - name: Create release PR or publish
+        id: changesets
         uses: changesets/action@v1
         with:
           publish: pnpm release
@@ -59,3 +155,28 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.CHANGESETS_TOKEN }}
           # Publish via npm Trusted Publishing (OIDC). Do not set NODE_AUTH_TOKEN /
           # NPM_TOKEN here — a token forces legacy auth and bypasses OIDC.
+
+      # Deployment notification. The webhook is a secret because it is a bearer
+      # credential: anyone holding the URL can post into the channel. Skipped rather than
+      # failed when the secret is absent, so a fork's run does not go red over it.
+      - name: Notify Slack
+        if: always()
+        env:
+          WEBHOOK: ${{ secrets.SLACK_DEPLOY_WEBHOOK }}
+          STATUS: ${{ job.status }}
+          PUBLISHED: ${{ steps.changesets.outputs.published }}
+          PACKAGES: ${{ steps.changesets.outputs.publishedPackages }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+        run: |
+          [ -n "$WEBHOOK" ] || { echo "No SLACK_DEPLOY_WEBHOOK configured; skipping."; exit 0; }
+          if [ "$STATUS" != "success" ]; then
+            text=":x: *Release failed* — <$RUN_URL|run log> (\`${SHA:0:7}\`)"
+          elif [ "$PUBLISHED" = "true" ]; then
+            summary=$(printf '%s' "$PACKAGES" | jq -r '"\(length) packages at \(.[0].version)"')
+            text=":rocket: *Published* $summary — <$RUN_URL|run log> (\`${SHA:0:7}\`)"
+          else
+            text=":memo: Release ran with nothing to publish — version PR opened or already up to date (<$RUN_URL|run log>)"
+          fi
+          jq -n --arg text "$text" '{text: $text}' |
+            curl -sS --fail-with-body -X POST -H 'Content-type: application/json' --data @- "$WEBHOOK"

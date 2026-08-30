@@ -1,5 +1,59 @@
 # @loomidev/context-menu
 
+## 0.4.1
+
+### Patch Changes
+
+- @loomidev/core@0.4.1
+- @loomidev/icons@0.4.1
+
+## 0.4.0
+
+### Minor Changes
+
+- 9344aad: Fix accessibility defects found by a new library-wide axe sweep, and retune the theme's
+  text tokens so every tier meets WCAG AA contrast on both the light and dark surface —
+  `--loomi-text-muted` and `--loomi-text-faint` each shift one step (darker in light mode,
+  lighter in dark), which is visible wherever muted copy and placeholders are rendered.
+
+  `<loomi-button>` now forwards an `aria-label` written on the host to the inner control,
+  so icon-only buttons can be named the way consumers already expect. `<loomi-progress-bar>`
+  and `<loomi-progress-circle>` gain `label`, `<loomi-context-menu>` gains `label` for
+  triggers whose slotted content is not text, and `<loomi-chat-window>` gains `locale`.
+
+  Also fixed: `<loomi-autocomplete>` marks its input `role="combobox"` (`aria-expanded` was
+  not permitted without it), `<loomi-context-menu>`'s target carries a button role,
+  `<loomi-resizable-handle>` reports `aria-valuenow`, and the previously unnamed controls in
+  `<loomi-pagination>`, `<loomi-colorpicker>`, `<loomi-filepicker>` and `<loomi-chat-window>`
+  now have accessible names.
+
+- 9344aad: Bring the three components with bespoke keyboard interaction in line with the WAI-ARIA
+  Authoring Practices.
+
+  `<loomi-command-palette>` announced nothing as you arrowed through results: focus stays in
+  the search field, so the highlighted option needs `aria-activedescendant`, which was
+  absent. The field is now a `role="combobox"` wired to the listbox, options carry ids and
+  sit outside the tab order, `Home`/`End` jump to the first and last enabled commands, `Tab`
+  no longer escapes a dialog marked `aria-modal="true"`, and closing hands focus back to
+  wherever it came from.
+
+  `<loomi-context-menu>` supports `ArrowRight` to open a submenu and `ArrowLeft` to close it.
+  Submenus were previously reachable by pointer only.
+
+  `<loomi-data-grid>` marks its table `role="grid"` — arrow-key cell navigation makes it an
+  interactive grid rather than a static table, and the two are announced differently.
+  Sortable headers now expose `aria-sort` instead of conveying direction through a ▲/▼ glyph
+  alone (that glyph is now `aria-hidden`), and selectable rows carry `aria-selected`.
+
+### Patch Changes
+
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+  - @loomidev/core@0.4.0
+  - @loomidev/icons@0.4.0
+
 ## 0.3.0
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/countries",
-  "version": "0.3.0",
+  "version": "0.4.1",
   "description": "<loomi-countries> — a searchable country dropdown with flag icons, plus a phone-number mode (flag + dial code + number input).",
   "repository": {
     "type": "git",
@@ -42,11 +42,11 @@
     "lit": "^3.0.0"
   },
   "devDependencies": {
-    "@tailwindcss/cli": "^4.0.0",
+    "@tailwindcss/cli": "^4.3.3",
     "circle-flags": "^2.8.3",
     "country-telephone-data": "^0.6.3",
     "lit": "^3.3.3",
-    "tailwindcss": "^4.0.0",
+    "tailwindcss": "^4.3.3",
     "typescript": "^5.6.3"
   },
   "keywords": [

@@ -1,4 +1,5 @@
-import { html, fixture, expect, waitUntil } from "@open-wc/testing";
+import { html, fixture, expect } from "@open-wc/testing";
+import { waitFor } from "../../../test/wait.js";
 import "../dist/loomi-filepicker.js";
 import type { LoomiFilepicker } from "../dist/index.js";
 import type { LoomiModal } from "@loomidev/modal";
@@ -86,7 +87,7 @@ describe("loomi-filepicker", () => {
     el.addEventListener("change", (e) => (detail = (e as CustomEvent).detail));
 
     selectFiles(el, [textFile()]);
-    await waitUntil(() => el.selectedFiles.length > 0);
+    await waitFor(() => el.selectedFiles.length > 0);
 
     expect(el.selectedFiles[0].name).to.equal("notes.txt");
     expect(detail?.files).to.have.lengthOf(1);
@@ -105,7 +106,7 @@ describe("loomi-filepicker", () => {
 
     expect(el.selectedFiles).to.have.lengthOf(0);
     // The toast module is lazy-imported on the first failure, so the host appears asynchronously.
-    await waitUntil(() => !!document.body.querySelector("loomi-notification"));
+    await waitFor(() => !!document.body.querySelector("loomi-notification"));
     const host = document.body.querySelector("loomi-notification") as LoomiNotification;
     expect(host).to.exist;
     await host.updateComplete;
@@ -117,7 +118,7 @@ describe("loomi-filepicker", () => {
     const el = await fixture<LoomiFilepicker>(html`<loomi-filepicker crop></loomi-filepicker>`);
 
     selectFiles(el, [textFile()]);
-    await waitUntil(() => el.selectedFiles.length > 0);
+    await waitFor(() => el.selectedFiles.length > 0);
 
     const modal = el.shadowRoot!.querySelector(".loomi-crop-modal") as LoomiModal;
     expect(modal.open).to.be.false;
@@ -127,14 +128,14 @@ describe("loomi-filepicker", () => {
     const el = await fixture<LoomiFilepicker>(html`<loomi-filepicker crop></loomi-filepicker>`);
 
     selectFiles(el, [pngFile()]);
-    await waitUntil(() => !!openCropModal());
+    await waitFor(() => !!openCropModal());
     const modal = openCropModal()!;
 
     const cancelBtn = modal.shadowRoot!.querySelector(
       ".loomi-footer loomi-button[type='secondary']",
     ) as HTMLElement;
     cancelBtn.click();
-    await waitUntil(() => !modal.open);
+    await waitFor(() => !modal.open);
 
     expect(el.selectedFiles).to.have.lengthOf(0);
   });
@@ -145,15 +146,15 @@ describe("loomi-filepicker", () => {
     );
 
     selectFiles(el, [pngFile()]);
-    await waitUntil(() => !!openCropModal());
+    await waitFor(() => !!openCropModal());
     const modal = openCropModal()!;
-    await waitUntil(() => !!modal.querySelector(".loomi-crop-rect"));
+    await waitFor(() => !!modal.querySelector(".loomi-crop-rect"));
 
     const okBtn = modal.shadowRoot!.querySelector(
       ".loomi-footer loomi-button:not([type='secondary'])",
     ) as HTMLElement;
     okBtn.click();
-    await waitUntil(() => el.selectedFiles.length > 0);
+    await waitFor(() => el.selectedFiles.length > 0);
 
     expect(modal.open).to.be.false;
     expect(el.selectedFiles[0].type).to.equal("image/png");
@@ -177,14 +178,14 @@ describe("loomi-filepicker", () => {
     const el = await fixture<LoomiFilepicker>(html`<loomi-filepicker stealth></loomi-filepicker>`);
 
     selectFiles(el, [textFile("first.txt")]);
-    await waitUntil(() => el.selectedFiles.length > 0);
+    await waitFor(() => el.selectedFiles.length > 0);
     expect(el.selectedFiles[0].name).to.equal("first.txt");
 
     el.clear();
     expect(el.selectedFiles).to.have.lengthOf(0);
 
     selectFiles(el, [textFile("second.txt")]);
-    await waitUntil(() => el.selectedFiles.length > 0);
+    await waitFor(() => el.selectedFiles.length > 0);
     expect(el.selectedFiles[0].name).to.equal("second.txt");
   });
 
@@ -194,7 +195,7 @@ describe("loomi-filepicker", () => {
     );
 
     selectFiles(el, [pngFile()]);
-    await waitUntil(() => el.selectedFiles.length > 0);
+    await waitFor(() => el.selectedFiles.length > 0);
 
     expect(document.querySelector(".loomi-crop-modal[open]")).to.not.exist;
     expect(el.selectedFiles[0].type).to.equal("image/png");

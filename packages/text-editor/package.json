@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/text-editor",
-  "version": "0.3.0",
+  "version": "0.4.1",
   "description": "<loomi-text-editor> — a themeable rich-text editor web component with configurable tools, a floating label, and inline validation.",
   "repository": {
     "type": "git",
@@ -49,9 +49,9 @@
     "lit": "^3.0.0"
   },
   "devDependencies": {
-    "@tailwindcss/cli": "^4.0.0",
+    "@tailwindcss/cli": "^4.3.3",
     "lit": "^3.3.3",
-    "tailwindcss": "^4.0.0",
+    "tailwindcss": "^4.3.3",
     "typescript": "^5.6.3"
   },
   "keywords": [

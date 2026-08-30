@@ -1,5 +1,29 @@
 # @loomidev/theme-switcher
 
+## 0.4.1
+
+### Patch Changes
+
+- @loomidev/core@0.4.1
+- @loomidev/dropmenu@0.4.1
+- @loomidev/icon@0.4.1
+- @loomidev/icons@0.4.1
+
+## 0.4.0
+
+### Patch Changes
+
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+  - @loomidev/core@0.4.0
+  - @loomidev/dropmenu@0.4.0
+  - @loomidev/icons@0.4.0
+  - @loomidev/icon@0.4.0
+
 ## 0.3.0
 
 ### Patch Changes

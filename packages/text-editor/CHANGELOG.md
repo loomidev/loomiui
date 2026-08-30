@@ -1,5 +1,49 @@
 # @loomidev/text-editor
 
+## 0.4.1
+
+### Patch Changes
+
+- @loomidev/core@0.4.1
+- @loomidev/filepicker@0.4.1
+- @loomidev/icon@0.4.1
+- @loomidev/input@0.4.1
+- @loomidev/modal@0.4.1
+- @loomidev/notification@0.4.1
+- @loomidev/select@0.4.1
+- @loomidev/theme@0.4.1
+- @loomidev/tooltip@0.4.1
+
+## 0.4.0
+
+### Patch Changes
+
+- 9344aad: Restore every form-associated control to its initial state through native form resets,
+  document submitted value formats, and add generated React 18 and React 19 JSX types.
+- 9344aad: Drop bogus events from the custom-elements manifests. A component that dispatches through
+  a helper — `new CustomEvent(name, …)` — made the analyzer record an event literally called
+  `name` (or `type`), which then showed up in editor completions and framework integrations.
+  `pnpm cem` now prunes any event named after a dispatch variable, along with unnamed ones.
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+- Updated dependencies [9344aad]
+  - @loomidev/theme@0.4.0
+  - @loomidev/core@0.4.0
+  - @loomidev/filepicker@0.4.0
+  - @loomidev/input@0.4.0
+  - @loomidev/modal@0.4.0
+  - @loomidev/select@0.4.0
+  - @loomidev/icon@0.4.0
+  - @loomidev/notification@0.4.0
+  - @loomidev/tooltip@0.4.0
+
 ## 0.3.0
 
 ### Patch Changes

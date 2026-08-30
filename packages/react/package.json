@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/react",
-  "version": "0.0.0",
+  "version": "0.4.1",
   "description": "React wrapper components for LoomiUI with full TypeScript support.",
   "repository": {
     "type": "git",
@@ -53,7 +53,7 @@
   },
   "devDependencies": {
     "@types/react": "^18.0.0",
-    "prettier": "^3.0.0",
+    "prettier": "^3.9.6",
     "typescript": "^5.6.3"
   },
   "keywords": [
