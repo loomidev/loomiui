@@ -160,20 +160,20 @@ jobs:
           path: sbom.cyclonedx.json
           retention-days: 90
 
+      # changesets/action@v2 is required for @changesets/cli v3 (this repo's version) — v1
+      # only understands v2's stdout format and silently reports published: false, with no
+      # git tags or GitHub releases, when run against a v3 CLI. v2 renamed several inputs
+      # to kebab-case and folded `setupGitUser`/`commitMode` into automatic attribution of
+      # the token owner (falling back to github-actions[bot]) and the `push-with-git-cli`
+      # boolean (false, the default here, keeps the old github-api commit mode).
       - name: Create release PR or publish
         id: changesets
-        uses: changesets/action@v1
+        uses: changesets/action@v2
+        # Publish via npm Trusted Publishing (OIDC). Do not set NODE_AUTH_TOKEN /
+        # NPM_TOKEN here — a token forces legacy auth and bypasses OIDC.
         with:
-          publish: pnpm release
-          # Attribute Version Packages commits to the CHANGESETS_TOKEN owner (the
-          # human maintainer), not github-actions[bot]. Avoids Co-authored-by trailers
-          # from the bot when those PRs are squash-merged.
-          setupGitUser: false
-          commitMode: github-api
-        env:
-          GITHUB_TOKEN: ${{ secrets.CHANGESETS_TOKEN }}
-          # Publish via npm Trusted Publishing (OIDC). Do not set NODE_AUTH_TOKEN /
-          # NPM_TOKEN here — a token forces legacy auth and bypasses OIDC.
+          publish-script: pnpm release
+          github-token: ${{ secrets.CHANGESETS_TOKEN }}
 
       # Deployment notification. The webhook is a secret because it is a bearer
       # credential: anyone holding the URL can post into the channel. Skipped rather than
@@ -184,7 +184,7 @@ jobs:
           WEBHOOK: ${{ secrets.SLACK_DEPLOY_WEBHOOK }}
           STATUS: ${{ job.status }}
           PUBLISHED: ${{ steps.changesets.outputs.published }}
-          PACKAGES: ${{ steps.changesets.outputs.publishedPackages }}
+          PACKAGES: ${{ steps.changesets.outputs['published-packages'] }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
         run: |
