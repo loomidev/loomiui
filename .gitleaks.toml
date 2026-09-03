@@ -1,0 +1,14 @@
+title = "loomiui gitleaks config"
+
+# Start from gitleaks' built-in rule set; add [[allowlist]] entries below (by path or
+# regex) only for confirmed false positives — a test fixture or documentation example —
+# never to silence a real finding. See SECURITY.md for the incident procedure.
+[extend]
+useDefault = true
+
+[[allowlist]]
+description = "Test fixture colors and placeholder credentials in docs/tests"
+paths = [
+  '''packages/colorpicker/test/.*''',
+  '''packages/forms/test/form-reset\.test\.ts''',
+]

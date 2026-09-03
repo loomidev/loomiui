@@ -141,6 +141,25 @@ jobs:
       - name: Build packages
         run: pnpm build
 
+      # A software bill of materials for the dependency tree being published, alongside the
+      # per-package provenance attestations npm's Trusted Publishing (OIDC, above) already
+      # generates automatically. Uploaded as a workflow artifact rather than committed —
+      # it's a snapshot of this run's dependency graph, not source.
+      - name: Generate SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          path: .
+          format: cyclonedx-json
+          output-file: sbom.cyclonedx.json
+          upload-artifact: false
+
+      - name: Upload SBOM
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.cyclonedx.json
+          retention-days: 90
+
       - name: Create release PR or publish
         id: changesets
         uses: changesets/action@v1

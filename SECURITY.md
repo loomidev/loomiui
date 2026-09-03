@@ -34,6 +34,23 @@ When reporting, please include:
 - Coordination on a fix and a disclosure date — we'll credit you in the advisory and
   release notes unless you ask not to be.
 
+## Secret scanning
+
+Every push and pull request runs [gitleaks](https://github.com/gitleaks/gitleaks) in CI
+against the diff, looking for credential-shaped strings (API keys, tokens, private keys)
+before they land in history. If a scan flags a real secret in your branch:
+
+1. Rotate/revoke the credential immediately at its source (it must be treated as
+   compromised the moment it's pushed, even to a branch that never merges).
+2. Do not rely on a follow-up commit to "remove" it — it stays in git history. Force-push
+   a rewritten branch, or ask a maintainer to help scrub history on a shared branch.
+3. Open a report per "Reporting a vulnerability" above if the secret could have exposed
+   user data or a production system.
+
+A flagged match that isn't a real secret (a test fixture, an example key) can be
+allowlisted in `.gitleaks.toml` at the repo root — add the specific rule or path rather
+than disabling the scan.
+
 ## Scope
 
 This policy covers the `@loomidev/*` packages published from this repository. It does not

@@ -46,6 +46,10 @@ jobs:
         run: pnpm exec playwright install --with-deps chromium firefox webkit
 
       # Fast static checks first — cheap to run, fail early before build/test.
+      - name: Secret scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: No merge-conflict markers
         run: pnpm check:conflicts
       - name: Bundle packages in sync
