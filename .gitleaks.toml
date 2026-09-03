@@ -6,9 +6,16 @@ title = "loomiui gitleaks config"
 [extend]
 useDefault = true
 
-[[allowlist]]
-description = "Test fixture colors and placeholder credentials in docs/tests"
+[allowlist]
+description = "Test fixture colors, placeholder credentials, and generated hashes that trip the generic-api-key heuristic"
 paths = [
   '''packages/colorpicker/test/.*''',
   '''packages/forms/test/form-reset\.test\.ts''',
+  # Content-hash manifest keyed by package name — "password" is a component name here,
+  # not a credential, and the values are SHA-256 hashes, not secrets.
+  '''scripts/generated-styles-manifest\.json''',
+  # Prose refers to CSS custom properties as "public/private tokens" (e.g.
+  # `--_loomi-primary-600-default`), which the generic-api-key rule mistakes for a secret.
+  # (lived at repo root as architecture.md before it moved under docs/)
+  '''(docs/)?architecture\.md''',
 ]
