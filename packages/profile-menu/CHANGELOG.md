@@ -1,5 +1,39 @@
 # @loomidev/profile-menu
 
+## 0.5.0
+
+### Minor Changes
+
+- f854c5f: Add an `avatar-position` attribute to `<loomi-profile-menu>`. Set it to `right` to put
+  the avatar after the name and description, with the chevron still trailing.
+
+### Patch Changes
+
+- ec8801a: Make the dropmenu arrow readable. At 6px it was a barely-visible nub — the triangle is
+  filled with the panel's own surface color, so all that distinguishes it is a 1px sliver of
+  `--loomi-surface-border`, and at that size the sliver reads as a bump rather than a
+  pointer. `--loomi-dropmenu-arrow-size` is now 9px, keeping the same panel-matched colors.
+
+  Most obvious under `<loomi-profile-menu>`, whose trigger is a full card, but the arrow was
+  equally faint on every dropmenu — so this moves the shared default rather than overriding
+  it in one component. `--loomi-dropmenu-arrow-size` is still yours to override per instance.
+
+  profile-menu's `--loomi-dropmenu-arrow-inset` is recomputed to 0.6875rem, since it is
+  derived from half the arrow's width.
+
+- 50a4170: Keep a consistent 6px gap between the avatar and identity labels.
+- Updated dependencies [450d1d3]
+- Updated dependencies [d3bc58c]
+- Updated dependencies [ec8801a]
+- Updated dependencies [ec8801a]
+- Updated dependencies [742f156]
+  - @loomidev/theme@0.5.0
+  - @loomidev/core@0.5.0
+  - @loomidev/dropmenu@0.5.0
+  - @loomidev/icons@0.5.0
+  - @loomidev/avatar@0.5.0
+  - @loomidev/card@0.5.0
+
 ## 0.4.1
 
 ### Patch Changes

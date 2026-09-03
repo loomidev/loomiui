@@ -15,8 +15,8 @@ export const dataGridStyles = css`
     --loomi-data-grid-accent-strong: var(--loomi-primary-700, var(--_loomi-primary-700-default, #174ea6));
     --loomi-data-grid-accent-soft: var(--loomi-primary-100, var(--_loomi-primary-100-default, #dbeafe));
     --loomi-data-grid-accent-softer: var(--loomi-primary-50, var(--_loomi-primary-50-default, #eff6ff));
-    --loomi-data-grid-heading-bg: #f8f7f4;
-    --loomi-data-grid-divider: #f3f0ec;
+    --loomi-data-grid-heading-bg: var(--loomi-surface-muted, #f8f7f4);
+    --loomi-data-grid-divider: var(--loomi-surface-border-subtle, #f3f0ec);
     display: block;
     color: var(--loomi-data-grid-text);
     font-family: Inter, ui-sans-serif, system-ui, sans-serif;

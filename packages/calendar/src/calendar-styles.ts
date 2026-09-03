@@ -16,7 +16,7 @@ export const calendarStyles = css`
     --loomi-calendar-accent-strong: var(--loomi-primary-700, var(--_loomi-primary-700-default, #174ea6));
     --loomi-calendar-accent-soft: var(--loomi-primary-100, var(--_loomi-primary-100-default, #dbeafe));
     --loomi-calendar-accent-softer: var(--loomi-primary-50, var(--_loomi-primary-50-default, #eff6ff));
-    --loomi-calendar-now: var(--loomi-error-500, #ef4444);
+    --loomi-calendar-now: var(--loomi-error-500, var(--_loomi-error-500-default, #ef4444));
     --loomi-calendar-radius: 12px;
     --loomi-calendar-radius-sm: 8px;
     --loomi-calendar-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 23, 42, 0.06);

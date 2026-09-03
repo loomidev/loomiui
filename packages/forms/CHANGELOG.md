@@ -1,5 +1,48 @@
 # @loomidev/forms
 
+## 0.5.0
+
+### Patch Changes
+
+- fdac5da: Expand native FormData integration coverage across scalar, choice, checked, range, date,
+  and time controls. Input, password, and autocomplete now restore their initial values and
+  clear transient state when their containing form is reset.
+- ec8801a: Restore every form-associated control to its initial state through native form resets,
+  document submitted value formats, and add generated React 18 and React 19 JSX types.
+- Updated dependencies [450d1d3]
+- Updated dependencies [87c5d42]
+- Updated dependencies [450d1d3]
+- Updated dependencies [fdac5da]
+- Updated dependencies [ec8801a]
+- Updated dependencies [ad81ae1]
+- Updated dependencies [87c5d42]
+- Updated dependencies [7227978]
+- Updated dependencies [742f156]
+  - @loomidev/autocomplete@0.5.0
+  - @loomidev/colorpicker@0.5.0
+  - @loomidev/filepicker@0.5.0
+  - @loomidev/date-range-picker@0.5.0
+  - @loomidev/filter-builder@0.5.0
+  - @loomidev/input@0.5.0
+  - @loomidev/checkbox@0.5.0
+  - @loomidev/datepicker@0.5.0
+  - @loomidev/radio@0.5.0
+  - @loomidev/slider@0.5.0
+  - @loomidev/timepicker@0.5.0
+  - @loomidev/toggle@0.5.0
+  - @loomidev/password@0.5.0
+  - @loomidev/checkcards@0.5.0
+  - @loomidev/countries@0.5.0
+  - @loomidev/emoji-picker@0.5.0
+  - @loomidev/number@0.5.0
+  - @loomidev/otp@0.5.0
+  - @loomidev/select@0.5.0
+  - @loomidev/tag-input@0.5.0
+  - @loomidev/text-editor@0.5.0
+  - @loomidev/textarea@0.5.0
+  - @loomidev/timezonepicker@0.5.0
+  - @loomidev/creditcard@0.5.0
+
 ## 0.4.1
 
 ### Patch Changes

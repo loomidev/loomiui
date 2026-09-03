@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/theme",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Shared design tokens + Tailwind theme source for the loomi component library. Defines the overridable `--loomi-*` custom property slots.",
   "repository": {
     "type": "git",

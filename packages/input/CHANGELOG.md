@@ -1,5 +1,38 @@
 # @loomidev/input
 
+## 0.5.0
+
+### Patch Changes
+
+- 87c5d42: Document the events that were missing from the custom-elements manifests. The analyzer
+  only sees `new CustomEvent("literal-name")`, so events dispatched through a helper or a
+  template literal — all nine `<loomi-data-grid>` events, the three
+  `<loomi-date-range-picker>` events, `loomi-command-query-change`, `loomi-filter-apply`,
+  `loomi-reminder-create`, the `<loomi-chat-window>` attachment and recording events, and
+  `<loomi-input>`'s affix events — never reached `custom-elements.json`, and so never
+  reached the React wrappers either. They are now declared with `@fires` and generate typed
+  `on*` callback props.
+
+  `<loomi-empty-state>` documented a `loomi-action` event it never fires; its JSDoc now
+  names the `action` event the component actually dispatches.
+
+- fdac5da: Expand native FormData integration coverage across scalar, choice, checked, range, date,
+  and time controls. Input, password, and autocomplete now restore their initial values and
+  clear transient state when their containing form is reset.
+- 87c5d42: Drop bogus events from the custom-elements manifests. A component that dispatches through
+  a helper — `new CustomEvent(name, …)` — made the analyzer record an event literally called
+  `name` (or `type`), which then showed up in editor completions and framework integrations.
+  `pnpm cem` now prunes any event named after a dispatch variable, along with unnamed ones.
+- Updated dependencies [450d1d3]
+- Updated dependencies [d3bc58c]
+- Updated dependencies [ec8801a]
+- Updated dependencies [742f156]
+  - @loomidev/theme@0.5.0
+  - @loomidev/core@0.5.0
+  - @loomidev/icons@0.5.0
+  - @loomidev/notification@0.5.0
+  - @loomidev/popover@0.5.0
+
 ## 0.4.1
 
 ### Patch Changes

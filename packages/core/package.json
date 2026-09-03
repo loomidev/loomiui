@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/core",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Shared runtime assets for loomi components: theme styles, palette, the accent helper and small DOM utilities. The loomi analogue of BladewindUI's core package.",
   "repository": {
     "type": "git",

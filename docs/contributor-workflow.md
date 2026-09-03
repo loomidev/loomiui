@@ -29,7 +29,9 @@ editing. Check `@loomidev/core` for shared behavior and tokens before adding loc
 For a component with styles and tests:
 
 ```sh
-node packages/<name>/scripts/build-styles.mjs
+node packages/<name>/scripts/build-styles.mjs   # skip if the package has no scripts/ dir —
+                                                 # its styles are a `css` template literal,
+                                                 # not a compiled styles.css
 ./node_modules/.bin/tsc -p packages/<name>/tsconfig.json
 ./node_modules/.bin/web-test-runner packages/<name>/test/<file>.test.ts --config web-test-runner.config.mjs
 ```

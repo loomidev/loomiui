@@ -1,8 +1,12 @@
 name: CI
 
 on:
+  # main only. A push to development that has an open pull request would otherwise
+  # match both triggers and build the same commit twice — ~6 minutes of runner time
+  # for a second, identical answer. Work on a branch is covered by its pull request;
+  # main is not, which is why it stays here.
   push:
-    branches: [main, development]
+    branches: [main]
   pull_request:
 
 concurrency:
@@ -41,7 +45,23 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium firefox webkit
 
-      # Fast static checks first — cheap to run, fail early before build/test.
+      # Fast static checks first — cheap to run, fail early before build/test. Runs the
+      # open-source gitleaks CLI directly rather than gitleaks/gitleaks-action, which now
+      # requires a paid GITLEAKS_LICENSE for organization accounts — the CLI itself stays
+      # free under its MIT license.
+      - name: Install gitleaks
+        env:
+          GITLEAKS_VERSION: 8.30.1
+        run: |
+          curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" \
+            | tar -xz -C /usr/local/bin gitleaks
+      - name: Secret scan
+        run: gitleaks detect --source . --redact --verbose --no-banner
+      # Only production dependencies gate CI — dev-only tooling vulnerabilities (build,
+      # lint, test infra that never ships to a consumer) are tracked by Dependabot instead
+      # of blocking every PR on an upstream tool's unpatched transitive dependency.
+      - name: Dependency vulnerability audit
+        run: pnpm audit --prod
       - name: No merge-conflict markers
         run: pnpm check:conflicts
       - name: Bundle packages in sync
@@ -67,6 +87,15 @@ jobs:
       # The other half: that a browser can adopt that markup rather than replace it.
       - name: Server-rendered markup hydrates
         run: pnpm check:hydration
+      # Reports per-locale translation coverage against en; only fails on keys that don't
+      # exist in en at all (a stale rename or typo) — partial locales are a supported,
+      # documented contribution path (see packages/core/src/locales/index.ts).
+      - name: Locale completeness
+        run: pnpm check:i18n
+      # Bundled + gzipped size of each component's public entry, `lit` kept external as a
+      # shared peerDependency — catches an accidental size regression before it ships.
+      - name: Bundle size budget
+        run: pnpm check:bundle-size
       - run: pnpm test
 
       # Baselines are per-platform bitmaps and the Linux set is recorded by the

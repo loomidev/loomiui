@@ -4,6 +4,9 @@ name: Release
 # workflows used to be independent: Release does `pnpm install` and `pnpm build` and never
 # runs the test suite, so the environment approval was the only place a human could notice
 # that CI had failed — and npm versions are immutable, so noticing late is not a recovery.
+# A lightweight preflight keeps docs/tooling-only merges out of the npm environment. It
+# admits either pending changesets (to create/update the Version Packages PR) or package
+# versions without matching Git tags (to publish a merged Version Packages PR).
 # workflow_dispatch stays as the manual escape hatch when a release has to go out without
 # waiting for a fresh CI run.
 on:
@@ -23,13 +26,83 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  release:
-    name: Release
-    # A cancelled or failed CI run must not release. Manual dispatch is the deliberate
-    # override and carries no CI result to check.
+  preflight:
+    name: Check release state
     if: >-
       github.event_name == 'workflow_dispatch' ||
       github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    outputs:
+      should_release: ${{ steps.check.outputs.should_release }}
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Check for pending release work
+        id: check
+        env:
+          FORCE_RELEASE: ${{ github.event_name == 'workflow_dispatch' }}
+        run: |
+          if [ "$FORCE_RELEASE" = "true" ]; then
+            echo "Manual dispatch requested; running the release job."
+            echo "should_release=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          changeset=$(find .changeset -maxdepth 1 -type f -name '*.md' ! -name README.md -print -quit)
+          if [ -n "$changeset" ]; then
+            echo "Pending changeset found: $changeset"
+            echo "should_release=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          untagged=$(node <<'NODE'
+          const { execFileSync } = require('node:child_process');
+          const { existsSync, readFileSync, readdirSync } = require('node:fs');
+
+          const missing = [];
+          for (const directory of readdirSync('packages')) {
+            const manifest = `packages/${directory}/package.json`;
+            if (!existsSync(manifest)) continue;
+
+            const { name, private, version } = JSON.parse(readFileSync(manifest, 'utf8'));
+            if (private || !name || !version) continue;
+
+            const tag = `${name}@${version}`;
+            try {
+              execFileSync('git', ['rev-parse', '--quiet', '--verify', `refs/tags/${tag}`], {
+                stdio: 'ignore',
+              });
+            } catch {
+              missing.push(tag);
+            }
+          }
+
+          process.stdout.write(missing.join('\n'));
+          NODE
+          )
+
+          if [ -n "$untagged" ]; then
+            echo "Package versions awaiting publication:"
+            echo "$untagged"
+            echo "should_release=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "No pending changesets or untagged package versions; skipping release."
+          echo "should_release=false" >> "$GITHUB_OUTPUT"
+
+  release:
+    name: Release
+    needs: preflight
+    if: needs.preflight.outputs.should_release == 'true'
     runs-on: ubuntu-latest
     environment: npm
 
@@ -67,6 +140,25 @@ jobs:
 
       - name: Build packages
         run: pnpm build
+
+      # A software bill of materials for the dependency tree being published, alongside the
+      # per-package provenance attestations npm's Trusted Publishing (OIDC, above) already
+      # generates automatically. Uploaded as a workflow artifact rather than committed —
+      # it's a snapshot of this run's dependency graph, not source.
+      - name: Generate SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          path: .
+          format: cyclonedx-json
+          output-file: sbom.cyclonedx.json
+          upload-artifact: false
+
+      - name: Upload SBOM
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.cyclonedx.json
+          retention-days: 90
 
       - name: Create release PR or publish
         id: changesets

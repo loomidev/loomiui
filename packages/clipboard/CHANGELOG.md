@@ -1,5 +1,16 @@
 # @loomidev/clipboard
 
+## 0.5.0
+
+### Patch Changes
+
+- Updated dependencies [450d1d3]
+- Updated dependencies [d3bc58c]
+- Updated dependencies [ec8801a]
+- Updated dependencies [742f156]
+  - @loomidev/core@0.5.0
+  - @loomidev/icons@0.5.0
+
 ## 0.4.1
 
 ### Patch Changes

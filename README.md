@@ -2,10 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-**Modern web components for every framework.** LoomiUI gives you
-components built on web standards, with clear HTML attributes for common options such as
-colors, sizes, states, icons, and layouts. More advanced components also provide
-JavaScript properties and custom events.
+**Modern web components for every framework.** <br />LoomiUI is a modern, open-source UI component library built on native Web Components and web standards. It provides a collection of simple, accessible, and customizable components that work across frameworks or with no framework at all, helping developers build beautiful and consistent web interfaces faster.
 
 📖 **Visit [loomiui.com](https://loomiui.com) for complete documentation, live previews,
 and API details for every component.**
@@ -26,7 +23,7 @@ and API details for every component.**
 - **Ship no Tailwind runtime.** LoomiUI compiles Tailwind while building each package and
   includes the resulting CSS inside the component. Applications that use LoomiUI do not
   load or run Tailwind in the browser.
-- **Install only what your application uses.** LoomiUI provides 76 components as separate
+- **Install only what your application uses.** LoomiUI provides 78 components as separate
   npm packages. You can install one component, a category of components, or the complete
   library.
 - **Submit values with native forms.** LoomiUI form controls use `ElementInternals` to

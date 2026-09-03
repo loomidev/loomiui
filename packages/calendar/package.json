@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/calendar",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "<loomi-calendar> — a production calendar and resource scheduler for admin and SaaS templates.",
   "repository": {
     "type": "git",

@@ -55,7 +55,7 @@ export class LoomiSideNavItem extends LoomiElement {
         color: var(--loomi-text);
       }
       .item:focus-visible {
-        outline: 2px solid var(--loomi-focus-ring-color, var(--loomi-primary-400, #60a5fa));
+        outline: 2px solid var(--loomi-focus-ring-color, var(--loomi-primary-400, var(--_loomi-primary-400-default, #60a5fa)));
         outline-offset: 2px;
       }
       :host([active]) .item {
@@ -187,7 +187,7 @@ export class LoomiSideNav extends LoomiElement {
         color: var(--loomi-text);
       }
       .toggle:focus-visible {
-        outline: 2px solid var(--loomi-focus-ring-color, var(--loomi-primary-400, #60a5fa));
+        outline: 2px solid var(--loomi-focus-ring-color, var(--loomi-primary-400, var(--_loomi-primary-400-default, #60a5fa)));
         outline-offset: 2px;
       }
       .toggle svg {

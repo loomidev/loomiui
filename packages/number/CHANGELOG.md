@@ -1,5 +1,17 @@
 # @loomidev/number
 
+## 0.5.0
+
+### Patch Changes
+
+- ec8801a: Restore every form-associated control to its initial state through native form resets,
+  document submitted value formats, and add generated React 18 and React 19 JSX types.
+- Updated dependencies [450d1d3]
+- Updated dependencies [d3bc58c]
+- Updated dependencies [742f156]
+  - @loomidev/theme@0.5.0
+  - @loomidev/core@0.5.0
+
 ## 0.4.1
 
 ### Patch Changes

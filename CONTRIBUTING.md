@@ -20,7 +20,7 @@ what each step does and why — reach for them when a step fails or when you sta
 the library itself.
 
 ```bash
-# Prerequisite: Node 20 or later (check with `node -v`)
+# Prerequisite: Node 22.13 or later (check with `node -v`) — see package.json's "engines"
 corepack enable      # turns on pnpm, which ships bundled with Node 16.9+
 pnpm install         # install every package's deps + link the workspace packages together
 pnpm build           # compile each package's styles + TypeScript into its dist/
@@ -115,9 +115,8 @@ before, here's what's different and why it matters for this specific repo.
 
 ### Setting it up on a fresh machine
 
-1. **Install Node.js.** Tailwind CSS v4's CLI (used by every component's build script)
-   requires a reasonably modern Node — **Node 20 or later** is the safe baseline; don't
-   go below that.
+1. **Install Node.js.** This project pins **Node 22.13 or later** in `package.json`'s
+   `engines` field — don't go below that.
 2. **Install pnpm.** The cleanest path is via Corepack, which ships built into Node 16.9+:
 
    ```bash
@@ -186,7 +185,7 @@ components/                          (repo root)
   "name": "@loomidev/root",
   "private": true,
   "packageManager": "pnpm@11.9.0",
-  "engines": { "node": ">=20" },
+  "engines": { "node": ">=22.13" },
   "workspaces": ["packages/*"],
   "scripts": {
     "build": "pnpm -r --filter \"./packages/*\" build",

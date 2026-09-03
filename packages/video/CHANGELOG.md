@@ -1,5 +1,42 @@
 # @loomidev/video
 
+## 0.5.0
+
+### Minor Changes
+
+- 742f156: Make the last five components with hardcoded English translatable. `<loomi-chat-window>`,
+  `<loomi-command-palette>`, `<loomi-data-grid>`, `<loomi-filter-builder>` and `<loomi-video>`
+  each gain a `locale` property and route their own copy through the translation table, with
+  new `en` keys for all of it.
+
+  The gap was worst for text a consumer could not reach: `aria-label` values baked into
+  templates were fixed English with no way to override them, which left screen reader users
+  of a non-English page hearing "Select all rows" and "Search commands" regardless of the
+  locale. Visible defaults (`emptyTitle`, `placeholder`, `addLabel`, …) now resolve through
+  `loomiDefaultText`, so they translate while still yielding to any value a consumer sets.
+
+### Patch Changes
+
+- 2bc1027: `<loomi-video>` no longer renders twice on first paint. It kept a `mediaReady` flag whose
+  only job was to force a second pass so the picture-in-picture check could see the internal
+  `<video>`; PiP support is a property of the browser, so it is now read from
+  `HTMLVideoElement.prototype` and the control bar gets the button on the first render
+  instead of growing one a frame later. The redundant volume read-back is gone too, and the
+  one piece of state that genuinely depends on the rendered DOM — the subtitle track list —
+  is read just after the update cycle rather than inside it.
+- Updated dependencies [450d1d3]
+- Updated dependencies [d3bc58c]
+- Updated dependencies [450d1d3]
+- Updated dependencies [ec8801a]
+- Updated dependencies [ec8801a]
+- Updated dependencies [7227978]
+- Updated dependencies [742f156]
+  - @loomidev/button@0.5.0
+  - @loomidev/core@0.5.0
+  - @loomidev/slider@0.5.0
+  - @loomidev/icon@0.5.0
+  - @loomidev/spinner@0.5.0
+
 ## 0.4.1
 
 ### Patch Changes
