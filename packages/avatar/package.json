@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/avatar",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "<loomi-avatar>/<loomi-avatars> — image/initials avatars with stacking and status dots.",
   "repository": {
     "type": "git",

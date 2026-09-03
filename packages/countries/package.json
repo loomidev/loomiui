@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/countries",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "<loomi-countries> — a searchable country dropdown with flag icons, plus a phone-number mode (flag + dial code + number input).",
   "repository": {
     "type": "git",

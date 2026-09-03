@@ -1,5 +1,52 @@
 # @loomidev/content
 
+## 0.5.0
+
+### Patch Changes
+
+- Updated dependencies [450d1d3]
+- Updated dependencies [ad81ae1]
+- Updated dependencies [ae725e5]
+- Updated dependencies [87c5d42]
+- Updated dependencies [450d1d3]
+- Updated dependencies [ec8801a]
+- Updated dependencies [9c0247e]
+- Updated dependencies [ae725e5]
+- Updated dependencies [5c97138]
+- Updated dependencies [87c5d42]
+- Updated dependencies [7227978]
+- Updated dependencies [742f156]
+- Updated dependencies [2bc1027]
+  - @loomidev/progress@0.5.0
+  - @loomidev/chat@0.5.0
+  - @loomidev/calendar@0.5.0
+  - @loomidev/tag@0.5.0
+  - @loomidev/data-grid@0.5.0
+  - @loomidev/empty-state@0.5.0
+  - @loomidev/rating@0.5.0
+  - @loomidev/sortable@0.5.0
+  - @loomidev/statistic@0.5.0
+  - @loomidev/timeline@0.5.0
+  - @loomidev/timer@0.5.0
+  - @loomidev/photo-gallery@0.5.0
+  - @loomidev/video@0.5.0
+  - @loomidev/accordion@0.5.0
+  - @loomidev/arc-meter@0.5.0
+  - @loomidev/avatar@0.5.0
+  - @loomidev/card@0.5.0
+  - @loomidev/centered-content@0.5.0
+  - @loomidev/chart@0.5.0
+  - @loomidev/contact-card@0.5.0
+  - @loomidev/divider@0.5.0
+  - @loomidev/horizontal-line-graph@0.5.0
+  - @loomidev/lightbox@0.5.0
+  - @loomidev/listview@0.5.0
+  - @loomidev/popover@0.5.0
+  - @loomidev/processing@0.5.0
+  - @loomidev/qrcode@0.5.0
+  - @loomidev/scroller@0.5.0
+  - @loomidev/tooltip@0.5.0
+
 ## 0.4.1
 
 ### Patch Changes

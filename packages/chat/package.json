@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/chat",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Chat window and message bubbles for one-to-one and group conversations.",
   "repository": {
     "type": "git",

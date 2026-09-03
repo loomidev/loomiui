@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/checkbox",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "<loomi-checkbox> — a themeable checkbox web component in the full loomi palette.",
   "repository": {
     "type": "git",

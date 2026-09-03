@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/theme-switcher",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "<loomi-theme-switcher> — light/dark/system theme toggle.",
   "repository": {
     "type": "git",

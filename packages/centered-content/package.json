@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/centered-content",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "<loomi-centered-content> — center content vertically and horizontally.",
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/alert",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "<loomi-alert> — inline alert messages (info/error/warning/success) in the full palette.",
   "repository": {
     "type": "git",

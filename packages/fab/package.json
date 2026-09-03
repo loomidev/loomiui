@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/fab",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "<loomi-fab> — a floating action button with an optional speed-dial menu.",
   "repository": {
     "type": "git",

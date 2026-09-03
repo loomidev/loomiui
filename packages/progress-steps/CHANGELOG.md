@@ -1,5 +1,14 @@
 # @loomidev/progress-steps
 
+## 0.5.0
+
+### Patch Changes
+
+- Updated dependencies [450d1d3]
+- Updated dependencies [5c97138]
+- Updated dependencies [7227978]
+  - @loomidev/progress@0.5.0
+
 ## 0.4.1
 
 ### Patch Changes

@@ -1,5 +1,24 @@
 # @loomidev/modal
 
+## 0.5.0
+
+### Minor Changes
+
+- 450d1d3: Export a typed `EventMap` (and named detail interfaces) from fourteen more component
+  packages. `@loomidev/react` derives each `on*` callback's type from these, so events on
+  these components now carry a typed `detail` instead of falling back to `any`.
+
+### Patch Changes
+
+- Updated dependencies [450d1d3]
+- Updated dependencies [d3bc58c]
+- Updated dependencies [ec8801a]
+- Updated dependencies [7227978]
+- Updated dependencies [742f156]
+  - @loomidev/button@0.5.0
+  - @loomidev/core@0.5.0
+  - @loomidev/icon@0.5.0
+
 ## 0.4.1
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/data-grid",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "<loomi-data-grid> — a modular data grid with a lean core (rendering, sorting, pagination, selection, column resizing, sticky headers, keyboard navigation, custom cell rendering) plus opt-in modules for filtering, row grouping, tree data, export, inline editing, virtual scrolling, pivot tables, charts integration, spreadsheet features, and state persistence.",
   "repository": {
     "type": "git",

@@ -1,5 +1,22 @@
 # @loomidev/slider
 
+## 0.5.0
+
+### Minor Changes
+
+- 450d1d3: Export a typed `EventMap` (and named detail interfaces) from fourteen more component
+  packages. `@loomidev/react` derives each `on*` callback's type from these, so events on
+  these components now carry a typed `detail` instead of falling back to `any`.
+
+### Patch Changes
+
+- ec8801a: Restore every form-associated control to its initial state through native form resets,
+  document submitted value formats, and add generated React 18 and React 19 JSX types.
+- Updated dependencies [450d1d3]
+- Updated dependencies [d3bc58c]
+- Updated dependencies [742f156]
+  - @loomidev/core@0.5.0
+
 ## 0.4.1
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/clipboard",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "<loomi-clipboard> — wraps text or content with a copy button and copied feedback.",
   "repository": {
     "type": "git",

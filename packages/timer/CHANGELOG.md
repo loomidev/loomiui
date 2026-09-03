@@ -1,5 +1,18 @@
 # @loomidev/timer
 
+## 0.5.0
+
+### Patch Changes
+
+- 87c5d42: Drop bogus events from the custom-elements manifests. A component that dispatches through
+  a helper — `new CustomEvent(name, …)` — made the analyzer record an event literally called
+  `name` (or `type`), which then showed up in editor completions and framework integrations.
+  `pnpm cem` now prunes any event named after a dispatch variable, along with unnamed ones.
+- Updated dependencies [450d1d3]
+- Updated dependencies [d3bc58c]
+- Updated dependencies [742f156]
+  - @loomidev/core@0.5.0
+
 ## 0.4.1
 
 ### Patch Changes

@@ -1,5 +1,35 @@
 # @loomidev/text-editor
 
+## 0.5.0
+
+### Patch Changes
+
+- ec8801a: Restore every form-associated control to its initial state through native form resets,
+  document submitted value formats, and add generated React 18 and React 19 JSX types.
+- 87c5d42: Drop bogus events from the custom-elements manifests. A component that dispatches through
+  a helper — `new CustomEvent(name, …)` — made the analyzer record an event literally called
+  `name` (or `type`), which then showed up in editor completions and framework integrations.
+  `pnpm cem` now prunes any event named after a dispatch variable, along with unnamed ones.
+- Updated dependencies [450d1d3]
+- Updated dependencies [d3bc58c]
+- Updated dependencies [87c5d42]
+- Updated dependencies [450d1d3]
+- Updated dependencies [fdac5da]
+- Updated dependencies [ec8801a]
+- Updated dependencies [ec8801a]
+- Updated dependencies [87c5d42]
+- Updated dependencies [7227978]
+- Updated dependencies [742f156]
+  - @loomidev/theme@0.5.0
+  - @loomidev/core@0.5.0
+  - @loomidev/filepicker@0.5.0
+  - @loomidev/input@0.5.0
+  - @loomidev/modal@0.5.0
+  - @loomidev/select@0.5.0
+  - @loomidev/icon@0.5.0
+  - @loomidev/notification@0.5.0
+  - @loomidev/tooltip@0.5.0
+
 ## 0.4.1
 
 ### Patch Changes
