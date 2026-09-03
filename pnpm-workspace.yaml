@@ -24,3 +24,7 @@ overrides:
   js-yaml@3: ^3.15.1
   js-yaml@4: ^4.3.1
   ip-address: ^10.3.1
+  # express (via @modelcontextprotocol/sdk) pulls body-parser's qs@6.15.3, which has an
+  # array-limit bypass and a DoS via attacker-controlled isBuffer (GHSA-x5fp-wj9c-mxmx,
+  # GHSA-4mjr-xmp4-gh2g). Drop once express/body-parser bump their qs range past 6.16.0.
+  qs: ^6.16.0
