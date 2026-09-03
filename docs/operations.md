@@ -36,6 +36,8 @@ pnpm check:styles
 pnpm typecheck
 pnpm test
 pnpm check:cem
+pnpm check:i18n
+pnpm check:bundle-size
 pnpm audit:quality
 pnpm quality:readmes
 ```

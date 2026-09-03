@@ -31,6 +31,7 @@
     "check:ssr": "node scripts/check-ssr.mjs",
     "check:hydration": "node scripts/check-hydration.mjs",
     "check:i18n": "node scripts/check-i18n-completeness.mjs",
+    "check:bundle-size": "node scripts/check-bundle-size.mjs",
     "test:visual": "web-test-runner --config web-test-runner.visual.config.mjs",
     "check:cem": "node scripts/generate-cem.mjs && git diff --exit-code -- \"packages/*/custom-elements.json\"",
     "check:react-types": "node packages/react-types/scripts/generate-react-types.mjs && git diff --exit-code -- packages/react-types/src/index.ts",

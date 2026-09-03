@@ -85,6 +85,10 @@ jobs:
       # documented contribution path (see packages/core/src/locales/index.ts).
       - name: Locale completeness
         run: pnpm check:i18n
+      # Bundled + gzipped size of each component's public entry, `lit` kept external as a
+      # shared peerDependency — catches an accidental size regression before it ships.
+      - name: Bundle size budget
+        run: pnpm check:bundle-size
       - run: pnpm test
 
       # Baselines are per-platform bitmaps and the Linux set is recorded by the
