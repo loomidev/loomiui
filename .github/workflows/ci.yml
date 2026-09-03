@@ -50,6 +50,11 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Only production dependencies gate CI — dev-only tooling vulnerabilities (build,
+      # lint, test infra that never ships to a consumer) are tracked by Dependabot instead
+      # of blocking every PR on an upstream tool's unpatched transitive dependency.
+      - name: Dependency vulnerability audit
+        run: pnpm audit --prod
       - name: No merge-conflict markers
         run: pnpm check:conflicts
       - name: Bundle packages in sync
