@@ -23,7 +23,7 @@ const CROP_IMG_STYLE =
 const CROP_RECT_STYLE =
   "position:absolute;box-shadow:0 0 0 9999px rgba(15,23,42,.55);border:1px solid var(--loomi-surface-border);cursor:move;touch-action:none;";
 const CROP_HANDLE_STYLE =
-  "position:absolute;right:-0.4rem;bottom:-0.4rem;width:0.85rem;height:0.85rem;border-radius:9999px;background:var(--loomi-surface);border:1px solid var(--loomi-primary-600,#1d4ed8);cursor:nwse-resize;touch-action:none;";
+  "position:absolute;right:-0.4rem;bottom:-0.4rem;width:0.85rem;height:0.85rem;border-radius:9999px;background:var(--loomi-surface);border:1px solid var(--loomi-primary-600,var(--_loomi-primary-600-default,#1d4ed8));cursor:nwse-resize;touch-action:none;";
 
 export type LoomiCropAspectRatio = "16:9" | "4:3" | "2:3" | "1:1" | "free";
 
