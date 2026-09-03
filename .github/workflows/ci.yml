@@ -71,6 +71,11 @@ jobs:
       # The other half: that a browser can adopt that markup rather than replace it.
       - name: Server-rendered markup hydrates
         run: pnpm check:hydration
+      # Reports per-locale translation coverage against en; only fails on keys that don't
+      # exist in en at all (a stale rename or typo) — partial locales are a supported,
+      # documented contribution path (see packages/core/src/locales/index.ts).
+      - name: Locale completeness
+        run: pnpm check:i18n
       - run: pnpm test
 
       # Baselines are per-platform bitmaps and the Linux set is recorded by the
