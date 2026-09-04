@@ -21,14 +21,14 @@ default to `label` / `value`.
 <loomi-select
   name="country"
   label="Country"
-  data='[{"label":"Ghana","value":"gh"},{"label":"Nigeria","value":"ng"},{"label":"Kenya","value":"ke"}]'
+  data='[{"label":"France","value":"fr"},{"label":"Japan","value":"jp"},{"label":"Brazil","value":"br"}]'
 ></loomi-select>
 ```
 
 ```js
 document.querySelector("loomi-select").data = [
-  { label: "Ghana", value: "gh" },
-  { label: "Nigeria", value: "ng" },
+  { label: "France", value: "fr" },
+  { label: "Japan", value: "jp" },
 ];
 ```
 
@@ -41,7 +41,7 @@ with `label-key` / `value-key`.
 <loomi-select
   label-key="country"
   value-key="code"
-  data='[{"country":"Ghana","code":"gh"},{"country":"Nigeria","code":"ng"}]'
+  data='[{"country":"France","code":"fr"},{"country":"Japan","code":"jp"}]'
 ></loomi-select>
 ```
 
@@ -266,7 +266,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations â
 <loomi-select
   name="country"
   label="What is your nationality"
-  data='[{"label":"Ghana","value":"gh"},{"label":"Nigeria","value":"ng"}]'
+  data='[{"label":"France","value":"fr"},{"label":"Japan","value":"jp"}]'
   value-key="value"
   label-key="label"
   required
@@ -315,7 +315,7 @@ Use the CDN version for prototypes, documentation pages, or a quick reproduction
 <loomi-select
   name="country"
   label="Country"
-  data='[{"label":"Ghana","value":"gh"},{"label":"Nigeria","value":"ng"}]'
+  data='[{"label":"France","value":"fr"},{"label":"Japan","value":"jp"}]'
 ></loomi-select>
 ```
 
@@ -334,7 +334,7 @@ This component accepts `data` as a JavaScript property. Use an HTML attribute on
 
 ```js
 const el = document.querySelector("loomi-select");
-el.data = [{ label: "Ghana", value: "gh" }, { label: "Nigeria", value: "ng" }];
+el.data = [{ label: "France", value: "fr" }, { label: "Japan", value: "jp" }];
 ```
 
 </loomi-tab>
@@ -357,7 +357,7 @@ import "@loomidev/select";
 <loomi-select
   name="country"
   label="Country"
-  data='[{"label":"Ghana","value":"gh"},{"label":"Nigeria","value":"ng"}]'
+  data='[{"label":"France","value":"fr"},{"label":"Japan","value":"jp"}]'
 ></loomi-select>
 ```
 
@@ -374,7 +374,7 @@ export function LoomiExample() {
   const el = useRef(null);
 
   useEffect(() => {
-    el.current.data = [{ label: "Ghana", value: "gh" }, { label: "Nigeria", value: "ng" }];
+    el.current.data = [{ label: "France", value: "fr" }, { label: "Japan", value: "jp" }];
   }, []);
 
   return <loomi-select ref={el}></loomi-select>;
@@ -396,7 +396,7 @@ import "@loomidev/select";
 const el = ref(null);
 
 onMounted(() => {
-  el.value.data = [{ label: "Ghana", value: "gh" }, { label: "Nigeria", value: "ng" }];
+  el.value.data = [{ label: "France", value: "fr" }, { label: "Japan", value: "jp" }];
 });
 </script>
 
@@ -429,7 +429,7 @@ export class AppComponent implements AfterViewInit {
   @ViewChild("el") el!: ElementRef<any>;
 
   ngAfterViewInit() {
-    this.el.nativeElement.data = [{ label: "Ghana", value: "gh" }, { label: "Nigeria", value: "ng" }];
+    this.el.nativeElement.data = [{ label: "France", value: "fr" }, { label: "Japan", value: "jp" }];
   }
 }
 ```
@@ -447,7 +447,7 @@ Svelte can import the package inside a component script. Astro can import it in 
   let el;
 
   onMount(() => {
-    el.data = [{ label: "Ghana", value: "gh" }, { label: "Nigeria", value: "ng" }];
+    el.data = [{ label: "France", value: "fr" }, { label: "Japan", value: "jp" }];
   });
 </script>
 
@@ -462,7 +462,7 @@ import "@loomidev/select";
 <loomi-select
   name="country"
   label="Country"
-  data='[{"label":"Ghana","value":"gh"},{"label":"Nigeria","value":"ng"}]'
+  data='[{"label":"France","value":"fr"},{"label":"Japan","value":"jp"}]'
 ></loomi-select>
 ```
 

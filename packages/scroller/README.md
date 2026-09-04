@@ -97,7 +97,7 @@ Use links when each headline should open a page. Native links continue to work n
 ```html
 <loomi-scroller aria-label="Latest news" speed="45">
   <a href="/news/product-launch">New product launch — read the announcement</a>
-  <a href="/news/accra-office">Our Accra office opens this Friday</a>
+  <a href="/news/berlin-office">Our Berlin office opens this Friday</a>
   <a href="/news/v2">Version 2.0 is now available</a>
 </loomi-scroller>
 ```

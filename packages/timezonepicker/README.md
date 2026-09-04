@@ -4,7 +4,7 @@
 (`Intl.supportedValuesOf("timeZone")`). Each row shows its live local time and current
 UTC offset (DST-aware, recomputed — never a baked-in value), and a pinned "Use my
 timezone" row lets a visitor pick their own browser-detected zone in one click.
-**Form-associated**: submits the IANA id (e.g. `"Africa/Accra"`) under `name`.
+**Form-associated**: submits the IANA id (e.g. `"America/New_York"`) under `name`.
 
 ```bash
 npm install @loomidev/timezonepicker lit
@@ -28,8 +28,8 @@ Ships with its own built-in zone list — there's no `data` attribute to wire up
 segment), case-insensitively.
 
 ```html
-<loomi-timezonepicker selection="Africa/Accra"></loomi-timezonepicker>
-<loomi-timezonepicker selection="accra"></loomi-timezonepicker>
+<loomi-timezonepicker selection="America/New_York"></loomi-timezonepicker>
+<loomi-timezonepicker selection="new york"></loomi-timezonepicker>
 ```
 
 `selection` isn't just a one-time initial value — setting it again later (as an
@@ -61,7 +61,7 @@ above the trigger once a value is chosen.
 
 ```html
 <loomi-timezonepicker disabled label="Timezone"></loomi-timezonepicker>
-<loomi-timezonepicker readonly selection="Africa/Accra" label="Timezone"></loomi-timezonepicker>
+<loomi-timezonepicker readonly selection="America/New_York" label="Timezone"></loomi-timezonepicker>
 ```
 
 ## Searching
@@ -84,7 +84,7 @@ Every `<loomi-timezonepicker>` participates in `ElementInternals` form associati
 its value submits like a native form control under whatever `name` you gave it.
 
 ```js
-new FormData(form).get("timezone"); // "Africa/Accra"
+new FormData(form).get("timezone"); // "America/New_York"
 ```
 
 ## Sizes
@@ -157,7 +157,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
   name="timezone"
   label="What timezone are you in?"
   required
-  selection="Africa/Accra"
+  selection="America/New_York"
   size="big"
 ></loomi-timezonepicker>
 ```
