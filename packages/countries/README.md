@@ -29,9 +29,9 @@ dial code, flag) — there's no `data` attribute to wire up.
 most convenient for the caller — and resolves to the canonical alpha-2 code.
 
 ```html
-<loomi-countries selection="GH"></loomi-countries>
-<loomi-countries selection="Ghana"></loomi-countries>
-<loomi-countries selection="+233"></loomi-countries>
+<loomi-countries selection="JP"></loomi-countries>
+<loomi-countries selection="Japan"></loomi-countries>
+<loomi-countries selection="+81"></loomi-countries>
 ```
 
 `selection` isn't just a one-time initial value — setting it again later (as an
@@ -56,7 +56,7 @@ value is chosen.
 
 ```html
 <loomi-countries disabled label="Country"></loomi-countries>
-<loomi-countries readonly selection="GH" label="Country"></loomi-countries>
+<loomi-countries readonly selection="JP" label="Country"></loomi-countries>
 ```
 
 ## Phone Mode
@@ -72,20 +72,20 @@ input yourself with custom glue code.
 Pre-select the country the same way as in `names` mode:
 
 ```html
-<loomi-countries mode="phone" selection="GH" label="Phone number"></loomi-countries>
+<loomi-countries mode="phone" selection="JP" label="Phone number"></loomi-countries>
 ```
 
 Picking a country from the panel automatically focuses the number field. The number
 field always accepts digits only — letters and punctuation are stripped as you type,
 the same way `<loomi-input numeric>` behaves. It also auto-formats those digits using
-the selected country's typical national number layout — pick Ghana and type
-`241234567` and the field shows `(241)234-567`. The form-submitted value is the dial
-code and the (formatted) number concatenated, e.g. `+233(241)234-567`; read `.value`
+the selected country's typical national number layout — pick Japan and type
+`312345678` and the field shows `(312)345-678`. The form-submitted value is the dial
+code and the (formatted) number concatenated, e.g. `+81(312)345-678`; read `.value`
 for just what's in the field.
 
 ```js
 const el = document.querySelector("loomi-countries");
-el.addEventListener("input", () => console.log(el.value)); // "(241)234-567"
+el.addEventListener("input", () => console.log(el.value)); // "(312)345-678"
 ```
 
 About 20 territories (mostly ones that share a dial code with a parent country, like
@@ -110,15 +110,15 @@ the selected country's own format.
 
 The dropdown panel always includes a search box — with 250 entries, scrolling to find
 one isn't realistic, so unlike `<loomi-select>` this isn't behind a `searchable` flag.
-Search matches the country name, its ISO code, or its dial code, so typing "233" finds
-Ghana in `phone` mode just as well as typing "gha" does.
+Search matches the country name, its ISO code, or its dial code, so typing "81" finds
+Japan in `phone` mode just as well as typing "jap" does.
 
 ## Reacting to Selection
 
 ```js
 const el = document.querySelector("loomi-countries");
 el.addEventListener("select", (e) => {
-  console.log(e.detail); // { code: "GH", name: "Ghana", dialCode: "+233" }
+  console.log(e.detail); // { code: "JP", name: "Japan", dialCode: "+81" }
 });
 ```
 
@@ -128,8 +128,8 @@ Every `<loomi-countries>` participates in `ElementInternals` form association, s
 value submits like a native form control under whatever `name` you gave it.
 
 ```js
-new FormData(form).get("country"); // "GH" in `names` mode
-new FormData(form).get("phone");   // "+233241234567" in `phone` mode
+new FormData(form).get("country"); // "JP" in `names` mode
+new FormData(form).get("phone");   // "+81312345678" in `phone` mode
 ```
 
 ## Required Fields
@@ -226,7 +226,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
   mode="phone"
   name="phone"
   label="Phone number"
-  selection="GH"
+  selection="JP"
 ></loomi-countries>
 ```
 
@@ -316,7 +316,7 @@ export function LoomiExample() {
   const el = useRef(null);
 
   useEffect(() => {
-    el.current.selection = "GH";
+    el.current.selection = "JP";
   }, []);
 
   return <loomi-countries ref={el} name="country" label="Country"></loomi-countries>;
@@ -338,7 +338,7 @@ import "@loomidev/countries";
 const el = ref(null);
 
 onMounted(() => {
-  el.value.selection = "GH";
+  el.value.selection = "JP";
 });
 </script>
 
@@ -371,7 +371,7 @@ export class AppComponent implements AfterViewInit {
   @ViewChild("el") el!: ElementRef<any>;
 
   ngAfterViewInit() {
-    this.el.nativeElement.selection = "GH";
+    this.el.nativeElement.selection = "JP";
   }
 }
 ```
@@ -389,7 +389,7 @@ Svelte can import the package inside a component script. Astro can import it in 
   let el;
 
   onMount(() => {
-    el.selection = "GH";
+    el.selection = "JP";
   });
 </script>
 
