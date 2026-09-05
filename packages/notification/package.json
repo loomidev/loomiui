@@ -53,7 +53,8 @@
     "lit",
     "loomiui",
     "notification",
-    "toast"
+    "toast",
+    "snackbar"
   ],
   "customElements": "custom-elements.json"
 }
