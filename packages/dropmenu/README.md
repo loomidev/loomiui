@@ -267,7 +267,7 @@ promoted to the top layer with the popover API. Two consequences worth knowing:
   opens upward instead, and the arrow moves to the underside to keep pointing at the
   trigger. Alignment swaps the same way near a left or right edge.
 
-`placement` is therefore a _preference_, not a guarantee — a panel that would leave the
+`placement` is therefore a _preference_, not a guarantee - a panel that would leave the
 viewport still moves.
 
 ```html
@@ -278,7 +278,7 @@ viewport still moves.
 
 `left` and `right` align the panel's left or right edge with the trigger, opening
 downward. To choose the side as well, use the same `bottom-*`/`top-*` names the other
-floating panels take (`<loomi-split-button>`, `<loomi-popover>`) — `start`/`end` are the
+floating panels take (`<loomi-split-button>`, `<loomi-popover>`) - `start`/`end` are the
 left/right edges:
 
 ```html
@@ -315,14 +315,14 @@ fallback on browsers without popover support.
 A submenu is a floating panel in its own right, on the same terms as the menu: it opens
 beside the row that owns it, flips to that row's left when it would run off the right of
 the screen, slides up when it is taller than the room beneath the row, and is in the top
-layer — so `scrollable` menus don't clip it either. A nested submenu follows whichever
+layer - so `scrollable` menus don't clip it either. A nested submenu follows whichever
 side its parent settled on, rather than zig-zagging back across it.
 
 The resolved side is published as `data-side="left" | "right"` on the submenu, and the
 submenu is exposed as the `submenu` part.
 
 Submenus open on hover and on keyboard focus, and close a moment after the pointer leaves
-both the row and the panel — the delay is what lets you cross the gap between them.
+both the row and the panel - the delay is what lets you cross the gap between them.
 
 ## Scrollable Menus
 
@@ -355,27 +355,27 @@ See [`<loomi-bell>`'s README](../bell#wrapping-it-in-a-trigger) for a worked exa
 
 ## Opening and closing motion
 
-The panel drops in from the trigger and plays the reverse on close — a panel that flipped
+The panel drops in from the trigger and plays the reverse on close - a panel that flipped
 _above_ its trigger rises in and sinks back down instead, so the motion always reads as
 coming out of and returning to the trigger. Submenus fade. `prefers-reduced-motion:
 reduce` shortens all of it to near-zero.
 
-The menu counts as closed the moment it is dismissed — `isOpen` is `false`, listeners are
-released, focus goes back to the trigger — and only the panel's own visibility waits for
+The menu counts as closed the moment it is dismissed - `isOpen` is `false`, listeners are
+released, focus goes back to the trigger - and only the panel's own visibility waits for
 the animation. While it does, the panel keeps its `open` class, gains a `closing` one, and
 stops taking pointer events so a click can't land on a menu that is leaving.
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
@@ -425,7 +425,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 | `show()`  | Open the menu.                                                               |
 | `hide()`  | Close the menu.                                                              |
 | `isOpen`  | _(getter)_ `true` while the menu is open.                                    |
-| `focus()` | Focus the trigger — e.g. to hand focus back after a dialog it opened closes. |
+| `focus()` | Focus the trigger - e.g. to hand focus back after a dialog it opened closes. |
 | `blur()`  | Blur the trigger.                                                            |
 
 ## Events

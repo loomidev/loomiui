@@ -1,8 +1,8 @@
 # @loomidev/pagination
 
-`<loomi-pagination>` — page controls driven by `total`, `page-size` and `page`. The
+`<loomi-pagination>` - page controls driven by `total`, `page-size` and `page`. The
 component this very docs site uses to render its own [`<loomi-table>`](../table)
-pagination — and the [bottom prev/next nav](../card) you see at the foot of every page
+pagination - and the [bottom prev/next nav](../card) you see at the foot of every page
 on this site is built from [`<loomi-card>`](../card), not this component, in case you're
 looking for that pattern instead.
 
@@ -22,7 +22,7 @@ import "@loomidev/pagination";
 
 ## Pagination Styles
 
-Three visual styles are available — arrows (default), numbered pages, or a page-jump
+Three visual styles are available - arrows (default), numbered pages, or a page-jump
 dropdown.
 
 ```html
@@ -44,7 +44,7 @@ wording with `total-label` (`:a`/`:b`/`:c` are replaced with the start, end, and
 or hide it entirely.
 
 ```html
-<loomi-pagination total="240" page-size="25" total-label="Showing :a–:b of :c results"></loomi-pagination>
+<loomi-pagination total="240" page-size="25" total-label="Showing :a-:b of :c results"></loomi-pagination>
 <loomi-pagination total="240" page-size="25" show-total="false"></loomi-pagination>
 ```
 
@@ -78,7 +78,7 @@ document.getElementById("p").pageCount; // 10, for total=240 page-size=25
 ## Driving a Table
 
 [`<loomi-table>`](../table) renders `<loomi-pagination>` internally when `paginated` is
-set — see its README for the full composition. Use `<loomi-pagination>` directly when
+set - see its README for the full composition. Use `<loomi-pagination>` directly when
 you're paginating something other than a `<loomi-table>` (a custom list, a gallery, API
 results you render yourself).
 
@@ -100,15 +100,15 @@ results you render yourself).
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
@@ -139,7 +139,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
   page="1"
   pagination-style="numbers"
   color="success"
-  total-label="Showing :a–:b of :c results"
+  total-label="Showing :a-:b of :c results"
 ></loomi-pagination>
 ```
 

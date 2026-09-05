@@ -1,6 +1,6 @@
 # @loomidev/bottom-nav
 
-`<loomi-bottom-nav>` and `<loomi-bottom-nav-item>` — a mobile bottom navigation bar with
+`<loomi-bottom-nav>` and `<loomi-bottom-nav-item>` - a mobile bottom navigation bar with
 icons, labels, badges, eight active-state styles, and a routing-agnostic click event so
 any router (or plain `<a>` links) can drive it.
 
@@ -24,14 +24,13 @@ import "@loomidev/bottom-nav";
 
 The bar's own bottom padding (or, in `floating` mode, its distance from the viewport edge)
 accounts for `env(safe-area-inset-bottom)`, so it clears the home indicator on notched
-phones automatically — no extra configuration needed.
+phones automatically - no extra configuration needed.
 
 ## Flexible navigation
 
 Each item decides how it navigates from the attributes you give it:
 
-- **`href` set** → renders a real `<a>`. Native/SPA-router links, Laravel routes, anchors —
-  all just work, including `target="_blank"` (always preserved — never intercepted).
+- **`href` set** → renders a real `<a>`. Native/SPA-router links, Laravel routes, anchors - all just work, including `target="_blank"` (always preserved - never intercepted).
 - **`href` omitted** → renders a `<button>`. Use this when a JS router owns navigation
   entirely; the item still needs a `value` (or `name`) to identify itself.
 - **Either way**, clicking always fires `loomi-change` on the parent, so a client-side
@@ -50,7 +49,7 @@ document.querySelector("loomi-bottom-nav").addEventListener("loomi-change", (eve
 <loomi-bottom-nav-item value="orders" href="/orders" prevent-default>Orders</loomi-bottom-nav-item>
 ```
 
-`active` on the parent is the controlled identifier — set it from your router (e.g. on
+`active` on the parent is the controlled identifier - set it from your router (e.g. on
 every route change) and the matching item recomputes its active state. Clicking an
 (enabled) item also updates `active` locally first, for immediate visual feedback, before
 `loomi-change` reaches your listener.
@@ -121,12 +120,11 @@ that one:
 ## Accessibility
 
 `<loomi-bottom-nav>` renders a real `<nav>` landmark (`label` sets its `aria-label`,
-default `"Primary"`). Each item renders a real `<a>` (when `href` is set) or `<button>` —
-never a clickable `<div>` — so screen readers and keyboard users get native semantics for
+default `"Primary"`). Each item renders a real `<a>` (when `href` is set) or `<button>` - never a clickable `<div>` - so screen readers and keyboard users get native semantics for
 free. The active item gets `aria-current="page"`.
 
 - `Tab` / `Shift+Tab` reach every item in document order, like any row of links/buttons.
-- `←`/`→` (or `↑`/`↓`) move focus between items without navigating — manual activation,
+- `←`/`→` (or `↑`/`↓`) move focus between items without navigating - manual activation,
   per the WAI-ARIA APG toolbar pattern, so arrowing through never triggers a page navigation
   by accident. `Home`/`End` jump to the first/last enabled item. `Enter`/`Space` (or a
   click) activate the focused item natively.
@@ -134,7 +132,7 @@ free. The active item gets `aria-current="page"`.
   tab order (`tabindex="-1"` for links, native `disabled` for buttons).
 - Focus is visible via `:focus-visible`, ringed with the component's accent color.
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
@@ -142,10 +140,10 @@ Designed for mobile: `<loomi-bottom-nav>` docks itself with `position: fixed` at
 viewport bottom (or floats, see `variant` below) so you don't need any wrapping layout.
 Set `mobile-only` to hide it automatically at tablet width and up (768px), the common
 pattern where a sidebar or top nav takes over on larger screens. Items share the available
-width equally (`flex: 1`) and truncate long labels rather than wrapping — designed for
-3–5 items.
+width equally (`flex: 1`) and truncate long labels rather than wrapping - designed for
+3-5 items.
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
@@ -155,21 +153,21 @@ with `.dark` on `<html>` (via `@loomidev/theme-switcher` or your own theme toggl
 active-state tokens (see **Styling hooks** below) default to the instance's `color`
 accent, which is also dark-mode aware.
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
-## Attributes — `<loomi-bottom-nav>`
+## Attributes - `<loomi-bottom-nav>`
 
 | Attribute      | Default     | Description                                                                                           |
 | -------------- | ----------- | ----------------------------------------------------------------------------------------------------- |
-| `active`       | _(blank)_   | The active item's `value`/`name`. Controlled — set it from your router.                               |
+| `active`       | _(blank)_   | The active item's `value`/`name`. Controlled - set it from your router.                               |
 | `active-style` | `pill`      | `pill` \| `underline` \| `top-line` \| `background` \| `icon-only` \| `dot` \| `border` \| `minimal`. |
 | `variant`      | `fixed`     | `fixed` (edge-to-edge dock) \| `floating` (rounded, elevated island).                                 |
 | `color`        | `primary`   | Accent for the active item's color/background/border/dot. Any loomi color.                            |
-| `icon-source`  | `heroicons` | Default icon set for every item — see `<loomi-icon>`'s `source`.                                      |
+| `icon-source`  | `heroicons` | Default icon set for every item - see `<loomi-icon>`'s `source`.                                      |
 | `label`        | `Primary`   | `aria-label` for the `<nav>` landmark.                                                                |
 | `mobile-only`  | `false`     | Hides the bar at 768px and up. _(boolean)_                                                            |
 
-## Attributes — `<loomi-bottom-nav-item>`
+## Attributes - `<loomi-bottom-nav-item>`
 
 | Attribute         | Default   | Description                                                                                   |
 | ----------------- | --------- | --------------------------------------------------------------------------------------------- |
@@ -195,7 +193,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 
 | Event          | Detail                                                                                                                                                                        |
 | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `loomi-change` | `{ item, value, name, href }`. Fired by the clicked item, bubbles through the parent. Cancelable — `event.preventDefault()` suppresses real anchor navigation for that click. |
+| `loomi-change` | `{ item, value, name, href }`. Fired by the clicked item, bubbles through the parent. Cancelable - `event.preventDefault()` suppresses real anchor navigation for that click. |
 
 ## Parts
 

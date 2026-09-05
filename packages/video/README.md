@@ -3,7 +3,7 @@
 `<loomi-video>` is a themeable wrapper around the native `<video>` element. The
 browser's real media element does all the codec/format/network work under the
 hood; on top of it, `loomi-video` layers a themeable, keyboard-accessible
-control bar built from `@loomidev/button` and `@loomidev/slider` — instead of
+control bar built from `@loomidev/button` and `@loomidev/slider` - instead of
 the browser's native control UI.
 
 ```bash
@@ -20,7 +20,7 @@ import "@loomidev/video";
 <loomi-video src="/demo.mp4" controls poster="/poster.jpg"></loomi-video>
 ```
 
-Without `controls`, `loomi-video` is a bare, unstyled passthrough — exactly
+Without `controls`, `loomi-video` is a bare, unstyled passthrough - exactly
 like a plain `<video>` with no `controls` attribute. Set `controls` to opt
 into the loading state, error state, click-to-play overlay, and themed
 control bar (play/pause, seek, volume, captions, picture-in-picture,
@@ -28,7 +28,7 @@ fullscreen).
 
 ## Multiple Sources & Subtitle Tracks
 
-`<source>` and `<track>` children work exactly like plain HTML — they're
+`<source>` and `<track>` children work exactly like plain HTML - they're
 moved onto the real internal `<video>` element on connect (Shadow DOM
 slotting alone can't make a native media element discover them itself, so
 `loomi-video` does this move for you).
@@ -50,7 +50,7 @@ without opening the menu.
 ## Theme Integration
 
 `color` picks the accent used for the seek/volume sliders, the play button,
-and focus rings — any loomi color.
+and focus rings - any loomi color.
 
 ```html
 <loomi-video src="/demo.mp4" controls color="success"></loomi-video>
@@ -64,13 +64,13 @@ and focus rings — any loomi color.
 ```
 
 `aspect-ratio` reserves the right amount of space before metadata loads (no
-layout shift). `fit` maps to `object-fit` — `contain` (default), `cover`, or
+layout shift). `fit` maps to `object-fit` - `contain` (default), `cover`, or
 `fill`.
 
 ## Custom Controls
 
 Replace the entire built-in control bar with your own markup via the
-`controls` slot — loading, error, and click-to-play overlays are unaffected.
+`controls` slot - loading, error, and click-to-play overlays are unaffected.
 
 ```html
 <loomi-video src="/demo.mp4" controls>
@@ -84,7 +84,7 @@ Replace the entire built-in control bar with your own markup via the
 
 While the browser is buffering (initial load or a mid-playback stall),
 `loomi-video` shows a themed `@loomidev/spinner` overlay. If the media fails
-to load — a bad URL, an unsupported format, a network error — it shows a
+to load - a bad URL, an unsupported format, a network error - it shows a
 friendly message with a "Retry" button that reloads the source. Listen for
 the `loomi-video-error` event to hook in your own logging/telemetry.
 
@@ -127,7 +127,7 @@ captions menu uses `role="menu"`/`menuitemradio`.
 - Full keyboard shortcut set (see above) in addition to individually tabbable
   controls.
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
@@ -137,17 +137,17 @@ layouts. The control bar's volume slider and time labels hide automatically
 in narrow containers (via CSS container queries) rather than overflowing or
 wrapping awkwardly.
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
 `loomi-video`'s control bar is designed to sit over video content regardless
-of your page's theme — it uses a translucent dark scrim and white icons by
+of your page's theme - it uses a translucent dark scrim and white icons by
 design, not the light/dark semantic tokens. The accent color (play button,
 sliders, focus rings) still follows `color` and picks up `.dark` overrides
 from `@loomidev/theme-switcher` the same as every other loomi component.
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
@@ -164,7 +164,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 | `crossorigin`        | _(blank)_  | `""` \| `anonymous` \| `use-credentials`.                                                                                                                                                                                                |
 | `color`              | `primary`  | Accent color for the control bar. Any loomi color.                                                                                                                                                                                       |
 | `aspect-ratio`       | `16 / 9`   | Any valid CSS `aspect-ratio` value.                                                                                                                                                                                                      |
-| `fit`                | `contain`  | `contain` \| `cover` \| `fill` — maps to `object-fit`.                                                                                                                                                                                   |
+| `fit`                | `contain`  | `contain` \| `cover` \| `fill` - maps to `object-fit`.                                                                                                                                                                                   |
 | `autohide-controls`  | `true`     | Hides the control bar after a few seconds of inactivity while playing. _(boolean)_                                                                                                                                                       |
 | `disable-pip`        | `false`    | Always hides the picture-in-picture button. _(boolean)_                                                                                                                                                                                  |
 | `disable-fullscreen` | `false`    | Always hides the fullscreen button. _(boolean)_                                                                                                                                                                                          |
@@ -189,7 +189,7 @@ observe it without reaching into internals):
 | `volumechange`                                    | `{ volume, muted }`                                                                                                                                 |
 | `fullscreenchange`                                | `{ fullscreen }`                                                                                                                                    |
 | `enterpictureinpicture` / `leavepictureinpicture` | _(none)_                                                                                                                                            |
-| `loomi-video-error`                               | `{ code, message }`. Not named `error` — that type bubbling to `window` reads as an uncaught page error to test harnesses and error-tracking tools. |
+| `loomi-video-error`                               | `{ code, message }`. Not named `error` - that type bubbling to `window` reads as an uncaught page error to test harnesses and error-tracking tools. |
 
 ## Methods
 
@@ -201,7 +201,7 @@ player.pause();
 player.togglePlay();
 player.seek(30); // seconds
 player.toggleMute();
-player.setVolume(0.5); // 0–1
+player.setVolume(0.5); // 0-1
 player.toggleFullscreen();
 player.togglePictureInPicture();
 player.selectTrack(0); // index into player's text tracks, or -1 for "off"

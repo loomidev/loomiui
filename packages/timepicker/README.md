@@ -1,6 +1,6 @@
 # @loomidev/timepicker
 
-`<loomi-timepicker>` — pick a time, as a `popup` (input + panel) or `inline`, in 12- or
+`<loomi-timepicker>` - pick a time, as a `popup` (input + panel) or `inline`, in 12- or
 24-hour format. **Form-associated**: submits a formatted time (e.g. `3:25PM` or `03:25`)
 under `name`.
 
@@ -20,7 +20,7 @@ import "@loomidev/timepicker";
 
 ## Inline Style
 
-By default the timepicker is a popup — an input that opens a panel. Set `tp-style` to
+By default the timepicker is a popup - an input that opens a panel. Set `tp-style` to
 `inline` to render the hour/minute pickers directly on the page instead, with no input
 or popup involved (handy for a settings page where the field is always visible).
 
@@ -28,15 +28,15 @@ or popup involved (handy for a settings page where the field is always visible).
 <loomi-timepicker tp-style="inline"></loomi-timepicker>
 ```
 
-> The attribute is `tp-style`, not `style` — `style` is a reserved HTML attribute for
+> The attribute is `tp-style`, not `style` - `style` is a reserved HTML attribute for
 > inline CSS.
 
 ## Clock Style
 
 Set `tp-style="clock"` to launch an analog clock in a modal instead of the dropdown
-panel. The outer ring picks the hour, the inner ring picks the minute — click a
+panel. The outer ring picks the hour, the inner ring picks the minute - click a
 5-minute mark, or click anywhere on the ring's background for an exact minute (any of
-00–59). The center button toggles between 12- and 24-hour format, converting the
+00-59). The center button toggles between 12- and 24-hour format, converting the
 currently selected time so it stays correct across the switch.
 
 ```html
@@ -45,8 +45,8 @@ currently selected time so it stays correct across the switch.
 
 ## Time Formats
 
-The default is 12-hour format (1–12 with AM/PM). Set `format="24"` for 24-hour format
-(00–23, no AM/PM).
+The default is 12-hour format (1-12 with AM/PM). Set `format="24"` for 24-hour format
+(00-23, no AM/PM).
 
 ```html
 <loomi-timepicker format="24"></loomi-timepicker>
@@ -110,15 +110,15 @@ with the selected time displayed beneath it:
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

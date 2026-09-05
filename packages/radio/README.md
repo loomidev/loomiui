@@ -1,6 +1,6 @@
 # @loomidev/radio
 
-`<loomi-radio>` — a themeable radio button. Give radios in a group the same `name` and
+`<loomi-radio>` - a themeable radio button. Give radios in a group the same `name` and
 they become mutually exclusive (coordinated across the same DOM root, since native radio
 grouping doesn't cross shadow boundaries). **Form-associated**.
 
@@ -20,7 +20,7 @@ import "@loomidev/radio";
 
 ## Radio Groups
 
-Radios are most useful in groups — give each radio in the group the same `name` to make
+Radios are most useful in groups - give each radio in the group the same `name` to make
 them mutually exclusive.
 
 ```html
@@ -71,15 +71,15 @@ Give every radio in a group a `value` so the right one is submitted under the sh
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

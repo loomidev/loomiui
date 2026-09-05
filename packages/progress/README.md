@@ -1,7 +1,6 @@
 # @loomidev/progress
 
-`<loomi-progress-bar>`, `<loomi-progress-circle>`, and `<loomi-progress-steps>` —
-horizontal, circular, and stepped progress indicators.
+`<loomi-progress-bar>`, `<loomi-progress-circle>`, and `<loomi-progress-steps>` - horizontal, circular, and stepped progress indicators.
 
 ```bash
 npm install @loomidev/progress lit
@@ -11,7 +10,7 @@ npm install @loomidev/progress lit
 import "@loomidev/progress";
 ```
 
-## Progress Bar — Basic Usage
+## Progress Bar - Basic Usage
 
 ```html
 <loomi-progress-bar percentage="36"></loomi-progress-bar>
@@ -60,7 +59,7 @@ Two shades per color: `faint` (default) and `dark`.
 <loomi-progress-bar percentage="50" color="success" shade="dark" striped animated></loomi-progress-bar>
 ```
 
-## Progress Circle — Basic Usage
+## Progress Circle - Basic Usage
 
 ```html
 <loomi-progress-circle percentage="45"></loomi-progress-circle>
@@ -92,7 +91,7 @@ The label is hidden by default. Show it with `show-label`; add the `%` sign with
 <loomi-progress-circle size="large" percentage="95"></loomi-progress-circle>
 ```
 
-`size` also accepts any pixel number for a fully custom diameter — pair it with
+`size` also accepts any pixel number for a fully custom diameter - pair it with
 `circle-width` to keep the stroke proportional on larger circles.
 
 ```html
@@ -107,15 +106,15 @@ when you want the bar, circle, and stepper from one install.
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
@@ -123,7 +122,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 
 | Attribute    | Default   | Description            |
 | ------------ | --------- | ---------------------- |
-| `percentage` | `0`       | Fill percentage 0–100. |
+| `percentage` | `0`       | Fill percentage 0-100. |
 | `color`      | `primary` | Any loomi color.       |
 | `shade`      | `faint`   | `faint` \| `dark`      |
 

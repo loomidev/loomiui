@@ -55,7 +55,7 @@ ancestor's `overflow` clips it.
 
 A submenu is a floating panel in its own right, on the same terms: it opens beside the row
 that owns it, flips to that row's left when it would run off the right of the screen,
-slides up when it is taller than the room beneath the row, and is in the top layer — so
+slides up when it is taller than the room beneath the row, and is in the top layer - so
 `scrollable` menus don't clip it either. A nested submenu follows whichever side its
 parent settled on, rather than zig-zagging back across it.
 
@@ -63,19 +63,19 @@ The resolved side is published as `data-side="left" | "right"` on the submenu, a
 submenu is exposed as the `submenu` part.
 
 Submenus open on hover and on keyboard focus, and close a moment after the pointer leaves
-both the row and the panel — the delay is what lets you cross the gap between them.
+both the row and the panel - the delay is what lets you cross the gap between them.
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

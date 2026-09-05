@@ -1,8 +1,8 @@
 # @loomidev/timezonepicker
 
-`<loomi-timezonepicker>` — a searchable dropdown over the full IANA timezone database
+`<loomi-timezonepicker>` - a searchable dropdown over the full IANA timezone database
 (`Intl.supportedValuesOf("timeZone")`). Each row shows its live local time and current
-UTC offset (DST-aware, recomputed — never a baked-in value), and a pinned "Use my
+UTC offset (DST-aware, recomputed - never a baked-in value), and a pinned "Use my
 timezone" row lets a visitor pick their own browser-detected zone in one click.
 **Form-associated**: submits the IANA id (e.g. `"America/New_York"`) under `name`.
 
@@ -16,7 +16,7 @@ import "@loomidev/timezonepicker";
 
 ## Basic Usage
 
-Ships with its own built-in zone list — there's no `data` attribute to wire up.
+Ships with its own built-in zone list - there's no `data` attribute to wire up.
 
 ```html
 <loomi-timezonepicker name="timezone" label="Timezone"></loomi-timezonepicker>
@@ -32,7 +32,7 @@ segment), case-insensitively.
 <loomi-timezonepicker selection="new york"></loomi-timezonepicker>
 ```
 
-`selection` isn't just a one-time initial value — setting it again later (as an
+`selection` isn't just a one-time initial value - setting it again later (as an
 attribute or the `.selection` property) re-syncs the visible selection.
 
 ```js
@@ -41,8 +41,8 @@ document.querySelector("loomi-timezonepicker").selection = "Asia/Tokyo"; // upda
 
 ## Use My Timezone
 
-Opening the panel shows a pinned row above the search results — `Intl.DateTimeFormat().resolvedOptions().timeZone`
-plus its current offset — so a visitor can pick their own zone in one click instead of
+Opening the panel shows a pinned row above the search results - `Intl.DateTimeFormat().resolvedOptions().timeZone`
+plus its current offset - so a visitor can pick their own zone in one click instead of
 typing a city name. It's opt-in (a click), never auto-selected on connect, so it never
 fights with a `selection` you set yourself.
 
@@ -113,15 +113,15 @@ with the selected timezone displayed beneath it:
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

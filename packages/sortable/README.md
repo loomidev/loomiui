@@ -1,9 +1,9 @@
 # @loomidev/sortable
 
-`<loomi-sortable>` — a SortableJS-inspired drag-and-drop list. Provide rows via the
+`<loomi-sortable>` - a SortableJS-inspired drag-and-drop list. Provide rows via the
 `items` array (`{ id, label, meta?, locked?, filtered?, className? }`) and read the
 new order back from the `loomi-reorder` event. Give two or more lists the same `group` to
-let users drag items between them — a Kanban board's columns, for example.
+let users drag items between them - a Kanban board's columns, for example.
 
 ```bash
 npm install @loomidev/sortable lit
@@ -30,7 +30,7 @@ import "@loomidev/sortable";
 
 ## A Secondary Line per Row
 
-`meta` renders as a smaller line beneath `label` — useful for a due date, a subtitle,
+`meta` renders as a smaller line beneath `label` - useful for a due date, a subtitle,
 or an assignee.
 
 ```html
@@ -74,7 +74,7 @@ order of ids.
 ## Shared Lists
 
 Give two or more `<loomi-sortable>` elements the same non-empty `group` and users can
-drag a row from one straight into another — exactly what a "To Do / In Progress / Done"
+drag a row from one straight into another - exactly what a "To Do / In Progress / Done"
 board needs. Lists with no `group` (or a different one) stay independent.
 
 ```html
@@ -109,8 +109,8 @@ board needs. Lists with no `group` (or a different one) stay independent.
 </script>
 ```
 
-When an item moves across lists, `loomi-transfer` fires on **both** lists involved — once on
-the list that lost it, once on the one that gained it — each with that list's own
+When an item moves across lists, `loomi-transfer` fires on **both** lists involved - once on
+the list that lost it, once on the one that gained it - each with that list's own
 resulting `order`. Listen on whichever lists you care about to persist the new column.
 
 ```js
@@ -121,7 +121,7 @@ for (const id of ["todo", "in-progress", "done"]) {
 }
 ```
 
-An empty list still accepts a drop — it shows a "Drop here" hint so the target is
+An empty list still accepts a drop - it shows a "Drop here" hint so the target is
 visible even with zero rows.
 
 ## Cloning
@@ -275,7 +275,7 @@ between.
 
 ## Reacting to a Click (Not a Drag)
 
-`loomi-item-click` fires when a row is clicked without being dragged — native drag-and-drop
+`loomi-item-click` fires when a row is clicked without being dragged - native drag-and-drop
 suppresses the browser's own `click` event after an actual drag, so this only fires for
 genuine clicks. Useful for opening a detail view.
 
@@ -300,7 +300,7 @@ genuine clicks. Useful for opening a detail view.
 
 ## Saving the Order
 
-Persist the new order from `loomi-reorder` (or `loomi-transfer`) — e.g. via a fetch call to your
+Persist the new order from `loomi-reorder` (or `loomi-transfer`) - e.g. via a fetch call to your
 backend.
 
 ```html
@@ -341,22 +341,22 @@ new FormData(form).get("task_order"); // '["research","draft","publish"]'
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
 | Attribute    | Default   | Description                                                                   |
 | ------------ | --------- | ----------------------------------------------------------------------------- |
 | `name`       | _(blank)_ | Form field name. When set, submits the current order as a JSON array of IDs.  |
-| `items`      | `[]`      | Rows to display/reorder — `{ id, label, meta? }[]` (property or JSON).        |
+| `items`      | `[]`      | Rows to display/reorder - `{ id, label, meta? }[]` (property or JSON).        |
 | `group`      | _(blank)_ | String group name, or JS property object `{ name, pull, put }`.               |
 | `clone`      | `false`   | Clone dragged items into another shared list instead of moving them.          |
 | `sort`       | `true`    | Enable same-list sorting. When `false`, compatible outbound drags still work. |

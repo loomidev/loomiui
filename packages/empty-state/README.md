@@ -1,6 +1,6 @@
 # @loomidev/empty-state
 
-`<loomi-empty-state>` — a friendly placeholder for empty content, so users see a helpful
+`<loomi-empty-state>` - a friendly placeholder for empty content, so users see a helpful
 message instead of a boring blank page. Comes with a built-in illustration, but is
 intentionally minimal so different apps can shape it to their needs.
 
@@ -52,7 +52,7 @@ document.querySelector("loomi-empty-state").addEventListener("action", () => {
 
 ## Without a Call to Action
 
-Omit `button-label` to show a message with no action button — appropriate when there's
+Omit `button-label` to show a message with no action button - appropriate when there's
 nothing for the user to actively do yet.
 
 ```html
@@ -88,7 +88,7 @@ built-in image/heading/message/button layout.
 ## Using It Inside `<loomi-select>` and `<loomi-table>`
 
 [`<loomi-select>`](../select) and [`<loomi-table>`](../table) currently render their own
-plain-text empty states rather than a full `<loomi-empty-state>` — see those packages'
+plain-text empty states rather than a full `<loomi-empty-state>` - see those packages'
 READMEs for their respective `empty-placeholder` / `no-data-message` attributes. Use
 `<loomi-empty-state>` directly wherever you need the richer illustration + CTA version.
 
@@ -96,7 +96,7 @@ READMEs for their respective `empty-placeholder` / `no-data-message` attributes.
 
 The default illustration (shown whenever `image` is left blank) is a PNG bundled with
 the package and inlined as a data URI at build time, so it works the same whether the
-package is loaded from npm, a bundler, or a CDN — no extra network request and no
+package is loaded from npm, a bundler, or a CDN - no extra network request and no
 asset-path resolution for consumers to configure.
 
 If you're contributing to LoomiUI itself and want to change it, replace
@@ -108,21 +108,21 @@ pnpm --filter @loomidev/empty-state build
 ```
 
 `scripts/build-assets.mjs` re-encodes whatever PNG is at that path into
-`src/generated/default-image.ts` on every build — no code changes needed.
+`src/generated/default-image.ts` on every build - no code changes needed.
 
 ## Accessibility
 
 - Decorative illustration is hidden from assistive tech; action button is a native `<button>`.
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

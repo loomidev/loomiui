@@ -1,6 +1,6 @@
 # @loomidev/bell
 
-`<loomi-bell>` — a notification bell icon with an optional (optionally animated) status
+`<loomi-bell>` - a notification bell icon with an optional (optionally animated) status
 dot, for telling users where to find notifications and whether they have unread ones.
 
 ```bash
@@ -13,7 +13,7 @@ import "@loomidev/bell";
 
 ## Basic Usage
 
-By default the bell shows its status dot — meaning there's something unread.
+By default the bell shows its status dot - meaning there's something unread.
 
 ```html
 <loomi-bell></loomi-bell>
@@ -68,7 +68,7 @@ The status dot is `primary`-colored by default. Set `color` to any loomi color.
 
 ## Wrapping It in a Trigger
 
-`<loomi-bell>` doesn't open anything on its own — wire it up to whatever you need.
+`<loomi-bell>` doesn't open anything on its own - wire it up to whatever you need.
 Pairing it with [`<loomi-dropmenu>`](../dropmenu) gets you a working notifications menu
 with no extra JS:
 
@@ -90,15 +90,15 @@ notifications page:
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

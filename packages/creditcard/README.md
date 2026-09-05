@@ -1,6 +1,6 @@
 # @loomidev/creditcard
 
-`<loomi-creditcard>` — a flippable credit-card input. The front face holds the card
+`<loomi-creditcard>` - a flippable credit-card input. The front face holds the card
 number, cardholder name, and expiry; an edge button flips the card to its back to enter
 the CVC. The network logo (Visa, Mastercard, American Express, Discover, Diners Club,
 JCB, UnionPay, Maestro) is detected live from the number's prefix, and a
@@ -42,7 +42,7 @@ document.querySelector("loomi-creditcard").addEventListener("flip", (e) => {
 
 ## Reading the value
 
-Not form-associated by design — card data is sensitive and is typically handed to a
+Not form-associated by design - card data is sensitive and is typically handed to a
 payment provider's tokenization SDK rather than posted through a plain HTML form. Read
 the structured value from the `value` getter, or listen for `input`/`change`:
 
@@ -82,7 +82,7 @@ saved card where you already know the network but don't want to show the full nu
 ## Theming
 
 Like every loomi component, `color` picks the gradient from the shared palette and
-recolors instantly from plain page CSS — no rebuild:
+recolors instantly from plain page CSS - no rebuild:
 
 ```html
 <loomi-creditcard color="success"></loomi-creditcard>
@@ -96,7 +96,7 @@ recolors instantly from plain page CSS — no rebuild:
 ```
 
 Set `variant="outline"` for a bare card silhouette instead of the full-color gradient
-face — a soft gray border with no background fill, for light or minimal UIs:
+face - a soft gray border with no background fill, for light or minimal UIs:
 
 ```html
 <loomi-creditcard variant="outline" cardholder-name="Emma Reid"></loomi-creditcard>
@@ -135,26 +135,26 @@ is set, and returns whether it passed:
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
 - Filled card faces keep brand accent gradients with `--loomi-text-on-primary` labels.
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
 | Attribute           | Default           | Description                                                                                                                                  |
 | ------------------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`              | _(blank)_         | Targeting class only (see `LoomiElement`) — not a form field, since this component doesn't submit.                                           |
+| `name`              | _(blank)_         | Targeting class only (see `LoomiElement`) - not a form field, since this component doesn't submit.                                           |
 | `cardholder-name`   | _(blank)_         | Name printed on the card.                                                                                                                    |
 | `number`            | _(blank)_         | Card number, auto-grouped per network as the user types. Masked saved-card values like `**** **** **** 4242` are preserved for edit screens. |
-| `expiry-month`      | _(blank)_         | Two-digit month, `"01"`–`"12"`.                                                                                                              |
+| `expiry-month`      | _(blank)_         | Two-digit month, `"01"`-`"12"`.                                                                                                              |
 | `expiry-year`       | _(blank)_         | Two-digit year.                                                                                                                              |
 | `cvc`               | _(blank)_         | Security code (3 digits, 4 for Amex).                                                                                                        |
 | `brand`             | _(auto-detected)_ | Force a network logo: `visa`, `mastercard`, `amex`, `discover`, `diners`, `jcb`, `unionpay`, `maestro`.                                      |
@@ -243,7 +243,7 @@ In Vite, Webpack, Parcel, Rollup, or a framework build pipeline, install the pac
 import "@loomidev/creditcard";
 ```
 
-This component does not submit through a native `<form>` — read its `value` getter or listen for `input`/`change` instead (see "Reading the value" above).
+This component does not submit through a native `<form>` - read its `value` getter or listen for `input`/`change` instead (see "Reading the value" above).
 
 </loomi-tab>
 <loomi-tab label="Blade">

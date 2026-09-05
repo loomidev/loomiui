@@ -1,6 +1,6 @@
 # @loomidev/alert
 
-`<loomi-alert>` — an inline alert message. The default uses the primary palette with no
+`<loomi-alert>` - an inline alert message. The default uses the primary palette with no
 leading icon. Four explicit types add semantic colors and icons. Alerts also support
 `faint`/`dark` shades, palette overrides, an optional avatar, and a dismiss button.
 For floating/overlay alerts instead, see [`@loomidev/notification`](../notification).
@@ -250,7 +250,7 @@ To keep alerts accessible and easy to understand for everyone:
 - Use clear, plain-language alert text that explains what happened and what the user should do next.
 - When showing status, progress, validation, or temporary feedback, include nearby labels or helper text so screen reader users get the same context as sighted users.
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
@@ -266,7 +266,7 @@ To get the best responsive behavior:
 
 In dense layouts, keep alert content short and action labels clear so users can scan and respond quickly on smaller screens.
 
-For the shared container and viewport rules, see [Component Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Component Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
@@ -287,7 +287,7 @@ For the best results:
 - Verify hover and focus-visible states are still clear in dark backgrounds.
 - Test each alert type (`info`, `warning`, `error`, `success`) to confirm status colors remain distinct.
 
-For theme activation, token overrides, and contrast guidance, see [Component Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Component Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
@@ -295,7 +295,7 @@ For theme activation, token overrides, and contrast guidance, see [Component Fou
 | ----------------- | --------- | ------------------------------------------------------------------ |
 | `type`            | _(blank)_ | `info` \| `error` \| `warning` \| `success`                        |
 | `shade`           | `faint`   | `faint` \| `dark`                                                  |
-| `color`           | _(blank)_ | Override color — any loomi color, or `transparent`.                |
+| `color`           | _(blank)_ | Override color - any loomi color, or `transparent`.                |
 | `icon`            | _(blank)_ | Icon name override (see [`@loomidev/icons`](../icons)).            |
 | `icon-placement`  | `center`  | `center` \| `top`; applies to the leading icon/avatar and dismiss. |
 | `avatar`          | _(blank)_ | Image URL shown instead of the icon.                               |

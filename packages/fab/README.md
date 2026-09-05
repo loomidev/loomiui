@@ -1,6 +1,6 @@
 # @loomidev/fab
 
-`<loomi-fab>` — a floating action button. On its own it's a single circular action
+`<loomi-fab>` - a floating action button. On its own it's a single circular action
 button; add `<loomi-fab-item>` children and it becomes a speed-dial menu.
 
 ```bash
@@ -14,7 +14,7 @@ import "@loomidev/fab";
 ## Single Action Button
 
 With no children, `<loomi-fab>` is just a floating button. It fires a normal `click`
-event — wire it up like any button.
+event - wire it up like any button.
 
 ```html
 <loomi-fab icon="plus" onclick="router.push('/patients/create')"></loomi-fab>
@@ -42,7 +42,7 @@ Add `<loomi-fab-item>` children and the trigger becomes a menu toggle. Listen fo
 </script>
 ```
 
-The trigger's icon rotates 45° when the menu opens — a plain "plus" glyph reads as a
+The trigger's icon rotates 45° when the menu opens - a plain "plus" glyph reads as a
 close (×) button without needing a second icon.
 
 ## Placement
@@ -72,7 +72,7 @@ close (×) button without needing a second icon.
 ## Direction
 
 `direction` controls which way the menu expands. Left blank (the default), it's inferred
-from `placement` — `bottom-*` expands `up`, `top-*` expands `down` — so items always grow
+from `placement` - `bottom-*` expands `up`, `top-*` expands `down` - so items always grow
 into free space instead of off-screen.
 
 ```html
@@ -97,7 +97,7 @@ into free space instead of off-screen.
 ## Trigger
 
 `trigger="click"` (default) toggles the menu on click. `trigger="hover"` opens it on
-mouseenter/focus, closing shortly after the pointer or focus leaves — clicking still
+mouseenter/focus, closing shortly after the pointer or focus leaves - clicking still
 works too, so touch and keyboard users aren't left without a way in.
 
 ```html
@@ -112,10 +112,10 @@ works too, so touch and keyboard users aren't left without a way in.
 `variant="floating"` (default) anchors the button to a viewport corner via
 `position: fixed`, matching `<loomi-bottom-nav>`. Like any `position: fixed` element, an
 ancestor with its own `transform`/`filter`/`contain` establishes a new containing block
-and confines it to that ancestor instead of the real viewport — usually not what you
+and confines it to that ancestor instead of the real viewport - usually not what you
 want on a live page, but handy for demoing several placements in one scrollable frame
 (see `<loomi-bottom-nav>`'s example page for the technique). `variant="docked"` renders
-in normal document flow — drop it into a toolbar, card footer, or bottom bar and it
+in normal document flow - drop it into a toolbar, card footer, or bottom bar and it
 stays exactly where you put it.
 
 ```html
@@ -144,9 +144,9 @@ stays exactly where you put it.
 
 ## Backdrop & Closing
 
-- `backdrop` (default `false`) — dims the rest of the page while the menu is open;
+- `backdrop` (default `false`) - dims the rest of the page while the menu is open;
   clicking it closes the menu.
-- `close-on-select` (default `true`) — closes the menu after a `loomi-fab-item` is
+- `close-on-select` (default `true`) - closes the menu after a `loomi-fab-item` is
   selected. Set it to `false` for menus where picking one action shouldn't dismiss the
   others.
 - Clicking outside the button and menu, or pressing <kbd>Esc</kbd> while focus is inside,
@@ -161,8 +161,7 @@ stays exactly where you put it.
 
 ## Color
 
-`color` accents the trigger's fill and softly tints each item's icon circle —
-`primary` (default), `secondary`, `info`, `success`, `error`, `warning`, or `gray`.
+`color` accents the trigger's fill and softly tints each item's icon circle - `primary` (default), `secondary`, `info`, `success`, `error`, `warning`, or `gray`.
 
 ```html
 <loomi-fab color="success" icon="check">
@@ -172,7 +171,7 @@ stays exactly where you put it.
 
 ## Icons
 
-Icons render through `<loomi-icon>` — the same registry and `source` attribute
+Icons render through `<loomi-icon>` - the same registry and `source` attribute
 (`heroicons` default, `iconsax`, `untitledui`) used by `<loomi-bottom-nav>`. Set
 `icon-source` on `<loomi-fab>` to change the set for every icon at once, or on a single
 `<loomi-fab-item>` to override just that one.
@@ -188,7 +187,7 @@ Icons render through `<loomi-icon>` — the same registry and `source` attribute
 
 Set `icons-only` on `<loomi-fab>` to hide every item's visible label, showing only the
 icon circle. Each `label` still reaches assistive tech (as the button's `aria-label`) and
-sighted users (as a `<loomi-tooltip>` that appears on hover/focus) — it just isn't
+sighted users (as a `<loomi-tooltip>` that appears on hover/focus) - it just isn't
 rendered as inline text. The tooltip's side is inferred the same way the label's position
 inside the pill normally is: away from the nearest screen edge (e.g. to the left for a
 `bottom-right`-placed FAB).
@@ -206,9 +205,9 @@ Every visual is a CSS custom property on `:host`, so re-theming needs no rebuild
 
 | Property                                  | Default                                                                                                                                                                    |
 | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--loomi-fab-offset`                      | `1.5rem` — distance from the viewport edge (`variant="floating"`)                                                                                                          |
-| `--loomi-fab-gap`                         | `0.875rem` — space between items                                                                                                                                           |
-| `--loomi-fab-trigger-gap`                 | `calc(var(--loomi-fab-gap) + 0.375rem)` — space between the trigger and the menu (a bit more than `--loomi-fab-gap`, since the trigger's bigger and more heavily shadowed) |
+| `--loomi-fab-offset`                      | `1.5rem` - distance from the viewport edge (`variant="floating"`)                                                                                                          |
+| `--loomi-fab-gap`                         | `0.875rem` - space between items                                                                                                                                           |
+| `--loomi-fab-trigger-gap`                 | `calc(var(--loomi-fab-gap) + 0.375rem)` - space between the trigger and the menu (a bit more than `--loomi-fab-gap`, since the trigger's bigger and more heavily shadowed) |
 | `--loomi-fab-z-index`                     | `1000`                                                                                                                                                                     |
 | `--loomi-fab-diameter`                    | `2.75rem` / `3.25rem` / `3.75rem` per `size`                                                                                                                               |
 | `--loomi-fab-icon-size`                   | `1.125rem` / `1.25rem` / `1.5rem` per `size`                                                                                                                               |
@@ -217,8 +216,8 @@ Every visual is a CSS custom property on `:host`, so re-theming needs no rebuild
 | `--loomi-fab-bg` / `--loomi-fab-bg-hover` | derived from `color`                                                                                                                                                       |
 | `--loomi-fab-fg`                          | `var(--loomi-text-on-primary)`                                                                                                                                             |
 | `--loomi-fab-shadow`                      | a soft drop shadow                                                                                                                                                         |
-| `--loomi-fab-backdrop`                    | `rgba(15, 23, 42, 0.45)` — matches `<loomi-modal>`'s backdrop tint                                                                                                         |
-| `--loomi-fab-backdrop-blur`               | `blur(5px)` — matches `<loomi-modal>`'s default `blur-size="medium"`                                                                                                       |
+| `--loomi-fab-backdrop`                    | `rgba(15, 23, 42, 0.45)` - matches `<loomi-modal>`'s backdrop tint                                                                                                         |
+| `--loomi-fab-backdrop-blur`               | `blur(5px)` - matches `<loomi-modal>`'s default `blur-size="medium"`                                                                                                       |
 
 ```css
 loomi-fab {
@@ -230,28 +229,28 @@ loomi-fab {
 ## Accessibility
 
 - The trigger is a real `<button>`; when it has items it carries `aria-haspopup="menu"`
-  and `aria-expanded`. Give it a custom label with `label` — otherwise it falls back to a
+  and `aria-expanded`. Give it a custom label with `label` - otherwise it falls back to a
   localized "Actions".
 - Each `<loomi-fab-item>` is a real `<button role="menuitem">`; `disabled` removes
   it from click and keyboard navigation.
 - With the menu open: the arrow key pointing away from the trigger (matching
-  `direction` — e.g. <kbd>↑</kbd> for `up`) moves focus outward through items, the
+  `direction` - e.g. <kbd>↑</kbd> for `up`) moves focus outward through items, the
   opposite arrow moves back and returns focus to the trigger past the first item,
   <kbd>Home</kbd>/<kbd>End</kbd> jump to the first/last item, and <kbd>Esc</kbd> closes
   the menu and refocuses the trigger.
 - Supports keyboard focus with visible `:focus-visible` styling on the trigger and every
   item.
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-The trigger is a fixed-diameter circle and the menu sizes to its content — both work
+The trigger is a fixed-diameter circle and the menu sizes to its content - both work
 unmodified from small phone screens to desktop. `variant="floating"` keeps a
 `--loomi-fab-offset` margin from the viewport edge on any screen size; `variant="docked"`
 just follows its parent's own responsive layout.
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
@@ -260,9 +259,9 @@ Item pills and their icon circles use `--loomi-surface`, `--loomi-surface-border
 `--loomi-<color>-*` tokens as every other component. Respects `.dark` on `<html>` via
 `@loomidev/theme-switcher` or your app theme.
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
-## Attributes — `<loomi-fab>`
+## Attributes - `<loomi-fab>`
 
 | Attribute         | Default        | Description                                                                                         |
 | ----------------- | -------------- | --------------------------------------------------------------------------------------------------- |
@@ -286,7 +285,7 @@ Boolean attributes can be omitted, present, or set to `"false"` in HTML.
 
 **Methods:** `show()`, `hide()`, `toggle()` (all void; no-ops when there are no items).
 
-## Attributes — `<loomi-fab-item>`
+## Attributes - `<loomi-fab-item>`
 
 | Attribute     | Default   | Description                                                |
 | ------------- | --------- | ---------------------------------------------------------- |
@@ -296,7 +295,7 @@ Boolean attributes can be omitted, present, or set to `"false"` in HTML.
 | `value`       | _(blank)_ | Reported on `event.detail.value` when selected.            |
 | `disabled`    | `false`   | Excludes the item from click and keyboard nav. _(boolean)_ |
 
-**Fires:** `loomi-select` — `detail: { value, label }`, bubbles/composed (also reaches a
+**Fires:** `loomi-select` - `detail: { value, label }`, bubbles/composed (also reaches a
 listener on the parent `<loomi-fab>`).
 
 ## Slots

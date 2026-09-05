@@ -1,6 +1,6 @@
 # @loomidev/button
 
-`<loomi-button>` — a themeable, framework-agnostic button web component built with Lit.
+`<loomi-button>` - a themeable, framework-agnostic button web component built with Lit.
 
 The button renders as an HTML `<button>` by default. Its look is controlled with separate,
 easy-to-combine attributes: `type` controls the style, `color` controls the palette, and
@@ -35,7 +35,7 @@ installed automatically.
 
 ## Button Types
 
-`type` selects the default hue when `color` is unset — both render as a bold fill.
+`type` selects the default hue when `color` is unset - both render as a bold fill.
 `primary` uses the primary palette; `secondary` uses the secondary palette.
 
 ```html
@@ -81,7 +81,7 @@ Available sizes: `tiny`, `small`, `regular` (default), `medium`, `big`.
 ```
 
 These are presets over the `--loomi-control-radius` / `--loomi-pill-radius` theme tokens.
-`radius="medium"` (the default) **follows your theme** — set `--loomi-control-radius` and
+`radius="medium"` (the default) **follows your theme** - set `--loomi-control-radius` and
 every default button reshapes with it. `none`/`small`/`full` set an explicit corner that
 **overrides** the theme, so a `radius="small"` button keeps its shape even under a global
 radius override. See [Theming](#theming).
@@ -119,7 +119,7 @@ Built-in icons (a subset of Heroicons outline): `arrow-path`, `bell-alert`,
 `lock-closed`, `arrow-right`, `arrow-small-right`, `chevron-right`, `check`, `plus`,
 `trash`, `x-mark`, `magnifying-glass`, `paper-airplane`.
 
-Need more? Register your own — no slot or icon font required:
+Need more? Register your own - no slot or icon font required:
 
 ```js
 import { registerLoomiIcon } from "@loomidev/button";
@@ -185,7 +185,7 @@ the tab order.
 
 ## Theming
 
-Override any palette slot from your page — no build step, no Tailwind:
+Override any palette slot from your page - no build step, no Tailwind:
 
 ```css
 :root {
@@ -213,15 +213,15 @@ the full theming model.
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

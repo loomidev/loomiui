@@ -1,6 +1,6 @@
 # @loomidev/countries
 
-`<loomi-countries>` — a searchable country dropdown with a flag icon beside every name.
+`<loomi-countries>` - a searchable country dropdown with a flag icon beside every name.
 Defaults to a full built-in country list (`mode="names"`); set `mode="phone"` to show
 just the selected country's flag + dial code beside a phone-number input instead.
 **Form-associated**: submits the ISO code under `name` in `names` mode, or the dial code
@@ -17,7 +17,7 @@ import "@loomidev/countries";
 ## Basic Usage
 
 Ships with its own built-in dataset of 250 countries (name, ISO 3166-1 alpha-2 code,
-dial code, flag) — there's no `data` attribute to wire up.
+dial code, flag) - there's no `data` attribute to wire up.
 
 ```html
 <loomi-countries name="country" label="Country"></loomi-countries>
@@ -25,8 +25,8 @@ dial code, flag) — there's no `data` attribute to wire up.
 
 ### Selecting a Value
 
-`selection` accepts a country name, an ISO alpha-2 code, or a dial code — whichever is
-most convenient for the caller — and resolves to the canonical alpha-2 code.
+`selection` accepts a country name, an ISO alpha-2 code, or a dial code - whichever is
+most convenient for the caller - and resolves to the canonical alpha-2 code.
 
 ```html
 <loomi-countries selection="JP"></loomi-countries>
@@ -34,7 +34,7 @@ most convenient for the caller — and resolves to the canonical alpha-2 code.
 <loomi-countries selection="+81"></loomi-countries>
 ```
 
-`selection` isn't just a one-time initial value — setting it again later (as an
+`selection` isn't just a one-time initial value - setting it again later (as an
 attribute or the `.selection` property) re-syncs the visible selection.
 
 ```js
@@ -62,7 +62,7 @@ value is chosen.
 ## Phone Mode
 
 Set `mode="phone"` to show just the selected country's flag (plus its dial code) beside
-a `type="tel"` number field — one compound control instead of wiring up a select and an
+a `type="tel"` number field - one compound control instead of wiring up a select and an
 input yourself with custom glue code.
 
 ```html
@@ -76,9 +76,9 @@ Pre-select the country the same way as in `names` mode:
 ```
 
 Picking a country from the panel automatically focuses the number field. The number
-field always accepts digits only — letters and punctuation are stripped as you type,
+field always accepts digits only - letters and punctuation are stripped as you type,
 the same way `<loomi-input numeric>` behaves. It also auto-formats those digits using
-the selected country's typical national number layout — pick Japan and type
+the selected country's typical national number layout - pick Japan and type
 `312345678` and the field shows `(312)345-678`. The form-submitted value is the dial
 code and the (formatted) number concatenated, e.g. `+81(312)345-678`; read `.value`
 for just what's in the field.
@@ -89,12 +89,12 @@ el.addEventListener("input", () => console.log(el.value)); // "(312)345-678"
 ```
 
 About 20 territories (mostly ones that share a dial code with a parent country, like
-Åland Islands) have no typical format in the underlying dataset — for those, the field
+Åland Islands) have no typical format in the underlying dataset - for those, the field
 just accepts plain digits with no formatting.
 
 ### Overriding the Format With a Mask
 
-Set `mask` to override the country's auto-detected format — same Alpine-style wildcards
+Set `mask` to override the country's auto-detected format - same Alpine-style wildcards
 as `<loomi-input>`'s `mask`: `9` any digit, `a` any letter, `*` any alphanumeric (in
 practice only `9` is reachable here, since the field is already digit-only). Every
 other character in the template is a literal inserted automatically.
@@ -108,7 +108,7 @@ the selected country's own format.
 
 ## Searching
 
-The dropdown panel always includes a search box — with 250 entries, scrolling to find
+The dropdown panel always includes a search box - with 250 entries, scrolling to find
 one isn't realistic, so unlike `<loomi-select>` this isn't behind a `searchable` flag.
 Search matches the country name, its ISO code, or its dial code, so typing "81" finds
 Japan in `phone` mode just as well as typing "jap" does.
@@ -165,15 +165,15 @@ with the selected country or phone number displayed beneath it:
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
@@ -186,7 +186,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 | `label-position`    | `default`            | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field.                                      |
 | `selection`         | _(blank)_            | Country name, ISO alpha-2 code, or dial code. Resolves to the alpha-2 code.                                                          |
 | `value`             | _(blank)_            | The phone number portion, excluding the dial code (`phone` mode, digits only).                                                       |
-| `mask`              | _(blank)_            | Overrides the selected country's auto-detected formatting mask — `9`/`a`/`*` wildcards, same as `<loomi-input>` (`phone` mode only). |
+| `mask`              | _(blank)_            | Overrides the selected country's auto-detected formatting mask - `9`/`a`/`*` wildcards, same as `<loomi-input>` (`phone` mode only). |
 | `disabled`          | `false`              | Disable the control. _(boolean)_                                                                                                     |
 | `readonly`          | `false`              | Read-only (cannot open). _(boolean)_                                                                                                 |
 | `required`          | `false`              | Marks the field required. _(boolean)_                                                                                                |
@@ -199,8 +199,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 **Parts:** `trigger`, `panel`, `field` (`phone` mode), `input` (`phone` mode).
 **Methods:** `reset()`, `validate()`, `checkValidity()`, `reportValidity()`.
 
-> Flags are circle-flags (HatScripts, MIT) rather than the more detailed flag-icons set —
-> at the ~20px size these render at, simplified circular artwork looks just as good and
+> Flags are circle-flags (HatScripts, MIT) rather than the more detailed flag-icons set - > at the ~20px size these render at, simplified circular artwork looks just as good and
 > is roughly 10x lighter, and every flag gets the same circular footprint regardless of
 > its native aspect ratio, which keeps names aligned down a long list.
 

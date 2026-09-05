@@ -274,13 +274,13 @@ resolve through the public theme tokens first.
 
 Corner radius uses the same public/private lookup as color, so a theme can restyle every
 component's rounding from `:root` without a rebuild. The scale is **semantic, not one
-value** — controls and panels round differently:
+value** - controls and panels round differently:
 
 | Public slot              | Private default | Applies to                                                                                  |
 | ------------------------ | --------------- | ------------------------------------------------------------------------------------------- |
-| `--loomi-control-radius` | `0.5rem`        | inputs, selects, buttons, checkbox, tag, tabs, pagination, pin — small interactive controls |
-| `--loomi-panel-radius`   | `0.875rem`      | cards, modals, popovers, menus, dropdown panels, tables, drawers — elevated surfaces        |
-| `--loomi-pill-radius`    | `9999px`        | fully-rounded/pill shapes — `radius="full"`, pill tags                                      |
+| `--loomi-control-radius` | `0.5rem`        | inputs, selects, buttons, checkbox, tag, tabs, pagination, pin - small interactive controls |
+| `--loomi-panel-radius`   | `0.875rem`      | cards, modals, popovers, menus, dropdown panels, tables, drawers - elevated surfaces        |
+| `--loomi-pill-radius`    | `9999px`        | fully-rounded/pill shapes - `radius="full"`, pill tags                                      |
 
 Field-style components inherit control radius for free through
 [`fieldStyles`](packages/core/src/field.ts) (one `border-radius: var(--loomi-control-radius, …)`
@@ -290,7 +290,7 @@ unchanged and setting `--loomi-panel-radius` unifies them.
 
 Precedence follows directly from where the var is declared. A `radius`/`size` attribute
 preset (e.g. `<loomi-button radius="full">`) declares the public slot on `:host([radius=…])`,
-which beats an inherited `:root` value — so an explicit per-instance shape wins over the
+which beats an inherited `:root` value - so an explicit per-instance shape wins over the
 global theme, while the _default_ preset declares nothing and therefore defers to the theme.
 The order is: per-instance attribute → `:root` theme override → built-in default. True
 geometry (circular avatars/spinners/toggles, chart/QR/credit-card art) is intentionally left
@@ -299,7 +299,7 @@ as fixed literals and does **not** read these tokens.
 ### Density
 
 `--loomi-density` is an unitless multiplier (default `1`) that scales the height and
-horizontal padding of every form control at once — a global compact/spacious knob:
+horizontal padding of every form control at once - a global compact/spacious knob:
 
 ```css
 :root {
@@ -311,7 +311,7 @@ The shared control scale ([`controlSizeStyles`](packages/core/src/field.ts), mir
 button's `:host([size=…])` rules) declares each height/padding as
 `calc(var(--loomi-density, 1) * <value>)`. Because the multiplier composes with the per-`size`
 presets rather than replacing them, `tiny`…`big` stay proportional at any density. Font size
-is deliberately _not_ scaled — density controls spacing, `size` controls type. Like the other
+is deliberately _not_ scaled - density controls spacing, `size` controls type. Like the other
 public tokens, `--loomi-density` is never declared on `:host`, so a `:root` value inherits
 through Shadow DOM.
 
@@ -321,8 +321,8 @@ Every stacked form field (input, select, textarea, datepicker, …) ships a
 `margin-bottom: var(--loomi-field-spacing, …)` (default `1rem`), so two fields dropped in a
 row read as an intentional form rather than touching borders. On components with a clear/
 validation affordance, this margin doubles as the reserved room for that message, which is
-why `:host([no-clearing])` zeroes it per-instance. To own spacing yourself — e.g. lay fields
-out in a flex/grid `gap` container — opt out globally:
+why `:host([no-clearing])` zeroes it per-instance. To own spacing yourself - e.g. lay fields
+out in a flex/grid `gap` container - opt out globally:
 
 ```css
 :root {
@@ -345,18 +345,18 @@ components.
 Owns shared runtime behavior:
 
 - `LoomiElement`;
-- `loomiStyles(...)` — prepends `themeStyles`, `motionStyles`, `elevationStyles`, and
+- `loomiStyles(...)` - prepends `themeStyles`, `motionStyles`, `elevationStyles`, and
   `focusStyles` to a component's own styles;
-- `motionStyles` / `elevationStyles` / `focusStyles` — shared entrance-animation
+- `motionStyles` / `elevationStyles` / `focusStyles` - shared entrance-animation
   `@keyframes`, drop-shadow, and focus-ring color tokens, so components reuse one
   definition instead of hand-rolling their own (see `packages/core/README.md`'s
   "Motion", "Elevation", and "Focus ring" sections);
 - `accentVars(...)`;
 - `cssColor(...)`;
 - `onClickOutside(...)`;
-- `randomSuffix(...)` — short random id, e.g. for de-duplicating notification keys
+- `randomSuffix(...)` - short random id, e.g. for de-duplicating notification keys
   across component instances;
-- `nextMenuFocusIndex(...)` — resolves an Arrow/Home/End keydown into the next index to
+- `nextMenuFocusIndex(...)` - resolves an Arrow/Home/End keydown into the next index to
   focus in a top-level menu, extracted after `dropmenu` and `context-menu` turned out to
   share byte-for-byte identical keydown logic;
 - shared body scroll locking for overlays;

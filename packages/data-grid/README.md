@@ -1,10 +1,10 @@
 # Data Grid
 
-`<loomi-data-grid>` — a modular data grid. The core is deliberately lean
+`<loomi-data-grid>` - a modular data grid. The core is deliberately lean
 (rendering, sorting, pagination, selection, column resizing, sticky headers,
-keyboard navigation, and custom cell rendering); everything else — filtering,
+keyboard navigation, and custom cell rendering); everything else - filtering,
 row grouping, tree data, export, inline editing, virtual scrolling, pivot
-tables, charts integration, spreadsheet features, and state persistence — is
+tables, charts integration, spreadsheet features, and state persistence - is
 an opt-in **module** you attach only when you need it.
 
 ## Accessibility
@@ -12,17 +12,17 @@ an opt-in **module** you attach only when you need it.
 - Roving cell focus: Arrow keys, Home/End, Page Up/Down; Space toggles row selection; Enter fires `loomi-row-action`.
 - Module toolbars expose labelled controls (`aria-label` on filters and actions).
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
 - Toolbar and footer groups stack below `768px`.
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Installation
 
@@ -66,27 +66,27 @@ grid.data = [
 
 ### Core features
 
-- **Rendering** — pass `columns` + `data`; each column supports `formatter`
+- **Rendering** - pass `columns` + `data`; each column supports `formatter`
   (string) or `cellRenderer` (full lit template) for custom cell content.
-- **Sorting** — set `column.sortable`; click a header to cycle
+- **Sorting** - set `column.sortable`; click a header to cycle
   asc → desc → none. Listen for `loomi-sort-change`.
-- **Pagination** — `pagination`, `page`, `page-size`, `total-rows` (for
+- **Pagination** - `pagination`, `page`, `page-size`, `total-rows` (for
   `server-side` mode). Listen for `loomi-page-change`.
-- **Selection** — `selectable` renders checkboxes; `selectedKeys` is a
+- **Selection** - `selectable` renders checkboxes; `selectedKeys` is a
   JavaScript property. Space bar toggles the focused row. Listen for
   `loomi-selection-change`.
-- **Column resizing** — drag the handle at a header's right edge (disable
+- **Column resizing** - drag the handle at a header's right edge (disable
   per-column with `resizable: false`). Listen for `loomi-column-resize`.
   Widths land in `grid.columnWidths`.
-- **Column pinning** — set `column.pinned` to `"start"` or `"end"` to keep
+- **Column pinning** - set `column.pinned` to `"start"` or `"end"` to keep
   columns visible while scrolling horizontally. When `selectable` is on, the
   checkbox column is pinned to the start automatically.
-- **Sticky headers** — `sticky-header` (default on) plus `max-height` on the
+- **Sticky headers** - `sticky-header` (default on) plus `max-height` on the
   grid for a real scroll container.
-- **Keyboard navigation** — arrow keys move a roving cell focus, `Home`/`End`
+- **Keyboard navigation** - arrow keys move a roving cell focus, `Home`/`End`
   jump to the row's first/last column, `PageUp`/`PageDown` change page,
   `Enter` fires `loomi-row-action`, `Space` toggles selection.
-- **Custom cell rendering** — `column.cellRenderer(ctx)` returns anything
+- **Custom cell rendering** - `column.cellRenderer(ctx)` returns anything
   `lit-html` can render (templates, elements, strings).
 
 ### Server-side mode
@@ -95,8 +95,8 @@ grid.data = [
 <loomi-data-grid server-side total-rows="482" sticky-header></loomi-data-grid>
 ```
 
-In `server-side` mode the grid renders `data` as-is — no local filter, sort,
-or pagination — you own fetching. Listen for `loomi-page-change` and
+In `server-side` mode the grid renders `data` as-is - no local filter, sort,
+or pagination - you own fetching. Listen for `loomi-page-change` and
 `loomi-sort-change` to refetch.
 
 ## Modules
@@ -104,7 +104,7 @@ or pagination — you own fetching. Listen for `loomi-page-change` and
 Modules are plain factory functions you assign to `grid.modules`. Each module
 only implements the hooks it needs (see `GridModule` in `grid-module.ts`),
 so composing several is just concatenating arrays. Import each one from its
-own entry point — the package root does **not** re-export modules — so
+own entry point - the package root does **not** re-export modules - so
 bundlers only pull in what you use:
 
 ```js
@@ -255,9 +255,8 @@ views at runtime, dispatch `loomi-saved-view-config` with
 
 ### Combining modules
 
-Modules compose by array order. `transformRows` hooks run in two stages —
-`"filter"` (before core sorting: filtering) then `"shape"` (after sorting:
-row grouping, tree data, pivot) — so, for example, filtering + sorting +
+Modules compose by array order. `transformRows` hooks run in two stages - `"filter"` (before core sorting: filtering) then `"shape"` (after sorting:
+row grouping, tree data, pivot) - so, for example, filtering + sorting +
 grouping + export all work together:
 
 ```js
@@ -271,7 +270,7 @@ grid.modules = [
 
 ## Writing your own module
 
-A module is any object matching the `GridModule` interface — implement only
+A module is any object matching the `GridModule` interface - implement only
 the hooks you need:
 
 ```ts
@@ -332,12 +331,12 @@ package root registers every LoomiUI component.
 - `row-key` defaults to `id`.
 - `data` and `columns` are JavaScript properties, not string attributes.
 - Rows produced by a module (group headers, pivot summaries) carry a
-  reserved `__gridMeta` field — don't use that key in your own records.
+  reserved `__gridMeta` field - don't use that key in your own records.
 - `formatter`/`cellRenderer` belong on column definitions for app-specific
   display logic; use modules for cross-cutting behavior.
 - Inline editing and spreadsheet paste both write through
   `grid.updateCellValue(rowKey, columnKey, value)`, which operates on
-  top-level `data` rows — combining them with row grouping or tree data
+  top-level `data` rows - combining them with row grouping or tree data
   needs care since those modules render synthetic/cloned rows.
 
 ## Migrating from `@loomidev/data-table`
@@ -347,7 +346,7 @@ package. Changes to account for:
 
 - Tag: `<loomi-data-table>` → `<loomi-data-grid>`.
 - Package: `@loomidev/data-table` → `@loomidev/data-grid`.
-- Global search, per-column filters, and export are no longer built in — use
+- Global search, per-column filters, and export are no longer built in - use
   `filteringModule()` and `exportModule()`.
 - Saved views are provided by `savedViewsModule()` (register after
   `filteringModule()` when a preset includes filters).

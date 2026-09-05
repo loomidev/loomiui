@@ -1,6 +1,6 @@
 # @loomidev/timeline
 
-`<loomi-timeline-item>` entries grouped in `<loomi-timeline>` — display events in
+`<loomi-timeline-item>` entries grouped in `<loomi-timeline>` - display events in
 chronological order, like an activity feed.
 
 ```bash
@@ -23,12 +23,12 @@ import "@loomidev/timeline";
 </loomi-timeline>
 ```
 
-The trailing connector line is removed from the last item automatically — there's
+The trailing connector line is removed from the last item automatically - there's
 nothing to set.
 
 ## Rich Content
 
-`content` only takes plain text. For HTML — bold text, links, code, etc. — put it in
+`content` only takes plain text. For HTML - bold text, links, code, etc. - put it in
 the default slot instead; it overrides the `content` attribute.
 
 ```html
@@ -67,12 +67,12 @@ it, and is shared by every child item.
 ```html
 <loomi-timeline stacked>
   <loomi-timeline-item date="just now" content="Database server restarted"></loomi-timeline-item>
-  <loomi-timeline-item date="30 minutes ago" content="2 endpoints are failing — check the logs"></loomi-timeline-item>
+  <loomi-timeline-item date="30 minutes ago" content="2 endpoints are failing - check the logs"></loomi-timeline-item>
   <loomi-timeline-item date="Yesterday" content="Data recovery completed with 2 errors"></loomi-timeline-item>
 </loomi-timeline>
 ```
 
-`completed` on the wrapper marks every item as done at once — override a single item by
+`completed` on the wrapper marks every item as done at once - override a single item by
 setting `completed="false"` directly on it.
 
 ```html
@@ -101,7 +101,7 @@ Icons and avatars only render when `anchor="big"`.
 
 ## Placement
 
-Set `placement` on the `<loomi-timeline>` wrapper — it's shared by every child item.
+Set `placement` on the `<loomi-timeline>` wrapper - it's shared by every child item.
 Default is `left` (anchor on the left, content to its right).
 
 ```html
@@ -111,7 +111,7 @@ Default is `left` (anchor on the left, content to its right).
 </loomi-timeline>
 ```
 
-`right` mirrors the whole layout — content on the left, anchor on the right:
+`right` mirrors the whole layout - content on the left, anchor on the right:
 
 ```html
 <loomi-timeline placement="right" anchor="big">
@@ -120,8 +120,7 @@ Default is `left` (anchor on the left, content to its right).
 </loomi-timeline>
 ```
 
-`alternate` centers a single spine and alternates each item to its left and right —
-which side an item lands on is resolved from its position among its siblings, so
+`alternate` centers a single spine and alternates each item to its left and right - which side an item lands on is resolved from its position among its siblings, so
 there's nothing to set per item:
 
 ```html
@@ -145,15 +144,15 @@ there's nothing to set per item:
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
@@ -168,11 +167,11 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 | `icon`      | _(blank)_ | Anchor icon name (big anchor).                                                                               |
 | `avatar`    | _(blank)_ | Anchor image URL (big anchor).                                                                               |
 | `stacked`   | `false`   | Date above content vs. in a left column. _(boolean)_                                                         |
-| `placement` | `left`    | `left` \| `right` \| `alternate` — set on the `<loomi-timeline>` wrapper instead; it applies to every child. |
+| `placement` | `left`    | `left` \| `right` \| `alternate` - set on the `<loomi-timeline>` wrapper instead; it applies to every child. |
 | `color`     | `primary` | Any loomi color.                                                                                             |
 
 The trailing connector line and `alternate` left/right placement are both resolved
-automatically from the item's position among its siblings — there is no `last` or
+automatically from the item's position among its siblings - there is no `last` or
 per-item side attribute to set.
 
 ### `<loomi-timeline>` (wrapper)

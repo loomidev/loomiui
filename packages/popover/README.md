@@ -1,7 +1,7 @@
 # @loomidev/popover
 
-`<loomi-popover>` — a floating rich-content panel opened on click or hover. Unlike a
-tooltip, it can contain links, lists, images, or any custom markup — not just a line of
+`<loomi-popover>` - a floating rich-content panel opened on click or hover. Unlike a
+tooltip, it can contain links, lists, images, or any custom markup - not just a line of
 text.
 
 ```bash
@@ -99,7 +99,7 @@ Opens on `click` by default; set `trigger-on="mouseover"` to open on hover inste
 
 ## Disabled
 
-Set `disabled` to stop the trigger from opening the panel — useful when embedding a
+Set `disabled` to stop the trigger from opening the panel - useful when embedding a
 popover inside a form control that has its own disabled state.
 
 ```html
@@ -129,15 +129,15 @@ popover.addEventListener("loomi-toggle", (event) => {
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

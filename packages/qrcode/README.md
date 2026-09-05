@@ -45,15 +45,15 @@ import "@loomidev/qrcode";
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
@@ -62,7 +62,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 | `url`                  | `string`                                             | `""`                       | URL to encode. Takes precedence over `value`.                                                                                                          |
 | `value`                | `string`                                             | `""`                       | Text to encode when `url` is not set.                                                                                                                  |
 | `size`                 | `number`                                             | `220`                      | Rendered square size in pixels. Minimum visual size is 96px.                                                                                           |
-| `error-correction`     | `"L" \| "M" \| "Q" \| "H"`                           | `"M"`                      | QR error correction level — see [Error correction levels](#error-correction-levels) below.                                                             |
+| `error-correction`     | `"L" \| "M" \| "Q" \| "H"`                           | `"M"`                      | QR error correction level - see [Error correction levels](#error-correction-levels) below.                                                             |
 | `quiet-zone`           | `number`                                             | `4`                        | Number of light modules around the QR matrix.                                                                                                          |
 | `foreground`           | `string`                                             | `var(--loomi-text)`        | Solid module color when `gradient` is off.                                                                                                             |
 | `background`           | `string`                                             | `var(--loomi-surface)`     | QR background color.                                                                                                                                   |

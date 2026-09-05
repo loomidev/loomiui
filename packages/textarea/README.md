@@ -1,6 +1,6 @@
 # @loomidev/textarea
 
-`<loomi-textarea>` — a themeable multi-line text input with a floating label and inline
+`<loomi-textarea>` - a themeable multi-line text input with a floating label and inline
 validation. **Form-associated**: its value submits with the surrounding form.
 
 ```bash
@@ -22,7 +22,7 @@ By default the textarea renders with three rows. Use `placeholder` for simple hi
 ## With Labels
 
 Set `label` instead of (or together with) `placeholder` for a label that sits as
-placeholder text until the field is focused, then floats to the top border — a compact
+placeholder text until the field is focused, then floats to the top border - a compact
 way to build forms without separate `<label>` elements taking up space.
 
 ```html
@@ -72,13 +72,12 @@ Increase `rows` to make the textarea taller by default.
 
 Set `mention-triggers` (JSON array of trigger characters) and the `mentionData` property
 (a map of trigger → items) to enable an inline `@mention`-style autocomplete picker.
-The panel opens when the user types a trigger character at a word boundary —
-so `foo@bar.com` does **not** open it, but `hi @bar` does.
+The panel opens when the user types a trigger character at a word boundary - so `foo@bar.com` does **not** open it, but `hi @bar` does.
 
 ```html
 <loomi-textarea
   id="comments"
-  label="Write a comment — try @, # or /"
+  label="Write a comment - try @, # or /"
   rows="4"
   mention-triggers='["@","#","/"]'
 ></loomi-textarea>
@@ -102,7 +101,7 @@ so `foo@bar.com` does **not** open it, but `hi @bar` does.
     ],
   };
 
-  // Fired while the user types after a trigger — use to load items asynchronously.
+  // Fired while the user types after a trigger - use to load items asynchronously.
   el.addEventListener("loomi-mention-search", (e) => {
     const { trigger, query } = e.detail;
     // fetch and reassign el.mentionData[trigger] if needed
@@ -145,15 +144,15 @@ with the entered text displayed beneath it:
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
@@ -174,7 +173,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 | `no-clearing`       | `false`   | Remove the default bottom margin. _(boolean)_                                                   |
 | `mention-triggers`  | `[]`      | JSON array of trigger characters, e.g. `'["@","#","/"]'`.                                       |
 
-**Properties (JS only):** `mentionData` — `Record<string, { label, value?, description?, image? }[]>`.
+**Properties (JS only):** `mentionData` - `Record<string, { label, value?, description?, image? }[]>`.
 
 **Methods:** `focus()`, `validate()`. **Parts:** `field`, `textarea`, `mention-panel`.
 
@@ -185,8 +184,8 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 
 | Event                  | Detail               | Description                           |
 | ---------------------- | -------------------- | ------------------------------------- |
-| `input`                | —                    | The text or mention value changed.    |
-| `change`               | —                    | The edited value was committed.       |
+| `input`                | -                    | The text or mention value changed.    |
+| `change`               | -                    | The edited value was committed.       |
 | `loomi-mention-search` | `{ trigger, query }` | A mention query needs matching items. |
 | `loomi-mention-select` | `{ trigger, item }`  | A mention item was inserted.          |
 

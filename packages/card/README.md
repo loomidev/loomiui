@@ -1,7 +1,7 @@
 # @loomidev/card
 
 shadcn/ui-style card primitives for LoomiUI. Compose a card from `<loomi-card>` and its
-`loomi-card-*` parts — the same structure as [shadcn/ui Card](https://ui.shadcn.com/docs/components/radix/card).
+`loomi-card-*` parts - the same structure as [shadcn/ui Card](https://ui.shadcn.com/docs/components/radix/card).
 
 ```bash
 npm install @loomidev/card lit
@@ -84,7 +84,7 @@ Use `size="sm"` on `<loomi-card>` for tighter spacing (matches shadcn's `size="s
 
 ## Clickable Cards
 
-Set `url` to make the whole card act as a link — a path, a full URL, or a JS function
+Set `url` to make the whole card act as a link - a path, a full URL, or a JS function
 call. Pair it with `has-hover` for a hover-shadow cue.
 
 ```html
@@ -152,15 +152,15 @@ The card also reads the Pro theme tokens `--loomi-component-panel-radius` and
 
 - Compose headings with `loomi-card-title` for page structure.
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
@@ -168,7 +168,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 
 | Attribute     | Default   | Description                                         |
 | ------------- | --------- | --------------------------------------------------- |
-| `size`        | `default` | `default` \| `sm` — controls section spacing.       |
+| `size`        | `default` | `default` \| `sm` - controls section spacing.       |
 | `has-shadow`  | `true`    | Restrained, theme-aware panel shadow. _(boolean)_   |
 | `has-border`  | `true`    | Hairline border. _(boolean)_                        |
 | `has-hover`   | `false`   | Extra shadow on hover. _(boolean)_                  |

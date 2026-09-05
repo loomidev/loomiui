@@ -1,6 +1,6 @@
 # @loomidev/select
 
-`<loomi-select>` — a themeable custom select. Supports a `data` array (or JSON string),
+`<loomi-select>` - a themeable custom select. Supports a `data` array (or JSON string),
 manual `<option>` children, search, multiple selection, images and a floating label.
 **Form-associated**: submits the selected value(s) under `name` (comma-joined for multiple).
 
@@ -62,7 +62,7 @@ always visible (floats above the trigger once a value is chosen). When both are 
 <loomi-select selected-value="gh" placeholder="What is your nationality" data="..."></loomi-select>
 ```
 
-`selected-value` isn't just a one-time initial value — setting it again later (as an
+`selected-value` isn't just a one-time initial value - setting it again later (as an
 attribute or the `.selectedValue` property) re-syncs the visible selection, which is
 useful for swapping which record a select reflects (e.g. re-pointing one "assignee"
 select at a different task) without re-creating the element.
@@ -81,7 +81,7 @@ document.querySelector("loomi-select").selectedValue = "ng"; // updates immediat
 ## With Images
 
 Set `image-key` to the key in your data that holds an image URL, to render a small image
-beside each option — handy for "assign to" pickers.
+beside each option - handy for "assign to" pickers.
 
 ```html
 <loomi-select
@@ -112,7 +112,7 @@ since there's nothing to search.
 ## Select Multiple Items
 
 Set `multiple` to allow more than one selection. Unlike the single select, a multiple
-select stays open after each pick — click outside it to close.
+select stays open after each pick - click outside it to close.
 
 ```html
 <loomi-select
@@ -160,7 +160,7 @@ el.addEventListener("select", (e) => {
 ## Get the Selected Value on Form Submission
 
 Every `<loomi-select>` participates in `ElementInternals` form association, so its value
-submits like a native form control under whatever `name` you gave it — comma-joined for
+submits like a native form control under whatever `name` you gave it - comma-joined for
 multiple selects.
 
 ```js
@@ -208,15 +208,15 @@ with the selected value displayed beneath it:
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
@@ -226,7 +226,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 | `placeholder`        | `Select One`           | Trigger text when nothing is selected.                                                          |
 | `label`              | _(blank)_              | Floating label (takes precedence over placeholder).                                             |
 | `label-position`     | `default`              | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field. |
-| `data`               | `[]`                   | Options array — property (`.data`) or JSON-string attribute.                                    |
+| `data`               | `[]`                   | Options array - property (`.data`) or JSON-string attribute.                                    |
 | `label-key`          | `label`                | Row key used as each option's display text.                                                     |
 | `value-key`          | `value`                | Row key used as each option's submitted value.                                                  |
 | `image-key`          | _(blank)_              | Key holding an image URL to show beside each option.                                            |

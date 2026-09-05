@@ -1,6 +1,6 @@
 # @loomidev/input
 
-`<loomi-input>` — a themeable text input with a floating label, text/icon prefixes &
+`<loomi-input>` - a themeable text input with a floating label, text/icon prefixes &
 suffixes, contextual hints, selectable affixes, a clearable field, numeric filtering and inline validation.
 It is **form-associated**: its value submits with the surrounding `<form>` under `name`.
 
@@ -142,7 +142,7 @@ When the hint points to a named DOM hint like `career.html`, the input looks for
 ```
 
 `size` is the per-instance preset. To shift the density of every control at once, set the
-`--loomi-density` token at `:root` — an unitless multiplier (default `1`) that scales control
+`--loomi-density` token at `:root` - an unitless multiplier (default `1`) that scales control
 height and horizontal padding together (font size is unchanged), composing with `size`
 rather than replacing it:
 
@@ -155,7 +155,7 @@ rather than replacing it:
 ## Validation
 
 A `required` field shows a red border as soon as it's invalid, whether or not
-`error-message` is set — the border doesn't depend on having a message to show.
+`error-message` is set - the border doesn't depend on having a message to show.
 `error-message` controls what (if anything) is displayed _in addition to_ that border:
 
 ```html
@@ -168,12 +168,12 @@ const ok = input.validate();
 ```
 
 `validate()` runs the required-field check immediately, independent of `blur` (a `blur`
-on the field already triggers the same check automatically — call `validate()` yourself
+on the field already triggers the same check automatically - call `validate()` yourself
 before a manual submit or API call). It:
 
 - Returns `true` if the field passes (or isn't `required`), `false` otherwise.
 - Sets the reflected `invalid` attribute to match, which is what actually drives the red
-  border in CSS — this happens regardless of `error-message`.
+  border in CSS - this happens regardless of `error-message`.
 - When the field just became invalid, shows `error-message` (if set): inline below the
   field when `show-error-inline` is set, otherwise as a `loomi-notification` toast (see
   [`@loomidev/notification`](../notification)) so the message isn't silently dropped.
@@ -201,15 +201,15 @@ with the entered text displayed beneath it:
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
@@ -288,7 +288,7 @@ clears its visible validation state.
 ## Theming
 
 Inputs use the primary palette for focus and the gray palette for borders. Override from
-your page — see the [root README](../../README.md#theming-the-edit-tailwindconfigjs-replacement).
+your page - see the [root README](../../README.md#theming-the-edit-tailwindconfigjs-replacement).
 
 <!-- BEGIN loomi-framework-guide -->
 

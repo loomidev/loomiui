@@ -1,8 +1,8 @@
 # @loomidev/theme-switcher
 
-`<loomi-theme-switcher>` — a light/dark/system theme toggle, so you don't have to build
+`<loomi-theme-switcher>` - a light/dark/system theme toggle, so you don't have to build
 your own theme-switching mechanism. Persists the choice to `localStorage` and toggles
-the `dark` class on `<html>`. There should only be one on a page at a time — this very
+the `dark` class on `<html>`. There should only be one on a page at a time - this very
 docs site uses it in the top-right of the nav bar.
 
 ```bash
@@ -51,7 +51,7 @@ Style your dark theme against the `dark` class loomi adds to `<html>`:
 ## Avoiding a Flash of the Wrong Theme
 
 Since the saved theme is only applied once the component upgrades, call
-`applyLoomiTheme(getLoomiTheme())` as early as possible in your page — ideally in a
+`applyLoomiTheme(getLoomiTheme())` as early as possible in your page - ideally in a
 blocking `<script>` in `<head>`, before first paint.
 
 ```html
@@ -105,15 +105,15 @@ applyLoomiTheme("dark"); // switch programmatically, e.g. from a settings page
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

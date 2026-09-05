@@ -1,8 +1,8 @@
 # @loomidev/lightbox
 
-`<loomi-lightbox-image>` — click an image to view it fullscreen. It wraps a single
+`<loomi-lightbox-image>` - click an image to view it fullscreen. It wraps a single
 existing image with no shared container or parent gallery required, so it's a natural
-fit for images scattered across a blog post, article, or card grid — drop one anywhere,
+fit for images scattered across a blog post, article, or card grid - drop one anywhere,
 independently of any others on the page.
 
 ```bash
@@ -30,17 +30,17 @@ fullscreen view and the trigger's accessible label, so you don't have to repeat 
 
 `src` is the full-size image shown in the fullscreen view; the slotted `<img>` (usually a
 smaller thumbnail) is what's actually visible on the page. If you have no existing `<img>`
-to wrap, omit the slot and set `alt` directly — the component renders its own from `src`
+to wrap, omit the slot and set `alt` directly - the component renders its own from `src`
 and `alt`.
 
 ```html
 <loomi-lightbox-image src="/photos/lake-full.jpg" alt="Lake at sunrise"></loomi-lightbox-image>
 ```
 
-## Grouping — Next/Prev across scattered images
+## Grouping - Next/Prev across scattered images
 
 Give two or more instances the same `group` to enable Next/Prev navigation between them
-while the viewer is open — they don't need to be adjacent in the DOM; membership is
+while the viewer is open - they don't need to be adjacent in the DOM; membership is
 resolved in document order whenever the viewer opens.
 
 ```html
@@ -51,7 +51,7 @@ resolved in document order whenever the viewer opens.
 </article>
 ```
 
-Leave `group` unset for a standalone single-image viewer — no Next/Prev controls appear.
+Leave `group` unset for a standalone single-image viewer - no Next/Prev controls appear.
 
 ## Caption
 
@@ -84,7 +84,7 @@ lightbox.addEventListener("loomi-close", () => console.log("closed"));
 ## Accessibility
 
 - The trigger renders as a real `<button>` (`aria-haspopup="dialog"`), so keyboard users
-  can open the viewer the same way mouse users click the image — not just a bare
+  can open the viewer the same way mouse users click the image - not just a bare
   clickable `<img>` with no keyboard path.
 - The fullscreen view is `role="dialog"` with `aria-modal="true"`, traps
   <kbd>Tab</kbd>/<kbd>Shift+Tab</kbd> inside it, moves focus in on open, and restores
@@ -94,25 +94,25 @@ lightbox.addEventListener("loomi-close", () => console.log("closed"));
 - Supports keyboard focus with visible `:focus-visible` styling on the trigger and every
   viewer control.
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-The trigger is `display: inline-block` and only wraps its slotted content — it adds no
+The trigger is `display: inline-block` and only wraps its slotted content - it adds no
 layout of its own, so it never disturbs the image's existing flow in a paragraph, card,
 or grid. The fullscreen image scales to fit the viewport (`object-fit: contain`) at any
 screen size, and viewer controls shrink slightly under 480px.
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
 The trigger's `:focus-visible` ring uses the shared `--loomi-focus-ring-color` token, so
 it follows the same theme as every other component. The fullscreen viewer itself is
-always a dark scrim regardless of theme, like most image viewers — its controls are
+always a dark scrim regardless of theme, like most image viewers - its controls are
 white-on-dark by design, not something that should flip with `.dark`.
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

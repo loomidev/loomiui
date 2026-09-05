@@ -1,6 +1,6 @@
 # @loomidev/table
 
-`<loomi-table>` — a Loomi data table with manual rows, dynamic data,
+`<loomi-table>` - a Loomi data table with manual rows, dynamic data,
 search, sorting, pagination (via [`<loomi-pagination>`](../pagination)), selectable
 and checkable rows (via [`<loomi-checkbox>`](../checkbox)), row grouping, empty-state
 options, custom row templates and action icons.
@@ -35,7 +35,7 @@ attribute). Column headings are generated automatically from the first row's key
 
 ## Styling Options
 
-These toggles only show up once a table has enough rows to fill out — the same six-row
+These toggles only show up once a table has enough rows to fill out - the same six-row
 staff list is reused across every variant below.
 
 ```html
@@ -96,7 +96,7 @@ By default every key on the first row becomes a column. Narrow that down with
 ## Action Icons
 
 Pass an array of `{ icon, name, tip, color }` objects via `action-icons` to add a column
-of icon buttons. Listen for the `loomi-action` event to handle clicks — `e.detail` is
+of icon buttons. Listen for the `loomi-action` event to handle clicks - `e.detail` is
 `{ name, row }`, so you always get the full row data for that line.
 
 Each icon renders as a circular outline button in `secondary` by default; pass `color`
@@ -170,8 +170,7 @@ selection store as checkboxes, so `selectedIds`, `selectedValue`, and
 </script>
 ```
 
-The search box filters across every visible column's stringified value, client-side —
-typing "design" above narrows the six rows down to Sara and Joe.
+The search box filters across every visible column's stringified value, client-side - typing "design" above narrows the six rows down to Sara and Joe.
 
 ## Search Placement
 
@@ -258,7 +257,7 @@ collected under a heading row for that value, in the order the groups first appe
 </script>
 ```
 
-This renders four group headings — Engineering, Design, Marketing, Finance — each
+This renders four group headings - Engineering, Design, Marketing, Finance - each
 followed by its rows.
 
 ## Pagination
@@ -294,9 +293,8 @@ followed by its rows.
 </script>
 ```
 
-With `page-size="5"` and twelve rows, each table above paginates across three pages —
-enough to see the arrow, numbers, and row-number variants actually flip between pages.
-Pagination styles: `arrows` (default), `numbers`, `dropdown` — same options as
+With `page-size="5"` and twelve rows, each table above paginates across three pages - enough to see the arrow, numbers, and row-number variants actually flip between pages.
+Pagination styles: `arrows` (default), `numbers`, `dropdown` - same options as
 [`<loomi-pagination>`](../pagination), since that's exactly what renders underneath.
 
 Customize the total text with `:a`, `:b`, and `:c` placeholders:
@@ -397,24 +395,24 @@ same table:
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
 loomi-table uses Loomi semantic tokens such as `--loomi-surface`, `--loomi-surface-muted`, `--loomi-surface-border-subtle`, `--loomi-text`, and palette accent tokens instead of hard-coded light colors. The table header, row dividers, panels, hover states, and muted text shift with the active theme preset.
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
 | Attribute                | Default                          | Description                                                                           |
 | ------------------------ | -------------------------------- | ------------------------------------------------------------------------------------- |
 | `name`                   | auto                             | Stable class/name hook, matching Loomi targeting patterns.                            |
-| `data`                   | `[]`                             | Row objects — property (`.data`) or JSON-string attribute.                            |
+| `data`                   | `[]`                             | Row objects - property (`.data`) or JSON-string attribute.                            |
 | `columns`                | _(auto)_                         | Column keys (defaults to the first row's keys).                                       |
 | `layout`                 | `auto`                           | `auto` \| `custom`; custom uses row/header templates or slotted rows.                 |
 | `row-template`           | _(blank)_                        | Template string for `layout="custom"`; `{key}` placeholders are filled from row data. |

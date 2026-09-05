@@ -1,6 +1,6 @@
 # @loomidev/tooltip
 
-`<loomi-tooltip>` — shows a short tooltip on hover/focus of its trigger content.
+`<loomi-tooltip>` - shows a short tooltip on hover/focus of its trigger content.
 
 ```bash
 npm install @loomidev/tooltip lit
@@ -43,8 +43,7 @@ text.
 
 ## Rich Content
 
-For more than a line of text, use the `content` slot instead of the `content` attribute
-— it accepts arbitrary HTML.
+For more than a line of text, use the `content` slot instead of the `content` attribute - it accepts arbitrary HTML.
 
 ```html
 <loomi-tooltip placement="right">
@@ -55,7 +54,7 @@ For more than a line of text, use the `content` slot instead of the `content` at
 
 ## On Icons, Buttons, or Any Element
 
-The trigger can be anything — an icon, a button, plain text, an avatar.
+The trigger can be anything - an icon, a button, plain text, an avatar.
 
 ```html
 <loomi-tooltip content="3 unread notifications">
@@ -69,17 +68,17 @@ The trigger can be anything — an icon, a button, plain text, an avatar.
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
 - `shade="light"` uses raised surface, border, and text tokens.
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

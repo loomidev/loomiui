@@ -1,6 +1,6 @@
 # @loomidev/drawer
 
-`<loomi-drawer>` — a panel that slides in from the edge of the screen, with configurable
+`<loomi-drawer>` - a panel that slides in from the edge of the screen, with configurable
 size, an optional backdrop, and focus management built in.
 
 ```bash
@@ -13,12 +13,12 @@ import "@loomidev/drawer";
 
 ## Default Drawer
 
-Drawers are usually triggered by an action — a button click, say. Every LoomiUI drawer is
+Drawers are usually triggered by an action - a button click, say. Every LoomiUI drawer is
 opened and closed by its unique `name`, using the exported `showLoomiDrawer()` /
 `hideLoomiDrawer()` helpers (or the instance methods `show()`/`hide()` if you already have
 a reference to the element).
 
-> **Important:** give every drawer on a page a unique `name` — it's how `showLoomiDrawer()`
+> **Important:** give every drawer on a page a unique `name` - it's how `showLoomiDrawer()`
 > finds the right one.
 
 The default drawer slides in from the right, shows a close button, and dismisses on
@@ -62,7 +62,7 @@ size by width; top/bottom drawers span the full width and size by height.
 <loomi-drawer size="small" title="Small" name="small-drawer">20rem wide.</loomi-drawer>
 
 <loomi-button onclick="showLoomiDrawer('medium-drawer')">Medium</loomi-button>
-<loomi-drawer size="medium" title="Medium" name="medium-drawer">28rem wide — the default.</loomi-drawer>
+<loomi-drawer size="medium" title="Medium" name="medium-drawer">28rem wide - the default.</loomi-drawer>
 
 <loomi-button onclick="showLoomiDrawer('large-drawer')">Large</loomi-button>
 <loomi-drawer size="large" title="Large" name="large-drawer">36rem wide.</loomi-drawer>
@@ -86,12 +86,12 @@ once it overflows the drawer's height.
 
 Three independent toggles control dismissal:
 
-- `backdrop` (default `true`) — shows a dimmed overlay behind the panel and blocks
+- `backdrop` (default `true`) - shows a dimmed overlay behind the panel and blocks
   interaction with the rest of the page while open.
-- `close-on-outside-click` (default `true`) — clicking outside the panel closes it. This
+- `close-on-outside-click` (default `true`) - clicking outside the panel closes it. This
   works even with `backdrop="false"`, since it's just watching for clicks outside the
   panel rather than relying on the backdrop element itself.
-- <kbd>Esc</kbd> always closes the drawer — there's no attribute to turn that off.
+- <kbd>Esc</kbd> always closes the drawer - there's no attribute to turn that off.
 
 ```html
 <!-- no dimming overlay, but the rest of the page stays inert because outside clicks
@@ -100,7 +100,7 @@ Three independent toggles control dismissal:
 
 <!-- only the close button or Escape can dismiss it -->
 <loomi-drawer name="pinned" close-on-outside-click="false">
-  Click outside all you want — only the X (or Escape) closes me.
+  Click outside all you want - only the X (or Escape) closes me.
 </loomi-drawer>
 ```
 
@@ -113,7 +113,7 @@ rather than a true overlay.
 
 ## Custom Animations
 
-Every part of the slide animation is overridable through CSS custom properties — no
+Every part of the slide animation is overridable through CSS custom properties - no
 rebuild required:
 
 | Property                         | Default                          |
@@ -148,20 +148,20 @@ selector:
 }
 ```
 
-`prefers-reduced-motion: reduce` is honored automatically — the animation still runs (so
+`prefers-reduced-motion: reduce` is honored automatically - the animation still runs (so
 `hide()` resolves promptly) but at a near-instant duration.
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
@@ -202,7 +202,7 @@ close animation finishes and the drawer unmounts).
 
 Opening a drawer moves focus into it (the close button if shown, otherwise the first
 focusable element, otherwise the panel itself). While `backdrop` is on, <kbd>Tab</kbd> is
-trapped inside the panel; closing it restores focus to whatever was focused before — all
+trapped inside the panel; closing it restores focus to whatever was focused before - all
 automatic, no setup needed.
 
 ## Full Example

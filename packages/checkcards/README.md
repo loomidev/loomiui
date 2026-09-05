@@ -1,7 +1,7 @@
 # @loomidev/checkcards
 
-`<loomi-checkcards>` — selectable cards, a prettier alternative to checkboxes or radio
-groups. Define content in a `<loomi-checkcard>` and give it a `value` — that's what gets
+`<loomi-checkcards>` - selectable cards, a prettier alternative to checkboxes or radio
+groups. Define content in a `<loomi-checkcard>` and give it a `value` - that's what gets
 submitted when the form is submitted. **Form-associated**: submits the selected values
 (comma-joined) under `name`.
 
@@ -15,7 +15,7 @@ import "@loomidev/checkcards";
 
 ## Basic Usage
 
-Cards take up the width of their parent — use a grid or flex container to lay several
+Cards take up the width of their parent - use a grid or flex container to lay several
 out side by side.
 
 ```html
@@ -57,7 +57,7 @@ By default only one card can be selected at a time. Raise the limit with `max`.
 ### Automatically Select New Cards
 
 When `max` is reached, by default selecting a new card drops the oldest selection to
-make room (`auto-select-new`, on by default) — this keeps exactly `max` cards selected
+make room (`auto-select-new`, on by default) - this keeps exactly `max` cards selected
 without ever blocking the user. Set `auto-select-new="false"` to block new selections
 instead, requiring the user to unselect a card first.
 
@@ -124,15 +124,15 @@ new FormData(form).get("hosting"); // "aws,gcp"
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

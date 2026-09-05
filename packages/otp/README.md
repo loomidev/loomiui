@@ -1,7 +1,7 @@
 # @loomidev/otp
 
-`<loomi-otp>` — a one-time-passcode (OTP) input of N boxes with auto-advance and paste
-support. It's common to send users a 4–6 character code via email or SMS for them to enter
+`<loomi-otp>` - a one-time-passcode (OTP) input of N boxes with auto-advance and paste
+support. It's common to send users a 4-6 character code via email or SMS for them to enter
 here. Accepts digits only by default (the classic PIN); set `type` to also allow letters.
 **Form-associated**: submits the joined code under `name`.
 
@@ -25,7 +25,7 @@ The default number of boxes is four.
 <loomi-otp size="big"></loomi-otp>
 ```
 
-Set `total-digits` to show more or fewer boxes — there's no upper limit, so this also
+Set `total-digits` to show more or fewer boxes - there's no upper limit, so this also
 works well for collecting longer numeric codes like account numbers.
 
 ```html
@@ -40,7 +40,7 @@ default and sets `inputmode="numeric"` for a numeric mobile keypad; the others u
 keyboard.
 
 ```html
-<loomi-otp type="numeric"></loomi-otp>      <!-- default: 0–9 only -->
+<loomi-otp type="numeric"></loomi-otp>      <!-- default: 0-9 only -->
 <loomi-otp type="alphanumeric"></loomi-otp> <!-- letters + digits -->
 <loomi-otp type="text"></loomi-otp>         <!-- any non-whitespace character -->
 ```
@@ -98,7 +98,7 @@ call `clear()` to empty them so the user can try again.
 ```
 
 `error-message` controls what (if anything) is displayed _in addition to_ the red
-border — the border shows either way, even if `error-message` is left blank.
+border - the border shows either way, even if `error-message` is left blank.
 
 ## Async Validation: Spinner → Checkmark or Red Boxes
 
@@ -158,15 +158,15 @@ Use `variant="minimal"` to show only the bottom border of each code box:
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

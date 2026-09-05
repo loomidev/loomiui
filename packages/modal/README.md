@@ -1,6 +1,6 @@
 # @loomidev/modal
 
-`<loomi-modal>` — an overlay dialog with types, sizes, and action buttons.
+`<loomi-modal>` - an overlay dialog with types, sizes, and action buttons.
 
 ```bash
 npm install @loomidev/modal lit
@@ -12,12 +12,12 @@ import "@loomidev/modal";
 
 ## Default Modal
 
-Modals are usually triggered by an action — a button click, say. Every LoomiUI modal is
+Modals are usually triggered by an action - a button click, say. Every LoomiUI modal is
 opened and closed by its unique `name`, using the exported `showLoomiModal()` /
 `hideLoomiModal()` helpers (or the instance methods `show()`/`hide()` if you already
 have a reference to the element).
 
-> **Important:** give every modal on a page a unique `name` — it's how `showLoomiModal()`
+> **Important:** give every modal on a page a unique `name` - it's how `showLoomiModal()`
 > finds the right one.
 
 The default modal keeps its content left aligned and places action buttons in a gray
@@ -85,7 +85,7 @@ a prebuilt `type`'s default icon. Modal icons render through `<loomi-icon>`.
 ### Icon Source
 
 `icon` renders from `heroicons` by default. Set `icon-source` to pull from a different
-set instead — `iconsax` or `untitledui` — matching `<loomi-icon>`'s own `source` attribute.
+set instead - `iconsax` or `untitledui` - matching `<loomi-icon>`'s own `source` attribute.
 
 ```html
 <loomi-button onclick="showLoomiModal('iconsax-modal')">Iconsax Icon</loomi-button>
@@ -168,7 +168,7 @@ an empty string to hide that button entirely. Footer actions render as
 
 ### Reacting to Action Buttons
 
-Loomi modals fire real DOM events — listen for `ok`/`cancel` on the modal element:
+Loomi modals fire real DOM events - listen for `ok`/`cancel` on the modal element:
 
 ```html
 <loomi-button onclick="showLoomiModal('confirm-delete')">Delete User</loomi-button>
@@ -186,7 +186,7 @@ Loomi modals fire real DOM events — listen for `ok`/`cancel` on the modal elem
 </script>
 ```
 
-`close-after-action="false"` keeps the modal open after a button click — useful when the
+`close-after-action="false"` keeps the modal open after a button click - useful when the
 action is asynchronous and you want to close it yourself once it resolves (as above).
 
 ### Alignment & Stretching
@@ -204,7 +204,7 @@ action is asynchronous and you want to close it yourself once it resolves (as ab
 ## Non-Dismissible Modal
 
 Set `backdrop-can-close="false"` to stop the backdrop and <kbd>Esc</kbd> from closing
-it — useful for a "lock screen" or a form that must be explicitly submitted or
+it - useful for a "lock screen" or a form that must be explicitly submitted or
 cancelled.
 
 ```html
@@ -220,7 +220,7 @@ cancelled.
 
 Opening a modal moves focus into it (the close icon if shown, otherwise the first
 focusable element, otherwise the dialog itself) and traps <kbd>Tab</kbd> inside it while
-open. Closing it restores focus to whatever was focused before — all automatic, no setup
+open. Closing it restores focus to whatever was focused before - all automatic, no setup
 needed.
 
 ## Opening and closing motion
@@ -230,7 +230,7 @@ rather than making the modal vanish. `prefers-reduced-motion: reduce` shortens e
 loomi animation to near-zero, so the modal appears and disappears at once for readers who
 ask for that.
 
-Everything observable happens as soon as `hide()` is called — `open` flips to `false`, the
+Everything observable happens as soon as `hide()` is called - `open` flips to `false`, the
 `close` event fires, focus returns to whatever had it, and the page scroll lock is
 released. Only the visuals wait for the animation, which also means the element returns
 from `document.body` to its original position in the DOM when the exit finishes rather
@@ -239,15 +239,15 @@ instant behavior, set `open = false` directly instead of calling `hide()`.
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
@@ -257,7 +257,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 | `title`                  | _(blank)_   | Modal heading.                                                   |
 | `type`                   | _(blank)_   | `info` \| `error` \| `warning` \| `success` (sets icon + color). |
 | `icon`                   | _(blank)_   | Custom icon name (overrides the type icon).                      |
-| `icon-source`            | `heroicons` | Icon set for `icon` — `heroicons` \| `iconsax` \| `untitledui`.  |
+| `icon-source`            | `heroicons` | Icon set for `icon` - `heroicons` \| `iconsax` \| `untitledui`.  |
 | `size`                   | `medium`    | `tiny` \| `small` \| `medium` \| `large` \| `xl` \| `omg`        |
 | `open`                   | `false`     | Open state (reflected). _(boolean)_                              |
 | `ok-button-label`        | `Okay`      | Primary button text (blank hides it).                            |

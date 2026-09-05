@@ -1,6 +1,6 @@
 # @loomidev/datepicker
 
-`<loomi-datepicker>` — a calendar date picker (single or range) with locale-aware
+`<loomi-datepicker>` - a calendar date picker (single or range) with locale-aware
 month/weekday names. **Form-associated**: submits the formatted date(s) under `name`.
 
 ```bash
@@ -29,7 +29,7 @@ the width.
 ## Inline Calendar
 
 By default the calendar is a popup triggered by clicking the field (`dp-style="popup"`).
-Set `dp-style="inline"` to render the calendar directly in the page — always visible,
+Set `dp-style="inline"` to render the calendar directly in the page - always visible,
 with no triggering input.
 
 ```html
@@ -82,7 +82,7 @@ A range datepicker accepts a default range as `"start - end"`:
 
 ## Min and Max Dates
 
-Restrict selectable dates — anything outside the bounds is disabled and grayed out.
+Restrict selectable dates - anything outside the bounds is disabled and grayed out.
 
 ```html
 <loomi-datepicker min-date="2026-06-01"></loomi-datepicker>
@@ -163,15 +163,15 @@ with the selected date displayed beneath it:
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

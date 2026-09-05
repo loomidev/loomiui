@@ -10,7 +10,7 @@ tree.
 
 ## Installation
 
-Run the install command from your application's root folder—the folder containing its
+Run the install command from your application's root folder - the folder containing its
 `package.json`.
 
 ```bash
@@ -96,7 +96,7 @@ Use links when each headline should open a page. Native links continue to work n
 
 ```html
 <loomi-scroller aria-label="Latest news" speed="45">
-  <a href="/news/product-launch">New product launch — read the announcement</a>
+  <a href="/news/product-launch">New product launch - read the announcement</a>
   <a href="/news/berlin-office">Our Berlin office opens this Friday</a>
   <a href="/news/v2">Version 2.0 is now available</a>
 </loomi-scroller>
@@ -134,13 +134,13 @@ explicit height so it behaves like a window through which the cards move.
   aria-label="Customer testimonials"
 >
   <blockquote class="testimonial">
-    “Setup took minutes, and the result feels polished.” — Emma
+    “Setup took minutes, and the result feels polished.” - Emma
   </blockquote>
   <blockquote class="testimonial">
-    “Our support team ships replies much faster now.” — Diego
+    “Our support team ships replies much faster now.” - Diego
   </blockquote>
   <blockquote class="testimonial">
-    “It works beautifully in both English and Arabic.” — Mariam
+    “It works beautifully in both English and Arabic.” - Mariam
   </blockquote>
 </loomi-scroller>
 ```
@@ -361,7 +361,7 @@ Add an `aria-label` when a nearby heading or surrounding section does not alread
 items. Do not put important information only in moving content; provide it elsewhere on the
 page too.
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
@@ -381,7 +381,7 @@ Images and cards keep the sizes provided by your application. Use responsive CSS
 `clamp()`, `max-width`, and media queries on the items when their size should change with the
 viewport.
 
-For shared viewport guidance, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For shared viewport guidance, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
@@ -392,7 +392,7 @@ transparency, so they work on both light and dark backgrounds.
 When styling testimonial cards or gallery buttons, use your application's semantic color
 tokens instead of fixed light colors if the example must support dark mode.
 
-For theme activation and token guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation and token guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attribute reference
 
