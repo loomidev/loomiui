@@ -36,7 +36,7 @@
     "check:cem": "node scripts/generate-cem.mjs && git diff --exit-code -- \"packages/*/custom-elements.json\"",
     "check:react-types": "node packages/react-types/scripts/generate-react-types.mjs && git diff --exit-code -- packages/react-types/src/index.ts",
     "check:react": "node packages/react/scripts/generate-react-wrappers.mjs && git diff --exit-code -- packages/react/src",
-    "docs:watch-readmes": "pnpm --dir ../docs run watch:components",
+    "docs:watch-readmes": "cd ../docs && pnpm run watch:components",
     "cem": "node scripts/generate-cem.mjs",
     "changeset": "changeset",
     "version-packages": "changeset version",
