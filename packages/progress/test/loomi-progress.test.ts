@@ -3,6 +3,71 @@ import "../dist/loomi-progress.js";
 import type { LoomiProgressStep, LoomiProgressSteps } from "../dist/index.js";
 
 describe("loomi-progress-steps", () => {
+  for (const size of ["regular", "small"]) {
+    it(`keeps ${size} horizontal markers aligned inside prose content`, async () => {
+      const wrapper = await fixture<HTMLDivElement>(html`
+        <div class="progress-prose-regression">
+          <style>
+            .progress-prose-regression loomi-progress-step + loomi-progress-step {
+              margin-top: 1rem;
+            }
+          </style>
+          <loomi-progress-steps current="2" size=${size} style="width: 720px">
+            <loomi-progress-step label="Account" description="Create your profile"></loomi-progress-step>
+            <loomi-progress-step label="Billing" description="Add payment details"></loomi-progress-step>
+            <loomi-progress-step label="Confirm" description="Review and finish"></loomi-progress-step>
+          </loomi-progress-steps>
+        </div>
+      `);
+      await nextFrame();
+      const steps = Array.from(wrapper.querySelectorAll<LoomiProgressStep>("loomi-progress-step"));
+      await Promise.all(steps.map((step) => step.updateComplete));
+      const bounds = (step: LoomiProgressStep, selector: string) =>
+        step.shadowRoot!.querySelector(selector)!.getBoundingClientRect();
+      const markers = steps.map((step) => bounds(step, ".loomi-step-marker"));
+      const labels = steps.map((step) => bounds(step, ".loomi-step-label"));
+      for (let index = 1; index < steps.length; index++) {
+        expect(markers[index].top).to.be.closeTo(markers[0].top, 0.5);
+        expect(labels[index].top).to.be.closeTo(labels[0].top, 0.5);
+      }
+      for (const step of steps.slice(0, -1)) {
+        const line = bounds(step, ".loomi-step-line");
+        expect(line.top + line.height / 2).to.be.closeTo(markers[0].top + markers[0].height / 2, 1);
+      }
+    });
+  }
+
+  for (const size of ["regular", "small"]) {
+    for (const control of ["static", "button", "link"]) {
+      it(`centers ${size} vertical connectors beneath ${control} markers`, async () => {
+        const el = await fixture<LoomiProgressSteps>(html`
+          <loomi-progress-steps orientation="vertical" current="2" size=${size}
+            ?clickable=${control === "button"} style="width: 280px">
+            <loomi-progress-step label="Account" description="Create your profile"></loomi-progress-step>
+            <loomi-progress-step label="Billing" description="Add payment details">
+              Additional payment information that wraps across multiple lines.
+            </loomi-progress-step>
+            <loomi-progress-step label="Confirm" description="Review and finish"></loomi-progress-step>
+          </loomi-progress-steps>
+        `);
+        const steps = Array.from(el.querySelectorAll<LoomiProgressStep>("loomi-progress-step"));
+        if (control === "link") steps.forEach((step) => { step.href = "#billing"; });
+        await Promise.all(steps.map((step) => step.updateComplete));
+        await nextFrame();
+        for (const step of steps.slice(0, -1)) {
+          const bounds = (selector: string) => step.shadowRoot!.querySelector(selector)!.getBoundingClientRect();
+          const marker = bounds(".loomi-step-marker");
+          const line = bounds(".loomi-step-line");
+          expect(line.width).to.equal(2);
+          expect(line.left + line.width / 2).to.be.closeTo(marker.left + marker.width / 2, 0.5);
+          expect(line.top).to.be.at.least(marker.bottom);
+          expect(bounds(".loomi-step-body").left).to.be.closeTo(bounds(".loomi-step-copy").left, 0.5);
+        }
+        expect(steps[2].shadowRoot!.querySelector(".loomi-step-line")!.getBoundingClientRect().width).to.equal(0);
+      });
+    }
+  }
+
   it("derives child step state from the current step", async () => {
     const el = await fixture<LoomiProgressSteps>(html`
       <loomi-progress-steps current="2">
