@@ -103,9 +103,17 @@
       "types": "./dist/spinner.d.ts",
       "import": "./dist/spinner.js"
     },
+    "./skeleton": {
+      "types": "./dist/skeleton.d.ts",
+      "import": "./dist/skeleton.js"
+    },
     "./avatar": {
       "types": "./dist/avatar.d.ts",
       "import": "./dist/avatar.js"
+    },
+    "./breadcrumb": {
+      "types": "./dist/breadcrumb.d.ts",
+      "import": "./dist/breadcrumb.js"
     },
     "./tag": {
       "types": "./dist/tag.d.ts",
@@ -347,6 +355,7 @@
     "@loomidev/arc-meter": "workspace:^",
     "@loomidev/autocomplete": "workspace:^",
     "@loomidev/avatar": "workspace:^",
+    "@loomidev/breadcrumb": "workspace:^",
     "@loomidev/bell": "workspace:^",
     "@loomidev/bottom-nav": "workspace:^",
     "@loomidev/button": "workspace:^",
@@ -406,6 +415,7 @@
     "@loomidev/slider": "workspace:^",
     "@loomidev/sortable": "workspace:^",
     "@loomidev/spinner": "workspace:^",
+    "@loomidev/skeleton": "workspace:^",
     "@loomidev/split-button": "workspace:^",
     "@loomidev/statistic": "workspace:^",
     "@loomidev/tab": "workspace:^",

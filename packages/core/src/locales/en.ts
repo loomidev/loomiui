@@ -225,6 +225,9 @@ export const en: LoomiTranslations = {
   progress: {
     label: "Progress",
   },
+  breadcrumb: {
+    label: "Breadcrumb",
+  },
   rating: {
     label: "Rating",
     valueLabel: "Rating :value of :max",

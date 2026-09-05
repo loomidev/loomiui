@@ -1,0 +1,79 @@
+:host {
+  /* Block, not inline-block: a `width: 100%` bar or line group needs the host to
+     resolve to a definite width from its own parent, which shrink-to-fit
+     (inline-block) can't give it — that combination collapses to 0 width. A flex
+     or grid parent still lays this out as an item either way, so nothing about
+     placing several side by side (e.g. an avatar next to text lines) is lost. */
+  display: block;
+  line-height: 1;
+}
+:host([hidden]) {
+  display: none;
+}
+
+.loomi-skeleton-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.loomi-skeleton {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  /* `--loomi-surface-border` rather than the lighter `--loomi-surface-hover`: a
+     skeleton has no border of its own to give it definition the way a field or
+     card does, so it needs a fill that reads as a distinct shape on a plain
+     background on its own. */
+  background-color: var(--loomi-surface-border);
+  flex: none;
+}
+
+/* A translucent white sweep lightens whatever the base color is, so this needs no
+   separate dark-mode value: it reads correctly over both the light and dark
+   `--loomi-surface-hover` base without duplicating the theme's own light/dark split
+   (see @loomidev/theme's `:host-context(.dark)` block for that split). */
+.loomi-skeleton.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.45),
+    transparent
+  );
+  animation: loomi-skeleton-shimmer 1.6s ease-in-out infinite;
+}
+
+.loomi-skeleton.pulse {
+  animation: loomi-skeleton-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes loomi-skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes loomi-skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Slow down rather than remove: a skeleton that stops moving under reduced motion
+   reads as finished loading rather than still in progress (same reasoning as
+   @loomidev/core's spinner motion tokens). */
+@media (prefers-reduced-motion: reduce) {
+  .loomi-skeleton.shimmer::after,
+  .loomi-skeleton.pulse {
+    animation-duration: 3.2s;
+  }
+}

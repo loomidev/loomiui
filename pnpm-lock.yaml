@@ -249,6 +249,28 @@ importers:
         specifier: ^5.6.3
         version: 5.9.3
 
+  packages/breadcrumb:
+    dependencies:
+      '@loomidev/core':
+        specifier: workspace:^
+        version: link:../core
+    devDependencies:
+      '@loomidev/theme':
+        specifier: workspace:^
+        version: link:../theme
+      '@tailwindcss/cli':
+        specifier: ^4.3.3
+        version: 4.3.3
+      lit:
+        specifier: ^3.3.3
+        version: 3.3.3
+      tailwindcss:
+        specifier: ^4.3.3
+        version: 4.3.3
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+
   packages/button:
     dependencies:
       '@loomidev/core':
@@ -587,6 +609,9 @@ importers:
       '@loomidev/bottom-nav':
         specifier: workspace:^
         version: link:../bottom-nav
+      '@loomidev/breadcrumb':
+        specifier: workspace:^
+        version: link:../breadcrumb
       '@loomidev/button':
         specifier: workspace:^
         version: link:../button
@@ -749,6 +774,9 @@ importers:
       '@loomidev/side-nav':
         specifier: workspace:^
         version: link:../side-nav
+      '@loomidev/skeleton':
+        specifier: workspace:^
+        version: link:../skeleton
       '@loomidev/slider':
         specifier: workspace:^
         version: link:../slider
@@ -1580,6 +1608,9 @@ importers:
       '@loomidev/bottom-nav':
         specifier: workspace:^
         version: link:../bottom-nav
+      '@loomidev/breadcrumb':
+        specifier: workspace:^
+        version: link:../breadcrumb
       '@loomidev/command-palette':
         specifier: workspace:^
         version: link:../command-palette
@@ -2069,6 +2100,28 @@ importers:
       lit:
         specifier: ^3.3.3
         version: 3.3.3
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+
+  packages/skeleton:
+    dependencies:
+      '@loomidev/core':
+        specifier: workspace:^
+        version: link:../core
+    devDependencies:
+      '@loomidev/theme':
+        specifier: workspace:^
+        version: link:../theme
+      '@tailwindcss/cli':
+        specifier: ^4.3.3
+        version: 4.3.3
+      lit:
+        specifier: ^3.3.3
+        version: 3.3.3
+      tailwindcss:
+        specifier: ^4.3.3
+        version: 4.3.3
       typescript:
         specifier: ^5.6.3
         version: 5.9.3

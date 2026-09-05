@@ -1,0 +1,69 @@
+:host {
+  display: block;
+}
+:host([hidden]) {
+  display: none;
+}
+:host(loomi-breadcrumb-item) {
+  display: contents;
+}
+
+.loomi-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.loomi-crumb {
+  display: inline-flex;
+  align-items: center;
+}
+
+.loomi-crumb-control {
+  display: inline-flex;
+  align-items: center;
+  color: var(--loomi-text-muted);
+  text-decoration: none;
+  font: inherit;
+}
+
+a.loomi-crumb-control {
+  cursor: pointer;
+}
+a.loomi-crumb-control:hover .loomi-crumb-label {
+  color: var(--_loomi-accent-strong);
+  text-decoration: underline;
+}
+
+.loomi-crumb-control.current {
+  color: var(--loomi-text);
+  font-weight: 600;
+  cursor: default;
+}
+
+.loomi-crumb-label {
+  max-width: 16rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.loomi-crumb-separator {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0.5rem;
+  color: var(--loomi-text-faint);
+  flex: none;
+}
+
+.loomi-sep-chevron {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.loomi-sep-slash {
+  font-size: 0.875rem;
+  line-height: 1;
+}

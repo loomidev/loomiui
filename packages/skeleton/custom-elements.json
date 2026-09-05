@@ -1,0 +1,260 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiSkeleton",
+          "declaration": {
+            "name": "LoomiSkeleton",
+            "module": "./loomi-skeleton.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSkeletonAnimation",
+          "declaration": {
+            "name": "LoomiSkeletonAnimation",
+            "module": "./loomi-skeleton.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiSkeletonVariant",
+          "declaration": {
+            "name": "LoomiSkeletonVariant",
+            "module": "./loomi-skeleton.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-skeleton.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-skeleton>` — a placeholder shape shown in place of content that hasn't\nloaded yet. Pick a `variant` for the shape, or set `lines` (with the default\n`variant=\"text\"`) for a paragraph of placeholder lines whose last line runs\nshorter, the common \"still loading\" text pattern. Compose several instances\n(e.g. a `circle` next to two `text` lines) for a list-item or card placeholder;\nthere's no built-in composite shape.",
+          "name": "LoomiSkeleton",
+          "members": [
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "LoomiSkeletonVariant"
+              },
+              "default": "\"text\"",
+              "attribute": "variant"
+            },
+            {
+              "kind": "field",
+              "name": "width",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "width"
+            },
+            {
+              "kind": "field",
+              "name": "height",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "height"
+            },
+            {
+              "kind": "field",
+              "name": "radius",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "radius"
+            },
+            {
+              "kind": "field",
+              "name": "lines",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "attribute": "lines"
+            },
+            {
+              "kind": "field",
+              "name": "animation",
+              "type": {
+                "text": "LoomiSkeletonAnimation"
+              },
+              "default": "\"shimmer\"",
+              "attribute": "animation"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name announced while the placeholder is visible. Falls back to a translated \"Loading\".",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "accessibleName",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "defaultWidth",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "defaultRadius",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "barStyle",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "widthOverride",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            }
+          ],
+          "attributes": [
+            {
+              "name": "variant",
+              "type": {
+                "text": "LoomiSkeletonVariant"
+              },
+              "default": "\"text\"",
+              "fieldName": "variant"
+            },
+            {
+              "name": "width",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "width"
+            },
+            {
+              "name": "height",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "height"
+            },
+            {
+              "name": "radius",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "radius"
+            },
+            {
+              "name": "lines",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "fieldName": "lines"
+            },
+            {
+              "name": "animation",
+              "type": {
+                "text": "LoomiSkeletonAnimation"
+              },
+              "default": "\"shimmer\"",
+              "fieldName": "animation"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name announced while the placeholder is visible. Falls back to a translated \"Loading\".",
+              "fieldName": "label"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-skeleton",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiSkeleton",
+          "declaration": {
+            "name": "LoomiSkeleton",
+            "module": "src/loomi-skeleton.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-skeleton",
+          "declaration": {
+            "name": "LoomiSkeleton",
+            "module": "src/loomi-skeleton.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

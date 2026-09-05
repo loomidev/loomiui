@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@loomidev/bottom-nav": "workspace:^",
+    "@loomidev/breadcrumb": "workspace:^",
     "@loomidev/command-palette": "workspace:^",
     "@loomidev/context-menu": "workspace:^",
     "@loomidev/dropmenu": "workspace:^",

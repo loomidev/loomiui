@@ -1,0 +1,60 @@
+{
+  "name": "@loomidev/breadcrumb",
+  "version": "0.5.0",
+  "description": "<loomi-breadcrumb> — a navigation trail showing the current page's location, web component.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loomidev/loomiui.git",
+    "directory": "packages/breadcrumb"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "custom-elements.json"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./loomi-breadcrumb.js": {
+      "types": "./dist/loomi-breadcrumb.d.ts",
+      "import": "./dist/loomi-breadcrumb.js"
+    }
+  },
+  "scripts": {
+    "build": "node scripts/build-styles.mjs && tsc -p tsconfig.json",
+    "dev": "node scripts/build-styles.mjs && tsc -p tsconfig.json --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@loomidev/core": "workspace:^"
+  },
+  "peerDependencies": {
+    "lit": "^3.0.0"
+  },
+  "devDependencies": {
+    "@loomidev/theme": "workspace:^",
+    "@tailwindcss/cli": "^4.3.3",
+    "lit": "^3.3.3",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.6.3"
+  },
+  "keywords": [
+    "web-components",
+    "lit",
+    "loomiui",
+    "breadcrumb",
+    "breadcrumbs",
+    "navigation",
+    "nav-trail"
+  ],
+  "customElements": "custom-elements.json"
+}

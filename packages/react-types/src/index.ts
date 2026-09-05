@@ -84,6 +84,10 @@ interface LoomiBottomNavItemAttributes {
   "prevent-default"?: boolean;
 }
 
+interface LoomiBreadcrumbAttributes {}
+
+interface LoomiBreadcrumbItemAttributes {}
+
 interface LoomiButtonAttributes {
   "border-width"?: number;
   "can-submit"?: boolean;
@@ -556,6 +560,8 @@ interface LoomiSideNavAttributes {
 
 interface LoomiSideNavItemAttributes {}
 
+interface LoomiSkeletonAttributes {}
+
 interface LoomiSliderAttributes {
   "handle-variant"?: "default" | "square" | "line";
   "handle-width"?: string;
@@ -753,6 +759,14 @@ declare module "react" {
         HTMLElementTagNameMap["loomi-bottom-nav-item"],
         LoomiBottomNavItemAttributes
       >;
+      "loomi-breadcrumb": LoomiReactProps<
+        HTMLElementTagNameMap["loomi-breadcrumb"],
+        LoomiBreadcrumbAttributes
+      >;
+      "loomi-breadcrumb-item": LoomiReactProps<
+        HTMLElementTagNameMap["loomi-breadcrumb-item"],
+        LoomiBreadcrumbItemAttributes
+      >;
       "loomi-button": LoomiReactProps<HTMLElementTagNameMap["loomi-button"], LoomiButtonAttributes>;
       "loomi-button-group": LoomiReactProps<
         HTMLElementTagNameMap["loomi-button-group"],
@@ -994,6 +1008,10 @@ declare module "react" {
       "loomi-side-nav-item": LoomiReactProps<
         HTMLElementTagNameMap["loomi-side-nav-item"],
         LoomiSideNavItemAttributes
+      >;
+      "loomi-skeleton": LoomiReactProps<
+        HTMLElementTagNameMap["loomi-skeleton"],
+        LoomiSkeletonAttributes
       >;
       "loomi-slider": LoomiReactProps<HTMLElementTagNameMap["loomi-slider"], LoomiSliderAttributes>;
       "loomi-sortable": LoomiReactProps<
@@ -1094,6 +1112,14 @@ declare global {
         HTMLElementTagNameMap["loomi-bottom-nav-item"],
         LoomiBottomNavItemAttributes
       >;
+      "loomi-breadcrumb": LoomiReactProps<
+        HTMLElementTagNameMap["loomi-breadcrumb"],
+        LoomiBreadcrumbAttributes
+      >;
+      "loomi-breadcrumb-item": LoomiReactProps<
+        HTMLElementTagNameMap["loomi-breadcrumb-item"],
+        LoomiBreadcrumbItemAttributes
+      >;
       "loomi-button": LoomiReactProps<HTMLElementTagNameMap["loomi-button"], LoomiButtonAttributes>;
       "loomi-button-group": LoomiReactProps<
         HTMLElementTagNameMap["loomi-button-group"],
@@ -1335,6 +1361,10 @@ declare global {
       "loomi-side-nav-item": LoomiReactProps<
         HTMLElementTagNameMap["loomi-side-nav-item"],
         LoomiSideNavItemAttributes
+      >;
+      "loomi-skeleton": LoomiReactProps<
+        HTMLElementTagNameMap["loomi-skeleton"],
+        LoomiSkeletonAttributes
       >;
       "loomi-slider": LoomiReactProps<HTMLElementTagNameMap["loomi-slider"], LoomiSliderAttributes>;
       "loomi-sortable": LoomiReactProps<
