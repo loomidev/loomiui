@@ -474,6 +474,10 @@ interface LoomiProfileMenuAttributes {
   "trigger-label"?: string;
 }
 
+interface LoomiProgressArcAttributes {
+  "show-percent"?: boolean;
+}
+
 interface LoomiProgressBarAttributes {
   "percentage-label-position"?: LoomiAttributeValue;
   "percentage-prefix"?: string;
@@ -965,6 +969,10 @@ declare module "react" {
         HTMLElementTagNameMap["loomi-profile-menu"],
         LoomiProfileMenuAttributes
       >;
+      "loomi-progress-arc": LoomiReactProps<
+        HTMLElementTagNameMap["loomi-progress-arc"],
+        LoomiProgressArcAttributes
+      >;
       "loomi-progress-bar": LoomiReactProps<
         HTMLElementTagNameMap["loomi-progress-bar"],
         LoomiProgressBarAttributes
@@ -1317,6 +1325,10 @@ declare global {
       "loomi-profile-menu": LoomiReactProps<
         HTMLElementTagNameMap["loomi-profile-menu"],
         LoomiProfileMenuAttributes
+      >;
+      "loomi-progress-arc": LoomiReactProps<
+        HTMLElementTagNameMap["loomi-progress-arc"],
+        LoomiProgressArcAttributes
       >;
       "loomi-progress-bar": LoomiReactProps<
         HTMLElementTagNameMap["loomi-progress-bar"],

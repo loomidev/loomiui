@@ -25,6 +25,14 @@
         },
         {
           "kind": "js",
+          "name": "LoomiProgressArc",
+          "declaration": {
+            "name": "LoomiProgressArc",
+            "module": "./loomi-progress.js"
+          }
+        },
+        {
+          "kind": "js",
           "name": "LoomiProgressStep",
           "declaration": {
             "name": "LoomiProgressStep",
@@ -68,6 +76,14 @@
           "name": "LoomiProgressStepsOrientation",
           "declaration": {
             "name": "LoomiProgressStepsOrientation",
+            "module": "./loomi-progress.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProgressStepsVariant",
+          "declaration": {
+            "name": "LoomiProgressStepsVariant",
             "module": "./loomi-progress.js"
           }
         },
@@ -559,6 +575,202 @@
         },
         {
           "kind": "class",
+          "description": "`<loomi-progress-arc>` — a semicircular gauge made of radial tick marks, with the\npercentage and an optional caption centered under the arc.",
+          "name": "LoomiProgressArc",
+          "slots": [
+            {
+              "description": "Content placed below the caption, e.g. a \"Show details\" button.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "percentage",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "attribute": "percentage"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "shade",
+              "type": {
+                "text": "\"faint\" | \"dark\""
+              },
+              "default": "\"faint\"",
+              "attribute": "shade"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"medium\"",
+              "attribute": "size"
+            },
+            {
+              "kind": "field",
+              "name": "showPercent",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "attribute": "show-percent"
+            },
+            {
+              "kind": "field",
+              "name": "caption",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "caption"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for the arc. Falls back to a translated \"Progress\".",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "accessibleName",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "pct",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "px",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "renderTicks",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "percentage",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "fieldName": "percentage"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "fieldName": "color"
+            },
+            {
+              "name": "shade",
+              "type": {
+                "text": "\"faint\" | \"dark\""
+              },
+              "default": "\"faint\"",
+              "fieldName": "shade"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"medium\"",
+              "fieldName": "size"
+            },
+            {
+              "name": "show-percent",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "fieldName": "showPercent"
+            },
+            {
+              "name": "caption",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "caption"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for the arc. Falls back to a translated \"Progress\".",
+              "fieldName": "label"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-progress-arc",
+          "customElement": true
+        },
+        {
+          "kind": "class",
           "description": "`<loomi-progress-step>` — one labelled step. Place inside `<loomi-progress-steps>`.",
           "name": "LoomiProgressStep",
           "slots": [
@@ -726,6 +938,25 @@
               },
               "default": "\"regular\"",
               "attribute": "size"
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "LoomiProgressStepsVariant"
+              },
+              "default": "\"circle\"",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
             },
             {
               "kind": "field",
@@ -929,6 +1160,22 @@
               },
               "default": "\"regular\"",
               "fieldName": "size"
+            },
+            {
+              "name": "variant",
+              "type": {
+                "text": "LoomiProgressStepsVariant"
+              },
+              "default": "\"circle\"",
+              "fieldName": "variant"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
             }
           ],
           "superclass": {
@@ -984,6 +1231,15 @@
               },
               "default": "\"regular\"",
               "attribute": "size"
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "LoomiProgressStepsVariant"
+              },
+              "default": "\"circle\"",
+              "attribute": "variant"
             },
             {
               "kind": "field",
@@ -1101,6 +1357,14 @@
               "fieldName": "size"
             },
             {
+              "name": "variant",
+              "type": {
+                "text": "LoomiProgressStepsVariant"
+              },
+              "default": "\"circle\"",
+              "fieldName": "variant"
+            },
+            {
               "name": "clickable",
               "type": {
                 "text": "boolean"
@@ -1147,6 +1411,22 @@
           "name": "loomi-progress-circle",
           "declaration": {
             "name": "LoomiProgressCircle",
+            "module": "src/loomi-progress.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProgressArc",
+          "declaration": {
+            "name": "LoomiProgressArc",
+            "module": "src/loomi-progress.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-progress-arc",
+          "declaration": {
+            "name": "LoomiProgressArc",
             "module": "src/loomi-progress.ts"
           }
         },

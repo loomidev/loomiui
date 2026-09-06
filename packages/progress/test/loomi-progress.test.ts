@@ -1,6 +1,70 @@
 import { html, fixture, expect, nextFrame, oneEvent } from "@open-wc/testing";
 import "../dist/loomi-progress.js";
-import type { LoomiProgressStep, LoomiProgressSteps } from "../dist/index.js";
+import type { LoomiProgressArc, LoomiProgressBar, LoomiProgressStep, LoomiProgressSteps } from "../dist/index.js";
+
+describe("loomi-progress-bar", () => {
+  it("keeps the inline label by default", async () => {
+    const el = await fixture<LoomiProgressBar>(
+      html`<loomi-progress-bar percentage="50" show-percentage-label></loomi-progress-bar>`,
+    );
+    expect(el.inline).to.be.true;
+    expect(el.shadowRoot!.querySelector(".loomi-fill-label")).to.exist;
+    expect(el.shadowRoot!.querySelector(".loomi-bar-label-out")).to.not.exist;
+  });
+
+  it('moves the label outside when show-percentage-label-inline="false"', async () => {
+    const el = await fixture<LoomiProgressBar>(
+      html`<loomi-progress-bar
+        percentage="50"
+        show-percentage-label
+        show-percentage-label-inline="false"
+      ></loomi-progress-bar>`,
+    );
+    expect(el.inline, "the string \"false\" attribute value must actually disable the boolean").to.be
+      .false;
+    expect(el.shadowRoot!.querySelector(".loomi-fill-label")).to.not.exist;
+    expect(el.shadowRoot!.querySelector(".loomi-bar-label-out")).to.exist;
+  });
+
+  it("positions the outside label and applies prefix/suffix verbatim", async () => {
+    const el = await fixture<LoomiProgressBar>(
+      html`<loomi-progress-bar
+        percentage="75"
+        show-percentage-label
+        show-percentage-label-inline="false"
+        percentage-label-position="top-center"
+        percentage-suffix=" complete"
+      ></loomi-progress-bar>`,
+    );
+    const outside = el.shadowRoot!.querySelector(".loomi-bar-label-out")!;
+    expect(outside.classList.contains("center")).to.be.true;
+    expect(outside.textContent!.trim()).to.equal("75% complete");
+  });
+});
+
+describe("loomi-progress-arc", () => {
+  it("renders the percentage and caption", async () => {
+    const el = await fixture<LoomiProgressArc>(
+      html`<loomi-progress-arc percentage="68" caption="On track for 80% target"></loomi-progress-arc>`,
+    );
+    await nextFrame();
+    expect(el.shadowRoot!.querySelector(".loomi-arc-value")!.textContent!.trim()).to.equal("68%");
+    expect(el.shadowRoot!.querySelector(".loomi-arc-caption")!.textContent!.trim()).to.equal(
+      "On track for 80% target",
+    );
+    const ticks = el.shadowRoot!.querySelectorAll(".tick");
+    const active = el.shadowRoot!.querySelectorAll(".tick.active");
+    expect(ticks.length).to.be.greaterThan(0);
+    expect(active.length).to.be.greaterThan(0).and.to.be.lessThan(ticks.length);
+  });
+
+  it("hides the value when show-percent is false", async () => {
+    const el = await fixture<LoomiProgressArc>(
+      html`<loomi-progress-arc percentage="30" show-percent="false"></loomi-progress-arc>`,
+    );
+    expect(el.shadowRoot!.querySelector(".loomi-arc-value")).to.not.exist;
+  });
+});
 
 describe("loomi-progress-steps", () => {
   for (const size of ["regular", "small"]) {
@@ -199,6 +263,33 @@ describe("loomi-progress-steps", () => {
     await nextFrame();
     expect(items(el).at(-1)!.last).to.be.true;
     expect(items(el)[0].last).to.be.false;
+  });
+
+  it("defaults to the circle variant and propagates variant to children", async () => {
+    const el = await steps();
+    await nextFrame();
+    expect(el.variant).to.equal("circle");
+    for (const step of items(el)) expect(step.variant).to.equal("circle");
+  });
+
+  it("renders bar-variant steps without a marker or connector, with a step eyebrow", async () => {
+    const el = await fixture<LoomiProgressSteps>(html`
+      <loomi-progress-steps current="2" variant="bar">
+        <loomi-progress-step label="Details"></loomi-progress-step>
+        <loomi-progress-step label="Payment"></loomi-progress-step>
+        <loomi-progress-step label="Done"></loomi-progress-step>
+      </loomi-progress-steps>
+    `);
+    await nextFrame();
+    const [first, second] = items(el) as LoomiProgressStep[];
+    await Promise.all([first, second].map((step) => step.updateComplete));
+
+    expect(first.shadowRoot!.querySelector(".loomi-step-marker")).to.not.exist;
+    expect(first.shadowRoot!.querySelector(".loomi-step-line")).to.not.exist;
+    expect(first.shadowRoot!.querySelector(".loomi-step-bar")).to.exist;
+    expect(second.shadowRoot!.querySelector(".loomi-step-eyebrow")!.textContent!.trim()).to.equal(
+      "Step 2",
+    );
   });
 
   it("still honours a state the author set explicitly", async () => {

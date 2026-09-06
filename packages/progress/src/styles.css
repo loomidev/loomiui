@@ -151,6 +151,51 @@
   color: var(--loomi-text-secondary);
 }
 
+/* ---- progress arc ---- */
+.loomi-arc {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+.loomi-arc svg {
+  width: 100%;
+  display: block;
+}
+.loomi-arc .tick {
+  stroke: var(--loomi-surface-border);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.loomi-arc .tick.active {
+  stroke: var(--_loomi-accent);
+}
+.loomi-arc .tick.active.dark {
+  stroke: var(--_loomi-accent-strong);
+}
+.loomi-arc-body {
+  position: absolute;
+  top: 61.5%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 82%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  text-align: center;
+}
+.loomi-arc-value {
+  font-weight: 700;
+  color: var(--loomi-text);
+  line-height: 1;
+}
+.loomi-arc-caption {
+  font-size: 0.85rem;
+  color: var(--loomi-text-muted);
+  max-width: 14rem;
+}
+
 /* ---- progress steps ---- */
 :host(loomi-progress-steps) {
   display: block;
@@ -354,4 +399,81 @@ a.loomi-step-control {
   grid-row: 2;
   margin-top: 0.4rem;
   padding: 0 0 1.25rem;
+}
+
+/* ---- circle variant: card frame + chevron connectors (horizontal only) ---- */
+.loomi-steps.circle.horizontal {
+  border: 1px solid var(--loomi-surface-border);
+  border-radius: 1rem;
+  background: var(--loomi-surface);
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--loomi-text) 6%, transparent);
+}
+.loomi-step.circle.horizontal .loomi-step-line {
+  height: 2rem;
+  margin: 0 0.75rem;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--loomi-text-faint);
+}
+.loomi-step.circle.horizontal.small .loomi-step-line {
+  height: 1.625rem;
+  margin: 0 0.65rem;
+}
+.loomi-step.circle.horizontal .loomi-step-line.complete {
+  color: var(--_loomi-accent);
+}
+.loomi-step-chevron {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex: none;
+}
+
+/* ---- bar variant: segmented bar above a label, no marker or connector ---- */
+.loomi-steps.bar.horizontal {
+  gap: 0.75rem;
+}
+.loomi-steps.vertical.bar {
+  gap: 1rem;
+}
+.loomi-step.bar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.loomi-step-bar {
+  display: block;
+  height: 0.3rem;
+  border-radius: 9999px;
+  background: var(--loomi-surface-border);
+}
+.loomi-step-bar.current,
+.loomi-step-bar.complete {
+  background: var(--_loomi-accent);
+}
+.loomi-step-bar.error {
+  background: var(--loomi-error-600, #dc2626);
+}
+.loomi-step.bar .loomi-step-control {
+  display: block;
+}
+.loomi-step.bar .loomi-step-copy {
+  padding-top: 0;
+}
+.loomi-step-eyebrow {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--loomi-text-faint);
+}
+.loomi-step-eyebrow.current,
+.loomi-step-eyebrow.complete {
+  color: var(--_loomi-accent-strong);
+}
+.loomi-step-eyebrow.error {
+  color: var(--loomi-error-700, #b91c1c);
 }

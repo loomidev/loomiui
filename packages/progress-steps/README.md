@@ -21,6 +21,26 @@ import "@loomidev/progress-steps";
 </loomi-progress-steps>
 ```
 
+## Variants
+
+Set `variant` on the group to switch how every step renders. The default is
+`circle`: numbered/checkmark markers inside a bordered card, connected by chevron
+separators. `bar` instead renders a colored segment above each step's label, with
+no marker or connector — useful for a more compact, form-wizard-style header.
+
+```html
+<loomi-progress-steps variant="bar" current="2">
+  <loomi-progress-step label="Job details"></loomi-progress-step>
+  <loomi-progress-step label="Application form"></loomi-progress-step>
+  <loomi-progress-step label="Preview"></loomi-progress-step>
+</loomi-progress-steps>
+```
+
+The group applies its `variant` to every child, so you do not need to set it on
+individual steps. The card frame and chevron separators only apply to
+`variant="circle"` in the horizontal orientation; vertical steps keep the plain
+connector line.
+
 ## Vertical Steps
 
 Set `orientation="vertical"` on the group to stack steps from top to bottom, with

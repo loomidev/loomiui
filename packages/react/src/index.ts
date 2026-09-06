@@ -71,6 +71,7 @@ export { PhotoGalleryItem } from "./components/photo-gallery-item.js";
 export { Popover } from "./components/popover.js";
 export { Processing } from "./components/processing.js";
 export { ProfileMenu } from "./components/profile-menu.js";
+export { ProgressArc } from "./components/progress-arc.js";
 export { ProgressBar } from "./components/progress-bar.js";
 export { ProgressCircle } from "./components/progress-circle.js";
 export { ProgressStep } from "./components/progress-step.js";

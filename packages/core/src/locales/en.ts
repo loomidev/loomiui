@@ -224,6 +224,7 @@ export const en: LoomiTranslations = {
   },
   progress: {
     label: "Progress",
+    step: "Step :index",
   },
   breadcrumb: {
     label: "Breadcrumb",

@@ -1,6 +1,6 @@
 # @loomidev/progress
 
-`<loomi-progress-bar>`, `<loomi-progress-circle>`, and `<loomi-progress-steps>` - horizontal, circular, and stepped progress indicators.
+`<loomi-progress-bar>`, `<loomi-progress-circle>`, `<loomi-progress-arc>`, and `<loomi-progress-steps>` - horizontal, circular, arc, and stepped progress indicators.
 
 ```bash
 npm install @loomidev/progress lit
@@ -10,7 +10,7 @@ npm install @loomidev/progress lit
 import "@loomidev/progress";
 ```
 
-## Progress Bar - Basic Usage
+## Progress Bar
 
 ```html
 <loomi-progress-bar percentage="36"></loomi-progress-bar>
@@ -21,13 +21,21 @@ import "@loomidev/progress";
 ```html
 <!-- label inside the bar -->
 <loomi-progress-bar percentage="36" show-percentage-label></loomi-progress-bar>
+```
 
+<br />
+```html
 <!-- label outside the bar (default position: top-left) -->
-<loomi-progress-bar percentage="36" show-percentage-label show-percentage-label-inline="false"></loomi-progress-bar>
+<loomi-progress-bar percentage="65" show-percentage-label show-percentage-label-inline="false"></loomi-progress-bar>
+```
 
+<br />
+```html
 <!-- label as a tooltip above the fill -->
 <loomi-progress-bar percentage="36" show-percentage-tooltip></loomi-progress-bar>
+```
 
+```html
 <!-- positioned top-center, with a suffix -->
 <loomi-progress-bar
   percentage="75"
@@ -47,8 +55,20 @@ Two shades per color: `faint` (default) and `dark`.
 
 ```html
 <loomi-progress-bar percentage="30" color="success"></loomi-progress-bar>
+```
+<br />
+
+```html
 <loomi-progress-bar percentage="40" color="warning"></loomi-progress-bar>
+```
+<br />
+
+```html
 <loomi-progress-bar percentage="50" color="error" shade="dark"></loomi-progress-bar>
+```
+<br />
+
+```html
 <loomi-progress-bar percentage="60" color="gray" shade="dark"></loomi-progress-bar>
 ```
 
@@ -56,10 +76,15 @@ Two shades per color: `faint` (default) and `dark`.
 
 ```html
 <loomi-progress-bar percentage="60" color="error" shade="dark" striped></loomi-progress-bar>
-<loomi-progress-bar percentage="50" color="success" shade="dark" striped animated></loomi-progress-bar>
 ```
 
-## Progress Circle - Basic Usage
+<br />
+
+```html
+<loomi-progress-bar percentage="50" color="success" striped animated></loomi-progress-bar>
+```
+
+## Progress Circle
 
 ```html
 <loomi-progress-circle percentage="45"></loomi-progress-circle>
@@ -70,6 +95,9 @@ The label is hidden by default. Show it with `show-label`; add the `%` sign with
 
 ```html
 <loomi-progress-circle percentage="58" show-label></loomi-progress-circle>
+```
+
+```html
 <loomi-progress-circle percentage="58" show-label show-percent></loomi-progress-circle>
 ```
 
@@ -95,7 +123,37 @@ The label is hidden by default. Show it with `show-label`; add the `%` sign with
 `circle-width` to keep the stroke proportional on larger circles.
 
 ```html
-<loomi-progress-circle size="400" circle-width="50" percentage="89" show-label show-percent></loomi-progress-circle>
+<loomi-progress-circle size="400" circle-width="15" percentage="89" show-label show-percent></loomi-progress-circle>
+```
+
+## Progress Arc
+
+A semicircular gauge made of radial ticks. The percentage sits under the arc, with
+an optional caption underneath that.
+
+```html
+<loomi-progress-arc percentage="68" caption="On track for 80% target"></loomi-progress-arc>
+```
+
+### Adding a footer action
+
+Anything placed in the default slot renders below the caption, so you can drop in a
+button or link.
+
+```html
+<loomi-progress-arc percentage="68" caption="On track for 80% target">
+  <loomi-button size="small" color="gray">Show details</loomi-button>
+</loomi-progress-arc>
+```
+
+### Colors and Sizes
+
+Same colors as the bar and circle, plus four preset sizes: `small`, `medium`
+(default), `big`, and `large`.
+
+```html
+<loomi-progress-arc size="small" color="warning" percentage="42"></loomi-progress-arc>
+<loomi-progress-arc size="large" color="success" shade="dark" percentage="90"></loomi-progress-arc>
 ```
 
 ## Progress Steps
@@ -118,7 +176,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-### Shared (bar and circle)
+### Shared (bar, circle, and arc)
 
 | Attribute    | Default   | Description            |
 | ------------ | --------- | ---------------------- |
@@ -148,6 +206,15 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `show-label`   | `false`  | Show the percentage in the center. _(boolean)_                        |
 | `show-percent` | `false`  | Append a `%` sign. _(boolean)_                                        |
 
+### `<loomi-progress-arc>`
+
+| Attribute      | Default   | Description                                            |
+| -------------- | --------- | ------------------------------------------------------- |
+| `size`         | `medium`  | `small` \| `medium` \| `big` \| `large`, or a pixel number. |
+| `show-percent` | `true`    | Show the `NN%` value under the arc. _(boolean)_        |
+| `caption`      | _(blank)_ | Secondary text under the value.                        |
+| `label`        | _(blank)_ | Accessible name. Falls back to a translated "Progress". |
+
 ### `<loomi-progress-steps>`
 
 | Attribute     | Default      | Description                                                  |
@@ -156,6 +223,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `color`       | `primary`    | Any loomi color.                                             |
 | `orientation` | `horizontal` | `horizontal` \| `vertical`                                   |
 | `size`        | `regular`    | `regular` \| `small`                                         |
+| `variant`     | `circle`     | `circle` \| `bar`                                            |
 | `clickable`   | `false`      | Lets child steps update `current` when selected. _(boolean)_ |
 
 ### `<loomi-progress-step>`
