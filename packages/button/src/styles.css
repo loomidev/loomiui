@@ -78,6 +78,25 @@
   --loomi-control-radius: var(--loomi-pill-radius, var(--_loomi-pill-radius-default, 9999px));
 }
 
+/*
+ * Circle: a square icon button (width = height, driven off the same
+ * --loomi-control-height used for the size presets) with a full radius that overrides
+ * whatever `radius` preset is set. `--loomi-control-pad-x: 0` removes the horizontal
+ * padding a labeled button needs, since a circle button holds only an icon.
+ */
+:host([circle]) {
+  --loomi-control-pad-x: 0;
+}
+
+:host([circle]) .loomi-btn {
+  width: var(--loomi-control-height);
+  border-radius: 9999px;
+}
+
+:host([circle]) .loomi-label {
+  display: none;
+}
+
 /* The interactive element (button or anchor). Layout/colors come from utilities. */
 .loomi-btn {
   box-sizing: border-box;

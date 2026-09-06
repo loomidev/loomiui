@@ -62,6 +62,23 @@ or on one item when only that button should hide its label.
 </loomi-button-group>
 ```
 
+Set `circle` (on the group or on a single item) to render a full-radius icon button -
+for icon-only buttons. It implies `icon-only`, and overrides the group's `radius`.
+
+```html
+<loomi-button-group circle color="primary" aria-label="Row actions">
+  <loomi-button-group-item icon="pencil" value="edit" aria-label="Edit"></loomi-button-group-item>
+  <loomi-button-group-item icon="trash" value="delete" aria-label="Delete"></loomi-button-group-item>
+</loomi-button-group>
+
+<!-- one circular item in an otherwise labeled group -->
+<loomi-button-group aria-label="Views">
+  <loomi-button-group-item label="Day" value="day" selected></loomi-button-group-item>
+  <loomi-button-group-item label="Week" value="week"></loomi-button-group-item>
+  <loomi-button-group-item circle icon="plus" value="add" aria-label="Add view"></loomi-button-group-item>
+</loomi-button-group>
+```
+
 ## Sizes, Radius, Outline, and Colors
 
 `size` accepts `tiny`, `small`, `regular` (default), `medium`, and `big`.
@@ -127,6 +144,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `radius`     | `medium`  | Bar corner radius. `none` \| `small` \| `medium` \| `full`.                           |
 | `outline`    | `false`   | Outline-only treatment: transparent track and selected item outline. _(boolean)_      |
 | `icon-only`  | `false`   | Hide every item label visually and render square icon buttons. _(boolean)_            |
+| `circle`     | `false`   | Full-radius icon buttons for every item; implies `icon-only`, overrides `radius`. _(boolean)_ |
 | `aria-label` | _(blank)_ | Accessible label for the internal `role="group"` wrapper.                             |
 | `disabled`   | `false`   | Disable every item in the group. _(boolean)_                                          |
 
@@ -139,6 +157,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `icon`       | _(blank)_ | Built-in icon name from `@loomidev/icons`.                                             |
 | `icon-right` | `false`   | Place the icon after the label. _(boolean)_                                            |
 | `icon-only`  | `false`   | Hide this item's label visually and render a square icon button. _(boolean)_           |
+| `circle`     | `false`   | Full-radius icon button for this item; implies `icon-only`, overrides the group's `radius`. _(boolean)_ |
 | `aria-label` | _(blank)_ | Accessible label for icon-only items when `label` is not enough.                       |
 | `selected`   | `false`   | Mark this item as active. _(boolean)_                                                  |
 | `disabled`   | `false`   | Disable only this item. _(boolean)_                                                    |

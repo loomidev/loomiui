@@ -8,20 +8,30 @@ import { componentStyles } from "./generated/styles.css.js";
 export type LoomiButtonGroupSize = "tiny" | "small" | "regular" | "medium" | "big";
 export type LoomiButtonGroupRadius = "none" | "small" | "medium" | "full";
 
-/** Size CSS vars aligned with `<loomi-button>` control tokens. */
+/**
+ * Size CSS vars aligned with `<loomi-button>` control tokens.
+ *
+ * `--loomi-bg-preset-pad-x` (not `--loomi-bg-pad-x`) because these are applied as an
+ * inline style on the host (see `applyGroupStyleVars`), which always wins over a
+ * stylesheet rule regardless of specificity — an `icon-only`/`circle` attribute
+ * selector setting `--loomi-bg-pad-x: 0` in styles.css would otherwise never take
+ * effect. `.loomi-bg-btn`'s padding falls back to this preset only when that override
+ * is absent.
+ */
 const SIZE_VARS: Record<LoomiButtonGroupSize, string> = {
-  tiny: "--loomi-bg-height:2rem;--loomi-bg-pad-x:0.625rem;--loomi-bg-font:0.75rem",
-  small: "--loomi-bg-height:2.25rem;--loomi-bg-pad-x:0.75rem;--loomi-bg-font:0.875rem",
-  regular: "--loomi-bg-height:2.5rem;--loomi-bg-pad-x:1rem;--loomi-bg-font:0.875rem",
-  medium: "--loomi-bg-height:2.75rem;--loomi-bg-pad-x:1.25rem;--loomi-bg-font:1rem",
-  big: "--loomi-bg-height:3rem;--loomi-bg-pad-x:1.5rem;--loomi-bg-font:1.125rem",
+  tiny: "--loomi-bg-height:2rem;--loomi-bg-preset-pad-x:0.625rem;--loomi-bg-font:0.75rem",
+  small: "--loomi-bg-height:2.25rem;--loomi-bg-preset-pad-x:0.75rem;--loomi-bg-font:0.875rem",
+  regular: "--loomi-bg-height:2.5rem;--loomi-bg-preset-pad-x:1rem;--loomi-bg-font:0.875rem",
+  medium: "--loomi-bg-height:2.75rem;--loomi-bg-preset-pad-x:1.25rem;--loomi-bg-font:1rem",
+  big: "--loomi-bg-height:3rem;--loomi-bg-preset-pad-x:1.5rem;--loomi-bg-font:1.125rem",
 };
 
+/** `--loomi-bg-preset-item-radius`, not `--loomi-bg-item-radius`, for the same reason as above: `circle` overrides it via a stylesheet rule, which inline styles would otherwise beat. */
 const RADIUS_VARS: Record<LoomiButtonGroupRadius, string> = {
-  none: "--loomi-bg-radius:0;--loomi-bg-item-radius:0",
-  small: "--loomi-bg-radius:0.25rem;--loomi-bg-item-radius:0.125rem",
-  medium: "--loomi-bg-radius:0.5rem;--loomi-bg-item-radius:0.375rem",
-  full: "--loomi-bg-radius:9999px;--loomi-bg-item-radius:9999px",
+  none: "--loomi-bg-radius:0;--loomi-bg-preset-item-radius:0",
+  small: "--loomi-bg-radius:0.25rem;--loomi-bg-preset-item-radius:0.125rem",
+  medium: "--loomi-bg-radius:0.5rem;--loomi-bg-preset-item-radius:0.375rem",
+  full: "--loomi-bg-radius:9999px;--loomi-bg-preset-item-radius:9999px",
 };
 
 /**
@@ -51,6 +61,13 @@ export class LoomiButtonGroupItem extends LoomiElement {
   /** Visually hide the label and render this item as a square icon button. */
   @property({ type: Boolean, attribute: "icon-only", reflect: true }) iconOnly = false;
 
+  /**
+   * Render this item as a circle: square icon button with a full radius, overriding
+   * the group's `radius` preset. Implies `icon-only`. Intended ONLY for icon items —
+   * set `icon` and an `aria-label` for the accessible name.
+   */
+  @property({ type: Boolean, reflect: true }) circle = false;
+
   /** Accessible label for icon-only buttons. Falls back to label, slot text, or value. */
   @property({ attribute: "aria-label" }) accessibilityLabel = "";
 
@@ -63,15 +80,16 @@ export class LoomiButtonGroupItem extends LoomiElement {
   /** Value surfaced in the `loomi-button-group-change` event. Falls back to `label`. */
   @property() value = "";
 
-  private get parentGroupState(): { disabled: boolean; iconOnly: boolean } {
+  private get parentGroupState(): { disabled: boolean; iconOnly: boolean; circle: boolean } {
     const parent = this.parentElement as
-      (HTMLElement & { disabled?: boolean; iconOnly?: boolean }) | null;
+      (HTMLElement & { disabled?: boolean; iconOnly?: boolean; circle?: boolean }) | null;
     if (parent?.localName !== "loomi-button-group") {
-      return { disabled: false, iconOnly: false };
+      return { disabled: false, iconOnly: false, circle: false };
     }
     return {
       disabled: Boolean(parent.disabled),
       iconOnly: Boolean(parent.iconOnly),
+      circle: Boolean(parent.circle),
     };
   }
 
@@ -114,8 +132,12 @@ export class LoomiButtonGroupItem extends LoomiElement {
     const trailing = this.iconRight ? icon : nothing;
     const inheritedState = this.parentGroupState;
     const disabled = this.disabled || inheritedState.disabled;
+    const circle = this.circle || inheritedState.circle;
     const iconOnly =
-      this.iconOnly || inheritedState.iconOnly || (!this.labelText && Boolean(this.icon));
+      this.iconOnly ||
+      inheritedState.iconOnly ||
+      circle ||
+      (!this.labelText && Boolean(this.icon));
     const cls = ["loomi-bg-btn", this.selected ? "selected" : ""].filter(Boolean).join(" ");
 
     return html`
@@ -174,6 +196,13 @@ export class LoomiButtonGroup extends LoomiElement {
   /** Visually hide labels for every item and render the buttons as square icon buttons. */
   @property({ type: Boolean, attribute: "icon-only", reflect: true }) iconOnly = false;
 
+  /**
+   * Render every item as a circle: square icon buttons with a full radius, overriding
+   * `radius`. Implies `icon-only`. Intended ONLY for icon items — set `icon` and an
+   * `aria-label` on each item for its accessible name.
+   */
+  @property({ type: Boolean, reflect: true }) circle = false;
+
   /** Accessible label for the internal `role="group"` wrapper. */
   @property({ attribute: "aria-label" }) accessibilityLabel = "";
 
@@ -210,7 +239,7 @@ export class LoomiButtonGroup extends LoomiElement {
   }
 
   override updated(changed: PropertyValues<this>): void {
-    if (changed.has("disabled") || changed.has("iconOnly")) {
+    if (changed.has("disabled") || changed.has("iconOnly") || changed.has("circle")) {
       for (const item of this.items) item.requestUpdate();
     }
   }

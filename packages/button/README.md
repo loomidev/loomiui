@@ -128,6 +128,19 @@ import { svg } from "lit";
 registerLoomiIcon("star", svg`<path stroke-linecap="round" stroke-linejoin="round" d="..." />`);
 ```
 
+## Circle
+
+Set `circle` to render a square, full-radius icon button - for icon-only buttons.
+Drop the label content and give it an `aria-label` for the accessible name.
+
+```html
+<loomi-button circle icon="trash" color="error" aria-label="Delete"></loomi-button>
+<loomi-button circle icon="check" size="small" aria-label="Confirm"></loomi-button>
+```
+
+`circle` overrides `radius` and hides any label text, so it's only meant for icon
+buttons.
+
 ## Spinners
 
 `has-spinner` includes a spinner (hidden by default). `show-spinner` makes it visible.
@@ -232,6 +245,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `size`            | `regular`               | `tiny` \| `small` \| `regular` \| `medium` \| `big`                    |
 | `radius`          | `medium`                | `none` \| `small` \| `medium` \| `full`                                |
 | `outline`         | `false`                 | Outline only, no fill. _(boolean)_                                     |
+| `circle`          | `false`                 | Square, full-radius icon button; overrides `radius`. _(boolean)_       |
 | `border-width`    | `2`                     | Outline border width. `2` \| `4` \| `8`                                |
 | `icon`            | _(blank)_               | Built-in or registered icon name.                                      |
 | `icon-right`      | `false`                 | Position the icon after the label. Ignored while spinning. _(boolean)_ |

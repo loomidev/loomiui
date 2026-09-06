@@ -190,6 +190,17 @@
             },
             {
               "kind": "field",
+              "name": "circle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Render as a circle: square dimensions (width = height), full radius, and no\nhorizontal padding — overriding `radius`. Intended ONLY for icon buttons (set\n`icon` and drop an `aria-label` for the accessible name); a text label is hidden.",
+              "attribute": "circle",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "borderWidth",
               "type": {
                 "text": "number"
@@ -551,6 +562,15 @@
               "default": "false",
               "description": "Render as an outline (no fill, colored border + text).",
               "fieldName": "outline"
+            },
+            {
+              "name": "circle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Render as a circle: square dimensions (width = height), full radius, and no\nhorizontal padding — overriding `radius`. Intended ONLY for icon buttons (set\n`icon` and drop an `aria-label` for the accessible name); a text label is hidden.",
+              "fieldName": "circle"
             },
             {
               "name": "border-width",

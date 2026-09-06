@@ -126,4 +126,19 @@ describe("loomi-button", () => {
     el.shadowRoot!.querySelector("button")!.click();
     expect(submitted).to.be.false;
   });
+
+  it("renders as a circle: square dimensions, full radius, hidden label", async () => {
+    const el = await fixture<LoomiButton>(
+      html`<loomi-button circle icon="check" aria-label="Confirm"></loomi-button>`,
+    );
+    const btn = el.shadowRoot!.querySelector("button")!;
+    expect(el.hasAttribute("circle")).to.be.true;
+
+    const rect = btn.getBoundingClientRect();
+    expect(rect.width).to.be.closeTo(rect.height, 1);
+    expect(getComputedStyle(btn).borderRadius).to.equal("9999px");
+
+    const label = el.shadowRoot!.querySelector(".loomi-label")!;
+    expect(getComputedStyle(label).display).to.equal("none");
+  });
 });

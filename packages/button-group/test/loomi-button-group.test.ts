@@ -11,7 +11,7 @@ describe("loomi-button-group", () => {
     `);
 
     expect(el.style.getPropertyValue("--_loomi-accent")).to.not.equal("");
-    expect(el.style.getPropertyValue("--loomi-bg-pad-x")).to.equal("0.75rem");
+    expect(el.style.getPropertyValue("--loomi-bg-preset-pad-x")).to.equal("0.75rem");
   });
 
   it("renders a shrink-wrapped system-style track", async () => {
@@ -41,7 +41,7 @@ describe("loomi-button-group", () => {
     `);
 
     expect(el.style.getPropertyValue("--loomi-bg-radius")).to.equal("9999px");
-    expect(el.style.getPropertyValue("--loomi-bg-item-radius")).to.equal("9999px");
+    expect(el.style.getPropertyValue("--loomi-bg-preset-item-radius")).to.equal("9999px");
   });
 
   it("supports outline and group-level icon-only buttons with accessible labels", async () => {
@@ -92,5 +92,41 @@ describe("loomi-button-group", () => {
     expect(detail.index).to.equal(1);
     expect(items[0].selected).to.be.false;
     expect(items[1].selected).to.be.true;
+  });
+
+  it("renders circle items as square, full-radius icon buttons implying icon-only", async () => {
+    const el = await fixture<LoomiButtonGroup>(html`
+      <loomi-button-group circle radius="none" aria-label="Actions">
+        <loomi-button-group-item label="Edit" icon="pencil" aria-label="Edit"></loomi-button-group-item>
+      </loomi-button-group>
+    `);
+    const item = el.querySelector<LoomiButtonGroupItem>("loomi-button-group-item")!;
+    const button = item.shadowRoot!.querySelector<HTMLButtonElement>("button")!;
+    const label = item.shadowRoot!.querySelector<HTMLElement>(".loomi-bg-label")!;
+
+    expect(el.circle).to.be.true;
+    expect(button.getAttribute("aria-label")).to.equal("Edit");
+    expect(label.hidden).to.be.true;
+
+    const rect = button.getBoundingClientRect();
+    expect(rect.width).to.be.closeTo(rect.height, 1);
+    expect(getComputedStyle(button).borderRadius).to.equal("9999px");
+  });
+
+  it("lets a single item be circular without setting it on the whole group", async () => {
+    const el = await fixture<LoomiButtonGroup>(html`
+      <loomi-button-group>
+        <loomi-button-group-item label="Day" value="day" selected></loomi-button-group-item>
+        <loomi-button-group-item circle icon="plus" aria-label="Add" value="add"></loomi-button-group-item>
+      </loomi-button-group>
+    `);
+    const items = el.querySelectorAll<LoomiButtonGroupItem>("loomi-button-group-item");
+    const dayLabel = items[0].shadowRoot!.querySelector<HTMLElement>(".loomi-bg-label")!;
+    const addButton = items[1].shadowRoot!.querySelector<HTMLButtonElement>("button")!;
+    const addLabel = items[1].shadowRoot!.querySelector<HTMLElement>(".loomi-bg-label")!;
+
+    expect(dayLabel.hidden).to.be.false;
+    expect(addLabel.hidden).to.be.true;
+    expect(getComputedStyle(addButton).borderRadius).to.equal("9999px");
   });
 });

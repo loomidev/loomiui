@@ -96,6 +96,13 @@ export class LoomiButton extends LoomiElement {
   /** Render as an outline (no fill, colored border + text). */
   @property({ type: Boolean }) outline = false;
 
+  /**
+   * Render as a circle: square dimensions (width = height), full radius, and no
+   * horizontal padding — overriding `radius`. Intended ONLY for icon buttons (set
+   * `icon` and drop an `aria-label` for the accessible name); a text label is hidden.
+   */
+  @property({ type: Boolean, reflect: true }) circle = false;
+
   /** Outline border width: 2, 4 or 8. Only applies when `outline` is set. */
   @property({ type: Number, attribute: "border-width" }) borderWidth = 2;
 
