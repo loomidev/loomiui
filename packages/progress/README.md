@@ -138,7 +138,8 @@ an optional caption underneath that.
 ### Adding a footer action
 
 Anything placed in the default slot renders below the caption, so you can drop in a
-button or link.
+button or link. The arc grows to include the caption and slotted content, keeping
+following elements below them, including when content is added or resized.
 
 ```html
 <loomi-progress-arc percentage="68" caption="On track for 80% target">

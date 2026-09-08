@@ -22,7 +22,7 @@ export type LoomiProgressStepSize = "small" | "regular";
 export type LoomiProgressStepsVariant = "circle" | "bar";
 
 const STEP_CHECK = svg`<path stroke-linecap="round" stroke-linejoin="round" d="m5 12.5 4 4 10-10" />`;
-const STEP_CHEVRON = svg`<path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />`;
+const STEP_CHEVRON = svg`<path d="M 0 0 L 19 50 L 0 100" vector-effect="non-scaling-stroke" />`;
 
 /**
  * `<loomi-progress-bar>` — a horizontal progress bar.
@@ -242,6 +242,10 @@ export class LoomiProgressStep extends LoomiElement {
   @property({ reflect: true }) variant: LoomiProgressStepsVariant = "circle";
   @property() locale = "";
 
+  /** Whether this step body is hidden by an interactive group. */
+  @property({ type: Boolean }) contentHidden = false;
+  @property({ type: Boolean, reflect: true, attribute: "panel-layout" }) panelLayout = false;
+
   private get computedState(): LoomiProgressStepState {
     if (this.error || this.state === "error") return "error";
     if (this.completed || this.state === "complete") return "complete";
@@ -253,8 +257,9 @@ export class LoomiProgressStep extends LoomiElement {
     return Boolean(this.href || this.clickable);
   }
 
-  private onSelect(): void {
-    if (this.disabled) return;
+  private onSelect(event: Event): void {
+    if (this.disabled) { event.preventDefault(); return; }
+    if (this.parentElement instanceof LoomiProgressSteps && this.parentElement.interactive) event.preventDefault();
     this.dispatchEvent(
       new CustomEvent("loomi-progress-step-select", {
         bubbles: true,
@@ -300,7 +305,7 @@ export class LoomiProgressStep extends LoomiElement {
       return html`<a
         class=${classes}
         href=${this.href}
-        aria-current=${state === "current" ? "step" : nothing}
+        aria-current=${this.active || state === "current" ? "step" : nothing}
         aria-disabled=${this.disabled ? "true" : nothing}
         @click=${this.onSelect}
       >${marker}${label}</a>`;
@@ -310,11 +315,11 @@ export class LoomiProgressStep extends LoomiElement {
         class=${classes}
         type="button"
         ?disabled=${this.disabled}
-        aria-current=${state === "current" ? "step" : nothing}
+        aria-current=${this.active || state === "current" ? "step" : nothing}
         @click=${this.onSelect}
       >${marker}${label}</button>`;
     }
-    return html`<span class=${classes} aria-current=${state === "current" ? "step" : nothing}>${marker}${label}</span>`;
+    return html`<span class=${classes} aria-current=${this.active || state === "current" ? "step" : nothing}>${marker}${label}</span>`;
   }
 
   override render(): TemplateResult {
@@ -323,7 +328,7 @@ export class LoomiProgressStep extends LoomiElement {
     return html`<div
       class="loomi-step ${this.orientation} ${this.size} ${this.variant} ${state} ${this.isInteractive ? "interactive" : ""}"
       role="listitem"
-      style=${accentVars(this.color)}
+      style=${accentVars(this.color) + `--step-column:${this.stepIndex};`}
     >
       ${bar ? html`<span class="loomi-step-bar ${state}" aria-hidden="true"></span>` : nothing}
       <div class="loomi-step-head">
@@ -333,12 +338,12 @@ export class LoomiProgressStep extends LoomiElement {
             ? nothing
             : html`<span class="loomi-step-line ${state}" aria-hidden="true">${
                 this.orientation === "horizontal"
-                  ? html`<svg class="loomi-step-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">${STEP_CHEVRON}</svg>`
+                  ? html`<svg class="loomi-step-chevron" viewBox="0 0 20 100" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">${STEP_CHEVRON}</svg>`
                   : nothing
               }</span>`
         }
       </div>
-      <div class="loomi-step-body"><slot></slot></div>
+      <div class="loomi-step-body" ?hidden=${this.contentHidden}><slot></slot></div>
     </div>`;
   }
 }
@@ -360,10 +365,74 @@ export class LoomiProgressSteps extends LoomiElement {
   @property() variant: LoomiProgressStepsVariant = "circle";
   @property({ type: Boolean }) clickable = false;
 
+  /** Selectable steps and current-step-only content. Default `true`; set `interactive="false"` to keep all step content visible and headers non-clickable. */
+  @property({ converter: booleanAttributeConverter }) interactive = true;
+  /** Check native and custom form controls before moving forward. */
+  @property({ type: Boolean }) validate = false;
+  /** Optional synchronous or asynchronous forward-navigation validator. */
+  @property({ attribute: false }) validateStep?: (step: LoomiProgressStep, next: number) => boolean | Promise<boolean>;
+  private navigating = false;
+  private validationErrors = new WeakSet<LoomiProgressStep>();
+
+  /** Navigate to a one-based step, returning false when navigation is blocked. */
+  async goTo(next: number): Promise<boolean> {
+    const steps = this.steps;
+    const target = steps[next - 1];
+    const source = steps[this.current - 1];
+    if (this.navigating || !Number.isInteger(next) || !target || target.disabled) return false;
+    if (next === this.current) return true;
+    const current = this.current;
+    this.navigating = true;
+    try {
+      if (next > current && source) {
+        if ((source.error && !this.validationErrors.has(source)) || source.state === "error") return false;
+        let valid = true;
+        if (this.validate) {
+          for (const control of Array.from(source.querySelectorAll<HTMLElement>("*"))) {
+            if (control.closest("loomi-progress-step") !== source) continue;
+            const field = control as HTMLElement & { reportValidity?: () => boolean };
+            if (typeof field.reportValidity === "function" && !field.reportValidity()) { valid = false; break; }
+          }
+        }
+        if (valid && this.validateStep) valid = await this.validateStep(source, next);
+        if (this.current !== current || this.steps[next - 1] !== target || this.steps[current - 1] !== source || target.disabled) return false;
+        if (!valid) {
+          this.validationErrors.add(source);
+          source.error = true;
+          return false;
+        }
+        if (this.validationErrors.has(source)) {
+          source.error = false;
+          this.validationErrors.delete(source);
+        }
+        if (source.error || String(source.state) === "error") return false;
+      }
+      this.current = next;
+      this.syncSteps();
+      this.dispatchEvent(new CustomEvent("loomi-progress-steps-change", {
+        bubbles: true, composed: true, detail: { current: next, step: target },
+      }));
+      return true;
+    } catch {
+      if (source && this.current === current) {
+        this.validationErrors.add(source);
+        source.error = true;
+      }
+      return false;
+    } finally {
+      this.navigating = false;
+    }
+  }
+
+  /** Advance through the same validation path as selecting a header. */
+  next(): Promise<boolean> { return this.goTo(this.current + 1); }
+  /** Return to the previous step without forward validation. */
+  previous(): Promise<boolean> { return this.goTo(this.current - 1); }
+
   private get steps(): LoomiProgressStep[] {
     // Light DOM is not readable during server rendering; hydration fills this in on the client.
     if (isServer) return [];
-    return Array.from(this.querySelectorAll("loomi-progress-step"));
+    return Array.from(this.children).filter((child): child is LoomiProgressStep => child instanceof LoomiProgressStep);
   }
 
   /**
@@ -399,30 +468,24 @@ export class LoomiProgressSteps extends LoomiElement {
       step.orientation = this.orientation;
       step.size = this.size;
       step.variant = this.variant;
-      if (!step.hasAttribute("clickable")) step.clickable = this.clickable;
+      if (!step.hasAttribute("clickable")) step.clickable = this.clickable || this.interactive;
+      step.contentHidden = this.interactive && stepNumber !== this.current;
+      step.panelLayout = this.interactive && this.orientation === "horizontal";
 
       if (!this.authoredState.has(step)) {
         step.completed = stepNumber < this.current;
         step.active = stepNumber === this.current;
-        step.error = false;
         step.state = "upcoming";
       }
     });
   };
 
   private onStepSelect(event: Event): void {
-    if (!this.clickable) return;
+    if (!this.clickable && !this.interactive) return;
     const step = event.target as LoomiProgressStep;
-    if (step.disabled) return;
-    this.current = step.stepIndex;
-    this.syncSteps();
-    this.dispatchEvent(
-      new CustomEvent("loomi-progress-steps-change", {
-        bubbles: true,
-        composed: true,
-        detail: { current: this.current, step },
-      }),
-    );
+    if (!this.steps.includes(step)) return;
+    event.stopPropagation();
+    void this.goTo(step.stepIndex);
   }
 
   override willUpdate(): void {
@@ -435,9 +498,9 @@ export class LoomiProgressSteps extends LoomiElement {
 
   override render(): TemplateResult {
     return html`<div
-      class="loomi-steps ${this.orientation} ${this.size} ${this.variant}"
+      class="loomi-steps ${this.orientation} ${this.size} ${this.variant} ${this.interactive ? "panels" : ""}"
       role="list"
-      style=${accentVars(this.color)}
+      style=${accentVars(this.color) + `--step-count:${this.steps.length || 1};`}
       @loomi-progress-step-select=${this.onStepSelect}
     ><slot @slotchange=${this.syncSteps}></slot></div>`;
   }

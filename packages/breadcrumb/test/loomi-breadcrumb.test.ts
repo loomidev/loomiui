@@ -80,6 +80,30 @@ describe("loomi-breadcrumb", () => {
     expect(first.shadowRoot!.querySelector(".loomi-sep-chevron")).to.not.exist;
   });
 
+  it("renders full-height dividers and supports RTL and dynamic switching", async () => {
+    const el = await fixture<LoomiBreadcrumb>(html`<loomi-breadcrumb separator="full-chevron">
+      <loomi-breadcrumb-item href="/projects" label="Projects"></loomi-breadcrumb-item>
+      <loomi-breadcrumb-item label="Project Nero"></loomi-breadcrumb-item>
+    </loomi-breadcrumb>`);
+    const items = Array.from(el.querySelectorAll<LoomiBreadcrumbItem>("loomi-breadcrumb-item"));
+    await Promise.all(items.map((item) => item.updateComplete));
+    const divider = items[0].shadowRoot!.querySelector<SVGElement>(".loomi-sep-full-chevron")!;
+    const control = items[0].shadowRoot!.querySelector<HTMLElement>(".loomi-crumb-control")!;
+    expect(divider.getBoundingClientRect().height).to.equal(42);
+    expect(control.getBoundingClientRect().height).to.equal(42);
+    expect(divider.getAttribute("aria-hidden")).to.equal("true");
+    expect(items[1].shadowRoot!.querySelector(".loomi-crumb-separator")).to.not.exist;
+    expect(items[1].shadowRoot!.querySelector("[aria-current=page]")).to.exist;
+    el.dir = "rtl";
+    expect(getComputedStyle(divider).transform).to.equal("matrix(-1, 0, 0, 1, 0, 0)");
+    el.separator = "chevron";
+    await el.updateComplete;
+    await Promise.all(items.map((item) => item.updateComplete));
+    expect(items[0].shadowRoot!.querySelector(".loomi-sep-full-chevron")).to.not.exist;
+    expect(items[0].shadowRoot!.querySelector(".loomi-sep-chevron")).to.exist;
+    expect(control.getBoundingClientRect().height).to.be.lessThan(42);
+  });
+
   it("fires a cancelable loomi-breadcrumb-item-click and can be prevented", async () => {
     const el = await fixture<LoomiBreadcrumb>(html`<loomi-breadcrumb>
       <loomi-breadcrumb-item href="/reports" label="Reports"></loomi-breadcrumb-item>

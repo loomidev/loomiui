@@ -960,6 +960,26 @@
             },
             {
               "kind": "field",
+              "name": "contentHidden",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether this step body is hidden by an interactive group.",
+              "attribute": "contentHidden"
+            },
+            {
+              "kind": "field",
+              "name": "panelLayout",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "panel-layout",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "computedState",
               "type": {
                 "text": "LoomiProgressStepState"
@@ -984,7 +1004,15 @@
                 "type": {
                   "text": "void"
                 }
-              }
+              },
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
             },
             {
               "kind": "method",
@@ -1176,6 +1204,23 @@
               },
               "default": "\"\"",
               "fieldName": "locale"
+            },
+            {
+              "name": "contentHidden",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether this step body is hidden by an interactive group.",
+              "fieldName": "contentHidden"
+            },
+            {
+              "name": "panel-layout",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "panelLayout"
             }
           ],
           "superclass": {
@@ -1249,6 +1294,87 @@
               },
               "default": "false",
               "attribute": "clickable"
+            },
+            {
+              "kind": "field",
+              "name": "interactive",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Selectable steps and current-step-only content. Default `true`; set `interactive=\"false\"` to keep all step content visible and headers non-clickable.",
+              "attribute": "interactive"
+            },
+            {
+              "kind": "field",
+              "name": "validate",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Check native and custom form controls before moving forward.",
+              "attribute": "validate"
+            },
+            {
+              "kind": "field",
+              "name": "validateStep",
+              "type": {
+                "text": "(step: LoomiProgressStep, next: number) => boolean | Promise<boolean> | undefined"
+              },
+              "description": "Optional synchronous or asynchronous forward-navigation validator."
+            },
+            {
+              "kind": "field",
+              "name": "navigating",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "validationErrors",
+              "privacy": "private",
+              "default": "new WeakSet<LoomiProgressStep>()"
+            },
+            {
+              "kind": "method",
+              "name": "goTo",
+              "return": {
+                "type": {
+                  "text": "Promise<boolean>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "next",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ],
+              "description": "Navigate to a one-based step, returning false when navigation is blocked."
+            },
+            {
+              "kind": "method",
+              "name": "next",
+              "return": {
+                "type": {
+                  "text": "Promise<boolean>"
+                }
+              },
+              "description": "Advance through the same validation path as selecting a header."
+            },
+            {
+              "kind": "method",
+              "name": "previous",
+              "return": {
+                "type": {
+                  "text": "Promise<boolean>"
+                }
+              },
+              "description": "Return to the previous step without forward validation."
             },
             {
               "kind": "field",
@@ -1371,6 +1497,24 @@
               },
               "default": "false",
               "fieldName": "clickable"
+            },
+            {
+              "name": "interactive",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Selectable steps and current-step-only content. Default `true`; set `interactive=\"false\"` to keep all step content visible and headers non-clickable.",
+              "fieldName": "interactive"
+            },
+            {
+              "name": "validate",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Check native and custom form controls before moving forward.",
+              "fieldName": "validate"
             }
           ],
           "superclass": {

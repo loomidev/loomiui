@@ -46,6 +46,25 @@ next to the text.
 </loomi-breadcrumb>
 ```
 
+### Full-sized chevrons
+
+Use `separator="full-chevron"` for thin, full-height chevron dividers and padded
+labels. The 42px-tall dividers mirror in right-to-left layouts. The current page
+uses the same muted, regular-weight text as the other labels and has no trailing
+divider. Icon-only links need an accessible name on their slotted content.
+
+```html
+<loomi-breadcrumb separator="full-chevron">
+  <loomi-breadcrumb-item href="/">
+    <span role="img" aria-label="Home"><loomi-icon name="home" aria-hidden="true"></loomi-icon></span>
+  </loomi-breadcrumb-item>
+  <loomi-breadcrumb-item href="/projects" label="Projects"></loomi-breadcrumb-item>
+  <loomi-breadcrumb-item label="Project Nero"></loomi-breadcrumb-item>
+</loomi-breadcrumb>
+```
+
+Import `@loomidev/icon` separately when using the icon example.
+
 ## Handling Navigation Yourself
 
 Listen for `loomi-breadcrumb-item-click` and call `event.preventDefault()` to route
@@ -80,7 +99,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 | Attribute   | Default    | Description                                            |
 | ----------- | ---------- | -------------------------------------------------------|
-| `separator` | `chevron`  | Separator glyph for every item: `chevron` \| `slash`.   |
+| `separator` | `chevron`  | Separator glyph for every item: `chevron` \| `slash` \| `full-chevron`.   |
 | `label`     | _(blank)_  | Accessible name for the `<nav>` landmark.               |
 | `locale`    | _(blank)_  | Locale for the default accessible name.                 |
 | `color`     | `primary`  | Any loomi color, used for link hover/underline color.   |

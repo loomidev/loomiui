@@ -36,10 +36,136 @@ no marker or connector — useful for a more compact, form-wizard-style header.
 </loomi-progress-steps>
 ```
 
+Horizontal circle steps use thin, full-height chevron dividers that meet the card's
+top and bottom borders. Dividers keep the same neutral border color for every state.
+
 The group applies its `variant` to every child, so you do not need to set it on
 individual steps. The card frame and chevron separators only apply to
 `variant="circle"` in the horizontal orientation; vertical steps keep the plain
 connector line.
+
+## Interactive Steps
+
+Steps are interactive by default: headers are selectable and only the current step's
+content is shown. Horizontal interactive steps place the active content in a full-width
+panel beneath the header row. Hidden content stays mounted, preserving form values. This works with
+both variants and orientations. Set `interactive="false"` to keep all step content
+visible with non-clickable headers; `clickable` alone (without `interactive`) enables
+header navigation without hiding content.
+
+```html
+<loomi-progress-steps id="signup" validate>
+  <loomi-progress-step label="Account" description="Your profile">
+    <div style="display: grid; gap: 1rem; max-width: 36rem;">
+      <div>
+        <h3>Create your workspace profile</h3>
+        <p>Tell us who will manage this workspace. We will use your work email
+          for account updates and invitations from your team.</p>
+      </div>
+      <loomi-input label="Full name" name="name" placeholder="Alex Morgan" required></loomi-input>
+      <loomi-input label="Work email" name="email" type="email" placeholder="alex@company.com" required></loomi-input>
+      <loomi-input label="Workspace name" name="workspace" placeholder="Acme Design" required></loomi-input>
+      <div><loomi-button id="continue-account">Continue to billing</loomi-button></div>
+    </div>
+  </loomi-progress-step>
+  <loomi-progress-step label="Billing" description="Invoice details">
+    <div style="display: grid; gap: 1rem; max-width: 36rem;">
+      <div>
+        <h3>Choose where invoices should go</h3>
+        <p>Enter the business name and email address that should appear on your
+          invoices. You can update these details later in workspace settings.</p>
+      </div>
+      <loomi-input label="Business name" name="business" placeholder="Acme Ltd" required></loomi-input>
+      <loomi-input label="Billing email" name="billing-email" type="email" placeholder="accounts@company.com" required></loomi-input>
+      <p>This example collects invoice details only. No payment will be taken.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+        <loomi-button id="back-account" color="gray">Back to account</loomi-button>
+        <loomi-button id="continue-billing">Review details</loomi-button>
+      </div>
+    </div>
+  </loomi-progress-step>
+  <loomi-progress-step label="Review" description="Check your details">
+    <div style="display: grid; gap: 1rem; max-width: 36rem;">
+      <div>
+        <h3>Review your workspace details</h3>
+        <p>Check the profile and invoice information below. Use the back button
+          to make changes; your entries will be preserved.</p>
+      </div>
+      <dl style="display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.75rem 1.5rem;">
+        <dt>Full name</dt><dd data-review="name"></dd>
+        <dt>Work email</dt><dd data-review="email"></dd>
+        <dt>Workspace</dt><dd data-review="workspace"></dd>
+        <dt>Business name</dt><dd data-review="business"></dd>
+        <dt>Billing email</dt><dd data-review="billing-email"></dd>
+      </dl>
+      <p>This is a preview. Your details have not been submitted.</p>
+      <div><loomi-button id="back-billing" color="gray">Edit billing details</loomi-button></div>
+    </div>
+  </loomi-progress-step>
+</loomi-progress-steps>
+
+<script type="module">
+  import "@loomidev/progress-steps";
+  import "@loomidev/input";
+  import "@loomidev/button";
+
+  const steps = document.querySelector("#signup");
+  document.querySelector("#continue-account").onclick = () => steps.next();
+  document.querySelector("#continue-billing").onclick = () => steps.next();
+  document.querySelector("#back-account").onclick = () => steps.previous();
+  document.querySelector("#back-billing").onclick = () => steps.previous();
+  steps.addEventListener("loomi-progress-steps-change", () => {
+    steps.querySelectorAll("[data-review]").forEach((item) => {
+      const field = steps.querySelector(`[name="${item.dataset.review}"]`);
+      item.textContent = field.value || "Not provided";
+    });
+  });
+</script>
+```
+
+The review panel displays the values entered in the earlier steps. Connect your
+own submission action when using this pattern in an application.
+
+### Validation
+
+`validate` calls `reportValidity()` on controls in the current step before moving
+forward, including custom controls exposing that method. Invalid fields block
+navigation and mark the step as an error. Correct the fields and try again to
+clear the validation error. Moving backward does not validate.
+
+For custom rules, assign a callback returning a boolean or a promise of a boolean.
+When `validate` is also enabled, field validation runs first.
+
+```js
+steps.validateStep = async (step, nextIndex) => {
+  if (step.stepIndex !== 1) return true;
+  const name = step.querySelector('[name="name"]').value.trim();
+  return name.length >= 2;
+};
+```
+
+Returning `false` or rejecting the promise blocks navigation and marks an error.
+Your application should show explanatory messages and any loading indicators.
+Additional navigation requests are ignored while validation is pending.
+
+An application-assigned `error` or `state="error"` on the current step blocks
+forward navigation without running validation. Clear that error when its cause is
+resolved. Disabled steps cannot be selected. Forward jumps validate only the current
+step, not skipped intermediate steps.
+
+| API | Behavior |
+| --- | --- |
+| `interactive` | Selectable headers and current-step-only content. Default: `true`. |
+| `validate` | Check current-step controls before moving forward. Default: `false`. |
+| `validateStep(step, nextIndex)` | Optional synchronous or asynchronous validation callback. |
+| `next()` | Move forward one step. Returns `Promise<boolean>`. |
+| `previous()` | Move backward one step. Returns `Promise<boolean>`. |
+| `goTo(index)` | Select a one-based step. Returns `Promise<boolean>`. |
+
+Methods return `false` when blocked, out of range, or already pending. Successful
+changes emit `loomi-progress-steps-change` with `{ current, step }`. Setting `current`
+directly is an application override: it bypasses validation and does not emit this
+event. Use navigation methods for user-triggered changes.
 
 ## Vertical Steps
 
@@ -68,7 +194,7 @@ Place content inside a step to show it below that step's label and description.
 In the vertical layout, this content sits beside the connector line.
 
 ```html
-<loomi-progress-steps orientation="vertical" current="2" size="small">
+<loomi-progress-steps orientation="vertical" current="2" size="small" interactive="false">
   <loomi-progress-step label="Account" description="Profile created"></loomi-progress-step>
   <loomi-progress-step label="Billing" description="Choose your payment method">
     Your payment details will be used for future subscription renewals.
@@ -77,9 +203,9 @@ In the vertical layout, this content sits beside the connector line.
 </loomi-progress-steps>
 ```
 
-Use `size="small"` for smaller markers; the default is `regular`. Step content
-remains visible regardless of which step is current. If content should appear only
-for the current step, control that rendering in your application.
+Use `size="small"` for smaller markers; the default is `regular`. Steps are
+interactive by default, so add `interactive="false"` when every step's content
+should stay visible instead of only the current step's.
 
 ## Accessibility
 

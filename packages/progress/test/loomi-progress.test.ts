@@ -1,5 +1,6 @@
 import { html, fixture, expect, nextFrame, oneEvent } from "@open-wc/testing";
 import "../dist/loomi-progress.js";
+import "../../button/dist/index.js";
 import type { LoomiProgressArc, LoomiProgressBar, LoomiProgressStep, LoomiProgressSteps } from "../dist/index.js";
 
 describe("loomi-progress-bar", () => {
@@ -43,6 +44,37 @@ describe("loomi-progress-bar", () => {
 });
 
 describe("loomi-progress-arc", () => {
+  for (const size of ["small", "medium", "large", "300"]) {
+    it(`reserves space for slotted content at size ${size}`, async () => {
+      const wrapper = await fixture<HTMLDivElement>(html`
+        <div>
+          <loomi-progress-arc size=${size} percentage="68" caption="On track for 80% target">
+            <loomi-button size="small" color="gray">Show details</loomi-button>
+          </loomi-progress-arc>
+          <div class="following">Following content</div>
+        </div>
+      `);
+      await nextFrame();
+      const arc = wrapper.querySelector<LoomiProgressArc>("loomi-progress-arc")!;
+      const button = wrapper.querySelector("loomi-button")!;
+      const following = wrapper.querySelector(".following")!;
+      const assertContained = () => {
+        const body = arc.shadowRoot!.querySelector(".loomi-arc-body")!.getBoundingClientRect();
+        expect(arc.getBoundingClientRect().bottom).to.be.at.least(body.bottom - 0.5);
+        expect(following.getBoundingClientRect().top).to.be.at.least(button.getBoundingClientRect().bottom - 0.5);
+      };
+      assertContained();
+      const initialHeight = arc.getBoundingClientRect().height;
+      const extra = document.createElement("div");
+      extra.style.height = "100px";
+      extra.textContent = "Additional details";
+      arc.append(extra);
+      await nextFrame();
+      assertContained();
+      expect(arc.getBoundingClientRect().height).to.be.greaterThan(initialHeight + 90);
+    });
+  }
+
   it("renders the percentage and caption", async () => {
     const el = await fixture<LoomiProgressArc>(
       html`<loomi-progress-arc percentage="68" caption="On track for 80% target"></loomi-progress-arc>`,
@@ -76,7 +108,7 @@ describe("loomi-progress-steps", () => {
               margin-top: 1rem;
             }
           </style>
-          <loomi-progress-steps current="2" size=${size} style="width: 720px">
+          <loomi-progress-steps current="2" size=${size} interactive="false" style="width: 720px">
             <loomi-progress-step label="Account" description="Create your profile"></loomi-progress-step>
             <loomi-progress-step label="Billing" description="Add payment details"></loomi-progress-step>
             <loomi-progress-step label="Confirm" description="Review and finish"></loomi-progress-step>
@@ -96,7 +128,10 @@ describe("loomi-progress-steps", () => {
       }
       for (const step of steps.slice(0, -1)) {
         const line = bounds(step, ".loomi-step-line");
-        expect(line.top + line.height / 2).to.be.closeTo(markers[0].top + markers[0].height / 2, 1);
+        const card = wrapper.querySelector("loomi-progress-steps")!.shadowRoot!.querySelector(".loomi-steps")!.getBoundingClientRect();
+        expect(line.top).to.be.closeTo(card.top + 1, 0.5);
+        expect(line.bottom).to.be.closeTo(card.bottom - 1, 0.5);
+        expect(line.width).to.be.closeTo(18, 0.5);
       }
     });
   }
@@ -106,7 +141,7 @@ describe("loomi-progress-steps", () => {
       it(`centers ${size} vertical connectors beneath ${control} markers`, async () => {
         const el = await fixture<LoomiProgressSteps>(html`
           <loomi-progress-steps orientation="vertical" current="2" size=${size}
-            ?clickable=${control === "button"} style="width: 280px">
+            interactive="false" ?clickable=${control === "button"} style="width: 280px">
             <loomi-progress-step label="Account" description="Create your profile"></loomi-progress-step>
             <loomi-progress-step label="Billing" description="Add payment details">
               Additional payment information that wraps across multiple lines.
@@ -308,4 +343,113 @@ describe("loomi-progress-steps", () => {
     await nextFrame();
     expect(second.error, "and survives current moving onto it").to.be.true;
   });
+});
+
+
+describe("interactive progress steps", () => {
+  const setup = () => fixture<LoomiProgressSteps>(html`
+    <loomi-progress-steps interactive validate>
+      <loomi-progress-step label="Account"><input required aria-label="Name"></loomi-progress-step>
+      <loomi-progress-step label="Billing"><p>Payment content</p></loomi-progress-step>
+      <loomi-progress-step label="Confirm"><p>Review content</p></loomi-progress-step>
+    </loomi-progress-steps>
+  `);
+  it("blocks invalid forms, recovers after correction, and preserves hidden content", async () => {
+    const el = await setup();
+    const steps = Array.from(el.querySelectorAll<LoomiProgressStep>("loomi-progress-step"));
+    const input = el.querySelector("input")!;
+    expect(await el.next()).to.equal(false);
+    expect(el.current).to.equal(1);
+    expect(steps[0].error).to.equal(true);
+    input.value = "Alex";
+    expect(await el.next()).to.equal(true);
+    await nextFrame();
+    expect(steps[0].error).to.equal(false);
+    expect(steps[0].shadowRoot!.querySelector<HTMLElement>(".loomi-step-body")!.hidden).to.equal(true);
+    expect(steps[1].shadowRoot!.querySelector<HTMLElement>(".loomi-step-body")!.hidden).to.equal(false);
+    expect(await el.previous()).to.equal(true);
+    expect(input.value).to.equal("Alex");
+  });
+  it("blocks explicit errors and disabled targets while allowing backward navigation", async () => {
+    const el = await setup();
+    el.validate = false;
+    const steps = Array.from(el.querySelectorAll<LoomiProgressStep>("loomi-progress-step"));
+    steps[0].error = true;
+    expect(await el.goTo(3)).to.equal(false);
+    steps[0].error = false;
+    steps[1].disabled = true;
+    expect(await el.next()).to.equal(false);
+    expect(await el.goTo(3)).to.equal(true);
+    steps[2].error = true;
+    expect(await el.goTo(1)).to.equal(true);
+    expect(await el.goTo(0)).to.equal(false);
+  });
+  it("awaits custom validation and ignores concurrent navigation", async () => {
+    const el = await setup();
+    el.validate = false;
+    let finish!: (valid: boolean) => void;
+    el.validateStep = () => new Promise<boolean>((resolve) => { finish = resolve; });
+    const pending = el.next();
+    expect(await el.goTo(3)).to.equal(false);
+    expect(el.current).to.equal(1);
+    finish(false);
+    expect(await pending).to.equal(false);
+    el.validateStep = async () => true;
+    expect(await el.next()).to.equal(true);
+  });
+  it("handles rejected validators and stale results without changing the selected step", async () => {
+    const el = await setup();
+    el.validate = false;
+    el.validateStep = async () => { throw new Error("Unavailable"); };
+    expect(await el.next()).to.equal(false);
+    let finish!: (valid: boolean) => void;
+    el.validateStep = () => new Promise<boolean>((resolve) => { finish = resolve; });
+    const pending = el.next();
+    el.current = 3;
+    finish(true);
+    expect(await pending).to.equal(false);
+    expect(el.current).to.equal(3);
+  });
+  it("switches content through header buttons and emits a change only on success", async () => {
+    const el = await setup();
+    el.validate = false;
+    const steps = Array.from(el.querySelectorAll<LoomiProgressStep>("loomi-progress-step"));
+    let changes = 0;
+    el.addEventListener("loomi-progress-steps-change", () => { changes++; });
+    steps[1].shadowRoot!.querySelector<HTMLButtonElement>("button")!.click();
+    await nextFrame();
+    expect(el.current).to.equal(2);
+    expect(changes).to.equal(1);
+    steps[1].error = true;
+    steps[2].shadowRoot!.querySelector<HTMLButtonElement>("button")!.click();
+    await nextFrame();
+    expect(el.current).to.equal(2);
+    expect(changes).to.equal(1);
+  });
+});
+
+
+describe("interactive step panel layout", () => {
+  for (const variant of ["circle", "bar"]) {
+    it(`keeps ${variant} headers above a full-width active panel`, async () => {
+      const el = await fixture<LoomiProgressSteps>(html`
+        <loomi-progress-steps interactive variant=${variant} style="width:720px">
+          <loomi-progress-step label="Account"><input aria-label="Name"><button>Continue</button></loomi-progress-step>
+          <loomi-progress-step label="Billing"><input aria-label="Email"></loomi-progress-step>
+        </loomi-progress-steps>
+      `);
+      await nextFrame();
+      const steps = Array.from(el.querySelectorAll<LoomiProgressStep>("loomi-progress-step"));
+      const bounds = (index: number, selector: string) => steps[index].shadowRoot!.querySelector(selector)!.getBoundingClientRect();
+      const card = el.shadowRoot!.querySelector(".loomi-steps")!.getBoundingClientRect();
+      expect(bounds(0, ".loomi-step-head").top).to.equal(bounds(1, ".loomi-step-head").top);
+      expect(bounds(0, ".loomi-step-body").width).to.be.closeTo(card.width, 2);
+      expect(bounds(0, ".loomi-step-body").top).to.be.at.least(bounds(0, ".loomi-step-head").bottom);
+      expect(bounds(1, ".loomi-step-body").height).to.equal(0);
+      await el.next();
+      await nextFrame();
+      expect(bounds(0, ".loomi-step-body").height).to.equal(0);
+      expect(bounds(1, ".loomi-step-body").width).to.be.closeTo(card.width, 2);
+    });
+  }
 });

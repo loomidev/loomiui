@@ -67,3 +67,30 @@ a.loomi-crumb-control:hover .loomi-crumb-label {
   font-size: 0.875rem;
   line-height: 1;
 }
+
+/* Full-height dividers with room for both text and slotted icons. */
+.loomi-crumb--full-chevron .loomi-crumb-control {
+  min-height: 2.625rem;
+  padding-inline: 1rem;
+}
+
+.loomi-crumb--full-chevron .loomi-crumb-control.current {
+  color: var(--loomi-text-muted);
+  font-weight: 400;
+}
+
+.loomi-crumb--full-chevron .loomi-crumb-separator {
+  margin: 0;
+  color: var(--loomi-text-faint);
+  opacity: 0.4;
+}
+
+.loomi-sep-full-chevron {
+  display: block;
+  width: 1.375rem;
+  height: 2.625rem;
+}
+
+:host(:dir(rtl)) .loomi-sep-full-chevron {
+  transform: scaleX(-1);
+}

@@ -3,7 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
-export type LoomiBreadcrumbSeparator = "chevron" | "slash";
+export type LoomiBreadcrumbSeparator = "chevron" | "slash" | "full-chevron";
 
 const CHEVRON = svg`<path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />`;
 
@@ -38,6 +38,14 @@ export class LoomiBreadcrumbItem extends LoomiElement {
   }
 
   private renderSeparator(): TemplateResult {
+    if (this.separator === "full-chevron") return html`<svg
+      class="loomi-sep-full-chevron"
+      viewBox="0 0 22 42"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1"
+      aria-hidden="true"
+    ><path d="M 0.5 0 L 21.5 21 L 0.5 42" /></svg>`;
     if (this.separator === "slash") return html`<span class="loomi-sep-slash" aria-hidden="true">/</span>`;
     return html`<svg
       class="loomi-sep-chevron"
@@ -61,7 +69,7 @@ export class LoomiBreadcrumbItem extends LoomiElement {
   }
 
   override render(): TemplateResult {
-    return html`<div class="loomi-crumb" role="listitem" style=${accentVars(this.color)}>
+    return html`<div class="loomi-crumb ${this.separator === "full-chevron" ? "loomi-crumb--full-chevron" : ""}" role="listitem" style=${accentVars(this.color)}>
       ${this.renderControl()}
       ${this.last ? nothing : html`<span class="loomi-crumb-separator">${this.renderSeparator()}</span>`}
     </div>`;
