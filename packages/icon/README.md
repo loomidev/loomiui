@@ -215,6 +215,19 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | ----------- | ------------------------------------ |
 | _(default)_ | Content placed inside the component. |
 
+## Parts
+
+| Part    | Element                                                      |
+| ------- | ------------------------------------------------------------ |
+| `badge` | The background badge wrapper (only rendered when `branded`). |
+
+## CSS custom properties
+
+| Property              | Default           | What it controls                                                 |
+| --------------------- | ----------------- | ---------------------------------------------------------------- |
+| `--loomi-icon-size`   | `1.5rem`          | Icon width/height; the badge padding scales with it.             |
+| `--loomi-icon-radius` | _(from `radius`)_ | Badge corner radius; overrides whichever `radius` preset is set. |
+
 ## Full Example
 
 ```html

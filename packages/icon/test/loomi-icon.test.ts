@@ -124,7 +124,8 @@ describe("loomi-icon", () => {
 
     expect(badge).to.exist;
     expect(badge.classList.contains("light")).to.equal(true);
-    expect(badge.classList.contains("rounded-lg")).to.equal(true); // default radius="medium"
+    expect(badge.classList.contains("radius-medium")).to.equal(true); // default radius="medium"
+    expect(badge.getAttribute("part")).to.equal("badge");
     expect(badge.getAttribute("style")).to.include("--_loomi-accent-soft");
     expect(badge.querySelector("svg")).to.exist;
   });
@@ -139,22 +140,21 @@ describe("loomi-icon", () => {
     expect(badge.classList.contains("light")).to.equal(false);
   });
 
-  it("maps radius to the matching Tailwind rounding class", async () => {
+  it("renders each radius preset as an actual computed border-radius", async () => {
     const cases: Array<[string, string]> = [
-      ["none", "rounded-none"],
-      ["small", "rounded"],
-      ["medium", "rounded-lg"],
-      ["full", "rounded-full"],
+      ["none", "0px"],
+      ["small", "4px"],
+      ["medium", "8px"],
+      ["full", "9999px"],
     ];
-    for (const [radius, expectedClass] of cases) {
+    for (const [radius, expected] of cases) {
       const el = await fixture<LoomiIcon>(
         html`<loomi-icon name="bell-alert" branded radius=${radius}></loomi-icon>`,
       );
       const badge = el.shadowRoot!.querySelector(".loomi-icon-badge")!;
-      expect(
-        badge.classList.contains(expectedClass),
-        `radius="${radius}" -> ${expectedClass}`,
-      ).to.equal(true);
+      expect(getComputedStyle(badge).borderTopLeftRadius, `radius="${radius}"`).to.equal(
+        expected,
+      );
     }
   });
 
