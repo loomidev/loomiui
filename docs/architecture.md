@@ -315,6 +315,24 @@ is deliberately _not_ scaled - density controls spacing, `size` controls type. L
 public tokens, `--loomi-density` is never declared on `:host`, so a `:root` value inherits
 through Shadow DOM.
 
+### Border width
+
+Field-style components (input, select, datepicker, …) share a single border declaration in
+[`fieldStyles`](packages/core/src/field.ts) - `border: var(--loomi-control-border-width, 2px)
+solid …` (and the matching `border-bottom` for `variant="minimal"`) - so a theme can thin every
+field's border at once without a rebuild:
+
+```css
+:root {
+  --loomi-control-border-width: 1px;
+}
+```
+
+Like `--loomi-density`, this token is never declared on `:host`, so a `:root` value inherits
+through Shadow DOM to every field-style component automatically. There is no per-instance
+attribute for this - components outside `fieldStyles` (buttons, cards, etc.) keep their own
+literal border widths and are unaffected.
+
 ### Field spacing
 
 Every stacked form field (input, select, textarea, datepicker, …) ships a

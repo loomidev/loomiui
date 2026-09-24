@@ -10,15 +10,17 @@ export const ProgressStep: ForwardRefExoticComponent<
     onLoomiProgressStepSelect?: (e: CustomEvent) => void;
     hideIndex?: JSX.IntrinsicElements["loomi-progress-step"]["hide-index"];
     stepIndex?: JSX.IntrinsicElements["loomi-progress-step"]["step-index"];
+    panelLayout?: JSX.IntrinsicElements["loomi-progress-step"]["panel-layout"];
   }
 > = createComponent(
   "loomi-progress-step",
   { "loomi-progress-step-select": "onLoomiProgressStepSelect" },
-  { hideIndex: "hide-index", stepIndex: "step-index" },
+  { hideIndex: "hide-index", stepIndex: "step-index", panelLayout: "panel-layout" },
 ) as unknown as ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-progress-step"], "onLoomiProgressStepSelect"> & {
     onLoomiProgressStepSelect?: (e: CustomEvent) => void;
     hideIndex?: JSX.IntrinsicElements["loomi-progress-step"]["hide-index"];
     stepIndex?: JSX.IntrinsicElements["loomi-progress-step"]["step-index"];
+    panelLayout?: JSX.IntrinsicElements["loomi-progress-step"]["panel-layout"];
   }
 >;

@@ -62,6 +62,13 @@
   overflow: hidden;
 }
 
+/* A circle group's track is a pill, so its ends follow the round items inside it
+   instead of boxing them in square-ish corners. A rule here (not the var) because
+   the `radius` preset writes --loomi-bg-radius inline on the host, which would win. */
+:host(loomi-button-group[circle]) .loomi-bg-group {
+  border-radius: 9999px;
+}
+
 .loomi-bg-group.disabled {
   opacity: 0.5;
   pointer-events: none;

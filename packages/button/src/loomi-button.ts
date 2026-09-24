@@ -40,6 +40,7 @@ const SIZE: Record<LoomiButtonSize, string> = {
 // theme's `:root { --loomi-control-radius }` can restyle the default. See styles.css.
 
 const BORDER_WIDTH: Record<number, string> = {
+  1: "border",
   2: "border-2",
 };
 
@@ -75,7 +76,7 @@ export class LoomiButton extends LoomiElement {
     delegatesFocus: true,
   };
 
-  /** Structural variant: `primary` is a solid fill; `secondary` is a bordered ghost. `color` overrides the hue. */
+  /** Structural variant: `primary` is a solid fill; `secondary` is a bordered surface. `color` overrides the hue. */
   @property({ reflect: true }) type: LoomiButtonType = "primary";
 
   /** Palette override. Empty = derive from `type`. `primary` | `secondary` | `info` | `success` | `error` | `warning` | `gray`. */
@@ -93,7 +94,10 @@ export class LoomiButton extends LoomiElement {
    */
   @property({ reflect: true }) radius: LoomiButtonRadius = "medium";
 
-  /** Render as an outline (no fill, colored border + text). */
+  /**
+   * Render as an outline (surface fill, colored border + text). Primary-only: a
+   * `secondary` button is already an outline, so this has no effect on it.
+   */
   @property({ type: Boolean }) outline = false;
 
   /**
@@ -103,8 +107,8 @@ export class LoomiButton extends LoomiElement {
    */
   @property({ type: Boolean, reflect: true }) circle = false;
 
-  /** Outline border width: 2, 4 or 8. Only applies when `outline` is set. */
-  @property({ type: Number, attribute: "border-width" }) borderWidth = 2;
+  /** Border width for secondary and outline buttons: 1 or 2. */
+  @property({ type: Number, attribute: "border-width" }) borderWidth = 1;
 
   /** Name of a built-in icon (see the icon registry), or one you registered. */
   @property() icon = "";
@@ -232,8 +236,8 @@ export class LoomiButton extends LoomiElement {
 
   /** `type` only switches solid-fill vs. outline; `color` is the only thing that picks the hue. */
   private treatmentClasses(c: LoomiButtonColor): string[] {
-    const w = BORDER_WIDTH[this.borderWidth] ?? BORDER_WIDTH[2];
-    // Secondary is already a transparent, neutral-bordered ghost treatment (its palette
+    const w = BORDER_WIDTH[this.borderWidth] ?? BORDER_WIDTH[1];
+    // Secondary is already a transparent, neutral-bordered surface treatment (its palette
     // is literally the gray ramp — see palette.json), so outline is a no-op for it: both
     // reuse the same dark-mode-aware --loomi-surface-* tokens instead of secondary's own
     // (theme-static) palette shades.
@@ -241,7 +245,7 @@ export class LoomiButton extends LoomiElement {
       return [w, "border-solid", "loomi-btn--secondary"];
     }
     if (this.outline) {
-      return ["bg-transparent", `text-${c}-600`, w, "border-solid", `loomi-btn--outline-${c}`];
+      return ["loomi-btn--outline", `text-${c}-600`, w, "border-solid", `loomi-btn--outline-${c}`];
     }
     return [`bg-${c}-600`, "text-white", `hover:bg-${c}-700`, "border", "border-transparent"];
   }

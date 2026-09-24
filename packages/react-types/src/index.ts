@@ -495,6 +495,7 @@ interface LoomiProgressCircleAttributes {
 
 interface LoomiProgressStepAttributes {
   "hide-index"?: boolean;
+  "panel-layout"?: boolean;
   "step-index"?: number;
 }
 

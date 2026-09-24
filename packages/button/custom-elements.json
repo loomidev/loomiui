@@ -142,7 +142,7 @@
                 "text": "LoomiButtonType"
               },
               "default": "\"primary\"",
-              "description": "Structural variant: `primary` is a solid fill; `secondary` is a bordered ghost. `color` overrides the hue.",
+              "description": "Structural variant: `primary` is a solid fill; `secondary` is a bordered surface. `color` overrides the hue.",
               "attribute": "type",
               "reflects": true
             },
@@ -185,7 +185,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Render as an outline (no fill, colored border + text).",
+              "description": "Render as an outline (surface fill, colored border + text). Primary-only: a\n`secondary` button is already an outline, so this has no effect on it.",
               "attribute": "outline"
             },
             {
@@ -205,8 +205,8 @@
               "type": {
                 "text": "number"
               },
-              "default": "2",
-              "description": "Outline border width: 2, 4 or 8. Only applies when `outline` is set.",
+              "default": "1",
+              "description": "Border width for secondary and outline buttons: 1 or 2.",
               "attribute": "border-width"
             },
             {
@@ -524,7 +524,7 @@
                 "text": "LoomiButtonType"
               },
               "default": "\"primary\"",
-              "description": "Structural variant: `primary` is a solid fill; `secondary` is a bordered ghost. `color` overrides the hue.",
+              "description": "Structural variant: `primary` is a solid fill; `secondary` is a bordered surface. `color` overrides the hue.",
               "fieldName": "type"
             },
             {
@@ -560,7 +560,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Render as an outline (no fill, colored border + text).",
+              "description": "Render as an outline (surface fill, colored border + text). Primary-only: a\n`secondary` button is already an outline, so this has no effect on it.",
               "fieldName": "outline"
             },
             {
@@ -577,8 +577,8 @@
               "type": {
                 "text": "number"
               },
-              "default": "2",
-              "description": "Outline border width: 2, 4 or 8. Only applies when `outline` is set.",
+              "default": "1",
+              "description": "Border width for secondary and outline buttons: 1 or 2.",
               "fieldName": "borderWidth"
             },
             {

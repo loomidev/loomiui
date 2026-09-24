@@ -113,11 +113,17 @@
   background-image: none;
 }
 
-/* Secondary: transparent fill with a neutral border (Cancel-style). */
+/* Bordered treatments use a crisp surface and compact default corners. */
+.loomi-btn.loomi-btn--secondary,
+.loomi-btn.loomi-btn--outline {
+  background: var(--loomi-surface, #fff);
+  border-radius: var(--loomi-control-radius, 0.375rem);
+}
+
+/* Secondary: neutral border and dark text. */
 .loomi-btn.loomi-btn--secondary {
-  background: transparent;
-  border-color: var(--loomi-surface-border, #d9dee3);
-  color: var(--loomi-text, inherit);
+  border-color: var(--loomi-gray-300, var(--_loomi-gray-300-default, #cbd5e1));
+  color: var(--loomi-text, #334155);
 }
 
 .loomi-btn.loomi-btn--secondary:hover {
@@ -136,6 +142,10 @@
  * support — the component detects the ancestor `.dark` class in JS instead and reflects
  * it as this class on its own root element (see `isDarkContext` in loomi-button.ts).
  */
+.loomi-btn.loomi-btn--secondary.is-dark {
+  border-color: var(--loomi-surface-border, #374151);
+}
+
 .loomi-btn.loomi-btn--secondary.is-dark:hover {
   /* loomi-audit-allow-token: dark-mode counterpart of the neutral hover border (see comment above) */
   border-color: var(--loomi-gray-500, var(--_loomi-gray-500-default));

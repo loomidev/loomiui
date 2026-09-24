@@ -84,7 +84,7 @@ export const fieldStyles: CSSResultGroup = css`
     width: 100%;
     min-height: var(--loomi-control-height, 2.5rem);
     background: var(--loomi-surface);
-    border: 2px solid var(--loomi-surface-border);
+    border: var(--loomi-control-border-width, 2px) solid var(--loomi-surface-border);
     border-radius: var(--loomi-control-radius, var(--_loomi-control-radius-default, 0.5rem));
     transition:
       border-color 0.15s ease,
@@ -127,7 +127,7 @@ export const fieldStyles: CSSResultGroup = css`
   .variant-minimal .loomi-trigger,
   .loomi-trigger.variant-minimal {
     border: 0;
-    border-bottom: 2px solid var(--loomi-surface-border);
+    border-bottom: var(--loomi-control-border-width, 2px) solid var(--loomi-surface-border);
     border-radius: 0;
     background: transparent;
   }

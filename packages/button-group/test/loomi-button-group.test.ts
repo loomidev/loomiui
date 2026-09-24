@@ -111,6 +111,10 @@ describe("loomi-button-group", () => {
     const rect = button.getBoundingClientRect();
     expect(rect.width).to.be.closeTo(rect.height, 1);
     expect(getComputedStyle(button).borderRadius).to.equal("9999px");
+    // The track becomes a pill too, even against radius="none", so the round items
+    // aren't boxed in square corners.
+    const track = el.shadowRoot!.querySelector<HTMLElement>(".loomi-bg-group")!;
+    expect(getComputedStyle(track).borderTopLeftRadius).to.equal("9999px");
   });
 
   it("lets a single item be circular without setting it on the whole group", async () => {
