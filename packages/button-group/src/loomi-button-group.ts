@@ -134,10 +134,7 @@ export class LoomiButtonGroupItem extends LoomiElement {
     const disabled = this.disabled || inheritedState.disabled;
     const circle = this.circle || inheritedState.circle;
     const iconOnly =
-      this.iconOnly ||
-      inheritedState.iconOnly ||
-      circle ||
-      (!this.labelText && Boolean(this.icon));
+      this.iconOnly || inheritedState.iconOnly || circle || (!this.labelText && Boolean(this.icon));
     const cls = ["loomi-bg-btn", this.selected ? "selected" : ""].filter(Boolean).join(" ");
 
     return html`

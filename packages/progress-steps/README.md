@@ -153,14 +153,14 @@ forward navigation without running validation. Clear that error when its cause i
 resolved. Disabled steps cannot be selected. Forward jumps validate only the current
 step, not skipped intermediate steps.
 
-| API | Behavior |
-| --- | --- |
-| `interactive` | Selectable headers and current-step-only content. Default: `true`. |
-| `validate` | Check current-step controls before moving forward. Default: `false`. |
-| `validateStep(step, nextIndex)` | Optional synchronous or asynchronous validation callback. |
-| `next()` | Move forward one step. Returns `Promise<boolean>`. |
-| `previous()` | Move backward one step. Returns `Promise<boolean>`. |
-| `goTo(index)` | Select a one-based step. Returns `Promise<boolean>`. |
+| API                             | Behavior                                                             |
+| ------------------------------- | -------------------------------------------------------------------- |
+| `interactive`                   | Selectable headers and current-step-only content. Default: `true`.   |
+| `validate`                      | Check current-step controls before moving forward. Default: `false`. |
+| `validateStep(step, nextIndex)` | Optional synchronous or asynchronous validation callback.            |
+| `next()`                        | Move forward one step. Returns `Promise<boolean>`.                   |
+| `previous()`                    | Move backward one step. Returns `Promise<boolean>`.                  |
+| `goTo(index)`                   | Select a one-based step. Returns `Promise<boolean>`.                 |
 
 Methods return `false` when blocked, out of range, or already pending. Successful
 changes emit `loomi-progress-steps-change` with `{ current, step }`. Setting `current`

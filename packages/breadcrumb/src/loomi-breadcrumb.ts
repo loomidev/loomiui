@@ -38,7 +38,8 @@ export class LoomiBreadcrumbItem extends LoomiElement {
   }
 
   private renderSeparator(): TemplateResult {
-    if (this.separator === "full-chevron") return html`<svg
+    if (this.separator === "full-chevron")
+      return html`<svg
       class="loomi-sep-full-chevron"
       viewBox="0 0 22 42"
       fill="none"
@@ -46,7 +47,8 @@ export class LoomiBreadcrumbItem extends LoomiElement {
       stroke-width="1"
       aria-hidden="true"
     ><path d="M 0.5 0 L 21.5 21 L 0.5 42" /></svg>`;
-    if (this.separator === "slash") return html`<span class="loomi-sep-slash" aria-hidden="true">/</span>`;
+    if (this.separator === "slash")
+      return html`<span class="loomi-sep-slash" aria-hidden="true">/</span>`;
     return html`<svg
       class="loomi-sep-chevron"
       viewBox="0 0 24 24"

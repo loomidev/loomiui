@@ -1,7 +1,12 @@
 import { html, fixture, expect, nextFrame, oneEvent } from "@open-wc/testing";
 import "../dist/loomi-progress.js";
 import "../../button/dist/index.js";
-import type { LoomiProgressArc, LoomiProgressBar, LoomiProgressStep, LoomiProgressSteps } from "../dist/index.js";
+import type {
+  LoomiProgressArc,
+  LoomiProgressBar,
+  LoomiProgressStep,
+  LoomiProgressSteps,
+} from "../dist/index.js";
 
 describe("loomi-progress-bar", () => {
   it("keeps the inline label by default", async () => {
@@ -21,7 +26,7 @@ describe("loomi-progress-bar", () => {
         show-percentage-label-inline="false"
       ></loomi-progress-bar>`,
     );
-    expect(el.inline, "the string \"false\" attribute value must actually disable the boolean").to.be
+    expect(el.inline, 'the string "false" attribute value must actually disable the boolean').to.be
       .false;
     expect(el.shadowRoot!.querySelector(".loomi-fill-label")).to.not.exist;
     expect(el.shadowRoot!.querySelector(".loomi-bar-label-out")).to.exist;
@@ -61,7 +66,9 @@ describe("loomi-progress-arc", () => {
       const assertContained = () => {
         const body = arc.shadowRoot!.querySelector(".loomi-arc-body")!.getBoundingClientRect();
         expect(arc.getBoundingClientRect().bottom).to.be.at.least(body.bottom - 0.5);
-        expect(following.getBoundingClientRect().top).to.be.at.least(button.getBoundingClientRect().bottom - 0.5);
+        expect(following.getBoundingClientRect().top).to.be.at.least(
+          button.getBoundingClientRect().bottom - 0.5,
+        );
       };
       assertContained();
       const initialHeight = arc.getBoundingClientRect().height;
@@ -128,7 +135,10 @@ describe("loomi-progress-steps", () => {
       }
       for (const step of steps.slice(0, -1)) {
         const line = bounds(step, ".loomi-step-line");
-        const card = wrapper.querySelector("loomi-progress-steps")!.shadowRoot!.querySelector(".loomi-steps")!.getBoundingClientRect();
+        const card = wrapper
+          .querySelector("loomi-progress-steps")!
+          .shadowRoot!.querySelector(".loomi-steps")!
+          .getBoundingClientRect();
         expect(line.top).to.be.closeTo(card.top + 1, 0.5);
         expect(line.bottom).to.be.closeTo(card.bottom - 1, 0.5);
         expect(line.width).to.be.closeTo(18, 0.5);
@@ -150,19 +160,28 @@ describe("loomi-progress-steps", () => {
           </loomi-progress-steps>
         `);
         const steps = Array.from(el.querySelectorAll<LoomiProgressStep>("loomi-progress-step"));
-        if (control === "link") steps.forEach((step) => { step.href = "#billing"; });
+        if (control === "link")
+          steps.forEach((step) => {
+            step.href = "#billing";
+          });
         await Promise.all(steps.map((step) => step.updateComplete));
         await nextFrame();
         for (const step of steps.slice(0, -1)) {
-          const bounds = (selector: string) => step.shadowRoot!.querySelector(selector)!.getBoundingClientRect();
+          const bounds = (selector: string) =>
+            step.shadowRoot!.querySelector(selector)!.getBoundingClientRect();
           const marker = bounds(".loomi-step-marker");
           const line = bounds(".loomi-step-line");
           expect(line.width).to.equal(2);
           expect(line.left + line.width / 2).to.be.closeTo(marker.left + marker.width / 2, 0.5);
           expect(line.top).to.be.at.least(marker.bottom);
-          expect(bounds(".loomi-step-body").left).to.be.closeTo(bounds(".loomi-step-copy").left, 0.5);
+          expect(bounds(".loomi-step-body").left).to.be.closeTo(
+            bounds(".loomi-step-copy").left,
+            0.5,
+          );
         }
-        expect(steps[2].shadowRoot!.querySelector(".loomi-step-line")!.getBoundingClientRect().width).to.equal(0);
+        expect(
+          steps[2].shadowRoot!.querySelector(".loomi-step-line")!.getBoundingClientRect().width,
+        ).to.equal(0);
       });
     }
   }
@@ -345,9 +364,9 @@ describe("loomi-progress-steps", () => {
   });
 });
 
-
 describe("interactive progress steps", () => {
-  const setup = () => fixture<LoomiProgressSteps>(html`
+  const setup = () =>
+    fixture<LoomiProgressSteps>(html`
     <loomi-progress-steps interactive validate>
       <loomi-progress-step label="Account"><input required aria-label="Name"></loomi-progress-step>
       <loomi-progress-step label="Billing"><p>Payment content</p></loomi-progress-step>
@@ -365,8 +384,12 @@ describe("interactive progress steps", () => {
     expect(await el.next()).to.equal(true);
     await nextFrame();
     expect(steps[0].error).to.equal(false);
-    expect(steps[0].shadowRoot!.querySelector<HTMLElement>(".loomi-step-body")!.hidden).to.equal(true);
-    expect(steps[1].shadowRoot!.querySelector<HTMLElement>(".loomi-step-body")!.hidden).to.equal(false);
+    expect(steps[0].shadowRoot!.querySelector<HTMLElement>(".loomi-step-body")!.hidden).to.equal(
+      true,
+    );
+    expect(steps[1].shadowRoot!.querySelector<HTMLElement>(".loomi-step-body")!.hidden).to.equal(
+      false,
+    );
     expect(await el.previous()).to.equal(true);
     expect(input.value).to.equal("Alex");
   });
@@ -388,7 +411,10 @@ describe("interactive progress steps", () => {
     const el = await setup();
     el.validate = false;
     let finish!: (valid: boolean) => void;
-    el.validateStep = () => new Promise<boolean>((resolve) => { finish = resolve; });
+    el.validateStep = () =>
+      new Promise<boolean>((resolve) => {
+        finish = resolve;
+      });
     const pending = el.next();
     expect(await el.goTo(3)).to.equal(false);
     expect(el.current).to.equal(1);
@@ -400,10 +426,15 @@ describe("interactive progress steps", () => {
   it("handles rejected validators and stale results without changing the selected step", async () => {
     const el = await setup();
     el.validate = false;
-    el.validateStep = async () => { throw new Error("Unavailable"); };
+    el.validateStep = async () => {
+      throw new Error("Unavailable");
+    };
     expect(await el.next()).to.equal(false);
     let finish!: (valid: boolean) => void;
-    el.validateStep = () => new Promise<boolean>((resolve) => { finish = resolve; });
+    el.validateStep = () =>
+      new Promise<boolean>((resolve) => {
+        finish = resolve;
+      });
     const pending = el.next();
     el.current = 3;
     finish(true);
@@ -415,7 +446,9 @@ describe("interactive progress steps", () => {
     el.validate = false;
     const steps = Array.from(el.querySelectorAll<LoomiProgressStep>("loomi-progress-step"));
     let changes = 0;
-    el.addEventListener("loomi-progress-steps-change", () => { changes++; });
+    el.addEventListener("loomi-progress-steps-change", () => {
+      changes++;
+    });
     steps[1].shadowRoot!.querySelector<HTMLButtonElement>("button")!.click();
     await nextFrame();
     expect(el.current).to.equal(2);
@@ -428,7 +461,6 @@ describe("interactive progress steps", () => {
   });
 });
 
-
 describe("interactive step panel layout", () => {
   for (const variant of ["circle", "bar"]) {
     it(`keeps ${variant} headers above a full-width active panel`, async () => {
@@ -440,11 +472,14 @@ describe("interactive step panel layout", () => {
       `);
       await nextFrame();
       const steps = Array.from(el.querySelectorAll<LoomiProgressStep>("loomi-progress-step"));
-      const bounds = (index: number, selector: string) => steps[index].shadowRoot!.querySelector(selector)!.getBoundingClientRect();
+      const bounds = (index: number, selector: string) =>
+        steps[index].shadowRoot!.querySelector(selector)!.getBoundingClientRect();
       const card = el.shadowRoot!.querySelector(".loomi-steps")!.getBoundingClientRect();
       expect(bounds(0, ".loomi-step-head").top).to.equal(bounds(1, ".loomi-step-head").top);
       expect(bounds(0, ".loomi-step-body").width).to.be.closeTo(card.width, 2);
-      expect(bounds(0, ".loomi-step-body").top).to.be.at.least(bounds(0, ".loomi-step-head").bottom);
+      expect(bounds(0, ".loomi-step-body").top).to.be.at.least(
+        bounds(0, ".loomi-step-head").bottom,
+      );
       expect(bounds(1, ".loomi-step-body").height).to.equal(0);
       await el.next();
       await nextFrame();

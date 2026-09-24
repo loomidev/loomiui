@@ -45,7 +45,8 @@ export class LoomiSkeleton extends LoomiElement {
   private barStyle(widthOverride?: string): string {
     const width = widthOverride ?? this.width ?? "";
     const w = width || this.defaultWidth;
-    const h = this.height || (this.variant === "circle" ? w : this.variant === "text" ? "1em" : "8rem");
+    const h =
+      this.height || (this.variant === "circle" ? w : this.variant === "text" ? "1em" : "8rem");
     const r = this.radius || this.defaultRadius;
     return `width:${w};height:${h};border-radius:${r}`;
   }

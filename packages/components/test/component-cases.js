@@ -30,6 +30,14 @@ export const CASES = [
     "loomi-bottom-nav-item",
     '<loomi-bottom-nav><loomi-bottom-nav-item label="Home"></loomi-bottom-nav-item></loomi-bottom-nav>',
   ],
+  [
+    "loomi-breadcrumb",
+    '<loomi-breadcrumb><loomi-breadcrumb-item href="/" label="Home"></loomi-breadcrumb-item><loomi-breadcrumb-item label="Billing"></loomi-breadcrumb-item></loomi-breadcrumb>',
+  ],
+  [
+    "loomi-breadcrumb-item",
+    '<loomi-breadcrumb><loomi-breadcrumb-item href="/" label="Home"></loomi-breadcrumb-item></loomi-breadcrumb>',
+  ],
   ["loomi-button", "<loomi-button>Save</loomi-button>"],
   ["loomi-button-group", null],
   [
@@ -114,6 +122,7 @@ export const CASES = [
   ],
   ["loomi-processing", null],
   ["loomi-profile-menu", null],
+  ["loomi-progress-arc", '<loomi-progress-arc percentage="68"></loomi-progress-arc>'],
   ["loomi-progress-bar", null],
   ["loomi-progress-circle", null],
   [
@@ -134,6 +143,7 @@ export const CASES = [
     "loomi-side-nav-item",
     '<loomi-side-nav label="Main"><loomi-side-nav-item label="Dashboard"></loomi-side-nav-item></loomi-side-nav>',
   ],
+  ["loomi-skeleton", null],
   ["loomi-slider", null],
   ["loomi-sortable", null],
   ["loomi-spinner", null],

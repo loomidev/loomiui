@@ -258,8 +258,12 @@ export class LoomiProgressStep extends LoomiElement {
   }
 
   private onSelect(event: Event): void {
-    if (this.disabled) { event.preventDefault(); return; }
-    if (this.parentElement instanceof LoomiProgressSteps && this.parentElement.interactive) event.preventDefault();
+    if (this.disabled) {
+      event.preventDefault();
+      return;
+    }
+    if (this.parentElement instanceof LoomiProgressSteps && this.parentElement.interactive)
+      event.preventDefault();
     this.dispatchEvent(
       new CustomEvent("loomi-progress-step-select", {
         bubbles: true,
@@ -370,7 +374,10 @@ export class LoomiProgressSteps extends LoomiElement {
   /** Check native and custom form controls before moving forward. */
   @property({ type: Boolean }) validate = false;
   /** Optional synchronous or asynchronous forward-navigation validator. */
-  @property({ attribute: false }) validateStep?: (step: LoomiProgressStep, next: number) => boolean | Promise<boolean>;
+  @property({ attribute: false }) validateStep?: (
+    step: LoomiProgressStep,
+    next: number,
+  ) => boolean | Promise<boolean>;
   private navigating = false;
   private validationErrors = new WeakSet<LoomiProgressStep>();
 
@@ -385,17 +392,27 @@ export class LoomiProgressSteps extends LoomiElement {
     this.navigating = true;
     try {
       if (next > current && source) {
-        if ((source.error && !this.validationErrors.has(source)) || source.state === "error") return false;
+        if ((source.error && !this.validationErrors.has(source)) || source.state === "error")
+          return false;
         let valid = true;
         if (this.validate) {
           for (const control of Array.from(source.querySelectorAll<HTMLElement>("*"))) {
             if (control.closest("loomi-progress-step") !== source) continue;
             const field = control as HTMLElement & { reportValidity?: () => boolean };
-            if (typeof field.reportValidity === "function" && !field.reportValidity()) { valid = false; break; }
+            if (typeof field.reportValidity === "function" && !field.reportValidity()) {
+              valid = false;
+              break;
+            }
           }
         }
         if (valid && this.validateStep) valid = await this.validateStep(source, next);
-        if (this.current !== current || this.steps[next - 1] !== target || this.steps[current - 1] !== source || target.disabled) return false;
+        if (
+          this.current !== current ||
+          this.steps[next - 1] !== target ||
+          this.steps[current - 1] !== source ||
+          target.disabled
+        )
+          return false;
         if (!valid) {
           this.validationErrors.add(source);
           source.error = true;
@@ -409,9 +426,13 @@ export class LoomiProgressSteps extends LoomiElement {
       }
       this.current = next;
       this.syncSteps();
-      this.dispatchEvent(new CustomEvent("loomi-progress-steps-change", {
-        bubbles: true, composed: true, detail: { current: next, step: target },
-      }));
+      this.dispatchEvent(
+        new CustomEvent("loomi-progress-steps-change", {
+          bubbles: true,
+          composed: true,
+          detail: { current: next, step: target },
+        }),
+      );
       return true;
     } catch {
       if (source && this.current === current) {
@@ -425,14 +446,20 @@ export class LoomiProgressSteps extends LoomiElement {
   }
 
   /** Advance through the same validation path as selecting a header. */
-  next(): Promise<boolean> { return this.goTo(this.current + 1); }
+  next(): Promise<boolean> {
+    return this.goTo(this.current + 1);
+  }
   /** Return to the previous step without forward validation. */
-  previous(): Promise<boolean> { return this.goTo(this.current - 1); }
+  previous(): Promise<boolean> {
+    return this.goTo(this.current - 1);
+  }
 
   private get steps(): LoomiProgressStep[] {
     // Light DOM is not readable during server rendering; hydration fills this in on the client.
     if (isServer) return [];
-    return Array.from(this.children).filter((child): child is LoomiProgressStep => child instanceof LoomiProgressStep);
+    return Array.from(this.children).filter(
+      (child): child is LoomiProgressStep => child instanceof LoomiProgressStep,
+    );
   }
 
   /**

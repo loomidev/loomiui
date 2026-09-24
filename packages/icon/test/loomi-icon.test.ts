@@ -152,9 +152,7 @@ describe("loomi-icon", () => {
         html`<loomi-icon name="bell-alert" branded radius=${radius}></loomi-icon>`,
       );
       const badge = el.shadowRoot!.querySelector(".loomi-icon-badge")!;
-      expect(getComputedStyle(badge).borderTopLeftRadius, `radius="${radius}"`).to.equal(
-        expected,
-      );
+      expect(getComputedStyle(badge).borderTopLeftRadius, `radius="${radius}"`).to.equal(expected);
     }
   });
 

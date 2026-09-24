@@ -97,32 +97,32 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## `<loomi-breadcrumb>` Attributes
 
-| Attribute   | Default    | Description                                            |
-| ----------- | ---------- | -------------------------------------------------------|
-| `separator` | `chevron`  | Separator glyph for every item: `chevron` \| `slash` \| `full-chevron`.   |
-| `label`     | _(blank)_  | Accessible name for the `<nav>` landmark.               |
-| `locale`    | _(blank)_  | Locale for the default accessible name.                 |
-| `color`     | `primary`  | Any loomi color, used for link hover/underline color.   |
+| Attribute   | Default   | Description                                                             |
+| ----------- | --------- | ----------------------------------------------------------------------- |
+| `separator` | `chevron` | Separator glyph for every item: `chevron` \| `slash` \| `full-chevron`. |
+| `label`     | _(blank)_ | Accessible name for the `<nav>` landmark.                               |
+| `locale`    | _(blank)_ | Locale for the default accessible name.                                 |
+| `color`     | `primary` | Any loomi color, used for link hover/underline color.                   |
 
 ## `<loomi-breadcrumb-item>` Attributes
 
 | Attribute | Default   | Description                                                                       |
-| --------- | --------- | ---------------------------------------------------------------------------------|
-| `href`    | _(blank)_ | Renders the item as a link. Ignored on the last item, which is always plain text.|
-| `label`   | _(blank)_ | Item text. The default slot takes precedence when present.                       |
+| --------- | --------- | --------------------------------------------------------------------------------- |
+| `href`    | _(blank)_ | Renders the item as a link. Ignored on the last item, which is always plain text. |
+| `label`   | _(blank)_ | Item text. The default slot takes precedence when present.                        |
 
 ## Slots
 
-| Slot        | Element               | Description                          |
-| ----------- | --------------------- | ------------------------------------ |
+| Slot        | Element                 | Description                         |
+| ----------- | ----------------------- | ----------------------------------- |
 | _(default)_ | `loomi-breadcrumb`      | `<loomi-breadcrumb-item>` children. |
 | _(default)_ | `loomi-breadcrumb-item` | Overrides the `label` attribute.    |
 
 ## Events
 
-| Event                         | Description                                                                        |
-| ----------------------------- | ------------------------------------------------------------------------------------|
-| `loomi-breadcrumb-item-click` | Fired when a linked item is clicked. `detail: { href, label }`. Cancelable.        |
+| Event                         | Description                                                                 |
+| ----------------------------- | --------------------------------------------------------------------------- |
+| `loomi-breadcrumb-item-click` | Fired when a linked item is clicked. `detail: { href, label }`. Cancelable. |
 
 ## Dependencies
 

@@ -1319,7 +1319,7 @@
               "kind": "field",
               "name": "validateStep",
               "type": {
-                "text": "(step: LoomiProgressStep, next: number) => boolean | Promise<boolean> | undefined"
+                "text": "(\n    step: LoomiProgressStep,\n    next: number,\n  ) => boolean | Promise<boolean> | undefined"
               },
               "description": "Optional synchronous or asynchronous forward-navigation validator."
             },

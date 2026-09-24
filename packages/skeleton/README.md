@@ -75,6 +75,10 @@ Motion slows down rather than stopping under `prefers-reduced-motion`, so the
 placeholder still reads as "still loading" rather than finished. For the
 library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
+## Responsive behavior
+
+A skeleton fills its container's width by default (`text` and `rect`), so it reflows with the layout it stands in for. For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+
 ## Dark mode
 
 The shimmer sweep is a translucent white overlay, so it reads correctly over the
@@ -83,16 +87,16 @@ token overrides, and contrast guidance, see [Foundations - Dark mode](https://lo
 
 ## Attributes
 
-| Attribute   | Default   | Description                                                                 |
-| ----------- | --------- | ---------------------------------------------------------------------------|
-| `variant`   | `text`    | Shape: `text` \| `circle` \| `rect`.                                       |
-| `width`     | _(auto)_  | CSS length. Defaults to `100%` (`text`, `rect`) or `3rem` (`circle`).       |
+| Attribute   | Default   | Description                                                                                |
+| ----------- | --------- | ------------------------------------------------------------------------------------------ |
+| `variant`   | `text`    | Shape: `text` \| `circle` \| `rect`.                                                       |
+| `width`     | _(auto)_  | CSS length. Defaults to `100%` (`text`, `rect`) or `3rem` (`circle`).                      |
 | `height`    | _(auto)_  | CSS length. Defaults to `1em` (`text`), the resolved width (`circle`), or `8rem` (`rect`). |
-| `radius`    | _(auto)_  | CSS length for corner rounding. Defaults per `variant`.                    |
-| `lines`     | `1`       | Number of stacked placeholder lines. Only applies to `variant="text"`.     |
-| `animation` | `shimmer` | `shimmer` \| `pulse` \| `none`.                                            |
-| `label`     | _(blank)_ | Accessible name announced while loading.                                   |
-| `locale`    | _(blank)_ | Locale for the default accessible name.                                    |
+| `radius`    | _(auto)_  | CSS length for corner rounding. Defaults per `variant`.                                    |
+| `lines`     | `1`       | Number of stacked placeholder lines. Only applies to `variant="text"`.                     |
+| `animation` | `shimmer` | `shimmer` \| `pulse` \| `none`.                                                            |
+| `label`     | _(blank)_ | Accessible name announced while loading.                                                   |
+| `locale`    | _(blank)_ | Locale for the default accessible name.                                                    |
 
 ## Dependencies
 

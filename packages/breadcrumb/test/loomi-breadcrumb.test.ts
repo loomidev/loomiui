@@ -33,8 +33,8 @@ describe("loomi-breadcrumb", () => {
     expect(items[1].last).to.be.false;
     expect(items[2].last).to.be.true;
 
-    const [home, settings, billing] = items.map(
-      (item) => item.shadowRoot!.querySelector(".loomi-crumb-control")!,
+    const [home, settings, billing] = items.map((item) =>
+      item.shadowRoot!.querySelector(".loomi-crumb-control")!,
     );
     expect(home.tagName).to.equal("A");
     expect(settings.tagName).to.equal("A");

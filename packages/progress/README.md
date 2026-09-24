@@ -56,16 +56,19 @@ Two shades per color: `faint` (default) and `dark`.
 ```html
 <loomi-progress-bar percentage="30" color="success"></loomi-progress-bar>
 ```
+
 <br />
 
 ```html
 <loomi-progress-bar percentage="40" color="warning"></loomi-progress-bar>
 ```
+
 <br />
 
 ```html
 <loomi-progress-bar percentage="50" color="error" shade="dark"></loomi-progress-bar>
 ```
+
 <br />
 
 ```html
@@ -209,12 +212,12 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ### `<loomi-progress-arc>`
 
-| Attribute      | Default   | Description                                            |
-| -------------- | --------- | ------------------------------------------------------- |
+| Attribute      | Default   | Description                                                 |
+| -------------- | --------- | ----------------------------------------------------------- |
 | `size`         | `medium`  | `small` \| `medium` \| `big` \| `large`, or a pixel number. |
-| `show-percent` | `true`    | Show the `NN%` value under the arc. _(boolean)_        |
-| `caption`      | _(blank)_ | Secondary text under the value.                        |
-| `label`        | _(blank)_ | Accessible name. Falls back to a translated "Progress". |
+| `show-percent` | `true`    | Show the `NN%` value under the arc. _(boolean)_             |
+| `caption`      | _(blank)_ | Secondary text under the value.                             |
+| `label`        | _(blank)_ | Accessible name. Falls back to a translated "Progress".     |
 
 ### `<loomi-progress-steps>`
 
