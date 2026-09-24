@@ -413,8 +413,10 @@ a.loomi-step-control {
   height: 100%;
   padding: 1rem 2rem;
 }
+/* Top-aligned, not centered: centering against the copy drops a step's marker whenever
+   its description wraps to an extra line, so markers across the row stop lining up. */
 .loomi-step.circle.horizontal .loomi-step-control {
-  align-items: center;
+  align-items: flex-start;
 }
 .loomi-step.circle.horizontal .loomi-step-line {
   position: absolute;

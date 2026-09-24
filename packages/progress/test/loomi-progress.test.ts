@@ -106,8 +106,14 @@ describe("loomi-progress-arc", () => {
 });
 
 describe("loomi-progress-steps", () => {
-  for (const size of ["regular", "small"]) {
-    it(`keeps ${size} horizontal markers aligned inside prose content`, async () => {
+  // 480px makes one step's description wrap onto an extra line, which used to drop that
+  // step's marker below the others.
+  for (const [size, width] of [
+    ["regular", 720],
+    ["small", 720],
+    ["regular", 480],
+  ] as const) {
+    it(`keeps ${size} horizontal markers aligned inside prose content at ${width}px`, async () => {
       const wrapper = await fixture<HTMLDivElement>(html`
         <div class="progress-prose-regression">
           <style>
@@ -115,7 +121,7 @@ describe("loomi-progress-steps", () => {
               margin-top: 1rem;
             }
           </style>
-          <loomi-progress-steps current="2" size=${size} interactive="false" style="width: 720px">
+          <loomi-progress-steps current="2" size=${size} interactive="false" style="width: ${width}px">
             <loomi-progress-step label="Account" description="Create your profile"></loomi-progress-step>
             <loomi-progress-step label="Billing" description="Add payment details"></loomi-progress-step>
             <loomi-progress-step label="Confirm" description="Review and finish"></loomi-progress-step>
