@@ -30,6 +30,13 @@ simple text.
 <loomi-tooltip content="To the right" placement="right"><loomi-icon name="information-circle"></loomi-icon></loomi-tooltip>
 ```
 
+## Inside Tables and Scroll Containers
+
+The tip renders in the browser's top layer, so a tooltip in a table's last column, or in
+any container with `overflow`, is never clipped and never adds a scrollbar. Near a
+viewport edge it flips to the opposite side or shifts along the edge, with the arrow
+still pointing at the trigger.
+
 ## Shade
 
 Tooltips default to the dark shade. Use `shade="light"` for a white tooltip with dark
@@ -66,7 +73,16 @@ The trigger can be anything - an icon, a button, plain text, an avatar.
 </loomi-tooltip>
 ```
 
+## Methods
+
+| Method   | Description                                                           |
+| -------- | --------------------------------------------------------------------- |
+| `show()` | Opens the tooltip. Returns a promise that resolves once it is placed. |
+| `hide()` | Closes the tooltip.                                                   |
+
 ## Accessibility
+
+Pressing Escape dismisses an open tooltip without moving focus or the pointer.
 
 For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 

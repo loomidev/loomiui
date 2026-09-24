@@ -39,7 +39,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<loomi-tooltip>` — shows a tooltip on hover/focus of its trigger content.",
+          "description": "`<loomi-tooltip>` — shows a tooltip on hover/focus of its trigger content.\n\nThe tip is promoted to the **top layer** via the popover API and placed in viewport\ncoordinates, so an ancestor with `overflow` (a table's scroll wrapper, a card) neither\nclips it nor grows a scrollbar to make room for it. Near a viewport edge it flips to the\nopposite side and shifts along the edge, keeping its arrow on the trigger.",
           "name": "LoomiTooltip",
           "slots": [
             {
@@ -79,6 +79,158 @@
               "default": "\"dark\"",
               "attribute": "shade",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "resolvedPlacement",
+              "type": {
+                "text": "LoomiTooltipPlacement"
+              },
+              "privacy": "private",
+              "default": "\"top\"",
+              "description": "The side the tip actually settled on, after flipping."
+            },
+            {
+              "kind": "field",
+              "name": "tipEl",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "hovered",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "focused",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "cleanupOpen",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "repositionFrame",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              },
+              "description": "Show the tooltip. Resolves once it is placed."
+            },
+            {
+              "kind": "method",
+              "name": "hide",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Hide the tooltip."
+            },
+            {
+              "kind": "field",
+              "name": "onMouseEnter",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onMouseLeave",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onFocusIn",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onFocusOut",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "syncVisibility",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "showTip",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "hideTip",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "observeOpen",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "() => void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "positionTip",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
             }
           ],
           "attributes": [
