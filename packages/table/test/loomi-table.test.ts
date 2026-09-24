@@ -117,4 +117,25 @@ describe("loomi-table", () => {
     expect(bodyText).to.contain("Ama <ama@example.com>");
     expect(pagination.showTotalPages).to.equal(true);
   });
+  it("renders a table authored in plain HTML from header and body templates", async () => {
+    // Parsed as real HTML (not a Lit template), where a bare <tr>/<th> outside a <table>
+    // would be dropped by the parser.
+    const host = await fixture<HTMLDivElement>(html`<div></div>`);
+    host.innerHTML = `
+      <loomi-table>
+        <template slot="header"><th>Item</th><th>Quantity</th></template>
+        <template slot="body">
+          <tr><td>Office furniture</td><td>2</td></tr>
+          <tr><td>Standing desks</td><td>6</td></tr>
+        </template>
+      </loomi-table>`;
+    const el = host.querySelector<LoomiTable>("loomi-table")!;
+    await el.updateComplete;
+
+    const heads = [...el.shadowRoot!.querySelectorAll("thead th")].map((th) => th.textContent);
+    const rows = el.shadowRoot!.querySelectorAll("tbody tr");
+    expect(heads).to.deep.equal(["Item", "Quantity"]);
+    expect(rows.length).to.equal(2);
+    expect(rows[1].textContent).to.contain("Standing desks");
+  });
 });

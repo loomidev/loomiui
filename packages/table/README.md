@@ -329,18 +329,24 @@ attribute is accepted and included in the event detail.
 
 ## Manual and Custom Layouts
 
-For a manually authored table, provide header cells in the `header` slot and rows in
-the default slot:
+For a manually authored table, wrap the heading cells in a `<template slot="header">`
+and the rows in a `<template slot="body">`:
 
 ```html
-<loomi-table selectable>
-  <th slot="header">Item</th>
-  <th slot="header">Quantity</th>
-  <tr><td>Office furniture</td><td>2</td></tr>
-  <tr><td>Standing desks</td><td>6</td></tr>
-  <tr><td>Monitor arms</td><td>10</td></tr>
+<loomi-table>
+  <template slot="header"><th>Item</th><th>Quantity</th></template>
+  <template slot="body">
+    <tr><td>Office furniture</td><td>2</td></tr>
+    <tr><td>Standing desks</td><td>6</td></tr>
+    <tr><td>Monitor arms</td><td>10</td></tr>
+  </template>
 </loomi-table>
 ```
+
+The templates are required in HTML: the parser drops a `<th>` or `<tr>` that isn't inside
+a `<table>`, so bare cells and rows never reach the component. Frameworks and scripts that
+create elements directly (React, `document.createElement`) can instead pass `<th
+slot="header">` cells and `<tr>` rows straight into the slots.
 
 For dynamic data with a custom row layout, set `layout="custom"` and provide header
 and row templates. Row templates replace `{key}` placeholders from each row, while

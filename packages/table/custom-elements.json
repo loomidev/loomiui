@@ -83,15 +83,19 @@
           "name": "LoomiTable",
           "slots": [
             {
-              "description": "Manual `<th>` cells, or a `<template>` for custom layout headings.",
+              "description": "A `<template>` of heading cells, or `<th>` elements created from script.",
               "name": "header"
+            },
+            {
+              "description": "A `<template>` of static `<tr>` rows, for a table authored in HTML.",
+              "name": "body"
             },
             {
               "description": "Optional `<template>` used when `layout=\"custom\"` and `data` is set.",
               "name": "row"
             },
             {
-              "description": "Manual `<tr>` rows when not using `data`.",
+              "description": "`<tr>` elements created from script, when not using `data`.",
               "name": ""
             }
           ],
@@ -1001,6 +1005,16 @@
                 "text": "string"
               },
               "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "bodyTemplateHtml",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "description": "Static rows from a `<template slot=\"body\">`. A template is the only way to author rows\nin plain HTML: the parser drops a bare `<tr>` that isn't inside a `<table>`, so it\nnever reaches the default slot.",
               "readonly": true
             },
             {
