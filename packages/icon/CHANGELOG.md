@@ -1,5 +1,20 @@
 # @loomidev/icon
 
+## 0.6.0
+
+### Patch Changes
+
+- fd109c2: Fix the `branded` badge rendering with square corners regardless of `radius`.
+  
+  The `radius` presets mapped to Tailwind `rounded-*` classes, but the icon package's style
+  build scans no sources, so those utilities were never compiled and every badge had
+  `border-radius: 0`. The presets are now plain CSS. The badge is also exposed as
+  `::part(badge)`, and a new `--loomi-icon-radius` custom property overrides the preset.
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+  - @loomidev/core@0.6.0
+  - @loomidev/icons@0.6.0
+
 ## 0.5.0
 
 ### Minor Changes

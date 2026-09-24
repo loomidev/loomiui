@@ -1,5 +1,26 @@
 # @loomidev/navigation
 
+## 0.6.0
+
+### Patch Changes
+
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+  - @loomidev/progress-steps@0.6.0
+  - @loomidev/breadcrumb@0.6.0
+  - @loomidev/bottom-nav@0.6.0
+  - @loomidev/command-palette@0.6.0
+  - @loomidev/context-menu@0.6.0
+  - @loomidev/dropmenu@0.6.0
+  - @loomidev/pagination@0.6.0
+  - @loomidev/profile-menu@0.6.0
+  - @loomidev/side-nav@0.6.0
+  - @loomidev/tab@0.6.0
+  - @loomidev/theme-switcher@0.6.0
+
 ## 0.5.0
 
 ### Patch Changes

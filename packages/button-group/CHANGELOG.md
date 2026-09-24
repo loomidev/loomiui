@@ -1,5 +1,20 @@
 # @loomidev/button-group
 
+## 0.6.0
+
+### Minor Changes
+
+- fd109c2: Add a `circle` attribute (on the group or on a single item) for full-radius icon buttons, intended only for icon-only buttons. Also fixes `icon-only` padding/radius overrides being silently beaten by the group's inline size/radius style vars.
+
+### Patch Changes
+
+- fd109c2: A `circle` button group's track is now a pill, so its ends follow the round items instead of keeping square corners.
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+  - @loomidev/core@0.6.0
+  - @loomidev/icons@0.6.0
+  - @loomidev/theme@0.6.0
+
 ## 0.5.0
 
 ### Patch Changes
