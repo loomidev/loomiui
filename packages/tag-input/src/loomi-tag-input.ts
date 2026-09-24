@@ -2,14 +2,16 @@ import { html, nothing, svg, type PropertyValues, type TemplateResult } from "li
 import { customElement, property, query, state } from "lit/decorators.js";
 import { live } from "lit/directives/live.js";
 import {
-  LoomiElement,
   accentVars,
+  anchorFloatingPanel,
   controlSizeStyles,
   fieldStyles,
+  type LoomiColor,
+  LoomiElement,
+  type LoomiFieldLabelPosition,
+  type LoomiFloatingPanelHandle,
   loomiT,
   themeStyles,
-  type LoomiColor,
-  type LoomiFieldLabelPosition,
 } from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
@@ -90,6 +92,9 @@ export class LoomiTagInput extends LoomiElement {
   @state() private draft = "";
   @state() private tagValues: string[] = [];
   @state() private autocompleteOpen = false;
+  @query('[part="field"]') private floatAnchorEl?: HTMLElement;
+  @query(".loomi-autocomplete-panel") private floatPanelEl?: HTMLElement;
+  private floating?: LoomiFloatingPanelHandle;
   @state() private autocompleteActiveIndex = -1;
 
   @query("input") private inputEl!: HTMLInputElement;
@@ -346,7 +351,7 @@ export class LoomiTagInput extends LoomiElement {
   private renderAutocomplete(): TemplateResult | typeof nothing {
     const options = this.autocompleteOptions;
     if (!this.autocompleteOpen || !options.length) return nothing;
-    return html`<div class="loomi-autocomplete-panel" id="loomi-tag-input-listbox" role="listbox">
+    return html`<div class="loomi-autocomplete-panel" popover="manual" id="loomi-tag-input-listbox" role="listbox">
       ${options.map(
         (item, index) => html`<div
         class="loomi-autocomplete-option ${index === this.autocompleteActiveIndex ? "active" : ""}"
@@ -365,6 +370,37 @@ export class LoomiTagInput extends LoomiElement {
       </div>`,
       )}
     </div>`;
+  }
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.releaseFloatingPanel();
+  }
+
+  override updated(changed: Map<PropertyKey, unknown>): void {
+    super.updated(changed);
+    this.syncFloatingPanel();
+  }
+
+  /**
+   * The panel lives in the top layer, so an ancestor with `overflow` (a modal, a card, a
+   * table's scroll wrapper) neither clips it nor grows a scrollbar to make room for it.
+   */
+  private syncFloatingPanel(): void {
+    const anchor = this.floatAnchorEl;
+    const panel = this.floatPanelEl;
+    if (!this.autocompleteOpen || !anchor || !panel) {
+      this.releaseFloatingPanel();
+      return;
+    }
+    // Re-placed on every open-state render, since the panel's content can change size.
+    if (this.floating) this.floating.reposition();
+    else this.floating = anchorFloatingPanel(anchor, panel);
+  }
+
+  private releaseFloatingPanel(): void {
+    this.floating?.release();
+    this.floating = undefined;
   }
 
   override render(): TemplateResult {

@@ -251,4 +251,24 @@ describe("loomi-modal", () => {
     const icon = el.shadowRoot!.querySelector('.loomi-icon-wrap loomi-icon[name="home"]')!;
     expect(icon.getAttribute("source")).to.equal("iconsax");
   });
+  it("keeps the close button in place while long content scrolls", async () => {
+    const el = await fixture<LoomiModal>(
+      html`<loomi-modal title="Long" show-close-icon
+        ><div style="height:3000px">Body</div></loomi-modal
+      >`,
+    );
+    el.show();
+    await el.updateComplete;
+    const dialog = el.shadowRoot!.querySelector<HTMLElement>(".loomi-dialog")!;
+    const content = el.shadowRoot!.querySelector<HTMLElement>(".loomi-content")!;
+    const close = el.shadowRoot!.querySelector<HTMLElement>(".loomi-close")!;
+    dialog.style.animation = "none";
+    const before = close.getBoundingClientRect().top;
+
+    expect(dialog.scrollHeight).to.equal(dialog.clientHeight);
+    expect(content.scrollHeight).to.be.greaterThan(content.clientHeight);
+    content.scrollTop = 500;
+    expect(close.getBoundingClientRect().top).to.equal(before);
+    el.hide();
+  });
 });

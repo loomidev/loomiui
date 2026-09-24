@@ -283,10 +283,15 @@
   outline-offset: 2px;
 }
 
+/* Top layer (`popover`), placed by core's anchorFloatingPanel(): an ancestor's
+   `overflow` - a modal, a card - can't clip it or grow a scrollbar to fit it. The
+   UA [popover] defaults (centered, inset: 0, system colors) are reset here. */
 .loomi-chart-export-menu {
-  position: absolute;
-  top: calc(100% + 0.25rem);
-  right: 0;
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  color: inherit;
+  overflow: visible;
   display: grid;
   min-width: 4.5rem;
   padding: 0.25rem;

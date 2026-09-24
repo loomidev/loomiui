@@ -375,6 +375,14 @@
             },
             {
               "kind": "field",
+              "name": "panelEl",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
               "name": "cleanupClickOutside",
               "type": {
                 "text": "() => void | undefined"
@@ -382,8 +390,26 @@
               "privacy": "private"
             },
             {
+              "kind": "field",
+              "name": "floating",
+              "type": {
+                "text": "LoomiFloatingPanelHandle | undefined"
+              },
+              "privacy": "private"
+            },
+            {
               "kind": "method",
               "name": "formResetCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "stopRepositioning",
+              "privacy": "private",
               "return": {
                 "type": {
                   "text": "void"

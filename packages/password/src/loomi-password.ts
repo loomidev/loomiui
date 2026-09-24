@@ -1,14 +1,16 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import {
-  LoomiElement,
+  anchorFloatingPanel,
   controlSizeStyles,
   fieldStyles,
+  LoomiElement,
+  type LoomiFieldLabelPosition,
+  type LoomiFloatingPanelHandle,
   loomiT,
   onClickOutside,
   randomSuffix,
   themeStyles,
-  type LoomiFieldLabelPosition,
 } from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
@@ -73,6 +75,9 @@ export class LoomiPassword extends LoomiElement {
 
   @state() private revealed = false;
   @state() private prefixOpen = false;
+  @query(".loomi-affix-dropdown") private floatAnchorEl?: HTMLElement;
+  @query(".loomi-affix-panel") private floatPanelEl?: HTMLElement;
+  private floating?: LoomiFloatingPanelHandle;
 
   @query("input") private inputEl!: HTMLInputElement;
 
@@ -94,6 +99,7 @@ export class LoomiPassword extends LoomiElement {
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
+    this.releaseFloatingPanel();
     this.cleanupClickOutside?.();
   }
 
@@ -249,7 +255,7 @@ export class LoomiPassword extends LoomiElement {
       </button>
       ${
         this.prefixOpen
-          ? html`<div class="loomi-affix-panel" role="listbox">
+          ? html`<div class="loomi-affix-panel" popover="manual" role="listbox">
             ${options.map(
               (option) => html`<div
                 class="loomi-affix-option ${option === value ? "selected" : ""}"
@@ -321,6 +327,32 @@ export class LoomiPassword extends LoomiElement {
         </li>`,
       )}
     </ul>`;
+  }
+
+  override updated(changed: Map<PropertyKey, unknown>): void {
+    super.updated(changed);
+    this.syncFloatingPanel();
+  }
+
+  /**
+   * The panel lives in the top layer, so an ancestor with `overflow` (a modal, a card, a
+   * table's scroll wrapper) neither clips it nor grows a scrollbar to make room for it.
+   */
+  private syncFloatingPanel(): void {
+    const anchor = this.floatAnchorEl;
+    const panel = this.floatPanelEl;
+    if (!this.prefixOpen || !anchor || !panel) {
+      this.releaseFloatingPanel();
+      return;
+    }
+    // Re-placed on every open-state render, since the panel's content can change size.
+    if (this.floating) this.floating.reposition();
+    else this.floating = anchorFloatingPanel(anchor, panel);
+  }
+
+  private releaseFloatingPanel(): void {
+    this.floating?.release();
+    this.floating = undefined;
   }
 
   override render(): TemplateResult {

@@ -129,4 +129,29 @@ describe("loomi-select", () => {
     const trigger = el.shadowRoot!.querySelector(".loomi-trigger") as HTMLButtonElement;
     expect(trigger.textContent).to.contain("Everything");
   });
+  it("opens its panel without growing a scrolling ancestor", async () => {
+    const box = await fixture<HTMLDivElement>(html`
+      <div style="overflow-y:auto;height:120px;padding:8px">
+        <loomi-select label="Fruit">
+          <option value="a">Apple</option>
+          <option value="b">Banana</option>
+          <option value="c">Cherry</option>
+          <option value="d">Date</option>
+        </loomi-select>
+      </div>
+    `);
+    const el = box.querySelector<LoomiSelect>("loomi-select")!;
+    await el.updateComplete;
+    const before = box.scrollHeight;
+    const trigger = el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!;
+    trigger.click();
+    await el.updateComplete;
+
+    const panel = el.shadowRoot!.querySelector<HTMLElement>(".loomi-panel")!;
+    expect(panel.matches(":popover-open")).to.be.true;
+    expect(box.scrollHeight).to.equal(before);
+    const t = trigger.getBoundingClientRect();
+    expect(panel.offsetWidth).to.be.closeTo(t.width, 1);
+    expect(parseFloat(panel.style.left)).to.be.closeTo(t.left, 1);
+  });
 });

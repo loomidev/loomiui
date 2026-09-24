@@ -139,6 +139,30 @@
             },
             {
               "kind": "field",
+              "name": "floatAnchorEl",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "floatPanelEl",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "floating",
+              "type": {
+                "text": "LoomiFloatingPanelHandle | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
               "name": "activeIndex",
               "type": {
                 "text": "number"
@@ -226,6 +250,27 @@
               "name": "onTriggerKeydown",
               "privacy": "private",
               "description": "Keeps real DOM focus on the swatch trigger button and drives the panel virtually via\n`aria-activedescendant` — the same pattern `@loomidev/select`'s listbox uses, so no\nexplicit refocus is needed after Escape/Enter close the panel."
+            },
+            {
+              "kind": "method",
+              "name": "syncFloatingPanel",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "The panel lives in the top layer, so an ancestor with `overflow` (a modal, a card, a\ntable's scroll wrapper) neither clips it nor grows a scrollbar to make room for it."
+            },
+            {
+              "kind": "method",
+              "name": "releaseFloatingPanel",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
             }
           ],
           "events": [

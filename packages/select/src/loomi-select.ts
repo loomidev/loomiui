@@ -6,8 +6,10 @@ import {
   fieldStyles,
   loomiDefaultText,
   loomiT,
+  anchorFloatingPanel,
   onClickOutside,
   themeStyles,
+  type LoomiFloatingPanelHandle,
   type LoomiFieldLabelPosition,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
@@ -88,8 +90,10 @@ export class LoomiSelect extends LoomiElement {
 
   @query(".loomi-search") private searchEl?: HTMLInputElement;
   @query(".loomi-trigger") private triggerEl?: HTMLButtonElement;
+  @query(".loomi-panel") private panelEl?: HTMLElement;
 
   private cleanupClickOutside?: () => void;
+  private floating?: LoomiFloatingPanelHandle;
 
   override connectedCallback(): void {
     if (!this.hasUpdated) this.initialSelectedValue = this.selectedValue;
@@ -111,6 +115,29 @@ export class LoomiSelect extends LoomiElement {
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.cleanupClickOutside?.();
+    this.stopRepositioning();
+  }
+
+  override updated(changed: Map<PropertyKey, unknown>): void {
+    super.updated(changed);
+    if (!this.open) {
+      if (changed.has("open")) this.stopRepositioning();
+      return;
+    }
+    const panel = this.panelEl;
+    const trigger = this.triggerEl;
+    if (!panel || !trigger) return;
+    // The panel lives in the top layer, so an ancestor with `overflow` — a modal, a card,
+    // a table's scroll wrapper — neither clips it nor grows a scrollbar to make room.
+    // Re-placed on every open-state render: filtering changes the panel's height, which
+    // can decide whether it fits below the trigger.
+    if (this.floating) this.floating.reposition();
+    else this.floating = anchorFloatingPanel(trigger, panel);
+  }
+
+  private stopRepositioning(): void {
+    this.floating?.release();
+    this.floating = undefined;
   }
 
   override willUpdate(changed: PropertyValues<this>): void {
@@ -363,7 +390,7 @@ export class LoomiSelect extends LoomiElement {
         }
         ${
           this.open
-            ? html`<div class="loomi-panel" part="panel" role="listbox" aria-multiselectable=${this.multiple ? "true" : nothing}>
+            ? html`<div class="loomi-panel" part="panel" popover="manual" role="listbox" aria-multiselectable=${this.multiple ? "true" : nothing}>
               ${
                 this.searchable && this.options.length
                   ? html`<div class="loomi-searchbox">

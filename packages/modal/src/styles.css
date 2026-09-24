@@ -54,7 +54,11 @@
   border-radius: var(--loomi-panel-radius, 0.85rem);
   width: 100%;
   max-height: 90vh;
-  overflow-y: auto;
+  /* The dialog itself never scrolls — only .loomi-content does — so the close button and
+     the footer stay pinned while long content scrolls between them. */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   box-shadow: var(--loomi-shadow-elevated);
   animation: loomi-rise-in var(--loomi-motion-duration) var(--loomi-motion-ease);
   position: relative;
@@ -105,11 +109,17 @@
 
 .loomi-content {
   display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
   gap: 1rem;
   padding: 1.5rem;
 }
-.has-close .loomi-content {
-  padding-inline-end: 3.5rem;
+/* Equal padding on both sides; only the first row — the title, or the body when there is
+   no title — makes room for the close button in the top corner. */
+.has-close .loomi-title,
+.has-close .loomi-main > .loomi-body:first-child {
+  padding-inline-end: 1.75rem;
 }
 .loomi-main {
   min-width: 0;
@@ -148,6 +158,7 @@
 
 .loomi-footer {
   display: flex;
+  flex: none;
   gap: 0.6rem;
   padding: 0.75rem 1.5rem;
   background: var(--loomi-surface-muted);
@@ -176,9 +187,6 @@
   .loomi-content {
     gap: 0.75rem;
     padding: 1.25rem;
-  }
-  .has-close .loomi-content {
-    padding-inline-end: 3rem;
   }
   .loomi-icon-wrap {
     width: 2.5rem;
