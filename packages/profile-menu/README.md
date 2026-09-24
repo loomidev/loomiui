@@ -1,6 +1,6 @@
 # @loomidev/profile-menu
 
-`<loomi-profile-menu>` — a compact profile trigger with avatar, name, description,
+`<loomi-profile-menu>` - a compact profile trigger with avatar, name, description,
 chevron, and a dropdown menu. It composes [`<loomi-card>`](../card),
 [`<loomi-avatar>`](../avatar), and [`<loomi-dropmenu>`](../dropmenu), so avatar dots,
 pulsing dots, verification badges, and menu-item behavior all come from the existing
@@ -60,7 +60,7 @@ the fallback text yourself.
 
 By default the avatar leads the trigger. Set `avatar-position="right"` to flip it: the
 name and description lead, the avatar follows, and the chevron stays at the trailing
-edge — so the menu still opens aligned under the chevron. The avatar keeps a 6px gap
+edge - so the menu still opens aligned under the chevron. The avatar keeps a 6px gap
 from the identity labels in either position.
 
 ```html
@@ -76,8 +76,8 @@ from the identity labels in either position.
 ```
 
 This variant suits right-aligned app headers, where the avatar reads better closest to
-the edge of the screen. Everything else — avatar dots, verification badge, transparent
-trigger, and menu behavior — works exactly the same.
+the edge of the screen. Everything else - avatar dots, verification badge, transparent
+trigger, and menu behavior - works exactly the same.
 
 ## Transparent Trigger
 
@@ -117,7 +117,7 @@ menu rows keep the menu roles and keyboard behavior from `<loomi-dropmenu-item>`
 - Use `avatar-alt` when the avatar image needs a specific accessible description.
 - Keep destructive actions marked with `variant="destructive"` on the menu item.
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
@@ -125,7 +125,7 @@ The trigger is shrink-wrapped by default, with text truncation for long names an
 descriptions. It works well in headers, sidebars, app shells, and compact account
 menus.
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
@@ -133,7 +133,7 @@ loomi-profile-menu uses Loomi semantic tokens such as `--loomi-surface`,
 `--loomi-surface-border`, `--loomi-text`, and `--loomi-text-muted`, so the trigger and
 menu inherit your app theme.
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
@@ -144,7 +144,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 | `avatar`           | _(blank)_ | Avatar image URL.                                                                                                        |
 | `avatar-label`     | derived   | Initials/fallback label for the internal `<loomi-avatar>`.                                                               |
 | `avatar-alt`       | derived   | Accessible alt text for the avatar image.                                                                                |
-| `avatar-size`      | `regular` | Avatar size — defers to the internal `<loomi-avatar>` `size`.                                                            |
+| `avatar-size`      | `regular` | Avatar size - defers to the internal `<loomi-avatar>` `size`.                                                            |
 | `avatar-bg-color`  | `gray`    | Initials background color passed to `<loomi-avatar>`.                                                                    |
 | `avatar-position`  | `left`    | Where the avatar sits in the trigger. `left` \| `right`. With `right`, the copy leads and the chevron stays trailing.    |
 | `dotted`           | `false`   | Show avatar status dot. _(boolean)_                                                                                      |

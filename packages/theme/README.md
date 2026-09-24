@@ -5,12 +5,12 @@ component depends on this package; you rarely import it directly.
 
 It provides:
 
-- **`themeStyles`** — a Lit `CSSResult` containing the `:host` block that declares the
+- **`themeStyles`** - a Lit `CSSResult` containing the `:host` block that declares the
   default value for every palette slot (plus a small Shadow-DOM-scoped reset). Components
   put it first in `static styles` so `var(--loomi-*)` references resolve.
-- **The palette** — `LOOMI_COLORS`, `LOOMI_SHADES`, the `LoomiColor` / `LoomiShade` types,
+- **The palette** - `LOOMI_COLORS`, `LOOMI_SHADES`, the `LoomiColor` / `LoomiShade` types,
   and the `isLoomiColor()` guard.
-- **`tailwind-colors.css`** — a Tailwind `@theme inline` mapping (no hex) for authoring
+- **`tailwind-colors.css`** - a Tailwind `@theme inline` mapping (no hex) for authoring
   components against the `--loomi-*` slots in your editor.
 
 ```ts
@@ -27,15 +27,15 @@ customized through `--loomi-info-50` to `--loomi-info-950`.
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## The token model
 
@@ -45,7 +45,7 @@ the tonal shades, and the Tailwind ramp each color borrows its **default** value
 
 | Generated                      | Contents                                                                                 |
 | ------------------------------ | ---------------------------------------------------------------------------------------- |
-| `src/generated/tokens.css.ts`  | `themeStyles` — `:host { --_loomi-<color>-<shade>-default: … }`                          |
+| `src/generated/tokens.css.ts`  | `themeStyles` - `:host { --_loomi-<color>-<shade>-default: … }`                          |
 | `src/generated/palette.gen.ts` | The typed `LOOMI_COLORS` / `LOOMI_SHADES` consts                                         |
 | `src/tailwind-colors.css`      | `@theme inline { --color-<c>-<s>: var(--loomi-<c>-<s>, var(--_loomi-<c>-<s>-default)) }` |
 

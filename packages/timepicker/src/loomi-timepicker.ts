@@ -1,14 +1,16 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import {
-  LoomiElement,
+  anchorFloatingPanel,
   controlSizeStyles,
   fieldStyles,
   loomiDefaultText,
+  LoomiElement,
+  type LoomiFieldLabelPosition,
+  type LoomiFloatingPanelHandle,
   loomiStyles,
   loomiT,
   onClickOutside,
-  type LoomiFieldLabelPosition,
 } from "@loomidev/core";
 import "@loomidev/modal/loomi-modal.js";
 import type { LoomiModal } from "@loomidev/modal";
@@ -121,6 +123,9 @@ export class LoomiTimepicker extends LoomiElement {
   @state() private minute: number | null = null;
   @state() private ampm: "AM" | "PM" = "AM";
   @state() private open = false;
+  @query(".loomi-tp") private floatAnchorEl?: HTMLElement;
+  @query(".loomi-panel") private floatPanelEl?: HTMLElement;
+  private floating?: LoomiFloatingPanelHandle;
   @state() private parsed = false;
   private cleanup?: () => void;
 
@@ -155,6 +160,7 @@ export class LoomiTimepicker extends LoomiElement {
   }
   override disconnectedCallback(): void {
     super.disconnectedCallback();
+    this.releaseFloatingPanel();
     this.cleanup?.();
   }
 
@@ -382,6 +388,32 @@ export class LoomiTimepicker extends LoomiElement {
     </div>`;
   }
 
+  override updated(changed: Map<PropertyKey, unknown>): void {
+    super.updated(changed);
+    this.syncFloatingPanel();
+  }
+
+  /**
+   * The panel lives in the top layer, so an ancestor with `overflow` (a modal, a card, a
+   * table's scroll wrapper) neither clips it nor grows a scrollbar to make room for it.
+   */
+  private syncFloatingPanel(): void {
+    const anchor = this.floatAnchorEl;
+    const panel = this.floatPanelEl;
+    if (!this.open || !anchor || !panel) {
+      this.releaseFloatingPanel();
+      return;
+    }
+    // Re-placed on every open-state render, since the panel's content can change size.
+    if (this.floating) this.floating.reposition();
+    else this.floating = anchorFloatingPanel(anchor, panel);
+  }
+
+  private releaseFloatingPanel(): void {
+    this.floating?.release();
+    this.floating = undefined;
+  }
+
   override render(): TemplateResult {
     if (this.tpStyle === "inline") {
       return html`${this.label ? html`<span class="loomi-label">${this.label}</span>` : nothing}${this.renderSelects()}`;
@@ -392,7 +424,7 @@ export class LoomiTimepicker extends LoomiElement {
         <span class="loomi-text ${this.value ? "" : "placeholder"}">${this.value || loomiDefaultText(this.placeholder, DEFAULT_PLACEHOLDER, "timepicker.placeholder", this.locale)}${!this.value && this.required ? html`<span class="loomi-req"> *</span>` : nothing}</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${CLOCK}</svg>
       </div>
-      ${this.open && this.tpStyle !== "clock" ? html`<div class="loomi-panel" @click=${(e: Event) => e.stopPropagation()}>${this.renderSelects()}</div>` : nothing}
+      ${this.open && this.tpStyle !== "clock" ? html`<div class="loomi-panel" popover="manual" @click=${(e: Event) => e.stopPropagation()}>${this.renderSelects()}</div>` : nothing}
       <loomi-modal
         class="loomi-clock-modal"
         size="medium"

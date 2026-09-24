@@ -1,7 +1,7 @@
 # @loomidev/listview
 
-`<loomi-listview>` — a divided list of `<loomi-listview-item>` rows. It mimics
-`<ul><li>`: the component only draws the dividing lines between items — what goes
+`<loomi-listview>` - a divided list of `<loomi-listview-item>` rows. It mimics
+`<ul><li>`: the component only draws the dividing lines between items - what goes
 inside each row is entirely up to you.
 
 ```bash
@@ -52,7 +52,7 @@ whatever background color you set on a parent element instead.
 
 ## Compact Spacing
 
-Tightens the gap between rows — useful for dense sidebars or dropdown-style lists.
+Tightens the gap between rows - useful for dense sidebars or dropdown-style lists.
 
 ```html
 <loomi-listview compact>
@@ -64,15 +64,15 @@ Tightens the gap between rows — useful for dense sidebars or dropdown-style li
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

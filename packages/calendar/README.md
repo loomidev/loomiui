@@ -1,6 +1,6 @@
 # Calendar
 
-`<loomi-calendar>` — a production calendar and resource scheduler for admin and SaaS templates.
+`<loomi-calendar>` - a production calendar and resource scheduler for admin and SaaS templates.
 
 Month, week, day, agenda, and resource views with a collapsible sidebar (mini calendar + next-event detail), drag-and-drop editing, timezone display, and Loomi token styling aligned with `@loomidev/*` components.
 
@@ -121,7 +121,7 @@ calendar.addEventListener("loomi-reminder-change", async (event) => {
 
 ## Event colors
 
-Event color is controlled by the optional `color` field on each `CalendarEvent`. The calendar does **not** infer colors automatically — you choose the token when mapping data from your API.
+Event color is controlled by the optional `color` field on each `CalendarEvent`. The calendar does **not** infer colors automatically - you choose the token when mapping data from your API.
 
 | `color` value | Typical use                                     | Visual          |
 | ------------- | ----------------------------------------------- | --------------- |
@@ -246,9 +246,9 @@ calendar.reminders = [
 
 When `show-sidebar` is enabled (default):
 
-- **Mini calendar** — navigate months; dates with events show a dot; click a date to focus the main view
-- **Upcoming** — detail card for the **next** upcoming event only (title, date/time, reminder, guests, description)
-- **Toggle** — toolbar button sets `sidebar-open` to show/hide the pane (closed by default; the choice is remembered in `localStorage` across reloads)
+- **Mini calendar** - navigate months; dates with events show a dot; click a date to focus the main view
+- **Upcoming** - detail card for the **next** upcoming event only (title, date/time, reminder, guests, description)
+- **Toggle** - toolbar button sets `sidebar-open` to show/hide the pane (closed by default; the choice is remembered in `localStorage` across reloads)
 
 The sidebar reads from the same `events` array as the main grid. Populate invitees, reminder, and description on the next upcoming event to fill the detail card.
 
@@ -313,17 +313,17 @@ reminder flows.
 
 - Previous/next month buttons are labelled; Escape closes popover parents.
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
 - Selected days and primary actions use `--loomi-text-on-primary` on accent fills.
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
@@ -378,7 +378,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 - Styling follows Loomi surface, border, text, and palette tokens used by `@loomidev/datepicker`, `@loomidev/tab`, and other components.
 - The component renders and interacts with events and reminders but does not persist them. Listen for `loomi-event-create`, `loomi-event-change`, `loomi-event-delete`, `loomi-event-duplicate`, `loomi-reminder-create`, `loomi-reminder-change`, and `loomi-reminder-delete`, then update your app state or API.
 - Drag-and-drop emits change events only; the parent should update the `events` array.
-- Recurrence is display metadata for now — expand instances server-side before passing events in, or store the rule on create and re-fetch.
+- Recurrence is display metadata for now - expand instances server-side before passing events in, or store the rule on create and re-fetch.
 
 ## Dependencies
 

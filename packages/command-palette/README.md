@@ -1,6 +1,6 @@
 # Command Palette
 
-`<loomi-command-palette>` — a keyboard-first navigation and action launcher for admin and SaaS templates.
+`<loomi-command-palette>` - a keyboard-first navigation and action launcher for admin and SaaS templates.
 
 Grouped commands, fuzzy search, keyboard selection, optional `href` navigation, and typed select/query/open-change events. Opens with `Cmd K` or `Ctrl K`.
 
@@ -9,15 +9,15 @@ Grouped commands, fuzzy search, keyboard selection, optional `href` navigation, 
 - Arrow keys move selection; Enter runs command; Escape closes and restores focus.
 - Global shortcut (default ⌘K / Ctrl+K) documented for power users.
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

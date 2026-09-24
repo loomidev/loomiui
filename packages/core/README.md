@@ -1,6 +1,6 @@
 # @loomidev/core
 
-Shared runtime assets for loomi components — the shared runtime for Loomi components package. Every component imports its theme styles and helpers from here, so the shared
+Shared runtime assets for loomi components - the shared runtime for Loomi components package. Every component imports its theme styles and helpers from here, so the shared
 plumbing lives in exactly one place.
 
 ```bash
@@ -9,15 +9,15 @@ npm install @loomidev/core lit
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Exports
 
@@ -32,15 +32,15 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 | `cssColor(color, shade)`                                                   | A single themed color value with private-default fallback, for inline use.                                                                                                                                                                                                                                                                                  |
 | `onClickOutside(el, handler)`                                              | Calls `handler` on a click **or right-click** outside `el` (crosses shadow boundaries). Returns a cleanup fn.                                                                                                                                                                                                                                               |
 | `randomSuffix()`                                                           | A short random id, e.g. for de-duplicating notification keys across component instances.                                                                                                                                                                                                                                                                    |
-| `nextMenuFocusIndex(event, currentIndex, itemCount)`                       | Resolves an Arrow/Home/End keydown into the next index to focus in a top-level menu (the shared shape behind `@loomidev/dropmenu` and `@loomidev/context-menu`), or `undefined` for any other key. Doesn't touch the DOM — the caller's own `focusItemAt()`-style method wraps the index and moves focus.                                                   |
+| `nextMenuFocusIndex(event, currentIndex, itemCount)`                       | Resolves an Arrow/Home/End keydown into the next index to focus in a top-level menu (the shared shape behind `@loomidev/dropmenu` and `@loomidev/context-menu`), or `undefined` for any other key. Doesn't touch the DOM - the caller's own `focusItemAt()`-style method wraps the index and moves focus.                                                   |
 | `deepActiveElement()`                                                      | Walks into nested shadow roots to find the actually-focused element.                                                                                                                                                                                                                                                                                        |
-| `trapTabFocus(event, focusable)`                                           | Keeps Tab/Shift+Tab cycling within `focusable` — call once `event.key === "Tab"` is confirmed. Used by `@loomidev/modal` and `@loomidev/lightbox`.                                                                                                                                                                                                          |
+| `trapTabFocus(event, focusable)`                                           | Keeps Tab/Shift+Tab cycling within `focusable` - call once `event.key === "Tab"` is confirmed. Used by `@loomidev/modal` and `@loomidev/lightbox`.                                                                                                                                                                                                          |
 | `FOCUSABLE_SELECTOR`                                                       | The CSS selector `trapTabFocus` and its callers use to find focusable elements.                                                                                                                                                                                                                                                                             |
 | `OverlayReparent`                                                          | Moves an overlay element to `document.body` while open and back on close (`moveToBody()` / `restore()`), guarding against the reparent itself firing `disconnectedCallback`/`connectedCallback` (`isMovingInDom`).                                                                                                                                          |
 | `onExitAnimationEnd(el, done)`                                             | Calls `done` once `el` has finished playing its exit animation (backed by a timer, so it always fires). Returns a cancel fn for a reopen mid-close. Pair with the `-out` keyframes to close an overlay with motion instead of snapping it away.                                                                                                             |
 | `positionFloatingPanel(anchor, panel, placement?)`                         | Places a `position: fixed` panel beside its anchor in viewport coordinates, flipping above and swapping alignment to stay on screen. Returns the side it settled on (`"top"` \| `"bottom"`). Used by `@loomidev/dropmenu` and `@loomidev/split-button`; publishes `--loomi-anchor-width` on the panel.                                                      |
 | `positionFloatingSubmenu(anchor, panel, options?)`                         | The sibling of the above for submenus: places a panel beside its anchor row, flipping to the row's left when there's no room on the right and sliding up when it's taller than the room below. Returns the side it settled on (`"left"` \| `"right"`); pass that back as `options.prefer` for a nested submenu so a flipped chain keeps going the same way. |
-| `supportsPopover(el)`                                                      | Whether `el` can be promoted to the top layer with `showPopover()` — pair it with `positionFloatingPanel` so a panel escapes ancestor `overflow`, and fall back to plain `position: fixed` when it isn't supported.                                                                                                                                         |
+| `supportsPopover(el)`                                                      | Whether `el` can be promoted to the top layer with `showPopover()` - pair it with `positionFloatingPanel` so a panel escapes ancestor `overflow`, and fall back to plain `position: fixed` when it isn't supported.                                                                                                                                         |
 | `setLoomiLocale(locale)` / `getLoomiLocale()`                              | Set or read the shared locale used by translated component defaults.                                                                                                                                                                                                                                                                                        |
 | `defineLoomiTranslations(locale, messages)`                                | Add or override translations for built-in component text.                                                                                                                                                                                                                                                                                                   |
 | `loomiT(path, params, locale)`                                             | Translate a shared message by key, with English fallback.                                                                                                                                                                                                                                                                                                   |
@@ -93,8 +93,8 @@ per-component only if that component genuinely needs different timing (see
 `var(--loomi-motion-duration)` rather than a hardcoded value).
 
 Only add a new keyframe to `motion.ts` if it's a genuinely new motion primitive reused
-across components. A component that layers its own positioning transform — e.g. a
-centered overlay combining `translate(-50%, -50%)` with a scale-in — should keep that
+across components. A component that layers its own positioning transform - e.g. a
+centered overlay combining `translate(-50%, -50%)` with a scale-in - should keep that
 composite keyframe local instead of forcing the shared list to carry a variable transform
 base; `@loomidev/floating-panel`'s `.is-centered` variant is the example to follow.
 
@@ -102,8 +102,8 @@ base; `@loomidev/floating-panel`'s `.is-centered` variant is the example to foll
 
 **Don't retype the floating dialog/panel drop-shadow rgba stack.** `loomiStyles()`
 prepends `--loomi-shadow-elevated` from `elevationStyles` (`src/elevation.ts`), so any
-component whose host or panel sits above the page — a modal, drawer, or floating
-panel — can reference it directly instead of copy-pasting the same shadow:
+component whose host or panel sits above the page - a modal, drawer, or floating
+panel - can reference it directly instead of copy-pasting the same shadow:
 
 ```css
 .loomi-dialog {
@@ -113,7 +113,7 @@ panel — can reference it directly instead of copy-pasting the same shadow:
 
 This is for the one "floating surface" elevation tier shared by `@loomidev/modal`,
 `@loomidev/drawer`, and `@loomidev/floating-panel`. Smaller surfaces like dropmenu,
-popover, and notification use a lighter shadow that isn't (yet) shared — don't force
+popover, and notification use a lighter shadow that isn't (yet) shared - don't force
 them onto this token just for the sake of reuse; introduce a second tier only if a
 third component needs that exact lighter shadow too.
 
@@ -121,7 +121,7 @@ third component needs that exact lighter shadow too.
 
 **Don't hardcode a `--loomi-primary-<shade>` for a `:focus-visible` outline.** The public
 theme slots are deliberately left undeclared (see `@loomidev/theme`'s tokens) so a
-`:root` override can inherit straight through the shadow boundary — which means a bare
+`:root` override can inherit straight through the shadow boundary - which means a bare
 `var(--loomi-primary-400)` with no fallback silently resolves to nothing, and the
 outline renders as `none` for any consumer who hasn't happened to set that exact shade
 at `:root`. `loomiStyles()` prepends `--loomi-focus-ring-color` from `focusStyles`
@@ -136,7 +136,7 @@ at `:root`. `loomiStyles()` prepends `--loomi-focus-ring-color` from `focusStyle
 
 This is the _default_ ring color, for components with no per-instance theming. A
 component that calls `accentVars()` (creditcard, slider, ...) should reference
-`--_loomi-accent` directly instead — **don't** route it through
+`--_loomi-accent` directly instead - **don't** route it through
 `--loomi-focus-ring-color`. Nested `var()` references inside an inherited custom
 property resolve at the element where the _outer_ property was declared, not at the
 element that finally consumes it, so a `:host`-level token can't "automatically" pick
@@ -181,7 +181,7 @@ copy `en.ts` to `<locale>.ts`, translate the strings, and register it in
 `src/locales/index.ts`.
 
 To customize copy or add another language without touching this package at all,
-register only the keys you want to change at runtime — datepicker custom locales
+register only the keys you want to change at runtime - datepicker custom locales
 may also provide `monthsShort`, `monthsLong`, and `weekdaysShort` arrays.
 
 ```js
@@ -208,7 +208,7 @@ then from English. Registering a regional locale never changes its base locale.
 
 ## `--loomi-*` (public theme) vs `--_loomi-accent` (private, per-instance)
 
-These are two different layers — this is the answer to "why `--loomi-accent` when
+These are two different layers - this is the answer to "why `--loomi-accent` when
 `--loomi-primary` already themes everything?"
 
 - **`--loomi-<color>-<shade>`** are the **public theme tokens**. Setting one (e.g.

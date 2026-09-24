@@ -282,7 +282,7 @@ Set `uploadHandler` to upload the file instead and insert the URL you get back.
 
 ### Uploading picked files
 
-`uploadHandler` is a **property, not an attribute** — a function can't be expressed in
+`uploadHandler` is a **property, not an attribute** - a function can't be expressed in
 markup, so assign it in JavaScript (the same shape as `<loomi-input>`'s `dynamicMask`).
 
 ```js
@@ -292,7 +292,7 @@ editor.uploadHandler = async (file, kind) => {
   const body = new FormData();
   body.append("file", file);
 
-  // `kind` is "image" or "video" — route each to the endpoint that validates it.
+  // `kind` is "image" or "video" - route each to the endpoint that validates it.
   const response = await fetch(`/api/media/${kind}`, { method: "POST", body });
   if (!response.ok) throw new Error("Upload failed. Please try again.");
 
@@ -308,7 +308,7 @@ editor.uploadHandler = async (file, kind) => {
 
 Resolve the URL to insert, or resolve `undefined` to insert nothing. If the handler
 rejects or resolves `undefined`, the editor inserts nothing, leaves the dialog open, and
-shows a `<loomi-notification>` error toast — a thrown `Error`'s message is used as the
+shows a `<loomi-notification>` error toast - a thrown `Error`'s message is used as the
 toast body, so throw something you're happy showing the author. Because the handler is
 your own code, its return value isn't held to the HTTP/HTTPS allowlist that user-typed
 URLs are: relative storage paths and `blob:` preview URLs are inserted as-is, and only
@@ -338,7 +338,7 @@ Add `ai` to `tools` to show a sparkles button in the toolbar. Aliases `generate`
 ```
 
 When clicked, the editor dispatches `loomi-ai-generate`. LoomiUI does not call any AI
-provider itself — your app listens for the event, runs the request against OpenAI,
+provider itself - your app listens for the event, runs the request against OpenAI,
 Anthropic, a local model, or your own backend, then inserts the returned HTML through
 `event.detail.insert(html)`.
 
@@ -387,7 +387,7 @@ Typical flows:
 ### Integration notes
 
 - The button is disabled when the editor is `disabled` or `readonly`.
-- Handle errors in your listener — the editor will not show a built-in AI error state.
+- Handle errors in your listener - the editor will not show a built-in AI error state.
 - Sanitize model output before insertion if your provider can return raw HTML.
 - Keep prompts, API keys, and rate limiting in application code so the component stays
   provider-neutral.
@@ -411,15 +411,15 @@ with the toolbar and editable text displayed beneath it:
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes and Properties
 
@@ -440,7 +440,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 | `no-clearing`        | `false`   | Removes the default bottom margin.                                                                                                                          |
 | `variant`            | `default` | `default` \| `minimal` (bottom border only, no box)                                                                                                         |
 | `no-file-upload`     | `false`   | Hides the file picker in the image and video dialogs, leaving URL entry only.                                                                               |
-| `.uploadHandler`     | _(unset)_ | Property only. `(file, kind) => Promise<string \| undefined>` — uploads a picked file and returns the URL to insert. Unset, files are inlined as data URLs. |
+| `.uploadHandler`     | _(unset)_ | Property only. `(file, kind) => Promise<string \| undefined>` - uploads a picked file and returns the URL to insert. Unset, files are inlined as data URLs. |
 
 **Methods:** `focus()`, `validate()`, `checkValidity()`, `reportValidity()`.
 

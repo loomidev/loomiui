@@ -1,9 +1,8 @@
 # @loomidev/filepicker
 
-`<loomi-filepicker>` — a drag-and-drop file picker with previews. Keeps a real
+`<loomi-filepicker>` - a drag-and-drop file picker with previews. Keeps a real
 `<input type="file">` in sync, so it submits inside a `<form>` with
-`enctype="multipart/form-data"`. A lightweight take on the older Filepond-style wrapper —
-the crop dialog is a `<loomi-modal>` and oversized-file errors surface through
+`enctype="multipart/form-data"`. A lightweight take on the older Filepond-style wrapper - the crop dialog is a `<loomi-modal>` and oversized-file errors surface through
 `<loomi-notification>`.
 
 ```bash
@@ -25,7 +24,7 @@ Supports both click-to-browse and drag-and-drop out of the box.
 ## Placeholder Text
 
 The default placeholder shows "Browse or drag and drop files" with accepted file types
-and max size on the second line. Customize either line — use `%s` in
+and max size on the second line. Customize either line - use `%s` in
 `placeholder-line2` to inject the accepted types and max size dynamically.
 
 ```html
@@ -128,7 +127,7 @@ the file added to the picker is the cropped result. Non-image files skip the dia
 entirely.
 
 Constrain the crop box with `crop-aspect-ratio`: `16:9` (default), `4:3`, `2:3`, `1:1`, or
-`free` (no fixed ratio — drag the handle to any width/height).
+`free` (no fixed ratio - drag the handle to any width/height).
 
 The dialog itself is a `<loomi-modal>`, so Escape and backdrop clicks cancel it the same
 way they would any other Loomi modal.
@@ -140,7 +139,7 @@ way they would any other Loomi modal.
 ## Image Resizing
 
 Set `resize` to scale every uploaded image to fit within `resize-width` /
-`resize-height` (pixels) before it's added to the picker — no dialog, it just happens.
+`resize-height` (pixels) before it's added to the picker - no dialog, it just happens.
 Aspect ratio is preserved; pass only one of the two to constrain a single dimension.
 Runs after cropping when both are enabled.
 
@@ -151,9 +150,9 @@ Runs after cropping when both are enabled.
 ## Stealth Mode
 
 Set `stealth` to hide the drop-zone and file list entirely. The native `<input>` and
-crop dialog still work — drive them imperatively from your own trigger element with
+crop dialog still work - drive them imperatively from your own trigger element with
 `open()` (opens the native file picker) and `clear()` (resets the current selection, so
-the next `open()` replaces rather than appends — relevant for `max-files="1"`, which
+the next `open()` replaces rather than appends - relevant for `max-files="1"`, which
 otherwise stops accepting new files once a pick has been made).
 
 ```html
@@ -173,7 +172,7 @@ otherwise stops accepting new files once a pick has been made).
 </script>
 ```
 
-`<loomi-avatar editable>` is built on exactly this pattern — see its README for a
+`<loomi-avatar editable>` is built on exactly this pattern - see its README for a
 complete example, including how to upload the picked file in the background.
 
 ## Disabled & Required
@@ -185,7 +184,7 @@ complete example, including how to upload the picked file in the background.
 
 ## Reacting to a Selection
 
-Listen for `change` to read the currently-selected files — useful for building your own
+Listen for `change` to read the currently-selected files - useful for building your own
 upload progress UI or client-side validation before the form is submitted.
 
 ```html
@@ -212,15 +211,15 @@ form submit with `enctype="multipart/form-data"` just works.
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

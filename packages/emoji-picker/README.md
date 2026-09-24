@@ -1,7 +1,7 @@
 # @loomidev/emoji-picker
 
 `<loomi-emoji-picker>` is a searchable, keyboard-friendly emoji picker web component.
-The trigger is the emoji itself — clicking it opens a dropdown (built on
+The trigger is the emoji itself - clicking it opens a dropdown (built on
 [`@loomidev/popover`](../popover)) with a search box, category tabs, and a 7-per-row
 emoji grid. It is form-associated, so a selected emoji submits under `name` like a
 native form control.
@@ -23,7 +23,7 @@ import "@loomidev/emoji-picker";
 The built-in emoji set is a compact curated list, not the full operating-system emoji
 keyboard. Assign `.data` with your own larger set when your product needs a different
 selection, or newer platform-specific symbols the built-in set doesn't have yet. Each
-item accepts `emoji`, `name` or `label`, `value`, `category`, and `keywords` — custom
+item accepts `emoji`, `name` or `label`, `value`, `category`, and `keywords` - custom
 items don't get the skin-tone picker described below, since they carry no tone
 variants of their own.
 
@@ -56,7 +56,7 @@ permanently in place of a trigger, with no dropdown at all.
 When the active emoji set includes emoji that support skin tones (true of the built-in
 curated set), a hand emoji sits as a suffix on the search input. Clicking it opens a
 6-way tone menu (default plus the 5 Fitzpatrick tones); the chosen tone applies to
-every emoji in the grid that has tone variants — and to `selected-value`/the submitted
+every emoji in the grid that has tone variants - and to `selected-value`/the submitted
 form value once one is picked. The choice is remembered in `localStorage` for the next
 time the picker opens.
 
@@ -65,7 +65,7 @@ suffix is omitted when the picker is showing only custom data.
 
 ## Trigger label
 
-By default the trigger shows only the selected emoji (or a placeholder face) — nothing
+By default the trigger shows only the selected emoji (or a placeholder face) - nothing
 else. Set `show-text` to also show the name/placeholder text next to it, useful when
 the picker needs to read clearly as a labeled field rather than a compact icon button.
 
@@ -83,15 +83,15 @@ markup works as expected too:
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes and properties
 

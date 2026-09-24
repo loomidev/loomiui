@@ -1,6 +1,6 @@
 # @loomidev/floating-panel
 
-`<loomi-floating-panel>` — a draggable, resizable panel that floats above the page,
+`<loomi-floating-panel>` - a draggable, resizable panel that floats above the page,
 unanchored to any trigger. Think devtools panel, help widget, or a chat window you can
 drag around and resize.
 
@@ -60,7 +60,7 @@ removes all eight resize handles.
 
 ```html
 <loomi-floating-panel name="pinned" title="Pinned" no-drag resizable="false">
-  Fixed in place — no header drag, no resize handles.
+  Fixed in place - no header drag, no resize handles.
 </loomi-floating-panel>
 ```
 
@@ -71,7 +71,7 @@ from that edge/corner. Hold <kbd>Shift</kbd> for a bigger step.
 ## Minimize, Maximize & Drag Handle
 
 `minimize` and `maximize` add header buttons that toggle collapsing the panel to just its
-title bar, or expanding it to fill the viewport — both off by default. `drag-handle`
+title bar, or expanding it to fill the viewport - both off by default. `drag-handle`
 restricts dragging to a small grip icon instead of the whole header, useful once you add
 your own interactive content there.
 
@@ -83,13 +83,13 @@ your own interactive content there.
 
 Toggling either fires `loomi-minimize`/`loomi-maximize`; maximizing clears `minimized` and
 vice versa, since a panel can't be both at once. Restoring from maximized snaps back to
-the exact rect the panel had before — dragging and resizing are disabled while maximized
+the exact rect the panel had before - dragging and resizing are disabled while maximized
 (and resizing while minimized, since there's no body to resize into). Double-clicking the
 header also toggles maximize, when `maximize` is enabled.
 
 ## Multiple Panels & Stacking
 
-Open as many panels as you like — clicking or dragging anywhere inside a panel (header,
+Open as many panels as you like - clicking or dragging anywhere inside a panel (header,
 body, or a resize handle) brings it to the front of the stack automatically, so the last
 one you touched is always on top.
 
@@ -111,22 +111,22 @@ page reloads.
 
 ## Accessibility
 
-`<loomi-floating-panel>` renders as `role="dialog"` with `aria-modal="false"` — it never
+`<loomi-floating-panel>` renders as `role="dialog"` with `aria-modal="false"` - it never
 traps focus or blocks the rest of the page, since it floats alongside content rather than
 over it. Opening a panel moves focus to its header; closing it restores focus to whatever
 was focused before, and <kbd>Escape</kbd> closes the panel only while focus is inside it
 (so multiple open panels don't all close on one keypress).
 
-- <kbd>Tab</kbd> / <kbd>Shift+Tab</kbd> — reach the minimize/maximize/close buttons,
+- <kbd>Tab</kbd> / <kbd>Shift+Tab</kbd> - reach the minimize/maximize/close buttons,
   slotted content, and every resize handle (or the grip, when `drag-handle` is set).
-- Arrow keys on the focused header (or grip) — move the panel; hold <kbd>Shift</kbd> for
+- Arrow keys on the focused header (or grip) - move the panel; hold <kbd>Shift</kbd> for
   a 10px step.
-- Arrow keys on a focused resize handle — resize from that edge/corner; hold
+- Arrow keys on a focused resize handle - resize from that edge/corner; hold
   <kbd>Shift</kbd> for a 10px step.
-- <kbd>Escape</kbd> — close, while focus is inside the panel.
+- <kbd>Escape</kbd> - close, while focus is inside the panel.
 - Visible `:focus-visible` rings on the header, grip, header buttons, and resize handles.
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
@@ -135,7 +135,7 @@ The panel caps itself to `100dvw`/`100dvh` so it can never overflow the viewport
 edges from being dragged or resized outside the viewport. On narrow viewports the header
 and body padding tighten below a `480px` breakpoint.
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
@@ -144,7 +144,7 @@ Uses semantic `--loomi-surface`, `--loomi-surface-border`, `--loomi-text`, and
 `.dark` to your app root with `@loomidev/theme-switcher`, or provide your own token
 overrides, and the panel inherits the dark-mode values through its shadow DOM.
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
@@ -212,7 +212,7 @@ panel.addEventListener("loomi-maximize", (e) => console.log("maximized:", e.deta
   min-height="180"
   auto-save-id="support-chat"
 >
-  <p>Drag me, resize me, reload the page — I'll come back right here.</p>
+  <p>Drag me, resize me, reload the page - I'll come back right here.</p>
 </loomi-floating-panel>
 ```
 

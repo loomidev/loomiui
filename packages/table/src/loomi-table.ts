@@ -71,9 +71,10 @@ function fillTemplate(template: string, row: Row): string {
  * rows, search, sorting, grouping, selection, checkboxes, pagination, empty states,
  * custom row templates and action icons.
  *
- * @slot header - Manual `<th>` cells, or a `<template>` for custom layout headings.
+ * @slot header - A `<template>` of heading cells, or `<th>` elements created from script.
+ * @slot body - A `<template>` of static `<tr>` rows, for a table authored in HTML.
  * @slot row - Optional `<template>` used when `layout="custom"` and `data` is set.
- * @slot - Manual `<tr>` rows when not using `data`.
+ * @slot - `<tr>` elements created from script, when not using `data`.
  * @fires loomi-row-click - `detail: { row, id }` when a row is clicked.
  * @fires loomi-action - `detail: { name, row, action, click }` when an action icon is clicked.
  * @fires loomi-action-call - `detail: { name, row, action, click, resolvedClick }` for Bladewind-style click strings.
@@ -310,13 +311,24 @@ export class LoomiTable extends LoomiElement {
     return template?.innerHTML || "";
   }
 
+  /**
+   * Static rows from a `<template slot="body">`. A template is the only way to author rows
+   * in plain HTML: the parser drops a bare `<tr>` that isn't inside a `<table>`, so it
+   * never reaches the default slot.
+   */
+  private get bodyTemplateHtml(): string {
+    if (isServer) return "";
+    const template = this.querySelector<HTMLTemplateElement>('template[slot="body"]');
+    return template?.innerHTML || "";
+  }
+
   private get hasManualRows(): boolean {
     // Light DOM is not readable during server rendering; hydration fills this in on the client.
     if (isServer) return false;
     return [...this.children].some((child) => {
       if (child instanceof HTMLTemplateElement) return false;
       const slot = child.getAttribute("slot") || "";
-      return slot !== "header" && slot !== "row";
+      return slot !== "header" && slot !== "row" && slot !== "body";
     });
   }
 
@@ -560,6 +572,8 @@ export class LoomiTable extends LoomiElement {
 
   private renderBody(colSpan: number, noDataMessage: string): TemplateResult[] | TemplateResult {
     if (this.data.length === 0 && this.hasManualRows) return html`<slot></slot>`;
+    if (this.data.length === 0 && this.bodyTemplateHtml)
+      return html`${unsafeHTML(this.bodyTemplateHtml)}`;
 
     if (this.layout === "custom") {
       if (this.pageRows.length === 0 && this.data.length > 0)

@@ -1,7 +1,7 @@
 # @loomidev/tab
 
 `<loomi-tabs>` builds a heading bar from its `<loomi-tab>` children and toggles which
-panel is visible. There is no separate heading/body/content wiring to keep in sync — each `<loomi-tab>` carries its own
+panel is visible. There is no separate heading/body/content wiring to keep in sync - each `<loomi-tab>` carries its own
 heading (`label`/`icon`) **and** its own panel content together, so there's nothing to
 name-match by hand.
 
@@ -16,7 +16,7 @@ import "@loomidev/tab";
 ## Basic Usage
 
 Wrap any number of `<loomi-tab>` elements in a `<loomi-tabs>`. The tab marked `active`
-is selected by default — it doesn't have to be the first one. If none is marked
+is selected by default - it doesn't have to be the first one. If none is marked
 `active`, the first non-disabled tab is selected automatically.
 
 ```html
@@ -50,7 +50,7 @@ document.querySelector("loomi-tabs").addEventListener("loomi-tab-change", (e) =>
 
 ## Different Colors
 
-The active tab's underline (or background, depending on style — see below) uses the
+The active tab's underline (or background, depending on style - see below) uses the
 default. Set `color` on `<loomi-tabs>` to pick a different one; it applies to every
 child tab.
 
@@ -86,7 +86,7 @@ style the underline moves; in `system` and `pills` styles the selected surface m
 
 ### System Tab Style
 
-A segmented-control look — the active tab gets a raised pill inside a tinted track.
+A segmented-control look - the active tab gets a raised pill inside a tinted track.
 
 ```html
 <loomi-tabs tab-style="system">
@@ -126,7 +126,7 @@ Set `icon` on a `<loomi-tab>` to prefix its heading with an icon from the shared
 </loomi-tabs>
 ```
 
-Need an icon that isn't built in? Register your own — no need to fork the registry:
+Need an icon that isn't built in? Register your own - no need to fork the registry:
 
 ```js
 import { registerLoomiIcon } from "@loomidev/icons";
@@ -142,7 +142,7 @@ registerLoomiIcon("rocket", svg`<path d="…" />`);
 ## Disabled Tabs & Tabs That Navigate
 
 Set `disabled` to fade out a tab and ignore clicks on it (and skip it during
-keyboard navigation — see below):
+keyboard navigation - see below):
 
 ```html
 <loomi-tabs>
@@ -156,7 +156,7 @@ keyboard navigation — see below):
 ```
 
 Set `url` instead of relying on the built-in panel switching to make a tab behave like a
-plain link — clicking it navigates via `location.href` rather than showing a panel:
+plain link - clicking it navigates via `location.href` rather than showing a panel:
 
 ```html
 <loomi-tabs>
@@ -173,22 +173,22 @@ plain link — clicking it navigates via `location.href` rather than showing a p
 out of the box: once a tab heading has focus, <kbd>←</kbd>/<kbd>→</kbd> (or
 <kbd>↑</kbd>/<kbd>↓</kbd>) move between tabs and switch the active panel immediately
 (automatic activation), and <kbd>Home</kbd>/<kbd>End</kbd> jump to the first/last
-enabled tab. Disabled tabs are skipped. No setup required — this works the same in
+enabled tab. Disabled tabs are skipped. No setup required - this works the same in
 every style.
 
 ## Accessibility
 
 - See APG link in README.
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
@@ -206,7 +206,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 | `label`    | _(blank)_ | Heading text.                                                            |
 | `icon`     | _(blank)_ | Heading icon name (see [`@loomidev/icons`](../icons)).                   |
 | `active`   | `false`   | Selected by default. _(boolean)_                                         |
-| `disabled` | `false`   | Disabled tab — faded out, ignores clicks and keyboard focus. _(boolean)_ |
+| `disabled` | `false`   | Disabled tab - faded out, ignores clicks and keyboard focus. _(boolean)_ |
 | `url`      | _(blank)_ | Navigate to this URL instead of switching panels.                        |
 
 ## Slots

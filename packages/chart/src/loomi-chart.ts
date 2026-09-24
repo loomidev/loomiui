@@ -1,6 +1,12 @@
 import { html, nothing, svg, type TemplateResult, type SVGTemplateResult } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, type LoomiColor } from "@loomidev/core";
+import { customElement, property, state, query } from "lit/decorators.js";
+import {
+  anchorFloatingPanel,
+  type LoomiColor,
+  LoomiElement,
+  type LoomiFloatingPanelHandle,
+  loomiStyles,
+} from "@loomidev/core";
 import "@loomidev/tooltip/loomi-tooltip.js";
 import { componentStyles } from "./generated/styles.css.js";
 import {
@@ -86,6 +92,9 @@ export class LoomiChart extends LoomiElement {
   @state() private pointerLeft = 0;
   @state() private pointerTop = 0;
   @state() private exportMenuOpen = false;
+  @query(".loomi-chart-export-trigger") private floatAnchorEl?: HTMLElement;
+  @query(".loomi-chart-export-menu") private floatPanelEl?: HTMLElement;
+  private floating?: LoomiFloatingPanelHandle;
 
   private get colorCtx(): ChartColorContext {
     return {
@@ -688,7 +697,7 @@ export class LoomiChart extends LoomiElement {
       >Export</button>
       ${
         this.exportMenuOpen
-          ? html`<div class="loomi-chart-export-menu" role="menu">
+          ? html`<div class="loomi-chart-export-menu" popover="manual" role="menu">
             <button type="button" role="menuitem" @click=${() => this.exportAs("png")}>PNG</button>
             <button type="button" role="menuitem" @click=${() => this.exportAs("pdf")}>PDF</button>
             <button type="button" role="menuitem" @click=${() => this.exportAs("svg")}>SVG</button>
@@ -875,6 +884,37 @@ export class LoomiChart extends LoomiElement {
         </div>
       </div>
     `;
+  }
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.releaseFloatingPanel();
+  }
+
+  override updated(changed: Map<PropertyKey, unknown>): void {
+    super.updated(changed);
+    this.syncFloatingPanel();
+  }
+
+  /**
+   * The panel lives in the top layer, so an ancestor with `overflow` (a modal, a card, a
+   * table's scroll wrapper) neither clips it nor grows a scrollbar to make room for it.
+   */
+  private syncFloatingPanel(): void {
+    const anchor = this.floatAnchorEl;
+    const panel = this.floatPanelEl;
+    if (!this.exportMenuOpen || !anchor || !panel) {
+      this.releaseFloatingPanel();
+      return;
+    }
+    // Re-placed on every open-state render, since the panel's content can change size.
+    if (this.floating) this.floating.reposition();
+    else this.floating = anchorFloatingPanel(anchor, panel, "bottom-end");
+  }
+
+  private releaseFloatingPanel(): void {
+    this.floating?.release();
+    this.floating = undefined;
   }
 
   override render(): TemplateResult {

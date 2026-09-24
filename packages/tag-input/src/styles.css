@@ -200,12 +200,16 @@
   color: var(--loomi-error-500);
 }
 
+/* Top layer (`popover`), placed by core's anchorFloatingPanel(): an ancestor's
+   `overflow` - a modal, a card - can't clip it or grow a scrollbar to fit it. The
+   UA [popover] defaults (centered, inset: 0, system colors) are reset here. */
 .loomi-autocomplete-panel {
-  position: absolute;
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  width: var(--loomi-anchor-width, auto);
+  color: inherit;
   z-index: var(--loomi-tag-input-autocomplete-z-index, 500);
-  left: 0;
-  right: 0;
-  top: calc(100% + 0.35rem);
   max-height: 14rem;
   overflow: auto;
   border: 1px solid var(--loomi-surface-border);

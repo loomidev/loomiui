@@ -94,12 +94,20 @@
   margin-inline-start: 0.15rem;
 }
 
+/* `popover` promotes the panel to the top layer, which keeps it clear of any ancestor's
+   `overflow` — opening a select inside a modal used to make the modal scroll. The UA
+   stylesheet for [popover] centers it with `inset: 0; margin: auto` and system colors, so
+   that is reset here; positionFloatingPanel() writes the real left/top and the trigger's
+   width. Without popover support this is plain `position: fixed`. */
 .loomi-panel {
-  position: absolute;
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  padding: 0;
+  color: inherit;
   z-index: var(--loomi-select-panel-z-index, 500);
-  top: calc(100% + 0.35rem);
-  left: 0;
-  width: 100%;
+  width: var(--loomi-anchor-width, auto);
+  max-width: calc(100vw - 1rem);
   background: var(--loomi-surface);
   border: 1px solid var(--loomi-surface-border);
   border-radius: var(--loomi-panel-radius, 0.5rem);

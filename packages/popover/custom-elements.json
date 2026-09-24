@@ -118,7 +118,33 @@
             },
             {
               "kind": "field",
+              "name": "resolvedPlacement",
+              "type": {
+                "text": "LoomiPopoverPlacement"
+              },
+              "privacy": "private",
+              "default": "\"bottom\"",
+              "description": "The side the panel actually settled on, after flipping away from a viewport edge."
+            },
+            {
+              "kind": "field",
+              "name": "panelEl",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
               "name": "cleanup",
+              "type": {
+                "text": "() => void | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "stopFollowing",
               "type": {
                 "text": "() => void | undefined"
               },
@@ -208,6 +234,37 @@
               "name": "onFocusOut",
               "privacy": "private",
               "description": "Non-modal dialog (no `aria-modal`, arbitrary rich content) — Tab isn't trapped like\n`loomi-modal`'s dialog, it's allowed to move focus out normally, which closes the\npanel rather than leaving it open with focus already gone."
+            },
+            {
+              "kind": "method",
+              "name": "followAnchor",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "() => void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "releasePanel",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "placePanel",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Places the panel on the requested side of the trigger, start-aligned, in viewport\ncoordinates. It flips to the opposite side when the requested one has no room, shifts\nalong the edge to stay on screen, and keeps its arrow pointing at the trigger."
             }
           ],
           "events": [

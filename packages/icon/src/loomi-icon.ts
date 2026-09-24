@@ -16,12 +16,7 @@ type DiskIconMarkup = Awaited<ReturnType<typeof loadLoomiDiskIcon>>;
 /** Corner radius of the `branded` background badge. */
 export type LoomiIconRadius = "none" | "small" | "medium" | "full";
 
-const RADIUS: Record<LoomiIconRadius, string> = {
-  none: "rounded-none",
-  small: "rounded",
-  medium: "rounded-lg",
-  full: "rounded-full",
-};
+const RADII: readonly LoomiIconRadius[] = ["none", "small", "medium", "full"];
 
 /**
  * `<loomi-icon>` — renders an icon from the shared `@loomidev/icons` registry by `name`,
@@ -39,6 +34,9 @@ const RADIUS: Record<LoomiIconRadius, string> = {
  * corner rounding.
  *
  * @slot - Custom inline `<svg>` (overrides `name`).
+ * @csspart badge - The background badge wrapper (only rendered when `branded`).
+ * @cssprop --loomi-icon-size - Icon width/height; the badge padding scales with it.
+ * @cssprop --loomi-icon-radius - Badge corner radius; overrides the `radius` preset.
  */
 @customElement("loomi-icon")
 export class LoomiIcon extends LoomiElement {
@@ -154,8 +152,9 @@ export class LoomiIcon extends LoomiElement {
     const content = this.renderContent();
     if (!this.branded) return content;
 
-    const cls = ["loomi-icon-badge", this.shade, RADIUS[this.radius] ?? RADIUS.medium].join(" ");
-    return html`<span class=${cls} style=${accentVars("primary")}>${content}</span>`;
+    const radius = RADII.includes(this.radius) ? this.radius : "medium";
+    const cls = ["loomi-icon-badge", this.shade, `radius-${radius}`].join(" ");
+    return html`<span class=${cls} part="badge" style=${accentVars("primary")}>${content}</span>`;
   }
 }
 

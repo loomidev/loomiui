@@ -8,7 +8,7 @@ overrides:
   '@hono/node-server': ^1.19.17
   '@puppeteer/browsers': ^3.2.1
   esbuild: ^0.28.1
-  hono: ^4.12.34
+  hono: ^4.13.5
   fast-uri: ^3.1.5
   js-yaml@3: ^3.15.1
   js-yaml@4: ^4.3.1
@@ -232,6 +232,28 @@ importers:
       '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons
+    devDependencies:
+      '@loomidev/theme':
+        specifier: workspace:^
+        version: link:../theme
+      '@tailwindcss/cli':
+        specifier: ^4.3.3
+        version: 4.3.3
+      lit:
+        specifier: ^3.3.3
+        version: 3.3.3
+      tailwindcss:
+        specifier: ^4.3.3
+        version: 4.3.3
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+
+  packages/breadcrumb:
+    dependencies:
+      '@loomidev/core':
+        specifier: workspace:^
+        version: link:../core
     devDependencies:
       '@loomidev/theme':
         specifier: workspace:^
@@ -587,6 +609,9 @@ importers:
       '@loomidev/bottom-nav':
         specifier: workspace:^
         version: link:../bottom-nav
+      '@loomidev/breadcrumb':
+        specifier: workspace:^
+        version: link:../breadcrumb
       '@loomidev/button':
         specifier: workspace:^
         version: link:../button
@@ -749,6 +774,9 @@ importers:
       '@loomidev/side-nav':
         specifier: workspace:^
         version: link:../side-nav
+      '@loomidev/skeleton':
+        specifier: workspace:^
+        version: link:../skeleton
       '@loomidev/slider':
         specifier: workspace:^
         version: link:../slider
@@ -1580,6 +1608,9 @@ importers:
       '@loomidev/bottom-nav':
         specifier: workspace:^
         version: link:../bottom-nav
+      '@loomidev/breadcrumb':
+        specifier: workspace:^
+        version: link:../breadcrumb
       '@loomidev/command-palette':
         specifier: workspace:^
         version: link:../command-palette
@@ -2069,6 +2100,28 @@ importers:
       lit:
         specifier: ^3.3.3
         version: 3.3.3
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+
+  packages/skeleton:
+    dependencies:
+      '@loomidev/core':
+        specifier: workspace:^
+        version: link:../core
+    devDependencies:
+      '@loomidev/theme':
+        specifier: workspace:^
+        version: link:../theme
+      '@tailwindcss/cli':
+        specifier: ^4.3.3
+        version: 4.3.3
+      lit:
+        specifier: ^3.3.3
+        version: 3.3.3
+      tailwindcss:
+        specifier: ^4.3.3
+        version: 4.3.3
       typescript:
         specifier: ^5.6.3
         version: 5.9.3
@@ -2893,7 +2946,7 @@ packages:
     resolution: {integrity: sha512-dSneS5qhiauZWGDCeK4o695Xd9nUNjviSZCMQrj10eetr8Uln1ucn6bbphOM6UynAMMtNIzZNSpL9vnASJwrPQ==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
-      hono: ^4.12.34
+      hono: ^4.13.5
 
   '@humanfs/core@0.19.2':
     resolution: {integrity: sha512-UhXNm+CFMWcbChXywFwkmhqjs3PRCmcSa/hfBgLIb7oQ5HNb1wS0icWsGtSAUNgefHeI+eBrA8I1fxmbHsGdvA==}
@@ -4608,8 +4661,8 @@ packages:
     resolution: {integrity: sha512-T2UbfbBEF32wiepXIsMlTW9+dDYC6wMh/t/vYA4tuOMKqWz/n3vr1NFSxQiyP+zk2mXsoMA/i/7qV6LKut1t1A==}
     engines: {node: '>= 0.4'}
 
-  hono@4.13.3:
-    resolution: {integrity: sha512-r8AO2mYHoLxSHkgafNeC/BXyb2vWRxD3jem4Ts+ptav8oTG5FIRifAjuJEmZI4bSvvc2ns0GxmIYiZnHqN3mMw==}
+  hono@4.13.8:
+    resolution: {integrity: sha512-/Gng7NfoykZl2pjukW5Z6+8Yxm3BPRf86GTbQnt0SbySkvax4fyL4H3HhY1cCpBGmiW9XDRFzRV+CXK2W8QudQ==}
     engines: {node: '>=16.9.0'}
 
   html-escaper@2.0.2:
@@ -5907,9 +5960,9 @@ snapshots:
     dependencies:
       react: 19.2.7
 
-  '@hono/node-server@1.19.17(hono@4.13.3)':
+  '@hono/node-server@1.19.17(hono@4.13.8)':
     dependencies:
-      hono: 4.13.3
+      hono: 4.13.8
 
   '@humanfs/core@0.19.2':
     dependencies:
@@ -5990,7 +6043,7 @@ snapshots:
 
   '@modelcontextprotocol/sdk@1.30.0(zod@4.5.4)':
     dependencies:
-      '@hono/node-server': 1.19.17(hono@4.13.3)
+      '@hono/node-server': 1.19.17(hono@4.13.8)
       ajv: 8.20.0
       ajv-formats: 3.0.1(ajv@8.20.0)
       content-type: 1.0.5
@@ -6000,7 +6053,7 @@ snapshots:
       eventsource-parser: 3.1.1
       express: 5.2.1
       express-rate-limit: 8.6.2(express@5.2.1)
-      hono: 4.13.3
+      hono: 4.13.8
       jose: 6.2.10
       json-schema-typed: 8.0.2
       pkce-challenge: 5.0.1
@@ -7681,7 +7734,7 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
-  hono@4.13.3: {}
+  hono@4.13.8: {}
 
   html-escaper@2.0.2: {}
 

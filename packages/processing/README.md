@@ -1,6 +1,6 @@
 # @loomidev/processing
 
-`<loomi-processing>` — a process indicator with `processing` (spinner), `success` and
+`<loomi-processing>` - a process indicator with `processing` (spinner), `success` and
 `failed` states. Best used inside a [`<loomi-modal>`](../modal) while an async task runs,
 switching `state` (and `title`/`message`) once it resolves.
 
@@ -69,15 +69,15 @@ then swaps `state` based on the result.
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

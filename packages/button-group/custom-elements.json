@@ -115,6 +115,17 @@
             },
             {
               "kind": "field",
+              "name": "circle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Render this item as a circle: square icon button with a full radius, overriding\nthe group's `radius` preset. Implies `icon-only`. Intended ONLY for icon items —\nset `icon` and an `aria-label` for the accessible name.",
+              "attribute": "circle",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "accessibilityLabel",
               "type": {
                 "text": "string"
@@ -159,7 +170,7 @@
               "kind": "field",
               "name": "parentGroupState",
               "type": {
-                "text": "{ disabled: boolean; iconOnly: boolean }"
+                "text": "{ disabled: boolean; iconOnly: boolean; circle: boolean }"
               },
               "privacy": "private",
               "readonly": true
@@ -248,6 +259,15 @@
               "default": "false",
               "description": "Visually hide the label and render this item as a square icon button.",
               "fieldName": "iconOnly"
+            },
+            {
+              "name": "circle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Render this item as a circle: square icon button with a full radius, overriding\nthe group's `radius` preset. Implies `icon-only`. Intended ONLY for icon items —\nset `icon` and an `aria-label` for the accessible name.",
+              "fieldName": "circle"
             },
             {
               "name": "aria-label",
@@ -360,6 +380,17 @@
             },
             {
               "kind": "field",
+              "name": "circle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Render every item as a circle: square icon buttons with a full radius, overriding\n`radius`. Implies `icon-only`. Intended ONLY for icon items — set `icon` and an\n`aria-label` on each item for its accessible name.",
+              "attribute": "circle",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "accessibilityLabel",
               "type": {
                 "text": "string"
@@ -464,6 +495,15 @@
               "default": "false",
               "description": "Visually hide labels for every item and render the buttons as square icon buttons.",
               "fieldName": "iconOnly"
+            },
+            {
+              "name": "circle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Render every item as a circle: square icon buttons with a full radius, overriding\n`radius`. Implies `icon-only`. Intended ONLY for icon items — set `icon` and an\n`aria-label` on each item for its accessible name.",
+              "fieldName": "circle"
             },
             {
               "name": "aria-label",

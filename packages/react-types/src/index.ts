@@ -84,6 +84,10 @@ interface LoomiBottomNavItemAttributes {
   "prevent-default"?: boolean;
 }
 
+interface LoomiBreadcrumbAttributes {}
+
+interface LoomiBreadcrumbItemAttributes {}
+
 interface LoomiButtonAttributes {
   "border-width"?: number;
   "can-submit"?: boolean;
@@ -470,6 +474,10 @@ interface LoomiProfileMenuAttributes {
   "trigger-label"?: string;
 }
 
+interface LoomiProgressArcAttributes {
+  "show-percent"?: boolean;
+}
+
 interface LoomiProgressBarAttributes {
   "percentage-label-position"?: LoomiAttributeValue;
   "percentage-prefix"?: string;
@@ -487,6 +495,7 @@ interface LoomiProgressCircleAttributes {
 
 interface LoomiProgressStepAttributes {
   "hide-index"?: boolean;
+  "panel-layout"?: boolean;
   "step-index"?: number;
 }
 
@@ -555,6 +564,8 @@ interface LoomiSideNavAttributes {
 }
 
 interface LoomiSideNavItemAttributes {}
+
+interface LoomiSkeletonAttributes {}
 
 interface LoomiSliderAttributes {
   "handle-variant"?: "default" | "square" | "line";
@@ -753,6 +764,14 @@ declare module "react" {
         HTMLElementTagNameMap["loomi-bottom-nav-item"],
         LoomiBottomNavItemAttributes
       >;
+      "loomi-breadcrumb": LoomiReactProps<
+        HTMLElementTagNameMap["loomi-breadcrumb"],
+        LoomiBreadcrumbAttributes
+      >;
+      "loomi-breadcrumb-item": LoomiReactProps<
+        HTMLElementTagNameMap["loomi-breadcrumb-item"],
+        LoomiBreadcrumbItemAttributes
+      >;
       "loomi-button": LoomiReactProps<HTMLElementTagNameMap["loomi-button"], LoomiButtonAttributes>;
       "loomi-button-group": LoomiReactProps<
         HTMLElementTagNameMap["loomi-button-group"],
@@ -951,6 +970,10 @@ declare module "react" {
         HTMLElementTagNameMap["loomi-profile-menu"],
         LoomiProfileMenuAttributes
       >;
+      "loomi-progress-arc": LoomiReactProps<
+        HTMLElementTagNameMap["loomi-progress-arc"],
+        LoomiProgressArcAttributes
+      >;
       "loomi-progress-bar": LoomiReactProps<
         HTMLElementTagNameMap["loomi-progress-bar"],
         LoomiProgressBarAttributes
@@ -994,6 +1017,10 @@ declare module "react" {
       "loomi-side-nav-item": LoomiReactProps<
         HTMLElementTagNameMap["loomi-side-nav-item"],
         LoomiSideNavItemAttributes
+      >;
+      "loomi-skeleton": LoomiReactProps<
+        HTMLElementTagNameMap["loomi-skeleton"],
+        LoomiSkeletonAttributes
       >;
       "loomi-slider": LoomiReactProps<HTMLElementTagNameMap["loomi-slider"], LoomiSliderAttributes>;
       "loomi-sortable": LoomiReactProps<
@@ -1094,6 +1121,14 @@ declare global {
         HTMLElementTagNameMap["loomi-bottom-nav-item"],
         LoomiBottomNavItemAttributes
       >;
+      "loomi-breadcrumb": LoomiReactProps<
+        HTMLElementTagNameMap["loomi-breadcrumb"],
+        LoomiBreadcrumbAttributes
+      >;
+      "loomi-breadcrumb-item": LoomiReactProps<
+        HTMLElementTagNameMap["loomi-breadcrumb-item"],
+        LoomiBreadcrumbItemAttributes
+      >;
       "loomi-button": LoomiReactProps<HTMLElementTagNameMap["loomi-button"], LoomiButtonAttributes>;
       "loomi-button-group": LoomiReactProps<
         HTMLElementTagNameMap["loomi-button-group"],
@@ -1292,6 +1327,10 @@ declare global {
         HTMLElementTagNameMap["loomi-profile-menu"],
         LoomiProfileMenuAttributes
       >;
+      "loomi-progress-arc": LoomiReactProps<
+        HTMLElementTagNameMap["loomi-progress-arc"],
+        LoomiProgressArcAttributes
+      >;
       "loomi-progress-bar": LoomiReactProps<
         HTMLElementTagNameMap["loomi-progress-bar"],
         LoomiProgressBarAttributes
@@ -1335,6 +1374,10 @@ declare global {
       "loomi-side-nav-item": LoomiReactProps<
         HTMLElementTagNameMap["loomi-side-nav-item"],
         LoomiSideNavItemAttributes
+      >;
+      "loomi-skeleton": LoomiReactProps<
+        HTMLElementTagNameMap["loomi-skeleton"],
+        LoomiSkeletonAttributes
       >;
       "loomi-slider": LoomiReactProps<HTMLElementTagNameMap["loomi-slider"], LoomiSliderAttributes>;
       "loomi-sortable": LoomiReactProps<

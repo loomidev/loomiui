@@ -37,7 +37,7 @@ chat.addEventListener("send", (event) => {
 
   chat.appendMessage({
     senderId: sender.id,
-    text: "Got it — I'll follow up after standup.",
+    text: "Got it - I'll follow up after standup.",
   });
 });
 ```
@@ -59,7 +59,7 @@ Use `<loomi-chat-message>` directly when building a custom transcript:
 ></loomi-chat-message>
 
 <loomi-chat-message
-  text="Yes — I'll push the release branch now."
+  text="Yes - I'll push the release branch now."
   sender="You"
   sender-id="you"
   bubble-color="primary"
@@ -95,7 +95,7 @@ custom content gets a subtle shimmer treatment while the composer is disabled.
 Set `show-conversations` and assign `conversations` to render an inbox-style list pane
 on the left of the transcript. Each conversation carries `id`, `name`, and optional
 `preview`, `time`, `unread`, `image`, `label`, and `color`. Clicking a row sets
-`active-conversation-id` and fires `loomi-conversation-select` — swap in that conversation's
+`active-conversation-id` and fires `loomi-conversation-select` - swap in that conversation's
 `messages` (and header `title`/`description`) from your handler.
 
 ```html
@@ -113,7 +113,7 @@ on the left of the transcript. Each conversation carries `id`, `name`, and optio
 </script>
 ```
 
-Add `conversations-avatars-only` to collapse the pane into a slim avatar rail — names
+Add `conversations-avatars-only` to collapse the pane into a slim avatar rail - names
 move into tooltips and unread counts become a dot on the avatar. Use the
 `conversations-header` slot for custom controls (filter chips, a compose button) above
 the list; the slot hides in avatars-only mode.
@@ -140,17 +140,17 @@ header, between the title block and the reset button.
 
 - The composer keeps native textarea keyboard behavior and disables itself during `busy`.
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
 - Message bubbles cap their width so long messages remain readable on narrow screens.
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
@@ -196,7 +196,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 | `outgoing`     | `false`  | Right-align the bubble with a trailing tail.                                      |
 | `show-avatar`  | `false`  | Render an avatar beside the bubble.                                               |
 | `show-sender`  | `false`  | Render the sender name above the bubble.                                          |
-| `attachment`   | —        | File card under the bubble: `{ name, meta?, icon? }`. Property or JSON attribute. |
+| `attachment`   | -        | File card under the bubble: `{ name, meta?, icon? }`. Property or JSON attribute. |
 
 ## Slots
 
@@ -211,9 +211,9 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 | Event                       | Detail             | Description                          |
 | --------------------------- | ------------------ | ------------------------------------ |
 | `loomi-send`                | `{ message }`      | Current user submitted the composer. |
-| `loomi-reset`               | —                  | Transcript cleared.                  |
+| `loomi-reset`               | -                  | Transcript cleared.                  |
 | `loomi-conversation-select` | `{ conversation }` | A conversation row was clicked.      |
-| `loomi-add-user`            | —                  | The add-user action was activated.   |
+| `loomi-add-user`            | -                  | The add-user action was activated.   |
 | `loomi-attach-file`         | `{ files }`        | One or more files were selected.     |
 | `loomi-attach-picture`      | `{ files }`        | One or more images were selected.    |
 | `loomi-record`              | `{ stream }`       | Microphone capture started.          |

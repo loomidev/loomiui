@@ -2,7 +2,7 @@
 
 `<loomi-chart>` is a lightweight SVG chart component for quick visuals. Choose from
 `bar`, `line`, `area`, `pie`, `donut`, `radar`, `radial`, `scatter`, or `heatmap`, and pass a data series
-through its `data` property. Tooltips and the y-axis are on by default — disable either with
+through its `data` property. Tooltips and the y-axis are on by default - disable either with
 `show-tooltip="false"` or `show-y-axis="false"`.
 
 ```bash
@@ -88,7 +88,7 @@ so the chart remains stable and the page does not break.
 
 Label/value tooltips are shown by default while hovering chart points. On cartesian
 charts (`bar`, `line`, `area`, `scatter`), the nearest point is tracked as you move across
-the plot — with a crosshair and active dot/bar highlight. Polar charts (`pie`, `donut`,
+the plot - with a crosshair and active dot/bar highlight. Polar charts (`pie`, `donut`,
 `radar`, `radial`) show a tooltip per slice/segment. Turn them off with `show-tooltip="false"`.
 
 ```html
@@ -104,7 +104,7 @@ Default `type` is `bar`. The available chart types are:
 
 | Type      | Description                                                                                          |
 | --------- | ---------------------------------------------------------------------------------------------------- |
-| `bar`     | Compares values across categories — supports grouped bars via `value2`/`value3` or a `values` array. |
+| `bar`     | Compares values across categories - supports grouped bars via `value2`/`value3` or a `values` array. |
 | `line`    | Shows trends with a stroke, area fill, and dots.                                                     |
 | `area`    | Like `line` but emphasizes the filled region (no dots).                                              |
 | `pie`     | Displays part-to-whole distribution in a full circle.                                                |
@@ -173,7 +173,7 @@ by the shared chart data type, but it is not rendered by a heatmap.
 ```
 
 `radar` plots each point around a circle (best with 3+ points) and connects them into a
-filled shape — good for comparing several metrics on the same scale. `scatter` plots each
+filled shape - good for comparing several metrics on the same scale. `scatter` plots each
 point as a standalone marker on the same axes as `bar`/`line`, with no connecting line.
 
 ## Dual series (bar & line)
@@ -190,7 +190,7 @@ line over the bars. Line charts draw `value2` as a second line. Set `color2`,
 
 ## Grouped bars (multiple series per category)
 
-Use grouped bars when **one x-axis label maps to several bars** — e.g. tasks completed
+Use grouped bars when **one x-axis label maps to several bars** - e.g. tasks completed
 by each developer across the week. The point's `label` is the category on the x-axis;
 each entry in `values` is one bar with its own name and height.
 
@@ -199,14 +199,14 @@ each entry in `values` is one bar with its own name and height.
 | `label`          | X-axis category (`Mon`, `Tue`, …)                        |
 | `values[].label` | Series name in the legend and tooltip (`Alex`, `Sam`, …) |
 | `values[].value` | Bar height                                               |
-| `values[].color` | Optional — overrides the palette for that series         |
+| `values[].color` | Optional - overrides the palette for that series         |
 
 Series order follows first-seen labels across the dataset. Turn on `show-legend` so the
 legend lists developers, not days. Hover a category to see every series value in the
 tooltip.
 
 `value` is still required on each point but ignored when `values` is present. For two or
-three fixed series, `value2` / `value3` still work — use `values` when you need four or
+three fixed series, `value2` / `value3` still work - use `values` when you need four or
 more bars per category or labels that differ from `series-label`.
 
 ```html
@@ -273,7 +273,7 @@ more bars per category or labels that differ from `series-label`.
 ## Accent Color
 
 `color` sets the chart's single accent: the bar fill, the line/dot stroke, the radar
-polygon, and the scatter marker fill. Always assign `data` — an empty chart has nothing
+polygon, and the scatter marker fill. Always assign `data` - an empty chart has nothing
 to color.
 
 ```html
@@ -369,7 +369,7 @@ The y-axis with min/max value labels is shown by default on `bar`, `line`, `area
 ## Vertical Line Charts
 
 `vertical` (only on `type="line"`) flips the axes so categories run top-to-bottom and the
-value runs left-to-right — handy when category labels are long, or to match a
+value runs left-to-right - handy when category labels are long, or to match a
 horizontal-bar-style layout next to other vertical content.
 
 ```html
@@ -438,40 +438,40 @@ the chart instead of wrapping below it.
 
 - Interactive hits remain pointer-driven; provide a text summary nearby for critical data.
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
 | Attribute         | Default    | Description                                                                                                                                                          |
 | ----------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type`            | `bar`      | `bar` \| `line` \| `area` \| `pie` \| `donut` \| `radar` \| `radial` \| `scatter` \| `heatmap`                                                                       |
-| `data`            | `[]`       | Series — `{ label, value, value2?, value3?, values?, color?, color2?, color3? }[]`. Use `values: [{ label, value, color? }]` for heatmap rows or grouped bar series. |
+| `data`            | `[]`       | Series - `{ label, value, value2?, value3?, values?, color?, color2?, color3? }[]`. Use `values: [{ label, value, color? }]` for heatmap rows or grouped bar series. |
 | `color`           | `primary`  | Primary series color.                                                                                                                                                |
 | `color2`          | `success`  | Second series color when points include `value2`.                                                                                                                    |
 | `series2-type`    | `bar`      | On `type="bar"`, set `line` to draw `value2` over the bars.                                                                                                          |
 | `series-label`    | `Series 1` | Tooltip label for the primary series.                                                                                                                                |
 | `series2-label`   | `Series 2` | Tooltip label for the second series.                                                                                                                                 |
-| `shade`           | `dark`     | `dark` \| `light` — lighter fills/strokes in `light` mode.                                                                                                           |
+| `shade`           | `dark`     | `dark` \| `light` - lighter fills/strokes in `light` mode.                                                                                                           |
 | `show-border`     | `true`     | In `shade="light"`, outline shapes in a higher shade of their own color. No effect in `shade="dark"`. _(boolean)_                                                    |
 | `show-grid`       | `true`     | Horizontal dashed grid lines on cartesian charts. _(boolean)_                                                                                                        |
 | `show-tooltip`    | `true`     | Show label/value tooltips while hovering chart points. _(boolean)_                                                                                                   |
 | `show-y-axis`     | `true`     | Show a value axis with min/max labels (`bar`/`line`/`area`/`scatter`). _(boolean)_                                                                                   |
-| `vertical`        | `false`    | `type="line"` only — flips the axes so categories run top-to-bottom. _(boolean)_                                                                                     |
+| `vertical`        | `false`    | `type="line"` only - flips the axes so categories run top-to-bottom. _(boolean)_                                                                                     |
 | `show-legend`     | `false`    | Show a legend (most useful for pie/donut). _(boolean)_                                                                                                               |
-| `legend-position` | `bottom`   | `top` \| `bottom` \| `left` \| `right` — where the legend renders when `show-legend` is on.                                                                          |
+| `legend-position` | `bottom`   | `top` \| `bottom` \| `left` \| `right` - where the legend renders when `show-legend` is on.                                                                          |
 | `donut-radius`    | `44`       | Inner-hole radius (SVG units) for `type="donut"`.                                                                                                                    |
 | `with-gap`        | `false`    | Adds visible separation between `pie` and `donut` slices. _(boolean)_                                                                                                |
 | `exportable`      | `false`    | Shows a compact export menu for PNG, PDF, SVG, CSV, and JSON. _(boolean)_                                                                                            |
 
-> A compact chart for dashboards — supports a second series on `bar`/`line` via `value2`.
+> A compact chart for dashboards - supports a second series on `bar`/`line` via `value2`.
 > Its only runtime dependency is `@loomidev/tooltip`, used for polar-chart hover labels.
 
 ## Full Example

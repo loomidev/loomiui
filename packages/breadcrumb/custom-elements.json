@@ -1,0 +1,342 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiBreadcrumb",
+          "declaration": {
+            "name": "LoomiBreadcrumb",
+            "module": "./loomi-breadcrumb.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiBreadcrumbItem",
+          "declaration": {
+            "name": "LoomiBreadcrumbItem",
+            "module": "./loomi-breadcrumb.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiBreadcrumbSeparator",
+          "declaration": {
+            "name": "LoomiBreadcrumbSeparator",
+            "module": "./loomi-breadcrumb.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-breadcrumb.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<loomi-breadcrumb-item>` — one segment of a `<loomi-breadcrumb>` trail. Place inside\n`<loomi-breadcrumb>`; the parent marks whichever item is last as the current page.",
+          "name": "LoomiBreadcrumbItem",
+          "slots": [
+            {
+              "description": "Overrides the `label` attribute.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "href"
+            },
+            {
+              "kind": "field",
+              "name": "last",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "last",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "separator",
+              "type": {
+                "text": "LoomiBreadcrumbSeparator"
+              },
+              "default": "\"chevron\"",
+              "attribute": "separator"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "method",
+              "name": "onSelect",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderSeparator",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderControl",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "description": "`detail: { href, label }`. Cancelable: call `event.preventDefault()` to handle routing yourself instead of following `href`.",
+              "name": "loomi-breadcrumb-item-click"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "href"
+            },
+            {
+              "name": "last",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "last"
+            },
+            {
+              "name": "separator",
+              "type": {
+                "text": "LoomiBreadcrumbSeparator"
+              },
+              "default": "\"chevron\"",
+              "fieldName": "separator"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "fieldName": "color"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-breadcrumb-item",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "`<loomi-breadcrumb>` — a navigation trail showing the current page's location.\nPlace `<loomi-breadcrumb-item>` children inside; the last one is treated as the\ncurrent page (rendered as plain text with `aria-current=\"page\"`, never a link,\neven if it has an `href`).",
+          "name": "LoomiBreadcrumb",
+          "slots": [
+            {
+              "description": "`<loomi-breadcrumb-item>` children.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "separator",
+              "type": {
+                "text": "LoomiBreadcrumbSeparator"
+              },
+              "default": "\"chevron\"",
+              "attribute": "separator"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for the `<nav>` landmark. Falls back to a translated \"Breadcrumb\".",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "accessibleName",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "items",
+              "type": {
+                "text": "LoomiBreadcrumbItem[]"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "syncItems",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "separator",
+              "type": {
+                "text": "LoomiBreadcrumbSeparator"
+              },
+              "default": "\"chevron\"",
+              "fieldName": "separator"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for the `<nav>` landmark. Falls back to a translated \"Breadcrumb\".",
+              "fieldName": "label"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "locale"
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "LoomiColor"
+              },
+              "default": "\"primary\"",
+              "fieldName": "color"
+            }
+          ],
+          "superclass": {
+            "name": "LoomiElement",
+            "package": "@loomidev/core"
+          },
+          "tagName": "loomi-breadcrumb",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "LoomiBreadcrumbItem",
+          "declaration": {
+            "name": "LoomiBreadcrumbItem",
+            "module": "src/loomi-breadcrumb.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-breadcrumb-item",
+          "declaration": {
+            "name": "LoomiBreadcrumbItem",
+            "module": "src/loomi-breadcrumb.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiBreadcrumb",
+          "declaration": {
+            "name": "LoomiBreadcrumb",
+            "module": "src/loomi-breadcrumb.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "loomi-breadcrumb",
+          "declaration": {
+            "name": "LoomiBreadcrumb",
+            "module": "src/loomi-breadcrumb.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

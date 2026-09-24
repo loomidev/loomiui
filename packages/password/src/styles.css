@@ -79,12 +79,16 @@
 .loomi-affix-dropdown.open .loomi-affix-chevron {
   transform: rotate(180deg);
 }
+/* Top layer (`popover`), placed by core's anchorFloatingPanel(): an ancestor's
+   `overflow` - a modal, a card - can't clip it or grow a scrollbar to fit it. The
+   UA [popover] defaults (centered, inset: 0, system colors) are reset here. */
 .loomi-affix-panel {
-  position: absolute;
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  color: inherit;
   z-index: 50;
-  top: calc(100% + 0.5rem);
-  left: 0;
-  min-width: 100%;
+  min-width: var(--loomi-anchor-width, 100%);
   width: max-content;
   max-width: 12rem;
   background: var(--loomi-surface);

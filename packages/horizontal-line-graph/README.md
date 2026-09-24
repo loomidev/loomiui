@@ -1,7 +1,7 @@
 # @loomidev/horizontal-line-graph
 
-`<loomi-horizontal-line-graph>` — a single proportion bar split into colored segments,
-with an optional legend. Good for showing how a whole breaks down into parts — market
+`<loomi-horizontal-line-graph>` - a single proportion bar split into colored segments,
+with an optional legend. Good for showing how a whole breaks down into parts - market
 share, demographic split, budget allocation.
 
 ```bash
@@ -36,7 +36,7 @@ import "@loomidev/horizontal-line-graph";
 <script type="module">
   document.getElementById("ages").data = [
     { label: "Under 40", value: 24, color: "warning" },
-    { label: "40–60", value: 43, color: "#a855f7" },
+    { label: "40-60", value: 43, color: "#a855f7" },
     { label: "Above 60", value: 33, color: "gray" },
   ];
 </script>
@@ -69,7 +69,7 @@ import "@loomidev/horizontal-line-graph";
   ];
   document.getElementById("age").data = [
     { label: "Above 60", value: 33, color: "warning" },
-    { label: "40–60", value: 43, color: "success" },
+    { label: "40-60", value: 43, color: "success" },
     { label: "Under 40", value: 24, color: "gray" },
   ];
 </script>
@@ -79,21 +79,21 @@ import "@loomidev/horizontal-line-graph";
 
 - Legend repeats segment labels for sighted users.
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
 | Attribute     | Default | Description                                                                  |
 | ------------- | ------- | ---------------------------------------------------------------------------- |
-| `data`        | `[]`    | Segments — `{ label, value, color? }[]` (loomi color name or any CSS color). |
+| `data`        | `[]`    | Segments - `{ label, value, color? }[]` (loomi color name or any CSS color). |
 | `show-legend` | `true`  | Show the legend. _(boolean)_                                                 |
 | `show-values` | `true`  | Show each segment's percentage. _(boolean)_                                  |
 

@@ -1,6 +1,7 @@
 // Umbrella entry: re-exports every loomi component and registers all custom elements.
 export * from "@loomidev/button";
 export * from "@loomidev/button-group";
+export * from "@loomidev/breadcrumb";
 export * from "@loomidev/bottom-nav";
 export * from "@loomidev/calendar";
 export * from "@loomidev/command-palette";
@@ -21,6 +22,7 @@ export * from "@loomidev/select";
 export * from "@loomidev/side-nav";
 export * from "@loomidev/icon";
 export * from "@loomidev/spinner";
+export * from "@loomidev/skeleton";
 export * from "@loomidev/avatar";
 export * from "@loomidev/tag";
 export * from "@loomidev/tag-input";

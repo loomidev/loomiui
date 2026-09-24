@@ -1,7 +1,7 @@
 # @loomidev/notification
 
-`<loomi-notification>` — a container for stacked, auto-dismissing toasts. Unlike
-[`@loomidev/alert`](../alert), notifications aren't permanently visible — they're triggered
+`<loomi-notification>` - a container for stacked, auto-dismissing toasts. Unlike
+[`@loomidev/alert`](../alert), notifications aren't permanently visible - they're triggered
 from JavaScript and disappear on their own.
 
 ```bash
@@ -14,8 +14,8 @@ import "@loomidev/notification";
 
 ## Basic Usage
 
-Place one `<loomi-notification>` anywhere on the page — ideally once, in a shared
-layout, so it's available globally — then trigger toasts from anywhere with
+Place one `<loomi-notification>` anywhere on the page - ideally once, in a shared
+layout, so it's available globally - then trigger toasts from anywhere with
 `showLoomiNotification()`.
 
 ```html
@@ -24,8 +24,7 @@ layout, so it's available globally — then trigger toasts from anywhere with
 <loomi-notification></loomi-notification>
 ```
 
-You don't strictly need to render `<loomi-notification>` yourself first —
-`showLoomiNotification()` creates one (positioned `top-right`) automatically if none
+You don't strictly need to render `<loomi-notification>` yourself first - `showLoomiNotification()` creates one (positioned `top-right`) automatically if none
 exists on the page yet.
 
 ## Notification Types
@@ -44,7 +43,7 @@ The signature is `showLoomiNotification(title, message, type?, dismissIn?, name?
 
 ## Multiple Notifications
 
-Trigger as many as you like — they stack, newest on top, each dismissing independently.
+Trigger as many as you like - they stack, newest on top, each dismissing independently.
 
 ```html
 <loomi-button onclick="showLoomiNotification('Upload 1 of 3', 'photo-1.jpg uploaded.'); showLoomiNotification('Upload 2 of 3', 'photo-2.jpg uploaded.'); showLoomiNotification('Upload 3 of 3', 'photo-3.jpg uploaded.')">
@@ -56,7 +55,7 @@ Trigger as many as you like — they stack, newest on top, each dismissing indep
 
 ## Auto-Dismiss Timing
 
-The fourth argument is seconds before auto-dismiss — default `15`. Pass `0` to make a
+The fourth argument is seconds before auto-dismiss - default `15`. Pass `0` to make a
 notification persist until the user closes it manually.
 
 ```html
@@ -69,13 +68,13 @@ notification persist until the user closes it manually.
 ## Targeting an Existing Notification
 
 Give a notification a `name` (the fifth argument) to re-render it in place instead of
-stacking a duplicate — handy for a repeating error you don't want to spam the user with.
+stacking a duplicate - handy for a repeating error you don't want to spam the user with.
 
 ```html
 <loomi-button onclick="showLoomiNotification('Upload Failed', 'Network error. Retrying… (1/3)', 'error', 0, 'upload-status')">
   Retry 1
 </loomi-button>
-<!-- click again with the same `name` — updates the existing toast instead of adding a new one -->
+<!-- click again with the same `name` - updates the existing toast instead of adding a new one -->
 <loomi-button onclick="showLoomiNotification('Upload Failed', 'Network error. Retrying… (2/3)', 'error', 0, 'upload-status')">
   Retry 2
 </loomi-button>
@@ -113,7 +112,7 @@ Use `placement` to choose where the toast stack anchors. Supported values are
 ## Full Width
 
 Add `full-width` to span the entire width of the page instead of floating as a corner
-card. The banner anchors to the top or bottom edge based on `placement` — any `top-*`
+card. The banner anchors to the top or bottom edge based on `placement` - any `top-*`
 value anchors top, any `bottom-*` value anchors bottom.
 
 ```html
@@ -125,7 +124,7 @@ value anchors top, any `bottom-*` value anchors bottom.
 ## Using the Element Directly
 
 If you already have a reference to the `<loomi-notification>` element, its `notify()`
-method takes the same data as an object — useful if you're rendering it via a framework
+method takes the same data as an object - useful if you're rendering it via a framework
 and want to avoid the global-helper pattern:
 
 ```js
@@ -139,15 +138,15 @@ document.querySelector("loomi-notification").notify({
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

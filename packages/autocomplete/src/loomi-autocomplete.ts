@@ -1,14 +1,16 @@
 import { css, html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import {
-  LoomiElement,
+  anchorFloatingPanel,
   controlSizeStyles,
   fieldStyles,
   loomiDefaultText,
+  LoomiElement,
+  type LoomiFieldLabelPosition,
+  type LoomiFloatingPanelHandle,
   loomiT,
   onClickOutside,
   themeStyles,
-  type LoomiFieldLabelPosition,
 } from "@loomidev/core";
 import { getLoomiIcon } from "./icons.js";
 
@@ -125,12 +127,16 @@ export class LoomiAutocomplete extends LoomiElement {
       }
       .loomi-iconbtn:hover { color: var(--loomi-text-secondary); }
       .loomi-icon { width: 1.15em; height: 1.15em; flex: none; }
+      /* Top layer (popover), placed by core's anchorFloatingPanel(): an ancestor's
+         overflow - a modal, a card - can't clip it or grow a scrollbar to fit it. The UA
+         [popover] defaults (centered, inset: 0, system colors) are reset here. */
       .loomi-panel {
-        position: absolute;
+        position: fixed;
+        inset: auto;
+        margin: 0;
+        color: inherit;
         z-index: var(--loomi-autocomplete-panel-z-index, 500);
-        top: calc(100% + 0.35rem);
-        left: 0;
-        right: 0;
+        width: var(--loomi-anchor-width, auto);
         max-height: 14rem;
         overflow: auto;
         border: 1px solid var(--loomi-surface-border);
@@ -218,6 +224,9 @@ export class LoomiAutocomplete extends LoomiElement {
   }
 
   @state() private open = false;
+  @query(".loomi-ac") private floatAnchorEl?: HTMLElement;
+  @query(".loomi-panel") private floatPanelEl?: HTMLElement;
+  private floating?: LoomiFloatingPanelHandle;
   @state() private activeIndex = -1;
   @state() private displayValue = "";
   @state() private selectedImage = "";
@@ -234,6 +243,7 @@ export class LoomiAutocomplete extends LoomiElement {
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
+    this.releaseFloatingPanel();
     this.cleanup?.();
   }
 
@@ -405,6 +415,32 @@ export class LoomiAutocomplete extends LoomiElement {
     }
   }
 
+  override updated(changed: Map<PropertyKey, unknown>): void {
+    super.updated(changed);
+    this.syncFloatingPanel();
+  }
+
+  /**
+   * The panel lives in the top layer, so an ancestor with `overflow` (a modal, a card, a
+   * table's scroll wrapper) neither clips it nor grows a scrollbar to make room for it.
+   */
+  private syncFloatingPanel(): void {
+    const anchor = this.floatAnchorEl;
+    const panel = this.floatPanelEl;
+    if (!this.open || !anchor || !panel) {
+      this.releaseFloatingPanel();
+      return;
+    }
+    // Re-placed on every open-state render, since the panel's content can change size.
+    if (this.floating) this.floating.reposition();
+    else this.floating = anchorFloatingPanel(anchor, panel);
+  }
+
+  private releaseFloatingPanel(): void {
+    this.floating?.release();
+    this.floating = undefined;
+  }
+
   override render(): TemplateResult {
     const hasLabel = !!this.label;
     const placeholder = hasLabel
@@ -454,7 +490,7 @@ export class LoomiAutocomplete extends LoomiElement {
       </div>
       ${
         this.open
-          ? html`<div class="loomi-panel" role="listbox">
+          ? html`<div class="loomi-panel" popover="manual" role="listbox">
         ${
           options.length
             ? options.map(

@@ -46,6 +46,14 @@
             "name": "LoomiProgressStepsOrientation",
             "module": "@loomidev/progress"
           }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProgressStepsVariant",
+          "declaration": {
+            "name": "LoomiProgressStepsVariant",
+            "module": "@loomidev/progress"
+          }
         }
       ]
     },
@@ -91,6 +99,14 @@
           "name": "LoomiProgressStepsOrientation",
           "declaration": {
             "name": "LoomiProgressStepsOrientation",
+            "module": "@loomidev/progress"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiProgressStepsVariant",
+          "declaration": {
+            "name": "LoomiProgressStepsVariant",
             "module": "@loomidev/progress"
           }
         }

@@ -214,3 +214,68 @@ export function positionFloatingSubmenu(
 
   return onLeft ? "left" : "right";
 }
+
+/** Returned by `anchorFloatingPanel`: keeps a top-layer panel attached to its anchor. */
+export interface LoomiFloatingPanelHandle {
+  /** Re-measure and re-place the panel — call after its content changes size. */
+  reposition(): void;
+  /** Stop following the anchor and take the panel out of the top layer. */
+  release(): void;
+}
+
+/**
+ * Promotes `panel` to the top layer (popover API, when available) and keeps it placed
+ * against `anchor` with `positionFloatingPanel`, following it on window resize and on a
+ * scroll of *any* ancestor.
+ *
+ * This is the shared fix for dropdowns inside a modal, a card or a table's scroll wrapper:
+ * an in-flow `position: absolute` panel makes that container grow a scrollbar (or clips
+ * it), while a top-layer panel does neither. The panel should carry `popover="manual"`
+ * and reset the UA's [popover] styles (`position: fixed; inset: auto; margin: 0;` plus
+ * its own padding, colors and overflow). `--loomi-anchor-width` is set on it, for panels
+ * that should match their field's width.
+ *
+ * Call it after the panel is rendered and visible; call `release()` on close and on
+ * disconnect. Safe to call again for an already-open panel — it just re-places it.
+ */
+export function anchorFloatingPanel(
+  anchor: HTMLElement,
+  panel: HTMLElement,
+  placement: LoomiPanelPlacement = "bottom-start",
+): LoomiFloatingPanelHandle {
+  if (supportsPopover(panel) && !panel.matches(":popover-open")) {
+    try {
+      panel.showPopover();
+    } catch {
+      // Detached mid-flight, or already open — nothing to do.
+    }
+  }
+  let frame = 0;
+  const place = (): void => {
+    if (anchor.isConnected && panel.isConnected) positionFloatingPanel(anchor, panel, placement);
+  };
+  const schedule = (): void => {
+    cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(place);
+  };
+  window.addEventListener("resize", schedule);
+  // Capture phase: a scroll anywhere above the anchor moves it, and a top-layer panel
+  // won't follow on its own.
+  window.addEventListener("scroll", schedule, true);
+  place();
+  return {
+    reposition: place,
+    release(): void {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("resize", schedule);
+      window.removeEventListener("scroll", schedule, true);
+      if (supportsPopover(panel) && panel.matches(":popover-open")) {
+        try {
+          panel.hidePopover();
+        } catch {
+          // Already hidden — nothing to do.
+        }
+      }
+    },
+  };
+}

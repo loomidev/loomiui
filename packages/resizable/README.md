@@ -1,7 +1,7 @@
 # @loomidev/resizable
 
 `<loomi-resizable-panel-group>` lays out resizable panels separated by draggable
-handles — similar to [shadcn/ui Resizable](https://ui.shadcn.com/docs/components/radix/resizable).
+handles - similar to [shadcn/ui Resizable](https://ui.shadcn.com/docs/components/radix/resizable).
 
 ```bash
 npm install @loomidev/resizable lit
@@ -68,15 +68,15 @@ Set `auto-save-id` on a group to store panel sizes in `localStorage`. Provide
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

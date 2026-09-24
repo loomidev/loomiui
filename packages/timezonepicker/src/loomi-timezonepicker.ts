@@ -1,14 +1,16 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
 import {
-  LoomiElement,
+  anchorFloatingPanel,
   controlSizeStyles,
   fieldStyles,
   loomiDefaultText,
+  LoomiElement,
+  type LoomiFieldLabelPosition,
+  type LoomiFloatingPanelHandle,
   loomiStyles,
   loomiT,
   onClickOutside,
-  type LoomiFieldLabelPosition,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -231,6 +233,9 @@ export class LoomiTimezonepicker extends LoomiElement {
   @property({ type: Boolean, reflect: true }) invalid = false;
 
   @state() private open = false;
+  @query(".loomi-timezonepicker") private floatAnchorEl?: HTMLElement;
+  @query(".loomi-panel") private floatPanelEl?: HTMLElement;
+  private floating?: LoomiFloatingPanelHandle;
   @state() private search = "";
   @state() private selectedId = "";
   /** Index of the keyboard-highlighted option within `this.filtered`, while open. */
@@ -263,6 +268,7 @@ export class LoomiTimezonepicker extends LoomiElement {
   }
   override disconnectedCallback(): void {
     super.disconnectedCallback();
+    this.releaseFloatingPanel();
     this.cleanupClickOutside?.();
   }
 
@@ -450,7 +456,7 @@ export class LoomiTimezonepicker extends LoomiElement {
     const opts = this.filtered;
     const myZone = this.browserZone;
     return html`
-      <div class="loomi-panel" part="panel" role="listbox">
+      <div class="loomi-panel" popover="manual" part="panel" role="listbox">
         <div class="loomi-searchbox">
           <input
             class="loomi-search"
@@ -510,6 +516,32 @@ export class LoomiTimezonepicker extends LoomiElement {
   private get floatLabel(): boolean {
     if (!this.label) return false;
     return this.open || !!this.selectedId;
+  }
+
+  override updated(changed: Map<PropertyKey, unknown>): void {
+    super.updated(changed);
+    this.syncFloatingPanel();
+  }
+
+  /**
+   * The panel lives in the top layer, so an ancestor with `overflow` (a modal, a card, a
+   * table's scroll wrapper) neither clips it nor grows a scrollbar to make room for it.
+   */
+  private syncFloatingPanel(): void {
+    const anchor = this.floatAnchorEl;
+    const panel = this.floatPanelEl;
+    if (!this.open || !anchor || !panel) {
+      this.releaseFloatingPanel();
+      return;
+    }
+    // Re-placed on every open-state render, since the panel's content can change size.
+    if (this.floating) this.floating.reposition();
+    else this.floating = anchorFloatingPanel(anchor, panel);
+  }
+
+  private releaseFloatingPanel(): void {
+    this.floating?.release();
+    this.floating = undefined;
   }
 
   override render(): TemplateResult {

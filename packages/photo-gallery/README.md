@@ -1,6 +1,6 @@
 # @loomidev/photo-gallery
 
-`<loomi-photo-gallery>` — an album grid built from `<loomi-photo-gallery-item>` children,
+`<loomi-photo-gallery>` - an album grid built from `<loomi-photo-gallery-item>` children,
 with a toolbar (album list, zoom, square thumbnails, slideshow) and a full-size lightbox
 viewer opened by clicking a photo (zoom, rotate, favourite, share). Every toolbar icon can
 be hidden individually.
@@ -15,7 +15,7 @@ import "@loomidev/photo-gallery";
 
 ## Basic Usage
 
-Each photo is a `<loomi-photo-gallery-item>` child — a plain data holder, like an
+Each photo is a `<loomi-photo-gallery-item>` child - a plain data holder, like an
 `<option>`, that never renders itself. The gallery draws the grid tiles and lightbox from
 its attributes.
 
@@ -27,14 +27,14 @@ its attributes.
 </loomi-photo-gallery>
 ```
 
-`thumb` is optional — it falls back to `src` when omitted. Clicking a tile opens the
+`thumb` is optional - it falls back to `src` when omitted. Clicking a tile opens the
 lightbox at that photo; the small heart button on each tile favourites it without opening
 anything.
 
 ## Albums
 
 Set `album` on any item to group it. The toolbar's album-list button (and the panel
-itself) only appear once more than one album exists — an "All" entry is always added
+itself) only appear once more than one album exists - an "All" entry is always added
 automatically. `album-view` picks how the open panel looks: a vertical `sidebar` (default)
 or a horizontal `thumbnails` strip.
 
@@ -46,7 +46,7 @@ or a horizontal `thumbnails` strip.
 </loomi-photo-gallery>
 ```
 
-`album-panel-open` (default `true`) controls whether the panel is currently open — set it
+`album-panel-open` (default `true`) controls whether the panel is currently open - set it
 up front, bind it, or let the toolbar button toggle it.
 
 ## Zoom & Square Thumbnails
@@ -64,7 +64,7 @@ each photo's natural aspect ratio.
 The slideshow button opens the lightbox (if it isn't already open) and advances through
 the currently visible photos every `slideshow-interval` milliseconds (default `3000`),
 looping back to the first after the last. Any manual navigation, or closing the lightbox,
-stops it — clicking the button again also stops it.
+stops it - clicking the button again also stops it.
 
 ```html
 <loomi-photo-gallery slideshow-interval="5000"></loomi-photo-gallery>
@@ -78,12 +78,12 @@ gallery.stopSlideshow();
 ## Lightbox
 
 Clicking a tile (or calling `openLightbox(index)`) opens a full-viewport lightbox with its
-own toolbar: zoom in/out, favourite, rotate left, and share — plus prev/next navigation
+own toolbar: zoom in/out, favourite, rotate left, and share - plus prev/next navigation
 when there's more than one photo. <kbd>Escape</kbd>, the arrow keys, <kbd>+</kbd>/<kbd>-</kbd>,
 and <kbd>r</kbd> all work while it's focused; clicking the backdrop also closes it.
 
-Rotate keeps accumulating (-90° every click) rather than resetting to 0 — so repeated
-clicks keep visibly spinning the photo left instead of jumping backward — and resets only
+Rotate keeps accumulating (-90° every click) rather than resetting to 0 - so repeated
+clicks keep visibly spinning the photo left instead of jumping backward - and resets only
 when you move to a different photo. Share calls `navigator.share()` when available,
 otherwise copies the full-size URL to the clipboard (showing a small "Link copied" toast);
 either way, a `loomi-share` event fires first so you can hook in your own share flow
@@ -98,7 +98,7 @@ gallery.prevPhoto();
 
 ## Toggling Toolbar Icons
 
-Every toolbar button — in both the grid toolbar and the lightbox toolbar — can be hidden
+Every toolbar button - in both the grid toolbar and the lightbox toolbar - can be hidden
 individually via its own `show-*` attribute, all `true` by default.
 
 ```html
@@ -112,8 +112,7 @@ individually via its own `show-*` attribute, all `true` by default.
 </loomi-photo-gallery>
 ```
 
-The lightbox's close (×) button follows the same pattern (`lightbox-show-close`) —
-<kbd>Escape</kbd> and clicking the backdrop still close it either way.
+The lightbox's close (×) button follows the same pattern (`lightbox-show-close`) - <kbd>Escape</kbd> and clicking the backdrop still close it either way.
 
 ## Accessibility
 
@@ -126,15 +125,15 @@ The lightbox's close (×) button follows the same pattern (`lightbox-show-close`
 - The favourite, album, slideshow, and square-thumbnail toggle buttons expose their state
   via `aria-pressed`.
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
 The grid uses `repeat(auto-fill, minmax(var(--loomi-pg-tile), 1fr))`, so tiles reflow to
-fit the container at any width — no explicit column count to manage. The album sidebar
+fit the container at any width - no explicit column count to manage. The album sidebar
 narrows on viewports under `480px`.
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
@@ -143,7 +142,7 @@ Uses semantic `--loomi-surface-border`, `--loomi-text`, `--loomi-text-secondary`
 dark scrim regardless of theme, like most photo viewers). Add `.dark` to your app root
 with `@loomidev/theme-switcher`, or provide your own token overrides.
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
@@ -151,7 +150,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 | ------------------------- | --------- | ----------------------------------------------------------------- |
 | `album-view`              | `sidebar` | `sidebar` or `thumbnails` layout for the album panel.             |
 | `square-thumbnails`       | `false`   | Force 1:1 cropped grid thumbnails. _(boolean)_                    |
-| `thumb-size`              | `160`     | Grid thumbnail size in pixels (96–320). _(number)_                |
+| `thumb-size`              | `160`     | Grid thumbnail size in pixels (96-320). _(number)_                |
 | `slideshow-interval`      | `3000`    | Milliseconds between slides while running. _(number)_             |
 | `album-panel-open`        | `true`    | Whether the album panel is currently open. _(boolean, reflected)_ |
 | `show-album-toggle`       | `true`    | Show the album-list toolbar button. _(boolean)_                   |

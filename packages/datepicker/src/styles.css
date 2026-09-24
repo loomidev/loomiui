@@ -51,11 +51,16 @@
 .loomi-dp-inline {
   display: inline-block;
 }
+/* Top layer (`popover`), placed by core's anchorFloatingPanel(): an ancestor's
+   `overflow` - a modal, a card - can't clip it or grow a scrollbar to fit it. The
+   UA [popover] defaults (centered, inset: 0, system colors) are reset here. */
 .loomi-cal {
-  position: absolute;
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  color: inherit;
+  overflow: visible;
   z-index: var(--loomi-datepicker-z-index, 1000);
-  top: calc(100% + 0.4rem);
-  left: 0;
   background: var(--loomi-surface);
   border: 1px solid var(--loomi-surface-border);
   border-radius: var(--loomi-panel-radius, 0.7rem);

@@ -13,8 +13,8 @@ source of truth, while these messages explain impact and action in user language
 
 ## Highlights
 
-- **[Capability]** — [What changed and why it matters.]
-- **[Capability]** — [What changed and why it matters.]
+- **[Capability]** - [What changed and why it matters.]
+- **[Capability]** - [What changed and why it matters.]
 
 ## Packages
 

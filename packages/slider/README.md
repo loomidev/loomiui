@@ -1,6 +1,6 @@
 # @loomidev/slider
 
-`<loomi-slider>` — select a numeric value with a slider, instead of clicking
+`<loomi-slider>` - select a numeric value with a slider, instead of clicking
 increment/decrement arrows or typing a value directly. **Form-associated**: submits the
 value under `name`.
 
@@ -19,7 +19,7 @@ import "@loomidev/slider";
 ```
 
 Give each slider on a page a unique `name` if you need to read its value on form
-submission — particularly important if there's more than one slider on the page.
+submission - particularly important if there's more than one slider on the page.
 
 ## Different Colors
 
@@ -44,7 +44,7 @@ By default the slider increments by `1`. Set `step` for a coarser interval.
 
 ## Min and Max Values
 
-Default bounds are `0`–`100`.
+Default bounds are `0`-`100`.
 
 ```html
 <loomi-slider min="18" max="65" selected="25"></loomi-slider>
@@ -110,15 +110,15 @@ new FormData(form).get("age"); // "34"
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

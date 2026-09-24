@@ -1,6 +1,13 @@
 import { html, nothing, type TemplateResult } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, loomiT, onClickOutside } from "@loomidev/core";
+import { customElement, property, state, query } from "lit/decorators.js";
+import {
+  anchorFloatingPanel,
+  LoomiElement,
+  type LoomiFloatingPanelHandle,
+  loomiStyles,
+  loomiT,
+  onClickOutside,
+} from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiColorpickerSize = "small" | "regular" | "medium" | "big";
@@ -29,6 +36,9 @@ export class LoomiColorpicker extends LoomiElement {
   @property() size: LoomiColorpickerSize = "regular";
 
   @state() private open = false;
+  @query(".loomi-cp") private floatAnchorEl?: HTMLElement;
+  @query(".loomi-panel") private floatPanelEl?: HTMLElement;
+  private floating?: LoomiFloatingPanelHandle;
   /** Index of the keyboard-highlighted chip within `this.palette`, while open. */
   @state() private activeIndex = -1;
   private cleanup?: () => void;
@@ -48,6 +58,7 @@ export class LoomiColorpicker extends LoomiElement {
   }
   override disconnectedCallback(): void {
     super.disconnectedCallback();
+    this.releaseFloatingPanel();
     this.cleanup?.();
   }
 
@@ -153,6 +164,32 @@ export class LoomiColorpicker extends LoomiElement {
     }
   };
 
+  override updated(changed: Map<PropertyKey, unknown>): void {
+    super.updated(changed);
+    this.syncFloatingPanel();
+  }
+
+  /**
+   * The panel lives in the top layer, so an ancestor with `overflow` (a modal, a card, a
+   * table's scroll wrapper) neither clips it nor grows a scrollbar to make room for it.
+   */
+  private syncFloatingPanel(): void {
+    const anchor = this.floatAnchorEl;
+    const panel = this.floatPanelEl;
+    if (!this.open || !anchor || !panel) {
+      this.releaseFloatingPanel();
+      return;
+    }
+    // Re-placed on every open-state render, since the panel's content can change size.
+    if (this.floating) this.floating.reposition();
+    else this.floating = anchorFloatingPanel(anchor, panel);
+  }
+
+  private releaseFloatingPanel(): void {
+    this.floating?.release();
+    this.floating = undefined;
+  }
+
   override render(): TemplateResult {
     const palette = this.palette;
     const activeId =
@@ -172,7 +209,7 @@ export class LoomiColorpicker extends LoomiElement {
           ></button>
           ${
             this.open
-              ? html`<div class="loomi-panel" role="listbox">
+              ? html`<div class="loomi-panel" popover="manual" role="listbox">
                 ${palette.map(
                   (c, i) => html`<button
                     id="loomi-color-${i}"

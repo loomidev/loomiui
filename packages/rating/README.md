@@ -1,6 +1,6 @@
 # @loomidev/rating
 
-`<loomi-rating>` — a 0–5 rating control as stars, hearts or thumbs-up. **Form-associated**:
+`<loomi-rating>` - a 0-5 rating control as stars, hearts or thumbs-up. **Form-associated**:
 submits the rating under `name`.
 
 ```bash
@@ -26,7 +26,7 @@ Where there are multiple ratings on the same page, give each a unique `name`.
 
 ## Different Colors
 
-Any loomi color works — the default is `orange`.
+Any loomi color works - the default is `orange`.
 
 ```html
 <loomi-rating rating="1" color="error" name="error-rating"></loomi-rating>
@@ -54,7 +54,7 @@ Any loomi color works — the default is `orange`.
 
 <script type="module">
   document.querySelector('loomi-rating[name="album-rating"]').addEventListener("change", (e) => {
-    console.log(e.detail.rating); // 1–5
+    console.log(e.detail.rating); // 1-5
     saveRating(e.detail.rating);
   });
 </script>
@@ -62,7 +62,7 @@ Any loomi color works — the default is `orange`.
 
 ## Disabled / Read-Only Ratings
 
-Not every rating needs to be interactive — display a rating the user already gave as
+Not every rating needs to be interactive - display a rating the user already gave as
 read-only by setting `clickable="false"`.
 
 ```html
@@ -81,22 +81,22 @@ new FormData(form).get("album_rating"); // "3"
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
 | Attribute   | Default   | Description                            |
 | ----------- | --------- | -------------------------------------- |
 | `name`      | _(blank)_ | Submitted with the form.               |
-| `rating`    | `0`       | Current rating (0–5).                  |
+| `rating`    | `0`       | Current rating (0-5).                  |
 | `type`      | `star`    | `star` \| `heart` \| `thumbsup`        |
 | `color`     | `warning` | Any loomi color.                       |
 | `size`      | `small`   | `small` \| `medium` \| `big`           |

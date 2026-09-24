@@ -1,6 +1,6 @@
 # @loomidev/checkbox
 
-`<loomi-checkbox>` — a themeable checkbox available in the full loomi palette.
+`<loomi-checkbox>` - a themeable checkbox available in the full loomi palette.
 **Form-associated**: submits `value` (default `"on"`) under `name` when checked.
 
 ```bash
@@ -50,7 +50,7 @@ Any loomi color works: `primary` `secondary` `info` `success` `error` `warning` 
 ```
 
 The color is applied through a per-instance `--loomi-accent` property, so a global theme
-override (e.g. redefining `--loomi-error-600` at `:root`) applies automatically — no need
+override (e.g. redefining `--loomi-error-600` at `:root`) applies automatically - no need
 to touch the component.
 
 ## Checkboxes and Forms
@@ -65,15 +65,15 @@ behavior).
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

@@ -1,17 +1,19 @@
 import { html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, property, state, query } from "lit/decorators.js";
 import {
-  LoomiElement,
+  anchorFloatingPanel,
   controlSizeStyles,
   fieldStyles,
   loomiDateFormatter,
   loomiDefaultText,
+  LoomiElement,
+  type LoomiFieldLabelPosition,
+  type LoomiFloatingPanelHandle,
   loomiMonthName,
   loomiStyles,
   loomiT,
   loomiWeekdayNames,
   onClickOutside,
-  type LoomiFieldLabelPosition,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -78,6 +80,9 @@ export class LoomiDatepicker extends LoomiElement {
   @state() private end: Date | null = null;
   @state() private view = new Date();
   @state() private open = false;
+  @query(".loomi-dp") private floatAnchorEl?: HTMLElement;
+  @query(".loomi-cal:not(.inline)") private floatPanelEl?: HTMLElement;
+  private floating?: LoomiFloatingPanelHandle;
   @state() private parsed = false;
   @state() private calendarView: LoomiCalendarView = "days";
   @state() private yearRangeStart = Math.floor(new Date().getFullYear() / 12) * 12;
@@ -113,6 +118,7 @@ export class LoomiDatepicker extends LoomiElement {
   }
   override disconnectedCallback(): void {
     super.disconnectedCallback();
+    this.releaseFloatingPanel();
     this.cleanup?.();
   }
 
@@ -285,8 +291,30 @@ export class LoomiDatepicker extends LoomiElement {
     event.preventDefault();
   };
 
+  /**
+   * The panel lives in the top layer, so an ancestor with `overflow` (a modal, a card, a
+   * table's scroll wrapper) neither clips it nor grows a scrollbar to make room for it.
+   */
+  private syncFloatingPanel(): void {
+    const anchor = this.floatAnchorEl;
+    const panel = this.floatPanelEl;
+    if (!this.open || !anchor || !panel) {
+      this.releaseFloatingPanel();
+      return;
+    }
+    // Re-placed on every open-state render, since the panel's content can change size.
+    if (this.floating) this.floating.reposition();
+    else this.floating = anchorFloatingPanel(anchor, panel);
+  }
+
+  private releaseFloatingPanel(): void {
+    this.floating?.release();
+    this.floating = undefined;
+  }
+
   override updated(changed: Map<string, unknown>): void {
     super.updated?.(changed as never);
+    this.syncFloatingPanel();
     if (!this.pendingFocusMove) return;
     this.pendingFocusMove = false;
     // Keyboard focus has to follow the roving tab stop, or the grid moves visually while
@@ -433,7 +461,7 @@ export class LoomiDatepicker extends LoomiElement {
       </div>
       ${
         this.open
-          ? html`<div class="loomi-cal" @click=${(e: Event) => e.stopPropagation()}>${calendarBody}</div>`
+          ? html`<div class="loomi-cal" popover="manual" @click=${(e: Event) => e.stopPropagation()}>${calendarBody}</div>`
           : nothing
       }
     </div>`;

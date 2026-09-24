@@ -145,6 +145,22 @@
           "kind": "class",
           "description": "`<loomi-icon>` — renders an icon from the shared `@loomidev/icons` registry by `name`,\na file from a custom directory, or any custom SVG placed in the default slot.\n\n`source` picks the icon set. `heroicons` (default) is inlined at build time. `iconsax`\nand `untitledui` are disk-based: their real `.svg` files ship inside `@loomidev/icons`\nand are fetched (and cached in memory) the first time each one is used, instead of\nbloating every consumer's bundle with every icon in the set. All registry icons follow\n`currentColor`; file icons (via `directory`) render as images instead. Size is\ncontrolled with the `size` attribute or the `--loomi-icon-size` custom property.\n\nSet `branded` to sit the icon on a rounded, primary-colored background badge instead\nof rendering it bare — `shade` picks a light tint or a solid fill, `radius` picks the\ncorner rounding.",
           "name": "LoomiIcon",
+          "cssProperties": [
+            {
+              "description": "Icon width/height; the badge padding scales with it.",
+              "name": "--loomi-icon-size"
+            },
+            {
+              "description": "Badge corner radius; overrides the `radius` preset.",
+              "name": "--loomi-icon-radius"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The background badge wrapper (only rendered when `branded`).",
+              "name": "badge"
+            }
+          ],
           "slots": [
             {
               "description": "Custom inline `<svg>` (overrides `name`).",

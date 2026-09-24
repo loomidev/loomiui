@@ -1,6 +1,6 @@
 # Date Range Picker
 
-`<loomi-date-range-picker>` — a reporting-friendly range control for dashboards, tables, exports, and billing views.
+`<loomi-date-range-picker>` - a reporting-friendly range control for dashboards, tables, exports, and billing views.
 
 ISO date strings, presets, optional comparison ranges, apply/change events, and a responsive popover layout.
 
@@ -8,15 +8,15 @@ ISO date strings, presets, optional comparison ranges, apply/change events, and 
 
 - Preset and comparison controls are labelled.
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Installation
 

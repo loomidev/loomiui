@@ -1,6 +1,6 @@
 # @loomidev/spinner
 
-`<loomi-spinner>` — a themeable loading spinner in the full loomi palette.
+`<loomi-spinner>` - a themeable loading spinner in the full loomi palette.
 
 ```bash
 npm install @loomidev/spinner lit
@@ -68,8 +68,7 @@ There are five sizes available. The default is `small`. The `sm`, `md`, and
 
 ## Inside a Button
 
-Most of the time you won't reach for `<loomi-spinner>` directly inside a button —
-[`<loomi-button>`](../button) has built-in `has-spinner`/`show-spinner` attributes that
+Most of the time you won't reach for `<loomi-spinner>` directly inside a button - [`<loomi-button>`](../button) has built-in `has-spinner`/`show-spinner` attributes that
 manage one for you. Use a standalone spinner for everything else: a loading section, a
 table mid-fetch, a full-page overlay.
 
@@ -81,15 +80,15 @@ table mid-fetch, a full-page overlay.
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

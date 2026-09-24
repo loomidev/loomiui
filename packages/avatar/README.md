@@ -1,6 +1,6 @@
 # @loomidev/avatar
 
-`<loomi-avatar>` — a rounded image or initials avatar with an optional status dot. Wrap
+`<loomi-avatar>` - a rounded image or initials avatar with an optional status dot. Wrap
 several in `<loomi-avatars>` to stack them with an optional `+N` bubble. A logged-in user
 header, a contact list, or an employee directory are all good fits.
 
@@ -33,7 +33,7 @@ import "@loomidev/avatar";
 
 ## Labels (Initials)
 
-Skip `image` and set `label` to show initials instead — useful as a placeholder for
+Skip `image` and set `label` to show initials instead - useful as a placeholder for
 users without a profile picture.
 
 ```html
@@ -43,7 +43,7 @@ users without a profile picture.
 
 ## Stacked Avatars
 
-Wrap avatars in `<loomi-avatars stacked>` to overlap them — most visually consistent
+Wrap avatars in `<loomi-avatars stacked>` to overlap them - most visually consistent
 when every child is the same size.
 
 ```html
@@ -80,7 +80,7 @@ instead (this implies `stacked`).
 
 ## Dot Indicator
 
-Add a status dot — for online/offline/busy presence.
+Add a status dot - for online/offline/busy presence.
 
 ```html
 <loomi-avatar image="/avatars/male.jpg" dotted></loomi-avatar>
@@ -110,8 +110,7 @@ The dot accepts any loomi color via `dot-color`:
 
 ## Verified Badge
 
-Set `verified` to show a primary-colored check badge in the bottom-right corner —
-useful for confirmed accounts, identity-verified users, etc.
+Set `verified` to show a primary-colored check badge in the bottom-right corner - useful for confirmed accounts, identity-verified users, etc.
 
 ```html
 <loomi-avatar image="/avatars/ada.svg" verified></loomi-avatar>
@@ -127,7 +126,7 @@ It sits in the same corner as the default (`bottom`) status dot. If you're also 
 ## Editable Avatars
 
 Set `editable` to let the user replace the picture themselves. Clicking the avatar (or
-focusing it and pressing Enter/Space — it's a real `role="button"`) launches a crop
+focusing it and pressing Enter/Space - it's a real `role="button"`) launches a crop
 dialog; applying the crop swaps the avatar's image immediately.
 
 ```html
@@ -145,8 +144,7 @@ with `edit-label`:
 ### How it works
 
 Internally, `editable` launches a [`<loomi-filepicker>`](https://www.npmjs.com/package/@loomidev/filepicker)
-in `stealth` mode (`crop`, `crop-aspect-ratio="1:1"`, `accepted-file-types="image/*"`) —
-the same filepicker package, just with its drop-zone UI hidden and driven imperatively
+in `stealth` mode (`crop`, `crop-aspect-ratio="1:1"`, `accepted-file-types="image/*"`) - the same filepicker package, just with its drop-zone UI hidden and driven imperatively
 by the avatar's click handler instead of a visible drag-and-drop box. `@loomidev/filepicker`
 is only loaded (via a dynamic `import()`) the first time an `<loomi-avatar editable>` is
 actually used, so avatars that don't need editing don't pay for the filepicker/modal/notification
@@ -156,10 +154,10 @@ Once a crop is applied, the avatar:
 
 1. Creates an object URL for the cropped `File` and sets it as `image`, so the new
    picture shows immediately (no network round-trip needed for the UI to update).
-2. Fires a `change` event with `detail: { file, image }` — `file` is the cropped
+2. Fires a `change` event with `detail: { file, image }` - `file` is the cropped
    `File`, `image` is the object URL now showing in the avatar.
 
-`<loomi-avatar>` itself never uploads anything — saving the file is your app's job. See
+`<loomi-avatar>` itself never uploads anything - saving the file is your app's job. See
 below.
 
 ### Saving the picked file in the background
@@ -191,8 +189,7 @@ optimistically, so the UI doesn't need to wait on the request:
       // avatar.image = url;
       // preview.src = url;
     } catch (err) {
-      // The avatar is already showing the new picture locally (via the object URL) —
-      // on failure, revert it and let the user know.
+      // The avatar is already showing the new picture locally (via the object URL) - // on failure, revert it and let the user know.
       avatar.image = "/avatars/me.jpg";
       preview.src = "/avatars/me.jpg";
       console.error(err);
@@ -202,7 +199,7 @@ optimistically, so the UI doesn't need to wait on the request:
 ```
 
 If you'd rather drive the same crop-and-pick flow from your own button instead of the
-avatar's built-in click target, see `<loomi-filepicker>`'s `stealth` mode — it's the
+avatar's built-in click target, see `<loomi-filepicker>`'s `stealth` mode - it's the
 exact same mechanism `editable` uses under the hood.
 
 ## Hiding the Ring
@@ -215,15 +212,15 @@ By default avatars show a ring around them. Turn it off for a flatter look.
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

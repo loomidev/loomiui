@@ -1,7 +1,7 @@
 # @loomidev/split-button
 
 `<loomi-split-button>` is a primary action with a caret beside it that opens a menu of
-related actions — "Create course ▾" → _Import courses_, _Course templates_.
+related actions - "Create course ▾" → _Import courses_, _Course templates_.
 
 It is different from [`<loomi-button-group>`](../button-group), which is a segmented
 pick-one control, and from [`<loomi-dropmenu>`](../dropmenu), which is the menu half on its
@@ -19,8 +19,8 @@ import "@loomidev/split-button";
 ## Basic Usage
 
 The default slot is the primary half's label. Menu rows go in the `menu` slot as
-[`<loomi-dropmenu-item>`](../dropmenu) elements, so every item feature — icons, shortcuts,
-headers, dividers, checkbox/radio rows, destructive styling — works here unchanged.
+[`<loomi-dropmenu-item>`](../dropmenu) elements, so every item feature - icons, shortcuts,
+headers, dividers, checkbox/radio rows, destructive styling - works here unchanged.
 
 ```html
 <loomi-split-button>
@@ -39,7 +39,7 @@ The menu panel is promoted to the browser's **top layer** using the popover API,
 never clipped by an ancestor's `overflow`. This is the reason to use a split button rather
 than hand-rolling one from a button plus a `<loomi-dropmenu>`: the dropmenu's panel is
 positioned inside its own host, so any ancestor with `overflow: hidden` or
-`overflow-x: auto` — a table wrapper, a card body, a scroll area — cuts it off.
+`overflow-x: auto` - a table wrapper, a card body, a scroll area - cuts it off.
 
 ```html
 <div style="overflow: hidden; border-radius: 0.75rem">
@@ -59,7 +59,7 @@ positioned inside its own host, so any ancestor with `overflow: hidden` or
 ```
 
 On a browser without popover support the panel falls back to plain `position: fixed`,
-which still escapes ordinary `overflow` clipping — it degrades rather than breaking.
+which still escapes ordinary `overflow` clipping - it degrades rather than breaking.
 
 ## Matching `<loomi-button>`
 
@@ -123,8 +123,7 @@ Set it explicitly to pin one behavior.
 
 ## Keeping the Menu Open After a Click
 
-The menu closes when an item is chosen. Set `hide-after-click="false"` to keep it open —
-useful for a menu of toggles. Checkbox and radio items, and items with a submenu, keep the
+The menu closes when an item is chosen. Set `hide-after-click="false"` to keep it open - useful for a menu of toggles. Checkbox and radio items, and items with a submenu, keep the
 menu open regardless.
 
 ```html
@@ -192,7 +191,7 @@ loomi-split-button::part(panel) {
 - `ArrowDown`/`ArrowUp` on the caret opens the menu and focuses the first/last item.
   Arrows, `Home` and `End` move between items; `Enter`/`Space` activates one.
 - `Escape` closes the menu and returns focus to the caret. `Tab` closes it and lets focus
-  continue normally — a menu button is not a focus trap.
+  continue normally - a menu button is not a focus trap.
 - The primary half is a plain button: activating it never opens the menu.
 - The host delegates focus and implements `focus()`/`blur()`, so `el.focus()` lands on the
   primary half.
@@ -233,7 +232,7 @@ loomi-split-button::part(panel) {
 | `divided`          | `false`         | Hairline between menu items.                                                       |
 | `hide-after-click` | `true`          | Close the menu when an item is chosen.                                             |
 | `menu-label`       | `More actions`  | Accessible name for the caret.                                                     |
-| `open-menu`        | _(reflected)_   | Present while the menu is open. Read-only — use `show()`/`hide()` to change it.    |
+| `open-menu`        | _(reflected)_   | Present while the menu is open. Read-only - use `show()`/`hide()` to change it.    |
 
 **Properties:** every attribute above is also a property (`hideAfterClick`, `menuLabel`,
 `borderWidth`, …), plus `isOpen` (read-only).
@@ -267,7 +266,7 @@ loomi-split-button::part(panel) {
 | `loomi-split-toggle` | `detail: { open }` when the menu opens or closes.                       |
 
 Menu item clicks bubble from the `<loomi-dropmenu-item>` elements themselves, so listen on
-the item — or on the split button, and read `event.target`.
+the item - or on the split button, and read `event.target`.
 
 ```js
 document.querySelector("loomi-split-button").addEventListener("click", (event) => {

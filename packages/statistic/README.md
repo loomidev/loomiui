@@ -1,6 +1,6 @@
 # @loomidev/statistic
 
-`<loomi-statistic>` — a dashboard stat showing a number and label, with optional
+`<loomi-statistic>` - a dashboard stat showing a number and label, with optional
 currency, an icon, and a loading state. Takes up the full width of its parent.
 
 ```bash
@@ -13,7 +13,7 @@ import "@loomidev/statistic";
 
 ## Basic Usage
 
-Numbers render as-is — format thousand separators and decimals yourself before setting
+Numbers render as-is - format thousand separators and decimals yourself before setting
 `number`.
 
 ```html
@@ -28,7 +28,7 @@ Move the label below the number instead of above it:
 
 ## With Icons
 
-Pass any markup into the `icon` slot — usually a `<loomi-icon>` on a colored background.
+Pass any markup into the `icon` slot - usually a `<loomi-icon>` on a colored background.
 Icons sit on the left by default; flip them with `icon-position="right"`.
 
 ```html
@@ -62,7 +62,7 @@ The currency symbol renders at a smaller font size than the number itself.
 
 ## Loading State
 
-Show a spinner in place of the number while the real value is still loading — e.g.
+Show a spinner in place of the number while the real value is still loading - e.g.
 while waiting on an API response.
 
 ```html
@@ -78,8 +78,8 @@ el.showSpinner = false;
 
 ## Card Styling
 
-`<loomi-statistic>` renders as a floating glass surface by default — a translucent,
-backdrop-blurred background, a hairline border, and a soft drop shadow — the same frame
+`<loomi-statistic>` renders as a floating glass surface by default - a translucent,
+backdrop-blurred background, a hairline border, and a soft drop shadow - the same frame
 treatment as [`<loomi-card>`](../card) and the "Sales Overview" card on the LoomiUI
 homepage. Turn either off with `has-border` / `has-shadow`; turning off `has-shadow` also
 drops the translucency and blur, since those are part of the same floating-card material.
@@ -97,15 +97,15 @@ drops the translucency and blur, since those are part of the same floating-card 
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

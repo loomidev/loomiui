@@ -1,6 +1,6 @@
 # Filter Builder
 
-`<loomi-filter-builder>` — a structured filter editor for tables, reports, CRM lists, and server-side query workflows.
+`<loomi-filter-builder>` - a structured filter editor for tables, reports, CRM lists, and server-side query workflows.
 
 Typed fields, field-specific operators, `and` / `or` logic, and API-friendly `{ logic, rules }` output.
 
@@ -61,14 +61,14 @@ builder.rules = [
 
 ## Field types & operators
 
-Each `fields` entry's `type` picks the value control it renders (a `select` for `"select"`, a typed `<input>` otherwise) and the default operator list offered for that row — override per-field with `field.operators`.
+Each `fields` entry's `type` picks the value control it renders (a `select` for `"select"`, a typed `<input>` otherwise) and the default operator list offered for that row - override per-field with `field.operators`.
 
 | `type`    | Value control                          | Default operators                                           |
 | --------- | -------------------------------------- | ----------------------------------------------------------- |
 | `text`    | Text input                             | `contains`, `equals`, `notEquals`, `startsWith`, `endsWith` |
 | `number`  | Number input                           | `equals`, `notEquals`, `gt`, `gte`, `lt`, `lte`             |
 | `date`    | Date input                             | `equals`, `before`, `after`                                 |
-| `boolean` | _(none — operator alone is the value)_ | `isTrue`, `isFalse`                                         |
+| `boolean` | _(none - operator alone is the value)_ | `isTrue`, `isFalse`                                         |
 | `select`  | `field.options` dropdown               | `equals`, `notEquals`                                       |
 
 ```js
@@ -82,17 +82,17 @@ builder.fields = [
 - Each rule row exposes labelled field, operator, and value controls.
 - Remove actions include an accessible name.
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
 - Each rule row collapses to a single column below `720px`.
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Properties
 
@@ -105,16 +105,16 @@ For theme activation, token overrides, and contrast guidance, see [Foundations �
 | `add-label`   | `string`               | `"Add filter"`       | Label for the add-rule button.                                                                                                            |
 | `apply-label` | `string`               | `"Apply filters"`    | Label for the apply button (only rendered when `show-apply`).                                                                             |
 | `empty-label` | `string`               | `"No filters added"` | Shown in place of the rule list when `rules` is empty.                                                                                    |
-| `show-apply`  | `boolean`              | `true`               | Reflected attribute. Hides the apply button when `false` — use this for filters that should apply live via `loomi-filter-change` instead. |
+| `show-apply`  | `boolean`              | `true`               | Reflected attribute. Hides the apply button when `false` - use this for filters that should apply live via `loomi-filter-change` instead. |
 
 ## Events
 
 | Event                 | Detail                                                                  |
 | --------------------- | ----------------------------------------------------------------------- |
-| `loomi-filter-change` | `{ value }` — fires on every add/remove/edit of a rule or logic change. |
-| `loomi-filter-apply`  | `{ value }` — fires when the apply button is clicked.                   |
+| `loomi-filter-change` | `{ value }` - fires on every add/remove/edit of a rule or logic change. |
+| `loomi-filter-apply`  | `{ value }` - fires when the apply button is clicked.                   |
 
-Both detail shapes are `{ logic, rules }` — the same object `fields`/`rules` describe.
+Both detail shapes are `{ logic, rules }` - the same object `fields`/`rules` describe.
 
 ## Design Notes
 

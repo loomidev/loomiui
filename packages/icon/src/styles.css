@@ -25,6 +25,24 @@ img {
   align-items: center;
   justify-content: center;
   padding: calc(var(--loomi-icon-size, 1.5rem) * 0.4);
+  border-radius: var(--loomi-icon-radius, var(--_loomi-icon-radius));
+}
+/*
+ * Badge corner presets. Plain CSS rather than Tailwind `rounded-*` utilities: the
+ * style build scans no sources for this package, so those classes never compiled.
+ * `--loomi-icon-radius` (on :root or the element) overrides whichever preset is set.
+ */
+.loomi-icon-badge.radius-none {
+  --_loomi-icon-radius: 0;
+}
+.loomi-icon-badge.radius-small {
+  --_loomi-icon-radius: 0.25rem;
+}
+.loomi-icon-badge.radius-medium {
+  --_loomi-icon-radius: 0.5rem;
+}
+.loomi-icon-badge.radius-full {
+  --_loomi-icon-radius: 9999px;
 }
 /* light (default): soft primary tint behind a darker primary icon */
 .loomi-icon-badge.light {

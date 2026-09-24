@@ -1,6 +1,6 @@
 # @loomidev/contact-card
 
-`<loomi-contact-card>` — a ready-made card for displaying a contact, with avatar, name,
+`<loomi-contact-card>` - a ready-made card for displaying a contact, with avatar, name,
 position and contact rows. Saves you from manually building this layout out of
 [`<loomi-card>`](../card) and [`<loomi-avatar>`](../avatar) every time.
 
@@ -34,12 +34,11 @@ A default avatar placeholder is used when `image` isn't set.
 ```
 
 When no `image` is set, initials are derived from `name` and shown as a label avatar
-instead — same fallback behavior as [`<loomi-avatar>`](../avatar).
+instead - same fallback behavior as [`<loomi-avatar>`](../avatar).
 
 ## Centered Layout
 
-`centered` reflows the card to stack the avatar above the details, vertically centered
-— handy in a grid of team members.
+`centered` reflows the card to stack the avatar above the details, vertically centered - handy in a grid of team members.
 
 ```html
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem">
@@ -51,7 +50,7 @@ instead — same fallback behavior as [`<loomi-avatar>`](../avatar).
 
 ## Clickable Contact Cards
 
-Same `url` semantics as [`<loomi-card>`](../card) — a path, full URL, or JS function
+Same `url` semantics as [`<loomi-card>`](../card) - a path, full URL, or JS function
 call.
 
 ```html
@@ -60,7 +59,7 @@ call.
 
 ## Extra Content
 
-The default slot renders below the contact details — useful for tags, a short bio, or
+The default slot renders below the contact details - useful for tags, a short bio, or
 action buttons.
 
 ```html
@@ -79,15 +78,15 @@ action buttons.
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

@@ -1,6 +1,6 @@
 # @loomidev/colorpicker
 
-`<loomi-colorpicker>` — pick a color. Uses the native color input by default; pass a
+`<loomi-colorpicker>` - pick a color. Uses the native color input by default; pass a
 comma-separated `colors` list for a custom swatch palette instead. **Form-associated**.
 
 ```bash
@@ -20,7 +20,7 @@ import "@loomidev/colorpicker";
 ## Custom Swatch Palette
 
 Pass a comma-separated list of HEX colors (including the `#`) to swap the native color
-input for a custom palette of swatches — useful for a theme-builder UI where you want to
+input for a custom palette of swatches - useful for a theme-builder UI where you want to
 restrict users to an approved set of colors.
 
 ```html
@@ -29,7 +29,7 @@ restrict users to an approved set of colors.
 
 ## Show Selected Value
 
-By default the colorpicker only changes the swatch color — it doesn't display the HEX
+By default the colorpicker only changes the swatch color - it doesn't display the HEX
 value. Set `show-value` to display it next to the swatch.
 
 ```html
@@ -78,15 +78,15 @@ document.querySelector("loomi-colorpicker").addEventListener("change", (e) => {
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

@@ -1,13 +1,13 @@
 # @loomidev/mcp-server
 
 An [MCP](https://modelcontextprotocol.io) server that exposes loomi's component
-documentation to MCP clients — so a connected client can look up real attribute tables
+documentation to MCP clients - so a connected client can look up real attribute tables
 and usage examples instead of guessing. Mirrors the shape of a typical component-docs
 MCP connector: a `list_components` / `search_components` / `get_component_docs` tool
 set, plus one readable resource per component at `loomi://docs/<name>`.
 
 It ships every component's documentation **bundled into the package** (generated from
-each component's README at build time), so it works standalone — no network access, no
+each component's README at build time), so it works standalone - no network access, no
 local LoomiUI source checkout required.
 
 ## Install & run
@@ -24,7 +24,7 @@ npm install -g @loomidev/mcp-server
 
 ## Configure an MCP client
 
-Add this server to your client's MCP settings (path varies by client — for example
+Add this server to your client's MCP settings (path varies by client - for example
 `.claude/settings.json`, `~/.cursor/mcp.json`, or a desktop client's MCP config):
 
 ```json

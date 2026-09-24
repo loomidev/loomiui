@@ -1,6 +1,6 @@
 # @loomidev/tag
 
-`<loomi-tag>` — a themeable label/badge for grouping items or showing status. Faint or
+`<loomi-tag>` - a themeable label/badge for grouping items or showing status. Faint or
 dark shade, optional outline, rounded, tiny, and a close button. Group several in
 `<loomi-tags>` to make them selectable, like a fancier checkbox group.
 
@@ -46,13 +46,13 @@ Intercept the removal by listening for the cancelable `close` event:
 ```js
 document.querySelector("loomi-tag").addEventListener("close", (e) => {
   e.preventDefault(); // stop it from removing itself
-  console.log("user wants to remove this tag — confirm first?");
+  console.log("user wants to remove this tag - confirm first?");
 });
 ```
 
 ## Tiny Tags
 
-Handy as a small hint next to a menu item — e.g. flagging what's new.
+Handy as a small hint next to a menu item - e.g. flagging what's new.
 
 ```html
 <loomi-tag label="just added" tiny color="success"></loomi-tag>
@@ -68,7 +68,7 @@ Handy as a small hint next to a menu item — e.g. flagging what's new.
 
 ## Outline Tags
 
-No background fill — just a border in `color`. The shade still affects how light or
+No background fill - just a border in `color`. The shade still affects how light or
 dark the outline is.
 
 ```html
@@ -79,7 +79,7 @@ dark the outline is.
 ## Selectable Tags
 
 Wrap tags in `<loomi-tags name="...">` to use them as a form control, similar to a
-checkbox group — give each `<loomi-tag>` a `value`, and the parent submits the selected
+checkbox group - give each `<loomi-tag>` a `value`, and the parent submits the selected
 values (comma-joined) under `name`.
 
 ```html
@@ -111,15 +111,15 @@ document.querySelector("loomi-tags").addEventListener("change", (e) => {
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 

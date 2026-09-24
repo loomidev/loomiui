@@ -1,6 +1,6 @@
 # @loomidev/button
 
-`<loomi-button>` — a themeable, framework-agnostic button web component built with Lit.
+`<loomi-button>` - a themeable, framework-agnostic button web component built with Lit.
 
 The button renders as an HTML `<button>` by default. Its look is controlled with separate,
 easy-to-combine attributes: `type` controls the style, `color` controls the palette, and
@@ -35,7 +35,7 @@ installed automatically.
 
 ## Button Types
 
-`type` selects the default hue when `color` is unset — both render as a bold fill.
+`type` selects the default hue when `color` is unset - both render as a bold fill.
 `primary` uses the primary palette; `secondary` uses the secondary palette.
 
 ```html
@@ -43,20 +43,20 @@ installed automatically.
 <loomi-button outline>Primary Outline</loomi-button>
 
 <loomi-button type="secondary">Secondary Button</loomi-button>
-<loomi-button type="secondary" outline>Secondary Outline</loomi-button>
 ```
 
 ## Outline
 
-Set `outline` on any button to drop the fill and keep a colored border + text.
+`outline` applies to primary (and colored) buttons only. A secondary button is already an outline, so `type="secondary"` needs no `outline` attribute - adding one changes nothing.
+
+Secondary and outline buttons use a surface fill (white in light mode), a thin 1px border, and 6px default corners. Secondary uses a neutral gray border and dark text; colored outlines retain their palette border and text. Theme surface colors adapt in dark mode. Explicit `radius` presets and `--loomi-control-radius` overrides still apply.
 
 ```html
 <loomi-button outline color="error" radius="full">Error Outline</loomi-button>
-<loomi-button type="secondary" outline radius="full">Secondary Outline</loomi-button>
+<loomi-button type="secondary" radius="full">Secondary</loomi-button>
 
-<!-- custom border width (default is 2) -->
-<loomi-button outline border-width="4">Border 4</loomi-button>
-<loomi-button outline border-width="8">Border 8</loomi-button>
+<!-- custom border width (default is 1) -->
+<loomi-button outline border-width="2">Border 2</loomi-button>
 ```
 
 ## Sizes
@@ -81,7 +81,7 @@ Available sizes: `tiny`, `small`, `regular` (default), `medium`, `big`.
 ```
 
 These are presets over the `--loomi-control-radius` / `--loomi-pill-radius` theme tokens.
-`radius="medium"` (the default) **follows your theme** — set `--loomi-control-radius` and
+`radius="medium"` (the default) **follows your theme** - set `--loomi-control-radius` and
 every default button reshapes with it. `none`/`small`/`full` set an explicit corner that
 **overrides** the theme, so a `radius="small"` button keeps its shape even under a global
 radius override. See [Theming](#theming).
@@ -119,7 +119,7 @@ Built-in icons (a subset of Heroicons outline): `arrow-path`, `bell-alert`,
 `lock-closed`, `arrow-right`, `arrow-small-right`, `chevron-right`, `check`, `plus`,
 `trash`, `x-mark`, `magnifying-glass`, `paper-airplane`.
 
-Need more? Register your own — no slot or icon font required:
+Need more? Register your own - no slot or icon font required:
 
 ```js
 import { registerLoomiIcon } from "@loomidev/button";
@@ -127,6 +127,19 @@ import { svg } from "lit";
 
 registerLoomiIcon("star", svg`<path stroke-linecap="round" stroke-linejoin="round" d="..." />`);
 ```
+
+## Circle
+
+Set `circle` to render a square, full-radius icon button - for icon-only buttons.
+Drop the label content and give it an `aria-label` for the accessible name.
+
+```html
+<loomi-button circle icon="trash" color="error" aria-label="Delete"></loomi-button>
+<loomi-button circle icon="check" size="small" aria-label="Confirm"></loomi-button>
+```
+
+`circle` overrides `radius` and hides any label text, so it's only meant for icon
+buttons.
 
 ## Spinners
 
@@ -185,7 +198,7 @@ the tab order.
 
 ## Theming
 
-Override any palette slot from your page — no build step, no Tailwind:
+Override any palette slot from your page - no build step, no Tailwind:
 
 ```css
 :root {
@@ -213,37 +226,38 @@ the full theming model.
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
-| Attribute         | Default                 | Description                                                            |
-| ----------------- | ----------------------- | ---------------------------------------------------------------------- |
-| `type`            | `primary`               | Structural variant. `primary` \| `secondary`                           |
-| `color`           | _(derived from `type`)_ | Palette override. See available colors above.                          |
-| `size`            | `regular`               | `tiny` \| `small` \| `regular` \| `medium` \| `big`                    |
-| `radius`          | `medium`                | `none` \| `small` \| `medium` \| `full`                                |
-| `outline`         | `false`                 | Outline only, no fill. _(boolean)_                                     |
-| `border-width`    | `2`                     | Outline border width. `2` \| `4` \| `8`                                |
-| `icon`            | _(blank)_               | Built-in or registered icon name.                                      |
-| `icon-right`      | `false`                 | Position the icon after the label. Ignored while spinning. _(boolean)_ |
-| `has-spinner`     | `false`                 | Include a spinner (hidden until shown). _(boolean)_                    |
-| `show-spinner`    | `false`                 | Show the spinner. Only when `has-spinner`. _(boolean)_                 |
-| `disabled`        | `false`                 | Disable the button. _(boolean)_                                        |
-| `tag`             | `button`                | Element to render. `button` \| `a`                                     |
-| `href`            | _(blank)_               | Link target when `tag="a"`.                                            |
-| `can-submit`      | `false`                 | Render as `type="submit"`. _(boolean)_                                 |
-| `show-focus-ring` | `true`                  | Show the keyboard focus ring. _(boolean)_                              |
-| `uppercase`       | `false`                 | Uppercase the label. _(boolean)_                                       |
-| `name`            | _(blank)_               | Optional name, reflected as an attribute for targeting.                |
+| Attribute         | Default                 | Description                                                                                    |
+| ----------------- | ----------------------- | ---------------------------------------------------------------------------------------------- |
+| `type`            | `primary`               | Structural variant. `primary` \| `secondary`                                                   |
+| `color`           | _(derived from `type`)_ | Palette override. See available colors above.                                                  |
+| `size`            | `regular`               | `tiny` \| `small` \| `regular` \| `medium` \| `big`                                            |
+| `radius`          | `medium`                | `none` \| `small` \| `medium` \| `full`                                                        |
+| `outline`         | `false`                 | Surface fill with colored border and text. Primary only; no effect on `secondary`. _(boolean)_ |
+| `circle`          | `false`                 | Square, full-radius icon button; overrides `radius`. _(boolean)_                               |
+| `border-width`    | `1`                     | Secondary/outline border width. `1` \| `2`                                                     |
+| `icon`            | _(blank)_               | Built-in or registered icon name.                                                              |
+| `icon-right`      | `false`                 | Position the icon after the label. Ignored while spinning. _(boolean)_                         |
+| `has-spinner`     | `false`                 | Include a spinner (hidden until shown). _(boolean)_                                            |
+| `show-spinner`    | `false`                 | Show the spinner. Only when `has-spinner`. _(boolean)_                                         |
+| `disabled`        | `false`                 | Disable the button. _(boolean)_                                                                |
+| `tag`             | `button`                | Element to render. `button` \| `a`                                                             |
+| `href`            | _(blank)_               | Link target when `tag="a"`.                                                                    |
+| `can-submit`      | `false`                 | Render as `type="submit"`. _(boolean)_                                                         |
+| `show-focus-ring` | `true`                  | Show the keyboard focus ring. _(boolean)_                                                      |
+| `uppercase`       | `false`                 | Uppercase the label. _(boolean)_                                                               |
+| `name`            | _(blank)_               | Optional name, reflected as an attribute for targeting.                                        |
 
 ### Properties & methods (JS)
 
@@ -299,7 +313,6 @@ Clicks are suppressed while the button is `disabled`.
   has-spinner
   tag="a"
   href="/subscribe"
-  outline
   border-width="2"
   show-focus-ring="false"
   radius="medium"

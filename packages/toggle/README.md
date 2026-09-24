@@ -1,6 +1,6 @@
 # @loomidev/toggle
 
-`<loomi-toggle>` — a themeable toggle/switch (a checkbox, spiced up).
+`<loomi-toggle>` - a themeable toggle/switch (a checkbox, spiced up).
 **Form-associated**: submits `value` (default `"on"`) under `name` when checked.
 
 ```bash
@@ -19,7 +19,7 @@ import "@loomidev/toggle";
 
 ## Labels
 
-The label can sit on either side of the switch — default is `left`, flip it with
+The label can sit on either side of the switch - default is `left`, flip it with
 `label-position="right"`. Clicking the label toggles the component.
 
 ```html
@@ -37,7 +37,7 @@ opposite ends.
 
 ## Thin and Thicker Bars
 
-Three bar thicknesses are available — `thin` (Android-style), `thick` (default), and
+Three bar thicknesses are available - `thin` (Android-style), `thick` (default), and
 `thicker` (iOS-style).
 
 ```html
@@ -70,15 +70,15 @@ Any loomi color works for the active/checked state: `primary` `secondary` `info`
 
 ## Accessibility
 
-For the library-wide baseline, see [Foundations — Accessibility](https://loomiui.com/foundations/#accessibility).
+For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
 
-For the shared container and viewport rules, see [Foundations — Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
 ## Dark mode
 
-For theme activation, token overrides, and contrast guidance, see [Foundations — Dark mode](https://loomiui.com/foundations/#dark-mode).
+For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
 ## Attributes
 
