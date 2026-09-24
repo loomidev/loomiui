@@ -179,7 +179,7 @@ describe("loomi-progress-steps", () => {
           const line = bounds(".loomi-step-line");
           expect(line.width).to.equal(2);
           expect(line.left + line.width / 2).to.be.closeTo(marker.left + marker.width / 2, 0.5);
-          expect(line.top).to.be.at.least(marker.bottom);
+          expect(line.top).to.be.at.least(marker.bottom - 0.5);
           expect(bounds(".loomi-step-body").left).to.be.closeTo(
             bounds(".loomi-step-copy").left,
             0.5,
@@ -483,8 +483,9 @@ describe("interactive step panel layout", () => {
       const card = el.shadowRoot!.querySelector(".loomi-steps")!.getBoundingClientRect();
       expect(bounds(0, ".loomi-step-head").top).to.equal(bounds(1, ".loomi-step-head").top);
       expect(bounds(0, ".loomi-step-body").width).to.be.closeTo(card.width, 2);
+      // Sub-pixel tolerance: Firefox can report the adjacent edges a hair apart.
       expect(bounds(0, ".loomi-step-body").top).to.be.at.least(
-        bounds(0, ".loomi-step-head").bottom,
+        bounds(0, ".loomi-step-head").bottom - 0.5,
       );
       expect(bounds(1, ".loomi-step-body").height).to.equal(0);
       await el.next();
