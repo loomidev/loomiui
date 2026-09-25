@@ -79,6 +79,21 @@ for icon-only buttons. It implies `icon-only`, and overrides the group's `radius
 </loomi-button-group>
 ```
 
+## Tooltips
+
+Set `tooltip` on an item for a built-in [`<loomi-tooltip>`](../tooltip) on hover and
+keyboard focus; `tooltip-position` picks the side (`top` by default, flipping when
+there's no room). No wrapping needed, and selection, sizing and the segmented look are
+unchanged. Tooltip text that differs from the item's name is also exposed as its
+accessible description.
+
+```html
+<loomi-button-group icon-only aria-label="Views">
+  <loomi-button-group-item icon="list-bullet" label="View as list" tooltip="View as list" selected></loomi-button-group-item>
+  <loomi-button-group-item icon="map" label="View as map" tooltip="View as map"></loomi-button-group-item>
+</loomi-button-group>
+```
+
 ## Sizes, Radius, Outline, and Colors
 
 `size` accepts `tiny`, `small`, `regular` (default), `medium`, and `big`.
@@ -153,17 +168,19 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ### `<loomi-button-group-item>`
 
-| Attribute    | Default   | Description                                                                                             |
-| ------------ | --------- | ------------------------------------------------------------------------------------------------------- |
-| `label`      | _(blank)_ | Visible label text. Also used as the accessible name when `icon-only` is set.                           |
-| `value`      | _(blank)_ | Value emitted in `loomi-button-group-change`; falls back to the label or text content.                  |
-| `icon`       | _(blank)_ | Built-in icon name from `@loomidev/icons`.                                                              |
-| `icon-right` | `false`   | Place the icon after the label. _(boolean)_                                                             |
-| `icon-only`  | `false`   | Hide this item's label visually and render a square icon button. _(boolean)_                            |
-| `circle`     | `false`   | Full-radius icon button for this item; implies `icon-only`, overrides the group's `radius`. _(boolean)_ |
-| `aria-label` | _(blank)_ | Accessible label for icon-only items when `label` is not enough.                                        |
-| `selected`   | `false`   | Mark this item as active. _(boolean)_                                                                   |
-| `disabled`   | `false`   | Disable only this item. _(boolean)_                                                                     |
+| Attribute          | Default   | Description                                                                                             |
+| ------------------ | --------- | ------------------------------------------------------------------------------------------------------- |
+| `label`            | _(blank)_ | Visible label text. Also used as the accessible name when `icon-only` is set.                           |
+| `value`            | _(blank)_ | Value emitted in `loomi-button-group-change`; falls back to the label or text content.                  |
+| `icon`             | _(blank)_ | Built-in icon name from `@loomidev/icons`.                                                              |
+| `icon-right`       | `false`   | Place the icon after the label. _(boolean)_                                                             |
+| `icon-only`        | `false`   | Hide this item's label visually and render a square icon button. _(boolean)_                            |
+| `circle`           | `false`   | Full-radius icon button for this item; implies `icon-only`, overrides the group's `radius`. _(boolean)_ |
+| `aria-label`       | _(blank)_ | Accessible label for icon-only items when `label` is not enough.                                        |
+| `tooltip`          | _(blank)_ | Tooltip text shown on hover and keyboard focus.                                                         |
+| `tooltip-position` | `top`     | `top` \| `bottom` \| `left` \| `right`; flips when there isn't room.                                    |
+| `selected`         | `false`   | Mark this item as active. _(boolean)_                                                                   |
+| `disabled`         | `false`   | Disable only this item. _(boolean)_                                                                     |
 
 ## Slots
 
@@ -183,3 +200,4 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 - `@loomidev/core`
 - `@loomidev/icons`
 - `@loomidev/theme`
+- `@loomidev/tooltip`

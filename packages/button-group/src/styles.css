@@ -111,6 +111,14 @@
   --loomi-bg-item-radius: 9999px;
 }
 
+/* An item with `tooltip` wraps its button in <loomi-tooltip>; let that wrapper fill
+   the item exactly as the bare button would, so sizing and the segmented look hold. */
+.loomi-bg-tooltip {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
 /* ------------------------------------------------------------------ */
 /* The inner <button>                                                  */
 /* ------------------------------------------------------------------ */

@@ -106,6 +106,7 @@ interface LoomiButtonGroupItemAttributes {
   "aria-label"?: string;
   "icon-only"?: boolean;
   "icon-right"?: boolean;
+  "tooltip-position"?: LoomiAttributeValue;
 }
 
 interface LoomiCalendarAttributes {
@@ -611,7 +612,10 @@ interface LoomiStatisticAttributes {
   "show-spinner"?: boolean;
 }
 
-interface LoomiTabAttributes {}
+interface LoomiTabAttributes {
+  "icon-source"?: LoomiAttributeValue;
+  "icon-variant"?: LoomiAttributeValue;
+}
 
 interface LoomiTableAttributes {
   "action-icons"?: LoomiAttributeValue;

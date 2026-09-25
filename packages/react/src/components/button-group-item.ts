@@ -11,16 +11,23 @@ export const ButtonGroupItem: ForwardRefExoticComponent<
     iconRight?: JSX.IntrinsicElements["loomi-button-group-item"]["icon-right"];
     iconOnly?: JSX.IntrinsicElements["loomi-button-group-item"]["icon-only"];
     ariaLabel?: JSX.IntrinsicElements["loomi-button-group-item"]["aria-label"];
+    tooltipPosition?: JSX.IntrinsicElements["loomi-button-group-item"]["tooltip-position"];
   }
 > = createComponent(
   "loomi-button-group-item",
   { "loomi-bg-click": "onLoomiBgClick" },
-  { iconRight: "icon-right", iconOnly: "icon-only", ariaLabel: "aria-label" },
+  {
+    iconRight: "icon-right",
+    iconOnly: "icon-only",
+    ariaLabel: "aria-label",
+    tooltipPosition: "tooltip-position",
+  },
 ) as unknown as ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-button-group-item"], "onLoomiBgClick"> & {
     onLoomiBgClick?: (e: CustomEvent) => void;
     iconRight?: JSX.IntrinsicElements["loomi-button-group-item"]["icon-right"];
     iconOnly?: JSX.IntrinsicElements["loomi-button-group-item"]["icon-only"];
     ariaLabel?: JSX.IntrinsicElements["loomi-button-group-item"]["aria-label"];
+    tooltipPosition?: JSX.IntrinsicElements["loomi-button-group-item"]["tooltip-position"];
   }
 >;

@@ -5,8 +5,18 @@ import { createComponent } from "../create-component.js";
 
 import "@loomidev/components/tab";
 
-export const Tab: ForwardRefExoticComponent<JSX.IntrinsicElements["loomi-tab"]> = createComponent(
+export const Tab: ForwardRefExoticComponent<
+  JSX.IntrinsicElements["loomi-tab"] & {
+    iconSource?: JSX.IntrinsicElements["loomi-tab"]["icon-source"];
+    iconVariant?: JSX.IntrinsicElements["loomi-tab"]["icon-variant"];
+  }
+> = createComponent(
   "loomi-tab",
   {},
-  {},
-) as unknown as ForwardRefExoticComponent<JSX.IntrinsicElements["loomi-tab"]>;
+  { iconSource: "icon-source", iconVariant: "icon-variant" },
+) as unknown as ForwardRefExoticComponent<
+  JSX.IntrinsicElements["loomi-tab"] & {
+    iconSource?: JSX.IntrinsicElements["loomi-tab"]["icon-source"];
+    iconVariant?: JSX.IntrinsicElements["loomi-tab"]["icon-variant"];
+  }
+>;

@@ -310,6 +310,9 @@ importers:
       '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme
+      '@loomidev/tooltip':
+        specifier: workspace:^
+        version: link:../tooltip
     devDependencies:
       '@tailwindcss/cli':
         specifier: ^4.3.3
@@ -2256,6 +2259,9 @@ importers:
       '@loomidev/core':
         specifier: workspace:^
         version: link:../core
+      '@loomidev/icon':
+        specifier: workspace:^
+        version: link:../icon
       '@loomidev/icons':
         specifier: workspace:^
         version: link:../icons

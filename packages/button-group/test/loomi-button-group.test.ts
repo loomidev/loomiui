@@ -1,4 +1,5 @@
-import { html, fixture, expect, oneEvent } from "@open-wc/testing";
+import { html, fixture, expect, oneEvent, waitUntil } from "@open-wc/testing";
+import { sendKeys } from "@web/test-runner-commands";
 import "../dist/loomi-button-group.js";
 import type { LoomiButtonGroup, LoomiButtonGroupItem } from "../dist/index.js";
 
@@ -206,6 +207,101 @@ describe("loomi-button-group", () => {
       const button = item.shadowRoot!.querySelector<HTMLButtonElement>("button")!;
       expect(button.hasAttribute("aria-label")).to.be.false;
       expect(button.textContent!.trim()).to.equal("View as list");
+    });
+  });
+
+  describe("built-in tooltip", () => {
+    const parts = (item: LoomiButtonGroupItem) => {
+      const tooltip = item.shadowRoot!.querySelector<HTMLElement & { placement: string }>(
+        "loomi-tooltip",
+      )!;
+      const tip = () => tooltip.shadowRoot!.querySelector<HTMLElement>(".loomi-tip")!;
+      return { tooltip, tip, button: item.shadowRoot!.querySelector<HTMLButtonElement>("button")! };
+    };
+
+    it("shows on hover and on keyboard focus", async () => {
+      const el = await fixture<LoomiButtonGroup>(html`
+        <loomi-button-group icon-only aria-label="Views">
+          <loomi-button-group-item icon="list-bullet" label="View as list" selected></loomi-button-group-item>
+          <loomi-button-group-item icon="map" label="View as map" tooltip="View as map"></loomi-button-group-item>
+        </loomi-button-group>
+      `);
+      const item = el.querySelectorAll<LoomiButtonGroupItem>("loomi-button-group-item")[1];
+      const { tooltip, tip, button } = parts(item);
+      expect(tooltip.placement).to.equal("top");
+      expect(tip().textContent!.trim()).to.equal("View as map");
+
+      tooltip.dispatchEvent(new MouseEvent("mouseenter"));
+      await waitUntil(() => tip().matches(":popover-open"), "tooltip didn't open on hover");
+      tooltip.dispatchEvent(new MouseEvent("mouseleave"));
+      await waitUntil(() => !tip().matches(":popover-open"));
+
+      const before = document.createElement("button");
+      el.before(before);
+      before.focus();
+      await sendKeys({ press: "Tab" });
+      await sendKeys({ press: "Tab" });
+      expect(item.shadowRoot!.activeElement).to.equal(button);
+      await waitUntil(() => tip().matches(":popover-open"), "tooltip didn't open on focus");
+      before.remove();
+    });
+
+    it("leaves selection, sizing and the segmented look unchanged", async () => {
+      const el = await fixture<LoomiButtonGroup>(html`
+        <loomi-button-group icon-only aria-label="Views">
+          <loomi-button-group-item icon="list-bullet" label="List" value="list" selected></loomi-button-group-item>
+          <loomi-button-group-item icon="map" label="Map" value="map" tooltip="View as map"></loomi-button-group-item>
+        </loomi-button-group>
+      `);
+      const [plain, tipped] = el.querySelectorAll<LoomiButtonGroupItem>("loomi-button-group-item");
+      const a = plain.shadowRoot!.querySelector("button")!.getBoundingClientRect();
+      const b = parts(tipped).button.getBoundingClientRect();
+      expect(b.width).to.equal(a.width);
+      expect(b.height).to.equal(a.height);
+      expect(b.top).to.equal(a.top);
+
+      setTimeout(() => parts(tipped).button.click());
+      const { detail } = await oneEvent(el, "loomi-button-group-change");
+      expect(detail.value).to.equal("map");
+      expect(tipped.selected).to.be.true;
+      expect(parts(tipped).button.getAttribute("aria-pressed")).to.equal("true");
+      await expect(el).to.be.accessible();
+    });
+
+    it("honours tooltip-position", async () => {
+      const el = await fixture<LoomiButtonGroup>(html`
+        <loomi-button-group>
+          <loomi-button-group-item label="Day" tooltip="Daily view" tooltip-position="bottom"></loomi-button-group-item>
+        </loomi-button-group>
+      `);
+      const item = el.querySelector<LoomiButtonGroupItem>("loomi-button-group-item")!;
+      expect(parts(item).tooltip.placement).to.equal("bottom");
+    });
+
+    it("describes the button with tooltip text that adds to its name, and only then", async () => {
+      const el = await fixture<LoomiButtonGroup>(html`
+        <loomi-button-group icon-only aria-label="Views">
+          <loomi-button-group-item icon="map" label="View as map" tooltip="View as map"></loomi-button-group-item>
+          <loomi-button-group-item icon="list-bullet" label="List" tooltip="Shows every farm as a list"></loomi-button-group-item>
+        </loomi-button-group>
+      `);
+      const [same, extra] = el.querySelectorAll<LoomiButtonGroupItem>("loomi-button-group-item");
+      expect(parts(same).button.hasAttribute("aria-describedby")).to.be.false;
+
+      const extraButton = parts(extra).button;
+      const id = extraButton.getAttribute("aria-describedby")!;
+      expect(extra.shadowRoot!.getElementById(id)!.textContent).to.equal(
+        "Shows every farm as a list",
+      );
+      await expect(el).to.be.accessible();
+    });
+
+    it("renders no tooltip wrapper without the attribute", async () => {
+      const el = await fixture<LoomiButtonGroup>(html`
+        <loomi-button-group><loomi-button-group-item label="Day"></loomi-button-group-item></loomi-button-group>
+      `);
+      const item = el.querySelector<LoomiButtonGroupItem>("loomi-button-group-item")!;
+      expect(item.shadowRoot!.querySelector("loomi-tooltip")).to.be.null;
     });
   });
 });
