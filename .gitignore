@@ -28,3 +28,6 @@ screenshots/*/*/diff/
 
 # Temp pages/bundles from scripts/check-hydration.mjs; removed on a clean exit.
 .hydration-*/
+
+# Release workflow SBOM (uploaded as a workflow artifact, never committed)
+sbom.cyclonedx.json
