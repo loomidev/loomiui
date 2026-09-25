@@ -231,6 +231,7 @@ interface LoomiContextMenuItemAttributes {
 }
 
 interface LoomiCountriesAttributes {
+  "aria-label"?: string;
   "empty-placeholder"?: LoomiAttributeValue;
   "label-position"?: LoomiAttributeValue;
 }
@@ -715,6 +716,7 @@ interface LoomiTimerAttributes {
 }
 
 interface LoomiTimezonepickerAttributes {
+  "aria-label"?: string;
   "empty-placeholder"?: LoomiAttributeValue;
   "label-position"?: LoomiAttributeValue;
 }

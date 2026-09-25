@@ -78,6 +78,12 @@ document.querySelector("loomi-colorpicker").addEventListener("change", (e) => {
 
 ## Accessibility
 
+- With a `colors` palette, the swatch follows the WAI-ARIA [select-only combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/)
+  pattern: `role="combobox"` named "Pick color", with the current color read as its
+  value, `aria-controls` pointing at the palette listbox while open, and
+  `aria-activedescendant` tracking the highlighted chip. Focus stays on the swatch.
+- Without a palette it's a native `<input type="color">`.
+
 For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior

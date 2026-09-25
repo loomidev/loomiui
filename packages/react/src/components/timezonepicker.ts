@@ -10,17 +10,23 @@ export const Timezonepicker: ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-timezonepicker"], "onChange" | "onLoomiSelect"> & {
     onChange?: (e: Event) => void;
     onLoomiSelect?: (e: LoomiTimezonepickerEventMap["loomi-select"]) => void;
+    ariaLabel?: JSX.IntrinsicElements["loomi-timezonepicker"]["aria-label"];
     labelPosition?: JSX.IntrinsicElements["loomi-timezonepicker"]["label-position"];
     emptyPlaceholder?: JSX.IntrinsicElements["loomi-timezonepicker"]["empty-placeholder"];
   }
 > = createComponent(
   "loomi-timezonepicker",
   { change: "onChange", "loomi-select": "onLoomiSelect" },
-  { labelPosition: "label-position", emptyPlaceholder: "empty-placeholder" },
+  {
+    ariaLabel: "aria-label",
+    labelPosition: "label-position",
+    emptyPlaceholder: "empty-placeholder",
+  },
 ) as unknown as ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-timezonepicker"], "onChange" | "onLoomiSelect"> & {
     onChange?: (e: Event) => void;
     onLoomiSelect?: (e: LoomiTimezonepickerEventMap["loomi-select"]) => void;
+    ariaLabel?: JSX.IntrinsicElements["loomi-timezonepicker"]["aria-label"];
     labelPosition?: JSX.IntrinsicElements["loomi-timezonepicker"]["label-position"];
     emptyPlaceholder?: JSX.IntrinsicElements["loomi-timezonepicker"]["empty-placeholder"];
   }

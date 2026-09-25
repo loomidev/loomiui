@@ -113,6 +113,13 @@ with the selected timezone displayed beneath it:
 
 ## Accessibility
 
+- The trigger follows the WAI-ARIA [select-only combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/)
+  pattern: `role="combobox"` with `aria-haspopup="listbox"`, `aria-expanded`, and
+  `aria-controls` while open. Opening moves focus to the search box, which tracks the
+  highlighted zone with `aria-activedescendant`.
+- The combobox and zone list are named by `label`, else a forwarded `aria-label` on the
+  host, else the placeholder; the selected zone is read as the value.
+
 For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
@@ -130,6 +137,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `name`              | _(blank)_            | Submitted with the form.                                                                        |
 | `placeholder`       | `Select a timezone`  | Trigger text when nothing is selected.                                                          |
 | `label`             | _(blank)_            | Floating label (takes precedence over placeholder).                                             |
+| `aria-label`        | _(blank)_            | Accessible name when there's no `label`; forwarded to the trigger and zone list.                |
 | `label-position`    | `default`            | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field. |
 | `selection`         | _(blank)_            | Canonical IANA id or bare city name; resolves to the canonical id.                              |
 | `locale`            | _(blank)_            | Locale used to format each zone's current local time.                                           |

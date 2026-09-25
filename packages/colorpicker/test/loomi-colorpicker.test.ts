@@ -80,4 +80,21 @@ describe("loomi-colorpicker", () => {
     expect(trigger.getAttribute("aria-expanded")).to.equal("false");
     expect(el.selectedValue.toLowerCase()).to.equal("#ff0000");
   });
+
+  it("is a select-only combobox, axe-clean while open, reading the color as its value", async () => {
+    const el = await fixture<LoomiColorpicker>(
+      html`<loomi-colorpicker colors=${COLORS} selected-value="#00ff00"></loomi-colorpicker>`,
+    );
+    const trigger = el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-swatch")!;
+    expect(trigger.getAttribute("role")).to.equal("combobox");
+    expect(trigger.textContent!.trim()).to.equal("#00ff00");
+    await expect(el).to.be.accessible();
+
+    trigger.click();
+    await el.updateComplete;
+    const listbox = el.shadowRoot!.querySelector<HTMLElement>('[role="listbox"]')!;
+    expect(trigger.getAttribute("aria-controls")).to.equal(listbox.id);
+    expect(listbox.getAttribute("aria-label")).to.equal(trigger.getAttribute("aria-label"));
+    await expect(el).to.be.accessible();
+  });
 });

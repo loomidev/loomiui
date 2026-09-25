@@ -121,6 +121,16 @@
             },
             {
               "kind": "field",
+              "name": "accessibilityLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for a picker with no visible `label`, forwarded to the trigger and\nthe option list. Ignored when `label` is set, which names both.",
+              "attribute": "aria-label"
+            },
+            {
+              "kind": "field",
               "name": "labelPosition",
               "type": {
                 "text": "LoomiFieldLabelPosition"
@@ -595,6 +605,15 @@
               },
               "default": "\"\"",
               "fieldName": "label"
+            },
+            {
+              "name": "aria-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for a picker with no visible `label`, forwarded to the trigger and\nthe option list. Ignored when `label` is set, which names both.",
+              "fieldName": "accessibilityLabel"
             },
             {
               "name": "label-position",
