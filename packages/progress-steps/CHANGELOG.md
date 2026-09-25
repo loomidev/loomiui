@@ -1,5 +1,30 @@
 # @loomidev/progress-steps
 
+## 0.6.0
+
+### Minor Changes
+
+- fd109c2: `<loomi-progress-steps>` and `<loomi-progress-step>` gain a `variant` attribute: `circle`
+  (default) renders the numbered/checkmark markers inside a bordered card with chevron
+  separators between horizontal steps, and `bar` renders a colored segment above each
+  step's label with no marker or connector, for a more compact wizard-style header.
+- fd109c2: Add interactive progress step content, navigation methods, and optional form and asynchronous validation. Block forward navigation when the current step has an error.
+
+### Patch Changes
+
+- fd109c2: Use full-height neutral chevron dividers and a compact bordered frame for horizontal circle progress steps.
+- fd109c2: Keep horizontal progress step markers and labels aligned when surrounding page styles add margins between elements.
+  
+  Center vertical connector lines beneath step markers and align additional content with the labels in both sizes.
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+  - @loomidev/progress@0.6.0
+
 ## 0.5.0
 
 ### Patch Changes

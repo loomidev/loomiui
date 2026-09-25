@@ -1,5 +1,42 @@
 # @loomidev/progress
 
+## 0.6.0
+
+### Minor Changes
+
+- fd109c2: Add a `<loomi-progress-arc>` variant: a semicircular tick gauge with the percentage
+  and an optional `caption` centered underneath, plus a default slot for extra content
+  like a "Show details" button.
+  
+  Fix `<loomi-progress-bar show-percentage-label-inline="false">` having no effect.
+  Lit's default boolean-attribute converter only checks whether the attribute is
+  present, so writing `="false"` on a `true`-by-default boolean left it `true`. The
+  attribute now reads its string value, so `="false"` actually disables it — which
+  also fixes `percentage-label-position` and `percentage-suffix`/`percentage-prefix`
+  silently doing nothing, since they only render on the outside label that inline
+  mode was suppressing.
+  
+  Also fix `percentage-suffix` getting a forced extra space (`" complete"` rendered
+  as `"75%  complete"`). It's now inserted verbatim, same as `percentage-prefix`, so
+  the caller controls the spacing.
+- fd109c2: `<loomi-progress-steps>` and `<loomi-progress-step>` gain a `variant` attribute: `circle`
+  (default) renders the numbered/checkmark markers inside a bordered card with chevron
+  separators between horizontal steps, and `bar` renders a colored segment above each
+  step's label with no marker or connector, for a more compact wizard-style header.
+- fd109c2: Add interactive progress step content, navigation methods, and optional form and asynchronous validation. Block forward navigation when the current step has an error.
+
+### Patch Changes
+
+- fd109c2: Include progress arc captions and slotted content in the layout height so footer actions push following elements down.
+- fd109c2: Use full-height neutral chevron dividers and a compact bordered frame for horizontal circle progress steps.
+- fd109c2: Horizontal circle steps now top-align each marker with its label, so a description that wraps onto an extra line no longer drops that step's marker below the rest of the row.
+- fd109c2: Keep horizontal progress step markers and labels aligned when surrounding page styles add margins between elements.
+  
+  Center vertical connector lines beneath step markers and align additional content with the labels in both sizes.
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+  - @loomidev/core@0.6.0
+
 ## 0.5.0
 
 ### Minor Changes

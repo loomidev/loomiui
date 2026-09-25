@@ -144,20 +144,23 @@ jobs:
       # A software bill of materials for the dependency tree being published, alongside the
       # per-package provenance attestations npm's Trusted Publishing (OIDC, above) already
       # generates automatically. Uploaded as a workflow artifact rather than committed —
-      # it's a snapshot of this run's dependency graph, not source.
+      # it's a snapshot of this run's dependency graph, not source. Written outside the
+      # checkout: changesets/action commits every working-tree change into the Version
+      # Packages PR, so a file left in the repo gets committed to main — and fails CI's
+      # format check there, which blocks the publish that follows.
       - name: Generate SBOM
         uses: anchore/sbom-action@v0
         with:
           path: .
           format: cyclonedx-json
-          output-file: sbom.cyclonedx.json
+          output-file: ${{ runner.temp }}/sbom.cyclonedx.json
           upload-artifact: false
 
       - name: Upload SBOM
         uses: actions/upload-artifact@v7
         with:
           name: sbom
-          path: sbom.cyclonedx.json
+          path: ${{ runner.temp }}/sbom.cyclonedx.json
           retention-days: 90
 
       # changesets/action@v2 is required for @changesets/cli v3 (this repo's version) — v1

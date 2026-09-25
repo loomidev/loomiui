@@ -1,5 +1,18 @@
 # @loomidev/select
 
+## 0.6.0
+
+### Minor Changes
+
+- fd109c2: The options panel now opens in the top layer, positioned against the trigger, so opening a select inside a modal (or any `overflow` container) no longer makes that container scroll. It flips above the field when there isn't room below and follows the field when an ancestor scrolls.
+
+### Patch Changes
+
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+  - @loomidev/core@0.6.0
+  - @loomidev/theme@0.6.0
+
 ## 0.5.0
 
 ### Patch Changes

@@ -1,5 +1,18 @@
 # @loomidev/profile-menu
 
+## 0.6.0
+
+### Patch Changes
+
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+  - @loomidev/core@0.6.0
+  - @loomidev/avatar@0.6.0
+  - @loomidev/card@0.6.0
+  - @loomidev/dropmenu@0.6.0
+  - @loomidev/icons@0.6.0
+  - @loomidev/theme@0.6.0
+
 ## 0.5.0
 
 ### Minor Changes
