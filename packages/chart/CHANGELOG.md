@@ -1,5 +1,16 @@
 # @loomidev/chart
 
+## 0.6.0
+
+### Patch Changes
+
+- fd109c2: Dropdown panels now open in the top layer, so opening one inside a modal (or any `overflow` container) no longer makes that container scroll or clips the panel. Panels flip above their field when there isn't room below and follow it when an ancestor scrolls; the popover also keeps its arrow on the trigger when shifted to stay on screen.
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+  - @loomidev/core@0.6.0
+  - @loomidev/tooltip@0.6.0
+
 ## 0.5.0
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @loomidev/react-types
 
+## 0.6.0
+
+### Patch Changes
+
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+  - @loomidev/core@0.6.0
+  - @loomidev/components@0.6.0
+
 ## 0.5.0
 
 ### Minor Changes

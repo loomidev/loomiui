@@ -1,5 +1,17 @@
 # @loomidev/tooltip
 
+## 0.6.0
+
+### Minor Changes
+
+- fd109c2: The tip now renders in the top layer, so it no longer adds a horizontal scrollbar to a table (or any `overflow` container) when used in the last column. It flips to the opposite side and shifts along the viewport edge when it would otherwise run off screen, keeping its arrow on the trigger. Escape dismisses it, and new `show()`/`hide()` methods open and close it programmatically.
+
+### Patch Changes
+
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+  - @loomidev/core@0.6.0
+
 ## 0.5.0
 
 ### Patch Changes

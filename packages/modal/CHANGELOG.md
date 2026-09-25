@@ -1,5 +1,20 @@
 # @loomidev/modal
 
+## 0.6.0
+
+### Patch Changes
+
+- fd109c2: A modal with a close icon now has equal padding on both sides; only the title (or the first line of body when there is no title) makes room for the close button.
+- fd109c2: Long modal content now scrolls inside the dialog body, so the close button and the footer stay pinned instead of scrolling away with the content.
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+  - @loomidev/button@0.6.0
+  - @loomidev/core@0.6.0
+  - @loomidev/icon@0.6.0
+
 ## 0.5.0
 
 ### Minor Changes

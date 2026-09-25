@@ -1,5 +1,20 @@
 # @loomidev/button
 
+## 0.6.0
+
+### Minor Changes
+
+- fd109c2: Remove `border-width="4"` and `border-width="8"` from `<loomi-button>`; only `1` (default) and `2` remain, and other values fall back to `1`. `outline` is now documented as primary-only: a `secondary` button is already an outline, so `type="secondary" outline` is redundant.
+- fd109c2: Add a `circle` attribute for square, full-radius icon buttons, intended only for icon-only buttons.
+
+### Patch Changes
+
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+  - @loomidev/core@0.6.0
+  - @loomidev/icons@0.6.0
+  - @loomidev/theme@0.6.0
+
 ## 0.5.0
 
 ### Minor Changes

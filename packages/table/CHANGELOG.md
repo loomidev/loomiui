@@ -1,5 +1,21 @@
 # @loomidev/table
 
+## 0.6.0
+
+### Minor Changes
+
+- fd109c2: Add a `<template slot="body">` for static rows, so a manually authored table works in plain HTML. The README's manual-layout example used bare `<th>`/`<tr>` children, which the HTML parser drops before they reach the component.
+
+### Patch Changes
+
+- Updated dependencies [fd109c2]
+- Updated dependencies [fd109c2]
+  - @loomidev/core@0.6.0
+  - @loomidev/checkbox@0.6.0
+  - @loomidev/input@0.6.0
+  - @loomidev/pagination@0.6.0
+  - @loomidev/icons@0.6.0
+
 ## 0.5.0
 
 ### Patch Changes
