@@ -173,6 +173,7 @@
                 "text": "{ disabled: boolean; iconOnly: boolean; circle: boolean }"
               },
               "privacy": "private",
+              "description": "State inherited from the enclosing group. Read from the group's reflected\nattributes rather than its properties, and via `closest()` rather than\n`parentElement`, so it agrees with the stylesheet (which hides the label off those\nsame attributes) even when the group hasn't upgraded yet or a wrapper element sits\nbetween the two. Otherwise the label could be hidden with no `aria-label` in its\nplace, leaving an unnamed button.",
               "readonly": true
             },
             {

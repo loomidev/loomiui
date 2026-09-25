@@ -81,6 +81,12 @@
           "kind": "class",
           "description": "`<loomi-table>` — a BladewindUI-inspired data table with manual slots, dynamic\nrows, search, sorting, grouping, selection, checkboxes, pagination, empty states,\ncustom row templates and action icons.",
           "name": "LoomiTable",
+          "cssParts": [
+            {
+              "description": "The horizontal scroll box around the `<table>`; a focusable, labelled `role=\"region\"` while the table overflows it.",
+              "name": "scroll"
+            }
+          ],
           "slots": [
             {
               "description": "A `<template>` of heading cells, or `<th>` elements created from script.",
@@ -773,6 +779,16 @@
             },
             {
               "kind": "field",
+              "name": "accessibilityLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for the horizontal scroll region, used while the table is wider\nthan its container. Falls back to the host's `title`, then a localized\n\"Scrollable table\".",
+              "attribute": "aria-label"
+            },
+            {
+              "kind": "field",
               "name": "query",
               "type": {
                 "text": "string"
@@ -821,6 +837,24 @@
               },
               "privacy": "private",
               "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "overflowing",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "Whether `.loomi-scroll` is currently wider than its box (horizontally scrollable)."
+            },
+            {
+              "kind": "field",
+              "name": "scrollObserver",
+              "type": {
+                "text": "ResizeObserver | undefined"
+              },
+              "privacy": "private"
             },
             {
               "kind": "field",
@@ -1200,6 +1234,47 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "field",
+              "name": "scrollEl",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "observeScrollRegion",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Watch the scroll box and the table inside it: the box resizes with the viewport,\nthe table with its content, and either can flip whether the table overflows."
+            },
+            {
+              "kind": "method",
+              "name": "syncOverflow",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "A horizontally scrolling table has to be reachable from the keyboard (WCAG 2.1.1),\nso while it overflows the scroll box becomes a named, focusable region that arrow\nkeys scroll natively. It goes back to a plain box once everything fits, so a table\nthat doesn't scroll adds no extra tab stop. Runs from the ResizeObserver, whose\ninitial callback covers the first render."
+            },
+            {
+              "kind": "field",
+              "name": "scrollRegionLabel",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "description": "Name for the scroll region: host `aria-label`, then host `title`, then localized.",
+              "readonly": true
             },
             {
               "kind": "field",
@@ -1970,6 +2045,15 @@
               },
               "default": "\"\"",
               "fieldName": "nonce"
+            },
+            {
+              "name": "aria-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for the horizontal scroll region, used while the table is wider\nthan its container. Falls back to the host's `title`, then a localized\n\"Scrollable table\".",
+              "fieldName": "accessibilityLabel"
             }
           ],
           "superclass": {

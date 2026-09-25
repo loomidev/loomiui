@@ -50,6 +50,7 @@ export const pt_BR: LoomiTranslations = {
     searchPlaceholder: "Buscar...",
     noDataMessage: "Nenhum registro para exibir",
     actionsTitle: "ações",
+    scrollRegion: "Tabela rolável",
   },
   pagination: {
     totalLabel: "Mostrando :a a :b de :c",

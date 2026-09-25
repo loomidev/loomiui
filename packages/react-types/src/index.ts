@@ -546,6 +546,7 @@ interface LoomiScrollerAttributes {
 }
 
 interface LoomiSelectAttributes {
+  "aria-label"?: string;
   "empty-action-label"?: string;
   "empty-action-url"?: string;
   "empty-placeholder"?: LoomiAttributeValue;
@@ -614,6 +615,7 @@ interface LoomiTabAttributes {}
 interface LoomiTableAttributes {
   "action-icons"?: LoomiAttributeValue;
   "actions-title"?: LoomiAttributeValue;
+  "aria-label"?: string;
   "button-label"?: string;
   "column-aliases"?: LoomiAttributeValue;
   "default-page"?: number;

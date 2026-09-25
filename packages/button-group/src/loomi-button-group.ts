@@ -80,16 +80,21 @@ export class LoomiButtonGroupItem extends LoomiElement {
   /** Value surfaced in the `loomi-button-group-change` event. Falls back to `label`. */
   @property() value = "";
 
+  /**
+   * State inherited from the enclosing group. Read from the group's reflected
+   * attributes rather than its properties, and via `closest()` rather than
+   * `parentElement`, so it agrees with the stylesheet (which hides the label off those
+   * same attributes) even when the group hasn't upgraded yet or a wrapper element sits
+   * between the two. Otherwise the label could be hidden with no `aria-label` in its
+   * place, leaving an unnamed button.
+   */
   private get parentGroupState(): { disabled: boolean; iconOnly: boolean; circle: boolean } {
-    const parent = this.parentElement as
-      (HTMLElement & { disabled?: boolean; iconOnly?: boolean; circle?: boolean }) | null;
-    if (parent?.localName !== "loomi-button-group") {
-      return { disabled: false, iconOnly: false, circle: false };
-    }
+    const group = this.parentElement?.closest("loomi-button-group");
+    if (!group) return { disabled: false, iconOnly: false, circle: false };
     return {
-      disabled: Boolean(parent.disabled),
-      iconOnly: Boolean(parent.iconOnly),
-      circle: Boolean(parent.circle),
+      disabled: group.hasAttribute("disabled"),
+      iconOnly: group.hasAttribute("icon-only"),
+      circle: group.hasAttribute("circle"),
     };
   }
 

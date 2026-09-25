@@ -50,6 +50,7 @@ export const tr: LoomiTranslations = {
     searchPlaceholder: "Ara...",
     noDataMessage: "Gösterilecek kayıt yok",
     actionsTitle: "işlemler",
+    scrollRegion: "Kaydırılabilir tablo",
   },
   pagination: {
     totalLabel: ":c kayıttan :a ile :b arası gösteriliyor",

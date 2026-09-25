@@ -119,7 +119,10 @@ entire group with `disabled` on `<loomi-button-group>`.
 ## Accessibility
 
 - Supports keyboard focus with visible `:focus-visible` styling on each button.
-- Icon-only items should provide `label` or `aria-label` so the button still has an accessible name.
+- Whenever an item's label is visually hidden (`icon-only` or `circle` on the group or the
+  item), its inner button gets an `aria-label` from the item's own `aria-label`, else its
+  `label`, so it announces as e.g. "View as list, toggle button, pressed". Give every
+  icon-only item one or the other.
 
 For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 

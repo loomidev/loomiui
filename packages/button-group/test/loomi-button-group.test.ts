@@ -133,4 +133,79 @@ describe("loomi-button-group", () => {
     expect(addLabel.hidden).to.be.true;
     expect(getComputedStyle(addButton).borderRadius).to.equal("9999px");
   });
+
+  describe("icon-only accessible names", () => {
+    it("names every icon-only item from its label and passes axe", async () => {
+      const el = await fixture<LoomiButtonGroup>(html`
+        <loomi-button-group icon-only aria-label="Layout">
+          <loomi-button-group-item label="View as list" icon="list-bullet" value="list" selected></loomi-button-group-item>
+          <loomi-button-group-item label="View as grid" icon="squares-2x2" value="grid"></loomi-button-group-item>
+        </loomi-button-group>
+      `);
+      const buttons = Array.from(
+        el.querySelectorAll<LoomiButtonGroupItem>("loomi-button-group-item"),
+        (item) => item.shadowRoot!.querySelector<HTMLButtonElement>("button")!,
+      );
+
+      expect(buttons.map((b) => b.getAttribute("aria-label"))).to.deep.equal([
+        "View as list",
+        "View as grid",
+      ]);
+      expect(buttons.map((b) => b.getAttribute("aria-pressed"))).to.deep.equal(["true", "false"]);
+      await expect(el).to.be.accessible();
+    });
+
+    it("prefers an item's own aria-label and names circle and item-level icon-only buttons", async () => {
+      const el = await fixture<LoomiButtonGroup>(html`
+        <loomi-button-group aria-label="Actions">
+          <loomi-button-group-item label="Add" icon="plus" circle aria-label="Add a row"></loomi-button-group-item>
+          <loomi-button-group-item label="Remove" icon="minus" icon-only></loomi-button-group-item>
+        </loomi-button-group>
+      `);
+      const [add, remove] = Array.from(
+        el.querySelectorAll<LoomiButtonGroupItem>("loomi-button-group-item"),
+        (item) => item.shadowRoot!.querySelector<HTMLButtonElement>("button")!,
+      );
+
+      expect(add.getAttribute("aria-label")).to.equal("Add a row");
+      expect(remove.getAttribute("aria-label")).to.equal("Remove");
+      await expect(el).to.be.accessible();
+    });
+
+    it("follows the group's icon-only attribute through a wrapper element", async () => {
+      // The label is hidden by an inherited custom property keyed off the group's
+      // attribute, so the aria-label has to come from the same source — not from the
+      // item's direct parent.
+      const el = await fixture<LoomiButtonGroup>(html`
+        <loomi-button-group icon-only aria-label="Layout">
+          <span>
+            <loomi-button-group-item label="View as list" icon="list-bullet"></loomi-button-group-item>
+          </span>
+        </loomi-button-group>
+      `);
+      const item = el.querySelector<LoomiButtonGroupItem>("loomi-button-group-item")!;
+      const button = item.shadowRoot!.querySelector<HTMLButtonElement>("button")!;
+      const label = item.shadowRoot!.querySelector<HTMLElement>(".loomi-bg-label")!;
+
+      expect(getComputedStyle(label).display).to.equal("none");
+      expect(button.getAttribute("aria-label")).to.equal("View as list");
+      await expect(el).to.be.accessible();
+    });
+
+    it("drops the aria-label again when icon-only is removed from the group", async () => {
+      const el = await fixture<LoomiButtonGroup>(html`
+        <loomi-button-group icon-only>
+          <loomi-button-group-item label="View as list" icon="list-bullet"></loomi-button-group-item>
+        </loomi-button-group>
+      `);
+      const item = el.querySelector<LoomiButtonGroupItem>("loomi-button-group-item")!;
+      el.iconOnly = false;
+      await el.updateComplete;
+      await item.updateComplete;
+
+      const button = item.shadowRoot!.querySelector<HTMLButtonElement>("button")!;
+      expect(button.hasAttribute("aria-label")).to.be.false;
+      expect(button.textContent!.trim()).to.equal("View as list");
+    });
+  });
 });

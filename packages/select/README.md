@@ -208,6 +208,16 @@ with the selected value displayed beneath it:
 
 ## Accessibility
 
+- The trigger is named by its `label` plus the current value (e.g. "Crop, Maize"); while
+  nothing is selected it's named by the label alone. The options listbox is named by the
+  label too.
+- A select without a visible `label` takes its name from `aria-label` on the host, which
+  is forwarded to the trigger and the listbox:
+
+```html
+<loomi-select aria-label="Workspace" placeholder="Choose a workspace"></loomi-select>
+```
+
 For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
@@ -225,6 +235,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `name`               | _(blank)_              | Submitted with the form.                                                                        |
 | `placeholder`        | `Select One`           | Trigger text when nothing is selected.                                                          |
 | `label`              | _(blank)_              | Floating label (takes precedence over placeholder).                                             |
+| `aria-label`         | _(blank)_              | Accessible name for a select with no `label`; forwarded to the trigger and listbox.             |
 | `label-position`     | `default`              | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field. |
 | `data`               | `[]`                   | Options array - property (`.data`) or JSON-string attribute.                                    |
 | `label-key`          | `label`                | Row key used as each option's display text.                                                     |

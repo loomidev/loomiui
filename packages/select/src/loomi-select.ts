@@ -59,6 +59,11 @@ export class LoomiSelect extends LoomiElement {
   @property({ reflect: true }) name = "";
   @property() placeholder = DEFAULT_PLACEHOLDER;
   @property() label = "";
+  /**
+   * Accessible name for a select with no visible `label`, forwarded to the trigger
+   * button and the options listbox. Ignored when `label` is set, which names both.
+   */
+  @property({ attribute: "aria-label" }) accessibilityLabel = "";
   @property({ attribute: "label-position", reflect: true })
   labelPosition: LoomiFieldLabelPosition = "default";
   @property() locale = "";
@@ -359,6 +364,17 @@ export class LoomiSelect extends LoomiElement {
           );
     const opts = this.filtered;
 
+    // Name the trigger from the label plus the current value ("Crop, Maize"). While the
+    // value span is only the hidden sizer echoing the label, point at the label alone so
+    // the name isn't read twice. With no label, fall back to the forwarded aria-label; a
+    // select with neither is still named by its visible placeholder/value text.
+    const labelledBy = hasLabel
+      ? reserveLabelSpace
+        ? "loomi-label"
+        : "loomi-label loomi-value"
+      : nothing;
+    const ariaLabel = !hasLabel && this.accessibilityLabel ? this.accessibilityLabel : nothing;
+
     const activeId =
       this.open && this.activeIndex >= 0 && opts[this.activeIndex]
         ? `loomi-opt-${this.activeIndex}`
@@ -374,23 +390,25 @@ export class LoomiSelect extends LoomiElement {
           class="loomi-trigger"
           part="trigger"
           aria-haspopup="listbox"
+          aria-labelledby=${labelledBy}
+          aria-label=${ariaLabel}
           aria-expanded=${this.open ? "true" : "false"}
           aria-activedescendant=${activeId}
           ?disabled=${this.disabled}
           @click=${this.toggleOpen}
           @blur=${this.showValidation}
         >
-          <span class="loomi-value ${hasSelection ? "" : "placeholder"} ${reserveLabelSpace ? "sizer" : ""}">${displayText}</span>
+          <span id="loomi-value" class="loomi-value ${hasSelection ? "" : "placeholder"} ${reserveLabelSpace ? "sizer" : ""}">${displayText}</span>
           <svg class="loomi-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${CHEVRON}</svg>
         </button>
         ${
           hasLabel
-            ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
+            ? html`<label id="loomi-label" class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
             : nothing
         }
         ${
           this.open
-            ? html`<div class="loomi-panel" part="panel" popover="manual" role="listbox" aria-multiselectable=${this.multiple ? "true" : nothing}>
+            ? html`<div class="loomi-panel" part="panel" popover="manual" role="listbox" aria-labelledby=${hasLabel ? "loomi-label" : nothing} aria-label=${ariaLabel} aria-multiselectable=${this.multiple ? "true" : nothing}>
               ${
                 this.searchable && this.options.length
                   ? html`<div class="loomi-searchbox">

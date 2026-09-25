@@ -50,6 +50,7 @@ export const it: LoomiTranslations = {
     searchPlaceholder: "Cerca...",
     noDataMessage: "Nessun record da mostrare",
     actionsTitle: "azioni",
+    scrollRegion: "Tabella scorrevole",
   },
   pagination: {
     totalLabel: "Visualizzazione da :a a :b di :c",

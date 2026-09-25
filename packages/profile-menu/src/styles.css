@@ -1,6 +1,7 @@
 :host {
   display: inline-block;
   min-width: 0;
+  max-width: 100%;
   --loomi-profile-menu-radius: 0.875rem;
 }
 
@@ -18,6 +19,12 @@
   --loomi-dropmenu-arrow-inset: 0.6875rem;
 }
 
+/* Let a constrained host (a shrinking flex item, a narrow column) squeeze the whole
+   trigger chain instead of the trigger's intrinsic width pushing past it. */
+.loomi-pm-dropmenu {
+  max-width: 100%;
+}
+
 loomi-card {
   display: block;
 }
@@ -27,9 +34,10 @@ loomi-card {
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 6px;
-  min-width: min(14rem, 100vw);
+  min-width: var(--loomi-profile-menu-min-width, min(14rem, 100vw));
   max-width: 18rem;
   padding: 0.75rem;
+  position: relative;
   border: 1px solid transparent;
   border-radius: var(--loomi-profile-menu-radius);
   color: var(--loomi-text);
@@ -107,6 +115,40 @@ loomi-card {
 
 .loomi-pm-trigger:hover .loomi-pm-chevron {
   color: var(--loomi-text-muted);
+}
+
+/* Compact: avatar + chevron only. The copy is visually hidden rather than removed so
+   the trigger button keeps "name, description" as its accessible name. Keyed off a
+   class rather than the reflected attribute, since `compact="true"` stays as written.
+   `:host` + declared after the avatar-position rules, so the two-column grid wins. */
+:host .loomi-pm-trigger.compact-always {
+  grid-template-columns: auto auto;
+  min-width: 0;
+}
+
+:host .compact-always .loomi-pm-copy {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 39.9375rem) {
+  :host .loomi-pm-trigger.compact-auto {
+    grid-template-columns: auto auto;
+    min-width: 0;
+  }
+
+  :host .compact-auto .loomi-pm-copy {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
 }
 
 .loomi-pm-staging {

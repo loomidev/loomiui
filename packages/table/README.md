@@ -401,6 +401,17 @@ same table:
 
 ## Accessibility
 
+- When the table is wider than its container (typically on phones), its scroll box
+  becomes a focusable `role="region"` so keyboard users can Tab to it and scroll with the
+  arrow keys; it shows a focus ring while focused. Once the table fits again the region,
+  and its tab stop, go away.
+- The region is named by the host's `aria-label`, else its `title`, else a localized
+  "Scrollable table" (`table.scrollRegion`):
+
+```html
+<loomi-table aria-label="Staff directory"></loomi-table>
+```
+
 For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
@@ -463,9 +474,10 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `button-label`           | _(blank)_                        | Empty-state CTA label.                                                                |
 | `show-image`             | `true`                           | Show empty-state image. _(boolean)_                                                   |
 | `onclick`                | _(blank)_                        | empty-state action string, also emitted in `loomi-empty-action`.                      |
+| `aria-label`             | _(blank)_                        | Names the horizontal scroll region while the table overflows (then `title`).          |
 | `nonce`                  | _(blank)_                        | Accepted as a no-op compatibility attribute.                                          |
 
-**Properties:** `selectedIds`, `selectedRows` (read-only current selection).
+**Properties:** `selectedIds`, `selectedRows` (read-only current selection). **Parts:** `scroll` (the horizontal scroll box).
 
 ## Slots
 
