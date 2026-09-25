@@ -178,6 +178,26 @@ jobs:
           publish-script: pnpm release
           github-token: ${{ secrets.CHANGESETS_TOKEN }}
 
+      # One `vX.Y.Z` release for the whole version, alongside the per-package releases
+      # changesets creates. Saved as a draft built from the changelogs: drafts are private,
+      # notify no one and don't take the "Latest" badge, so a maintainer can rewrite the
+      # notes in plain language before publishing it from the Releases page.
+      - name: Draft combined GitHub release
+        if: steps.changesets.outputs.published == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PACKAGES: ${{ steps.changesets.outputs['published-packages'] }}
+          SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+        run: |
+          version=$(printf '%s' "$PACKAGES" | jq -r '.[0].version')
+          if gh release view "v$version" >/dev/null 2>&1; then
+            echo "Release v$version already exists; leaving it alone."
+            exit 0
+          fi
+          node scripts/draft-release-notes.mjs "$version" > "$RUNNER_TEMP/release-notes.md"
+          gh release create "v$version" --draft --target "$SHA" \
+            --title "v$version" --notes-file "$RUNNER_TEMP/release-notes.md"
+
       # Deployment notification. The webhook is a secret because it is a bearer
       # credential: anyone holding the URL can post into the channel. Skipped rather than
       # failed when the secret is absent, so a fork's run does not go red over it.

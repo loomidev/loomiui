@@ -58,7 +58,10 @@ change.
    npm OIDC.
 6. Verify representative packages with `npm view @loomidev/<name> version` and install
    them in a clean consumer project.
-7. Publish communication using [release-communication.md](release-communication.md).
+7. Open the draft `vX.Y.Z` release the workflow created on the GitHub Releases page,
+   rewrite its notes in plain language (it is assembled from the package changelogs), and
+   publish it. That single release is the one people read and get notified about.
+8. Publish communication using [release-communication.md](release-communication.md).
 
 ## Rollback
 
