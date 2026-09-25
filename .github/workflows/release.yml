@@ -196,7 +196,7 @@ jobs:
           fi
           node scripts/draft-release-notes.mjs "$version" > "$RUNNER_TEMP/release-notes.md"
           gh release create "v$version" --draft --target "$SHA" \
-            --title "LoomiUI $version" --notes-file "$RUNNER_TEMP/release-notes.md"
+            --title "v$version" --notes-file "$RUNNER_TEMP/release-notes.md"
 
       # Deployment notification. The webhook is a secret because it is a bearer
       # credential: anyone holding the URL can post into the channel. Skipped rather than
