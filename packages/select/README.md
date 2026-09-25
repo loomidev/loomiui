@@ -208,11 +208,16 @@ with the selected value displayed beneath it:
 
 ## Accessibility
 
-- The trigger is named by its `label` plus the current value (e.g. "Crop, Maize"); while
-  nothing is selected it's named by the label alone. The options listbox is named by the
-  label too.
+- The trigger follows the WAI-ARIA [select-only combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/)
+  pattern: a `role="combobox"` button with `aria-haspopup="listbox"`, `aria-expanded`,
+  and, while open, `aria-controls` plus `aria-activedescendant` tracking the highlighted
+  option. Focus stays on the trigger (or moves to the search box when `searchable`, which
+  then tracks the highlighted option itself); Arrow keys, Home/End, Enter/Space and
+  Escape drive the list.
+- The combobox is named by its `label`, and the current value is read as its value
+  (e.g. "Crop, combobox, Maize"). The option list (`role="listbox"`) takes the same name.
 - A select without a visible `label` takes its name from `aria-label` on the host, which
-  is forwarded to the trigger and the listbox:
+  is forwarded to the trigger and the listbox. With neither, the placeholder text names it.
 
 ```html
 <loomi-select aria-label="Workspace" placeholder="Choose a workspace"></loomi-select>

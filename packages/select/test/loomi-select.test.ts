@@ -155,66 +155,107 @@ describe("loomi-select", () => {
     expect(parseFloat(panel.style.left)).to.be.closeTo(t.left, 1);
   });
 
-  describe("accessible name", () => {
-    it("names the trigger from its label while only the placeholder shows", async () => {
-      const el = await fixture<LoomiSelect>(
-        html`<loomi-select label="Crop" placeholder="All crops" .data=${DATA}></loomi-select>`,
-      );
-      const trigger = el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!;
-      const label = el.shadowRoot!.querySelector<HTMLLabelElement>(".loomi-label")!;
+  describe("combobox semantics and accessible name", () => {
+    const trig = (el: LoomiSelect) =>
+      el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!;
+    const open = async (el: LoomiSelect) => {
+      trig(el).click();
+      await el.updateComplete;
+      return el.shadowRoot!.querySelector<HTMLElement>('[role="listbox"]')!;
+    };
 
-      // The value span is the hidden sizer echoing the label here, so only the label
-      // names the trigger — pointing at both would read "Crop Crop".
-      expect(trigger.getAttribute("aria-labelledby")).to.equal(label.id);
+    it("is a select-only combobox controlling the listbox while open", async () => {
+      const el = await fixture<LoomiSelect>(
+        html`<loomi-select label="Crop" .data=${DATA}></loomi-select>`,
+      );
+      const trigger = trig(el);
+      expect(trigger.getAttribute("role")).to.equal("combobox");
+      expect(trigger.getAttribute("aria-haspopup")).to.equal("listbox");
+      expect(trigger.hasAttribute("aria-controls")).to.be.false;
+
+      const panel = await open(el);
+      expect(panel.getAttribute("role")).to.equal("listbox");
+      expect(trigger.getAttribute("aria-controls")).to.equal(panel.id);
+      expect(trigger.getAttribute("aria-expanded")).to.equal("true");
+      expect(trigger.getAttribute("aria-activedescendant")).to.equal("loomi-opt-0");
       await expect(el).to.be.accessible();
     });
 
-    it("announces both the label and the current value once one is chosen", async () => {
+    it("names the trigger and listbox from the label only, leaving the value as content", async () => {
       const el = await fixture<LoomiSelect>(
         html`<loomi-select label="Crop" .data=${DATA} selected-value="ng"></loomi-select>`,
       );
-      const trigger = el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!;
-      const ids = trigger.getAttribute("aria-labelledby")!.split(" ");
+      // The value is the combobox's content (read as its value); referencing it in the
+      // name as well would announce it twice.
+      expect(trig(el).getAttribute("aria-labelledby")).to.equal("loomi-label");
+      expect(trig(el).textContent).to.include("Nigeria");
+      await expect(el).to.be.accessible();
 
-      expect(ids.map((id) => el.shadowRoot!.getElementById(id)!.textContent)).to.deep.equal([
-        "Crop",
-        "Nigeria",
-      ]);
+      const panel = await open(el);
+      expect(panel.getAttribute("aria-labelledby")).to.equal("loomi-label");
       await expect(el).to.be.accessible();
     });
 
-    it("forwards a host aria-label to the trigger when there is no label", async () => {
+    it("passes axe with a label and only the placeholder showing", async () => {
+      const el = await fixture<LoomiSelect>(
+        html`<loomi-select label="Crop" placeholder="All crops" .data=${DATA}></loomi-select>`,
+      );
+      expect(trig(el).getAttribute("aria-labelledby")).to.equal("loomi-label");
+      await expect(el).to.be.accessible();
+    });
+
+    it("uses a forwarded host aria-label when there is no label", async () => {
       const el = await fixture<LoomiSelect>(
         html`<loomi-select aria-label="Workspace" .data=${DATA}></loomi-select>`,
       );
-      const trigger = el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!;
+      expect(trig(el).getAttribute("aria-label")).to.equal("Workspace");
+      expect(trig(el).hasAttribute("aria-labelledby")).to.be.false;
+      await expect(el).to.be.accessible();
 
-      expect(trigger.getAttribute("aria-label")).to.equal("Workspace");
-      expect(trigger.hasAttribute("aria-labelledby")).to.be.false;
+      const panel = await open(el);
+      expect(panel.getAttribute("aria-label")).to.equal("Workspace");
       await expect(el).to.be.accessible();
     });
 
-    it("names the open listbox after the label or forwarded aria-label", async () => {
-      const labelled = await fixture<LoomiSelect>(
-        html`<loomi-select label="Crop" .data=${DATA}></loomi-select>`,
+    it("falls back to the placeholder text when there is neither label nor aria-label", async () => {
+      const el = await fixture<LoomiSelect>(
+        html`<loomi-select placeholder="Pick a country" .data=${DATA}></loomi-select>`,
       );
-      labelled.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!.click();
-      await labelled.updateComplete;
-      const panel = labelled.shadowRoot!.querySelector<HTMLElement>(".loomi-panel")!;
-      expect(panel.getAttribute("role")).to.equal("listbox");
-      expect(panel.getAttribute("aria-labelledby")).to.equal("loomi-label");
-      // No axe pass while open: the trigger's aria-activedescendant is not an allowed
-      // attribute on role=button (axe aria-allowed-attr). That predates the naming work
-      // and needs the trigger moved to role=combobox, tracked separately.
+      const valueId = trig(el).getAttribute("aria-labelledby")!;
+      expect(el.shadowRoot!.getElementById(valueId)!.textContent).to.equal("Pick a country");
+      await expect(el).to.be.accessible();
 
-      const unlabelled = await fixture<LoomiSelect>(
-        html`<loomi-select aria-label="Workspace" .data=${DATA}></loomi-select>`,
-      );
-      unlabelled.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!.click();
-      await unlabelled.updateComplete;
-      expect(
-        unlabelled.shadowRoot!.querySelector(".loomi-panel")!.getAttribute("aria-label"),
-      ).to.equal("Workspace");
+      await open(el);
+      await expect(el).to.be.accessible();
     });
+
+    it("passes axe open with search and multiple selection", async () => {
+      const el = await fixture<LoomiSelect>(
+        html`<loomi-select label="Crops" searchable multiple .data=${DATA}></loomi-select>`,
+      );
+      await open(el);
+      await el.updateComplete;
+      const search = el.shadowRoot!.querySelector<HTMLInputElement>(".loomi-search")!;
+      expect(el.shadowRoot!.activeElement).to.equal(search);
+      expect(search.getAttribute("aria-controls")).to.equal("loomi-listbox");
+      expect(search.getAttribute("aria-activedescendant")).to.equal("loomi-opt-0");
+      await expect(el).to.be.accessible();
+    });
+  });
+
+  it("controls the empty-state panel, not an empty listbox, when there are no options", async () => {
+    const el = await fixture<LoomiSelect>(
+      html`<loomi-select label="Crop" empty-action-label="Add a crop"></loomi-select>`,
+    );
+    const trigger = el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!;
+    trigger.click();
+    await el.updateComplete;
+
+    expect(el.shadowRoot!.querySelector(".loomi-empty")).to.exist;
+    expect(el.shadowRoot!.querySelector('[role="listbox"]')).to.not.exist;
+    expect(trigger.getAttribute("aria-controls")).to.equal(
+      el.shadowRoot!.querySelector(".loomi-panel")!.id,
+    );
+    await expect(el).to.be.accessible();
   });
 });
