@@ -1,10 +1,16 @@
-// Drafts the notes for a single `vX.Y.Z` GitHub release from the package changelogs.
+// Prints the notes for a single `vX.Y.Z` GitHub release, which the Release workflow saves
+// as a draft.
 //
+// The notes are written by hand, in plain language, in `release-notes/v<version>.md` and
+// reviewed in the release pull request (development -> main); when that file exists it is
+// used as-is. Keying the file by version means a stale one can never be picked up for a
+// later release. See release-notes/README.md.
+//
+// Without it, this falls back to a starting point gathered from the package changelogs.
 // Changesets already writes one GitHub release per package; this gathers the whole
 // release into one place. The same changeset shows up in every package it touched, so
-// entries are de-duplicated and listed once with the packages they apply to. The result
-// is a starting point, not finished copy: the Release workflow saves it as a *draft*
-// release, and a maintainer rewrites it in plain language before publishing.
+// entries are de-duplicated and listed once with the packages they apply to. That draft is
+// technical, so a maintainer rewrites it in plain language before publishing.
 //
 // Usage: node scripts/draft-release-notes.mjs <version> > notes.md
 import { existsSync, readFileSync, readdirSync } from "node:fs";
@@ -19,6 +25,15 @@ if (!version) {
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const packagesDir = path.join(rootDir, "packages");
+
+const handWritten = path.join(rootDir, "release-notes", `v${version}.md`);
+if (existsSync(handWritten)) {
+  process.stdout.write(readFileSync(handWritten, "utf8"));
+  process.exit(0);
+}
+console.error(
+  `No release-notes/v${version}.md; drafting from the changelogs instead. Rewrite it in plain language before publishing.`,
+);
 
 /** Entry text → { kind, packages } */
 const entries = new Map();

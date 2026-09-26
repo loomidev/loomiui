@@ -21,6 +21,12 @@ pull request -> CI build/typecheck/browser tests/metadata checks
 workflow runs only on pushes to `main` and publishes through npm Trusted Publishing
 (OIDC), so no npm token belongs in repository configuration.
 
+After each publish the Release workflow's `sync-development` job merges `main` back into
+`development`, so the consumed changesets and version bumps don't reappear in the next
+release PR. When that merge conflicts, it opens a `sync/main-into-development-<version>`
+PR into `development` instead; resolve it with a merge commit, keeping `main`'s versions
+and CHANGELOGs.
+
 ## Pre-merge verification
 
 Run the same high-value sequence used by CI:
@@ -49,7 +55,9 @@ change.
 ## Release procedure
 
 1. Confirm every user-visible package change has a changeset.
-2. Merge the reviewed change to `main` with CI green.
+2. Add the plain-language notes for the release, `release-notes/v<next version>.md` (see
+   [release-notes/README.md](../release-notes/README.md)), to the release PR into `main`,
+   and merge it with CI green.
 3. Watch the Release workflow. With pending changesets it opens or updates the
    version-packages PR.
 4. Review versions and generated changelogs in that PR; do not edit package versions by
@@ -58,10 +66,13 @@ change.
    npm OIDC.
 6. Verify representative packages with `npm view @loomidev/<name> version` and install
    them in a clean consumer project.
-7. Open the draft `vX.Y.Z` release the workflow created on the GitHub Releases page,
-   rewrite its notes in plain language (it is assembled from the package changelogs), and
-   publish it. That single release is the one people read and get notified about.
+7. Open the draft `vX.Y.Z` release the workflow created on the GitHub Releases page and
+   publish it. Its notes come from `release-notes/vX.Y.Z.md`; if that file was missing, the
+   workflow assembled them from the package changelogs instead, and they need rewriting in
+   plain language first. That single release is the one people read and get notified about.
 8. Publish communication using [release-communication.md](release-communication.md).
+9. Check that the Release workflow's `sync-development` job merged `main` back into
+   `development`, or resolve the sync PR it opened.
 
 ## Rollback
 
