@@ -179,9 +179,12 @@ jobs:
           github-token: ${{ secrets.CHANGESETS_TOKEN }}
 
       # One `vX.Y.Z` release for the whole version, alongside the per-package releases
-      # changesets creates. Saved as a draft built from the changelogs: drafts are private,
-      # notify no one and don't take the "Latest" badge, so a maintainer can rewrite the
-      # notes in plain language before publishing it from the Releases page.
+      # changesets creates. Its notes are the plain-language release-notes/vX.Y.Z.md
+      # written and reviewed in the release pull request, or, when that file is missing, a
+      # technical draft gathered from the changelogs (see scripts/draft-release-notes.mjs).
+      # Saved as a draft either way: drafts are private, notify no one and don't take the
+      # "Latest" badge, so a maintainer gives the notes a last read before publishing them
+      # from the Releases page.
       - name: Draft combined GitHub release
         if: steps.changesets.outputs.published == 'true'
         env:
