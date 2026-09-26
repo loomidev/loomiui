@@ -42,6 +42,12 @@ const booleanAttribute = {
 /**
  * `<loomi-notification>` — a container for stacked, auto-dismissing toasts. Trigger via
  * the `notify()` method or the global `showLoomiNotification()` helper.
+ *
+ * @csspart title - A toast's title line (only rendered when the toast has a title).
+ * @csspart message - A toast's message.
+ * @cssprop --loomi-notification-title-gap - Space between the title and the message.
+ *   Defaults to `0.25rem`; only applies when a toast has both.
+ * @cssprop --loomi-notification-z-index - Stacking order of the toast layer.
  */
 @customElement("loomi-notification")
 export class LoomiNotification extends LoomiElement {
@@ -113,8 +119,8 @@ export class LoomiNotification extends LoomiElement {
         return html`<div class="loomi-toast" role="status" style=${accentVars(meta.color)}>
           <loomi-icon class="loomi-ico" name=${meta.icon} stroke-width="1.6"></loomi-icon>
           <div class="loomi-content">
-            ${t.title ? html`<div class="loomi-title">${t.title}</div>` : nothing}
-            <div class="loomi-message">${t.message}</div>
+            ${t.title ? html`<div class="loomi-title" part="title">${t.title}</div>` : nothing}
+            <div class="loomi-message" part="message">${t.message}</div>
           </div>
           <button type="button" class="loomi-close" aria-label=${loomiT("common.dismiss", {}, this.locale)} @click=${(event: Event) => this.onDismiss(event, t.id)}>
             <loomi-icon name="x-mark" stroke-width="2"></loomi-icon>

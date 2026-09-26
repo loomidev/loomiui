@@ -113,6 +113,10 @@
   font-size: 0.85rem;
   line-height: 1.4;
 }
+/* Only between the two: a message-only toast keeps its compact single line. */
+.loomi-title + .loomi-message {
+  margin-top: var(--loomi-notification-title-gap, 0.25rem);
+}
 .loomi-close {
   flex: none;
   display: inline-flex;

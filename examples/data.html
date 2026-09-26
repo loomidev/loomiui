@@ -54,6 +54,7 @@
       document.getElementById("open-modal").addEventListener("click", () => showLoomiModal("demo"));
       document.getElementById("notify").addEventListener("click", () => showLoomiNotification("Saved", "Your changes were saved.", "success", 5));
       document.getElementById("notify-err").addEventListener("click", () => showLoomiNotification("Upload failed", "Try again in a moment.", "error", 5));
+      document.getElementById("notify-long").addEventListener("click", () => showLoomiNotification("Export ready", "Your report finished processing and is ready to download from the Exports page for the next 7 days.", "info", 8));
       document.querySelector("loomi-modal").addEventListener("ok", () => showLoomiNotification("Confirmed", "You clicked Okay.", "success", 4));
     </script>
     <style>
@@ -79,6 +80,7 @@
       <button class="plain" id="open-modal">Open modal</button>
       <button class="plain" id="notify">Success notification</button>
       <button class="plain" id="notify-err">Error notification</button>
+      <button class="plain" id="notify-long">Title + two-line message</button>
     </div>
 
     <loomi-modal name="demo" type="warning" title="Confirm deletion" ok-button-label="Yes, delete" cancel-button-label="Keep it" show-close-icon>
