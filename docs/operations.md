@@ -21,6 +21,12 @@ pull request -> CI build/typecheck/browser tests/metadata checks
 workflow runs only on pushes to `main` and publishes through npm Trusted Publishing
 (OIDC), so no npm token belongs in repository configuration.
 
+After each publish the Release workflow's `sync-development` job merges `main` back into
+`development`, so the consumed changesets and version bumps don't reappear in the next
+release PR. When that merge conflicts, it opens a `sync/main-into-development-<version>`
+PR into `development` instead; resolve it with a merge commit, keeping `main`'s versions
+and CHANGELOGs.
+
 ## Pre-merge verification
 
 Run the same high-value sequence used by CI:
@@ -62,6 +68,8 @@ change.
    rewrite its notes in plain language (it is assembled from the package changelogs), and
    publish it. That single release is the one people read and get notified about.
 8. Publish communication using [release-communication.md](release-communication.md).
+9. Check that the Release workflow's `sync-development` job merged `main` back into
+   `development`, or resolve the sync PR it opened.
 
 ## Rollback
 
