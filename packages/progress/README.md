@@ -117,9 +117,9 @@ The label is hidden by default. Show it with `show-label`; add the `%` sign with
 ```html
 <loomi-progress-circle size="tiny" percentage="10"></loomi-progress-circle>
 <loomi-progress-circle size="small" percentage="35"></loomi-progress-circle>
-<loomi-progress-circle size="medium" percentage="60"></loomi-progress-circle>
+<loomi-progress-circle size="regular" percentage="60"></loomi-progress-circle>
 <loomi-progress-circle size="big" percentage="80"></loomi-progress-circle>
-<loomi-progress-circle size="large" percentage="95"></loomi-progress-circle>
+<loomi-progress-circle size="huge" percentage="95"></loomi-progress-circle>
 ```
 
 `size` also accepts any pixel number for a fully custom diameter - pair it with
@@ -152,12 +152,12 @@ following elements below them, including when content is added or resized.
 
 ### Colors and Sizes
 
-Same colors as the bar and circle, plus four preset sizes: `small`, `medium`
-(default), `big`, and `large`.
+Same colors as the bar and circle, plus four preset sizes: `small`, `regular`
+(default), `big`, and `huge`.
 
 ```html
 <loomi-progress-arc size="small" color="warning" percentage="42"></loomi-progress-arc>
-<loomi-progress-arc size="large" color="success" shade="dark" percentage="90"></loomi-progress-arc>
+<loomi-progress-arc size="huge" color="success" shade="dark" percentage="90"></loomi-progress-arc>
 ```
 
 ## Progress Steps
@@ -203,32 +203,32 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ### `<loomi-progress-circle>`
 
-| Attribute      | Default  | Description                                                           |
-| -------------- | -------- | --------------------------------------------------------------------- |
-| `size`         | `medium` | `tiny` \| `small` \| `medium` \| `big` \| `large`, or a pixel number. |
-| `circle-width` | `10`     | Stroke thickness (viewBox units).                                     |
-| `show-label`   | `false`  | Show the percentage in the center. _(boolean)_                        |
-| `show-percent` | `false`  | Append a `%` sign. _(boolean)_                                        |
+| Attribute      | Default   | Description                                                                                                                                                       |
+| -------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `size`         | `regular` | `tiny` \| `small` \| `regular` \| `big` \| `huge`, or a pixel number. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `circle-width` | `10`      | Stroke thickness (viewBox units).                                                                                                                                 |
+| `show-label`   | `false`   | Show the percentage in the center. _(boolean)_                                                                                                                    |
+| `show-percent` | `false`   | Append a `%` sign. _(boolean)_                                                                                                                                    |
 
 ### `<loomi-progress-arc>`
 
-| Attribute      | Default   | Description                                                 |
-| -------------- | --------- | ----------------------------------------------------------- |
-| `size`         | `medium`  | `small` \| `medium` \| `big` \| `large`, or a pixel number. |
-| `show-percent` | `true`    | Show the `NN%` value under the arc. _(boolean)_             |
-| `caption`      | _(blank)_ | Secondary text under the value.                             |
-| `label`        | _(blank)_ | Accessible name. Falls back to a translated "Progress".     |
+| Attribute      | Default   | Description                                                                                                                                             |
+| -------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `size`         | `regular` | `small` \| `regular` \| `big` \| `huge`, or a pixel number. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `show-percent` | `true`    | Show the `NN%` value under the arc. _(boolean)_                                                                                                         |
+| `caption`      | _(blank)_ | Secondary text under the value.                                                                                                                         |
+| `label`        | _(blank)_ | Accessible name. Falls back to a translated "Progress".                                                                                                 |
 
 ### `<loomi-progress-steps>`
 
-| Attribute     | Default      | Description                                                  |
-| ------------- | ------------ | ------------------------------------------------------------ |
-| `current`     | `1`          | Current step number, starting at 1.                          |
-| `color`       | `primary`    | Any loomi color.                                             |
-| `orientation` | `horizontal` | `horizontal` \| `vertical`                                   |
-| `size`        | `regular`    | `regular` \| `small`                                         |
-| `variant`     | `circle`     | `circle` \| `bar`                                            |
-| `clickable`   | `false`      | Lets child steps update `current` when selected. _(boolean)_ |
+| Attribute     | Default      | Description                                                                                                       |
+| ------------- | ------------ | ----------------------------------------------------------------------------------------------------------------- |
+| `current`     | `1`          | Current step number, starting at 1.                                                                               |
+| `color`       | `primary`    | Any loomi color.                                                                                                  |
+| `orientation` | `horizontal` | `horizontal` \| `vertical`                                                                                        |
+| `size`        | `regular`    | `small` \| `regular`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `variant`     | `circle`     | `circle` \| `bar`                                                                                                 |
+| `clickable`   | `false`      | Lets child steps update `current` when selected. _(boolean)_                                                      |
 
 ### `<loomi-progress-step>`
 
@@ -279,7 +279,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 <loomi-progress-circle
   percentage="50"
   color="error"
-  size="medium"
+  size="regular"
   circle-width="12"
   show-label
   show-percent

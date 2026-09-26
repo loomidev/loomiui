@@ -17,14 +17,6 @@
         },
         {
           "kind": "js",
-          "name": "LoomiSpinnerSize",
-          "declaration": {
-            "name": "LoomiSpinnerSize",
-            "module": "./loomi-spinner.js"
-          }
-        },
-        {
-          "kind": "js",
           "name": "LoomiSpinnerType",
           "declaration": {
             "name": "LoomiSpinnerType",
@@ -44,11 +36,20 @@
           "members": [
             {
               "kind": "field",
+              "name": "supportedSizes",
+              "static": true,
+              "readonly": true,
+              "default": "{ size: SPINNER_SIZES } satisfies LoomiSizeSupport",
+              "description": "Size names this component supports, from the canonical `LoomiSize` scale."
+            },
+            {
+              "kind": "field",
               "name": "size",
               "type": {
-                "text": "LoomiSpinnerSize"
+                "text": "LoomiSize"
               },
-              "default": "\"small\"",
+              "default": "\"regular\"",
+              "description": "Indicator size: `regular` | `medium` | `big` | `huge` | `omg`.",
               "attribute": "size"
             },
             {
@@ -89,15 +90,6 @@
             },
             {
               "kind": "field",
-              "name": "normalizedSize",
-              "type": {
-                "text": "NormalizedSpinnerSize"
-              },
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
               "name": "normalizedType",
               "type": {
                 "text": "LoomiSpinnerType"
@@ -120,9 +112,10 @@
             {
               "name": "size",
               "type": {
-                "text": "LoomiSpinnerSize"
+                "text": "LoomiSize"
               },
-              "default": "\"small\"",
+              "default": "\"regular\"",
+              "description": "Indicator size: `regular` | `medium` | `big` | `huge` | `omg`.",
               "fieldName": "size"
             },
             {

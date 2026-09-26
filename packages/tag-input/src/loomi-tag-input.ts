@@ -12,11 +12,14 @@ import {
   type LoomiFloatingPanelHandle,
   loomiT,
   themeStyles,
+  LOOMI_CONTROL_SIZES,
+  resolveLoomiSize,
+  type LoomiSize,
+  type LoomiSizeSupport,
 } from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
-export type LoomiTagInputSize = "tiny" | "small" | "regular" | "medium" | "big";
 export type LoomiTagInputMode = "inside" | "below";
 export type LoomiTagInputVariant = "default" | "minimal";
 export type LoomiTagInputShade = "faint" | "dark" | "light";
@@ -52,6 +55,9 @@ const booleanAttribute = {
 @customElement("loomi-tag-input")
 export class LoomiTagInput extends LoomiElement {
   static override styles = [themeStyles, controlSizeStyles, fieldStyles, componentStyles];
+
+  /** Size names this component supports, from the canonical `LoomiSize` scale — shared by every form control. */
+  static readonly supportedSizes = { size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
 
   private internals = this.attachInternals();
@@ -65,7 +71,8 @@ export class LoomiTagInput extends LoomiElement {
   @property() locale = "";
   @property() placeholder = "";
   @property() value = "";
-  @property() size: LoomiTagInputSize = "medium";
+  /** Size preset: `tiny` | `small` | `regular` | `medium` | `big`. Equal names give equal heights across every form control and `<loomi-button>`. */
+  @property() size: LoomiSize = "regular";
   @property() variant: LoomiTagInputVariant = "default";
   @property() color: LoomiColor | string = "primary";
   @property() shade: LoomiTagInputShade = "light";
@@ -410,7 +417,7 @@ export class LoomiTagInput extends LoomiElement {
     const showError = this.invalid && this.showErrorInline && this.errorMessage;
     const fieldClasses = [
       "loomi-field",
-      `size-${this.size}`,
+      `size-${resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)}`,
       `variant-${this.variant}`,
       belowMode ? "mode-below" : "mode-inside",
       this.tagValues.length > 0 ? "has-tags" : "",

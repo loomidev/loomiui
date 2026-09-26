@@ -7,10 +7,18 @@ import {
   loomiStyles,
   loomiT,
   onClickOutside,
+  resolveLoomiSize,
+  type LoomiSize,
+  type LoomiSizeSupport,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
-export type LoomiColorpickerSize = "small" | "regular" | "medium" | "big";
+const COLORPICKER_SIZES = [
+  "small",
+  "regular",
+  "medium",
+  "big",
+] as const satisfies readonly LoomiSize[];
 
 /** Must match the swatch panel's `grid-template-columns: repeat(4, ...)` in styles.css. */
 const GRID_COLUMNS = 4;
@@ -24,6 +32,9 @@ const GRID_COLUMNS = 4;
 @customElement("loomi-colorpicker")
 export class LoomiColorpicker extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
+
+  /** Size names this component supports, from the canonical `LoomiSize` scale. */
+  static readonly supportedSizes = { size: COLORPICKER_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
   private internals = this.attachInternals();
   private initialSelectedValue = "#000000";
@@ -33,7 +44,8 @@ export class LoomiColorpicker extends LoomiElement {
   @property({ type: Boolean, attribute: "show-value" }) showValue = false;
   @property() colors = "";
   @property() locale = "";
-  @property() size: LoomiColorpickerSize = "regular";
+  /** Swatch size: `small` | `regular` | `medium` | `big`. */
+  @property() size: LoomiSize = "regular";
 
   @state() private open = false;
   @query(".loomi-cp") private floatAnchorEl?: HTMLElement;
@@ -200,7 +212,7 @@ export class LoomiColorpicker extends LoomiElement {
         : nothing;
     const swatch = palette.length
       ? html`<button
-            class="loomi-swatch size-${this.size}"
+            class="loomi-swatch size-${resolveLoomiSize(this.size, COLORPICKER_SIZES)}"
             style="background:${this.selectedValue}"
             role="combobox"
             aria-label=${loomiT("colorpicker.pickColor", {}, this.locale)}
@@ -238,7 +250,7 @@ export class LoomiColorpicker extends LoomiElement {
               </div>`
               : nothing
           }`
-      : html`<input class="loomi-native size-${this.size}" type="color" aria-label=${loomiT("colorpicker.pickColor", {}, this.locale)} name=${this.name || nothing} .value=${this.selectedValue} @input=${(e: Event) => this.setValue((e.target as HTMLInputElement).value)} />`;
+      : html`<input class="loomi-native size-${resolveLoomiSize(this.size, COLORPICKER_SIZES)}" type="color" aria-label=${loomiT("colorpicker.pickColor", {}, this.locale)} name=${this.name || nothing} .value=${this.selectedValue} @input=${(e: Event) => this.setValue((e.target as HTMLInputElement).value)} />`;
 
     return html`<div class="loomi-cp">
       ${swatch}

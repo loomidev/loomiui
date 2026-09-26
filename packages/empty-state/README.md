@@ -81,8 +81,8 @@ built-in image/heading/message/button layout.
 
 ```html
 <loomi-empty-state message="Small" image-size="small"></loomi-empty-state>
-<loomi-empty-state message="Large" image-size="large"></loomi-empty-state>
-<loomi-empty-state message="Extra large" image-size="xl"></loomi-empty-state>
+<loomi-empty-state message="Big" image-size="big"></loomi-empty-state>
+<loomi-empty-state message="Huge" image-size="huge"></loomi-empty-state>
 ```
 
 ## Using It Inside `<loomi-select>` and `<loomi-table>`
@@ -126,14 +126,14 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute      | Default   | Description                                                     |
-| -------------- | --------- | --------------------------------------------------------------- |
-| `heading`      | _(blank)_ | Optional heading.                                               |
-| `message`      | _(blank)_ | Main message text.                                              |
-| `button-label` | _(blank)_ | Action button text (omit to hide).                              |
-| `image`        | _(blank)_ | Custom image URL (defaults to a built-in illustration).         |
-| `image-size`   | `medium`  | `small` \| `medium` \| `large` \| `xl` \| `omg`                 |
-| `show-image`   | `true`    | Show the illustration. Set `false` to use the slot. _(boolean)_ |
+| Attribute      | Default   | Description                                                                                                                                   |
+| -------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `heading`      | _(blank)_ | Optional heading.                                                                                                                             |
+| `message`      | _(blank)_ | Main message text.                                                                                                                            |
+| `button-label` | _(blank)_ | Action button text (omit to hide).                                                                                                            |
+| `image`        | _(blank)_ | Custom image URL (defaults to a built-in illustration).                                                                                       |
+| `image-size`   | `regular` | `small` \| `regular` \| `big` \| `huge` \| `omg`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `show-image`   | `true`    | Show the illustration. Set `false` to use the slot. _(boolean)_                                                                               |
 
 ## Slots
 
@@ -155,7 +155,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
   message="Hey! You've cleaned up your inbox nicely."
   button-label="Compose a message"
   image="/illustrations/empty-inbox.png"
-  image-size="xl"
+  image-size="huge"
 ></loomi-empty-state>
 ```
 

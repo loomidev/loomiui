@@ -10,6 +10,9 @@ import {
   supportsPopover,
   type LoomiPanelPlacement,
   type LoomiResolvedSide,
+  type LoomiSize,
+  type LoomiSizeSupport,
+  LOOMI_CONTROL_SIZES,
 } from "@loomidev/core";
 import "@loomidev/button/loomi-button.js";
 import type { LoomiButton } from "@loomidev/button";
@@ -24,7 +27,6 @@ export type LoomiSplitButtonPlacement = LoomiPanelPlacement;
 
 /** Mirrors `<loomi-button>`'s own unions so the two stay learnable together. */
 export type LoomiSplitButtonType = "primary" | "secondary";
-export type LoomiSplitButtonSize = "tiny" | "small" | "regular" | "medium" | "big";
 export type LoomiSplitButtonRadius = "none" | "small" | "medium" | "full";
 export type LoomiSplitButtonColor =
   "primary" | "secondary" | "info" | "success" | "error" | "warning" | "gray";
@@ -58,6 +60,9 @@ export type LoomiSplitButtonColor =
 export class LoomiSplitButton extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
+  /** Size names this component supports, from the canonical `LoomiSize` scale — the same as `<loomi-button>`. */
+  static readonly supportedSizes = { size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport;
+
   /**
    * `delegatesFocus` so the host participates in focus like a native control — clicking
    * the padding focuses the primary half, and `:focus-within`-style styling works. The
@@ -72,7 +77,7 @@ export class LoomiSplitButton extends LoomiElement {
   // --- Mirrored from <loomi-button>, applied to both halves. ---
   @property({ reflect: true }) type: LoomiSplitButtonType = "primary";
   @property() color: LoomiSplitButtonColor | "" = "";
-  @property({ reflect: true }) size: LoomiSplitButtonSize = "regular";
+  @property({ reflect: true }) size: LoomiSize = "regular";
   @property({ reflect: true }) radius: LoomiSplitButtonRadius = "medium";
   @property({ type: Boolean, reflect: true }) outline = false;
   @property({ type: Number, attribute: "border-width" }) borderWidth = 2;

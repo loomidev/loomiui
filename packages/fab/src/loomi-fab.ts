@@ -7,6 +7,8 @@ import {
   accentVars,
   onClickOutside,
   type LoomiColor,
+  type LoomiSize,
+  type LoomiSizeSupport,
 } from "@loomidev/core";
 import type { LoomiIconSource } from "@loomidev/icons";
 import "@loomidev/icon/loomi-icon.js";
@@ -19,7 +21,8 @@ export type LoomiFabResolvedDirection = "up" | "down" | "left" | "right";
 export type LoomiFabDirection = LoomiFabResolvedDirection | "";
 export type LoomiFabTrigger = "click" | "hover";
 export type LoomiFabVariant = "floating" | "docked";
-export type LoomiFabSize = "small" | "medium" | "regular";
+/** The part of the canonical size scale a FAB supports. */
+const FAB_SIZES = ["small", "regular", "medium"] as const satisfies readonly LoomiSize[];
 
 const booleanAttribute = {
   fromAttribute(value: string | null): boolean {
@@ -149,6 +152,9 @@ export class LoomiFabItem extends LoomiElement {
 export class LoomiFab extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
+  /** Size names this component supports, from the canonical `LoomiSize` scale. */
+  static readonly supportedSizes = { size: FAB_SIZES } satisfies LoomiSizeSupport;
+
   /** Which viewport corner to anchor to (`floating`), or which edge to align the menu to (`docked`). */
   @property({ reflect: true }) placement: LoomiFabPlacement = "bottom-right";
 
@@ -161,8 +167,8 @@ export class LoomiFab extends LoomiElement {
   /** `floating` (default) anchors the button to a viewport corner. `docked` renders in normal flow. */
   @property({ reflect: true }) variant: LoomiFabVariant = "floating";
 
-  /** Size preset for the trigger button and speed-dial item circles. */
-  @property({ reflect: true }) size: LoomiFabSize = "regular";
+  /** Size preset for the trigger button and speed-dial item circles: `small` | `regular` | `medium`. */
+  @property({ reflect: true }) size: LoomiSize = "regular";
 
   /** Palette accent for the trigger and (softly) the item icons. */
   @property() color: LoomiColor = "primary";

@@ -5,7 +5,6 @@ export {
   LoomiProgressStep,
   LoomiProgressSteps,
   type LoomiProgressLabelPosition,
-  type LoomiProgressStepSize,
   type LoomiProgressStepState,
   type LoomiProgressStepsOrientation,
   type LoomiProgressStepsVariant,

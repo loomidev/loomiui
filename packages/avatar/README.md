@@ -24,8 +24,8 @@ import "@loomidev/avatar";
 ```html
 <loomi-avatar image="/avatars/ada.svg" size="tiny"></loomi-avatar>
 <loomi-avatar image="/avatars/robert.svg" size="small"></loomi-avatar>
-<loomi-avatar image="/avatars/sara.svg" size="medium"></loomi-avatar>
 <loomi-avatar image="/avatars/john.svg" size="regular"></loomi-avatar>
+<loomi-avatar image="/avatars/sara.svg" size="medium"></loomi-avatar>
 <loomi-avatar image="/avatars/male.jpg" size="big"></loomi-avatar>
 <loomi-avatar image="/avatars/female2.jpg" size="huge"></loomi-avatar>
 <loomi-avatar image="/avatars/female.jpg" size="omg"></loomi-avatar>
@@ -224,33 +224,33 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute      | Default       | Description                                                                        |
-| -------------- | ------------- | ---------------------------------------------------------------------------------- |
-| `image`        | _(blank)_     | Image URL. Shown as initials if 3 chars or fewer.                                  |
-| `label`        | _(blank)_     | Initials shown when no image.                                                      |
-| `size`         | `regular`     | `tiny` \| `small` \| `medium` \| `regular` \| `big` \| `huge` \| `omg`             |
-| `bg-color`     | `gray`        | Background/ring color for initials (any loomi color).                              |
-| `dotted`       | `false`       | Show a status dot. _(boolean)_                                                     |
-| `pulse-dot`    | `false`       | Animate the status dot with a presence pulse. _(boolean)_                          |
-| `dot-color`    | `success`     | Status dot color (any loomi color).                                                |
-| `dot-position` | `bottom`      | `top` \| `bottom`                                                                  |
-| `show-ring`    | `true`        | Show the ring around the avatar. _(boolean)_                                       |
-| `verified`     | `false`       | Show a primary-colored check badge in the bottom-right corner. _(boolean)_         |
-| `editable`     | `false`       | Clicking (or Enter/Space) launches a crop dialog to replace the image. _(boolean)_ |
-| `edit-label`   | `Edit avatar` | Accessible label for the editable avatar's button role.                            |
+| Attribute      | Default       | Description                                                                                                                                                         |
+| -------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `image`        | _(blank)_     | Image URL. Shown as initials if 3 chars or fewer.                                                                                                                   |
+| `label`        | _(blank)_     | Initials shown when no image.                                                                                                                                       |
+| `size`         | `regular`     | `tiny` \| `small` \| `regular` \| `medium` \| `big` \| `huge` \| `omg`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `bg-color`     | `gray`        | Background/ring color for initials (any loomi color).                                                                                                               |
+| `dotted`       | `false`       | Show a status dot. _(boolean)_                                                                                                                                      |
+| `pulse-dot`    | `false`       | Animate the status dot with a presence pulse. _(boolean)_                                                                                                           |
+| `dot-color`    | `success`     | Status dot color (any loomi color).                                                                                                                                 |
+| `dot-position` | `bottom`      | `top` \| `bottom`                                                                                                                                                   |
+| `show-ring`    | `true`        | Show the ring around the avatar. _(boolean)_                                                                                                                        |
+| `verified`     | `false`       | Show a primary-colored check badge in the bottom-right corner. _(boolean)_                                                                                          |
+| `editable`     | `false`       | Clicking (or Enter/Space) launches a crop dialog to replace the image. _(boolean)_                                                                                  |
+| `edit-label`   | `Edit avatar` | Accessible label for the editable avatar's button role.                                                                                                             |
 
 ### `<loomi-avatars>` (group)
 
-| Attribute      | Default   | Description                                                         |
-| -------------- | --------- | ------------------------------------------------------------------- |
-| `stacked`      | `false`   | Overlap children. _(boolean)_                                       |
-| `plus`         | `0`       | Append a `+N` bubble (also forces stacking).                        |
-| `size`         | `regular` | Propagated to children.                                             |
-| `stack-space`  | _(blank)_ | Custom overlap/spacing for stacked avatars, for example `-0.75rem`. |
-| `dotted`       | `false`   | Show a status dot on each child. _(boolean)_                        |
-| `pulse-dot`    | `false`   | Apply pulsing dots to children when `dotted` is set. _(boolean)_    |
-| `dot-color`    | `success` | Propagated to children without their own `dot-color`.               |
-| `dot-position` | `bottom`  | Propagated to children without their own `dot-position`.            |
+| Attribute      | Default   | Description                                                                                                                                                                                 |
+| -------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `stacked`      | `false`   | Overlap children. _(boolean)_                                                                                                                                                               |
+| `plus`         | `0`       | Append a `+N` bubble (also forces stacking).                                                                                                                                                |
+| `size`         | `regular` | Propagated to children. `tiny` \| `small` \| `regular` \| `medium` \| `big` \| `huge` \| `omg`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `stack-space`  | _(blank)_ | Custom overlap/spacing for stacked avatars, for example `-0.75rem`.                                                                                                                         |
+| `dotted`       | `false`   | Show a status dot on each child. _(boolean)_                                                                                                                                                |
+| `pulse-dot`    | `false`   | Apply pulsing dots to children when `dotted` is set. _(boolean)_                                                                                                                            |
+| `dot-color`    | `success` | Propagated to children without their own `dot-color`.                                                                                                                                       |
+| `dot-position` | `bottom`  | Propagated to children without their own `dot-position`.                                                                                                                                    |
 
 ## Slots
 

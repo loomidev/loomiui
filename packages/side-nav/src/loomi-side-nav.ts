@@ -1,17 +1,30 @@
 import { css, html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { LoomiElement, motionStyles, themeStyles } from "@loomidev/core";
+import {
+  LoomiElement,
+  motionStyles,
+  themeStyles,
+  resolveLoomiSize,
+  type LoomiSize,
+  type LoomiSizeSupport,
+} from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
 
 export type LoomiSideNavState = "expanded" | "icons" | "hidden";
 export type LoomiSideNavCollapseMode = "icons" | "hidden";
-export type LoomiSideNavIconSize = "small" | "regular" | "medium" | "large";
+/** The part of the canonical size scale item icons support. */
+const SIDE_NAV_ICON_SIZES = [
+  "small",
+  "regular",
+  "medium",
+  "big",
+] as const satisfies readonly LoomiSize[];
 
-const ICON_SIZES: Record<LoomiSideNavIconSize, string> = {
+const ICON_SIZES: Record<(typeof SIDE_NAV_ICON_SIZES)[number], string> = {
   small: "1rem",
   regular: "1.15rem",
   medium: "1.35rem",
-  large: "1.6rem",
+  big: "1.6rem",
 };
 const booleanAttribute = {
   fromAttribute(value: string | null): boolean {
@@ -106,6 +119,9 @@ export class LoomiSideNavItem extends LoomiElement {
 
 @customElement("loomi-side-nav")
 export class LoomiSideNav extends LoomiElement {
+  /** Size names this component supports, from the canonical `LoomiSize` scale. */
+  static readonly supportedSizes = { iconSize: SIDE_NAV_ICON_SIZES } satisfies LoomiSizeSupport;
+
   static override styles = [
     themeStyles,
     motionStyles,
@@ -218,7 +234,8 @@ export class LoomiSideNav extends LoomiElement {
   @property() label = "Navigation";
   @property({ type: Boolean, reflect: true, converter: booleanAttribute }) collapsible = false;
   @property({ type: Boolean, reflect: true, converter: booleanAttribute }) divided = false;
-  @property({ attribute: "icon-size", reflect: true }) iconSize: LoomiSideNavIconSize = "regular";
+  /** Item icon size: `small` | `regular` | `medium` | `big`. */
+  @property({ attribute: "icon-size", reflect: true }) iconSize: LoomiSize = "regular";
 
   protected override updated(changed: PropertyValues<this>): void {
     super.updated(changed);
@@ -248,7 +265,7 @@ export class LoomiSideNav extends LoomiElement {
   }
 
   private syncItemState = (): void => {
-    const iconSize = ICON_SIZES[this.iconSize] ?? ICON_SIZES.regular;
+    const iconSize = ICON_SIZES[resolveLoomiSize(this.iconSize, SIDE_NAV_ICON_SIZES)];
     for (const item of this.querySelectorAll<LoomiSideNavItem>("loomi-side-nav-item")) {
       item.compact = this.state !== "expanded";
       item.style.setProperty("--loomi-side-nav-item-icon-size", iconSize);

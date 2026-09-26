@@ -1,4 +1,5 @@
 import { css, type CSSResultGroup } from "lit";
+import type { LoomiSize } from "./size.js";
 
 /**
  * Keeps each field's existing label treatment by default, or places a compact,
@@ -8,11 +9,13 @@ export type LoomiFieldLabelPosition = "default" | "inside";
 
 /**
  * Shared sizing scale for form controls. Every field-style component (input, select,
- * datepicker, ...) offers the same five sizes; these classes set the control vars the
+ * datepicker, ...) offers the same five sizes from the canonical `LOOMI_SIZES` scale
+ * (`tiny` through `big`, see `./size.ts`); these classes set the control vars the
  * component's own CSS consumes (`--loomi-control-height` / `-pad-x` / `-font-size`).
  * Compose via `static styles = loomiStyles(controlSizeStyles, fieldStyles, componentStyles)`.
- * The component's `:host` keeps its own *default* var values (input defaults to the
- * medium scale, datepicker to regular, etc.) — only the `.size-*` rows live here.
+ * The component's `:host` keeps default var values matching `.size-regular`, the default
+ * size everywhere; `@loomidev/button` mirrors these heights, so equal size names give
+ * equal control heights.
  *
  * Height and horizontal padding are scaled by `--loomi-density`, an unitless multiplier
  * (default 1) that a theme can set at `:root` to make every control more compact (< 1) or
@@ -20,6 +23,15 @@ export type LoomiFieldLabelPosition = "default" | "inside";
  * intentionally not declared on `:host`, so a `:root` value inherits through Shadow DOM.
  * Font size is deliberately left unscaled — density controls spacing, `size` controls type.
  */
+/** The part of the canonical size scale every form control supports (the `.size-*` rows below). */
+export const LOOMI_CONTROL_SIZES = [
+  "tiny",
+  "small",
+  "regular",
+  "medium",
+  "big",
+] as const satisfies readonly LoomiSize[];
+
 export const controlSizeStyles: CSSResultGroup = css`
   .size-tiny {
     --loomi-control-height: calc(var(--loomi-density, 1) * 2rem);

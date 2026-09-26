@@ -7,7 +7,7 @@
 }
 
 .loomi-emoji-picker {
-  --loomi-emoji-trigger-h: 2.75rem;
+  --loomi-emoji-trigger-h: 2.5rem;
   --loomi-emoji-panel-w: 22rem;
   position: relative;
   display: inline-flex;
@@ -24,12 +24,12 @@
   font-size: 0.86rem;
 }
 
-.loomi-emoji-picker.size-regular {
-  --loomi-emoji-trigger-h: 2.5rem;
+.loomi-emoji-picker.size-medium {
+  --loomi-emoji-trigger-h: 2.75rem;
 }
 
 .loomi-emoji-picker.size-big {
-  --loomi-emoji-trigger-h: 3.2rem;
+  --loomi-emoji-trigger-h: 3rem;
   --loomi-emoji-panel-w: 25rem;
   font-size: 1rem;
 }

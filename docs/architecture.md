@@ -159,14 +159,15 @@ looks like this:
 ```ts
 import { html, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { LoomiElement, loomiStyles } from "@loomidev/core";
+import { LoomiElement, loomiStyles, type LoomiSize, type LoomiSizeSupport } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 @customElement("loomi-example")
 export class LoomiExample extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
+  static readonly supportedSizes = { size: ["small", "regular", "big"] } satisfies LoomiSizeSupport;
 
-  @property({ reflect: true }) size = "medium";
+  @property({ reflect: true }) size: LoomiSize = "regular";
 
   override render(): TemplateResult {
     return html`<slot></slot>`;
@@ -377,6 +378,11 @@ Owns shared runtime behavior:
 - `nextMenuFocusIndex(...)` - resolves an Arrow/Home/End keydown into the next index to
   focus in a top-level menu, extracted after `dropmenu` and `context-menu` turned out to
   share byte-for-byte identical keydown logic;
+- `LOOMI_SIZES` / `LoomiSize` - the one ordered size scale (tiny < small < regular <
+  medium < big < huge < omg) every `size` attribute uses. Each component types its size
+  properties as `LoomiSize`, defaults them to `regular`, and declares the names it supports
+  in a static `supportedSizes` map; `packages/components/test/size-scale.test.ts` enforces
+  all three (see `packages/core/README.md`'s "Sizing" section);
 - shared body scroll locking for overlays;
 - shared i18n helpers and built-in translations.
 

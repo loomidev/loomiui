@@ -57,14 +57,6 @@
         },
         {
           "kind": "js",
-          "name": "LoomiProgressStepSize",
-          "declaration": {
-            "name": "LoomiProgressStepSize",
-            "module": "./loomi-progress.js"
-          }
-        },
-        {
-          "kind": "js",
           "name": "LoomiProgressStepState",
           "declaration": {
             "name": "LoomiProgressStepState",
@@ -382,6 +374,14 @@
           "members": [
             {
               "kind": "field",
+              "name": "supportedSizes",
+              "static": true,
+              "readonly": true,
+              "default": "{ size: CIRCLE_SIZES } satisfies LoomiSizeSupport",
+              "description": "Size names this component supports, from the canonical `LoomiSize` scale — `size` also takes a diameter in pixels."
+            },
+            {
+              "kind": "field",
               "name": "percentage",
               "type": {
                 "text": "number"
@@ -411,9 +411,10 @@
               "kind": "field",
               "name": "size",
               "type": {
-                "text": "string"
+                "text": "LoomiSize | number"
               },
-              "default": "\"medium\"",
+              "default": "\"regular\"",
+              "description": "Diameter: `tiny` | `small` | `regular` | `big` | `huge`, or a number of pixels.",
               "attribute": "size"
             },
             {
@@ -519,9 +520,10 @@
             {
               "name": "size",
               "type": {
-                "text": "string"
+                "text": "LoomiSize | number"
               },
-              "default": "\"medium\"",
+              "default": "\"regular\"",
+              "description": "Diameter: `tiny` | `small` | `regular` | `big` | `huge`, or a number of pixels.",
               "fieldName": "size"
             },
             {
@@ -586,6 +588,14 @@
           "members": [
             {
               "kind": "field",
+              "name": "supportedSizes",
+              "static": true,
+              "readonly": true,
+              "default": "{ size: ARC_SIZE_NAMES } satisfies LoomiSizeSupport",
+              "description": "Size names this component supports, from the canonical `LoomiSize` scale — `size` also takes a width in pixels."
+            },
+            {
+              "kind": "field",
               "name": "percentage",
               "type": {
                 "text": "number"
@@ -615,9 +625,10 @@
               "kind": "field",
               "name": "size",
               "type": {
-                "text": "string"
+                "text": "LoomiSize | number"
               },
-              "default": "\"medium\"",
+              "default": "\"regular\"",
+              "description": "Width: `small` | `regular` | `big` | `huge`, or a number of pixels.",
               "attribute": "size"
             },
             {
@@ -723,9 +734,10 @@
             {
               "name": "size",
               "type": {
-                "text": "string"
+                "text": "LoomiSize | number"
               },
-              "default": "\"medium\"",
+              "default": "\"regular\"",
+              "description": "Width: `small` | `regular` | `big` | `huge`, or a number of pixels.",
               "fieldName": "size"
             },
             {
@@ -788,6 +800,14 @@
             }
           ],
           "members": [
+            {
+              "kind": "field",
+              "name": "supportedSizes",
+              "static": true,
+              "readonly": true,
+              "default": "{ size: STEP_SIZES } satisfies LoomiSizeSupport",
+              "description": "Size names this component supports, from the canonical `LoomiSize` scale."
+            },
             {
               "kind": "field",
               "name": "label",
@@ -934,9 +954,10 @@
               "kind": "field",
               "name": "size",
               "type": {
-                "text": "LoomiProgressStepSize"
+                "text": "LoomiSize"
               },
               "default": "\"regular\"",
+              "description": "Marker size: `small` | `regular`.",
               "attribute": "size"
             },
             {
@@ -1184,9 +1205,10 @@
             {
               "name": "size",
               "type": {
-                "text": "LoomiProgressStepSize"
+                "text": "LoomiSize"
               },
               "default": "\"regular\"",
+              "description": "Marker size: `small` | `regular`.",
               "fieldName": "size"
             },
             {
@@ -1243,6 +1265,14 @@
           "members": [
             {
               "kind": "field",
+              "name": "supportedSizes",
+              "static": true,
+              "readonly": true,
+              "default": "{ size: STEP_SIZES } satisfies LoomiSizeSupport",
+              "description": "Size names this component supports, from the canonical `LoomiSize` scale."
+            },
+            {
+              "kind": "field",
               "name": "current",
               "type": {
                 "text": "number"
@@ -1272,9 +1302,10 @@
               "kind": "field",
               "name": "size",
               "type": {
-                "text": "LoomiProgressStepSize"
+                "text": "LoomiSize"
               },
               "default": "\"regular\"",
+              "description": "Marker size: `small` | `regular`.",
               "attribute": "size"
             },
             {
@@ -1477,9 +1508,10 @@
             {
               "name": "size",
               "type": {
-                "text": "LoomiProgressStepSize"
+                "text": "LoomiSize"
               },
               "default": "\"regular\"",
+              "description": "Marker size: `small` | `regular`.",
               "fieldName": "size"
             },
             {

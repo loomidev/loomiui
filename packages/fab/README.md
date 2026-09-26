@@ -133,10 +133,10 @@ stays exactly where you put it.
 <loomi-fab size="small" placement="bottom-right">
   <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
 </loomi-fab>
-<loomi-fab size="medium" placement="bottom-left">
+<loomi-fab size="regular" placement="bottom-left">
   <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
 </loomi-fab>
-<loomi-fab size="regular" placement="top-right">
+<loomi-fab size="medium" placement="top-right">
   <loomi-fab-item icon="user-plus" label="Add Patient" value="patient"></loomi-fab-item>
 </loomi-fab>
 <!-- regular is the default -->
@@ -209,15 +209,15 @@ Every visual is a CSS custom property on `:host`, so re-theming needs no rebuild
 | `--loomi-fab-gap`                         | `0.875rem` - space between items                                                                                                                                           |
 | `--loomi-fab-trigger-gap`                 | `calc(var(--loomi-fab-gap) + 0.375rem)` - space between the trigger and the menu (a bit more than `--loomi-fab-gap`, since the trigger's bigger and more heavily shadowed) |
 | `--loomi-fab-z-index`                     | `1000`                                                                                                                                                                     |
-| `--loomi-fab-diameter`                    | `2.75rem` / `3.25rem` / `3.75rem` per `size`                                                                                                                               |
+| `--loomi-fab-diameter`                    | `2.75rem` / `3.75rem` / `4.25rem` per `size`                                                                                                                               |
 | `--loomi-fab-icon-size`                   | `1.125rem` / `1.25rem` / `1.5rem` per `size`                                                                                                                               |
-| `--loomi-fab-item-diameter`               | `2rem` / `2.25rem` / `2.5rem` per `size`                                                                                                                                   |
+| `--loomi-fab-item-diameter`               | `2rem` / `2.5rem` / `2.75rem` per `size`                                                                                                                                   |
 | `--loomi-fab-item-icon-size`              | `0.9rem` / `1rem` / `1.125rem` per `size`                                                                                                                                  |
 | `--loomi-fab-bg` / `--loomi-fab-bg-hover` | derived from `color`                                                                                                                                                       |
 | `--loomi-fab-fg`                          | `var(--loomi-text-on-primary)`                                                                                                                                             |
 | `--loomi-fab-shadow`                      | a soft drop shadow                                                                                                                                                         |
 | `--loomi-fab-backdrop`                    | `rgba(15, 23, 42, 0.45)` - matches `<loomi-modal>`'s backdrop tint                                                                                                         |
-| `--loomi-fab-backdrop-blur`               | `blur(5px)` - matches `<loomi-modal>`'s default `blur-size="medium"`                                                                                                       |
+| `--loomi-fab-backdrop-blur`               | `blur(5px)` - matches `<loomi-modal>`'s default `blur-size="regular"`                                                                                                      |
 
 ```css
 loomi-fab {
@@ -263,23 +263,23 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes - `<loomi-fab>`
 
-| Attribute         | Default        | Description                                                                                         |
-| ----------------- | -------------- | --------------------------------------------------------------------------------------------------- |
-| `placement`       | `bottom-right` | `bottom-right` \| `bottom-left` \| `top-right` \| `top-left`                                        |
-| `direction`       | _(blank)_      | `up` \| `down` \| `left` \| `right`. Blank = infer from `placement`.                                |
-| `trigger`         | `click`        | `click` \| `hover`                                                                                  |
-| `variant`         | `floating`     | `floating` \| `docked`                                                                              |
-| `size`            | `regular`      | `small` \| `medium` \| `regular`                                                                    |
-| `color`           | `primary`      | `primary` \| `secondary` \| `info` \| `success` \| `error` \| `warning` \| `gray`                   |
-| `icon`            | `plus`         | Trigger icon name.                                                                                  |
-| `icon-source`     | `heroicons`    | `heroicons` \| `iconsax` \| `untitledui`                                                            |
-| `icons-only`      | `false`        | Hide every item's visible label; show it as a `<loomi-tooltip>` on hover/focus instead. _(boolean)_ |
-| `label`           | _(blank)_      | Accessible label for the trigger and menu.                                                          |
-| `open`            | `false`        | Menu open state (reflected). _(boolean)_                                                            |
-| `disabled`        | `false`        | Disable the trigger entirely. _(boolean)_                                                           |
-| `close-on-select` | `true`         | Close the menu after an item is selected. _(boolean)_                                               |
-| `backdrop`        | `false`        | Dim the page while the menu is open. _(boolean)_                                                    |
-| `locale`          | _(blank)_      | Locale override for the built-in aria label.                                                        |
+| Attribute         | Default        | Description                                                                                                                   |
+| ----------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `placement`       | `bottom-right` | `bottom-right` \| `bottom-left` \| `top-right` \| `top-left`                                                                  |
+| `direction`       | _(blank)_      | `up` \| `down` \| `left` \| `right`. Blank = infer from `placement`.                                                          |
+| `trigger`         | `click`        | `click` \| `hover`                                                                                                            |
+| `variant`         | `floating`     | `floating` \| `docked`                                                                                                        |
+| `size`            | `regular`      | `small` \| `regular` \| `medium`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `color`           | `primary`      | `primary` \| `secondary` \| `info` \| `success` \| `error` \| `warning` \| `gray`                                             |
+| `icon`            | `plus`         | Trigger icon name.                                                                                                            |
+| `icon-source`     | `heroicons`    | `heroicons` \| `iconsax` \| `untitledui`                                                                                      |
+| `icons-only`      | `false`        | Hide every item's visible label; show it as a `<loomi-tooltip>` on hover/focus instead. _(boolean)_                           |
+| `label`           | _(blank)_      | Accessible label for the trigger and menu.                                                                                    |
+| `open`            | `false`        | Menu open state (reflected). _(boolean)_                                                                                      |
+| `disabled`        | `false`        | Disable the trigger entirely. _(boolean)_                                                                                     |
+| `close-on-select` | `true`         | Close the menu after an item is selected. _(boolean)_                                                                         |
+| `backdrop`        | `false`        | Dim the page while the menu is open. _(boolean)_                                                                              |
+| `locale`          | _(blank)_      | Locale override for the built-in aria label.                                                                                  |
 
 Boolean attributes can be omitted, present, or set to `"false"` in HTML.
 

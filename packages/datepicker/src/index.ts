@@ -1,7 +1,6 @@
 export {
   LoomiDatepicker,
   type LoomiDateFormat,
-  type LoomiDatepickerSize,
   type LoomiDatepickerStyle,
   type LoomiDatepickerChangeDetail,
   type LoomiDatepickerEventMap,

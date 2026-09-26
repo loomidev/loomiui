@@ -1,6 +1,15 @@
 import { html, nothing, svg, type TemplateResult, isServer } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, accentVars, loomiT, type LoomiColor } from "@loomidev/core";
+import {
+  LoomiElement,
+  loomiStyles,
+  accentVars,
+  loomiT,
+  type LoomiColor,
+  resolveLoomiSize,
+  type LoomiSize,
+  type LoomiSizeSupport,
+} from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 /**
@@ -18,7 +27,8 @@ export type LoomiProgressLabelPosition =
   "top-left" | "top-center" | "top-right" | "bottom-left" | "bottom-center" | "bottom-right";
 export type LoomiProgressStepState = "complete" | "current" | "upcoming" | "error";
 export type LoomiProgressStepsOrientation = "horizontal" | "vertical";
-export type LoomiProgressStepSize = "small" | "regular";
+/** The part of the canonical size scale steps support. */
+const STEP_SIZES = ["small", "regular"] as const satisfies readonly LoomiSize[];
 export type LoomiProgressStepsVariant = "circle" | "bar";
 
 const STEP_CHECK = svg`<path stroke-linecap="round" stroke-linejoin="round" d="m5 12.5 4 4 10-10" />`;
@@ -79,7 +89,20 @@ export class LoomiProgressBar extends LoomiElement {
   }
 }
 
-const SIZES: Record<string, number> = { tiny: 50, small: 80, medium: 120, big: 200, large: 300 };
+const CIRCLE_SIZES = [
+  "tiny",
+  "small",
+  "regular",
+  "big",
+  "huge",
+] as const satisfies readonly LoomiSize[];
+const CIRCLE_PX: Record<(typeof CIRCLE_SIZES)[number], number> = {
+  tiny: 50,
+  small: 80,
+  regular: 120,
+  big: 200,
+  huge: 300,
+};
 
 /**
  * `<loomi-progress-circle>` — a circular progress indicator.
@@ -88,10 +111,14 @@ const SIZES: Record<string, number> = { tiny: 50, small: 80, medium: 120, big: 2
 export class LoomiProgressCircle extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
+  /** Size names this component supports, from the canonical `LoomiSize` scale — `size` also takes a diameter in pixels. */
+  static readonly supportedSizes = { size: CIRCLE_SIZES } satisfies LoomiSizeSupport;
+
   @property({ type: Number }) percentage = 0;
   @property() color: LoomiColor = "primary" as LoomiColor;
   @property() shade: "faint" | "dark" = "faint";
-  @property() size: string = "medium";
+  /** Diameter: `tiny` | `small` | `regular` | `big` | `huge`, or a number of pixels. */
+  @property() size: LoomiSize | number = "regular";
   @property({ type: Boolean, attribute: "show-label" }) showLabel = false;
   @property({ type: Boolean, attribute: "show-percent" }) showPercent = false;
   @property({ type: Number, attribute: "circle-width" }) circleWidth = 10;
@@ -108,7 +135,7 @@ export class LoomiProgressCircle extends LoomiElement {
     return Math.min(100, Math.max(0, this.percentage));
   }
   private get px(): number {
-    return SIZES[this.size] ?? (Number(this.size) || 120);
+    return Number(this.size) || CIRCLE_PX[resolveLoomiSize(String(this.size), CIRCLE_SIZES)];
   }
 
   override render(): TemplateResult {
@@ -131,7 +158,13 @@ export class LoomiProgressCircle extends LoomiElement {
   }
 }
 
-const ARC_SIZES: Record<string, number> = { small: 160, medium: 220, big: 300, large: 380 };
+const ARC_SIZE_NAMES = ["small", "regular", "big", "huge"] as const satisfies readonly LoomiSize[];
+const ARC_PX: Record<(typeof ARC_SIZE_NAMES)[number], number> = {
+  small: 160,
+  regular: 220,
+  big: 300,
+  huge: 380,
+};
 const ARC_TICKS = 40;
 
 /**
@@ -144,10 +177,14 @@ const ARC_TICKS = 40;
 export class LoomiProgressArc extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
+  /** Size names this component supports, from the canonical `LoomiSize` scale — `size` also takes a width in pixels. */
+  static readonly supportedSizes = { size: ARC_SIZE_NAMES } satisfies LoomiSizeSupport;
+
   @property({ type: Number }) percentage = 0;
   @property() color: LoomiColor = "primary" as LoomiColor;
   @property() shade: "faint" | "dark" = "faint";
-  @property() size: string = "medium";
+  /** Width: `small` | `regular` | `big` | `huge`, or a number of pixels. */
+  @property() size: LoomiSize | number = "regular";
   @property({ attribute: "show-percent", converter: booleanAttributeConverter }) showPercent = true;
   @property() caption = "";
   /** Accessible name for the arc. Falls back to a translated "Progress". */
@@ -162,7 +199,7 @@ export class LoomiProgressArc extends LoomiElement {
     return Math.min(100, Math.max(0, this.percentage));
   }
   private get px(): number {
-    return ARC_SIZES[this.size] ?? (Number(this.size) || 220);
+    return Number(this.size) || ARC_PX[resolveLoomiSize(String(this.size), ARC_SIZE_NAMES)];
   }
 
   private renderTicks(): TemplateResult {
@@ -223,6 +260,9 @@ export class LoomiProgressArc extends LoomiElement {
 export class LoomiProgressStep extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
+  /** Size names this component supports, from the canonical `LoomiSize` scale. */
+  static readonly supportedSizes = { size: STEP_SIZES } satisfies LoomiSizeSupport;
+
   @property() label = "";
   @property() description = "";
   @property() href = "";
@@ -238,7 +278,8 @@ export class LoomiProgressStep extends LoomiElement {
   @property({ type: Number, attribute: "step-index" }) stepIndex = 0;
   @property({ reflect: true }) orientation: LoomiProgressStepsOrientation = "horizontal";
   @property() color: LoomiColor = "primary" as LoomiColor;
-  @property() size: LoomiProgressStepSize = "regular";
+  /** Marker size: `small` | `regular`. */
+  @property() size: LoomiSize = "regular";
   @property({ reflect: true }) variant: LoomiProgressStepsVariant = "circle";
   @property() locale = "";
 
@@ -330,7 +371,7 @@ export class LoomiProgressStep extends LoomiElement {
     const state = this.computedState;
     const bar = this.variant === "bar";
     return html`<div
-      class="loomi-step ${this.orientation} ${this.size} ${this.variant} ${state} ${this.isInteractive ? "interactive" : ""}"
+      class="loomi-step ${this.orientation} ${resolveLoomiSize(this.size, STEP_SIZES)} ${this.variant} ${state} ${this.isInteractive ? "interactive" : ""}"
       role="listitem"
       style=${accentVars(this.color) + `--step-column:${this.stepIndex};`}
     >
@@ -362,10 +403,14 @@ export class LoomiProgressStep extends LoomiElement {
 export class LoomiProgressSteps extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
+  /** Size names this component supports, from the canonical `LoomiSize` scale. */
+  static readonly supportedSizes = { size: STEP_SIZES } satisfies LoomiSizeSupport;
+
   @property({ type: Number }) current = 1;
   @property() color: LoomiColor = "primary" as LoomiColor;
   @property() orientation: LoomiProgressStepsOrientation = "horizontal";
-  @property() size: LoomiProgressStepSize = "regular";
+  /** Marker size: `small` | `regular`. */
+  @property() size: LoomiSize = "regular";
   @property() variant: LoomiProgressStepsVariant = "circle";
   @property({ type: Boolean }) clickable = false;
 
@@ -525,7 +570,7 @@ export class LoomiProgressSteps extends LoomiElement {
 
   override render(): TemplateResult {
     return html`<div
-      class="loomi-steps ${this.orientation} ${this.size} ${this.variant} ${this.interactive ? "panels" : ""}"
+      class="loomi-steps ${this.orientation} ${resolveLoomiSize(this.size, STEP_SIZES)} ${this.variant} ${this.interactive ? "panels" : ""}"
       role="list"
       style=${accentVars(this.color) + `--step-count:${this.steps.length || 1};`}
       @loomi-progress-step-select=${this.onStepSelect}

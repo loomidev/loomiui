@@ -1,12 +1,19 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { LoomiElement, loomiStyles, watchDarkMode } from "@loomidev/core";
+import {
+  LoomiElement,
+  loomiStyles,
+  watchDarkMode,
+  resolveLoomiSize,
+  type LoomiSize,
+  type LoomiSizeSupport,
+  LOOMI_CONTROL_SIZES,
+} from "@loomidev/core";
 import { getLoomiIcon } from "./icons.js";
 import { buttonStyles } from "./generated/styles.css.js";
 
 export type LoomiButtonType = "primary" | "secondary";
-export type LoomiButtonSize = "tiny" | "small" | "regular" | "medium" | "big";
 export type LoomiButtonRadius = "none" | "small" | "medium" | "full";
 export type LoomiButtonTag = "button" | "a";
 
@@ -27,7 +34,7 @@ function isLoomiButtonColor(value: unknown): value is LoomiButtonColor {
 }
 
 /** Padding + font-size per size. Literal strings so Tailwind's scanner picks them up. */
-const SIZE: Record<LoomiButtonSize, string> = {
+const SIZE: Record<(typeof LOOMI_CONTROL_SIZES)[number], string> = {
   tiny: "px-2.5 py-1 text-xs",
   small: "px-3 py-1.5 text-sm",
   regular: "px-4 py-2 text-sm",
@@ -62,6 +69,9 @@ const BORDER_WIDTH: Record<number, string> = {
 export class LoomiButton extends LoomiElement {
   static override styles = loomiStyles(buttonStyles);
 
+  /** Size names this component supports, from the canonical `LoomiSize` scale. */
+  static readonly supportedSizes = { size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport;
+
   /**
    * `delegatesFocus` so the host behaves like the native control it stands in for:
    * `el.focus()` reaches the inner `<button>`, clicking the padding focuses it, and a
@@ -82,8 +92,8 @@ export class LoomiButton extends LoomiElement {
   /** Palette override. Empty = derive from `type`. `primary` | `secondary` | `info` | `success` | `error` | `warning` | `gray`. */
   @property() color: LoomiButtonColor | "" = "";
 
-  /** Size preset. */
-  @property({ reflect: true }) size: LoomiButtonSize = "regular";
+  /** Size preset: `tiny` | `small` | `regular` | `medium` | `big`. Equal names give equal heights across button, input, select and datepicker. */
+  @property({ reflect: true }) size: LoomiSize = "regular";
 
   /**
    * Corner radius preset — a convenience layer over the `--loomi-control-radius` /
@@ -265,7 +275,7 @@ export class LoomiButton extends LoomiElement {
       "transition-colors",
       "duration-150",
       "cursor-pointer",
-      SIZE[this.size] ?? SIZE.regular,
+      SIZE[resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)],
       ...this.treatmentClasses(c),
     ];
 

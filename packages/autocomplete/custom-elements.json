@@ -56,14 +56,6 @@
         },
         {
           "kind": "js",
-          "name": "LoomiAutocompleteSize",
-          "declaration": {
-            "name": "LoomiAutocompleteSize",
-            "module": "./loomi-autocomplete.js"
-          }
-        },
-        {
-          "kind": "js",
           "name": "LoomiAutocompleteSelectDetail",
           "declaration": {
             "name": "LoomiAutocompleteSelectDetail",
@@ -89,6 +81,14 @@
           "description": "",
           "name": "LoomiAutocomplete",
           "members": [
+            {
+              "kind": "field",
+              "name": "supportedSizes",
+              "static": true,
+              "readonly": true,
+              "default": "{ size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport",
+              "description": "Size names this component supports, from the canonical `LoomiSize` scale — shared by every form control."
+            },
             {
               "kind": "field",
               "name": "formAssociated",
@@ -198,9 +198,10 @@
               "kind": "field",
               "name": "size",
               "type": {
-                "text": "LoomiAutocompleteSize"
+                "text": "LoomiSize"
               },
-              "default": "\"medium\"",
+              "default": "\"regular\"",
+              "description": "Size preset: `tiny` | `small` | `regular` | `medium` | `big`. Equal names give equal heights across every form control and `<loomi-button>`.",
               "attribute": "size"
             },
             {
@@ -686,9 +687,10 @@
             {
               "name": "size",
               "type": {
-                "text": "LoomiAutocompleteSize"
+                "text": "LoomiSize"
               },
-              "default": "\"medium\"",
+              "default": "\"regular\"",
+              "description": "Size preset: `tiny` | `small` | `regular` | `medium` | `big`. Equal names give equal heights across every form control and `<loomi-button>`.",
               "fieldName": "size"
             },
             {

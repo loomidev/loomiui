@@ -11,11 +11,14 @@ import {
   onClickOutside,
   randomSuffix,
   themeStyles,
+  LOOMI_CONTROL_SIZES,
+  resolveLoomiSize,
+  type LoomiSize,
+  type LoomiSizeSupport,
 } from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
-export type LoomiPasswordSize = "tiny" | "small" | "regular" | "medium" | "big";
 export type LoomiPasswordVariant = "default" | "minimal";
 export type LoomiPasswordStrengthToken = "A" | "a" | "1" | "#";
 
@@ -40,6 +43,9 @@ const STRENGTH_ORDER: LoomiPasswordStrengthToken[] = ["A", "a", "1", "#"];
 @customElement("loomi-password")
 export class LoomiPassword extends LoomiElement {
   static override styles = [themeStyles, controlSizeStyles, fieldStyles, componentStyles];
+
+  /** Size names this component supports, from the canonical `LoomiSize` scale — shared by every form control. */
+  static readonly supportedSizes = { size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
 
   private internals = this.attachInternals();
@@ -57,7 +63,8 @@ export class LoomiPassword extends LoomiElement {
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) readonly = false;
-  @property() size: LoomiPasswordSize = "medium";
+  /** Size preset: `tiny` | `small` | `regular` | `medium` | `big`. Equal names give equal heights across every form control and `<loomi-button>`. */
+  @property() size: LoomiSize = "regular";
   @property() variant: LoomiPasswordVariant = "default";
   @property() prefix = "";
   @property({ attribute: "prefix-options" }) prefixOptions = "";
@@ -362,7 +369,7 @@ export class LoomiPassword extends LoomiElement {
     const showError = this.invalid && this.showErrorInline && this.errorMessage;
 
     return html`
-      <div class="loomi-field size-${this.size} variant-${this.variant} ${forceFloat ? "force-float" : ""}" part="field">
+      <div class="loomi-field size-${resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)} variant-${this.variant} ${forceFloat ? "force-float" : ""}" part="field">
         ${this.renderPrefix()}
         <span class="loomi-inputwrap">
           <input

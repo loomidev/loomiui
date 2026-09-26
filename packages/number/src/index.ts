@@ -1,1 +1,1 @@
-export { LoomiNumber, type LoomiNumberSize } from "./loomi-number.js";
+export { LoomiNumber } from "./loomi-number.js";

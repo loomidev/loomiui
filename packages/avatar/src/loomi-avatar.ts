@@ -1,11 +1,19 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, accentVars, cssColor, type LoomiColor } from "@loomidev/core";
+import {
+  LoomiElement,
+  loomiStyles,
+  accentVars,
+  cssColor,
+  type LoomiColor,
+  LOOMI_SIZES,
+  resolveLoomiSize,
+  type LoomiSize,
+  type LoomiSizeSupport,
+} from "@loomidev/core";
 import "@loomidev/icon/loomi-icon.js";
 import type { LoomiFilepicker } from "@loomidev/filepicker";
 import { componentStyles } from "./generated/styles.css.js";
-
-export type LoomiAvatarSize = "tiny" | "small" | "medium" | "regular" | "big" | "huge" | "omg";
 
 /**
  * `<loomi-avatar>` — a rounded image or initials avatar with optional status dot.
@@ -21,10 +29,14 @@ export type LoomiAvatarSize = "tiny" | "small" | "medium" | "regular" | "big" | 
 export class LoomiAvatar extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
+  /** Size names this component supports: the whole canonical `LoomiSize` scale. */
+  static readonly supportedSizes = { size: LOOMI_SIZES } satisfies LoomiSizeSupport;
+
   @property() image = "";
   @property() alt = "avatar";
   @property() label = "";
-  @property({ reflect: true }) size: LoomiAvatarSize = "regular";
+  /** Size preset: `tiny` | `small` | `regular` | `medium` | `big` | `huge` | `omg`. */
+  @property({ reflect: true }) size: LoomiSize = "regular";
   @property({ type: Boolean }) dotted = false;
   @property({ type: Boolean, attribute: "pulse-dot" }) pulseDot = false;
   @property({ attribute: "dot-color" }) dotColor: LoomiColor = "success" as LoomiColor;
@@ -100,7 +112,7 @@ export class LoomiAvatar extends LoomiElement {
       ? html`<img src=${this.image} alt=${this.alt} />`
       : html`<span class="loomi-label">${this.label || this.image || "?"}</span>`;
     return html`<span
-      class="loomi-av size-${this.size} ${this.showRing ? "ring" : ""} ${this.editable ? "editable" : ""}"
+      class="loomi-av size-${resolveLoomiSize(this.size, LOOMI_SIZES)} ${this.showRing ? "ring" : ""} ${this.editable ? "editable" : ""}"
       style=${accentVars(this.bgColor)}
       role=${this.editable ? "button" : nothing}
       tabindex=${this.editable ? "0" : nothing}
@@ -157,13 +169,17 @@ export class LoomiAvatar extends LoomiElement {
 export class LoomiAvatars extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
+  /** Size names this component supports: the whole canonical `LoomiSize` scale. */
+  static readonly supportedSizes = { size: LOOMI_SIZES } satisfies LoomiSizeSupport;
+
   @property({ type: Boolean, reflect: true }) stacked = false;
   @property({ type: Boolean }) dotted = false;
   @property({ type: Boolean, attribute: "pulse-dot" }) pulseDot = false;
   @property({ attribute: "dot-color" }) dotColor: LoomiColor = "success" as LoomiColor;
   @property({ attribute: "dot-position" }) dotPosition: "top" | "bottom" = "bottom";
   @property({ type: Number }) plus = 0;
-  @property({ reflect: true }) size: LoomiAvatarSize = "regular";
+  /** Size preset: `tiny` | `small` | `regular` | `medium` | `big` | `huge` | `omg`. */
+  @property({ reflect: true }) size: LoomiSize = "regular";
   @property({ attribute: "stack-space" }) stackSpace = "";
 
   private syncChildren = (): void => {
@@ -196,7 +212,7 @@ export class LoomiAvatars extends LoomiElement {
   }
 
   override render(): TemplateResult {
-    return html`<span class="loomi-row size-${this.size}">
+    return html`<span class="loomi-row size-${resolveLoomiSize(this.size, LOOMI_SIZES)}">
       <slot @slotchange=${this.syncChildren}></slot>
       ${this.plus > 0 ? html`<span class="loomi-plus" part="plus">+${this.plus}</span>` : nothing}
     </span>`;

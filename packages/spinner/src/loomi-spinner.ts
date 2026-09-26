@@ -1,12 +1,18 @@
 import { html, svg, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomidev/core";
+import {
+  LoomiElement,
+  loomiStyles,
+  loomiT,
+  accentVars,
+  type LoomiColor,
+  resolveLoomiSize,
+  type LoomiSize,
+  type LoomiSizeSupport,
+} from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiSpinnerType = "simple" | "spinner" | "dot" | "typing";
-export type LoomiSpinnerSize = "sm" | "md" | "lg" | "small" | "medium" | "big" | "xl" | "omg";
-
-type NormalizedSpinnerSize = "small" | "medium" | "big" | "xl" | "omg";
 
 const TYPE_ALIASES: Record<string, LoomiSpinnerType> = {
   simple: "simple",
@@ -18,16 +24,14 @@ const TYPE_ALIASES: Record<string, LoomiSpinnerType> = {
   "dot-circle": "dot",
 };
 
-const SIZE_ALIASES: Record<LoomiSpinnerSize, NormalizedSpinnerSize> = {
-  sm: "small",
-  md: "medium",
-  lg: "big",
-  small: "small",
-  medium: "medium",
-  big: "big",
-  xl: "xl",
-  omg: "omg",
-};
+/** The part of the canonical size scale a spinner supports. */
+const SPINNER_SIZES = [
+  "regular",
+  "medium",
+  "big",
+  "huge",
+  "omg",
+] as const satisfies readonly LoomiSize[];
 
 /**
  * `<loomi-spinner>` — a themeable loading spinner.
@@ -36,15 +40,15 @@ const SIZE_ALIASES: Record<LoomiSpinnerSize, NormalizedSpinnerSize> = {
 export class LoomiSpinner extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
-  @property() size: LoomiSpinnerSize = "small";
+  /** Size names this component supports, from the canonical `LoomiSize` scale. */
+  static readonly supportedSizes = { size: SPINNER_SIZES } satisfies LoomiSizeSupport;
+
+  /** Indicator size: `regular` | `medium` | `big` | `huge` | `omg`. */
+  @property() size: LoomiSize = "regular";
   @property() type: LoomiSpinnerType = "simple";
   @property() color: LoomiColor = "gray" as LoomiColor;
   @property() label = "";
   @property() locale = "";
-
-  private get normalizedSize(): NormalizedSpinnerSize {
-    return SIZE_ALIASES[this.size] ?? "small";
-  }
 
   private get normalizedType(): LoomiSpinnerType {
     return TYPE_ALIASES[this.type] ?? "simple";
@@ -53,7 +57,7 @@ export class LoomiSpinner extends LoomiElement {
   override render(): TemplateResult {
     const label = this.label || loomiT("common.loading", {}, this.locale);
     return html`<span
-      class="loomi-spinner-wrap size-${this.normalizedSize}"
+      class="loomi-spinner-wrap size-${resolveLoomiSize(this.size, SPINNER_SIZES)}"
       style=${accentVars(this.color)}
       role="status"
       aria-label=${label}

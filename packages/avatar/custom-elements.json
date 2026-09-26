@@ -22,14 +22,6 @@
             "name": "LoomiAvatars",
             "module": "./loomi-avatar.js"
           }
-        },
-        {
-          "kind": "js",
-          "name": "LoomiAvatarSize",
-          "declaration": {
-            "name": "LoomiAvatarSize",
-            "module": "./loomi-avatar.js"
-          }
         }
       ]
     },
@@ -42,6 +34,14 @@
           "description": "`<loomi-avatar>` — a rounded image or initials avatar with optional status dot.\nWrap several in `<loomi-avatars>` to stack them.\n\nSet `editable` to let users replace the image themselves: clicking (or\nEnter/Space-ing) the avatar launches a crop dialog and swaps in the result. See the\nREADME for how to persist the picked file.",
           "name": "LoomiAvatar",
           "members": [
+            {
+              "kind": "field",
+              "name": "supportedSizes",
+              "static": true,
+              "readonly": true,
+              "default": "{ size: LOOMI_SIZES } satisfies LoomiSizeSupport",
+              "description": "Size names this component supports: the whole canonical `LoomiSize` scale."
+            },
             {
               "kind": "field",
               "name": "image",
@@ -73,9 +73,10 @@
               "kind": "field",
               "name": "size",
               "type": {
-                "text": "LoomiAvatarSize"
+                "text": "LoomiSize"
               },
               "default": "\"regular\"",
+              "description": "Size preset: `tiny` | `small` | `regular` | `medium` | `big` | `huge` | `omg`.",
               "attribute": "size",
               "reflects": true
             },
@@ -281,9 +282,10 @@
             {
               "name": "size",
               "type": {
-                "text": "LoomiAvatarSize"
+                "text": "LoomiSize"
               },
               "default": "\"regular\"",
+              "description": "Size preset: `tiny` | `small` | `regular` | `medium` | `big` | `huge` | `omg`.",
               "fieldName": "size"
             },
             {
@@ -379,6 +381,14 @@
           "members": [
             {
               "kind": "field",
+              "name": "supportedSizes",
+              "static": true,
+              "readonly": true,
+              "default": "{ size: LOOMI_SIZES } satisfies LoomiSizeSupport",
+              "description": "Size names this component supports: the whole canonical `LoomiSize` scale."
+            },
+            {
+              "kind": "field",
               "name": "stacked",
               "type": {
                 "text": "boolean"
@@ -436,9 +446,10 @@
               "kind": "field",
               "name": "size",
               "type": {
-                "text": "LoomiAvatarSize"
+                "text": "LoomiSize"
               },
               "default": "\"regular\"",
+              "description": "Size preset: `tiny` | `small` | `regular` | `medium` | `big` | `huge` | `omg`.",
               "attribute": "size",
               "reflects": true
             },
@@ -509,9 +520,10 @@
             {
               "name": "size",
               "type": {
-                "text": "LoomiAvatarSize"
+                "text": "LoomiSize"
               },
               "default": "\"regular\"",
+              "description": "Size preset: `tiny` | `small` | `regular` | `medium` | `big` | `huge` | `omg`.",
               "fieldName": "size"
             },
             {

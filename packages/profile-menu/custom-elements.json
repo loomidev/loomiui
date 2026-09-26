@@ -66,6 +66,14 @@
           "members": [
             {
               "kind": "field",
+              "name": "supportedSizes",
+              "static": true,
+              "readonly": true,
+              "default": "{ avatarSize: LOOMI_SIZES } satisfies LoomiSizeSupport",
+              "description": "Size names this component supports, from the canonical `LoomiSize` scale: `avatar-size` passes straight through to `<loomi-avatar>`."
+            },
+            {
+              "kind": "field",
               "name": "name",
               "type": {
                 "text": "string"
@@ -113,7 +121,7 @@
               "kind": "field",
               "name": "avatarSize",
               "type": {
-                "text": "LoomiAvatarSize"
+                "text": "LoomiSize"
               },
               "default": "\"regular\"",
               "attribute": "avatar-size"
@@ -365,7 +373,7 @@
             {
               "name": "avatar-size",
               "type": {
-                "text": "LoomiAvatarSize"
+                "text": "LoomiSize"
               },
               "default": "\"regular\"",
               "fieldName": "avatarSize"

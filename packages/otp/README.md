@@ -176,7 +176,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `label`             | _(blank)_                      | Used as the title of the `loomi-notification` toast (see below); has no visible effect otherwise.                                         |
 | `total-digits`      | `4`                            | Number of input boxes.                                                                                                                    |
 | `type`              | `numeric`                      | Accepted characters. `numeric` \| `alphanumeric` \| `text`                                                                                |
-| `size`              | `small`                        | `small` \| `big`                                                                                                                          |
+| `size`              | `regular`                      | `regular` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing).                           |
 | `variant`           | `default`                      | `default` \| `minimal` (bottom border only, no box)                                                                                       |
 | `separator`         | `false`                        | Show a dash separator between the left and right input groups. _(boolean)_                                                                |
 | `hide-digits`       | `false`                        | Hide entered characters and show large dots. _(boolean)_                                                                                  |

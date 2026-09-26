@@ -25,14 +25,6 @@
         },
         {
           "kind": "js",
-          "name": "LoomiRatingSize",
-          "declaration": {
-            "name": "LoomiRatingSize",
-            "module": "./loomi-rating.js"
-          }
-        },
-        {
-          "kind": "js",
           "name": "LoomiRatingChangeDetail",
           "declaration": {
             "name": "LoomiRatingChangeDetail",
@@ -58,6 +50,14 @@
           "description": "`<loomi-rating>` — a 0–5 rating control as stars, hearts or thumbs-up.\nForm-associated: submits the rating under `name`.",
           "name": "LoomiRating",
           "members": [
+            {
+              "kind": "field",
+              "name": "supportedSizes",
+              "static": true,
+              "readonly": true,
+              "default": "{ size: RATING_SIZES } satisfies LoomiSizeSupport",
+              "description": "Size names this component supports, from the canonical `LoomiSize` scale."
+            },
             {
               "kind": "field",
               "name": "formAssociated",
@@ -113,9 +113,10 @@
               "kind": "field",
               "name": "size",
               "type": {
-                "text": "LoomiRatingSize"
+                "text": "LoomiSize"
               },
-              "default": "\"small\"",
+              "default": "\"regular\"",
+              "description": "Icon size: `regular` | `medium` | `big`.",
               "attribute": "size"
             },
             {
@@ -219,9 +220,10 @@
             {
               "name": "size",
               "type": {
-                "text": "LoomiRatingSize"
+                "text": "LoomiSize"
               },
-              "default": "\"small\"",
+              "default": "\"regular\"",
+              "description": "Icon size: `regular` | `medium` | `big`.",
               "fieldName": "size"
             },
             {

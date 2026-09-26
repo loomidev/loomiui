@@ -155,16 +155,16 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ### `<loomi-button-group>`
 
-| Attribute    | Default   | Description                                                                                   |
-| ------------ | --------- | --------------------------------------------------------------------------------------------- |
-| `color`      | `primary` | Accent color for the selected item text and focus ring. Accepts any Loomi color name.         |
-| `size`       | `regular` | Button size. `tiny` \| `small` \| `regular` \| `medium` \| `big`.                             |
-| `radius`     | `medium`  | Bar corner radius. `none` \| `small` \| `medium` \| `full`.                                   |
-| `outline`    | `false`   | Outline-only treatment: transparent track and selected item outline. _(boolean)_              |
-| `icon-only`  | `false`   | Hide every item label visually and render square icon buttons. _(boolean)_                    |
-| `circle`     | `false`   | Full-radius icon buttons for every item; implies `icon-only`, overrides `radius`. _(boolean)_ |
-| `aria-label` | _(blank)_ | Accessible label for the internal `role="group"` wrapper.                                     |
-| `disabled`   | `false`   | Disable every item in the group. _(boolean)_                                                  |
+| Attribute    | Default   | Description                                                                                                                                                   |
+| ------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `color`      | `primary` | Accent color for the selected item text and focus ring. Accepts any Loomi color name.                                                                         |
+| `size`       | `regular` | Button size. `tiny` \| `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `radius`     | `medium`  | Bar corner radius. `none` \| `small` \| `medium` \| `full`.                                                                                                   |
+| `outline`    | `false`   | Outline-only treatment: transparent track and selected item outline. _(boolean)_                                                                              |
+| `icon-only`  | `false`   | Hide every item label visually and render square icon buttons. _(boolean)_                                                                                    |
+| `circle`     | `false`   | Full-radius icon buttons for every item; implies `icon-only`, overrides `radius`. _(boolean)_                                                                 |
+| `aria-label` | _(blank)_ | Accessible label for the internal `role="group"` wrapper.                                                                                                     |
+| `disabled`   | `false`   | Disable every item in the group. _(boolean)_                                                                                                                  |
 
 ### `<loomi-button-group-item>`
 

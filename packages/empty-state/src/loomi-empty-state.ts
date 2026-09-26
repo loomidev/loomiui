@@ -1,10 +1,23 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { LoomiElement, loomiStyles } from "@loomidev/core";
+import {
+  LoomiElement,
+  loomiStyles,
+  resolveLoomiSize,
+  type LoomiSize,
+  type LoomiSizeSupport,
+} from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 import { DEFAULT_IMAGE } from "./generated/default-image.js";
 
-export type LoomiEmptyImageSize = "small" | "medium" | "large" | "xl" | "omg";
+/** The part of the canonical size scale the illustration supports. */
+const EMPTY_IMAGE_SIZES = [
+  "small",
+  "regular",
+  "big",
+  "huge",
+  "omg",
+] as const satisfies readonly LoomiSize[];
 
 /**
  * `<loomi-empty-state>` — a friendly placeholder for empty content with an optional
@@ -17,12 +30,16 @@ export type LoomiEmptyImageSize = "small" | "medium" | "large" | "xl" | "omg";
 export class LoomiEmptyState extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
+  /** Size names this component supports, from the canonical `LoomiSize` scale. */
+  static readonly supportedSizes = { imageSize: EMPTY_IMAGE_SIZES } satisfies LoomiSizeSupport;
+
   @property() heading = "";
   @property() message = "";
   @property({ attribute: "button-label" }) buttonLabel = "";
   @property({ type: Boolean, attribute: "show-image" }) showImage = true;
   @property() image = "";
-  @property({ attribute: "image-size" }) imageSize: LoomiEmptyImageSize = "medium";
+  /** Illustration width: `small` | `regular` | `big` | `huge` | `omg`. */
+  @property({ attribute: "image-size" }) imageSize: LoomiSize = "regular";
 
   override render(): TemplateResult {
     const headingId = this.heading ? "loomi-empty-heading" : undefined;
@@ -34,7 +51,7 @@ export class LoomiEmptyState extends LoomiElement {
     }
 
     return html`<div class="loomi-empty" role="status" aria-live="polite" aria-labelledby=${headingId ?? nothing}>
-      <div class="loomi-img size-${this.imageSize}" aria-hidden="true">
+      <div class="loomi-img size-${resolveLoomiSize(this.imageSize, EMPTY_IMAGE_SIZES)}" aria-hidden="true">
         <img src=${this.image || DEFAULT_IMAGE} alt="" />
       </div>
       ${this.heading ? html`<div class="loomi-heading" id="loomi-empty-heading">${this.heading}</div>` : nothing}

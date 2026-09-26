@@ -238,26 +238,26 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute         | Default                 | Description                                                                                    |
-| ----------------- | ----------------------- | ---------------------------------------------------------------------------------------------- |
-| `type`            | `primary`               | Structural variant. `primary` \| `secondary`                                                   |
-| `color`           | _(derived from `type`)_ | Palette override. See available colors above.                                                  |
-| `size`            | `regular`               | `tiny` \| `small` \| `regular` \| `medium` \| `big`                                            |
-| `radius`          | `medium`                | `none` \| `small` \| `medium` \| `full`                                                        |
-| `outline`         | `false`                 | Surface fill with colored border and text. Primary only; no effect on `secondary`. _(boolean)_ |
-| `circle`          | `false`                 | Square, full-radius icon button; overrides `radius`. _(boolean)_                               |
-| `border-width`    | `1`                     | Secondary/outline border width. `1` \| `2`                                                     |
-| `icon`            | _(blank)_               | Built-in or registered icon name.                                                              |
-| `icon-right`      | `false`                 | Position the icon after the label. Ignored while spinning. _(boolean)_                         |
-| `has-spinner`     | `false`                 | Include a spinner (hidden until shown). _(boolean)_                                            |
-| `show-spinner`    | `false`                 | Show the spinner. Only when `has-spinner`. _(boolean)_                                         |
-| `disabled`        | `false`                 | Disable the button. _(boolean)_                                                                |
-| `tag`             | `button`                | Element to render. `button` \| `a`                                                             |
-| `href`            | _(blank)_               | Link target when `tag="a"`.                                                                    |
-| `can-submit`      | `false`                 | Render as `type="submit"`. _(boolean)_                                                         |
-| `show-focus-ring` | `true`                  | Show the keyboard focus ring. _(boolean)_                                                      |
-| `uppercase`       | `false`                 | Uppercase the label. _(boolean)_                                                               |
-| `name`            | _(blank)_               | Optional name, reflected as an attribute for targeting.                                        |
+| Attribute         | Default                 | Description                                                                                                                                      |
+| ----------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `type`            | `primary`               | Structural variant. `primary` \| `secondary`                                                                                                     |
+| `color`           | _(derived from `type`)_ | Palette override. See available colors above.                                                                                                    |
+| `size`            | `regular`               | `tiny` \| `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `radius`          | `medium`                | `none` \| `small` \| `medium` \| `full`                                                                                                          |
+| `outline`         | `false`                 | Surface fill with colored border and text. Primary only; no effect on `secondary`. _(boolean)_                                                   |
+| `circle`          | `false`                 | Square, full-radius icon button; overrides `radius`. _(boolean)_                                                                                 |
+| `border-width`    | `1`                     | Secondary/outline border width. `1` \| `2`                                                                                                       |
+| `icon`            | _(blank)_               | Built-in or registered icon name.                                                                                                                |
+| `icon-right`      | `false`                 | Position the icon after the label. Ignored while spinning. _(boolean)_                                                                           |
+| `has-spinner`     | `false`                 | Include a spinner (hidden until shown). _(boolean)_                                                                                              |
+| `show-spinner`    | `false`                 | Show the spinner. Only when `has-spinner`. _(boolean)_                                                                                           |
+| `disabled`        | `false`                 | Disable the button. _(boolean)_                                                                                                                  |
+| `tag`             | `button`                | Element to render. `button` \| `a`                                                                                                               |
+| `href`            | _(blank)_               | Link target when `tag="a"`.                                                                                                                      |
+| `can-submit`      | `false`                 | Render as `type="submit"`. _(boolean)_                                                                                                           |
+| `show-focus-ring` | `true`                  | Show the keyboard focus ring. _(boolean)_                                                                                                        |
+| `uppercase`       | `false`                 | Uppercase the label. _(boolean)_                                                                                                                 |
+| `name`            | _(blank)_               | Optional name, reflected as an attribute for targeting.                                                                                          |
 
 ### Properties & methods (JS)
 

@@ -45,10 +45,10 @@ describe("loomi-spinner", () => {
     expect(dotCircle.shadowRoot!.querySelectorAll(".loomi-spinner-dots circle")).to.have.length(8);
   });
 
-  it("accepts Untitled UI size aliases", async () => {
+  it("renders an unsupported size as the regular default", async () => {
     const el = await fixture<LoomiSpinner>(html`<loomi-spinner size="md"></loomi-spinner>`);
 
-    expect(el.shadowRoot!.querySelector(".loomi-spinner-wrap")!.classList.contains("size-medium"))
+    expect(el.shadowRoot!.querySelector(".loomi-spinner-wrap")!.classList.contains("size-regular"))
       .to.be.true;
   });
 });

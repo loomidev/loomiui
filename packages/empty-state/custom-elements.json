@@ -14,14 +14,6 @@
             "name": "LoomiEmptyState",
             "module": "./loomi-empty-state.js"
           }
-        },
-        {
-          "kind": "js",
-          "name": "LoomiEmptyImageSize",
-          "declaration": {
-            "name": "LoomiEmptyImageSize",
-            "module": "./loomi-empty-state.js"
-          }
         }
       ]
     },
@@ -40,6 +32,14 @@
             }
           ],
           "members": [
+            {
+              "kind": "field",
+              "name": "supportedSizes",
+              "static": true,
+              "readonly": true,
+              "default": "{ imageSize: EMPTY_IMAGE_SIZES } satisfies LoomiSizeSupport",
+              "description": "Size names this component supports, from the canonical `LoomiSize` scale."
+            },
             {
               "kind": "field",
               "name": "heading",
@@ -89,9 +89,10 @@
               "kind": "field",
               "name": "imageSize",
               "type": {
-                "text": "LoomiEmptyImageSize"
+                "text": "LoomiSize"
               },
-              "default": "\"medium\"",
+              "default": "\"regular\"",
+              "description": "Illustration width: `small` | `regular` | `big` | `huge` | `omg`.",
               "attribute": "image-size"
             }
           ],
@@ -148,9 +149,10 @@
             {
               "name": "image-size",
               "type": {
-                "text": "LoomiEmptyImageSize"
+                "text": "LoomiSize"
               },
-              "default": "\"medium\"",
+              "default": "\"regular\"",
+              "description": "Illustration width: `small` | `regular` | `big` | `huge` | `omg`.",
               "fieldName": "imageSize"
             }
           ],
