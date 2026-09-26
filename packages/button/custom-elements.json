@@ -142,7 +142,7 @@
                 "text": "LoomiButtonType"
               },
               "default": "\"primary\"",
-              "description": "Structural variant: `primary` is a solid fill; `secondary` is a bordered surface. `color` overrides the hue.",
+              "description": "Structural variant: `primary` is a solid fill; `secondary` is a bordered surface. `color` sets the hue (a colored secondary keeps its outline).",
               "attribute": "type",
               "reflects": true
             },
@@ -303,6 +303,17 @@
             },
             {
               "kind": "field",
+              "name": "fullWidth",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Stretch to fill the container's width (host `display: block`), label centered.",
+              "attribute": "full-width",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "uppercase",
               "type": {
                 "text": "boolean"
@@ -452,7 +463,7 @@
                   }
                 }
               ],
-              "description": "`type` only switches solid-fill vs. outline; `color` is the only thing that picks the hue."
+              "description": "`type`/`outline` only switch solid fill vs. outline; `color` is the only thing that picks the hue."
             },
             {
               "kind": "method",
@@ -524,7 +535,7 @@
                 "text": "LoomiButtonType"
               },
               "default": "\"primary\"",
-              "description": "Structural variant: `primary` is a solid fill; `secondary` is a bordered surface. `color` overrides the hue.",
+              "description": "Structural variant: `primary` is a solid fill; `secondary` is a bordered surface. `color` sets the hue (a colored secondary keeps its outline).",
               "fieldName": "type"
             },
             {
@@ -661,6 +672,15 @@
               "default": "true",
               "description": "Show the focus ring on keyboard focus.",
               "fieldName": "showFocusRing"
+            },
+            {
+              "name": "full-width",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Stretch to fill the container's width (host `display: block`), label centered.",
+              "fieldName": "fullWidth"
             },
             {
               "name": "uppercase",

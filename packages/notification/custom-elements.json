@@ -57,6 +57,26 @@
           "kind": "class",
           "description": "`<loomi-notification>` — a container for stacked, auto-dismissing toasts. Trigger via\nthe `notify()` method or the global `showLoomiNotification()` helper.",
           "name": "LoomiNotification",
+          "cssProperties": [
+            {
+              "description": "Space between the title and the message. Defaults to `0.25rem`; only applies when a toast has both.",
+              "name": "--loomi-notification-title-gap"
+            },
+            {
+              "description": "Stacking order of the toast layer.",
+              "name": "--loomi-notification-z-index"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "A toast's title line (only rendered when the toast has a title).",
+              "name": "title"
+            },
+            {
+              "description": "A toast's message.",
+              "name": "message"
+            }
+          ],
           "members": [
             {
               "kind": "field",

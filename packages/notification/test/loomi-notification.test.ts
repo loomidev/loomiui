@@ -180,4 +180,23 @@ describe("loomi-notification", () => {
     expect(el.parentElement).to.equal(document.body);
     expect(wrapper.querySelector("loomi-notification")).to.not.exist;
   });
+
+  it("spaces the title from the message only when both are present", async () => {
+    const el = await mountNotification(html`<loomi-notification></loomi-notification>`);
+    el.notify({ title: "Export ready", message: "Two\nlines", dismissIn: 0 });
+    el.notify({ message: "Message only", dismissIn: 0 });
+    await el.updateComplete;
+
+    const [withTitle, messageOnly] = el.shadowRoot!.querySelectorAll<HTMLElement>(".loomi-toast");
+    expect(withTitle.querySelector('[part="title"]')).to.exist;
+    const message = withTitle.querySelector<HTMLElement>('[part="message"]')!;
+    expect(getComputedStyle(message).marginTop).to.equal("4px");
+    expect(messageOnly.querySelector('[part="title"]')).to.not.exist;
+    expect(getComputedStyle(messageOnly.querySelector('[part="message"]')!).marginTop).to.equal(
+      "0px",
+    );
+
+    el.style.setProperty("--loomi-notification-title-gap", "10px");
+    expect(getComputedStyle(message).marginTop).to.equal("10px");
+  });
 });

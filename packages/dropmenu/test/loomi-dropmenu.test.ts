@@ -630,4 +630,44 @@ describe("loomi-dropmenu", () => {
     expect(submenu.classList.contains("open")).to.equal(false);
     expect(submenu.matches(":popover-open")).to.equal(false);
   });
+
+  it('turns the row tint off with hover="false"', async () => {
+    const menu = await fixture<LoomiDropmenu>(html`
+      <loomi-dropmenu>
+        <loomi-dropmenu-item>Tinted</loomi-dropmenu-item>
+        <loomi-dropmenu-item hover>Also tinted</loomi-dropmenu-item>
+        <loomi-dropmenu-item hover="false">Bare</loomi-dropmenu-item>
+      </loomi-dropmenu>
+    `);
+    const items = Array.from(menu.querySelectorAll<LoomiDropmenuItem>("loomi-dropmenu-item"));
+    await Promise.all(items.map((item) => item.updateComplete));
+    const hoverable = items.map((item) =>
+      item.shadowRoot!.querySelector(".loomi-item")!.classList.contains("hoverable"),
+    );
+    expect(hoverable).to.deep.equal([true, true, false]);
+  });
+
+  it("menus items forwarded through a nested slot", async () => {
+    const host = await fixture<HTMLDivElement>(html`<div>
+      <loomi-dropmenu-item>One</loomi-dropmenu-item>
+      <loomi-dropmenu-item>Two</loomi-dropmenu-item>
+    </div>`);
+    const root = host.attachShadow({ mode: "open" });
+    root.innerHTML = `<loomi-dropmenu icon-right><slot></slot></loomi-dropmenu>`;
+    const menu = root.querySelector<LoomiDropmenu>("loomi-dropmenu")!;
+    await menu.updateComplete;
+    const items = Array.from(host.querySelectorAll<LoomiDropmenuItem>("loomi-dropmenu-item"));
+    await Promise.all(items.map((item) => item.updateComplete));
+    // `icon-right` reaches the forwarded items...
+    for (const item of items) {
+      expect(item.shadowRoot!.querySelector(".loomi-item")!.classList.contains("right")).to.be.true;
+    }
+    // ...and they're reachable by keyboard.
+    menu
+      .shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!
+      .dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }));
+    await menu.updateComplete;
+    await nextFrame();
+    expect(document.activeElement).to.equal(items[0]);
+  });
 });

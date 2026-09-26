@@ -215,6 +215,22 @@ tints the label, icon, and hover state red.
 </loomi-dropmenu>
 ```
 
+## Button Rows
+
+An item whose only content is a control fills the row: the label stretches, so a
+`full-width` `<loomi-button>` spans the menu's inner width. Set `hover="false"` so the row
+doesn't tint behind the button's own hover state.
+
+```html
+<loomi-dropmenu>
+  <loomi-dropmenu-item icon="user-circle">Profile</loomi-dropmenu-item>
+  <loomi-dropmenu-item divider></loomi-dropmenu-item>
+  <loomi-dropmenu-item hover="false">
+    <loomi-button full-width outline color="error" size="small">Sign out</loomi-button>
+  </loomi-dropmenu-item>
+</loomi-dropmenu>
+```
+
 ## Keyboard Shortcut Hints
 
 Use `shortcut` to show a keyboard shortcut or command hint on the right side of an
@@ -437,7 +453,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `icon-right` | `false`   | Place the icon after the label. _(boolean)_                       |
 | `header`     | `false`   | Non-clickable section header. _(boolean)_                         |
 | `divider`    | `false`   | Render a divider line. _(boolean)_                                |
-| `hover`      | `true`    | Enable hover styling for a normal item. _(boolean)_               |
+| `hover`      | `true`    | Tint the row on hover/focus. `hover="false"` turns it off.        |
 | `disabled`   | `false`   | Skip navigation/clicks and dim the row. _(boolean)_               |
 | `variant`    | `default` | `default` \| `destructive` (tints the row red).                   |
 | `checkbox`   | `false`   | Render as a checkbox row; toggles `checked` on click. _(boolean)_ |

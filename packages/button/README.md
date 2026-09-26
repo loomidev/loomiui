@@ -26,6 +26,9 @@ installed automatically.
 ```html
 <loomi-button>Subscribe Now</loomi-button>
 
+<!-- fill the container's width (label stays centered) -->
+<loomi-button full-width>Continue</loomi-button>
+
 <!-- uppercase the label -->
 <loomi-button uppercase>Subscribe Now</loomi-button>
 
@@ -35,19 +38,22 @@ installed automatically.
 
 ## Button Types
 
-`type` selects the default hue when `color` is unset - both render as a bold fill.
-`primary` uses the primary palette; `secondary` uses the secondary palette.
+`type` picks the structure: `primary` is a bold fill, `secondary` is an outline (surface
+fill, 1px border). With `color` unset, `primary` uses the primary palette and `secondary`
+uses a neutral gray border with dark text. Setting `color` on a secondary button colors
+its border and text, exactly like `outline color="…"` - it stays an outline.
 
 ```html
 <loomi-button>Primary Button</loomi-button>
 <loomi-button outline>Primary Outline</loomi-button>
 
 <loomi-button type="secondary">Secondary Button</loomi-button>
+<loomi-button type="secondary" color="error">Error Secondary</loomi-button>
 ```
 
 ## Outline
 
-`outline` applies to primary (and colored) buttons only. A secondary button is already an outline, so `type="secondary"` needs no `outline` attribute - adding one changes nothing.
+`outline` applies to primary (and colored) buttons only. A secondary button is already an outline, so `type="secondary"` needs no `outline` attribute - adding one changes nothing, and `type="secondary" color="error"` renders the same as `outline color="error"`.
 
 Secondary and outline buttons use a surface fill (white in light mode), a thin 1px border, and 6px default corners. Secondary uses a neutral gray border and dark text; colored outlines retain their palette border and text. Theme surface colors adapt in dark mode. Explicit `radius` presets and `--loomi-control-radius` overrides still apply.
 
@@ -100,8 +106,9 @@ shouldn't use the brand colors (e.g. a destructive delete button).
 
 Available colors: `primary` `secondary` `info` `success` `error` `warning` `gray`
 
-> Leaving `color` unset derives it from `type`: `primary` → the `primary` palette,
-> `secondary` → the `secondary` palette.
+> Leaving `color` unset derives it from `type`: `primary` → a `primary` fill,
+> `secondary` → the neutral secondary outline. `color` never changes a secondary button's
+> structure, only its hue.
 
 ## Icons
 
@@ -240,7 +247,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 | Attribute         | Default                 | Description                                                                                                                                      |
 | ----------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `type`            | `primary`               | Structural variant. `primary` \| `secondary`                                                                                                     |
+| `type`            | `primary`               | Structural variant. `primary` (fill) \| `secondary` (outline; `color` tints border and text)                                                     |
 | `color`           | _(derived from `type`)_ | Palette override. See available colors above.                                                                                                    |
 | `size`            | `regular`               | `tiny` \| `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
 | `radius`          | `medium`                | `none` \| `small` \| `medium` \| `full`                                                                                                          |
@@ -256,6 +263,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `href`            | _(blank)_               | Link target when `tag="a"`.                                                                                                                      |
 | `can-submit`      | `false`                 | Render as `type="submit"`. _(boolean)_                                                                                                           |
 | `show-focus-ring` | `true`                  | Show the keyboard focus ring. _(boolean)_                                                                                                        |
+| `full-width`      | `false`                 | Stretch to fill the container's width, label centered. _(boolean)_                                                                               |
 | `uppercase`       | `false`                 | Uppercase the label. _(boolean)_                                                                                                                 |
 | `name`            | _(blank)_               | Optional name, reflected as an attribute for targeting.                                                                                          |
 
