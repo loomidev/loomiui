@@ -77,6 +77,103 @@ describe("loomi-profile-menu", () => {
     expect(dropmenu.shadowRoot!.querySelector(".loomi-menu")).to.exist;
   });
 
+  describe("menu arrow", () => {
+    const openMenu = async (el: LoomiProfileMenu) => {
+      await el.updateComplete;
+      const dropmenu = el.shadowRoot!.querySelector("loomi-dropmenu")!;
+      dropmenu.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!.click();
+      await dropmenu.updateComplete;
+      const menu = dropmenu.shadowRoot!.querySelector<HTMLElement>(".loomi-menu")!;
+      await waitUntil(() => menu.matches(":popover-open") && menu.offsetWidth > 0);
+      await nextFrame();
+      return menu;
+    };
+    // Where the caret's tip actually renders — after the CSS clamp, not just the raw
+    // --loomi-dropmenu-arrow-x — read from the panel's un-transformed position.
+    const caretX = (menu: HTMLElement): number => {
+      const before = getComputedStyle(menu, "::before");
+      return (
+        Number.parseFloat(menu.style.left) +
+        menu.clientLeft +
+        Number.parseFloat(before.left) +
+        Number.parseFloat(before.marginInlineStart) +
+        Number.parseFloat(before.borderLeftWidth)
+      );
+    };
+    const center = (node: Element): number => {
+      const r = node.getBoundingClientRect();
+      return r.left + r.width / 2;
+    };
+    const chevron = (el: LoomiProfileMenu) =>
+      el.shadowRoot!.querySelector<SVGElement>(".loomi-pm-chevron")!;
+
+    it('sits under the chevron with placement="right" and avatar-position="right"', async () => {
+      const el = await fixture<LoomiProfileMenu>(html`
+        <loomi-profile-menu
+          style="position:fixed;left:200px;top:12px"
+          name="Alice Wonderland"
+          description="alice@loomiui.com"
+          placement="right"
+          avatar-position="right"
+        >
+          <loomi-dropmenu-item>Profile</loomi-dropmenu-item>
+        </loomi-profile-menu>
+      `);
+      const menu = await openMenu(el);
+
+      expect(caretX(menu)).to.be.closeTo(center(chevron(el)), 1.5);
+    });
+
+    it('sits under the chevron with placement="left"', async () => {
+      const el = await fixture<LoomiProfileMenu>(html`
+        <loomi-profile-menu
+          style="position:fixed;left:24px;top:12px"
+          name="Alice Wonderland"
+          description="alice@loomiui.com"
+          placement="left"
+        >
+          <loomi-dropmenu-item>Profile</loomi-dropmenu-item>
+          <loomi-dropmenu-item>Settings</loomi-dropmenu-item>
+        </loomi-profile-menu>
+      `);
+      const menu = await openMenu(el);
+      const target = center(chevron(el));
+
+      // Positioned from the chevron, so the start-aligned panel begins just left of it
+      // and the caret sits under it, even though the card is wider than the menu.
+      expect(caretX(menu)).to.be.closeTo(target, 1.5);
+      expect(menu.getBoundingClientRect().left).to.be.greaterThan(
+        el.getBoundingClientRect().left + el.getBoundingClientRect().width / 2,
+      );
+    });
+
+    it("points at the whole avatar + chevron group when compact", async () => {
+      const el = await fixture<LoomiProfileMenu>(html`
+        <loomi-profile-menu style="position:fixed;left:200px;top:12px" name="Alice Wonderland" compact>
+          <loomi-dropmenu-item>Profile</loomi-dropmenu-item>
+        </loomi-profile-menu>
+      `);
+      const dropmenu = el.shadowRoot!.querySelector("loomi-dropmenu")!;
+      await el.updateComplete;
+
+      expect(dropmenu.arrowAnchor).to.equal(el.shadowRoot!.querySelector(".loomi-pm-trigger"));
+    });
+
+    it('switches anchors across the compact="auto" breakpoint', async () => {
+      const el = await fixture<LoomiProfileMenu>(
+        html`<loomi-profile-menu name="Alice Wonderland" compact="auto"></loomi-profile-menu>`,
+      );
+      const dropmenu = el.shadowRoot!.querySelector("loomi-dropmenu")!;
+      await el.updateComplete;
+      expect(dropmenu.arrowAnchor).to.equal(chevron(el));
+
+      await setViewport({ width: 390, height: 800 });
+      await waitUntil(() => dropmenu.arrowAnchor !== chevron(el));
+      expect(dropmenu.arrowAnchor).to.equal(el.shadowRoot!.querySelector(".loomi-pm-trigger"));
+      await setViewport({ width: 800, height: 600 });
+    });
+  });
+
   describe("compact trigger", () => {
     const LOGO = html`<div style="flex:none;width:126px;height:32px;background:#ccc"></div>`;
     const TAG = html`<span style="flex:none;padding:2px 8px;font-size:12px">Beta</span>`;

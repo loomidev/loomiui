@@ -143,10 +143,87 @@ describe("loomi-dropmenu", () => {
     const trigger = triggerRect(el);
     const arrowX = Number.parseFloat(menu.style.getPropertyValue("--loomi-dropmenu-arrow-x"));
 
-    expect(menu.getBoundingClientRect().left + arrowX).to.be.closeTo(
+    expect(menu.getBoundingClientRect().left + menu.clientLeft + arrowX).to.be.closeTo(
       trigger.left + trigger.width / 2,
       1,
     );
+  });
+
+  describe("arrowAnchor", () => {
+    const arrowCenter = (menu: HTMLElement): number =>
+      Number.parseFloat(menu.style.left) +
+      menu.clientLeft +
+      Number.parseFloat(menu.style.getPropertyValue("--loomi-dropmenu-arrow-x"));
+
+    // A wide trigger with a small mark at its far end — the profile-menu shape.
+    const wide = (placement: string, style: string) => html`
+      <loomi-dropmenu placement=${placement} style=${style}>
+        <span slot="trigger" style="display:flex;width:320px;justify-content:space-between">
+          <span>Alice Wonderland</span><i class="mark" style="display:block;width:16px;height:16px"></i>
+        </span>
+        <loomi-dropmenu-item>A wide enough item to hold the whole trigger width here</loomi-dropmenu-item>
+      </loomi-dropmenu>
+    `;
+    const withAnchor = async (el: LoomiDropmenu): Promise<DOMRect> => {
+      const mark = el.querySelector<HTMLElement>(".mark")!;
+      el.arrowAnchor = mark;
+      await el.updateComplete;
+      return mark.getBoundingClientRect();
+    };
+
+    it("points the arrow at the anchor instead of the trigger's center", async () => {
+      const el = await fixture<LoomiDropmenu>(wide("left", "position:fixed;left:24px;top:12px"));
+      const mark = await withAnchor(el);
+      const menu = await open(el);
+
+      expect(arrowCenter(menu)).to.be.closeTo(mark.left + mark.width / 2, 1);
+    });
+
+    it("aligns the panel to the anchor, not the trigger, so the caret lands on it", async () => {
+      // Short items: the panel is much narrower than the 320px trigger.
+      const el = await fixture<LoomiDropmenu>(html`
+        <loomi-dropmenu placement="left" style="position:fixed;left:24px;top:12px">
+          <span slot="trigger" style="display:flex;width:320px;justify-content:space-between">
+            <span>Alice</span><i class="mark" style="display:block;width:16px;height:16px"></i>
+          </span>
+          <loomi-dropmenu-item>Profile</loomi-dropmenu-item>
+        </loomi-dropmenu>
+      `);
+      const mark = await withAnchor(el);
+      const menu = await open(el);
+      const tip =
+        Number.parseFloat(menu.style.left) +
+        Number.parseFloat(getComputedStyle(menu, "::before").left);
+
+      expect(tip).to.be.closeTo(mark.left + mark.width / 2, 1);
+      expect(Number.parseFloat(menu.style.left)).to.be.greaterThan(triggerRect(el).left + 200);
+    });
+
+    it("keeps following the anchor after flipping up and swapping alignment", async () => {
+      // Bottom-right corner: no room below (flips up), none to the right (swaps to end).
+      const el = await fixture<LoomiDropmenu>(wide("left", "position:fixed;right:24px;bottom:4px"));
+      const mark = await withAnchor(el);
+      const menu = await open(el);
+
+      expect(menu.classList.contains("place-top")).to.equal(true);
+      // Swapped from start to end alignment: the panel now ends just past the anchor.
+      expect(Number.parseFloat(menu.style.left) + menu.offsetWidth).to.be.closeTo(
+        mark.left + mark.width / 2 + 22,
+        2,
+      );
+      expect(arrowCenter(menu)).to.be.closeTo(mark.left + mark.width / 2, 1);
+    });
+
+    it("falls back to the trigger when the anchor isn't rendered", async () => {
+      const el = await fixture<LoomiDropmenu>(wide("left", "position:fixed;left:24px;top:12px"));
+      const mark = el.querySelector<HTMLElement>(".mark")!;
+      mark.style.display = "none";
+      el.arrowAnchor = mark;
+      const menu = await open(el);
+      const trigger = triggerRect(el);
+
+      expect(arrowCenter(menu)).to.be.closeTo(trigger.left + trigger.width / 2, 1);
+    });
   });
 
   it("names the icon-only trigger and the panel from `label`", async () => {

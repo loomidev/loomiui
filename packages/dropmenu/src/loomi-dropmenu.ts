@@ -419,6 +419,15 @@ export class LoomiDropmenu extends LoomiElement {
   @property({ type: Number }) height = 200;
   @property({ type: Boolean, attribute: "hide-after-click" }) hideAfterClick = true;
   @property({ type: Boolean, attribute: "icon-right" }) iconRight = false;
+  /**
+   * The element the panel's arrow points at, when that isn't the whole trigger — a
+   * chevron at the end of a wide trigger card, say. Only the arrow follows it: the panel
+   * still aligns to (and flips around) the trigger, and the arrow is still clamped to the
+   * panel's rounded corners. JS-only, since the anchor usually lives in a shadow root no
+   * selector could reach. Falls back to the trigger while unset, disconnected, or
+   * not rendered (`display: none`).
+   */
+  @property({ attribute: false }) arrowAnchor: Element | null = null;
 
   @state() private open = false;
   @state() private closing = false;
@@ -588,15 +597,57 @@ export class LoomiDropmenu extends LoomiElement {
     if (!menu || !trigger || !this.open) return;
 
     const placement = PLACEMENT_ALIASES[this.placement] ?? (this.placement as LoomiPanelPlacement);
-    this.resolvedSide = positionFloatingPanel(trigger, menu, placement);
+    const anchorRect = this.arrowAnchorRect();
+    // With an arrow anchor, the panel aligns to the anchor's edges rather than the whole
+    // trigger's — widened, for an anchor narrower than the arrow's reach, just enough that
+    // the arrow at its closest to that corner lands on the anchor's center. The trigger
+    // still decides whether the panel opens below or flips above.
+    let alignTo: { left: number; right: number } | undefined;
+    if (anchorRect) {
+      const center = anchorRect.left + anchorRect.width / 2;
+      const reach = this.arrowReach(menu);
+      alignTo = {
+        left: Math.min(anchorRect.left, center - reach.start),
+        right: Math.max(anchorRect.right, center + reach.end),
+      };
+    }
+    this.resolvedSide = positionFloatingPanel(trigger, menu, placement, { alignTo });
 
-    // The arrow points at the trigger's center, expressed relative to wherever the panel
-    // landed. That's read back from the inline `left` the helper just wrote rather than
-    // from a rect, which would still carry the entrance animation's transform.
-    const triggerRect = trigger.getBoundingClientRect();
-    const menuLeft = Number.parseFloat(menu.style.left) || 0;
-    const arrowX = triggerRect.left + triggerRect.width / 2 - menuLeft;
+    // The arrow points at the anchor's (by default the trigger's) center, expressed
+    // relative to wherever the panel landed — so it stays right after a flip or an
+    // alignment swap. That's read back from the inline `left` the helper just wrote rather
+    // than from a rect, which would still carry the entrance animation's transform. The
+    // arrow's `left` is measured from inside the panel's border, hence `clientLeft`.
+    const pointAt = anchorRect ?? trigger.getBoundingClientRect();
+    const menuLeft = (Number.parseFloat(menu.style.left) || 0) + menu.clientLeft;
+    const arrowX = pointAt.left + pointAt.width / 2 - menuLeft;
     menu.style.setProperty("--loomi-dropmenu-arrow-x", `${Math.round(arrowX)}px`);
+  }
+
+  private arrowAnchorRect(): DOMRect | undefined {
+    const anchor = this.arrowAnchor;
+    if (!anchor?.isConnected) return undefined;
+    const rect = anchor.getBoundingClientRect();
+    // A zero-size rect means the anchor isn't rendered — pointing at its stale origin
+    // would be worse than pointing at the trigger.
+    return rect.width || rect.height ? rect : undefined;
+  }
+
+  /**
+   * How close the arrow's tip may come to the panel's start and end edges — the ends of
+   * its CSS clamp (`--loomi-dropmenu-arrow-inset` + the arrow's half-width, inside the
+   * panel's border). Read back by pinning the arrow past each end and letting the clamp
+   * resolve it, so any unit (or `calc()`) a theme sets those to works.
+   */
+  private arrowReach(menu: HTMLElement): { start: number; end: number } {
+    const tipAt = (x: string): number => {
+      menu.style.setProperty("--loomi-dropmenu-arrow-x", x);
+      return Number.parseFloat(getComputedStyle(menu, "::before").left) || 0;
+    };
+    return {
+      start: menu.clientLeft + tipAt("-9999px"),
+      end: menu.offsetWidth - menu.clientLeft - tipAt("9999px"),
+    };
   }
 
   private getTopLevelItems(): LoomiDropmenuItem[] {
@@ -676,6 +727,7 @@ export class LoomiDropmenu extends LoomiElement {
 
   override updated(changedProperties: PropertyValues<this>): void {
     if (changedProperties.has("iconRight")) this.applyItemDefaults();
+    if (changedProperties.has("arrowAnchor") && this.open) this.schedulePlacement();
   }
 
   private get menuClass(): string {

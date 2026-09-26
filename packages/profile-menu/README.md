@@ -101,6 +101,13 @@ its own card fill. Add `has-hover` when you want a very subtle border on hover.
 The menu is powered by `<loomi-dropmenu>`, so the same placement, divided rows,
 scrolling, keyboard navigation, and `hide-after-click` behavior apply.
 
+The menu is positioned from the chevron rather than the whole card, so its arrow lands
+on the chevron whichever side the avatar is on and whichever way the panel aligns,
+flips, or swaps near a viewport edge. `placement="right"` ends the panel just past the
+chevron; `placement="left"` starts it just before the chevron and lets it extend beyond
+the card. When compact, it's positioned from the avatar + chevron pair instead. (This is
+`<loomi-dropmenu>`'s `arrowAnchor` property, set for you.)
+
 ```html
 <loomi-profile-menu name="Alice Wonderland" placement="right" divided>
   <loomi-dropmenu-item icon="user-circle">Profile</loomi-dropmenu-item>
