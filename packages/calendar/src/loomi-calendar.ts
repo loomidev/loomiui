@@ -541,7 +541,7 @@ export class LoomiCalendar extends LoomiElement {
         title=${draft.eventId ? "Edit event" : this.t("calendar.form.newEvent")}
         ok-button-label=${this.t("calendar.form.save")}
         .locale=${this.locale}
-        size="medium"
+        size="regular"
         ?open=${true}
         .closeAfterAction=${false}
         style="--loomi-modal-z-index:2147480000"
@@ -699,7 +699,7 @@ export class LoomiCalendar extends LoomiElement {
         title=${draft.reminderId ? "Edit reminder" : "New reminder"}
         ok-button-label=${this.t("calendar.form.save")}
         .locale=${this.locale}
-        size="medium"
+        size="regular"
         ?open=${true}
         .closeAfterAction=${false}
         style="--loomi-modal-z-index:2147480000"

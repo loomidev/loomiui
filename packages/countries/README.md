@@ -186,25 +186,25 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute           | Default              | Description                                                                                                                          |
-| ------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `name`              | _(blank)_            | Submitted with the form.                                                                                                             |
-| `mode`              | `names`              | `names` \| `phone`.                                                                                                                  |
-| `placeholder`       | `Select a country`   | Trigger text when nothing is selected (`names` mode).                                                                                |
-| `label`             | _(blank)_            | Floating label (takes precedence over placeholder).                                                                                  |
-| `aria-label`        | _(blank)_            | Accessible name in `names` mode when there's no `label`; forwarded to the trigger and country list.                                  |
-| `label-position`    | `default`            | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field.                                      |
-| `selection`         | _(blank)_            | Country name, ISO alpha-2 code, or dial code. Resolves to the alpha-2 code.                                                          |
-| `value`             | _(blank)_            | The phone number portion, excluding the dial code (`phone` mode, digits only).                                                       |
-| `mask`              | _(blank)_            | Overrides the selected country's auto-detected formatting mask - `9`/`a`/`*` wildcards, same as `<loomi-input>` (`phone` mode only). |
-| `disabled`          | `false`              | Disable the control. _(boolean)_                                                                                                     |
-| `readonly`          | `false`              | Read-only (cannot open). _(boolean)_                                                                                                 |
-| `required`          | `false`              | Marks the field required. _(boolean)_                                                                                                |
-| `size`              | `medium`             | `tiny` \| `small` \| `regular` \| `medium` \| `big`                                                                                  |
-| `empty-placeholder` | `No countries found` | Shown when a search matches nothing.                                                                                                 |
-| `invalid`           | `false`              | Reflects validity state; set automatically. _(boolean)_                                                                              |
-| `locale`            | _(blank)_            | Locale for built-in strings (search box, placeholders, aria-labels).                                                                 |
-| `no-clearing`       | `false`              | Remove the default bottom margin. _(boolean)_                                                                                        |
+| Attribute           | Default              | Description                                                                                                                                      |
+| ------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `name`              | _(blank)_            | Submitted with the form.                                                                                                                         |
+| `mode`              | `names`              | `names` \| `phone`.                                                                                                                              |
+| `placeholder`       | `Select a country`   | Trigger text when nothing is selected (`names` mode).                                                                                            |
+| `label`             | _(blank)_            | Floating label (takes precedence over placeholder).                                                                                              |
+| `aria-label`        | _(blank)_            | Accessible name in `names` mode when there's no `label`; forwarded to the trigger and country list.                                              |
+| `label-position`    | `default`            | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field.                                                  |
+| `selection`         | _(blank)_            | Country name, ISO alpha-2 code, or dial code. Resolves to the alpha-2 code.                                                                      |
+| `value`             | _(blank)_            | The phone number portion, excluding the dial code (`phone` mode, digits only).                                                                   |
+| `mask`              | _(blank)_            | Overrides the selected country's auto-detected formatting mask - `9`/`a`/`*` wildcards, same as `<loomi-input>` (`phone` mode only).             |
+| `disabled`          | `false`              | Disable the control. _(boolean)_                                                                                                                 |
+| `readonly`          | `false`              | Read-only (cannot open). _(boolean)_                                                                                                             |
+| `required`          | `false`              | Marks the field required. _(boolean)_                                                                                                            |
+| `size`              | `regular`            | `tiny` \| `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `empty-placeholder` | `No countries found` | Shown when a search matches nothing.                                                                                                             |
+| `invalid`           | `false`              | Reflects validity state; set automatically. _(boolean)_                                                                                          |
+| `locale`            | _(blank)_            | Locale for built-in strings (search box, placeholders, aria-labels).                                                                             |
+| `no-clearing`       | `false`              | Remove the default bottom margin. _(boolean)_                                                                                                    |
 
 **Parts:** `trigger`, `panel`, `field` (`phone` mode), `input` (`phone` mode).
 **Methods:** `reset()`, `validate()`, `checkValidity()`, `reportValidity()`.

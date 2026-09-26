@@ -9,13 +9,16 @@ import {
   randomSuffix,
   themeStyles,
   type LoomiFieldLabelPosition,
+  LOOMI_CONTROL_SIZES,
+  resolveLoomiSize,
+  type LoomiSize,
+  type LoomiSizeSupport,
 } from "@loomidev/core";
 import "@loomidev/popover";
 import { getLoomiIcon } from "./icons.js";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiInputType = "text" | "email" | "password" | "search" | "tel" | "url";
-export type LoomiInputSize = "tiny" | "small" | "regular" | "medium" | "big";
 export type LoomiInputVariant = "default" | "minimal";
 export type LoomiInputDynamicMask = "" | "creditcard" | "credit-card" | ((input: string) => string);
 
@@ -53,6 +56,9 @@ const booleanAttribute = {
 @customElement("loomi-input")
 export class LoomiInput extends LoomiElement {
   static override styles = [themeStyles, controlSizeStyles, fieldStyles, componentStyles];
+
+  /** Size names this component supports, from the canonical `LoomiSize` scale — shared by every form control. */
+  static readonly supportedSizes = { size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
 
   private internals = this.attachInternals();
@@ -78,7 +84,8 @@ export class LoomiInput extends LoomiElement {
   @property({ attribute: "dynamic-mask" }) dynamicMask: LoomiInputDynamicMask = "";
   @property() min = "";
   @property() max = "";
-  @property() size: LoomiInputSize = "medium";
+  /** Size preset: `tiny` | `small` | `regular` | `medium` | `big`. Equal names give equal heights across every form control and `<loomi-button>`. */
+  @property() size: LoomiSize = "regular";
   @property() variant: LoomiInputVariant = "default";
   @property() prefix = "";
   @property() suffix = "";
@@ -423,7 +430,7 @@ export class LoomiInput extends LoomiElement {
     const showError = this.invalid && this.showErrorInline && this.errorMessage;
 
     return html`
-      <div class="loomi-field size-${this.size} variant-${this.variant} ${forceFloat ? "force-float" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}" part="field">
+      <div class="loomi-field size-${resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)} variant-${this.variant} ${forceFloat ? "force-float" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}" part="field">
         ${this.renderPrefix()}
         <span class="loomi-inputwrap">
           <input

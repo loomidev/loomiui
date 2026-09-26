@@ -95,20 +95,20 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes and properties
 
-| Name              | Default         | Description                                                                |
-| ----------------- | --------------- | -------------------------------------------------------------------------- |
-| `name`            | `""`            | Form field name.                                                           |
-| `selected-value`  | `""`            | Current submitted value. Defaults to the emoji itself.                     |
-| `label`           | `""`            | Optional field label.                                                      |
-| `placeholder`     | `Pick an emoji` | Closed trigger placeholder.                                                |
-| `inline`          | `false`         | Render the panel directly instead of a trigger dropdown.                   |
-| `searchable`      | `true`          | Show the search input.                                                     |
-| `show-categories` | `true`          | Show category tabs.                                                        |
-| `show-text`       | `false`         | Show the selected emoji's name (or placeholder) next to the trigger emoji. |
-| `required`        | `false`         | Mark the picker invalid until a value is selected.                         |
-| `disabled`        | `false`         | Disable the trigger.                                                       |
-| `readonly`        | `false`         | Prevent changes while keeping the current value readable.                  |
-| `size`            | `medium`        | `small`, `regular`, `medium`, or `big`.                                    |
+| Name              | Default         | Description                                                                                                                            |
+| ----------------- | --------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`            | `""`            | Form field name.                                                                                                                       |
+| `selected-value`  | `""`            | Current submitted value. Defaults to the emoji itself.                                                                                 |
+| `label`           | `""`            | Optional field label.                                                                                                                  |
+| `placeholder`     | `Pick an emoji` | Closed trigger placeholder.                                                                                                            |
+| `inline`          | `false`         | Render the panel directly instead of a trigger dropdown.                                                                               |
+| `searchable`      | `true`          | Show the search input.                                                                                                                 |
+| `show-categories` | `true`          | Show category tabs.                                                                                                                    |
+| `show-text`       | `false`         | Show the selected emoji's name (or placeholder) next to the trigger emoji.                                                             |
+| `required`        | `false`         | Mark the picker invalid until a value is selected.                                                                                     |
+| `disabled`        | `false`         | Disable the trigger.                                                                                                                   |
+| `readonly`        | `false`         | Prevent changes while keeping the current value readable.                                                                              |
+| `size`            | `regular`       | `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
 
 ## Events
 

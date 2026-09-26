@@ -18,19 +18,25 @@ const selectors = [
   ["loomi-timepicker", ".loomi-field"],
 ] as const;
 
+/**
+ * Equal size names must give equal control heights, so a `regular` button lines up with
+ * a `regular` input. `undefined` checks the defaults: every control defaults to `regular`,
+ * so controls with no `size` attribute at all must line up too.
+ */
 describe("form control sizes", () => {
-  for (const size of sizes) {
-    it(`renders matching ${size} control heights`, async () => {
+  for (const size of [undefined, ...sizes]) {
+    it(`renders matching ${size ?? "default"} control heights`, async () => {
+      const attr = size ? `size="${size}"` : "";
       const wrapper = document.createElement("div");
       wrapper.style.cssText = "display:flex;align-items:flex-start;gap:8px";
       wrapper.innerHTML = `
-        <loomi-button size="${size}">Save</loomi-button>
-        <loomi-input size="${size}" placeholder="Name" no-clearing></loomi-input>
-        <loomi-number size="${size}" no-clearing></loomi-number>
-        <loomi-password size="${size}" placeholder="Password" no-clearing></loomi-password>
-        <loomi-select size="${size}" placeholder="Status" no-clearing></loomi-select>
-        <loomi-datepicker size="${size}" placeholder="Date"></loomi-datepicker>
-        <loomi-timepicker size="${size}" placeholder="Time"></loomi-timepicker>
+        <loomi-button ${attr}>Save</loomi-button>
+        <loomi-input ${attr} placeholder="Name" no-clearing></loomi-input>
+        <loomi-number ${attr} no-clearing></loomi-number>
+        <loomi-password ${attr} placeholder="Password" no-clearing></loomi-password>
+        <loomi-select ${attr} placeholder="Status" no-clearing></loomi-select>
+        <loomi-datepicker ${attr} placeholder="Date"></loomi-datepicker>
+        <loomi-timepicker ${attr} placeholder="Time"></loomi-timepicker>
       `;
       document.body.append(wrapper);
 
@@ -47,9 +53,16 @@ describe("form control sizes", () => {
       });
       const [expected, ...rest] = heights;
 
-      for (const height of rest) {
-        expect(Math.abs(height - expected)).to.be.lessThan(0.5);
+      if (!size) {
+        const regular = parseFloat(getComputedStyle(document.documentElement).fontSize) * 2.5;
+        expect(Math.abs(expected - regular), "default is the 2.5rem regular height").to.be.lessThan(
+          0.5,
+        );
       }
+      rest.forEach((height, index) => {
+        const tag = selectors[index + 1][0];
+        expect(Math.abs(height - expected), `${tag} vs loomi-button`).to.be.lessThan(0.5);
+      });
       wrapper.remove();
     });
   }

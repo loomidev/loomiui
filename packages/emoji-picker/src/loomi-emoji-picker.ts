@@ -6,20 +6,29 @@ import {
   loomiStyles,
   loomiT,
   onClickOutside,
+  resolveLoomiSize,
+  type LoomiSize,
+  type LoomiSizeSupport,
 } from "@loomidev/core";
 import type { LoomiPopover } from "@loomidev/popover";
 import "@loomidev/popover";
 import { componentStyles } from "./generated/styles.css.js";
 import { GENERATED_EMOJIS } from "./emoji-data.gen.js";
 
-const PANEL_WIDTH_PX: Record<LoomiEmojiPickerSize, number> = {
+const EMOJI_PICKER_SIZES = [
+  "small",
+  "regular",
+  "medium",
+  "big",
+] as const satisfies readonly LoomiSize[];
+
+const PANEL_WIDTH_PX: Record<(typeof EMOJI_PICKER_SIZES)[number], number> = {
   small: 320,
   regular: 352,
   medium: 352,
   big: 400,
 };
 
-export type LoomiEmojiPickerSize = "small" | "regular" | "medium" | "big";
 export type LoomiEmojiCategory =
   | "all"
   | "smileys"
@@ -160,6 +169,9 @@ function normalizeDataItem(row: Record<string, unknown>): LoomiEmojiItem | null 
 @customElement("loomi-emoji-picker")
 export class LoomiEmojiPicker extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
+
+  /** Size names this component supports, from the canonical `LoomiSize` scale. */
+  static readonly supportedSizes = { size: EMOJI_PICKER_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
 
   private internals = this.attachInternals();
@@ -172,7 +184,8 @@ export class LoomiEmojiPicker extends LoomiElement {
   @property() placeholder = DEFAULT_PLACEHOLDER;
   @property({ attribute: "empty-text" }) emptyText = DEFAULT_EMPTY_TEXT;
   @property() locale = "";
-  @property() size: LoomiEmojiPickerSize = "medium";
+  /** Trigger and panel size: `small` | `regular` | `medium` | `big`. */
+  @property() size: LoomiSize = "regular";
   @property({ type: Array }) data: Array<Record<string, unknown>> = [];
   @property() emojis = "";
   @property({ type: Boolean, reflect: true }) inline = false;
@@ -257,6 +270,10 @@ export class LoomiEmojiPicker extends LoomiElement {
     this.validationVisible = true;
     this.syncValidity(true);
     return this.internals.reportValidity();
+  }
+
+  private get resolvedSize(): (typeof EMOJI_PICKER_SIZES)[number] {
+    return resolveLoomiSize(this.size, EMOJI_PICKER_SIZES);
   }
 
   private get allItems(): LoomiEmojiItem[] {
@@ -583,7 +600,7 @@ export class LoomiEmojiPicker extends LoomiElement {
     const triggerLabel = selected?.name ?? placeholder;
 
     return html`<div
-      class="loomi-emoji-picker size-${this.size} ${this.inline ? "inline" : ""}"
+      class="loomi-emoji-picker size-${this.resolvedSize} ${this.inline ? "inline" : ""}"
       @keydown=${this.onKeydown}
       @focusout=${this.onFocusOut}
     >
@@ -594,7 +611,7 @@ export class LoomiEmojiPicker extends LoomiElement {
           : html`<loomi-popover
             class="loomi-emoji-popover"
             position="bottom"
-            .width=${PANEL_WIDTH_PX[this.size]}
+            .width=${PANEL_WIDTH_PX[this.resolvedSize]}
             .disabled=${this.disabled || this.readonly}
             @loomi-toggle=${this.onPopoverToggle}
           >

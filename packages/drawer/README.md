@@ -61,11 +61,11 @@ size by width; top/bottom drawers span the full width and size by height.
 <loomi-button onclick="showLoomiDrawer('small-drawer')">Small</loomi-button>
 <loomi-drawer size="small" title="Small" name="small-drawer">20rem wide.</loomi-drawer>
 
-<loomi-button onclick="showLoomiDrawer('medium-drawer')">Medium</loomi-button>
-<loomi-drawer size="medium" title="Medium" name="medium-drawer">28rem wide - the default.</loomi-drawer>
+<loomi-button onclick="showLoomiDrawer('regular-drawer')">Regular</loomi-button>
+<loomi-drawer size="regular" title="Regular" name="regular-drawer">28rem wide - the default.</loomi-drawer>
 
-<loomi-button onclick="showLoomiDrawer('large-drawer')">Large</loomi-button>
-<loomi-drawer size="large" title="Large" name="large-drawer">36rem wide.</loomi-drawer>
+<loomi-button onclick="showLoomiDrawer('big-drawer')">Big</loomi-button>
+<loomi-drawer size="big" title="Big" name="big-drawer">36rem wide.</loomi-drawer>
 ```
 
 On screens narrower than 30rem, left/right drawers expand to full width regardless of size.
@@ -165,18 +165,18 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute                | Default   | Description                                                               |
-| ------------------------ | --------- | ------------------------------------------------------------------------- |
-| `name`                   | _(blank)_ | Unique name for `showLoomiDrawer()` / `hideLoomiDrawer()`.                |
-| `title`                  | _(blank)_ | Header text.                                                              |
-| `placement`              | `right`   | `left` \| `right` \| `top` \| `bottom`                                    |
-| `size`                   | `medium`  | `small` \| `medium` \| `large`                                            |
-| `open`                   | `false`   | Open state (reflected). _(boolean)_                                       |
-| `show-close-icon`        | `true`    | Show the header close (X) button. _(boolean)_                             |
-| `backdrop`               | `true`    | Dim the page behind the drawer and block interaction with it. _(boolean)_ |
-| `close-on-outside-click` | `true`    | Clicking outside the panel closes it. _(boolean)_                         |
-| `prevent-scroll`         | `true`    | Prevent document scrolling while open. _(boolean)_                        |
-| `locale`                 | _(blank)_ | Locale override for built-in aria labels.                                 |
+| Attribute                | Default   | Description                                                                                                                |
+| ------------------------ | --------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `name`                   | _(blank)_ | Unique name for `showLoomiDrawer()` / `hideLoomiDrawer()`.                                                                 |
+| `title`                  | _(blank)_ | Header text.                                                                                                               |
+| `placement`              | `right`   | `left` \| `right` \| `top` \| `bottom`                                                                                     |
+| `size`                   | `regular` | `small` \| `regular` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `open`                   | `false`   | Open state (reflected). _(boolean)_                                                                                        |
+| `show-close-icon`        | `true`    | Show the header close (X) button. _(boolean)_                                                                              |
+| `backdrop`               | `true`    | Dim the page behind the drawer and block interaction with it. _(boolean)_                                                  |
+| `close-on-outside-click` | `true`    | Clicking outside the panel closes it. _(boolean)_                                                                          |
+| `prevent-scroll`         | `true`    | Prevent document scrolling while open. _(boolean)_                                                                         |
+| `locale`                 | _(blank)_ | Locale override for built-in aria labels.                                                                                  |
 
 Boolean attributes can be omitted, present, or set to `"false"` in HTML, for example
 `backdrop="false"` or `show-close-icon`.
@@ -213,7 +213,7 @@ automatic, no setup needed.
   name="full-drawer"
   title="Edit profile"
   placement="right"
-  size="large"
+  size="big"
   show-close-icon
   backdrop
   close-on-outside-click="false"

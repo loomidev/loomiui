@@ -17,14 +17,6 @@
         },
         {
           "kind": "js",
-          "name": "LoomiColorpickerSize",
-          "declaration": {
-            "name": "LoomiColorpickerSize",
-            "module": "./loomi-colorpicker.js"
-          }
-        },
-        {
-          "kind": "js",
           "name": "LoomiColorpickerChangeDetail",
           "declaration": {
             "name": "LoomiColorpickerChangeDetail",
@@ -50,6 +42,14 @@
           "description": "`<loomi-colorpicker>` — pick a color. Uses the native color input by default; pass a\ncomma-separated `colors` list to show a swatch palette instead. Form-associated.",
           "name": "LoomiColorpicker",
           "members": [
+            {
+              "kind": "field",
+              "name": "supportedSizes",
+              "static": true,
+              "readonly": true,
+              "default": "{ size: COLORPICKER_SIZES } satisfies LoomiSizeSupport",
+              "description": "Size names this component supports, from the canonical `LoomiSize` scale."
+            },
             {
               "kind": "field",
               "name": "formAssociated",
@@ -123,9 +123,10 @@
               "kind": "field",
               "name": "size",
               "type": {
-                "text": "LoomiColorpickerSize"
+                "text": "LoomiSize"
               },
               "default": "\"regular\"",
+              "description": "Swatch size: `small` | `regular` | `medium` | `big`.",
               "attribute": "size"
             },
             {
@@ -326,9 +327,10 @@
             {
               "name": "size",
               "type": {
-                "text": "LoomiColorpickerSize"
+                "text": "LoomiSize"
               },
               "default": "\"regular\"",
+              "description": "Swatch size: `small` | `regular` | `medium` | `big`.",
               "fieldName": "size"
             }
           ],

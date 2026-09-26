@@ -6,7 +6,6 @@ export {
   type LoomiFabResolvedDirection,
   type LoomiFabTrigger,
   type LoomiFabVariant,
-  type LoomiFabSize,
   type LoomiFabSelectDetail,
   type LoomiFabEventMap,
 } from "./loomi-fab.js";

@@ -17,6 +17,12 @@ jobs:
   build:
     name: Build & typecheck
     runs-on: ubuntu-latest
+    env:
+      # Browser engines for the test suite (read by web-test-runner.config.mjs). Pull
+      # requests into development run Chromium only, which roughly halves the test step;
+      # release pull requests into main, and pushes to main, run all three, so a Firefox- or
+      # WebKit-only regression is still caught before anything publishes.
+      LOOMI_BROWSERS: ${{ github.event_name == 'pull_request' && github.base_ref != 'main' && 'chromium' || 'chromium,firefox,webkit' }}
     steps:
       - uses: actions/checkout@v7
 
@@ -41,9 +47,9 @@ jobs:
 
       # Idempotent: with a warm cache this revalidates and exits in seconds. --with-deps
       # installs the system libraries Firefox and WebKit need on a bare runner, which the
-      # cache cannot carry.
+      # cache cannot carry. Only the engines this run tests are installed.
       - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps chromium firefox webkit
+        run: pnpm exec playwright install --with-deps ${LOOMI_BROWSERS//,/ }
 
       # Fast static checks first — cheap to run, fail early before build/test. Runs the
       # open-source gitleaks CLI directly rather than gitleaks/gitleaks-action, which now
@@ -80,7 +86,12 @@ jobs:
         run: pnpm check:react-types
       - name: React wrapper components up to date
         run: pnpm check:react
-      - run: pnpm typecheck
+      # `pnpm build` already runs each package's `tsc -p tsconfig.json`, which is all their
+      # `typecheck` scripts do, so a repo-wide typecheck here only repeated it (~45s).
+      # react-types is the exception: its typecheck also compiles the JSX test fixtures
+      # against React 18 and 19, which the build doesn't.
+      - name: Typecheck React type fixtures
+        run: pnpm --filter @loomidev/react-types typecheck
       # Needs the built dist/, and runs in Node with no DOM — that is the point.
       - name: Components server-render
         run: pnpm check:ssr

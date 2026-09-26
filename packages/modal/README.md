@@ -103,14 +103,14 @@ set instead - `iconsax` or `untitledui` - matching `<loomi-icon>`'s own `source`
 <loomi-button onclick="showLoomiModal('small-modal')">Small</loomi-button>
 <loomi-modal size="small" title="Small Modal" name="small-modal">I'm small.</loomi-modal>
 
-<loomi-button onclick="showLoomiModal('medium-modal')">Medium</loomi-button>
-<loomi-modal size="medium" title="Medium Modal" name="medium-modal">The default size.</loomi-modal>
+<loomi-button onclick="showLoomiModal('regular-modal')">Regular</loomi-button>
+<loomi-modal size="regular" title="Regular Modal" name="regular-modal">The default size.</loomi-modal>
 
-<loomi-button onclick="showLoomiModal('large-modal')">Large</loomi-button>
-<loomi-modal size="large" title="Large Modal" name="large-modal">I'm large.</loomi-modal>
+<loomi-button onclick="showLoomiModal('big-modal')">Big</loomi-button>
+<loomi-modal size="big" title="Big Modal" name="big-modal">I'm big.</loomi-modal>
 
-<loomi-button onclick="showLoomiModal('xl-modal')">XL</loomi-button>
-<loomi-modal size="xl" title="XL Modal" name="xl-modal">I'm extra large.</loomi-modal>
+<loomi-button onclick="showLoomiModal('huge-modal')">Huge</loomi-button>
+<loomi-modal size="huge" title="Huge Modal" name="huge-modal">I'm huge.</loomi-modal>
 
 <loomi-button onclick="showLoomiModal('omg-modal')">Full Width</loomi-button>
 <loomi-modal size="omg" title="Full Width Modal" name="omg-modal">I'm full width.</loomi-modal>
@@ -127,14 +127,14 @@ set instead - `iconsax` or `untitledui` - matching `<loomi-icon>`'s own `source`
 <loomi-button onclick="showLoomiModal('small-blur')">Small Blur</loomi-button>
 <loomi-modal blur-size="small" title="Small Blur" name="small-blur">A light blur.</loomi-modal>
 
-<loomi-button onclick="showLoomiModal('medium-blur')">Medium Blur</loomi-button>
-<loomi-modal blur-size="medium" title="Medium Blur" name="medium-blur">The default blur.</loomi-modal>
+<loomi-button onclick="showLoomiModal('regular-blur')">Regular Blur</loomi-button>
+<loomi-modal blur-size="regular" title="Regular Blur" name="regular-blur">The default blur.</loomi-modal>
 
-<loomi-button onclick="showLoomiModal('large-blur')">Large Blur</loomi-button>
-<loomi-modal blur-size="large" title="Large Blur" name="large-blur">A stronger blur.</loomi-modal>
+<loomi-button onclick="showLoomiModal('big-blur')">Big Blur</loomi-button>
+<loomi-modal blur-size="big" title="Big Blur" name="big-blur">A stronger blur.</loomi-modal>
 
-<loomi-button onclick="showLoomiModal('xl-blur')">XL Blur</loomi-button>
-<loomi-modal blur-size="xl" title="XL Blur" name="xl-blur">A very soft backdrop.</loomi-modal>
+<loomi-button onclick="showLoomiModal('huge-blur')">Huge Blur</loomi-button>
+<loomi-modal blur-size="huge" title="Huge Blur" name="huge-blur">A very soft backdrop.</loomi-modal>
 
 <loomi-button onclick="showLoomiModal('omg-blur')">OMG Blur</loomi-button>
 <loomi-modal blur-size="omg" title="OMG Blur" name="omg-blur">The strongest blur preset.</loomi-modal>
@@ -251,25 +251,25 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute                | Default     | Description                                                      |
-| ------------------------ | ----------- | ---------------------------------------------------------------- |
-| `name`                   | _(blank)_   | Unique name for `showLoomiModal()` / `hideLoomiModal()`.         |
-| `title`                  | _(blank)_   | Modal heading.                                                   |
-| `type`                   | _(blank)_   | `info` \| `error` \| `warning` \| `success` (sets icon + color). |
-| `icon`                   | _(blank)_   | Custom icon name (overrides the type icon).                      |
-| `icon-source`            | `heroicons` | Icon set for `icon` - `heroicons` \| `iconsax` \| `untitledui`.  |
-| `size`                   | `medium`    | `tiny` \| `small` \| `medium` \| `large` \| `xl` \| `omg`        |
-| `open`                   | `false`     | Open state (reflected). _(boolean)_                              |
-| `ok-button-label`        | `Okay`      | Primary button text (blank hides it).                            |
-| `cancel-button-label`    | `Cancel`    | Secondary button text (blank hides it).                          |
-| `show-action-buttons`    | `true`      | Show the footer buttons. _(boolean)_                             |
-| `show-close-icon`        | `false`     | Show the top-right close icon. _(boolean)_                       |
-| `backdrop-can-close`     | `true`      | Backdrop click / Escape closes. _(boolean)_                      |
-| `close-after-action`     | `true`      | Close after an action button is clicked. _(boolean)_             |
-| `prevent-scroll`         | `true`      | Prevent document scrolling while open. _(boolean)_               |
-| `blur-size`              | `medium`    | `none` \| `small` \| `medium` \| `large` \| `xl` \| `omg`        |
-| `align-buttons`          | `right`     | `left` \| `center` \| `right`                                    |
-| `stretch-action-buttons` | `false`     | Full-width stacked buttons. _(boolean)_                          |
+| Attribute                | Default     | Description                                                                                                                                             |
+| ------------------------ | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`                   | _(blank)_   | Unique name for `showLoomiModal()` / `hideLoomiModal()`.                                                                                                |
+| `title`                  | _(blank)_   | Modal heading.                                                                                                                                          |
+| `type`                   | _(blank)_   | `info` \| `error` \| `warning` \| `success` (sets icon + color).                                                                                        |
+| `icon`                   | _(blank)_   | Custom icon name (overrides the type icon).                                                                                                             |
+| `icon-source`            | `heroicons` | Icon set for `icon` - `heroicons` \| `iconsax` \| `untitledui`.                                                                                         |
+| `size`                   | `regular`   | `tiny` \| `small` \| `regular` \| `big` \| `huge` \| `omg`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `open`                   | `false`     | Open state (reflected). _(boolean)_                                                                                                                     |
+| `ok-button-label`        | `Okay`      | Primary button text (blank hides it).                                                                                                                   |
+| `cancel-button-label`    | `Cancel`    | Secondary button text (blank hides it).                                                                                                                 |
+| `show-action-buttons`    | `true`      | Show the footer buttons. _(boolean)_                                                                                                                    |
+| `show-close-icon`        | `false`     | Show the top-right close icon. _(boolean)_                                                                                                              |
+| `backdrop-can-close`     | `true`      | Backdrop click / Escape closes. _(boolean)_                                                                                                             |
+| `close-after-action`     | `true`      | Close after an action button is clicked. _(boolean)_                                                                                                    |
+| `prevent-scroll`         | `true`      | Prevent document scrolling while open. _(boolean)_                                                                                                      |
+| `blur-size`              | `regular`   | `none` \| `small` \| `regular` \| `big` \| `huge` \| `omg`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `align-buttons`          | `right`     | `left` \| `center` \| `right`                                                                                                                           |
+| `stretch-action-buttons` | `false`     | Full-width stacked buttons. _(boolean)_                                                                                                                 |
 
 Boolean attributes can be omitted, present, or set to `"false"` in HTML, for example
 `backdrop-can-close="false"` or `show-close-icon`.
@@ -304,8 +304,8 @@ Boolean attributes can be omitted, present, or set to `"false"` in HTML, for exa
   close-after-action="false"
   backdrop-can-close="false"
   show-close-icon="true"
-  blur-size="large"
-  size="medium"
+  blur-size="big"
+  size="regular"
 >
   Are you sure you want to delete this user? This action cannot be undone.
 </loomi-modal>

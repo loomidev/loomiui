@@ -65,10 +65,10 @@ loomi-card
 
 ## Small Size
 
-Use `size="sm"` on `<loomi-card>` for tighter spacing (matches shadcn's `size="sm"`).
+Use `size="small"` on `<loomi-card>` for tighter spacing.
 
 ```html
-<loomi-card size="sm" style="max-width: 24rem">
+<loomi-card size="small" style="max-width: 24rem">
   <loomi-card-header>
     <loomi-card-title>Small Card</loomi-card-title>
     <loomi-card-description>This card uses the small size variant.</loomi-card-description>
@@ -137,7 +137,7 @@ card spacing and composition but let the parent surface show through.
 ## Spacing
 
 Section spacing is controlled by the `--loomi-card-spacing` custom property on
-`<loomi-card>` (defaults to `1rem`, `0.75rem` when `size="sm"`). Override it for custom
+`<loomi-card>` (defaults to `1rem`, `0.75rem` when `size="small"`). Override it for custom
 layouts:
 
 ```html
@@ -166,14 +166,14 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ### `<loomi-card>`
 
-| Attribute     | Default   | Description                                         |
-| ------------- | --------- | --------------------------------------------------- |
-| `size`        | `default` | `default` \| `sm` - controls section spacing.       |
-| `has-shadow`  | `true`    | Restrained, theme-aware panel shadow. _(boolean)_   |
-| `has-border`  | `true`    | Hairline border. _(boolean)_                        |
-| `has-hover`   | `false`   | Extra shadow on hover. _(boolean)_                  |
-| `transparent` | `false`   | Remove the card surface fill. _(boolean)_           |
-| `url`         | _(blank)_ | Navigate on click (path, `fn()` call, or full URL). |
+| Attribute     | Default   | Description                                                                                                                        |
+| ------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `size`        | `regular` | Section spacing. `small` \| `regular`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `has-shadow`  | `true`    | Restrained, theme-aware panel shadow. _(boolean)_                                                                                  |
+| `has-border`  | `true`    | Hairline border. _(boolean)_                                                                                                       |
+| `has-hover`   | `false`   | Extra shadow on hover. _(boolean)_                                                                                                 |
+| `transparent` | `false`   | Remove the card surface fill. _(boolean)_                                                                                          |
+| `url`         | _(blank)_ | Navigate on click (path, `fn()` call, or full URL).                                                                                |
 
 ### Parts
 

@@ -25,14 +25,6 @@
         },
         {
           "kind": "js",
-          "name": "LoomiDatepickerSize",
-          "declaration": {
-            "name": "LoomiDatepickerSize",
-            "module": "./loomi-datepicker.js"
-          }
-        },
-        {
-          "kind": "js",
           "name": "LoomiDatepickerStyle",
           "declaration": {
             "name": "LoomiDatepickerStyle",
@@ -66,6 +58,14 @@
           "description": "`<loomi-datepicker>` — a calendar date picker (single or range). `popup` (input +\npanel) or `inline` (calendar always visible, no triggering input). Locale-aware\nmonth and weekday names. Form-associated: submits the formatted date(s) under `name`.\n`selected-value`/`min-date`/`max-date` are parsed as ISO `yyyy-mm-dd`.",
           "name": "LoomiDatepicker",
           "members": [
+            {
+              "kind": "field",
+              "name": "supportedSizes",
+              "static": true,
+              "readonly": true,
+              "default": "{ size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport",
+              "description": "Size names this component supports, from the canonical `LoomiSize` scale — shared by every form control."
+            },
             {
               "kind": "field",
               "name": "formAssociated",
@@ -213,9 +213,10 @@
               "kind": "field",
               "name": "size",
               "type": {
-                "text": "LoomiDatepickerSize"
+                "text": "LoomiSize"
               },
               "default": "\"regular\"",
+              "description": "Size preset: `tiny` | `small` | `regular` | `medium` | `big`. Equal names give equal heights across every form control and `<loomi-button>`.",
               "attribute": "size"
             },
             {
@@ -758,9 +759,10 @@
             {
               "name": "size",
               "type": {
-                "text": "LoomiDatepickerSize"
+                "text": "LoomiSize"
               },
               "default": "\"regular\"",
+              "description": "Size preset: `tiny` | `small` | `regular` | `medium` | `big`. Equal names give equal heights across every form control and `<loomi-button>`.",
               "fieldName": "size"
             },
             {

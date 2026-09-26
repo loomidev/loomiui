@@ -1,13 +1,21 @@
 import { html, nothing, type TemplateResult, type PropertyValues, isServer } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomidev/core";
+import {
+  LoomiElement,
+  loomiStyles,
+  accentVars,
+  type LoomiColor,
+  resolveLoomiSize,
+  type LoomiSize,
+  type LoomiSizeSupport,
+  LOOMI_CONTROL_SIZES,
+} from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
 import type { LoomiTooltipPlacement } from "@loomidev/tooltip";
 import "@loomidev/tooltip/loomi-tooltip.js";
 import { componentStyles } from "./generated/styles.css.js";
 
-export type LoomiButtonGroupSize = "tiny" | "small" | "regular" | "medium" | "big";
 export type LoomiButtonGroupRadius = "none" | "small" | "medium" | "full";
 
 /**
@@ -20,7 +28,7 @@ export type LoomiButtonGroupRadius = "none" | "small" | "medium" | "full";
  * effect. `.loomi-bg-btn`'s padding falls back to this preset only when that override
  * is absent.
  */
-const SIZE_VARS: Record<LoomiButtonGroupSize, string> = {
+const SIZE_VARS: Record<(typeof LOOMI_CONTROL_SIZES)[number], string> = {
   tiny: "--loomi-bg-height:2rem;--loomi-bg-preset-pad-x:0.625rem;--loomi-bg-font:0.75rem",
   small: "--loomi-bg-height:2.25rem;--loomi-bg-preset-pad-x:0.75rem;--loomi-bg-font:0.875rem",
   regular: "--loomi-bg-height:2.5rem;--loomi-bg-preset-pad-x:1rem;--loomi-bg-font:0.875rem",
@@ -209,11 +217,14 @@ export class LoomiButtonGroupItem extends LoomiElement {
 export class LoomiButtonGroup extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
+  /** Size names this component supports, from the canonical `LoomiSize` scale. */
+  static readonly supportedSizes = { size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport;
+
   /** Accent used for the focus ring on the selected item. Accepts any loomi color name. */
   @property() color: LoomiColor = "primary" as LoomiColor;
 
-  /** Size preset — controls padding and font-size of all items. */
-  @property({ reflect: true }) size: LoomiButtonGroupSize = "regular";
+  /** Size preset — controls padding and font-size of all items: `tiny` | `small` | `regular` | `medium` | `big`. */
+  @property({ reflect: true }) size: LoomiSize = "regular";
 
   /** Corner radius preset, matching `<loomi-button radius="...">`. */
   @property({ reflect: true }) radius: LoomiButtonGroupRadius = "medium";
@@ -244,7 +255,7 @@ export class LoomiButtonGroup extends LoomiElement {
   }
 
   private get groupStyleVars(): string {
-    const sizeVars = SIZE_VARS[this.size] ?? SIZE_VARS.regular;
+    const sizeVars = SIZE_VARS[resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)];
     const radiusVars = RADIUS_VARS[this.radius] ?? RADIUS_VARS.medium;
 
     return `${accentVars(this.color)};${sizeVars};${radiusVars}`;

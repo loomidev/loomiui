@@ -112,18 +112,18 @@
   opacity: 1;
 }
 
-/* sizes */
+/* sizes, in canonical LOOMI_SIZES order */
 .size-tiny {
   --loomi-av-size: 1.5rem;
 }
 .size-small {
   --loomi-av-size: 2rem;
 }
-.size-medium {
-  --loomi-av-size: 2.5rem;
-}
 .size-regular {
   --loomi-av-size: 3rem;
+}
+.size-medium {
+  --loomi-av-size: 3.5rem;
 }
 .size-big {
   --loomi-av-size: 4rem;
@@ -140,11 +140,11 @@
 :host([size="small"]) {
   --loomi-av-size: 2rem;
 }
-:host([size="medium"]) {
-  --loomi-av-size: 2.5rem;
-}
 :host([size="regular"]) {
   --loomi-av-size: 3rem;
+}
+:host([size="medium"]) {
+  --loomi-av-size: 3.5rem;
 }
 :host([size="big"]) {
   --loomi-av-size: 4rem;

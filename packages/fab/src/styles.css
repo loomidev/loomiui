@@ -13,7 +13,9 @@
   display: none;
 }
 
-/* Size presets. A consumer can still override any of these four vars directly. */
+/* Size presets around the `regular` default (the var fallbacks below), in canonical
+   LOOMI_SIZES order.
+   A consumer can still override any of these four vars directly. */
 :host([size="small"]) {
   --loomi-fab-diameter: 2.75rem;
   --loomi-fab-icon-size: 1.125rem;
@@ -21,16 +23,10 @@
   --loomi-fab-item-icon-size: 0.9rem;
 }
 :host([size="medium"]) {
-  --loomi-fab-diameter: 3.25rem;
-  --loomi-fab-icon-size: 1.25rem;
-  --loomi-fab-item-diameter: 2.25rem;
-  --loomi-fab-item-icon-size: 1rem;
-}
-:host([size="regular"]) {
-  --loomi-fab-diameter: 3.75rem;
-  --loomi-fab-icon-size: 1.5rem;
-  --loomi-fab-item-diameter: 2.5rem;
-  --loomi-fab-item-icon-size: 1.125rem;
+  --loomi-fab-diameter: 4.25rem;
+  --loomi-fab-icon-size: 1.75rem;
+  --loomi-fab-item-diameter: 2.75rem;
+  --loomi-fab-item-icon-size: 1.25rem;
 }
 
 /* Floating (default): anchored to a corner of the viewport. */

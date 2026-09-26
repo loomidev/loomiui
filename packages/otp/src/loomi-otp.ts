@@ -1,6 +1,15 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, state, queryAll } from "lit/decorators.js";
-import { LoomiElement, loomiDefaultText, loomiStyles, loomiT, randomSuffix } from "@loomidev/core";
+import {
+  LoomiElement,
+  loomiDefaultText,
+  loomiStyles,
+  loomiT,
+  randomSuffix,
+  resolveLoomiSize,
+  type LoomiSize,
+  type LoomiSizeSupport,
+} from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 const DEFAULT_ERROR_MESSAGE = "Verification code is invalid";
 
@@ -10,6 +19,8 @@ export type LoomiOtpVariant = "default" | "minimal";
 
 /** Which characters each box accepts. `numeric` (default) matches the classic PIN behavior. */
 export type LoomiOtpType = "numeric" | "alphanumeric" | "text";
+
+const OTP_SIZES = ["regular", "big"] as const satisfies readonly LoomiSize[];
 
 /** Per-`type` filter for a single typed/pasted character. Applied to input and paste alike. */
 const OTP_STRIP: Record<LoomiOtpType, RegExp> = {
@@ -29,6 +40,9 @@ const OTP_STRIP: Record<LoomiOtpType, RegExp> = {
 @customElement("loomi-otp")
 export class LoomiOtp extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
+
+  /** Size names this component supports, from the canonical `LoomiSize` scale. */
+  static readonly supportedSizes = { size: OTP_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
   private internals = this.attachInternals();
   /** Falls back to a stable per-instance id when `name` is blank, so a `loomi-notification` toast (see `showError`) re-renders in place across repeated validation failures instead of stacking. */
@@ -37,7 +51,8 @@ export class LoomiOtp extends LoomiElement {
   @property({ reflect: true }) name = "";
   @property() label = "";
   @property({ type: Number, attribute: "total-digits" }) totalDigits = 4;
-  @property() size: "small" | "big" = "small";
+  /** Digit box size: `regular` | `big`. */
+  @property() size: LoomiSize = "regular";
   @property() variant: LoomiOtpVariant = "default";
   /** Accepted characters: `numeric` (default) | `alphanumeric` | `text`. */
   @property() type: LoomiOtpType = "numeric";
@@ -260,7 +275,7 @@ export class LoomiOtp extends LoomiElement {
 
   override render(): TemplateResult {
     const showError = this.invalid && this.showErrorInline && this.errorMessage;
-    return html`<div class="loomi-otp size-${this.size}" @paste=${(e: ClipboardEvent) => this.onPaste(e)}>
+    return html`<div class="loomi-otp size-${resolveLoomiSize(this.size, OTP_SIZES)}" @paste=${(e: ClipboardEvent) => this.onPaste(e)}>
       ${Array.from(
         { length: this.totalDigits },
         (_, i) => html`

@@ -102,22 +102,22 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute           | Default   | Description                                                                                     |
-| ------------------- | --------- | ----------------------------------------------------------------------------------------------- |
-| `name`              | _(blank)_ | Submitted with the form.                                                                        |
-| `label`             | _(blank)_ | Floating label.                                                                                 |
-| `label-position`    | `default` | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field. |
-| `value`             | _(blank)_ | Current value (also a property).                                                                |
-| `min`               | `0`       | Minimum value.                                                                                  |
-| `max`               | `100`     | Maximum value.                                                                                  |
-| `step`              | `1`       | Increment/decrement amount.                                                                     |
-| `size`              | `medium`  | `small` \| `regular` \| `medium` \| `big`                                                       |
-| `variant`           | `default` | `default` \| `minimal` (bottom border only, no box)                                             |
-| `transparent-icons` | `true`    | Transparent (vs solid) stepper buttons. _(boolean)_                                             |
-| `with-dots`         | `true`    | Allow decimal values. _(boolean)_                                                               |
-| `required`          | `false`   | Marks the field required. _(boolean)_                                                           |
-| `disabled`          | `false`   | Disable the control. _(boolean)_                                                                |
-| `no-clearing`       | `false`   | Remove the default bottom margin. _(boolean)_                                                   |
+| Attribute           | Default   | Description                                                                                                                                      |
+| ------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `name`              | _(blank)_ | Submitted with the form.                                                                                                                         |
+| `label`             | _(blank)_ | Floating label.                                                                                                                                  |
+| `label-position`    | `default` | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field.                                                  |
+| `value`             | _(blank)_ | Current value (also a property).                                                                                                                 |
+| `min`               | `0`       | Minimum value.                                                                                                                                   |
+| `max`               | `100`     | Maximum value.                                                                                                                                   |
+| `step`              | `1`       | Increment/decrement amount.                                                                                                                      |
+| `size`              | `regular` | `tiny` \| `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `variant`           | `default` | `default` \| `minimal` (bottom border only, no box)                                                                                              |
+| `transparent-icons` | `true`    | Transparent (vs solid) stepper buttons. _(boolean)_                                                                                              |
+| `with-dots`         | `true`    | Allow decimal values. _(boolean)_                                                                                                                |
+| `required`          | `false`   | Marks the field required. _(boolean)_                                                                                                            |
+| `disabled`          | `false`   | Disable the control. _(boolean)_                                                                                                                 |
+| `no-clearing`       | `false`   | Remove the default bottom margin. _(boolean)_                                                                                                    |
 
 **Methods:** `focus()`. **Parts:** `field`, `input`.
 

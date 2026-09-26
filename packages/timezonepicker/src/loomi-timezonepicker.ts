@@ -11,10 +11,13 @@ import {
   loomiStyles,
   loomiT,
   onClickOutside,
+  LOOMI_CONTROL_SIZES,
+  resolveLoomiSize,
+  type LoomiSize,
+  type LoomiSizeSupport,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
-export type LoomiTimezonepickerSize = "tiny" | "small" | "regular" | "medium" | "big";
 export type LoomiTimezonepickerVariant = "default" | "minimal";
 
 export interface LoomiTimezoneRecord {
@@ -211,6 +214,9 @@ function browserZoneId(): string {
 @customElement("loomi-timezonepicker")
 export class LoomiTimezonepicker extends LoomiElement {
   static override styles = loomiStyles(controlSizeStyles, fieldStyles, componentStyles);
+
+  /** Size names this component supports, from the canonical `LoomiSize` scale — shared by every form control. */
+  static readonly supportedSizes = { size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
 
   private internals = this.attachInternals();
@@ -232,7 +238,8 @@ export class LoomiTimezonepicker extends LoomiElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property({ type: Boolean, reflect: true }) required = false;
-  @property() size: LoomiTimezonepickerSize = "medium";
+  /** Size preset: `tiny` | `small` | `regular` | `medium` | `big`. Equal names give equal heights across every form control and `<loomi-button>`. */
+  @property() size: LoomiSize = "regular";
   @property() variant: LoomiTimezonepickerVariant = "default";
   @property({ attribute: "empty-placeholder" }) emptyPlaceholder = DEFAULT_EMPTY_PLACEHOLDER;
   @property({ type: Boolean, reflect: true }) invalid = false;
@@ -595,7 +602,7 @@ export class LoomiTimezonepicker extends LoomiElement {
     const ariaLabel = !hasLabel && this.accessibilityLabel ? this.accessibilityLabel : nothing;
     const labelledBy = hasLabel ? "loomi-label" : ariaLabel === nothing ? "loomi-value" : nothing;
 
-    const classes = `loomi-timezonepicker size-${this.size} ${this.open ? "open" : ""} ${this.floatLabel ? "float" : ""}`;
+    const classes = `loomi-timezonepicker size-${resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)} ${this.open ? "open" : ""} ${this.floatLabel ? "float" : ""}`;
     return html`
       <div class=${classes} @keydown=${this.onKeydown}>
         <button

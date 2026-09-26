@@ -11,6 +11,10 @@ import {
   loomiStyles,
   loomiT,
   onClickOutside,
+  LOOMI_CONTROL_SIZES,
+  resolveLoomiSize,
+  type LoomiSize,
+  type LoomiSizeSupport,
 } from "@loomidev/core";
 import "@loomidev/modal/loomi-modal.js";
 import type { LoomiModal } from "@loomidev/modal";
@@ -76,7 +80,6 @@ const CLOCK_STYLE = `
 `;
 
 const CLOCK_STYLE_TAG = unsafeStatic(`<style>${CLOCK_STYLE}</style>`);
-export type LoomiTimepickerSize = "tiny" | "small" | "regular" | "medium" | "big";
 export type LoomiTimepickerVariant = "default" | "minimal";
 const DEFAULT_PLACEHOLDER = "HH:MM";
 const booleanAttribute = {
@@ -97,6 +100,9 @@ const booleanAttribute = {
 @customElement("loomi-timepicker")
 export class LoomiTimepicker extends LoomiElement {
   static override styles = loomiStyles(controlSizeStyles, fieldStyles, componentStyles);
+
+  /** Size names this component supports, from the canonical `LoomiSize` scale — shared by every form control. */
+  static readonly supportedSizes = { size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
   private internals = this.attachInternals();
   private validationVisible = false;
@@ -112,7 +118,8 @@ export class LoomiTimepicker extends LoomiElement {
   labelPosition: LoomiFieldLabelPosition = "default";
   @property() placeholder = DEFAULT_PLACEHOLDER;
   @property() locale = "";
-  @property() size: LoomiTimepickerSize = "medium";
+  /** Size preset: `tiny` | `small` | `regular` | `medium` | `big`. Equal names give equal heights across every form control and `<loomi-button>`. */
+  @property() size: LoomiSize = "regular";
   @property() variant: LoomiTimepickerVariant = "default";
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) invalid = false;
@@ -418,7 +425,7 @@ export class LoomiTimepicker extends LoomiElement {
     if (this.tpStyle === "inline") {
       return html`${this.label ? html`<span class="loomi-label">${this.label}</span>` : nothing}${this.renderSelects()}`;
     }
-    return html`<div class="loomi-tp size-${this.size} ${this.open ? "open" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}">
+    return html`<div class="loomi-tp size-${resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)} ${this.open ? "open" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}">
       ${this.label ? html`<span class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req"> *</span>` : nothing}</span>` : nothing}
       <div class="loomi-field variant-${this.variant}" tabindex="0" @blur=${this.showValidation} @click=${() => this.onFieldClick()}>
         <span class="loomi-text ${this.value ? "" : "placeholder"}">${this.value || loomiDefaultText(this.placeholder, DEFAULT_PLACEHOLDER, "timepicker.placeholder", this.locale)}${!this.value && this.required ? html`<span class="loomi-req"> *</span>` : nothing}</span>
@@ -427,7 +434,7 @@ export class LoomiTimepicker extends LoomiElement {
       ${this.open && this.tpStyle !== "clock" ? html`<div class="loomi-panel" popover="manual" @click=${(e: Event) => e.stopPropagation()}>${this.renderSelects()}</div>` : nothing}
       <loomi-modal
         class="loomi-clock-modal"
-        size="medium"
+        size="regular"
         locale=${this.locale}
         cancel-button-label=""
         @open=${() => {

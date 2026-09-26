@@ -132,22 +132,22 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute           | Default              | Description                                                                                     |
-| ------------------- | -------------------- | ----------------------------------------------------------------------------------------------- |
-| `name`              | _(blank)_            | Submitted with the form.                                                                        |
-| `placeholder`       | `Select a timezone`  | Trigger text when nothing is selected.                                                          |
-| `label`             | _(blank)_            | Floating label (takes precedence over placeholder).                                             |
-| `aria-label`        | _(blank)_            | Accessible name when there's no `label`; forwarded to the trigger and zone list.                |
-| `label-position`    | `default`            | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field. |
-| `selection`         | _(blank)_            | Canonical IANA id or bare city name; resolves to the canonical id.                              |
-| `locale`            | _(blank)_            | Locale used to format each zone's current local time.                                           |
-| `disabled`          | `false`              | Disable the picker. _(boolean)_                                                                 |
-| `readonly`          | `false`              | Read-only (cannot open). _(boolean)_                                                            |
-| `required`          | `false`              | Marks the field required. _(boolean)_                                                           |
-| `size`              | `medium`             | `tiny` \| `small` \| `regular` \| `medium` \| `big`                                             |
-| `variant`           | `default`            | `default` \| `minimal` (bottom border only, no box)                                             |
-| `empty-placeholder` | `No timezones found` | Text shown when search matches nothing.                                                         |
-| `no-clearing`       | `false`              | Remove the default bottom margin. _(boolean)_                                                   |
+| Attribute           | Default              | Description                                                                                                                                      |
+| ------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `name`              | _(blank)_            | Submitted with the form.                                                                                                                         |
+| `placeholder`       | `Select a timezone`  | Trigger text when nothing is selected.                                                                                                           |
+| `label`             | _(blank)_            | Floating label (takes precedence over placeholder).                                                                                              |
+| `aria-label`        | _(blank)_            | Accessible name when there's no `label`; forwarded to the trigger and zone list.                                                                 |
+| `label-position`    | `default`            | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field.                                                  |
+| `selection`         | _(blank)_            | Canonical IANA id or bare city name; resolves to the canonical id.                                                                               |
+| `locale`            | _(blank)_            | Locale used to format each zone's current local time.                                                                                            |
+| `disabled`          | `false`              | Disable the picker. _(boolean)_                                                                                                                  |
+| `readonly`          | `false`              | Read-only (cannot open). _(boolean)_                                                                                                             |
+| `required`          | `false`              | Marks the field required. _(boolean)_                                                                                                            |
+| `size`              | `regular`            | `tiny` \| `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `variant`           | `default`            | `default` \| `minimal` (bottom border only, no box)                                                                                              |
+| `empty-placeholder` | `No timezones found` | Text shown when search matches nothing.                                                                                                          |
+| `no-clearing`       | `false`              | Remove the default bottom margin. _(boolean)_                                                                                                    |
 
 **Parts:** `trigger`, `panel`. **Methods:** `reset()`, `validate()`.
 

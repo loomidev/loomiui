@@ -1,1 +1,1 @@
-export { LoomiEmptyState, type LoomiEmptyImageSize } from "./loomi-empty-state.js";
+export { LoomiEmptyState } from "./loomi-empty-state.js";

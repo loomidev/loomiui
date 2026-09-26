@@ -11,10 +11,13 @@ import {
   loomiT,
   onClickOutside,
   themeStyles,
+  LOOMI_CONTROL_SIZES,
+  resolveLoomiSize,
+  type LoomiSize,
+  type LoomiSizeSupport,
 } from "@loomidev/core";
 import { getLoomiIcon } from "./icons.js";
 
-export type LoomiAutocompleteSize = "tiny" | "small" | "regular" | "medium" | "big";
 export type LoomiAutocompleteVariant = "default" | "minimal";
 
 export interface LoomiAutocompleteItem {
@@ -44,9 +47,10 @@ export class LoomiAutocomplete extends LoomiElement {
       :host {
         display: block;
         margin-bottom: var(--loomi-field-spacing, var(--_loomi-field-spacing-default, 1rem));
-        --loomi-control-height: 2.75rem;
-        --loomi-control-pad-x: 1rem;
-        --loomi-control-font-size: 1rem;
+        /* Matches .size-regular, the default size. */
+        --loomi-control-height: 2.5rem;
+        --loomi-control-pad-x: 0.875rem;
+        --loomi-control-font-size: 0.875rem;
       }
       :host([hidden]) { display: none; }
       .loomi-ac { position: relative; width: 100%; }
@@ -189,6 +193,9 @@ export class LoomiAutocomplete extends LoomiElement {
       .loomi-empty { color: var(--loomi-text-faint); padding: 0.75rem; text-align: center; font-size: 0.875rem; }
     `,
   ];
+
+  /** Size names this component supports, from the canonical `LoomiSize` scale — shared by every form control. */
+  static readonly supportedSizes = { size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
 
   private internals = this.attachInternals();
@@ -204,7 +211,8 @@ export class LoomiAutocomplete extends LoomiElement {
   @property() value = "";
   @property({ attribute: "selected-value" }) selectedValue = "";
   @property() locale = "";
-  @property() size: LoomiAutocompleteSize = "medium";
+  /** Size preset: `tiny` | `small` | `regular` | `medium` | `big`. Equal names give equal heights across every form control and `<loomi-button>`. */
+  @property() size: LoomiSize = "regular";
   @property() variant: LoomiAutocompleteVariant = "default";
   @property({ type: Array }) data: Array<Record<string, unknown>> = [];
   @property({ attribute: "label-key" }) labelKey = "label";
@@ -455,7 +463,7 @@ export class LoomiAutocomplete extends LoomiElement {
     const showClear = this.clearable && this.value !== "" && !this.disabled && !this.readonly;
     const showSelectedImage = this.value !== "" && this.selectedImage !== "";
     const alignOptionMedia = this.hasOptionImages;
-    return html`<div class="loomi-ac size-${this.size} ${this.open ? "open" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}">
+    return html`<div class="loomi-ac size-${resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)} ${this.open ? "open" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}">
       <div class="loomi-field variant-${this.variant}">
         ${showSelectedImage ? html`<img class="loomi-selected-image" src=${this.selectedImage} alt="" />` : nothing}
         <input

@@ -691,6 +691,15 @@
             },
             {
               "kind": "field",
+              "name": "arrowAnchor",
+              "type": {
+                "text": "Element | null"
+              },
+              "default": "null",
+              "description": "The element the panel's arrow points at, when that isn't the whole trigger — a\nchevron at the end of a wide trigger card, say. Only the arrow follows it: the panel\nstill aligns to (and flips around) the trigger, and the arrow is still clamped to the\npanel's rounded corners. JS-only, since the anchor usually lives in a shadow root no\nselector could reach. Falls back to the trigger while unset, disconnected, or\nnot rendered (`display: none`)."
+            },
+            {
+              "kind": "field",
               "name": "open",
               "type": {
                 "text": "boolean"
@@ -940,6 +949,35 @@
                   "text": "void"
                 }
               }
+            },
+            {
+              "kind": "method",
+              "name": "arrowAnchorRect",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "DOMRect | undefined"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "arrowReach",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "{ start: number; end: number }"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "menu",
+                  "type": {
+                    "text": "HTMLElement"
+                  }
+                }
+              ],
+              "description": "How close the arrow's tip may come to the panel's start and end edges — the ends of\nits CSS clamp (`--loomi-dropmenu-arrow-inset` + the arrow's half-width, inside the\npanel's border). Read back by pinning the arrow past each end and letting the clamp\nresolve it, so any unit (or `calc()`) a theme sets those to works."
             },
             {
               "kind": "method",

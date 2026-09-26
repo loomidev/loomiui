@@ -1,7 +1,13 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, type LoomiColor } from "@loomidev/core";
-import type { LoomiAvatarSize } from "@loomidev/avatar";
+import { customElement, property, query, state } from "lit/decorators.js";
+import {
+  LoomiElement,
+  loomiStyles,
+  type LoomiColor,
+  LOOMI_SIZES,
+  type LoomiSize,
+  type LoomiSizeSupport,
+} from "@loomidev/core";
 import type { LoomiDropmenu } from "@loomidev/dropmenu";
 import { getLoomiIcon } from "@loomidev/icons";
 import "@loomidev/avatar/loomi-avatar.js";
@@ -30,6 +36,9 @@ const compactConverter = {
 };
 
 const CHEVRON_DOWN = getLoomiIcon("chevron-down");
+
+/** Matches the `compact="auto"` breakpoint in styles.css (just under 40rem). */
+const NARROW_VIEWPORT = "(max-width: 39.9375rem)";
 
 function initials(name: string): string {
   return name
@@ -66,12 +75,15 @@ function initials(name: string): string {
 export class LoomiProfileMenu extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
+  /** Size names this component supports, from the canonical `LoomiSize` scale: `avatar-size` passes straight through to `<loomi-avatar>`. */
+  static readonly supportedSizes = { avatarSize: LOOMI_SIZES } satisfies LoomiSizeSupport;
+
   @property() name = "";
   @property() description = "";
   @property() avatar = "";
   @property({ attribute: "avatar-label" }) avatarLabel = "";
   @property({ attribute: "avatar-alt" }) avatarAlt = "";
-  @property({ attribute: "avatar-size" }) avatarSize: LoomiAvatarSize = "regular";
+  @property({ attribute: "avatar-size" }) avatarSize: LoomiSize = "regular";
   @property({ attribute: "avatar-bg-color" }) avatarBgColor: LoomiColor = "gray" as LoomiColor;
   @property({ attribute: "avatar-position", reflect: true })
   avatarPosition: LoomiProfileMenuAvatarPosition = "left";
@@ -92,6 +104,43 @@ export class LoomiProfileMenu extends LoomiElement {
   @property({ type: Boolean, attribute: "hide-after-click" }) hideAfterClick = true;
 
   @query("loomi-dropmenu") private dropmenuEl?: LoomiDropmenu;
+  @query(".loomi-pm-trigger") private triggerEl?: HTMLElement;
+  @query(".loomi-pm-chevron") private chevronEl?: SVGElement;
+
+  @state() private narrowViewport = false;
+  private narrowQuery?: MediaQueryList;
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.narrowQuery = window.matchMedia(NARROW_VIEWPORT);
+    this.narrowViewport = this.narrowQuery.matches;
+    this.narrowQuery.addEventListener("change", this.onNarrowChange);
+  }
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.narrowQuery?.removeEventListener("change", this.onNarrowChange);
+  }
+
+  private onNarrowChange = (event: MediaQueryListEvent): void => {
+    this.narrowViewport = event.matches;
+  };
+
+  private get isCompact(): boolean {
+    return this.compact === "always" || (this.compact === "auto" && this.narrowViewport);
+  }
+
+  /**
+   * The card trigger is usually wider than the menu, so aligning to it lands the caret
+   * nowhere near the chevron. Position the menu from the chevron instead — or, when
+   * compact, from the avatar + chevron pair, which is the whole visible trigger anyway.
+   */
+  private syncArrowAnchor(): void {
+    const dropmenu = this.dropmenuEl;
+    if (!dropmenu) return;
+    dropmenu.arrowAnchor =
+      (this.isCompact ? this.triggerEl : (this.chevronEl ?? this.triggerEl)) ?? null;
+  }
 
   private get resolvedAvatarLabel(): string {
     return this.avatarLabel || initials(this.name) || "?";
@@ -121,6 +170,7 @@ export class LoomiProfileMenu extends LoomiElement {
   }
 
   override updated(changed: PropertyValues<this>): void {
+    this.syncArrowAnchor();
     if (changed.has("name") || changed.has("avatarLabel")) {
       this.moveMenuItems();
     }
@@ -145,7 +195,7 @@ export class LoomiProfileMenu extends LoomiElement {
       >
         <loomi-card
           slot="trigger"
-          size="sm"
+          size="small"
           has-shadow="false"
           has-border="false"
           ?transparent=${this.transparent}

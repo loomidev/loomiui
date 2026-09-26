@@ -1,9 +1,10 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { LoomiElement, loomiStyles } from "@loomidev/core";
+import { LoomiElement, loomiStyles, type LoomiSize, type LoomiSizeSupport } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
-export type LoomiCardSize = "default" | "sm";
+/** The part of the canonical size scale a card supports. */
+const CARD_SIZES = ["small", "regular"] as const satisfies readonly LoomiSize[];
 
 /**
  * Lit's default `type: Boolean` converter treats ANY attribute presence — including the
@@ -30,7 +31,11 @@ const booleanAttribute = {
 export class LoomiCard extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
-  @property({ reflect: true }) size: LoomiCardSize = "default";
+  /** Size names this component supports, from the canonical `LoomiSize` scale. */
+  static readonly supportedSizes = { size: CARD_SIZES } satisfies LoomiSizeSupport;
+
+  /** Section spacing: `small` | `regular`. */
+  @property({ reflect: true }) size: LoomiSize = "regular";
   @property() url = "";
   @property({ type: Boolean, attribute: "has-hover" }) hasHover = false;
   @property({ type: Boolean, attribute: "has-shadow", converter: booleanAttribute }) hasShadow =

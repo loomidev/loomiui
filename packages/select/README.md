@@ -235,30 +235,30 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute            | Default                | Description                                                                                     |
-| -------------------- | ---------------------- | ----------------------------------------------------------------------------------------------- |
-| `name`               | _(blank)_              | Submitted with the form.                                                                        |
-| `placeholder`        | `Select One`           | Trigger text when nothing is selected.                                                          |
-| `label`              | _(blank)_              | Floating label (takes precedence over placeholder).                                             |
-| `aria-label`         | _(blank)_              | Accessible name for a select with no `label`; forwarded to the trigger and listbox.             |
-| `label-position`     | `default`              | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field. |
-| `data`               | `[]`                   | Options array - property (`.data`) or JSON-string attribute.                                    |
-| `label-key`          | `label`                | Row key used as each option's display text.                                                     |
-| `value-key`          | `value`                | Row key used as each option's submitted value.                                                  |
-| `image-key`          | _(blank)_              | Key holding an image URL to show beside each option.                                            |
-| `selected-value`     | _(blank)_              | Default value(s); comma-separated for multiple.                                                 |
-| `searchable`         | `false`                | Show a search box. _(boolean)_                                                                  |
-| `multiple`           | `false`                | Allow multiple selection. _(boolean)_                                                           |
-| `max-selectable`     | `-1`                   | Max items when multiple (`-1` = no limit).                                                      |
-| `disabled`           | `false`                | Disable the select. _(boolean)_                                                                 |
-| `readonly`           | `false`                | Read-only (cannot open). _(boolean)_                                                            |
-| `required`           | `false`                | Marks the field required. _(boolean)_                                                           |
-| `size`               | `medium`               | `small` \| `regular` \| `medium` \| `big`                                                       |
-| `variant`            | `default`              | `default` \| `minimal` (bottom border only, no box)                                             |
-| `empty-placeholder`  | `No options available` | Text shown when there are no options.                                                           |
-| `empty-action-label` | _(blank)_              | CTA label shown in the empty state.                                                             |
-| `empty-action-url`   | _(blank)_              | Optional URL to navigate to when the empty CTA is clicked.                                      |
-| `no-clearing`        | `false`                | Remove the default bottom margin. _(boolean)_                                                   |
+| Attribute            | Default                | Description                                                                                                                                      |
+| -------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `name`               | _(blank)_              | Submitted with the form.                                                                                                                         |
+| `placeholder`        | `Select One`           | Trigger text when nothing is selected.                                                                                                           |
+| `label`              | _(blank)_              | Floating label (takes precedence over placeholder).                                                                                              |
+| `aria-label`         | _(blank)_              | Accessible name for a select with no `label`; forwarded to the trigger and listbox.                                                              |
+| `label-position`     | `default`              | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field.                                                  |
+| `data`               | `[]`                   | Options array - property (`.data`) or JSON-string attribute.                                                                                     |
+| `label-key`          | `label`                | Row key used as each option's display text.                                                                                                      |
+| `value-key`          | `value`                | Row key used as each option's submitted value.                                                                                                   |
+| `image-key`          | _(blank)_              | Key holding an image URL to show beside each option.                                                                                             |
+| `selected-value`     | _(blank)_              | Default value(s); comma-separated for multiple.                                                                                                  |
+| `searchable`         | `false`                | Show a search box. _(boolean)_                                                                                                                   |
+| `multiple`           | `false`                | Allow multiple selection. _(boolean)_                                                                                                            |
+| `max-selectable`     | `-1`                   | Max items when multiple (`-1` = no limit).                                                                                                       |
+| `disabled`           | `false`                | Disable the select. _(boolean)_                                                                                                                  |
+| `readonly`           | `false`                | Read-only (cannot open). _(boolean)_                                                                                                             |
+| `required`           | `false`                | Marks the field required. _(boolean)_                                                                                                            |
+| `size`               | `regular`              | `tiny` \| `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `variant`            | `default`              | `default` \| `minimal` (bottom border only, no box)                                                                                              |
+| `empty-placeholder`  | `No options available` | Text shown when there are no options.                                                                                                            |
+| `empty-action-label` | _(blank)_              | CTA label shown in the empty state.                                                                                                              |
+| `empty-action-url`   | _(blank)_              | Optional URL to navigate to when the empty CTA is clicked.                                                                                       |
+| `no-clearing`        | `false`                | Remove the default bottom margin. _(boolean)_                                                                                                    |
 
 **Parts:** `trigger`, `panel`. **Methods:** `reset()`, `validate()`.
 

@@ -30,9 +30,9 @@ loading indicator options.
 Add a label when the indicator needs visible loading text.
 
 ```html
-<loomi-spinner type="simple" size="md" label="Loading..."></loomi-spinner>
-<loomi-spinner type="spinner" size="md" label="Loading..."></loomi-spinner>
-<loomi-spinner type="dot" size="md" label="Loading..."></loomi-spinner>
+<loomi-spinner type="simple" size="medium" label="Loading..."></loomi-spinner>
+<loomi-spinner type="spinner" size="medium" label="Loading..."></loomi-spinner>
+<loomi-spinner type="dot" size="medium" label="Loading..."></loomi-spinner>
 ```
 
 ## Different Colors
@@ -52,17 +52,13 @@ The default color is `gray`. Any loomi color works.
 
 ## Different Sizes
 
-There are five sizes available. The default is `small`. The `sm`, `md`, and
-`lg` aliases are also accepted for compatibility with Untitled UI examples.
+There are five sizes available. The default is `regular`.
 
 ```html
-<loomi-spinner size="sm"></loomi-spinner>
-<loomi-spinner size="md"></loomi-spinner>
-<loomi-spinner size="lg"></loomi-spinner>
-<loomi-spinner size="small"></loomi-spinner>
+<loomi-spinner size="regular"></loomi-spinner>
 <loomi-spinner size="medium"></loomi-spinner>
 <loomi-spinner size="big"></loomi-spinner>
-<loomi-spinner size="xl"></loomi-spinner>
+<loomi-spinner size="huge"></loomi-spinner>
 <loomi-spinner size="omg"></loomi-spinner>
 ```
 
@@ -92,17 +88,17 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute | Default  | Description                                                                          |
-| --------- | -------- | ------------------------------------------------------------------------------------ |
-| `type`    | `simple` | `simple` \| `spinner` \| `dot` (legacy: `line-simple`, `line-spinner`, `dot-circle`) |
-| `size`    | `small`  | `sm` \| `md` \| `lg` \| `small` \| `medium` \| `big` \| `xl` \| `omg`                |
-| `color`   | `gray`   | Any loomi color.                                                                     |
-| `label`   | `""`     | Optional visible loading label.                                                      |
+| Attribute | Default   | Description                                                                                                                                    |
+| --------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`    | `simple`  | `simple` \| `spinner` \| `dot` (legacy: `line-simple`, `line-spinner`, `dot-circle`)                                                           |
+| `size`    | `regular` | `regular` \| `medium` \| `big` \| `huge` \| `omg`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `color`   | `gray`    | Any loomi color.                                                                                                                               |
+| `label`   | `""`      | Optional visible loading label.                                                                                                                |
 
 ## Full Example
 
 ```html
-<loomi-spinner type="spinner" size="md" color="primary" label="Loading..."></loomi-spinner>
+<loomi-spinner type="spinner" size="medium" color="primary" label="Loading..."></loomi-spinner>
 ```
 
 <!-- BEGIN loomi-framework-guide -->

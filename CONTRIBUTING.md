@@ -850,7 +850,9 @@ deliberate, not defaults:
   engine support genuinely differs (`ElementInternals` form association,
   `adoptedStyleSheets`, focus delegation), so a Chromium-only pass is not evidence the
   components work. `LOOMI_BROWSERS` narrows the matrix to a comma-separated subset for
-  local iteration; CI always runs all three. Note that Playwright's Firefox build does not
+  local iteration. CI runs all three on release PRs into `main` (and on `main` itself), and
+  Chromium only on PRs into `development`, to keep everyday PR checks fast; run the
+  other engines locally when touching engine-sensitive code. Note that Playwright's Firefox build does not
   launch on macOS 27 prereleases — that is a browser/OS problem, not a library one, and
   `LOOMI_BROWSERS=chromium,webkit` is the local workaround.
 - **`concurrency: 1`.** Running multiple test files' browser pages concurrently caused

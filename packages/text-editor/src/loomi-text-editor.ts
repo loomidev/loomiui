@@ -1075,7 +1075,7 @@ export class LoomiTextEditor extends LoomiElement {
     return html`<loomi-modal
       class="loomi-embed-modal"
       title=${title}
-      size="medium"
+      size="regular"
       ok-button-label="Insert"
       cancel-button-label="Cancel"
       close-after-action="false"

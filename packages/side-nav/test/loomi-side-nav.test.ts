@@ -26,7 +26,7 @@ describe("loomi-side-nav", () => {
 
   it("applies named icon sizes and optional dividers", async () => {
     const el = (await fixture(html`
-      <loomi-side-nav icon-size="large" divided>
+      <loomi-side-nav icon-size="big" divided>
         <loomi-side-nav-item icon="home" label="Home"></loomi-side-nav-item>
         <loomi-side-nav-item icon="cog-6-tooth" label="Settings"></loomi-side-nav-item>
       </loomi-side-nav>

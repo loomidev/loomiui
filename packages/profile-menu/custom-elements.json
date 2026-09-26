@@ -66,6 +66,14 @@
           "members": [
             {
               "kind": "field",
+              "name": "supportedSizes",
+              "static": true,
+              "readonly": true,
+              "default": "{ avatarSize: LOOMI_SIZES } satisfies LoomiSizeSupport",
+              "description": "Size names this component supports, from the canonical `LoomiSize` scale: `avatar-size` passes straight through to `<loomi-avatar>`."
+            },
+            {
+              "kind": "field",
               "name": "name",
               "type": {
                 "text": "string"
@@ -113,7 +121,7 @@
               "kind": "field",
               "name": "avatarSize",
               "type": {
-                "text": "LoomiAvatarSize"
+                "text": "LoomiSize"
               },
               "default": "\"regular\"",
               "attribute": "avatar-size"
@@ -275,6 +283,64 @@
             },
             {
               "kind": "field",
+              "name": "triggerEl",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "chevronEl",
+              "type": {
+                "text": "SVGElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "narrowViewport",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "narrowQuery",
+              "type": {
+                "text": "MediaQueryList | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onNarrowChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "isCompact",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "syncArrowAnchor",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "The card trigger is usually wider than the menu, so aligning to it lands the caret\nnowhere near the chevron. Position the menu from the chevron instead — or, when\ncompact, from the avatar + chevron pair, which is the whole visible trigger anyway."
+            },
+            {
+              "kind": "field",
               "name": "resolvedAvatarLabel",
               "type": {
                 "text": "string"
@@ -365,7 +431,7 @@
             {
               "name": "avatar-size",
               "type": {
-                "text": "LoomiAvatarSize"
+                "text": "LoomiSize"
               },
               "default": "\"regular\"",
               "fieldName": "avatarSize"

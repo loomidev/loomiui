@@ -54,7 +54,7 @@ export class LoomiContactCard extends LoomiElement {
       this.noPadding ? "flush" : "",
       this.url ? "clickable" : "",
     ].join(" ");
-    return html`<loomi-card size="sm" .url=${this.url} ?has-hover=${this.hasHover}>
+    return html`<loomi-card size="small" .url=${this.url} ?has-hover=${this.hasHover}>
       <loomi-card-content>
         <div class=${cls} @click=${this.url ? this.onClick : nothing}>
           ${

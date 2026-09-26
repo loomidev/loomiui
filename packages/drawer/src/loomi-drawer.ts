@@ -7,12 +7,16 @@ import {
   onClickOutside,
   lockBodyScroll,
   unlockBodyScroll,
+  resolveLoomiSize,
+  type LoomiSize,
+  type LoomiSizeSupport,
 } from "@loomidev/core";
 import "@loomidev/icon/loomi-icon.js";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiDrawerPlacement = "left" | "right" | "top" | "bottom";
-export type LoomiDrawerSize = "small" | "medium" | "large";
+/** The part of the canonical size scale a drawer supports. */
+const DRAWER_SIZES = ["small", "regular", "big"] as const satisfies readonly LoomiSize[];
 
 const booleanAttribute = {
   fromAttribute(value: string | null): boolean {
@@ -96,10 +100,14 @@ if (typeof window !== "undefined") {
 export class LoomiDrawer extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
+  /** Size names this component supports, from the canonical `LoomiSize` scale. */
+  static readonly supportedSizes = { size: DRAWER_SIZES } satisfies LoomiSizeSupport;
+
   @property() name = "";
   @property() title = "";
   @property() placement: LoomiDrawerPlacement = "right";
-  @property() size: LoomiDrawerSize = "medium";
+  /** Panel width (left/right) or height (top/bottom): `small` | `regular` | `big`. */
+  @property() size: LoomiSize = "regular";
   @property() locale = "";
   @property({ type: Boolean, reflect: true }) open = false;
   @property({ type: Boolean, attribute: "show-close-icon", converter: booleanAttribute })
@@ -289,7 +297,7 @@ export class LoomiDrawer extends LoomiElement {
     return html`
       ${this.backdrop ? html`<div class="loomi-backdrop ${animClass}"></div>` : nothing}
       <div
-        class="loomi-panel placement-${this.placement} size-${this.size} ${animClass}"
+        class="loomi-panel placement-${this.placement} size-${resolveLoomiSize(this.size, DRAWER_SIZES)} ${animClass}"
         role="dialog"
         aria-modal=${this.backdrop ? "true" : "false"}
         aria-label=${this.title || loomiT("drawer.dialog", {}, this.locale)}

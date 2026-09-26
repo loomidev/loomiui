@@ -12,7 +12,7 @@
   display: none;
 }
 
-:host(loomi-card[size="sm"]) {
+:host(loomi-card[size="small"]) {
   --loomi-card-spacing: 0.75rem;
 }
 

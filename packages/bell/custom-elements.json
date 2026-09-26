@@ -14,14 +14,6 @@
             "name": "LoomiBell",
             "module": "./loomi-bell.js"
           }
-        },
-        {
-          "kind": "js",
-          "name": "LoomiBellSize",
-          "declaration": {
-            "name": "LoomiBellSize",
-            "module": "./loomi-bell.js"
-          }
         }
       ]
     },
@@ -36,6 +28,14 @@
           "members": [
             {
               "kind": "field",
+              "name": "supportedSizes",
+              "static": true,
+              "readonly": true,
+              "default": "{ size: BELL_SIZES } satisfies LoomiSizeSupport",
+              "description": "Size names this component supports, from the canonical `LoomiSize` scale."
+            },
+            {
+              "kind": "field",
               "name": "color",
               "type": {
                 "text": "LoomiColor"
@@ -47,9 +47,10 @@
               "kind": "field",
               "name": "size",
               "type": {
-                "text": "LoomiBellSize"
+                "text": "LoomiSize"
               },
-              "default": "\"small\"",
+              "default": "\"regular\"",
+              "description": "Icon size: `regular` | `big`.",
               "attribute": "size"
             },
             {
@@ -92,9 +93,10 @@
             {
               "name": "size",
               "type": {
-                "text": "LoomiBellSize"
+                "text": "LoomiSize"
               },
-              "default": "\"small\"",
+              "default": "\"regular\"",
+              "description": "Icon size: `regular` | `big`.",
               "fieldName": "size"
             },
             {

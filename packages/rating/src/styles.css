@@ -27,7 +27,7 @@
   width: var(--loomi-star-size, 1.25rem);
   height: var(--loomi-star-size, 1.25rem);
 }
-.size-small {
+.size-regular {
   --loomi-star-size: 1.25rem;
 }
 .size-medium {

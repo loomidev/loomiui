@@ -1,1 +1,1 @@
-export { LoomiAvatar, LoomiAvatars, type LoomiAvatarSize } from "./loomi-avatar.js";
+export { LoomiAvatar, LoomiAvatars } from "./loomi-avatar.js";

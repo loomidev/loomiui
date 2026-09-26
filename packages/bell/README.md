@@ -48,10 +48,10 @@ By default the bell is designed to sit on a light background. On a dark backgrou
 
 ## Different Sizes
 
-Two sizes are available; the default is `small`.
+Two sizes are available; the default is `regular`.
 
 ```html
-<loomi-bell size="small"></loomi-bell>
+<loomi-bell size="regular"></loomi-bell>
 <loomi-bell size="big"></loomi-bell>
 ```
 
@@ -102,13 +102,13 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute     | Default   | Description                                     |
-| ------------- | --------- | ----------------------------------------------- |
-| `color`       | `primary` | Status dot color. Any loomi color.              |
-| `size`        | `small`   | `small` \| `big`                                |
-| `show-dot`    | `true`    | Show the status dot. _(boolean)_                |
-| `animate-dot` | `false`   | Ping animation on the dot. _(boolean)_          |
-| `invert`      | `false`   | Render white, for dark backgrounds. _(boolean)_ |
+| Attribute     | Default   | Description                                                                                                     |
+| ------------- | --------- | --------------------------------------------------------------------------------------------------------------- |
+| `color`       | `primary` | Status dot color. Any loomi color.                                                                              |
+| `size`        | `regular` | `regular` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `show-dot`    | `true`    | Show the status dot. _(boolean)_                                                                                |
+| `animate-dot` | `false`   | Ping animation on the dot. _(boolean)_                                                                          |
+| `invert`      | `false`   | Render white, for dark backgrounds. _(boolean)_                                                                 |
 
 ## Full Example
 

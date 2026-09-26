@@ -1,1 +1,1 @@
-export { LoomiBell, type LoomiBellSize } from "./loomi-bell.js";
+export { LoomiBell } from "./loomi-bell.js";

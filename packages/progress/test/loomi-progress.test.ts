@@ -49,7 +49,7 @@ describe("loomi-progress-bar", () => {
 });
 
 describe("loomi-progress-arc", () => {
-  for (const size of ["small", "medium", "large", "300"]) {
+  for (const size of ["small", "regular", "huge", "300"]) {
     it(`reserves space for slotted content at size ${size}`, async () => {
       const wrapper = await fixture<HTMLDivElement>(html`
         <div>

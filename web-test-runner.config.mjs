@@ -5,10 +5,12 @@ import { esbuildPlugin } from "@web/dev-server-esbuild";
 // built `dist/` output in real headless browsers — these test the same artifact a
 // consumer would actually install, not the TS source. Run `pnpm build` first.
 //
-// Chromium, Firefox and WebKit all run by default, and CI runs all three. This library is
-// built on web-platform primitives whose engine support genuinely differs (ElementInternals
-// form association, adoptedStyleSheets, focus delegation), so a single-engine result is not
-// evidence the components work.
+// Chromium, Firefox and WebKit all run by default. CI runs all three on release pull
+// requests into main and on main itself, and Chromium only on pull requests into
+// development (see .github/workflows/ci.yml). This library is built on web-platform
+// primitives whose engine support genuinely differs (ElementInternals form association,
+// adoptedStyleSheets, focus delegation), so a single-engine result is not evidence the
+// components work.
 //
 // Narrow the matrix with LOOMI_BROWSERS when iterating locally, or when an engine will not
 // launch on your machine at all — Playwright's Firefox build does not start on macOS 27

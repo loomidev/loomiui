@@ -32,13 +32,13 @@
 .blur-small {
   backdrop-filter: blur(2px);
 }
-.blur-medium {
+.blur-regular {
   backdrop-filter: blur(5px);
 }
-.blur-large {
+.blur-big {
   backdrop-filter: blur(8px);
 }
-.blur-xl {
+.blur-huge {
   backdrop-filter: blur(12px);
 }
 .blur-omg {
@@ -73,13 +73,13 @@
 .size-small {
   max-width: 24rem;
 }
-.size-medium {
+.size-regular {
   max-width: 32rem;
 }
-.size-large {
+.size-big {
   max-width: 60rem;
 }
-.size-xl {
+.size-huge {
   max-width: 86rem;
 }
 .size-omg {

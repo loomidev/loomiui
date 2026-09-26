@@ -25,14 +25,6 @@
         },
         {
           "kind": "js",
-          "name": "LoomiProgressStepSize",
-          "declaration": {
-            "name": "LoomiProgressStepSize",
-            "module": "@loomidev/progress"
-          }
-        },
-        {
-          "kind": "js",
           "name": "LoomiProgressStepState",
           "declaration": {
             "name": "LoomiProgressStepState",
@@ -75,14 +67,6 @@
           "name": "LoomiProgressSteps",
           "declaration": {
             "name": "LoomiProgressSteps",
-            "module": "@loomidev/progress"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "LoomiProgressStepSize",
-          "declaration": {
-            "name": "LoomiProgressStepSize",
             "module": "@loomidev/progress"
           }
         },

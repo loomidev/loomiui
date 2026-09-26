@@ -210,29 +210,29 @@ loomi-split-button::part(panel) {
 
 ## Attributes
 
-| Attribute          | Default         | Description                                                                        |
-| ------------------ | --------------- | ---------------------------------------------------------------------------------- |
-| `type`             | `primary`       | `primary` (solid) or `secondary` (bordered ghost). Applied to both halves.         |
-| `color`            | _(from `type`)_ | `primary` \| `secondary` \| `info` \| `success` \| `error` \| `warning` \| `gray`. |
-| `size`             | `regular`       | `tiny` \| `small` \| `regular` \| `medium` \| `big`.                               |
-| `radius`           | `medium`        | `none` \| `small` \| `medium` \| `full`. Only the outer corners are rounded.       |
-| `outline`          | `false`         | Render both halves as outlines.                                                    |
-| `border-width`     | `2`             | Outline border width. Also sets the width of the seam between the halves.          |
-| `icon`             | _(blank)_       | Icon name for the primary half.                                                    |
-| `icon-right`       | `false`         | Put the primary half's icon after its label.                                       |
-| `disabled`         | `false`         | Disable both halves.                                                               |
-| `menu-disabled`    | `false`         | Disable only the caret.                                                            |
-| `tag`              | `button`        | Render the primary half as `button` or `a`.                                        |
-| `href`             | _(blank)_       | Link target for the primary half; implies `tag="a"`.                               |
-| `can-submit`       | `false`         | Render the primary half as `type="submit"`.                                        |
-| `has-spinner`      | `false`         | Give the primary half a spinner (hidden until `show-spinner`).                     |
-| `show-spinner`     | `false`         | Show the primary half's spinner.                                                   |
-| `uppercase`        | `false`         | Uppercase the primary half's label.                                                |
-| `placement`        | `auto`          | `auto` \| `bottom-start` \| `bottom-end` \| `top-start` \| `top-end`.              |
-| `divided`          | `false`         | Hairline between menu items.                                                       |
-| `hide-after-click` | `true`          | Close the menu when an item is chosen.                                             |
-| `menu-label`       | `More actions`  | Accessible name for the caret.                                                     |
-| `open-menu`        | _(reflected)_   | Present while the menu is open. Read-only - use `show()`/`hide()` to change it.    |
+| Attribute          | Default         | Description                                                                                                                                      |
+| ------------------ | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `type`             | `primary`       | `primary` (solid) or `secondary` (bordered ghost). Applied to both halves.                                                                       |
+| `color`            | _(from `type`)_ | `primary` \| `secondary` \| `info` \| `success` \| `error` \| `warning` \| `gray`.                                                               |
+| `size`             | `regular`       | `tiny` \| `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `radius`           | `medium`        | `none` \| `small` \| `medium` \| `full`. Only the outer corners are rounded.                                                                     |
+| `outline`          | `false`         | Render both halves as outlines.                                                                                                                  |
+| `border-width`     | `2`             | Outline border width. Also sets the width of the seam between the halves.                                                                        |
+| `icon`             | _(blank)_       | Icon name for the primary half.                                                                                                                  |
+| `icon-right`       | `false`         | Put the primary half's icon after its label.                                                                                                     |
+| `disabled`         | `false`         | Disable both halves.                                                                                                                             |
+| `menu-disabled`    | `false`         | Disable only the caret.                                                                                                                          |
+| `tag`              | `button`        | Render the primary half as `button` or `a`.                                                                                                      |
+| `href`             | _(blank)_       | Link target for the primary half; implies `tag="a"`.                                                                                             |
+| `can-submit`       | `false`         | Render the primary half as `type="submit"`.                                                                                                      |
+| `has-spinner`      | `false`         | Give the primary half a spinner (hidden until `show-spinner`).                                                                                   |
+| `show-spinner`     | `false`         | Show the primary half's spinner.                                                                                                                 |
+| `uppercase`        | `false`         | Uppercase the primary half's label.                                                                                                              |
+| `placement`        | `auto`          | `auto` \| `bottom-start` \| `bottom-end` \| `top-start` \| `top-end`.                                                                            |
+| `divided`          | `false`         | Hairline between menu items.                                                                                                                     |
+| `hide-after-click` | `true`          | Close the menu when an item is chosen.                                                                                                           |
+| `menu-label`       | `More actions`  | Accessible name for the caret.                                                                                                                   |
+| `open-menu`        | _(reflected)_   | Present while the menu is open. Read-only - use `show()`/`hide()` to change it.                                                                  |
 
 **Properties:** every attribute above is also a property (`hideAfterClick`, `menuLabel`,
 `borderWidth`, …), plus `isOpen` (read-only).

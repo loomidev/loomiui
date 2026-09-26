@@ -517,7 +517,7 @@ export class LoomiChatWindow extends LoomiElement {
                 <div class="loomi-chat-input-actions">
                   ${
                     this.busy
-                      ? html`<loomi-spinner type="dot" size="small" color="gray"></loomi-spinner>`
+                      ? html`<loomi-spinner type="dot" color="gray"></loomi-spinner>`
                       : nothing
                   }
                   <input
