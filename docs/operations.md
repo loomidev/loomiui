@@ -49,7 +49,9 @@ change.
 ## Release procedure
 
 1. Confirm every user-visible package change has a changeset.
-2. Merge the reviewed change to `main` with CI green.
+2. Add the plain-language notes for the release, `release-notes/v<next version>.md` (see
+   [release-notes/README.md](../release-notes/README.md)), to the release PR into `main`,
+   and merge it with CI green.
 3. Watch the Release workflow. With pending changesets it opens or updates the
    version-packages PR.
 4. Review versions and generated changelogs in that PR; do not edit package versions by
@@ -58,9 +60,10 @@ change.
    npm OIDC.
 6. Verify representative packages with `npm view @loomidev/<name> version` and install
    them in a clean consumer project.
-7. Open the draft `vX.Y.Z` release the workflow created on the GitHub Releases page,
-   rewrite its notes in plain language (it is assembled from the package changelogs), and
-   publish it. That single release is the one people read and get notified about.
+7. Open the draft `vX.Y.Z` release the workflow created on the GitHub Releases page and
+   publish it. Its notes come from `release-notes/vX.Y.Z.md`; if that file was missing, the
+   workflow assembled them from the package changelogs instead, and they need rewriting in
+   plain language first. That single release is the one people read and get notified about.
 8. Publish communication using [release-communication.md](release-communication.md).
 
 ## Rollback
