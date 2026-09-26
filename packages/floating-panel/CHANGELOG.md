@@ -1,5 +1,13 @@
 # @loomidev/floating-panel
 
+## 0.7.0
+
+### Patch Changes
+
+- Updated dependencies [c952b7d]
+  - @loomidev/core@0.7.0
+  - @loomidev/icon@0.7.0
+
 ## 0.6.0
 
 ### Patch Changes
