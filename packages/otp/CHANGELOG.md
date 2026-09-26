@@ -1,5 +1,13 @@
 # @loomidev/otp
 
+## 0.9.0
+
+### Patch Changes
+
+- Updated dependencies [c12e752]
+  - @loomidev/notification@0.9.0
+  - @loomidev/core@0.9.0
+
 ## 0.8.0
 
 ### Minor Changes
