@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/number",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "<loomi-number> — a themeable number stepper input with increment/decrement buttons.",
   "repository": {
     "type": "git",

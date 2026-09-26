@@ -1,5 +1,18 @@
 # @loomidev/chat
 
+## 0.7.0
+
+### Patch Changes
+
+- Updated dependencies [c952b7d]
+  - @loomidev/core@0.7.0
+  - @loomidev/avatar@0.7.0
+  - @loomidev/button@0.7.0
+  - @loomidev/dropmenu@0.7.0
+  - @loomidev/icon@0.7.0
+  - @loomidev/spinner@0.7.0
+  - @loomidev/tooltip@0.7.0
+
 ## 0.6.0
 
 ### Patch Changes

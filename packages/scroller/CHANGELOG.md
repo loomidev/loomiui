@@ -1,5 +1,12 @@
 # @loomidev/scroller
 
+## 0.7.0
+
+### Patch Changes
+
+- Updated dependencies [c952b7d]
+  - @loomidev/core@0.7.0
+
 ## 0.6.0
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/skeleton",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "<loomi-skeleton> — a shimmering loading placeholder web component.",
   "repository": {
     "type": "git",

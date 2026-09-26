@@ -1,5 +1,20 @@
 # @loomidev/button-group
 
+## 0.7.0
+
+### Minor Changes
+
+- 9152ef3: `<loomi-button-group-item>` gains `tooltip` and `tooltip-position` (default `top`) for a built-in `<loomi-tooltip>` on hover and keyboard focus, so items no longer need wrapping in `<loomi-tooltip>`. Selection, sizing and the segmented look are unchanged. Tooltip text that differs from the item's accessible name is also exposed as its description. Adds a dependency on `@loomidev/tooltip`.
+
+### Patch Changes
+
+- c952b7d: Icon-only and circle items now always carry an `aria-label` on their inner button. The item read `icon-only`/`circle` from its direct parent's properties, so when the group hadn't upgraded yet, or a wrapper sat between the two, the label was hidden with no `aria-label` in its place (axe `button-name`). It now follows the enclosing group's attributes, the same source the stylesheet uses to hide the label.
+- Updated dependencies [c952b7d]
+  - @loomidev/core@0.7.0
+  - @loomidev/icons@0.7.0
+  - @loomidev/theme@0.7.0
+  - @loomidev/tooltip@0.7.0
+
 ## 0.6.0
 
 ### Minor Changes
