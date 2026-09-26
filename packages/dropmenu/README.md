@@ -120,7 +120,9 @@ of the menu but does not get pointer or hover behavior.
 ```
 
 By default an item's icon sits on the left. Set `icon-right` on the menu to flip every
-item, or set it on one item to flip just that row.
+item, or set it on one item to flip just that row. Mixed menus, where some items have no
+icon, stay aligned: every label starts at the same edge and the icons line up in one
+column at the end of the row (mirrored under `dir="rtl"`).
 
 ```html
 <loomi-dropmenu icon-right>

@@ -343,6 +343,93 @@ describe("loomi-dropmenu", () => {
     );
   });
 
+  describe("icon-right in a mixed menu", () => {
+    async function openMixed(dir: "ltr" | "rtl") {
+      const el = await fixture<LoomiDropmenu>(html`
+        <loomi-dropmenu icon-right dir=${dir}>
+          <loomi-dropmenu-item>v1.3.4</loomi-dropmenu-item>
+          <loomi-dropmenu-item icon="check">v0.9.0</loomi-dropmenu-item>
+          <loomi-dropmenu-item>v0.8.3</loomi-dropmenu-item>
+        </loomi-dropmenu>
+      `);
+      await open(el);
+      const items = Array.from(el.querySelectorAll<LoomiDropmenuItem>("loomi-dropmenu-item"));
+      await Promise.all(items.map((item) => item.updateComplete));
+      const rows = items.map((item) => item.shadowRoot!.querySelector<HTMLElement>(".loomi-item")!);
+      // Measure the rendered label text, not the `.loomi-label` box: the box fills the
+      // row either way, so only the text shows where the label actually starts.
+      const labels = items.map((item) => {
+        const range = document.createRange();
+        range.selectNodeContents(item);
+        return range;
+      });
+      return { rows, labels };
+    }
+
+    const lastVisibleChild = (row: HTMLElement): Element =>
+      Array.from(row.children)
+        .filter((child) => (child as HTMLElement).getBoundingClientRect().width > 0)
+        .sort((a, b) => a.getBoundingClientRect().left - b.getBoundingClientRect().left)
+        .at(-1)!;
+    const firstVisibleChild = (row: HTMLElement): Element =>
+      Array.from(row.children)
+        .filter((child) => (child as HTMLElement).getBoundingClientRect().width > 0)
+        .sort((a, b) => a.getBoundingClientRect().left - b.getBoundingClientRect().left)[0];
+
+    it("keeps every label on the same left edge and the icon at the far right (LTR)", async () => {
+      const { rows, labels } = await openMixed("ltr");
+      const lefts = labels.map((label) => label.getBoundingClientRect().left);
+      expect(lefts[1]).to.be.closeTo(lefts[0], 0.5);
+      expect(lefts[2]).to.be.closeTo(lefts[0], 0.5);
+
+      const icon = rows[1].querySelector("svg")!;
+      expect(lastVisibleChild(rows[1])).to.equal(icon);
+      const rowRect = rows[1].getBoundingClientRect();
+      const padEnd = parseFloat(getComputedStyle(rows[1]).paddingRight);
+      expect(icon.getBoundingClientRect().right).to.be.closeTo(rowRect.right - padEnd, 0.5);
+    });
+
+    it("mirrors under RTL: labels share the right edge and the icon sits at the far left", async () => {
+      const { rows, labels } = await openMixed("rtl");
+      const rights = labels.map((label) => label.getBoundingClientRect().right);
+      expect(rights[1]).to.be.closeTo(rights[0], 0.5);
+      expect(rights[2]).to.be.closeTo(rights[0], 0.5);
+
+      const icon = rows[1].querySelector("svg")!;
+      expect(firstVisibleChild(rows[1])).to.equal(icon);
+      const rowRect = rows[1].getBoundingClientRect();
+      const padEnd = parseFloat(getComputedStyle(rows[1]).paddingLeft);
+      expect(icon.getBoundingClientRect().left).to.be.closeTo(rowRect.left + padEnd, 0.5);
+    });
+
+    it("keeps the check indicator first and the shortcut and chevron trailing", async () => {
+      const el = await fixture<LoomiDropmenu>(html`
+        <loomi-dropmenu icon-right>
+          <loomi-dropmenu-item checkbox checked icon="user" shortcut="⌘P">Profile</loomi-dropmenu-item>
+          <loomi-dropmenu-item icon="cog">
+            More
+            <loomi-dropmenu-item slot="submenu">Child</loomi-dropmenu-item>
+          </loomi-dropmenu-item>
+        </loomi-dropmenu>
+      `);
+      await open(el);
+      const [toggle, parent] = Array.from(
+        el.querySelectorAll<LoomiDropmenuItem>(":scope > loomi-dropmenu-item"),
+      );
+      await Promise.all([toggle.updateComplete, parent.updateComplete]);
+      await nextFrame();
+
+      const row = toggle.shadowRoot!.querySelector<HTMLElement>(".loomi-item")!;
+      const x = (sel: string) => row.querySelector(sel)!.getBoundingClientRect().left;
+      expect(x(".loomi-indicator")).to.be.below(x(".loomi-label"));
+      expect(x(".loomi-label")).to.be.below(x(".loomi-shortcut"));
+      expect(x(".loomi-shortcut")).to.be.below(x(":scope > svg"));
+
+      const parentRow = parent.shadowRoot!.querySelector<HTMLElement>(".loomi-item")!;
+      expect(lastVisibleChild(parentRow)).to.equal(parentRow.querySelector(".loomi-submenu-icon"));
+    });
+  });
+
   it("toggles a checkbox item and keeps the menu open", async () => {
     const el = await fixture<LoomiDropmenu>(html`
       <loomi-dropmenu>
