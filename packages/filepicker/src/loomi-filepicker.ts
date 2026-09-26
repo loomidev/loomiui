@@ -527,7 +527,7 @@ export class LoomiFilepicker extends LoomiElement {
     const session = this.cropping;
     return html`<loomi-modal
       class="loomi-crop-modal"
-      size="large"
+      size="big"
       locale=${this.locale}
       title=${loomiT("filepicker.cropTitle", {}, this.locale)}
       ok-button-label=${loomiT("filepicker.cropApply", {}, this.locale)}

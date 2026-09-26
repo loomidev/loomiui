@@ -12,12 +12,15 @@ import {
   loomiT,
   onClickOutside,
   themeStyles,
+  LOOMI_CONTROL_SIZES,
+  resolveLoomiSize,
+  type LoomiSize,
+  type LoomiSizeSupport,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 import { LOOMI_COUNTRIES, type LoomiCountryRecord } from "./generated/countries-data.js";
 
 export type LoomiCountriesMode = "names" | "phone";
-export type LoomiCountriesSize = "tiny" | "small" | "regular" | "medium" | "big";
 
 const CHEVRON = svg`<path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />`;
 const CHECK = svg`<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />`;
@@ -144,6 +147,9 @@ function resolveCountry(input: string): LoomiCountryRecord | undefined {
 @customElement("loomi-countries")
 export class LoomiCountries extends LoomiElement {
   static override styles = [themeStyles, controlSizeStyles, fieldStyles, componentStyles];
+
+  /** Size names this component supports, from the canonical `LoomiSize` scale — shared by every form control. */
+  static readonly supportedSizes = { size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
 
   private internals = this.attachInternals();
@@ -171,7 +177,8 @@ export class LoomiCountries extends LoomiElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property({ type: Boolean, reflect: true }) required = false;
-  @property() size: LoomiCountriesSize = "medium";
+  /** Size preset: `tiny` | `small` | `regular` | `medium` | `big`. Equal names give equal heights across every form control and `<loomi-button>`. */
+  @property() size: LoomiSize = "regular";
   @property({ attribute: "empty-placeholder" }) emptyPlaceholder = DEFAULT_EMPTY_PLACEHOLDER;
   @property({ type: Boolean, reflect: true }) invalid = false;
 
@@ -625,7 +632,7 @@ export class LoomiCountries extends LoomiElement {
   }
 
   override render(): TemplateResult {
-    const classes = `loomi-countries size-${this.size} mode-${this.mode} ${this.open ? "open" : ""} ${this.floatLabel ? "float" : ""}`;
+    const classes = `loomi-countries size-${resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)} mode-${this.mode} ${this.open ? "open" : ""} ${this.floatLabel ? "float" : ""}`;
     return html`
       <div class=${classes} @keydown=${this.onKeydown}>
         ${this.mode === "phone" ? this.renderPhoneMode() : this.renderNamesMode()}

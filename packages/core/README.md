@@ -19,6 +19,71 @@ For the shared container and viewport rules, see [Foundations - Responsive behav
 
 For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
+## Sizing
+
+Every component's `size` attribute (and the other `*-size` attributes: `blur-size`,
+`image-size`, `icon-size`, `avatar-size`) takes a name from one ordered scale:
+
+| `tiny` | `small` | `regular` | `medium` | `big` | `huge` | `omg` |
+| ------ | ------- | --------- | -------- | ----- | ------ | ----- |
+| 1      | 2       | 3         | 4        | 5     | 6      | 7     |
+
+The rules:
+
+- **A name always means the same position.** `medium` is always larger than `regular`,
+  and `big` always larger than `medium`, in every component.
+- **`regular` is always the default.** Leave `size` off and you get `regular`.
+- **A component may support only part of the scale**, but never a name outside it. An
+  unsupported name renders as `regular`.
+- **Equal names give equal heights across form controls.** `<loomi-button>`,
+  `<loomi-input>`, `<loomi-select>`, `<loomi-datepicker>` and every other field share the
+  control heights below (scaled by `--loomi-density`), so a `regular` button lines up with
+  a `regular` input.
+
+| Control size | `tiny` | `small`   | `regular` | `medium`  | `big`  |
+| ------------ | ------ | --------- | --------- | --------- | ------ |
+| Height       | `2rem` | `2.25rem` | `2.5rem`  | `2.75rem` | `3rem` |
+
+What each component supports:
+
+| Component                                                                                                                                       | Attribute     | Supported sizes                                          |
+| ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | -------------------------------------------------------- |
+| button, button-group, split-button, input, select, datepicker, autocomplete, countries, number, password, tag-input, timepicker, timezonepicker | `size`        | `tiny` `small` `regular` `medium` `big`                  |
+| avatar, avatars                                                                                                                                 | `size`        | `tiny` `small` `regular` `medium` `big` `huge` `omg`     |
+| profile-menu                                                                                                                                    | `avatar-size` | `tiny` `small` `regular` `medium` `big` `huge` `omg`     |
+| modal                                                                                                                                           | `size`        | `tiny` `small` `regular` `big` `huge` `omg`              |
+| modal                                                                                                                                           | `blur-size`   | `none` `small` `regular` `big` `huge` `omg`              |
+| progress-circle                                                                                                                                 | `size`        | `tiny` `small` `regular` `big` `huge`, or a pixel number |
+| progress-arc                                                                                                                                    | `size`        | `small` `regular` `big` `huge`, or a pixel number        |
+| empty-state                                                                                                                                     | `image-size`  | `small` `regular` `big` `huge` `omg`                     |
+| spinner                                                                                                                                         | `size`        | `regular` `medium` `big` `huge` `omg`                    |
+| colorpicker, emoji-picker                                                                                                                       | `size`        | `small` `regular` `medium` `big`                         |
+| side-nav                                                                                                                                        | `icon-size`   | `small` `regular` `medium` `big`                         |
+| fab                                                                                                                                             | `size`        | `small` `regular` `medium`                               |
+| drawer                                                                                                                                          | `size`        | `small` `regular` `big`                                  |
+| rating                                                                                                                                          | `size`        | `regular` `medium` `big`                                 |
+| card, progress-step, progress-steps                                                                                                             | `size`        | `small` `regular`                                        |
+| bell, otp                                                                                                                                       | `size`        | `regular` `big`                                          |
+
+Each component also declares its list at runtime as a static `supportedSizes` map, keyed
+by property name — `customElements.get("loomi-modal").supportedSizes` is
+`{ size: [...], blurSize: [...] }`.
+
+In TypeScript every size property is typed `LoomiSize`, exported from `@loomidev/core`
+along with the scale itself:
+
+```ts
+import { LOOMI_SIZES, isLoomiSize, type LoomiSize } from "@loomidev/core";
+
+const size: LoomiSize = "medium";
+LOOMI_SIZES.indexOf("medium") > LOOMI_SIZES.indexOf("regular"); // true, everywhere
+```
+
+A few size-named attributes are measurements, not scale names, and take a CSS length or
+number instead: `<loomi-icon size>`, `<loomi-qrcode size>`, `<loomi-statistic icon-size>`,
+`<loomi-scroller edge-size>`, `<loomi-photo-gallery thumb-size>` and the
+`<loomi-resizable-panel>` `*-size` attributes.
+
 ## Exports
 
 | Export                                                                     | Description                                                                                                                                                                                                                                                                                                                                                 |
@@ -44,6 +109,10 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `setLoomiLocale(locale)` / `getLoomiLocale()`                              | Set or read the shared locale used by translated component defaults.                                                                                                                                                                                                                                                                                        |
 | `defineLoomiTranslations(locale, messages)`                                | Add or override translations for built-in component text.                                                                                                                                                                                                                                                                                                   |
 | `loomiT(path, params, locale)`                                             | Translate a shared message by key, with English fallback.                                                                                                                                                                                                                                                                                                   |
+| `LOOMI_SIZES`, `LoomiSize`, `isLoomiSize`, `LOOMI_DEFAULT_SIZE`            | The canonical size scale and its type (see [Sizing](#sizing)).                                                                                                                                                                                                                                                                                              |
+| `LOOMI_CONTROL_SIZES`                                                      | The part of the scale every form control supports (`tiny` through `big`).                                                                                                                                                                                                                                                                                   |
+| `resolveLoomiSize(value, supported)`                                       | Narrows a `size` value to a component's supported names, falling back to `regular`.                                                                                                                                                                                                                                                                         |
+| `LoomiSizeSupport`                                                         | The shape of a component's static `supportedSizes` map.                                                                                                                                                                                                                                                                                                     |
 | `LOOMI_COLORS`, `LOOMI_SHADES`, `isLoomiColor`, `LoomiColor`, `LoomiShade` | Palette (re-exported from `@loomidev/theme`).                                                                                                                                                                                                                                                                                                               |
 
 ```ts

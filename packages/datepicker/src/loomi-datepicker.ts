@@ -14,6 +14,10 @@ import {
   loomiT,
   loomiWeekdayNames,
   onClickOutside,
+  LOOMI_CONTROL_SIZES,
+  resolveLoomiSize,
+  type LoomiSize,
+  type LoomiSizeSupport,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -25,7 +29,6 @@ export type LoomiDateFormat =
   | "dd/mm/yyyy"
   | "mm/dd/yyyy"
   | "D d M, Y";
-export type LoomiDatepickerSize = "tiny" | "small" | "regular" | "medium" | "big";
 export type LoomiDatepickerStyle = "popup" | "inline";
 export type LoomiDatepickerVariant = "default" | "minimal";
 type LoomiCalendarView = "days" | "months" | "years";
@@ -54,6 +57,9 @@ const sameDay = (a: Date, b: Date) => a.toDateString() === b.toDateString();
 @customElement("loomi-datepicker")
 export class LoomiDatepicker extends LoomiElement {
   static override styles = loomiStyles(controlSizeStyles, fieldStyles, componentStyles);
+
+  /** Size names this component supports, from the canonical `LoomiSize` scale — shared by every form control. */
+  static readonly supportedSizes = { size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
   private internals = this.attachInternals();
   private initialSelectedValue = "";
@@ -73,7 +79,8 @@ export class LoomiDatepicker extends LoomiElement {
   @property() locale = "";
   @property({ type: Boolean }) required = false;
   @property({ attribute: "week-starts" }) weekStarts: "sunday" | "monday" = "sunday";
-  @property() size: LoomiDatepickerSize = "regular";
+  /** Size preset: `tiny` | `small` | `regular` | `medium` | `big`. Equal names give equal heights across every form control and `<loomi-button>`. */
+  @property() size: LoomiSize = "regular";
   @property() variant: LoomiDatepickerVariant = "default";
 
   @state() private start: Date | null = null;
@@ -455,7 +462,7 @@ export class LoomiDatepicker extends LoomiElement {
 
     return html`<div class="loomi-dp ${this.open ? "open" : ""}">
       ${this.label ? html`<span class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req"> *</span>` : nothing}</span>` : nothing}
-      <div class="loomi-field size-${this.size} variant-${this.variant}" @click=${() => this.toggle()}>
+      <div class="loomi-field size-${resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)} variant-${this.variant}" @click=${() => this.toggle()}>
         <span class="loomi-text ${this.value ? "" : "placeholder"}">${this.value || placeholder}${!this.value && this.required ? html`<span class="loomi-req"> *</span>` : nothing}</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${CAL}</svg>
       </div>

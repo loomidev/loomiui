@@ -33,14 +33,6 @@
         },
         {
           "kind": "js",
-          "name": "LoomiButtonGroupSize",
-          "declaration": {
-            "name": "LoomiButtonGroupSize",
-            "module": "./loomi-button-group.js"
-          }
-        },
-        {
-          "kind": "js",
           "name": "LoomiButtonGroupClickDetail",
           "declaration": {
             "name": "LoomiButtonGroupClickDetail",
@@ -371,6 +363,14 @@
           "members": [
             {
               "kind": "field",
+              "name": "supportedSizes",
+              "static": true,
+              "readonly": true,
+              "default": "{ size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport",
+              "description": "Size names this component supports, from the canonical `LoomiSize` scale."
+            },
+            {
+              "kind": "field",
               "name": "color",
               "type": {
                 "text": "LoomiColor"
@@ -383,10 +383,10 @@
               "kind": "field",
               "name": "size",
               "type": {
-                "text": "LoomiButtonGroupSize"
+                "text": "LoomiSize"
               },
               "default": "\"regular\"",
-              "description": "Size preset — controls padding and font-size of all items.",
+              "description": "Size preset — controls padding and font-size of all items: `tiny` | `small` | `regular` | `medium` | `big`.",
               "attribute": "size",
               "reflects": true
             },
@@ -508,10 +508,10 @@
             {
               "name": "size",
               "type": {
-                "text": "LoomiButtonGroupSize"
+                "text": "LoomiSize"
               },
               "default": "\"regular\"",
-              "description": "Size preset — controls padding and font-size of all items.",
+              "description": "Size preset — controls padding and font-size of all items: `tiny` | `small` | `regular` | `medium` | `big`.",
               "fieldName": "size"
             },
             {

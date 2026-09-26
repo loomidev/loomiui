@@ -58,14 +58,6 @@
         },
         {
           "kind": "js",
-          "name": "LoomiEmojiPickerSize",
-          "declaration": {
-            "name": "LoomiEmojiPickerSize",
-            "module": "./loomi-emoji-picker.js"
-          }
-        },
-        {
-          "kind": "js",
           "name": "LoomiEmojiSelectDetail",
           "declaration": {
             "name": "LoomiEmojiSelectDetail",
@@ -83,6 +75,14 @@
           "description": "`<loomi-emoji-picker>` — searchable emoji picker with categories, keyboard support\nand native form association.",
           "name": "LoomiEmojiPicker",
           "members": [
+            {
+              "kind": "field",
+              "name": "supportedSizes",
+              "static": true,
+              "readonly": true,
+              "default": "{ size: EMOJI_PICKER_SIZES } satisfies LoomiSizeSupport",
+              "description": "Size names this component supports, from the canonical `LoomiSize` scale."
+            },
             {
               "kind": "field",
               "name": "formAssociated",
@@ -174,9 +174,10 @@
               "kind": "field",
               "name": "size",
               "type": {
-                "text": "LoomiEmojiPickerSize"
+                "text": "LoomiSize"
               },
-              "default": "\"medium\"",
+              "default": "\"regular\"",
+              "description": "Trigger and panel size: `small` | `regular` | `medium` | `big`.",
               "attribute": "size"
             },
             {
@@ -416,6 +417,15 @@
                   "text": "boolean"
                 }
               }
+            },
+            {
+              "kind": "field",
+              "name": "resolvedSize",
+              "type": {
+                "text": "(typeof EMOJI_PICKER_SIZES)[number]"
+              },
+              "privacy": "private",
+              "readonly": true
             },
             {
               "kind": "field",
@@ -773,9 +783,10 @@
             {
               "name": "size",
               "type": {
-                "text": "LoomiEmojiPickerSize"
+                "text": "LoomiSize"
               },
-              "default": "\"medium\"",
+              "default": "\"regular\"",
+              "description": "Trigger and panel size: `small` | `regular` | `medium` | `big`.",
               "fieldName": "size"
             },
             {

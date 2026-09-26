@@ -7,10 +7,13 @@ import {
   loomiT,
   themeStyles,
   type LoomiFieldLabelPosition,
+  LOOMI_CONTROL_SIZES,
+  resolveLoomiSize,
+  type LoomiSize,
+  type LoomiSizeSupport,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
-export type LoomiNumberSize = "tiny" | "small" | "regular" | "medium" | "big";
 export type LoomiNumberVariant = "default" | "minimal";
 
 const MINUS = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />`;
@@ -28,6 +31,9 @@ const PLUS = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M12 5v1
 @customElement("loomi-number")
 export class LoomiNumber extends LoomiElement {
   static override styles = [themeStyles, controlSizeStyles, fieldStyles, componentStyles];
+
+  /** Size names this component supports, from the canonical `LoomiSize` scale — shared by every form control. */
+  static readonly supportedSizes = { size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
 
   private internals = this.attachInternals();
@@ -43,7 +49,8 @@ export class LoomiNumber extends LoomiElement {
   @property({ type: Number }) min = 0;
   @property({ type: Number }) max = 100;
   @property({ type: Number }) step = 1;
-  @property() size: LoomiNumberSize = "medium";
+  /** Size preset: `tiny` | `small` | `regular` | `medium` | `big`. Equal names give equal heights across every form control and `<loomi-button>`. */
+  @property() size: LoomiSize = "regular";
   @property() variant: LoomiNumberVariant = "default";
   @property({ type: Boolean, attribute: "transparent-icons" }) transparentIcons = true;
   @property({ type: Boolean, attribute: "with-dots" }) withDots = true;
@@ -163,7 +170,7 @@ export class LoomiNumber extends LoomiElement {
     const hasLabel = !!this.label;
     const placeholderAttr = hasLabel ? " " : nothing;
     return html`
-      <div class="loomi-field size-${this.size} variant-${this.variant}" part="field">
+      <div class="loomi-field size-${resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)} variant-${this.variant}" part="field">
         ${this.renderStep(-1)}
         <span class="loomi-inputwrap">
           <input

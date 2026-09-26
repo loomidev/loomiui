@@ -52,7 +52,7 @@
   font-weight: 700;
   line-height: 1;
 }
-.size-small {
+.size-regular {
   --loomi-otp-size: 2.75rem;
 }
 .size-big {

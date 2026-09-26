@@ -96,13 +96,13 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute        | Default   | Description                                          |
-| ---------------- | --------- | ---------------------------------------------------- |
-| `name`           | _(blank)_ | Submitted with the form.                             |
-| `selected-value` | `#000000` | Current/default color.                               |
-| `colors`         | _(blank)_ | Comma-separated HEX list → renders a swatch palette. |
-| `show-value`     | `false`   | Show the selected HEX value. _(boolean)_             |
-| `size`           | `regular` | `small` \| `regular` \| `medium` \| `big`            |
+| Attribute        | Default   | Description                                                                                                                            |
+| ---------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`           | _(blank)_ | Submitted with the form.                                                                                                               |
+| `selected-value` | `#000000` | Current/default color.                                                                                                                 |
+| `colors`         | _(blank)_ | Comma-separated HEX list → renders a swatch palette.                                                                                   |
+| `show-value`     | `false`   | Show the selected HEX value. _(boolean)_                                                                                               |
+| `size`           | `regular` | `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
 
 ## Events
 

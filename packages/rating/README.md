@@ -42,7 +42,7 @@ Any loomi color works - the default is `orange`.
 ## Different Sizes
 
 ```html
-<loomi-rating rating="2" size="small" name="small-rating"></loomi-rating>
+<loomi-rating rating="2" name="regular-rating"></loomi-rating>
 <loomi-rating rating="3" size="medium" type="thumbsup" name="medium-rating"></loomi-rating>
 <loomi-rating rating="2" size="big" type="heart" name="big-rating"></loomi-rating>
 ```
@@ -93,14 +93,14 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute   | Default   | Description                            |
-| ----------- | --------- | -------------------------------------- |
-| `name`      | _(blank)_ | Submitted with the form.               |
-| `rating`    | `0`       | Current rating (0-5).                  |
-| `type`      | `star`    | `star` \| `heart` \| `thumbsup`        |
-| `color`     | `warning` | Any loomi color.                       |
-| `size`      | `small`   | `small` \| `medium` \| `big`           |
-| `clickable` | `true`    | Allow changing the rating. _(boolean)_ |
+| Attribute   | Default   | Description                                                                                                                 |
+| ----------- | --------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `name`      | _(blank)_ | Submitted with the form.                                                                                                    |
+| `rating`    | `0`       | Current rating (0-5).                                                                                                       |
+| `type`      | `star`    | `star` \| `heart` \| `thumbsup`                                                                                             |
+| `color`     | `warning` | Any loomi color.                                                                                                            |
+| `size`      | `regular` | `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `clickable` | `true`    | Allow changing the rating. _(boolean)_                                                                                      |
 
 ## Events
 

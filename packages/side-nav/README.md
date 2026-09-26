@@ -67,14 +67,14 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ### `<loomi-side-nav>`
 
-| Attribute       | Default      | Description                                                |
-| --------------- | ------------ | ---------------------------------------------------------- |
-| `state`         | `expanded`   | `expanded`, `icons`, or `hidden`.                          |
-| `collapse-mode` | `icons`      | Toggle target when expanded: `icons` or `hidden`.          |
-| `label`         | `Navigation` | Accessible label and visible header text.                  |
-| `collapsible`   | `false`      | Shows the top-right control that collapses the navigation. |
-| `icon-size`     | `regular`    | Item icon size: `small`, `regular`, `medium`, or `large`.  |
-| `divided`       | `false`      | Adds a subtle divider between navigation items.            |
+| Attribute       | Default      | Description                                                                                                                                            |
+| --------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `state`         | `expanded`   | `expanded`, `icons`, or `hidden`.                                                                                                                      |
+| `collapse-mode` | `icons`      | Toggle target when expanded: `icons` or `hidden`.                                                                                                      |
+| `label`         | `Navigation` | Accessible label and visible header text.                                                                                                              |
+| `collapsible`   | `false`      | Shows the top-right control that collapses the navigation.                                                                                             |
+| `icon-size`     | `regular`    | Item icon size. `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `divided`       | `false`      | Adds a subtle divider between navigation items.                                                                                                        |
 
 ### `<loomi-side-nav-item>`
 

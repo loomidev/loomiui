@@ -13,6 +13,9 @@ import {
   OverlayReparent,
   onExitAnimationEnd,
   type LoomiColor,
+  resolveLoomiSize,
+  type LoomiSize,
+  type LoomiSizeSupport,
 } from "@loomidev/core";
 import "@loomidev/button/loomi-button.js";
 import "@loomidev/icon/loomi-icon.js";
@@ -20,7 +23,22 @@ import type { LoomiIconSource } from "@loomidev/icon";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiModalType = "" | "info" | "error" | "warning" | "success";
-export type LoomiModalSize = "tiny" | "small" | "medium" | "large" | "xl" | "omg";
+/** The parts of the canonical size scale a modal supports, for its width and its backdrop blur. */
+const MODAL_SIZES = [
+  "tiny",
+  "small",
+  "regular",
+  "big",
+  "huge",
+  "omg",
+] as const satisfies readonly LoomiSize[];
+const MODAL_BLUR_SIZES = [
+  "small",
+  "regular",
+  "big",
+  "huge",
+  "omg",
+] as const satisfies readonly LoomiSize[];
 
 const TYPE: Record<string, { color: LoomiColor; icon: string }> = {
   info: { color: "info" as LoomiColor, icon: "information-circle" },
@@ -76,12 +94,19 @@ if (typeof window !== "undefined") {
 export class LoomiModal extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
+  /** Size names this component supports, from the canonical `LoomiSize` scale. `blur-size` also accepts `none`. */
+  static readonly supportedSizes = {
+    size: MODAL_SIZES,
+    blurSize: MODAL_BLUR_SIZES,
+  } satisfies LoomiSizeSupport;
+
   @property() name = "";
   @property() title = "";
   @property() type: LoomiModalType = "";
   @property() icon = "";
   @property({ attribute: "icon-source" }) iconSource: LoomiIconSource = "heroicons";
-  @property() size: LoomiModalSize = "medium";
+  /** Dialog width: `tiny` | `small` | `regular` | `big` | `huge` | `omg` (full width). */
+  @property() size: LoomiSize = "regular";
   @property() locale = "";
   @property({ type: Boolean, reflect: true }) open = false;
   @property({ attribute: "ok-button-label" }) okButtonLabel = DEFAULT_OK_LABEL;
@@ -99,8 +124,8 @@ export class LoomiModal extends LoomiElement {
   @property({ type: Boolean, attribute: "stretch-action-buttons", converter: booleanAttribute })
   stretchActionButtons = false;
   @property({ attribute: "align-buttons" }) alignButtons: "left" | "center" | "right" = "right";
-  @property({ attribute: "blur-size" }) blurSize:
-    "none" | "small" | "medium" | "large" | "xl" | "omg" = "medium";
+  /** Backdrop blur: `none` | `small` | `regular` | `big` | `huge` | `omg`. */
+  @property({ attribute: "blur-size" }) blurSize: "none" | LoomiSize = "regular";
 
   /** Rendered-but-leaving: the dialog and backdrop are playing their exit animation. */
   @state() private closing = false;
@@ -282,7 +307,7 @@ export class LoomiModal extends LoomiElement {
     const dialogClasses = [
       "loomi-dialog",
       this.closing ? "closing" : "",
-      `size-${this.size}`,
+      `size-${resolveLoomiSize(this.size, MODAL_SIZES)}`,
       iconName ? "has-icon" : "is-default",
       this.showCloseIcon ? "has-close" : "",
     ]
@@ -290,7 +315,7 @@ export class LoomiModal extends LoomiElement {
       .join(" ");
 
     return html`<div
-      class="loomi-backdrop blur-${this.blurSize} ${this.closing ? "closing" : ""}"
+      class="loomi-backdrop blur-${this.blurSize === "none" ? "none" : resolveLoomiSize(this.blurSize, MODAL_BLUR_SIZES)} ${this.closing ? "closing" : ""}"
       @click=${this.onBackdrop}
     >
       <div

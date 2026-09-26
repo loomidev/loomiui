@@ -62,14 +62,6 @@
             "name": "LoomiCardFooter",
             "module": "./loomi-card.js"
           }
-        },
-        {
-          "kind": "js",
-          "name": "LoomiCardSize",
-          "declaration": {
-            "name": "LoomiCardSize",
-            "module": "./loomi-card.js"
-          }
         }
       ]
     },
@@ -90,11 +82,20 @@
           "members": [
             {
               "kind": "field",
+              "name": "supportedSizes",
+              "static": true,
+              "readonly": true,
+              "default": "{ size: CARD_SIZES } satisfies LoomiSizeSupport",
+              "description": "Size names this component supports, from the canonical `LoomiSize` scale."
+            },
+            {
+              "kind": "field",
               "name": "size",
               "type": {
-                "text": "LoomiCardSize"
+                "text": "LoomiSize"
               },
-              "default": "\"default\"",
+              "default": "\"regular\"",
+              "description": "Section spacing: `small` | `regular`.",
               "attribute": "size",
               "reflects": true
             },
@@ -159,9 +160,10 @@
             {
               "name": "size",
               "type": {
-                "text": "LoomiCardSize"
+                "text": "LoomiSize"
               },
-              "default": "\"default\"",
+              "default": "\"regular\"",
+              "description": "Section spacing: `small` | `regular`.",
               "fieldName": "size"
             },
             {

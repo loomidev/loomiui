@@ -11,10 +11,13 @@ import {
   themeStyles,
   type LoomiFloatingPanelHandle,
   type LoomiFieldLabelPosition,
+  LOOMI_CONTROL_SIZES,
+  resolveLoomiSize,
+  type LoomiSize,
+  type LoomiSizeSupport,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
-export type LoomiSelectSize = "tiny" | "small" | "regular" | "medium" | "big";
 export type LoomiSelectVariant = "default" | "minimal";
 
 interface LoomiOption {
@@ -50,6 +53,9 @@ const booleanAttribute = {
 @customElement("loomi-select")
 export class LoomiSelect extends LoomiElement {
   static override styles = [themeStyles, controlSizeStyles, fieldStyles, componentStyles];
+
+  /** Size names this component supports, from the canonical `LoomiSize` scale — shared by every form control. */
+  static readonly supportedSizes = { size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
 
   private internals = this.attachInternals();
@@ -78,7 +84,8 @@ export class LoomiSelect extends LoomiElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property({ type: Boolean, reflect: true }) required = false;
-  @property() size: LoomiSelectSize = "medium";
+  /** Size preset: `tiny` | `small` | `regular` | `medium` | `big`. Equal names give equal heights across every form control and `<loomi-button>`. */
+  @property() size: LoomiSize = "regular";
   @property() variant: LoomiSelectVariant = "default";
   @property({ attribute: "empty-placeholder" }) emptyPlaceholder = DEFAULT_EMPTY_PLACEHOLDER;
   @property({ attribute: "empty-action-label" }) emptyActionLabel = "";
@@ -386,7 +393,7 @@ export class LoomiSelect extends LoomiElement {
 
     return html`
       <div
-        class="loomi-select size-${this.size} variant-${this.variant} ${this.open ? "open" : ""} ${float ? "float" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}"
+        class="loomi-select size-${resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)} variant-${this.variant} ${this.open ? "open" : ""} ${float ? "float" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}"
         @keydown=${this.onKeydown}
       >
         <button

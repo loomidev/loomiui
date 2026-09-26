@@ -1,10 +1,19 @@
 import { html, svg, type TemplateResult, type SVGTemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomidev/core";
+import {
+  LoomiElement,
+  loomiStyles,
+  loomiT,
+  accentVars,
+  type LoomiColor,
+  resolveLoomiSize,
+  type LoomiSize,
+  type LoomiSizeSupport,
+} from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiRatingType = "star" | "heart" | "thumbsup";
-export type LoomiRatingSize = "small" | "medium" | "big";
+const RATING_SIZES = ["regular", "medium", "big"] as const satisfies readonly LoomiSize[];
 
 const SHAPES: Record<LoomiRatingType, SVGTemplateResult> = {
   star: svg`<path d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />`,
@@ -21,6 +30,9 @@ const SHAPES: Record<LoomiRatingType, SVGTemplateResult> = {
 @customElement("loomi-rating")
 export class LoomiRating extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
+
+  /** Size names this component supports, from the canonical `LoomiSize` scale. */
+  static readonly supportedSizes = { size: RATING_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
   private internals = this.attachInternals();
   private initialRating = 0;
@@ -28,7 +40,8 @@ export class LoomiRating extends LoomiElement {
   @property({ reflect: true }) name = "";
   @property() type: LoomiRatingType = "star";
   @property() color: LoomiColor = "warning" as LoomiColor;
-  @property() size: LoomiRatingSize = "small";
+  /** Icon size: `regular` | `medium` | `big`. */
+  @property() size: LoomiSize = "regular";
   @property({ type: Number }) rating = 0;
   @property({ type: Boolean }) clickable = true;
   @property() locale = "";
@@ -61,7 +74,7 @@ export class LoomiRating extends LoomiElement {
     const shape = SHAPES[this.type];
     const active = this.hover || this.rating;
     return html`<div
-      class="loomi-rating size-${this.size} ${this.clickable ? "" : "readonly"}"
+      class="loomi-rating size-${resolveLoomiSize(this.size, RATING_SIZES)} ${this.clickable ? "" : "readonly"}"
       style=${accentVars(this.color)}
       role="radiogroup"
       aria-label=${loomiT("rating.label", {}, this.locale)}

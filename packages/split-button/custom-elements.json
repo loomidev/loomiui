@@ -41,14 +41,6 @@
         },
         {
           "kind": "js",
-          "name": "LoomiSplitButtonSize",
-          "declaration": {
-            "name": "LoomiSplitButtonSize",
-            "module": "./loomi-split-button.js"
-          }
-        },
-        {
-          "kind": "js",
           "name": "LoomiSplitButtonToggleDetail",
           "declaration": {
             "name": "LoomiSplitButtonToggleDetail",
@@ -116,6 +108,14 @@
           "members": [
             {
               "kind": "field",
+              "name": "supportedSizes",
+              "static": true,
+              "readonly": true,
+              "default": "{ size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport",
+              "description": "Size names this component supports, from the canonical `LoomiSize` scale — the same as `<loomi-button>`."
+            },
+            {
+              "kind": "field",
               "name": "shadowRootOptions",
               "type": {
                 "text": "ShadowRootInit"
@@ -147,7 +147,7 @@
               "kind": "field",
               "name": "size",
               "type": {
-                "text": "LoomiSplitButtonSize"
+                "text": "LoomiSize"
               },
               "default": "\"regular\"",
               "attribute": "size",
@@ -701,7 +701,7 @@
             {
               "name": "size",
               "type": {
-                "text": "LoomiSplitButtonSize"
+                "text": "LoomiSize"
               },
               "default": "\"regular\"",
               "fieldName": "size"

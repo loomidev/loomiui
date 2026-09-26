@@ -41,14 +41,6 @@
         },
         {
           "kind": "js",
-          "name": "LoomiDrawerSize",
-          "declaration": {
-            "name": "LoomiDrawerSize",
-            "module": "./loomi-drawer.js"
-          }
-        },
-        {
-          "kind": "js",
           "name": "LoomiDrawerEventMap",
           "declaration": {
             "name": "LoomiDrawerEventMap",
@@ -110,6 +102,14 @@
           "members": [
             {
               "kind": "field",
+              "name": "supportedSizes",
+              "static": true,
+              "readonly": true,
+              "default": "{ size: DRAWER_SIZES } satisfies LoomiSizeSupport",
+              "description": "Size names this component supports, from the canonical `LoomiSize` scale."
+            },
+            {
+              "kind": "field",
               "name": "name",
               "type": {
                 "text": "string"
@@ -139,9 +139,10 @@
               "kind": "field",
               "name": "size",
               "type": {
-                "text": "LoomiDrawerSize"
+                "text": "LoomiSize"
               },
-              "default": "\"medium\"",
+              "default": "\"regular\"",
+              "description": "Panel width (left/right) or height (top/bottom): `small` | `regular` | `big`.",
               "attribute": "size"
             },
             {
@@ -423,9 +424,10 @@
             {
               "name": "size",
               "type": {
-                "text": "LoomiDrawerSize"
+                "text": "LoomiSize"
               },
-              "default": "\"medium\"",
+              "default": "\"regular\"",
+              "description": "Panel width (left/right) or height (top/bottom): `small` | `regular` | `big`.",
               "fieldName": "size"
             },
             {

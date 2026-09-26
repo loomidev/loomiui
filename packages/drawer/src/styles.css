@@ -61,12 +61,12 @@
 .placement-right.size-small {
   width: 20rem;
 }
-.placement-left.size-medium,
-.placement-right.size-medium {
+.placement-left.size-regular,
+.placement-right.size-regular {
   width: 28rem;
 }
-.placement-left.size-large,
-.placement-right.size-large {
+.placement-left.size-big,
+.placement-right.size-big {
   width: 36rem;
 }
 
@@ -74,12 +74,12 @@
 .placement-bottom.size-small {
   height: 14rem;
 }
-.placement-top.size-medium,
-.placement-bottom.size-medium {
+.placement-top.size-regular,
+.placement-bottom.size-regular {
   height: 20rem;
 }
-.placement-top.size-large,
-.placement-bottom.size-large {
+.placement-top.size-big,
+.placement-bottom.size-big {
   height: 28rem;
 }
 
@@ -206,11 +206,11 @@
 
 @media (max-width: 30rem) {
   .placement-left.size-small,
-  .placement-left.size-medium,
-  .placement-left.size-large,
+  .placement-left.size-regular,
+  .placement-left.size-big,
   .placement-right.size-small,
-  .placement-right.size-medium,
-  .placement-right.size-large {
+  .placement-right.size-regular,
+  .placement-right.size-big {
     width: 100vw;
   }
   .loomi-header {

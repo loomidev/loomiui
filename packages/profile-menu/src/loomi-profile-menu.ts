@@ -1,7 +1,13 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, type LoomiColor } from "@loomidev/core";
-import type { LoomiAvatarSize } from "@loomidev/avatar";
+import {
+  LoomiElement,
+  loomiStyles,
+  type LoomiColor,
+  LOOMI_SIZES,
+  type LoomiSize,
+  type LoomiSizeSupport,
+} from "@loomidev/core";
 import type { LoomiDropmenu } from "@loomidev/dropmenu";
 import { getLoomiIcon } from "@loomidev/icons";
 import "@loomidev/avatar/loomi-avatar.js";
@@ -66,12 +72,15 @@ function initials(name: string): string {
 export class LoomiProfileMenu extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
 
+  /** Size names this component supports, from the canonical `LoomiSize` scale: `avatar-size` passes straight through to `<loomi-avatar>`. */
+  static readonly supportedSizes = { avatarSize: LOOMI_SIZES } satisfies LoomiSizeSupport;
+
   @property() name = "";
   @property() description = "";
   @property() avatar = "";
   @property({ attribute: "avatar-label" }) avatarLabel = "";
   @property({ attribute: "avatar-alt" }) avatarAlt = "";
-  @property({ attribute: "avatar-size" }) avatarSize: LoomiAvatarSize = "regular";
+  @property({ attribute: "avatar-size" }) avatarSize: LoomiSize = "regular";
   @property({ attribute: "avatar-bg-color" }) avatarBgColor: LoomiColor = "gray" as LoomiColor;
   @property({ attribute: "avatar-position", reflect: true })
   avatarPosition: LoomiProfileMenuAvatarPosition = "left";
@@ -145,7 +154,7 @@ export class LoomiProfileMenu extends LoomiElement {
       >
         <loomi-card
           slot="trigger"
-          size="sm"
+          size="small"
           has-shadow="false"
           has-border="false"
           ?transparent=${this.transparent}

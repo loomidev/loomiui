@@ -12,6 +12,7 @@ export * from "./mention.js";
 export * from "./menu-nav.js";
 export * from "./motion.js";
 export * from "./overlay.js";
+export * from "./size.js";
 
 // Re-export the shared theme surface so components import everything from @loomidev/core.
 export {

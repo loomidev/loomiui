@@ -54,7 +54,7 @@
   font: inherit;
   line-height: 1.25;
 }
-.size-small {
+.size-regular {
   --loomi-spinner-size: 1rem;
 }
 .size-medium {
@@ -63,7 +63,7 @@
 .size-big {
   --loomi-spinner-size: 2rem;
 }
-.size-xl {
+.size-huge {
   --loomi-spinner-size: 3rem;
 }
 .size-omg {
