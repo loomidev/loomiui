@@ -631,7 +631,7 @@ describe("loomi-dropmenu", () => {
     expect(submenu.matches(":popover-open")).to.equal(false);
   });
 
-  it("turns the row tint off with hover=\"false\"", async () => {
+  it('turns the row tint off with hover="false"', async () => {
     const menu = await fixture<LoomiDropmenu>(html`
       <loomi-dropmenu>
         <loomi-dropmenu-item>Tinted</loomi-dropmenu-item>
@@ -663,9 +663,9 @@ describe("loomi-dropmenu", () => {
       expect(item.shadowRoot!.querySelector(".loomi-item")!.classList.contains("right")).to.be.true;
     }
     // ...and they're reachable by keyboard.
-    menu.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!.dispatchEvent(
-      new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }),
-    );
+    menu
+      .shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!
+      .dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }));
     await menu.updateComplete;
     await nextFrame();
     expect(document.activeElement).to.equal(items[0]);

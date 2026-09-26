@@ -217,9 +217,9 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Slots
 
-| Slot        | Description                          |
-| ----------- | ------------------------------------ |
-| _(default)_ | `<loomi-dropmenu-item>` menu rows.   |
+| Slot        | Description                        |
+| ----------- | ---------------------------------- |
+| _(default)_ | `<loomi-dropmenu-item>` menu rows. |
 
 ## Dependencies
 
