@@ -310,6 +310,38 @@ loomi-dropmenu::part(menu) {
 Because the panel lives in the top layer, `--loomi-dropmenu-z-index` only matters as a
 fallback on browsers without popover support.
 
+### Pointing the arrow at part of the trigger
+
+By default the panel aligns to the trigger and the arrow points at the trigger's center.
+When the trigger is wide and the thing the menu belongs to sits at one end of it (a
+chevron at the end of a profile card, say), set the `arrowAnchor` property to that
+element. The panel then aligns to the anchor's edges instead of the trigger's. For an
+anchor narrower than the arrow's reach (`--loomi-dropmenu-arrow-inset` plus the arrow's
+half-width, from each side), those edges are widened just enough that the arrow lands on
+its center, so a start-aligned panel begins, and an end-aligned one ends, just past a
+small chevron. The trigger
+still decides whether the panel opens below or flips above, and the anchor is
+re-measured on every placement, so the arrow stays on it after a flip or an alignment
+swap near a viewport edge. (Only when the viewport itself pushes the panel sideways does
+the arrow fall back to its corner clamp.)
+
+```html
+<loomi-dropmenu placement="right" id="account">
+  <span slot="trigger" class="account-card">
+    Alice Wonderland <svg class="chevron">…</svg>
+  </span>
+  <loomi-dropmenu-item>Profile</loomi-dropmenu-item>
+</loomi-dropmenu>
+<script>
+  const menu = document.querySelector("#account");
+  menu.arrowAnchor = menu.querySelector(".chevron");
+</script>
+```
+
+It's a property only, not an attribute, since the anchor often lives in a shadow root no
+selector could reach. Unset, disconnected, or not rendered (`display: none`) falls back
+to the trigger. `<loomi-profile-menu>` uses it to point at its chevron.
+
 ### Submenus
 
 A submenu is a floating panel in its own right, on the same terms as the menu: it opens
@@ -391,6 +423,10 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `height`           | `200`        | Max menu height (px) when scrollable.                                                                                  |
 | `hide-after-click` | `true`       | Close the menu after an item click. _(boolean)_                                                                        |
 | `icon-right`       | `false`      | Place every item's icon after its label. _(boolean)_                                                                   |
+
+| Property      | Default | Description                                                                                                                 |
+| ------------- | ------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `arrowAnchor` | `null`  | `Element` the panel aligns to and the arrow points at, instead of the whole trigger (see above). JS property, no attribute. |
 
 ### `<loomi-dropmenu-item>`
 

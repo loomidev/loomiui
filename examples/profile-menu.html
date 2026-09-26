@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>loomi — &lt;loomi-profile-menu&gt; arrow anchor</title>
+    <!-- Bare specifiers: serve with the `loomi-forms-preview` dev server (node-resolve). -->
+    <script type="module">
+      import "../packages/theme/dist/index.js";
+      import "../packages/profile-menu/dist/loomi-profile-menu.js";
+    </script>
+    <style>
+      body {
+        margin: 0;
+        padding: 1.5rem;
+        font-family: system-ui, sans-serif;
+        background: #f6f7f9;
+      }
+      h2 {
+        font-size: 0.875rem;
+        margin: 0 0 0.5rem;
+        color: #555;
+      }
+      .frame {
+        display: flex;
+        min-height: 13rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.75rem;
+      }
+      .frame.end {
+        justify-content: flex-end;
+      }
+      .frame.bottom {
+        align-items: flex-end;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>placement="right", avatar-position="right" — caret under the chevron</h2>
+    <div class="frame">
+      <loomi-profile-menu
+        name="Alice Wonderland"
+        description="alice@loomiui.com"
+        placement="right"
+        avatar-position="right"
+      >
+        <loomi-dropmenu-item icon="user-circle">Profile</loomi-dropmenu-item>
+        <loomi-dropmenu-item icon="cog-6-tooth">Settings</loomi-dropmenu-item>
+      </loomi-profile-menu>
+    </div>
+
+    <h2>placement="left" — menu starts at the chevron, caret under it</h2>
+    <div class="frame">
+      <loomi-profile-menu name="Alice Wonderland" description="alice@loomiui.com" placement="left">
+        <loomi-dropmenu-item icon="user-circle">Profile</loomi-dropmenu-item>
+        <loomi-dropmenu-item icon="cog-6-tooth">Settings</loomi-dropmenu-item>
+      </loomi-profile-menu>
+    </div>
+
+    <h2>
+      Right edge, placement="left", menu wider than the card — swaps to end alignment, caret still
+      on the chevron (scroll it to the viewport bottom to see it flip up too)
+    </h2>
+    <div class="frame end bottom">
+      <loomi-profile-menu name="Alice Wonderland" description="alice@loomiui.com" placement="left">
+        <loomi-dropmenu-item icon="arrows-right-left"
+          >Switch to the Acme Corporation workspace</loomi-dropmenu-item
+        >
+        <loomi-dropmenu-item icon="user-circle">Profile</loomi-dropmenu-item>
+        <loomi-dropmenu-item icon="cog-6-tooth">Settings</loomi-dropmenu-item>
+      </loomi-profile-menu>
+    </div>
+
+    <h2>compact — caret on the avatar + chevron pair</h2>
+    <div class="frame end">
+      <loomi-profile-menu name="Alice Wonderland" description="alice@loomiui.com" compact>
+        <loomi-dropmenu-item icon="user-circle">Profile</loomi-dropmenu-item>
+        <loomi-dropmenu-item icon="cog-6-tooth">Settings</loomi-dropmenu-item>
+      </loomi-profile-menu>
+    </div>
+  </body>
+</html>

@@ -13,9 +13,10 @@
   --loomi-dropmenu-trigger-padding: 0;
   --loomi-dropmenu-trigger-hover-bg: transparent;
   --loomi-dropmenu-trigger-radius: var(--loomi-profile-menu-radius);
-  /* Center the menu arrow under the chevron: 0.75rem trigger padding +
-     half the 1rem chevron - half the arrow's width (0.5625rem at the 9px
-     --loomi-dropmenu-arrow-size). Recompute if that size changes. */
+  /* The panel is positioned from the chevron (see syncArrowAnchor()), ending or starting
+     this inset + the arrow's half-width past the chevron's center. 0.6875rem makes that
+     exactly 1.25rem — 0.75rem trigger padding + half the 1rem chevron — so a right-aligned
+     menu's edge lines up with the card's. Recompute if --loomi-dropmenu-arrow-size changes. */
   --loomi-dropmenu-arrow-inset: 0.6875rem;
 }
 
