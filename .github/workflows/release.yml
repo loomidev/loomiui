@@ -105,6 +105,9 @@ jobs:
     if: needs.preflight.outputs.should_release == 'true'
     runs-on: ubuntu-latest
     environment: npm
+    outputs:
+      published: ${{ steps.changesets.outputs.published }}
+      version: ${{ steps.version.outputs.version }}
 
     permissions:
       contents: write
@@ -178,6 +181,13 @@ jobs:
           publish-script: pnpm release
           github-token: ${{ secrets.CHANGESETS_TOKEN }}
 
+      - name: Read published version
+        id: version
+        if: steps.changesets.outputs.published == 'true'
+        env:
+          PACKAGES: ${{ steps.changesets.outputs['published-packages'] }}
+        run: echo "version=$(printf '%s' "$PACKAGES" | jq -r '.[0].version')" >> "$GITHUB_OUTPUT"
+
       # One `vX.Y.Z` release for the whole version, alongside the per-package releases
       # changesets creates. Its notes are the plain-language release-notes/vX.Y.Z.md
       # written and reviewed in the release pull request, or, when that file is missing, a
@@ -225,3 +235,65 @@ jobs:
           fi
           jq -n --arg text "$text" '{text: $text}' |
             curl -sS --fail-with-body -X POST -H 'Content-type: application/json' --data @- "$WEBHOOK"
+
+  # After a publish, main holds the Version Packages commit (bumped versions, CHANGELOGs,
+  # the consumed changesets deleted), which development doesn't have. Left unsynced, the
+  # next development→main release PR carries those changesets again and they get
+  # re-applied. Merged, never rebased, so both branches keep the shared history the next
+  # release PR needs. A conflict can't be resolved unattended, so that case opens a PR
+  # for a maintainer instead of pushing.
+  sync-development:
+    name: Merge main back into development
+    needs: release
+    if: needs.release.outputs.published == 'true'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      # CHANGESETS_TOKEN rather than GITHUB_TOKEN: a push made with GITHUB_TOKEN doesn't
+      # trigger workflows, so CI would never run on the synced development.
+      - name: Checkout development
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: development
+          token: ${{ secrets.CHANGESETS_TOKEN }}
+
+      # Committed as the token's owner, matching the Version Packages commit.
+      - name: Configure git identity
+        env:
+          GH_TOKEN: ${{ secrets.CHANGESETS_TOKEN }}
+        run: |
+          login=$(gh api user --jq .login)
+          id=$(gh api user --jq .id)
+          git config user.name "$login"
+          git config user.email "$id+$login@users.noreply.github.com"
+
+      - name: Merge main into development
+        env:
+          GH_TOKEN: ${{ secrets.CHANGESETS_TOKEN }}
+          VERSION: ${{ needs.release.outputs.version }}
+        run: |
+          git fetch origin main
+          if git merge-base --is-ancestor origin/main HEAD; then
+            echo "development already contains main; nothing to sync."
+            exit 0
+          fi
+
+          if git merge --no-ff origin/main -m "Merge main into development after the $VERSION release"; then
+            git push origin HEAD:development
+            exit 0
+          fi
+
+          git merge --abort
+          branch="sync/main-into-development-$VERSION"
+          git push --force origin "origin/main:refs/heads/$branch"
+          open=$(gh pr list --head "$branch" --base development --state open --json number --jq length)
+          if [ "$open" = "0" ]; then
+            gh pr create --base development --head "$branch" \
+              --title "Merge main into development after the $VERSION release" \
+              --body "Merging main back into development after the $VERSION release conflicted, so it needs a hand. Resolve it with a merge commit (not squash or rebase): take main's versions and CHANGELOGs, and drop any .changeset/*.md that main already released."
+          fi
