@@ -1,5 +1,13 @@
 # @loomidev/react
 
+## 0.8.0
+
+### Patch Changes
+
+- Updated dependencies [661d4c0]
+  - @loomidev/react-types@0.8.0
+  - @loomidev/components@0.8.0
+
 ## 0.7.0
 
 ### Patch Changes

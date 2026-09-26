@@ -1,5 +1,17 @@
 # @loomidev/table
 
+## 0.8.0
+
+### Patch Changes
+
+- Updated dependencies [661d4c0]
+- Updated dependencies [d48fb64]
+  - @loomidev/core@0.8.0
+  - @loomidev/input@0.8.0
+  - @loomidev/checkbox@0.8.0
+  - @loomidev/pagination@0.8.0
+  - @loomidev/icons@0.8.0
+
 ## 0.7.0
 
 ### Minor Changes
