@@ -8,6 +8,7 @@
     <script type="module">
       import "../packages/theme/dist/index.js";
       import "../packages/profile-menu/dist/loomi-profile-menu.js";
+      import "../packages/button/dist/loomi-button.js";
     </script>
     <style>
       body {
@@ -71,6 +72,18 @@
         >
         <loomi-dropmenu-item icon="user-circle">Profile</loomi-dropmenu-item>
         <loomi-dropmenu-item icon="cog-6-tooth">Settings</loomi-dropmenu-item>
+      </loomi-profile-menu>
+    </div>
+
+    <h2>Full-width Sign out button as the last row (items stay in the page, so page CSS styles them)</h2>
+    <div class="frame end">
+      <loomi-profile-menu name="Alice Wonderland" description="alice@loomiui.com">
+        <loomi-dropmenu-item icon="user-circle">Profile</loomi-dropmenu-item>
+        <loomi-dropmenu-item icon="cog-6-tooth">Settings</loomi-dropmenu-item>
+        <loomi-dropmenu-item divider></loomi-dropmenu-item>
+        <loomi-dropmenu-item hover="false">
+          <loomi-button full-width outline color="error" size="small">Sign out</loomi-button>
+        </loomi-dropmenu-item>
       </loomi-profile-menu>
     </div>
 

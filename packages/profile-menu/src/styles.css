@@ -152,8 +152,13 @@ loomi-card {
   }
 }
 
-.loomi-pm-staging {
-  display: none;
+/* The items are forwarded through a nested slot, which the dropmenu's own
+   `::slotted(loomi-dropmenu-item)` rules can't see past — so repeat them here. */
+::slotted(loomi-dropmenu-item) {
+  display: block;
+}
+:host([divided]) ::slotted(loomi-dropmenu-item:not(:last-child)) {
+  border-bottom: 1px solid var(--loomi-surface-border-subtle);
 }
 
 @media (prefers-reduced-motion: reduce) {

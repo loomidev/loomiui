@@ -79,6 +79,10 @@ git config core.hooksPath .githooks
 The hook removes `Co-authored-by`/`Signed-off-by` trailers naming an AI or bot identity
 and free-standing "Generated with …"/"AI-assisted" lines. Human co-authors are kept.
 
+The same `core.hooksPath` also enables `.githooks/pre-commit`, which runs Prettier on
+staged files (CI's `pnpm format:check` fails the build on any unformatted file). Fully
+staged files are formatted and re-staged; a partially staged one stops the commit.
+
 ## Tool settings this file cannot reach
 
 Cursor attribution settings are separate from this file and will ignore these rules if

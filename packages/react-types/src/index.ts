@@ -91,6 +91,7 @@ interface LoomiBreadcrumbItemAttributes {}
 interface LoomiButtonAttributes {
   "border-width"?: number;
   "can-submit"?: boolean;
+  "full-width"?: boolean;
   "has-spinner"?: boolean;
   "icon-right"?: boolean;
   "show-focus-ring"?: boolean;

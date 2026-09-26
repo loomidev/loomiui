@@ -23,7 +23,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<loomi-profile-menu>` — a profile card trigger that opens a Loomi dropdown menu.\n\nPlace `<loomi-dropmenu-item>` children inside for the menu actions. The trigger uses\n`<loomi-card>` for its shell and `<loomi-avatar>` for image, status dot, pulse dot,\nand verification badge behavior.\n\nSet `compact` to reduce the trigger to avatar + chevron (for tight headers), or\n`compact=\"auto\"` to do so only on narrow viewports. The name and description stay\nin the accessibility tree either way, so the trigger keeps its accessible name.",
+          "description": "`<loomi-profile-menu>` — a profile card trigger that opens a Loomi dropdown menu.\n\nPlace `<loomi-dropmenu-item>` children inside for the menu actions. They're slotted\nthrough to the internal dropmenu rather than moved, so they stay in your document and\npage CSS (including `::part()`) keeps styling them. The trigger uses\n`<loomi-card>` for its shell and `<loomi-avatar>` for image, status dot, pulse dot,\nand verification badge behavior.\n\nSet `compact` to reduce the trigger to avatar + chevron (for tight headers), or\n`compact=\"auto\"` to do so only on narrow viewports. The name and description stay\nin the accessibility tree either way, so the trigger keeps its accessible name.",
           "name": "LoomiProfileMenu",
           "cssProperties": [
             {
@@ -244,7 +244,8 @@
                 "text": "boolean"
               },
               "default": "false",
-              "attribute": "divided"
+              "attribute": "divided",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -365,16 +366,6 @@
               },
               "privacy": "private",
               "readonly": true
-            },
-            {
-              "kind": "method",
-              "name": "moveMenuItems",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              }
             },
             {
               "kind": "method",

@@ -121,6 +121,32 @@ value anchors top, any `bottom-*` value anchors bottom.
 <loomi-notification placement="top-center" full-width></loomi-notification>
 ```
 
+## Title and Message Spacing
+
+When a toast has both a title and a message, they're separated by a `0.25rem` gap, so a
+title over a two-line message doesn't read cramped. A message-only toast has no gap.
+Change it with `--loomi-notification-title-gap`, and style either line through the
+`title` and `message` parts.
+
+```html
+<loomi-button
+  onclick="showLoomiNotification('Export ready', 'Your report finished processing and is ready to download from the Exports page for the next 7 days.', 'info')"
+>
+  Notify
+</loomi-button>
+
+<loomi-notification></loomi-notification>
+```
+
+```css
+loomi-notification {
+  --loomi-notification-title-gap: 0.5rem;
+}
+loomi-notification::part(title) {
+  letter-spacing: 0.01em;
+}
+```
+
 ## Using the Element Directly
 
 If you already have a reference to the `<loomi-notification>` element, its `notify()`
@@ -154,6 +180,10 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | ------------ | ----------- | ----------------------------------------------------------------------------------------------- |
 | `placement`  | `top-right` | `top-right` \| `top-center` \| `top-left` \| `bottom-right` \| `bottom-center` \| `bottom-left` |
 | `full-width` | `false`     | Spans the entire page width, anchored top or bottom per `placement`. _(boolean)_                |
+
+**Parts:** `title` (only rendered when the toast has a title), `message`.
+**CSS custom properties:** `--loomi-notification-title-gap` (default `0.25rem`, only
+between a title and a message), `--loomi-notification-z-index` (default `2147480000`).
 
 **Helper:** `showLoomiNotification(title, message, type?, dismissIn?, name?)`.
 **Method:** `notify({ title, message, type, dismissIn, name })`.

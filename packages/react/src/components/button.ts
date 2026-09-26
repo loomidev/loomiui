@@ -14,6 +14,7 @@ export const Button: ForwardRefExoticComponent<
     showSpinner?: JSX.IntrinsicElements["loomi-button"]["show-spinner"];
     canSubmit?: JSX.IntrinsicElements["loomi-button"]["can-submit"];
     showFocusRing?: JSX.IntrinsicElements["loomi-button"]["show-focus-ring"];
+    fullWidth?: JSX.IntrinsicElements["loomi-button"]["full-width"];
   }
 > = createComponent(
   "loomi-button",
@@ -25,6 +26,7 @@ export const Button: ForwardRefExoticComponent<
     showSpinner: "show-spinner",
     canSubmit: "can-submit",
     showFocusRing: "show-focus-ring",
+    fullWidth: "full-width",
   },
 ) as unknown as ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-button"], "onClick"> & {
@@ -35,5 +37,6 @@ export const Button: ForwardRefExoticComponent<
     showSpinner?: JSX.IntrinsicElements["loomi-button"]["show-spinner"];
     canSubmit?: JSX.IntrinsicElements["loomi-button"]["can-submit"];
     showFocusRing?: JSX.IntrinsicElements["loomi-button"]["show-focus-ring"];
+    fullWidth?: JSX.IntrinsicElements["loomi-button"]["full-width"];
   }
 >;

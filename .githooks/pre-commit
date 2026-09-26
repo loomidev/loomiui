@@ -1,0 +1,38 @@
+#!/bin/sh
+# Runs Prettier on staged files so CI's `pnpm format:check` doesn't fail after a push.
+#
+# Fully staged files are formatted and re-staged automatically. A file with unstaged
+# changes too is only checked — re-staging it would sweep those changes into the
+# commit — and the commit stops with the command to fix it.
+#
+# Enabled by the same `git config core.hooksPath .githooks` as commit-msg.
+# Skip once with `git commit --no-verify`.
+
+PRETTIER="./node_modules/.bin/prettier"
+[ -x "$PRETTIER" ] || exit 0
+
+# Same extensions as the `format` scripts; .prettierignore still applies.
+FILES=$(git diff --cached --name-only --diff-filter=ACMR -z |
+  tr '\0' '\n' | grep -E '\.(ts|mjs|js|css|json|md)$')
+[ -n "$FILES" ] || exit 0
+
+FAILED=""
+OLD_IFS=$IFS
+IFS='
+'
+for file in $FILES; do
+  if git diff --quiet -- "$file"; then
+    "$PRETTIER" --write --ignore-unknown --log-level warn -- "$file" && git add -- "$file"
+  elif ! "$PRETTIER" --check --ignore-unknown --log-level silent -- "$file"; then
+    FAILED="$FAILED
+  $file"
+  fi
+done
+IFS=$OLD_IFS
+
+if [ -n "$FAILED" ]; then
+  echo "pre-commit: these files are partially staged and need formatting:$FAILED" >&2
+  echo "Run: ./node_modules/.bin/prettier --write <file>, then stage it again." >&2
+  exit 1
+fi
+exit 0
