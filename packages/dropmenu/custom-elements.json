@@ -118,6 +118,7 @@
                 "text": "boolean"
               },
               "default": "true",
+              "description": "Tint the row on hover/focus. Set `hover=\"false\"` for a row whose content is its own\ncontrol (a full-width `<loomi-button>`, say), so the row doesn't highlight as well.",
               "attribute": "hover"
             },
             {
@@ -519,6 +520,7 @@
                 "text": "boolean"
               },
               "default": "true",
+              "description": "Tint the row on hover/focus. Set `hover=\"false\"` for a row whose content is its own\ncontrol (a full-width `<loomi-button>`, say), so the row doesn't highlight as well.",
               "fieldName": "hover"
             },
             {
@@ -978,6 +980,26 @@
                 }
               ],
               "description": "How close the arrow's tip may come to the panel's start and end edges — the ends of\nits CSS clamp (`--loomi-dropmenu-arrow-inset` + the arrow's half-width, inside the\npanel's border). Read back by pinning the arrow past each end and letting the clamp\nresolve it, so any unit (or `calc()`) a theme sets those to works."
+            },
+            {
+              "kind": "field",
+              "name": "slottedItems",
+              "type": {
+                "text": "LoomiDropmenuItem[]"
+              },
+              "privacy": "private",
+              "description": "The items assigned to the default slot, flattened — so a wrapper that forwards its own\nlight-DOM items through a `<slot>` (as `<loomi-profile-menu>` does) is menued the same\nas direct children, and page CSS keeps reaching those items where they live.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "allItems",
+              "type": {
+                "text": "LoomiDropmenuItem[]"
+              },
+              "privacy": "private",
+              "description": "Every item in the menu, submenu items included.",
+              "readonly": true
             },
             {
               "kind": "method",

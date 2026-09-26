@@ -2,6 +2,7 @@ import { html, fixture, expect, nextFrame, waitUntil } from "@open-wc/testing";
 import { setViewport } from "@web/test-runner-commands";
 import "../dist/loomi-profile-menu.js";
 import "@loomidev/dropmenu/loomi-dropmenu.js";
+import "../../button/dist/loomi-button.js";
 import type { LoomiProfileMenu } from "../dist/index.js";
 
 describe("loomi-profile-menu", () => {
@@ -33,7 +34,7 @@ describe("loomi-profile-menu", () => {
     expect(getComputedStyle(trigger).columnGap).to.equal("6px");
   });
 
-  it("moves menu items into the internal dropmenu", async () => {
+  it("slots menu items through to the internal dropmenu without moving them", async () => {
     const el = await fixture<LoomiProfileMenu>(html`
       <loomi-profile-menu name="Alice Wonderland" description="alice@loomiui.com">
         <loomi-dropmenu-item icon="user-circle">Profile</loomi-dropmenu-item>
@@ -42,8 +43,83 @@ describe("loomi-profile-menu", () => {
     `);
     await el.updateComplete;
 
+    const items = Array.from(el.querySelectorAll("loomi-dropmenu-item"));
+    expect(items).to.have.length(2);
+    for (const item of items) expect(item.parentElement).to.equal(el);
+
     const dropmenu = el.shadowRoot!.querySelector("loomi-dropmenu")!;
-    expect(dropmenu.querySelectorAll("loomi-dropmenu-item")).to.have.length(2);
+    const slot = dropmenu.shadowRoot!.querySelector<HTMLSlotElement>("slot:not([name])")!;
+    expect(slot.assignedElements({ flatten: true })).to.deep.equal(items);
+  });
+
+  it("keeps page CSS applying to the items and their content", async () => {
+    const style = document.createElement("style");
+    style.textContent = `
+      .pm-css-probe { color: rgb(1, 2, 3); }
+      .pm-css-probe loomi-button::part(button) { letter-spacing: 3px; }
+    `;
+    document.head.append(style);
+    try {
+      const el = await fixture<LoomiProfileMenu>(html`
+        <loomi-profile-menu name="Alice Wonderland">
+          <loomi-dropmenu-item class="pm-css-probe">
+            <loomi-button>Sign out</loomi-button>
+          </loomi-dropmenu-item>
+        </loomi-profile-menu>
+      `);
+      const item = el.querySelector("loomi-dropmenu-item")!;
+      const button = item.querySelector("loomi-button")!;
+      await button.updateComplete;
+      expect(getComputedStyle(item).color).to.equal("rgb(1, 2, 3)");
+      const inner = button.shadowRoot!.querySelector<HTMLElement>('[part="button"]')!;
+      expect(getComputedStyle(inner).letterSpacing).to.equal("3px");
+    } finally {
+      style.remove();
+    }
+  });
+
+  it("navigates slotted items with the keyboard", async () => {
+    const el = await fixture<LoomiProfileMenu>(html`
+      <loomi-profile-menu name="Alice Wonderland">
+        <loomi-dropmenu-item>Profile</loomi-dropmenu-item>
+        <loomi-dropmenu-item>Settings</loomi-dropmenu-item>
+      </loomi-profile-menu>
+    `);
+    const dropmenu = el.shadowRoot!.querySelector("loomi-dropmenu")!;
+    const trigger = dropmenu.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!;
+    trigger.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }));
+    const [first] = el.querySelectorAll("loomi-dropmenu-item");
+    await waitUntil(() => document.activeElement === first, "first item never took focus");
+  });
+
+  it("fills the menu row with a full-width button", async () => {
+    const el = await fixture<LoomiProfileMenu>(html`
+      <loomi-profile-menu name="Alice Wonderland">
+        <loomi-dropmenu-item icon="user-circle">Profile</loomi-dropmenu-item>
+        <loomi-dropmenu-item hover="false">
+          <loomi-button full-width outline color="error">Sign out</loomi-button>
+        </loomi-dropmenu-item>
+      </loomi-profile-menu>
+    `);
+    const dropmenu = el.shadowRoot!.querySelector("loomi-dropmenu")!;
+    dropmenu.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!.click();
+    await dropmenu.updateComplete;
+
+    const item = el.querySelectorAll("loomi-dropmenu-item")[1];
+    const row = item.shadowRoot!.querySelector<HTMLElement>(".loomi-item")!;
+    expect(row.classList.contains("hoverable")).to.be.false;
+
+    const button = item.querySelector("loomi-button")!;
+    await button.updateComplete;
+    const inner = button.shadowRoot!.querySelector<HTMLElement>('[part="button"]')!;
+    const rowStyle = getComputedStyle(row);
+    const rowInnerWidth =
+      row.clientWidth -
+      Number.parseFloat(rowStyle.paddingLeft) -
+      Number.parseFloat(rowStyle.paddingRight);
+    expect(rowInnerWidth).to.be.greaterThan(0);
+    expect(button.offsetWidth).to.equal(rowInnerWidth);
+    expect(inner.offsetWidth).to.equal(rowInnerWidth);
   });
 
   it("places the avatar after the identity text when avatar-position is right", async () => {

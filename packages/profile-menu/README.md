@@ -17,7 +17,9 @@ import "@loomidev/profile-menu";
 ## Basic Usage
 
 Put `<loomi-dropmenu-item>` elements inside the profile menu. Clicking the card trigger
-opens the dropdown.
+opens the dropdown. The items are slotted through to the internal menu, not moved into
+it, so they stay in your document and your page CSS (including `::part()` selectors)
+keeps styling them and their content.
 
 ```html
 <loomi-profile-menu
@@ -115,6 +117,22 @@ the card. When compact, it's positioned from the avatar + chevron pair instead. 
 </loomi-profile-menu>
 ```
 
+## Sign-out Button Row
+
+A menu row can hold a full-width button instead of a text action. `hover="false"` keeps
+the row from tinting behind the button.
+
+```html
+<loomi-profile-menu name="Alice Wonderland" description="alice@loomiui.com">
+  <loomi-dropmenu-item icon="user-circle">Profile</loomi-dropmenu-item>
+  <loomi-dropmenu-item icon="cog-6-tooth">Settings</loomi-dropmenu-item>
+  <loomi-dropmenu-item divider></loomi-dropmenu-item>
+  <loomi-dropmenu-item hover="false">
+    <loomi-button full-width outline color="error" size="small">Sign out</loomi-button>
+  </loomi-dropmenu-item>
+</loomi-profile-menu>
+```
+
 ## Compact Trigger
 
 In a tight header, `compact` reduces the trigger to avatar + chevron. Use
@@ -201,7 +219,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 | Slot        | Description                          |
 | ----------- | ------------------------------------ |
-| _(default)_ | Content placed inside the component. |
+| _(default)_ | `<loomi-dropmenu-item>` menu rows.   |
 
 ## Dependencies
 

@@ -205,4 +205,23 @@ describe("loomi-button", () => {
       }
     });
   });
+
+  it("fills its container and centers the label with full-width", async () => {
+    const wrap = await fixture<HTMLDivElement>(
+      html`<div style="width: 300px"><loomi-button full-width>Go</loomi-button></div>`,
+    );
+    const el = wrap.querySelector<LoomiButton>("loomi-button")!;
+    await el.updateComplete;
+    expect(el.fullWidth).to.be.true;
+    expect(getComputedStyle(el).display).to.equal("block");
+    expect(el.offsetWidth).to.equal(300);
+    const inner = el.shadowRoot!.querySelector<HTMLElement>('[part="button"]')!;
+    expect(inner.offsetWidth).to.equal(300);
+    expect(getComputedStyle(inner).justifyContent).to.equal("center");
+
+    el.fullWidth = false;
+    await el.updateComplete;
+    expect(el.hasAttribute("full-width")).to.be.false;
+    expect(el.offsetWidth).to.be.lessThan(300);
+  });
 });

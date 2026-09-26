@@ -303,6 +303,17 @@
             },
             {
               "kind": "field",
+              "name": "fullWidth",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Stretch to fill the container's width (host `display: block`), label centered.",
+              "attribute": "full-width",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "uppercase",
               "type": {
                 "text": "boolean"
@@ -661,6 +672,15 @@
               "default": "true",
               "description": "Show the focus ring on keyboard focus.",
               "fieldName": "showFocusRing"
+            },
+            {
+              "name": "full-width",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Stretch to fill the container's width (host `display: block`), label centered.",
+              "fieldName": "fullWidth"
             },
             {
               "name": "uppercase",

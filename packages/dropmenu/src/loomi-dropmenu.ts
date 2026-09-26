@@ -43,6 +43,16 @@ export type LoomiDropmenuPlacement = "auto" | "left" | "right" | LoomiPanelPlace
  * default for a caret at the end of a button pair; a dropmenu's small icon trigger has
  * always aligned the other way, so it maps explicitly rather than passing `auto` through.)
  */
+/** `hover="false"` turns the tint off; a bare `hover` (or no attribute) keeps it on. */
+const booleanAttribute = {
+  fromAttribute(value: string | null): boolean {
+    return value !== null && value.toLowerCase() !== "false";
+  },
+  toAttribute(value: boolean): string | null {
+    return value ? "" : "false";
+  },
+};
+
 const PLACEMENT_ALIASES: Record<string, LoomiPanelPlacement> = {
   auto: "bottom-start",
   left: "bottom-start",
@@ -66,7 +76,11 @@ export class LoomiDropmenuItem extends LoomiElement {
   @property({ type: Boolean, attribute: "icon-right" }) iconRight = false;
   @property({ type: Boolean }) header = false;
   @property({ type: Boolean }) divider = false;
-  @property({ type: Boolean }) hover = true;
+  /**
+   * Tint the row on hover/focus. Set `hover="false"` for a row whose content is its own
+   * control (a full-width `<loomi-button>`, say), so the row doesn't highlight as well.
+   */
+  @property({ converter: booleanAttribute }) hover = true;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property() variant: LoomiDropmenuItemVariant = "default";
   @property({ type: Boolean }) checkbox = false;
@@ -547,7 +561,7 @@ export class LoomiDropmenu extends LoomiElement {
   private releaseOpenState(): void {
     // Submenus are in the top layer in their own right, so hiding the panel that holds
     // them isn't enough — each one has to be told to close.
-    for (const item of this.querySelectorAll("loomi-dropmenu-item")) item.closeSubmenu();
+    for (const item of this.allItems) item.closeSubmenu();
     this.cleanupOutside?.();
     this.cleanupOutside = undefined;
     this.cleanupPlacement?.();
@@ -650,10 +664,27 @@ export class LoomiDropmenu extends LoomiElement {
     };
   }
 
+  /**
+   * The items assigned to the default slot, flattened — so a wrapper that forwards its own
+   * light-DOM items through a `<slot>` (as `<loomi-profile-menu>` does) is menued the same
+   * as direct children, and page CSS keeps reaching those items where they live.
+   */
+  private get slottedItems(): LoomiDropmenuItem[] {
+    const slot = this.renderRoot?.querySelector<HTMLSlotElement>("slot:not([name])");
+    const elements = slot ? slot.assignedElements({ flatten: true }) : Array.from(this.children);
+    return elements.filter((el): el is LoomiDropmenuItem => el instanceof LoomiDropmenuItem);
+  }
+
+  /** Every item in the menu, submenu items included. */
+  private get allItems(): LoomiDropmenuItem[] {
+    return this.slottedItems.flatMap((item) => [
+      item,
+      ...item.querySelectorAll("loomi-dropmenu-item"),
+    ]);
+  }
+
   private getTopLevelItems(): LoomiDropmenuItem[] {
-    return Array.from(this.children).filter(
-      (child): child is LoomiDropmenuItem => child instanceof LoomiDropmenuItem && child.selectable,
-    );
+    return this.slottedItems.filter((item) => item.selectable);
   }
 
   private focusItemAt(index: number): void {
@@ -665,7 +696,7 @@ export class LoomiDropmenu extends LoomiElement {
   }
 
   private applyItemDefaults(): void {
-    for (const item of this.querySelectorAll("loomi-dropmenu-item")) {
+    for (const item of this.allItems) {
       item.setMenuIconRight(this.iconRight);
     }
   }

@@ -23,12 +23,16 @@
   display: none;
 }
 
-:host([block]) {
+:host([block]),
+:host([full-width]) {
   display: block;
+  width: 100%;
 }
 
-:host([block]) .loomi-btn {
+:host([block]) .loomi-btn,
+:host([full-width]) .loomi-btn {
   width: 100%;
+  justify-content: center;
 }
 
 /* Height/padding scale by --loomi-density (unitless, default 1) — a theme sets it once at

@@ -1,4 +1,4 @@
-import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import {
   LoomiElement,
@@ -53,7 +53,9 @@ function initials(name: string): string {
 /**
  * `<loomi-profile-menu>` — a profile card trigger that opens a Loomi dropdown menu.
  *
- * Place `<loomi-dropmenu-item>` children inside for the menu actions. The trigger uses
+ * Place `<loomi-dropmenu-item>` children inside for the menu actions. They're slotted
+ * through to the internal dropmenu rather than moved, so they stay in your document and
+ * page CSS (including `::part()`) keeps styling them. The trigger uses
  * `<loomi-card>` for its shell and `<loomi-avatar>` for image, status dot, pulse dot,
  * and verification badge behavior.
  *
@@ -98,7 +100,7 @@ export class LoomiProfileMenu extends LoomiElement {
   @property({ type: Boolean }) transparent = false;
   @property({ attribute: "trigger-label" }) triggerLabel = "";
   @property() placement: LoomiProfileMenuPlacement = "right";
-  @property({ type: Boolean }) divided = false;
+  @property({ type: Boolean, reflect: true }) divided = false;
   @property({ type: Boolean }) scrollable = false;
   @property({ type: Number }) height = 200;
   @property({ type: Boolean, attribute: "hide-after-click" }) hideAfterClick = true;
@@ -154,26 +156,8 @@ export class LoomiProfileMenu extends LoomiElement {
     return this.triggerLabel || (this.name ? `Open ${this.name} menu` : "Open profile menu");
   }
 
-  private moveMenuItems(): void {
-    const dropmenu = this.dropmenuEl;
-    if (!dropmenu) return;
-
-    const items = Array.from(this.children).filter(
-      (child) => child.localName === "loomi-dropmenu-item",
-    );
-    for (const item of items) dropmenu.appendChild(item);
-    if (items.length) dropmenu.requestUpdate();
-  }
-
-  override firstUpdated(): void {
-    this.moveMenuItems();
-  }
-
-  override updated(changed: PropertyValues<this>): void {
+  override updated(): void {
     this.syncArrowAnchor();
-    if (changed.has("name") || changed.has("avatarLabel")) {
-      this.moveMenuItems();
-    }
   }
 
   private renderChevron(): TemplateResult | typeof nothing {
@@ -224,7 +208,7 @@ export class LoomiProfileMenu extends LoomiElement {
             </span>
           </loomi-card-content>
         </loomi-card>
-        <slot class="loomi-pm-staging" @slotchange=${this.moveMenuItems}></slot>
+        <slot></slot>
       </loomi-dropmenu>
     `;
   }

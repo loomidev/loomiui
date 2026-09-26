@@ -26,6 +26,9 @@ installed automatically.
 ```html
 <loomi-button>Subscribe Now</loomi-button>
 
+<!-- fill the container's width (label stays centered) -->
+<loomi-button full-width>Continue</loomi-button>
+
 <!-- uppercase the label -->
 <loomi-button uppercase>Subscribe Now</loomi-button>
 
@@ -260,6 +263,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `href`            | _(blank)_               | Link target when `tag="a"`.                                                                                                                      |
 | `can-submit`      | `false`                 | Render as `type="submit"`. _(boolean)_                                                                                                           |
 | `show-focus-ring` | `true`                  | Show the keyboard focus ring. _(boolean)_                                                                                                        |
+| `full-width`      | `false`                 | Stretch to fill the container's width, label centered. _(boolean)_                                                                               |
 | `uppercase`       | `false`                 | Uppercase the label. _(boolean)_                                                                                                                 |
 | `name`            | _(blank)_               | Optional name, reflected as an attribute for targeting.                                                                                          |
 

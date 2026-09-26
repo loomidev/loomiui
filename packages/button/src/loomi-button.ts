@@ -147,6 +147,9 @@ export class LoomiButton extends LoomiElement {
   /** Show the focus ring on keyboard focus. */
   @property({ type: Boolean, attribute: "show-focus-ring" }) showFocusRing = true;
 
+  /** Stretch to fill the container's width (host `display: block`), label centered. */
+  @property({ type: Boolean, attribute: "full-width", reflect: true }) fullWidth = false;
+
   /** Uppercase the label. */
   @property({ type: Boolean }) uppercase = false;
 
