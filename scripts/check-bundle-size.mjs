@@ -34,6 +34,22 @@ const packages = readdirSync(packagesDir)
   )
   .sort();
 
+// A dynamic import() target loads lazily (e.g. an icon fetched on first use), so a
+// consumer's browser doesn't pay for it until then and it shouldn't count against this
+// package's up-front cost. Marking those targets external leaves them out of the bundle
+// entirely — what Vite/webpack/Rollup ship on initial load, since they all split dynamic
+// imports into their own chunks by default. (Code-splitting here and discarding the lazy
+// chunks gives the same numbers, but an icon-consuming package splits into thousands of
+// per-icon chunks, which made the check several times slower.)
+const lazyImportsExternal = {
+  name: "lazy-imports-external",
+  setup(pluginBuild) {
+    pluginBuild.onResolve({ filter: /.*/ }, (args) =>
+      args.kind === "dynamic-import" ? { path: args.path, external: true } : undefined,
+    );
+  },
+};
+
 const results = {};
 let hasRegression = false;
 
@@ -47,6 +63,7 @@ for (const name of packages) {
     write: false,
     logLevel: "silent",
     external: ["lit", "lit/*", "@lit/*", "@lit-labs/*"],
+    plugins: [lazyImportsExternal],
   });
   const gzipSize = gzipSync(bundled.outputFiles[0].contents).length;
   results[name] = gzipSize;
