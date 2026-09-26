@@ -108,6 +108,23 @@ scrolling, keyboard navigation, and `hide-after-click` behavior apply.
 </loomi-profile-menu>
 ```
 
+## Compact Trigger
+
+In a tight header, `compact` reduces the trigger to avatar + chevron. Use
+`compact="auto"` to do that only on viewports narrower than 40rem (640px) and keep the
+full card above it. The name and description are visually hidden, not removed, so the
+trigger button keeps them as its accessible name.
+
+```html
+<header style="display:flex;align-items:center;gap:0.5rem">
+  <img src="/logo.svg" alt="Acme" width="126" />
+  <loomi-tag label="Beta"></loomi-tag>
+  <loomi-profile-menu name="Alice Wonderland" description="alice@loomiui.com" compact="auto" style="margin-inline-start:auto">
+    <loomi-dropmenu-item icon="user-circle">Profile</loomi-dropmenu-item>
+  </loomi-profile-menu>
+</header>
+```
+
 ## Accessibility
 
 loomi-profile-menu uses a real dropmenu trigger button from `<loomi-dropmenu>`, and
@@ -121,9 +138,17 @@ For the library-wide baseline, see [Foundations - Accessibility](https://loomiui
 
 ## Responsive behavior
 
-The trigger is shrink-wrapped by default, with text truncation for long names and
-descriptions. It works well in headers, sidebars, app shells, and compact account
-menus.
+The trigger is shrink-wrapped by default, with ellipsis truncation for long names and
+descriptions, and a minimum width of `min(14rem, 100vw)`. Use `compact` / `compact="auto"`
+on phones (see above), or set `--loomi-profile-menu-min-width: 0` to let the full trigger
+shrink with a constrained container, truncating the name instead of overflowing.
+
+Style the trigger's pieces with `::part()`:
+
+```css
+loomi-profile-menu::part(trigger) { padding: 0.5rem; }
+loomi-profile-menu::part(name) { font-weight: 600; }
+```
 
 For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
 
@@ -154,11 +179,16 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `verified`         | `false`   | Show the avatar verification badge. _(boolean)_                                                                          |
 | `has-hover`        | `false`   | Show a subtle border on trigger hover/focus. _(boolean)_                                                                 |
 | `transparent`      | `false`   | Remove the trigger card fill. _(boolean)_                                                                                |
+| `compact`          | `off`     | `compact` (or `compact="always"`) shows only avatar + chevron; `compact="auto"` does so below a 40rem viewport.          |
 | `placement`        | `right`   | Dropmenu placement. `auto` \| `left` \| `right`. Defaults to `right` so the menu opens right-aligned, under the chevron. |
 | `divided`          | `false`   | Add dividers between menu items. _(boolean)_                                                                             |
 | `scrollable`       | `false`   | Cap menu height and scroll overflow. _(boolean)_                                                                         |
 | `height`           | `200`     | Scrollable menu height in pixels.                                                                                        |
 | `hide-after-click` | `true`    | Close the menu after clicking a non-toggle item. _(boolean)_                                                             |
+
+**Parts:** `trigger`, `avatar`, `copy`, `name`, `description`, `chevron`.
+**CSS custom properties:** `--loomi-profile-menu-min-width` (default `min(14rem, 100vw)`),
+`--loomi-profile-menu-radius`.
 
 ## Slots
 

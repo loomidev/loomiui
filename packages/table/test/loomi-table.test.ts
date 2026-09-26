@@ -1,4 +1,5 @@
-import { html, fixture, expect, oneEvent } from "@open-wc/testing";
+import { html, fixture, expect, oneEvent, waitUntil } from "@open-wc/testing";
+import { sendKeys } from "@web/test-runner-commands";
 import "../dist/loomi-table.js";
 import type { LoomiTable } from "../dist/index.js";
 
@@ -137,5 +138,103 @@ describe("loomi-table", () => {
     expect(heads).to.deep.equal(["Item", "Quantity"]);
     expect(rows.length).to.equal(2);
     expect(rows[1].textContent).to.contain("Standing desks");
+  });
+
+  describe("horizontal scroll region", () => {
+    const WIDE = Array.from({ length: 3 }, (_, i) => ({
+      id: i + 1,
+      name: `Person ${i + 1}`,
+      email: `person.${i + 1}@a-rather-long-example-domain.com`,
+      department: "Research and development",
+      location: "Accra, Greater Accra Region",
+      phone: "+233 20 000 0000",
+    }));
+
+    it("becomes a focusable, labelled region while the table overflows at phone width", async () => {
+      const wrapper = await fixture<HTMLDivElement>(html`
+        <div style="width:390px"><loomi-table .data=${WIDE}></loomi-table></div>
+      `);
+      const el = wrapper.querySelector<LoomiTable>("loomi-table")!;
+      const scroll = el.shadowRoot!.querySelector<HTMLElement>(".loomi-scroll")!;
+      await waitUntil(
+        () => scroll.hasAttribute("tabindex"),
+        "scroll region never became focusable",
+      );
+
+      expect(scroll.scrollWidth).to.be.greaterThan(scroll.clientWidth);
+      expect(scroll.getAttribute("tabindex")).to.equal("0");
+      expect(scroll.getAttribute("role")).to.equal("region");
+      expect(scroll.getAttribute("aria-label")).to.equal("Scrollable table");
+      await expect(el).to.be.accessible();
+    });
+
+    it("scrolls with the arrow keys once focused and shows a focus ring", async () => {
+      const wrapper = await fixture<HTMLDivElement>(html`
+        <div style="width:390px"><loomi-table .data=${WIDE}></loomi-table></div>
+      `);
+      const el = wrapper.querySelector<LoomiTable>("loomi-table")!;
+      const scroll = el.shadowRoot!.querySelector<HTMLElement>(".loomi-scroll")!;
+      await waitUntil(() => scroll.hasAttribute("tabindex"));
+
+      // A real Tab press, so :focus-visible matches the way it does for keyboard users.
+      const before = document.createElement("button");
+      wrapper.prepend(before);
+      before.focus();
+      await sendKeys({ press: "Tab" });
+      expect(el.shadowRoot!.activeElement).to.equal(scroll);
+      expect(getComputedStyle(scroll).outlineStyle).to.equal("solid");
+
+      // Playwright's headless WebKit never keyboard-scrolls a focused scroller, not even
+      // a plain light-DOM one, so the scroll itself is only checked in the other engines.
+      const isPlaywrightWebKit =
+        /AppleWebKit/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+      if (isPlaywrightWebKit) return;
+      await sendKeys({ press: "ArrowRight" });
+      await waitUntil(() => scroll.scrollLeft > 0, "ArrowRight did not scroll the region");
+    });
+
+    it("names the region from the host aria-label, then its title", async () => {
+      const labelled = await fixture<HTMLDivElement>(html`
+        <div style="width:390px">
+          <loomi-table aria-label="Staff directory" title="Staff" .data=${WIDE}></loomi-table>
+        </div>
+      `);
+      const titled = await fixture<HTMLDivElement>(html`
+        <div style="width:390px"><loomi-table title="Staff" .data=${WIDE}></loomi-table></div>
+      `);
+      const regionOf = (wrapper: HTMLElement) =>
+        wrapper
+          .querySelector("loomi-table")!
+          .shadowRoot!.querySelector<HTMLElement>(".loomi-scroll")!;
+      await waitUntil(() => regionOf(labelled).hasAttribute("role"));
+      await waitUntil(() => regionOf(titled).hasAttribute("role"));
+
+      expect(regionOf(labelled).getAttribute("aria-label")).to.equal("Staff directory");
+      expect(regionOf(titled).getAttribute("aria-label")).to.equal("Staff");
+    });
+
+    it("drops the region again once the table fits", async () => {
+      const wrapper = await fixture<HTMLDivElement>(html`
+        <div style="width:390px"><loomi-table .data=${WIDE}></loomi-table></div>
+      `);
+      const el = wrapper.querySelector<LoomiTable>("loomi-table")!;
+      const scroll = el.shadowRoot!.querySelector<HTMLElement>(".loomi-scroll")!;
+      await waitUntil(() => scroll.hasAttribute("tabindex"));
+
+      wrapper.style.width = "3000px";
+      await waitUntil(() => !scroll.hasAttribute("tabindex"), "region kept its tab stop");
+      expect(scroll.hasAttribute("role")).to.be.false;
+      expect(scroll.hasAttribute("aria-label")).to.be.false;
+    });
+
+    it("adds no tab stop to a table that fits", async () => {
+      const el = await fixture<LoomiTable>(
+        html`<loomi-table .data=${[{ id: 1, name: "Ama" }]}></loomi-table>`,
+      );
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      const scroll = el.shadowRoot!.querySelector<HTMLElement>(".loomi-scroll")!;
+      expect(scroll.hasAttribute("tabindex")).to.be.false;
+      await expect(el).to.be.accessible();
+    });
   });
 });

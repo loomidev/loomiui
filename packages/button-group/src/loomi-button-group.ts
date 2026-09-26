@@ -3,6 +3,8 @@ import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
+import type { LoomiTooltipPlacement } from "@loomidev/tooltip";
+import "@loomidev/tooltip/loomi-tooltip.js";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiButtonGroupSize = "tiny" | "small" | "regular" | "medium" | "big";
@@ -40,9 +42,11 @@ const RADIUS_VARS: Record<LoomiButtonGroupRadius, string> = {
  * Set `label` for button text, `icon` for a built-in icon name, `icon-right` to place
  * the icon after the label, `icon-only` to visually hide the label, `selected` to mark
  * this item as active, and `disabled` to disable just this item. The `value` attribute
- * is surfaced in the `loomi-button-group-change` event emitted by the parent.
+ * is surfaced in the `loomi-button-group-change` event emitted by the parent. Set
+ * `tooltip` for a built-in `<loomi-tooltip>` on hover and keyboard focus.
  *
  * @slot - Button label text (used when the `label` attribute is absent).
+ * @csspart tooltip - The `<loomi-tooltip>` wrapping the button (only when `tooltip` is set).
  * @fires loomi-bg-click - Bubbles + composed; `detail: { value }`. Handled by the parent.
  */
 @customElement("loomi-button-group-item")
@@ -80,16 +84,27 @@ export class LoomiButtonGroupItem extends LoomiElement {
   /** Value surfaced in the `loomi-button-group-change` event. Falls back to `label`. */
   @property() value = "";
 
+  /** Tooltip text shown on hover and keyboard focus. Empty = no tooltip. */
+  @property() tooltip = "";
+
+  /** Side the tooltip prefers; it flips when there isn't room. */
+  @property({ attribute: "tooltip-position" }) tooltipPosition: LoomiTooltipPlacement = "top";
+
+  /**
+   * State inherited from the enclosing group. Read from the group's reflected
+   * attributes rather than its properties, and via `closest()` rather than
+   * `parentElement`, so it agrees with the stylesheet (which hides the label off those
+   * same attributes) even when the group hasn't upgraded yet or a wrapper element sits
+   * between the two. Otherwise the label could be hidden with no `aria-label` in its
+   * place, leaving an unnamed button.
+   */
   private get parentGroupState(): { disabled: boolean; iconOnly: boolean; circle: boolean } {
-    const parent = this.parentElement as
-      (HTMLElement & { disabled?: boolean; iconOnly?: boolean; circle?: boolean }) | null;
-    if (parent?.localName !== "loomi-button-group") {
-      return { disabled: false, iconOnly: false, circle: false };
-    }
+    const group = this.parentElement?.closest("loomi-button-group");
+    if (!group) return { disabled: false, iconOnly: false, circle: false };
     return {
-      disabled: Boolean(parent.disabled),
-      iconOnly: Boolean(parent.iconOnly),
-      circle: Boolean(parent.circle),
+      disabled: group.hasAttribute("disabled"),
+      iconOnly: group.hasAttribute("icon-only"),
+      circle: group.hasAttribute("circle"),
     };
   }
 
@@ -136,21 +151,37 @@ export class LoomiButtonGroupItem extends LoomiElement {
     const iconOnly =
       this.iconOnly || inheritedState.iconOnly || circle || (!this.labelText && Boolean(this.icon));
     const cls = ["loomi-bg-btn", this.selected ? "selected" : ""].filter(Boolean).join(" ");
+    const name = iconOnly ? this.accessibleText : this.labelText;
+    // The tip lives in <loomi-tooltip>'s own shadow root, out of reach of an IDREF from
+    // this button, so text that adds to the button's name is mirrored into a hidden
+    // description here. A tooltip that just repeats the name (the usual icon-only case)
+    // is left out so it isn't announced twice.
+    const describe = !!this.tooltip && this.tooltip !== name;
 
-    return html`
+    const button = html`
       <button
         class=${cls}
         type="button"
         ?disabled=${disabled}
         aria-pressed=${this.selected ? "true" : "false"}
         aria-label=${ifDefined(iconOnly ? this.accessibleText : undefined)}
+        aria-describedby=${ifDefined(describe ? "loomi-bg-tip" : undefined)}
         @click=${this.handleClick}
       >
         ${leading}
         <span class="loomi-bg-label" ?hidden=${iconOnly}><slot>${this.label}</slot></span>
         ${trailing}
       </button>
+      ${describe ? html`<span id="loomi-bg-tip" hidden>${this.tooltip}</span>` : nothing}
     `;
+    if (!this.tooltip) return button;
+    return html`<loomi-tooltip
+      class="loomi-bg-tooltip"
+      part="tooltip"
+      content=${this.tooltip}
+      placement=${this.tooltipPosition}
+      >${button}</loomi-tooltip
+    >`;
   }
 }
 

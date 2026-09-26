@@ -249,7 +249,7 @@
               "kind": "field",
               "name": "onTriggerKeydown",
               "privacy": "private",
-              "description": "Keeps real DOM focus on the swatch trigger button and drives the panel virtually via\n`aria-activedescendant` — the same pattern `@loomidev/select`'s listbox uses, so no\nexplicit refocus is needed after Escape/Enter close the panel."
+              "description": "The swatch is an APG select-only combobox (`role=\"combobox\"`, named by its\n`aria-label`, with the current color as visually hidden content read as its value).\nKeeps real DOM focus on the swatch trigger button and drives the panel virtually via\n`aria-activedescendant` — the same pattern `@loomidev/select`'s listbox uses, so no\nexplicit refocus is needed after Escape/Enter close the panel."
             },
             {
               "kind": "method",

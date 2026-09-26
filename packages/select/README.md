@@ -208,6 +208,21 @@ with the selected value displayed beneath it:
 
 ## Accessibility
 
+- The trigger follows the WAI-ARIA [select-only combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/)
+  pattern: a `role="combobox"` button with `aria-haspopup="listbox"`, `aria-expanded`,
+  and, while open, `aria-controls` plus `aria-activedescendant` tracking the highlighted
+  option. Focus stays on the trigger (or moves to the search box when `searchable`, which
+  then tracks the highlighted option itself); Arrow keys, Home/End, Enter/Space and
+  Escape drive the list.
+- The combobox is named by its `label`, and the current value is read as its value
+  (e.g. "Crop, combobox, Maize"). The option list (`role="listbox"`) takes the same name.
+- A select without a visible `label` takes its name from `aria-label` on the host, which
+  is forwarded to the trigger and the listbox. With neither, the placeholder text names it.
+
+```html
+<loomi-select aria-label="Workspace" placeholder="Choose a workspace"></loomi-select>
+```
+
 For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
@@ -225,6 +240,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `name`               | _(blank)_              | Submitted with the form.                                                                        |
 | `placeholder`        | `Select One`           | Trigger text when nothing is selected.                                                          |
 | `label`              | _(blank)_              | Floating label (takes precedence over placeholder).                                             |
+| `aria-label`         | _(blank)_              | Accessible name for a select with no `label`; forwarded to the trigger and listbox.             |
 | `label-position`     | `default`              | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field. |
 | `data`               | `[]`                   | Options array - property (`.data`) or JSON-string attribute.                                    |
 | `label-key`          | `label`                | Row key used as each option's display text.                                                     |

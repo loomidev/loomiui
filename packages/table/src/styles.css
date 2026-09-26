@@ -44,6 +44,12 @@
 .loomi-scroll {
   overflow-x: auto;
 }
+/* Only focusable (tabindex=0) while the table overflows; inset so the ring isn't
+   clipped by the shell's rounded, overflow-hidden corners. */
+.loomi-scroll:focus-visible {
+  outline: 2px solid var(--loomi-focus-ring-color);
+  outline-offset: -2px;
+}
 
 .loomi-footer {
   display: flex;

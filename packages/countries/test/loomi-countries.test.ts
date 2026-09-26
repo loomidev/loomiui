@@ -322,4 +322,83 @@ describe("loomi-countries", () => {
       expect(el.shadowRoot!.querySelector(".loomi-dial-code")).to.not.exist;
     });
   });
+
+  describe("combobox semantics", () => {
+    const open = async (el: LoomiCountries, selector = ".loomi-trigger") => {
+      const trigger = el.shadowRoot!.querySelector<HTMLButtonElement>(selector)!;
+      trigger.click();
+      await el.updateComplete;
+      await el.updateComplete;
+      return trigger;
+    };
+
+    it("is a select-only combobox named by its label, axe-clean while open", async () => {
+      const el = await fixture<LoomiCountries>(
+        html`<loomi-countries label="Country"></loomi-countries>`,
+      );
+      const trigger = el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!;
+      expect(trigger.getAttribute("role")).to.equal("combobox");
+      expect(trigger.getAttribute("aria-labelledby")).to.equal("loomi-label");
+      await expect(el).to.be.accessible();
+
+      await open(el);
+      const listbox = el.shadowRoot!.querySelector<HTMLElement>('[role="listbox"]')!;
+      const search = el.shadowRoot!.querySelector<HTMLInputElement>(".loomi-search")!;
+      expect(listbox.classList.contains("loomi-list")).to.be.true;
+      expect(trigger.getAttribute("aria-controls")).to.equal(listbox.id);
+      expect(listbox.getAttribute("aria-labelledby")).to.equal("loomi-label");
+      expect(el.shadowRoot!.activeElement).to.equal(search);
+      expect(search.getAttribute("aria-activedescendant")).to.equal("loomi-country-0");
+      await expect(el).to.be.accessible();
+    });
+
+    it("uses a forwarded aria-label, else the placeholder, when there is no label", async () => {
+      const labelled = await fixture<LoomiCountries>(
+        html`<loomi-countries aria-label="Nationality"></loomi-countries>`,
+      );
+      await open(labelled);
+      expect(
+        labelled.shadowRoot!.querySelector(".loomi-trigger")!.getAttribute("aria-label"),
+      ).to.equal("Nationality");
+      expect(
+        labelled.shadowRoot!.querySelector('[role="listbox"]')!.getAttribute("aria-label"),
+      ).to.equal("Nationality");
+      await expect(labelled).to.be.accessible();
+
+      const bare = await fixture<LoomiCountries>(html`<loomi-countries></loomi-countries>`);
+      expect(
+        bare.shadowRoot!.querySelector(".loomi-trigger")!.getAttribute("aria-labelledby"),
+      ).to.equal("loomi-value");
+      await expect(bare).to.be.accessible();
+    });
+
+    it("controls the panel when a search matches nothing", async () => {
+      const el = await fixture<LoomiCountries>(
+        html`<loomi-countries label="Country"></loomi-countries>`,
+      );
+      const trigger = await open(el);
+      const search = el.shadowRoot!.querySelector<HTMLInputElement>(".loomi-search")!;
+      search.value = "zzzzzz";
+      search.dispatchEvent(new Event("input"));
+      await el.updateComplete;
+
+      expect(el.shadowRoot!.querySelector('[role="listbox"]')).to.not.exist;
+      expect(trigger.getAttribute("aria-controls")).to.equal("loomi-panel");
+      await expect(el).to.be.accessible();
+    });
+
+    it("makes the phone-mode country-code button a combobox too", async () => {
+      const el = await fixture<LoomiCountries>(
+        html`<loomi-countries mode="phone" label="Phone"></loomi-countries>`,
+      );
+      const trigger = await open(el, ".loomi-flag-trigger");
+      const listbox = el.shadowRoot!.querySelector<HTMLElement>('[role="listbox"]')!;
+
+      expect(trigger.getAttribute("role")).to.equal("combobox");
+      expect(trigger.getAttribute("aria-controls")).to.equal(listbox.id);
+      // The label names the phone number here, so the list keeps the country-code name.
+      expect(listbox.getAttribute("aria-label")).to.equal(trigger.getAttribute("aria-label"));
+      await expect(el).to.be.accessible();
+    });
+  });
 });

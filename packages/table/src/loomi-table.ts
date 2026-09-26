@@ -9,7 +9,14 @@ import {
 } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { customElement, property, state } from "lit/decorators.js";
-import { LoomiElement, accentVars, loomiDefaultText, loomiStyles, cssColor } from "@loomidev/core";
+import {
+  LoomiElement,
+  accentVars,
+  loomiDefaultText,
+  loomiStyles,
+  loomiT,
+  cssColor,
+} from "@loomidev/core";
 import { getLoomiIcon, type LoomiIconVariant } from "@loomidev/icons";
 import "@loomidev/checkbox/loomi-checkbox.js";
 import "@loomidev/input/loomi-input.js";
@@ -75,6 +82,8 @@ function fillTemplate(template: string, row: Row): string {
  * @slot body - A `<template>` of static `<tr>` rows, for a table authored in HTML.
  * @slot row - Optional `<template>` used when `layout="custom"` and `data` is set.
  * @slot - `<tr>` elements created from script, when not using `data`.
+ * @csspart scroll - The horizontal scroll box around the `<table>`; a focusable,
+ *   labelled `role="region"` while the table overflows it.
  * @fires loomi-row-click - `detail: { row, id }` when a row is clicked.
  * @fires loomi-action - `detail: { name, row, action, click }` when an action icon is clicked.
  * @fires loomi-action-call - `detail: { name, row, action, click, resolvedClick }` for Bladewind-style click strings.
@@ -176,6 +185,12 @@ export class LoomiTable extends LoomiElement {
   @property({ attribute: "group-by" }) groupByAlias = "";
   @property({ converter: booleanConverter }) clickable = false;
   @property() nonce = "";
+  /**
+   * Accessible name for the horizontal scroll region, used while the table is wider
+   * than its container. Falls back to the host's `title`, then a localized
+   * "Scrollable table".
+   */
+  @property({ attribute: "aria-label" }) accessibilityLabel = "";
 
   @state() private query = "";
   @state() private sortKey = "";
@@ -183,6 +198,9 @@ export class LoomiTable extends LoomiElement {
   @state() private page = 1;
   @state() private checked = new Set<string>();
   @state() private initialized = false;
+  /** Whether `.loomi-scroll` is currently wider than its box (horizontally scrollable). */
+  @state() private overflowing = false;
+  private scrollObserver?: ResizeObserver;
   private externalSearchMount?: HTMLDivElement;
 
   override willUpdate(): void {
@@ -442,11 +460,51 @@ export class LoomiTable extends LoomiElement {
   override updated(changed: PropertyValues<this>): void {
     if (changed.has("searchContainer")) this.removeExternalSearch();
     this.renderExternalSearch();
+    this.observeScrollRegion();
   }
 
   override disconnectedCallback(): void {
     this.removeExternalSearch();
+    this.scrollObserver?.disconnect();
+    this.scrollObserver = undefined;
     super.disconnectedCallback();
+  }
+
+  private get scrollEl(): HTMLElement | null {
+    return this.renderRoot.querySelector<HTMLElement>(".loomi-scroll");
+  }
+
+  /**
+   * Watch the scroll box and the table inside it: the box resizes with the viewport,
+   * the table with its content, and either can flip whether the table overflows.
+   */
+  private observeScrollRegion(): void {
+    if (this.scrollObserver || typeof ResizeObserver === "undefined") return;
+    const scroll = this.scrollEl;
+    const table = scroll?.querySelector("table");
+    if (!scroll || !table) return;
+    this.scrollObserver = new ResizeObserver(() => this.syncOverflow());
+    this.scrollObserver.observe(scroll);
+    this.scrollObserver.observe(table);
+  }
+
+  /**
+   * A horizontally scrolling table has to be reachable from the keyboard (WCAG 2.1.1),
+   * so while it overflows the scroll box becomes a named, focusable region that arrow
+   * keys scroll natively. It goes back to a plain box once everything fits, so a table
+   * that doesn't scroll adds no extra tab stop. Runs from the ResizeObserver, whose
+   * initial callback covers the first render.
+   */
+  private syncOverflow(): void {
+    const scroll = this.scrollEl;
+    if (!scroll) return;
+    const overflowing = scroll.scrollWidth > scroll.clientWidth;
+    if (overflowing !== this.overflowing) this.overflowing = overflowing;
+  }
+
+  /** Name for the scroll region: host `aria-label`, then host `title`, then localized. */
+  private get scrollRegionLabel(): string {
+    return this.accessibilityLabel || this.title || loomiT("table.scrollRegion", {}, this.locale);
   }
 
   private get searchField(): TemplateResult {
@@ -663,7 +721,13 @@ export class LoomiTable extends LoomiElement {
             : nothing
         }
 
-        <div class="loomi-scroll">
+        <div
+          class="loomi-scroll"
+          part="scroll"
+          tabindex=${this.overflowing ? "0" : nothing}
+          role=${this.overflowing ? "region" : nothing}
+          aria-label=${this.overflowing ? this.scrollRegionLabel : nothing}
+        >
           <table class=${tableCls} data-current-page=${this.page}>
             <thead>
               <tr>

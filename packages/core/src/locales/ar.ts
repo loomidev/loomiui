@@ -50,6 +50,7 @@ export const ar: LoomiTranslations = {
     searchPlaceholder: "بحث...",
     noDataMessage: "لا توجد سجلات للعرض",
     actionsTitle: "الإجراءات",
+    scrollRegion: "جدول قابل للتمرير",
   },
   pagination: {
     totalLabel: "عرض :a إلى :b من :c",

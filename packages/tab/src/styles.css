@@ -71,9 +71,11 @@
   opacity: 0.45;
   cursor: not-allowed;
 }
-.loomi-head svg {
-  width: 1.1rem;
-  height: 1.1rem;
+/* Heading icons render through <loomi-icon> for every source (heroicons inline,
+   iconsax/untitledui from disk), sized here and coloured by the head's currentColor. */
+.loomi-head-icon {
+  --loomi-icon-size: 1.1rem;
+  flex: none;
 }
 
 /* simple */

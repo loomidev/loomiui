@@ -171,4 +171,41 @@ describe("loomi-timezonepicker", () => {
         .true;
     });
   });
+
+  describe("combobox semantics", () => {
+    it("is a select-only combobox named by its label, axe-clean while open", async () => {
+      const el = await fixture<LoomiTimezonepicker>(
+        html`<loomi-timezonepicker label="Time zone"></loomi-timezonepicker>`,
+      );
+      const trigger = el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!;
+      expect(trigger.getAttribute("role")).to.equal("combobox");
+      expect(trigger.getAttribute("aria-labelledby")).to.equal("loomi-label");
+      await expect(el).to.be.accessible();
+
+      trigger.click();
+      await el.updateComplete;
+      await el.updateComplete;
+      const listbox = el.shadowRoot!.querySelector<HTMLElement>('[role="listbox"]')!;
+      const search = el.shadowRoot!.querySelector<HTMLInputElement>(".loomi-search")!;
+      expect(listbox.classList.contains("loomi-list")).to.be.true;
+      expect(trigger.getAttribute("aria-controls")).to.equal(listbox.id);
+      expect(search.getAttribute("aria-controls")).to.equal(listbox.id);
+      expect(search.getAttribute("aria-activedescendant")).to.match(/^loomi-timezone-\d+$/);
+      await expect(el).to.be.accessible();
+    });
+
+    it("uses a forwarded aria-label when there is no label", async () => {
+      const el = await fixture<LoomiTimezonepicker>(
+        html`<loomi-timezonepicker aria-label="Meeting zone"></loomi-timezonepicker>`,
+      );
+      const trigger = el.shadowRoot!.querySelector<HTMLButtonElement>(".loomi-trigger")!;
+      expect(trigger.getAttribute("aria-label")).to.equal("Meeting zone");
+      trigger.click();
+      await el.updateComplete;
+      expect(el.shadowRoot!.querySelector('[role="listbox"]')!.getAttribute("aria-label")).to.equal(
+        "Meeting zone",
+      );
+      await expect(el).to.be.accessible();
+    });
+  });
 });

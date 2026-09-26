@@ -11,6 +11,23 @@ import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiProfileMenuPlacement = "auto" | "left" | "right";
 export type LoomiProfileMenuAvatarPosition = "left" | "right";
+/**
+ * `off` — full trigger. `always` — avatar + chevron only. `auto` — avatar + chevron
+ * only below a 40rem (640px) viewport, the full trigger above it.
+ */
+export type LoomiProfileMenuCompact = "off" | "always" | "auto";
+
+/** Bare `compact` (or `compact="true"`) means `always`; no attribute means `off`. */
+const compactConverter = {
+  fromAttribute(value: string | null): LoomiProfileMenuCompact {
+    if (value === null || value === "false" || value === "off") return "off";
+    return value === "auto" ? "auto" : "always";
+  },
+  toAttribute(value: LoomiProfileMenuCompact): string | null {
+    if (value === "always") return "";
+    return value === "auto" ? "auto" : null;
+  },
+};
 
 const CHEVRON_DOWN = getLoomiIcon("chevron-down");
 
@@ -31,7 +48,19 @@ function initials(name: string): string {
  * `<loomi-card>` for its shell and `<loomi-avatar>` for image, status dot, pulse dot,
  * and verification badge behavior.
  *
+ * Set `compact` to reduce the trigger to avatar + chevron (for tight headers), or
+ * `compact="auto"` to do so only on narrow viewports. The name and description stay
+ * in the accessibility tree either way, so the trigger keeps its accessible name.
+ *
  * @slot - `<loomi-dropmenu-item>` children.
+ * @csspart trigger - The profile card inside the dropdown trigger button.
+ * @csspart avatar - The `<loomi-avatar>`.
+ * @csspart copy - The name + description column (visually hidden when compact).
+ * @csspart name - The name line.
+ * @csspart description - The description line.
+ * @csspart chevron - The trailing chevron icon.
+ * @cssprop --loomi-profile-menu-min-width - Minimum trigger width when not compact.
+ *   Defaults to `min(14rem, 100vw)`; set `0` to let the name truncate in a tight container.
  */
 @customElement("loomi-profile-menu")
 export class LoomiProfileMenu extends LoomiElement {
@@ -46,6 +75,8 @@ export class LoomiProfileMenu extends LoomiElement {
   @property({ attribute: "avatar-bg-color" }) avatarBgColor: LoomiColor = "gray" as LoomiColor;
   @property({ attribute: "avatar-position", reflect: true })
   avatarPosition: LoomiProfileMenuAvatarPosition = "left";
+  @property({ reflect: true, converter: compactConverter })
+  compact: LoomiProfileMenuCompact = "off";
   @property({ type: Boolean }) dotted = false;
   @property({ type: Boolean, attribute: "pulse-dot" }) pulseDot = false;
   @property({ attribute: "dot-color" }) dotColor: LoomiColor = "success" as LoomiColor;
@@ -97,7 +128,7 @@ export class LoomiProfileMenu extends LoomiElement {
 
   private renderChevron(): TemplateResult | typeof nothing {
     if (!CHEVRON_DOWN) return nothing;
-    return html`<svg class="loomi-pm-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+    return html`<svg class="loomi-pm-chevron" part="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
       ${CHEVRON_DOWN}
     </svg>`;
   }
@@ -121,8 +152,9 @@ export class LoomiProfileMenu extends LoomiElement {
           style="--loomi-card-spacing:0"
         >
           <loomi-card-content>
-            <span class="loomi-pm-trigger" aria-label=${this.resolvedTriggerLabel}>
+            <span class="loomi-pm-trigger compact-${this.compact}" part="trigger" aria-label=${this.resolvedTriggerLabel}>
               <loomi-avatar
+                part="avatar"
                 .image=${this.avatar}
                 .label=${this.resolvedAvatarLabel}
                 .alt=${this.resolvedAvatarAlt}
@@ -134,9 +166,9 @@ export class LoomiProfileMenu extends LoomiElement {
                 .dotPosition=${this.dotPosition}
                 .verified=${this.verified}
               ></loomi-avatar>
-              <span class="loomi-pm-copy">
-                <span class="loomi-pm-name">${this.name}</span>
-                ${this.description ? html`<span class="loomi-pm-description">${this.description}</span>` : nothing}
+              <span class="loomi-pm-copy" part="copy">
+                <span class="loomi-pm-name" part="name">${this.name}</span>
+                ${this.description ? html`<span class="loomi-pm-description" part="description">${this.description}</span>` : nothing}
               </span>
               ${this.renderChevron()}
             </span>

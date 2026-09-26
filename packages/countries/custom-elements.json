@@ -147,6 +147,16 @@
             },
             {
               "kind": "field",
+              "name": "accessibilityLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for a picker with no visible `label`, forwarded to the trigger and\nthe option list. Ignored when `label` is set, which names both.",
+              "attribute": "aria-label"
+            },
+            {
+              "kind": "field",
               "name": "labelPosition",
               "type": {
                 "text": "LoomiFieldLabelPosition"
@@ -555,6 +565,25 @@
               "readonly": true
             },
             {
+              "kind": "field",
+              "name": "listboxNaming",
+              "type": {
+                "text": "{\n    labelledBy: string | typeof nothing;\n    ariaLabel: string | typeof nothing;\n  }"
+              },
+              "privacy": "private",
+              "description": "Names for the option list (and the names-mode trigger). In phone mode it's the country-code list (the `label`\nnames the phone number there); otherwise the label, else the forwarded aria-label,\nelse the value span so the placeholder still names it.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "controlsId",
+              "type": {
+                "text": "string | typeof nothing"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
               "kind": "method",
               "name": "renderNamesMode",
               "privacy": "private",
@@ -640,6 +669,15 @@
               },
               "default": "\"\"",
               "fieldName": "label"
+            },
+            {
+              "name": "aria-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for a picker with no visible `label`, forwarded to the trigger and\nthe option list. Ignored when `label` is set, which names both.",
+              "fieldName": "accessibilityLabel"
             },
             {
               "name": "label-position",
