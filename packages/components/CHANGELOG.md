@@ -1,5 +1,95 @@
 # @loomidev/components
 
+## 0.8.0
+
+### Patch Changes
+
+- Updated dependencies [661d4c0]
+- Updated dependencies [d48fb64]
+  - @loomidev/core@0.8.0
+  - @loomidev/avatar@0.8.0
+  - @loomidev/bell@0.8.0
+  - @loomidev/button@0.8.0
+  - @loomidev/button-group@0.8.0
+  - @loomidev/calendar@0.8.0
+  - @loomidev/card@0.8.0
+  - @loomidev/chat@0.8.0
+  - @loomidev/colorpicker@0.8.0
+  - @loomidev/contact-card@0.8.0
+  - @loomidev/countries@0.8.0
+  - @loomidev/datepicker@0.8.0
+  - @loomidev/drawer@0.8.0
+  - @loomidev/emoji-picker@0.8.0
+  - @loomidev/empty-state@0.8.0
+  - @loomidev/fab@0.8.0
+  - @loomidev/filepicker@0.8.0
+  - @loomidev/input@0.8.0
+  - @loomidev/modal@0.8.0
+  - @loomidev/number@0.8.0
+  - @loomidev/otp@0.8.0
+  - @loomidev/password@0.8.0
+  - @loomidev/autocomplete@0.8.0
+  - @loomidev/profile-menu@0.8.0
+  - @loomidev/progress@0.8.0
+  - @loomidev/progress-steps@0.8.0
+  - @loomidev/rating@0.8.0
+  - @loomidev/select@0.8.0
+  - @loomidev/side-nav@0.8.0
+  - @loomidev/spinner@0.8.0
+  - @loomidev/split-button@0.8.0
+  - @loomidev/tag-input@0.8.0
+  - @loomidev/text-editor@0.8.0
+  - @loomidev/timepicker@0.8.0
+  - @loomidev/timezonepicker@0.8.0
+  - @loomidev/dropmenu@0.8.0
+  - @loomidev/accordion@0.8.0
+  - @loomidev/alert@0.8.0
+  - @loomidev/arc-meter@0.8.0
+  - @loomidev/bottom-nav@0.8.0
+  - @loomidev/breadcrumb@0.8.0
+  - @loomidev/centered-content@0.8.0
+  - @loomidev/chart@0.8.0
+  - @loomidev/checkbox@0.8.0
+  - @loomidev/checkcards@0.8.0
+  - @loomidev/clipboard@0.8.0
+  - @loomidev/command-palette@0.8.0
+  - @loomidev/context-menu@0.8.0
+  - @loomidev/creditcard@0.8.0
+  - @loomidev/data-grid@0.8.0
+  - @loomidev/date-range-picker@0.8.0
+  - @loomidev/divider@0.8.0
+  - @loomidev/filter-builder@0.8.0
+  - @loomidev/floating-panel@0.8.0
+  - @loomidev/horizontal-line-graph@0.8.0
+  - @loomidev/icon@0.8.0
+  - @loomidev/lightbox@0.8.0
+  - @loomidev/listview@0.8.0
+  - @loomidev/notification@0.8.0
+  - @loomidev/pagination@0.8.0
+  - @loomidev/photo-gallery@0.8.0
+  - @loomidev/popover@0.8.0
+  - @loomidev/processing@0.8.0
+  - @loomidev/qrcode@0.8.0
+  - @loomidev/radio@0.8.0
+  - @loomidev/resizable@0.8.0
+  - @loomidev/scroller@0.8.0
+  - @loomidev/skeleton@0.8.0
+  - @loomidev/slider@0.8.0
+  - @loomidev/sortable@0.8.0
+  - @loomidev/statistic@0.8.0
+  - @loomidev/tab@0.8.0
+  - @loomidev/table@0.8.0
+  - @loomidev/tag@0.8.0
+  - @loomidev/textarea@0.8.0
+  - @loomidev/theme-switcher@0.8.0
+  - @loomidev/timeline@0.8.0
+  - @loomidev/timer@0.8.0
+  - @loomidev/toggle@0.8.0
+  - @loomidev/tooltip@0.8.0
+  - @loomidev/video@0.8.0
+  - @loomidev/icons@0.8.0
+  - @loomidev/theme@0.8.0
+
 ## 0.7.0
 
 ### Patch Changes
