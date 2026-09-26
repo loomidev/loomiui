@@ -141,4 +141,68 @@ describe("loomi-button", () => {
     const label = el.shadowRoot!.querySelector(".loomi-label")!;
     expect(getComputedStyle(label).display).to.equal("none");
   });
+
+  describe('type="secondary" with a color', () => {
+    /** Resolve a CSS color expression inside the button's shadow root, where the theme's palette defaults live. */
+    function resolveColor(el: LoomiButton, value: string): string {
+      const probe = document.createElement("span");
+      probe.style.color = value;
+      el.shadowRoot!.appendChild(probe);
+      const resolved = getComputedStyle(probe).color;
+      probe.remove();
+      return resolved;
+    }
+    const shade = (c: string, n: number) =>
+      `var(--loomi-${c}-${n}, var(--_loomi-${c}-${n}-default))`;
+
+    for (const color of ["primary", "info", "success", "error", "warning", "gray"]) {
+      it(`color="${color}" is an outline: surface fill, ${color} border and text`, async () => {
+        const el = await fixture<LoomiButton>(
+          html`<loomi-button type="secondary" color=${color}>Go</loomi-button>`,
+        );
+        const btn = el.shadowRoot!.querySelector("button")!;
+        const style = getComputedStyle(btn);
+
+        expect(style.backgroundColor).to.equal(resolveColor(el, "var(--loomi-surface)"));
+        expect(style.backgroundColor).not.to.equal(resolveColor(el, shade(color, 600)));
+        expect(style.borderTopColor).to.equal(resolveColor(el, shade(color, 300)));
+        expect(style.borderTopWidth).to.equal("1px");
+        expect(style.color).to.equal(resolveColor(el, shade(color, 600)));
+
+        // Same hover and focus treatment as `outline color="…"`.
+        expect(btn.classList.contains(`loomi-btn--outline-${color}`)).to.be.true;
+        expect(btn.classList.contains(`focus-visible:ring-${color}-400`)).to.be.true;
+        expect(btn.classList.contains(`hover:bg-${color}-700`)).to.be.false;
+      });
+    }
+
+    it("renders identically to outline with the same color", async () => {
+      const secondary = await fixture<LoomiButton>(
+        html`<loomi-button type="secondary" color="error">Go</loomi-button>`,
+      );
+      const outline = await fixture<LoomiButton>(
+        html`<loomi-button outline color="error">Go</loomi-button>`,
+      );
+      const a = getComputedStyle(secondary.shadowRoot!.querySelector("button")!);
+      const b = getComputedStyle(outline.shadowRoot!.querySelector("button")!);
+      for (const prop of ["backgroundColor", "borderTopColor", "color", "borderRadius"] as const) {
+        expect(a[prop], prop).to.equal(b[prop]);
+      }
+    });
+
+    it("plain secondary keeps its neutral gray border and dark text", async () => {
+      for (const markup of [
+        html`<loomi-button type="secondary">Go</loomi-button>`,
+        html`<loomi-button type="secondary" color="secondary">Go</loomi-button>`,
+      ]) {
+        const el = await fixture<LoomiButton>(markup);
+        const btn = el.shadowRoot!.querySelector("button")!;
+        const style = getComputedStyle(btn);
+        expect(btn.classList.contains("loomi-btn--secondary")).to.be.true;
+        expect(style.backgroundColor).to.equal(resolveColor(el, "var(--loomi-surface)"));
+        expect(style.borderTopColor).to.equal(resolveColor(el, shade("gray", 300)));
+        expect(style.color).to.equal(resolveColor(el, "var(--loomi-text)"));
+      }
+    });
+  });
 });

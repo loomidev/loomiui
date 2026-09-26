@@ -142,7 +142,7 @@
                 "text": "LoomiButtonType"
               },
               "default": "\"primary\"",
-              "description": "Structural variant: `primary` is a solid fill; `secondary` is a bordered surface. `color` overrides the hue.",
+              "description": "Structural variant: `primary` is a solid fill; `secondary` is a bordered surface. `color` sets the hue (a colored secondary keeps its outline).",
               "attribute": "type",
               "reflects": true
             },
@@ -452,7 +452,7 @@
                   }
                 }
               ],
-              "description": "`type` only switches solid-fill vs. outline; `color` is the only thing that picks the hue."
+              "description": "`type`/`outline` only switch solid fill vs. outline; `color` is the only thing that picks the hue."
             },
             {
               "kind": "method",
@@ -524,7 +524,7 @@
                 "text": "LoomiButtonType"
               },
               "default": "\"primary\"",
-              "description": "Structural variant: `primary` is a solid fill; `secondary` is a bordered surface. `color` overrides the hue.",
+              "description": "Structural variant: `primary` is a solid fill; `secondary` is a bordered surface. `color` sets the hue (a colored secondary keeps its outline).",
               "fieldName": "type"
             },
             {

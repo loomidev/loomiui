@@ -86,7 +86,7 @@ export class LoomiButton extends LoomiElement {
     delegatesFocus: true,
   };
 
-  /** Structural variant: `primary` is a solid fill; `secondary` is a bordered surface. `color` overrides the hue. */
+  /** Structural variant: `primary` is a solid fill; `secondary` is a bordered surface. `color` sets the hue (a colored secondary keeps its outline). */
   @property({ reflect: true }) type: LoomiButtonType = "primary";
 
   /** Palette override. Empty = derive from `type`. `primary` | `secondary` | `info` | `success` | `error` | `warning` | `gray`. */
@@ -244,7 +244,7 @@ export class LoomiButton extends LoomiElement {
     return this.hasSpinner && this.showSpinner;
   }
 
-  /** `type` only switches solid-fill vs. outline; `color` is the only thing that picks the hue. */
+  /** `type`/`outline` only switch solid fill vs. outline; `color` is the only thing that picks the hue. */
   private treatmentClasses(c: LoomiButtonColor): string[] {
     const w = BORDER_WIDTH[this.borderWidth] ?? BORDER_WIDTH[1];
     // Secondary is already a transparent, neutral-bordered surface treatment (its palette
@@ -254,7 +254,9 @@ export class LoomiButton extends LoomiElement {
     if (c === "secondary") {
       return [w, "border-solid", "loomi-btn--secondary"];
     }
-    if (this.outline) {
+    // `type="secondary"` is already an outline, so a colored secondary takes the same
+    // outline treatment as `outline color="…"` rather than a solid fill.
+    if (this.outline || this.type === "secondary") {
       return ["loomi-btn--outline", `text-${c}-600`, w, "border-solid", `loomi-btn--outline-${c}`];
     }
     return [`bg-${c}-600`, "text-white", `hover:bg-${c}-700`, "border", "border-transparent"];

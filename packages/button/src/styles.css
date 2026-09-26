@@ -152,8 +152,8 @@
 }
 
 /*
- * Outline treatment for primary/success/error/warning (secondary reuses
- * .loomi-btn--secondary above instead). Light-mode shades (300 border, 50 hover) are
+ * Outline treatment for every palette color except `secondary` (which reuses
+ * .loomi-btn--secondary above). Used by `outline` and by `type="secondary"` with a `color`. Light-mode shades (300 border, 50 hover) are
  * tuned for a white background; palette shades are theme-static (see @loomidev/theme),
  * so dark mode needs its own, explicitly darker shades instead of inheriting ones that
  * read as a bright/white-ish border and hover fill on a dark surface.
@@ -182,6 +182,20 @@
 .loomi-btn.loomi-btn--outline-warning:hover {
   background: var(--loomi-warning-50, var(--_loomi-warning-50-default));
 }
+.loomi-btn.loomi-btn--outline-info {
+  border-color: var(--loomi-info-300, var(--_loomi-info-300-default));
+}
+.loomi-btn.loomi-btn--outline-info:hover {
+  background: var(--loomi-info-50, var(--_loomi-info-50-default));
+}
+.loomi-btn.loomi-btn--outline-gray {
+  /* loomi-audit-allow-token: the `gray` palette color itself, not a surface */
+  border-color: var(--loomi-gray-300, var(--_loomi-gray-300-default));
+}
+.loomi-btn.loomi-btn--outline-gray:hover {
+  /* loomi-audit-allow-token: the `gray` palette color itself, not a surface */
+  background: var(--loomi-gray-50, var(--_loomi-gray-50-default));
+}
 
 .loomi-btn.loomi-btn--outline-primary.is-dark {
   border-color: var(--loomi-primary-700, var(--_loomi-primary-700-default));
@@ -206,6 +220,22 @@
 }
 .loomi-btn.loomi-btn--outline-warning.is-dark:hover {
   background: var(--loomi-warning-800, var(--_loomi-warning-800-default));
+}
+.loomi-btn.loomi-btn--outline-info.is-dark {
+  border-color: var(--loomi-info-700, var(--_loomi-info-700-default));
+}
+.loomi-btn.loomi-btn--outline-info.is-dark:hover {
+  background: var(--loomi-info-800, var(--_loomi-info-800-default));
+}
+/* Gray is one step lighter than the other hues in dark mode: its 800 is the dark
+   surface itself, so an 800 hover fill would be invisible. */
+.loomi-btn.loomi-btn--outline-gray.is-dark {
+  /* loomi-audit-allow-token: the `gray` palette color itself, not a surface */
+  border-color: var(--loomi-gray-600, var(--_loomi-gray-600-default));
+}
+.loomi-btn.loomi-btn--outline-gray.is-dark:hover {
+  /* loomi-audit-allow-token: the `gray` palette color itself, not a surface */
+  background: var(--loomi-gray-700, var(--_loomi-gray-700-default));
 }
 
 /* Disabled state (reflected from the `disabled` attribute on the host). */
