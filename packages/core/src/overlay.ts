@@ -119,13 +119,20 @@ const VIEWPORT_MARGIN = 8;
  *
  * Returns the side it settled on, so the caller can point an arrow the right
  * way or animate from the right direction.
+ *
+ * `options.alignTo` overrides the horizontal edges the panel aligns to (viewport
+ * x-coordinates), while the anchor still decides the vertical side and the flip. A
+ * dropmenu uses it to line its panel up with a chevron at the end of a wide trigger
+ * rather than with the whole trigger.
  */
 export function positionFloatingPanel(
   anchor: HTMLElement,
   panel: HTMLElement,
   placement: LoomiPanelPlacement = "auto",
+  options: { alignTo?: { left: number; right: number } } = {},
 ): LoomiResolvedSide {
   const anchorRect = anchor.getBoundingClientRect();
+  const alignTo = options.alignTo ?? anchorRect;
   // `offsetWidth`/`offsetHeight` rather than a rect: this runs in the same task the panel
   // is revealed in, so its entrance animation is at its first keyframe and a rect would
   // come back shrunk by the `scale()` and shifted by the `translateY()` (see
@@ -143,8 +150,8 @@ export function positionFloatingPanel(
   const onTop = prefersTop ? fitsAbove || !fitsBelow : !fitsBelow && fitsAbove;
 
   const prefersEnd = placement === "auto" || placement.endsWith("-end");
-  const endAligned = anchorRect.right - panelSize.width;
-  const startAligned = anchorRect.left;
+  const endAligned = alignTo.right - panelSize.width;
+  const startAligned = alignTo.left;
 
   let left = prefersEnd ? endAligned : startAligned;
   // Swap alignment rather than merely clamping: a panel pinned to the viewport
