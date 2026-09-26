@@ -1,5 +1,18 @@
 # @loomidev/dropmenu
 
+## 0.8.0
+
+### Minor Changes
+
+- d48fb64: Add an `arrowAnchor` property to `<loomi-dropmenu>`: the panel aligns to that element instead of the whole trigger, so its arrow lands right on it (the trigger still decides whether the panel opens below or flips above). It's re-measured on every placement, so it stays correct when the panel flips up or swaps alignment. `<loomi-profile-menu>` now positions its menu from the chevron (from the avatar + chevron pair when compact), so the caret sits under the chevron with either `placement`. `positionFloatingPanel()` gains an `alignTo` option to support this.
+
+### Patch Changes
+
+- Updated dependencies [661d4c0]
+- Updated dependencies [d48fb64]
+  - @loomidev/core@0.8.0
+  - @loomidev/icons@0.8.0
+
 ## 0.7.0
 
 ### Patch Changes
