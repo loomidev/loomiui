@@ -1,5 +1,24 @@
 # @loomidev/calendar
 
+## 0.7.0
+
+### Patch Changes
+
+- Updated dependencies [c952b7d]
+- Updated dependencies [c952b7d]
+  - @loomidev/select@0.7.0
+  - @loomidev/core@0.7.0
+  - @loomidev/context-menu@0.7.0
+  - @loomidev/datepicker@0.7.0
+  - @loomidev/dropmenu@0.7.0
+  - @loomidev/input@0.7.0
+  - @loomidev/modal@0.7.0
+  - @loomidev/tag-input@0.7.0
+  - @loomidev/textarea@0.7.0
+  - @loomidev/timepicker@0.7.0
+  - @loomidev/toggle@0.7.0
+  - @loomidev/tooltip@0.7.0
+
 ## 0.6.0
 
 ### Patch Changes

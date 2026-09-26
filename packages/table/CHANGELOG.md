@@ -1,5 +1,20 @@
 # @loomidev/table
 
+## 0.7.0
+
+### Minor Changes
+
+- c952b7d: A table wider than its container now makes its scroll box a focusable, labelled `role="region"` with a visible focus ring, so keyboard users can reach it and scroll with the arrow keys (axe `scrollable-region-focusable`). It reverts to a plain box once the table fits. Name it with the new `aria-label` attribute, else the host `title`, else the localized "Scrollable table" (new `table.scrollRegion` key in core's locales). The scroll box is exposed as `part="scroll"`.
+
+### Patch Changes
+
+- Updated dependencies [c952b7d]
+  - @loomidev/core@0.7.0
+  - @loomidev/checkbox@0.7.0
+  - @loomidev/icons@0.7.0
+  - @loomidev/input@0.7.0
+  - @loomidev/pagination@0.7.0
+
 ## 0.6.0
 
 ### Minor Changes

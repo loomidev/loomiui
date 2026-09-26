@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/breadcrumb",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "<loomi-breadcrumb> — a navigation trail showing the current page's location, web component.",
   "repository": {
     "type": "git",

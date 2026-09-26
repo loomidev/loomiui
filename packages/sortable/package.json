@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/sortable",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "<loomi-sortable> — a drag-and-drop reorderable list.",
   "repository": {
     "type": "git",

@@ -1,5 +1,21 @@
 # @loomidev/profile-menu
 
+## 0.7.0
+
+### Minor Changes
+
+- c952b7d: Add a `compact` attribute that reduces the trigger to avatar + chevron (`compact="auto"` does so only below a 40rem viewport), so the menu fits phone-width headers without pushing the page wider. The name and description stay available to screen readers. The trigger's minimum width is now overridable with `--loomi-profile-menu-min-width` (set `0` to let it shrink and truncate the name in a constrained container), and its pieces are exposed as parts: `trigger`, `avatar`, `copy`, `name`, `description`, `chevron`.
+
+### Patch Changes
+
+- Updated dependencies [c952b7d]
+  - @loomidev/core@0.7.0
+  - @loomidev/avatar@0.7.0
+  - @loomidev/card@0.7.0
+  - @loomidev/dropmenu@0.7.0
+  - @loomidev/icons@0.7.0
+  - @loomidev/theme@0.7.0
+
 ## 0.6.0
 
 ### Patch Changes
