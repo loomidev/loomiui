@@ -1,5 +1,22 @@
 # @loomidev/button
 
+## 0.9.0
+
+### Minor Changes
+
+- 3bae883: `<loomi-profile-menu>` now slots its `<loomi-dropmenu-item>` children through to the internal dropmenu instead of moving them into its shadow root, so page CSS (including `::part()` selectors) keeps styling the items and their content. `<loomi-dropmenu>` finds its items through the flattened default slot, so any wrapper that forwards items through a `<slot>` works the same way.
+  
+  `<loomi-button>` gains a `full-width` attribute: the host becomes a block that fills its container, with the label centered.
+  
+  `<loomi-dropmenu-item hover="false">` now actually turns the row tint off (the attribute used to be read as `true` whenever present). Pair it with a `full-width` button for a button row, like a Sign out action at the bottom of a profile menu.
+
+### Patch Changes
+
+- f46f84a: `type="secondary"` with a `color` now stays an outline: surface fill with the palette's border and text, the same hover and focus as `outline color="…"`, instead of switching to a solid fill. Plain `type="secondary"` is unchanged. `info` and `gray` outlines also get their palette border and hover (they previously fell back to the default border). `<loomi-split-button type="secondary" color="…">` picks this up too.
+- @loomidev/core@0.9.0
+  - @loomidev/icons@0.9.0
+  - @loomidev/theme@0.9.0
+
 ## 0.8.0
 
 ### Minor Changes

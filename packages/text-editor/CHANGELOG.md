@@ -1,5 +1,20 @@
 # @loomidev/text-editor
 
+## 0.9.0
+
+### Patch Changes
+
+- Updated dependencies [c12e752]
+  - @loomidev/notification@0.9.0
+  - @loomidev/modal@0.9.0
+  - @loomidev/filepicker@0.9.0
+  - @loomidev/input@0.9.0
+  - @loomidev/core@0.9.0
+  - @loomidev/icon@0.9.0
+  - @loomidev/select@0.9.0
+  - @loomidev/theme@0.9.0
+  - @loomidev/tooltip@0.9.0
+
 ## 0.8.0
 
 ### Minor Changes

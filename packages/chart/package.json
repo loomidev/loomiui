@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/chart",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "<loomi-chart> — bar / line / area / pie / donut / radar / radial / scatter / heatmap charts (SVG).",
   "repository": {
     "type": "git",

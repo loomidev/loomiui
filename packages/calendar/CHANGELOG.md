@@ -1,5 +1,23 @@
 # @loomidev/calendar
 
+## 0.9.0
+
+### Patch Changes
+
+- Updated dependencies [3bae883]
+  - @loomidev/dropmenu@0.9.0
+  - @loomidev/modal@0.9.0
+  - @loomidev/input@0.9.0
+  - @loomidev/context-menu@0.9.0
+  - @loomidev/core@0.9.0
+  - @loomidev/datepicker@0.9.0
+  - @loomidev/select@0.9.0
+  - @loomidev/tag-input@0.9.0
+  - @loomidev/textarea@0.9.0
+  - @loomidev/timepicker@0.9.0
+  - @loomidev/toggle@0.9.0
+  - @loomidev/tooltip@0.9.0
+
 ## 0.8.0
 
 ### Minor Changes

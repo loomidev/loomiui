@@ -1,5 +1,25 @@
 # @loomidev/profile-menu
 
+## 0.9.0
+
+### Minor Changes
+
+- 3bae883: `<loomi-profile-menu>` now slots its `<loomi-dropmenu-item>` children through to the internal dropmenu instead of moving them into its shadow root, so page CSS (including `::part()` selectors) keeps styling the items and their content. `<loomi-dropmenu>` finds its items through the flattened default slot, so any wrapper that forwards items through a `<slot>` works the same way.
+  
+  `<loomi-button>` gains a `full-width` attribute: the host becomes a block that fills its container, with the label centered.
+  
+  `<loomi-dropmenu-item hover="false">` now actually turns the row tint off (the attribute used to be read as `true` whenever present). Pair it with a `full-width` button for a button row, like a Sign out action at the bottom of a profile menu.
+
+### Patch Changes
+
+- Updated dependencies [3bae883]
+  - @loomidev/dropmenu@0.9.0
+  - @loomidev/avatar@0.9.0
+  - @loomidev/card@0.9.0
+  - @loomidev/core@0.9.0
+  - @loomidev/icons@0.9.0
+  - @loomidev/theme@0.9.0
+
 ## 0.8.0
 
 ### Minor Changes
