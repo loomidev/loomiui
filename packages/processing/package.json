@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/processing",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "<loomi-processing> — a process indicator (working / success / failed).",
   "repository": {
     "type": "git",

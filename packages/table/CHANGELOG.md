@@ -1,5 +1,15 @@
 # @loomidev/table
 
+## 0.9.0
+
+### Patch Changes
+
+- @loomidev/input@0.9.0
+  - @loomidev/checkbox@0.9.0
+  - @loomidev/core@0.9.0
+  - @loomidev/icons@0.9.0
+  - @loomidev/pagination@0.9.0
+
 ## 0.8.0
 
 ### Patch Changes

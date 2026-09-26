@@ -1,5 +1,12 @@
 # @loomidev/emoji-picker
 
+## 0.9.0
+
+### Patch Changes
+
+- @loomidev/core@0.9.0
+  - @loomidev/popover@0.9.0
+
 ## 0.8.0
 
 ### Minor Changes

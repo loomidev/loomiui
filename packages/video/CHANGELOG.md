@@ -1,5 +1,17 @@
 # @loomidev/video
 
+## 0.9.0
+
+### Patch Changes
+
+- Updated dependencies [f46f84a]
+- Updated dependencies [3bae883]
+  - @loomidev/button@0.9.0
+  - @loomidev/core@0.9.0
+  - @loomidev/icon@0.9.0
+  - @loomidev/slider@0.9.0
+  - @loomidev/spinner@0.9.0
+
 ## 0.8.0
 
 ### Patch Changes

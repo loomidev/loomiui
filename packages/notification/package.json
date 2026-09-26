@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/notification",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "<loomi-notification> — stacked, auto-dismissing toast notifications.",
   "repository": {
     "type": "git",
