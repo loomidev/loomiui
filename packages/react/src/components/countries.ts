@@ -11,18 +11,24 @@ export const Countries: ForwardRefExoticComponent<
     onChange?: (e: Event) => void;
     onLoomiSelect?: (e: LoomiCountriesEventMap["loomi-select"]) => void;
     onInput?: (e: CustomEvent) => void;
+    ariaLabel?: JSX.IntrinsicElements["loomi-countries"]["aria-label"];
     labelPosition?: JSX.IntrinsicElements["loomi-countries"]["label-position"];
     emptyPlaceholder?: JSX.IntrinsicElements["loomi-countries"]["empty-placeholder"];
   }
 > = createComponent(
   "loomi-countries",
   { change: "onChange", "loomi-select": "onLoomiSelect", input: "onInput" },
-  { labelPosition: "label-position", emptyPlaceholder: "empty-placeholder" },
+  {
+    ariaLabel: "aria-label",
+    labelPosition: "label-position",
+    emptyPlaceholder: "empty-placeholder",
+  },
 ) as unknown as ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-countries"], "onChange" | "onLoomiSelect" | "onInput"> & {
     onChange?: (e: Event) => void;
     onLoomiSelect?: (e: LoomiCountriesEventMap["loomi-select"]) => void;
     onInput?: (e: CustomEvent) => void;
+    ariaLabel?: JSX.IntrinsicElements["loomi-countries"]["aria-label"];
     labelPosition?: JSX.IntrinsicElements["loomi-countries"]["label-position"];
     emptyPlaceholder?: JSX.IntrinsicElements["loomi-countries"]["empty-placeholder"];
   }

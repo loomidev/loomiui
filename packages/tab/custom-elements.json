@@ -47,7 +47,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<loomi-tab>` — a single tab panel. Set `label` (and optionally `icon`) for its\nheading, and `active` on the one that should show first. Place inside `<loomi-tabs>`.",
+          "description": "`<loomi-tab>` — a single tab panel. Set `label` (and optionally `icon`) for its\nheading, and `active` on the one that should show first. Place inside `<loomi-tabs>`.\n\nThe heading icon renders through `<loomi-icon>`, so `icon-source` can pick any of its\nsets — the inline heroicons (default) or the disk-based iconsax / untitledui sets,\nwhich load on first use — and `icon-variant` picks outline / solid / twotone.",
           "name": "LoomiTab",
           "slots": [
             {
@@ -73,6 +73,26 @@
               },
               "default": "\"\"",
               "attribute": "icon"
+            },
+            {
+              "kind": "field",
+              "name": "iconSource",
+              "type": {
+                "text": "LoomiIconSource"
+              },
+              "default": "\"heroicons\"",
+              "description": "Icon set for `icon`: `heroicons` (default, inline), `iconsax` or `untitledui` (loaded from disk).",
+              "attribute": "icon-source"
+            },
+            {
+              "kind": "field",
+              "name": "iconVariant",
+              "type": {
+                "text": "LoomiIconType"
+              },
+              "default": "\"outline\"",
+              "description": "Icon style: `outline` (default), `solid`, or `twotone` (iconsax only).",
+              "attribute": "icon-variant"
             },
             {
               "kind": "field",
@@ -122,6 +142,24 @@
               "fieldName": "icon"
             },
             {
+              "name": "icon-source",
+              "type": {
+                "text": "LoomiIconSource"
+              },
+              "default": "\"heroicons\"",
+              "description": "Icon set for `icon`: `heroicons` (default, inline), `iconsax` or `untitledui` (loaded from disk).",
+              "fieldName": "iconSource"
+            },
+            {
+              "name": "icon-variant",
+              "type": {
+                "text": "LoomiIconType"
+              },
+              "default": "\"outline\"",
+              "description": "Icon style: `outline` (default), `solid`, or `twotone` (iconsax only).",
+              "fieldName": "iconVariant"
+            },
+            {
               "name": "active",
               "type": {
                 "text": "boolean"
@@ -157,6 +195,12 @@
           "kind": "class",
           "description": "`<loomi-tabs>` — builds a heading bar from its `<loomi-tab>` children and toggles\nthe active panel. Styles: `simple` (default), `system`, `pills`.",
           "name": "LoomiTabs",
+          "cssParts": [
+            {
+              "description": "Each heading's `<loomi-icon>`.",
+              "name": "tab-icon"
+            }
+          ],
           "slots": [
             {
               "description": "`<loomi-tab>` children.",
@@ -242,6 +286,25 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "hasIcon",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "tab",
+                  "type": {
+                    "text": "LoomiTab"
+                  }
+                }
+              ],
+              "description": "Whether `tab.icon` names an icon its source actually has (else no icon is drawn)."
             },
             {
               "kind": "field",

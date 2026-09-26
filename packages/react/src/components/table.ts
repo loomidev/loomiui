@@ -49,6 +49,7 @@ export const Table: ForwardRefExoticComponent<
     buttonLabel?: JSX.IntrinsicElements["loomi-table"]["button-label"];
     showImage?: JSX.IntrinsicElements["loomi-table"]["show-image"];
     groupBy?: JSX.IntrinsicElements["loomi-table"]["group-by"];
+    ariaLabel?: JSX.IntrinsicElements["loomi-table"]["aria-label"];
   }
 > = createComponent(
   "loomi-table",
@@ -88,6 +89,7 @@ export const Table: ForwardRefExoticComponent<
     buttonLabel: "button-label",
     showImage: "show-image",
     groupBy: "group-by",
+    ariaLabel: "aria-label",
   },
 ) as unknown as ForwardRefExoticComponent<
   Omit<
@@ -132,5 +134,6 @@ export const Table: ForwardRefExoticComponent<
     buttonLabel?: JSX.IntrinsicElements["loomi-table"]["button-label"];
     showImage?: JSX.IntrinsicElements["loomi-table"]["show-image"];
     groupBy?: JSX.IntrinsicElements["loomi-table"]["group-by"];
+    ariaLabel?: JSX.IntrinsicElements["loomi-table"]["aria-label"];
   }
 >;

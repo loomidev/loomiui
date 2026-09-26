@@ -219,6 +219,11 @@ export class LoomiTimezonepicker extends LoomiElement {
 
   @property({ reflect: true }) name = "";
   @property() label = "";
+  /**
+   * Accessible name for a picker with no visible `label`, forwarded to the trigger and
+   * the option list. Ignored when `label` is set, which names both.
+   */
+  @property({ attribute: "aria-label" }) accessibilityLabel = "";
   @property({ attribute: "label-position", reflect: true })
   labelPosition: LoomiFieldLabelPosition = "default";
   @property() placeholder = DEFAULT_PLACEHOLDER;
@@ -455,12 +460,25 @@ export class LoomiTimezonepicker extends LoomiElement {
     if (!this.open) return nothing;
     const opts = this.filtered;
     const myZone = this.browserZone;
+    const activeId =
+      this.activeIndex >= 0 && opts[this.activeIndex]
+        ? `loomi-timezone-${this.activeIndex}`
+        : nothing;
+    const ariaLabel = !this.label && this.accessibilityLabel ? this.accessibilityLabel : nothing;
+    const labelledBy = this.label ? "loomi-label" : ariaLabel === nothing ? "loomi-value" : nothing;
+    // The listbox is the option list itself, not the panel: the search box and the
+    // "use my timezone" button aren't valid listbox children. With no matches there is no
+    // listbox, so the expanded trigger's required aria-controls points at the panel. The
+    // search box takes focus on open, so it carries aria-activedescendant as well.
     return html`
-      <div class="loomi-panel" popover="manual" part="panel" role="listbox">
+      <div id="loomi-panel" class="loomi-panel" popover="manual" part="panel">
         <div class="loomi-searchbox">
           <input
             class="loomi-search"
             type="text"
+            aria-controls=${opts.length ? "loomi-listbox" : nothing}
+            aria-activedescendant=${activeId}
+            aria-autocomplete="list"
             placeholder=${loomiT("timezonepicker.searchPlaceholder", {}, this.locale)}
             .value=${this.search}
             @input=${(e: Event) => {
@@ -478,7 +496,13 @@ export class LoomiTimezonepicker extends LoomiElement {
             </button>`
             : nothing
         }
-        <div class="loomi-list">
+        <div
+          class="loomi-list"
+          id=${opts.length ? "loomi-listbox" : nothing}
+          role=${opts.length ? "listbox" : nothing}
+          aria-labelledby=${opts.length ? labelledBy : nothing}
+          aria-label=${opts.length ? ariaLabel : nothing}
+        >
           ${
             opts.length
               ? opts.map((z, i) => {
@@ -565,6 +589,11 @@ export class LoomiTimezonepicker extends LoomiElement {
       this.open && this.activeIndex >= 0 && this.filtered[this.activeIndex]
         ? `loomi-timezone-${this.activeIndex}`
         : nothing;
+    // APG select-only combobox: the trigger's content is read as its value, so the name
+    // comes from the label alone (then the forwarded aria-label, then the value span so
+    // the placeholder still names it). The option list takes the same name.
+    const ariaLabel = !hasLabel && this.accessibilityLabel ? this.accessibilityLabel : nothing;
+    const labelledBy = hasLabel ? "loomi-label" : ariaLabel === nothing ? "loomi-value" : nothing;
 
     const classes = `loomi-timezonepicker size-${this.size} ${this.open ? "open" : ""} ${this.floatLabel ? "float" : ""}`;
     return html`
@@ -573,19 +602,23 @@ export class LoomiTimezonepicker extends LoomiElement {
           type="button"
           class="loomi-trigger variant-${this.variant}"
           part="trigger"
+          role="combobox"
           aria-haspopup="listbox"
+          aria-controls=${this.open ? (this.filtered.length ? "loomi-listbox" : "loomi-panel") : nothing}
+          aria-labelledby=${labelledBy}
+          aria-label=${ariaLabel}
           aria-expanded=${this.open ? "true" : "false"}
           aria-activedescendant=${activeId}
           ?disabled=${this.disabled}
           @click=${() => this.toggleOpen()}
           @blur=${this.showValidation}
         >
-          <span class="loomi-value ${hasSelection ? "" : "placeholder"} ${reserveLabelSpace ? "sizer" : ""}">${displayText}</span>
+          <span id="loomi-value" class="loomi-value ${hasSelection ? "" : "placeholder"} ${reserveLabelSpace ? "sizer" : ""}">${displayText}</span>
           <svg class="loomi-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${CHEVRON}</svg>
         </button>
         ${
           hasLabel
-            ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
+            ? html`<label id="loomi-label" class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
             : nothing
         }
         ${this.renderPanel()}

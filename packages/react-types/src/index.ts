@@ -106,6 +106,7 @@ interface LoomiButtonGroupItemAttributes {
   "aria-label"?: string;
   "icon-only"?: boolean;
   "icon-right"?: boolean;
+  "tooltip-position"?: LoomiAttributeValue;
 }
 
 interface LoomiCalendarAttributes {
@@ -231,6 +232,7 @@ interface LoomiContextMenuItemAttributes {
 }
 
 interface LoomiCountriesAttributes {
+  "aria-label"?: string;
   "empty-placeholder"?: LoomiAttributeValue;
   "label-position"?: LoomiAttributeValue;
 }
@@ -546,6 +548,7 @@ interface LoomiScrollerAttributes {
 }
 
 interface LoomiSelectAttributes {
+  "aria-label"?: string;
   "empty-action-label"?: string;
   "empty-action-url"?: string;
   "empty-placeholder"?: LoomiAttributeValue;
@@ -609,11 +612,15 @@ interface LoomiStatisticAttributes {
   "show-spinner"?: boolean;
 }
 
-interface LoomiTabAttributes {}
+interface LoomiTabAttributes {
+  "icon-source"?: LoomiAttributeValue;
+  "icon-variant"?: LoomiAttributeValue;
+}
 
 interface LoomiTableAttributes {
   "action-icons"?: LoomiAttributeValue;
   "actions-title"?: LoomiAttributeValue;
+  "aria-label"?: string;
   "button-label"?: string;
   "column-aliases"?: LoomiAttributeValue;
   "default-page"?: number;
@@ -713,6 +720,7 @@ interface LoomiTimerAttributes {
 }
 
 interface LoomiTimezonepickerAttributes {
+  "aria-label"?: string;
   "empty-placeholder"?: LoomiAttributeValue;
   "label-position"?: LoomiAttributeValue;
 }

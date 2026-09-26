@@ -23,8 +23,40 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<loomi-profile-menu>` — a profile card trigger that opens a Loomi dropdown menu.\n\nPlace `<loomi-dropmenu-item>` children inside for the menu actions. The trigger uses\n`<loomi-card>` for its shell and `<loomi-avatar>` for image, status dot, pulse dot,\nand verification badge behavior.",
+          "description": "`<loomi-profile-menu>` — a profile card trigger that opens a Loomi dropdown menu.\n\nPlace `<loomi-dropmenu-item>` children inside for the menu actions. The trigger uses\n`<loomi-card>` for its shell and `<loomi-avatar>` for image, status dot, pulse dot,\nand verification badge behavior.\n\nSet `compact` to reduce the trigger to avatar + chevron (for tight headers), or\n`compact=\"auto\"` to do so only on narrow viewports. The name and description stay\nin the accessibility tree either way, so the trigger keeps its accessible name.",
           "name": "LoomiProfileMenu",
+          "cssProperties": [
+            {
+              "description": "Minimum trigger width when not compact. Defaults to `min(14rem, 100vw)`; set `0` to let the name truncate in a tight container.",
+              "name": "--loomi-profile-menu-min-width"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The profile card inside the dropdown trigger button.",
+              "name": "trigger"
+            },
+            {
+              "description": "The `<loomi-avatar>`.",
+              "name": "avatar"
+            },
+            {
+              "description": "The name + description column (visually hidden when compact).",
+              "name": "copy"
+            },
+            {
+              "description": "The name line.",
+              "name": "name"
+            },
+            {
+              "description": "The description line.",
+              "name": "description"
+            },
+            {
+              "description": "The trailing chevron icon.",
+              "name": "chevron"
+            }
+          ],
           "slots": [
             {
               "description": "`<loomi-dropmenu-item>` children.",
@@ -103,6 +135,16 @@
               },
               "default": "\"left\"",
               "attribute": "avatar-position",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "compact",
+              "type": {
+                "text": "LoomiProfileMenuCompact"
+              },
+              "default": "\"off\"",
+              "attribute": "compact",
               "reflects": true
             },
             {
@@ -343,6 +385,14 @@
               },
               "default": "\"left\"",
               "fieldName": "avatarPosition"
+            },
+            {
+              "name": "compact",
+              "type": {
+                "text": "LoomiProfileMenuCompact"
+              },
+              "default": "\"off\"",
+              "fieldName": "compact"
             },
             {
               "name": "dotted",

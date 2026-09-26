@@ -63,8 +63,14 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<loomi-button-group-item>` — a single button within a `<loomi-button-group>`.\n\nSet `label` for button text, `icon` for a built-in icon name, `icon-right` to place\nthe icon after the label, `icon-only` to visually hide the label, `selected` to mark\nthis item as active, and `disabled` to disable just this item. The `value` attribute\nis surfaced in the `loomi-button-group-change` event emitted by the parent.",
+          "description": "`<loomi-button-group-item>` — a single button within a `<loomi-button-group>`.\n\nSet `label` for button text, `icon` for a built-in icon name, `icon-right` to place\nthe icon after the label, `icon-only` to visually hide the label, `selected` to mark\nthis item as active, and `disabled` to disable just this item. The `value` attribute\nis surfaced in the `loomi-button-group-change` event emitted by the parent. Set\n`tooltip` for a built-in `<loomi-tooltip>` on hover and keyboard focus.",
           "name": "LoomiButtonGroupItem",
+          "cssParts": [
+            {
+              "description": "The `<loomi-tooltip>` wrapping the button (only when `tooltip` is set).",
+              "name": "tooltip"
+            }
+          ],
           "slots": [
             {
               "description": "Button label text (used when the `label` attribute is absent).",
@@ -168,11 +174,32 @@
             },
             {
               "kind": "field",
+              "name": "tooltip",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Tooltip text shown on hover and keyboard focus. Empty = no tooltip.",
+              "attribute": "tooltip"
+            },
+            {
+              "kind": "field",
+              "name": "tooltipPosition",
+              "type": {
+                "text": "LoomiTooltipPlacement"
+              },
+              "default": "\"top\"",
+              "description": "Side the tooltip prefers; it flips when there isn't room.",
+              "attribute": "tooltip-position"
+            },
+            {
+              "kind": "field",
               "name": "parentGroupState",
               "type": {
                 "text": "{ disabled: boolean; iconOnly: boolean; circle: boolean }"
               },
               "privacy": "private",
+              "description": "State inherited from the enclosing group. Read from the group's reflected\nattributes rather than its properties, and via `closest()` rather than\n`parentElement`, so it agrees with the stylesheet (which hides the label off those\nsame attributes) even when the group hasn't upgraded yet or a wrapper element sits\nbetween the two. Otherwise the label could be hidden with no `aria-label` in its\nplace, leaving an unnamed button.",
               "readonly": true
             },
             {
@@ -304,6 +331,24 @@
               "default": "\"\"",
               "description": "Value surfaced in the `loomi-button-group-change` event. Falls back to `label`.",
               "fieldName": "value"
+            },
+            {
+              "name": "tooltip",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Tooltip text shown on hover and keyboard focus. Empty = no tooltip.",
+              "fieldName": "tooltip"
+            },
+            {
+              "name": "tooltip-position",
+              "type": {
+                "text": "LoomiTooltipPlacement"
+              },
+              "default": "\"top\"",
+              "description": "Side the tooltip prefers; it flips when there isn't room.",
+              "fieldName": "tooltipPosition"
             }
           ],
           "superclass": {

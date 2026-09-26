@@ -104,6 +104,8 @@ export class LoomiColorpicker extends LoomiElement {
   }
 
   /**
+   * The swatch is an APG select-only combobox (`role="combobox"`, named by its
+   * `aria-label`, with the current color as visually hidden content read as its value).
    * Keeps real DOM focus on the swatch trigger button and drives the panel virtually via
    * `aria-activedescendant` — the same pattern `@loomidev/select`'s listbox uses, so no
    * explicit refocus is needed after Escape/Enter close the panel.
@@ -200,16 +202,24 @@ export class LoomiColorpicker extends LoomiElement {
       ? html`<button
             class="loomi-swatch size-${this.size}"
             style="background:${this.selectedValue}"
+            role="combobox"
             aria-label=${loomiT("colorpicker.pickColor", {}, this.locale)}
             aria-haspopup="listbox"
+            aria-controls=${this.open ? "loomi-color-listbox" : nothing}
             aria-expanded=${this.open ? "true" : "false"}
             aria-activedescendant=${activeId}
             @click=${() => this.toggle()}
             @keydown=${this.onTriggerKeydown}
-          ></button>
+          ><span class="loomi-sr">${this.selectedValue}</span></button>
           ${
             this.open
-              ? html`<div class="loomi-panel" popover="manual" role="listbox">
+              ? html`<div
+                id="loomi-color-listbox"
+                class="loomi-panel"
+                popover="manual"
+                role="listbox"
+                aria-label=${loomiT("colorpicker.pickColor", {}, this.locale)}
+              >
                 ${palette.map(
                   (c, i) => html`<button
                     id="loomi-color-${i}"

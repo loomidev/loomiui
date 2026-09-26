@@ -14,6 +14,7 @@ export const Select: ForwardRefExoticComponent<
     onChange?: (e: Event) => void;
     onLoomiSelect?: (e: LoomiSelectEventMap["loomi-select"]) => void;
     onLoomiEmptyAction?: (e: LoomiSelectEventMap["loomi-empty-action"]) => void;
+    ariaLabel?: JSX.IntrinsicElements["loomi-select"]["aria-label"];
     labelPosition?: JSX.IntrinsicElements["loomi-select"]["label-position"];
     labelKey?: JSX.IntrinsicElements["loomi-select"]["label-key"];
     valueKey?: JSX.IntrinsicElements["loomi-select"]["value-key"];
@@ -33,6 +34,7 @@ export const Select: ForwardRefExoticComponent<
     "loomi-empty-action": "onLoomiEmptyAction",
   },
   {
+    ariaLabel: "aria-label",
     labelPosition: "label-position",
     labelKey: "label-key",
     valueKey: "value-key",
@@ -52,6 +54,7 @@ export const Select: ForwardRefExoticComponent<
     onChange?: (e: Event) => void;
     onLoomiSelect?: (e: LoomiSelectEventMap["loomi-select"]) => void;
     onLoomiEmptyAction?: (e: LoomiSelectEventMap["loomi-empty-action"]) => void;
+    ariaLabel?: JSX.IntrinsicElements["loomi-select"]["aria-label"];
     labelPosition?: JSX.IntrinsicElements["loomi-select"]["label-position"];
     labelKey?: JSX.IntrinsicElements["loomi-select"]["label-key"];
     valueKey?: JSX.IntrinsicElements["loomi-select"]["value-key"];

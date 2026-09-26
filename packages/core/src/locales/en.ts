@@ -53,6 +53,7 @@ export const en: LoomiTranslations = {
     searchPlaceholder: "Search…",
     noDataMessage: "No records to display",
     actionsTitle: "actions",
+    scrollRegion: "Scrollable table",
   },
   pagination: {
     previous: "Previous page",

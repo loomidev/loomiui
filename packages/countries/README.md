@@ -165,6 +165,15 @@ with the selected country or phone number displayed beneath it:
 
 ## Accessibility
 
+- The trigger follows the WAI-ARIA [select-only combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/)
+  pattern: `role="combobox"` with `aria-haspopup="listbox"`, `aria-expanded`, and
+  `aria-controls` while open. Opening moves focus to the search box, which tracks the
+  highlighted country with `aria-activedescendant`.
+- In `names` mode the combobox and country list are named by `label`, else a forwarded
+  `aria-label` on the host, else the placeholder; the selected country is read as the
+  value. In `phone` mode the country-code button is the combobox, named "Select country
+  code", and `label` names the phone number input.
+
 For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
 ## Responsive behavior
@@ -183,6 +192,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `mode`              | `names`              | `names` \| `phone`.                                                                                                                  |
 | `placeholder`       | `Select a country`   | Trigger text when nothing is selected (`names` mode).                                                                                |
 | `label`             | _(blank)_            | Floating label (takes precedence over placeholder).                                                                                  |
+| `aria-label`        | _(blank)_            | Accessible name in `names` mode when there's no `label`; forwarded to the trigger and country list.                                  |
 | `label-position`    | `default`            | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field.                                      |
 | `selection`         | _(blank)_            | Country name, ISO alpha-2 code, or dial code. Resolves to the alpha-2 code.                                                          |
 | `value`             | _(blank)_            | The phone number portion, excluding the dial code (`phone` mode, digits only).                                                       |

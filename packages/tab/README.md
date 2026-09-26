@@ -139,6 +139,21 @@ registerLoomiIcon("rocket", svg`<path d="…" />`);
 <loomi-tab label="Launches" icon="rocket">…</loomi-tab>
 ```
 
+### Other icon sets
+
+Heading icons render through [`<loomi-icon>`](../icon), so `icon-source` can pick the
+disk-based `iconsax` or `untitledui` sets as well as the default inline heroicons, and
+`icon-variant` picks `outline`, `solid` or `twotone` (iconsax only). Disk icons load on
+first use, with no registration, and match heroicon tabs in size and colour, including
+the active and hover states.
+
+```html
+<loomi-tabs>
+  <loomi-tab label="Farms" icon="location" icon-source="iconsax" active>…</loomi-tab>
+  <loomi-tab label="Harvests" icon="box" icon-source="iconsax" icon-variant="twotone">…</loomi-tab>
+</loomi-tabs>
+```
+
 ## Disabled Tabs & Tabs That Navigate
 
 Set `disabled` to fade out a tab and ignore clicks on it (and skip it during
@@ -201,13 +216,15 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ### `<loomi-tab>`
 
-| Attribute  | Default   | Description                                                              |
-| ---------- | --------- | ------------------------------------------------------------------------ |
-| `label`    | _(blank)_ | Heading text.                                                            |
-| `icon`     | _(blank)_ | Heading icon name (see [`@loomidev/icons`](../icons)).                   |
-| `active`   | `false`   | Selected by default. _(boolean)_                                         |
-| `disabled` | `false`   | Disabled tab - faded out, ignores clicks and keyboard focus. _(boolean)_ |
-| `url`      | _(blank)_ | Navigate to this URL instead of switching panels.                        |
+| Attribute      | Default     | Description                                                              |
+| -------------- | ----------- | ------------------------------------------------------------------------ |
+| `label`        | _(blank)_   | Heading text.                                                            |
+| `icon`         | _(blank)_   | Heading icon name (see [`@loomidev/icons`](../icons)).                   |
+| `icon-source`  | `heroicons` | Icon set: `heroicons` \| `iconsax` \| `untitledui`.                      |
+| `icon-variant` | `outline`   | `outline` \| `solid` \| `twotone` (iconsax only).                        |
+| `active`       | `false`     | Selected by default. _(boolean)_                                         |
+| `disabled`     | `false`     | Disabled tab - faded out, ignores clicks and keyboard focus. _(boolean)_ |
+| `url`          | _(blank)_   | Navigate to this URL instead of switching panels.                        |
 
 ## Slots
 
@@ -415,4 +432,5 @@ Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on 
 ## Dependencies
 
 - `@loomidev/core`
+- `@loomidev/icon`
 - `@loomidev/icons`

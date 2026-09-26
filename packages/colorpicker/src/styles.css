@@ -89,3 +89,13 @@
   outline: 2px solid var(--loomi-focus-ring-color);
   outline-offset: 1px;
 }
+
+/* The combobox's value (the selected color) for assistive technology only. */
+.loomi-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

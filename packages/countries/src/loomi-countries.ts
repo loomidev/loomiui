@@ -154,6 +154,11 @@ export class LoomiCountries extends LoomiElement {
   @property({ reflect: true }) name = "";
   @property() mode: LoomiCountriesMode = "names";
   @property() label = "";
+  /**
+   * Accessible name for a picker with no visible `label`, forwarded to the trigger and
+   * the option list. Ignored when `label` is set, which names both.
+   */
+  @property({ attribute: "aria-label" }) accessibilityLabel = "";
   @property({ attribute: "label-position", reflect: true })
   labelPosition: LoomiFieldLabelPosition = "default";
   @property() placeholder = DEFAULT_PLACEHOLDER;
@@ -398,12 +403,24 @@ export class LoomiCountries extends LoomiElement {
   private renderPanel(): TemplateResult | typeof nothing {
     if (!this.open) return nothing;
     const opts = this.filtered;
+    const activeId =
+      this.activeIndex >= 0 && opts[this.activeIndex]
+        ? `loomi-country-${this.activeIndex}`
+        : nothing;
+    const { labelledBy, ariaLabel } = this.listboxNaming;
+    // The listbox is the option list itself, not the panel: the search box (and any
+    // extra panel controls) aren't valid listbox children. With no matches there is no
+    // listbox, so the expanded trigger's required aria-controls points at the panel. The
+    // search box takes focus on open, so it carries aria-activedescendant as well.
     return html`
-      <div class="loomi-panel" popover="manual" part="panel" role="listbox">
+      <div id="loomi-panel" class="loomi-panel" popover="manual" part="panel">
         <div class="loomi-searchbox">
           <input
             class="loomi-search"
             type="text"
+            aria-controls=${opts.length ? "loomi-listbox" : nothing}
+            aria-activedescendant=${activeId}
+            aria-autocomplete="list"
             placeholder=${loomiT("countries.searchPlaceholder", {}, this.locale)}
             .value=${this.search}
             @input=${(e: Event) => {
@@ -412,7 +429,13 @@ export class LoomiCountries extends LoomiElement {
             }}
           />
         </div>
-        <div class="loomi-list">
+        <div
+          class="loomi-list"
+          id=${opts.length ? "loomi-listbox" : nothing}
+          role=${opts.length ? "listbox" : nothing}
+          aria-labelledby=${opts.length ? labelledBy : nothing}
+          aria-label=${opts.length ? ariaLabel : nothing}
+        >
           ${
             opts.length
               ? opts.map((c, i) => {
@@ -450,6 +473,29 @@ export class LoomiCountries extends LoomiElement {
     return this.open || !!this.selectedCode;
   }
 
+  /** Names for the option list (and the names-mode trigger). In phone mode it's the country-code list (the `label`
+   * names the phone number there); otherwise the label, else the forwarded aria-label,
+   * else the value span so the placeholder still names it. */
+  private get listboxNaming(): {
+    labelledBy: string | typeof nothing;
+    ariaLabel: string | typeof nothing;
+  } {
+    if (this.mode === "phone") {
+      return {
+        labelledBy: nothing,
+        ariaLabel: loomiT("countries.selectCountryCode", {}, this.locale),
+      };
+    }
+    if (this.label) return { labelledBy: "loomi-label", ariaLabel: nothing };
+    if (this.accessibilityLabel) return { labelledBy: nothing, ariaLabel: this.accessibilityLabel };
+    return { labelledBy: "loomi-value", ariaLabel: nothing };
+  }
+
+  private get controlsId(): string | typeof nothing {
+    if (!this.open) return nothing;
+    return this.filtered.length ? "loomi-listbox" : "loomi-panel";
+  }
+
   private renderNamesMode(): TemplateResult {
     const hasLabel = !!this.label;
     const hasSelection = !!this.selectedCode;
@@ -471,13 +517,20 @@ export class LoomiCountries extends LoomiElement {
       this.open && this.activeIndex >= 0 && this.filtered[this.activeIndex]
         ? `loomi-country-${this.activeIndex}`
         : nothing;
+    // APG select-only combobox: the trigger's content is read as its value, so it takes
+    // the option list's name rather than being named by its content.
+    const { labelledBy, ariaLabel } = this.listboxNaming;
 
     return html`
       <button
         type="button"
         class="loomi-trigger"
         part="trigger"
+        role="combobox"
         aria-haspopup="listbox"
+        aria-controls=${this.controlsId}
+        aria-labelledby=${labelledBy}
+        aria-label=${ariaLabel}
         aria-expanded=${this.open ? "true" : "false"}
         aria-activedescendant=${activeId}
         ?disabled=${this.disabled}
@@ -485,12 +538,12 @@ export class LoomiCountries extends LoomiElement {
         @blur=${this.showValidation}
       >
         ${hasSelection && rec ? html`<span class="loomi-flag">${unsafeSVG(flagMarkup(rec.flag, "trigger"))}</span>` : nothing}
-        <span class="loomi-value ${hasSelection ? "" : "placeholder"} ${reserveLabelSpace ? "sizer" : ""}">${displayText}</span>
+        <span id="loomi-value" class="loomi-value ${hasSelection ? "" : "placeholder"} ${reserveLabelSpace ? "sizer" : ""}">${displayText}</span>
         <svg class="loomi-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${CHEVRON}</svg>
       </button>
       ${
         hasLabel
-          ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
+          ? html`<label id="loomi-label" class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
           : nothing
       }
     `;
@@ -507,7 +560,9 @@ export class LoomiCountries extends LoomiElement {
           type="button"
           class="loomi-flag-trigger"
           part="trigger"
+          role="combobox"
           aria-haspopup="listbox"
+          aria-controls=${this.controlsId}
           aria-expanded=${this.open ? "true" : "false"}
           aria-label=${loomiT("countries.selectCountryCode", {}, this.locale)}
           ?disabled=${this.disabled}
@@ -537,7 +592,7 @@ export class LoomiCountries extends LoomiElement {
       </div>
       ${
         hasLabel
-          ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
+          ? html`<label id="loomi-label" class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
           : nothing
       }
     `;

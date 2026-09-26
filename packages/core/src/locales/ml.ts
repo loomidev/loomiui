@@ -50,6 +50,7 @@ export const ml: LoomiTranslations = {
     searchPlaceholder: "തിരയുക...",
     noDataMessage: "കാണിക്കാൻ രേഖകളില്ല",
     actionsTitle: "നടപടികൾ",
+    scrollRegion: "സ്ക്രോൾ ചെയ്യാവുന്ന പട്ടിക",
   },
   pagination: {
     totalLabel: ":c ൽ :a മുതൽ :b വരെ കാണിക്കുന്നു",

@@ -36,7 +36,12 @@ export const zh_CN: LoomiTranslations = {
     phoneNumberLabel: "电话号码",
     selectCountryCode: "选择国家代码",
   },
-  table: { searchPlaceholder: "搜索...", noDataMessage: "没有可显示的记录", actionsTitle: "操作" },
+  table: {
+    searchPlaceholder: "搜索...",
+    noDataMessage: "没有可显示的记录",
+    actionsTitle: "操作",
+    scrollRegion: "可滚动表格",
+  },
   pagination: {
     totalLabel: "显示第 :a 到 :b 条，共 :c 条",
     noRecords: "没有记录",

@@ -7,7 +7,14 @@ import {
   watchDarkMode,
   type LoomiColor,
 } from "@loomidev/core";
-import { getLoomiIcon } from "@loomidev/icons";
+import {
+  getLoomiIcon,
+  hasLoomiDiskIcon,
+  isLoomiDiskIconSource,
+  type LoomiIconSource,
+  type LoomiIconType,
+} from "@loomidev/icons";
+import "@loomidev/icon/loomi-icon.js";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiTabStyle = "simple" | "system" | "pills";
@@ -15,6 +22,10 @@ export type LoomiTabStyle = "simple" | "system" | "pills";
 /**
  * `<loomi-tab>` — a single tab panel. Set `label` (and optionally `icon`) for its
  * heading, and `active` on the one that should show first. Place inside `<loomi-tabs>`.
+ *
+ * The heading icon renders through `<loomi-icon>`, so `icon-source` can pick any of its
+ * sets — the inline heroicons (default) or the disk-based iconsax / untitledui sets,
+ * which load on first use — and `icon-variant` picks outline / solid / twotone.
  *
  * @slot - The tab's content.
  */
@@ -24,6 +35,10 @@ export class LoomiTab extends LoomiElement {
 
   @property() label = "";
   @property() icon = "";
+  /** Icon set for `icon`: `heroicons` (default, inline), `iconsax` or `untitledui` (loaded from disk). */
+  @property({ attribute: "icon-source" }) iconSource: LoomiIconSource = "heroicons";
+  /** Icon style: `outline` (default), `solid`, or `twotone` (iconsax only). */
+  @property({ attribute: "icon-variant" }) iconVariant: LoomiIconType = "outline";
   @property({ type: Boolean, reflect: true }) active = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property() url = "";
@@ -40,6 +55,7 @@ export class LoomiTab extends LoomiElement {
  * the active panel. Styles: `simple` (default), `system`, `pills`.
  *
  * @slot - `<loomi-tab>` children.
+ * @csspart tab-icon - Each heading's `<loomi-icon>`.
  * @fires loomi-tab-change - `detail: { label }` when the active tab changes.
  */
 @customElement("loomi-tabs")
@@ -96,6 +112,14 @@ export class LoomiTabs extends LoomiElement {
         detail: { label: tab.label },
       }),
     );
+  }
+
+  /** Whether `tab.icon` names an icon its source actually has (else no icon is drawn). */
+  private hasIcon(tab: LoomiTab): boolean {
+    if (!tab.icon) return false;
+    const source = tab.iconSource || "heroicons";
+    if (isLoomiDiskIconSource(source)) return hasLoomiDiskIcon(source, tab.icon, tab.iconVariant);
+    return !!getLoomiIcon(tab.icon, tab.iconVariant === "solid" ? "solid" : "outline");
   }
 
   private get activeTabIndex(): number {
@@ -228,8 +252,15 @@ export class LoomiTabs extends LoomiElement {
             @click=${() => this.activate(tab)}
           >
             ${
-              tab.icon && getLoomiIcon(tab.icon)
-                ? html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${getLoomiIcon(tab.icon)}</svg>`
+              this.hasIcon(tab)
+                ? html`<loomi-icon
+                  class="loomi-head-icon"
+                  part="tab-icon"
+                  name=${tab.icon}
+                  source=${tab.iconSource || "heroicons"}
+                  variant=${tab.iconVariant || "outline"}
+                  stroke-width="1.6"
+                ></loomi-icon>`
                 : nothing
             }
             <span>${tab.label}</span>

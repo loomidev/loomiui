@@ -59,6 +59,11 @@ export class LoomiSelect extends LoomiElement {
   @property({ reflect: true }) name = "";
   @property() placeholder = DEFAULT_PLACEHOLDER;
   @property() label = "";
+  /**
+   * Accessible name for a select with no visible `label`, forwarded to the trigger
+   * button and the options listbox. Ignored when `label` is set, which names both.
+   */
+  @property({ attribute: "aria-label" }) accessibilityLabel = "";
   @property({ attribute: "label-position", reflect: true })
   labelPosition: LoomiFieldLabelPosition = "default";
   @property() locale = "";
@@ -359,6 +364,21 @@ export class LoomiSelect extends LoomiElement {
           );
     const opts = this.filtered;
 
+    // The trigger is an APG select-only combobox: its content (the value span) is read as
+    // the combobox's value, not its name, so the name comes from the label alone — also
+    // pointing at the value span would read the value twice. With no label, use the
+    // forwarded aria-label; with neither, fall back to the value span so the visible
+    // placeholder still names it. The listbox takes the same name.
+    //
+    // The listbox is the option list itself, not the panel: the search box and the
+    // empty-state CTA aren't valid listbox children. With no options there is no listbox
+    // (an empty one is invalid too), so the expanded trigger's required aria-controls
+    // points at the panel holding the empty state instead. When `searchable` moves focus
+    // into the search box, it carries aria-activedescendant too, so the highlighted
+    // option is still announced while filtering.
+    const ariaLabel = !hasLabel && this.accessibilityLabel ? this.accessibilityLabel : nothing;
+    const labelledBy = hasLabel ? "loomi-label" : ariaLabel === nothing ? "loomi-value" : nothing;
+
     const activeId =
       this.open && this.activeIndex >= 0 && opts[this.activeIndex]
         ? `loomi-opt-${this.activeIndex}`
@@ -373,30 +393,37 @@ export class LoomiSelect extends LoomiElement {
           type="button"
           class="loomi-trigger"
           part="trigger"
+          role="combobox"
           aria-haspopup="listbox"
+          aria-controls=${this.open ? (opts.length ? "loomi-listbox" : "loomi-panel") : nothing}
+          aria-labelledby=${labelledBy}
+          aria-label=${ariaLabel}
           aria-expanded=${this.open ? "true" : "false"}
           aria-activedescendant=${activeId}
           ?disabled=${this.disabled}
           @click=${this.toggleOpen}
           @blur=${this.showValidation}
         >
-          <span class="loomi-value ${hasSelection ? "" : "placeholder"} ${reserveLabelSpace ? "sizer" : ""}">${displayText}</span>
+          <span id="loomi-value" class="loomi-value ${hasSelection ? "" : "placeholder"} ${reserveLabelSpace ? "sizer" : ""}">${displayText}</span>
           <svg class="loomi-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${CHEVRON}</svg>
         </button>
         ${
           hasLabel
-            ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
+            ? html`<label id="loomi-label" class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
             : nothing
         }
         ${
           this.open
-            ? html`<div class="loomi-panel" part="panel" popover="manual" role="listbox" aria-multiselectable=${this.multiple ? "true" : nothing}>
+            ? html`<div id="loomi-panel" class="loomi-panel" part="panel" popover="manual">
               ${
                 this.searchable && this.options.length
                   ? html`<div class="loomi-searchbox">
                     <input
                       class="loomi-search"
                       type="text"
+                      aria-controls=${opts.length ? "loomi-listbox" : nothing}
+                      aria-activedescendant=${activeId}
+                      aria-autocomplete="list"
                       placeholder=${loomiT("select.searchPlaceholder", {}, this.locale)}
                       .value=${this.search}
                       @input=${(e: Event) => {
@@ -407,7 +434,14 @@ export class LoomiSelect extends LoomiElement {
                   </div>`
                   : nothing
               }
-              <div class="loomi-list">
+              <div
+                class="loomi-list"
+                id=${opts.length ? "loomi-listbox" : nothing}
+                role=${opts.length ? "listbox" : nothing}
+                aria-labelledby=${opts.length ? labelledBy : nothing}
+                aria-label=${opts.length ? ariaLabel : nothing}
+                aria-multiselectable=${opts.length && this.multiple ? "true" : nothing}
+              >
                 ${
                   opts.length
                     ? opts.map((o, i) => {
