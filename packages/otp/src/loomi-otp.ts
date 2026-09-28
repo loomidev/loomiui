@@ -10,6 +10,7 @@ import {
   resolveLoomiSize,
   type LoomiSize,
   type LoomiSizeSupport,
+  implicitlySubmit,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 const DEFAULT_ERROR_MESSAGE = "Verification code is invalid";
@@ -48,6 +49,8 @@ export class LoomiOtp extends LoomiElement {
   /** Size names this component supports, from the canonical `LoomiSize` scale. */
   static readonly supportedSizes = { size: OTP_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
+  /** Counts as a field that blocks implicit submission, like a native text `<input>`. */
+  static blocksImplicitSubmission = true;
   private internals = this.attachInternals();
   /** Falls back to a stable per-instance id when `name` is blank, so a `loomi-notification` toast (see `showError`) re-renders in place across repeated validation failures instead of stacking. */
   private readonly instanceId = randomSuffix();
@@ -63,6 +66,8 @@ export class LoomiOtp extends LoomiElement {
   @property({ type: Boolean, reflect: true }) separator = false;
   @property({ type: Boolean, attribute: "hide-digits" }) hideDigits = false;
   @property({ type: Boolean }) mask = false;
+  /** Stops Enter from submitting the owning form once every box is filled. */
+  @property({ type: Boolean, attribute: "no-implicit-submit" }) noImplicitSubmit = false;
   @property({ attribute: "error-message" }) errorMessage = DEFAULT_ERROR_MESSAGE;
   @property({ type: Boolean, attribute: "show-error-inline" }) showErrorInline = false;
   @property() locale = "";
@@ -284,6 +289,12 @@ export class LoomiOtp extends LoomiElement {
     if (e.key === "End") {
       e.preventDefault();
       this.boxes[this.totalDigits - 1]?.focus();
+      return;
+    }
+    // Enter submits the owning form like a native `<input>` — but only once the code is
+    // complete; a half-typed code would just fail validation.
+    if (this.code.length === this.totalDigits) {
+      implicitlySubmit(e, this.internals, { disabled: this.noImplicitSubmit });
     }
   }
 
