@@ -7,6 +7,7 @@ import {
   loomiT,
   randomSuffix,
   type LoomiFieldLabelPosition,
+  toControlValue,
 } from "@loomidev/core";
 import "@loomidev/filepicker/loomi-filepicker.js";
 import "@loomidev/icon/loomi-icon.js";
@@ -405,7 +406,15 @@ export class LoomiTextEditor extends LoomiElement {
   labelPosition: LoomiFieldLabelPosition = "default";
   @property() locale = "";
   @property() placeholder = "";
-  @property() value = "";
+  private _value = "";
+  /** Current value. Like a native input's, anything assigned is coerced to a string (`null`/`undefined` become `""`). */
+  @property()
+  get value(): string {
+    return this._value;
+  }
+  set value(value: string) {
+    this._value = toControlValue(value);
+  }
   @property() tools: LoomiTextEditorTools = "default";
   @property({ type: Number }) rows = 3;
   @property({ type: Boolean, reflect: true }) required = false;

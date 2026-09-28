@@ -14,6 +14,7 @@ import {
   resolveLoomiSize,
   type LoomiSize,
   type LoomiSizeSupport,
+  toControlValue,
   implicitlySubmit,
 } from "@loomidev/core";
 import "@loomidev/popover";
@@ -84,7 +85,15 @@ export class LoomiInput extends LoomiElement {
   labelPosition: LoomiFieldLabelPosition = "default";
   @property() locale = "";
   @property() placeholder = "";
-  @property() value = "";
+  private _value = "";
+  /** Current value. Like a native input's, anything assigned is coerced to a string (`null`/`undefined` become `""`). */
+  @property()
+  get value(): string {
+    return this._value;
+  }
+  set value(value: string) {
+    this._value = toControlValue(value);
+  }
   @property({ type: Boolean, reflect: true }) required = false;
   /** Stops Enter in this field from submitting its form (native implicit submission). */
   @property({ type: Boolean, attribute: "no-implicit-submit" }) noImplicitSubmit = false;
@@ -141,7 +150,13 @@ export class LoomiInput extends LoomiElement {
       changed.has("mask") ||
       changed.has("dynamicMask")
     ) {
-      this.value = this.normalizeValue(this.value);
+      // A throwing mask (a custom `dynamicMask` function, say) must never leave the field
+      // unrendered: fall back to the raw value and say why.
+      try {
+        this.value = this.normalizeValue(this.value);
+      } catch (error) {
+        console.warn("[loomi-input] Couldn't normalise the value; keeping it as typed.", error);
+      }
     }
 
     this.internals.setFormValue(this.value);

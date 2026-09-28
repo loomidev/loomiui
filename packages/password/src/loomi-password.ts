@@ -16,6 +16,7 @@ import {
   resolveLoomiSize,
   type LoomiSize,
   type LoomiSizeSupport,
+  toControlValue,
   implicitlySubmit,
 } from "@loomidev/core";
 import { hasLoomiIcon, loomiIcon, provideLoomiIcons } from "@loomidev/icons";
@@ -80,7 +81,15 @@ export class LoomiPassword extends LoomiElement {
   labelPosition: LoomiFieldLabelPosition = "default";
   @property() locale = "";
   @property() placeholder = "";
-  @property() value = "";
+  private _value = "";
+  /** Current value. Like a native input's, anything assigned is coerced to a string (`null`/`undefined` become `""`). */
+  @property()
+  get value(): string {
+    return this._value;
+  }
+  set value(value: string) {
+    this._value = toControlValue(value);
+  }
   @property({ type: Boolean, reflect: true }) required = false;
   /** Stops Enter in this field from submitting its form (native implicit submission). */
   @property({ type: Boolean, attribute: "no-implicit-submit" }) noImplicitSubmit = false;

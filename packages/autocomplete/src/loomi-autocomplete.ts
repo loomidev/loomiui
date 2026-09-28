@@ -16,6 +16,7 @@ import {
   resolveLoomiSize,
   type LoomiSize,
   type LoomiSizeSupport,
+  toControlValue,
   implicitlySubmit,
 } from "@loomidev/core";
 import { hasLoomiIcon, loomiIcon, provideLoomiIcons } from "@loomidev/icons";
@@ -227,7 +228,15 @@ export class LoomiAutocomplete extends LoomiElement {
   @property({ attribute: "label-position", reflect: true })
   labelPosition: LoomiFieldLabelPosition = "default";
   @property() placeholder = DEFAULT_PLACEHOLDER;
-  @property() value = "";
+  private _value = "";
+  /** Current value. Like a native input's, anything assigned is coerced to a string (`null`/`undefined` become `""`). */
+  @property()
+  get value(): string {
+    return this._value;
+  }
+  set value(value: string) {
+    this._value = toControlValue(value);
+  }
   @property({ attribute: "selected-value" }) selectedValue = "";
   @property() locale = "";
   /** Size preset: `tiny` | `small` | `regular` | `medium` | `big`. Equal names give equal heights across every form control and `<loomi-button>`. */
