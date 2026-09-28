@@ -5,7 +5,9 @@ import { fileURLToPath } from "node:url";
 const root = dirname(fileURLToPath(import.meta.url));
 const pkgRoot = join(root, "..");
 const heroRoot = join(pkgRoot, "node_modules", "@heroicons", "react", "24");
-const outFile = join(pkgRoot, "src", "heroicons.ts");
+// Raw data only: scripts/build-heroicon-modules.mjs turns it into one ES module per icon
+// at build time, and src/heroicons.ts owns the (hand-written) registry around them.
+const outFile = join(pkgRoot, "data", "heroicons.json");
 
 const kebab = (name) =>
   name
@@ -56,55 +58,11 @@ const buildMap = (variant) => {
     .map((file) => [kebab(file), parseIcon(join(dir, file))]);
 };
 
-const emitMap = (name, entries) =>
-  `const ${name}: Record<string, SVGTemplateResult> = {\n${entries
-    .map(([iconName, markup]) => `  ${JSON.stringify(iconName)}: svg\`${markup}\`,`)
-    .join("\n")}\n};`;
-
 const outline = buildMap("outline");
 const solid = buildMap("solid");
 
-const output = `import { svg, type SVGTemplateResult } from "lit";
-
-export type LoomiIconVariant = "outline" | "solid";
-
-/**
- * Shared loomi icon registry generated from Heroicons 24px outline and solid sets.
- * Icons render with currentColor, so they inherit the host's text color.
- *
- * Regenerate with: pnpm --filter @loomidev/icons generate
- */
-${emitMap("OUTLINE_ICONS", outline)}
-
-${emitMap("SOLID_ICONS", solid)}
-
-const ICONS: Record<LoomiIconVariant, Record<string, SVGTemplateResult>> = {
-  outline: OUTLINE_ICONS,
-  solid: SOLID_ICONS,
-};
-
-/** Register (or override) an icon by name so \`icon="<name>"\` can render it. */
-export function registerLoomiIcon(
-  name: string,
-  path: SVGTemplateResult,
-  variant: LoomiIconVariant = "outline",
-): void {
-  ICONS[variant][name] = path;
-}
-
-/** Returns the inner SVG for an icon name, or \`undefined\` if it isn't registered. */
-export function getLoomiIcon(
-  name: string,
-  variant: LoomiIconVariant = "outline",
-): SVGTemplateResult | undefined {
-  return ICONS[variant][name] ?? (variant === "solid" ? ICONS.outline[name] : undefined);
-}
-
-/** Names of all currently-registered icons. */
-export function loomiIconNames(variant: LoomiIconVariant = "outline"): string[] {
-  return Object.keys(ICONS[variant]);
-}
-`;
-
-writeFileSync(outFile, output);
+writeFileSync(
+  outFile,
+  `${JSON.stringify({ outline: Object.fromEntries(outline), solid: Object.fromEntries(solid) })}\n`,
+);
 console.log(`Generated ${outline.length} outline icons and ${solid.length} solid icons.`);

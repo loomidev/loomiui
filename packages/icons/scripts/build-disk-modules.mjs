@@ -12,7 +12,8 @@
 //   dist/icons/<source>/<type>/<name>.js  -> export default "<inner markup>"
 //   dist/icons/<source>/<type>/index.js   -> { loaders: { name: () => import(...) } }
 //   src/icons/<source>/<type>/index.d.ts  -> type stub so tsc can resolve the
-//                                            dynamic imports in disk-loaders.ts
+//                                            dynamic imports in the generated
+//                                            source entries (build-disk-manifest.mjs)
 //
 // The per-icon modules are written straight to dist/: tsc never reads them
 // (only the generated index.js references them), so routing 3,859 files
@@ -27,7 +28,6 @@ const pkgRoot = join(root, "..");
 const svgRoot = join(pkgRoot, "src", "svg");
 const distIcons = join(pkgRoot, "dist", "icons");
 const srcIcons = join(pkgRoot, "src", "icons");
-const generatedDir = join(pkgRoot, "src", "generated");
 
 const isDir = (path) => statSync(path).isDirectory();
 const iconName = (file) => file.replace(/\.svg$/, "");
@@ -97,31 +97,6 @@ for (const source of readdirSync(svgRoot)
 writeFileSync(
   join(distIcons, "icon-module.d.ts"),
   `${BANNER}\n/** Inner SVG markup for one icon, ready to drop inside an <svg> element. */\ndeclare const markup: string;\nexport default markup;\n`,
-);
-
-const loaderEntries = sets
-  .map(
-    ({ source, type }) =>
-      `  ${JSON.stringify(`${source}/${type}`)}: () => import(${JSON.stringify(`../icons/${source}/${type}/index.js`)}),`,
-  )
-  .join("\n");
-
-mkdirSync(generatedDir, { recursive: true });
-writeFileSync(
-  join(generatedDir, "disk-loaders.ts"),
-  `${BANNER}
-// Regenerate with: pnpm --filter @loomidev/icons build
-
-/** One lazily-imported icon set: name -> loader for that icon's module. */
-export interface DiskIconSetModule {
-  loaders: Record<string, () => Promise<{ default: string }>>;
-}
-
-/** Keyed \`<source>/<type>\`. Static literal specifiers keep these traceable. */
-export const DISK_ICON_SET_LOADERS: Record<string, () => Promise<DiskIconSetModule>> = {
-${loaderEntries}
-};
-`,
 );
 
 const summary = sets.map(({ source, type, count }) => `${source}/${type} (${count})`).join(", ");

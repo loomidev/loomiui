@@ -16,6 +16,15 @@ export const LOOMI_SIZES = ["tiny", "small", "regular", "medium", "big", "huge",
 /** A name from the canonical {@link LOOMI_SIZES} scale. */
 export type LoomiSize = (typeof LOOMI_SIZES)[number];
 
+/** The part of the canonical size scale every form control supports (the `.size-*` rows in `controlSizeStyles`). */
+export const LOOMI_CONTROL_SIZES = [
+  "tiny",
+  "small",
+  "regular",
+  "medium",
+  "big",
+] as const satisfies readonly LoomiSize[];
+
 /** The size every component defaults to. */
 export const LOOMI_DEFAULT_SIZE: LoomiSize = "regular";
 

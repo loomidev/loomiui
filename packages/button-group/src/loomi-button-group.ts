@@ -11,7 +11,7 @@ import {
   type LoomiSizeSupport,
   LOOMI_CONTROL_SIZES,
 } from "@loomidev/core";
-import { getLoomiIcon } from "@loomidev/icons";
+import { hasLoomiIcon, loomiIcon } from "@loomidev/icons";
 import type { LoomiTooltipPlacement } from "@loomidev/tooltip";
 import "@loomidev/tooltip/loomi-tooltip.js";
 import { componentStyles } from "./generated/styles.css.js";
@@ -137,8 +137,7 @@ export class LoomiButtonGroupItem extends LoomiElement {
 
   private renderIcon(): TemplateResult | typeof nothing {
     if (!this.icon) return nothing;
-    const path = getLoomiIcon(this.icon);
-    if (!path) return nothing;
+    if (!hasLoomiIcon(this.icon)) return nothing;
     return html`<svg
       class="loomi-bg-icon"
       viewBox="0 0 24 24"
@@ -146,7 +145,7 @@ export class LoomiButtonGroupItem extends LoomiElement {
       stroke="currentColor"
       stroke-width="1.5"
       aria-hidden="true"
-    >${path}</svg>`;
+    >${loomiIcon(this.icon)}</svg>`;
   }
 
   override render(): TemplateResult {

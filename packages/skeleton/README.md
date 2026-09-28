@@ -98,6 +98,14 @@ token overrides, and contrast guidance, see [Foundations - Dark mode](https://lo
 | `label`     | _(blank)_ | Accessible name announced while loading.                                                   |
 | `locale`    | _(blank)_ | Locale for the default accessible name.                                                    |
 
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **16.9 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
+
 ## Dependencies
 
 - `@loomidev/core`

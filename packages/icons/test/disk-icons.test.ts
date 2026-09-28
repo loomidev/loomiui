@@ -7,6 +7,9 @@ import {
   getLoomiIconBasePath,
   getLoomiDiskIconUrl,
 } from "../dist/index.js";
+// Disk-based sources are opt-in: these are what `@loomidev/icons/iconsax` etc. resolve to.
+import "../dist/generated/sources/iconsax.js";
+import "../dist/generated/sources/untitledui.js";
 
 /** The markup a directive carries, so a test can assert on real path data. */
 function markupOf(result: unknown): string {

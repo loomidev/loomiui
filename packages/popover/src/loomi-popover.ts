@@ -7,8 +7,13 @@ import {
   deepActiveElement,
   supportsPopover,
 } from "@loomidev/core";
-import { getLoomiIcon } from "@loomidev/icons";
+import { hasLoomiIcon, loomiIcon, provideLoomiIcons } from "@loomidev/icons";
+import informationCircleIcon from "@loomidev/icons/heroicons/outline/information-circle.js";
 import { componentStyles } from "./generated/styles.css.js";
+
+// This component's own icons ship inline so they render on first paint; any other
+// `icon` name loads on demand.
+provideLoomiIcons({ "information-circle": informationCircleIcon });
 
 export type LoomiPopoverPlacement = "top" | "bottom" | "left" | "right";
 
@@ -237,7 +242,7 @@ export class LoomiPopover extends LoomiElement {
   }
 
   override render(): TemplateResult {
-    const path = getLoomiIcon(this.trigger.replace(/-icon$/, ""));
+    const icon = this.trigger.replace(/-icon$/, "");
     return html`<button
       class="loomi-trigger"
       aria-haspopup="dialog"
@@ -248,7 +253,7 @@ export class LoomiPopover extends LoomiElement {
       @mouseleave=${this.triggerOn === "mouseover" ? () => this.hide() : nothing}
     >
       <slot name="trigger">
-        ${path ? html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${path}</svg>` : "?"}
+        ${hasLoomiIcon(icon) ? html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${loomiIcon(icon)}</svg>` : "?"}
       </slot>
     </button>
     ${

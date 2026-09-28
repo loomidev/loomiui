@@ -17,8 +17,14 @@ import {
   implicitlySubmit,
 } from "@loomidev/core";
 import "@loomidev/popover";
-import { getLoomiIcon } from "./icons.js";
+import { hasLoomiIcon, loomiIcon, provideLoomiIcons } from "@loomidev/icons";
+import xCircleIcon from "@loomidev/icons/heroicons/outline/x-circle.js";
+import informationCircleIcon from "@loomidev/icons/heroicons/outline/information-circle.js";
 import { componentStyles } from "./generated/styles.css.js";
+
+// This component's own icons ship inline so they render on first paint; any other
+// `icon` name loads on demand.
+provideLoomiIcons({ "x-circle": xCircleIcon, "information-circle": informationCircleIcon });
 
 export type LoomiInputType = "text" | "email" | "password" | "search" | "tel" | "url";
 export type LoomiInputVariant = "default" | "minimal";
@@ -323,9 +329,8 @@ export class LoomiInput extends LoomiElement {
   };
 
   private renderIcon(name: string, cls = "loomi-icon"): TemplateResult | typeof nothing {
-    const path = getLoomiIcon(name);
-    if (!path) return nothing;
-    return html`<svg class=${cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${path}</svg>`;
+    if (!hasLoomiIcon(name)) return nothing;
+    return html`<svg class=${cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${loomiIcon(name)}</svg>`;
   }
 
   private parseOptions(options: string): string[] {

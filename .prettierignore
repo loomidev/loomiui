@@ -5,6 +5,7 @@
 # Generated artifacts (rebuilt by tooling — never hand-format)
 **/src/generated/
 **/custom-elements.json
+packages/icons/data/
 
 # Managed by other tools
 pnpm-lock.yaml

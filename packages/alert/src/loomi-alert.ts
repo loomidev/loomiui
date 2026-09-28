@@ -1,8 +1,21 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, loomiT, accentVars, type LoomiColor } from "@loomidev/core";
-import { getLoomiIcon } from "@loomidev/icons";
+import { hasLoomiIcon, loomiIcon, provideLoomiIcons } from "@loomidev/icons";
+import informationCircleIcon from "@loomidev/icons/heroicons/outline/information-circle.js";
+import handRaisedIcon from "@loomidev/icons/heroicons/outline/hand-raised.js";
+import exclamationTriangleIcon from "@loomidev/icons/heroicons/outline/exclamation-triangle.js";
+import checkCircleIcon from "@loomidev/icons/heroicons/outline/check-circle.js";
 import { componentStyles } from "./generated/styles.css.js";
+
+// This component's own icons ship inline so they render on first paint; any other
+// `icon` name loads on demand.
+provideLoomiIcons({
+  "information-circle": informationCircleIcon,
+  "hand-raised": handRaisedIcon,
+  "exclamation-triangle": exclamationTriangleIcon,
+  "check-circle": checkCircleIcon,
+});
 
 export type LoomiAlertType = "" | "info" | "error" | "warning" | "success";
 export type LoomiAlertIconPlacement = "top" | "center";
@@ -67,9 +80,8 @@ export class LoomiAlert extends LoomiElement {
   };
 
   private renderIcon(name: string): TemplateResult | typeof nothing {
-    const path = getLoomiIcon(name);
-    if (!path) return nothing;
-    return html`<svg class="loomi-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${path}</svg>`;
+    if (!hasLoomiIcon(name)) return nothing;
+    return html`<svg class="loomi-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${loomiIcon(name)}</svg>`;
   }
 
   override render(): TemplateResult | typeof nothing {

@@ -86,6 +86,14 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | ----------- | ------------------------------------ |
 | _(default)_ | Content placed inside the component. |
 
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **4.3 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
+
 ## Dependencies
 
 - `@loomidev/core`

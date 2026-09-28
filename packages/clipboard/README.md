@@ -77,6 +77,14 @@ document.querySelector("loomi-clipboard").addEventListener("loomi-copied", (even
 });
 ```
 
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **5.8 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 79.0 KB. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
+
 ## Dependencies
 
 - `@loomidev/core`

@@ -2377,6 +2377,9 @@ importers:
       '@loomidev/icon':
         specifier: workspace:^
         version: link:../icon
+      '@loomidev/icons':
+        specifier: workspace:^
+        version: link:../icons
       '@loomidev/input':
         specifier: workspace:^
         version: link:../input

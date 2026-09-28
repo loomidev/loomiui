@@ -124,6 +124,14 @@ group.addEventListener("loomi-layout-change", (event) => {
 });
 ```
 
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **6.5 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
+
 ## Dependencies
 
 - `@loomidev/core`

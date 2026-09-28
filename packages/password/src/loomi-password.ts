@@ -18,8 +18,25 @@ import {
   type LoomiSizeSupport,
   implicitlySubmit,
 } from "@loomidev/core";
-import { getLoomiIcon } from "@loomidev/icons";
+import { hasLoomiIcon, loomiIcon, provideLoomiIcons } from "@loomidev/icons";
+import chevronDownIcon from "@loomidev/icons/heroicons/outline/chevron-down.js";
+import checkIcon from "@loomidev/icons/heroicons/outline/check.js";
+import xCircleIcon from "@loomidev/icons/heroicons/outline/x-circle.js";
+import eyeIcon from "@loomidev/icons/heroicons/outline/eye.js";
+import eyeSlashIcon from "@loomidev/icons/heroicons/outline/eye-slash.js";
+import checkCircleIcon from "@loomidev/icons/heroicons/outline/check-circle.js";
 import { componentStyles } from "./generated/styles.css.js";
+
+// This component's own icons ship inline so they render on first paint; any other
+// `icon` name loads on demand.
+provideLoomiIcons({
+  "chevron-down": chevronDownIcon,
+  check: checkIcon,
+  "x-circle": xCircleIcon,
+  eye: eyeIcon,
+  "eye-slash": eyeSlashIcon,
+  "check-circle": checkCircleIcon,
+});
 
 export type LoomiPasswordVariant = "default" | "minimal";
 export type LoomiPasswordStrengthToken = "A" | "a" | "1" | "#";
@@ -211,9 +228,8 @@ export class LoomiPassword extends LoomiElement {
   };
 
   private renderIcon(name: string, cls = "loomi-icon"): TemplateResult | typeof nothing {
-    const path = getLoomiIcon(name);
-    if (!path) return nothing;
-    return html`<svg class=${cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${path}</svg>`;
+    if (!hasLoomiIcon(name)) return nothing;
+    return html`<svg class=${cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${loomiIcon(name)}</svg>`;
   }
 
   private parseOptions(options: string): string[] {

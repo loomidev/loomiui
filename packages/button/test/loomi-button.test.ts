@@ -224,4 +224,20 @@ describe("loomi-button", () => {
     expect(el.hasAttribute("full-width")).to.be.false;
     expect(el.offsetWidth).to.be.lessThan(300);
   });
+
+  it("hides the icon slot for an unknown icon name", async () => {
+    const el = await fixture<LoomiButton>(html`<loomi-button icon="not-an-icon">Go</loomi-button>`);
+    const svg = el.shadowRoot!.querySelector(".loomi-icon")!;
+    expect(getComputedStyle(svg).display).to.equal("none");
+  });
+
+  it("shows an icon once it loads", async () => {
+    const el = await fixture<LoomiButton>(html`<loomi-button icon="x-mark">Close</loomi-button>`);
+    const svg = el.shadowRoot!.querySelector(".loomi-icon")!;
+    await new Promise<void>((resolve) => {
+      const check = () => (svg.querySelector("path") ? resolve() : setTimeout(check, 10));
+      check();
+    });
+    expect(getComputedStyle(svg).display).to.not.equal("none");
+  });
 });

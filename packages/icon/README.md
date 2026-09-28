@@ -31,17 +31,23 @@ import "@loomidev/icon";
 <loomi-icon source="untitledui" name="user-02"></loomi-icon>
 ```
 
-`heroicons` is inlined into `@loomidev/icon` at build time, so it renders instantly.
-`iconsax` and `untitledui` are disk-based: the first time a page uses a given icon, that
-one icon is loaded and cached in memory - every later use of that same icon, anywhere on
-the page, is instant. Until that first load resolves, `<loomi-icon>` renders a
-correctly-sized empty placeholder, so there's no layout jump.
+`heroicons` is always available. The `iconsax` and `untitledui` sets are opt-in. Import each one you use once, anywhere in
+your app, or the icon falls back to the slot and logs a warning naming the import:
 
-Disk-based icons load from per-icon ES modules that ship inside `@loomidev/icons`, so
-they work under any bundler with no configuration and no asset-copying step. Two options
-if you want something else - importing an icon statically to skip the runtime lookup
-entirely, or serving the raw `.svg` files yourself with `setLoomiIconBasePath` - are
-covered in [`@loomidev/icons`](../icons#how-an-icon-is-resolved).
+```js
+import "@loomidev/icons/iconsax";
+```
+
+Every source loads one icon at a time: the first time a page uses a given icon, that one
+icon is loaded and cached in memory, and every later use of it, anywhere on the page, is
+instant. Until that first load resolves, `<loomi-icon>` renders a correctly-sized empty
+placeholder, so there's no layout jump.
+
+Icons load from per-icon ES modules that ship inside `@loomidev/icons`, so they work
+under any bundler with no configuration and no asset-copying step. To load every
+Heroicon up front instead, `import "@loomidev/icons/all"`. Importing an icon statically,
+serving the raw `.svg` files yourself, and grouping icons into fewer chunks are covered
+in [`@loomidev/icons`](../icons#how-an-icon-is-resolved).
 
 ### Outline, Solid, and Twotone
 
@@ -401,6 +407,14 @@ import "@loomidev/icon";
 Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on the server before browser-only code runs. If your framework complains, move the Loomi import to client-side code. In Next.js, that usually means a component with `"use client"`; in Nuxt, it often means a `.client.ts` plugin.
 
 <!-- END loomi-framework-guide -->
+
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **7.6 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 80.7 KB. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
 
 ## Dependencies
 

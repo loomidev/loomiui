@@ -8,7 +8,7 @@ import {
   type LoomiColor,
 } from "@loomidev/core";
 import {
-  getLoomiIcon,
+  hasLoomiIcon,
   hasLoomiDiskIcon,
   isLoomiDiskIconSource,
   type LoomiIconSource,
@@ -119,7 +119,7 @@ export class LoomiTabs extends LoomiElement {
     if (!tab.icon) return false;
     const source = tab.iconSource || "heroicons";
     if (isLoomiDiskIconSource(source)) return hasLoomiDiskIcon(source, tab.icon, tab.iconVariant);
-    return !!getLoomiIcon(tab.icon, tab.iconVariant === "solid" ? "solid" : "outline");
+    return hasLoomiIcon(tab.icon, tab.iconVariant === "solid" ? "solid" : "outline");
   }
 
   private get activeTabIndex(): number {
