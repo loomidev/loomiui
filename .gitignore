@@ -10,6 +10,7 @@ coverage/
 **/src/generated/
 # Generated icon-module type stubs (see packages/icons/scripts/build-disk-modules.mjs)
 packages/icons/src/icons/
+packages/icons/src/heroicons/
 /.claude
 /.pnpm-store
 /.idea

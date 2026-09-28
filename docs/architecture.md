@@ -391,8 +391,26 @@ reaching into foundation internals.
 
 ### `@loomidev/icons`
 
-Owns the shared icon registry. Components that need icons call `getLoomiIcon(...)` or
-re-export the shared registration helpers.
+Owns the shared icon registry. No icon data is imported statically: every icon is its own
+generated module, loaded the first time it renders.
+
+- Components render a user-supplied name with `hasLoomiIcon(name)` (a synchronous check
+  against a compact name list) and the `loomiIcon(name)` Lit directive, which renders the
+  icon when it's ready and fills it in when its module arrives.
+- A component's own chrome icons (a clear button, a chevron) are imported statically from
+  `@loomidev/icons/heroicons/outline/<name>.js` and handed over with
+  `provideLoomiIcons()`, so they render on first paint without replacing an icon an app
+  registered.
+- The disk-based sets (Iconsax, Untitled UI) are opt-in per source
+  (`import "@loomidev/icons/iconsax"`), so an app that never uses one bundles none of it.
+  A component that needs a few of their icons registers exactly those with
+  `registerLoomiDiskIcon()` (see `<loomi-text-editor>`).
+- `@loomidev/icons/all` is the opt-in eager registry.
+
+Every package declares `"sideEffects"`: `./dist/index.js` and the `./dist/loomi-*.js`
+modules that define elements. `@loomidev/core` and `@loomidev/theme` are side-effect free.
+A new module with top-level side effects must be named `loomi-*.ts` or added to its
+package's list.
 
 ## Bundle Packages
 

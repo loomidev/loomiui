@@ -96,6 +96,14 @@ The `error-correction` attribute controls how much of the QR code can be damaged
 
 The encoder supports byte-mode QR codes through version 10, which covers typical URLs and short payloads. For longer values, shorten the URL before encoding.
 
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **8.1 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
+
 ## Dependencies
 
 - `@loomidev/core`

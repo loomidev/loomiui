@@ -18,6 +18,9 @@
   "files": [
     "dist"
   ],
+  "sideEffects": [
+    "./dist/*.js"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

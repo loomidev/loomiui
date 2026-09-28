@@ -10,6 +10,7 @@ import {
   themeStyles,
   type LoomiFieldLabelPosition,
   insertTextAtCaret,
+  toControlValue,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -62,7 +63,15 @@ export class LoomiTextarea extends LoomiElement {
   labelPosition: LoomiFieldLabelPosition = "default";
   @property() locale = "";
   @property() placeholder = "";
-  @property() value = "";
+  private _value = "";
+  /** Current value. Like a native input's, anything assigned is coerced to a string (`null`/`undefined` become `""`). */
+  @property()
+  get value(): string {
+    return this._value;
+  }
+  set value(value: string) {
+    this._value = toControlValue(value);
+  }
   @property({ type: Number }) rows = 3;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) disabled = false;

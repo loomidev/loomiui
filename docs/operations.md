@@ -136,7 +136,10 @@ API change.
 `import()` targets out: a lazily loaded module (an on-demand icon, say) doesn't count
 against the up-front cost, just as a consumer's bundler would split it off. It gzips the
 result and compares it against the committed budget in `scripts/bundle-size-budget.json`,
-failing if a package grew more than 10%. If the growth
+failing if a package grew more than 10%, or past a fixed ceiling in the script's
+`HARD_LIMITS` (the button's 10 KB). Every run prints a size table, which CI adds to the job
+summary; `node scripts/check-bundle-size.mjs --readme` rewrites each README's Bundle size
+section from the same numbers. If the growth
 is an intentional part of the change (a new dependency, a larger feature), regenerate the
 budget and commit it:
 
@@ -147,9 +150,8 @@ node scripts/check-bundle-size.mjs --write
 
 If the growth is unexpected, check for a dependency that should be `external` (only `lit`
 and its subpaths are by default) or a runtime lookup pattern that defeats tree-shaking —
-see how `@loomidev/icons` keeps its disk-based sets (iconsax, untitledui) lazy-loaded
-per-icon in [`architecture.md`](architecture.md#loomidevicons) rather than inlining the
-whole set.
+see how `@loomidev/icons` loads every icon per-icon, on demand, in
+[`architecture.md`](architecture.md#loomidevicons) rather than inlining the whole set.
 
 ### A package is missing from a bundle or MCP listing
 

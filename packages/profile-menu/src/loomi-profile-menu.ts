@@ -9,7 +9,7 @@ import {
   type LoomiSizeSupport,
 } from "@loomidev/core";
 import type { LoomiDropmenu } from "@loomidev/dropmenu";
-import { getLoomiIcon } from "@loomidev/icons";
+import chevronDownIcon from "@loomidev/icons/heroicons/outline/chevron-down.js";
 import "@loomidev/avatar/loomi-avatar.js";
 import "@loomidev/card/loomi-card.js";
 import "@loomidev/dropmenu/loomi-dropmenu.js";
@@ -34,8 +34,6 @@ const compactConverter = {
     return value === "auto" ? "auto" : null;
   },
 };
-
-const CHEVRON_DOWN = getLoomiIcon("chevron-down");
 
 /** Matches the `compact="auto"` breakpoint in styles.css (just under 40rem). */
 const NARROW_VIEWPORT = "(max-width: 39.9375rem)";
@@ -161,9 +159,8 @@ export class LoomiProfileMenu extends LoomiElement {
   }
 
   private renderChevron(): TemplateResult | typeof nothing {
-    if (!CHEVRON_DOWN) return nothing;
     return html`<svg class="loomi-pm-chevron" part="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
-      ${CHEVRON_DOWN}
+      ${chevronDownIcon}
     </svg>`;
   }
 

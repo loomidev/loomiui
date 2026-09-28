@@ -17,7 +17,7 @@ import {
   loomiT,
   cssColor,
 } from "@loomidev/core";
-import { getLoomiIcon, type LoomiIconVariant } from "@loomidev/icons";
+import { hasLoomiIcon, loomiIcon, type LoomiIconVariant } from "@loomidev/icons";
 import "@loomidev/checkbox/loomi-checkbox.js";
 import "@loomidev/input/loomi-input.js";
 import "@loomidev/pagination/loomi-pagination.js";
@@ -413,7 +413,7 @@ export class LoomiTable extends LoomiElement {
 
   private renderActionIcon(item: LoomiActionIcon, row: Row): TemplateResult {
     const variant = item.iconType ?? item.icon_type ?? "outline";
-    const path = getLoomiIcon(item.icon, variant);
+    const hasIcon = hasLoomiIcon(item.icon, variant);
     const filled = (item.buttonOutline ?? item.button_outline) === false;
     const style = `${accentVars(item.color || "secondary")}--_loomi-accent-bg:${cssColor(item.color || "secondary", 600)}`;
     return html`<button
@@ -443,8 +443,8 @@ export class LoomiTable extends LoomiElement {
       }}
     >
       ${
-        path
-          ? html`<svg viewBox="0 0 24 24" fill=${variant === "solid" ? "currentColor" : "none"} stroke=${variant === "solid" ? "none" : "currentColor"} stroke-width="1.6" aria-hidden="true">${path}</svg>`
+        hasIcon
+          ? html`<svg viewBox="0 0 24 24" fill=${variant === "solid" ? "currentColor" : "none"} stroke=${variant === "solid" ? "none" : "currentColor"} stroke-width="1.6" aria-hidden="true">${loomiIcon(item.icon, variant)}</svg>`
           : item.icon
       }
     </button>`;

@@ -19,6 +19,10 @@
     "dist",
     "custom-elements.json"
   ],
+  "sideEffects": [
+    "./dist/index.js",
+    "./dist/loomi-*.js"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

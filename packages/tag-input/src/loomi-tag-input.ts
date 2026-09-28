@@ -16,8 +16,9 @@ import {
   resolveLoomiSize,
   type LoomiSize,
   type LoomiSizeSupport,
+  toControlValue,
 } from "@loomidev/core";
-import { getLoomiIcon } from "@loomidev/icons";
+import { hasLoomiIcon, loomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiTagInputMode = "inside" | "below";
@@ -70,7 +71,15 @@ export class LoomiTagInput extends LoomiElement {
   labelPosition: LoomiFieldLabelPosition = "default";
   @property() locale = "";
   @property() placeholder = "";
-  @property() value = "";
+  private _value = "";
+  /** Current value. Like a native input's, anything assigned is coerced to a string (`null`/`undefined` become `""`). */
+  @property()
+  get value(): string {
+    return this._value;
+  }
+  set value(value: string) {
+    this._value = toControlValue(value);
+  }
   /** Size preset: `tiny` | `small` | `regular` | `medium` | `big`. Equal names give equal heights across every form control and `<loomi-button>`. */
   @property() size: LoomiSize = "regular";
   @property() variant: LoomiTagInputVariant = "default";
@@ -322,9 +331,8 @@ export class LoomiTagInput extends LoomiElement {
   };
 
   private renderIcon(name: string, cls = "loomi-icon"): TemplateResult | typeof nothing {
-    const path = getLoomiIcon(name);
-    if (!path) return nothing;
-    return html`<svg class=${cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${path}</svg>`;
+    if (!hasLoomiIcon(name)) return nothing;
+    return html`<svg class=${cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${loomiIcon(name)}</svg>`;
   }
 
   private renderTag(tag: string, index: number): TemplateResult {

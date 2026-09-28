@@ -1,10 +1,8 @@
 import { unsafeSVG } from "lit/directives/unsafe-svg.js";
-import { DISK_ICON_NAMES } from "./generated/disk-manifest.js";
-import { DISK_ICON_SET_LOADERS } from "./generated/disk-loaders.js";
 
 /**
- * Every icon source `<loomi-icon>` understands. `heroicons` is the original,
- * inlined registry (see heroicons.ts); the rest are disk-based (this file).
+ * Every icon source `<loomi-icon>` understands. `heroicons` is the default set
+ * (see heroicons.ts); the rest are disk-based (this file).
  */
 export type LoomiIconSource = "heroicons" | LoomiDiskIconSource;
 
@@ -16,20 +14,61 @@ export type LoomiIconType = "outline" | "solid" | "twotone";
 
 const DEFAULT_TYPE: LoomiIconType = "outline";
 
-function toNameSets(
-  byType: Partial<Record<LoomiIconType, readonly string[]>>,
-): Partial<Record<LoomiIconType, Set<string>>> {
-  const out: Partial<Record<LoomiIconType, Set<string>>> = {};
-  for (const type of Object.keys(byType) as LoomiIconType[]) {
-    out[type] = new Set(byType[type]);
-  }
-  return out;
+/** One lazily-imported icon set: name -> loader for that icon's module. */
+export interface LoomiDiskIconSetModule {
+  loaders: Record<string, () => Promise<{ default: string }>>;
 }
 
-const NAME_SETS: Record<LoomiDiskIconSource, Partial<Record<LoomiIconType, Set<string>>>> = {
-  iconsax: toNameSets(DISK_ICON_NAMES.iconsax),
-  untitledui: toNameSets(DISK_ICON_NAMES.untitledui),
-};
+/** What a source entry (`@loomidev/icons/<source>`) registers for each type it ships. */
+export interface LoomiDiskIconSetEntry {
+  names: readonly string[];
+  load: () => Promise<LoomiDiskIconSetModule>;
+}
+
+type SourceRecord = Partial<
+  Record<LoomiIconType, { names: Set<string>; load: LoomiDiskIconSetEntry["load"] }>
+>;
+
+/**
+ * Sources are opt-in: nothing is known about a source until its entry module is
+ * imported (`import "@loomidev/icons/iconsax"`). That keeps an app that never uses
+ * a disk-based set from bundling its name list or emitting a chunk per icon.
+ */
+const SOURCES: Partial<Record<LoomiDiskIconSource, SourceRecord>> = {};
+
+/**
+ * Registers a disk-based source's names and lazy loaders. Called by the generated
+ * `@loomidev/icons/<source>` entries; you shouldn't need to call it yourself.
+ */
+export function registerLoomiDiskIconSource(
+  source: LoomiDiskIconSource,
+  sets: Partial<Record<LoomiIconType, LoomiDiskIconSetEntry>>,
+): void {
+  const record: SourceRecord = {};
+  for (const type of Object.keys(sets) as LoomiIconType[]) {
+    const entry = sets[type]!;
+    record[type] = { names: new Set(entry.names), load: entry.load };
+  }
+  SOURCES[source] = record;
+}
+
+/** Whether `@loomidev/icons/<source>` has been imported. */
+export function isLoomiDiskIconSourceRegistered(source: LoomiDiskIconSource): boolean {
+  return SOURCES[source] !== undefined;
+}
+
+const warned = new Set<string>();
+
+function sourceRecord(source: LoomiDiskIconSource): SourceRecord {
+  const record = SOURCES[source];
+  if (!record && !warned.has(source)) {
+    warned.add(source);
+    console.warn(
+      `[@loomidev/icons] Icon source "${source}" isn't loaded. Add \`import "@loomidev/icons/${source}";\` once in your app to use it.`,
+    );
+  }
+  return record ?? {};
+}
 
 /** Base URL for this package's own `dist/svg/` folder, resolved relative to
  * the running module. Correct whenever the package keeps its real module URL
@@ -81,26 +120,33 @@ export function loomiDiskIconNames(
   source: LoomiDiskIconSource,
   type: LoomiIconType = DEFAULT_TYPE,
 ): string[] {
-  const names = NAME_SETS[source][type] ?? NAME_SETS[source][DEFAULT_TYPE];
+  const record = sourceRecord(source);
+  const names = (record[type] ?? record[DEFAULT_TYPE])?.names;
   return names ? Array.from(names) : [];
 }
 
 /** All icon types a disk-based source actually ships. */
 export function loomiDiskIconTypes(source: LoomiDiskIconSource): LoomiIconType[] {
-  return Object.keys(NAME_SETS[source]) as LoomiIconType[];
+  return Object.keys(sourceRecord(source)) as LoomiIconType[];
 }
 
 /** Resolves `type` the way every lookup here does: an unavailable type (e.g.
  * `untitledui` + "twotone") falls back to `outline` rather than failing,
  * matching how `<loomi-icon>` already treats an unknown Heroicons `variant`. */
 function resolveType(source: LoomiDiskIconSource, name: string, type: LoomiIconType) {
-  const bySource = NAME_SETS[source];
-  const resolved = bySource[type]?.has(name) ? type : DEFAULT_TYPE;
-  return bySource[resolved]?.has(name) ? resolved : undefined;
+  const bySource = SOURCES[source];
+  // A statically registered icon counts even when its source entry was never imported.
+  const known = (t: LoomiIconType) =>
+    registered.has(cacheKey(source, t, name)) || !!bySource?.[t]?.names.has(name);
+  if (known(type)) return type;
+  if (known(DEFAULT_TYPE)) return DEFAULT_TYPE;
+  if (!bySource) sourceRecord(source); // warns once that the source isn't loaded
+  return undefined;
 }
 
 /** Whether `(source, name)` is a real icon in this package. Cheap and
- * synchronous — it only consults the generated name manifest. */
+ * synchronous — it only consults the source's name list, so it is `false` for
+ * every name until `@loomidev/icons/<source>` has been imported. */
 export function hasLoomiDiskIcon(
   source: LoomiDiskIconSource,
   name: string,
@@ -180,7 +226,7 @@ async function importInnerMarkup(
   name: string,
 ): Promise<string | undefined> {
   try {
-    const set = await DISK_ICON_SET_LOADERS[`${source}/${type}`]?.();
+    const set = await SOURCES[source]?.[type]?.load();
     return await set?.loaders[name]?.().then((module) => module.default);
   } catch {
     return undefined;

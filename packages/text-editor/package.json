@@ -19,6 +19,10 @@
     "dist",
     "custom-elements.json"
   ],
+  "sideEffects": [
+    "./dist/index.js",
+    "./dist/loomi-*.js"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -38,6 +42,7 @@
     "@loomidev/core": "workspace:^",
     "@loomidev/filepicker": "workspace:^",
     "@loomidev/icon": "workspace:^",
+    "@loomidev/icons": "workspace:^",
     "@loomidev/input": "workspace:^",
     "@loomidev/modal": "workspace:^",
     "@loomidev/notification": "workspace:^",

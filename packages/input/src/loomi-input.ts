@@ -15,11 +15,18 @@ import {
   type LoomiSize,
   type LoomiSizeSupport,
   insertTextAtCaret,
+  toControlValue,
   implicitlySubmit,
 } from "@loomidev/core";
 import "@loomidev/popover";
-import { getLoomiIcon } from "./icons.js";
+import { hasLoomiIcon, loomiIcon, provideLoomiIcons } from "@loomidev/icons";
+import xCircleIcon from "@loomidev/icons/heroicons/outline/x-circle.js";
+import informationCircleIcon from "@loomidev/icons/heroicons/outline/information-circle.js";
 import { componentStyles } from "./generated/styles.css.js";
+
+// This component's own icons ship inline so they render on first paint; any other
+// `icon` name loads on demand.
+provideLoomiIcons({ "x-circle": xCircleIcon, "information-circle": informationCircleIcon });
 
 export type LoomiInputType = "text" | "email" | "password" | "search" | "tel" | "url";
 export type LoomiInputVariant = "default" | "minimal";
@@ -79,7 +86,15 @@ export class LoomiInput extends LoomiElement {
   labelPosition: LoomiFieldLabelPosition = "default";
   @property() locale = "";
   @property() placeholder = "";
-  @property() value = "";
+  private _value = "";
+  /** Current value. Like a native input's, anything assigned is coerced to a string (`null`/`undefined` become `""`). */
+  @property()
+  get value(): string {
+    return this._value;
+  }
+  set value(value: string) {
+    this._value = toControlValue(value);
+  }
   @property({ type: Boolean, reflect: true }) required = false;
   /** Stops Enter in this field from submitting its form (native implicit submission). */
   @property({ type: Boolean, attribute: "no-implicit-submit" }) noImplicitSubmit = false;
@@ -171,7 +186,13 @@ export class LoomiInput extends LoomiElement {
       changed.has("mask") ||
       changed.has("dynamicMask")
     ) {
-      this.value = this.normalizeValue(this.value);
+      // A throwing mask (a custom `dynamicMask` function, say) must never leave the field
+      // unrendered: fall back to the raw value and say why.
+      try {
+        this.value = this.normalizeValue(this.value);
+      } catch (error) {
+        console.warn("[loomi-input] Couldn't normalise the value; keeping it as typed.", error);
+      }
     }
 
     this.internals.setFormValue(this.value);
@@ -359,9 +380,8 @@ export class LoomiInput extends LoomiElement {
   };
 
   private renderIcon(name: string, cls = "loomi-icon"): TemplateResult | typeof nothing {
-    const path = getLoomiIcon(name);
-    if (!path) return nothing;
-    return html`<svg class=${cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${path}</svg>`;
+    if (!hasLoomiIcon(name)) return nothing;
+    return html`<svg class=${cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${loomiIcon(name)}</svg>`;
   }
 
   private parseOptions(options: string): string[] {

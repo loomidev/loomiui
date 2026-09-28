@@ -12,6 +12,7 @@ import {
   resolveLoomiSize,
   type LoomiSize,
   type LoomiSizeSupport,
+  toControlValue,
   implicitlySubmit,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
@@ -49,7 +50,15 @@ export class LoomiNumber extends LoomiElement {
   @property({ attribute: "label-position", reflect: true })
   labelPosition: LoomiFieldLabelPosition = "default";
   @property() locale = "";
-  @property() value = "";
+  private _value = "";
+  /** Current value. Like a native input's, anything assigned is coerced to a string (`null`/`undefined` become `""`). */
+  @property()
+  get value(): string {
+    return this._value;
+  }
+  set value(value: string) {
+    this._value = toControlValue(value);
+  }
   @property({ type: Number }) min = 0;
   @property({ type: Number }) max = 100;
   @property({ type: Number }) step = 1;

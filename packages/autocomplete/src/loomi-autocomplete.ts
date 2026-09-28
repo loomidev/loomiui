@@ -16,9 +16,15 @@ import {
   resolveLoomiSize,
   type LoomiSize,
   type LoomiSizeSupport,
+  toControlValue,
   implicitlySubmit,
 } from "@loomidev/core";
-import { getLoomiIcon } from "./icons.js";
+import { hasLoomiIcon, loomiIcon, provideLoomiIcons } from "@loomidev/icons";
+import xCircleIcon from "@loomidev/icons/heroicons/outline/x-circle.js";
+
+// This component's own icons ship inline so they render on first paint; any other
+// `icon` name loads on demand.
+provideLoomiIcons({ "x-circle": xCircleIcon });
 
 export type LoomiAutocompleteVariant = "default" | "minimal";
 
@@ -222,7 +228,15 @@ export class LoomiAutocomplete extends LoomiElement {
   @property({ attribute: "label-position", reflect: true })
   labelPosition: LoomiFieldLabelPosition = "default";
   @property() placeholder = DEFAULT_PLACEHOLDER;
-  @property() value = "";
+  private _value = "";
+  /** Current value. Like a native input's, anything assigned is coerced to a string (`null`/`undefined` become `""`). */
+  @property()
+  get value(): string {
+    return this._value;
+  }
+  set value(value: string) {
+    this._value = toControlValue(value);
+  }
   @property({ attribute: "selected-value" }) selectedValue = "";
   @property() locale = "";
   /** Size preset: `tiny` | `small` | `regular` | `medium` | `big`. Equal names give equal heights across every form control and `<loomi-button>`. */
@@ -332,9 +346,8 @@ export class LoomiAutocomplete extends LoomiElement {
   }
 
   private renderIcon(name: string, cls = "loomi-icon"): TemplateResult | typeof nothing {
-    const path = getLoomiIcon(name);
-    if (!path) return nothing;
-    return html`<svg class=${cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${path}</svg>`;
+    if (!hasLoomiIcon(name)) return nothing;
+    return html`<svg class=${cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${loomiIcon(name)}</svg>`;
   }
 
   private get options(): LoomiAutocompleteItem[] {

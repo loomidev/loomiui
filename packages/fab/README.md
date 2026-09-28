@@ -174,7 +174,8 @@ stays exactly where you put it.
 Icons render through `<loomi-icon>` - the same registry and `source` attribute
 (`heroicons` default, `iconsax`, `untitledui`) used by `<loomi-bottom-nav>`. Set
 `icon-source` on `<loomi-fab>` to change the set for every icon at once, or on a single
-`<loomi-fab-item>` to override just that one.
+`<loomi-fab-item>` to override just that one. The `iconsax` and `untitledui` sets are
+opt-in: import each one you use once, with `import "@loomidev/icons/iconsax";`.
 
 ```html
 <loomi-fab icon="add" icon-source="iconsax">
@@ -528,6 +529,14 @@ to client-side code. In Next.js, that usually means a component with `"use clien
 Nuxt, it often means a `.client.ts` plugin.
 
 <!-- END loomi-framework-guide -->
+
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **25.0 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 97.9 KB. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
 
 ## Dependencies
 

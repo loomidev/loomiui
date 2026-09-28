@@ -1,9 +1,13 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomidev/core";
-import { getLoomiIcon } from "@loomidev/icons";
+import { hasLoomiIcon, provideLoomiIcons } from "@loomidev/icons";
+import checkIcon from "@loomidev/icons/heroicons/outline/check.js";
 import "@loomidev/icon/loomi-icon.js";
 import { componentStyles } from "./generated/styles.css.js";
+
+// The selected-card check mark renders on first paint rather than loading on demand.
+provideLoomiIcons({ check: checkIcon });
 
 /**
  * `<loomi-checkcard>` — a single selectable card. Use inside `<loomi-checkcards>`.
@@ -28,7 +32,7 @@ export class LoomiCheckcard extends LoomiElement {
         ? html`<span class="loomi-avatar">${this.avatar}</span>`
         : html`<img class="loomi-avatar" src=${this.avatar} alt="" />`;
     }
-    if (this.icon && getLoomiIcon(this.icon)) {
+    if (this.icon && hasLoomiIcon(this.icon)) {
       return html`<span class="loomi-media"><loomi-icon name=${this.icon} stroke-width="1.6"></loomi-icon></span>`;
     }
     return nothing;

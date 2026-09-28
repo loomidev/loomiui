@@ -125,6 +125,14 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 Setting `value` shows the matching item's label without firing events. Picking a suggestion fires `input` then `change`; typed free text commits with `change` when focus leaves the field. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
 
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **23.8 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 96.6 KB. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
+
 ## Dependencies
 
 - `@loomidev/core`

@@ -125,6 +125,14 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `checkValidity()`  | Mirrors native form validity.                             |
 | `reportValidity()` | Shows the browser validation UI where supported.          |
 
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **75.0 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 147.9 KB. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
+
 ## Dependencies
 
 - `@loomidev/core`

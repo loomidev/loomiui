@@ -101,6 +101,14 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `showIcons()` | Shows the icon-only rail.                        |
 | `toggle()`    | Switches between `expanded` and `collapse-mode`. |
 
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **7.3 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 80.3 KB. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
+
 ## Dependencies
 
 - `@loomidev/core`
