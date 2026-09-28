@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/button-group",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "<loomi-button-group>/<loomi-button-group-item> — a segmented button group with selection, icons, outline mode, and disabled states.",
   "repository": {
     "type": "git",
