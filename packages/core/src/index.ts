@@ -8,6 +8,7 @@ export * from "./elevation.js";
 export * from "./field.js";
 export * from "./focus.js";
 export * from "./i18n.js";
+export * from "./implicit-submit.js";
 export * from "./mention.js";
 export * from "./menu-nav.js";
 export * from "./motion.js";
