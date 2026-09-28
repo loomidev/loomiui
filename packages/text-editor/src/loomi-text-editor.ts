@@ -381,6 +381,10 @@ function readFileAsDataUrl(file: File): Promise<string> {
  * @csspart field - The bordered container.
  * @csspart toolbar - The toolbar container.
  * @csspart editor - The editable surface.
+ * @csspart custom-tool - Each button rendered from `customTools`.
+ * @slot toolbar-start - Your own controls at the start of the toolbar.
+ * @slot toolbar-end - Your own controls at the end of the toolbar.
+ * @fires loomi-tool - `detail: { id, insertText, insertHTML }` when a `customTools` button is clicked.
  * @fires input - Native input event (composed).
  * @fires change - Native change event (composed).
  */
@@ -398,7 +402,19 @@ export class LoomiTextEditor extends LoomiElement {
   private committedValue = "";
   private savedRange: Range | null = null;
   private embedFiles: File[] = [];
-  private readonly onSelectionChange = (): void => this.updateToolbarState();
+  /**
+   * The last selection made inside the editor. Clicking a button outside the editor (an
+   * app's own toolbar) moves focus and the live selection away, so the public insert
+   * methods put the caret back here first.
+   */
+  private lastRange: Range | null = null;
+  /** Set when the surface fires `input` while {@link command} runs; see there. */
+  private inputDuringCommand = false;
+  private readonly onSelectionChange = (): void => {
+    const range = this.currentRange();
+    if (range) this.lastRange = range.cloneRange();
+    this.updateToolbarState();
+  };
 
   @property({ reflect: true }) name = "";
   @property() label = "";
@@ -416,6 +432,12 @@ export class LoomiTextEditor extends LoomiElement {
     this._value = toControlValue(value);
   }
   @property() tools: LoomiTextEditorTools = "default";
+  /**
+   * App-defined toolbar buttons, rendered after the built-in tools with the same look,
+   * tooltip and keyboard behaviour. Clicking one calls its `run(editor)` and fires
+   * `loomi-tool`. Property only.
+   */
+  @property({ attribute: false }) customTools: readonly LoomiTextEditorCustomTool[] = [];
   @property({ type: Number }) rows = 3;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
@@ -482,6 +504,7 @@ export class LoomiTextEditor extends LoomiElement {
     this.validationVisible = false;
     this.invalid = false;
     this.savedRange = null;
+    this.lastRange = null;
     this.resetEmbedDialog();
     this.embedModalEl?.hide();
   }
@@ -521,6 +544,55 @@ export class LoomiTextEditor extends LoomiElement {
 
   override focus(): void {
     this.editorEl?.focus();
+  }
+
+  /**
+   * Inserts plain text at the caret, replacing any selected text, then updates `value`
+   * and fires `input`. If focus has moved to a button outside the editor, the editor's
+   * last selection is restored first; with no selection yet, the text goes at the end.
+   */
+  insertText(text: string): void {
+    this.insertAtSelection("insertText", text);
+  }
+
+  /**
+   * Inserts HTML at the caret, like {@link insertText}. The markup is inserted as given:
+   * sanitize anything that didn't come from your own code before passing it in.
+   */
+  insertHTML(html: string): void {
+    this.insertAtSelection("insertHTML", html);
+  }
+
+  /**
+   * The editor's current selection as plain text and HTML (the last selection, if focus
+   * has moved elsewhere), or `null` when nothing inside the editor was ever selected.
+   * A collapsed caret returns empty strings.
+   */
+  getSelection(): { text: string; html: string } | null {
+    const range = this.currentRange() ?? this.lastRange;
+    if (!range) return null;
+    const holder = document.createElement("div");
+    holder.append(range.cloneContents());
+    return { text: range.toString(), html: holder.innerHTML };
+  }
+
+  private insertAtSelection(command: "insertText" | "insertHTML", value: string): void {
+    if (this.disabled || this.readonly || !this.editorEl) return;
+    this.restoreLastSelection();
+    this.command(command, value);
+  }
+
+  /** Puts the caret back where it last was in the editor, or at the end if it never was. */
+  private restoreLastSelection(): void {
+    if (this.currentRange()) return;
+    this.focus();
+    let range = this.lastRange;
+    if (!range || !this.editorEl.contains(range.commonAncestorContainer)) {
+      range = document.createRange();
+      range.selectNodeContents(this.editorEl);
+      range.collapse(false);
+    }
+    this.applyRange(range);
   }
 
   validate(): boolean {
@@ -574,6 +646,7 @@ export class LoomiTextEditor extends LoomiElement {
     // The native `input` event is composed and would reach the host as a second `input`;
     // re-fire our own once `value` is up to date.
     event.stopPropagation();
+    this.inputDuringCommand = true;
     this.syncValueFromEditor();
     this.updateToolbarState();
     this.emit("input");
@@ -596,6 +669,12 @@ export class LoomiTextEditor extends LoomiElement {
     this.savedRange = range ? range.cloneRange() : null;
   }
 
+  /** Slotted toolbar controls may take focus; remember where the caret was first. */
+  private captureLastSelection(): void {
+    const range = this.currentRange();
+    if (range) this.lastRange = range.cloneRange();
+  }
+
   private keepToolbarFocus(event: MouseEvent): void {
     this.captureSelection();
     event.preventDefault();
@@ -604,10 +683,14 @@ export class LoomiTextEditor extends LoomiElement {
   private command(name: string, value?: string): void {
     if (this.disabled || this.readonly) return;
     this.focus();
+    // execCommand fires the surface's own `input` (handled, and re-fired from the host, by
+    // handleInput) in current engines; emit here only when it didn't, so one edit is one
+    // `input`.
+    this.inputDuringCommand = false;
     document.execCommand(name, false, value);
     this.syncValueFromEditor();
     this.updateToolbarState();
-    this.emit("input");
+    if (!this.inputDuringCommand) this.emit("input");
   }
 
   private runTool(tool: LoomiTextEditorTool): void {
@@ -758,12 +841,7 @@ export class LoomiTextEditor extends LoomiElement {
   private restoreSavedSelection(): void {
     this.focus();
     if (!this.savedRange) return;
-    const root = this.getRootNode() as Document | ShadowRoot;
-    const rootSelection = (root as Document & { getSelection?: () => Selection | null })
-      .getSelection;
-    const selection = rootSelection ? rootSelection.call(root) : document.getSelection();
-    selection?.removeAllRanges();
-    selection?.addRange(this.savedRange);
+    this.applyRange(this.savedRange);
   }
 
   private onEmbedFileChange(event: CustomEvent<{ files: File[] }>): void {
@@ -904,35 +982,71 @@ export class LoomiTextEditor extends LoomiElement {
   }
 
   private currentSelectionText(): string {
-    const selection = this.currentSelection();
-    return selection?.toString() ?? "";
+    return this.currentRange()?.toString() ?? "";
   }
 
-  private currentSelection(): Selection | null {
-    const root = this.getRootNode() as Document | ShadowRoot;
-    const rootSelection = (root as Document & { getSelection?: () => Selection | null })
-      .getSelection;
-    const selection = rootSelection ? rootSelection.call(root) : document.getSelection();
-    if (!selection || selection.rangeCount === 0) return null;
-    return this.selectionInsideEditor(selection) ? selection : null;
+  /**
+   * The Selection that can see into this shadow root. Chromium exposes it on the shadow
+   * root itself; elsewhere the document's selection holds it, but may report it retargeted
+   * to the host, which is what `getComposedRanges` in {@link currentRange} is for.
+   */
+  private selectionObject(): Selection | null {
+    const root = this.shadowRoot as (ShadowRoot & { getSelection?: () => Selection | null }) | null;
+    return root?.getSelection?.() ?? document.getSelection();
   }
 
+  /**
+   * Selects `range`. `setBaseAndExtent` rather than `addRange`: WebKit silently rejects a
+   * range added to the document selection when its nodes are inside a shadow root.
+   */
+  private applyRange(range: Range): void {
+    this.selectionObject()?.setBaseAndExtent(
+      range.startContainer,
+      range.startOffset,
+      range.endContainer,
+      range.endOffset,
+    );
+  }
+
+  /** The live selection's range, if it lies inside the editable surface. */
   private currentRange(): Range | null {
-    const selection = this.currentSelection();
-    if (!selection) return null;
-    return selection.getRangeAt(0);
+    const selection = this.selectionObject();
+    if (!selection || selection.rangeCount === 0) return null;
+    const range = selection.getRangeAt(0);
+    if (this.rangeInsideEditor(range)) return range;
+    const composed = this.composedRange(selection);
+    return composed && this.rangeInsideEditor(composed) ? composed : null;
   }
 
-  private selectionInsideEditor(selection: Selection): boolean {
-    if (!this.editorEl || selection.rangeCount === 0) return false;
-    const range = selection.getRangeAt(0);
+  private composedRange(selection: Selection): Range | null {
+    const getComposedRanges = (
+      selection as Selection & { getComposedRanges?: (...args: unknown[]) => StaticRange[] }
+    ).getComposedRanges;
+    if (!getComposedRanges || !this.shadowRoot) return null;
+    let ranges: StaticRange[];
+    try {
+      ranges = getComposedRanges.call(selection, { shadowRoots: [this.shadowRoot] });
+    } catch {
+      // Safari 17 takes the shadow roots as plain arguments.
+      ranges = getComposedRanges.call(selection, this.shadowRoot);
+    }
+    const [staticRange] = ranges;
+    if (!staticRange) return null;
+    const range = document.createRange();
+    range.setStart(staticRange.startContainer, staticRange.startOffset);
+    range.setEnd(staticRange.endContainer, staticRange.endOffset);
+    return range;
+  }
+
+  private rangeInsideEditor(range: Range): boolean {
+    if (!this.editorEl) return false;
     const container = range.commonAncestorContainer;
     return this.editorEl === container || this.editorEl.contains(container);
   }
 
   private updateToolbarState(): void {
     if (!this.editorEl) return;
-    if (!this.currentSelection()) {
+    if (!this.currentRange()) {
       this.activeTools = [];
       this.currentBlock = "p";
       return;
@@ -1172,6 +1286,47 @@ export class LoomiTextEditor extends LoomiElement {
     </loomi-modal>`;
   }
 
+  private renderCustomTool(tool: LoomiTextEditorCustomTool): TemplateResult {
+    const content = html`<button
+      class="loomi-tool-button loomi-custom-tool"
+      type="button"
+      part="custom-tool"
+      data-tool=${tool.id}
+      aria-label=${tool.label}
+      ?disabled=${this.disabled || this.readonly}
+      @mousedown=${this.keepToolbarFocus}
+      @click=${() => this.runCustomTool(tool)}
+    >
+      ${
+        tool.icon
+          ? html`<loomi-icon
+              name=${tool.icon}
+              source=${tool.iconSource ?? nothing}
+              size="1rem"
+              stroke-width="1.8"
+            ></loomi-icon>`
+          : tool.text || tool.label
+      }
+    </button>`;
+    return this.renderTooltip(tool.label, content);
+  }
+
+  private runCustomTool(tool: LoomiTextEditorCustomTool): void {
+    if (this.disabled || this.readonly) return;
+    tool.run?.(this);
+    this.dispatchEvent(
+      new CustomEvent<LoomiTextEditorToolDetail>("loomi-tool", {
+        bubbles: true,
+        composed: true,
+        detail: {
+          id: tool.id,
+          insertText: (text: string) => this.insertText(text),
+          insertHTML: (markup: string) => this.insertHTML(markup),
+        },
+      }),
+    );
+  }
+
   private renderTool(tool: LoomiTextEditorTool): TemplateResult {
     if (tool === "heading" || tool === "font-family" || tool === "font-size") {
       return this.renderSelectTool(tool);
@@ -1186,6 +1341,10 @@ export class LoomiTextEditor extends LoomiElement {
     const hasLabel = !!this.label;
     const showError = this.invalid && this.showErrorInline && this.errorMessage;
     const tools = this.resolvedTools;
+    const hasToolbar =
+      tools.length > 0 ||
+      this.customTools.length > 0 ||
+      !!this.querySelector(':scope > [slot="toolbar-start"], :scope > [slot="toolbar-end"]');
     const text = this.editorEl?.textContent ?? stripTags(this.value);
     const isEmpty = text.trim() === "";
     const labelEl = hasLabel
@@ -1199,9 +1358,12 @@ export class LoomiTextEditor extends LoomiElement {
       <div class="loomi-field variant-${this.variant}" part="field">
         ${this.labelPosition === "inside" ? labelEl : nothing}
         ${
-          tools.length
+          hasToolbar
             ? html`<div class="loomi-toolbar" part="toolbar" role="toolbar">
+              <slot name="toolbar-start" @mousedown=${this.captureLastSelection}></slot>
               ${tools.map((tool) => this.renderTool(tool))}
+              ${this.customTools.map((tool) => this.renderCustomTool(tool))}
+              <slot name="toolbar-end" @mousedown=${this.captureLastSelection}></slot>
             </div>`
             : nothing
         }
@@ -1229,6 +1391,27 @@ export class LoomiTextEditor extends LoomiElement {
   }
 }
 
+/** An app-defined toolbar button for {@link LoomiTextEditor.customTools}. */
+export interface LoomiTextEditorCustomTool {
+  /** Identifies the tool in the `loomi-tool` event. */
+  id: string;
+  /** Accessible name and tooltip. */
+  label: string;
+  /** Icon name, looked up in `iconSource` (Heroicons by default). */
+  icon?: string;
+  iconSource?: "heroicons" | "iconsax" | "untitledui";
+  /** Short text shown when there's no icon, e.g. `"√x"`. Falls back to `label`. */
+  text?: string;
+  /** Called on click, before `loomi-tool` fires. */
+  run?: (editor: LoomiTextEditor) => void;
+}
+
+export interface LoomiTextEditorToolDetail {
+  id: string;
+  insertText: (text: string) => void;
+  insertHTML: (html: string) => void;
+}
+
 export interface LoomiTextEditorAiGenerateDetail {
   html: string;
   selection: string;
@@ -1242,5 +1425,6 @@ declare global {
 
   interface HTMLElementEventMap {
     "loomi-ai-generate": CustomEvent<LoomiTextEditorAiGenerateDetail>;
+    "loomi-tool": CustomEvent<LoomiTextEditorToolDetail>;
   }
 }

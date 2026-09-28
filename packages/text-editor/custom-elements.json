@@ -25,6 +25,22 @@
         },
         {
           "kind": "js",
+          "name": "LoomiTextEditorCustomTool",
+          "declaration": {
+            "name": "LoomiTextEditorCustomTool",
+            "module": "./loomi-text-editor.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiTextEditorToolDetail",
+          "declaration": {
+            "name": "LoomiTextEditorToolDetail",
+            "module": "./loomi-text-editor.js"
+          }
+        },
+        {
+          "kind": "js",
           "name": "LoomiTextEditorUploadHandler",
           "declaration": {
             "name": "LoomiTextEditorUploadHandler",
@@ -61,6 +77,20 @@
             {
               "description": "The editable surface.",
               "name": "editor"
+            },
+            {
+              "description": "Each button rendered from `customTools`.",
+              "name": "custom-tool"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Your own controls at the start of the toolbar.",
+              "name": "toolbar-start"
+            },
+            {
+              "description": "Your own controls at the end of the toolbar.",
+              "name": "toolbar-end"
             }
           ],
           "members": [
@@ -141,6 +171,26 @@
             },
             {
               "kind": "field",
+              "name": "lastRange",
+              "type": {
+                "text": "Range | null"
+              },
+              "privacy": "private",
+              "default": "null",
+              "description": "The last selection made inside the editor. Clicking a button outside the editor (an\napp's own toolbar) moves focus and the live selection away, so the public insert\nmethods put the caret back here first."
+            },
+            {
+              "kind": "field",
+              "name": "inputDuringCommand",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "Set when the surface fires `input` while command runs; see there."
+            },
+            {
+              "kind": "field",
               "name": "onSelectionChange",
               "privacy": "private",
               "readonly": true
@@ -218,6 +268,15 @@
               },
               "default": "\"default\"",
               "attribute": "tools"
+            },
+            {
+              "kind": "field",
+              "name": "customTools",
+              "type": {
+                "text": "readonly LoomiTextEditorCustomTool[]"
+              },
+              "default": "[]",
+              "description": "App-defined toolbar buttons, rendered after the built-in tools with the same look,\ntooltip and keyboard behaviour. Clicking one calls its `run(editor)` and fires\n`loomi-tool`. Property only."
             },
             {
               "kind": "field",
@@ -412,6 +471,87 @@
             },
             {
               "kind": "method",
+              "name": "insertText",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "text",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Inserts plain text at the caret, replacing any selected text, then updates `value`\nand fires `input`. If focus has moved to a button outside the editor, the editor's\nlast selection is restored first; with no selection yet, the text goes at the end."
+            },
+            {
+              "kind": "method",
+              "name": "insertHTML",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "html",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Inserts HTML at the caret, like insertText. The markup is inserted as given:\nsanitize anything that didn't come from your own code before passing it in."
+            },
+            {
+              "kind": "method",
+              "name": "getSelection",
+              "return": {
+                "type": {
+                  "text": "{ text: string; html: string } | null"
+                }
+              },
+              "description": "The editor's current selection as plain text and HTML (the last selection, if focus\nhas moved elsewhere), or `null` when nothing inside the editor was ever selected.\nA collapsed caret returns empty strings."
+            },
+            {
+              "kind": "method",
+              "name": "insertAtSelection",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "command",
+                  "type": {
+                    "text": "\"insertText\" | \"insertHTML\""
+                  }
+                },
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "restoreLastSelection",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Puts the caret back where it last was in the editor, or at the end if it never was."
+            },
+            {
+              "kind": "method",
               "name": "validate",
               "return": {
                 "type": {
@@ -538,6 +678,17 @@
                   "text": "void"
                 }
               }
+            },
+            {
+              "kind": "method",
+              "name": "captureLastSelection",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Slotted toolbar controls may take focus; remember where the caret was first."
             },
             {
               "kind": "method",
@@ -926,13 +1077,33 @@
             },
             {
               "kind": "method",
-              "name": "currentSelection",
+              "name": "selectionObject",
               "privacy": "private",
               "return": {
                 "type": {
                   "text": "Selection | null"
                 }
-              }
+              },
+              "description": "The Selection that can see into this shadow root. Chromium exposes it on the shadow\nroot itself; elsewhere the document's selection holds it, but may report it retargeted\nto the host, which is what `getComposedRanges` in currentRange is for."
+            },
+            {
+              "kind": "method",
+              "name": "applyRange",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "range",
+                  "type": {
+                    "text": "Range"
+                  }
+                }
+              ],
+              "description": "Selects `range`. `setBaseAndExtent` rather than `addRange`: WebKit silently rejects a\nrange added to the document selection when its nodes are inside a shadow root."
             },
             {
               "kind": "method",
@@ -942,11 +1113,30 @@
                 "type": {
                   "text": "Range | null"
                 }
-              }
+              },
+              "description": "The live selection's range, if it lies inside the editable surface."
             },
             {
               "kind": "method",
-              "name": "selectionInsideEditor",
+              "name": "composedRange",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Range | null"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "selection",
+                  "type": {
+                    "text": "Selection"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "rangeInsideEditor",
               "privacy": "private",
               "return": {
                 "type": {
@@ -955,9 +1145,9 @@
               },
               "parameters": [
                 {
-                  "name": "selection",
+                  "name": "range",
                   "type": {
-                    "text": "Selection"
+                    "text": "Range"
                   }
                 }
               ]
@@ -1231,6 +1421,42 @@
             },
             {
               "kind": "method",
+              "name": "renderCustomTool",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "tool",
+                  "type": {
+                    "text": "LoomiTextEditorCustomTool"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "runCustomTool",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "tool",
+                  "type": {
+                    "text": "LoomiTextEditorCustomTool"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
               "name": "renderTool",
               "privacy": "private",
               "return": {
@@ -1254,6 +1480,13 @@
               "type": {
                 "text": "CustomEvent"
               }
+            },
+            {
+              "name": "loomi-tool",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "`detail: { id, insertText, insertHTML }` when a `customTools` button is clicked."
             },
             {
               "description": "Native input event (composed).",

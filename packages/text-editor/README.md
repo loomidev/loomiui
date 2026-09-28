@@ -394,6 +394,58 @@ Typical flows:
 
 This keeps LoomiUI provider-neutral while still giving users a real toolbar affordance.
 
+## Inserting content from your own controls
+
+`insertText(text)` and `insertHTML(html)` insert at the caret, replacing any selected
+content, then update `value` and fire `input`. If focus has moved to a button outside the
+editor, the editor puts the caret back where it was first; if nothing was ever selected,
+the content goes at the end. `insertHTML` inserts markup as given, so sanitize anything
+that didn't come from your own code. `getSelection()` returns the selected content as
+`{ text, html }`, or `null` if nothing in the editor was ever selected.
+
+### Custom toolbar tools
+
+Add your own buttons to the toolbar with the `customTools` property. They get the same
+look, tooltip and keyboard behaviour as the built-in tools, and the editor keeps its
+selection when you click them. Each click calls the tool's `run(editor)` and fires
+`loomi-tool` with `{ id, insertText, insertHTML }`.
+
+A custom maths toolbar that inserts LaTeX at the cursor:
+
+```html
+<loomi-text-editor name="question" tools="bold,italic,bullet-list"></loomi-text-editor>
+
+<script type="module">
+  const editor = document.querySelector('loomi-text-editor[name="question"]');
+  editor.customTools = [
+    { id: "frac", label: "Fraction", text: "a/b", run: (ed) => ed.insertText("\\frac{a}{b}") },
+    { id: "sqrt", label: "Square root", text: "√x", run: (ed) => ed.insertText("\\sqrt{x}") },
+    { id: "sum", label: "Sum", text: "Σ" },
+  ];
+  // Or handle every tool in one place:
+  editor.addEventListener("loomi-tool", (event) => {
+    if (event.detail.id === "sum") event.detail.insertText("\\sum_{i=1}^{n}");
+  });
+</script>
+```
+
+A tool takes `{ id, label, icon?, iconSource?, text?, run? }`: `icon` names an icon
+(Heroicons by default, or the set in `iconSource`), and `text` is shown when there's no
+icon.
+
+To place your own elements in the toolbar instead, use the `toolbar-start` and
+`toolbar-end` slots. The editor remembers its selection when you press one, so calling
+`insertText` from its click handler lands at the caret:
+
+```html
+<loomi-text-editor name="notes">
+  <button slot="toolbar-end" type="button" onclick="this.parentElement.insertText('π')">π</button>
+</loomi-text-editor>
+```
+
+The toolbar renders when there are built-in tools, custom tools, or slotted elements at
+first render.
+
 ## Field appearance
 
 Use `variant="minimal"` for a bottom-border-only editor:
@@ -440,19 +492,23 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `no-clearing`        | `false`   | Removes the default bottom margin.                                                                                                                          |
 | `variant`            | `default` | `default` \| `minimal` (bottom border only, no box)                                                                                                         |
 | `no-file-upload`     | `false`   | Hides the file picker in the image and video dialogs, leaving URL entry only.                                                                               |
+| `.customTools`       | `[]`      | Property only. App-defined toolbar buttons: `{ id, label, icon?, iconSource?, text?, run? }[]`. See [Custom toolbar tools](#custom-toolbar-tools).          |
 | `.uploadHandler`     | _(unset)_ | Property only. `(file, kind) => Promise<string \| undefined>` - uploads a picked file and returns the URL to insert. Unset, files are inlined as data URLs. |
 
-**Methods:** `focus()`, `validate()`, `checkValidity()`, `reportValidity()`.
+**Methods:** `focus()`, `validate()`, `checkValidity()`, `reportValidity()`, `insertText(text)`, `insertHTML(html)`, `getSelection()`.
 
-**CSS parts:** `field`, `toolbar`, `editor`.
+**Slots:** `toolbar-start`, `toolbar-end`.
+
+**CSS parts:** `field`, `toolbar`, `editor`, `custom-tool`.
 
 ## Events
 
-| Event               | Description                                       |
-| ------------------- | ------------------------------------------------- |
-| `change`            | Fired when the value is committed or changed.     |
-| `input`             | Fired while the value is edited.                  |
-| `loomi-ai-generate` | Fired when the AI generation action is requested. |
+| Event               | Description                                                                   |
+| ------------------- | ----------------------------------------------------------------------------- |
+| `change`            | Fired when the value is committed or changed.                                 |
+| `input`             | Fired while the value is edited.                                              |
+| `loomi-ai-generate` | Fired when the AI generation action is requested.                             |
+| `loomi-tool`        | A `customTools` button was clicked. `detail: { id, insertText, insertHTML }`. |
 
 Setting `value` (HTML) from JavaScript updates the editor and the submitted form value without firing events. `change` fires when focus leaves the editor after an edit. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
 
@@ -570,7 +626,7 @@ pnpm --filter @loomidev/text-editor typecheck
 
 ## Bundle size
 
-About **52.8 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 124.9 KB. Measured by `pnpm check:bundle-size`.
+About **53.6 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 125.8 KB. Measured by `pnpm check:bundle-size`.
 
 <!-- bundle-size:end -->
 

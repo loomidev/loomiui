@@ -14,6 +14,7 @@ import {
   resolveLoomiSize,
   type LoomiSize,
   type LoomiSizeSupport,
+  insertTextAtCaret,
   toControlValue,
   implicitlySubmit,
 } from "@loomidev/core";
@@ -130,6 +131,41 @@ export class LoomiInput extends LoomiElement {
   @property({ type: Boolean, reflect: true }) invalid = false;
 
   @query("input") private inputEl!: HTMLInputElement;
+
+  /**
+   * Inserts `text` at the caret, replacing any selected text, as if typed, then fires
+   * `input`. The inner field keeps its caret while focus is elsewhere, so this works from
+   * an external toolbar button.
+   */
+  insertText(text: string): void {
+    if (!this.inputEl || this.disabled || this.readonly) return;
+    insertTextAtCaret(this.inputEl, text);
+  }
+
+  /** Start of the selection in the inner field, as on a native input. */
+  get selectionStart(): number | null {
+    return this.inputEl?.selectionStart ?? null;
+  }
+  set selectionStart(value: number | null) {
+    if (this.inputEl) this.inputEl.selectionStart = value;
+  }
+
+  /** End of the selection in the inner field, as on a native input. */
+  get selectionEnd(): number | null {
+    return this.inputEl?.selectionEnd ?? null;
+  }
+  set selectionEnd(value: number | null) {
+    if (this.inputEl) this.inputEl.selectionEnd = value;
+  }
+
+  /** Selects a range in the inner field, as on a native input. */
+  setSelectionRange(
+    start: number | null,
+    end: number | null,
+    direction?: "forward" | "backward" | "none",
+  ): void {
+    this.inputEl?.setSelectionRange(start, end, direction);
+  }
 
   override connectedCallback(): void {
     if (!this.hasUpdated) this.initialValue = this.value;

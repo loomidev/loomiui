@@ -152,6 +152,32 @@ rather than replacing it:
 }
 ```
 
+## Inserting at the caret
+
+`insertText(text)` inserts at the caret, replacing any selected text, as if the user had
+typed it: `value` updates and `input` fires. The field keeps its caret while focus is on
+another button, so it works from your own toolbar. `selectionStart`, `selectionEnd` and
+`setSelectionRange()` read and set the caret, as on a native `<input>`.
+
+A custom maths toolbar:
+
+```html
+<loomi-input name="answer" label="Answer"></loomi-input>
+<div class="maths-toolbar">
+  <button type="button" data-insert="\frac{a}{b}">a/b</button>
+  <button type="button" data-insert="\sqrt{x}">√x</button>
+  <button type="button" data-insert="^{2}">x²</button>
+</div>
+
+<script type="module">
+  const field = document.querySelector('loomi-input[name="answer"]');
+  document.querySelector(".maths-toolbar").addEventListener("click", (event) => {
+    const text = event.target.closest("[data-insert]")?.dataset.insert;
+    if (text) field.insertText(text);
+  });
+</script>
+```
+
 ## Validation
 
 A `required` field shows a red border as soon as it's invalid, whether or not
@@ -270,12 +296,14 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ### Methods
 
-| Member                | Description                                                                                                                                     |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `.value`              | Get/set the current value.                                                                                                                      |
-| `.dynamicMask`        | Set a custom dynamic mask function, or a named built-in such as `"creditcard"`.                                                                 |
-| `focus()` / `clear()` | Focus or clear the field.                                                                                                                       |
-| `validate()`          | Run the required check now (independent of `blur`); sets `invalid` and surfaces `error-message` inline or via toast. Returns `true` when valid. |
+| Member                                                      | Description                                                                                                                                     |
+| ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `.value`                                                    | Get/set the current value.                                                                                                                      |
+| `.dynamicMask`                                              | Set a custom dynamic mask function, or a named built-in such as `"creditcard"`.                                                                 |
+| `focus()` / `clear()`                                       | Focus or clear the field.                                                                                                                       |
+| `insertText(text)`                                          | Insert text at the caret, replacing any selection, and fire `input`.                                                                            |
+| `.selectionStart` / `.selectionEnd` / `setSelectionRange()` | The inner field's caret, as on a native input.                                                                                                  |
+| `validate()`                                                | Run the required check now (independent of `blur`); sets `invalid` and surfaces `error-message` inline or via toast. Returns `true` when valid. |
 
 When used inside a native form, `form.reset()` restores the field's initial value and
 clears its visible validation state.
@@ -469,7 +497,7 @@ Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on 
 
 ## Bundle size
 
-About **26.1 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 98.9 KB. Measured by `pnpm check:bundle-size`.
+About **26.4 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 99.3 KB. Measured by `pnpm check:bundle-size`.
 
 <!-- bundle-size:end -->
 

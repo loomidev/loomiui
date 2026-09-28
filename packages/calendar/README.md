@@ -384,7 +384,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Bundle size
 
-About **80.7 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 153.6 KB. Measured by `pnpm check:bundle-size`.
+About **81.1 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 153.9 KB. Measured by `pnpm check:bundle-size`.
 
 <!-- bundle-size:end -->
 

@@ -374,7 +374,7 @@ So a per-instance accent still honors a global `--loomi-red-600` override. The d
 
 ## Bundle size
 
-About **20.3 KB** minified and gzipped if you import every export, excluding `lit`. It is tree-shakeable (`"sideEffects": false`), so a component bundles only the parts it uses. Measured by `pnpm check:bundle-size`.
+About **20.5 KB** minified and gzipped if you import every export, excluding `lit`. It is tree-shakeable (`"sideEffects": false`), so a component bundles only the parts it uses. Measured by `pnpm check:bundle-size`.
 
 <!-- bundle-size:end -->
 
