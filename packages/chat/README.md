@@ -461,7 +461,7 @@ Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on 
 
 ## Bundle size
 
-About **40.8 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 113.8 KB. Measured by `pnpm check:bundle-size`.
+About **40.9 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 113.9 KB. Measured by `pnpm check:bundle-size`.
 
 <!-- bundle-size:end -->
 

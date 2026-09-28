@@ -178,6 +178,13 @@ By default the button renders as `<button type="button">` and won't submit forms
 <loomi-button can-submit>Submit Form</loomi-button>
 ```
 
+A `can-submit` button is also the form's default button: pressing Enter in a Loomi
+single-line field (`<loomi-input>`, `<loomi-password>`, `<loomi-number>`,
+`<loomi-autocomplete>`, a filled `<loomi-otp>`) submits the form through it, as with a
+native submit button. That submission runs validation and fires `submit`, but it doesn't
+fire a `click` on the `<loomi-button>`, and `event.submitter` is `null` because a custom
+element can't be a form's submitter. Nothing happens while the button is `disabled`.
+
 ## Disabled
 
 ```html
@@ -488,7 +495,7 @@ Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on 
 
 ## Bundle size
 
-About **10.0 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 82.8 KB. Measured by `pnpm check:bundle-size`.
+About **8.4 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 81.3 KB. Measured by `pnpm check:bundle-size`.
 
 <!-- bundle-size:end -->
 

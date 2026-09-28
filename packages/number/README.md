@@ -73,6 +73,23 @@ out-of-range value clamps it back to the limit on commit.
 new FormData(form).get("age"); // "18"
 ```
 
+## Forms
+
+Pressing Enter in the field submits its `<form>`, as it does in a native `<input>`. If
+the form has a submit button (a native one or a `<loomi-button can-submit>`), Enter
+activates the first one, and nothing happens if that button is disabled. With no submit
+button, the form submits only when it has a single text-like field. Submitting this way
+runs validation and fires `submit` once, the same as clicking the button. Enter that
+confirms an IME composition doesn't submit. Add `no-implicit-submit` to turn it off.
+
+```html
+<form action="/login" method="post">
+  <loomi-input name="email" type="email" required></loomi-input>
+  <loomi-password name="password" required></loomi-password>
+  <loomi-button can-submit>Sign in</loomi-button>
+</form>
+```
+
 ## Field appearance
 
 Use `variant="minimal"` for a bottom-border-only field:
@@ -102,22 +119,23 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute           | Default   | Description                                                                                                                                      |
-| ------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `name`              | _(blank)_ | Submitted with the form.                                                                                                                         |
-| `label`             | _(blank)_ | Floating label.                                                                                                                                  |
-| `label-position`    | `default` | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field.                                                  |
-| `value`             | _(blank)_ | Current value (also a property).                                                                                                                 |
-| `min`               | `0`       | Minimum value.                                                                                                                                   |
-| `max`               | `100`     | Maximum value.                                                                                                                                   |
-| `step`              | `1`       | Increment/decrement amount.                                                                                                                      |
-| `size`              | `regular` | `tiny` \| `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
-| `variant`           | `default` | `default` \| `minimal` (bottom border only, no box)                                                                                              |
-| `transparent-icons` | `true`    | Transparent (vs solid) stepper buttons. _(boolean)_                                                                                              |
-| `with-dots`         | `true`    | Allow decimal values. _(boolean)_                                                                                                                |
-| `required`          | `false`   | Marks the field required. _(boolean)_                                                                                                            |
-| `disabled`          | `false`   | Disable the control. _(boolean)_                                                                                                                 |
-| `no-clearing`       | `false`   | Remove the default bottom margin. _(boolean)_                                                                                                    |
+| Attribute            | Default   | Description                                                                                                                                      |
+| -------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `name`               | _(blank)_ | Submitted with the form.                                                                                                                         |
+| `label`              | _(blank)_ | Floating label.                                                                                                                                  |
+| `label-position`     | `default` | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field.                                                  |
+| `value`              | _(blank)_ | Current value (also a property).                                                                                                                 |
+| `min`                | `0`       | Minimum value.                                                                                                                                   |
+| `max`                | `100`     | Maximum value.                                                                                                                                   |
+| `step`               | `1`       | Increment/decrement amount.                                                                                                                      |
+| `size`               | `regular` | `tiny` \| `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `variant`            | `default` | `default` \| `minimal` (bottom border only, no box)                                                                                              |
+| `transparent-icons`  | `true`    | Transparent (vs solid) stepper buttons. _(boolean)_                                                                                              |
+| `with-dots`          | `true`    | Allow decimal values. _(boolean)_                                                                                                                |
+| `required`           | `false`   | Marks the field required. _(boolean)_                                                                                                            |
+| `no-implicit-submit` | `false`   | Stops Enter in the field from submitting its form. _(boolean)_                                                                                   |
+| `disabled`           | `false`   | Disable the control. _(boolean)_                                                                                                                 |
+| `no-clearing`        | `false`   | Remove the default bottom margin. _(boolean)_                                                                                                    |
 
 **Methods:** `focus()`. **Parts:** `field`, `input`.
 
@@ -304,7 +322,7 @@ Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on 
 
 ## Bundle size
 
-About **19.0 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Measured by `pnpm check:bundle-size`.
+About **19.5 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Measured by `pnpm check:bundle-size`.
 
 <!-- bundle-size:end -->
 

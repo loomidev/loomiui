@@ -505,7 +505,7 @@ Once loaded on the client, `<loomi-alert>` works as expected.
 
 ## Bundle size
 
-About **20.1 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 92.6 KB. Measured by `pnpm check:bundle-size`.
+About **20.2 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 92.7 KB. Measured by `pnpm check:bundle-size`.
 
 <!-- bundle-size:end -->
 

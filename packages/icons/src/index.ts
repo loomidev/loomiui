@@ -8,5 +8,6 @@
 //   opt-in per source (`@loomidev/icons/iconsax`), so an app that never uses one
 //   bundles none of it.
 export * from "./heroicons.js";
+export * from "./names.js";
 export * from "./directive.js";
 export * from "./disk-icons.js";

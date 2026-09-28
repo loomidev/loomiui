@@ -72,6 +72,23 @@ validity when `strength` is set.
 ></loomi-password>
 ```
 
+## Forms
+
+Pressing Enter in the field submits its `<form>`, as it does in a native `<input>`. If
+the form has a submit button (a native one or a `<loomi-button can-submit>`), Enter
+activates the first one, and nothing happens if that button is disabled. With no submit
+button, the form submits only when it has a single text-like field. Submitting this way
+runs validation and fires `submit` once, the same as clicking the button. Enter that
+confirms an IME composition doesn't submit. Add `no-implicit-submit` to turn it off.
+
+```html
+<form action="/login" method="post">
+  <loomi-input name="email" type="email" required></loomi-input>
+  <loomi-password name="password" required></loomi-password>
+  <loomi-button can-submit>Sign in</loomi-button>
+</form>
+```
+
 ## Field appearance
 
 Use `variant="minimal"` for a bottom-border-only field:
@@ -109,6 +126,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `placeholder`             | _(blank)_ | Placeholder text.                                                                                                                                |
 | `value`                   | _(blank)_ | Current value.                                                                                                                                   |
 | `required`                | `false`   | Marks the field required. _(boolean)_                                                                                                            |
+| `no-implicit-submit`      | `false`   | Stops Enter in the field from submitting its form. _(boolean)_                                                                                   |
 | `disabled`                | `false`   | Disable the field. _(boolean)_                                                                                                                   |
 | `readonly`                | `false`   | Read-only field. _(boolean)_                                                                                                                     |
 | `size`                    | `regular` | `tiny` \| `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
@@ -157,7 +175,7 @@ Setting `value` from JavaScript updates the field and the submitted form value w
 
 ## Bundle size
 
-About **23.8 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 96.3 KB. Measured by `pnpm check:bundle-size`.
+About **24.4 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 96.8 KB. Measured by `pnpm check:bundle-size`.
 
 <!-- bundle-size:end -->
 

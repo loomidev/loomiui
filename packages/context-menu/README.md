@@ -140,7 +140,7 @@ pnpm --filter @loomidev/context-menu typecheck
 
 ## Bundle size
 
-About **9.6 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 82.5 KB. Measured by `pnpm check:bundle-size`.
+About **9.7 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 82.6 KB. Measured by `pnpm check:bundle-size`.
 
 <!-- bundle-size:end -->
 

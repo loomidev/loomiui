@@ -10,7 +10,7 @@ import {
   type LoomiSizeSupport,
   LOOMI_CONTROL_SIZES,
 } from "@loomidev/core";
-import { hasLoomiIcon, loomiIcon } from "@loomidev/icons";
+import { loomiIcon } from "@loomidev/icons";
 import { buttonStyles } from "./generated/styles.css.js";
 
 export type LoomiButtonType = "primary" | "secondary";
@@ -304,7 +304,9 @@ export class LoomiButton extends LoomiElement {
 
   private renderIcon(): TemplateResult | typeof nothing {
     if (!this.icon) return nothing;
-    if (!hasLoomiIcon(this.icon)) return nothing;
+    // No name check here (that would bundle the whole Heroicons name list): an unknown
+    // or still-loading icon leaves the <svg> empty, and `.loomi-icon:empty` hides it.
+    // Keep no whitespace around the directive, or the <svg> is never :empty.
     return html`<svg
       class="loomi-icon"
       viewBox="0 0 24 24"
@@ -312,9 +314,7 @@ export class LoomiButton extends LoomiElement {
       stroke="currentColor"
       stroke-width="1.5"
       aria-hidden="true"
-    >
-      ${loomiIcon(this.icon)}
-    </svg>`;
+    >${loomiIcon(this.icon)}</svg>`;
   }
 
   private renderSpinner(): TemplateResult {

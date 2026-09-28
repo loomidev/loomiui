@@ -81,6 +81,8 @@ available and otherwise fills it in once it loads.
 | `registerLoomiIcon(name, svg, variant)` | Register or override an icon for `outline` or `solid`; default is `outline`.                                            |
 | `provideLoomiIcons(icons, variant?)`    | Hand over statically imported icons so they render synchronously. Never replaces an icon you registered.                |
 | `loomiIconNames(variant)`               | List every known icon name for a variant; default is `outline`.                                                         |
+| `isLoomiIconAvailable(name, variant?)`  | Whether the icon is registered, provided or already loaded, i.e. renders with no load.                                  |
+| `registeredLoomiIconNames(variant?)`    | Names registered or provided for a variant (not the shipped set).                                                       |
 
 A solid icon that doesn't exist falls back to its outline version.
 
@@ -244,7 +246,7 @@ Then widen `LoomiDiskIconSource` in `src/disk-icons.ts` to include the new name,
 
 ## Bundle size
 
-The registry is about **3.1 KB** minified and gzipped, excluding `lit`, and loads no icon data up front. Each Heroicon is its own module of a few hundred bytes, loaded the first time it renders. `import "@loomidev/icons/all"` loads every Heroicon eagerly instead: about 72.9 KB. Measured by `pnpm check:bundle-size`.
+The registry is about **3.3 KB** minified and gzipped, excluding `lit`, and loads no icon data up front. Each Heroicon is its own module of a few hundred bytes, loaded the first time it renders. `import "@loomidev/icons/all"` loads every Heroicon eagerly instead: about 72.9 KB. Measured by `pnpm check:bundle-size`.
 
 <!-- bundle-size:end -->
 

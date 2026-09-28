@@ -447,6 +447,31 @@
         },
         {
           "kind": "function",
+          "name": "isLoomiIconAvailable",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "variant",
+              "default": "\"outline\"",
+              "type": {
+                "text": "LoomiIconVariant"
+              }
+            }
+          ],
+          "description": "Whether `name` is registered or provided for `variant`, i.e. renders without a load."
+        },
+        {
+          "kind": "function",
           "name": "getLoomiIcon",
           "return": {
             "type": {
@@ -468,32 +493,7 @@
               }
             }
           ],
-          "description": "The icon's inner SVG if it is ready to render right now — registered, provided,\nor already loaded — else `undefined`. It never starts a load: use\nloadLoomiIcon, or render through the `loomiIcon()` directive, which does\nboth. Use hasLoomiIcon to ask whether a name exists at all."
-        },
-        {
-          "kind": "function",
-          "name": "hasLoomiIcon",
-          "return": {
-            "type": {
-              "text": "boolean"
-            }
-          },
-          "parameters": [
-            {
-              "name": "name",
-              "type": {
-                "text": "string"
-              }
-            },
-            {
-              "name": "variant",
-              "default": "\"outline\"",
-              "type": {
-                "text": "LoomiIconVariant"
-              }
-            }
-          ],
-          "description": "Whether `name` is a known icon (registered, provided, or a shipped Heroicon). Loads nothing."
+          "description": "The icon's inner SVG if it is ready to render right now — registered, provided,\nor already loaded — else `undefined`. It never starts a load: use\nloadLoomiIcon, or render through the `loomiIcon()` directive, which does\nboth. Use `hasLoomiIcon()` to ask whether a name exists at all."
         },
         {
           "kind": "function",
@@ -518,7 +518,146 @@
               }
             }
           ],
-          "description": "Loads (once, then cached) and resolves the icon's inner SVG, or `undefined` for an\nunknown name or a failed load."
+          "description": "Loads (once, then cached) and resolves the icon's inner SVG, or `undefined` for an\nunknown name or a failed load. A `solid` request for an icon with no solid version\nresolves to its outline icon."
+        },
+        {
+          "kind": "function",
+          "name": "registeredLoomiIconNames",
+          "return": {
+            "type": {
+              "text": "string[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "variant",
+              "default": "\"outline\"",
+              "type": {
+                "text": "LoomiIconVariant"
+              }
+            }
+          ],
+          "description": "Names registered or provided for a variant (shipped Heroicons not yet loaded aren't included)."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "registerLoomiIcon",
+          "declaration": {
+            "name": "registerLoomiIcon",
+            "module": "src/heroicons.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "provideLoomiIcons",
+          "declaration": {
+            "name": "provideLoomiIcons",
+            "module": "src/heroicons.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "isLoomiIconAvailable",
+          "declaration": {
+            "name": "isLoomiIconAvailable",
+            "module": "src/heroicons.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "getLoomiIcon",
+          "declaration": {
+            "name": "getLoomiIcon",
+            "module": "src/heroicons.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "loadLoomiIcon",
+          "declaration": {
+            "name": "loadLoomiIcon",
+            "module": "src/heroicons.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "registeredLoomiIconNames",
+          "declaration": {
+            "name": "registeredLoomiIconNames",
+            "module": "src/heroicons.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "src/heroicons.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "src/names.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "src/directive.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "src/disk-icons.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/names.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "hasLoomiIcon",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "variant",
+              "default": "\"outline\"",
+              "type": {
+                "text": "LoomiIconVariant"
+              }
+            }
+          ],
+          "description": "Whether `name` is a known icon (registered, provided, or a shipped Heroicon). Loads\nnothing. A `solid` name with only an outline version counts, since it renders that."
         },
         {
           "kind": "function",
@@ -543,42 +682,10 @@
       "exports": [
         {
           "kind": "js",
-          "name": "registerLoomiIcon",
-          "declaration": {
-            "name": "registerLoomiIcon",
-            "module": "src/heroicons.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "provideLoomiIcons",
-          "declaration": {
-            "name": "provideLoomiIcons",
-            "module": "src/heroicons.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "getLoomiIcon",
-          "declaration": {
-            "name": "getLoomiIcon",
-            "module": "src/heroicons.ts"
-          }
-        },
-        {
-          "kind": "js",
           "name": "hasLoomiIcon",
           "declaration": {
             "name": "hasLoomiIcon",
-            "module": "src/heroicons.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "loadLoomiIcon",
-          "declaration": {
-            "name": "loadLoomiIcon",
-            "module": "src/heroicons.ts"
+            "module": "src/names.ts"
           }
         },
         {
@@ -586,38 +693,7 @@
           "name": "loomiIconNames",
           "declaration": {
             "name": "loomiIconNames",
-            "module": "src/heroicons.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/index.ts",
-      "declarations": [],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "*",
-          "declaration": {
-            "name": "*",
-            "module": "src/heroicons.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "*",
-          "declaration": {
-            "name": "*",
-            "module": "src/directive.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "*",
-          "declaration": {
-            "name": "*",
-            "module": "src/disk-icons.js"
+            "module": "src/names.ts"
           }
         }
       ]

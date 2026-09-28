@@ -14,6 +14,7 @@ import {
   resolveLoomiSize,
   type LoomiSize,
   type LoomiSizeSupport,
+  implicitlySubmit,
 } from "@loomidev/core";
 import "@loomidev/popover";
 import { hasLoomiIcon, loomiIcon, provideLoomiIcons } from "@loomidev/icons";
@@ -67,6 +68,8 @@ export class LoomiInput extends LoomiElement {
   /** Size names this component supports, from the canonical `LoomiSize` scale — shared by every form control. */
   static readonly supportedSizes = { size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
+  /** Counts as a field that blocks implicit submission, like a native text `<input>`. */
+  static blocksImplicitSubmission = true;
 
   private internals = this.attachInternals();
   private validationVisible = false;
@@ -83,6 +86,8 @@ export class LoomiInput extends LoomiElement {
   @property() placeholder = "";
   @property() value = "";
   @property({ type: Boolean, reflect: true }) required = false;
+  /** Stops Enter in this field from submitting its form (native implicit submission). */
+  @property({ type: Boolean, attribute: "no-implicit-submit" }) noImplicitSubmit = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property({ type: Boolean }) numeric = false;
@@ -294,6 +299,11 @@ export class LoomiInput extends LoomiElement {
       .some((char) => tokenTests.some((tokenTest) => tokenTest(char)));
   }
 
+  /** Enter submits the owning form, like a native single-line `<input>`. */
+  private onFieldKeydown = (e: KeyboardEvent): void => {
+    implicitlySubmit(e, this.internals, { disabled: this.noImplicitSubmit });
+  };
+
   private onInput = (e: Event): void => {
     // The native `input` event is composed and would reach the host as a second `input`;
     // this component re-fires its own once `value` is up to date.
@@ -457,6 +467,7 @@ export class LoomiInput extends LoomiElement {
             aria-invalid=${this.invalid ? "true" : "false"}
             @input=${this.onInput}
             @change=${this.onChange}
+            @keydown=${this.onFieldKeydown}
             @blur=${this.showValidation}
           />
           ${

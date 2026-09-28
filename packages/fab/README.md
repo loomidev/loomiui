@@ -534,7 +534,7 @@ Nuxt, it often means a `.client.ts` plugin.
 
 ## Bundle size
 
-About **24.9 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 97.8 KB. Measured by `pnpm check:bundle-size`.
+About **25.0 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 97.9 KB. Measured by `pnpm check:bundle-size`.
 
 <!-- bundle-size:end -->
 
