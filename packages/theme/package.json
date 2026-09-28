@@ -20,6 +20,7 @@
     "palette.json",
     "src/tailwind-colors.css"
   ],
+  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
