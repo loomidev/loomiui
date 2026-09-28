@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/modal",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "<loomi-modal> — overlay dialog with types, sizes and action buttons.",
   "repository": {
     "type": "git",
