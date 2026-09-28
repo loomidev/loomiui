@@ -327,6 +327,16 @@ export class LoomiDropmenuItem extends LoomiElement {
     if (this.divider) return html`<div class="loomi-divider"></div>`;
 
     const path = this.icon ? getLoomiIcon(this.icon) : undefined;
+    const icon = path
+      ? html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          ${path}
+        </svg>`
+      : nothing;
+    // `icon-right` moves the icon after the label (and shortcut) in DOM order rather than
+    // reversing the row, so a row with no icon keeps its label at the start edge and a
+    // mixed menu stays aligned. The label grows to fill the row, which pins every
+    // trailing icon to the end edge in one column; logical flow mirrors it under RTL.
+    const iconRight = this.iconRight || this.menuIconRight;
 
     return html`
       <div
@@ -358,15 +368,10 @@ export class LoomiDropmenuItem extends LoomiElement {
             </span>`
             : nothing
         }
-        ${
-          path
-            ? html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-              ${path}
-            </svg>`
-            : nothing
-        }
+        ${iconRight ? nothing : icon}
         <span class="loomi-label"><slot></slot></span>
         ${this.shortcut ? html`<kbd class="loomi-shortcut">${this.shortcut}</kbd>` : nothing}
+        ${iconRight ? icon : nothing}
         ${
           this.hasSubmenuItems
             ? html`<svg

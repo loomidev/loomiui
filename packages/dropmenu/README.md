@@ -25,6 +25,20 @@ The default trigger is a horizontal ellipsis.
 </loomi-dropmenu>
 ```
 
+### Hiding items before the component loads
+
+Until the `@loomidev/dropmenu` module has loaded and registered its elements, the
+browser treats `<loomi-dropmenu-item>` as plain inline content, so on a slow connection
+every item briefly shows next to its trigger. The component can't prevent this itself,
+since none of its code has run yet. Add this rule to your page CSS to keep the items
+hidden until they upgrade:
+
+```css
+loomi-dropmenu-item:not(:defined) {
+  display: none;
+}
+```
+
 ## Trigger Icon
 
 Swap the default ellipsis for any icon from [`@loomidev/icons`](../icons). You can
@@ -120,7 +134,9 @@ of the menu but does not get pointer or hover behavior.
 ```
 
 By default an item's icon sits on the left. Set `icon-right` on the menu to flip every
-item, or set it on one item to flip just that row.
+item, or set it on one item to flip just that row. Mixed menus, where some items have no
+icon, stay aligned: every label starts at the same edge and the icons line up in one
+column at the end of the row (mirrored under `dir="rtl"`).
 
 ```html
 <loomi-dropmenu icon-right>
