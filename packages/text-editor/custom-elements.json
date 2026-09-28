@@ -541,6 +541,17 @@
             },
             {
               "kind": "method",
+              "name": "endOfContentRange",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Range"
+                }
+              },
+              "description": "A caret at the end of the content, inside its last block. Collapsing a range over\nthe whole surface puts it after the last `<p>`, where Firefox inserts outside the\nparagraph; descend to the last node instead."
+            },
+            {
+              "kind": "method",
               "name": "restoreLastSelection",
               "privacy": "private",
               "return": {
