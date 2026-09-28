@@ -582,15 +582,34 @@ export class LoomiTextEditor extends LoomiElement {
     this.command(command, value);
   }
 
+  /**
+   * A caret at the end of the content, inside its last block. Collapsing a range over
+   * the whole surface puts it after the last `<p>`, where Firefox inserts outside the
+   * paragraph; descend to the last node instead.
+   */
+  private endOfContentRange(): Range {
+    const range = document.createRange();
+    let node: Node = this.editorEl;
+    while (node.lastChild) node = node.lastChild;
+    if (node.nodeType === Node.TEXT_NODE) {
+      range.setStart(node, node.textContent?.length ?? 0);
+    } else if (node !== this.editorEl && node.nodeName === "BR") {
+      range.setStartBefore(node);
+    } else {
+      range.selectNodeContents(node);
+      range.collapse(false);
+    }
+    range.collapse(true);
+    return range;
+  }
+
   /** Puts the caret back where it last was in the editor, or at the end if it never was. */
   private restoreLastSelection(): void {
     if (this.currentRange()) return;
     this.focus();
     let range = this.lastRange;
     if (!range || !this.editorEl.contains(range.commonAncestorContainer)) {
-      range = document.createRange();
-      range.selectNodeContents(this.editorEl);
-      range.collapse(false);
+      range = this.endOfContentRange();
     }
     this.applyRange(range);
   }
