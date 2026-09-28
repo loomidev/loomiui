@@ -184,6 +184,23 @@ before a manual submit or API call). It:
      toast instead of inline text, but the red border still appears either way -->
 ```
 
+## Forms
+
+Pressing Enter in the field submits its `<form>`, as it does in a native `<input>`. If
+the form has a submit button (a native one or a `<loomi-button can-submit>`), Enter
+activates the first one, and nothing happens if that button is disabled. With no submit
+button, the form submits only when it has a single text-like field. Submitting this way
+runs validation and fires `submit` once, the same as clicking the button. Enter that
+confirms an IME composition doesn't submit. Add `no-implicit-submit` to turn it off.
+
+```html
+<form action="/login" method="post">
+  <loomi-input name="email" type="email" required></loomi-input>
+  <loomi-password name="password" required></loomi-password>
+  <loomi-button can-submit>Sign in</loomi-button>
+</form>
+```
+
 ## Field appearance
 
 Use `variant="minimal"` for a bottom-border-only input:
@@ -222,6 +239,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `placeholder`             | _(blank)_ | Placeholder text.                                                                                                                                |
 | `value`                   | _(blank)_ | Current value (also a property).                                                                                                                 |
 | `required`                | `false`   | Marks the field required (red asterisk on the label). _(boolean)_                                                                                |
+| `no-implicit-submit`      | `false`   | Stops Enter in the field from submitting its form. _(boolean)_                                                                                   |
 | `disabled`                | `false`   | Disable the field. _(boolean)_                                                                                                                   |
 | `readonly`                | `false`   | Read-only field. _(boolean)_                                                                                                                     |
 | `numeric`                 | `false`   | Allow digits only. _(boolean)_                                                                                                                   |

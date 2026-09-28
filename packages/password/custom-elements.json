@@ -93,6 +93,16 @@
             },
             {
               "kind": "field",
+              "name": "blocksImplicitSubmission",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true",
+              "description": "Counts as a field that blocks implicit submission, like a native text `<input>`."
+            },
+            {
+              "kind": "field",
               "name": "internals",
               "privacy": "private"
             },
@@ -194,6 +204,16 @@
               "default": "false",
               "attribute": "required",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "noImplicitSubmit",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Stops Enter in this field from submitting its form (native implicit submission).",
+              "attribute": "no-implicit-submit"
             },
             {
               "kind": "field",
@@ -510,6 +530,12 @@
             },
             {
               "kind": "field",
+              "name": "onFieldKeydown",
+              "privacy": "private",
+              "description": "Enter submits the owning form, like a native single-line `<input>`."
+            },
+            {
+              "kind": "field",
               "name": "onInput",
               "privacy": "private"
             },
@@ -761,6 +787,15 @@
               },
               "default": "false",
               "fieldName": "required"
+            },
+            {
+              "name": "no-implicit-submit",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Stops Enter in this field from submitting its form (native implicit submission).",
+              "fieldName": "noImplicitSubmit"
             },
             {
               "name": "disabled",

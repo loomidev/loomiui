@@ -17,6 +17,7 @@ import {
   type LoomiSize,
   type LoomiSizeSupport,
   toControlValue,
+  implicitlySubmit,
 } from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
@@ -49,6 +50,8 @@ export class LoomiPassword extends LoomiElement {
   /** Size names this component supports, from the canonical `LoomiSize` scale — shared by every form control. */
   static readonly supportedSizes = { size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
+  /** Counts as a field that blocks implicit submission, like a native text `<input>`. */
+  static blocksImplicitSubmission = true;
 
   private internals = this.attachInternals();
   private validationVisible = false;
@@ -71,6 +74,8 @@ export class LoomiPassword extends LoomiElement {
     this._value = toControlValue(value);
   }
   @property({ type: Boolean, reflect: true }) required = false;
+  /** Stops Enter in this field from submitting its form (native implicit submission). */
+  @property({ type: Boolean, attribute: "no-implicit-submit" }) noImplicitSubmit = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) readonly = false;
   /** Size preset: `tiny` | `small` | `regular` | `medium` | `big`. Equal names give equal heights across every form control and `<loomi-button>`. */
@@ -195,6 +200,11 @@ export class LoomiPassword extends LoomiElement {
   private emit(type: "input" | "change"): void {
     this.dispatchEvent(new Event(type, { bubbles: true, composed: true }));
   }
+
+  /** Enter submits the owning form, like a native single-line `<input>`. */
+  private onFieldKeydown = (e: KeyboardEvent): void => {
+    implicitlySubmit(e, this.internals, { disabled: this.noImplicitSubmit });
+  };
 
   private onInput = (e: Event): void => {
     // The native `input` event is composed and would reach the host as a second `input`;
@@ -399,6 +409,7 @@ export class LoomiPassword extends LoomiElement {
             aria-invalid=${this.invalid ? "true" : "false"}
             @input=${this.onInput}
             @change=${this.onChange}
+            @keydown=${this.onFieldKeydown}
             @blur=${this.showValidation}
           />
           ${hasLabel ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>` : nothing}

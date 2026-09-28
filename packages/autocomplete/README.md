@@ -37,6 +37,25 @@ with a form.
 Native `form.reset()` restores the initial submitted value and closes the suggestion
 panel.
 
+## Forms
+
+In `<loomi-autocomplete>` Enter picks the highlighted suggestion while the list is open. It submits the form only when no suggestion is highlighted.
+
+Pressing Enter in the field submits its `<form>`, as it does in a native `<input>`. If
+the form has a submit button (a native one or a `<loomi-button can-submit>`), Enter
+activates the first one, and nothing happens if that button is disabled. With no submit
+button, the form submits only when it has a single text-like field. Submitting this way
+runs validation and fires `submit` once, the same as clicking the button. Enter that
+confirms an IME composition doesn't submit. Add `no-implicit-submit` to turn it off.
+
+```html
+<form action="/login" method="post">
+  <loomi-input name="email" type="email" required></loomi-input>
+  <loomi-password name="password" required></loomi-password>
+  <loomi-button can-submit>Sign in</loomi-button>
+</form>
+```
+
 ## Field appearance
 
 Use `variant="minimal"` for a bottom-border-only field:
@@ -77,23 +96,24 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute         | Default       | Description                                                                                                                                      |
-| ----------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `label`           | _(blank)_     | Floating label text.                                                                                                                             |
-| `label-position`  | `default`     | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field.                                                  |
-| `placeholder`     | `Search...`   | Placeholder when no label is shown.                                                                                                              |
-| `selected-value`  | _(blank)_     | Sets the submitted value; matching options display their label and image.                                                                        |
-| `size`            | `regular`     | `tiny` \| `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
-| `variant`         | `default`     | `default` \| `minimal` (bottom border only, no box)                                                                                              |
-| `label-key`       | `label`       | Property name for option labels.                                                                                                                 |
-| `value-key`       | `value`       | Property name for submitted values.                                                                                                              |
-| `description-key` | `description` | Property name for helper text.                                                                                                                   |
-| `image-key`       | `image`       | Property name for optional option images.                                                                                                        |
-| `required`        | `false`       | Marks the field required.                                                                                                                        |
-| `disabled`        | `false`       | Disables input and selection.                                                                                                                    |
-| `readonly`        | `false`       | Prevents edits.                                                                                                                                  |
-| `show-focus-ring` | `true`        | Set `show-focus-ring="false"` to hide the focus halo.                                                                                            |
-| `clearable`       | `true`        | Read-only - always on. Shows an × button once the field has a value; clicking it empties the field and reopens the panel.                        |
+| Attribute            | Default       | Description                                                                                                                                      |
+| -------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `label`              | _(blank)_     | Floating label text.                                                                                                                             |
+| `label-position`     | `default`     | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field.                                                  |
+| `placeholder`        | `Search...`   | Placeholder when no label is shown.                                                                                                              |
+| `selected-value`     | _(blank)_     | Sets the submitted value; matching options display their label and image.                                                                        |
+| `size`               | `regular`     | `tiny` \| `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `variant`            | `default`     | `default` \| `minimal` (bottom border only, no box)                                                                                              |
+| `label-key`          | `label`       | Property name for option labels.                                                                                                                 |
+| `value-key`          | `value`       | Property name for submitted values.                                                                                                              |
+| `description-key`    | `description` | Property name for helper text.                                                                                                                   |
+| `image-key`          | `image`       | Property name for optional option images.                                                                                                        |
+| `required`           | `false`       | Marks the field required.                                                                                                                        |
+| `no-implicit-submit` | `false`       | Stops Enter in the field from submitting its form. _(boolean)_                                                                                   |
+| `disabled`           | `false`       | Disables input and selection.                                                                                                                    |
+| `readonly`           | `false`       | Prevents edits.                                                                                                                                  |
+| `show-focus-ring`    | `true`        | Set `show-focus-ring="false"` to hide the focus halo.                                                                                            |
+| `clearable`          | `true`        | Read-only - always on. Shows an × button once the field has a value; clicking it empties the field and reopens the panel.                        |
 
 ## Events
 

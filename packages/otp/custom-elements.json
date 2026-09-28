@@ -69,6 +69,16 @@
             },
             {
               "kind": "field",
+              "name": "blocksImplicitSubmission",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true",
+              "description": "Counts as a field that blocks implicit submission, like a native text `<input>`."
+            },
+            {
+              "kind": "field",
               "name": "internals",
               "privacy": "private"
             },
@@ -163,6 +173,16 @@
               },
               "default": "false",
               "attribute": "mask"
+            },
+            {
+              "kind": "field",
+              "name": "noImplicitSubmit",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Stops Enter from submitting the owning form once every box is filled.",
+              "attribute": "no-implicit-submit"
             },
             {
               "kind": "field",
@@ -605,6 +625,15 @@
               },
               "default": "false",
               "fieldName": "mask"
+            },
+            {
+              "name": "no-implicit-submit",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Stops Enter from submitting the owning form once every box is filled.",
+              "fieldName": "noImplicitSubmit"
             },
             {
               "name": "error-message",

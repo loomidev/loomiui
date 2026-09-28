@@ -17,6 +17,7 @@ import {
   type LoomiSize,
   type LoomiSizeSupport,
   toControlValue,
+  implicitlySubmit,
 } from "@loomidev/core";
 import { getLoomiIcon } from "./icons.js";
 
@@ -209,6 +210,8 @@ export class LoomiAutocomplete extends LoomiElement {
   /** Size names this component supports, from the canonical `LoomiSize` scale — shared by every form control. */
   static readonly supportedSizes = { size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
+  /** Counts as a field that blocks implicit submission, like a native text `<input>`. */
+  static blocksImplicitSubmission = true;
 
   private internals = this.attachInternals();
   private cleanup?: () => void;
@@ -240,6 +243,8 @@ export class LoomiAutocomplete extends LoomiElement {
   @property({ attribute: "description-key" }) descriptionKey = "description";
   @property({ attribute: "image-key" }) imageKey = "image";
   @property({ type: Boolean, reflect: true }) required = false;
+  /** Stops Enter in this field from submitting its form (native implicit submission). */
+  @property({ type: Boolean, attribute: "no-implicit-submit" }) noImplicitSubmit = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property({ type: Boolean, reflect: true }) invalid = false;
@@ -441,11 +446,22 @@ export class LoomiAutocomplete extends LoomiElement {
   }
 
   private onKeydown(event: KeyboardEvent): void {
+    const options = this.filtered;
+    // Enter picks the highlighted suggestion; with nothing highlighted it submits the
+    // owning form, like a native `<input list>`.
+    if (
+      event.key === "Enter" &&
+      !(this.open && this.activeIndex >= 0 && options[this.activeIndex])
+    ) {
+      if (implicitlySubmit(event, this.internals, { disabled: this.noImplicitSubmit })) {
+        this.hide();
+        return;
+      }
+    }
     if (!this.open && (event.key === "ArrowDown" || event.key === "Enter")) {
       this.show();
       return;
     }
-    const options = this.filtered;
     if (event.key === "Escape") this.hide();
     else if (event.key === "ArrowDown") {
       event.preventDefault();

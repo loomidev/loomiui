@@ -17,6 +17,7 @@ export const Autocomplete: ForwardRefExoticComponent<
     valueKey?: JSX.IntrinsicElements["loomi-autocomplete"]["value-key"];
     descriptionKey?: JSX.IntrinsicElements["loomi-autocomplete"]["description-key"];
     imageKey?: JSX.IntrinsicElements["loomi-autocomplete"]["image-key"];
+    noImplicitSubmit?: JSX.IntrinsicElements["loomi-autocomplete"]["no-implicit-submit"];
     showFocusRing?: JSX.IntrinsicElements["loomi-autocomplete"]["show-focus-ring"];
   }
 > = createComponent(
@@ -29,6 +30,7 @@ export const Autocomplete: ForwardRefExoticComponent<
     valueKey: "value-key",
     descriptionKey: "description-key",
     imageKey: "image-key",
+    noImplicitSubmit: "no-implicit-submit",
     showFocusRing: "show-focus-ring",
   },
 ) as unknown as ForwardRefExoticComponent<
@@ -42,6 +44,7 @@ export const Autocomplete: ForwardRefExoticComponent<
     valueKey?: JSX.IntrinsicElements["loomi-autocomplete"]["value-key"];
     descriptionKey?: JSX.IntrinsicElements["loomi-autocomplete"]["description-key"];
     imageKey?: JSX.IntrinsicElements["loomi-autocomplete"]["image-key"];
+    noImplicitSubmit?: JSX.IntrinsicElements["loomi-autocomplete"]["no-implicit-submit"];
     showFocusRing?: JSX.IntrinsicElements["loomi-autocomplete"]["show-focus-ring"];
   }
 >;

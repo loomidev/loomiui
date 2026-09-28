@@ -148,4 +148,37 @@ describe("loomi-autocomplete", () => {
       expect(input(el).getAttribute("aria-expanded")).to.equal("true");
     });
   });
+
+  describe("implicit submission", () => {
+    const formWith = async () => {
+      const form = await fixture<HTMLFormElement>(
+        html`<form><loomi-autocomplete name="country" .data=${DATA}></loomi-autocomplete></form>`,
+      );
+      let submits = 0;
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        submits++;
+      });
+      return {
+        el: form.querySelector<LoomiAutocomplete>("loomi-autocomplete")!,
+        submits: () => submits,
+      };
+    };
+
+    it("Enter with a highlighted suggestion selects it instead of submitting", async () => {
+      const { el, submits } = await formWith();
+      await type(el, "g"); // first match auto-highlighted
+      await press(el, "Enter");
+      expect(el.value).to.equal("gh");
+      expect(submits()).to.equal(0);
+    });
+
+    it("Enter with the list closed submits the form once", async () => {
+      const { el, submits } = await formWith();
+      await type(el, "g");
+      await press(el, "Enter"); // selects, closes the list
+      await press(el, "Enter");
+      expect(submits()).to.equal(1);
+    });
+  });
 });

@@ -177,6 +177,13 @@ By default the button renders as `<button type="button">` and won't submit forms
 <loomi-button can-submit>Submit Form</loomi-button>
 ```
 
+A `can-submit` button is also the form's default button: pressing Enter in a Loomi
+single-line field (`<loomi-input>`, `<loomi-password>`, `<loomi-number>`,
+`<loomi-autocomplete>`, a filled `<loomi-otp>`) submits the form through it, as with a
+native submit button. That submission runs validation and fires `submit`, but it doesn't
+fire a `click` on the `<loomi-button>`, and `event.submitter` is `null` because a custom
+element can't be a form's submitter. Nothing happens while the button is `disabled`.
+
 ## Disabled
 
 ```html

@@ -12,6 +12,7 @@ export const Otp: ForwardRefExoticComponent<
     onChange?: (e: CustomEvent) => void;
     totalDigits?: JSX.IntrinsicElements["loomi-otp"]["total-digits"];
     hideDigits?: JSX.IntrinsicElements["loomi-otp"]["hide-digits"];
+    noImplicitSubmit?: JSX.IntrinsicElements["loomi-otp"]["no-implicit-submit"];
     errorMessage?: JSX.IntrinsicElements["loomi-otp"]["error-message"];
     showErrorInline?: JSX.IntrinsicElements["loomi-otp"]["show-error-inline"];
   }
@@ -21,6 +22,7 @@ export const Otp: ForwardRefExoticComponent<
   {
     totalDigits: "total-digits",
     hideDigits: "hide-digits",
+    noImplicitSubmit: "no-implicit-submit",
     errorMessage: "error-message",
     showErrorInline: "show-error-inline",
   },
@@ -31,6 +33,7 @@ export const Otp: ForwardRefExoticComponent<
     onChange?: (e: CustomEvent) => void;
     totalDigits?: JSX.IntrinsicElements["loomi-otp"]["total-digits"];
     hideDigits?: JSX.IntrinsicElements["loomi-otp"]["hide-digits"];
+    noImplicitSubmit?: JSX.IntrinsicElements["loomi-otp"]["no-implicit-submit"];
     errorMessage?: JSX.IntrinsicElements["loomi-otp"]["error-message"];
     showErrorInline?: JSX.IntrinsicElements["loomi-otp"]["show-error-inline"];
   }
