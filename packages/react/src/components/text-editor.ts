@@ -6,8 +6,12 @@ import { createComponent } from "../create-component.js";
 import "@loomidev/components/text-editor";
 
 export const TextEditor: ForwardRefExoticComponent<
-  Omit<JSX.IntrinsicElements["loomi-text-editor"], "onLoomiAiGenerate" | "onInput" | "onChange"> & {
+  Omit<
+    JSX.IntrinsicElements["loomi-text-editor"],
+    "onLoomiAiGenerate" | "onLoomiTool" | "onInput" | "onChange"
+  > & {
     onLoomiAiGenerate?: (e: CustomEvent) => void;
+    onLoomiTool?: (e: CustomEvent) => void;
     onInput?: (e: CustomEvent) => void;
     onChange?: (e: CustomEvent) => void;
     labelPosition?: JSX.IntrinsicElements["loomi-text-editor"]["label-position"];
@@ -17,7 +21,12 @@ export const TextEditor: ForwardRefExoticComponent<
   }
 > = createComponent(
   "loomi-text-editor",
-  { "loomi-ai-generate": "onLoomiAiGenerate", input: "onInput", change: "onChange" },
+  {
+    "loomi-ai-generate": "onLoomiAiGenerate",
+    "loomi-tool": "onLoomiTool",
+    input: "onInput",
+    change: "onChange",
+  },
   {
     labelPosition: "label-position",
     errorMessage: "error-message",
@@ -25,8 +34,12 @@ export const TextEditor: ForwardRefExoticComponent<
     noFileUpload: "no-file-upload",
   },
 ) as unknown as ForwardRefExoticComponent<
-  Omit<JSX.IntrinsicElements["loomi-text-editor"], "onLoomiAiGenerate" | "onInput" | "onChange"> & {
+  Omit<
+    JSX.IntrinsicElements["loomi-text-editor"],
+    "onLoomiAiGenerate" | "onLoomiTool" | "onInput" | "onChange"
+  > & {
     onLoomiAiGenerate?: (e: CustomEvent) => void;
+    onLoomiTool?: (e: CustomEvent) => void;
     onInput?: (e: CustomEvent) => void;
     onChange?: (e: CustomEvent) => void;
     labelPosition?: JSX.IntrinsicElements["loomi-text-editor"]["label-position"];

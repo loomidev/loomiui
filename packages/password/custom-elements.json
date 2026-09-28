@@ -394,6 +394,71 @@
               "privacy": "private"
             },
             {
+              "kind": "method",
+              "name": "insertText",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "text",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Inserts `text` at the caret, replacing any selected text, as if typed, then fires\n`input`. The inner field keeps its caret while focus is elsewhere, so this works from\nan external toolbar button."
+            },
+            {
+              "kind": "field",
+              "name": "selectionStart",
+              "type": {
+                "text": "number | null"
+              },
+              "description": "Start of the selection in the inner field, as on a native input."
+            },
+            {
+              "kind": "field",
+              "name": "selectionEnd",
+              "type": {
+                "text": "number | null"
+              },
+              "description": "End of the selection in the inner field, as on a native input."
+            },
+            {
+              "kind": "method",
+              "name": "setSelectionRange",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "start",
+                  "type": {
+                    "text": "number | null"
+                  }
+                },
+                {
+                  "name": "end",
+                  "type": {
+                    "text": "number | null"
+                  }
+                },
+                {
+                  "name": "direction",
+                  "optional": true,
+                  "type": {
+                    "text": "\"forward\" | \"backward\" | \"none\""
+                  }
+                }
+              ],
+              "description": "Selects a range in the inner field, as on a native input."
+            },
+            {
               "kind": "field",
               "name": "cleanupClickOutside",
               "type": {
