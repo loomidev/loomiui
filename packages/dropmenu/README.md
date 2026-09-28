@@ -25,6 +25,20 @@ The default trigger is a horizontal ellipsis.
 </loomi-dropmenu>
 ```
 
+### Hiding items before the component loads
+
+Until the `@loomidev/dropmenu` module has loaded and registered its elements, the
+browser treats `<loomi-dropmenu-item>` as plain inline content, so on a slow connection
+every item briefly shows next to its trigger. The component can't prevent this itself,
+since none of its code has run yet. Add this rule to your page CSS to keep the items
+hidden until they upgrade:
+
+```css
+loomi-dropmenu-item:not(:defined) {
+  display: none;
+}
+```
+
 ## Trigger Icon
 
 Swap the default ellipsis for any icon from [`@loomidev/icons`](../icons). You can
