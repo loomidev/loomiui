@@ -78,7 +78,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "`<loomi-autocomplete>` — a text field with a filtered suggestion list.\nForm-associated: submits `value` under `name`.",
           "name": "LoomiAutocomplete",
           "members": [
             {
@@ -394,6 +394,16 @@
               "default": "false"
             },
             {
+              "kind": "field",
+              "name": "committedValue",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\"",
+              "description": "The value as of the last `change`; a blur after picking that same value is not a new commit."
+            },
+            {
               "kind": "method",
               "name": "focus",
               "return": {
@@ -572,6 +582,17 @@
             },
             {
               "kind": "method",
+              "name": "onNativeChange",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "The inner field's native `change`: the user committed free text by leaving the field."
+            },
+            {
+              "kind": "method",
               "name": "onKeydown",
               "privacy": "private",
               "return": {
@@ -615,19 +636,22 @@
               "name": "input",
               "type": {
                 "text": "Event"
-              }
+              },
+              "description": "Fired on every keystroke and when a suggestion is picked, after `value` has updated (composed)."
             },
             {
               "name": "change",
               "type": {
                 "text": "Event"
-              }
+              },
+              "description": "Fired when a suggestion is picked, the field is cleared, or typed text is committed by leaving the field (composed)."
             },
             {
               "name": "loomi-select",
               "type": {
                 "text": "CustomEvent"
-              }
+              },
+              "description": "`detail: { item, value, label }` when a suggestion is picked."
             }
           ],
           "attributes": [

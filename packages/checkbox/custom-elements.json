@@ -127,6 +127,14 @@
               "attribute": "color"
             },
             {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "\"checkbox\""
+              },
+              "description": "Always `\"checkbox\"`, like the native control this replaces, so framework bindings that\nbranch on `type` (Vue, Alpine, …) bind `checked` rather than `value`. Read-only: writes\nare ignored rather than thrown on, since some frameworks mirror a `type` attribute\nonto the property."
+            },
+            {
               "kind": "method",
               "name": "formResetCallback",
               "return": {
@@ -146,13 +154,22 @@
             },
             {
               "kind": "field",
+              "name": "onInput",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
               "name": "onChange",
               "privacy": "private"
             }
           ],
           "events": [
             {
-              "description": "Fired when the checked state changes (composed).",
+              "description": "Fired on every user toggle, after `checked` has updated (composed).",
+              "name": "input"
+            },
+            {
+              "description": "Fired when the user commits a new checked state (composed).",
               "name": "change"
             }
           ],

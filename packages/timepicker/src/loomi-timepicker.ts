@@ -1,4 +1,4 @@
-import { html, nothing, svg, type TemplateResult } from "lit";
+import { html, nothing, type PropertyValues, svg, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import {
   anchorFloatingPanel,
@@ -81,6 +81,8 @@ const CLOCK_STYLE = `
 
 const CLOCK_STYLE_TAG = unsafeStatic(`<style>${CLOCK_STYLE}</style>`);
 export type LoomiTimepickerVariant = "default" | "minimal";
+/** Keeps an inner `<select>`'s composed native `input` from surfacing on the host as a second one. */
+const stopEvent = (event: Event): void => event.stopPropagation();
 const DEFAULT_PLACEHOLDER = "HH:MM";
 const booleanAttribute = {
   fromAttribute(value: string | null): boolean {
@@ -95,7 +97,8 @@ const booleanAttribute = {
  * `<loomi-timepicker>` — pick a time. `popup` (input + panel) or `inline`. 12/24-hour.
  * Form-associated: submits a formatted time (e.g. `3:25PM` or `03:25`) under `name`.
  *
- * @fires change - `detail: { value }` when the time changes.
+ * @fires input - Fired when the user changes the time, after `value` has updated (composed).
+ * @fires change - `detail: { value }` when the user changes the time (composed).
  */
 @customElement("loomi-timepicker")
 export class LoomiTimepicker extends LoomiElement {
@@ -107,6 +110,8 @@ export class LoomiTimepicker extends LoomiElement {
   private internals = this.attachInternals();
   private validationVisible = false;
   private initialSelectedValue = "";
+  /** The value as of the last `change` (or programmatic set); a pick that lands on it again is a no-op. */
+  private committedValue = "";
 
   @property({ reflect: true }) name = "";
   /** `popup` (input + panel) or `inline`. Attribute is `tp-style` (`style` is reserved). */
@@ -145,11 +150,7 @@ export class LoomiTimepicker extends LoomiElement {
 
   formResetCallback(): void {
     this.selectedValue = this.initialSelectedValue;
-    this.hour = null;
-    this.minute = null;
-    this.ampm = "AM";
-    if (this.initialSelectedValue) this.parse(this.initialSelectedValue);
-    this.parsed = true;
+    this.applySelectedValue();
     this.open = false;
     this.validationVisible = false;
     this.invalid = false;
@@ -157,11 +158,8 @@ export class LoomiTimepicker extends LoomiElement {
     this.cleanup = undefined;
   }
 
-  override willUpdate(): void {
-    if (!this.parsed && this.selectedValue) {
-      this.parse(this.selectedValue);
-      this.parsed = true;
-    }
+  override willUpdate(changed: PropertyValues<this>): void {
+    if (changed.has("selectedValue") || !this.parsed) this.applySelectedValue();
     this.internals.setFormValue(this.value);
     this.syncValidity();
   }
@@ -171,25 +169,63 @@ export class LoomiTimepicker extends LoomiElement {
     this.cleanup?.();
   }
 
+  /** Replace the picked time with whatever `selectedValue` holds. */
+  private applySelectedValue(): void {
+    this.hour = null;
+    this.minute = null;
+    this.ampm = "AM";
+    if (this.selectedValue) this.parse(this.selectedValue);
+    this.parsed = true;
+    this.committedValue = this.value;
+  }
+
+  /**
+   * Reads `h:mm`, `hh:mm` or either with an `AM`/`PM` suffix, converting to the current
+   * `format` — so `"15:30"` shows as 3:30PM in 12-hour mode and `"3:30PM"` as 15:30 in
+   * 24-hour mode.
+   */
   private parse(v: string): void {
     const m = v.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)?$/i);
     if (!m) return;
-    this.hour = parseInt(m[1], 10);
-    this.minute = parseInt(m[2], 10);
-    if (m[3]) this.ampm = m[3].toUpperCase() as "AM" | "PM";
+    let hour = parseInt(m[1], 10);
+    const minute = parseInt(m[2], 10);
+    const period = m[3]?.toUpperCase() as "AM" | "PM" | undefined;
+    if (hour > 23 || minute > 59 || (period && (hour < 1 || hour > 12))) return;
+    if (this.format === "24") {
+      if (period) hour = period === "PM" ? (hour % 12) + 12 : hour % 12;
+    } else {
+      this.ampm = period ?? (hour >= 12 ? "PM" : "AM");
+      hour = hour % 12 || 12;
+    }
+    this.hour = hour;
+    this.minute = minute;
   }
 
-  /** The formatted time, or "" if incomplete. */
+  /**
+   * The formatted time, or "" if incomplete — the same string the form submits. Setting
+   * it (as `h:mmAM`/`h:mmPM` or 24-hour `hh:mm`) updates the picker without firing events;
+   * an unparseable value clears it, as on a native time input.
+   */
   get value(): string {
     if (this.hour === null || this.minute === null) return "";
     return this.format === "24"
       ? `${pad(this.hour)}:${pad(this.minute)}`
       : `${this.hour}:${pad(this.minute)}${this.ampm}`;
   }
+  set value(value: string) {
+    this.selectedValue = String(value ?? "");
+    this.applySelectedValue();
+    this.internals.setFormValue(this.value);
+  }
 
   private commit(): void {
     this.internals.setFormValue(this.value);
     this.syncValidity();
+    // Choosing an hour before a minute (or re-picking the same time) leaves the value as
+    // it was, and a native time field fires nothing for that either.
+    if (this.value === this.committedValue) return;
+    this.committedValue = this.value;
+    this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
     this.dispatchEvent(
       new CustomEvent("change", { bubbles: true, composed: true, detail: { value: this.value } }),
     );
@@ -254,7 +290,7 @@ export class LoomiTimepicker extends LoomiElement {
         ? Array.from({ length: 24 }, (_, i) => i)
         : Array.from({ length: 12 }, (_, i) => i + 1);
     return html`<div class="loomi-selects">
-      <select aria-label=${loomiT("timepicker.hour", {}, this.locale)} @blur=${this.showValidation} @change=${(
+      <select aria-label=${loomiT("timepicker.hour", {}, this.locale)} @blur=${this.showValidation} @input=${stopEvent} @change=${(
         e: Event,
       ) => {
         const value = (e.target as HTMLSelectElement).value;
@@ -265,7 +301,7 @@ export class LoomiTimepicker extends LoomiElement {
         ${hours.map((h) => html`<option value=${h} ?selected=${this.hour === h}>${this.format === "24" ? pad(h) : h}</option>`)}
       </select>
       <span class="loomi-colon">:</span>
-      <select aria-label=${loomiT("timepicker.minute", {}, this.locale)} @blur=${this.showValidation} @change=${(
+      <select aria-label=${loomiT("timepicker.minute", {}, this.locale)} @blur=${this.showValidation} @input=${stopEvent} @change=${(
         e: Event,
       ) => {
         const value = (e.target as HTMLSelectElement).value;
@@ -277,7 +313,7 @@ export class LoomiTimepicker extends LoomiElement {
       </select>
       ${
         this.format === "12"
-          ? html`<select aria-label=${loomiT("timepicker.ampm", {}, this.locale)} @blur=${this.showValidation} @change=${(
+          ? html`<select aria-label=${loomiT("timepicker.ampm", {}, this.locale)} @blur=${this.showValidation} @input=${stopEvent} @change=${(
               e: Event,
             ) => {
               this.ampm = (e.target as HTMLSelectElement).value as "AM" | "PM";

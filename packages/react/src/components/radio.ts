@@ -7,15 +7,17 @@ import { createComponent } from "../create-component.js";
 import "@loomidev/components/radio";
 
 export const Radio: ForwardRefExoticComponent<
-  Omit<JSX.IntrinsicElements["loomi-radio"], "onChange"> & {
+  Omit<JSX.IntrinsicElements["loomi-radio"], "onInput" | "onChange"> & {
+    onInput?: (e: LoomiRadioEventMap["input"]) => void;
     onChange?: (e: LoomiRadioEventMap["change"]) => void;
   }
 > = createComponent(
   "loomi-radio",
-  { change: "onChange" },
+  { input: "onInput", change: "onChange" },
   {},
 ) as unknown as ForwardRefExoticComponent<
-  Omit<JSX.IntrinsicElements["loomi-radio"], "onChange"> & {
+  Omit<JSX.IntrinsicElements["loomi-radio"], "onInput" | "onChange"> & {
+    onInput?: (e: LoomiRadioEventMap["input"]) => void;
     onChange?: (e: LoomiRadioEventMap["change"]) => void;
   }
 >;

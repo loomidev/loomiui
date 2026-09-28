@@ -1,5 +1,6 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
+import { live } from "lit/directives/live.js";
 import {
   anchorFloatingPanel,
   controlSizeStyles,
@@ -187,6 +188,9 @@ export class LoomiPassword extends LoomiElement {
   }
 
   private onInput = (e: Event): void => {
+    // The native `input` event is composed and would reach the host as a second `input`;
+    // this component re-fires its own once `value` is up to date.
+    e.stopPropagation();
     this.value = (e.target as HTMLInputElement).value;
     if (this.invalid) this.validate();
     this.emit("input");
@@ -375,7 +379,7 @@ export class LoomiPassword extends LoomiElement {
           <input
             class="loomi-input"
             part="input"
-            .value=${this.value}
+            .value=${live(this.value)}
             type=${this.revealed ? "text" : "password"}
             name=${this.name || nothing}
             placeholder=${placeholderAttr}

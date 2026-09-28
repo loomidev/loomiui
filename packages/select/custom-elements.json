@@ -428,6 +428,33 @@
               }
             },
             {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "The selected value, comma-joined when `multiple` — the same string the form submits.\nSetting it selects the matching option(s) without firing `input` or `change`, like\nsetting a native `<select>`'s `value`."
+            },
+            {
+              "kind": "field",
+              "name": "values",
+              "type": {
+                "text": "string[]"
+              },
+              "description": "The selected values as an array (one entry unless `multiple`). Setting it fires no events."
+            },
+            {
+              "kind": "method",
+              "name": "currentSelection",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string[]"
+                }
+              },
+              "description": "Before the first render `selected` hasn't been parsed from `selectedValue` yet."
+            },
+            {
               "kind": "method",
               "name": "reset",
               "return": {
@@ -609,11 +636,18 @@
           ],
           "events": [
             {
+              "name": "input",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when the user changes the selection, after `value` has updated (composed)."
+            },
+            {
               "name": "change",
               "type": {
                 "text": "Event"
               },
-              "description": "Fired when the selection changes (composed)."
+              "description": "Fired when the user changes the selection (composed)."
             },
             {
               "name": "loomi-select",

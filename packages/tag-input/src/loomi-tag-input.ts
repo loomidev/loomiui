@@ -274,6 +274,9 @@ export class LoomiTagInput extends LoomiElement {
   }
 
   private onInput = (e: Event): void => {
+    // The native `input` event is composed and would reach the host as a second `input`;
+    // this component re-fires its own once `value` is up to date.
+    e.stopPropagation();
     this.draft = (e.target as HTMLInputElement).value;
     const options = this.autocompleteOptions;
     this.autocompleteOpen = options.length > 0;

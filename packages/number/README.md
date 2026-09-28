@@ -128,6 +128,8 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `change` | Fired when the value is committed or changed. |
 | `input`  | Fired while the value is edited.              |
 
+Setting `value` from JavaScript fires no events. Typing fires `input`; leaving the field fires `change` (plus an `input` first if the commit clamped the number). The step buttons fire both. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
+
 ## Full Example
 
 ```html

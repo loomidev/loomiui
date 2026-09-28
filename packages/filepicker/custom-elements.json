@@ -356,6 +356,14 @@
               "readonly": true
             },
             {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Mirrors a native file input: `C:\\fakepath\\<name>` of the first selected file, or `\"\"`.\nThe only value you can set is `\"\"`, which clears the selection without firing events;\nanything else is ignored (browsers never let script choose files)."
+            },
+            {
               "kind": "method",
               "name": "open",
               "return": {
@@ -741,11 +749,18 @@
           ],
           "events": [
             {
+              "name": "input",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired whenever the user adds or removes files, after the selection has updated (composed)."
+            },
+            {
               "name": "change",
               "type": {
                 "text": "CustomEvent"
               },
-              "description": "`detail: { files }` whenever the selection changes."
+              "description": "`detail: { files }` whenever the user adds or removes files (composed)."
             }
           ],
           "attributes": [

@@ -189,6 +189,8 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `loomi-mention-search` | `{ trigger, query }` | A mention query needs matching items. |
 | `loomi-mention-select` | `{ trigger, item }`  | A mention item was inserted.          |
 
+Setting `value` from JavaScript updates the field and the submitted form value without firing events; each keystroke fires exactly one `input`. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
+
 ```html
 <loomi-textarea
   label="Comment"

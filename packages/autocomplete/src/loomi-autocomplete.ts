@@ -1,5 +1,6 @@
 import { css, html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
+import { live } from "lit/directives/live.js";
 import {
   anchorFloatingPanel,
   controlSizeStyles,
@@ -37,6 +38,16 @@ const booleanAttribute = {
   },
 };
 
+/**
+ * `<loomi-autocomplete>` — a text field with a filtered suggestion list.
+ * Form-associated: submits `value` under `name`.
+ *
+ * @fires input - Fired on every keystroke and when a suggestion is picked, after `value` has
+ *   updated (composed).
+ * @fires change - Fired when a suggestion is picked, the field is cleared, or typed text is
+ *   committed by leaving the field (composed).
+ * @fires loomi-select - `detail: { item, value, label }` when a suggestion is picked.
+ */
 @customElement("loomi-autocomplete")
 export class LoomiAutocomplete extends LoomiElement {
   static override styles = [
@@ -240,6 +251,8 @@ export class LoomiAutocomplete extends LoomiElement {
   @state() private selectedImage = "";
   @query("input") private inputEl?: HTMLInputElement;
   private suppressValueDisplaySync = false;
+  /** The value as of the last `change`; a blur after picking that same value is not a new commit. */
+  private committedValue = "";
 
   override connectedCallback(): void {
     if (!this.hasUpdated) {
@@ -264,6 +277,9 @@ export class LoomiAutocomplete extends LoomiElement {
     if (selectedValueChanged && this.value !== this.selectedValue) {
       this.value = this.selectedValue;
     }
+    // A value that didn't come from typing (set from outside, or a pick) is the new baseline
+    // for deciding whether leaving the field commits a change.
+    if (changed.has("value") && !this.suppressValueDisplaySync) this.committedValue = this.value;
     if (
       changed.has("value") ||
       selectedValueChanged ||
@@ -303,6 +319,7 @@ export class LoomiAutocomplete extends LoomiElement {
     this.displayValue = "";
     this.selectedImage = "";
     this.internals.setFormValue("");
+    this.committedValue = "";
     this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
     this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
     this.focus();
@@ -383,6 +400,8 @@ export class LoomiAutocomplete extends LoomiElement {
     this.displayValue = item.label;
     this.selectedImage = item.image || "";
     this.hide();
+    this.committedValue = this.value;
+    this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
     this.dispatchEvent(
       new CustomEvent("loomi-select", {
         bubbles: true,
@@ -394,12 +413,22 @@ export class LoomiAutocomplete extends LoomiElement {
   }
 
   private onInput(event: Event): void {
+    // The native `input` event is composed and would reach the host as a second `input`;
+    // this component re-fires its own once `value` is up to date.
+    event.stopPropagation();
     this.displayValue = (event.target as HTMLInputElement).value;
     this.selectedImage = "";
     this.suppressValueDisplaySync = true;
     this.value = this.displayValue;
     this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
     this.show();
+  }
+
+  /** The inner field's native `change`: the user committed free text by leaving the field. */
+  private onNativeChange(): void {
+    if (this.value === this.committedValue) return;
+    this.committedValue = this.value;
+    this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
   }
 
   private onKeydown(event: KeyboardEvent): void {
@@ -467,7 +496,7 @@ export class LoomiAutocomplete extends LoomiElement {
       <div class="loomi-field variant-${this.variant}">
         ${showSelectedImage ? html`<img class="loomi-selected-image" src=${this.selectedImage} alt="" />` : nothing}
         <input
-          .value=${this.displayValue}
+          .value=${live(this.displayValue)}
           name=${this.name || nothing}
           placeholder=${placeholder}
           ?disabled=${this.disabled}
@@ -479,6 +508,7 @@ export class LoomiAutocomplete extends LoomiElement {
           aria-label=${hasLabel ? this.label : nothing}
           @focus=${this.show}
           @input=${this.onInput}
+          @change=${this.onNativeChange}
           @keydown=${this.onKeydown}
         />
         ${hasLabel ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>` : nothing}

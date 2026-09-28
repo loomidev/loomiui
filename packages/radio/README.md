@@ -101,9 +101,12 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Events
 
-| Event    | Description                                   |
-| -------- | --------------------------------------------- |
-| `change` | Fired when the value is committed or changed. |
+| Event    | Description                                                         |
+| -------- | ------------------------------------------------------------------- |
+| `input`  | Fired when the user checks this radio, after `checked` has updated. |
+| `change` | Fired when the user checks this radio.                              |
+
+`checked` is settable without firing events, and checking one radio (by the user or in code) unchecks the rest of its `name` group. `type` always reads `"radio"`. A user pick fires `input` then `change`. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
 
 ## Full Example
 

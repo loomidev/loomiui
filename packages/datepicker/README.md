@@ -197,9 +197,12 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Events
 
-| Event    | Description                                   |
-| -------- | --------------------------------------------- |
-| `change` | Fired when the value is committed or changed. |
+| Event    | Description                                                   |
+| -------- | ------------------------------------------------------------- |
+| `input`  | Fired when the user picks a date, after `value` has updated.  |
+| `change` | Fired when the user picks a date. `detail: { value, dates }`. |
+
+`value` is settable: pass ISO `yyyy-mm-dd` or a date in the configured numeric `format` (range as `start - end`); an unparseable value clears the field. Setting it fires no events. A user pick fires `input` then `change`. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
 
 ## Full Example
 

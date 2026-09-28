@@ -127,6 +127,14 @@
               "attribute": "color"
             },
             {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "\"radio\""
+              },
+              "description": "Always `\"radio\"`, like the native control this replaces, so framework bindings that\nbranch on `type` (Vue, Alpine, …) bind `checked` rather than `value`. Read-only: writes\nare ignored rather than thrown on, since some frameworks mirror a `type` attribute\nonto the property."
+            },
+            {
               "kind": "method",
               "name": "formResetCallback",
               "return": {
@@ -155,23 +163,24 @@
               }
             },
             {
-              "kind": "method",
-              "name": "select",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              }
+              "kind": "field",
+              "name": "onInput",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onChange",
+              "privacy": "private"
             }
           ],
           "events": [
             {
-              "name": "change",
-              "type": {
-                "text": "Event"
-              },
-              "description": "Fired when this radio becomes checked (composed)."
+              "description": "Fired when the user checks this radio, after `checked` has updated (composed).",
+              "name": "input"
+            },
+            {
+              "description": "Fired when the user checks this radio (composed).",
+              "name": "change"
             }
           ],
           "attributes": [

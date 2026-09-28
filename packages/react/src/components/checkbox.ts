@@ -7,15 +7,17 @@ import { createComponent } from "../create-component.js";
 import "@loomidev/components/checkbox";
 
 export const Checkbox: ForwardRefExoticComponent<
-  Omit<JSX.IntrinsicElements["loomi-checkbox"], "onChange"> & {
+  Omit<JSX.IntrinsicElements["loomi-checkbox"], "onInput" | "onChange"> & {
+    onInput?: (e: LoomiCheckboxEventMap["input"]) => void;
     onChange?: (e: LoomiCheckboxEventMap["change"]) => void;
   }
 > = createComponent(
   "loomi-checkbox",
-  { change: "onChange" },
+  { input: "onInput", change: "onChange" },
   {},
 ) as unknown as ForwardRefExoticComponent<
-  Omit<JSX.IntrinsicElements["loomi-checkbox"], "onChange"> & {
+  Omit<JSX.IntrinsicElements["loomi-checkbox"], "onInput" | "onChange"> & {
+    onInput?: (e: LoomiCheckboxEventMap["input"]) => void;
     onChange?: (e: LoomiCheckboxEventMap["change"]) => void;
   }
 >;

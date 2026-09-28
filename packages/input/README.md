@@ -285,6 +285,8 @@ clears its visible validation state.
 | `loomi-prefix-change` | Fired when the prefix changes.                |
 | `loomi-suffix-change` | Fired when the suffix changes.                |
 
+Setting `value` from JavaScript updates the field and the submitted form value without firing events; each keystroke fires exactly one `input`. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
+
 ## Theming
 
 Inputs use the primary palette for focus and the gray palette for borders. Override from

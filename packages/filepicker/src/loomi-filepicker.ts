@@ -90,7 +90,9 @@ function loadImageElement(file: File): Promise<HTMLImageElement> {
  * trigger element (e.g. `<loomi-avatar editable>` uses this to launch a crop dialog
  * straight from an avatar click).
  *
- * @fires change - `detail: { files }` whenever the selection changes.
+ * @fires input - Fired whenever the user adds or removes files, after the selection has
+ *   updated (composed).
+ * @fires change - `detail: { files }` whenever the user adds or removes files (composed).
  */
 @customElement("loomi-filepicker")
 export class LoomiFilepicker extends LoomiElement {
@@ -145,6 +147,22 @@ export class LoomiFilepicker extends LoomiElement {
   /** Currently selected files. */
   get selectedFiles(): File[] {
     return this.files;
+  }
+
+  /**
+   * Mirrors a native file input: `C:\fakepath\<name>` of the first selected file, or `""`.
+   * The only value you can set is `""`, which clears the selection without firing events;
+   * anything else is ignored (browsers never let script choose files).
+   */
+  get value(): string {
+    return this.files.length ? `C:\\fakepath\\${this.files[0].name}` : "";
+  }
+  set value(value: string) {
+    if (value !== "" && value != null) return;
+    this.files = [];
+    if (this.input) this.input.value = "";
+    this.syncFormValue();
+    this.syncValidity();
   }
 
   /**
@@ -243,6 +261,7 @@ export class LoomiFilepicker extends LoomiElement {
     if (this.input) this.input.files = dt.files;
     this.syncFormValue();
     this.syncValidity();
+    this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
     this.dispatchEvent(
       new CustomEvent("change", { bubbles: true, composed: true, detail: { files: this.files } }),
     );
@@ -603,6 +622,7 @@ export class LoomiFilepicker extends LoomiElement {
           ?multiple=${this.maxFiles > 1}
           ?disabled=${this.disabled || !!this.cropping}
           @blur=${this.showValidation}
+          @input=${(e: Event) => e.stopPropagation()}
           @change=${(e: Event) => this.add((e.target as HTMLInputElement).files)}
         />
       </div>

@@ -241,6 +241,16 @@
               "privacy": "private"
             },
             {
+              "kind": "field",
+              "name": "committedCode",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\"",
+              "description": "The code as of the last `change` (or programmatic set); focus leaving fires `change` past it."
+            },
+            {
               "kind": "method",
               "name": "formResetCallback",
               "return": {
@@ -257,6 +267,14 @@
               },
               "description": "The current code.",
               "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "The current code — the same string the form submits. Setting it fills the boxes\n(dropping characters `type` doesn't accept, and any beyond `total-digits`) without\nfiring `input`, `change` or `loomi-verify`, like setting a native input's `value`."
             },
             {
               "kind": "field",
@@ -408,6 +426,43 @@
             },
             {
               "kind": "method",
+              "name": "emit",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "type",
+                  "type": {
+                    "text": "\"input\" | \"change\""
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onFocusOut",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "FocusEvent"
+                  }
+                }
+              ],
+              "description": "Focus moving between boxes stays inside the control; only leaving it commits."
+            },
+            {
+              "kind": "method",
               "name": "onKeydown",
               "privacy": "private",
               "return": {
@@ -466,6 +521,14 @@
                 "text": "CustomEvent"
               },
               "description": "`detail: { code, pin }` when the last box is filled (`pin` is a deprecated alias of `code`)."
+            },
+            {
+              "description": "Fired on every user edit (typing, deleting or pasting), after `value` has updated (composed).",
+              "name": "input"
+            },
+            {
+              "description": "Fired when focus leaves the boxes after the code changed (composed).",
+              "name": "change"
             }
           ],
           "attributes": [

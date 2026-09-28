@@ -191,9 +191,13 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Events
 
-| Event          | Description                          |
-| -------------- | ------------------------------------ |
-| `loomi-verify` | Fired when every code box is filled. |
+| Event          | Description                                                     |
+| -------------- | --------------------------------------------------------------- |
+| `input`        | Fired on every typed or pasted edit, after `value` has updated. |
+| `change`       | Fired when focus leaves the boxes after the code changed.       |
+| `loomi-verify` | Fired when every code box is filled.                            |
+
+Read or set the code with `value` (setting it drops characters `type` doesn't accept and fires no events, not even `loomi-verify`). Each typed or pasted edit fires `input`; `change` fires when focus leaves the boxes after the code changed. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
 
 ## Full Example
 

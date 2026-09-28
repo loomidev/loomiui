@@ -1,4 +1,4 @@
-import { html, nothing, type TemplateResult } from "lit";
+import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomidev/core";
 import { getLoomiIcon } from "@loomidev/icons";
@@ -56,7 +56,8 @@ export class LoomiCheckcard extends LoomiElement {
  * Form-associated: submits selected values (comma-joined) under `name`.
  *
  * @slot - `<loomi-checkcard>` children.
- * @fires change - `detail: { values }` when the selection changes.
+ * @fires input - Fired when the user changes the selection, after `value` has updated (composed).
+ * @fires change - `detail: { values }` when the user changes the selection (composed).
  */
 @customElement("loomi-checkcards")
 export class LoomiCheckcards extends LoomiElement {
@@ -76,7 +77,6 @@ export class LoomiCheckcards extends LoomiElement {
   @property({ attribute: "align-items" }) alignItems: "top" | "center" = "top";
 
   private selected: string[] = [];
-  private initialized = false;
   private initialSelectedValue = "";
 
   private get cards(): LoomiCheckcard[] {
@@ -89,27 +89,40 @@ export class LoomiCheckcards extends LoomiElement {
   }
 
   formResetCallback(): void {
-    this.selectedValue = this.initialSelectedValue;
-    this.selected = this.initialSelectedValue
-      ? this.initialSelectedValue
-          .split(",")
-          .map((value) => value.trim())
-          .filter(Boolean)
-      : [];
-    this.internals.setFormValue(this.selected.join(","));
-    this.sync();
+    this.value = this.initialSelectedValue;
   }
 
-  override willUpdate(): void {
-    if (!this.initialized) {
-      this.selected = this.selectedValue
-        ? this.selectedValue
-            .split(",")
-            .map((s) => s.trim())
-            .filter(Boolean)
-        : [];
-      this.initialized = true;
-    }
+  /**
+   * The selected card values, comma-joined — the same string the form submits. Setting it
+   * selects the matching cards without firing `input` or `change`.
+   */
+  get value(): string {
+    return this.selected.join(",");
+  }
+  set value(value: string) {
+    this.selectedValue = value == null ? "" : String(value);
+    this.applySelectedValue();
+  }
+
+  /** The selected card values as an array. Setting it fires no events. */
+  get values(): string[] {
+    return [...this.selected];
+  }
+  set values(values: string[]) {
+    this.value = (values ?? []).map(String).join(",");
+  }
+
+  private applySelectedValue(): void {
+    this.selected = this.selectedValue
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    this.internals.setFormValue(this.selected.join(","));
+    if (this.hasUpdated) this.sync();
+  }
+
+  override willUpdate(changed: PropertyValues<this>): void {
+    if (changed.has("selectedValue")) this.applySelectedValue();
     this.internals.setFormValue(this.selected.join(","));
   }
 
@@ -140,8 +153,12 @@ export class LoomiCheckcards extends LoomiElement {
     } else {
       return; // blocked
     }
+    // Keep `selectedValue` in step, so re-setting it later to what it held before still
+    // registers as a change.
+    this.selectedValue = this.selected.join(",");
     this.internals.setFormValue(this.selected.join(","));
     this.sync();
+    this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
     this.dispatchEvent(
       new CustomEvent("change", {
         bubbles: true,

@@ -387,8 +387,7 @@
               "type": {
                 "text": "string"
               },
-              "description": "Formatted value (range joined with \" - \").",
-              "readonly": true
+              "description": "Formatted value (range joined with \" - \") — the same string the form submits. Setting\nit accepts ISO `yyyy-mm-dd` or the configured numeric `format`, so a value read back\nfrom the field round-trips. It fires no events; an unparseable value clears the field,\nas it does on a native date input."
             },
             {
               "kind": "field",
@@ -646,11 +645,18 @@
           ],
           "events": [
             {
+              "name": "input",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when the user picks a date, after `value` has updated (composed)."
+            },
+            {
               "name": "change",
               "type": {
                 "text": "CustomEvent"
               },
-              "description": "`detail: { value, dates }` when the selection changes."
+              "description": "`detail: { value, dates }` when the user picks a date (composed)."
             }
           ],
           "attributes": [

@@ -103,6 +103,8 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `input`        | Native input event.                  |
 | `change`       | Native change event after selection. |
 
+Setting `value` shows the matching item's label without firing events. Picking a suggestion fires `input` then `change`; typed free text commits with `change` when focus leaves the field. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
+
 ## Dependencies
 
 - `@loomidev/core`
