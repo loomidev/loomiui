@@ -1,5 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
+import { live } from "lit/directives/live.js";
 import {
   LoomiElement,
   fieldStyles,
@@ -245,6 +246,9 @@ export class LoomiTextarea extends LoomiElement {
   }
 
   private onInput = (e: Event): void => {
+    // The native `input` event is composed and would reach the host as a second `input`;
+    // this component re-fires its own once `value` is up to date.
+    e.stopPropagation();
     const target = e.target as HTMLTextAreaElement;
     this.value = target.value;
     if (this.invalid) this.validate();
@@ -330,7 +334,7 @@ export class LoomiTextarea extends LoomiElement {
         <textarea
           class="loomi-textarea"
           part="textarea"
-          .value=${this.value}
+          .value=${live(this.value)}
           name=${this.name || nothing}
           rows=${this.rows}
           placeholder=${placeholderAttr}

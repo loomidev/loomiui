@@ -151,6 +151,8 @@ clears its visible validation state.
 | `input`               | Fired while the value is edited.              |
 | `loomi-prefix-change` | Fired when the prefix changes.                |
 
+Setting `value` from JavaScript updates the field and the submitted form value without firing events; each keystroke fires exactly one `input`. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
+
 ## Dependencies
 
 - `@loomidev/core`

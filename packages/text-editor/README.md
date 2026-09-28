@@ -454,6 +454,8 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `input`             | Fired while the value is edited.                  |
 | `loomi-ai-generate` | Fired when the AI generation action is requested. |
 
+Setting `value` (HTML) from JavaScript updates the editor and the submitted form value without firing events. `change` fires when focus leaves the editor after an edit. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
+
 ## Framework integration
 
 `<loomi-text-editor>` is a standard custom element, so it works in plain HTML, Blade,

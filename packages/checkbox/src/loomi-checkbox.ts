@@ -1,5 +1,6 @@
 import { html, nothing, type TemplateResult, isServer } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { live } from "lit/directives/live.js";
 import {
   LoomiElement,
   loomiStyles,
@@ -15,7 +16,8 @@ import { componentStyles } from "./generated/styles.css.js";
  *
  * @slot - Label content (supports HTML such as links). Falls back to the `label` attribute.
  * @csspart box - The checkbox box.
- * @fires change - Fired when the checked state changes (composed).
+ * @fires input - Fired on every user toggle, after `checked` has updated (composed).
+ * @fires change - Fired when the user commits a new checked state (composed).
  */
 @customElement("loomi-checkbox")
 export class LoomiCheckbox extends LoomiElement {
@@ -31,6 +33,19 @@ export class LoomiCheckbox extends LoomiElement {
   @property({ type: Boolean, reflect: true }) checked = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property() color: LoomiColor = "primary" as LoomiColor;
+
+  /**
+   * Always `"checkbox"`, like the native control this replaces, so framework bindings that
+   * branch on `type` (Vue, Alpine, …) bind `checked` rather than `value`. Read-only: writes
+   * are ignored rather than thrown on, since some frameworks mirror a `type` attribute
+   * onto the property.
+   */
+  get type(): "checkbox" {
+    return "checkbox";
+  }
+  set type(_ignored: string) {
+    // Read-only; see the getter.
+  }
 
   override connectedCallback(): void {
     if (!this.hasUpdated) this.initialChecked = this.checked;
@@ -49,8 +64,17 @@ export class LoomiCheckbox extends LoomiElement {
     return isLoomiColor(this.color) ? this.color : ("primary" as LoomiColor);
   }
 
-  private onChange = (e: Event): void => {
+  // The native `input` event is composed, so left alone it reaches listeners on the host
+  // before `checked` has caught up. Stop it and re-fire from the host once it has.
+  private onInput = (e: Event): void => {
+    e.stopPropagation();
     this.checked = (e.target as HTMLInputElement).checked;
+    this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
+  };
+
+  // `checked` was already taken from the native box on `input`; re-reading it here would
+  // undo a listener that reverted `checked` in between.
+  private onChange = (): void => {
     this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
   };
 
@@ -62,8 +86,9 @@ export class LoomiCheckbox extends LoomiElement {
           class="loomi-native"
           type="checkbox"
           name=${this.name || nothing}
-          .checked=${this.checked}
+          .checked=${live(this.checked)}
           ?disabled=${this.disabled}
+          @input=${this.onInput}
           @change=${this.onChange}
         />
         <span class="loomi-box" part="box">
@@ -87,6 +112,7 @@ export class LoomiCheckbox extends LoomiElement {
 /** Event map for `<loomi-checkbox>`. `change` is a plain `Event`; read `checked`
  * off the element itself. */
 export interface LoomiCheckboxEventMap {
+  input: Event;
   change: Event;
 }
 

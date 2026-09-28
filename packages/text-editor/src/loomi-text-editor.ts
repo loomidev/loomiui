@@ -17,6 +17,12 @@ import "@loomidev/select/loomi-select.js";
 import "@loomidev/tooltip/loomi-tooltip.js";
 import { componentStyles } from "./generated/styles.css.js";
 
+/**
+ * Keeps an internal control's composed `input`/`change` from surfacing on the editor host,
+ * where it would read as an edit of the editor's own value.
+ */
+const stopEvent = (event: Event): void => event.stopPropagation();
+
 const TOOL_ORDER = [
   "heading",
   "font-family",
@@ -341,6 +347,8 @@ export class LoomiTextEditor extends LoomiElement {
   private validationVisible = false;
   private initialValue = "";
   private valueSetFromEditor = false;
+  /** The value as of the last `change` (or programmatic set); blur only fires `change` past it. */
+  private committedValue = "";
   private savedRange: Range | null = null;
   private embedFiles: File[] = [];
   private readonly onSelectionChange = (): void => this.updateToolbarState();
@@ -449,6 +457,7 @@ export class LoomiTextEditor extends LoomiElement {
     if (changed.has("value")) {
       if (this.valueSetFromEditor) this.valueSetFromEditor = false;
       else {
+        this.committedValue = this.value;
         this.syncEditorFromValue();
         this.syncValidity();
       }
@@ -506,7 +515,10 @@ export class LoomiTextEditor extends LoomiElement {
     this.syncValidity(true);
   }
 
-  private handleInput(): void {
+  private handleInput(event: Event): void {
+    // The native `input` event is composed and would reach the host as a second `input`;
+    // re-fire our own once `value` is up to date.
+    event.stopPropagation();
     this.syncValueFromEditor();
     this.updateToolbarState();
     this.emit("input");
@@ -514,6 +526,9 @@ export class LoomiTextEditor extends LoomiElement {
 
   private handleBlur(): void {
     this.showValidation();
+    // Like a native field, commit only when the content changed since the last commit.
+    if (this.value === this.committedValue) return;
+    this.committedValue = this.value;
     this.emit("change");
   }
 
@@ -976,6 +991,8 @@ export class LoomiTextEditor extends LoomiElement {
         ?disabled=${this.disabled || this.readonly}
         @pointerdown=${this.captureSelection}
         @loomi-select=${(event: CustomEvent<{ value: string }>) => onSelect(event.detail.value)}
+        @input=${stopEvent}
+        @change=${stopEvent}
       ></loomi-select>`,
     );
   }
@@ -998,7 +1015,11 @@ export class LoomiTextEditor extends LoomiElement {
           value=${fallback}
           aria-label=${label}
           ?disabled=${this.disabled || this.readonly}
-          @input=${(event: Event) => this.setColor(command, (event.target as HTMLInputElement).value)}
+          @input=${(event: Event) => {
+            event.stopPropagation();
+            this.setColor(command, (event.target as HTMLInputElement).value);
+          }}
+          @change=${stopEvent}
         />
       </label>`,
     );
@@ -1016,7 +1037,11 @@ export class LoomiTextEditor extends LoomiElement {
       label=${label}
       prefix-icon=${prefixIcon}
       .value=${value}
-      @input=${(event: Event) => onInput((event.target as HTMLInputElement & { value: string }).value)}
+      @input=${(event: Event) => {
+        event.stopPropagation();
+        onInput((event.target as HTMLInputElement & { value: string }).value);
+      }}
+      @change=${stopEvent}
     ></loomi-input>`;
   }
 
@@ -1028,7 +1053,11 @@ export class LoomiTextEditor extends LoomiElement {
       max-files="1"
       max-file-size=${kind === "image" ? "10mb" : "50mb"}
       .showImagePreview=${kind === "image"}
-      @change=${(event: Event) => this.onEmbedFileChange(event as CustomEvent<{ files: File[] }>)}
+      @input=${stopEvent}
+      @change=${(event: Event) => {
+        event.stopPropagation();
+        this.onEmbedFileChange(event as CustomEvent<{ files: File[] }>);
+      }}
     ></loomi-filepicker>`;
   }
 

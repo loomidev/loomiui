@@ -1,5 +1,6 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
+import { live } from "lit/directives/live.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import {
   LoomiElement,
@@ -288,6 +289,9 @@ export class LoomiInput extends LoomiElement {
   }
 
   private onInput = (e: Event): void => {
+    // The native `input` event is composed and would reach the host as a second `input`;
+    // this component re-fires its own once `value` is up to date.
+    e.stopPropagation();
     const el = e.target as HTMLInputElement;
     const clean = this.normalizeValue(el.value);
     if (clean !== el.value) el.value = clean;
@@ -361,7 +365,7 @@ export class LoomiInput extends LoomiElement {
 
   private renderAffixSelect(kind: "prefix" | "suffix", options: string[]): TemplateResult {
     const value = this.selectedAffix(kind, options);
-    return html`<select class="loomi-affix-select" .value=${value} aria-label=${kind} @change=${(e: Event) => this.onAffixChange(kind, e)}>
+    return html`<select class="loomi-affix-select" .value=${value} aria-label=${kind} @input=${(e: Event) => e.stopPropagation()} @change=${(e: Event) => this.onAffixChange(kind, e)}>
       ${options.map((option) => html`<option value=${option} ?selected=${option === value}>${option}</option>`)}
     </select>`;
   }
@@ -436,7 +440,7 @@ export class LoomiInput extends LoomiElement {
           <input
             class="loomi-input"
             part="input"
-            .value=${this.value}
+            .value=${live(this.value)}
             type=${this.type}
             name=${this.name || nothing}
             placeholder=${placeholderAttr}

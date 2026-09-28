@@ -84,6 +84,70 @@ number instead: `<loomi-icon size>`, `<loomi-qrcode size>`, `<loomi-statistic ic
 `<loomi-scroller edge-size>`, `<loomi-photo-gallery thumb-size>` and the
 `<loomi-resizable-panel>` `*-size` attributes.
 
+## Value and events contract
+
+Every Loomi form control behaves like the native `<input>`, `<select>` or `<textarea>` it
+replaces, so any framework's two-way binding (Vue `v-model`, Svelte `bind:`, Alpine
+`x-model`, or your own listeners) works on the tag itself, with no wrapper component and no
+framework-specific code in the library.
+
+1. **A settable `value`** (`checked` for checkbox-like controls). Setting it from
+   JavaScript updates what the control shows and what it submits with its `<form>`
+   (through `ElementInternals`), and fires **no events**, just as setting `input.value`
+   doesn't. The form value is current once the control has rendered
+   (`await el.updateComplete`), and immediately for the controls whose `value` is a
+   hand-written setter.
+2. **`input` and `change` events**, both `bubbles: true, composed: true`. `input` fires
+   once per user edit, and `value`/`checked` already holds the new state when it arrives.
+   `change` fires when the user commits: on each pick for choice controls, and when focus
+   leaves a text field whose content changed. Programmatic sets fire neither. A control's
+   own inner fields never leak a second `input` onto the host.
+3. **A read-only `type`** on checkbox-like controls: `"checkbox"` on `<loomi-checkbox>`
+   and `<loomi-toggle>`, `"radio"` on `<loomi-radio>`. Bindings that branch on `type` use
+   it to pick `checked` over `value`. Writes to it are ignored rather than thrown on.
+
+| Control                              | Property  | Value format                                                                                                    | `change` fires                              |
+| ------------------------------------ | --------- | --------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| `<loomi-input>`, `<loomi-password>`  | `value`   | The text                                                                                                        | On leaving the field after an edit          |
+| `<loomi-textarea>`                   | `value`   | The text                                                                                                        | On leaving the field after an edit          |
+| `<loomi-text-editor>`                | `value`   | HTML                                                                                                            | On leaving the editor after an edit         |
+| `<loomi-number>`                     | `value`   | Number as a string; commits clamp to `min`/`max`                                                                | On leaving after an edit, or a step button  |
+| `<loomi-otp>`                        | `value`   | The joined code; setting it drops characters `type` rejects                                                     | When focus leaves the boxes after an edit   |
+| `<loomi-autocomplete>`               | `value`   | The chosen item's value, or the typed text                                                                      | On a pick, a clear, or leaving after typing |
+| `<loomi-tag-input>`                  | `value`   | Tags, comma-joined (also `tags: string[]`)                                                                      | When a tag is added or removed              |
+| `<loomi-select>`                     | `value`   | Selected value; comma-joined when `multiple` (also `values: string[]`)                                          | On each pick                                |
+| `<loomi-checkcards>`                 | `value`   | Selected card values, comma-joined (also `values: string[]`)                                                    | On each card click                          |
+| `<loomi-datepicker>`                 | `value`   | Formatted per `format`, range as `start - end`; setting takes ISO `yyyy-mm-dd` or the configured numeric format | On each day picked                          |
+| `<loomi-timepicker>`                 | `value`   | `h:mmAM`/`h:mmPM`, or `hh:mm` with `format="24"`; setting accepts either                                        | When a pick completes a new time            |
+| `<loomi-slider>`                     | `value`   | Number as a string, range as `start - end`                                                                      | On releasing a handle, or a keyboard step   |
+| `<loomi-filepicker>`                 | `value`   | `C:\fakepath\<name>` of the first file, like a native file input; only `""` can be set (it clears)              | When files are added or removed             |
+| `<loomi-checkbox>`, `<loomi-toggle>` | `checked` | Submits `value` (default `"on"`) when checked                                                                   | On each toggle                              |
+| `<loomi-radio>`                      | `checked` | Submits `value` when checked; checking one unchecks the rest of its `name` group                                | When it becomes checked                     |
+
+Plain JavaScript works exactly as it would with native controls:
+
+```js
+const select = document.querySelector("loomi-select");
+select.value = "gh"; // shows Ghana, submits "gh", fires nothing
+select.addEventListener("input", () => console.log(select.value)); // after each pick
+```
+
+In Vue, `v-model` on a custom element binds `value` and listens for `input` by default. For
+checkbox-like controls Vue decides at compile time, from a literal `type` attribute in the
+template, so write it out:
+
+```vue
+<loomi-select v-model="country" :data="countries"></loomi-select>
+<loomi-checkbox type="checkbox" v-model="agreed" label="I agree"></loomi-checkbox>
+<loomi-radio type="radio" v-model="plan" name="plan" value="pro" label="Pro"></loomi-radio>
+```
+
+Alpine's `x-model` reads the element's `type` at runtime, so
+`<loomi-toggle x-model="enabled">` binds `checked` with no extra attribute.
+
+Custom events such as `loomi-select` or `loomi-verify` still fire alongside, carrying
+richer details. Reach for them when you need more than the value.
+
 ## Exports
 
 | Export                                                                     | Description                                                                                                                                                                                                                                                                                                                                                                                               |

@@ -7,7 +7,8 @@ import { createComponent } from "../create-component.js";
 import "@loomidev/components/timepicker";
 
 export const Timepicker: ForwardRefExoticComponent<
-  Omit<JSX.IntrinsicElements["loomi-timepicker"], "onChange"> & {
+  Omit<JSX.IntrinsicElements["loomi-timepicker"], "onInput" | "onChange"> & {
+    onInput?: (e: Event) => void;
     onChange?: (e: LoomiTimepickerEventMap["change"]) => void;
     tpStyle?: JSX.IntrinsicElements["loomi-timepicker"]["tp-style"];
     selectedValue?: JSX.IntrinsicElements["loomi-timepicker"]["selected-value"];
@@ -16,7 +17,7 @@ export const Timepicker: ForwardRefExoticComponent<
   }
 > = createComponent(
   "loomi-timepicker",
-  { change: "onChange" },
+  { input: "onInput", change: "onChange" },
   {
     tpStyle: "tp-style",
     selectedValue: "selected-value",
@@ -24,7 +25,8 @@ export const Timepicker: ForwardRefExoticComponent<
     showFocusRing: "show-focus-ring",
   },
 ) as unknown as ForwardRefExoticComponent<
-  Omit<JSX.IntrinsicElements["loomi-timepicker"], "onChange"> & {
+  Omit<JSX.IntrinsicElements["loomi-timepicker"], "onInput" | "onChange"> & {
+    onInput?: (e: Event) => void;
     onChange?: (e: LoomiTimepickerEventMap["change"]) => void;
     tpStyle?: JSX.IntrinsicElements["loomi-timepicker"]["tp-style"];
     selectedValue?: JSX.IntrinsicElements["loomi-timepicker"]["selected-value"];

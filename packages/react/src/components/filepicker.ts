@@ -7,7 +7,8 @@ import { createComponent } from "../create-component.js";
 import "@loomidev/components/filepicker";
 
 export const Filepicker: ForwardRefExoticComponent<
-  Omit<JSX.IntrinsicElements["loomi-filepicker"], "onChange"> & {
+  Omit<JSX.IntrinsicElements["loomi-filepicker"], "onInput" | "onChange"> & {
+    onInput?: (e: Event) => void;
     onChange?: (e: LoomiFilepickerEventMap["change"]) => void;
     acceptedFileTypes?: JSX.IntrinsicElements["loomi-filepicker"]["accepted-file-types"];
     placeholderLine1?: JSX.IntrinsicElements["loomi-filepicker"]["placeholder-line1"];
@@ -24,7 +25,7 @@ export const Filepicker: ForwardRefExoticComponent<
   }
 > = createComponent(
   "loomi-filepicker",
-  { change: "onChange" },
+  { input: "onInput", change: "onChange" },
   {
     acceptedFileTypes: "accepted-file-types",
     placeholderLine1: "placeholder-line1",
@@ -40,7 +41,8 @@ export const Filepicker: ForwardRefExoticComponent<
     hasBorder: "has-border",
   },
 ) as unknown as ForwardRefExoticComponent<
-  Omit<JSX.IntrinsicElements["loomi-filepicker"], "onChange"> & {
+  Omit<JSX.IntrinsicElements["loomi-filepicker"], "onInput" | "onChange"> & {
+    onInput?: (e: Event) => void;
     onChange?: (e: LoomiFilepickerEventMap["change"]) => void;
     acceptedFileTypes?: JSX.IntrinsicElements["loomi-filepicker"]["accepted-file-types"];
     placeholderLine1?: JSX.IntrinsicElements["loomi-filepicker"]["placeholder-line1"];

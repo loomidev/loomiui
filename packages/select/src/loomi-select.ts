@@ -48,7 +48,8 @@ const booleanAttribute = {
  * @csspart trigger - The clickable trigger.
  * @csspart panel - The dropdown panel.
  * @fires loomi-select - `detail: { value, label, values }` when an item is chosen.
- * @fires change - Fired when the selection changes (composed).
+ * @fires input - Fired when the user changes the selection, after `value` has updated (composed).
+ * @fires change - Fired when the user changes the selection (composed).
  */
 @customElement("loomi-select")
 export class LoomiSelect extends LoomiElement {
@@ -166,6 +167,36 @@ export class LoomiSelect extends LoomiElement {
     this.syncValidity();
   }
 
+  /**
+   * The selected value, comma-joined when `multiple` — the same string the form submits.
+   * Setting it selects the matching option(s) without firing `input` or `change`, like
+   * setting a native `<select>`'s `value`.
+   */
+  get value(): string {
+    return this.currentSelection().join(",");
+  }
+  set value(value: string) {
+    this.selectedValue = value == null ? "" : String(value);
+    this.selected = this.parseSelectedValue();
+    this.internals.setFormValue(this.selected.join(","));
+  }
+
+  /** The selected values as an array (one entry unless `multiple`). Setting it fires no events. */
+  get values(): string[] {
+    return [...this.currentSelection()];
+  }
+  set values(values: string[]) {
+    const next = (values ?? []).map(String);
+    this.selected = this.multiple ? next : next.slice(0, 1);
+    this.selectedValue = this.selected.join(",");
+    this.internals.setFormValue(this.selected.join(","));
+  }
+
+  /** Before the first render `selected` hasn't been parsed from `selectedValue` yet. */
+  private currentSelection(): string[] {
+    return this.hasUpdated ? this.selected : this.parseSelectedValue();
+  }
+
   /** Reset the selection. */
   reset(): void {
     this.selected = [];
@@ -246,6 +277,7 @@ export class LoomiSelect extends LoomiElement {
   private emitChange(): void {
     this.internals.setFormValue(this.selected.join(","));
     this.syncValidity();
+    this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
     this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
   }
 
@@ -262,6 +294,9 @@ export class LoomiSelect extends LoomiElement {
       this.selected = [opt.value];
       this.close();
     }
+    // Keep `selectedValue` in step, so options arriving later (a `data` swap re-parses
+    // it) don't revert the user's pick.
+    this.selectedValue = this.selected.join(",");
     this.dispatchEvent(
       new CustomEvent("loomi-select", {
         bubbles: true,
@@ -434,6 +469,9 @@ export class LoomiSelect extends LoomiElement {
                       placeholder=${loomiT("select.searchPlaceholder", {}, this.locale)}
                       .value=${this.search}
                       @input=${(e: Event) => {
+                        // Typing a filter isn't a value change; keep the composed native
+                        // event from reaching listeners on the host.
+                        e.stopPropagation();
                         this.search = (e.target as HTMLInputElement).value;
                         this.activeIndex = this.filtered.length ? 0 : -1;
                       }}

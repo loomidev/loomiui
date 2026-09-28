@@ -9,8 +9,9 @@ import "@loomidev/components/select";
 export const Select: ForwardRefExoticComponent<
   Omit<
     JSX.IntrinsicElements["loomi-select"],
-    "onChange" | "onLoomiSelect" | "onLoomiEmptyAction"
+    "onInput" | "onChange" | "onLoomiSelect" | "onLoomiEmptyAction"
   > & {
+    onInput?: (e: Event) => void;
     onChange?: (e: Event) => void;
     onLoomiSelect?: (e: LoomiSelectEventMap["loomi-select"]) => void;
     onLoomiEmptyAction?: (e: LoomiSelectEventMap["loomi-empty-action"]) => void;
@@ -29,6 +30,7 @@ export const Select: ForwardRefExoticComponent<
 > = createComponent(
   "loomi-select",
   {
+    input: "onInput",
     change: "onChange",
     "loomi-select": "onLoomiSelect",
     "loomi-empty-action": "onLoomiEmptyAction",
@@ -49,8 +51,9 @@ export const Select: ForwardRefExoticComponent<
 ) as unknown as ForwardRefExoticComponent<
   Omit<
     JSX.IntrinsicElements["loomi-select"],
-    "onChange" | "onLoomiSelect" | "onLoomiEmptyAction"
+    "onInput" | "onChange" | "onLoomiSelect" | "onLoomiEmptyAction"
   > & {
+    onInput?: (e: Event) => void;
     onChange?: (e: Event) => void;
     onLoomiSelect?: (e: LoomiSelectEventMap["loomi-select"]) => void;
     onLoomiEmptyAction?: (e: LoomiSelectEventMap["loomi-empty-action"]) => void;

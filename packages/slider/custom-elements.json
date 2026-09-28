@@ -276,7 +276,7 @@
               "type": {
                 "text": "string"
               },
-              "readonly": true
+              "description": "The current value as a string — `\"40\"`, or `\"20 - 80\"` with `range` — the same string\nthe form submits. Setting it (a number, or `\"start - end\"` with `range`) moves the\nhandles without firing `input` or `change`, like a native range input."
             },
             {
               "kind": "field",

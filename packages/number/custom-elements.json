@@ -287,10 +287,14 @@
                   }
                 },
                 {
-                  "name": "emitChange",
-                  "default": "true"
+                  "name": "commit",
+                  "default": "\"if-changed\"",
+                  "type": {
+                    "text": "\"always\" | \"if-changed\""
+                  }
                 }
-              ]
+              ],
+              "description": "Apply a user-driven value. Like a native number field, `input` fires only when the value\nactually moved (a step at the bound, or a commit that needed no clamping, doesn't), and\n`change` fires on every commit that follows an edit."
             },
             {
               "kind": "method",

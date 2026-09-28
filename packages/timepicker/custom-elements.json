@@ -84,6 +84,16 @@
             },
             {
               "kind": "field",
+              "name": "committedValue",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\"",
+              "description": "The value as of the last `change` (or programmatic set); a pick that lands on it again is a no-op."
+            },
+            {
+              "kind": "field",
               "name": "name",
               "type": {
                 "text": "string"
@@ -301,6 +311,17 @@
             },
             {
               "kind": "method",
+              "name": "applySelectedValue",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Replace the picked time with whatever `selectedValue` holds."
+            },
+            {
+              "kind": "method",
               "name": "parse",
               "privacy": "private",
               "return": {
@@ -315,7 +336,8 @@
                     "text": "string"
                   }
                 }
-              ]
+              ],
+              "description": "Reads `h:mm`, `hh:mm` or either with an `AM`/`PM` suffix, converting to the current\n`format` — so `\"15:30\"` shows as 3:30PM in 12-hour mode and `\"3:30PM\"` as 15:30 in\n24-hour mode."
             },
             {
               "kind": "field",
@@ -323,8 +345,7 @@
               "type": {
                 "text": "string"
               },
-              "description": "The formatted time, or \"\" if incomplete.",
-              "readonly": true
+              "description": "The formatted time, or \"\" if incomplete — the same string the form submits. Setting\nit (as `h:mmAM`/`h:mmPM` or 24-hour `hh:mm`) updates the picker without firing events;\nan unparseable value clears it, as on a native time input."
             },
             {
               "kind": "method",
@@ -519,11 +540,18 @@
           ],
           "events": [
             {
+              "name": "input",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when the user changes the time, after `value` has updated (composed)."
+            },
+            {
               "name": "change",
               "type": {
                 "text": "CustomEvent"
               },
-              "description": "`detail: { value }` when the time changes."
+              "description": "`detail: { value }` when the user changes the time (composed)."
             }
           ],
           "attributes": [

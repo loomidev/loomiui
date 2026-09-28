@@ -113,6 +113,16 @@
             },
             {
               "kind": "field",
+              "name": "committedValue",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\"",
+              "description": "The value as of the last `change` (or programmatic set); blur only fires `change` past it."
+            },
+            {
+              "kind": "field",
               "name": "savedRange",
               "type": {
                 "text": "Range | null"
@@ -472,7 +482,15 @@
                 "type": {
                   "text": "void"
                 }
-              }
+              },
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
             },
             {
               "kind": "method",

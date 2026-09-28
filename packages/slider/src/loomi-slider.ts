@@ -1,5 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
+import { live } from "lit/directives/live.js";
 import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -111,9 +112,22 @@ export class LoomiSlider extends LoomiElement {
     clearTimeout(this.clickAnimationTimer);
   }
 
+  /**
+   * The current value as a string — `"40"`, or `"20 - 80"` with `range` — the same string
+   * the form submits. Setting it (a number, or `"start - end"` with `range`) moves the
+   * handles without firing `input` or `change`, like a native range input.
+   */
   get value(): string {
     if (!this.range) return String(this.startValue);
     return `${this.startValue} - ${this.endValue}`;
+  }
+  set value(value: string) {
+    const [start, end] = String(value ?? "")
+      .split(" - ")
+      .map((part) => (part.trim() === "" ? NaN : Number(part)));
+    if (Number.isFinite(start)) this.selected = start;
+    if (this.range && Number.isFinite(end)) this.selectedEnd = end;
+    this.internals.setFormValue(this.value);
   }
 
   private get lowerBound(): number {
@@ -181,6 +195,9 @@ export class LoomiSlider extends LoomiElement {
   };
 
   private onInput(handle: "start" | "end", e: Event): void {
+    // The native `input` event is composed and would reach the host as a second `input`;
+    // this component re-fires its own once `value` is up to date.
+    e.stopPropagation();
     const next = Number((e.target as HTMLInputElement).value);
 
     if (!this.movedSincePointerDown) {
@@ -262,7 +279,7 @@ export class LoomiSlider extends LoomiElement {
           max=${this.upperBound}
           step=${this.step}
           aria-label=${this.range ? "Minimum value" : "Value"}
-          .value=${String(this.startValue)}
+          .value=${live(String(this.startValue))}
           @pointerdown=${this.onPointerDown}
           @pointermove=${this.onPointerMove}
           @input=${(event: Event) => this.onInput("start", event)}
@@ -277,7 +294,7 @@ export class LoomiSlider extends LoomiElement {
               max=${this.upperBound}
               step=${this.step}
               aria-label="Maximum value"
-              .value=${String(this.endValue)}
+              .value=${live(String(this.endValue))}
               @pointerdown=${this.onPointerDown}
               @pointermove=${this.onPointerMove}
               @input=${(event: Event) => this.onInput("end", event)}

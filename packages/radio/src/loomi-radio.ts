@@ -1,5 +1,6 @@
-import { html, nothing, type TemplateResult, isServer } from "lit";
+import { html, nothing, type PropertyValues, type TemplateResult, isServer } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { live } from "lit/directives/live.js";
 import {
   LoomiElement,
   loomiStyles,
@@ -16,7 +17,8 @@ import { componentStyles } from "./generated/styles.css.js";
  *
  * @slot - Label content. Falls back to the `label` attribute.
  * @csspart dot - The radio dot.
- * @fires change - Fired when this radio becomes checked (composed).
+ * @fires input - Fired when the user checks this radio, after `checked` has updated (composed).
+ * @fires change - Fired when the user checks this radio (composed).
  */
 @customElement("loomi-radio")
 export class LoomiRadio extends LoomiElement {
@@ -33,6 +35,19 @@ export class LoomiRadio extends LoomiElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property() color: LoomiColor = "primary" as LoomiColor;
 
+  /**
+   * Always `"radio"`, like the native control this replaces, so framework bindings that
+   * branch on `type` (Vue, Alpine, …) bind `checked` rather than `value`. Read-only: writes
+   * are ignored rather than thrown on, since some frameworks mirror a `type` attribute
+   * onto the property.
+   */
+  get type(): "radio" {
+    return "radio";
+  }
+  set type(_ignored: string) {
+    // Read-only; see the getter.
+  }
+
   override connectedCallback(): void {
     if (!this.hasUpdated) this.initialChecked = this.checked;
     super.connectedCallback();
@@ -42,7 +57,10 @@ export class LoomiRadio extends LoomiElement {
     this.checked = this.initialChecked;
   }
 
-  override willUpdate(): void {
+  override willUpdate(changed: PropertyValues<this>): void {
+    // Like a native radio, checking one — by the user or by setting `checked` — unchecks
+    // the rest of its group.
+    if (changed.has("checked") && this.checked) this.uncheckSiblings();
     this.internals.setFormValue(this.checked ? this.value : null);
   }
 
@@ -59,12 +77,20 @@ export class LoomiRadio extends LoomiElement {
     });
   }
 
-  private select(): void {
+  // The native `input` event is composed, so left alone it reaches listeners on the host
+  // before `checked` has caught up. Stop it and re-fire from the host once it has.
+  private onInput = (e: Event): void => {
+    e.stopPropagation();
     if (this.disabled || this.checked) return;
     this.uncheckSiblings();
     this.checked = true;
+    this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
+  };
+
+  private onChange = (): void => {
+    if (this.disabled) return;
     this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
-  }
+  };
 
   override render(): TemplateResult {
     const style = accentVars(this.accentColor);
@@ -74,9 +100,10 @@ export class LoomiRadio extends LoomiElement {
           class="loomi-native"
           type="radio"
           name=${this.name || nothing}
-          .checked=${this.checked}
+          .checked=${live(this.checked)}
           ?disabled=${this.disabled}
-          @change=${() => this.select()}
+          @input=${this.onInput}
+          @change=${this.onChange}
         />
         <span class="loomi-dot" part="dot"></span>
         ${
@@ -95,6 +122,7 @@ export class LoomiRadio extends LoomiElement {
 /** Event map for `<loomi-radio>`. `change` is a plain `Event`; read `value`/`checked`
  * off the element itself. */
 export interface LoomiRadioEventMap {
+  input: Event;
   change: Event;
 }
 

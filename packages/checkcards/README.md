@@ -167,10 +167,13 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Events
 
-| Event                   | Description                                   |
-| ----------------------- | --------------------------------------------- |
-| `change`                | Fired when the value is committed or changed. |
-| `loomi-checkcard-click` | Fired when a checkcard is activated.          |
+| Event                   | Description                                                           |
+| ----------------------- | --------------------------------------------------------------------- |
+| `input`                 | Fired when the user changes the selection, after `value` has updated. |
+| `change`                | Fired when the user changes the selection. `detail: { values }`.      |
+| `loomi-checkcard-click` | Fired when a checkcard is activated.                                  |
+
+Read or set the selection with `value` (comma-joined) or `values` (a `string[]`); setting either fires no events, and changing `selected-value` later is honored too. A card click fires `input` then `change`. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
 
 ## Full Example
 

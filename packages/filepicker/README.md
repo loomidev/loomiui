@@ -253,9 +253,12 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Events
 
-| Event    | Description                                   |
-| -------- | --------------------------------------------- |
-| `change` | Fired when the value is committed or changed. |
+| Event    | Description                                                     |
+| -------- | --------------------------------------------------------------- |
+| `input`  | Fired when the user adds or removes files.                      |
+| `change` | Fired when the user adds or removes files. `detail: { files }`. |
+
+Like a native file input, `value` reads `C:\fakepath\<name>` for the first file (or `""`), and the only value you can set is `""`, which clears the selection without firing events. Adding or removing files fires `input` then `change`. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
 
 ## Full Example
 

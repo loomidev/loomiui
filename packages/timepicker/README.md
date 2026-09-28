@@ -138,9 +138,12 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Events
 
-| Event    | Description                                   |
-| -------- | --------------------------------------------- |
-| `change` | Fired when the value is committed or changed. |
+| Event    | Description                                                      |
+| -------- | ---------------------------------------------------------------- |
+| `input`  | Fired when the user changes the time, after `value` has updated. |
+| `change` | Fired when the user changes the time. `detail: { value }`.       |
+
+`value` is settable (`3:30PM` or `15:30`, converted to the current `format`; an unparseable value clears it) and fires no events. Changing `selected-value` after the first render is honored too. A pick that completes a new time fires `input` then `change`; choosing just an hour fires nothing yet. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
 
 ## Full Example
 

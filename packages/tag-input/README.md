@@ -93,6 +93,8 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `input`                     | Fired while the value is edited.                   |
 | `loomi-autocomplete-select` | Fired when an autocomplete suggestion is selected. |
 
+Setting `value` (comma-joined) or `tags` fires no events. Typing a draft fires `input` (`value` is unchanged until the draft becomes a tag); adding or removing a tag fires `input` then `change`. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
+
 ## Methods
 
 | Member                | Description                                                        |

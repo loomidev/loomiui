@@ -148,6 +148,8 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `change` | Fired when the value is committed or changed. |
 | `input`  | Fired while the value is edited.              |
 
+Setting `value` (`"40"`, or `"20 - 80"` with `range`) moves the handles and the submitted form value without firing events. Dragging fires `input` continuously and `change` on release. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
+
 ## Full Example
 
 ```html
