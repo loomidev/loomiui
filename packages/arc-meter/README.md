@@ -124,3 +124,11 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
   description="Protection level"
 ></loomi-arc-meter>
 ```
+
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **4.8 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->

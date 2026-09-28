@@ -1,2 +1,8 @@
 export { LoomiPassword, type LoomiPasswordStrengthToken } from "./loomi-password.js";
-export { registerLoomiIcon, getLoomiIcon, loomiIconNames } from "@loomidev/icons";
+export {
+  registerLoomiIcon,
+  getLoomiIcon,
+  hasLoomiIcon,
+  loadLoomiIcon,
+  loomiIconNames,
+} from "@loomidev/icons";

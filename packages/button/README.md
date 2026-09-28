@@ -122,9 +122,10 @@ showing.
 <loomi-button icon="trash" color="error" outline>Delete</loomi-button>
 ```
 
-Built-in icons (a subset of Heroicons outline): `arrow-path`, `bell-alert`,
-`lock-closed`, `arrow-right`, `arrow-small-right`, `chevron-right`, `check`, `plus`,
-`trash`, `x-mark`, `magnifying-glass`, `paper-airplane`.
+`icon` accepts any [Heroicons](https://heroicons.com) outline name. Each icon loads the
+first time a button shows it and is cached for the rest of the page, so the button's own
+bundle carries no icon data. To load every Heroicon up front instead, add
+`import "@loomidev/icons/all";` once (see [`@loomidev/icons`](../icons)).
 
 Need more? Register your own - no slot or icon font required:
 
@@ -176,6 +177,13 @@ By default the button renders as `<button type="button">` and won't submit forms
 ```html
 <loomi-button can-submit>Submit Form</loomi-button>
 ```
+
+A `can-submit` button is also the form's default button: pressing Enter in a Loomi
+single-line field (`<loomi-input>`, `<loomi-password>`, `<loomi-number>`,
+`<loomi-autocomplete>`, a filled `<loomi-otp>`) submits the form through it, as with a
+native submit button. That submission runs validation and fires `submit`, but it doesn't
+fire a `click` on the `<loomi-button>`, and `event.submitter` is `null` because a custom
+element can't be a form's submitter. Nothing happens while the button is `disabled`.
 
 ## Disabled
 
@@ -482,6 +490,14 @@ import "@loomidev/button";
 Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on the server before browser-only code runs. If your framework complains, move the Loomi import to client-side code. In Next.js, that usually means a component with `"use client"`; in Nuxt, it often means a `.client.ts` plugin.
 
 <!-- END loomi-framework-guide -->
+
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **8.4 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 81.3 KB. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
 
 ## Dependencies
 

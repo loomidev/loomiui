@@ -55,6 +55,16 @@
             },
             {
               "kind": "field",
+              "name": "blocksImplicitSubmission",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true",
+              "description": "Counts as a field that blocks implicit submission, like a native text `<input>`."
+            },
+            {
+              "kind": "field",
               "name": "internals",
               "privacy": "private"
             },
@@ -116,11 +126,20 @@
             },
             {
               "kind": "field",
+              "name": "_value",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
               "name": "value",
               "type": {
                 "text": "string"
               },
-              "default": "\"\"",
+              "description": "Current value. Like a native input's, anything assigned is coerced to a string (`null`/`undefined` become `\"\"`).",
               "attribute": "value"
             },
             {
@@ -196,6 +215,16 @@
               "default": "false",
               "attribute": "required",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "noImplicitSubmit",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Stops Enter in this field from submitting its form (native implicit submission).",
+              "attribute": "no-implicit-submit"
             },
             {
               "kind": "field",
@@ -287,10 +316,14 @@
                   }
                 },
                 {
-                  "name": "emitChange",
-                  "default": "true"
+                  "name": "commit",
+                  "default": "\"if-changed\"",
+                  "type": {
+                    "text": "\"always\" | \"if-changed\""
+                  }
                 }
-              ]
+              ],
+              "description": "Apply a user-driven value. Like a native number field, `input` fires only when the value\nactually moved (a step at the bound, or a commit that needed no clamping, doesn't), and\n`change` fires on every commit that follows an edit."
             },
             {
               "kind": "method",
@@ -309,6 +342,12 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "field",
+              "name": "onFieldKeydown",
+              "privacy": "private",
+              "description": "Enter submits the owning form, like a native single-line `<input>`."
             },
             {
               "kind": "field",
@@ -446,7 +485,7 @@
               "type": {
                 "text": "string"
               },
-              "default": "\"\"",
+              "description": "Current value. Like a native input's, anything assigned is coerced to a string (`null`/`undefined` become `\"\"`).",
               "fieldName": "value"
             },
             {
@@ -513,6 +552,15 @@
               },
               "default": "false",
               "fieldName": "required"
+            },
+            {
+              "name": "no-implicit-submit",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Stops Enter in this field from submitting its form (native implicit submission).",
+              "fieldName": "noImplicitSubmit"
             },
             {
               "name": "disabled",

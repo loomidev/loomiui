@@ -3,13 +3,17 @@ import { buildComponentStyles } from "../../../scripts/lib/build-component-style
 
 buildComponentStyles(import.meta.url, {
   // Runtime-interpolated class names like `bg-${color}-600` are invisible to
-  // Tailwind's scanner, so safelist every palette color for the variants,
-  // props, and shades a button can apply at runtime.
-  safelist: {
-    variants: ["", "hover:", "focus-visible:"],
-    props: ["bg", "text", "border", "ring"],
-    shades: [50, 100, 200, 300, 400, 500, 600, 700, 800],
-  },
+  // Tailwind's scanner, so safelist exactly the ones computeClasses() can build —
+  // keep in sync with treatmentClasses() and the focus ring in loomi-button.ts.
+  // (A blanket bg/text/border/ring x shade x variant cross-product used to ship
+  // ~750 unused rules, most of this package's size.)
+  safelistClasses: [
+    "bg-{color}-600",
+    "hover:bg-{color}-700",
+    "text-{color}-600",
+    "focus-visible:ring-{color}-400",
+  ],
+  safelistColors: ["primary", "secondary", "info", "success", "error", "warning", "gray"],
   // Authored sources scanned for statically-used utilities.
   sources: ["./src/loomi-button.ts", "./src/icons.ts"],
   exportName: "buttonStyles",

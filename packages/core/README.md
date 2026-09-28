@@ -84,6 +84,72 @@ number instead: `<loomi-icon size>`, `<loomi-qrcode size>`, `<loomi-statistic ic
 `<loomi-scroller edge-size>`, `<loomi-photo-gallery thumb-size>` and the
 `<loomi-resizable-panel>` `*-size` attributes.
 
+## Value and events contract
+
+Every Loomi form control behaves like the native `<input>`, `<select>` or `<textarea>` it
+replaces, so any framework's two-way binding (Vue `v-model`, Svelte `bind:`, Alpine
+`x-model`, or your own listeners) works on the tag itself, with no wrapper component and no
+framework-specific code in the library.
+
+1. **A settable `value`** (`checked` for checkbox-like controls). Setting it from
+   JavaScript updates what the control shows and what it submits with its `<form>`
+   (through `ElementInternals`), and fires **no events**, just as setting `input.value`
+   doesn't. The form value is current once the control has rendered
+   (`await el.updateComplete`), and immediately for the controls whose `value` is a
+   hand-written setter. Like a native input, anything you assign is coerced to a string:
+   `el.value = 7` reads back as `"7"`, and `null` or `undefined` as `""`. Controls do this
+   with `toControlValue()` in their `value` setter.
+2. **`input` and `change` events**, both `bubbles: true, composed: true`. `input` fires
+   once per user edit, and `value`/`checked` already holds the new state when it arrives.
+   `change` fires when the user commits: on each pick for choice controls, and when focus
+   leaves a text field whose content changed. Programmatic sets fire neither. A control's
+   own inner fields never leak a second `input` onto the host.
+3. **A read-only `type`** on checkbox-like controls: `"checkbox"` on `<loomi-checkbox>`
+   and `<loomi-toggle>`, `"radio"` on `<loomi-radio>`. Bindings that branch on `type` use
+   it to pick `checked` over `value`. Writes to it are ignored rather than thrown on.
+
+| Control                              | Property  | Value format                                                                                                    | `change` fires                              |
+| ------------------------------------ | --------- | --------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| `<loomi-input>`, `<loomi-password>`  | `value`   | The text                                                                                                        | On leaving the field after an edit          |
+| `<loomi-textarea>`                   | `value`   | The text                                                                                                        | On leaving the field after an edit          |
+| `<loomi-text-editor>`                | `value`   | HTML                                                                                                            | On leaving the editor after an edit         |
+| `<loomi-number>`                     | `value`   | Number as a string; commits clamp to `min`/`max`                                                                | On leaving after an edit, or a step button  |
+| `<loomi-otp>`                        | `value`   | The joined code; setting it drops characters `type` rejects                                                     | When focus leaves the boxes after an edit   |
+| `<loomi-autocomplete>`               | `value`   | The chosen item's value, or the typed text                                                                      | On a pick, a clear, or leaving after typing |
+| `<loomi-tag-input>`                  | `value`   | Tags, comma-joined (also `tags: string[]`)                                                                      | When a tag is added or removed              |
+| `<loomi-select>`                     | `value`   | Selected value; comma-joined when `multiple` (also `values: string[]`)                                          | On each pick                                |
+| `<loomi-checkcards>`                 | `value`   | Selected card values, comma-joined (also `values: string[]`)                                                    | On each card click                          |
+| `<loomi-datepicker>`                 | `value`   | Formatted per `format`, range as `start - end`; setting takes ISO `yyyy-mm-dd` or the configured numeric format | On each day picked                          |
+| `<loomi-timepicker>`                 | `value`   | `h:mmAM`/`h:mmPM`, or `hh:mm` with `format="24"`; setting accepts either                                        | When a pick completes a new time            |
+| `<loomi-slider>`                     | `value`   | Number as a string, range as `start - end`                                                                      | On releasing a handle, or a keyboard step   |
+| `<loomi-filepicker>`                 | `value`   | `C:\fakepath\<name>` of the first file, like a native file input; only `""` can be set (it clears)              | When files are added or removed             |
+| `<loomi-checkbox>`, `<loomi-toggle>` | `checked` | Submits `value` (default `"on"`) when checked                                                                   | On each toggle                              |
+| `<loomi-radio>`                      | `checked` | Submits `value` when checked; checking one unchecks the rest of its `name` group                                | When it becomes checked                     |
+
+Plain JavaScript works exactly as it would with native controls:
+
+```js
+const select = document.querySelector("loomi-select");
+select.value = "gh"; // shows Ghana, submits "gh", fires nothing
+select.addEventListener("input", () => console.log(select.value)); // after each pick
+```
+
+In Vue, `v-model` on a custom element binds `value` and listens for `input` by default. For
+checkbox-like controls Vue decides at compile time, from a literal `type` attribute in the
+template, so write it out:
+
+```vue
+<loomi-select v-model="country" :data="countries"></loomi-select>
+<loomi-checkbox type="checkbox" v-model="agreed" label="I agree"></loomi-checkbox>
+<loomi-radio type="radio" v-model="plan" name="plan" value="pro" label="Pro"></loomi-radio>
+```
+
+Alpine's `x-model` reads the element's `type` at runtime, so
+`<loomi-toggle x-model="enabled">` binds `checked` with no extra attribute.
+
+Custom events such as `loomi-select` or `loomi-verify` still fire alongside, carrying
+richer details. Reach for them when you need more than the value.
+
 ## Exports
 
 | Export                                                                     | Description                                                                                                                                                                                                                                                                                                                                                                                               |
@@ -94,9 +160,11 @@ number instead: `<loomi-icon size>`, `<loomi-qrcode size>`, `<loomi-statistic ic
 | `elevationStyles`                                                          | Shared `--loomi-shadow-elevated` drop-shadow token (see below). Already included by `loomiStyles()`.                                                                                                                                                                                                                                                                                                      |
 | `focusStyles`                                                              | Shared `--loomi-focus-ring-color` token (see below). Already included by `loomiStyles()`.                                                                                                                                                                                                                                                                                                                 |
 | `accentVars(color)`                                                        | Returns the per-instance accent custom properties for a color (see below).                                                                                                                                                                                                                                                                                                                                |
+| `implicitlySubmit(event, internals, { disabled })`                         | Enter-to-submit for a form-associated single-line control, following the HTML spec's implicit submission. Call it from the inner input's `keydown`; returns `true` when it acted. Set `static blocksImplicitSubmission = true` on the control class so it counts as a text field. `defaultButtonOf(form)` and `isImplicitSubmitKey(event)` are exported too.                                              |
 | `cssColor(color, shade)`                                                   | A single themed color value with private-default fallback, for inline use.                                                                                                                                                                                                                                                                                                                                |
 | `onClickOutside(el, handler)`                                              | Calls `handler` on a click **or right-click** outside `el` (crosses shadow boundaries). Returns a cleanup fn.                                                                                                                                                                                                                                                                                             |
 | `randomSuffix()`                                                           | A short random id, e.g. for de-duplicating notification keys across component instances.                                                                                                                                                                                                                                                                                                                  |
+| `toControlValue(value)`                                                    | Coerces anything assigned to a control's `value` to a string, as a native input does: `null`/`undefined` become `""`, everything else goes through `String()`.                                                                                                                                                                                                                                            |
 | `nextMenuFocusIndex(event, currentIndex, itemCount)`                       | Resolves an Arrow/Home/End keydown into the next index to focus in a top-level menu (the shared shape behind `@loomidev/dropmenu` and `@loomidev/context-menu`), or `undefined` for any other key. Doesn't touch the DOM - the caller's own `focusItemAt()`-style method wraps the index and moves focus.                                                                                                 |
 | `deepActiveElement()`                                                      | Walks into nested shadow roots to find the actually-focused element.                                                                                                                                                                                                                                                                                                                                      |
 | `trapTabFocus(event, focusable)`                                           | Keeps Tab/Shift+Tab cycling within `focusable` - call once `event.key === "Tab"` is confirmed. Used by `@loomidev/modal` and `@loomidev/lightbox`.                                                                                                                                                                                                                                                        |
@@ -301,6 +369,14 @@ So a per-instance accent still honors a global `--loomi-red-600` override. The d
 `accentVars(color)` defines: `--_loomi-accent` (600), `--_loomi-accent-strong` (700),
 `--_loomi-accent-soft` (100), `--_loomi-accent-softer` (50), `--_loomi-accent-ring` (200),
 `--_loomi-accent-fg` (700), `--_loomi-accent-border` (200).
+
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **20.5 KB** minified and gzipped if you import every export, excluding `lit`. It is tree-shakeable (`"sideEffects": false`), so a component bundles only the parts it uses. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
 
 ## Dependencies
 

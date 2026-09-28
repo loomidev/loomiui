@@ -138,9 +138,12 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Events
 
-| Event    | Description                                   |
-| -------- | --------------------------------------------- |
-| `change` | Fired when the value is committed or changed. |
+| Event    | Description                                                      |
+| -------- | ---------------------------------------------------------------- |
+| `input`  | Fired when the user changes the time, after `value` has updated. |
+| `change` | Fired when the user changes the time. `detail: { value }`.       |
+
+`value` is settable (`3:30PM` or `15:30`, converted to the current `format`; an unparseable value clears it) and fires no events. Changing `selected-value` after the first render is honored too. A pick that completes a new time fires `input` then `change`; choosing just an hour fires nothing yet. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
 
 ## Full Example
 
@@ -310,6 +313,14 @@ import "@loomidev/timepicker";
 Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on the server before browser-only code runs. If your framework complains, move the Loomi import to client-side code. In Next.js, that usually means a component with `"use client"`; in Nuxt, it often means a `.client.ts` plugin.
 
 <!-- END loomi-framework-guide -->
+
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **32.6 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 105.8 KB. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
 
 ## Dependencies
 

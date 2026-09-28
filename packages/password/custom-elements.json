@@ -41,6 +41,22 @@
         },
         {
           "kind": "js",
+          "name": "hasLoomiIcon",
+          "declaration": {
+            "name": "hasLoomiIcon",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "loadLoomiIcon",
+          "declaration": {
+            "name": "loadLoomiIcon",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
           "name": "loomiIconNames",
           "declaration": {
             "name": "loomiIconNames",
@@ -90,6 +106,16 @@
               },
               "static": true,
               "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "blocksImplicitSubmission",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true",
+              "description": "Counts as a field that blocks implicit submission, like a native text `<input>`."
             },
             {
               "kind": "field",
@@ -169,11 +195,20 @@
             },
             {
               "kind": "field",
+              "name": "_value",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
               "name": "value",
               "type": {
                 "text": "string"
               },
-              "default": "\"\"",
+              "description": "Current value. Like a native input's, anything assigned is coerced to a string (`null`/`undefined` become `\"\"`).",
               "attribute": "value"
             },
             {
@@ -185,6 +220,16 @@
               "default": "false",
               "attribute": "required",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "noImplicitSubmit",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Stops Enter in this field from submitting its form (native implicit submission).",
+              "attribute": "no-implicit-submit"
             },
             {
               "kind": "field",
@@ -394,6 +439,71 @@
               "privacy": "private"
             },
             {
+              "kind": "method",
+              "name": "insertText",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "text",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Inserts `text` at the caret, replacing any selected text, as if typed, then fires\n`input`. The inner field keeps its caret while focus is elsewhere, so this works from\nan external toolbar button."
+            },
+            {
+              "kind": "field",
+              "name": "selectionStart",
+              "type": {
+                "text": "number | null"
+              },
+              "description": "Start of the selection in the inner field, as on a native input."
+            },
+            {
+              "kind": "field",
+              "name": "selectionEnd",
+              "type": {
+                "text": "number | null"
+              },
+              "description": "End of the selection in the inner field, as on a native input."
+            },
+            {
+              "kind": "method",
+              "name": "setSelectionRange",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "start",
+                  "type": {
+                    "text": "number | null"
+                  }
+                },
+                {
+                  "name": "end",
+                  "type": {
+                    "text": "number | null"
+                  }
+                },
+                {
+                  "name": "direction",
+                  "optional": true,
+                  "type": {
+                    "text": "\"forward\" | \"backward\" | \"none\""
+                  }
+                }
+              ],
+              "description": "Selects a range in the inner field, as on a native input."
+            },
+            {
               "kind": "field",
               "name": "cleanupClickOutside",
               "type": {
@@ -498,6 +608,12 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "field",
+              "name": "onFieldKeydown",
+              "privacy": "private",
+              "description": "Enter submits the owning form, like a native single-line `<input>`."
             },
             {
               "kind": "field",
@@ -742,7 +858,7 @@
               "type": {
                 "text": "string"
               },
-              "default": "\"\"",
+              "description": "Current value. Like a native input's, anything assigned is coerced to a string (`null`/`undefined` become `\"\"`).",
               "fieldName": "value"
             },
             {
@@ -752,6 +868,15 @@
               },
               "default": "false",
               "fieldName": "required"
+            },
+            {
+              "name": "no-implicit-submit",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Stops Enter in this field from submitting its form (native implicit submission).",
+              "fieldName": "noImplicitSubmit"
             },
             {
               "name": "disabled",

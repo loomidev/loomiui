@@ -44,6 +44,21 @@ const parseISO = (s: string): Date | null => {
   const m = s.trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
   return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null;
 };
+/**
+ * Parses one date written as ISO `yyyy-mm-dd` or in `format` (the numeric formats only —
+ * `D d M, Y` is locale-dependent, so it takes ISO).
+ */
+const parseDate = (s: string, format: LoomiDateFormat): Date | null => {
+  const fromIso = parseISO(s);
+  if (fromIso) return fromIso;
+  const order = format.split(/[-/]/);
+  const parts = s.trim().split(/[-/]/);
+  if (order.length !== 3 || parts.length !== 3 || !parts.every((p) => /^\d+$/.test(p))) {
+    return null;
+  }
+  const at = (token: string) => Number(parts[order.indexOf(token)]);
+  return new Date(at("yyyy"), at("mm") - 1, at("dd"));
+};
 const sameDay = (a: Date, b: Date) => a.toDateString() === b.toDateString();
 
 /**
@@ -52,7 +67,8 @@ const sameDay = (a: Date, b: Date) => a.toDateString() === b.toDateString();
  * month and weekday names. Form-associated: submits the formatted date(s) under `name`.
  * `selected-value`/`min-date`/`max-date` are parsed as ISO `yyyy-mm-dd`.
  *
- * @fires change - `detail: { value, dates }` when the selection changes.
+ * @fires input - Fired when the user picks a date, after `value` has updated (composed).
+ * @fires change - `detail: { value, dates }` when the user picks a date (composed).
  */
 @customElement("loomi-datepicker")
 export class LoomiDatepicker extends LoomiElement {
@@ -162,12 +178,25 @@ export class LoomiDatepicker extends LoomiElement {
     }
   }
 
-  /** Formatted value (range joined with " - "). */
+  /**
+   * Formatted value (range joined with " - ") — the same string the form submits. Setting
+   * it accepts ISO `yyyy-mm-dd` or the configured numeric `format`, so a value read back
+   * from the field round-trips. It fires no events; an unparseable value clears the field,
+   * as it does on a native date input.
+   */
   get value(): string {
     if (!this.start) return "";
     if (this.range)
       return this.end ? `${this.fmt(this.start)} - ${this.fmt(this.end)}` : this.fmt(this.start);
     return this.fmt(this.start);
+  }
+  set value(value: string) {
+    const [first = "", second = ""] = String(value ?? "").split(" - ");
+    const start = first.trim() ? parseDate(first, this.format) : null;
+    const end = this.range && start && second.trim() ? parseDate(second, this.format) : null;
+    this.selectedValue = start ? (end ? `${iso(start)} - ${iso(end)}` : iso(start)) : "";
+    this.applySelectedValue(this.selectedValue);
+    this.internals.setFormValue(this.value);
   }
 
   private get min(): Date | null {
@@ -206,6 +235,7 @@ export class LoomiDatepicker extends LoomiElement {
       this.cleanup?.();
     }
     this.internals.setFormValue(this.value);
+    this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
     this.dispatchEvent(
       new CustomEvent("change", {
         bubbles: true,

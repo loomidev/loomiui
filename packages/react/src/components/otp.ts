@@ -6,27 +6,34 @@ import { createComponent } from "../create-component.js";
 import "@loomidev/components/otp";
 
 export const Otp: ForwardRefExoticComponent<
-  Omit<JSX.IntrinsicElements["loomi-otp"], "onLoomiVerify"> & {
+  Omit<JSX.IntrinsicElements["loomi-otp"], "onLoomiVerify" | "onInput" | "onChange"> & {
     onLoomiVerify?: (e: CustomEvent) => void;
+    onInput?: (e: CustomEvent) => void;
+    onChange?: (e: CustomEvent) => void;
     totalDigits?: JSX.IntrinsicElements["loomi-otp"]["total-digits"];
     hideDigits?: JSX.IntrinsicElements["loomi-otp"]["hide-digits"];
+    noImplicitSubmit?: JSX.IntrinsicElements["loomi-otp"]["no-implicit-submit"];
     errorMessage?: JSX.IntrinsicElements["loomi-otp"]["error-message"];
     showErrorInline?: JSX.IntrinsicElements["loomi-otp"]["show-error-inline"];
   }
 > = createComponent(
   "loomi-otp",
-  { "loomi-verify": "onLoomiVerify" },
+  { "loomi-verify": "onLoomiVerify", input: "onInput", change: "onChange" },
   {
     totalDigits: "total-digits",
     hideDigits: "hide-digits",
+    noImplicitSubmit: "no-implicit-submit",
     errorMessage: "error-message",
     showErrorInline: "show-error-inline",
   },
 ) as unknown as ForwardRefExoticComponent<
-  Omit<JSX.IntrinsicElements["loomi-otp"], "onLoomiVerify"> & {
+  Omit<JSX.IntrinsicElements["loomi-otp"], "onLoomiVerify" | "onInput" | "onChange"> & {
     onLoomiVerify?: (e: CustomEvent) => void;
+    onInput?: (e: CustomEvent) => void;
+    onChange?: (e: CustomEvent) => void;
     totalDigits?: JSX.IntrinsicElements["loomi-otp"]["total-digits"];
     hideDigits?: JSX.IntrinsicElements["loomi-otp"]["hide-digits"];
+    noImplicitSubmit?: JSX.IntrinsicElements["loomi-otp"]["no-implicit-submit"];
     errorMessage?: JSX.IntrinsicElements["loomi-otp"]["error-message"];
     showErrorInline?: JSX.IntrinsicElements["loomi-otp"]["show-error-inline"];
   }

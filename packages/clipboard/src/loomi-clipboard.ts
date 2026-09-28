@@ -1,8 +1,13 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
 import { LoomiElement, loomiStyles } from "@loomidev/core";
-import { getLoomiIcon } from "@loomidev/icons";
+import { loomiIcon, provideLoomiIcons } from "@loomidev/icons";
+import checkIcon from "@loomidev/icons/heroicons/outline/check.js";
 import { componentStyles } from "./generated/styles.css.js";
+
+// This component's own icons ship inline so they render on first paint; any other
+// `icon` name loads on demand.
+provideLoomiIcons({ check: checkIcon });
 
 export type LoomiClipboardStatus = "idle" | "copied" | "error";
 
@@ -121,9 +126,6 @@ export class LoomiClipboard extends LoomiElement {
 
   private renderIcon(): TemplateResult | typeof nothing {
     if (this.isCopied) {
-      const path = getLoomiIcon("check");
-      if (!path) return nothing;
-
       return html`<svg
         class="loomi-copy-icon"
         viewBox="0 0 24 24"
@@ -132,7 +134,7 @@ export class LoomiClipboard extends LoomiElement {
         stroke-width="1.6"
         aria-hidden="true"
       >
-        ${path}
+        ${loomiIcon("check")}
       </svg>`;
     }
 

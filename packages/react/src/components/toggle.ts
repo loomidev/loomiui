@@ -7,16 +7,18 @@ import { createComponent } from "../create-component.js";
 import "@loomidev/components/toggle";
 
 export const Toggle: ForwardRefExoticComponent<
-  Omit<JSX.IntrinsicElements["loomi-toggle"], "onChange"> & {
+  Omit<JSX.IntrinsicElements["loomi-toggle"], "onInput" | "onChange"> & {
+    onInput?: (e: LoomiToggleEventMap["input"]) => void;
     onChange?: (e: LoomiToggleEventMap["change"]) => void;
     labelPosition?: JSX.IntrinsicElements["loomi-toggle"]["label-position"];
   }
 > = createComponent(
   "loomi-toggle",
-  { change: "onChange" },
+  { input: "onInput", change: "onChange" },
   { labelPosition: "label-position" },
 ) as unknown as ForwardRefExoticComponent<
-  Omit<JSX.IntrinsicElements["loomi-toggle"], "onChange"> & {
+  Omit<JSX.IntrinsicElements["loomi-toggle"], "onInput" | "onChange"> & {
+    onInput?: (e: LoomiToggleEventMap["input"]) => void;
     onChange?: (e: LoomiToggleEventMap["change"]) => void;
     labelPosition?: JSX.IntrinsicElements["loomi-toggle"]["label-position"];
   }

@@ -1,5 +1,6 @@
 import { css, html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
+import { live } from "lit/directives/live.js";
 import {
   anchorFloatingPanel,
   controlSizeStyles,
@@ -15,8 +16,15 @@ import {
   resolveLoomiSize,
   type LoomiSize,
   type LoomiSizeSupport,
+  toControlValue,
+  implicitlySubmit,
 } from "@loomidev/core";
-import { getLoomiIcon } from "./icons.js";
+import { hasLoomiIcon, loomiIcon, provideLoomiIcons } from "@loomidev/icons";
+import xCircleIcon from "@loomidev/icons/heroicons/outline/x-circle.js";
+
+// This component's own icons ship inline so they render on first paint; any other
+// `icon` name loads on demand.
+provideLoomiIcons({ "x-circle": xCircleIcon });
 
 export type LoomiAutocompleteVariant = "default" | "minimal";
 
@@ -37,6 +45,16 @@ const booleanAttribute = {
   },
 };
 
+/**
+ * `<loomi-autocomplete>` — a text field with a filtered suggestion list.
+ * Form-associated: submits `value` under `name`.
+ *
+ * @fires input - Fired on every keystroke and when a suggestion is picked, after `value` has
+ *   updated (composed).
+ * @fires change - Fired when a suggestion is picked, the field is cleared, or typed text is
+ *   committed by leaving the field (composed).
+ * @fires loomi-select - `detail: { item, value, label }` when a suggestion is picked.
+ */
 @customElement("loomi-autocomplete")
 export class LoomiAutocomplete extends LoomiElement {
   static override styles = [
@@ -197,6 +215,8 @@ export class LoomiAutocomplete extends LoomiElement {
   /** Size names this component supports, from the canonical `LoomiSize` scale — shared by every form control. */
   static readonly supportedSizes = { size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
+  /** Counts as a field that blocks implicit submission, like a native text `<input>`. */
+  static blocksImplicitSubmission = true;
 
   private internals = this.attachInternals();
   private cleanup?: () => void;
@@ -208,7 +228,15 @@ export class LoomiAutocomplete extends LoomiElement {
   @property({ attribute: "label-position", reflect: true })
   labelPosition: LoomiFieldLabelPosition = "default";
   @property() placeholder = DEFAULT_PLACEHOLDER;
-  @property() value = "";
+  private _value = "";
+  /** Current value. Like a native input's, anything assigned is coerced to a string (`null`/`undefined` become `""`). */
+  @property()
+  get value(): string {
+    return this._value;
+  }
+  set value(value: string) {
+    this._value = toControlValue(value);
+  }
   @property({ attribute: "selected-value" }) selectedValue = "";
   @property() locale = "";
   /** Size preset: `tiny` | `small` | `regular` | `medium` | `big`. Equal names give equal heights across every form control and `<loomi-button>`. */
@@ -220,6 +248,8 @@ export class LoomiAutocomplete extends LoomiElement {
   @property({ attribute: "description-key" }) descriptionKey = "description";
   @property({ attribute: "image-key" }) imageKey = "image";
   @property({ type: Boolean, reflect: true }) required = false;
+  /** Stops Enter in this field from submitting its form (native implicit submission). */
+  @property({ type: Boolean, attribute: "no-implicit-submit" }) noImplicitSubmit = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property({ type: Boolean, reflect: true }) invalid = false;
@@ -240,6 +270,8 @@ export class LoomiAutocomplete extends LoomiElement {
   @state() private selectedImage = "";
   @query("input") private inputEl?: HTMLInputElement;
   private suppressValueDisplaySync = false;
+  /** The value as of the last `change`; a blur after picking that same value is not a new commit. */
+  private committedValue = "";
 
   override connectedCallback(): void {
     if (!this.hasUpdated) {
@@ -264,6 +296,9 @@ export class LoomiAutocomplete extends LoomiElement {
     if (selectedValueChanged && this.value !== this.selectedValue) {
       this.value = this.selectedValue;
     }
+    // A value that didn't come from typing (set from outside, or a pick) is the new baseline
+    // for deciding whether leaving the field commits a change.
+    if (changed.has("value") && !this.suppressValueDisplaySync) this.committedValue = this.value;
     if (
       changed.has("value") ||
       selectedValueChanged ||
@@ -303,6 +338,7 @@ export class LoomiAutocomplete extends LoomiElement {
     this.displayValue = "";
     this.selectedImage = "";
     this.internals.setFormValue("");
+    this.committedValue = "";
     this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
     this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
     this.focus();
@@ -310,9 +346,8 @@ export class LoomiAutocomplete extends LoomiElement {
   }
 
   private renderIcon(name: string, cls = "loomi-icon"): TemplateResult | typeof nothing {
-    const path = getLoomiIcon(name);
-    if (!path) return nothing;
-    return html`<svg class=${cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${path}</svg>`;
+    if (!hasLoomiIcon(name)) return nothing;
+    return html`<svg class=${cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${loomiIcon(name)}</svg>`;
   }
 
   private get options(): LoomiAutocompleteItem[] {
@@ -383,6 +418,8 @@ export class LoomiAutocomplete extends LoomiElement {
     this.displayValue = item.label;
     this.selectedImage = item.image || "";
     this.hide();
+    this.committedValue = this.value;
+    this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
     this.dispatchEvent(
       new CustomEvent("loomi-select", {
         bubbles: true,
@@ -394,6 +431,9 @@ export class LoomiAutocomplete extends LoomiElement {
   }
 
   private onInput(event: Event): void {
+    // The native `input` event is composed and would reach the host as a second `input`;
+    // this component re-fires its own once `value` is up to date.
+    event.stopPropagation();
     this.displayValue = (event.target as HTMLInputElement).value;
     this.selectedImage = "";
     this.suppressValueDisplaySync = true;
@@ -402,12 +442,30 @@ export class LoomiAutocomplete extends LoomiElement {
     this.show();
   }
 
+  /** The inner field's native `change`: the user committed free text by leaving the field. */
+  private onNativeChange(): void {
+    if (this.value === this.committedValue) return;
+    this.committedValue = this.value;
+    this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
+  }
+
   private onKeydown(event: KeyboardEvent): void {
+    const options = this.filtered;
+    // Enter picks the highlighted suggestion; with nothing highlighted it submits the
+    // owning form, like a native `<input list>`.
+    if (
+      event.key === "Enter" &&
+      !(this.open && this.activeIndex >= 0 && options[this.activeIndex])
+    ) {
+      if (implicitlySubmit(event, this.internals, { disabled: this.noImplicitSubmit })) {
+        this.hide();
+        return;
+      }
+    }
     if (!this.open && (event.key === "ArrowDown" || event.key === "Enter")) {
       this.show();
       return;
     }
-    const options = this.filtered;
     if (event.key === "Escape") this.hide();
     else if (event.key === "ArrowDown") {
       event.preventDefault();
@@ -467,7 +525,7 @@ export class LoomiAutocomplete extends LoomiElement {
       <div class="loomi-field variant-${this.variant}">
         ${showSelectedImage ? html`<img class="loomi-selected-image" src=${this.selectedImage} alt="" />` : nothing}
         <input
-          .value=${this.displayValue}
+          .value=${live(this.displayValue)}
           name=${this.name || nothing}
           placeholder=${placeholder}
           ?disabled=${this.disabled}
@@ -479,6 +537,7 @@ export class LoomiAutocomplete extends LoomiElement {
           aria-label=${hasLabel ? this.label : nothing}
           @focus=${this.show}
           @input=${this.onInput}
+          @change=${this.onNativeChange}
           @keydown=${this.onKeydown}
         />
         ${hasLabel ? html`<label class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>` : nothing}

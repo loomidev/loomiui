@@ -148,6 +148,8 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `change` | Fired when the value is committed or changed. |
 | `input`  | Fired while the value is edited.              |
 
+Setting `value` (`"40"`, or `"20 - 80"` with `range`) moves the handles and the submitted form value without firing events. Dragging fires `input` continuously and `change` on release. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
+
 ## Full Example
 
 ```html
@@ -315,6 +317,14 @@ import "@loomidev/slider";
 Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on the server before browser-only code runs. If your framework complains, move the Loomi import to client-side code. In Next.js, that usually means a component with `"use client"`; in Nuxt, it often means a `.client.ts` plugin.
 
 <!-- END loomi-framework-guide -->
+
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **6.4 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
 
 ## Dependencies
 

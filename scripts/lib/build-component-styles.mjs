@@ -26,6 +26,13 @@ import { fileURLToPath } from "node:url";
  *   these variant/prop/shade combinations. Needed when a component builds
  *   class names at runtime (`bg-${color}-600`), which Tailwind's scanner
  *   can't see.
+ * @param {string[]} [options.safelistClasses] Exact runtime class patterns to
+ *   safelist instead of the whole palette cross-product. `{color}` expands to
+ *   every palette color, or to `options.safelistColors` when given, e.g.
+ *   `["bg-{color}-600", "hover:bg-{color}-700"]`. Prefer this over `safelist`:
+ *   each safelisted utility is a full rule in the shipped CSS, so a blanket
+ *   cross-product is paid for by every consumer.
+ * @param {string[]} [options.safelistColors] Palette subset `{color}` expands to.
  * @param {string[]} [options.sources] Authored source files (relative to the
  *   package root) to scan for statically-used utility classes.
  * @param {string} [options.exportName] Name of the exported CSSResult
@@ -75,6 +82,20 @@ export function buildComponentStyles(callerUrl, options = {}) {
     safelist = `
 /* Safelist for runtime-interpolated class names (bg-\${color}-600, etc.). */
 @source inline("{${variants.join(",")}}{${props.join(",")}}-{${colors.join(",")}}-{${safeShades.join(",")}}");
+`;
+  }
+
+  if (options.safelistClasses?.length) {
+    const safeColors = options.safelistColors ?? colors;
+    const unknown = safeColors.filter((c) => !colors.includes(c));
+    if (unknown.length) throw new Error(`safelistColors not in the palette: ${unknown.join(", ")}`);
+    const lines = options.safelistClasses.map(
+      (pattern) =>
+        `@source inline(${JSON.stringify(pattern.replaceAll("{color}", `{${safeColors.join(",")}}`))});`,
+    );
+    safelist += `
+/* Safelist: exact runtime-interpolated class patterns. */
+${lines.join("\n")}
 `;
   }
 

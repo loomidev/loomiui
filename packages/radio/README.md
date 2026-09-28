@@ -101,9 +101,12 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Events
 
-| Event    | Description                                   |
-| -------- | --------------------------------------------- |
-| `change` | Fired when the value is committed or changed. |
+| Event    | Description                                                         |
+| -------- | ------------------------------------------------------------------- |
+| `input`  | Fired when the user checks this radio, after `checked` has updated. |
+| `change` | Fired when the user checks this radio.                              |
+
+`checked` is settable without firing events, and checking one radio (by the user or in code) unchecks the rest of its `name` group. `type` always reads `"radio"`. A user pick fires `input` then `change`. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
 
 ## Full Example
 
@@ -270,6 +273,14 @@ import "@loomidev/radio";
 Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on the server before browser-only code runs. If your framework complains, move the Loomi import to client-side code. In Next.js, that usually means a component with `"use client"`; in Nuxt, it often means a `.client.ts` plugin.
 
 <!-- END loomi-framework-guide -->
+
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **4.5 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
 
 ## Dependencies
 

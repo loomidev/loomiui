@@ -1,10 +1,25 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { LoomiElement, loomiDefaultText, loomiStyles, loomiT } from "@loomidev/core";
-import { getLoomiIcon } from "@loomidev/icons";
+import { hasLoomiIcon, loomiIcon, provideLoomiIcons } from "@loomidev/icons";
+import sunIcon from "@loomidev/icons/heroicons/outline/sun.js";
+import moonIcon from "@loomidev/icons/heroicons/outline/moon.js";
+import computerDesktopIcon from "@loomidev/icons/heroicons/outline/computer-desktop.js";
+import checkIcon from "@loomidev/icons/heroicons/outline/check.js";
+import chevronDownIcon from "@loomidev/icons/heroicons/outline/chevron-down.js";
 import "@loomidev/dropmenu/loomi-dropmenu.js";
 import "@loomidev/icon/loomi-icon.js";
 import { componentStyles } from "./generated/styles.css.js";
+
+// This component's own icons ship inline so they render on first paint; any other
+// `icon` name loads on demand.
+provideLoomiIcons({
+  sun: sunIcon,
+  moon: moonIcon,
+  "computer-desktop": computerDesktopIcon,
+  check: checkIcon,
+  "chevron-down": chevronDownIcon,
+});
 
 export type LoomiTheme = "light" | "dark" | "system";
 export type LoomiThemeSwitcherVariant = "horizontal" | "dropmenu";
@@ -116,9 +131,8 @@ export class LoomiThemeSwitcher extends LoomiElement {
   }
 
   private icon(iconName: string): TemplateResult | typeof nothing {
-    const path = getLoomiIcon(iconName);
-    return path
-      ? html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${path}</svg>`
+    return hasLoomiIcon(iconName)
+      ? html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${loomiIcon(iconName)}</svg>`
       : nothing;
   }
 
@@ -141,7 +155,6 @@ export class LoomiThemeSwitcher extends LoomiElement {
 
   private renderDropmenu(): TemplateResult {
     const selected = this.options().find(({ mode }) => mode === this.mode) ?? this.options()[2];
-    const checkPath = getLoomiIcon("check");
 
     return html`<loomi-dropmenu class="loomi-theme-menu" placement="right">
       <span slot="trigger" class="loomi-menu-trigger">
@@ -158,7 +171,7 @@ export class LoomiThemeSwitcher extends LoomiElement {
         >
           <span class="loomi-menu-item-text">${text}</span>
           ${
-            this.mode === mode && checkPath
+            this.mode === mode
               ? html`<svg
                 class="loomi-menu-check"
                 viewBox="0 0 24 24"
@@ -167,7 +180,7 @@ export class LoomiThemeSwitcher extends LoomiElement {
                 stroke-width="1.8"
                 aria-hidden="true"
               >
-                ${checkPath}
+                ${loomiIcon("check")}
               </svg>`
               : nothing
           }

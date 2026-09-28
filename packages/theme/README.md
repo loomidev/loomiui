@@ -69,6 +69,14 @@ from `:root` and inherit through the shadow boundary.
 Default values come straight from Tailwind's own default ramps (oklch), so there are no
 hand-typed hex values to drift.
 
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **2.2 KB** minified and gzipped if you import every export, excluding `lit`. It is tree-shakeable (`"sideEffects": false`), so a component bundles only the parts it uses. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
+
 ## Dependencies
 
 - No LoomiUI package dependencies.

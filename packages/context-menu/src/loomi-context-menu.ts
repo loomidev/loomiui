@@ -10,7 +10,7 @@ import {
   supportsPopover,
   type LoomiSubmenuSide,
 } from "@loomidev/core";
-import { getLoomiIcon } from "@loomidev/icons";
+import { hasLoomiIcon, loomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
 const CHEVRON_RIGHT = svg`<path d="m9 18 6-6-6-6" />`;
@@ -233,7 +233,7 @@ export class LoomiContextMenuItem extends LoomiElement {
   override render(): TemplateResult {
     if (this.divider) return html`<div class="loomi-divider"></div>`;
     const iconRight = this.iconRight || this.menuIconRight;
-    const path = this.icon ? getLoomiIcon(this.icon) : undefined;
+    const hasIcon = !!this.icon && hasLoomiIcon(this.icon);
     const cls = `loomi-item ${iconRight ? "right" : ""} ${this.hasSubmenuItems ? "has-submenu" : ""} ${
       this.header ? "header" : this.hover ? "hoverable" : ""
     }`;
@@ -249,7 +249,7 @@ export class LoomiContextMenuItem extends LoomiElement {
         @focusin=${this.hasSubmenuItems ? this.onItemFocusIn : nothing}
         @focusout=${this.hasSubmenuItems ? this.onItemFocusOut : nothing}
       >
-      ${path ? html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${path}</svg>` : nothing}
+      ${hasIcon ? html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${loomiIcon(this.icon)}</svg>` : nothing}
       <span class="loomi-label"><slot></slot></span>
       ${this.shortcut ? html`<kbd class="loomi-shortcut">${this.shortcut}</kbd>` : nothing}
       ${

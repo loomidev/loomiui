@@ -152,6 +152,32 @@ rather than replacing it:
 }
 ```
 
+## Inserting at the caret
+
+`insertText(text)` inserts at the caret, replacing any selected text, as if the user had
+typed it: `value` updates and `input` fires. The field keeps its caret while focus is on
+another button, so it works from your own toolbar. `selectionStart`, `selectionEnd` and
+`setSelectionRange()` read and set the caret, as on a native `<input>`.
+
+A custom maths toolbar:
+
+```html
+<loomi-input name="answer" label="Answer"></loomi-input>
+<div class="maths-toolbar">
+  <button type="button" data-insert="\frac{a}{b}">a/b</button>
+  <button type="button" data-insert="\sqrt{x}">√x</button>
+  <button type="button" data-insert="^{2}">x²</button>
+</div>
+
+<script type="module">
+  const field = document.querySelector('loomi-input[name="answer"]');
+  document.querySelector(".maths-toolbar").addEventListener("click", (event) => {
+    const text = event.target.closest("[data-insert]")?.dataset.insert;
+    if (text) field.insertText(text);
+  });
+</script>
+```
+
 ## Validation
 
 A `required` field shows a red border as soon as it's invalid, whether or not
@@ -182,6 +208,23 @@ before a manual submit or API call). It:
 <loomi-input required label="Full name" error-message="Your name is required"></loomi-input>
 <!-- show-error-inline omitted (false): a failed validate()/blur shows this message as a
      toast instead of inline text, but the red border still appears either way -->
+```
+
+## Forms
+
+Pressing Enter in the field submits its `<form>`, as it does in a native `<input>`. If
+the form has a submit button (a native one or a `<loomi-button can-submit>`), Enter
+activates the first one, and nothing happens if that button is disabled. With no submit
+button, the form submits only when it has a single text-like field. Submitting this way
+runs validation and fires `submit` once, the same as clicking the button. Enter that
+confirms an IME composition doesn't submit. Add `no-implicit-submit` to turn it off.
+
+```html
+<form action="/login" method="post">
+  <loomi-input name="email" type="email" required></loomi-input>
+  <loomi-password name="password" required></loomi-password>
+  <loomi-button can-submit>Sign in</loomi-button>
+</form>
 ```
 
 ## Field appearance
@@ -222,6 +265,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `placeholder`             | _(blank)_ | Placeholder text.                                                                                                                                |
 | `value`                   | _(blank)_ | Current value (also a property).                                                                                                                 |
 | `required`                | `false`   | Marks the field required (red asterisk on the label). _(boolean)_                                                                                |
+| `no-implicit-submit`      | `false`   | Stops Enter in the field from submitting its form. _(boolean)_                                                                                   |
 | `disabled`                | `false`   | Disable the field. _(boolean)_                                                                                                                   |
 | `readonly`                | `false`   | Read-only field. _(boolean)_                                                                                                                     |
 | `numeric`                 | `false`   | Allow digits only. _(boolean)_                                                                                                                   |
@@ -252,12 +296,14 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ### Methods
 
-| Member                | Description                                                                                                                                     |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `.value`              | Get/set the current value.                                                                                                                      |
-| `.dynamicMask`        | Set a custom dynamic mask function, or a named built-in such as `"creditcard"`.                                                                 |
-| `focus()` / `clear()` | Focus or clear the field.                                                                                                                       |
-| `validate()`          | Run the required check now (independent of `blur`); sets `invalid` and surfaces `error-message` inline or via toast. Returns `true` when valid. |
+| Member                                                      | Description                                                                                                                                     |
+| ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `.value`                                                    | Get/set the current value.                                                                                                                      |
+| `.dynamicMask`                                              | Set a custom dynamic mask function, or a named built-in such as `"creditcard"`.                                                                 |
+| `focus()` / `clear()`                                       | Focus or clear the field.                                                                                                                       |
+| `insertText(text)`                                          | Insert text at the caret, replacing any selection, and fire `input`.                                                                            |
+| `.selectionStart` / `.selectionEnd` / `setSelectionRange()` | The inner field's caret, as on a native input.                                                                                                  |
+| `validate()`                                                | Run the required check now (independent of `blur`); sets `invalid` and surfaces `error-message` inline or via toast. Returns `true` when valid. |
 
 When used inside a native form, `form.reset()` restores the field's initial value and
 clears its visible validation state.
@@ -284,6 +330,8 @@ clears its visible validation state.
 | `input`               | Fired while the value is edited.              |
 | `loomi-prefix-change` | Fired when the prefix changes.                |
 | `loomi-suffix-change` | Fired when the suffix changes.                |
+
+Setting `value` from JavaScript updates the field and the submitted form value without firing events; each keystroke fires exactly one `input`. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
 
 ## Theming
 
@@ -444,6 +492,14 @@ import "@loomidev/input";
 Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on the server before browser-only code runs. If your framework complains, move the Loomi import to client-side code. In Next.js, that usually means a component with `"use client"`; in Nuxt, it often means a `.client.ts` plugin.
 
 <!-- END loomi-framework-guide -->
+
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **26.4 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 99.3 KB. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
 
 ## Dependencies
 

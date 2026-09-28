@@ -197,9 +197,12 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Events
 
-| Event    | Description                                   |
-| -------- | --------------------------------------------- |
-| `change` | Fired when the value is committed or changed. |
+| Event    | Description                                                   |
+| -------- | ------------------------------------------------------------- |
+| `input`  | Fired when the user picks a date, after `value` has updated.  |
+| `change` | Fired when the user picks a date. `detail: { value, dates }`. |
+
+`value` is settable: pass ISO `yyyy-mm-dd` or a date in the configured numeric `format` (range as `start - end`); an unparseable value clears the field. Setting it fires no events. A user pick fires `input` then `change`. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
 
 ## Full Example
 
@@ -371,6 +374,14 @@ import "@loomidev/datepicker";
 Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on the server before browser-only code runs. If your framework complains, move the Loomi import to client-side code. In Next.js, that usually means a component with `"use client"`; in Nuxt, it often means a `.client.ts` plugin.
 
 <!-- END loomi-framework-guide -->
+
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **22.1 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 95.1 KB. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
 
 ## Dependencies
 

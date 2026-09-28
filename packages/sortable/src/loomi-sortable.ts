@@ -1,8 +1,14 @@
 import { html, nothing, svg, type TemplateResult, isServer } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, loomiT } from "@loomidev/core";
-import { getLoomiIcon } from "@loomidev/icons";
+import { hasLoomiIcon, loomiIcon, provideLoomiIcons } from "@loomidev/icons";
+import bars3Icon from "@loomidev/icons/heroicons/outline/bars-3.js";
+import lockClosedIcon from "@loomidev/icons/heroicons/outline/lock-closed.js";
 import { componentStyles } from "./generated/styles.css.js";
+
+// This component's own icons ship inline so they render on first paint; any other
+// `icon` name loads on demand.
+provideLoomiIcons({ "bars-3": bars3Icon, "lock-closed": lockClosedIcon });
 
 export interface LoomiSortableItem {
   id: string;
@@ -413,7 +419,7 @@ export class LoomiSortable extends LoomiElement {
   }
 
   override render(): TemplateResult {
-    const handleSvg = getLoomiIcon(this.handleIcon) ?? GRIP;
+    const handleSvg = hasLoomiIcon(this.handleIcon) ? loomiIcon(this.handleIcon) : GRIP;
     return html`<div
       class="loomi-sortable ${this.dragOverContainer ? "drag-over" : ""}"
       @dragover=${(e: DragEvent) => this.onContainerDragOver(e)}
@@ -472,7 +478,7 @@ export class LoomiSortable extends LoomiElement {
           ${
             item.locked || filtered
               ? html`<svg class="loomi-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                ${getLoomiIcon("lock-closed")}
+                ${loomiIcon("lock-closed")}
               </svg>`
               : nothing
           }

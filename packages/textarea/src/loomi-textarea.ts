@@ -1,5 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
+import { live } from "lit/directives/live.js";
 import {
   LoomiElement,
   fieldStyles,
@@ -8,6 +9,8 @@ import {
   onClickOutside,
   themeStyles,
   type LoomiFieldLabelPosition,
+  insertTextAtCaret,
+  toControlValue,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -60,7 +63,15 @@ export class LoomiTextarea extends LoomiElement {
   labelPosition: LoomiFieldLabelPosition = "default";
   @property() locale = "";
   @property() placeholder = "";
-  @property() value = "";
+  private _value = "";
+  /** Current value. Like a native input's, anything assigned is coerced to a string (`null`/`undefined` become `""`). */
+  @property()
+  get value(): string {
+    return this._value;
+  }
+  set value(value: string) {
+    this._value = toControlValue(value);
+  }
   @property({ type: Number }) rows = 3;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
@@ -87,6 +98,41 @@ export class LoomiTextarea extends LoomiElement {
   @state() private mentionPos = { top: 0, left: 0 };
 
   @query("textarea") private textareaEl!: HTMLTextAreaElement;
+
+  /**
+   * Inserts `text` at the caret, replacing any selected text, as if typed, then fires
+   * `input`. The inner field keeps its caret while focus is elsewhere, so this works from
+   * an external toolbar button.
+   */
+  insertText(text: string): void {
+    if (!this.textareaEl || this.disabled || this.readonly) return;
+    insertTextAtCaret(this.textareaEl, text);
+  }
+
+  /** Start of the selection in the inner field, as on a native textarea. */
+  get selectionStart(): number {
+    return this.textareaEl?.selectionStart ?? 0;
+  }
+  set selectionStart(value: number) {
+    if (this.textareaEl) this.textareaEl.selectionStart = value;
+  }
+
+  /** End of the selection in the inner field, as on a native textarea. */
+  get selectionEnd(): number {
+    return this.textareaEl?.selectionEnd ?? 0;
+  }
+  set selectionEnd(value: number) {
+    if (this.textareaEl) this.textareaEl.selectionEnd = value;
+  }
+
+  /** Selects a range in the inner field, as on a native textarea. */
+  setSelectionRange(
+    start: number | null,
+    end: number | null,
+    direction?: "forward" | "backward" | "none",
+  ): void {
+    this.textareaEl?.setSelectionRange(start, end, direction);
+  }
   @query(".loomi-mention-mirror") private mirrorEl?: HTMLDivElement;
 
   override connectedCallback(): void {
@@ -245,6 +291,9 @@ export class LoomiTextarea extends LoomiElement {
   }
 
   private onInput = (e: Event): void => {
+    // The native `input` event is composed and would reach the host as a second `input`;
+    // this component re-fires its own once `value` is up to date.
+    e.stopPropagation();
     const target = e.target as HTMLTextAreaElement;
     this.value = target.value;
     if (this.invalid) this.validate();
@@ -330,7 +379,7 @@ export class LoomiTextarea extends LoomiElement {
         <textarea
           class="loomi-textarea"
           part="textarea"
-          .value=${this.value}
+          .value=${live(this.value)}
           name=${this.name || nothing}
           rows=${this.rows}
           placeholder=${placeholderAttr}

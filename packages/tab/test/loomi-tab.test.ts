@@ -1,6 +1,8 @@
 import { html, fixture, expect } from "@open-wc/testing";
 import { waitFor } from "../../../test/wait.js";
 import "../dist/loomi-tab.js";
+// Disk-based sources are opt-in; this is what `import "@loomidev/icons/iconsax"` loads.
+import "../../icons/dist/generated/sources/iconsax.js";
 import type { LoomiTabs } from "../dist/index.js";
 
 describe("loomi-tabs", () => {
@@ -121,7 +123,7 @@ describe("loomi-tabs", () => {
           HTMLElement & { source: string; variant: string; updateComplete: Promise<unknown> }
         >("loomi-icon");
 
-    it("renders an iconsax outline icon from disk with no registration", async () => {
+    it("renders an iconsax outline icon from disk once the source is imported", async () => {
       const el = await fixture<LoomiTabs>(html`
         <loomi-tabs>
           <loomi-tab label="Home" icon="home"></loomi-tab>

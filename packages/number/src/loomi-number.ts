@@ -1,5 +1,6 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
+import { live } from "lit/directives/live.js";
 import {
   LoomiElement,
   controlSizeStyles,
@@ -11,6 +12,8 @@ import {
   resolveLoomiSize,
   type LoomiSize,
   type LoomiSizeSupport,
+  toControlValue,
+  implicitlySubmit,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -35,6 +38,8 @@ export class LoomiNumber extends LoomiElement {
   /** Size names this component supports, from the canonical `LoomiSize` scale — shared by every form control. */
   static readonly supportedSizes = { size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
+  /** Counts as a field that blocks implicit submission, like a native text `<input>`. */
+  static blocksImplicitSubmission = true;
 
   private internals = this.attachInternals();
   private validationVisible = false;
@@ -45,7 +50,15 @@ export class LoomiNumber extends LoomiElement {
   @property({ attribute: "label-position", reflect: true })
   labelPosition: LoomiFieldLabelPosition = "default";
   @property() locale = "";
-  @property() value = "";
+  private _value = "";
+  /** Current value. Like a native input's, anything assigned is coerced to a string (`null`/`undefined` become `""`). */
+  @property()
+  get value(): string {
+    return this._value;
+  }
+  set value(value: string) {
+    this._value = toControlValue(value);
+  }
   @property({ type: Number }) min = 0;
   @property({ type: Number }) max = 100;
   @property({ type: Number }) step = 1;
@@ -55,6 +68,8 @@ export class LoomiNumber extends LoomiElement {
   @property({ type: Boolean, attribute: "transparent-icons" }) transparentIcons = true;
   @property({ type: Boolean, attribute: "with-dots" }) withDots = true;
   @property({ type: Boolean, reflect: true }) required = false;
+  /** Stops Enter in this field from submitting its form (native implicit submission). */
+  @property({ type: Boolean, attribute: "no-implicit-submit" }) noImplicitSubmit = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) invalid = false;
 
@@ -89,12 +104,20 @@ export class LoomiNumber extends LoomiElement {
     return Math.min(this.max, Math.max(this.min, n));
   }
 
-  private setValue(n: number, emitChange = true): void {
-    const clamped = this.clamp(this.withDots ? n : Math.round(n));
-    this.value = String(clamped);
+  /**
+   * Apply a user-driven value. Like a native number field, `input` fires only when the value
+   * actually moved (a step at the bound, or a commit that needed no clamping, doesn't), and
+   * `change` fires on every commit that follows an edit.
+   */
+  private setValue(n: number, commit: "always" | "if-changed" = "if-changed"): void {
+    const next = String(this.clamp(this.withDots ? n : Math.round(n)));
+    const moved = next !== this.value;
+    this.value = next;
     this.syncValidity();
-    this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
-    if (emitChange) this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
+    if (moved) this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
+    if (moved || commit === "always") {
+      this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
+    }
   }
 
   private bump(dir: 1 | -1): void {
@@ -102,7 +125,15 @@ export class LoomiNumber extends LoomiElement {
     this.setValue(this.current + dir * this.step);
   }
 
+  /** Enter submits the owning form, like a native single-line `<input>`. */
+  private onFieldKeydown = (e: KeyboardEvent): void => {
+    implicitlySubmit(e, this.internals, { disabled: this.noImplicitSubmit });
+  };
+
   private onInput = (e: Event): void => {
+    // The native `input` event is composed and would reach the host as a second `input`;
+    // this component re-fires its own once `value` is up to date.
+    e.stopPropagation();
     const raw = (e.target as HTMLInputElement).value;
     const v = raw.replace(this.withDots ? /[^0-9.-]/g : /[^0-9-]/g, "");
     this.value = v;
@@ -110,12 +141,14 @@ export class LoomiNumber extends LoomiElement {
     this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
   };
 
+  // The inner field's native `change` means the user committed typed text.
   private onChange = (): void => {
     if (this.value.trim() === "") {
       this.syncValidity();
+      this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
       return;
     }
-    this.setValue(this.current);
+    this.setValue(this.current, "always");
   };
 
   validate(): boolean {
@@ -178,7 +211,7 @@ export class LoomiNumber extends LoomiElement {
             part="input"
             type="number"
             inputmode=${this.withDots ? "decimal" : "numeric"}
-            .value=${this.value}
+            .value=${live(this.value)}
             name=${this.name || nothing}
             min=${this.min}
             max=${this.max}
@@ -190,6 +223,7 @@ export class LoomiNumber extends LoomiElement {
             aria-invalid=${this.invalid ? "true" : "false"}
             @input=${this.onInput}
             @change=${this.onChange}
+            @keydown=${this.onFieldKeydown}
             @blur=${this.showValidation}
           />
           ${

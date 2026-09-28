@@ -105,9 +105,12 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Events
 
-| Event    | Description                                   |
-| -------- | --------------------------------------------- |
-| `change` | Fired when the value is committed or changed. |
+| Event    | Description                                              |
+| -------- | -------------------------------------------------------- |
+| `input`  | Fired on every user toggle, after `checked` has updated. |
+| `change` | Fired after each user toggle.                            |
+
+`checked` is settable without firing events, and `type` always reads `"checkbox"` (as for the native checkbox it replaces) so bindings that branch on it (Vue `v-model`, Alpine `x-model`) bind `checked`. A user toggle fires `input` then `change`, with `checked` already updated. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
 
 ## Full Example
 
@@ -276,6 +279,14 @@ import "@loomidev/toggle";
 Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on the server before browser-only code runs. If your framework complains, move the Loomi import to client-side code. In Next.js, that usually means a component with `"use client"`; in Nuxt, it often means a `.client.ts` plugin.
 
 <!-- END loomi-framework-guide -->
+
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **4.7 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
 
 ## Dependencies
 

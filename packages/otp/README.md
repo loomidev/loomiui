@@ -148,6 +148,25 @@ call, handy for server-provided errors (e.g. "Too many attempts, try again in 30
 el.showError("Too many attempts, try again in 30s");
 ```
 
+## Forms
+
+In `<loomi-otp>` Enter submits only once every box is filled.
+
+Pressing Enter in the field submits its `<form>`, as it does in a native `<input>`. If
+the form has a submit button (a native one or a `<loomi-button can-submit>`), Enter
+activates the first one, and nothing happens if that button is disabled. With no submit
+button, the form submits only when it has a single text-like field. Submitting this way
+runs validation and fires `submit` once, the same as clicking the button. Enter that
+confirms an IME composition doesn't submit. Add `no-implicit-submit` to turn it off.
+
+```html
+<form action="/login" method="post">
+  <loomi-input name="email" type="email" required></loomi-input>
+  <loomi-password name="password" required></loomi-password>
+  <loomi-button can-submit>Sign in</loomi-button>
+</form>
+```
+
 ## Minimal variant
 
 Use `variant="minimal"` to show only the bottom border of each code box:
@@ -170,19 +189,20 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute           | Default                        | Description                                                                                                                               |
-| ------------------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`              | _(blank)_                      | Submitted with the form.                                                                                                                  |
-| `label`             | _(blank)_                      | Used as the title of the `loomi-notification` toast (see below); has no visible effect otherwise.                                         |
-| `total-digits`      | `4`                            | Number of input boxes.                                                                                                                    |
-| `type`              | `numeric`                      | Accepted characters. `numeric` \| `alphanumeric` \| `text`                                                                                |
-| `size`              | `regular`                      | `regular` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing).                           |
-| `variant`           | `default`                      | `default` \| `minimal` (bottom border only, no box)                                                                                       |
-| `separator`         | `false`                        | Show a dash separator between the left and right input groups. _(boolean)_                                                                |
-| `hide-digits`       | `false`                        | Hide entered characters and show large dots. _(boolean)_                                                                                  |
-| `mask`              | `false`                        | Alias for hiding entered characters. _(boolean)_                                                                                          |
-| `error-message`     | `Verification code is invalid` | Shown when `showError()` is called. The red border shows either way, even if this is left blank.                                          |
-| `show-error-inline` | `false`                        | Render `error-message` beneath the boxes. When `false`, a failed validation shows it as a `loomi-notification` toast instead. _(boolean)_ |
+| Attribute            | Default                        | Description                                                                                                                               |
+| -------------------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`               | _(blank)_                      | Submitted with the form.                                                                                                                  |
+| `label`              | _(blank)_                      | Used as the title of the `loomi-notification` toast (see below); has no visible effect otherwise.                                         |
+| `total-digits`       | `4`                            | Number of input boxes.                                                                                                                    |
+| `type`               | `numeric`                      | Accepted characters. `numeric` \| `alphanumeric` \| `text`                                                                                |
+| `size`               | `regular`                      | `regular` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing).                           |
+| `variant`            | `default`                      | `default` \| `minimal` (bottom border only, no box)                                                                                       |
+| `separator`          | `false`                        | Show a dash separator between the left and right input groups. _(boolean)_                                                                |
+| `hide-digits`        | `false`                        | Hide entered characters and show large dots. _(boolean)_                                                                                  |
+| `mask`               | `false`                        | Alias for hiding entered characters. _(boolean)_                                                                                          |
+| `no-implicit-submit` | `false`                        | Stops Enter in the field from submitting its form. _(boolean)_                                                                            |
+| `error-message`      | `Verification code is invalid` | Shown when `showError()` is called. The red border shows either way, even if this is left blank.                                          |
+| `show-error-inline`  | `false`                        | Render `error-message` beneath the boxes. When `false`, a failed validation shows it as a `loomi-notification` toast instead. _(boolean)_ |
 
 **Methods:** `clear()`, `startValidating()`, `showSuccess()`, `showError(message?)`.
 **Properties:** `code` (`pin` is a deprecated alias), `validating` (reflected), `valid`
@@ -191,9 +211,13 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Events
 
-| Event          | Description                          |
-| -------------- | ------------------------------------ |
-| `loomi-verify` | Fired when every code box is filled. |
+| Event          | Description                                                     |
+| -------------- | --------------------------------------------------------------- |
+| `input`        | Fired on every typed or pasted edit, after `value` has updated. |
+| `change`       | Fired when focus leaves the boxes after the code changed.       |
+| `loomi-verify` | Fired when every code box is filled.                            |
+
+Read or set the code with `value` (setting it drops characters `type` doesn't accept and fires no events, not even `loomi-verify`). Each typed or pasted edit fires `input`; `change` fires when focus leaves the boxes after the code changed. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
 
 ## Full Example
 
@@ -372,6 +396,14 @@ import "@loomidev/otp";
 Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on the server before browser-only code runs. If your framework complains, move the Loomi import to client-side code. In Next.js, that usually means a component with `"use client"`; in Nuxt, it often means a `.client.ts` plugin.
 
 <!-- END loomi-framework-guide -->
+
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **19.3 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 92.2 KB. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
 
 ## Dependencies
 

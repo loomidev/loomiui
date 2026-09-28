@@ -1,7 +1,7 @@
 {
   "name": "@loomidev/icons",
   "version": "0.9.0",
-  "description": "Shared icon registry for loomi components: an inlined Heroicons set plus disk-based Iconsax and Untitled UI icon sets, with a runtime register API.",
+  "description": "Shared icon registry for loomi components: Heroicons loaded one icon at a time, plus opt-in disk-based Iconsax and Untitled UI sets.",
   "repository": {
     "type": "git",
     "url": "https://github.com/loomidev/loomiui.git",
@@ -19,10 +19,30 @@
     "dist",
     "custom-elements.json"
   ],
+  "sideEffects": [
+    "./dist/all.js",
+    "./dist/generated/sources/*.js"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./all": {
+      "types": "./dist/all.d.ts",
+      "import": "./dist/all.js"
+    },
+    "./iconsax": {
+      "types": "./dist/generated/sources/iconsax.d.ts",
+      "import": "./dist/generated/sources/iconsax.js"
+    },
+    "./untitledui": {
+      "types": "./dist/generated/sources/untitledui.d.ts",
+      "import": "./dist/generated/sources/untitledui.js"
+    },
+    "./heroicons/*": {
+      "types": "./dist/heroicons/icon-module.d.ts",
+      "import": "./dist/heroicons/*"
     },
     "./icons/*": {
       "types": "./dist/icons/icon-module.d.ts",
@@ -31,9 +51,9 @@
   },
   "scripts": {
     "generate": "node scripts/generate-heroicons.mjs",
-    "build": "node scripts/build-disk-manifest.mjs && node scripts/build-disk-modules.mjs && tsc -p tsconfig.json && node scripts/copy-svg-assets.mjs",
-    "dev": "node scripts/build-disk-manifest.mjs && node scripts/build-disk-modules.mjs && node scripts/copy-svg-assets.mjs && tsc -p tsconfig.json --watch",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "build": "node scripts/build-disk-manifest.mjs && node scripts/build-disk-modules.mjs && node scripts/build-heroicon-modules.mjs && tsc -p tsconfig.json && node scripts/copy-svg-assets.mjs",
+    "dev": "node scripts/build-disk-manifest.mjs && node scripts/build-disk-modules.mjs && node scripts/build-heroicon-modules.mjs && node scripts/copy-svg-assets.mjs && tsc -p tsconfig.json --watch",
+    "typecheck": "node scripts/build-disk-manifest.mjs && node scripts/build-disk-modules.mjs && node scripts/build-heroicon-modules.mjs && tsc -p tsconfig.json --noEmit"
   },
   "peerDependencies": {
     "lit": "^3.0.0"

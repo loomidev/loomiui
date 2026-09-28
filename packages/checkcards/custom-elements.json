@@ -340,15 +340,6 @@
             },
             {
               "kind": "field",
-              "name": "initialized",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "default": "false"
-            },
-            {
-              "kind": "field",
               "name": "initialSelectedValue",
               "type": {
                 "text": "string"
@@ -375,6 +366,32 @@
               }
             },
             {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "The selected card values, comma-joined — the same string the form submits. Setting it\nselects the matching cards without firing `input` or `change`."
+            },
+            {
+              "kind": "field",
+              "name": "values",
+              "type": {
+                "text": "string[]"
+              },
+              "description": "The selected card values as an array. Setting it fires no events."
+            },
+            {
+              "kind": "method",
+              "name": "applySelectedValue",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
               "kind": "method",
               "name": "sync",
               "privacy": "private",
@@ -392,7 +409,11 @@
           ],
           "events": [
             {
-              "description": "`detail: { values }` when the selection changes.",
+              "description": "Fired when the user changes the selection, after `value` has updated (composed).",
+              "name": "input"
+            },
+            {
+              "description": "`detail: { values }` when the user changes the selection (composed).",
               "name": "change"
             }
           ],

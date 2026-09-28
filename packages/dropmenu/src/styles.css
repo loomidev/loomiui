@@ -179,10 +179,6 @@
   user-select: none;
   transition: background-color 0.12s ease;
 }
-.loomi-item.right {
-  flex-direction: row-reverse;
-  text-align: right;
-}
 .loomi-item.hoverable:hover,
 .loomi-item.hoverable:focus-visible,
 :host(:focus-within) .loomi-item.has-submenu {
@@ -253,9 +249,6 @@
   border-radius: 9999px;
   background: currentColor;
 }
-.loomi-item.right .loomi-indicator {
-  order: 1;
-}
 .loomi-label {
   flex: 1 1 auto;
   min-width: 0;
@@ -279,12 +272,6 @@
   font-weight: 400;
   line-height: 1;
   white-space: nowrap;
-}
-.loomi-item.right .loomi-shortcut {
-  margin-inline-start: 0;
-  margin-inline-end: auto;
-  padding-inline-start: 0;
-  padding-inline-end: 1.5rem;
 }
 .loomi-submenu-icon {
   width: 0.875rem;

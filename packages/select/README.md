@@ -150,11 +150,21 @@ When your data isn't coming from an array, use plain `<option>` children instead
 
 ## Reacting to Selection
 
+`input` and `change` fire on every user pick, with `value` already updated, so you can
+read the selection straight off the element. Setting `value` (or `values`) in code
+selects without firing either event, exactly like a native `<select>`.
+
 ```js
 const el = document.querySelector("loomi-select");
-el.addEventListener("select", (e) => {
-  console.log(e.detail); // { value, label, values }
+el.addEventListener("change", () => {
+  console.log(el.value); // "gh", or "pop,jazz" when multiple
+  console.log(el.values); // ["gh"], or ["pop", "jazz"]
 });
+el.addEventListener("loomi-select", (e) => {
+  console.log(e.detail); // { value, label, values } for the option just picked
+});
+
+el.value = "ng"; // select in code: no events
 ```
 
 ## Get the Selected Value on Form Submission
@@ -270,11 +280,14 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Events
 
-| Event                | Description                                     |
-| -------------------- | ----------------------------------------------- |
-| `change`             | Fired when the value is committed or changed.   |
-| `loomi-empty-action` | Fired when the empty-state action is activated. |
-| `loomi-select`       | Fired when an option is selected.               |
+| Event                | Description                                                           |
+| -------------------- | --------------------------------------------------------------------- |
+| `input`              | Fired when the user changes the selection, after `value` has updated. |
+| `change`             | Fired when the user changes the selection.                            |
+| `loomi-empty-action` | Fired when the empty-state action is activated.                       |
+| `loomi-select`       | Fired when an option is selected.                                     |
+
+Read or set the selection with `value` (a string, comma-joined when `multiple`) or `values` (a `string[]`). Setting either updates the trigger and the submitted form value without firing events. A user pick fires `input` then `change`, with `value` already updated. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
 
 ## Full Example
 
@@ -490,6 +503,14 @@ import "@loomidev/select";
 Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on the server before browser-only code runs. If your framework complains, move the Loomi import to client-side code. In Next.js, that usually means a component with `"use client"`; in Nuxt, it often means a `.client.ts` plugin.
 
 <!-- END loomi-framework-guide -->
+
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **21.5 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
 
 ## Dependencies
 

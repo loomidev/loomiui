@@ -1,5 +1,6 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
+import { live } from "lit/directives/live.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import {
   LoomiElement,
@@ -13,10 +14,19 @@ import {
   resolveLoomiSize,
   type LoomiSize,
   type LoomiSizeSupport,
+  insertTextAtCaret,
+  toControlValue,
+  implicitlySubmit,
 } from "@loomidev/core";
 import "@loomidev/popover";
-import { getLoomiIcon } from "./icons.js";
+import { hasLoomiIcon, loomiIcon, provideLoomiIcons } from "@loomidev/icons";
+import xCircleIcon from "@loomidev/icons/heroicons/outline/x-circle.js";
+import informationCircleIcon from "@loomidev/icons/heroicons/outline/information-circle.js";
 import { componentStyles } from "./generated/styles.css.js";
+
+// This component's own icons ship inline so they render on first paint; any other
+// `icon` name loads on demand.
+provideLoomiIcons({ "x-circle": xCircleIcon, "information-circle": informationCircleIcon });
 
 export type LoomiInputType = "text" | "email" | "password" | "search" | "tel" | "url";
 export type LoomiInputVariant = "default" | "minimal";
@@ -60,6 +70,8 @@ export class LoomiInput extends LoomiElement {
   /** Size names this component supports, from the canonical `LoomiSize` scale — shared by every form control. */
   static readonly supportedSizes = { size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
+  /** Counts as a field that blocks implicit submission, like a native text `<input>`. */
+  static blocksImplicitSubmission = true;
 
   private internals = this.attachInternals();
   private validationVisible = false;
@@ -74,8 +86,18 @@ export class LoomiInput extends LoomiElement {
   labelPosition: LoomiFieldLabelPosition = "default";
   @property() locale = "";
   @property() placeholder = "";
-  @property() value = "";
+  private _value = "";
+  /** Current value. Like a native input's, anything assigned is coerced to a string (`null`/`undefined` become `""`). */
+  @property()
+  get value(): string {
+    return this._value;
+  }
+  set value(value: string) {
+    this._value = toControlValue(value);
+  }
   @property({ type: Boolean, reflect: true }) required = false;
+  /** Stops Enter in this field from submitting its form (native implicit submission). */
+  @property({ type: Boolean, attribute: "no-implicit-submit" }) noImplicitSubmit = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property({ type: Boolean }) numeric = false;
@@ -110,6 +132,41 @@ export class LoomiInput extends LoomiElement {
 
   @query("input") private inputEl!: HTMLInputElement;
 
+  /**
+   * Inserts `text` at the caret, replacing any selected text, as if typed, then fires
+   * `input`. The inner field keeps its caret while focus is elsewhere, so this works from
+   * an external toolbar button.
+   */
+  insertText(text: string): void {
+    if (!this.inputEl || this.disabled || this.readonly) return;
+    insertTextAtCaret(this.inputEl, text);
+  }
+
+  /** Start of the selection in the inner field, as on a native input. */
+  get selectionStart(): number | null {
+    return this.inputEl?.selectionStart ?? null;
+  }
+  set selectionStart(value: number | null) {
+    if (this.inputEl) this.inputEl.selectionStart = value;
+  }
+
+  /** End of the selection in the inner field, as on a native input. */
+  get selectionEnd(): number | null {
+    return this.inputEl?.selectionEnd ?? null;
+  }
+  set selectionEnd(value: number | null) {
+    if (this.inputEl) this.inputEl.selectionEnd = value;
+  }
+
+  /** Selects a range in the inner field, as on a native input. */
+  setSelectionRange(
+    start: number | null,
+    end: number | null,
+    direction?: "forward" | "backward" | "none",
+  ): void {
+    this.inputEl?.setSelectionRange(start, end, direction);
+  }
+
   override connectedCallback(): void {
     if (!this.hasUpdated) this.initialValue = this.value;
     super.connectedCallback();
@@ -129,7 +186,13 @@ export class LoomiInput extends LoomiElement {
       changed.has("mask") ||
       changed.has("dynamicMask")
     ) {
-      this.value = this.normalizeValue(this.value);
+      // A throwing mask (a custom `dynamicMask` function, say) must never leave the field
+      // unrendered: fall back to the raw value and say why.
+      try {
+        this.value = this.normalizeValue(this.value);
+      } catch (error) {
+        console.warn("[loomi-input] Couldn't normalise the value; keeping it as typed.", error);
+      }
     }
 
     this.internals.setFormValue(this.value);
@@ -287,7 +350,15 @@ export class LoomiInput extends LoomiElement {
       .some((char) => tokenTests.some((tokenTest) => tokenTest(char)));
   }
 
+  /** Enter submits the owning form, like a native single-line `<input>`. */
+  private onFieldKeydown = (e: KeyboardEvent): void => {
+    implicitlySubmit(e, this.internals, { disabled: this.noImplicitSubmit });
+  };
+
   private onInput = (e: Event): void => {
+    // The native `input` event is composed and would reach the host as a second `input`;
+    // this component re-fires its own once `value` is up to date.
+    e.stopPropagation();
     const el = e.target as HTMLInputElement;
     const clean = this.normalizeValue(el.value);
     if (clean !== el.value) el.value = clean;
@@ -309,9 +380,8 @@ export class LoomiInput extends LoomiElement {
   };
 
   private renderIcon(name: string, cls = "loomi-icon"): TemplateResult | typeof nothing {
-    const path = getLoomiIcon(name);
-    if (!path) return nothing;
-    return html`<svg class=${cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${path}</svg>`;
+    if (!hasLoomiIcon(name)) return nothing;
+    return html`<svg class=${cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${loomiIcon(name)}</svg>`;
   }
 
   private parseOptions(options: string): string[] {
@@ -361,7 +431,7 @@ export class LoomiInput extends LoomiElement {
 
   private renderAffixSelect(kind: "prefix" | "suffix", options: string[]): TemplateResult {
     const value = this.selectedAffix(kind, options);
-    return html`<select class="loomi-affix-select" .value=${value} aria-label=${kind} @change=${(e: Event) => this.onAffixChange(kind, e)}>
+    return html`<select class="loomi-affix-select" .value=${value} aria-label=${kind} @input=${(e: Event) => e.stopPropagation()} @change=${(e: Event) => this.onAffixChange(kind, e)}>
       ${options.map((option) => html`<option value=${option} ?selected=${option === value}>${option}</option>`)}
     </select>`;
   }
@@ -436,7 +506,7 @@ export class LoomiInput extends LoomiElement {
           <input
             class="loomi-input"
             part="input"
-            .value=${this.value}
+            .value=${live(this.value)}
             type=${this.type}
             name=${this.name || nothing}
             placeholder=${placeholderAttr}
@@ -448,6 +518,7 @@ export class LoomiInput extends LoomiElement {
             aria-invalid=${this.invalid ? "true" : "false"}
             @input=${this.onInput}
             @change=${this.onChange}
+            @keydown=${this.onFieldKeydown}
             @blur=${this.showValidation}
           />
           ${

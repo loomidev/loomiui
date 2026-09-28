@@ -3,16 +3,19 @@ import { themeStyles, type LoomiColor } from "@loomidev/theme";
 import { elevationStyles } from "./elevation.js";
 import { focusStyles } from "./focus.js";
 import { motionStyles } from "./motion.js";
+export * from "./caret.js";
 export * from "./dark-mode.js";
 export * from "./elevation.js";
 export * from "./field.js";
 export * from "./focus.js";
 export * from "./i18n.js";
+export * from "./implicit-submit.js";
 export * from "./mention.js";
 export * from "./menu-nav.js";
 export * from "./motion.js";
 export * from "./overlay.js";
 export * from "./size.js";
+export * from "./value.js";
 
 // Re-export the shared theme surface so components import everything from @loomidev/core.
 export {

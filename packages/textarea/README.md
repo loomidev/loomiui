@@ -46,6 +46,32 @@ Increase `rows` to make the textarea taller by default.
 <loomi-textarea label="Bio" rows="6"></loomi-textarea>
 ```
 
+## Inserting at the caret
+
+`insertText(text)` inserts at the caret, replacing any selected text, as if the user had
+typed it: `value` updates and `input` fires. The field keeps its caret while focus is on
+another button, so it works from your own toolbar. `selectionStart`, `selectionEnd` and
+`setSelectionRange()` read and set the caret, as on a native `<textarea>`.
+
+A custom maths toolbar:
+
+```html
+<loomi-textarea name="answer" label="Answer"></loomi-textarea>
+<div class="maths-toolbar">
+  <button type="button" data-insert="\frac{a}{b}">a/b</button>
+  <button type="button" data-insert="\sqrt{x}">√x</button>
+  <button type="button" data-insert="^{2}">x²</button>
+</div>
+
+<script type="module">
+  const field = document.querySelector('loomi-textarea[name="answer"]');
+  document.querySelector(".maths-toolbar").addEventListener("click", (event) => {
+    const text = event.target.closest("[data-insert]")?.dataset.insert;
+    if (text) field.insertText(text);
+  });
+</script>
+```
+
 ## Validation
 
 `validate()` returns `true`/`false` and, with `show-error-inline`, renders
@@ -175,7 +201,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 **Properties (JS only):** `mentionData` - `Record<string, { label, value?, description?, image? }[]>`.
 
-**Methods:** `focus()`, `validate()`. **Parts:** `field`, `textarea`, `mention-panel`.
+**Methods:** `focus()`, `validate()`, `insertText(text)`, `setSelectionRange()`; `selectionStart` and `selectionEnd` forward to the inner `<textarea>`. **Parts:** `field`, `textarea`, `mention-panel`.
 
 > Looking for a rich-text editor? See [`@loomidev/text-editor`](../text-editor),
 > split out from this component's former `toolbar` mode.
@@ -188,6 +214,8 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `change`               | -                    | The edited value was committed.       |
 | `loomi-mention-search` | `{ trigger, query }` | A mention query needs matching items. |
 | `loomi-mention-select` | `{ trigger, item }`  | A mention item was inserted.          |
+
+Setting `value` from JavaScript updates the field and the submitted form value without firing events; each keystroke fires exactly one `input`. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
 
 ```html
 <loomi-textarea
@@ -373,6 +401,14 @@ import "@loomidev/textarea";
 Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on the server before browser-only code runs. If your framework complains, move the Loomi import to client-side code. In Next.js, that usually means a component with `"use client"`; in Nuxt, it often means a `.client.ts` plugin.
 
 <!-- END loomi-framework-guide -->
+
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **20.2 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
 
 ## Dependencies
 

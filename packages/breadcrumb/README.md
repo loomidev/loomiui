@@ -124,6 +124,14 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | ----------------------------- | --------------------------------------------------------------------------- |
 | `loomi-breadcrumb-item-click` | Fired when a linked item is clicked. `detail: { href, label }`. Cancelable. |
 
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **17.5 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
+
 ## Dependencies
 
 - `@loomidev/core`

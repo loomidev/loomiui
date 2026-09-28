@@ -12,11 +12,17 @@ export const Number: ForwardRefExoticComponent<
     labelPosition?: JSX.IntrinsicElements["loomi-number"]["label-position"];
     transparentIcons?: JSX.IntrinsicElements["loomi-number"]["transparent-icons"];
     withDots?: JSX.IntrinsicElements["loomi-number"]["with-dots"];
+    noImplicitSubmit?: JSX.IntrinsicElements["loomi-number"]["no-implicit-submit"];
   }
 > = createComponent(
   "loomi-number",
   { input: "onInput", change: "onChange" },
-  { labelPosition: "label-position", transparentIcons: "transparent-icons", withDots: "with-dots" },
+  {
+    labelPosition: "label-position",
+    transparentIcons: "transparent-icons",
+    withDots: "with-dots",
+    noImplicitSubmit: "no-implicit-submit",
+  },
 ) as unknown as ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-number"], "onInput" | "onChange"> & {
     onInput?: (e: Event) => void;
@@ -24,5 +30,6 @@ export const Number: ForwardRefExoticComponent<
     labelPosition?: JSX.IntrinsicElements["loomi-number"]["label-position"];
     transparentIcons?: JSX.IntrinsicElements["loomi-number"]["transparent-icons"];
     withDots?: JSX.IntrinsicElements["loomi-number"]["with-dots"];
+    noImplicitSubmit?: JSX.IntrinsicElements["loomi-number"]["no-implicit-submit"];
   }
 >;

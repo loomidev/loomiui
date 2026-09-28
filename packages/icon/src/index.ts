@@ -1,9 +1,14 @@
 export { LoomiIcon } from "./loomi-icon.js";
 export {
   registerLoomiIcon,
+  provideLoomiIcons,
   getLoomiIcon,
+  hasLoomiIcon,
+  loadLoomiIcon,
+  loomiIcon,
   loomiIconNames,
   isLoomiDiskIconSource,
+  isLoomiDiskIconSourceRegistered,
   loomiDiskIconNames,
   loomiDiskIconTypes,
   getLoomiDiskIconUrl,

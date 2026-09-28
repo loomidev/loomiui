@@ -93,6 +93,8 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `input`                     | Fired while the value is edited.                   |
 | `loomi-autocomplete-select` | Fired when an autocomplete suggestion is selected. |
 
+Setting `value` (comma-joined) or `tags` fires no events. Typing a draft fires `input` (`value` is unchanged until the draft becomes a tag); adding or removing a tag fires `input` then `change`. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
+
 ## Methods
 
 | Member                | Description                                                        |
@@ -101,6 +103,14 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `.value`              | Comma-separated submitted value.                                   |
 | `focus()` / `clear()` | Focus the draft input or remove all tags.                          |
 | `validate()`          | Runs required validation and returns whether the control is valid. |
+
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **23.7 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 96.6 KB. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
 
 ## Dependencies
 

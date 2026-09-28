@@ -167,10 +167,13 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Events
 
-| Event                   | Description                                   |
-| ----------------------- | --------------------------------------------- |
-| `change`                | Fired when the value is committed or changed. |
-| `loomi-checkcard-click` | Fired when a checkcard is activated.          |
+| Event                   | Description                                                           |
+| ----------------------- | --------------------------------------------------------------------- |
+| `input`                 | Fired when the user changes the selection, after `value` has updated. |
+| `change`                | Fired when the user changes the selection. `detail: { values }`.      |
+| `loomi-checkcard-click` | Fired when a checkcard is activated.                                  |
+
+Read or set the selection with `value` (comma-joined) or `values` (a `string[]`); setting either fires no events, and changing `selected-value` later is honored too. A card click fires `input` then `change`. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
 
 ## Full Example
 
@@ -373,6 +376,14 @@ import "@loomidev/checkcards";
 Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on the server before browser-only code runs. If your framework complains, move the Loomi import to client-side code. In Next.js, that usually means a component with `"use client"`; in Nuxt, it often means a `.client.ts` plugin.
 
 <!-- END loomi-framework-guide -->
+
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **8.9 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 81.6 KB. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
 
 ## Dependencies
 

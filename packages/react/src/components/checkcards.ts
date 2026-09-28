@@ -6,7 +6,8 @@ import { createComponent } from "../create-component.js";
 import "@loomidev/components/checkcards";
 
 export const Checkcards: ForwardRefExoticComponent<
-  Omit<JSX.IntrinsicElements["loomi-checkcards"], "onChange"> & {
+  Omit<JSX.IntrinsicElements["loomi-checkcards"], "onInput" | "onChange"> & {
+    onInput?: (e: CustomEvent) => void;
     onChange?: (e: CustomEvent) => void;
     borderColor?: JSX.IntrinsicElements["loomi-checkcards"]["border-color"];
     borderWidth?: JSX.IntrinsicElements["loomi-checkcards"]["border-width"];
@@ -16,7 +17,7 @@ export const Checkcards: ForwardRefExoticComponent<
   }
 > = createComponent(
   "loomi-checkcards",
-  { change: "onChange" },
+  { input: "onInput", change: "onChange" },
   {
     borderColor: "border-color",
     borderWidth: "border-width",
@@ -25,7 +26,8 @@ export const Checkcards: ForwardRefExoticComponent<
     alignItems: "align-items",
   },
 ) as unknown as ForwardRefExoticComponent<
-  Omit<JSX.IntrinsicElements["loomi-checkcards"], "onChange"> & {
+  Omit<JSX.IntrinsicElements["loomi-checkcards"], "onInput" | "onChange"> & {
+    onInput?: (e: CustomEvent) => void;
     onChange?: (e: CustomEvent) => void;
     borderColor?: JSX.IntrinsicElements["loomi-checkcards"]["border-color"];
     borderWidth?: JSX.IntrinsicElements["loomi-checkcards"]["border-width"];

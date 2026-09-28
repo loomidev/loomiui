@@ -1,5 +1,6 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property, state, queryAll } from "lit/decorators.js";
+import { live } from "lit/directives/live.js";
 import {
   LoomiElement,
   loomiDefaultText,
@@ -9,6 +10,7 @@ import {
   resolveLoomiSize,
   type LoomiSize,
   type LoomiSizeSupport,
+  implicitlySubmit,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 const DEFAULT_ERROR_MESSAGE = "Verification code is invalid";
@@ -34,6 +36,9 @@ const OTP_STRIP: Record<LoomiOtpType, RegExp> = {
  * Form-associated: submits the joined code under `name`. `type` controls the accepted
  * characters: `numeric` (default, digits only — the classic PIN), `alphanumeric`, or `text`.
  *
+ * @fires input - Fired on every user edit (typing, deleting or pasting), after `value` has
+ *   updated (composed).
+ * @fires change - Fired when focus leaves the boxes after the code changed (composed).
  * @fires loomi-verify - `detail: { code, pin }` when the last box is filled (`pin` is a
  *   deprecated alias of `code`).
  */
@@ -44,6 +49,8 @@ export class LoomiOtp extends LoomiElement {
   /** Size names this component supports, from the canonical `LoomiSize` scale. */
   static readonly supportedSizes = { size: OTP_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
+  /** Counts as a field that blocks implicit submission, like a native text `<input>`. */
+  static blocksImplicitSubmission = true;
   private internals = this.attachInternals();
   /** Falls back to a stable per-instance id when `name` is blank, so a `loomi-notification` toast (see `showError`) re-renders in place across repeated validation failures instead of stacking. */
   private readonly instanceId = randomSuffix();
@@ -59,6 +66,8 @@ export class LoomiOtp extends LoomiElement {
   @property({ type: Boolean, reflect: true }) separator = false;
   @property({ type: Boolean, attribute: "hide-digits" }) hideDigits = false;
   @property({ type: Boolean }) mask = false;
+  /** Stops Enter from submitting the owning form once every box is filled. */
+  @property({ type: Boolean, attribute: "no-implicit-submit" }) noImplicitSubmit = false;
   @property({ attribute: "error-message" }) errorMessage = DEFAULT_ERROR_MESSAGE;
   @property({ type: Boolean, attribute: "show-error-inline" }) showErrorInline = false;
   @property() locale = "";
@@ -71,13 +80,19 @@ export class LoomiOtp extends LoomiElement {
   @state() private digits: string[] = [];
   @queryAll("input") private boxes!: NodeListOf<HTMLInputElement>;
 
+  /** The code as of the last `change` (or programmatic set); focus leaving fires `change` past it. */
+  private committedCode = "";
+
   override connectedCallback(): void {
     super.connectedCallback();
-    this.digits = Array(this.totalDigits).fill("");
+    // Keep whatever is already entered (a `value` set before connecting, or a move in the
+    // DOM), sized to the current box count.
+    this.digits = Array.from({ length: this.totalDigits }, (_, i) => this.digits[i] ?? "");
   }
 
   formResetCallback(): void {
     this.digits = Array(this.totalDigits).fill("");
+    this.committedCode = "";
     this.internals.setFormValue("");
     this.resetValidationState();
   }
@@ -85,6 +100,24 @@ export class LoomiOtp extends LoomiElement {
   /** The current code. */
   get code(): string {
     return this.digits.join("");
+  }
+
+  /**
+   * The current code — the same string the form submits. Setting it fills the boxes
+   * (dropping characters `type` doesn't accept, and any beyond `total-digits`) without
+   * firing `input`, `change` or `loomi-verify`, like setting a native input's `value`.
+   */
+  get value(): string {
+    return this.code;
+  }
+  set value(value: string) {
+    const chars = Array.from(String(value ?? "").replace(OTP_STRIP[this.type] ?? /$^/, "")).slice(
+      0,
+      this.totalDigits,
+    );
+    this.digits = Array.from({ length: this.totalDigits }, (_, i) => chars[i] ?? "");
+    this.committedCode = this.code;
+    this.internals.setFormValue(this.code);
   }
 
   /** @deprecated Use `code` instead. */
@@ -95,6 +128,7 @@ export class LoomiOtp extends LoomiElement {
   /** Clear all boxes and focus the first. */
   clear(): void {
     this.digits = Array(this.totalDigits).fill("");
+    this.committedCode = "";
     this.internals.setFormValue("");
     this.resetValidationState();
     this.updateComplete.then(() => this.boxes[0]?.focus());
@@ -189,7 +223,7 @@ export class LoomiOtp extends LoomiElement {
         aria-label=${loomiT("otp.digitLabel", { number: i + 1 }, this.locale)}
         aria-invalid=${this.invalid ? "true" : "false"}
         ?disabled=${this.validating}
-        .value=${value}
+        .value=${live(value)}
         @input=${(e: Event) => this.onInput(i, e)}
         @keydown=${(e: KeyboardEvent) => this.onKeydown(i, e)}
       />
@@ -198,6 +232,9 @@ export class LoomiOtp extends LoomiElement {
   }
 
   private onInput(i: number, e: Event): void {
+    // The native `input` event is composed and would reach the host before `value` has
+    // caught up; re-fire our own from the host once it has.
+    e.stopPropagation();
     const input = e.target as HTMLInputElement;
     const ch = input.value.replace(OTP_STRIP[this.type], "").slice(-1);
     // Reflect the filtered value straight into the DOM: when a rejected keystroke leaves
@@ -209,7 +246,21 @@ export class LoomiOtp extends LoomiElement {
     this.digits = next;
     if (this.invalid || this.valid || this.validating) this.resetValidationState();
     if (ch && i < this.totalDigits - 1) this.boxes[i + 1]?.focus();
+    this.emit("input");
     this.commit();
+  }
+
+  private emit(type: "input" | "change"): void {
+    this.dispatchEvent(new Event(type, { bubbles: true, composed: true }));
+  }
+
+  /** Focus moving between boxes stays inside the control; only leaving it commits. */
+  private onFocusOut(e: FocusEvent): void {
+    const next = e.relatedTarget as Node | null;
+    if (next && this.renderRoot.contains(next)) return;
+    if (this.code === this.committedCode) return;
+    this.committedCode = this.code;
+    this.emit("change");
   }
 
   private onKeydown(i: number, e: KeyboardEvent): void {
@@ -238,6 +289,12 @@ export class LoomiOtp extends LoomiElement {
     if (e.key === "End") {
       e.preventDefault();
       this.boxes[this.totalDigits - 1]?.focus();
+      return;
+    }
+    // Enter submits the owning form like a native `<input>` — but only once the code is
+    // complete; a half-typed code would just fail validation.
+    if (this.code.length === this.totalDigits) {
+      implicitlySubmit(e, this.internals, { disabled: this.noImplicitSubmit });
     }
   }
 
@@ -250,6 +307,7 @@ export class LoomiOtp extends LoomiElement {
     const next = Array(this.totalDigits).fill("");
     for (let i = 0; i < text.length; i++) next[i] = text[i];
     this.digits = next;
+    this.emit("input");
     this.commit();
     this.updateComplete.then(() =>
       this.boxes[Math.min(text.length, this.totalDigits - 1)]?.focus(),
@@ -275,7 +333,7 @@ export class LoomiOtp extends LoomiElement {
 
   override render(): TemplateResult {
     const showError = this.invalid && this.showErrorInline && this.errorMessage;
-    return html`<div class="loomi-otp size-${resolveLoomiSize(this.size, OTP_SIZES)}" @paste=${(e: ClipboardEvent) => this.onPaste(e)}>
+    return html`<div class="loomi-otp size-${resolveLoomiSize(this.size, OTP_SIZES)}" @paste=${(e: ClipboardEvent) => this.onPaste(e)} @focusout=${(e: FocusEvent) => this.onFocusOut(e)}>
       ${Array.from(
         { length: this.totalDigits },
         (_, i) => html`

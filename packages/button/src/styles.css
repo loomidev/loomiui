@@ -257,6 +257,11 @@
   flex: none;
 }
 
+/* An unknown icon name, or one still loading, renders an empty <svg>: take no space. */
+.loomi-icon:empty {
+  display: none;
+}
+
 :host(:empty) .loomi-label {
   display: none;
 }

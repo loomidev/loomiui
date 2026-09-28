@@ -7,7 +7,8 @@ import { createComponent } from "../create-component.js";
 import "@loomidev/components/datepicker";
 
 export const Datepicker: ForwardRefExoticComponent<
-  Omit<JSX.IntrinsicElements["loomi-datepicker"], "onChange"> & {
+  Omit<JSX.IntrinsicElements["loomi-datepicker"], "onInput" | "onChange"> & {
+    onInput?: (e: Event) => void;
     onChange?: (e: LoomiDatepickerEventMap["change"]) => void;
     dpStyle?: JSX.IntrinsicElements["loomi-datepicker"]["dp-style"];
     selectedValue?: JSX.IntrinsicElements["loomi-datepicker"]["selected-value"];
@@ -18,7 +19,7 @@ export const Datepicker: ForwardRefExoticComponent<
   }
 > = createComponent(
   "loomi-datepicker",
-  { change: "onChange" },
+  { input: "onInput", change: "onChange" },
   {
     dpStyle: "dp-style",
     selectedValue: "selected-value",
@@ -28,7 +29,8 @@ export const Datepicker: ForwardRefExoticComponent<
     weekStarts: "week-starts",
   },
 ) as unknown as ForwardRefExoticComponent<
-  Omit<JSX.IntrinsicElements["loomi-datepicker"], "onChange"> & {
+  Omit<JSX.IntrinsicElements["loomi-datepicker"], "onInput" | "onChange"> & {
+    onInput?: (e: Event) => void;
     onChange?: (e: LoomiDatepickerEventMap["change"]) => void;
     dpStyle?: JSX.IntrinsicElements["loomi-datepicker"]["dp-style"];
     selectedValue?: JSX.IntrinsicElements["loomi-datepicker"]["selected-value"];
