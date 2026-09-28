@@ -12,6 +12,7 @@ import {
   resolveLoomiSize,
   type LoomiSize,
   type LoomiSizeSupport,
+  implicitlySubmit,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -36,6 +37,8 @@ export class LoomiNumber extends LoomiElement {
   /** Size names this component supports, from the canonical `LoomiSize` scale — shared by every form control. */
   static readonly supportedSizes = { size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
+  /** Counts as a field that blocks implicit submission, like a native text `<input>`. */
+  static blocksImplicitSubmission = true;
 
   private internals = this.attachInternals();
   private validationVisible = false;
@@ -56,6 +59,8 @@ export class LoomiNumber extends LoomiElement {
   @property({ type: Boolean, attribute: "transparent-icons" }) transparentIcons = true;
   @property({ type: Boolean, attribute: "with-dots" }) withDots = true;
   @property({ type: Boolean, reflect: true }) required = false;
+  /** Stops Enter in this field from submitting its form (native implicit submission). */
+  @property({ type: Boolean, attribute: "no-implicit-submit" }) noImplicitSubmit = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) invalid = false;
 
@@ -110,6 +115,11 @@ export class LoomiNumber extends LoomiElement {
     if (this.disabled) return;
     this.setValue(this.current + dir * this.step);
   }
+
+  /** Enter submits the owning form, like a native single-line `<input>`. */
+  private onFieldKeydown = (e: KeyboardEvent): void => {
+    implicitlySubmit(e, this.internals, { disabled: this.noImplicitSubmit });
+  };
 
   private onInput = (e: Event): void => {
     // The native `input` event is composed and would reach the host as a second `input`;
@@ -204,6 +214,7 @@ export class LoomiNumber extends LoomiElement {
             aria-invalid=${this.invalid ? "true" : "false"}
             @input=${this.onInput}
             @change=${this.onChange}
+            @keydown=${this.onFieldKeydown}
             @blur=${this.showValidation}
           />
           ${
