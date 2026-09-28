@@ -116,11 +116,20 @@
             },
             {
               "kind": "field",
+              "name": "_value",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
               "name": "value",
               "type": {
                 "text": "string"
               },
-              "default": "\"\"",
+              "description": "Current value. Like a native input's, anything assigned is coerced to a string (`null`/`undefined` become `\"\"`).",
               "attribute": "value"
             },
             {
@@ -450,7 +459,7 @@
               "type": {
                 "text": "string"
               },
-              "default": "\"\"",
+              "description": "Current value. Like a native input's, anything assigned is coerced to a string (`null`/`undefined` become `\"\"`).",
               "fieldName": "value"
             },
             {
