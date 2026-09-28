@@ -41,6 +41,22 @@
         },
         {
           "kind": "js",
+          "name": "hasLoomiIcon",
+          "declaration": {
+            "name": "hasLoomiIcon",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "loadLoomiIcon",
+          "declaration": {
+            "name": "loadLoomiIcon",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
           "name": "loomiIconNames",
           "declaration": {
             "name": "loomiIconNames",

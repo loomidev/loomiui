@@ -8,7 +8,16 @@ import {
   type LoomiSize,
   type LoomiSizeSupport,
 } from "@loomidev/core";
-import { getLoomiIcon } from "@loomidev/icons";
+import { hasLoomiIcon, loomiIcon, provideLoomiIcons } from "@loomidev/icons";
+import chevronDoubleLeftIcon from "@loomidev/icons/heroicons/outline/chevron-double-left.js";
+import chevronDoubleRightIcon from "@loomidev/icons/heroicons/outline/chevron-double-right.js";
+
+// This component's own icons ship inline so they render on first paint; any other
+// `icon` name loads on demand.
+provideLoomiIcons({
+  "chevron-double-left": chevronDoubleLeftIcon,
+  "chevron-double-right": chevronDoubleRightIcon,
+});
 
 export type LoomiSideNavState = "expanded" | "icons" | "hidden";
 export type LoomiSideNavCollapseMode = "icons" | "hidden";
@@ -104,9 +113,8 @@ export class LoomiSideNavItem extends LoomiElement {
 
   private renderIcon(): TemplateResult | typeof nothing {
     if (!this.icon) return nothing;
-    const path = getLoomiIcon(this.icon);
-    if (!path) return nothing;
-    return html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${path}</svg>`;
+    if (!hasLoomiIcon(this.icon)) return nothing;
+    return html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${loomiIcon(this.icon)}</svg>`;
   }
 
   override render(): TemplateResult {
@@ -275,7 +283,7 @@ export class LoomiSideNav extends LoomiElement {
   private renderToggleIcon(): TemplateResult {
     const icon = this.state === "expanded" ? "chevron-double-left" : "chevron-double-right";
     return html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-      ${getLoomiIcon(icon)}
+      ${loomiIcon(icon)}
     </svg>`;
   }
 

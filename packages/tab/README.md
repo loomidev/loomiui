@@ -142,10 +142,11 @@ registerLoomiIcon("rocket", svg`<path d="…" />`);
 ### Other icon sets
 
 Heading icons render through [`<loomi-icon>`](../icon), so `icon-source` can pick the
-disk-based `iconsax` or `untitledui` sets as well as the default inline heroicons, and
-`icon-variant` picks `outline`, `solid` or `twotone` (iconsax only). Disk icons load on
-first use, with no registration, and match heroicon tabs in size and colour, including
-the active and hover states.
+disk-based `iconsax` or `untitledui` sets as well as the default heroicons, and
+`icon-variant` picks `outline`, `solid` or `twotone` (iconsax only). The disk-based sets
+are opt-in: import each one you use once, with `import "@loomidev/icons/iconsax";`. Their
+icons load on first use and match heroicon tabs in size and colour, including the active
+and hover states.
 
 ```html
 <loomi-tabs>
@@ -428,6 +429,14 @@ import "@loomidev/tab";
 Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on the server before browser-only code runs. If your framework complains, move the Loomi import to client-side code. In Next.js, that usually means a component with `"use client"`; in Nuxt, it often means a `.client.ts` plugin.
 
 <!-- END loomi-framework-guide -->
+
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **9.3 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 82.2 KB. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
 
 ## Dependencies
 

@@ -1,12 +1,19 @@
 import { html, fixture, expect } from "@open-wc/testing";
 import { waitFor } from "../../../test/wait.js";
 import "../dist/loomi-icon.js";
+// Disk-based sources are opt-in; this is what `import "@loomidev/icons/iconsax"` loads.
+import "../../icons/dist/generated/sources/iconsax.js";
+import "../../icons/dist/generated/sources/untitledui.js";
 import type { LoomiIcon } from "../dist/index.js";
 
 // Disk-based icons resolve through two dynamic imports (the source's barrel, then the
 // icon module). The first pair in a run pays for a cold dev-server transform, which a
 // loaded CI runner does not always finish inside waitUntil's 1s default even though the
 // icon arrives fine — hence the shared budget.
+async function iconReady(el: LoomiIcon) {
+  await waitFor(() => !!el.shadowRoot!.querySelector("svg path"));
+}
+
 async function diskIconReady(el: LoomiIcon) {
   await waitFor(() => (el.shadowRoot!.querySelector("svg")?.childElementCount ?? 0) > 0);
 }
@@ -14,6 +21,8 @@ async function diskIconReady(el: LoomiIcon) {
 describe("loomi-icon", () => {
   it("renders Heroicons outline by default", async () => {
     const el = await fixture<LoomiIcon>(html`<loomi-icon name="bell-alert"></loomi-icon>`);
+    // Heroicons load one icon at a time, on first use.
+    await iconReady(el);
     const svg = el.shadowRoot!.querySelector("svg")!;
 
     expect(svg.getAttribute("fill")).to.equal("none");
@@ -25,6 +34,8 @@ describe("loomi-icon", () => {
     const el = await fixture<LoomiIcon>(
       html`<loomi-icon name="bell-alert" variant="solid"></loomi-icon>`,
     );
+    // Heroicons load one icon at a time, on first use.
+    await iconReady(el);
     const svg = el.shadowRoot!.querySelector("svg")!;
 
     expect(svg.getAttribute("fill")).to.equal("currentColor");

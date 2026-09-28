@@ -300,6 +300,14 @@ Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on 
 
 <!-- END loomi-framework-guide -->
 
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **19.0 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
+
 ## Dependencies
 
 - `@loomidev/core`

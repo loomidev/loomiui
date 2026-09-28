@@ -1,12 +1,19 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { LoomiElement, loomiStyles } from "@loomidev/core";
-import { getLoomiIcon } from "@loomidev/icons";
+import { loomiIcon, provideLoomiIcons } from "@loomidev/icons";
+import envelopeIcon from "@loomidev/icons/heroicons/outline/envelope.js";
+import phoneIcon from "@loomidev/icons/heroicons/outline/phone.js";
+import cakeIcon from "@loomidev/icons/heroicons/outline/cake.js";
 import "@loomidev/card/loomi-card.js";
 import { componentStyles } from "./generated/styles.css.js";
 
+// This component's own icons ship inline so they render on first paint; any other
+// `icon` name loads on demand.
+provideLoomiIcons({ envelope: envelopeIcon, phone: phoneIcon, cake: cakeIcon });
+
 function icon(name: string): TemplateResult {
-  return html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${getLoomiIcon(name)}</svg>`;
+  return html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${loomiIcon(name)}</svg>`;
 }
 
 /**

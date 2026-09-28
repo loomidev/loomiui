@@ -2,7 +2,8 @@ import { html, nothing, type PropertyValues, type TemplateResult, isServer } fro
 import { customElement, property, state } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, accentVars } from "@loomidev/core";
 import {
-  getLoomiIcon,
+  hasLoomiIcon,
+  loomiIcon,
   hasLoomiDiskIcon,
   loadLoomiDiskIcon,
   isLoomiDiskIconSource,
@@ -22,10 +23,10 @@ const RADII: readonly LoomiIconRadius[] = ["none", "small", "medium", "full"];
  * `<loomi-icon>` — renders an icon from the shared `@loomidev/icons` registry by `name`,
  * a file from a custom directory, or any custom SVG placed in the default slot.
  *
- * `source` picks the icon set. `heroicons` (default) is inlined at build time. `iconsax`
- * and `untitledui` are disk-based: their real `.svg` files ship inside `@loomidev/icons`
- * and are fetched (and cached in memory) the first time each one is used, instead of
- * bloating every consumer's bundle with every icon in the set. All registry icons follow
+ * `source` picks the icon set. Every icon loads on first use (and is cached in memory),
+ * one icon at a time, instead of bloating every consumer's bundle with a whole set.
+ * `heroicons` (default) is always available; `iconsax` and `untitledui` are opt-in —
+ * `import "@loomidev/icons/iconsax"` once to enable one. All registry icons follow
  * `currentColor`; file icons (via `directory`) render as images instead. Size is
  * controlled with the `size` attribute or the `--loomi-icon-size` custom property.
  *
@@ -127,8 +128,7 @@ export class LoomiIcon extends LoomiElement {
     }
 
     const variant = this.variant === "solid" ? "solid" : "outline";
-    const path = this.name ? getLoomiIcon(this.name, variant) : undefined;
-    if (!path) {
+    if (!this.name || !hasLoomiIcon(this.name, variant)) {
       // No registry match — render whatever SVG is slotted.
       return html`<slot role=${role} aria-label=${ariaLabel} aria-hidden=${ariaHidden}></slot>`;
     }
@@ -141,7 +141,7 @@ export class LoomiIcon extends LoomiElement {
       aria-label=${ariaLabel}
       aria-hidden=${ariaHidden}
     >
-      ${path}
+      ${loomiIcon(this.name, variant)}
     </svg>`;
   }
 

@@ -455,6 +455,14 @@ the event always gives you the original element and index.
 The user may have enabled reduced-motion preferences. In that mode, the scroller intentionally
 becomes manually scrollable instead of animating.
 
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **6.1 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
+
 ## Dependencies
 
 - `@loomidev/core`

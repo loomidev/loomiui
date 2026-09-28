@@ -122,6 +122,14 @@ Both detail shapes are `{ logic, rules }` - the same object `fields`/`rules` des
 - Apps should translate the emitted rules into SQL, API query params, GraphQL variables, or table-local filters.
 - Server-side tables should listen for `loomi-filter-apply` and refresh data from the backend.
 
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **18.4 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
+
 ## Dependencies
 
 - `@loomidev/core`

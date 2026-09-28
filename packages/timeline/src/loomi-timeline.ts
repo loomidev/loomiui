@@ -1,7 +1,7 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomidev/core";
-import { getLoomiIcon } from "@loomidev/icons";
+import { hasLoomiIcon, loomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiTimelinePlacement = "left" | "right" | "alternate";
@@ -37,8 +37,8 @@ export class LoomiTimelineItem extends LoomiElement {
     let inner: unknown = nothing;
     if (big) {
       if (this.avatar) inner = html`<img src=${this.avatar} alt="" />`;
-      else if (this.icon && getLoomiIcon(this.icon))
-        inner = html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${getLoomiIcon(this.icon)}</svg>`;
+      else if (this.icon && hasLoomiIcon(this.icon))
+        inner = html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${loomiIcon(this.icon)}</svg>`;
       else if (this.completed)
         inner = html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">${CHECK}</svg>`;
     }

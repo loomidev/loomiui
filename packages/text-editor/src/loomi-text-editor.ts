@@ -10,12 +10,58 @@ import {
 } from "@loomidev/core";
 import "@loomidev/filepicker/loomi-filepicker.js";
 import "@loomidev/icon/loomi-icon.js";
+import { provideLoomiIcons, registerLoomiDiskIcon } from "@loomidev/icons";
+import untitleduiHeading01 from "@loomidev/icons/icons/untitledui/outline/heading-01.js";
+import untitleduiBold01 from "@loomidev/icons/icons/untitledui/outline/bold-01.js";
+import untitleduiItalic01 from "@loomidev/icons/icons/untitledui/outline/italic-01.js";
+import untitleduiUnderline01 from "@loomidev/icons/icons/untitledui/outline/underline-01.js";
+import untitleduiStrikethrough01 from "@loomidev/icons/icons/untitledui/outline/strikethrough-01.js";
+import untitleduiType01 from "@loomidev/icons/icons/untitledui/outline/type-01.js";
+import untitleduiAlignLeft from "@loomidev/icons/icons/untitledui/outline/align-left.js";
+import untitleduiAlignCenter from "@loomidev/icons/icons/untitledui/outline/align-center.js";
+import untitleduiAlignRight from "@loomidev/icons/icons/untitledui/outline/align-right.js";
+import untitleduiAlignJustify from "@loomidev/icons/icons/untitledui/outline/align-justify.js";
+import iconsaxQuoteDown from "@loomidev/icons/icons/iconsax/outline/quote-down.js";
+import heroPaintBrush from "@loomidev/icons/heroicons/outline/paint-brush.js";
+import heroListBullet from "@loomidev/icons/heroicons/outline/list-bullet.js";
+import heroNumberedList from "@loomidev/icons/heroicons/outline/numbered-list.js";
+import heroCodeBracket from "@loomidev/icons/heroicons/outline/code-bracket.js";
+import heroCodeBracketSquare from "@loomidev/icons/heroicons/outline/code-bracket-square.js";
+import heroLink from "@loomidev/icons/heroicons/outline/link.js";
+import heroPhoto from "@loomidev/icons/heroicons/outline/photo.js";
+import heroVideoCamera from "@loomidev/icons/heroicons/outline/video-camera.js";
+import heroSparkles from "@loomidev/icons/heroicons/outline/sparkles.js";
 import "@loomidev/input/loomi-input.js";
 import "@loomidev/modal/loomi-modal.js";
 import type { LoomiModal } from "@loomidev/modal";
 import "@loomidev/select/loomi-select.js";
 import "@loomidev/tooltip/loomi-tooltip.js";
 import { componentStyles } from "./generated/styles.css.js";
+
+// The toolbar's icons ship inline, so they render on first paint and the Iconsax and
+// Untitled UI sets don't have to be enabled app-wide just for the editor.
+registerLoomiDiskIcon("untitledui", "heading-01", untitleduiHeading01);
+registerLoomiDiskIcon("untitledui", "bold-01", untitleduiBold01);
+registerLoomiDiskIcon("untitledui", "italic-01", untitleduiItalic01);
+registerLoomiDiskIcon("untitledui", "underline-01", untitleduiUnderline01);
+registerLoomiDiskIcon("untitledui", "strikethrough-01", untitleduiStrikethrough01);
+registerLoomiDiskIcon("untitledui", "type-01", untitleduiType01);
+registerLoomiDiskIcon("untitledui", "align-left", untitleduiAlignLeft);
+registerLoomiDiskIcon("untitledui", "align-center", untitleduiAlignCenter);
+registerLoomiDiskIcon("untitledui", "align-right", untitleduiAlignRight);
+registerLoomiDiskIcon("untitledui", "align-justify", untitleduiAlignJustify);
+registerLoomiDiskIcon("iconsax", "quote-down", iconsaxQuoteDown);
+provideLoomiIcons({
+  "paint-brush": heroPaintBrush,
+  "list-bullet": heroListBullet,
+  "numbered-list": heroNumberedList,
+  "code-bracket": heroCodeBracket,
+  "code-bracket-square": heroCodeBracketSquare,
+  link: heroLink,
+  photo: heroPhoto,
+  "video-camera": heroVideoCamera,
+  sparkles: heroSparkles,
+});
 
 /**
  * Keeps an internal control's composed `input`/`change` from surfacing on the editor host,

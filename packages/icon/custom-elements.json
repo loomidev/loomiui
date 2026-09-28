@@ -25,9 +25,41 @@
         },
         {
           "kind": "js",
+          "name": "provideLoomiIcons",
+          "declaration": {
+            "name": "provideLoomiIcons",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
           "name": "getLoomiIcon",
           "declaration": {
             "name": "getLoomiIcon",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "hasLoomiIcon",
+          "declaration": {
+            "name": "hasLoomiIcon",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "loadLoomiIcon",
+          "declaration": {
+            "name": "loadLoomiIcon",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "loomiIcon",
+          "declaration": {
+            "name": "loomiIcon",
             "module": "@loomidev/icons"
           }
         },
@@ -44,6 +76,14 @@
           "name": "isLoomiDiskIconSource",
           "declaration": {
             "name": "isLoomiDiskIconSource",
+            "module": "@loomidev/icons"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "isLoomiDiskIconSourceRegistered",
+          "declaration": {
+            "name": "isLoomiDiskIconSourceRegistered",
             "module": "@loomidev/icons"
           }
         },
@@ -143,7 +183,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<loomi-icon>` — renders an icon from the shared `@loomidev/icons` registry by `name`,\na file from a custom directory, or any custom SVG placed in the default slot.\n\n`source` picks the icon set. `heroicons` (default) is inlined at build time. `iconsax`\nand `untitledui` are disk-based: their real `.svg` files ship inside `@loomidev/icons`\nand are fetched (and cached in memory) the first time each one is used, instead of\nbloating every consumer's bundle with every icon in the set. All registry icons follow\n`currentColor`; file icons (via `directory`) render as images instead. Size is\ncontrolled with the `size` attribute or the `--loomi-icon-size` custom property.\n\nSet `branded` to sit the icon on a rounded, primary-colored background badge instead\nof rendering it bare — `shade` picks a light tint or a solid fill, `radius` picks the\ncorner rounding.",
+          "description": "`<loomi-icon>` — renders an icon from the shared `@loomidev/icons` registry by `name`,\na file from a custom directory, or any custom SVG placed in the default slot.\n\n`source` picks the icon set. Every icon loads on first use (and is cached in memory),\none icon at a time, instead of bloating every consumer's bundle with a whole set.\n`heroicons` (default) is always available; `iconsax` and `untitledui` are opt-in —\n`import \"@loomidev/icons/iconsax\"` once to enable one. All registry icons follow\n`currentColor`; file icons (via `directory`) render as images instead. Size is\ncontrolled with the `size` attribute or the `--loomi-icon-size` custom property.\n\nSet `branded` to sit the icon on a rounded, primary-colored background badge instead\nof rendering it bare — `shade` picks a light tint or a solid fill, `radius` picks the\ncorner rounding.",
           "name": "LoomiIcon",
           "cssProperties": [
             {

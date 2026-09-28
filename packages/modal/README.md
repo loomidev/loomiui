@@ -86,6 +86,7 @@ a prebuilt `type`'s default icon. Modal icons render through `<loomi-icon>`.
 
 `icon` renders from `heroicons` by default. Set `icon-source` to pull from a different
 set instead - `iconsax` or `untitledui` - matching `<loomi-icon>`'s own `source` attribute.
+Those sets are opt-in: import each one you use once, with `import "@loomidev/icons/iconsax";`.
 
 ```html
 <loomi-button onclick="showLoomiModal('iconsax-modal')">Iconsax Icon</loomi-button>
@@ -477,6 +478,14 @@ import "@loomidev/modal";
 Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on the server before browser-only code runs. If your framework complains, move the Loomi import to client-side code. In Next.js, that usually means a component with `"use client"`; in Nuxt, it often means a `.client.ts` plugin.
 
 <!-- END loomi-framework-guide -->
+
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **27.7 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 100.7 KB. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
 
 ## Dependencies
 

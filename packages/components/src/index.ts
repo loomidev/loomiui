@@ -80,7 +80,13 @@ export * from "@loomidev/video";
 export * from "@loomidev/photo-gallery";
 export * from "@loomidev/profile-menu";
 
-export { registerLoomiIcon, getLoomiIcon, loomiIconNames } from "@loomidev/icons";
+export {
+  registerLoomiIcon,
+  getLoomiIcon,
+  hasLoomiIcon,
+  loadLoomiIcon,
+  loomiIconNames,
+} from "@loomidev/icons";
 
 export {
   LOOMI_COLORS,

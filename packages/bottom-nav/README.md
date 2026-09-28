@@ -99,7 +99,8 @@ inset island instead of an edge-to-edge dock.
 
 Icons render through `<loomi-icon>`. Set `icon-source` on the parent to change the icon
 set for every item at once, or on an individual `<loomi-bottom-nav-item>` to override just
-that one:
+that one. The `iconsax` and `untitledui` sets are opt-in: import each one you use once,
+with `import "@loomidev/icons/iconsax";`.
 
 ```html
 <loomi-bottom-nav icon-source="iconsax" active="home">
@@ -235,6 +236,14 @@ loomi-bottom-nav {
   --loomi-bottom-nav-active-dot-size: 6px;
 }
 ```
+
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **9.4 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 82.3 KB. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
 
 ## Dependencies
 

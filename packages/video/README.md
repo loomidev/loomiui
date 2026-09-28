@@ -211,6 +211,14 @@ Read-only getters mirror the underlying media element: `paused`, `ended`,
 `currentTime`, `duration`. `currentTime` is also settable (`player.currentTime
 = 30`), and forwards to `seek()`.
 
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **33.3 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 106.5 KB. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
+
 ## Dependencies
 
 - `@loomidev/core`

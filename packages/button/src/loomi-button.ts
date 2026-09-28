@@ -10,7 +10,7 @@ import {
   type LoomiSizeSupport,
   LOOMI_CONTROL_SIZES,
 } from "@loomidev/core";
-import { getLoomiIcon } from "./icons.js";
+import { hasLoomiIcon, loomiIcon } from "@loomidev/icons";
 import { buttonStyles } from "./generated/styles.css.js";
 
 export type LoomiButtonType = "primary" | "secondary";
@@ -304,8 +304,7 @@ export class LoomiButton extends LoomiElement {
 
   private renderIcon(): TemplateResult | typeof nothing {
     if (!this.icon) return nothing;
-    const path = getLoomiIcon(this.icon);
-    if (!path) return nothing;
+    if (!hasLoomiIcon(this.icon)) return nothing;
     return html`<svg
       class="loomi-icon"
       viewBox="0 0 24 24"
@@ -314,7 +313,7 @@ export class LoomiButton extends LoomiElement {
       stroke-width="1.5"
       aria-hidden="true"
     >
-      ${path}
+      ${loomiIcon(this.icon)}
     </svg>`;
   }
 

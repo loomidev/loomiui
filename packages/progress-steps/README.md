@@ -234,6 +234,14 @@ the stepper follows `.dark` mode and custom themes without hard-coded light bord
 
 For theme activation, token overrides, and contrast guidance, see [Foundations - Dark mode](https://loomiui.com/foundations/#dark-mode).
 
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **21.7 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
+
 ## Dependencies
 
 - `@loomidev/progress`

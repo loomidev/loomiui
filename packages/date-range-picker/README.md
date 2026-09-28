@@ -101,6 +101,14 @@ picker.addEventListener("loomi-date-range-apply", (event) => {
 - The component does not fetch data. Apps should listen for `loomi-date-range-apply` and refresh reports, tables, or charts.
 - Comparison dates are optional and only included in event values when comparison mode is enabled.
 
+<!-- bundle-size:start -->
+
+## Bundle size
+
+About **31.6 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 104.7 KB. Measured by `pnpm check:bundle-size`.
+
+<!-- bundle-size:end -->
+
 ## Dependencies
 
 - `@loomidev/button`

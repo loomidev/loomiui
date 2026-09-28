@@ -1,5 +1,4 @@
 import { css, type CSSResultGroup } from "lit";
-import type { LoomiSize } from "./size.js";
 
 /**
  * Keeps each field's existing label treatment by default, or places a compact,
@@ -23,15 +22,6 @@ export type LoomiFieldLabelPosition = "default" | "inside";
  * intentionally not declared on `:host`, so a `:root` value inherits through Shadow DOM.
  * Font size is deliberately left unscaled — density controls spacing, `size` controls type.
  */
-/** The part of the canonical size scale every form control supports (the `.size-*` rows below). */
-export const LOOMI_CONTROL_SIZES = [
-  "tiny",
-  "small",
-  "regular",
-  "medium",
-  "big",
-] as const satisfies readonly LoomiSize[];
-
 export const controlSizeStyles: CSSResultGroup = css`
   .size-tiny {
     --loomi-control-height: calc(var(--loomi-density, 1) * 2rem);
