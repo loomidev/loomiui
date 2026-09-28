@@ -46,6 +46,7 @@ interface LoomiAutocompleteAttributes {
   "image-key"?: string;
   "label-key"?: string;
   "label-position"?: LoomiAttributeValue;
+  "no-implicit-submit"?: boolean;
   "selected-value"?: string;
   "show-focus-ring"?: boolean;
   "value-key"?: string;
@@ -362,6 +363,7 @@ interface LoomiInputAttributes {
   "dynamic-mask"?: LoomiAttributeValue;
   "error-message"?: string;
   "label-position"?: LoomiAttributeValue;
+  "no-implicit-submit"?: boolean;
   "prefix-icon"?: string;
   "prefix-options"?: string;
   "prefix-value"?: string;
@@ -404,6 +406,7 @@ interface LoomiNotificationAttributes {
 
 interface LoomiNumberAttributes {
   "label-position"?: LoomiAttributeValue;
+  "no-implicit-submit"?: boolean;
   "transparent-icons"?: boolean;
   "with-dots"?: boolean;
 }
@@ -411,6 +414,7 @@ interface LoomiNumberAttributes {
 interface LoomiOtpAttributes {
   "error-message"?: LoomiAttributeValue;
   "hide-digits"?: boolean;
+  "no-implicit-submit"?: boolean;
   "show-error-inline"?: boolean;
   "total-digits"?: number;
 }
@@ -427,6 +431,7 @@ interface LoomiPaginationAttributes {
 interface LoomiPasswordAttributes {
   "error-message"?: string;
   "label-position"?: LoomiAttributeValue;
+  "no-implicit-submit"?: boolean;
   "prefix-icon"?: string;
   "prefix-options"?: string;
   "prefix-value"?: string;
