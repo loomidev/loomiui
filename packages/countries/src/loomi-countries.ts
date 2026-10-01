@@ -159,7 +159,7 @@ export class LoomiCountries extends LoomiElement {
 
   @property({ reflect: true }) name = "";
   @property() mode: LoomiCountriesMode = "names";
-  @property() label = "";
+  @property({ reflect: true }) label = "";
   /**
    * Accessible name for a picker with no visible `label`, forwarded to the trigger and
    * the option list. Ignored when `label` is set, which names both.

@@ -12,11 +12,17 @@
   position: relative;
   width: 100%;
 }
-.loomi-label {
+/* Inline layouts have no box, so their label stays a plain caption above the content.
+   The boxed field's notched label comes from core's fieldLabelStyles. */
+.loomi-label-static {
   display: block;
   font-size: 0.8rem;
   color: var(--loomi-text-muted);
   margin-bottom: 0.3rem;
+}
+/* With a label, the label stands in for the placeholder until the field floats it. */
+.loomi-text.hidden {
+  visibility: hidden;
 }
 .loomi-req {
   color: var(--loomi-error-500);

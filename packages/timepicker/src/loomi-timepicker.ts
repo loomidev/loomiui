@@ -3,6 +3,7 @@ import { customElement, property, query, state } from "lit/decorators.js";
 import {
   anchorFloatingPanel,
   controlSizeStyles,
+  fieldLabelStyles,
   fieldStyles,
   loomiDefaultText,
   LoomiElement,
@@ -102,7 +103,12 @@ const booleanAttribute = {
  */
 @customElement("loomi-timepicker")
 export class LoomiTimepicker extends LoomiElement {
-  static override styles = loomiStyles(controlSizeStyles, fieldStyles, componentStyles);
+  static override styles = loomiStyles(
+    controlSizeStyles,
+    fieldStyles,
+    fieldLabelStyles,
+    componentStyles,
+  );
 
   /** Size names this component supports, from the canonical `LoomiSize` scale — shared by every form control. */
   static readonly supportedSizes = { size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport;
@@ -118,7 +124,7 @@ export class LoomiTimepicker extends LoomiElement {
   @property({ attribute: "tp-style" }) tpStyle: "popup" | "inline" | "clock" = "popup";
   @property() format: "12" | "24" = "12";
   @property({ attribute: "selected-value" }) selectedValue = "";
-  @property() label = "";
+  @property({ reflect: true }) label = "";
   @property({ attribute: "label-position", reflect: true })
   labelPosition: LoomiFieldLabelPosition = "default";
   @property() placeholder = DEFAULT_PLACEHOLDER;
@@ -459,14 +465,17 @@ export class LoomiTimepicker extends LoomiElement {
 
   override render(): TemplateResult {
     if (this.tpStyle === "inline") {
-      return html`${this.label ? html`<span class="loomi-label">${this.label}</span>` : nothing}${this.renderSelects()}`;
+      return html`${this.label ? html`<span class="loomi-label-static">${this.label}</span>` : nothing}${this.renderSelects()}`;
     }
-    return html`<div class="loomi-tp size-${resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)} ${this.open ? "open" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}">
-      ${this.label ? html`<span class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req"> *</span>` : nothing}</span>` : nothing}
+    const hasLabel = !!this.label;
+    const float = hasLabel && (this.open || !!this.value);
+    const hidePlaceholder = hasLabel && !float && this.labelPosition !== "inside";
+    return html`<div class="loomi-tp size-${resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)} ${this.open ? "open" : ""} ${float ? "float" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}">
       <div class="loomi-field variant-${this.variant}" tabindex="0" @blur=${this.showValidation} @click=${() => this.onFieldClick()}>
-        <span class="loomi-text ${this.value ? "" : "placeholder"}">${this.value || loomiDefaultText(this.placeholder, DEFAULT_PLACEHOLDER, "timepicker.placeholder", this.locale)}${!this.value && this.required ? html`<span class="loomi-req"> *</span>` : nothing}</span>
+        <span class="loomi-text ${this.value ? "" : "placeholder"} ${hidePlaceholder ? "hidden" : ""}">${this.value || loomiDefaultText(this.placeholder, DEFAULT_PLACEHOLDER, "timepicker.placeholder", this.locale)}${!this.value && this.required && !hasLabel ? html`<span class="loomi-req"> *</span>` : nothing}</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${CLOCK}</svg>
       </div>
+      ${hasLabel ? html`<span class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</span>` : nothing}
       ${this.open && this.tpStyle !== "clock" ? html`<div class="loomi-panel" popover="manual" @click=${(e: Event) => e.stopPropagation()}>${this.renderSelects()}</div>` : nothing}
       <loomi-modal
         class="loomi-clock-modal"

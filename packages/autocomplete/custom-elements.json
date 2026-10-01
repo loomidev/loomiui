@@ -172,7 +172,8 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "attribute": "label"
+              "attribute": "label",
+              "reflects": true
             },
             {
               "kind": "field",

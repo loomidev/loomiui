@@ -80,11 +80,17 @@ select:focus {
   color: var(--loomi-text-faint);
   font-weight: 600;
 }
-.loomi-label {
+/* Inline layouts have no box, so their label stays a plain caption above the content.
+   The boxed field's notched label comes from core's fieldLabelStyles. */
+.loomi-label-static {
   display: block;
   font-size: 0.8rem;
   color: var(--loomi-text-muted);
   margin-bottom: 0.3rem;
+}
+/* With a label, the label stands in for the placeholder until the field floats it. */
+.loomi-text.hidden {
+  visibility: hidden;
 }
 /* The clock face (tp-style="clock") renders inside <loomi-modal>, which relocates its
    slotted content to document.body on show() — that content escapes this shadow root,

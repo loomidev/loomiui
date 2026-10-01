@@ -46,7 +46,7 @@ export class LoomiNumber extends LoomiElement {
   private initialValue = "";
 
   @property({ reflect: true }) name = "";
-  @property() label = "";
+  @property({ reflect: true }) label = "";
   @property({ attribute: "label-position", reflect: true })
   labelPosition: LoomiFieldLabelPosition = "default";
   @property() locale = "";
