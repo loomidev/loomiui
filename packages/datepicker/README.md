@@ -187,7 +187,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `week-starts`    | `sunday`        | `sunday` \| `monday`                                                                                                                             |
 | `placeholder`    | `Select a date` | Closed-field placeholder text.                                                                                                                   |
 | `label`          | _(blank)_       | Optional field label.                                                                                                                            |
-| `label-position` | `default`       | `default` keeps the label above the field; `inside` keeps a compact label inside the top of the field.                                           |
+| `label-position` | `default`       | `default` floats the label onto the field's top border, like `<loomi-input>`; `inside` keeps a compact label inside the top of the field.        |
 | `locale`         | _(global)_      | Override the shared Loomi locale for this datepicker.                                                                                            |
 | `required`       | `false`         | Append an asterisk. _(boolean)_                                                                                                                  |
 | `size`           | `regular`       | `tiny` \| `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |

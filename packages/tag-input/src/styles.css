@@ -28,7 +28,11 @@
   padding: 0.3125rem var(--loomi-control-pad-x);
 }
 .mode-inside .loomi-inputwrap {
-  min-height: calc(var(--loomi-control-height) - 0.625rem);
+  /* The field's border sits outside its padding, so it comes off too — otherwise an empty
+     tag input is two borders taller than every other control at the same size. */
+  min-height: calc(
+    var(--loomi-control-height) - 0.625rem - 2 * var(--loomi-control-border-width, 2px)
+  );
 }
 .mode-inside .loomi-input {
   padding-inline: 0;

@@ -80,7 +80,7 @@
   text-overflow: ellipsis;
 }
 .loomi-timezonepicker.float .loomi-label {
-  top: 0;
+  top: var(--loomi-control-border-width, 2px);
   transform: translateY(-50%) scale(0.85);
   color: var(--loomi-primary-600);
 }

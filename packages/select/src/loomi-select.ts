@@ -65,7 +65,7 @@ export class LoomiSelect extends LoomiElement {
 
   @property({ reflect: true }) name = "";
   @property() placeholder = DEFAULT_PLACEHOLDER;
-  @property() label = "";
+  @property({ reflect: true }) label = "";
   /**
    * Accessible name for a select with no visible `label`, forwarded to the trigger
    * button and the options listbox. Ignored when `label` is set, which names both.
