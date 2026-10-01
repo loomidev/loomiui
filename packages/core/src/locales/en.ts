@@ -150,6 +150,12 @@ export const en: LoomiTranslations = {
   },
   sortable: {
     dropHere: "Drop here",
+    reorderHandle: "Reorder. Press Space to pick up, or Alt and an arrow key to move.",
+    pickedUp:
+      "Picked up :label. Position :position of :total. Use the arrow keys to move, Space to drop, Escape to cancel.",
+    moved: ":label moved to position :position of :total.",
+    dropped: "Dropped :label at position :position of :total.",
+    cancelled: "Reordering cancelled. :label is back at position :position of :total.",
   },
   themeSwitcher: {
     light: "Light",
