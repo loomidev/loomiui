@@ -9,10 +9,10 @@ overrides:
   '@puppeteer/browsers': ^3.2.1
   esbuild: ^0.28.1
   hono: ^4.13.5
-  fast-uri: ^3.1.7
+  fast-uri: ^3.1.8
   js-yaml@3: ^3.15.1
   js-yaml@4: ^4.3.1
-  ip-address: ^10.3.1
+  ip-address: ^10.7.2
   qs: ^6.16.0
 
 importers:
@@ -4741,8 +4741,8 @@ packages:
     resolution: {integrity: sha512-D8WGsR6yDt8uq7vDMu7mjcR+yRMm3dW8yufyChmszWRjcSHuxLBkR3GdS2HZAjodsaGuCvXeEJpueisXJULghg==}
     engines: {node: '>=10'}
 
-  ip-address@10.5.0:
-    resolution: {integrity: sha512-R5SnVLJmgYYvf2F2ZgwSBnelz5G4q5AxIC277GDfUaNbrZKNANcBC7RHqYYePlszf4kBolVkJauG0ZjHHFh55g==}
+  ip-address@10.7.2:
+    resolution: {integrity: sha512-7H/2gFSIitxc0hG3nOI1glS8QLo/EHBFFLk8vEUjXY/xu0AdL8jZ9U1IzO2PUm0d2D/ofQcAifb0g6OBkt8U7w==}
     engines: {node: '>= 12'}
 
   ip-regex@4.3.0:
@@ -7542,7 +7542,7 @@ snapshots:
     dependencies:
       debug: 4.4.3
       express: 5.2.1
-      ip-address: 10.5.0
+      ip-address: 10.7.2
     transitivePeerDependencies:
       - supports-color
 
@@ -7811,7 +7811,7 @@ snapshots:
       is-ip: 3.1.0
       p-event: 4.2.0
 
-  ip-address@10.5.0: {}
+  ip-address@10.7.2: {}
 
   ip-regex@4.3.0: {}
 
