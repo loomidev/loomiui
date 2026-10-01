@@ -217,6 +217,58 @@ cancelled.
 </loomi-modal>
 ```
 
+## Confirm dialogs
+
+`loomiConfirm()` is the LoomiUI counterpart to `window.confirm()`: it returns a promise
+that resolves `true` only when OK is clicked. Cancel, <kbd>Escape</kbd>, a backdrop click
+and the close icon all resolve `false`. It's also available as `window.loomiConfirm`.
+
+```html
+<form id="reset-pin">
+  <loomi-button type="submit">Reset PIN</loomi-button>
+</form>
+<loomi-button id="delete-btn" color="error">Delete project</loomi-button>
+
+<script type="module">
+  import { loomiConfirm } from "@loomidev/modal";
+
+  // Guard a form submit: stop it, ask, then submit for real.
+  const form = document.getElementById("reset-pin");
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const ok = await loomiConfirm("Reset this PIN?", {
+      body: "They'll be signed out of every device.",
+      okLabel: "Yes, continue",
+    });
+    if (ok) form.submit(); // form.submit() skips the submit event, so no loop
+  });
+
+  // Guard a destructive button.
+  document.getElementById("delete-btn").addEventListener("click", async () => {
+    if (await loomiConfirm("Delete this project?", { type: "error", okLabel: "Delete" })) {
+      deleteProject();
+    }
+  });
+</script>
+```
+
+| Option        | Default     | Description                                          |
+| ------------- | ----------- | ---------------------------------------------------- |
+| `body`        | -           | Secondary text under the message.                    |
+| `type`        | `'warning'` | `''` \| `info` \| `error` \| `warning` \| `success`. |
+| `okLabel`     | localised   | OK button label (defaults from i18n).                |
+| `cancelLabel` | localised   | Cancel button label (defaults from i18n).            |
+| `size`        | `'small'`   | Dialog width, same scale as the `size` attribute.    |
+
+- The message and `body` are set as plain text, never parsed as HTML, so user-supplied
+  strings are safe to pass.
+- One `<loomi-modal>` is reused for every call. A call made while a dialog is open is
+  **queued**, not rejected: it appears after the current one is dismissed, in call order,
+  and every promise resolves with its own answer.
+- Focus moves into the dialog and returns to the trigger afterwards, same as any modal.
+- Plain DOM and a native `Promise` only - no framework hooks. Wire it into your framework's
+  own event handlers.
+
 ## Focus Handling
 
 Opening a modal moves focus into it (the close icon if shown, otherwise the first
