@@ -1,5 +1,111 @@
 # @loomidev/components
 
+## 0.10.0
+
+### Minor Changes
+
+- ee9d5a7: Cut what components cost a consumer bundle.
+  
+  - Icons load on demand. `@loomidev/icons` no longer inlines Heroicons: each icon is its own module, loaded the first time it renders, through the new `loomiIcon()` directive, `hasLoomiIcon()` and `loadLoomiIcon()`. `getLoomiIcon()` now returns only icons that are ready (registered, provided or already loaded). `import "@loomidev/icons/all"` restores the eager set. Components ship their own chrome icons statically via `provideLoomiIcons()`. The Heroicons set is now complete (324 icons per variant).
+  - Iconsax and Untitled UI are opt-in: `import "@loomidev/icons/iconsax"` / `"@loomidev/icons/untitledui"`. Until then their names are unknown and `<loomi-icon>` falls back to its slot with a one-time console warning. `<loomi-text-editor>` registers the toolbar icons it uses, so it needs neither.
+  - Every package declares `"sideEffects"` precisely, so bundlers tree-shake unused modules.
+  - `@loomidev/button` safelists only the utility classes it builds at runtime; its compiled styles drop from 89 KB to 14 KB. The button is now about 8.4 KB min+gz including styles (was about 102 KB).
+  - `LOOMI_CONTROL_SIZES` moved to core's `size` module (same export from `@loomidev/core`), so importing it no longer pulls in the field stylesheets.
+  - Each README has a Bundle size section, and `pnpm check:bundle-size` reports every package's size in CI with a 10 KB hard limit on the button.
+
+### Patch Changes
+
+- Updated dependencies [ee9d5a7]
+- Updated dependencies [a0482d2]
+- Updated dependencies [ef51d5e]
+- Updated dependencies [0a62363]
+- Updated dependencies [92bd99d]
+- Updated dependencies [9f5d56f]
+- Updated dependencies [29cce36]
+  - @loomidev/accordion@0.10.0
+  - @loomidev/alert@0.10.0
+  - @loomidev/arc-meter@0.10.0
+  - @loomidev/autocomplete@0.10.0
+  - @loomidev/avatar@0.10.0
+  - @loomidev/bell@0.10.0
+  - @loomidev/bottom-nav@0.10.0
+  - @loomidev/breadcrumb@0.10.0
+  - @loomidev/button@0.10.0
+  - @loomidev/button-group@0.10.0
+  - @loomidev/calendar@0.10.0
+  - @loomidev/card@0.10.0
+  - @loomidev/centered-content@0.10.0
+  - @loomidev/chart@0.10.0
+  - @loomidev/chat@0.10.0
+  - @loomidev/checkbox@0.10.0
+  - @loomidev/checkcards@0.10.0
+  - @loomidev/clipboard@0.10.0
+  - @loomidev/colorpicker@0.10.0
+  - @loomidev/command-palette@0.10.0
+  - @loomidev/contact-card@0.10.0
+  - @loomidev/context-menu@0.10.0
+  - @loomidev/core@0.10.0
+  - @loomidev/countries@0.10.0
+  - @loomidev/creditcard@0.10.0
+  - @loomidev/data-grid@0.10.0
+  - @loomidev/date-range-picker@0.10.0
+  - @loomidev/datepicker@0.10.0
+  - @loomidev/divider@0.10.0
+  - @loomidev/drawer@0.10.0
+  - @loomidev/dropmenu@0.10.0
+  - @loomidev/emoji-picker@0.10.0
+  - @loomidev/empty-state@0.10.0
+  - @loomidev/fab@0.10.0
+  - @loomidev/filepicker@0.10.0
+  - @loomidev/filter-builder@0.10.0
+  - @loomidev/floating-panel@0.10.0
+  - @loomidev/horizontal-line-graph@0.10.0
+  - @loomidev/icon@0.10.0
+  - @loomidev/icons@0.10.0
+  - @loomidev/input@0.10.0
+  - @loomidev/lightbox@0.10.0
+  - @loomidev/listview@0.10.0
+  - @loomidev/modal@0.10.0
+  - @loomidev/notification@0.10.0
+  - @loomidev/number@0.10.0
+  - @loomidev/otp@0.10.0
+  - @loomidev/pagination@0.10.0
+  - @loomidev/password@0.10.0
+  - @loomidev/photo-gallery@0.10.0
+  - @loomidev/popover@0.10.0
+  - @loomidev/processing@0.10.0
+  - @loomidev/profile-menu@0.10.0
+  - @loomidev/progress@0.10.0
+  - @loomidev/progress-steps@0.10.0
+  - @loomidev/qrcode@0.10.0
+  - @loomidev/radio@0.10.0
+  - @loomidev/rating@0.10.0
+  - @loomidev/resizable@0.10.0
+  - @loomidev/scroller@0.10.0
+  - @loomidev/select@0.10.0
+  - @loomidev/side-nav@0.10.0
+  - @loomidev/skeleton@0.10.0
+  - @loomidev/slider@0.10.0
+  - @loomidev/sortable@0.10.0
+  - @loomidev/spinner@0.10.0
+  - @loomidev/split-button@0.10.0
+  - @loomidev/statistic@0.10.0
+  - @loomidev/tab@0.10.0
+  - @loomidev/table@0.10.0
+  - @loomidev/tag@0.10.0
+  - @loomidev/tag-input@0.10.0
+  - @loomidev/text-editor@0.10.0
+  - @loomidev/textarea@0.10.0
+  - @loomidev/theme@0.10.0
+  - @loomidev/theme-switcher@0.10.0
+  - @loomidev/timeline@0.10.0
+  - @loomidev/timepicker@0.10.0
+  - @loomidev/timer@0.10.0
+  - @loomidev/timezonepicker@0.10.0
+  - @loomidev/toggle@0.10.0
+  - @loomidev/tooltip@0.10.0
+  - @loomidev/video@0.10.0
+
 ## 0.9.0
 
 ### Patch Changes
