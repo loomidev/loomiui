@@ -1,5 +1,48 @@
 # @loomidev/content
 
+## 0.10.0
+
+### Patch Changes
+
+- ee9d5a7: Cut what components cost a consumer bundle.
+  
+  - Icons load on demand. `@loomidev/icons` no longer inlines Heroicons: each icon is its own module, loaded the first time it renders, through the new `loomiIcon()` directive, `hasLoomiIcon()` and `loadLoomiIcon()`. `getLoomiIcon()` now returns only icons that are ready (registered, provided or already loaded). `import "@loomidev/icons/all"` restores the eager set. Components ship their own chrome icons statically via `provideLoomiIcons()`. The Heroicons set is now complete (324 icons per variant).
+  - Iconsax and Untitled UI are opt-in: `import "@loomidev/icons/iconsax"` / `"@loomidev/icons/untitledui"`. Until then their names are unknown and `<loomi-icon>` falls back to its slot with a one-time console warning. `<loomi-text-editor>` registers the toolbar icons it uses, so it needs neither.
+  - Every package declares `"sideEffects"` precisely, so bundlers tree-shake unused modules.
+  - `@loomidev/button` safelists only the utility classes it builds at runtime; its compiled styles drop from 89 KB to 14 KB. The button is now about 8.4 KB min+gz including styles (was about 102 KB).
+  - `LOOMI_CONTROL_SIZES` moved to core's `size` module (same export from `@loomidev/core`), so importing it no longer pulls in the field stylesheets.
+  - Each README has a Bundle size section, and `pnpm check:bundle-size` reports every package's size in CI with a 10 KB hard limit on the button.
+- Updated dependencies [ee9d5a7]
+  - @loomidev/accordion@0.10.0
+  - @loomidev/arc-meter@0.10.0
+  - @loomidev/avatar@0.10.0
+  - @loomidev/calendar@0.10.0
+  - @loomidev/card@0.10.0
+  - @loomidev/centered-content@0.10.0
+  - @loomidev/chart@0.10.0
+  - @loomidev/chat@0.10.0
+  - @loomidev/contact-card@0.10.0
+  - @loomidev/data-grid@0.10.0
+  - @loomidev/divider@0.10.0
+  - @loomidev/empty-state@0.10.0
+  - @loomidev/horizontal-line-graph@0.10.0
+  - @loomidev/lightbox@0.10.0
+  - @loomidev/listview@0.10.0
+  - @loomidev/photo-gallery@0.10.0
+  - @loomidev/popover@0.10.0
+  - @loomidev/processing@0.10.0
+  - @loomidev/progress@0.10.0
+  - @loomidev/qrcode@0.10.0
+  - @loomidev/rating@0.10.0
+  - @loomidev/scroller@0.10.0
+  - @loomidev/sortable@0.10.0
+  - @loomidev/statistic@0.10.0
+  - @loomidev/tag@0.10.0
+  - @loomidev/timeline@0.10.0
+  - @loomidev/timer@0.10.0
+  - @loomidev/tooltip@0.10.0
+  - @loomidev/video@0.10.0
+
 ## 0.9.0
 
 ### Patch Changes

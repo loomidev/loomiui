@@ -1,5 +1,48 @@
 # @loomidev/input
 
+## 0.10.0
+
+### Minor Changes
+
+- ee9d5a7: Cut what components cost a consumer bundle.
+  
+  - Icons load on demand. `@loomidev/icons` no longer inlines Heroicons: each icon is its own module, loaded the first time it renders, through the new `loomiIcon()` directive, `hasLoomiIcon()` and `loadLoomiIcon()`. `getLoomiIcon()` now returns only icons that are ready (registered, provided or already loaded). `import "@loomidev/icons/all"` restores the eager set. Components ship their own chrome icons statically via `provideLoomiIcons()`. The Heroicons set is now complete (324 icons per variant).
+  - Iconsax and Untitled UI are opt-in: `import "@loomidev/icons/iconsax"` / `"@loomidev/icons/untitledui"`. Until then their names are unknown and `<loomi-icon>` falls back to its slot with a one-time console warning. `<loomi-text-editor>` registers the toolbar icons it uses, so it needs neither.
+  - Every package declares `"sideEffects"` precisely, so bundlers tree-shake unused modules.
+  - `@loomidev/button` safelists only the utility classes it builds at runtime; its compiled styles drop from 89 KB to 14 KB. The button is now about 8.4 KB min+gz including styles (was about 102 KB).
+  - `LOOMI_CONTROL_SIZES` moved to core's `size` module (same export from `@loomidev/core`), so importing it no longer pulls in the field stylesheets.
+  - Each README has a Bundle size section, and `pnpm check:bundle-size` reports every package's size in CI with a 10 KB hard limit on the button.
+- 92bd99d: Insert content at the caret from your own controls.
+  
+  - `<loomi-text-editor>` gains `insertText(text)`, `insertHTML(html)` and `getSelection()`. The editor remembers its last selection, so inserts from an external toolbar land at the caret (or at the end if nothing was ever selected). New `customTools` property renders app-defined toolbar buttons with the built-in look and tooltip; clicking one calls its `run(editor)` and fires `loomi-tool` with `{ id, insertText, insertHTML }`. New `toolbar-start` and `toolbar-end` slots.
+  - `<loomi-input>`, `<loomi-password>` and `<loomi-textarea>` gain `insertText(text)` (replaces the selection and fires `input`), plus `selectionStart`, `selectionEnd` and `setSelectionRange()` forwarded to the inner field.
+  - Fixes in `<loomi-text-editor>`: toolbar commands fired `input` twice per edit. It read the selection from the host's root instead of its own shadow root, so in Chromium its link, embed and AI tools didn't see the selection, and in WebKit a saved selection couldn't be restored.
+  - `@loomidev/core` exports the `insertTextAtCaret()` helper; `@loomidev/react` adds `onLoomiTool` to `TextEditor`.
+- 9f5d56f: Pressing Enter in a single-line field now submits its form, following the HTML spec's implicit submission. `<loomi-input>`, `<loomi-password>`, `<loomi-number>`, `<loomi-otp>` (once complete) and `<loomi-autocomplete>` (when no suggestion is highlighted) activate the form's default button, whether native or `<loomi-button can-submit>`. With no submit button they submit the form directly when it has only one text-like field. Validation runs and `submit` fires once. The Enter that commits an IME composition is ignored. Opt out per field with `no-implicit-submit`. `@loomidev/core` exports the shared `implicitlySubmit()` helper. `<loomi-autocomplete>` no longer opens its list on Enter inside a form.
+- 29cce36: Form controls now follow the native value-and-events contract (documented in `@loomidev/core`'s README), so framework two-way bindings work on the tags directly.
+  
+  - `<loomi-select>` gains a settable `value` (comma-joined when `multiple`) and `values` (`string[]`), and fires `input` before `change` on every pick. Typing in its search box no longer fires `input` on the host, and a pick survives a later `data` swap.
+  - `<loomi-checkbox>` and `<loomi-toggle>` expose a read-only `type` of `"checkbox"`, `<loomi-radio>` one of `"radio"`. All three fire `input` (with `checked` already updated) before `change`. Setting a radio's `checked` unchecks the rest of its group, as a native radio does.
+  - `<loomi-otp>` gains a settable `value` and now fires `input` on each edit and `change` when focus leaves the boxes. Moving it in the DOM no longer clears the code.
+  - `<loomi-datepicker>`, `<loomi-timepicker>` and `<loomi-slider>` turn their read-only `value` into a settable one. `<loomi-checkcards>` gains `value`/`values`. `<loomi-filepicker>` gains a native-style `value` (set `""` to clear). Each now fires `input` before `change` on user edits. The timepicker and checkcards honor `selected-value` changes after the first render, and the timepicker converts between 12- and 24-hour input.
+  - `<loomi-input>`, `<loomi-password>`, `<loomi-textarea>`, `<loomi-number>`, `<loomi-autocomplete>`, `<loomi-tag-input>`, `<loomi-text-editor>` and `<loomi-slider>` fire exactly one `input` per edit (the inner field's native event used to leak through as a second one). Text fields re-sync when a listener rewrites `value` mid-edit.
+  - `<loomi-text-editor>` fires `change` only when focus leaves after an edit, not on every blur. `<loomi-number>` no longer fires an extra `input` on commit unless the commit clamped the number. `<loomi-autocomplete>` commits typed free text with `change` on leaving the field. `<loomi-timepicker>` no longer fires `change` for a pick that leaves the time unchanged.
+  - `@loomidev/react` wrappers gain `onInput` where the controls newly declare `input`.
+
+### Patch Changes
+
+- a0482d2: Form controls coerce an assigned `value` to a string like native inputs (`7` → `"7"`, `null`/`undefined` → `""`). `<loomi-input numeric>` used to throw `e.replace is not a function` and stop rendering when given a number. `<loomi-input>` also keeps rendering with the raw value, and logs a warning, if normalising it throws (e.g. a custom `dynamicMask`). `@loomidev/core` exports the shared `toControlValue()` helper.
+- Updated dependencies [ee9d5a7]
+- Updated dependencies [a0482d2]
+- Updated dependencies [92bd99d]
+- Updated dependencies [9f5d56f]
+- Updated dependencies [29cce36]
+  - @loomidev/core@0.10.0
+  - @loomidev/icons@0.10.0
+  - @loomidev/notification@0.10.0
+  - @loomidev/popover@0.10.0
+  - @loomidev/theme@0.10.0
+
 ## 0.9.0
 
 ### Patch Changes

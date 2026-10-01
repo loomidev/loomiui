@@ -20,10 +20,10 @@ overrides:
   "@puppeteer/browsers": ^3.2.1
   esbuild: ^0.28.1
   hono: ^4.13.5
-  fast-uri: ^3.1.5
+  fast-uri: ^3.1.8
   js-yaml@3: ^3.15.1
   js-yaml@4: ^4.3.1
-  ip-address: ^10.3.1
+  ip-address: ^10.7.2
   # express (via @modelcontextprotocol/sdk) pulls body-parser's qs@6.15.3, which has an
   # array-limit bypass and a DoS via attacker-controlled isBuffer (GHSA-x5fp-wj9c-mxmx,
   # GHSA-4mjr-xmp4-gh2g). Drop once express/body-parser bump their qs range past 6.16.0.
