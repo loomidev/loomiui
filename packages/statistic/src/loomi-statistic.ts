@@ -26,6 +26,9 @@ const booleanAttribute = {
  * currency, icon (slot) and loading spinner.
  *
  * @slot icon - Leading (or trailing) icon/illustration.
+ * @slot description - Secondary line under the number (e.g. a trend arrow). Wins over the
+ *   `description` attribute when both are set. Hidden while `show-spinner` is on.
+ * @csspart description - The secondary line under the number.
  */
 @customElement("loomi-statistic")
 export class LoomiStatistic extends LoomiElement {
@@ -47,9 +50,21 @@ export class LoomiStatistic extends LoomiElement {
   @property() url = "";
   @property({ attribute: "icon-color" }) iconColor = "";
   @property({ attribute: "icon-size" }) iconSize = "";
+  /** CSS colour for a circle behind the icon (e.g. a light tint of `icon-color`). */
+  @property({ attribute: "icon-background" }) iconBackground = "";
+  /** Plain-text secondary line under the number. The `description` slot wins over it. */
+  @property() description = "";
 
   /** Whether an ancestor has the `dark` class — see `isDarkContext` in `loomi-button.ts`. */
   @state() private isDarkContext = false;
+  /** Whether markup is assigned to the `description` slot (tracked via slotchange). */
+  @state() private hasSlottedDescription = false;
+  /**
+   * Whether the `icon` slot has content; `undefined` until measured (SSR / first render),
+   * where the stylesheet's `:has()` rule is the fallback. Chromium doesn't match
+   * `:host(:has(...))`, so this class is what actually collapses the wrapper there.
+   */
+  @state() private hasIcon?: boolean;
   private cleanupDarkWatch?: () => void;
 
   override connectedCallback(): void {
@@ -61,6 +76,19 @@ export class LoomiStatistic extends LoomiElement {
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.cleanupDarkWatch?.();
+  }
+
+  override firstUpdated(): void {
+    this.hasIcon = !!this.querySelector(':scope > [slot="icon"]');
+  }
+
+  private onIconSlotChange(e: Event): void {
+    this.hasIcon = (e.target as HTMLSlotElement).assignedNodes().length > 0;
+  }
+
+  private onDescriptionSlotChange(e: Event): void {
+    this.hasSlottedDescription =
+      (e.target as HTMLSlotElement).assignedNodes({ flatten: false }).length > 0;
   }
 
   override render(): TemplateResult {
@@ -76,6 +104,7 @@ export class LoomiStatistic extends LoomiElement {
     const iconStyle = [
       this.iconColor ? `--loomi-stat-icon-color:${this.iconColor}` : "",
       this.iconSize ? `--loomi-stat-icon-size:${this.iconSize}` : "",
+      this.iconBackground ? `--loomi-stat-icon-bg:${this.iconBackground}` : "",
     ]
       .filter(Boolean)
       .join(";");
@@ -86,7 +115,7 @@ export class LoomiStatistic extends LoomiElement {
         tabindex=${this.url ? "0" : nothing}
         @click=${this.url ? () => (location.href = this.url) : nothing}
       >
-        <div class="loomi-ico" part="icon" style=${iconStyle}><slot name="icon"></slot></div>
+        <div class="loomi-ico ${this.iconBackground ? "tinted" : ""} ${this.hasIcon === false ? "empty" : ""}" part="icon" style=${iconStyle}><slot name="icon" @slotchange=${this.onIconSlotChange}></slot></div>
         <div class="loomi-body ${this.labelPosition}">
           <div class="loomi-label">${this.label}</div>
           ${
@@ -96,6 +125,13 @@ export class LoomiStatistic extends LoomiElement {
                 ${this.currency ? html`<span class="loomi-currency">${this.currency}</span>` : null}
                 <span>${this.number}</span>
               </div>`
+          }
+          ${
+            /* Hidden while loading: the context line describes a value that isn't there yet.
+               The slot's fallback is the attribute text, so slotted markup wins naturally. */
+            this.showSpinner
+              ? nothing
+              : html`<div class="loomi-desc ${this.description || this.hasSlottedDescription ? "" : "empty"}" part="description"><slot name="description" @slotchange=${this.onDescriptionSlotChange}>${this.description}</slot></div>`
           }
         </div>
       </div>`;

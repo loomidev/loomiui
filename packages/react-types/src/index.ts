@@ -617,6 +617,7 @@ interface LoomiStatisticAttributes {
   "currency-position"?: "left" | "right";
   "has-border"?: boolean;
   "has-shadow"?: boolean;
+  "icon-background"?: string;
   "icon-color"?: string;
   "icon-position"?: "left" | "right";
   "icon-size"?: string;

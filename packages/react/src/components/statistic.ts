@@ -15,6 +15,7 @@ export const Statistic: ForwardRefExoticComponent<
     showSpinner?: JSX.IntrinsicElements["loomi-statistic"]["show-spinner"];
     iconColor?: JSX.IntrinsicElements["loomi-statistic"]["icon-color"];
     iconSize?: JSX.IntrinsicElements["loomi-statistic"]["icon-size"];
+    iconBackground?: JSX.IntrinsicElements["loomi-statistic"]["icon-background"];
   }
 > = createComponent(
   "loomi-statistic",
@@ -28,6 +29,7 @@ export const Statistic: ForwardRefExoticComponent<
     showSpinner: "show-spinner",
     iconColor: "icon-color",
     iconSize: "icon-size",
+    iconBackground: "icon-background",
   },
 ) as unknown as ForwardRefExoticComponent<
   JSX.IntrinsicElements["loomi-statistic"] & {
@@ -39,5 +41,6 @@ export const Statistic: ForwardRefExoticComponent<
     showSpinner?: JSX.IntrinsicElements["loomi-statistic"]["show-spinner"];
     iconColor?: JSX.IntrinsicElements["loomi-statistic"]["icon-color"];
     iconSize?: JSX.IntrinsicElements["loomi-statistic"]["icon-size"];
+    iconBackground?: JSX.IntrinsicElements["loomi-statistic"]["icon-background"];
   }
 >;
