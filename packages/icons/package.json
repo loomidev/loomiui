@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/icons",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "Shared icon registry for loomi components: Heroicons loaded one icon at a time, plus opt-in disk-based Iconsax and Untitled UI sets.",
   "repository": {
     "type": "git",
