@@ -6,7 +6,7 @@ import {
   controlSizeStyles,
   fieldStyles,
   LoomiElement,
-  type LoomiFieldLabelPosition,
+  type LoomiTextFieldLabelPosition,
   type LoomiFloatingPanelHandle,
   loomiT,
   onClickOutside,
@@ -89,7 +89,15 @@ export class LoomiPassword extends LoomiElement {
   @property({ reflect: true }) name = "";
   @property({ reflect: true }) label = "";
   @property({ attribute: "label-position", reflect: true })
-  labelPosition: LoomiFieldLabelPosition = "default";
+  /** \`top\` renders the label above the field, outside its border. */
+  labelPosition: LoomiTextFieldLabelPosition = "default";
+  /**
+   * Accessible name for a field with no visible \`label\`, used as the inner control's
+   * \`aria-label\`. Ignored when \`label\` is set.
+   */
+  @property({ attribute: "accessible-label" }) accessibilityLabel = "";
+  /** Host `aria-label`, accepted as an alias of `accessible-label` (as on `<loomi-select>`). */
+  @property({ attribute: "aria-label" }) private hostAriaLabel = "";
   @property() locale = "";
   @property() placeholder = "";
   private _value = "";
@@ -449,12 +457,23 @@ export class LoomiPassword extends LoomiElement {
   }
 
   override render(): TemplateResult {
-    const hasLabel = !!this.label;
+    const topLabel = !!this.label && this.labelPosition === "top";
+    const hasLabel = !!this.label && !topLabel;
+    const ariaLabel = hasLabel
+      ? this.label
+      : !this.label && (this.accessibilityLabel || this.hostAriaLabel)
+        ? this.accessibilityLabel || this.hostAriaLabel
+        : nothing;
     const forceFloat = hasLabel && this.showPlaceholderAlways;
     const placeholderAttr = hasLabel && !this.showPlaceholderAlways ? " " : this.placeholder || " ";
     const showError = this.invalid && this.showErrorInline && this.errorMessage;
 
     return html`
+      ${
+        topLabel
+          ? html`<label class="loomi-top-label" part="label" for="loomi-control">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
+          : nothing
+      }
       <div class="loomi-field size-${resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)} variant-${this.variant} ${forceFloat ? "force-float" : ""}" part="field">
         ${this.renderPrefix()}
         <span class="loomi-inputwrap">
@@ -468,7 +487,8 @@ export class LoomiPassword extends LoomiElement {
             ?disabled=${this.disabled}
             ?readonly=${this.readonly}
             ?required=${this.required}
-            aria-label=${hasLabel ? this.label : nothing}
+            id="loomi-control"
+            aria-label=${ariaLabel}
             aria-invalid=${this.invalid ? "true" : "false"}
             @input=${this.onInput}
             @change=${this.onChange}

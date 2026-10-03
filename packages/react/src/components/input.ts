@@ -15,6 +15,8 @@ export const Input: ForwardRefExoticComponent<
     onLoomiPrefixChange?: (e: CustomEvent) => void;
     onLoomiSuffixChange?: (e: CustomEvent) => void;
     labelPosition?: JSX.IntrinsicElements["loomi-input"]["label-position"];
+    accessibleLabel?: JSX.IntrinsicElements["loomi-input"]["accessible-label"];
+    ariaLabel?: JSX.IntrinsicElements["loomi-input"]["aria-label"];
     noImplicitSubmit?: JSX.IntrinsicElements["loomi-input"]["no-implicit-submit"];
     withDots?: JSX.IntrinsicElements["loomi-input"]["with-dots"];
     dynamicMask?: JSX.IntrinsicElements["loomi-input"]["dynamic-mask"];
@@ -41,6 +43,8 @@ export const Input: ForwardRefExoticComponent<
   },
   {
     labelPosition: "label-position",
+    accessibleLabel: "accessible-label",
+    ariaLabel: "aria-label",
     noImplicitSubmit: "no-implicit-submit",
     withDots: "with-dots",
     dynamicMask: "dynamic-mask",
@@ -67,6 +71,8 @@ export const Input: ForwardRefExoticComponent<
     onLoomiPrefixChange?: (e: CustomEvent) => void;
     onLoomiSuffixChange?: (e: CustomEvent) => void;
     labelPosition?: JSX.IntrinsicElements["loomi-input"]["label-position"];
+    accessibleLabel?: JSX.IntrinsicElements["loomi-input"]["accessible-label"];
+    ariaLabel?: JSX.IntrinsicElements["loomi-input"]["aria-label"];
     noImplicitSubmit?: JSX.IntrinsicElements["loomi-input"]["no-implicit-submit"];
     withDots?: JSX.IntrinsicElements["loomi-input"]["with-dots"];
     dynamicMask?: JSX.IntrinsicElements["loomi-input"]["dynamic-mask"];

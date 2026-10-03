@@ -7,6 +7,12 @@ import { css, type CSSResultGroup } from "lit";
 export type LoomiFieldLabelPosition = "default" | "inside";
 
 /**
+ * Label positions offered by the text-entry fields (input, password, textarea): the
+ * shared ones plus \`top\`, a plain label above the box, outside its border.
+ */
+export type LoomiTextFieldLabelPosition = LoomiFieldLabelPosition | "top";
+
+/**
  * Shared sizing scale for form controls. Every field-style component (input, select,
  * datepicker, ...) offers the same five sizes from the canonical `LOOMI_SIZES` scale
  * (`tiny` through `big`, see `./size.ts`); these classes set the control vars the
@@ -212,6 +218,20 @@ export const fieldStyles: CSSResultGroup = css`
   }
   :host([label-position="inside"][label]:not([label=""])) .loomi-field > .loomi-text {
     padding-top: 0.9rem;
+  }
+
+  /* \`label-position="top"\` (text-entry fields): a static label above the box. */
+  .loomi-top-label {
+    display: block;
+    margin: 0 0 0.375rem;
+    color: var(--loomi-text-muted);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+  .loomi-top-label .loomi-req {
+    color: var(--loomi-error-500, var(--_loomi-error-500-default));
+    margin-inline-start: 0.15rem;
   }
 `;
 

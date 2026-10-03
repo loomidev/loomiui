@@ -360,6 +360,8 @@ interface LoomiIconAttributes {
 }
 
 interface LoomiInputAttributes {
+  "accessible-label"?: string;
+  "aria-label"?: string;
   "dynamic-mask"?: LoomiAttributeValue;
   "error-message"?: string;
   "label-position"?: LoomiAttributeValue;
@@ -429,6 +431,8 @@ interface LoomiPaginationAttributes {
 }
 
 interface LoomiPasswordAttributes {
+  "accessible-label"?: string;
+  "aria-label"?: string;
   "error-message"?: string;
   "label-position"?: LoomiAttributeValue;
   "no-implicit-submit"?: boolean;
@@ -690,6 +694,8 @@ interface LoomiTextEditorAttributes {
 }
 
 interface LoomiTextareaAttributes {
+  "accessible-label"?: string;
+  "aria-label"?: string;
   "error-message"?: string;
   "label-position"?: LoomiAttributeValue;
   "mention-data"?: LoomiAttributeValue;

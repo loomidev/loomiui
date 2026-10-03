@@ -8,7 +8,7 @@ import {
   loomiT,
   onClickOutside,
   themeStyles,
-  type LoomiFieldLabelPosition,
+  type LoomiTextFieldLabelPosition,
   insertTextAtCaret,
   toControlValue,
 } from "@loomidev/core";
@@ -60,7 +60,15 @@ export class LoomiTextarea extends LoomiElement {
   @property({ reflect: true }) name = "";
   @property({ reflect: true }) label = "";
   @property({ attribute: "label-position", reflect: true })
-  labelPosition: LoomiFieldLabelPosition = "default";
+  /** \`top\` renders the label above the field, outside its border. */
+  labelPosition: LoomiTextFieldLabelPosition = "default";
+  /**
+   * Accessible name for a field with no visible \`label\`, used as the inner control's
+   * \`aria-label\`. Ignored when \`label\` is set.
+   */
+  @property({ attribute: "accessible-label" }) accessibilityLabel = "";
+  /** Host `aria-label`, accepted as an alias of `accessible-label` (as on `<loomi-select>`). */
+  @property({ attribute: "aria-label" }) private hostAriaLabel = "";
   @property() locale = "";
   @property() placeholder = "";
   private _value = "";
@@ -370,11 +378,22 @@ export class LoomiTextarea extends LoomiElement {
   }
 
   override render(): TemplateResult {
-    const hasLabel = !!this.label;
+    const topLabel = !!this.label && this.labelPosition === "top";
+    const hasLabel = !!this.label && !topLabel;
+    const ariaLabel = hasLabel
+      ? this.label
+      : !this.label && (this.accessibilityLabel || this.hostAriaLabel)
+        ? this.accessibilityLabel || this.hostAriaLabel
+        : nothing;
     const placeholderAttr = hasLabel ? " " : this.placeholder || " ";
     const showError = this.invalid && this.showErrorInline && this.errorMessage;
 
     return html`
+      ${
+        topLabel
+          ? html`<label class="loomi-top-label" part="label" for="loomi-control">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</label>`
+          : nothing
+      }
       <div class="loomi-field variant-${this.variant} ${this.showFocusRing ? "" : "no-focus-ring"}" part="field">
         <textarea
           class="loomi-textarea"
@@ -386,7 +405,8 @@ export class LoomiTextarea extends LoomiElement {
           ?disabled=${this.disabled}
           ?readonly=${this.readonly}
           ?required=${this.required}
-          aria-label=${hasLabel ? this.label : nothing}
+          id="loomi-control"
+            aria-label=${ariaLabel}
           aria-invalid=${this.invalid ? "true" : "false"}
           @input=${this.onInput}
           @keydown=${this.onKeydown}

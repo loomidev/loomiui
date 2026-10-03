@@ -15,6 +15,8 @@ export const Textarea: ForwardRefExoticComponent<
     onInput?: (e: CustomEvent) => void;
     onChange?: (e: CustomEvent) => void;
     labelPosition?: JSX.IntrinsicElements["loomi-textarea"]["label-position"];
+    accessibleLabel?: JSX.IntrinsicElements["loomi-textarea"]["accessible-label"];
+    ariaLabel?: JSX.IntrinsicElements["loomi-textarea"]["aria-label"];
     errorMessage?: JSX.IntrinsicElements["loomi-textarea"]["error-message"];
     showErrorInline?: JSX.IntrinsicElements["loomi-textarea"]["show-error-inline"];
     showFocusRing?: JSX.IntrinsicElements["loomi-textarea"]["show-focus-ring"];
@@ -31,6 +33,8 @@ export const Textarea: ForwardRefExoticComponent<
   },
   {
     labelPosition: "label-position",
+    accessibleLabel: "accessible-label",
+    ariaLabel: "aria-label",
     errorMessage: "error-message",
     showErrorInline: "show-error-inline",
     showFocusRing: "show-focus-ring",
@@ -47,6 +51,8 @@ export const Textarea: ForwardRefExoticComponent<
     onInput?: (e: CustomEvent) => void;
     onChange?: (e: CustomEvent) => void;
     labelPosition?: JSX.IntrinsicElements["loomi-textarea"]["label-position"];
+    accessibleLabel?: JSX.IntrinsicElements["loomi-textarea"]["accessible-label"];
+    ariaLabel?: JSX.IntrinsicElements["loomi-textarea"]["aria-label"];
     errorMessage?: JSX.IntrinsicElements["loomi-textarea"]["error-message"];
     showErrorInline?: JSX.IntrinsicElements["loomi-textarea"]["show-error-inline"];
     showFocusRing?: JSX.IntrinsicElements["loomi-textarea"]["show-focus-ring"];
