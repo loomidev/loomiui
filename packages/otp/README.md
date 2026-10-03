@@ -181,7 +181,33 @@ For the library-wide baseline, see [Foundations - Accessibility](https://loomiui
 
 ## Responsive behavior
 
+Add `fluid` to let the boxes shrink evenly so the whole row fits the host's width,
+which is handy on phones. They never grow past the `size` maximum (or a host
+`--loomi-otp-size`). Only the boxes scale: the `0.5rem` gap, separator and status icon stay fixed.
+
+```html
+<!-- Six big boxes in a phone-width column: 60px each where there is room, smaller at 320px -->
+<div style="max-width: 320px">
+  <loomi-otp name="code" total-digits="6" size="big" fluid></loomi-otp>
+</div>
+```
+
 For the shared container and viewport rules, see [Foundations - Responsive behavior](https://loomiui.com/foundations/#responsive-behavior).
+
+## Styling
+
+`--loomi-otp-size` set on the element (or an ancestor) overrides the `size` presets:
+
+```html
+<loomi-otp style="--loomi-otp-size: 3.25rem"></loomi-otp>
+```
+
+The row is exposed as `part="boxes"` and each input as `part="box"`:
+
+```css
+loomi-otp::part(boxes) { gap: 0.75rem; }
+loomi-otp::part(box) { border-radius: 999px; }
+```
 
 ## Dark mode
 
@@ -196,6 +222,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `total-digits`       | `4`                            | Number of input boxes.                                                                                                                    |
 | `type`               | `numeric`                      | Accepted characters. `numeric` \| `alphanumeric` \| `text`                                                                                |
 | `size`               | `regular`                      | `regular` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing).                           |
+| `fluid`              | `false`                        | Shrink the boxes evenly to fit the host's width, never past the `size` maximum. The gap stays fixed.                                      |
 | `variant`            | `default`                      | `default` \| `minimal` (bottom border only, no box)                                                                                       |
 | `separator`          | `false`                        | Show a dash separator between the left and right input groups. _(boolean)_                                                                |
 | `hide-digits`        | `false`                        | Hide entered characters and show large dots. _(boolean)_                                                                                  |

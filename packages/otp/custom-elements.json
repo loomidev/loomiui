@@ -158,6 +158,17 @@
             },
             {
               "kind": "field",
+              "name": "fluid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Shrink the boxes evenly so the whole row fits the host's width, never growing past\nthe \\`size\\` (or \\`--loomi-otp-size\\`) maximum. The gap stays fixed.",
+              "attribute": "fluid",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "hideDigits",
               "type": {
                 "text": "boolean"
@@ -609,6 +620,15 @@
               },
               "default": "false",
               "fieldName": "separator"
+            },
+            {
+              "name": "fluid",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Shrink the boxes evenly so the whole row fits the host's width, never growing past\nthe \\`size\\` (or \\`--loomi-otp-size\\`) maximum. The gap stays fixed.",
+              "fieldName": "fluid"
             },
             {
               "name": "hide-digits",
