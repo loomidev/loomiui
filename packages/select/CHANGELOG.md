@@ -1,5 +1,21 @@
 # @loomidev/select
 
+## 0.11.0
+
+### Minor Changes
+
+- f8d070d: `<loomi-select>` takes the same leading affix as `<loomi-input>`: `prefix`, `prefix-icon`, a `prefix` slot and `transparent-prefix`. The floating label and placeholder start after it.
+
+### Patch Changes
+
+- fde1da3: Visual fix: `<loomi-datepicker>` and `<loomi-timepicker>` labels now float onto the field's top border like `<loomi-input>` and `<loomi-select>`, and `label-position="inside"` lines up across every form control. `label-position="inside"` no longer reserves label space when `label` is empty, and an empty `<loomi-tag-input>` now matches the other controls' height. `@loomidev/core` adds `fieldLabelStyles`.
+- Updated dependencies [fde1da3]
+- Updated dependencies [e1723dc]
+- Updated dependencies [624cfc1]
+  - @loomidev/core@0.11.0
+  - @loomidev/icons@0.11.0
+  - @loomidev/theme@0.11.0
+
 ## 0.10.0
 
 ### Minor Changes

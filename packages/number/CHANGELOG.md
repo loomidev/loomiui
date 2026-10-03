@@ -1,5 +1,17 @@
 # @loomidev/number
 
+## 0.11.0
+
+### Patch Changes
+
+- f8d070d: `transparent-prefix="false"`, `transparent-suffix="false"` (input; `transparent-prefix` on password) and `transparent-icons="false"` (number) now render solid. The attributes were read as plain booleans, so `"false"` counted as true.
+- fde1da3: `label` is now reflected to the attribute, so `label-position="inside"` can tell whether there is a label to make room for.
+- Updated dependencies [fde1da3]
+- Updated dependencies [e1723dc]
+- Updated dependencies [624cfc1]
+  - @loomidev/core@0.11.0
+  - @loomidev/theme@0.11.0
+
 ## 0.10.0
 
 ### Minor Changes

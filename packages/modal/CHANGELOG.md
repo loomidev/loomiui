@@ -1,5 +1,20 @@
 # @loomidev/modal
 
+## 0.11.0
+
+### Minor Changes
+
+- 367ff79: New `loomiConfirm()` helper, a promise-based counterpart to `window.confirm()` (also available as `window.loomiConfirm`). It resolves `true` only when OK is clicked, and `false` for Cancel, Escape, a backdrop click or the close icon. One modal is reused, and calls made while a dialog is open are queued and shown in order.
+
+### Patch Changes
+
+- Updated dependencies [fde1da3]
+- Updated dependencies [e1723dc]
+- Updated dependencies [624cfc1]
+  - @loomidev/core@0.11.0
+  - @loomidev/button@0.11.0
+  - @loomidev/icon@0.11.0
+
 ## 0.10.0
 
 ### Patch Changes
