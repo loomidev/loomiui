@@ -42,4 +42,20 @@ describe("loomi-number", () => {
     const input = el.shadowRoot!.querySelector(".loomi-input") as HTMLInputElement;
     expect(input.disabled).to.be.true;
   });
+
+  it('treats transparent-icons="false" as solid', async () => {
+    const el = await fixture<HTMLElement & { transparentIcons: boolean }>(
+      html`<loomi-number transparent-icons="false"></loomi-number>`,
+    );
+    expect(el.transparentIcons).to.equal(false);
+    expect(el.shadowRoot!.querySelector(".loomi-step")!.classList.contains("solid")).to.equal(true);
+
+    const bare = await fixture<HTMLElement & { transparentIcons: boolean }>(
+      html`<loomi-number transparent-icons></loomi-number>`,
+    );
+    expect(bare.transparentIcons).to.equal(true);
+    expect(bare.shadowRoot!.querySelector(".loomi-step")!.classList.contains("solid")).to.equal(
+      false,
+    );
+  });
 });

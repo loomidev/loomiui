@@ -16,6 +16,7 @@ import {
   type LoomiSize,
   type LoomiSizeSupport,
 } from "@loomidev/core";
+import { loomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
 
 export type LoomiSelectVariant = "default" | "minimal";
@@ -45,6 +46,7 @@ const booleanAttribute = {
  * Form-associated: submits the selected value(s) (comma-joined when multiple).
  *
  * @slot - Manual options as light-DOM `<option value="...">Label</option>` elements.
+ * @slot prefix - Custom prefix content (overrides the `prefix`/`prefix-icon` attributes).
  * @csspart trigger - The clickable trigger.
  * @csspart panel - The dropdown panel.
  * @fires loomi-select - `detail: { value, label, values }` when an item is chosen.
@@ -94,6 +96,16 @@ export class LoomiSelect extends LoomiElement {
   @property({ type: Boolean, reflect: true }) invalid = false;
   @property({ type: Boolean, attribute: "show-focus-ring", converter: booleanAttribute })
   showFocusRing = true;
+  /** Leading text affix, rendered inside the field before the value. */
+  @property() prefix = "";
+  /** Leading icon affix (an `@loomidev/icons` name). Takes precedence over `prefix`. */
+  @property({ attribute: "prefix-icon" }) prefixIcon = "";
+  /** Transparent (vs solid) leading affix. */
+  @property({ type: Boolean, attribute: "transparent-prefix", converter: booleanAttribute })
+  transparentPrefix = true;
+
+  /** Whether the `prefix` slot has assigned content. */
+  @state() private hasSlottedPrefix = false;
 
   @state() private open = false;
   @state() private search = "";
@@ -104,9 +116,13 @@ export class LoomiSelect extends LoomiElement {
   @query(".loomi-search") private searchEl?: HTMLInputElement;
   @query(".loomi-trigger") private triggerEl?: HTMLButtonElement;
   @query(".loomi-panel") private panelEl?: HTMLElement;
+  @query(".loomi-prefix") private prefixEl?: HTMLElement;
+  @query(".loomi-value") private valueEl?: HTMLElement;
 
   private cleanupClickOutside?: () => void;
   private floating?: LoomiFloatingPanelHandle;
+  private prefixObserver?: ResizeObserver;
+  private observedPrefix?: HTMLElement;
 
   override connectedCallback(): void {
     if (!this.hasUpdated) this.initialSelectedValue = this.selectedValue;
@@ -129,10 +145,14 @@ export class LoomiSelect extends LoomiElement {
     super.disconnectedCallback();
     this.cleanupClickOutside?.();
     this.stopRepositioning();
+    this.prefixObserver?.disconnect();
+    this.prefixObserver = undefined;
+    this.observedPrefix = undefined;
   }
 
   override updated(changed: Map<PropertyKey, unknown>): void {
     super.updated(changed);
+    this.trackPrefix();
     if (!this.open) {
       if (changed.has("open")) this.stopRepositioning();
       return;
@@ -146,6 +166,64 @@ export class LoomiSelect extends LoomiElement {
     // can decide whether it fits below the trigger.
     if (this.floating) this.floating.reposition();
     else this.floating = anchorFloatingPanel(trigger, panel);
+  }
+
+  /**
+   * The label is a sibling of the trigger, so it can't simply follow the prefix in the
+   * flow the way <loomi-input>'s does. Instead the distance from the trigger's start edge
+   * to where the value begins is measured into `--_loomi-label-offset`, which the label
+   * (resting and floated) starts from. Re-measured whenever the prefix resizes.
+   */
+  private trackPrefix(): void {
+    const prefix = this.prefixEl;
+    if (prefix === this.observedPrefix) return;
+    this.prefixObserver?.disconnect();
+    this.observedPrefix = prefix;
+    if (!prefix) {
+      this.style.removeProperty("--_loomi-label-offset");
+      return;
+    }
+    if (typeof ResizeObserver === "undefined") {
+      this.measurePrefix();
+      return;
+    }
+    this.prefixObserver ??= new ResizeObserver(() => this.measurePrefix());
+    this.prefixObserver.observe(prefix);
+    // A size change moves the trigger's padding without resizing the prefix.
+    if (this.triggerEl) this.prefixObserver.observe(this.triggerEl);
+  }
+
+  private measurePrefix(): void {
+    const trigger = this.triggerEl;
+    const value = this.valueEl;
+    if (!trigger || !value || !this.prefixEl) return;
+    const t = trigger.getBoundingClientRect();
+    const v = value.getBoundingClientRect();
+    // Not laid out (display: none ancestor) — keep the last good offset.
+    if (t.width === 0) return;
+    const rtl = getComputedStyle(trigger).direction === "rtl";
+    const offset = rtl ? t.right - v.right : v.left - t.left;
+    this.style.setProperty("--_loomi-label-offset", `${Math.max(0, offset)}px`);
+  }
+
+  private renderPrefix(): TemplateResult {
+    // The directive lazy-loads an icon that hasn't been registered yet.
+    const icon = this.prefixIcon
+      ? html`<svg class="loomi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${loomiIcon(this.prefixIcon)}</svg>`
+      : nothing;
+    const fallback = icon !== nothing ? icon : this.prefix;
+    const visible = this.hasSlottedPrefix || fallback !== "";
+    const cls = `loomi-prefix${this.transparentPrefix ? "" : " loomi-affix-solid"}`;
+    return html`<span class=${cls} part="prefix" ?hidden=${!visible}>
+      <slot name="prefix" @slotchange=${this.onPrefixSlotChange}>${fallback}</slot>
+    </span>`;
+  }
+
+  private onPrefixSlotChange(e: Event): void {
+    const slot = e.target as HTMLSlotElement;
+    this.hasSlottedPrefix = slot
+      .assignedNodes({ flatten: false })
+      .some((n) => n.nodeType === Node.ELEMENT_NODE || (n.textContent ?? "").trim() !== "");
   }
 
   private stopRepositioning(): void {
@@ -446,6 +524,7 @@ export class LoomiSelect extends LoomiElement {
           @click=${this.toggleOpen}
           @blur=${this.showValidation}
         >
+          ${this.renderPrefix()}
           <span id="loomi-value" class="loomi-value ${hasSelection ? "" : "placeholder"} ${reserveLabelSpace ? "sizer" : ""}">${displayText}</span>
           <svg class="loomi-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${CHEVRON}</svg>
         </button>

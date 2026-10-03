@@ -187,6 +187,26 @@ new FormData(form).get("tags");     // "pop,jazz" (multiple)
 <loomi-select size="big" data="..."></loomi-select>
 ```
 
+## Prefixes & Icons
+
+Like [`<loomi-input>`](../input), a select takes a leading affix inside the field: text
+(`prefix`) or a built-in [icon](../icons) (`prefix-icon`). The floating label and the
+placeholder start after it, so a select lines up with an input next to it. Set
+`transparent-prefix="false"` for a solid affix.
+
+```html
+<loomi-input label="Email" prefix-icon="envelope"></loomi-input>
+<loomi-select label="Team" prefix-icon="user-group" data='[{"label":"Design","value":"design"},{"label":"Engineering","value":"eng"}]'></loomi-select>
+
+<loomi-select prefix="+" transparent-prefix="false" placeholder="Country code" data='[{"label":"233","value":"233"},{"label":"234","value":"234"}]'></loomi-select>
+```
+
+Need full control? Use the `prefix` slot.
+
+```html
+<loomi-select label="Status"><span slot="prefix">●</span>...</loomi-select>
+```
+
 ## Empty State CTA
 
 When there are no options, `empty-placeholder` shows the empty message. Add
@@ -268,15 +288,19 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `empty-placeholder`  | `No options available` | Text shown when there are no options.                                                                                                            |
 | `empty-action-label` | _(blank)_              | CTA label shown in the empty state.                                                                                                              |
 | `empty-action-url`   | _(blank)_              | Optional URL to navigate to when the empty CTA is clicked.                                                                                       |
+| `prefix`             | _(blank)_              | Leading text affix, inside the field before the value.                                                                                           |
+| `prefix-icon`        | _(blank)_              | Leading icon-name affix (see `@loomidev/icons`).                                                                                                 |
+| `transparent-prefix` | `true`                 | Transparent (vs solid) leading affix. _(boolean)_                                                                                                |
 | `no-clearing`        | `false`                | Remove the default bottom margin. _(boolean)_                                                                                                    |
 
-**Parts:** `trigger`, `panel`. **Methods:** `reset()`, `validate()`.
+**Parts:** `trigger`, `prefix`, `panel`. **Methods:** `reset()`, `validate()`.
 
 ## Slots
 
-| Slot        | Description                          |
-| ----------- | ------------------------------------ |
-| _(default)_ | Content placed inside the component. |
+| Slot        | Description                                                              |
+| ----------- | ------------------------------------------------------------------------ |
+| _(default)_ | Content placed inside the component.                                     |
+| `prefix`    | Custom prefix content (overrides the `prefix`/`prefix-icon` attributes). |
 
 ## Events
 
@@ -515,4 +539,5 @@ About **21.5 KB** minified and gzipped, including its styles and the shared `@lo
 ## Dependencies
 
 - `@loomidev/core`
+- `@loomidev/icons`
 - `@loomidev/theme`

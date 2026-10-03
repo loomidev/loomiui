@@ -562,8 +562,10 @@ interface LoomiSelectAttributes {
   "label-key"?: string;
   "label-position"?: LoomiAttributeValue;
   "max-selectable"?: number;
+  "prefix-icon"?: string;
   "selected-value"?: string;
   "show-focus-ring"?: boolean;
+  "transparent-prefix"?: boolean;
   "value-key"?: string;
 }
 

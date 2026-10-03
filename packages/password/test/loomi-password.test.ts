@@ -114,4 +114,22 @@ describe("loomi-password", () => {
       "Password is required",
     );
   });
+
+  it('treats transparent-prefix="false" as solid', async () => {
+    const el = await fixture<HTMLElement & { transparentPrefix: boolean }>(
+      html`<loomi-password prefix="#" transparent-prefix="false"></loomi-password>`,
+    );
+    expect(el.transparentPrefix).to.equal(false);
+    expect(
+      el.shadowRoot!.querySelector(".loomi-prefix")!.classList.contains("loomi-affix-solid"),
+    ).to.equal(true);
+
+    const bare = await fixture<HTMLElement & { transparentPrefix: boolean }>(
+      html`<loomi-password prefix="#" transparent-prefix></loomi-password>`,
+    );
+    expect(bare.transparentPrefix).to.equal(true);
+    expect(
+      bare.shadowRoot!.querySelector(".loomi-prefix")!.classList.contains("loomi-affix-solid"),
+    ).to.equal(false);
+  });
 });

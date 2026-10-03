@@ -26,6 +26,8 @@ export const Select: ForwardRefExoticComponent<
     emptyActionLabel?: JSX.IntrinsicElements["loomi-select"]["empty-action-label"];
     emptyActionUrl?: JSX.IntrinsicElements["loomi-select"]["empty-action-url"];
     showFocusRing?: JSX.IntrinsicElements["loomi-select"]["show-focus-ring"];
+    prefixIcon?: JSX.IntrinsicElements["loomi-select"]["prefix-icon"];
+    transparentPrefix?: JSX.IntrinsicElements["loomi-select"]["transparent-prefix"];
   }
 > = createComponent(
   "loomi-select",
@@ -47,6 +49,8 @@ export const Select: ForwardRefExoticComponent<
     emptyActionLabel: "empty-action-label",
     emptyActionUrl: "empty-action-url",
     showFocusRing: "show-focus-ring",
+    prefixIcon: "prefix-icon",
+    transparentPrefix: "transparent-prefix",
   },
 ) as unknown as ForwardRefExoticComponent<
   Omit<
@@ -68,5 +72,7 @@ export const Select: ForwardRefExoticComponent<
     emptyActionLabel?: JSX.IntrinsicElements["loomi-select"]["empty-action-label"];
     emptyActionUrl?: JSX.IntrinsicElements["loomi-select"]["empty-action-url"];
     showFocusRing?: JSX.IntrinsicElements["loomi-select"]["show-focus-ring"];
+    prefixIcon?: JSX.IntrinsicElements["loomi-select"]["prefix-icon"];
+    transparentPrefix?: JSX.IntrinsicElements["loomi-select"]["transparent-prefix"];
   }
 >;

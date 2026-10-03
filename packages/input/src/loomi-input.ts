@@ -117,8 +117,10 @@ export class LoomiInput extends LoomiElement {
   @property({ attribute: "suffix-value" }) suffixValue = "";
   @property({ attribute: "prefix-icon" }) prefixIcon = "";
   @property({ attribute: "suffix-icon" }) suffixIcon = "";
-  @property({ type: Boolean, attribute: "transparent-prefix" }) transparentPrefix = true;
-  @property({ type: Boolean, attribute: "transparent-suffix" }) transparentSuffix = true;
+  @property({ type: Boolean, attribute: "transparent-prefix", converter: booleanAttribute })
+  transparentPrefix = true;
+  @property({ type: Boolean, attribute: "transparent-suffix", converter: booleanAttribute })
+  transparentSuffix = true;
   @property({ type: Boolean }) viewable = false;
   @property({ type: Boolean }) clearable = false;
   @property() hint = "";

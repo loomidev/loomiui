@@ -63,6 +63,10 @@
             {
               "description": "Manual options as light-DOM `<option value=\"...\">Label</option>` elements.",
               "name": ""
+            },
+            {
+              "description": "Custom prefix content (overrides the `prefix`/`prefix-icon` attributes).",
+              "name": "prefix"
             }
           ],
           "members": [
@@ -334,6 +338,46 @@
             },
             {
               "kind": "field",
+              "name": "prefix",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Leading text affix, rendered inside the field before the value.",
+              "attribute": "prefix"
+            },
+            {
+              "kind": "field",
+              "name": "prefixIcon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Leading icon affix (an `@loomidev/icons` name). Takes precedence over `prefix`.",
+              "attribute": "prefix-icon"
+            },
+            {
+              "kind": "field",
+              "name": "transparentPrefix",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Transparent (vs solid) leading affix.",
+              "attribute": "transparent-prefix"
+            },
+            {
+              "kind": "field",
+              "name": "hasSlottedPrefix",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "Whether the `prefix` slot has assigned content."
+            },
+            {
+              "kind": "field",
               "name": "open",
               "type": {
                 "text": "boolean"
@@ -395,6 +439,22 @@
             },
             {
               "kind": "field",
+              "name": "prefixEl",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "valueEl",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
               "name": "cleanupClickOutside",
               "type": {
                 "text": "() => void | undefined"
@@ -410,6 +470,22 @@
               "privacy": "private"
             },
             {
+              "kind": "field",
+              "name": "prefixObserver",
+              "type": {
+                "text": "ResizeObserver | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "observedPrefix",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
               "kind": "method",
               "name": "formResetCallback",
               "return": {
@@ -417,6 +493,55 @@
                   "text": "void"
                 }
               }
+            },
+            {
+              "kind": "method",
+              "name": "trackPrefix",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "The label is a sibling of the trigger, so it can't simply follow the prefix in the\nflow the way <loomi-input>'s does. Instead the distance from the trigger's start edge\nto where the value begins is measured into `--_loomi-label-offset`, which the label\n(resting and floated) starts from. Re-measured whenever the prefix resizes."
+            },
+            {
+              "kind": "method",
+              "name": "measurePrefix",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "renderPrefix",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "onPrefixSlotChange",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
             },
             {
               "kind": "method",
@@ -852,6 +977,33 @@
               },
               "default": "true",
               "fieldName": "showFocusRing"
+            },
+            {
+              "name": "prefix",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Leading text affix, rendered inside the field before the value.",
+              "fieldName": "prefix"
+            },
+            {
+              "name": "prefix-icon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Leading icon affix (an `@loomidev/icons` name). Takes precedence over `prefix`.",
+              "fieldName": "prefixIcon"
+            },
+            {
+              "name": "transparent-prefix",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Transparent (vs solid) leading affix.",
+              "fieldName": "transparentPrefix"
             }
           ],
           "superclass": {

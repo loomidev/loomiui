@@ -70,7 +70,7 @@
 /* floating label */
 .loomi-label {
   position: absolute;
-  left: var(--loomi-control-pad-x);
+  inset-inline-start: var(--_loomi-label-offset, var(--loomi-control-pad-x));
   top: 50%;
   transform: translateY(-50%);
   transform-origin: left center;
@@ -80,10 +80,15 @@
   background: var(--loomi-surface);
   padding: 0;
   box-shadow: 0 0 0 0.25rem var(--loomi-surface);
-  max-width: calc(100% - var(--loomi-control-pad-x) - var(--loomi-control-pad-x));
+  max-width: calc(
+    100% - var(--_loomi-label-offset, var(--loomi-control-pad-x)) - var(--loomi-control-pad-x)
+  );
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+:host(:dir(rtl)) .loomi-label {
+  transform-origin: right center;
 }
 .loomi-select.float .loomi-label {
   top: var(--loomi-control-border-width, 2px);
@@ -199,4 +204,42 @@
 /* hide light-DOM <option> children used for manual building */
 ::slotted(option) {
   display: none;
+}
+
+/* Leading affix, inside the trigger before the value — mirrors <loomi-input>'s prefix.
+   The label (a sibling of the trigger) starts at --_loomi-label-offset, which the element
+   measures to where the value begins, so it clears the prefix resting or floated. */
+.loomi-prefix {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex: none;
+  color: var(--loomi-text-muted);
+  white-space: nowrap;
+  /* With the trigger's 0.5rem gap, leaves pad-x before the value — <loomi-input>'s spacing. */
+  margin-inline-end: calc(var(--loomi-control-pad-x) - 0.5rem);
+}
+.loomi-prefix[hidden] {
+  display: none;
+}
+.loomi-prefix.loomi-affix-solid {
+  align-self: stretch;
+  margin-inline-start: calc(-1 * var(--loomi-control-pad-x));
+  padding-inline: var(--loomi-control-pad-x);
+  background: var(--loomi-surface-hover);
+  color: var(--loomi-text-secondary);
+  border-inline-end: 1px solid var(--loomi-surface-border);
+  border-start-start-radius: 0.5rem;
+  border-end-start-radius: 0.5rem;
+}
+.loomi-select.variant-minimal .loomi-prefix.loomi-affix-solid {
+  margin-inline-start: 0;
+}
+.loomi-icon {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+}
+:host([label-position="inside"][label]:not([label=""])) .loomi-label.loomi-label {
+  inset-inline-start: var(--_loomi-label-offset, var(--loomi-control-pad-x));
 }

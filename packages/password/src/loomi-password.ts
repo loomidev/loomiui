@@ -29,6 +29,16 @@ import eyeSlashIcon from "@loomidev/icons/heroicons/outline/eye-slash.js";
 import checkCircleIcon from "@loomidev/icons/heroicons/outline/check-circle.js";
 import { componentStyles } from "./generated/styles.css.js";
 
+/** Like `type: Boolean`, but `attr="false"` reads as false — for attributes that default to true. */
+const booleanAttribute = {
+  fromAttribute(value: string | null): boolean {
+    return value !== null && value.toLowerCase() !== "false";
+  },
+  toAttribute(value: boolean): string | null {
+    return value ? "" : null;
+  },
+};
+
 // This component's own icons ship inline so they render on first paint; any other
 // `icon` name loads on demand.
 provideLoomiIcons({
@@ -103,7 +113,8 @@ export class LoomiPassword extends LoomiElement {
   @property({ attribute: "prefix-options" }) prefixOptions = "";
   @property({ attribute: "prefix-value" }) prefixValue = "";
   @property({ attribute: "prefix-icon" }) prefixIcon = "";
-  @property({ type: Boolean, attribute: "transparent-prefix" }) transparentPrefix = true;
+  @property({ type: Boolean, attribute: "transparent-prefix", converter: booleanAttribute })
+  transparentPrefix = true;
   @property({ type: Boolean }) viewable = true;
   @property({ type: Boolean }) clearable = false;
   @property() strength = "";
