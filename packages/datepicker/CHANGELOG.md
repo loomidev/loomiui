@@ -1,5 +1,18 @@
 # @loomidev/datepicker
 
+## 0.12.0
+
+### Minor Changes
+
+- 7569d90: **Breaking:** `<loomi-datepicker>`'s `value`, its `change` `detail.value` and the form value submitted under `name` are now always ISO `yyyy-mm-dd` (range: `yyyy-mm-dd - yyyy-mm-dd`), like a native `<input type="date">`, whatever `format` displays. The formatted text is available as the new read-only `displayValue`. Setting `value` still accepts ISO or the configured numeric `format`.
+- b16e5be: `label-position="top"` on select, datepicker, timepicker, autocomplete, tag-input, number and otp: a plain label above the field, outside its border, rendered like `<loomi-input label-position="top">` and naming the control's trigger. The datepicker and timepicker fields are now focusable buttons that open with Enter, Space or ArrowDown. Core exports `loomiTopLabel()`, `TOP_LABEL_ID` and `fieldTopLabelStyles`.
+
+### Patch Changes
+
+- Updated dependencies [b16e5be]
+  - @loomidev/core@0.12.0
+  - @loomidev/icons@0.12.0
+
 ## 0.11.0
 
 ### Patch Changes

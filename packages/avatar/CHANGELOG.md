@@ -1,5 +1,15 @@
 # @loomidev/avatar
 
+## 0.12.0
+
+### Patch Changes
+
+- Updated dependencies [7569d90]
+- Updated dependencies [b16e5be]
+  - @loomidev/filepicker@0.12.0
+  - @loomidev/core@0.12.0
+  - @loomidev/icon@0.12.0
+
 ## 0.11.0
 
 ### Patch Changes
