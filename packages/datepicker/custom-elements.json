@@ -55,7 +55,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<loomi-datepicker>` — a calendar date picker (single or range). `popup` (input +\npanel) or `inline` (calendar always visible, no triggering input). Locale-aware\nmonth and weekday names. Form-associated: submits the formatted date(s) under `name`.\n`selected-value`/`min-date`/`max-date` are parsed as ISO `yyyy-mm-dd`.",
+          "description": "`<loomi-datepicker>` — a calendar date picker (single or range). `popup` (input +\npanel) or `inline` (calendar always visible, no triggering input). Locale-aware\nmonth and weekday names. Form-associated: submits ISO `yyyy-mm-dd` date(s) under `name`,\nlike a native `<input type=\"date\">`, whatever `format` displays.\n`selected-value`/`min-date`/`max-date` are parsed as ISO `yyyy-mm-dd`.",
           "name": "LoomiDatepicker",
           "members": [
             {
@@ -383,12 +383,39 @@
               ]
             },
             {
+              "kind": "method",
+              "name": "join",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "toText",
+                  "type": {
+                    "text": "(d: Date) => string"
+                  }
+                }
+              ]
+            },
+            {
               "kind": "field",
               "name": "value",
               "type": {
                 "text": "string"
               },
-              "description": "Formatted value (range joined with \" - \") — the same string the form submits. Setting\nit accepts ISO `yyyy-mm-dd` or the configured numeric `format`, so a value read back\nfrom the field round-trips. It fires no events; an unparseable value clears the field,\nas it does on a native date input."
+              "description": "ISO `yyyy-mm-dd` (range joined with \" - \"), like a native `<input type=\"date\">`,\nwhatever `format` displays — the same string the form submits. Setting it accepts ISO\nor the configured numeric `format`. It fires no events; an unparseable value clears\nthe field, as it does on a native date input."
+            },
+            {
+              "kind": "field",
+              "name": "displayValue",
+              "type": {
+                "text": "string"
+              },
+              "description": "The date(s) as shown in the field, formatted per `format` (range joined with \" - \").",
+              "readonly": true
             },
             {
               "kind": "field",
