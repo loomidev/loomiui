@@ -9,10 +9,10 @@ overrides:
   '@puppeteer/browsers': ^3.2.1
   esbuild: ^0.28.1
   hono: ^4.13.5
-  fast-uri: ^3.1.5
+  fast-uri: ^3.1.8
   js-yaml@3: ^3.15.1
   js-yaml@4: ^4.3.1
-  ip-address: ^10.3.1
+  ip-address: ^10.7.2
   qs: ^6.16.0
 
 importers:
@@ -2077,6 +2077,9 @@ importers:
       '@loomidev/core':
         specifier: workspace:^
         version: link:../core
+      '@loomidev/icons':
+        specifier: workspace:^
+        version: link:../icons
       '@loomidev/theme':
         specifier: workspace:^
         version: link:../theme

@@ -7,6 +7,12 @@ import { css, type CSSResultGroup } from "lit";
 export type LoomiFieldLabelPosition = "default" | "inside";
 
 /**
+ * Label positions offered by the text-entry fields (input, password, textarea): the
+ * shared ones plus \`top\`, a plain label above the box, outside its border.
+ */
+export type LoomiTextFieldLabelPosition = LoomiFieldLabelPosition | "top";
+
+/**
  * Shared sizing scale for form controls. Every field-style component (input, select,
  * datepicker, ...) offers the same five sizes from the canonical `LOOMI_SIZES` scale
  * (`tiny` through `big`, see `./size.ts`); these classes set the control vars the
@@ -166,13 +172,15 @@ export const fieldStyles: CSSResultGroup = css`
   /*
    * Inset labels stay below the control's top edge instead of straddling its border.
    * The extra height and top padding reserve a separate line for the value so the two
-   * never overlap, including at the compact size presets.
+   * never overlap, including at the compact size presets. All of it is gated on a
+   * non-empty \`label\` (components reflect it to the host), so \`label-position="inside"\`
+   * on a control with no label is exactly its size's height.
    */
-  :host([label-position="inside"]) .loomi-field,
-  :host([label-position="inside"]) .loomi-trigger {
+  :host([label-position="inside"][label]:not([label=""])) .loomi-field,
+  :host([label-position="inside"][label]:not([label=""])) .loomi-trigger {
     min-height: calc(var(--loomi-control-height, 2.5rem) + 0.75rem);
   }
-  :host([label-position="inside"]) .loomi-label.loomi-label {
+  :host([label-position="inside"][label]:not([label=""])) .loomi-label.loomi-label {
     position: absolute;
     inset-inline-start: var(--loomi-control-pad-x, 1rem);
     top: 0.5rem;
@@ -195,13 +203,83 @@ export const fieldStyles: CSSResultGroup = css`
     pointer-events: none;
     transform: none;
   }
-  :host([label-position="inside"]) .loomi-field > input,
-  :host([label-position="inside"]) .loomi-inputwrap > input,
-  :host([label-position="inside"]) .loomi-field > textarea,
-  :host([label-position="inside"]) .loomi-trigger {
+  /* A label that is a sibling of the box (select-style triggers, the pickers) is
+     positioned against the box's outer edge; one inside the box against its padding edge,
+     which sits one border width lower. Match the in-box offset. */
+  :host([label-position="inside"][label]:not([label=""])) .loomi-trigger ~ .loomi-label.loomi-label,
+  :host([label-position="inside"][label]:not([label=""])) .loomi-field ~ .loomi-label.loomi-label {
+    top: calc(0.5rem + var(--loomi-control-border-width, 2px));
+  }
+  :host([label-position="inside"][label]:not([label=""])) .loomi-field > input,
+  :host([label-position="inside"][label]:not([label=""])) .loomi-inputwrap > input,
+  :host([label-position="inside"][label]:not([label=""])) .loomi-field > textarea,
+  :host([label-position="inside"][label]:not([label=""])) .loomi-trigger {
     padding-top: 0.9rem;
   }
-  :host([label-position="inside"]) .loomi-field > .loomi-text {
+  :host([label-position="inside"][label]:not([label=""])) .loomi-field > .loomi-text {
     padding-top: 0.9rem;
+  }
+
+  /* \`label-position="top"\` (text-entry fields): a static label above the box. */
+  .loomi-top-label {
+    display: block;
+    margin: 0 0 0.375rem;
+    color: var(--loomi-text-muted);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+  .loomi-top-label .loomi-req {
+    color: var(--loomi-error-500, var(--_loomi-error-500-default));
+    margin-inline-start: 0.15rem;
+  }
+`;
+
+/**
+ * The notched floating label every field-style control shares: it sits where the
+ * placeholder would, then floats up onto the box's top border (cutting a gap in it) once
+ * the control has a value or is open. Used by components whose label is a sibling of the
+ * \`.loomi-field\` box inside a \`position: relative\` wrapper; the wrapper takes a
+ * \`.float\` class to float it. (\`label-position="inside"\` is handled above and
+ * overrides this.)
+ *
+ * Floats to one border width below the wrapper's outer edge, the same place the in-box
+ * labels of input/number/password/textarea land, so a form mixing controls lines up.
+ */
+export const fieldLabelStyles: CSSResultGroup = css`
+  .loomi-label {
+    position: absolute;
+    inset-inline-start: var(--loomi-control-pad-x);
+    top: 50%;
+    transform: translateY(-50%);
+    transform-origin: left center;
+    color: var(--loomi-text-faint);
+    font-size: var(--loomi-control-font-size);
+    line-height: 1;
+    pointer-events: none;
+    transition: all 0.15s ease;
+    background: var(--loomi-surface);
+    padding: 0;
+    margin: 0;
+    box-shadow: 0 0 0 0.25rem var(--loomi-surface);
+    max-width: calc(100% - var(--loomi-control-pad-x) - var(--loomi-control-pad-x));
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  :host(:dir(rtl)) .loomi-label {
+    transform-origin: right center;
+  }
+  .float .loomi-label {
+    top: var(--loomi-control-border-width, 2px);
+    transform: translateY(-50%) scale(0.85);
+    color: var(--loomi-primary-600, var(--_loomi-primary-600-default));
+  }
+  :host([invalid]) .float .loomi-label {
+    color: var(--loomi-error-500, var(--_loomi-error-500-default));
+  }
+  .loomi-req {
+    color: var(--loomi-error-500, var(--_loomi-error-500-default));
+    margin-inline-start: 0.15rem;
   }
 `;

@@ -46,6 +46,72 @@ or an assignee.
 </script>
 ```
 
+## Custom Row Content
+
+Rows don't have to come from `items`. Put your own markup inside `<loomi-sortable>` and every direct
+child with a `data-id` becomes a row - buttons, links, badges, rich text, or output from a renderer
+such as KaTeX. The rows stay in the light DOM, so your page CSS and third-party scripts reach them
+exactly as before; the component only adds drag behaviour, an optional handle and keyboard support.
+
+```html
+<style>
+  .record {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    background: #fff;
+  }
+  .record .title {
+    flex: 1;
+  }
+</style>
+
+<loomi-sortable id="records" has-handle>
+  <div class="record" data-id="12">
+    <span class="title">Quarterly report <em>(draft)</em></span>
+    <span class="badge">Draft</span>
+    <button type="button">Edit</button>
+  </div>
+  <div class="record" data-id="13">
+    <span class="title">Budget review</span>
+    <a href="/records/13">Open</a>
+  </div>
+  <div class="record" data-id="14">
+    <span class="title">Hiring plan</span>
+    <button type="button">Edit</button>
+  </div>
+</loomi-sortable>
+
+<script type="module">
+  document.getElementById("records").addEventListener("loomi-reorder", (e) => {
+    console.log(e.detail.order); // ["13", "12", "14"] - the data-ids, top to bottom
+  });
+</script>
+```
+
+- **Handle.** With `has-handle` (or `handle`), only the handle starts a drag, so clicks on buttons
+  and links inside a row work normally. The component adds a grip as the row's first child; to use
+  your own, mark any element in the row with `data-handle` (or point `handle` at a selector). Without
+  a handle, the whole row drags, but a drag that starts on a `button`, `a`, `input`, `select`,
+  `textarea` or `[contenteditable]` is ignored.
+- **Keyboard.** The handle is focusable. `Alt` + `ArrowUp`/`ArrowDown` moves the row one place. Or
+  press `Space` to pick it up, `ArrowUp`/`ArrowDown` to move, `Space` to drop (`Escape` cancels).
+  Each step is announced through a live region. Keyboard moves need a handle.
+- **Touch.** With a handle, dragging the grip works with a finger too.
+- **Locked rows.** Add `data-locked` to a row to keep it from being dragged.
+- **Source of truth.** `loomi-reorder` fires with `detail.order` (the data-ids). To show the new
+  order the component sets a CSS `order` on each row; it does **not** move your nodes. In a
+  framework, treat the event as the source of truth: update your data and re-render the rows in the
+  new order. When the rows change, the component drops its visual order and follows the DOM again.
+  Without a framework, reorder the nodes yourself in the `loomi-reorder` handler if you need the
+  DOM order to match. `el.order` always returns the current visual order.
+- **Not supported for custom rows:** shared `group`s, `multi-drag` and `swap`. Dropping a row on
+  another row puts it in that row's position. Use `items` for those.
+- **Mixing with `items`.** Custom rows mixed with `items` render after the `items` rows.
+
 ## Reacting to a Reorder
 
 The `loomi-reorder` event fires after dragging a row within the same list, with the full new
@@ -592,7 +658,7 @@ Frameworks such as Next.js, Nuxt, SvelteKit, and Astro sometimes render HTML on 
 
 ## Bundle size
 
-About **21.6 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 94.4 KB. Measured by `pnpm check:bundle-size`.
+About **24.5 KB** minified and gzipped, including its styles and the shared `@loomidev/core` and `@loomidev/theme` code, and excluding `lit`. Icons load one at a time, on first use, and aren't included. Importing `@loomidev/icons/all` to load every Heroicon up front makes it 97.0 KB. Measured by `pnpm check:bundle-size`.
 
 <!-- bundle-size:end -->
 

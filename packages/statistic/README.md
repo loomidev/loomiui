@@ -49,6 +49,55 @@ You can also style the icon from the statistic host with `icon-color` and `icon-
 </loomi-statistic>
 ```
 
+Give the icon a tinted circle with `icon-background` - pair it with `icon-color` to
+colour-code tiles without wrapping the icon in extra markup.
+
+```html
+<loomi-statistic number="1,204" label="Active users" icon-color="#15803d" icon-background="#dcfce7">
+  <loomi-icon slot="icon" name="users"></loomi-icon>
+</loomi-statistic>
+```
+
+## Description
+
+Add a smaller, muted line of context under the number with `description`. For markup -
+say a coloured trend arrow - use the `description` slot instead; the slot wins when both
+are set. The description always sits directly under the number: with
+`label-position="bottom"` the label moves below it.
+
+```html
+<loomi-statistic number="34,500" label="Total payments" description="Since 1 January"></loomi-statistic>
+
+<loomi-statistic number="1,204" label="Active users">
+  <span slot="description" style="color: #15803d">▲ 12% vs last month</span>
+</loomi-statistic>
+```
+
+## Dashboard Example
+
+```html
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1rem">
+  <loomi-statistic label="Revenue" number="48,200" currency="$" icon-color="#15803d" icon-background="#dcfce7">
+    <loomi-icon slot="icon" name="banknotes"></loomi-icon>
+    <span slot="description" style="color: #15803d">▲ 8.2% vs last month</span>
+  </loomi-statistic>
+
+  <loomi-statistic label="New customers" number="312" icon-color="#2563eb" icon-background="#dbeafe">
+    <loomi-icon slot="icon" name="user-plus"></loomi-icon>
+    <span slot="description" style="color: #2563eb">▲ 24 this week</span>
+  </loomi-statistic>
+
+  <loomi-statistic label="Refunds" number="1,940" currency="$" icon-color="#dc2626" icon-background="#fee2e2">
+    <loomi-icon slot="icon" name="receipt-refund"></loomi-icon>
+    <span slot="description" style="color: #dc2626">▼ 3.1% vs last month</span>
+  </loomi-statistic>
+
+  <loomi-statistic label="Open tickets" number="27" icon-color="#d97706" icon-background="#fef3c7" description="Median reply: 2h 14m">
+    <loomi-icon slot="icon" name="chat-bubble-left-right"></loomi-icon>
+  </loomi-statistic>
+</div>
+```
+
 ## With Currency
 
 ```html
@@ -68,6 +117,9 @@ while waiting on an API response.
 ```html
 <loomi-statistic label="Total payments" show-spinner></loomi-statistic>
 ```
+
+The description (attribute or slot) is hidden while the spinner shows - it describes a
+value that isn't there yet - and comes back when `show-spinner` is turned off.
 
 ```js
 const el = document.querySelector("loomi-statistic");
@@ -119,6 +171,8 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `icon-position`     | `left`    | `left` \| `right`                                                                                                                        |
 | `icon-color`        | _(blank)_ | CSS color applied to the icon slot wrapper.                                                                                              |
 | `icon-size`         | _(blank)_ | CSS size applied to slotted icons.                                                                                                       |
+| `icon-background`   | _(blank)_ | CSS color for a circle behind the icon.                                                                                                  |
+| `description`       | _(blank)_ | Muted secondary line under the number. The `description` slot wins over it. Hidden while `show-spinner` is on.                           |
 | `has-shadow`        | `true`    | Show a drop shadow. _(boolean)_                                                                                                          |
 | `has-border`        | `true`    | Show a border. _(boolean)_                                                                                                               |
 | `radius`            | `medium`  | `none` \| `small` \| `medium` \| `large` \| `xl`. Presets over `--loomi-panel-radius`; `medium` follows the theme, the rest override it. |
@@ -127,9 +181,10 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Slots
 
-| Slot   | Description          |
-| ------ | -------------------- |
-| `icon` | Custom icon content. |
+| Slot          | Description                                                                                       |
+| ------------- | ------------------------------------------------------------------------------------------------- |
+| `icon`        | Custom icon content.                                                                              |
+| `description` | Markup for the line under the number (e.g. a trend arrow). Wins over the `description` attribute. |
 
 ## Full Example
 

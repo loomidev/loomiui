@@ -360,6 +360,8 @@ interface LoomiIconAttributes {
 }
 
 interface LoomiInputAttributes {
+  "accessible-label"?: string;
+  "aria-label"?: string;
   "dynamic-mask"?: LoomiAttributeValue;
   "error-message"?: string;
   "label-position"?: LoomiAttributeValue;
@@ -429,6 +431,8 @@ interface LoomiPaginationAttributes {
 }
 
 interface LoomiPasswordAttributes {
+  "accessible-label"?: string;
+  "aria-label"?: string;
   "error-message"?: string;
   "label-position"?: LoomiAttributeValue;
   "no-implicit-submit"?: boolean;
@@ -562,8 +566,10 @@ interface LoomiSelectAttributes {
   "label-key"?: string;
   "label-position"?: LoomiAttributeValue;
   "max-selectable"?: number;
+  "prefix-icon"?: string;
   "selected-value"?: string;
   "show-focus-ring"?: boolean;
+  "transparent-prefix"?: boolean;
   "value-key"?: string;
 }
 
@@ -611,6 +617,7 @@ interface LoomiStatisticAttributes {
   "currency-position"?: "left" | "right";
   "has-border"?: boolean;
   "has-shadow"?: boolean;
+  "icon-background"?: string;
   "icon-color"?: string;
   "icon-position"?: "left" | "right";
   "icon-size"?: string;
@@ -688,6 +695,8 @@ interface LoomiTextEditorAttributes {
 }
 
 interface LoomiTextareaAttributes {
+  "accessible-label"?: string;
+  "aria-label"?: string;
   "error-message"?: string;
   "label-position"?: LoomiAttributeValue;
   "mention-data"?: LoomiAttributeValue;

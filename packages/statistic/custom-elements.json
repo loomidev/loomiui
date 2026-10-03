@@ -33,10 +33,20 @@
           "kind": "class",
           "description": "`<loomi-statistic>` — a dashboard stat showing a `number` and `label`, with optional\ncurrency, icon (slot) and loading spinner.",
           "name": "LoomiStatistic",
+          "cssParts": [
+            {
+              "description": "The secondary line under the number.",
+              "name": "description"
+            }
+          ],
           "slots": [
             {
               "description": "Leading (or trailing) icon/illustration.",
               "name": "icon"
+            },
+            {
+              "description": "Secondary line under the number (e.g. a trend arrow). Wins over the `description` attribute when both are set. Hidden while `show-spinner` is on.",
+              "name": "description"
             }
           ],
           "members": [
@@ -168,6 +178,26 @@
             },
             {
               "kind": "field",
+              "name": "iconBackground",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "CSS colour for a circle behind the icon (e.g. a light tint of `icon-color`).",
+              "attribute": "icon-background"
+            },
+            {
+              "kind": "field",
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Plain-text secondary line under the number. The `description` slot wins over it.",
+              "attribute": "description"
+            },
+            {
+              "kind": "field",
               "name": "isDarkContext",
               "type": {
                 "text": "boolean"
@@ -178,11 +208,66 @@
             },
             {
               "kind": "field",
+              "name": "hasSlottedDescription",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "Whether markup is assigned to the `description` slot (tracked via slotchange)."
+            },
+            {
+              "kind": "field",
+              "name": "hasIcon",
+              "type": {
+                "text": "boolean | undefined"
+              },
+              "privacy": "private",
+              "description": "Whether the `icon` slot has content; `undefined` until measured (SSR / first render),\nwhere the stylesheet's `:has()` rule is the fallback. Chromium doesn't match\n`:host(:has(...))`, so this class is what actually collapses the wrapper there."
+            },
+            {
+              "kind": "field",
               "name": "cleanupDarkWatch",
               "type": {
                 "text": "() => void | undefined"
               },
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "onIconSlotChange",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onDescriptionSlotChange",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
             }
           ],
           "attributes": [
@@ -297,6 +382,24 @@
               },
               "default": "\"\"",
               "fieldName": "iconSize"
+            },
+            {
+              "name": "icon-background",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "CSS colour for a circle behind the icon (e.g. a light tint of `icon-color`).",
+              "fieldName": "iconBackground"
+            },
+            {
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Plain-text secondary line under the number. The `description` slot wins over it.",
+              "fieldName": "description"
             }
           ],
           "superclass": {

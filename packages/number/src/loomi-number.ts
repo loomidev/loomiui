@@ -17,6 +17,16 @@ import {
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
+/** Like `type: Boolean`, but `attr="false"` reads as false — for attributes that default to true. */
+const booleanAttribute = {
+  fromAttribute(value: string | null): boolean {
+    return value !== null && value.toLowerCase() !== "false";
+  },
+  toAttribute(value: boolean): string | null {
+    return value ? "" : null;
+  },
+};
+
 export type LoomiNumberVariant = "default" | "minimal";
 
 const MINUS = svg`<path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />`;
@@ -46,7 +56,7 @@ export class LoomiNumber extends LoomiElement {
   private initialValue = "";
 
   @property({ reflect: true }) name = "";
-  @property() label = "";
+  @property({ reflect: true }) label = "";
   @property({ attribute: "label-position", reflect: true })
   labelPosition: LoomiFieldLabelPosition = "default";
   @property() locale = "";
@@ -65,7 +75,8 @@ export class LoomiNumber extends LoomiElement {
   /** Size preset: `tiny` | `small` | `regular` | `medium` | `big`. Equal names give equal heights across every form control and `<loomi-button>`. */
   @property() size: LoomiSize = "regular";
   @property() variant: LoomiNumberVariant = "default";
-  @property({ type: Boolean, attribute: "transparent-icons" }) transparentIcons = true;
+  @property({ type: Boolean, attribute: "transparent-icons", converter: booleanAttribute })
+  transparentIcons = true;
   @property({ type: Boolean, attribute: "with-dots" }) withDots = true;
   @property({ type: Boolean, reflect: true }) required = false;
   /** Stops Enter in this field from submitting its form (native implicit submission). */

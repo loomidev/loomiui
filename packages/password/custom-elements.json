@@ -163,17 +163,39 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "attribute": "label"
+              "attribute": "label",
+              "reflects": true
             },
             {
               "kind": "field",
               "name": "labelPosition",
               "type": {
-                "text": "LoomiFieldLabelPosition"
+                "text": "LoomiTextFieldLabelPosition"
               },
               "default": "\"default\"",
               "attribute": "label-position",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "accessibilityLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for a field with no visible \\`label\\`, used as the inner control's\n\\`aria-label\\`. Ignored when \\`label\\` is set.",
+              "attribute": "accessible-label"
+            },
+            {
+              "kind": "field",
+              "name": "hostAriaLabel",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\"",
+              "description": "Host `aria-label`, accepted as an alias of `accessible-label` (as on `<loomi-select>`).",
+              "attribute": "aria-label"
             },
             {
               "kind": "field",
@@ -832,10 +854,28 @@
             {
               "name": "label-position",
               "type": {
-                "text": "LoomiFieldLabelPosition"
+                "text": "LoomiTextFieldLabelPosition"
               },
               "default": "\"default\"",
               "fieldName": "labelPosition"
+            },
+            {
+              "name": "accessible-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible name for a field with no visible \\`label\\`, used as the inner control's\n\\`aria-label\\`. Ignored when \\`label\\` is set.",
+              "fieldName": "accessibilityLabel"
+            },
+            {
+              "name": "aria-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Host `aria-label`, accepted as an alias of `accessible-label` (as on `<loomi-select>`).",
+              "fieldName": "hostAriaLabel"
             },
             {
               "name": "locale",

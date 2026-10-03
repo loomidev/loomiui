@@ -122,17 +122,17 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute        | Default   | Description                                                                                                 |
-| ---------------- | --------- | ----------------------------------------------------------------------------------------------------------- |
-| `name`           | _(blank)_ | Submitted with the form.                                                                                    |
-| `tp-style`       | `popup`   | `popup` \| `inline` \| `clock` (analog clock in a modal; the attribute is `tp-style`, `style` is reserved). |
-| `format`         | `12`      | `12` \| `24`                                                                                                |
-| `variant`        | `default` | `default` \| `minimal` (bottom border only, no box)                                                         |
-| `selected-value` | _(blank)_ | Default time (e.g. `3:25PM` or `03:25`).                                                                    |
-| `label`          | _(blank)_ | Optional field label.                                                                                       |
-| `label-position` | `default` | `default` keeps the label above the field; `inside` keeps a compact label inside the top of the field.      |
-| `placeholder`    | `HH:MM`   | Popup field placeholder text.                                                                               |
-| `required`       | `false`   | Append an asterisk. _(boolean)_                                                                             |
+| Attribute        | Default   | Description                                                                                                                               |
+| ---------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`           | _(blank)_ | Submitted with the form.                                                                                                                  |
+| `tp-style`       | `popup`   | `popup` \| `inline` \| `clock` (analog clock in a modal; the attribute is `tp-style`, `style` is reserved).                               |
+| `format`         | `12`      | `12` \| `24`                                                                                                                              |
+| `variant`        | `default` | `default` \| `minimal` (bottom border only, no box)                                                                                       |
+| `selected-value` | _(blank)_ | Default time (e.g. `3:25PM` or `03:25`).                                                                                                  |
+| `label`          | _(blank)_ | Optional field label.                                                                                                                     |
+| `label-position` | `default` | `default` floats the label onto the field's top border, like `<loomi-input>`; `inside` keeps a compact label inside the top of the field. |
+| `placeholder`    | `HH:MM`   | Popup field placeholder text.                                                                                                             |
+| `required`       | `false`   | Append an asterisk. _(boolean)_                                                                                                           |
 
 **Property:** `value`. **Event:** `change` (`detail: { value }`).
 

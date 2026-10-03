@@ -64,6 +64,11 @@ export class LoomiOtp extends LoomiElement {
   /** Accepted characters: `numeric` (default) | `alphanumeric` | `text`. */
   @property() type: LoomiOtpType = "numeric";
   @property({ type: Boolean, reflect: true }) separator = false;
+  /**
+   * Shrink the boxes evenly so the whole row fits the host's width, never growing past
+   * the \`size\` (or \`--loomi-otp-size\`) maximum. The gap stays fixed.
+   */
+  @property({ type: Boolean, reflect: true }) fluid = false;
   @property({ type: Boolean, attribute: "hide-digits" }) hideDigits = false;
   @property({ type: Boolean }) mask = false;
   /** Stops Enter from submitting the owning form once every box is filled. */
@@ -214,6 +219,7 @@ export class LoomiOtp extends LoomiElement {
     const value = this.digits[i] ?? "";
     return html`<span class="loomi-box-wrap">
       <input
+        part="box"
         class="loomi-box variant-${this.variant} ${this.masked && value ? "is-masked" : ""}"
         type="text"
         inputmode=${this.type === "numeric" ? "numeric" : "text"}
@@ -333,7 +339,7 @@ export class LoomiOtp extends LoomiElement {
 
   override render(): TemplateResult {
     const showError = this.invalid && this.showErrorInline && this.errorMessage;
-    return html`<div class="loomi-otp size-${resolveLoomiSize(this.size, OTP_SIZES)}" @paste=${(e: ClipboardEvent) => this.onPaste(e)} @focusout=${(e: FocusEvent) => this.onFocusOut(e)}>
+    return html`<div part="boxes" class="loomi-otp size-${resolveLoomiSize(this.size, OTP_SIZES)} ${this.fluid ? "is-fluid" : ""}" @paste=${(e: ClipboardEvent) => this.onPaste(e)} @focusout=${(e: FocusEvent) => this.onFocusOut(e)}>
       ${Array.from(
         { length: this.totalDigits },
         (_, i) => html`

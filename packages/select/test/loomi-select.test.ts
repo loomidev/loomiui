@@ -1,6 +1,10 @@
 import { html, fixture, expect } from "@open-wc/testing";
 import "../dist/loomi-select.js";
 import type { LoomiSelect } from "../dist/index.js";
+import { provideLoomiIcons } from "@loomidev/icons";
+import envelopeIcon from "@loomidev/icons/heroicons/outline/envelope.js";
+
+provideLoomiIcons({ envelope: envelopeIcon });
 
 const DATA = [
   { label: "Ghana", value: "gh" },
@@ -257,5 +261,168 @@ describe("loomi-select", () => {
       el.shadowRoot!.querySelector(".loomi-panel")!.id,
     );
     await expect(el).to.be.accessible();
+  });
+
+  describe("prefix", () => {
+    const parts = (el: LoomiSelect) => {
+      const root = el.shadowRoot!;
+      const label = root.querySelector(".loomi-label") as HTMLElement | null;
+      // Transitions would leave the label mid-flight when measured.
+      if (label) label.style.transition = "none";
+      return {
+        trigger: root.querySelector(".loomi-trigger") as HTMLButtonElement,
+        prefix: root.querySelector(".loomi-prefix") as HTMLElement,
+        value: root.querySelector(".loomi-value") as HTMLElement,
+        label,
+        wrapper: root.querySelector(".loomi-select") as HTMLElement,
+      };
+    };
+    // ResizeObserver delivers on the next frame.
+    const settle = async (el: LoomiSelect) => {
+      await el.updateComplete;
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+    };
+    const expectLabelClearOfPrefix = (el: LoomiSelect, rtl = false) => {
+      const { prefix, label, value } = parts(el);
+      const p = prefix.getBoundingClientRect();
+      const l = label!.getBoundingClientRect();
+      const v = value.getBoundingClientRect();
+      if (rtl) {
+        expect(l.right).to.be.at.most(p.left);
+        expect(Math.abs(l.right - v.right)).to.be.below(1);
+      } else {
+        expect(l.left).to.be.at.least(p.right);
+        expect(Math.abs(l.left - v.left)).to.be.below(1);
+      }
+    };
+
+    it("renders a prefix-icon inside the trigger before the value", async () => {
+      const el = await fixture<LoomiSelect>(
+        html`<loomi-select .data=${DATA} prefix-icon="envelope"></loomi-select>`,
+      );
+      const { trigger, prefix, value } = parts(el);
+      expect(prefix.parentElement).to.equal(trigger);
+      expect(prefix.hidden).to.equal(false);
+      expect(prefix.querySelector("svg.loomi-icon path")).to.exist;
+      expect(prefix.getBoundingClientRect().right).to.be.at.most(
+        value.getBoundingClientRect().left,
+      );
+    });
+
+    it("renders text prefixes and the prefix slot, and hides the affix when empty", async () => {
+      const bare = await fixture<LoomiSelect>(html`<loomi-select .data=${DATA}></loomi-select>`);
+      expect(parts(bare).prefix.hidden).to.equal(true);
+
+      const text = await fixture<LoomiSelect>(
+        html`<loomi-select .data=${DATA} prefix="+233"></loomi-select>`,
+      );
+      expect(parts(text).prefix.textContent!.trim()).to.equal("+233");
+
+      const slotted = await fixture<LoomiSelect>(
+        html`<loomi-select .data=${DATA}><b slot="prefix">@</b></loomi-select>`,
+      );
+      await slotted.updateComplete;
+      expect(parts(slotted).prefix.hidden).to.equal(false);
+    });
+
+    it("keeps the label clear of the icon when empty, focused/open and filled", async () => {
+      const el = await fixture<LoomiSelect>(
+        html`<loomi-select .data=${DATA} label="Country" prefix-icon="envelope"></loomi-select>`,
+      );
+      await settle(el);
+      // Empty: the label rests where the value starts.
+      expectLabelClearOfPrefix(el);
+
+      // Focused + open: floated, still after the icon.
+      const { trigger, wrapper } = parts(el);
+      trigger.focus();
+      trigger.click();
+      await settle(el);
+      expect(wrapper.classList.contains("float")).to.equal(true);
+      expectLabelClearOfPrefix(el);
+
+      // Filled.
+      (el.shadowRoot!.querySelector("#loomi-opt-1") as HTMLElement).click();
+      await settle(el);
+      expect(wrapper.classList.contains("float")).to.equal(true);
+      expectLabelClearOfPrefix(el);
+    });
+
+    it("keeps the placeholder after the prefix", async () => {
+      const el = await fixture<LoomiSelect>(
+        html`<loomi-select .data=${DATA} placeholder="Pick one" prefix-icon="envelope"></loomi-select>`,
+      );
+      const { prefix, value } = parts(el);
+      expect(value.classList.contains("placeholder")).to.equal(true);
+      expect(value.getBoundingClientRect().left).to.be.at.least(
+        prefix.getBoundingClientRect().right,
+      );
+    });
+
+    it("keeps the label clear of the icon in searchable mode", async () => {
+      const el = await fixture<LoomiSelect>(
+        html`<loomi-select .data=${DATA} label="Country" searchable prefix-icon="envelope"></loomi-select>`,
+      );
+      await settle(el);
+      expectLabelClearOfPrefix(el);
+      parts(el).trigger.click();
+      await settle(el);
+      expect(el.shadowRoot!.querySelector(".loomi-search")).to.exist;
+      expectLabelClearOfPrefix(el);
+    });
+
+    it("keeps the label clear of the icon in multiple mode", async () => {
+      const el = await fixture<LoomiSelect>(
+        html`<loomi-select .data=${DATA} label="Countries" multiple prefix-icon="envelope"></loomi-select>`,
+      );
+      await settle(el);
+      expectLabelClearOfPrefix(el);
+      parts(el).trigger.click();
+      await settle(el);
+      (el.shadowRoot!.querySelector("#loomi-opt-0") as HTMLElement).click();
+      (el.shadowRoot!.querySelector("#loomi-opt-2") as HTMLElement).click();
+      await settle(el);
+      expect(el.value).to.equal("gh,ke");
+      expectLabelClearOfPrefix(el);
+    });
+
+    it("mirrors the prefix and label in RTL", async () => {
+      const wrap = await fixture<HTMLDivElement>(
+        html`<div dir="rtl" style="width: 320px">
+          <loomi-select .data=${DATA} label="Country" prefix-icon="envelope"></loomi-select>
+        </div>`,
+      );
+      const el = wrap.querySelector("loomi-select") as LoomiSelect;
+      await settle(el);
+      const { trigger, prefix, value } = parts(el);
+      const t = trigger.getBoundingClientRect();
+      // The prefix leads on the right.
+      expect(prefix.getBoundingClientRect().left).to.be.at.least(
+        value.getBoundingClientRect().right,
+      );
+      expect(t.right - prefix.getBoundingClientRect().right).to.be.below(t.width / 4);
+      expectLabelClearOfPrefix(el, true);
+      trigger.click();
+      await settle(el);
+      expectLabelClearOfPrefix(el, true);
+    });
+
+    it('supports transparent-prefix="false" for a solid affix', async () => {
+      const el = await fixture<LoomiSelect>(
+        html`<loomi-select .data=${DATA} prefix="+233" transparent-prefix="false"></loomi-select>`,
+      );
+      const { prefix, trigger } = parts(el);
+      expect(el.transparentPrefix).to.equal(false);
+      expect(prefix.classList.contains("loomi-affix-solid")).to.equal(true);
+      // Solid affixes run flush to the trigger's start edge.
+      expect(
+        prefix.getBoundingClientRect().left - trigger.getBoundingClientRect().left,
+      ).to.be.below(4);
+
+      const transparent = await fixture<LoomiSelect>(
+        html`<loomi-select .data=${DATA} prefix="+233"></loomi-select>`,
+      );
+      expect(parts(transparent).prefix.classList.contains("loomi-affix-solid")).to.equal(false);
+    });
   });
 });

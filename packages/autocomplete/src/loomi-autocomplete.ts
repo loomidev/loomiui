@@ -224,7 +224,7 @@ export class LoomiAutocomplete extends LoomiElement {
   private initialSelectedValue = "";
 
   @property({ reflect: true }) name = "";
-  @property() label = "";
+  @property({ reflect: true }) label = "";
   @property({ attribute: "label-position", reflect: true })
   labelPosition: LoomiFieldLabelPosition = "default";
   @property() placeholder = DEFAULT_PLACEHOLDER;

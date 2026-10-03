@@ -46,6 +46,63 @@
             "name": "LoomiModalEventMap",
             "module": "./loomi-modal.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "loomiConfirm",
+          "declaration": {
+            "name": "loomiConfirm",
+            "module": "./loomi-confirm.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "LoomiConfirmOptions",
+          "declaration": {
+            "name": "LoomiConfirmOptions",
+            "module": "./loomi-confirm.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/loomi-confirm.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "loomiConfirm",
+          "return": {
+            "type": {
+              "text": "Promise<boolean>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "message",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "options",
+              "default": "{}",
+              "type": {
+                "text": "LoomiConfirmOptions"
+              }
+            }
+          ],
+          "description": "Promise-based counterpart to `window.confirm()`. Resolves `true` only when OK is clicked;\nCancel, Escape, a backdrop click and the close icon resolve `false`.\n\nOne `<loomi-modal>` is reused. A call made while a dialog is open is queued and shown\nafter the current one is dismissed, in call order; no call is ever rejected."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "loomiConfirm",
+          "declaration": {
+            "name": "loomiConfirm",
+            "module": "src/loomi-confirm.ts"
+          }
         }
       ]
     },

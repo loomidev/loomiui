@@ -130,7 +130,20 @@ with the password displayed beneath it:
 <loomi-password label="Password" label-position="inside"></loomi-password>
 ```
 
+Use `label-position="top"` for a plain label above the field, outside its border. The
+label is a real `<label>` tied to the inner control, and the `placeholder` shows as usual:
+
+```html
+<form>
+  <loomi-input name="email" type="email" label="Email" label-position="top"></loomi-input>
+  <loomi-password name="password" label="Password" label-position="top" required></loomi-password>
+</form>
+```
+
 ## Accessibility
+
+A field with no visible `label` still needs a name: set `accessible-label`
+(`accessibilityLabel` property; `aria-label` on the element works too), e.g. `<loomi-input accessible-label="Search the docs">`.
 
 For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
@@ -144,31 +157,32 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute                 | Default   | Description                                                                                                                                      |
-| ------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `name`                    | _(blank)_ | Submitted with the form.                                                                                                                         |
-| `label`                   | _(blank)_ | Floating label.                                                                                                                                  |
-| `label-position`          | `default` | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field.                                                  |
-| `placeholder`             | _(blank)_ | Placeholder text.                                                                                                                                |
-| `value`                   | _(blank)_ | Current value.                                                                                                                                   |
-| `required`                | `false`   | Marks the field required. _(boolean)_                                                                                                            |
-| `no-implicit-submit`      | `false`   | Stops Enter in the field from submitting its form. _(boolean)_                                                                                   |
-| `disabled`                | `false`   | Disable the field. _(boolean)_                                                                                                                   |
-| `readonly`                | `false`   | Read-only field. _(boolean)_                                                                                                                     |
-| `size`                    | `regular` | `tiny` \| `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
-| `variant`                 | `default` | `default` \| `minimal` (bottom border only, no box)                                                                                              |
-| `prefix`                  | _(blank)_ | Text prefix.                                                                                                                                     |
-| `prefix-icon`             | _(blank)_ | Icon-name prefix.                                                                                                                                |
-| `prefix-options`          | _(blank)_ | Comma, pipe, or JSON array of dropdown options.                                                                                                  |
-| `prefix-value`            | _(blank)_ | Selected prefix dropdown value.                                                                                                                  |
-| `transparent-prefix`      | `true`    | Transparent (vs solid) prefix. _(boolean)_                                                                                                       |
-| `viewable`                | `true`    | Show a reveal eye. _(boolean)_                                                                                                                   |
-| `clearable`               | `false`   | Show a clear button when the field has a value. _(boolean)_                                                                                      |
-| `strength`                | _(blank)_ | Requirement tokens: `A`, `a`, `1`, `#`.                                                                                                          |
-| `strength-color`          | _(blank)_ | Custom color for met strength labels. Defaults to a darker success green.                                                                        |
-| `error-message`           | _(blank)_ | Message shown when validation fails.                                                                                                             |
-| `show-error-inline`       | `false`   | Render `error-message` beneath the field. _(boolean)_                                                                                            |
-| `show-placeholder-always` | `false`   | Keep the placeholder visible even with a label. _(boolean)_                                                                                      |
+| Attribute                 | Default   | Description                                                                                                                                                  |
+| ------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `name`                    | _(blank)_ | Submitted with the form.                                                                                                                                     |
+| `label`                   | _(blank)_ | Floating label.                                                                                                                                              |
+| `label-position`          | `default` | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field; `top` renders the label above the field, outside its border. |
+| `accessible-label`        | `""`      | Accessible name for a field with no visible `label`, used as the inner control's `aria-label`. Ignored when `label` is set.                                  |
+| `placeholder`             | _(blank)_ | Placeholder text.                                                                                                                                            |
+| `value`                   | _(blank)_ | Current value.                                                                                                                                               |
+| `required`                | `false`   | Marks the field required. _(boolean)_                                                                                                                        |
+| `no-implicit-submit`      | `false`   | Stops Enter in the field from submitting its form. _(boolean)_                                                                                               |
+| `disabled`                | `false`   | Disable the field. _(boolean)_                                                                                                                               |
+| `readonly`                | `false`   | Read-only field. _(boolean)_                                                                                                                                 |
+| `size`                    | `regular` | `tiny` \| `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing).             |
+| `variant`                 | `default` | `default` \| `minimal` (bottom border only, no box)                                                                                                          |
+| `prefix`                  | _(blank)_ | Text prefix.                                                                                                                                                 |
+| `prefix-icon`             | _(blank)_ | Icon-name prefix.                                                                                                                                            |
+| `prefix-options`          | _(blank)_ | Comma, pipe, or JSON array of dropdown options.                                                                                                              |
+| `prefix-value`            | _(blank)_ | Selected prefix dropdown value.                                                                                                                              |
+| `transparent-prefix`      | `true`    | Transparent (vs solid) prefix. _(boolean)_                                                                                                                   |
+| `viewable`                | `true`    | Show a reveal eye. _(boolean)_                                                                                                                               |
+| `clearable`               | `false`   | Show a clear button when the field has a value. _(boolean)_                                                                                                  |
+| `strength`                | _(blank)_ | Requirement tokens: `A`, `a`, `1`, `#`.                                                                                                                      |
+| `strength-color`          | _(blank)_ | Custom color for met strength labels. Defaults to a darker success green.                                                                                    |
+| `error-message`           | _(blank)_ | Message shown when validation fails.                                                                                                                         |
+| `show-error-inline`       | `false`   | Render `error-message` beneath the field. _(boolean)_                                                                                                        |
+| `show-placeholder-always` | `false`   | Keep the placeholder visible even with a label. _(boolean)_                                                                                                  |
 
 ### Methods
 

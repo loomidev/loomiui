@@ -33,7 +33,7 @@
   background: transparent;
   padding: 0;
 }
-:host([label-position="inside"]) .loomi-field {
+:host([label-position="inside"][label]:not([label=""])) .loomi-field {
   position: relative;
   padding-top: 1.6rem;
 }

@@ -57,4 +57,26 @@ describe("loomi-input affixes and hints", () => {
 
     source.remove();
   });
+
+  it('treats transparent-prefix="false" / transparent-suffix="false" as solid affixes', async () => {
+    const el = await fixture<LoomiInput>(
+      html`<loomi-input prefix="+" suffix="kg" transparent-prefix="false" transparent-suffix="false"></loomi-input>`,
+    );
+    expect(el.transparentPrefix).to.equal(false);
+    expect(el.transparentSuffix).to.equal(false);
+    expect(
+      el.shadowRoot!.querySelector(".loomi-prefix")!.classList.contains("loomi-affix-solid"),
+    ).to.equal(true);
+    expect(
+      el.shadowRoot!.querySelector(".loomi-suffix")!.classList.contains("loomi-affix-solid"),
+    ).to.equal(true);
+
+    const bare = await fixture<LoomiInput>(
+      html`<loomi-input prefix="+" transparent-prefix></loomi-input>`,
+    );
+    expect(bare.transparentPrefix).to.equal(true);
+    expect(
+      bare.shadowRoot!.querySelector(".loomi-prefix")!.classList.contains("loomi-affix-solid"),
+    ).to.equal(false);
+  });
 });

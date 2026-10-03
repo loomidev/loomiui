@@ -11,6 +11,8 @@ export const Password: ForwardRefExoticComponent<
     onInput?: (e: CustomEvent) => void;
     onChange?: (e: CustomEvent) => void;
     labelPosition?: JSX.IntrinsicElements["loomi-password"]["label-position"];
+    accessibleLabel?: JSX.IntrinsicElements["loomi-password"]["accessible-label"];
+    ariaLabel?: JSX.IntrinsicElements["loomi-password"]["aria-label"];
     noImplicitSubmit?: JSX.IntrinsicElements["loomi-password"]["no-implicit-submit"];
     prefixOptions?: JSX.IntrinsicElements["loomi-password"]["prefix-options"];
     prefixValue?: JSX.IntrinsicElements["loomi-password"]["prefix-value"];
@@ -26,6 +28,8 @@ export const Password: ForwardRefExoticComponent<
   { "loomi-prefix-change": "onLoomiPrefixChange", input: "onInput", change: "onChange" },
   {
     labelPosition: "label-position",
+    accessibleLabel: "accessible-label",
+    ariaLabel: "aria-label",
     noImplicitSubmit: "no-implicit-submit",
     prefixOptions: "prefix-options",
     prefixValue: "prefix-value",
@@ -42,6 +46,8 @@ export const Password: ForwardRefExoticComponent<
     onInput?: (e: CustomEvent) => void;
     onChange?: (e: CustomEvent) => void;
     labelPosition?: JSX.IntrinsicElements["loomi-password"]["label-position"];
+    accessibleLabel?: JSX.IntrinsicElements["loomi-password"]["accessible-label"];
+    ariaLabel?: JSX.IntrinsicElements["loomi-password"]["aria-label"];
     noImplicitSubmit?: JSX.IntrinsicElements["loomi-password"]["no-implicit-submit"];
     prefixOptions?: JSX.IntrinsicElements["loomi-password"]["prefix-options"];
     prefixValue?: JSX.IntrinsicElements["loomi-password"]["prefix-value"];

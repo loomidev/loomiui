@@ -3,6 +3,7 @@ import { customElement, property, state, query } from "lit/decorators.js";
 import {
   anchorFloatingPanel,
   controlSizeStyles,
+  fieldLabelStyles,
   fieldStyles,
   loomiDateFormatter,
   loomiDefaultText,
@@ -72,7 +73,12 @@ const sameDay = (a: Date, b: Date) => a.toDateString() === b.toDateString();
  */
 @customElement("loomi-datepicker")
 export class LoomiDatepicker extends LoomiElement {
-  static override styles = loomiStyles(controlSizeStyles, fieldStyles, componentStyles);
+  static override styles = loomiStyles(
+    controlSizeStyles,
+    fieldStyles,
+    fieldLabelStyles,
+    componentStyles,
+  );
 
   /** Size names this component supports, from the canonical `LoomiSize` scale — shared by every form control. */
   static readonly supportedSizes = { size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport;
@@ -89,7 +95,7 @@ export class LoomiDatepicker extends LoomiElement {
   @property({ attribute: "max-date" }) maxDate = "";
   @property() format: LoomiDateFormat = "yyyy-mm-dd";
   @property() placeholder = DEFAULT_PLACEHOLDER;
-  @property() label = "";
+  @property({ reflect: true }) label = "";
   @property({ attribute: "label-position", reflect: true })
   labelPosition: LoomiFieldLabelPosition = "default";
   @property() locale = "";
@@ -485,17 +491,22 @@ export class LoomiDatepicker extends LoomiElement {
 
     if (this.dpStyle === "inline") {
       return html`<div class="loomi-dp-inline">
-        ${this.label ? html`<span class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req"> *</span>` : nothing}</span>` : nothing}
+        ${this.label ? html`<span class="loomi-label-static">${this.label}${this.required ? html`<span class="loomi-req"> *</span>` : nothing}</span>` : nothing}
         <div class="loomi-cal inline">${calendarBody}</div>
       </div>`;
     }
 
-    return html`<div class="loomi-dp ${this.open ? "open" : ""}">
-      ${this.label ? html`<span class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req"> *</span>` : nothing}</span>` : nothing}
-      <div class="loomi-field size-${resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)} variant-${this.variant}" @click=${() => this.toggle()}>
-        <span class="loomi-text ${this.value ? "" : "placeholder"}">${this.value || placeholder}${!this.value && this.required ? html`<span class="loomi-req"> *</span>` : nothing}</span>
+    // Like the other fields, a label sits where the placeholder would and floats onto the
+    // border once there is a value or the calendar is open; `inside` keeps it docked.
+    const hasLabel = !!this.label;
+    const float = hasLabel && (this.open || !!this.value);
+    const hidePlaceholder = hasLabel && !float && this.labelPosition !== "inside";
+    return html`<div class="loomi-dp size-${resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)} ${this.open ? "open" : ""} ${float ? "float" : ""}">
+      <div class="loomi-field variant-${this.variant}" @click=${() => this.toggle()}>
+        <span class="loomi-text ${this.value ? "" : "placeholder"} ${hidePlaceholder ? "hidden" : ""}">${this.value || placeholder}${!this.value && this.required && !hasLabel ? html`<span class="loomi-req"> *</span>` : nothing}</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${CAL}</svg>
       </div>
+      ${hasLabel ? html`<span class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</span>` : nothing}
       ${
         this.open
           ? html`<div class="loomi-cal" popover="manual" @click=${(e: Event) => e.stopPropagation()}>${calendarBody}</div>`

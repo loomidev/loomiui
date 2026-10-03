@@ -168,7 +168,20 @@ with the entered text displayed beneath it:
 <loomi-textarea label="Message" label-position="inside"></loomi-textarea>
 ```
 
+Use `label-position="top"` for a plain label above the field, outside its border. The
+label is a real `<label>` tied to the inner control, and the `placeholder` shows as usual:
+
+```html
+<form>
+  <loomi-input name="subject" label="Subject" label-position="top"></loomi-input>
+  <loomi-textarea name="message" label="Message" label-position="top" placeholder="How can we help?"></loomi-textarea>
+</form>
+```
+
 ## Accessibility
+
+A field with no visible `label` still needs a name: set `accessible-label`
+(`accessibilityLabel` property; `aria-label` on the element works too), e.g. `<loomi-input accessible-label="Search the docs">`.
 
 For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
 
@@ -182,22 +195,23 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute           | Default   | Description                                                                                     |
-| ------------------- | --------- | ----------------------------------------------------------------------------------------------- |
-| `name`              | _(blank)_ | Submitted with the form.                                                                        |
-| `label`             | _(blank)_ | Floating label.                                                                                 |
-| `label-position`    | `default` | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field. |
-| `placeholder`       | _(blank)_ | Placeholder text.                                                                               |
-| `value`             | _(blank)_ | Current value (also a property).                                                                |
-| `rows`              | `3`       | Height in rows.                                                                                 |
-| `required`          | `false`   | Marks the field required. _(boolean)_                                                           |
-| `disabled`          | `false`   | Disable the field. _(boolean)_                                                                  |
-| `readonly`          | `false`   | Read-only field. _(boolean)_                                                                    |
-| `error-message`     | _(blank)_ | Message shown when validation fails.                                                            |
-| `show-error-inline` | `false`   | Render the error beneath the field. _(boolean)_                                                 |
-| `variant`           | `default` | `default` \| `minimal` (bottom border only, no box)                                             |
-| `no-clearing`       | `false`   | Remove the default bottom margin. _(boolean)_                                                   |
-| `mention-triggers`  | `[]`      | JSON array of trigger characters, e.g. `'["@","#","/"]'`.                                       |
+| Attribute           | Default   | Description                                                                                                                                                  |
+| ------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `name`              | _(blank)_ | Submitted with the form.                                                                                                                                     |
+| `label`             | _(blank)_ | Floating label.                                                                                                                                              |
+| `label-position`    | `default` | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field; `top` renders the label above the field, outside its border. |
+| `accessible-label`  | `""`      | Accessible name for a field with no visible `label`, used as the inner control's `aria-label`. Ignored when `label` is set.                                  |
+| `placeholder`       | _(blank)_ | Placeholder text.                                                                                                                                            |
+| `value`             | _(blank)_ | Current value (also a property).                                                                                                                             |
+| `rows`              | `3`       | Height in rows.                                                                                                                                              |
+| `required`          | `false`   | Marks the field required. _(boolean)_                                                                                                                        |
+| `disabled`          | `false`   | Disable the field. _(boolean)_                                                                                                                               |
+| `readonly`          | `false`   | Read-only field. _(boolean)_                                                                                                                                 |
+| `error-message`     | _(blank)_ | Message shown when validation fails.                                                                                                                         |
+| `show-error-inline` | `false`   | Render the error beneath the field. _(boolean)_                                                                                                              |
+| `variant`           | `default` | `default` \| `minimal` (bottom border only, no box)                                                                                                          |
+| `no-clearing`       | `false`   | Remove the default bottom margin. _(boolean)_                                                                                                                |
+| `mention-triggers`  | `[]`      | JSON array of trigger characters, e.g. `'["@","#","/"]'`.                                                                                                    |
 
 **Properties (JS only):** `mentionData` - `Record<string, { label, value?, description?, image? }[]>`.
 

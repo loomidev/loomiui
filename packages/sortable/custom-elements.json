@@ -79,7 +79,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<loomi-sortable>` — a SortableJS-inspired drag-and-drop list. Provide rows via\nthe `items` array (`{ id, label, meta?, locked?, filtered?, className? }`). Give\ntwo or more lists the same non-empty `group` to let users drag items between them.\n\nForm-associated: when `name` is set, the host submits the current order (JSON array\nof ids) like a native form control.",
+          "description": "`<loomi-sortable>` — a SortableJS-inspired drag-and-drop list. Provide rows via\nthe `items` array (`{ id, label, meta?, locked?, filtered?, className? }`). Give\ntwo or more lists the same non-empty `group` to let users drag items between them.\n\n**Custom row content.** Instead of `items`, put your own markup in the light DOM:\n`<loomi-sortable><div data-id=\"12\">…</div>…</loomi-sortable>`. Direct children with a\n`data-id` become rows; they stay in the light DOM (page CSS and third-party renderers\nstill reach them) and the component adds drag behaviour, an optional handle and\nkeyboard support around them. Reordering is shown with CSS `order` rather than by\nmoving nodes, so treat `loomi-reorder` as the source of truth and re-render. Light rows\nsupport same-list reordering only (no groups, multi-drag or swap).\n\nForm-associated: when `name` is set, the host submits the current order (JSON array\nof ids) like a native form control.",
           "name": "LoomiSortable",
           "members": [
             {
@@ -322,6 +322,69 @@
               "name": "selectedIds",
               "privacy": "private",
               "default": "new Set<string>()"
+            },
+            {
+              "kind": "field",
+              "name": "hasLightRows",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "announcement",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "rowOrder",
+              "type": {
+                "text": "string[] | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "pressTarget",
+              "type": {
+                "text": "Element | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "lightDragId",
+              "type": {
+                "text": "string | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "keyboardDrag",
+              "type": {
+                "text": "{ id: string; origin: string[] } | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "touchDrag",
+              "type": {
+                "text": "{\n    id: string;\n    handle: HTMLElement;\n    startX: number;\n    startY: number;\n    active: boolean;\n    overId: string | null;\n  } | null"
+              },
+              "privacy": "private",
+              "default": "null"
             },
             {
               "kind": "field",
@@ -742,6 +805,444 @@
                   "name": "index",
                   "type": {
                     "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "domRows",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement[]"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "currentLightIds",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string[]"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "lightRowOf",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement | null"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "rowLocked",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "HTMLElement"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleFor",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement | null"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "HTMLElement"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "rowLabel",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "HTMLElement"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "syncLightRows",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "resetOrder",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ],
+              "description": "Prepares light rows: handles, draggability and the empty-state flag."
+            },
+            {
+              "kind": "method",
+              "name": "ensureHandle",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "HTMLElement"
+                  }
+                },
+                {
+                  "name": "locked",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onSlotChange",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reflowFrom",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "before",
+                  "type": {
+                    "text": "Map<HTMLElement, DOMRect> | null"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "applyLightOrder",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "ids",
+                  "type": {
+                    "text": "string[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "emitReorder",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "moveLightRow",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "id",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "toIndex",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ],
+              "description": "Moves a light row to `toIndex` in the visual order. Returns whether anything changed."
+            },
+            {
+              "kind": "method",
+              "name": "markLight",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "id",
+                  "type": {
+                    "text": "string | null"
+                  }
+                },
+                {
+                  "name": "attr",
+                  "type": {
+                    "text": "\"dragging\" | \"over\""
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "clearLightDrag",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "isInteractiveWithin",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "HTMLElement"
+                  }
+                },
+                {
+                  "name": "el",
+                  "type": {
+                    "text": "Element | null"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onLightDragStart",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "DragEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onLightDragOver",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "DragEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onLightDrop",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "DragEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onLightPointerDown",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "PointerEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "onTouchMove",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onTouchEnd",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "stopTouchDrag",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "announceMove",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "key",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "id",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "HTMLElement"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onLightKeydown",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onLightFocus",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "FocusEvent"
+                  }
+                },
+                {
+                  "name": "focused",
+                  "type": {
+                    "text": "boolean"
                   }
                 }
               ]
