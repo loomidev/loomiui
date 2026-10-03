@@ -1,5 +1,17 @@
 # @loomidev/core
 
+## 0.11.0
+
+### Minor Changes
+
+- fde1da3: Visual fix: `<loomi-datepicker>` and `<loomi-timepicker>` labels now float onto the field's top border like `<loomi-input>` and `<loomi-select>`, and `label-position="inside"` lines up across every form control. `label-position="inside"` no longer reserves label space when `label` is empty, and an empty `<loomi-tag-input>` now matches the other controls' height. `@loomidev/core` adds `fieldLabelStyles`.
+- e1723dc: `<loomi-input>`, `<loomi-password>` and `<loomi-textarea>` can now be named from outside: `accessible-label` names a field with no visible `label`, and `label-position="top"` renders the label above the field, outside its border, still tied to the inner control.
+
+### Patch Changes
+
+- 624cfc1: `<loomi-sortable>` rows can now be your own light-DOM markup: direct children with a `data-id`. Buttons, links, badges and rich content inside a row keep working and keep page styles. With `has-handle`, only the handle starts a drag; without one, drags starting on interactive elements are ignored. Rows reorder with mouse, touch (via the handle) and keyboard (Alt+Arrow, or Space to pick up / move / drop), announced through a live region, and `loomi-reorder` reports the data-ids. The DOM is never reordered, so treat the event as the source of truth. `items` keeps working.
+- @loomidev/theme@0.11.0
+
 ## 0.10.0
 
 ### Minor Changes
