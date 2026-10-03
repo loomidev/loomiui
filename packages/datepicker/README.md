@@ -172,6 +172,13 @@ with the selected date displayed beneath it:
 <loomi-datepicker label="Start date" label-position="inside"></loomi-datepicker>
 ```
 
+Use `label-position="top"` for a plain label above the field, outside its border, as on
+`<loomi-input>`. It names the field for assistive tech, and the `placeholder` shows as usual:
+
+```html
+<loomi-datepicker label="Start date" label-position="top"></loomi-datepicker>
+```
+
 ## Accessibility
 
 For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
@@ -186,23 +193,23 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute        | Default         | Description                                                                                                                                      |
-| ---------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `name`           | _(blank)_       | Submitted with the form.                                                                                                                         |
-| `dp-style`       | `popup`         | `popup` (input + panel) \| `inline` (calendar always visible, no triggering input).                                                              |
-| `range`          | `false`         | Select a start/end range. _(boolean)_                                                                                                            |
-| `selected-value` | _(blank)_       | Default ISO date, or `"start - end"` for range.                                                                                                  |
-| `min-date`       | _(blank)_       | ISO lower bound; earlier days are disabled.                                                                                                      |
-| `max-date`       | _(blank)_       | ISO upper bound; later days are disabled.                                                                                                        |
-| `format`         | `yyyy-mm-dd`    | `yyyy-mm-dd` \| `dd-mm-yyyy` \| `mm-dd-yyyy` \| `yyyy/mm/dd` \| `dd/mm/yyyy` \| `mm/dd/yyyy` \| `D d M, Y`                                       |
-| `week-starts`    | `sunday`        | `sunday` \| `monday`                                                                                                                             |
-| `placeholder`    | `Select a date` | Closed-field placeholder text.                                                                                                                   |
-| `label`          | _(blank)_       | Optional field label.                                                                                                                            |
-| `label-position` | `default`       | `default` floats the label onto the field's top border, like `<loomi-input>`; `inside` keeps a compact label inside the top of the field.        |
-| `locale`         | _(global)_      | Override the shared Loomi locale for this datepicker.                                                                                            |
-| `required`       | `false`         | Append an asterisk. _(boolean)_                                                                                                                  |
-| `size`           | `regular`       | `tiny` \| `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
-| `variant`        | `default`       | `default` \| `minimal` (bottom border only, no box)                                                                                              |
+| Attribute        | Default         | Description                                                                                                                                                                                            |
+| ---------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `name`           | _(blank)_       | Submitted with the form.                                                                                                                                                                               |
+| `dp-style`       | `popup`         | `popup` (input + panel) \| `inline` (calendar always visible, no triggering input).                                                                                                                    |
+| `range`          | `false`         | Select a start/end range. _(boolean)_                                                                                                                                                                  |
+| `selected-value` | _(blank)_       | Default ISO date, or `"start - end"` for range.                                                                                                                                                        |
+| `min-date`       | _(blank)_       | ISO lower bound; earlier days are disabled.                                                                                                                                                            |
+| `max-date`       | _(blank)_       | ISO upper bound; later days are disabled.                                                                                                                                                              |
+| `format`         | `yyyy-mm-dd`    | `yyyy-mm-dd` \| `dd-mm-yyyy` \| `mm-dd-yyyy` \| `yyyy/mm/dd` \| `dd/mm/yyyy` \| `mm/dd/yyyy` \| `D d M, Y`                                                                                             |
+| `week-starts`    | `sunday`        | `sunday` \| `monday`                                                                                                                                                                                   |
+| `placeholder`    | `Select a date` | Closed-field placeholder text.                                                                                                                                                                         |
+| `label`          | _(blank)_       | Optional field label.                                                                                                                                                                                  |
+| `label-position` | `default`       | `default` floats the label onto the field's top border, like `<loomi-input>`; `inside` keeps a compact label inside the top of the field; `top` renders the label above the field, outside its border. |
+| `locale`         | _(global)_      | Override the shared Loomi locale for this datepicker.                                                                                                                                                  |
+| `required`       | `false`         | Append an asterisk. _(boolean)_                                                                                                                                                                        |
+| `size`           | `regular`       | `tiny` \| `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing).                                                       |
+| `variant`        | `default`       | `default` \| `minimal` (bottom border only, no box)                                                                                                                                                    |
 
 **Properties:** `value` (ISO), `displayValue` (formatted per `format`, read-only). **Event:** `change` (`detail: { value, dates }`).
 

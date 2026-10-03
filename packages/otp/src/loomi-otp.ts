@@ -5,6 +5,10 @@ import {
   LoomiElement,
   loomiDefaultText,
   loomiStyles,
+  fieldTopLabelStyles,
+  loomiTopLabel,
+  TOP_LABEL_ID,
+  type LoomiTextFieldLabelPosition,
   loomiT,
   randomSuffix,
   resolveLoomiSize,
@@ -44,7 +48,7 @@ const OTP_STRIP: Record<LoomiOtpType, RegExp> = {
  */
 @customElement("loomi-otp")
 export class LoomiOtp extends LoomiElement {
-  static override styles = loomiStyles(componentStyles);
+  static override styles = loomiStyles(fieldTopLabelStyles, componentStyles);
 
   /** Size names this component supports, from the canonical `LoomiSize` scale. */
   static readonly supportedSizes = { size: OTP_SIZES } satisfies LoomiSizeSupport;
@@ -56,7 +60,14 @@ export class LoomiOtp extends LoomiElement {
   private readonly instanceId = randomSuffix();
 
   @property({ reflect: true }) name = "";
+  /**
+   * Shown above the boxes with \`label-position="top"\`, where it also names the group;
+   * otherwise only the title of the error toast.
+   */
   @property() label = "";
+  /** \`top\` shows \`label\` above the boxes. The other values leave it hidden. */
+  @property({ attribute: "label-position", reflect: true })
+  labelPosition: LoomiTextFieldLabelPosition = "default";
   @property({ type: Number, attribute: "total-digits" }) totalDigits = 4;
   /** Digit box size: `regular` | `big`. */
   @property() size: LoomiSize = "regular";
@@ -339,7 +350,12 @@ export class LoomiOtp extends LoomiElement {
 
   override render(): TemplateResult {
     const showError = this.invalid && this.showErrorInline && this.errorMessage;
-    return html`<div part="boxes" class="loomi-otp size-${resolveLoomiSize(this.size, OTP_SIZES)} ${this.fluid ? "is-fluid" : ""}" @paste=${(e: ClipboardEvent) => this.onPaste(e)} @focusout=${(e: FocusEvent) => this.onFocusOut(e)}>
+    const topLabel = !!this.label && this.labelPosition === "top";
+    return html`${topLabel ? loomiTopLabel(this.label, false) : nothing}<div
+      part="boxes"
+      role=${topLabel ? "group" : nothing}
+      aria-labelledby=${topLabel ? TOP_LABEL_ID : nothing}
+      class="loomi-otp size-${resolveLoomiSize(this.size, OTP_SIZES)} ${this.fluid ? "is-fluid" : ""}" @paste=${(e: ClipboardEvent) => this.onPaste(e)} @focusout=${(e: FocusEvent) => this.onFocusOut(e)}>
       ${Array.from(
         { length: this.totalDigits },
         (_, i) => html`

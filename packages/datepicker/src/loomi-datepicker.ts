@@ -8,7 +8,9 @@ import {
   loomiDateFormatter,
   loomiDefaultText,
   LoomiElement,
-  type LoomiFieldLabelPosition,
+  type LoomiTextFieldLabelPosition,
+  loomiTopLabel,
+  TOP_LABEL_ID,
   type LoomiFloatingPanelHandle,
   loomiMonthName,
   loomiStyles,
@@ -98,7 +100,7 @@ export class LoomiDatepicker extends LoomiElement {
   @property() placeholder = DEFAULT_PLACEHOLDER;
   @property({ reflect: true }) label = "";
   @property({ attribute: "label-position", reflect: true })
-  labelPosition: LoomiFieldLabelPosition = "default";
+  labelPosition: LoomiTextFieldLabelPosition = "default";
   @property() locale = "";
   @property({ type: Boolean }) required = false;
   @property({ attribute: "week-starts" }) weekStarts: "sunday" | "monday" = "sunday";
@@ -226,6 +228,15 @@ export class LoomiDatepicker extends LoomiElement {
     if (this.max && d > this.max) return true;
     return false;
   }
+
+  /** Enter / Space / ArrowDown open the picker from the focused field, like a select trigger. */
+  private onFieldKeydown = (e: KeyboardEvent): void => {
+    if (e.target !== e.currentTarget) return;
+    if (e.key === "Enter" || e.key === " " || (e.key === "ArrowDown" && !this.open)) {
+      e.preventDefault();
+      this.toggle();
+    }
+  };
 
   private toggle(): void {
     this.open = !this.open;
@@ -507,12 +518,23 @@ export class LoomiDatepicker extends LoomiElement {
 
     // Like the other fields, a label sits where the placeholder would and floats onto the
     // border once there is a value or the calendar is open; `inside` keeps it docked.
-    const hasLabel = !!this.label;
+    const topLabel = !!this.label && this.labelPosition === "top";
+    const hasLabel = !!this.label && !topLabel;
     const float = hasLabel && (this.open || !!this.value);
     const hidePlaceholder = hasLabel && !float && this.labelPosition !== "inside";
-    return html`<div class="loomi-dp size-${resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)} ${this.open ? "open" : ""} ${float ? "float" : ""}">
-      <div class="loomi-field variant-${this.variant}" @click=${() => this.toggle()}>
-        <span class="loomi-text ${this.value ? "" : "placeholder"} ${hidePlaceholder ? "hidden" : ""}">${this.displayValue || placeholder}${!this.value && this.required && !hasLabel ? html`<span class="loomi-req"> *</span>` : nothing}</span>
+    return html`${topLabel ? loomiTopLabel(this.label, this.required) : nothing}<div class="loomi-dp size-${resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)} ${this.open ? "open" : ""} ${float ? "float" : ""}">
+      <div
+        class="loomi-field variant-${this.variant}"
+        tabindex="0"
+        role="button"
+        aria-haspopup="dialog"
+        aria-expanded=${this.open ? "true" : "false"}
+        aria-labelledby=${topLabel ? TOP_LABEL_ID : nothing}
+        aria-label=${hasLabel ? this.label : nothing}
+        @click=${() => this.toggle()}
+        @keydown=${this.onFieldKeydown}
+      >
+        <span class="loomi-text ${this.value ? "" : "placeholder"} ${hidePlaceholder ? "hidden" : ""}">${this.displayValue || placeholder}${!this.value && this.required && !this.label ? html`<span class="loomi-req"> *</span>` : nothing}</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${CAL}</svg>
       </div>
       ${hasLabel ? html`<span class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</span>` : nothing}

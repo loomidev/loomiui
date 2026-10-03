@@ -7,7 +7,9 @@ import {
   fieldStyles,
   loomiDefaultText,
   LoomiElement,
-  type LoomiFieldLabelPosition,
+  type LoomiTextFieldLabelPosition,
+  loomiTopLabel,
+  TOP_LABEL_ID,
   type LoomiFloatingPanelHandle,
   loomiStyles,
   loomiT,
@@ -126,7 +128,7 @@ export class LoomiTimepicker extends LoomiElement {
   @property({ attribute: "selected-value" }) selectedValue = "";
   @property({ reflect: true }) label = "";
   @property({ attribute: "label-position", reflect: true })
-  labelPosition: LoomiFieldLabelPosition = "default";
+  labelPosition: LoomiTextFieldLabelPosition = "default";
   @property() placeholder = DEFAULT_PLACEHOLDER;
   @property() locale = "";
   /** Size preset: `tiny` | `small` | `regular` | `medium` | `big`. Equal names give equal heights across every form control and `<loomi-button>`. */
@@ -281,6 +283,15 @@ export class LoomiTimepicker extends LoomiElement {
       this.showValidation();
     });
   }
+
+  /** Enter / Space / ArrowDown open the picker from the focused field, like a select trigger. */
+  private onFieldKeydown = (e: KeyboardEvent): void => {
+    if (e.target !== e.currentTarget) return;
+    if (e.key === "Enter" || e.key === " " || (e.key === "ArrowDown" && !this.open)) {
+      e.preventDefault();
+      this.onFieldClick();
+    }
+  };
 
   private onFieldClick(): void {
     if (this.tpStyle === "clock") {
@@ -467,12 +478,24 @@ export class LoomiTimepicker extends LoomiElement {
     if (this.tpStyle === "inline") {
       return html`${this.label ? html`<span class="loomi-label-static">${this.label}</span>` : nothing}${this.renderSelects()}`;
     }
-    const hasLabel = !!this.label;
+    const topLabel = !!this.label && this.labelPosition === "top";
+    const hasLabel = !!this.label && !topLabel;
     const float = hasLabel && (this.open || !!this.value);
     const hidePlaceholder = hasLabel && !float && this.labelPosition !== "inside";
-    return html`<div class="loomi-tp size-${resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)} ${this.open ? "open" : ""} ${float ? "float" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}">
-      <div class="loomi-field variant-${this.variant}" tabindex="0" @blur=${this.showValidation} @click=${() => this.onFieldClick()}>
-        <span class="loomi-text ${this.value ? "" : "placeholder"} ${hidePlaceholder ? "hidden" : ""}">${this.value || loomiDefaultText(this.placeholder, DEFAULT_PLACEHOLDER, "timepicker.placeholder", this.locale)}${!this.value && this.required && !hasLabel ? html`<span class="loomi-req"> *</span>` : nothing}</span>
+    return html`${topLabel ? loomiTopLabel(this.label, this.required) : nothing}<div class="loomi-tp size-${resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)} ${this.open ? "open" : ""} ${float ? "float" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}">
+      <div
+        class="loomi-field variant-${this.variant}"
+        tabindex="0"
+        role="button"
+        aria-haspopup="dialog"
+        aria-expanded=${this.open ? "true" : "false"}
+        aria-labelledby=${topLabel ? TOP_LABEL_ID : nothing}
+        aria-label=${hasLabel ? this.label : nothing}
+        @blur=${this.showValidation}
+        @click=${() => this.onFieldClick()}
+        @keydown=${this.onFieldKeydown}
+      >
+        <span class="loomi-text ${this.value ? "" : "placeholder"} ${hidePlaceholder ? "hidden" : ""}">${this.value || loomiDefaultText(this.placeholder, DEFAULT_PLACEHOLDER, "timepicker.placeholder", this.locale)}${!this.value && this.required && !this.label ? html`<span class="loomi-req"> *</span>` : nothing}</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${CLOCK}</svg>
       </div>
       ${hasLabel ? html`<span class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</span>` : nothing}

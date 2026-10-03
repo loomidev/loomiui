@@ -10,6 +10,7 @@ export const Otp: ForwardRefExoticComponent<
     onLoomiVerify?: (e: CustomEvent) => void;
     onInput?: (e: CustomEvent) => void;
     onChange?: (e: CustomEvent) => void;
+    labelPosition?: JSX.IntrinsicElements["loomi-otp"]["label-position"];
     totalDigits?: JSX.IntrinsicElements["loomi-otp"]["total-digits"];
     hideDigits?: JSX.IntrinsicElements["loomi-otp"]["hide-digits"];
     noImplicitSubmit?: JSX.IntrinsicElements["loomi-otp"]["no-implicit-submit"];
@@ -20,6 +21,7 @@ export const Otp: ForwardRefExoticComponent<
   "loomi-otp",
   { "loomi-verify": "onLoomiVerify", input: "onInput", change: "onChange" },
   {
+    labelPosition: "label-position",
     totalDigits: "total-digits",
     hideDigits: "hide-digits",
     noImplicitSubmit: "no-implicit-submit",
@@ -31,6 +33,7 @@ export const Otp: ForwardRefExoticComponent<
     onLoomiVerify?: (e: CustomEvent) => void;
     onInput?: (e: CustomEvent) => void;
     onChange?: (e: CustomEvent) => void;
+    labelPosition?: JSX.IntrinsicElements["loomi-otp"]["label-position"];
     totalDigits?: JSX.IntrinsicElements["loomi-otp"]["total-digits"];
     hideDigits?: JSX.IntrinsicElements["loomi-otp"]["hide-digits"];
     noImplicitSubmit?: JSX.IntrinsicElements["loomi-otp"]["no-implicit-submit"];

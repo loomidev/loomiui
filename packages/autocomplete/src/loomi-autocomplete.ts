@@ -7,7 +7,8 @@ import {
   fieldStyles,
   loomiDefaultText,
   LoomiElement,
-  type LoomiFieldLabelPosition,
+  type LoomiTextFieldLabelPosition,
+  loomiTopLabel,
   type LoomiFloatingPanelHandle,
   loomiT,
   onClickOutside,
@@ -226,7 +227,7 @@ export class LoomiAutocomplete extends LoomiElement {
   @property({ reflect: true }) name = "";
   @property({ reflect: true }) label = "";
   @property({ attribute: "label-position", reflect: true })
-  labelPosition: LoomiFieldLabelPosition = "default";
+  labelPosition: LoomiTextFieldLabelPosition = "default";
   @property() placeholder = DEFAULT_PLACEHOLDER;
   private _value = "";
   /** Current value. Like a native input's, anything assigned is coerced to a string (`null`/`undefined` become `""`). */
@@ -508,7 +509,8 @@ export class LoomiAutocomplete extends LoomiElement {
   }
 
   override render(): TemplateResult {
-    const hasLabel = !!this.label;
+    const topLabel = !!this.label && this.labelPosition === "top";
+    const hasLabel = !!this.label && !topLabel;
     const placeholder = hasLabel
       ? " "
       : loomiDefaultText(
@@ -521,10 +523,11 @@ export class LoomiAutocomplete extends LoomiElement {
     const showClear = this.clearable && this.value !== "" && !this.disabled && !this.readonly;
     const showSelectedImage = this.value !== "" && this.selectedImage !== "";
     const alignOptionMedia = this.hasOptionImages;
-    return html`<div class="loomi-ac size-${resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)} ${this.open ? "open" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}">
+    return html`${topLabel ? loomiTopLabel(this.label, this.required, "loomi-control") : nothing}<div class="loomi-ac size-${resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)} ${this.open ? "open" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}">
       <div class="loomi-field variant-${this.variant}">
         ${showSelectedImage ? html`<img class="loomi-selected-image" src=${this.selectedImage} alt="" />` : nothing}
         <input
+          id="loomi-control"
           .value=${live(this.displayValue)}
           name=${this.name || nothing}
           placeholder=${placeholder}

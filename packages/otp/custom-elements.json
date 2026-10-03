@@ -106,7 +106,19 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Shown above the boxes with \\`label-position=\"top\"\\`, where it also names the group;\notherwise only the title of the error toast.",
               "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "labelPosition",
+              "type": {
+                "text": "LoomiTextFieldLabelPosition"
+              },
+              "default": "\"default\"",
+              "description": "\\`top\\` shows \\`label\\` above the boxes. The other values leave it hidden.",
+              "attribute": "label-position",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -577,7 +589,17 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Shown above the boxes with \\`label-position=\"top\"\\`, where it also names the group;\notherwise only the title of the error toast.",
               "fieldName": "label"
+            },
+            {
+              "name": "label-position",
+              "type": {
+                "text": "LoomiTextFieldLabelPosition"
+              },
+              "default": "\"default\"",
+              "description": "\\`top\\` shows \\`label\\` above the boxes. The other values leave it hidden.",
+              "fieldName": "labelPosition"
             },
             {
               "name": "total-digits",
