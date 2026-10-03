@@ -10,7 +10,9 @@ import {
   onClickOutside,
   themeStyles,
   type LoomiFloatingPanelHandle,
-  type LoomiFieldLabelPosition,
+  type LoomiTextFieldLabelPosition,
+  loomiTopLabel,
+  TOP_LABEL_ID,
   LOOMI_CONTROL_SIZES,
   resolveLoomiSize,
   type LoomiSize,
@@ -74,7 +76,7 @@ export class LoomiSelect extends LoomiElement {
    */
   @property({ attribute: "aria-label" }) accessibilityLabel = "";
   @property({ attribute: "label-position", reflect: true })
-  labelPosition: LoomiFieldLabelPosition = "default";
+  labelPosition: LoomiTextFieldLabelPosition = "default";
   @property() locale = "";
   @property({ type: Array }) data: Array<Record<string, unknown>> = [];
   @property({ attribute: "label-key" }) labelKey = "label";
@@ -468,7 +470,8 @@ export class LoomiSelect extends LoomiElement {
   };
 
   override render(): TemplateResult {
-    const hasLabel = !!this.label;
+    const topLabel = !!this.label && this.labelPosition === "top";
+    const hasLabel = !!this.label && !topLabel;
     const hasSelection = this.selected.length > 0;
     const float = hasLabel && (this.open || hasSelection);
     const reserveLabelSpace = hasLabel && !hasSelection && !this.open;
@@ -496,8 +499,14 @@ export class LoomiSelect extends LoomiElement {
     // points at the panel holding the empty state instead. When `searchable` moves focus
     // into the search box, it carries aria-activedescendant too, so the highlighted
     // option is still announced while filtering.
-    const ariaLabel = !hasLabel && this.accessibilityLabel ? this.accessibilityLabel : nothing;
-    const labelledBy = hasLabel ? "loomi-label" : ariaLabel === nothing ? "loomi-value" : nothing;
+    const ariaLabel = !this.label && this.accessibilityLabel ? this.accessibilityLabel : nothing;
+    const labelledBy = topLabel
+      ? TOP_LABEL_ID
+      : hasLabel
+        ? "loomi-label"
+        : ariaLabel === nothing
+          ? "loomi-value"
+          : nothing;
 
     const activeId =
       this.open && this.activeIndex >= 0 && opts[this.activeIndex]
@@ -505,12 +514,14 @@ export class LoomiSelect extends LoomiElement {
         : nothing;
 
     return html`
+      ${topLabel ? loomiTopLabel(this.label, this.required, "loomi-control") : nothing}
       <div
         class="loomi-select size-${resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)} variant-${this.variant} ${this.open ? "open" : ""} ${float ? "float" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}"
         @keydown=${this.onKeydown}
       >
         <button
           type="button"
+          id="loomi-control"
           class="loomi-trigger"
           part="trigger"
           role="combobox"

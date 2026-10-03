@@ -246,7 +246,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `has-border`          | `true`                                    | Show the drop-zone border. _(boolean)_                                            |
 | `stealth`             | `false`                                   | Hide the drop-zone/file list; drive selection via `open()`/`clear()`. _(boolean)_ |
 
-**Property:** `selectedFiles`. **Methods:** `open()`, `clear()`.
+**Properties:** `selectedFiles` (`File[]`), `files` (the same files as a `FileList`, read-only), `type` (always `"file"`, read-only). **Methods:** `open()`, `clear()`.
 
 > Not ported from the older Filepond-style wrapper: auto-upload-to-route. Use the `change`
 > event with your own upload logic, or submit the form for manual upload.
@@ -258,7 +258,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `input`  | Fired when the user adds or removes files.                      |
 | `change` | Fired when the user adds or removes files. `detail: { files }`. |
 
-Like a native file input, `value` reads `C:\fakepath\<name>` for the first file (or `""`), and the only value you can set is `""`, which clears the selection without firing events. Adding or removing files fires `input` then `change`. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
+Like a native file input, `value` reads `C:\fakepath\<name>` for the first file (or `""`), `files` is a `FileList` and `type` is `"file"`, so framework bindings that special-case file inputs work unchanged. The only value you can set is `""`, which clears the selection without firing events; `clear()` is silent too. Adding or removing files fires `input` then `change`. See the [value and events contract](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#value-and-events-contract).
 
 ## Full Example
 

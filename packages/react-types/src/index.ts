@@ -416,6 +416,7 @@ interface LoomiNumberAttributes {
 interface LoomiOtpAttributes {
   "error-message"?: LoomiAttributeValue;
   "hide-digits"?: boolean;
+  "label-position"?: LoomiAttributeValue;
   "no-implicit-submit"?: boolean;
   "show-error-inline"?: boolean;
   "total-digits"?: number;

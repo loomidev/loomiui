@@ -7,7 +7,8 @@ import {
   fieldStyles,
   loomiT,
   themeStyles,
-  type LoomiFieldLabelPosition,
+  type LoomiTextFieldLabelPosition,
+  loomiTopLabel,
   LOOMI_CONTROL_SIZES,
   resolveLoomiSize,
   type LoomiSize,
@@ -58,7 +59,7 @@ export class LoomiNumber extends LoomiElement {
   @property({ reflect: true }) name = "";
   @property({ reflect: true }) label = "";
   @property({ attribute: "label-position", reflect: true })
-  labelPosition: LoomiFieldLabelPosition = "default";
+  labelPosition: LoomiTextFieldLabelPosition = "default";
   @property() locale = "";
   private _value = "";
   /** Current value. Like a native input's, anything assigned is coerced to a string (`null`/`undefined` become `""`). */
@@ -211,13 +212,16 @@ export class LoomiNumber extends LoomiElement {
   }
 
   override render(): TemplateResult {
-    const hasLabel = !!this.label;
+    const topLabel = !!this.label && this.labelPosition === "top";
+    const hasLabel = !!this.label && !topLabel;
     const placeholderAttr = hasLabel ? " " : nothing;
     return html`
+      ${topLabel ? loomiTopLabel(this.label, this.required, "loomi-control") : nothing}
       <div class="loomi-field size-${resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)} variant-${this.variant}" part="field">
         ${this.renderStep(-1)}
         <span class="loomi-inputwrap">
           <input
+            id="loomi-control"
             class="loomi-input"
             part="input"
             type="number"

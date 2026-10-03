@@ -108,23 +108,23 @@ framework-specific code in the library.
    and `<loomi-toggle>`, `"radio"` on `<loomi-radio>`. Bindings that branch on `type` use
    it to pick `checked` over `value`. Writes to it are ignored rather than thrown on.
 
-| Control                              | Property  | Value format                                                                                                    | `change` fires                              |
-| ------------------------------------ | --------- | --------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
-| `<loomi-input>`, `<loomi-password>`  | `value`   | The text                                                                                                        | On leaving the field after an edit          |
-| `<loomi-textarea>`                   | `value`   | The text                                                                                                        | On leaving the field after an edit          |
-| `<loomi-text-editor>`                | `value`   | HTML                                                                                                            | On leaving the editor after an edit         |
-| `<loomi-number>`                     | `value`   | Number as a string; commits clamp to `min`/`max`                                                                | On leaving after an edit, or a step button  |
-| `<loomi-otp>`                        | `value`   | The joined code; setting it drops characters `type` rejects                                                     | When focus leaves the boxes after an edit   |
-| `<loomi-autocomplete>`               | `value`   | The chosen item's value, or the typed text                                                                      | On a pick, a clear, or leaving after typing |
-| `<loomi-tag-input>`                  | `value`   | Tags, comma-joined (also `tags: string[]`)                                                                      | When a tag is added or removed              |
-| `<loomi-select>`                     | `value`   | Selected value; comma-joined when `multiple` (also `values: string[]`)                                          | On each pick                                |
-| `<loomi-checkcards>`                 | `value`   | Selected card values, comma-joined (also `values: string[]`)                                                    | On each card click                          |
-| `<loomi-datepicker>`                 | `value`   | Formatted per `format`, range as `start - end`; setting takes ISO `yyyy-mm-dd` or the configured numeric format | On each day picked                          |
-| `<loomi-timepicker>`                 | `value`   | `h:mmAM`/`h:mmPM`, or `hh:mm` with `format="24"`; setting accepts either                                        | When a pick completes a new time            |
-| `<loomi-slider>`                     | `value`   | Number as a string, range as `start - end`                                                                      | On releasing a handle, or a keyboard step   |
-| `<loomi-filepicker>`                 | `value`   | `C:\fakepath\<name>` of the first file, like a native file input; only `""` can be set (it clears)              | When files are added or removed             |
-| `<loomi-checkbox>`, `<loomi-toggle>` | `checked` | Submits `value` (default `"on"`) when checked                                                                   | On each toggle                              |
-| `<loomi-radio>`                      | `checked` | Submits `value` when checked; checking one unchecks the rest of its `name` group                                | When it becomes checked                     |
+| Control                              | Property  | Value format                                                                                                  | `change` fires                              |
+| ------------------------------------ | --------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| `<loomi-input>`, `<loomi-password>`  | `value`   | The text                                                                                                      | On leaving the field after an edit          |
+| `<loomi-textarea>`                   | `value`   | The text                                                                                                      | On leaving the field after an edit          |
+| `<loomi-text-editor>`                | `value`   | HTML                                                                                                          | On leaving the editor after an edit         |
+| `<loomi-number>`                     | `value`   | Number as a string; commits clamp to `min`/`max`                                                              | On leaving after an edit, or a step button  |
+| `<loomi-otp>`                        | `value`   | The joined code; setting it drops characters `type` rejects                                                   | When focus leaves the boxes after an edit   |
+| `<loomi-autocomplete>`               | `value`   | The chosen item's value, or the typed text                                                                    | On a pick, a clear, or leaving after typing |
+| `<loomi-tag-input>`                  | `value`   | Tags, comma-joined (also `tags: string[]`)                                                                    | When a tag is added or removed              |
+| `<loomi-select>`                     | `value`   | Selected value; comma-joined when `multiple` (also `values: string[]`)                                        | On each pick                                |
+| `<loomi-checkcards>`                 | `value`   | Selected card values, comma-joined (also `values: string[]`)                                                  | On each card click                          |
+| `<loomi-datepicker>`                 | `value`   | ISO `yyyy-mm-dd` whatever `format` shows (`displayValue` has the shown text); range as `start - end`          | On each day picked                          |
+| `<loomi-timepicker>`                 | `value`   | `h:mmAM`/`h:mmPM`, or `hh:mm` with `format="24"`; setting accepts either                                      | When a pick completes a new time            |
+| `<loomi-slider>`                     | `value`   | Number as a string, range as `start - end`                                                                    | On releasing a handle, or a keyboard step   |
+| `<loomi-filepicker>`                 | `value`   | `C:\fakepath\<name>` of the first file, plus `files` (`FileList`) and `type` (`"file"`); only `""` can be set | When files are added or removed             |
+| `<loomi-checkbox>`, `<loomi-toggle>` | `checked` | Submits `value` (default `"on"`) when checked                                                                 | On each toggle                              |
+| `<loomi-radio>`                      | `checked` | Submits `value` when checked; checking one unchecks the rest of its `name` group                              | When it becomes checked                     |
 
 Plain JavaScript works exactly as it would with native controls:
 

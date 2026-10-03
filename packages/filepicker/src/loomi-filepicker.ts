@@ -135,7 +135,8 @@ export class LoomiFilepicker extends LoomiElement {
     true;
   @property({ type: Boolean, reflect: true, converter: booleanAttribute }) stealth = false;
 
-  @state() private files: File[] = [];
+  @state() private picked: File[] = [];
+  private fileList: { for: File[]; list: FileList } | null = null;
   @state() private over = false;
   @state() private cropping: CropSession | null = null;
   @state() private cropRect: CropRect = { x: 0, y: 0, w: 0, h: 0 };
@@ -146,7 +147,25 @@ export class LoomiFilepicker extends LoomiElement {
 
   /** Currently selected files. */
   get selectedFiles(): File[] {
-    return this.files;
+    return this.picked;
+  }
+
+  /**
+   * The selection as a `FileList`, like a native file input's `files` — the same files as
+   * `selectedFiles`. The same object comes back until the selection changes.
+   */
+  get files(): FileList {
+    if (this.fileList?.for !== this.picked) {
+      const dt = new DataTransfer();
+      for (const f of this.picked) dt.items.add(f);
+      this.fileList = { for: this.picked, list: dt.files };
+    }
+    return this.fileList.list;
+  }
+
+  /** Always `"file"`, like a native file input, so frameworks bind it as one. */
+  get type(): "file" {
+    return "file";
   }
 
   /**
@@ -155,11 +174,11 @@ export class LoomiFilepicker extends LoomiElement {
    * anything else is ignored (browsers never let script choose files).
    */
   get value(): string {
-    return this.files.length ? `C:\\fakepath\\${this.files[0].name}` : "";
+    return this.picked.length ? `C:\\fakepath\\${this.picked[0].name}` : "";
   }
   set value(value: string) {
     if (value !== "" && value != null) return;
-    this.files = [];
+    this.picked = [];
     if (this.input) this.input.value = "";
     this.syncFormValue();
     this.syncValidity();
@@ -178,15 +197,15 @@ export class LoomiFilepicker extends LoomiElement {
    * Clears the current selection and resyncs the underlying `<input>`/form value. Call
    * this before `open()` when re-picking should replace rather than append — `add()`
    * stops accepting new files once `max-files` is reached, so a `max-files="1"` picker
-   * (the common case for `stealth`) would otherwise ignore a second pick.
+   * (the common case for `stealth`) would otherwise ignore a second pick. Like
+   * `value = ""`, it fires no events.
    */
   clear(): void {
-    this.files = [];
-    this.syncInput();
+    this.value = "";
   }
 
   formResetCallback(): void {
-    this.files = [];
+    this.picked = [];
     this.over = false;
     this.validationVisible = false;
     this.invalid = false;
@@ -202,7 +221,7 @@ export class LoomiFilepicker extends LoomiElement {
 
   override willUpdate(changed: Map<string, unknown>): void {
     if (
-      changed.has("files") ||
+      changed.has("picked") ||
       changed.has("required") ||
       changed.has("disabled") ||
       changed.has("name")
@@ -229,19 +248,19 @@ export class LoomiFilepicker extends LoomiElement {
   }
 
   private syncFormValue(): void {
-    if (!this.name || this.files.length === 0) {
+    if (!this.name || this.picked.length === 0) {
       this.internals.setFormValue(null);
       return;
     }
 
     const data = new FormData();
     const name = this.maxFiles > 1 ? `${this.name}[]` : this.name;
-    for (const file of this.files) data.append(name, file);
+    for (const file of this.picked) data.append(name, file);
     this.internals.setFormValue(data);
   }
 
   private syncValidity(showInvalid = this.validationVisible): boolean {
-    const empty = this.required && !this.disabled && this.files.length === 0;
+    const empty = this.required && !this.disabled && this.picked.length === 0;
     this.invalid = empty && showInvalid;
     const validity = empty ? { valueMissing: true } : {};
     const message = empty ? loomiT("validation.selectFile", {}, this.locale) : "";
@@ -255,15 +274,14 @@ export class LoomiFilepicker extends LoomiElement {
     this.syncValidity(true);
   }
 
+  /** Commits a user change to the selection, then fires `input` and `change`, in that order. */
   private syncInput(): void {
-    const dt = new DataTransfer();
-    for (const f of this.files) dt.items.add(f);
-    if (this.input) this.input.files = dt.files;
+    if (this.input) this.input.files = this.files;
     this.syncFormValue();
     this.syncValidity();
     this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
     this.dispatchEvent(
-      new CustomEvent("change", { bubbles: true, composed: true, detail: { files: this.files } }),
+      new CustomEvent("change", { bubbles: true, composed: true, detail: { files: this.picked } }),
     );
   }
 
@@ -271,7 +289,7 @@ export class LoomiFilepicker extends LoomiElement {
     if (!list || this.disabled) return;
     const limit = parseSize(this.maxFileSize);
     const candidates: File[] = [];
-    let count = this.files.length;
+    let count = this.picked.length;
     for (const f of Array.from(list)) {
       if (f.size > limit) {
         // Lazy import: the toast system loads only when a file is actually rejected.
@@ -296,7 +314,7 @@ export class LoomiFilepicker extends LoomiElement {
       if (result) accepted.push(result);
     }
     if (!accepted.length) return;
-    this.files = [...this.files, ...accepted];
+    this.picked = [...this.picked, ...accepted];
     this.syncInput();
   }
 
@@ -315,7 +333,7 @@ export class LoomiFilepicker extends LoomiElement {
   }
 
   private removeFile(i: number): void {
-    this.files = this.files.filter((_, idx) => idx !== i);
+    this.picked = this.picked.filter((_, idx) => idx !== i);
     this.syncInput();
   }
 
@@ -627,9 +645,9 @@ export class LoomiFilepicker extends LoomiElement {
         />
       </div>
       ${
-        this.files.length
+        this.picked.length
           ? html`<div class="loomi-files">
-            ${this.files.map(
+            ${this.picked.map(
               (f, i) => html`<div class="loomi-file">
               <span class="loomi-thumb">
                 ${

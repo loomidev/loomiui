@@ -47,6 +47,13 @@ with tags and entered text displayed beneath it:
 <loomi-tag-input label="Skills" label-position="inside"></loomi-tag-input>
 ```
 
+Use `label-position="top"` for a plain label above the field, outside its border, as on
+`<loomi-input>`. It names the field for assistive tech, and the `placeholder` shows as usual:
+
+```html
+<loomi-tag-input label="Skills" label-position="top"></loomi-tag-input>
+```
+
 ## Accessibility
 
 For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
@@ -61,23 +68,23 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute        | Default   | Description                                                                                                                                      |
-| ---------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `name`           | _(blank)_ | Submitted with the form.                                                                                                                         |
-| `label`          | _(blank)_ | Floating label.                                                                                                                                  |
-| `label-position` | `default` | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field.                                                  |
-| `placeholder`    | _(blank)_ | Placeholder text for the draft input.                                                                                                            |
-| `value`          | _(blank)_ | Comma-separated tag value.                                                                                                                       |
-| `mode`           | `inside`  | `inside` or `below`.                                                                                                                             |
-| `size`           | `regular` | `tiny` \| `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
-| `variant`        | `default` | `default` or `minimal` (bottom border only, no box).                                                                                             |
-| `color`          | `primary` | Chip color.                                                                                                                                      |
-| `shade`          | `light`   | `light`, `faint`, or `dark`.                                                                                                                     |
-| `required`       | `false`   | Requires at least one tag.                                                                                                                       |
-| `disabled`       | `false`   | Disables input and tag removal.                                                                                                                  |
-| `readonly`       | `false`   | Prevents editing and tag removal.                                                                                                                |
-| `suffix`         | _(blank)_ | Optional text suffix.                                                                                                                            |
-| `suffix-icon`    | _(blank)_ | Optional icon-name suffix (see `@loomidev/icons`).                                                                                               |
+| Attribute        | Default   | Description                                                                                                                                                  |
+| ---------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `name`           | _(blank)_ | Submitted with the form.                                                                                                                                     |
+| `label`          | _(blank)_ | Floating label.                                                                                                                                              |
+| `label-position` | `default` | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field; `top` renders the label above the field, outside its border. |
+| `placeholder`    | _(blank)_ | Placeholder text for the draft input.                                                                                                                        |
+| `value`          | _(blank)_ | Comma-separated tag value.                                                                                                                                   |
+| `mode`           | `inside`  | `inside` or `below`.                                                                                                                                         |
+| `size`           | `regular` | `tiny` \| `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing).             |
+| `variant`        | `default` | `default` or `minimal` (bottom border only, no box).                                                                                                         |
+| `color`          | `primary` | Chip color.                                                                                                                                                  |
+| `shade`          | `light`   | `light`, `faint`, or `dark`.                                                                                                                                 |
+| `required`       | `false`   | Requires at least one tag.                                                                                                                                   |
+| `disabled`       | `false`   | Disables input and tag removal.                                                                                                                              |
+| `readonly`       | `false`   | Prevents editing and tag removal.                                                                                                                            |
+| `suffix`         | _(blank)_ | Optional text suffix.                                                                                                                                        |
+| `suffix-icon`    | _(blank)_ | Optional icon-name suffix (see `@loomidev/icons`).                                                                                                           |
 
 ## Slots
 

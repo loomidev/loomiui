@@ -32,6 +32,15 @@ works well for collecting longer numeric codes like account numbers.
 <loomi-otp total-digits="6"></loomi-otp>
 ```
 
+## Visible Label
+
+`label-position="top"` shows `label` above the boxes, like `<loomi-input label-position="top">`,
+and names the group of boxes for assistive tech:
+
+```html
+<loomi-otp label="Verification code" label-position="top"></loomi-otp>
+```
+
 ## Character Type
 
 `type` controls which characters each box accepts. Non-matching characters are dropped as
@@ -218,7 +227,8 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | Attribute            | Default                        | Description                                                                                                                               |
 | -------------------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | `name`               | _(blank)_                      | Submitted with the form.                                                                                                                  |
-| `label`              | _(blank)_                      | Used as the title of the `loomi-notification` toast (see below); has no visible effect otherwise.                                         |
+| `label`              | _(blank)_                      | Title of the `loomi-notification` toast (see below); also shown above the boxes with `label-position="top"`.                              |
+| `label-position`     | `default`                      | `top` shows `label` above the boxes, like `<loomi-input label-position="top">`, and names the group of boxes. Otherwise it stays hidden.  |
 | `total-digits`       | `4`                            | Number of input boxes.                                                                                                                    |
 | `type`               | `numeric`                      | Accepted characters. `numeric` \| `alphanumeric` \| `text`                                                                                |
 | `size`               | `regular`                      | `regular` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing).                           |

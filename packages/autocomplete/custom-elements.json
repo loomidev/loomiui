@@ -179,7 +179,7 @@
               "kind": "field",
               "name": "labelPosition",
               "type": {
-                "text": "LoomiFieldLabelPosition"
+                "text": "LoomiTextFieldLabelPosition"
               },
               "default": "\"default\"",
               "attribute": "label-position",
@@ -720,7 +720,7 @@
             {
               "name": "label-position",
               "type": {
-                "text": "LoomiFieldLabelPosition"
+                "text": "LoomiTextFieldLabelPosition"
               },
               "default": "\"default\"",
               "fieldName": "labelPosition"

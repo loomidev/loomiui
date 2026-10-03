@@ -71,6 +71,13 @@ with the entered text displayed beneath it:
 <loomi-autocomplete label="Assignee" label-position="inside"></loomi-autocomplete>
 ```
 
+Use `label-position="top"` for a plain label above the field, outside its border, as on
+`<loomi-input>`. It names the field for assistive tech, and the `placeholder` shows as usual:
+
+```html
+<loomi-autocomplete label="Assignee" label-position="top"></loomi-autocomplete>
+```
+
 ## Accessibility
 
 The input announces itself as a list autocomplete, keeps keyboard navigation inside the
@@ -96,24 +103,24 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute            | Default       | Description                                                                                                                                      |
-| -------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `label`              | _(blank)_     | Floating label text.                                                                                                                             |
-| `label-position`     | `default`     | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field.                                                  |
-| `placeholder`        | `Search...`   | Placeholder when no label is shown.                                                                                                              |
-| `selected-value`     | _(blank)_     | Sets the submitted value; matching options display their label and image.                                                                        |
-| `size`               | `regular`     | `tiny` \| `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
-| `variant`            | `default`     | `default` \| `minimal` (bottom border only, no box)                                                                                              |
-| `label-key`          | `label`       | Property name for option labels.                                                                                                                 |
-| `value-key`          | `value`       | Property name for submitted values.                                                                                                              |
-| `description-key`    | `description` | Property name for helper text.                                                                                                                   |
-| `image-key`          | `image`       | Property name for optional option images.                                                                                                        |
-| `required`           | `false`       | Marks the field required.                                                                                                                        |
-| `no-implicit-submit` | `false`       | Stops Enter in the field from submitting its form. _(boolean)_                                                                                   |
-| `disabled`           | `false`       | Disables input and selection.                                                                                                                    |
-| `readonly`           | `false`       | Prevents edits.                                                                                                                                  |
-| `show-focus-ring`    | `true`        | Set `show-focus-ring="false"` to hide the focus halo.                                                                                            |
-| `clearable`          | `true`        | Read-only - always on. Shows an × button once the field has a value; clicking it empties the field and reopens the panel.                        |
+| Attribute            | Default       | Description                                                                                                                                                  |
+| -------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `label`              | _(blank)_     | Floating label text.                                                                                                                                         |
+| `label-position`     | `default`     | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field; `top` renders the label above the field, outside its border. |
+| `placeholder`        | `Search...`   | Placeholder when no label is shown.                                                                                                                          |
+| `selected-value`     | _(blank)_     | Sets the submitted value; matching options display their label and image.                                                                                    |
+| `size`               | `regular`     | `tiny` \| `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing).             |
+| `variant`            | `default`     | `default` \| `minimal` (bottom border only, no box)                                                                                                          |
+| `label-key`          | `label`       | Property name for option labels.                                                                                                                             |
+| `value-key`          | `value`       | Property name for submitted values.                                                                                                                          |
+| `description-key`    | `description` | Property name for helper text.                                                                                                                               |
+| `image-key`          | `image`       | Property name for optional option images.                                                                                                                    |
+| `required`           | `false`       | Marks the field required.                                                                                                                                    |
+| `no-implicit-submit` | `false`       | Stops Enter in the field from submitting its form. _(boolean)_                                                                                               |
+| `disabled`           | `false`       | Disables input and selection.                                                                                                                                |
+| `readonly`           | `false`       | Prevents edits.                                                                                                                                              |
+| `show-focus-ring`    | `true`        | Set `show-focus-ring="false"` to hide the focus halo.                                                                                                        |
+| `clearable`          | `true`        | Read-only - always on. Shows an × button once the field has a value; clicking it empties the field and reopens the panel.                                    |
 
 ## Events
 

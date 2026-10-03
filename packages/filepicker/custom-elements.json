@@ -296,12 +296,21 @@
             },
             {
               "kind": "field",
-              "name": "files",
+              "name": "picked",
               "type": {
                 "text": "File[]"
               },
               "privacy": "private",
               "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "fileList",
+              "type": {
+                "text": "{ for: File[]; list: FileList } | null"
+              },
+              "privacy": "private",
+              "default": "null"
             },
             {
               "kind": "field",
@@ -357,6 +366,24 @@
             },
             {
               "kind": "field",
+              "name": "files",
+              "type": {
+                "text": "FileList"
+              },
+              "description": "The selection as a `FileList`, like a native file input's `files` — the same files as\n`selectedFiles`. The same object comes back until the selection changes.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "\"file\""
+              },
+              "description": "Always `\"file\"`, like a native file input, so frameworks bind it as one.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
               "name": "value",
               "type": {
                 "text": "string"
@@ -381,7 +408,7 @@
                   "text": "void"
                 }
               },
-              "description": "Clears the current selection and resyncs the underlying `<input>`/form value. Call\nthis before `open()` when re-picking should replace rather than append — `add()`\nstops accepting new files once `max-files` is reached, so a `max-files=\"1\"` picker\n(the common case for `stealth`) would otherwise ignore a second pick."
+              "description": "Clears the current selection and resyncs the underlying `<input>`/form value. Call\nthis before `open()` when re-picking should replace rather than append — `add()`\nstops accepting new files once `max-files` is reached, so a `max-files=\"1\"` picker\n(the common case for `stealth`) would otherwise ignore a second pick. Like\n`value = \"\"`, it fires no events."
             },
             {
               "kind": "method",
@@ -463,7 +490,8 @@
                 "type": {
                   "text": "void"
                 }
-              }
+              },
+              "description": "Commits a user change to the selection, then fires `input` and `change`, in that order."
             },
             {
               "kind": "method",

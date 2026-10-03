@@ -8,7 +8,8 @@ import {
   fieldStyles,
   type LoomiColor,
   LoomiElement,
-  type LoomiFieldLabelPosition,
+  type LoomiTextFieldLabelPosition,
+  loomiTopLabel,
   type LoomiFloatingPanelHandle,
   loomiT,
   themeStyles,
@@ -68,7 +69,7 @@ export class LoomiTagInput extends LoomiElement {
   @property({ reflect: true }) name = "";
   @property({ reflect: true }) label = "";
   @property({ attribute: "label-position", reflect: true })
-  labelPosition: LoomiFieldLabelPosition = "default";
+  labelPosition: LoomiTextFieldLabelPosition = "default";
   @property() locale = "";
   @property() placeholder = "";
   private _value = "";
@@ -422,7 +423,8 @@ export class LoomiTagInput extends LoomiElement {
   }
 
   override render(): TemplateResult {
-    const hasLabel = !!this.label;
+    const topLabel = !!this.label && this.labelPosition === "top";
+    const hasLabel = !!this.label && !topLabel;
     const placeholderAttr = hasLabel ? " " : this.placeholder || " ";
     const belowMode = this.mode === "below";
     const showError = this.invalid && this.showErrorInline && this.errorMessage;
@@ -442,11 +444,13 @@ export class LoomiTagInput extends LoomiElement {
       : nothing;
 
     return html`
+      ${topLabel ? loomiTopLabel(this.label, this.required, "loomi-control") : nothing}
       <div class=${fieldClasses} part="field" style=${accentVars(this.color)} @click=${() => this.focus()}>
         ${belowMode ? nothing : labelEl}
         ${belowMode ? nothing : this.renderTags()}
         <span class="loomi-inputwrap">
           <input
+            id="loomi-control"
             class="loomi-input"
             part="input"
             .value=${live(this.draft)}

@@ -1,4 +1,7 @@
 import { css, type CSSResultGroup } from "lit";
+import { fieldTopLabelStyles } from "./top-label.js";
+
+export * from "./top-label.js";
 
 /**
  * Keeps each field's existing label treatment by default, or places a compact,
@@ -7,8 +10,9 @@ import { css, type CSSResultGroup } from "lit";
 export type LoomiFieldLabelPosition = "default" | "inside";
 
 /**
- * Label positions offered by the text-entry fields (input, password, textarea): the
- * shared ones plus \`top\`, a plain label above the box, outside its border.
+ * Label positions offered by the fields that support \`top\` — a plain label above the
+ * box, outside its border: input, password, textarea, select, number, autocomplete,
+ * tag-input, datepicker, timepicker and otp.
  */
 export type LoomiTextFieldLabelPosition = LoomiFieldLabelPosition | "top";
 
@@ -220,19 +224,7 @@ export const fieldStyles: CSSResultGroup = css`
     padding-top: 0.9rem;
   }
 
-  /* \`label-position="top"\` (text-entry fields): a static label above the box. */
-  .loomi-top-label {
-    display: block;
-    margin: 0 0 0.375rem;
-    color: var(--loomi-text-muted);
-    font-size: 0.875rem;
-    font-weight: 500;
-    line-height: 1.25;
-  }
-  .loomi-top-label .loomi-req {
-    color: var(--loomi-error-500, var(--_loomi-error-500-default));
-    margin-inline-start: 0.15rem;
-  }
+  ${fieldTopLabelStyles}
 `;
 
 /**
