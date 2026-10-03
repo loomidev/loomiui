@@ -1,5 +1,16 @@
 # @loomidev/autocomplete
 
+## 0.11.0
+
+### Patch Changes
+
+- fde1da3: `label` is now reflected to the attribute, so `label-position="inside"` can tell whether there is a label to make room for.
+- Updated dependencies [fde1da3]
+- Updated dependencies [e1723dc]
+- Updated dependencies [624cfc1]
+  - @loomidev/core@0.11.0
+  - @loomidev/icons@0.11.0
+
 ## 0.10.0
 
 ### Minor Changes

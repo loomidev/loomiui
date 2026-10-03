@@ -1,5 +1,28 @@
 # @loomidev/text-editor
 
+## 0.11.0
+
+### Patch Changes
+
+- fde1da3: `label` is now reflected to the attribute, so `label-position="inside"` can tell whether there is a label to make room for.
+- Updated dependencies [fde1da3]
+- Updated dependencies [e1723dc]
+- Updated dependencies [f8d070d]
+- Updated dependencies [367ff79]
+- Updated dependencies [fde1da3]
+- Updated dependencies [f8d070d]
+- Updated dependencies [624cfc1]
+  - @loomidev/core@0.11.0
+  - @loomidev/select@0.11.0
+  - @loomidev/input@0.11.0
+  - @loomidev/modal@0.11.0
+  - @loomidev/filepicker@0.11.0
+  - @loomidev/icon@0.11.0
+  - @loomidev/notification@0.11.0
+  - @loomidev/tooltip@0.11.0
+  - @loomidev/icons@0.11.0
+  - @loomidev/theme@0.11.0
+
 ## 0.10.0
 
 ### Minor Changes

@@ -1,5 +1,21 @@
 # @loomidev/statistic
 
+## 0.11.0
+
+### Minor Changes
+
+- b2ce09d: Add a `description` attribute and slot for a muted line of context under the number (hidden while the spinner shows), and an `icon-background` attribute that puts the icon in a tinted circle.
+  
+  Also fixes the empty icon wrapper not collapsing in Chromium: a `<loomi-statistic>` with no icon no longer reserves an icon gap there.
+
+### Patch Changes
+
+- Updated dependencies [fde1da3]
+- Updated dependencies [e1723dc]
+- Updated dependencies [624cfc1]
+  - @loomidev/core@0.11.0
+  - @loomidev/card@0.11.0
+
 ## 0.10.0
 
 ### Patch Changes

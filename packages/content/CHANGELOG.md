@@ -1,5 +1,41 @@
 # @loomidev/content
 
+## 0.11.0
+
+### Patch Changes
+
+- Updated dependencies [624cfc1]
+- Updated dependencies [b2ce09d]
+  - @loomidev/sortable@0.11.0
+  - @loomidev/statistic@0.11.0
+  - @loomidev/accordion@0.11.0
+  - @loomidev/arc-meter@0.11.0
+  - @loomidev/avatar@0.11.0
+  - @loomidev/calendar@0.11.0
+  - @loomidev/card@0.11.0
+  - @loomidev/centered-content@0.11.0
+  - @loomidev/chart@0.11.0
+  - @loomidev/chat@0.11.0
+  - @loomidev/contact-card@0.11.0
+  - @loomidev/data-grid@0.11.0
+  - @loomidev/divider@0.11.0
+  - @loomidev/empty-state@0.11.0
+  - @loomidev/horizontal-line-graph@0.11.0
+  - @loomidev/lightbox@0.11.0
+  - @loomidev/listview@0.11.0
+  - @loomidev/photo-gallery@0.11.0
+  - @loomidev/popover@0.11.0
+  - @loomidev/processing@0.11.0
+  - @loomidev/progress@0.11.0
+  - @loomidev/qrcode@0.11.0
+  - @loomidev/rating@0.11.0
+  - @loomidev/scroller@0.11.0
+  - @loomidev/tag@0.11.0
+  - @loomidev/timeline@0.11.0
+  - @loomidev/timer@0.11.0
+  - @loomidev/tooltip@0.11.0
+  - @loomidev/video@0.11.0
+
 ## 0.10.0
 
 ### Patch Changes
