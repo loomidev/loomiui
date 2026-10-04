@@ -1,5 +1,14 @@
 # @loomidev/modal
 
+## 0.12.0
+
+### Patch Changes
+
+- Updated dependencies [b16e5be]
+  - @loomidev/core@0.12.0
+  - @loomidev/button@0.12.0
+  - @loomidev/icon@0.12.0
+
 ## 0.11.0
 
 ### Minor Changes

@@ -1,5 +1,17 @@
 # @loomidev/number
 
+## 0.12.0
+
+### Minor Changes
+
+- b16e5be: `label-position="top"` on select, datepicker, timepicker, autocomplete, tag-input, number and otp: a plain label above the field, outside its border, rendered like `<loomi-input label-position="top">` and naming the control's trigger. The datepicker and timepicker fields are now focusable buttons that open with Enter, Space or ArrowDown. Core exports `loomiTopLabel()`, `TOP_LABEL_ID` and `fieldTopLabelStyles`.
+
+### Patch Changes
+
+- Updated dependencies [b16e5be]
+  - @loomidev/core@0.12.0
+  - @loomidev/theme@0.12.0
+
 ## 0.11.0
 
 ### Patch Changes

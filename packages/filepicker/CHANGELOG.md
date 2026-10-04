@@ -1,5 +1,19 @@
 # @loomidev/filepicker
 
+## 0.12.0
+
+### Minor Changes
+
+- 7569d90: `<loomi-filepicker>` now exposes a read-only `type` (always `"file"`) and a `files` getter returning a `FileList` of the current selection (the same files as `selectedFiles`), so framework bindings that special-case file inputs work with it. `clear()` no longer fires `input`/`change`, matching `value = ""`; only user changes to the selection fire events, `input` before `change`.
+
+### Patch Changes
+
+- Updated dependencies [b16e5be]
+  - @loomidev/core@0.12.0
+  - @loomidev/modal@0.12.0
+  - @loomidev/notification@0.12.0
+  - @loomidev/icons@0.12.0
+
 ## 0.11.0
 
 ### Patch Changes
