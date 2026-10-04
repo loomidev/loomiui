@@ -38,8 +38,18 @@ describe("heroicons registry", () => {
     expect(getLoomiIcon("adjustments-vertical")).to.equal(mine);
   });
 
-  it("resolves an unknown name to undefined", async () => {
+  it("resolves an unknown name to undefined without requesting an icon module", async () => {
+    const iconRequests = () =>
+      performance
+        .getEntriesByType("resource")
+        .filter((entry) => /\/heroicons\/(outline|solid)\//.test(entry.name)).length;
+    await loadLoomiIcon("academic-cap"); // the loader table is in, so only icon fetches count
+    const before = iconRequests();
+
     expect(await loadLoomiIcon("definitely-not-an-icon")).to.be.undefined;
+    expect(await loadLoomiIcon("definitely-not-an-icon", "solid")).to.be.undefined;
+    expect(await loadLoomiIcon("constructor")).to.be.undefined;
+    expect(iconRequests()).to.equal(before);
   });
 
   describe("loomiIcon() directive", () => {

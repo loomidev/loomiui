@@ -33,6 +33,7 @@
     "check:i18n": "node scripts/check-i18n-completeness.mjs",
     "check:locale-split": "node scripts/check-locale-split.mjs",
     "check:bundle-size": "node scripts/check-bundle-size.mjs",
+    "check:icon-bundlers": "node scripts/check-icon-bundlers.mjs",
     "test:visual": "web-test-runner --config web-test-runner.visual.config.mjs",
     "check:cem": "node scripts/generate-cem.mjs && git diff --exit-code -- \"packages/*/custom-elements.json\"",
     "check:react-types": "node packages/react-types/scripts/generate-react-types.mjs && git diff --exit-code -- packages/react-types/src/index.ts",
@@ -50,6 +51,7 @@
     "@lit-labs/ssr": "^4.1.0",
     "@lit-labs/ssr-client": "^1.1.8",
     "@open-wc/testing": "^5.0.0",
+    "@rollup/plugin-node-resolve": "^15.3.1",
     "@web/dev-server-esbuild": "^2.0.0",
     "@web/dev-server-rollup": "^0.6.4",
     "@web/test-runner": "^1.0.0",
@@ -63,7 +65,9 @@
     "lit": "^3.3.3",
     "playwright": "^1.63.0",
     "prettier": "^3",
+    "rollup": "^4.62.5",
     "typescript": "^5.6.3",
-    "typescript-eslint": "^8"
+    "typescript-eslint": "^8",
+    "vite": "^8.3.2"
   }
 }

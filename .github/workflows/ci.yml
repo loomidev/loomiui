@@ -112,6 +112,10 @@ jobs:
       # writes the per-package size table to the job summary.
       - name: Bundle size budget
         run: pnpm check:bundle-size
+      # Builds a consumer app with Vite and plain Rollup and loads every Heroicon through
+      # each — the icon loaders must stay literal import()s that both bundlers can split.
+      - name: Icons load in Vite and Rollup builds
+        run: pnpm check:icon-bundlers
       - run: pnpm test
 
       # Baselines are per-platform bitmaps and the Linux set is recorded by the
