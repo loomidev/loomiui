@@ -38,8 +38,10 @@ const isVariant = (variant: string): variant is LoomiIconVariant =>
 /** Names whose `solid` request resolved to their outline icon (no solid version exists). */
 const solidFallsBackToOutline = new Set<string>();
 
-// The name -> module map is itself loaded on first use: it costs ~4 KB gzipped, which
-// an app that renders no dynamic icon (or only provided ones) should never pay.
+// The loader (one literal import() per icon, plus the name list it indexes into) is
+// itself loaded on first use: ~3.6 KB gzipped, plus ~1 KB of names unless hasLoomiIcon()
+// already pulled them in, which an app that renders no dynamic icon (or only provided
+// ones) should never pay. pnpm check:bundle-size keeps loaders.js under 4 KB.
 let loaders: Promise<typeof import("./heroicons/loaders.js")> | undefined;
 const loadersModule = () => (loaders ??= import("./heroicons/loaders.js"));
 
@@ -109,9 +111,8 @@ export function loadLoomiIcon(
   let load = pending.get(key);
   if (!load) {
     load = loadersModule()
-      .then(async ({ HEROICON_LOADERS }) => {
-        const ships = (variant: LoomiIconVariant) =>
-          Object.prototype.hasOwnProperty.call(HEROICON_LOADERS[variant], name);
+      .then(async ({ heroiconIndex, loadHeroicon }) => {
+        const ships = (variant: LoomiIconVariant) => heroiconIndex(variant, name) >= 0;
         let resolved: LoomiIconVariant = v;
         if (!lookup(name, v) && !ships(v)) {
           if (v === "outline" || (!lookup(name, "outline") && !ships("outline"))) return undefined;
@@ -119,8 +120,8 @@ export function loadLoomiIcon(
           solidFallsBackToOutline.add(name);
         }
         if (!lookup(name, resolved)) {
-          const module = await HEROICON_LOADERS[resolved][name]();
-          provideLoomiIcons({ [name]: module.default }, resolved);
+          const module = await loadHeroicon(resolved, name);
+          if (module) provideLoomiIcons({ [name]: module.default }, resolved);
         }
         // An app may have registered an override while the module was in flight.
         return lookup(name, resolved);

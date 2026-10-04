@@ -951,8 +951,9 @@ calls into for its built-in copy — placeholders, validation messages, aria lab
 pagination strings, datepicker month/weekday names, and similar defaults. The strings
 themselves don't live in `i18n.ts`: each built-in language is its own file under
 `packages/core/src/locales/` (`en.ts`, `ar.ts`, `de.ts`, `es.ts`, `fr.ts`, `it.ts`,
-`ml.ts`, `pt_BR.ts`, `tr.ts`, `zh_CN.ts`), aggregated by `src/locales/index.ts` into the
-`builtinTranslations` map that `i18n.ts` imports. That split exists on purpose: it means
+`ml.ts`, `pt_BR.ts`, `tr.ts`, `zh_CN.ts`). `src/locales/index.ts` imports only `en`
+statically; every other language is a loader in its `builtinTranslations` map, so each
+one is its own lazy chunk that `setLoomiLocale()` fetches on demand. That split exists on purpose: it means
 adding or fixing a translation is a one-file diff in your own language, with no risk of
 merge-conflicting with someone else translating a different language in the same PR
 cycle, and no need to scroll past 400 lines of languages you don't read.
@@ -966,8 +967,10 @@ cycle, and no need to scroll past 400 lines of languages you don't read.
    Leave `:placeholder`-style tokens (`:a`, `:max`, `:theme`, ...) and `%s` printf-style
    tokens untouched; `loomiT()`'s template substitution fills those in at call time
    regardless of language.
-3. Import the new file in `packages/core/src/locales/index.ts` and add it to the
-   `builtinTranslations` map.
+3. Add a loader for it to the `builtinTranslations` map in
+   `packages/core/src/locales/index.ts` — `ak: () => import("./ak.js").then((m) => m.ak)`.
+   Don't import the file statically: only `en` ships up front, and `pnpm
+check:locale-split` fails if any other locale ends up in the initial bundle.
 4. Optionally add the locale code to the `LoomiLocale` union in `src/i18n.ts` — this is
    purely an autocomplete nicety, since the type also accepts any `string` and the
    runtime lookup works regardless.

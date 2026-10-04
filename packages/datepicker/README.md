@@ -116,7 +116,7 @@ labels, formatted month names, weekday headings, and `D d M, Y` display format.
 import { setLoomiLocale, defineLoomiTranslations } from "@loomidev/core";
 import "@loomidev/datepicker";
 
-setLoomiLocale("fr");
+await setLoomiLocale("fr");
 
 defineLoomiTranslations("ak", {
   datepicker: {
@@ -133,6 +133,12 @@ defineLoomiTranslations("ak", {
 <!-- Override only this datepicker. -->
 <loomi-datepicker locale="de"></loomi-datepicker>
 ```
+
+Only English ships with `@loomidev/core`; other built-in locales are fetched on first
+use. `setLoomiLocale()` switches once the locale has loaded, and open datepickers
+re-render. A `locale` attribute naming a locale that isn't loaded yet renders in
+English until it arrives. To render it translated from the first paint, call
+`await loadLoomiLocale("de")` from `@loomidev/core` first.
 
 Built-in locales: `en`, `ar`, `de`, `es`, `fr`, `it`, `ml`, `pt_BR`, `tr`, and
 `zh_CN`. Custom locales may provide `monthsShort`, `monthsLong`, and `weekdaysShort`

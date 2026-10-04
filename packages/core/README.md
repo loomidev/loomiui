@@ -174,8 +174,9 @@ richer details. Reach for them when you need more than the value.
 | `positionFloatingPanel(anchor, panel, placement?, { alignTo? })`           | Places a `position: fixed` panel beside its anchor in viewport coordinates, flipping above and swapping alignment to stay on screen. Returns the side it settled on (`"top"` \| `"bottom"`). `alignTo: { left, right }` overrides the horizontal edges it aligns to (dropmenu's `arrowAnchor`). Used by `@loomidev/dropmenu` and `@loomidev/split-button`; publishes `--loomi-anchor-width` on the panel. |
 | `positionFloatingSubmenu(anchor, panel, options?)`                         | The sibling of the above for submenus: places a panel beside its anchor row, flipping to the row's left when there's no room on the right and sliding up when it's taller than the room below. Returns the side it settled on (`"left"` \| `"right"`); pass that back as `options.prefer` for a nested submenu so a flipped chain keeps going the same way.                                               |
 | `supportsPopover(el)`                                                      | Whether `el` can be promoted to the top layer with `showPopover()` - pair it with `positionFloatingPanel` so a panel escapes ancestor `overflow`, and fall back to plain `position: fixed` when it isn't supported.                                                                                                                                                                                       |
-| `setLoomiLocale(locale)` / `getLoomiLocale()`                              | Set or read the shared locale used by translated component defaults.                                                                                                                                                                                                                                                                                                                                      |
+| `setLoomiLocale(locale)` / `getLoomiLocale()`                              | Set or read the shared locale used by translated component defaults. `setLoomiLocale` returns a promise: built-in locales other than `en` are fetched on demand first.                                                                                                                                                                                                                                    |
 | `defineLoomiTranslations(locale, messages)`                                | Add or override translations for built-in component text.                                                                                                                                                                                                                                                                                                                                                 |
+| `loadLoomiLocale(locale)` / `onLoomiTranslationsChange(listener)`          | Preload a built-in locale without switching to it; subscribe to locale switches and loads (`LoomiElement` re-renders on them).                                                                                                                                                                                                                                                                            |
 | `loomiT(path, params, locale)`                                             | Translate a shared message by key, with English fallback.                                                                                                                                                                                                                                                                                                                                                 |
 | `LOOMI_SIZES`, `LoomiSize`, `isLoomiSize`, `LOOMI_DEFAULT_SIZE`            | The canonical size scale and its type (see [Sizing](#sizing)).                                                                                                                                                                                                                                                                                                                                            |
 | `LOOMI_CONTROL_SIZES`                                                      | The part of the scale every form control supports (`tiny` through `big`).                                                                                                                                                                                                                                                                                                                                 |
@@ -297,14 +298,30 @@ import { setLoomiLocale } from "@loomidev/core";
 import "@loomidev/datepicker";
 import "@loomidev/filepicker";
 
-setLoomiLocale("fr");
+await setLoomiLocale("fr");
 ```
+
+Only English ships with `@loomidev/core`. Every other built-in locale is a separate
+chunk: `setLoomiLocale("fr")` imports it (and its base language, e.g. `fr` for `fr-CA`)
+once, then switches, and connected components re-render in the new language. If several
+calls overlap, the last one wins. An unknown locale falls back to English without a
+request. `builtinTranslations` maps each built-in locale code to its loader, if you want
+to list them.
 
 Or override a single component:
 
 ```html
 <loomi-datepicker locale="de"></loomi-datepicker>
 <loomi-filepicker locale="pt_BR"></loomi-filepicker>
+```
+
+A component whose `locale` names a built-in locale that hasn't loaded yet renders in
+English, fetches it, and re-renders. Preload it to translate on the first paint:
+
+```js
+import { loadLoomiLocale } from "@loomidev/core";
+
+await loadLoomiLocale("de");
 ```
 
 Built-in locales: `en`, `ar`, `de`, `es`, `fr`, `it`, `ml`, `pt_BR`, `tr`, and
@@ -314,11 +331,12 @@ locale.
 Each built-in locale lives in its own file under
 [`src/locales/`](./src/locales/) (e.g. `src/locales/fr.ts`), so contributing a
 translation doesn't mean editing one giant file. To add a built-in language,
-copy `en.ts` to `<locale>.ts`, translate the strings, and register it in
-`src/locales/index.ts`.
+copy `en.ts` to `<locale>.ts`, translate the strings, and add a loader for it to
+`builtinTranslations` in `src/locales/index.ts`.
 
 To customize copy or add another language without touching this package at all,
-register only the keys you want to change at runtime - datepicker custom locales
+register only the keys you want to change at runtime with `defineLoomiTranslations`.
+Registrations made before a built-in locale loads stay on top of its copy. Datepicker custom locales
 may also provide `monthsShort`, `monthsLong`, and `weekdaysShort` arrays.
 
 ```js

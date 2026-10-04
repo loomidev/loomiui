@@ -1,15 +1,22 @@
 // Emits one ES module per Heroicon, from data/heroicons.json (see generate-heroicons.mjs).
 //
 // Why per icon: a component that renders `icon="bell"` should cost a consumer that one
-// icon, not the whole 240+240 set. The registry in src/heroicons.ts resolves names
-// through the literal-specifier loader map below, so every bundler code-splits each icon
-// into its own tiny lazy chunk; a component's own chrome icons (a clear button's
-// x-circle) import their module directly and ship inline.
+// icon, not the whole 324+324 set. The registry in src/heroicons.ts resolves names
+// through loadHeroicon() in loaders.js, whose import() specifiers are all string
+// literals, so every bundler code-splits each icon into its own tiny lazy chunk; a
+// component's own chrome icons (a clear button's x-circle) import their module directly
+// and ship inline.
+//
+// Why literals and not one `import(\`./${variant}/${name}.js\`)`: from inside
+// node_modules, Vite (default config) and plain Rollup leave a template import untouched
+// and emit no icon chunks, so every icon would 404 in a consumer's build.
+// scripts/check-icon-bundlers.mjs builds a consumer app with both to keep it that way.
 //
 // Layout:
 //   dist/heroicons/<variant>/<name>.js   -> export default svg`<inner markup>`
 //   dist/heroicons/<variant>/all.js      -> export default { name: icon, … } (eager, opt-in)
-//   dist/heroicons/loaders.js            -> { outline: { name: () => import(…) }, solid: … }
+//   dist/heroicons/loaders.js            -> loadHeroicon(variant, name): one literal import()
+//                                           per icon, in arrays aligned to names.js
 //   dist/heroicons/names.js              -> the name list, for synchronous hasLoomiIcon()
 //   dist/heroicons/icon-module.d.ts      -> shared type for the per-icon subpath export
 //   src/heroicons/**/*.d.ts              -> type stubs so tsc resolves the files above
@@ -65,24 +72,46 @@ for (const variant of variants) {
   total += names.length;
 }
 
+// Each variant's loaders sit in an array aligned to that variant's list in names.js, so a
+// name is spelled only in its specifiers: an index into the list replaces a keyed map,
+// which cut the file from ~4.4 KB to ~3.6 KB gzipped. Any name outside the list resolves
+// undefined before an import() runs. pnpm check:bundle-size keeps it under 4 KB.
 writeFileSync(
   join(distDir, "loaders.js"),
-  `${BANNER}\n// Every specifier is a literal so bundlers can trace and split each icon.\nexport const HEROICON_LOADERS = {\n${variants
-    .map(
-      (variant) =>
-        `  ${variant}: {\n${Object.keys(data[variant])
-          .sort()
-          .map(
-            (name) =>
-              `    ${JSON.stringify(name)}: () => import(${JSON.stringify(`./${variant}/${name}.js`)}),`,
-          )
-          .join("\n")}\n  },`,
-    )
-    .join("\n")}\n};\n`,
+  `${BANNER}
+// Every specifier is a literal so bundlers can trace and split each icon.
+import { HEROICON_NAMES } from "./names.js";
+
+${variants
+  .map(
+    (variant) =>
+      `const ${variant} = [\n${Object.keys(data[variant])
+        .sort()
+        .map((name) => `  () => import(${JSON.stringify(`./${variant}/${name}.js`)}),`)
+        .join("\n")}\n];`,
+  )
+  .join("\n\n")}
+
+const modules = { ${variants.join(", ")} };
+const indexes = {};
+
+/** The position of \`name\` in \`variant\`'s list, or -1 if that variant doesn't ship it. */
+export function heroiconIndex(variant, name) {
+  if (!Object.hasOwn(modules, variant)) return -1;
+  indexes[variant] ??= new Map(HEROICON_NAMES[variant].split(" ").map((n, i) => [n, i]));
+  return indexes[variant].get(name) ?? -1;
+}
+
+/** Imports one Heroicon's module, or returns undefined (no request) for a name that isn't shipped. */
+export function loadHeroicon(variant, name) {
+  const index = heroiconIndex(variant, name);
+  return index < 0 ? undefined : modules[variant][index]();
+}
+`,
 );
 
 // Names only, space-joined: what hasLoomiIcon() needs synchronously, at ~1 KB gzipped
-// instead of the ~4 KB loader map, which the registry imports lazily on first load.
+// instead of the ~3.6 KB loaders.js, which the registry imports lazily on first load.
 const joined = Object.fromEntries(variants.map((v) => [v, Object.keys(data[v]).sort().join(" ")]));
 const shared = variants.every((v) => joined[v] === joined[variants[0]]);
 writeFileSync(
@@ -100,7 +129,16 @@ const iconModuleType = `${BANNER}\nimport type { SVGTemplateResult } from "lit";
 writeFileSync(join(distDir, "icon-module.d.ts"), iconModuleType);
 writeFileSync(
   join(stubDir, "loaders.d.ts"),
-  `${BANNER}\nimport type { SVGTemplateResult } from "lit";\nexport declare const HEROICON_LOADERS: Record<\n  "outline" | "solid",\n  Record<string, () => Promise<{ default: SVGTemplateResult }>>\n>;\n`,
+  `${BANNER}
+import type { SVGTemplateResult } from "lit";
+/** The position of \`name\` in \`variant\`'s list, or -1 if that variant doesn't ship it. */
+export declare function heroiconIndex(variant: string, name: string): number;
+/** Imports one Heroicon's module, or returns undefined (no request) for a name that isn't shipped. */
+export declare function loadHeroicon(
+  variant: string,
+  name: string,
+): Promise<{ default: SVGTemplateResult }> | undefined;
+`,
 );
 
 console.log(`Generated ${total} Heroicon modules (${variants.join(", ")}).`);

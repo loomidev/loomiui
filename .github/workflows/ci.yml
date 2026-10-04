@@ -103,11 +103,19 @@ jobs:
       # documented contribution path (see packages/core/src/locales/index.ts).
       - name: Locale completeness
         run: pnpm check:i18n
+      # Bundles an app that imports only <loomi-input> with code-splitting on and fails if
+      # any locale but en loads up front — the others must stay in lazy, per-locale chunks.
+      - name: Locales load on demand
+        run: pnpm check:locale-split
       # Bundled + gzipped size of each component's public entry, `lit` kept external as a
       # shared peerDependency — catches an accidental size regression before it ships, and
       # writes the per-package size table to the job summary.
       - name: Bundle size budget
         run: pnpm check:bundle-size
+      # Builds a consumer app with Vite and plain Rollup and loads every Heroicon through
+      # each — the icon loaders must stay literal import()s that both bundlers can split.
+      - name: Icons load in Vite and Rollup builds
+        run: pnpm check:icon-bundlers
       - run: pnpm test
 
       # Baselines are per-platform bitmaps and the Linux set is recorded by the

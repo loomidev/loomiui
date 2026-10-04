@@ -34,6 +34,11 @@ const HARD_LIMITS = {
   button: 10 * 1024,
 };
 
+// The Heroicons loader table (dist/heroicons/loaders.js) is fetched by the first dynamic
+// icon on a page, before the icon itself, so it is checked on its own: the shipped file,
+// gzipped, as the browser downloads it. Each icon adds a literal import() to it.
+const ICON_LOADERS_LIMIT = 4 * 1024;
+
 const budgets = existsSync(budgetPath) ? JSON.parse(readFileSync(budgetPath, "utf8")) : {};
 
 const readJson = (file) => JSON.parse(readFileSync(file, "utf8"));
@@ -132,6 +137,18 @@ for (const name of packages) {
   }
 }
 
+const iconLoadersPath = path.join(packagesDir, "icons", "dist", "heroicons", "loaders.js");
+const iconLoadersSize = existsSync(iconLoadersPath)
+  ? gzipSync(readFileSync(iconLoadersPath)).length
+  : undefined;
+if (iconLoadersSize === undefined) {
+  failures.push("icons: dist/heroicons/loaders.js is missing — build @loomidev/icons first.");
+} else if (iconLoadersSize > ICON_LOADERS_LIMIT) {
+  failures.push(
+    `icons: dist/heroicons/loaders.js is ${iconLoadersSize}B gzipped, over its ${ICON_LOADERS_LIMIT}B limit.`,
+  );
+}
+
 // ---- report ----
 const table = [
   "| Package | min+gz | with all Heroicons eager |",
@@ -141,7 +158,11 @@ const table = [
       `| \`@loomidev/${name}\` | ${kb(results[name])} | ${withIcons[name] ? kb(withIcons[name]) : "–"} |`,
   ),
 ].join("\n");
-const report = `### Bundle size\n\nMinified and gzipped, \`lit\` excluded (a shared peer dependency), shared \`@loomidev/core\`/\`@loomidev/theme\` code included. Icons load on demand and are not counted; the last column adds \`import "@loomidev/icons/all"\`.\n\n${table}\n`;
+const iconLoadersLine =
+  iconLoadersSize === undefined
+    ? ""
+    : `\nHeroicons loader table (\`@loomidev/icons\` \`dist/heroicons/loaders.js\`, gzipped as shipped, loaded with the first dynamic icon): ${kb(iconLoadersSize)} of a ${kb(ICON_LOADERS_LIMIT)} limit.\n`;
+const report = `### Bundle size\n\nMinified and gzipped, \`lit\` excluded (a shared peer dependency), shared \`@loomidev/core\`/\`@loomidev/theme\` code included. Icons load on demand and are not counted; the last column adds \`import "@loomidev/icons/all"\`.\n\n${table}\n${iconLoadersLine}`;
 console.log(report);
 if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${report}\n`);
 
