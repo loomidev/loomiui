@@ -53,11 +53,13 @@ function flattenTranslations(value, prefix = "", result = new Map()) {
   return result;
 }
 
-const englishMessages = flattenTranslations(builtinTranslations.en);
+// Built-in locales other than `en` load on demand, so each entry is a loader.
+const englishMessages = flattenTranslations(await builtinTranslations.en());
 const localeCoverage = [];
 const errors = [];
 
-for (const [locale, translations] of Object.entries(builtinTranslations)) {
+for (const [locale, loadTranslations] of Object.entries(builtinTranslations)) {
+  const translations = await loadTranslations();
   const messages = flattenTranslations(translations);
   const unknown = [...messages.keys()].filter((key) => !englishMessages.has(key));
   const wrongTypes = [...messages].filter(

@@ -2,6 +2,7 @@ import { LitElement, type CSSResultGroup, type PropertyValues } from "lit";
 import { themeStyles, type LoomiColor } from "@loomidev/theme";
 import { elevationStyles } from "./elevation.js";
 import { focusStyles } from "./focus.js";
+import { onLoomiTranslationsChange } from "./translation-events.js";
 import { motionStyles } from "./motion.js";
 export * from "./caret.js";
 export * from "./dark-mode.js";
@@ -64,7 +65,8 @@ export function randomSuffix(): string {
 
 /**
  * Shared base for loomi web components. Each host element receives a stable target
- * class using its explicit `name` when present, or `loomi-<component>-<suffix>`.
+ * class using its explicit `name` when present, or `loomi-<component>-<suffix>`, and
+ * re-renders while connected whenever its translated copy may have changed.
  */
 export class LoomiElement extends LitElement {
   static override properties = {
@@ -75,10 +77,20 @@ export class LoomiElement extends LitElement {
 
   private generatedLoomiName = "";
   private appliedLoomiNameClass = "";
+  private releaseTranslations?: () => void;
 
   override connectedCallback(): void {
     super.connectedCallback();
     this.syncLoomiNameClass();
+    // Re-render translated copy when the shared locale switches or a locale finishes
+    // loading (built-in locales other than `en` arrive asynchronously).
+    this.releaseTranslations ??= onLoomiTranslationsChange(() => this.requestUpdate());
+  }
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.releaseTranslations?.();
+    this.releaseTranslations = undefined;
   }
 
   protected override update(changedProperties: PropertyValues<this>): void {
