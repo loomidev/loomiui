@@ -49,7 +49,7 @@ required validation message, and remove-file label. Custom `placeholder-line1` a
 import { setLoomiLocale, defineLoomiTranslations } from "@loomidev/core";
 import "@loomidev/filepicker";
 
-setLoomiLocale("es");
+await setLoomiLocale("es");
 
 defineLoomiTranslations("ak", {
   filepicker: {
@@ -63,6 +63,12 @@ defineLoomiTranslations("ak", {
 <!-- Override only this filepicker. -->
 <loomi-filepicker locale="pt_BR"></loomi-filepicker>
 ```
+
+Only English ships with `@loomidev/core`; other built-in locales are fetched on first
+use. `setLoomiLocale()` switches once the locale has loaded, and open filepickers
+re-render. A `locale` attribute naming a locale that isn't loaded yet renders in
+English until it arrives. To render it translated from the first paint, call
+`await loadLoomiLocale("pt_BR")` from `@loomidev/core` first.
 
 Built-in locales: `en`, `ar`, `de`, `es`, `fr`, `it`, `ml`, `pt_BR`, `tr`, and
 `zh_CN`.
