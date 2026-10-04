@@ -1,5 +1,15 @@
 # @loomidev/date-range-picker
 
+## 0.12.0
+
+### Patch Changes
+
+- Updated dependencies [7569d90]
+- Updated dependencies [b16e5be]
+  - @loomidev/datepicker@0.12.0
+  - @loomidev/core@0.12.0
+  - @loomidev/button@0.12.0
+
 ## 0.11.0
 
 ### Patch Changes
