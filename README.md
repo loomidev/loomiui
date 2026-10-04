@@ -133,7 +133,7 @@ needs a different language.
 import { setLoomiLocale, defineLoomiTranslations } from "@loomidev/core";
 import "@loomidev/components";
 
-setLoomiLocale("es");
+await setLoomiLocale("es");
 
 defineLoomiTranslations("ak", {
   datepicker: { placeholder: "Paw da a wobɛpaw" },
@@ -145,6 +145,11 @@ defineLoomiTranslations("ak", {
 <loomi-datepicker locale="fr"></loomi-datepicker>
 <loomi-filepicker locale="pt_BR"></loomi-filepicker>
 ```
+
+Only English ships with the components; other included locales are fetched on first use.
+`setLoomiLocale()` switches once the locale has loaded, and open components re-render. A
+`locale` attribute naming a locale that isn't loaded yet renders in English until it
+arrives, unless you preload it with `await loadLoomiLocale("fr")`.
 
 Included locales are `en`, `ar`, `de`, `es`, `fr`, `it`, `ml`, `pt_BR`, `tr`, and
 `zh_CN`. If a component provides an attribute for specific text, that attribute overrides
