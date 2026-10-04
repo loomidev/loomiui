@@ -482,3 +482,21 @@
     height: 1.9rem;
   }
 }
+
+/* iOS Safari zooms on focus below 16px; floor the type on touch devices (see core's
+   controlSizeStyles for --loomi-control-touch-font-size). */
+@media (pointer: coarse) {
+  .loomi-cc-number {
+    font-size: max(var(--loomi-control-touch-font-size, 1rem), clamp(1rem, 5.2vw, 1.35rem));
+  }
+  .loomi-cc-name,
+  .loomi-cc-expiry,
+  .loomi-cc-cvc,
+  .loomi-cc-inline .loomi-cc-number {
+    font-size: max(var(--loomi-control-touch-font-size, 1rem), 0.95rem);
+  }
+  .loomi-cc-inline .loomi-cc-expiry,
+  .loomi-cc-inline .loomi-cc-cvc {
+    font-size: max(var(--loomi-control-touch-font-size, 1rem), 1em);
+  }
+}

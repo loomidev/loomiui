@@ -693,3 +693,11 @@
       0 0;
   }
 }
+
+/* iOS Safari zooms on focus below 16px; floor the type on touch devices (see core's
+   controlSizeStyles for --loomi-control-touch-font-size). */
+@media (pointer: coarse) {
+  .loomi-chat-input {
+    font-size: max(var(--loomi-control-touch-font-size, 1rem), 1em);
+  }
+}

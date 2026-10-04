@@ -84,6 +84,14 @@ export const dataGridStyles = css`
     padding: 0 10px;
   }
 
+  /* iOS Safari zooms on focus below 16px; floor the type on touch devices. */
+  @media (pointer: coarse) {
+    input:not([type="checkbox"]),
+    select {
+      font-size: max(var(--loomi-control-touch-font-size, 1rem), 1em);
+    }
+  }
+
   button {
     display: inline-flex;
     align-items: center;

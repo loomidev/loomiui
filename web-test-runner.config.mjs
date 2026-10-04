@@ -34,6 +34,31 @@ const launcher = (product) =>
     },
   });
 
+/**
+ * `emulate-coarse-pointer` ({ enabled }) flips the page into touch emulation, so
+ * `(pointer: coarse)` matches. Only Chromium exposes this (over CDP); other engines
+ * return false and the calling test skips itself.
+ */
+// Emulation overrides belong to the CDP session that set them, so reuse one per page.
+const cdpSessions = new WeakMap();
+const coarsePointerPlugin = {
+  name: "emulate-coarse-pointer",
+  async executeCommand({ command, payload, session }) {
+    if (command !== "emulate-coarse-pointer") return;
+    if (session.browser.type !== "playwright" || !session.browser.name.includes("Chromium")) {
+      return false;
+    }
+    const page = session.browser.getPage(session.id);
+    if (!cdpSessions.has(page)) cdpSessions.set(page, await page.context().newCDPSession(page));
+    const cdp = cdpSessions.get(page);
+    await cdp.send("Emulation.setTouchEmulationEnabled", {
+      enabled: !!payload?.enabled,
+      maxTouchPoints: payload?.enabled ? 5 : 1,
+    });
+    return true;
+  },
+};
+
 export default {
   rootDir: ".",
   files: "packages/*/test/**/*.test.ts",
@@ -64,7 +89,7 @@ export default {
         <script type="module" src="${testFramework}"></script>
       </body>
     </html>`,
-  plugins: [esbuildPlugin({ ts: true, target: "es2022" })],
+  plugins: [esbuildPlugin({ ts: true, target: "es2022" }), coarsePointerPlugin],
   testFramework: {
     config: { ui: "bdd", timeout: "10000" },
   },
