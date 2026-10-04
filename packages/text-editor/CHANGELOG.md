@@ -1,5 +1,22 @@
 # @loomidev/text-editor
 
+## 0.13.0
+
+### Patch Changes
+
+- Updated dependencies [6f748ba]
+- Updated dependencies [3fed1a7]
+  - @loomidev/icons@0.13.0
+  - @loomidev/core@0.13.0
+  - @loomidev/filepicker@0.13.0
+  - @loomidev/icon@0.13.0
+  - @loomidev/input@0.13.0
+  - @loomidev/modal@0.13.0
+  - @loomidev/notification@0.13.0
+  - @loomidev/select@0.13.0
+  - @loomidev/tooltip@0.13.0
+  - @loomidev/theme@0.13.0
+
 ## 0.12.0
 
 ### Patch Changes
