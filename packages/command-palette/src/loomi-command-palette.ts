@@ -107,6 +107,13 @@ export class LoomiCommandPalette extends LoomiElement {
       padding: 0 16px;
     }
 
+    /* Already 16px, so iOS Safari does not zoom; still honor a raised touch floor. */
+    @media (pointer: coarse) {
+      .search {
+        font-size: max(var(--loomi-control-touch-font-size, 1rem), 16px);
+      }
+    }
+
     .list {
       max-height: 420px;
       overflow: auto;

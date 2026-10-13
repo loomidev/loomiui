@@ -1,5 +1,6 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
+import { html as staticHtml, unsafeStatic } from "lit/static-html.js";
 import {
   LoomiElement,
   fieldStyles,
@@ -32,6 +33,8 @@ import heroLink from "@loomidev/icons/heroicons/outline/link.js";
 import heroPhoto from "@loomidev/icons/heroicons/outline/photo.js";
 import heroVideoCamera from "@loomidev/icons/heroicons/outline/video-camera.js";
 import heroSparkles from "@loomidev/icons/heroicons/outline/sparkles.js";
+import heroTag from "@loomidev/icons/heroicons/outline/tag.js";
+import heroDocumentText from "@loomidev/icons/heroicons/outline/document-text.js";
 import "@loomidev/input/loomi-input.js";
 import "@loomidev/modal/loomi-modal.js";
 import type { LoomiModal } from "@loomidev/modal";
@@ -62,6 +65,8 @@ provideLoomiIcons({
   photo: heroPhoto,
   "video-camera": heroVideoCamera,
   sparkles: heroSparkles,
+  tag: heroTag,
+  "document-text": heroDocumentText,
 });
 
 /**
@@ -69,6 +74,26 @@ provideLoomiIcons({
  * where it would read as an edit of the editor's own value.
  */
 const stopEvent = (event: Event): void => event.stopPropagation();
+
+// <loomi-modal> moves itself to <body> on show(), taking the embed form out of this
+// shadow root: our stylesheet stops applying and --loomi-* tokens stop resolving. So the
+// form carries its own <style>, with literal fallbacks on every token.
+const EMBED_FORM_STYLE = `
+  .loomi-embed-form { display: flex; flex-direction: column; gap: 1.25rem; width: 100%; padding-top: 0.5rem; }
+  .loomi-embed-form > .loomi-embed-input,
+  .loomi-embed-form > .loomi-embed-filepicker { display: block; width: 100%; margin: 0; }
+  .loomi-embed-upload { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.5rem; }
+  .loomi-embed-separator {
+    display: flex; align-items: center; gap: 0.75rem;
+    color: var(--loomi-text-faint, oklch(55.1% 0.027 264.364));
+    font-size: 0.8rem; font-weight: 500; line-height: 1.2;
+  }
+  .loomi-embed-separator::after {
+    content: ""; flex: 1; height: 1px;
+    background: var(--loomi-surface-border, oklch(92.8% 0.006 264.531));
+  }
+`;
+const EMBED_FORM_STYLE_TAG = unsafeStatic(`<style>${EMBED_FORM_STYLE}</style>`);
 
 const TOOL_ORDER = [
   "heading",
@@ -1254,13 +1279,19 @@ export class LoomiTextEditor extends LoomiElement {
     separator: string,
   ): TemplateResult | typeof nothing {
     if (this.noFileUpload) return nothing;
-    return html`<div class="loomi-embed-separator">${separator}</div>
-      ${this.renderEmbedFilepicker(kind)}`;
+    return html`<div class="loomi-embed-upload">
+      <div class="loomi-embed-separator">${separator}</div>
+      ${this.renderEmbedFilepicker(kind)}
+    </div>`;
   }
 
   private renderEmbedDialogBody(): TemplateResult {
     if (!this.embedTool) return html``;
+    // Static, not a binding: lit-html cannot bind inside a <style> (raw-text) element.
+    return staticHtml`${EMBED_FORM_STYLE_TAG}${this.renderEmbedFields()}`;
+  }
 
+  private renderEmbedFields(): TemplateResult {
     if (this.embedTool === "link") {
       return html`<div class="loomi-embed-form">
         ${this.renderEmbedInput("URL", this.embedUrl, "link", (value) => (this.embedUrl = value))}

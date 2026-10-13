@@ -129,24 +129,6 @@
   max-width: 6rem;
 }
 
-.loomi-embed-form {
-  display: grid;
-  gap: 0.85rem;
-  width: 100%;
-}
-
-.loomi-embed-input,
-.loomi-embed-filepicker {
-  display: block;
-  width: 100%;
-  margin-bottom: 0;
-}
-
-.loomi-embed-separator {
-  color: var(--loomi-text-faint);
-  font-size: 0.82rem;
-}
-
 .loomi-color-tool {
   position: relative;
 }
@@ -270,4 +252,12 @@
 
 :host([disabled]) .loomi-toolbar {
   pointer-events: none;
+}
+
+/* iOS Safari zooms on focus below 16px; floor the type on touch devices (see core's
+   controlSizeStyles for --loomi-control-touch-font-size). */
+@media (pointer: coarse) {
+  .loomi-editor {
+    font-size: max(var(--loomi-control-touch-font-size, 1rem), 1em);
+  }
 }

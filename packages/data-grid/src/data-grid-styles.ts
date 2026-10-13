@@ -84,6 +84,14 @@ export const dataGridStyles = css`
     padding: 0 10px;
   }
 
+  /* iOS Safari zooms on focus below 16px; floor the type on touch devices. */
+  @media (pointer: coarse) {
+    input:not([type="checkbox"]),
+    select {
+      font-size: max(var(--loomi-control-touch-font-size, 1rem), 1em);
+    }
+  }
+
   button {
     display: inline-flex;
     align-items: center;
@@ -362,6 +370,31 @@ export const dataGridStyles = css`
   td.loomi-grid-cell-editing input {
     width: 100%;
     min-height: 28px;
+  }
+
+  td.loomi-grid-cell-always {
+    padding: 0;
+  }
+
+  td.loomi-grid-cell-always input {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 40px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    outline: none;
+  }
+
+  td.loomi-grid-cell-always:focus-within {
+    outline: 2px solid var(--loomi-data-grid-accent);
+    outline-offset: -2px;
+    background: var(--loomi-data-grid-accent-softer);
   }
 
   .empty,

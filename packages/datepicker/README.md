@@ -185,6 +185,14 @@ Use `label-position="top"` for a plain label above the field, outside its border
 <loomi-datepicker label="Start date" label-position="top"></loomi-datepicker>
 ```
 
+Style the displayed date (or placeholder) with the `input` part:
+
+```css
+loomi-datepicker::part(input) {
+  font-variant-numeric: tabular-nums;
+}
+```
+
 ## Accessibility
 
 For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).

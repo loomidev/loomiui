@@ -33,6 +33,12 @@
   background: var(--loomi-surface);
   transition: border-color 0.12s ease;
 }
+/* iOS Safari zooms on focus below 16px; the smaller box sizes would trip it. */
+@media (pointer: coarse) {
+  .loomi-box {
+    font-size: max(var(--loomi-control-touch-font-size, 1rem), calc(var(--_otp-size) * 0.45));
+  }
+}
 .loomi-box.is-masked {
   color: transparent;
   caret-color: var(--loomi-text);

@@ -31,6 +31,8 @@ export type LoomiTextFieldLabelPosition = LoomiFieldLabelPosition | "top";
  * spacious (> 1) at once, proportionally, without collapsing the per-size scale. It is
  * intentionally not declared on `:host`, so a `:root` value inherits through Shadow DOM.
  * Font size is deliberately left unscaled — density controls spacing, `size` controls type.
+ * Under `(pointer: coarse)` the font size is floored at `--loomi-control-touch-font-size`
+ * (default 1rem) so iOS Safari does not zoom when a control takes focus.
  */
 export const controlSizeStyles: CSSResultGroup = css`
   .size-tiny {
@@ -62,6 +64,24 @@ export const controlSizeStyles: CSSResultGroup = css`
     --loomi-control-pad-x: calc(var(--loomi-density, 1) * 1.25rem);
     --loomi-control-font-size: 1.125rem;
     font-size: var(--loomi-control-font-size);
+  }
+  /* iOS Safari zooms the page when a control under 16px takes focus, so on touch devices
+     every size's type gets a floor. \`--loomi-control-touch-font-size\` (default 1rem) moves
+     it; like density it is not declared on :host, so a page-level value inherits. */
+  @media (pointer: coarse) {
+    .size-tiny {
+      --loomi-control-font-size: max(var(--loomi-control-touch-font-size, 1rem), 0.75rem);
+    }
+    .size-small,
+    .size-regular {
+      --loomi-control-font-size: max(var(--loomi-control-touch-font-size, 1rem), 0.875rem);
+    }
+    .size-medium {
+      --loomi-control-font-size: max(var(--loomi-control-touch-font-size, 1rem), 1rem);
+    }
+    .size-big {
+      --loomi-control-font-size: max(var(--loomi-control-touch-font-size, 1rem), 1.125rem);
+    }
   }
 `;
 

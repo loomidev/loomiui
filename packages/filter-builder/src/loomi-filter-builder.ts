@@ -161,6 +161,14 @@ export class LoomiFilterBuilder extends LoomiElement {
       font: inherit;
     }
 
+    /* iOS Safari zooms on focus below 16px; floor the type on touch devices. */
+    @media (pointer: coarse) {
+      select,
+      input {
+        font-size: max(var(--loomi-control-touch-font-size, 1rem), 1em);
+      }
+    }
+
     select:focus,
     input:focus {
       border-color: var(--loomi-filter-accent);

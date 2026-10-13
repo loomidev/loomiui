@@ -71,6 +71,8 @@ const sameDay = (a: Date, b: Date) => a.toDateString() === b.toDateString();
  * like a native `<input type="date">`, whatever `format` displays.
  * `selected-value`/`min-date`/`max-date` are parsed as ISO `yyyy-mm-dd`.
  *
+ * @csspart input - The text showing the picked date (or the placeholder) inside the field.
+ *
  * @fires input - Fired when the user picks a date, after `value` has updated (composed).
  * @fires change - `detail: { value, dates }` when the user picks a date (composed).
  */
@@ -534,7 +536,7 @@ export class LoomiDatepicker extends LoomiElement {
         @click=${() => this.toggle()}
         @keydown=${this.onFieldKeydown}
       >
-        <span class="loomi-text ${this.value ? "" : "placeholder"} ${hidePlaceholder ? "hidden" : ""}">${this.displayValue || placeholder}${!this.value && this.required && !this.label ? html`<span class="loomi-req"> *</span>` : nothing}</span>
+        <span part="input" class="loomi-text ${this.value ? "" : "placeholder"} ${hidePlaceholder ? "hidden" : ""}">${this.displayValue || placeholder}${!this.value && this.required && !this.label ? html`<span class="loomi-req"> *</span>` : nothing}</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${CAL}</svg>
       </div>
       ${hasLabel ? html`<span class="loomi-label">${this.label}${this.required ? html`<span class="loomi-req">*</span>` : nothing}</span>` : nothing}

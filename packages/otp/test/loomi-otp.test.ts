@@ -159,5 +159,18 @@ describe("loomi-otp", () => {
       press(inputs[2], "Backspace");
       expect(el.shadowRoot!.activeElement).to.equal(inputs[1]);
     });
+
+    it("clears a filled box and steps back in a single Backspace", async () => {
+      const el = await fixture<LoomiOtp>(html`<loomi-otp total-digits="4"></loomi-otp>`);
+      const inputs = boxes(el);
+      el.value = "123";
+      await el.updateComplete;
+      inputs[2].focus();
+      press(inputs[2], "Backspace");
+      await el.updateComplete;
+      expect(inputs[2].value).to.equal("");
+      expect(el.value).to.equal("12");
+      expect(el.shadowRoot!.activeElement).to.equal(inputs[1]);
+    });
   });
 });

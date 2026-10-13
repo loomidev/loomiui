@@ -44,6 +44,19 @@ The rules:
 | ------------ | ------ | --------- | --------- | --------- | ------ |
 | Height       | `2rem` | `2.25rem` | `2.5rem`  | `2.75rem` | `3rem` |
 
+On a touch device (`pointer: coarse`), field text never renders below 16px, because iOS
+Safari zooms the page when a smaller control takes focus. This covers every sized field,
+the select, countries, timezone and emoji search boxes, textarea, otp, creditcard,
+filter-builder, command-palette, the chat composer, the text-editor surface and the
+data-grid's inputs. Larger sizes keep their own value. Set `--loomi-control-touch-font-size` on `:root` (or any ancestor) to move the
+floor:
+
+```css
+:root {
+  --loomi-control-touch-font-size: 17px;
+}
+```
+
 What each component supports:
 
 | Component                                                                                                                                       | Attribute     | Supported sizes                                          |
