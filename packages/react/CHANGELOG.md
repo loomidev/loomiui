@@ -1,5 +1,12 @@
 # @loomidev/react
 
+## 0.14.0
+
+### Patch Changes
+
+- @loomidev/components@0.14.0
+  - @loomidev/react-types@0.14.0
+
 ## 0.13.0
 
 ### Patch Changes

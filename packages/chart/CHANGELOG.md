@@ -1,5 +1,13 @@
 # @loomidev/chart
 
+## 0.14.0
+
+### Patch Changes
+
+- Updated dependencies [edea592]
+  - @loomidev/core@0.14.0
+  - @loomidev/tooltip@0.14.0
+
 ## 0.13.0
 
 ### Patch Changes
