@@ -318,11 +318,12 @@ describe("loomi-data-grid modules", () => {
       const events: CustomEvent[] = [];
       el.addEventListener("loomi-cell-edit", (event) => events.push(event as CustomEvent));
 
-      const data = new DataTransfer();
-      data.setData("text/plain", "One\nTwo\nThree");
-      inputAt(el, 0, 0)!.dispatchEvent(
-        new ClipboardEvent("paste", { clipboardData: data, bubbles: true, cancelable: true }),
-      );
+      // A constructed ClipboardEvent loses `clipboardData` in Firefox, so attach it by hand.
+      const paste = new Event("paste", { bubbles: true, cancelable: true });
+      Object.defineProperty(paste, "clipboardData", {
+        value: { getData: () => "One\nTwo\nThree" },
+      });
+      inputAt(el, 0, 0)!.dispatchEvent(paste);
       await el.updateComplete;
 
       expect(events.length).to.equal(3);
