@@ -372,6 +372,31 @@ export const dataGridStyles = css`
     min-height: 28px;
   }
 
+  td.loomi-grid-cell-always {
+    padding: 0;
+  }
+
+  td.loomi-grid-cell-always input {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 40px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    outline: none;
+  }
+
+  td.loomi-grid-cell-always:focus-within {
+    outline: 2px solid var(--loomi-data-grid-accent);
+    outline-offset: -2px;
+    background: var(--loomi-data-grid-accent-softer);
+  }
+
   .empty,
   .loading {
     padding: 48px 24px;

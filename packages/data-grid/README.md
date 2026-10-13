@@ -169,6 +169,14 @@ grid.columns = [{ key: "name", label: "Name", editable: true }];
 grid.modules = [inlineEditingModule()];
 ```
 
+Pass `inlineEditingModule({ mode: "always" })` for a spreadsheet-style grid where
+every editable cell shows its input permanently (styled by the grid). Enter and
+ArrowDown move to the cell below, ArrowUp to the one above, Tab across; arrow
+keys inside a box don't trigger the grid's own navigation. Pasting several lines
+(or tab-separated cells copied from Excel) fills the cells below/right, emitting
+`loomi-cell-edit` for each. `await grid.focusCell(rowIndex, columnKey)` focuses a
+cell's input once it has rendered — handy after appending a row.
+
 ### Virtual scrolling (`modules/virtual-scrolling.js`)
 
 Renders only the rows visible in the scroll viewport for large datasets. Set

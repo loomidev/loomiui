@@ -284,7 +284,19 @@ export class LoomiOtp extends LoomiElement {
     // A segmented code field behaves like one control split across boxes: the arrows walk
     // between them, and Home/End jump to the ends. Without this the only way back to an
     // earlier digit is the mouse, or clearing everything after it.
-    if (e.key === "Backspace" && !this.digits[i] && i > 0) {
+    if (e.key === "Backspace" && i > 0) {
+      if (this.digits[i]) {
+        // Clear this box and step back in one keystroke, rather than leaving the caret in
+        // the now-empty box until a second press.
+        e.preventDefault();
+        const next = [...this.digits];
+        next[i] = "";
+        this.digits = next;
+        (e.target as HTMLInputElement).value = "";
+        if (this.invalid || this.valid || this.validating) this.resetValidationState();
+        this.emit("input");
+        this.commit();
+      }
       this.boxes[i - 1]?.focus();
       return;
     }

@@ -261,6 +261,75 @@ describe("loomi-data-grid modules", () => {
     expect(input.selectionEnd).to.equal(input.value.length);
   });
 
+  describe("inlineEditingModule mode: 'always'", () => {
+    const editableColumns = [
+      { key: "name", label: "Name", editable: true },
+      { key: "department", label: "Department", editable: true },
+      { key: "age", label: "Age" },
+    ];
+
+    async function alwaysGrid() {
+      return renderGrid({
+        columns: editableColumns,
+        modules: [inlineEditingModule({ mode: "always" })],
+      });
+    }
+
+    const inputAt = (el: LoomiDataGrid<Person>, row: number, col: number) =>
+      el.shadowRoot!.querySelector<HTMLInputElement>(
+        `td[data-row-index="${row}"][data-col-index="${col}"] input`,
+      );
+
+    it("renders a permanent input in every editable cell, focusable on click", async () => {
+      const el = await alwaysGrid();
+      for (let row = 0; row < people.length; row++) {
+        for (const col of [0, 1]) {
+          const input = inputAt(el, row, col)!;
+          expect(input, `cell ${row},${col}`).to.exist;
+          input.focus();
+          expect(el.shadowRoot!.activeElement).to.equal(input);
+        }
+        expect(inputAt(el, row, 2)).to.equal(null);
+      }
+    });
+
+    it("Enter moves down, ArrowUp moves up, and focusCell waits for a new row", async () => {
+      const el = await alwaysGrid();
+      const first = inputAt(el, 0, 0)!;
+      first.focus();
+      first.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      expect(el.shadowRoot!.activeElement).to.equal(inputAt(el, 1, 0));
+
+      inputAt(el, 1, 0)!.dispatchEvent(
+        new KeyboardEvent("keydown", { key: "ArrowUp", bubbles: true }),
+      );
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      expect(el.shadowRoot!.activeElement).to.equal(inputAt(el, 0, 0));
+
+      el.data = [...el.data, { id: "5", name: "Efua", age: 30, department: "Ops" }];
+      const landed = await el.focusCell(4, "name");
+      expect(landed).to.equal(true);
+      expect(el.shadowRoot!.activeElement).to.equal(inputAt(el, 4, 0));
+    });
+
+    it("pasting three lines fills three rows and emits three loomi-cell-edit events", async () => {
+      const el = await alwaysGrid();
+      const events: CustomEvent[] = [];
+      el.addEventListener("loomi-cell-edit", (event) => events.push(event as CustomEvent));
+
+      const data = new DataTransfer();
+      data.setData("text/plain", "One\nTwo\nThree");
+      inputAt(el, 0, 0)!.dispatchEvent(
+        new ClipboardEvent("paste", { clipboardData: data, bubbles: true, cancelable: true }),
+      );
+      await el.updateComplete;
+
+      expect(events.length).to.equal(3);
+      expect(el.data.slice(0, 3).map((row) => row.name)).to.deep.equal(["One", "Two", "Three"]);
+    });
+  });
+
   it("virtualScrollingModule re-windows on the first scroll after render", async () => {
     // Regression: the module attached its scroll listener from `renderBody`,
     // which first runs before `.grid-wrap` exists, so nothing listened until an

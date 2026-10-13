@@ -981,6 +981,44 @@ export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>
     });
   }
 
+  /** Rows currently rendered in the body (the visible page slice), in display order. */
+  getRenderedRows(): TRecord[] {
+    return this.renderedRows;
+  }
+
+  /**
+   * Moves focus to a cell by its rendered row index and column key, focusing the
+   * input inside it when the cell hosts one (inline editing's always-open mode).
+   * Waits for pending renders — and a few more passes if the row isn't there yet —
+   * so it can be called straight after `data` changes. Resolves `true` once focus
+   * landed, `false` if the cell never rendered.
+   */
+  async focusCell(rowIndex: number, columnKey: string): Promise<boolean> {
+    for (let attempt = 0; attempt < 5; attempt++) {
+      await this.updateComplete;
+      const colIndex = this.renderedColumns.findIndex((column) => column.key === columnKey);
+      const cell =
+        colIndex === -1
+          ? null
+          : this.shadowRoot?.querySelector<HTMLElement>(
+              `td[data-row-index="${rowIndex}"][data-col-index="${colIndex}"]`,
+            );
+      if (cell) {
+        this._activeCell = { rowIndex, columnIndex: colIndex };
+        const input = cell.querySelector<HTMLInputElement>("input, textarea, select");
+        const target = input ?? cell;
+        target.focus();
+        if (input instanceof HTMLInputElement && input.type === "text") {
+          input.select();
+        }
+        this.requestUpdate();
+        return true;
+      }
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    }
+    return false;
+  }
+
   private emitSelectionChange(): void {
     const selectedRows = this.data.filter((row) => this.selectedKeys.includes(this.getRowKey(row)));
     this.dispatchGridEvent<DataGridSelectionChangeDetail<TRecord>>("loomi-selection-change", {

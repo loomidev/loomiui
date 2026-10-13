@@ -22,6 +22,10 @@ export interface DataGridHost<TRecord extends DataGridRecord = DataGridRecord> e
   dispatchGridEvent<TDetail>(name: string, detail: TDetail): void;
   /** Clones `data`, applies one cell edit, reassigns `data`, and re-renders. */
   updateCellValue(rowKey: string, columnKey: string, value: unknown): void;
+  /** Rows currently rendered in the body (the visible page slice), in display order. */
+  getRenderedRows(): TRecord[];
+  /** Focuses a cell (or the input inside it) by rendered row index + column key, waiting for render. */
+  focusCell(rowIndex: number, columnKey: string): Promise<boolean>;
 }
 
 /** Shared context passed into every module hook for a single render pass. */
