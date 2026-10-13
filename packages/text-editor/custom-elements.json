@@ -1423,6 +1423,16 @@
             },
             {
               "kind": "method",
+              "name": "renderEmbedFields",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              }
+            },
+            {
+              "kind": "method",
               "name": "renderEmbedDialog",
               "privacy": "private",
               "return": {
