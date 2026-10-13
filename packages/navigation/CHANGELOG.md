@@ -1,5 +1,22 @@
 # @loomidev/navigation
 
+## 0.14.0
+
+### Patch Changes
+
+- Updated dependencies [edea592]
+  - @loomidev/command-palette@0.14.0
+  - @loomidev/bottom-nav@0.14.0
+  - @loomidev/breadcrumb@0.14.0
+  - @loomidev/context-menu@0.14.0
+  - @loomidev/dropmenu@0.14.0
+  - @loomidev/pagination@0.14.0
+  - @loomidev/profile-menu@0.14.0
+  - @loomidev/side-nav@0.14.0
+  - @loomidev/tab@0.14.0
+  - @loomidev/theme-switcher@0.14.0
+  - @loomidev/progress-steps@0.14.0
+
 ## 0.13.0
 
 ### Patch Changes

@@ -1,5 +1,97 @@
 # @loomidev/components
 
+## 0.14.0
+
+### Patch Changes
+
+- Updated dependencies [9935d58]
+- Updated dependencies [9935d58]
+- Updated dependencies [9dd3ad5]
+- Updated dependencies [edea592]
+  - @loomidev/data-grid@0.14.0
+  - @loomidev/otp@0.14.0
+  - @loomidev/text-editor@0.14.0
+  - @loomidev/core@0.14.0
+  - @loomidev/textarea@0.14.0
+  - @loomidev/datepicker@0.14.0
+  - @loomidev/creditcard@0.14.0
+  - @loomidev/emoji-picker@0.14.0
+  - @loomidev/filter-builder@0.14.0
+  - @loomidev/command-palette@0.14.0
+  - @loomidev/chat@0.14.0
+  - @loomidev/accordion@0.14.0
+  - @loomidev/alert@0.14.0
+  - @loomidev/arc-meter@0.14.0
+  - @loomidev/autocomplete@0.14.0
+  - @loomidev/avatar@0.14.0
+  - @loomidev/bell@0.14.0
+  - @loomidev/bottom-nav@0.14.0
+  - @loomidev/breadcrumb@0.14.0
+  - @loomidev/button@0.14.0
+  - @loomidev/button-group@0.14.0
+  - @loomidev/calendar@0.14.0
+  - @loomidev/card@0.14.0
+  - @loomidev/centered-content@0.14.0
+  - @loomidev/chart@0.14.0
+  - @loomidev/checkbox@0.14.0
+  - @loomidev/checkcards@0.14.0
+  - @loomidev/clipboard@0.14.0
+  - @loomidev/colorpicker@0.14.0
+  - @loomidev/contact-card@0.14.0
+  - @loomidev/context-menu@0.14.0
+  - @loomidev/countries@0.14.0
+  - @loomidev/date-range-picker@0.14.0
+  - @loomidev/divider@0.14.0
+  - @loomidev/drawer@0.14.0
+  - @loomidev/dropmenu@0.14.0
+  - @loomidev/empty-state@0.14.0
+  - @loomidev/fab@0.14.0
+  - @loomidev/filepicker@0.14.0
+  - @loomidev/floating-panel@0.14.0
+  - @loomidev/horizontal-line-graph@0.14.0
+  - @loomidev/icon@0.14.0
+  - @loomidev/input@0.14.0
+  - @loomidev/lightbox@0.14.0
+  - @loomidev/listview@0.14.0
+  - @loomidev/modal@0.14.0
+  - @loomidev/notification@0.14.0
+  - @loomidev/number@0.14.0
+  - @loomidev/pagination@0.14.0
+  - @loomidev/password@0.14.0
+  - @loomidev/photo-gallery@0.14.0
+  - @loomidev/popover@0.14.0
+  - @loomidev/processing@0.14.0
+  - @loomidev/profile-menu@0.14.0
+  - @loomidev/progress@0.14.0
+  - @loomidev/qrcode@0.14.0
+  - @loomidev/radio@0.14.0
+  - @loomidev/rating@0.14.0
+  - @loomidev/resizable@0.14.0
+  - @loomidev/scroller@0.14.0
+  - @loomidev/select@0.14.0
+  - @loomidev/side-nav@0.14.0
+  - @loomidev/skeleton@0.14.0
+  - @loomidev/slider@0.14.0
+  - @loomidev/sortable@0.14.0
+  - @loomidev/spinner@0.14.0
+  - @loomidev/split-button@0.14.0
+  - @loomidev/statistic@0.14.0
+  - @loomidev/tab@0.14.0
+  - @loomidev/table@0.14.0
+  - @loomidev/tag@0.14.0
+  - @loomidev/tag-input@0.14.0
+  - @loomidev/theme-switcher@0.14.0
+  - @loomidev/timeline@0.14.0
+  - @loomidev/timepicker@0.14.0
+  - @loomidev/timer@0.14.0
+  - @loomidev/timezonepicker@0.14.0
+  - @loomidev/toggle@0.14.0
+  - @loomidev/tooltip@0.14.0
+  - @loomidev/video@0.14.0
+  - @loomidev/icons@0.14.0
+  - @loomidev/progress-steps@0.14.0
+  - @loomidev/theme@0.14.0
+
 ## 0.13.0
 
 ### Patch Changes
