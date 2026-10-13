@@ -1,5 +1,26 @@
 # @loomidev/text-editor
 
+## 0.14.0
+
+### Minor Changes
+
+- edea592: On touch devices (`pointer: coarse`), form controls now render their text at 16px or more, so iOS Safari no longer zooms the page when a field takes focus. This covers every sized field (input, number, password, select, autocomplete, tag-input, datepicker, timepicker, countries, timezonepicker), the select, countries, timezone and emoji search boxes, textarea, otp, creditcard, filter-builder, command-palette, the chat composer, the text-editor surface and the data-grid's inputs and page-size select. Desktop sizes are unchanged. Pages can move the floor with `--loomi-control-touch-font-size` (default `1rem`). `<loomi-datepicker>` gains an `input` part for the displayed date.
+
+### Patch Changes
+
+- 9dd3ad5: Fix cramped spacing in the insert image/video/link modal (its form styles were lost when the modal moved to `<body>`), and register the missing `tag` and `document-text` icons used by its fields.
+- Updated dependencies [edea592]
+  - @loomidev/core@0.14.0
+  - @loomidev/filepicker@0.14.0
+  - @loomidev/icon@0.14.0
+  - @loomidev/input@0.14.0
+  - @loomidev/modal@0.14.0
+  - @loomidev/notification@0.14.0
+  - @loomidev/select@0.14.0
+  - @loomidev/tooltip@0.14.0
+  - @loomidev/icons@0.14.0
+  - @loomidev/theme@0.14.0
+
 ## 0.13.0
 
 ### Patch Changes

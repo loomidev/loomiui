@@ -1,5 +1,9 @@
 # @loomidev/icons
 
+## 0.14.0
+
+No changes in this release.
+
 ## 0.13.0
 
 ### Patch Changes

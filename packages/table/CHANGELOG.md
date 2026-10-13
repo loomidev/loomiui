@@ -1,5 +1,16 @@
 # @loomidev/table
 
+## 0.14.0
+
+### Patch Changes
+
+- Updated dependencies [edea592]
+  - @loomidev/core@0.14.0
+  - @loomidev/checkbox@0.14.0
+  - @loomidev/input@0.14.0
+  - @loomidev/pagination@0.14.0
+  - @loomidev/icons@0.14.0
+
 ## 0.13.0
 
 ### Patch Changes
