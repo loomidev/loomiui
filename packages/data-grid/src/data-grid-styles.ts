@@ -391,6 +391,15 @@ export const dataGridStyles = css`
     outline: none;
   }
 
+  td.loomi-grid-cell-always input::placeholder {
+    color: var(--loomi-data-grid-faint);
+  }
+
+  td.loomi-grid-cell-always input.is-invalid {
+    background: var(--loomi-data-grid-invalid-bg, rgba(220, 38, 38, 0.08));
+    box-shadow: inset 0 -2px 0 var(--loomi-data-grid-invalid-color, #dc2626);
+  }
+
   td.loomi-grid-cell-always:focus-within {
     outline: 2px solid var(--loomi-data-grid-accent);
     outline-offset: -2px;

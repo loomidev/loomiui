@@ -293,6 +293,60 @@ describe("loomi-data-grid modules", () => {
       }
     });
 
+    it("applies a column's inputType, inputMode, placeholder and autocomplete to every input", async () => {
+      const el = await renderGrid({
+        columns: [
+          {
+            key: "name",
+            label: "Name",
+            editable: true,
+            inputType: "tel",
+            inputMode: "tel",
+            placeholder: "024 000 0000",
+            autocomplete: "tel",
+          },
+          { key: "department", label: "Department", editable: true },
+        ],
+        modules: [inlineEditingModule({ mode: "always" })],
+      });
+      for (let row = 0; row < people.length; row++) {
+        const input = inputAt(el, row, 0)!;
+        expect(input.type).to.equal("tel");
+        expect(input.getAttribute("inputmode")).to.equal("tel");
+        expect(input.placeholder).to.equal("024 000 0000");
+        expect(input.getAttribute("autocomplete")).to.equal("tel");
+        expect(input.getAttribute("part")).to.equal("cell-input");
+        // A column without config keeps the plain defaults.
+        expect(inputAt(el, row, 1)!.type).to.equal("text");
+        expect(inputAt(el, row, 1)!.hasAttribute("inputmode")).to.equal(false);
+      }
+    });
+
+    it("marks inputs invalid and adds cellClass per row", async () => {
+      const el = await renderGrid({
+        columns: [
+          {
+            key: "name",
+            label: "Name",
+            editable: true,
+            invalid: (row: Person) => row.name === "Zainab",
+            cellClass: (row: Person) => (row.age > 40 ? "senior" : undefined),
+          },
+        ],
+        modules: [inlineEditingModule({ mode: "always" })],
+      });
+      const bad = inputAt(el, 2, 0)!;
+      const ok = inputAt(el, 0, 0)!;
+      expect(bad.getAttribute("aria-invalid")).to.equal("true");
+      expect(bad.classList.contains("is-invalid")).to.equal(true);
+      expect(bad.getAttribute("part")).to.equal("cell-input cell-input-invalid");
+      expect(bad.classList.contains("senior")).to.equal(true);
+      // The grid actually styles it, not just tags it.
+      expect(getComputedStyle(bad).boxShadow).to.not.equal("none");
+      expect(ok.hasAttribute("aria-invalid")).to.equal(false);
+      expect(getComputedStyle(ok).boxShadow).to.equal("none");
+    });
+
     it("Enter moves down, ArrowUp moves up, and focusCell waits for a new row", async () => {
       const el = await alwaysGrid();
       const first = inputAt(el, 0, 0)!;
