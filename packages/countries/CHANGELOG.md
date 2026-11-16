@@ -1,5 +1,13 @@
 # @loomidev/countries
 
+## 0.15.0
+
+### Patch Changes
+
+- Updated dependencies [f689dc6]
+  - @loomidev/core@0.15.0
+  - @loomidev/theme@0.15.0
+
 ## 0.14.0
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @loomidev/mcp-server
 
+## 0.15.0
+
+### Patch Changes
+
+- d0899c7: Require `@modelcontextprotocol/sdk` ^1.32.2 and `zod` ^4.6.6 to pick up security fixes in their dependency trees.
+
 ## 0.14.0
 
 No changes in this release.
