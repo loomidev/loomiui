@@ -1,5 +1,14 @@
 # @loomidev/split-button
 
+## 0.15.0
+
+### Patch Changes
+
+- Updated dependencies [f689dc6]
+  - @loomidev/core@0.15.0
+  - @loomidev/dropmenu@0.15.0
+  - @loomidev/button@0.15.0
+
 ## 0.14.0
 
 ### Patch Changes

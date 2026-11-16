@@ -1,5 +1,35 @@
 # @loomidev/forms
 
+## 0.15.0
+
+### Patch Changes
+
+- Updated dependencies [f689dc6]
+  - @loomidev/input@0.15.0
+  - @loomidev/password@0.15.0
+  - @loomidev/textarea@0.15.0
+  - @loomidev/select@0.15.0
+  - @loomidev/number@0.15.0
+  - @loomidev/filepicker@0.15.0
+  - @loomidev/autocomplete@0.15.0
+  - @loomidev/checkbox@0.15.0
+  - @loomidev/checkcards@0.15.0
+  - @loomidev/colorpicker@0.15.0
+  - @loomidev/countries@0.15.0
+  - @loomidev/creditcard@0.15.0
+  - @loomidev/date-range-picker@0.15.0
+  - @loomidev/datepicker@0.15.0
+  - @loomidev/emoji-picker@0.15.0
+  - @loomidev/filter-builder@0.15.0
+  - @loomidev/otp@0.15.0
+  - @loomidev/radio@0.15.0
+  - @loomidev/slider@0.15.0
+  - @loomidev/tag-input@0.15.0
+  - @loomidev/text-editor@0.15.0
+  - @loomidev/timepicker@0.15.0
+  - @loomidev/timezonepicker@0.15.0
+  - @loomidev/toggle@0.15.0
+
 ## 0.14.0
 
 ### Patch Changes
