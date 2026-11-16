@@ -18,16 +18,20 @@
   "files": [
     "dist",
     "palette.json",
-    "src/tailwind-colors.css"
+    "src/tailwind-colors.css",
+    "src/undefined.css"
   ],
-  "sideEffects": false,
+  "sideEffects": [
+    "*.css"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
     "./palette.json": "./palette.json",
-    "./tailwind-colors.css": "./src/tailwind-colors.css"
+    "./tailwind-colors.css": "./src/tailwind-colors.css",
+    "./undefined.css": "./src/undefined.css"
   },
   "scripts": {
     "build": "node scripts/build-tokens.mjs && tsc -p tsconfig.json",

@@ -96,6 +96,12 @@ export class LoomiSelect extends LoomiElement {
   @property({ attribute: "empty-action-label" }) emptyActionLabel = "";
   @property({ attribute: "empty-action-url" }) emptyActionUrl = "";
   @property({ type: Boolean, reflect: true }) invalid = false;
+  /**
+   * An error supplied from outside the component (a server-side rejection, a failed async
+   * check). Shows the field invalid with this message below it straight away, sets a
+   * `customError` validity, and clears itself as soon as the user changes the value.
+   */
+  @property() error = "";
   @property({ type: Boolean, attribute: "show-focus-ring", converter: booleanAttribute })
   showFocusRing = true;
   /** Leading text affix, rendered inside the field before the value. */
@@ -141,6 +147,7 @@ export class LoomiSelect extends LoomiElement {
     this.search = "";
     this.activeIndex = -1;
     this.validationVisible = false;
+    this.error = "";
     this.invalid = false;
   }
   override disconnectedCallback(): void {
@@ -243,6 +250,13 @@ export class LoomiSelect extends LoomiElement {
     if (changed.has("selectedValue") || changed.has("data")) {
       this.selected = this.parseSelectedValue();
     }
+    // A new selection supersedes an error supplied from outside.
+    if (
+      this.hasUpdated &&
+      (changed as Map<PropertyKey, unknown>).has("selected") &&
+      !changed.has("error")
+    )
+      this.error = "";
     this.internals.setFormValue(this.selected.join(","));
     this.syncValidity();
   }
@@ -416,12 +430,17 @@ export class LoomiSelect extends LoomiElement {
 
   private syncValidity(showInvalid = this.validationVisible): boolean {
     const empty = this.required && !this.disabled && !this.readonly && this.selected.length === 0;
-    this.invalid = empty && showInvalid;
-    const validity = empty ? { valueMissing: true } : {};
-    const message = empty ? loomiT("validation.selectOption", {}, this.locale) : "";
+    const external = this.error.trim() !== "";
+    this.invalid = external || (empty && showInvalid);
+    const validity = external ? { customError: true } : empty ? { valueMissing: true } : {};
+    const message = external
+      ? this.error
+      : empty
+        ? loomiT("validation.selectOption", {}, this.locale)
+        : "";
     if (this.triggerEl) this.internals.setValidity(validity, message, this.triggerEl);
     else this.internals.setValidity(validity, message);
-    return !empty;
+    return !empty && !external;
   }
 
   private showValidation(): void {
@@ -531,6 +550,8 @@ export class LoomiSelect extends LoomiElement {
           aria-label=${ariaLabel}
           aria-expanded=${this.open ? "true" : "false"}
           aria-activedescendant=${activeId}
+          aria-invalid=${this.invalid ? "true" : "false"}
+          aria-describedby=${this.error.trim() ? "loomi-error" : nothing}
           ?disabled=${this.disabled}
           @click=${this.toggleOpen}
           @blur=${this.showValidation}
@@ -613,6 +634,7 @@ export class LoomiSelect extends LoomiElement {
         }
         <slot @slotchange=${() => this.requestUpdate()} hidden></slot>
       </div>
+      ${this.error.trim() ? html`<p class="loomi-error loomi-field-error" id="loomi-error" part="error">${this.error}</p>` : nothing}
     `;
   }
 }

@@ -121,6 +121,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Make this heading a real link to this URL (open-in-new-tab, crawlable, no script needed).",
               "attribute": "url"
             }
           ],
@@ -181,6 +182,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Make this heading a real link to this URL (open-in-new-tab, crawlable, no script needed).",
               "fieldName": "url"
             }
           ],
@@ -193,7 +195,7 @@
         },
         {
           "kind": "class",
-          "description": "`<loomi-tabs>` — builds a heading bar from its `<loomi-tab>` children and toggles\nthe active panel. Styles: `simple` (default), `system`, `pills`.",
+          "description": "`<loomi-tabs>` — builds a heading bar from its `<loomi-tab>` children and toggles\nthe active panel. Styles: `simple` (default), `system`, `pills`.\n\nSet `overflow=\"scroll\"` for a bar that may hold more headings than fit (category\nfilters, say): it stays on one line, scrolls sideways, fades at the edges and shows\nscroll buttons. The default, `wrap`, wraps headings onto more lines.",
           "name": "LoomiTabs",
           "cssParts": [
             {
@@ -225,6 +227,35 @@
               },
               "default": "\"simple\"",
               "attribute": "tab-style"
+            },
+            {
+              "kind": "field",
+              "name": "overflow",
+              "type": {
+                "text": "\"wrap\" | \"scroll\""
+              },
+              "default": "\"wrap\"",
+              "description": "`wrap` (default) wraps headings; `scroll` keeps one line that scrolls, with edge buttons.",
+              "attribute": "overflow",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "canScrollStart",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "canScrollEnd",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
             },
             {
               "kind": "field",
@@ -346,6 +377,49 @@
               }
             },
             {
+              "kind": "field",
+              "name": "headingsEl",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "syncScrollEdges",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "scrollHeadings",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "direction",
+                  "type": {
+                    "text": "1 | -1"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "revealActive",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Bring the active heading into view in a scrolling bar (on load, too)."
+            },
+            {
               "kind": "method",
               "name": "focusTabButton",
               "privacy": "private",
@@ -369,6 +443,48 @@
               "name": "onKeydown",
               "privacy": "private",
               "description": "Arrow-key / Home / End navigation per the WAI-ARIA APG \"tabs\" pattern (roving\ntabindex + automatic activation): moving focus also switches the active panel,\nmatching this component's click behavior."
+            },
+            {
+              "kind": "method",
+              "name": "renderHeadContent",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "tab",
+                  "type": {
+                    "text": "LoomiTab"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderHead",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "tab",
+                  "type": {
+                    "text": "LoomiTab"
+                  }
+                },
+                {
+                  "name": "rovingIndex",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
             }
           ],
           "events": [
@@ -396,6 +512,15 @@
               },
               "default": "\"simple\"",
               "fieldName": "tabStyle"
+            },
+            {
+              "name": "overflow",
+              "type": {
+                "text": "\"wrap\" | \"scroll\""
+              },
+              "default": "\"wrap\"",
+              "description": "`wrap` (default) wraps headings; `scroll` keeps one line that scrolls, with edge buttons.",
+              "fieldName": "overflow"
             }
           ],
           "superclass": {

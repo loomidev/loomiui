@@ -1,5 +1,6 @@
 import { HEROICON_NAMES } from "./heroicons/names.js";
 import {
+  canonicalLoomiIconName,
   isLoomiIconAvailable,
   registeredLoomiIconNames,
   type LoomiIconVariant,
@@ -18,7 +19,7 @@ const shipsHeroicon = (name: string, variant: LoomiIconVariant): boolean => {
 };
 
 const known = (name: string, variant: LoomiIconVariant) =>
-  isLoomiIconAvailable(name, variant) || shipsHeroicon(name, variant);
+  isLoomiIconAvailable(name, variant) || shipsHeroicon(canonicalLoomiIconName(name), variant);
 
 /**
  * Whether `name` is a known icon (registered, provided, or a shipped Heroicon). Loads

@@ -184,6 +184,34 @@
             },
             {
               "kind": "field",
+              "name": "hrefTemplate",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Render every control as a real link. `{page}` is replaced with the target page number,\ne.g. `/orders?page={page}`. Clicking still fires `loomi-page-change` first (now\ncancelable: `preventDefault()` stops the navigation, for client-side routers).",
+              "attribute": "href-template"
+            },
+            {
+              "kind": "method",
+              "name": "hrefFor",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "page",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ],
+              "description": "The URL for `page` under `href-template`, or `\"\"` when no template is set."
+            },
+            {
+              "kind": "field",
               "name": "pageCount",
               "type": {
                 "text": "number"
@@ -196,10 +224,35 @@
               "privacy": "private",
               "return": {
                 "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "page",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ],
+              "description": "Returns `false` when a listener cancelled the change."
+            },
+            {
+              "kind": "method",
+              "name": "onLinkClick",
+              "privacy": "private",
+              "return": {
+                "type": {
                   "text": "void"
                 }
               },
               "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "MouseEvent"
+                  }
+                },
                 {
                   "name": "page",
                   "type": {
@@ -248,7 +301,7 @@
                 {
                   "name": "opts",
                   "type": {
-                    "text": "{ disabled?: boolean; active?: boolean; onClick: () => void; label?: string }"
+                    "text": "{ disabled?: boolean; active?: boolean; page: number; label?: string }"
                   }
                 }
               ]
@@ -270,6 +323,11 @@
               },
               "privacy": "private",
               "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "onSelectChange",
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -404,6 +462,15 @@
               },
               "default": "\"primary\"",
               "fieldName": "color"
+            },
+            {
+              "name": "href-template",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Render every control as a real link. `{page}` is replaced with the target page number,\ne.g. `/orders?page={page}`. Clicking still fires `loomi-page-change` first (now\ncancelable: `preventDefault()` stops the navigation, for client-side routers).",
+              "fieldName": "hrefTemplate"
             }
           ],
           "superclass": {

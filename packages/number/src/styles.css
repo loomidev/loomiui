@@ -20,8 +20,10 @@
   align-items: stretch;
 }
 
+/* Static, so the floating label positions against the whole field (.loomi-field) rather
+   than the narrow strip between the stepper buttons. */
 .loomi-inputwrap {
-  position: relative;
+  position: static;
   display: flex;
   flex: 1 1 auto;
   min-width: 0;
@@ -81,9 +83,10 @@
   height: 1.1rem;
 }
 
+/* Resting: inside the input strip, clear of the decrement button. */
 .loomi-label {
   position: absolute;
-  left: var(--loomi-control-pad-x);
+  inset-inline-start: calc(var(--loomi-control-height) + var(--loomi-control-pad-x));
   top: 50%;
   transform: translateY(-50%);
   transform-origin: left center;
@@ -94,7 +97,7 @@
   padding: 0;
   box-shadow: 0 0 0 0.25rem var(--loomi-surface);
   white-space: nowrap;
-  max-width: calc(100% - var(--loomi-control-pad-x));
+  max-width: calc(100% - 2 * var(--loomi-control-height) - 2 * var(--loomi-control-pad-x));
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -102,9 +105,15 @@
 .loomi-input:not(:placeholder-shown) ~ .loomi-label,
 .force-float .loomi-label {
   top: 0;
-  /* Number text is centered; shift the floated label clear of the value. */
-  transform: translate(-2.1875rem, -50%) scale(0.85);
+  /* Floated: on the border, starting at the field's edge, and free to use the full width
+     (not just the strip between the steppers). max-width is pre-scale, hence / 0.85. */
+  inset-inline-start: var(--loomi-control-pad-x);
+  max-width: calc((100% - 2 * var(--loomi-control-pad-x)) / 0.85);
+  transform: translateY(-50%) scale(0.85);
   color: var(--loomi-primary-600);
+}
+:host(:dir(rtl)) .loomi-label {
+  transform-origin: right center;
 }
 :host([invalid]) .loomi-input:focus ~ .loomi-label,
 :host([invalid]) .loomi-input:not(:placeholder-shown) ~ .loomi-label {

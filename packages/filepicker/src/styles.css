@@ -167,3 +167,9 @@
 :host([stealth]) .loomi-files {
   display: none;
 }
+
+.loomi-field-error {
+  margin: 0.35rem 0 0;
+  font-size: 0.8rem;
+  color: var(--loomi-error-500, var(--_loomi-error-500-default));
+}

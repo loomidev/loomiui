@@ -83,6 +83,22 @@
           "name": "LoomiTable",
           "cssParts": [
             {
+              "description": "Every `<tr>` (header, body and footer).",
+              "name": "row"
+            },
+            {
+              "description": "Every `<th>` in the header.",
+              "name": "header-cell"
+            },
+            {
+              "description": "Every body `<td>`/`<th>`.",
+              "name": "cell"
+            },
+            {
+              "description": "Every cell in the footer.",
+              "name": "footer-cell"
+            },
+            {
               "description": "The horizontal scroll box around the `<table>`; a focusable, labelled `role=\"region\"` while the table overflows it.",
               "name": "scroll"
             }
@@ -95,6 +111,10 @@
             {
               "description": "A `<template>` of static `<tr>` rows, for a table authored in HTML.",
               "name": "body"
+            },
+            {
+              "description": "A `<template>` of `<tr>` rows rendered in a `<tfoot>` (totals and the like).",
+              "name": "footer"
             },
             {
               "description": "Optional `<template>` used when `layout=\"custom\"` and `data` is set.",
@@ -1050,6 +1070,37 @@
               "privacy": "private",
               "description": "Static rows from a `<template slot=\"body\">`. A template is the only way to author rows\nin plain HTML: the parser drops a bare `<tr>` that isn't inside a `<table>`, so it\nnever reaches the default slot.",
               "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "footerTemplateHtml",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "columnOptionCss",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "description": "Per-column options read from a `<template slot=\"header\">`'s cells: `align`\n(`start` | `center` | `end`), `nowrap` and `width`. They apply to the whole column —\nheader, body and footer — as a generated stylesheet, since page CSS can't reach cells\nstamped in this shadow root."
+            },
+            {
+              "kind": "method",
+              "name": "applyCellParts",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Tag stamped rows and cells with parts, so `loomi-table::part(cell)` can style them."
             },
             {
               "kind": "field",

@@ -1,4 +1,4 @@
-import { html, nothing, svg, type TemplateResult } from "lit";
+import { html, nothing, svg, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { live } from "lit/directives/live.js";
 import {
@@ -84,6 +84,12 @@ export class LoomiNumber extends LoomiElement {
   @property({ type: Boolean, attribute: "no-implicit-submit" }) noImplicitSubmit = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) invalid = false;
+  /**
+   * An error supplied from outside the component (a server-side rejection, a failed async
+   * check). Shows the field invalid with this message below it straight away, sets a
+   * `customError` validity, and clears itself as soon as the user changes the value.
+   */
+  @property() error = "";
 
   @query("input") private inputEl!: HTMLInputElement;
 
@@ -95,10 +101,13 @@ export class LoomiNumber extends LoomiElement {
   formResetCallback(): void {
     this.value = this.initialValue;
     this.validationVisible = false;
+    this.error = "";
     this.invalid = false;
   }
 
-  override willUpdate(): void {
+  override willUpdate(changed: PropertyValues<this>): void {
+    // A user edit (typing or a stepper) supersedes an error supplied from outside.
+    if (this.hasUpdated && changed.has("value") && !changed.has("error")) this.error = "";
     this.internals.setFormValue(this.value);
     this.syncValidity();
   }
@@ -181,12 +190,17 @@ export class LoomiNumber extends LoomiElement {
 
   private syncValidity(showInvalid = this.validationVisible): boolean {
     const empty = this.required && !this.disabled && this.value.trim() === "";
-    this.invalid = empty && showInvalid;
-    const validity = empty ? { valueMissing: true } : {};
-    const message = empty ? loomiT("validation.enterNumber", {}, this.locale) : "";
+    const external = this.error.trim() !== "";
+    this.invalid = external || (empty && showInvalid);
+    const validity = external ? { customError: true } : empty ? { valueMissing: true } : {};
+    const message = external
+      ? this.error
+      : empty
+        ? loomiT("validation.enterNumber", {}, this.locale)
+        : "";
     if (this.inputEl) this.internals.setValidity(validity, message, this.inputEl);
     else this.internals.setValidity(validity, message);
-    return !empty;
+    return !empty && !external;
   }
 
   private showValidation(): void {
@@ -236,6 +250,7 @@ export class LoomiNumber extends LoomiElement {
             ?required=${this.required}
             aria-label=${hasLabel ? this.label : nothing}
             aria-invalid=${this.invalid ? "true" : "false"}
+            aria-describedby=${this.error.trim() ? "loomi-error" : nothing}
             @input=${this.onInput}
             @change=${this.onChange}
             @keydown=${this.onFieldKeydown}
@@ -249,6 +264,7 @@ export class LoomiNumber extends LoomiElement {
         </span>
         ${this.renderStep(1)}
       </div>
+      ${this.error.trim() ? html`<p class="loomi-error loomi-field-error" id="loomi-error" part="error">${this.error}</p>` : nothing}
     `;
   }
 }

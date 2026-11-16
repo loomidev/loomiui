@@ -88,6 +88,16 @@ export class LoomiDropmenuItem extends LoomiElement {
   @property() group = "";
   @property() value = "";
   @property({ type: Boolean, reflect: true }) checked = false;
+  /**
+   * Make the whole row a link. The row renders as a real `<a>`, so icon and padding
+   * navigate too, and open-in-new-tab / middle-click work. Ignored on header, divider,
+   * checkbox, radio and submenu rows, and while `disabled`.
+   */
+  @property() href = "";
+  /** Link target, used with `href`. */
+  @property() target = "";
+  /** Link `rel`, used with `href`. Defaults to `noopener noreferrer` when `target="_blank"`. */
+  @property() rel = "";
 
   @state() private hasSubmenuItems = false;
   @state() private menuIconRight = false;
@@ -128,6 +138,24 @@ export class LoomiDropmenuItem extends LoomiElement {
 
   setMenuIconRight(value: boolean): void {
     this.menuIconRight = value;
+  }
+
+  /** Whether this row currently renders as a link. */
+  get isLink(): boolean {
+    return !!this.href && !this.header && !this.isToggle && !this.hasSubmenuItems && !this.disabled;
+  }
+
+  /**
+   * The menu activates the focused row with `item.click()` on Enter/Space. A click on the
+   * host never reaches the shadow anchor, so forward it there and let the browser follow
+   * the link.
+   */
+  override click(): void {
+    const anchor = this.isLink
+      ? this.renderRoot.querySelector<HTMLAnchorElement>("a.loomi-item")
+      : null;
+    if (anchor) anchor.click();
+    else super.click();
   }
 
   focusItem(): void {
@@ -338,55 +366,73 @@ export class LoomiDropmenuItem extends LoomiElement {
     // trailing icon to the end edge in one column; logical flow mirrors it under RTL.
     const iconRight = this.iconRight || this.menuIconRight;
 
+    const content = html`
+      ${
+        this.isToggle
+          ? html`<span class="loomi-indicator" aria-hidden="true">
+            ${
+              this.checked
+                ? this.radio
+                  ? html`<span class="loomi-radio-dot"></span>`
+                  : html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                    ${CHECK}
+                  </svg>`
+                : nothing
+            }
+          </span>`
+          : nothing
+      }
+      ${iconRight ? nothing : icon}
+      <span class="loomi-label"><slot></slot></span>
+      ${this.shortcut ? html`<kbd class="loomi-shortcut">${this.shortcut}</kbd>` : nothing}
+      ${iconRight ? icon : nothing}
+      ${
+        this.hasSubmenuItems
+          ? html`<svg
+            class="loomi-submenu-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            aria-hidden="true"
+          >
+            ${CHEVRON_RIGHT}
+          </svg>`
+          : nothing
+      }
+    `;
+
+    // A link row is a real anchor filling the row, so every pixel of it navigates and the
+    // browser's own link affordances (new tab, middle-click, status bar URL) work.
+    const row = this.isLink
+      ? html`<a
+          class=${this.itemClass}
+          role="menuitem"
+          tabindex="-1"
+          href=${this.href}
+          target=${this.target || nothing}
+          rel=${this.rel || (this.target === "_blank" ? "noopener noreferrer" : nothing)}
+          >${content}</a
+        >`
+      : html`<div
+          class=${this.itemClass}
+          role=${this.itemRole}
+          tabindex=${this.header || this.disabled ? nothing : "-1"}
+          aria-haspopup=${this.hasSubmenuItems ? "menu" : nothing}
+          aria-expanded=${this.hasSubmenuItems ? (this.submenuOpen ? "true" : "false") : nothing}
+          aria-checked=${this.isToggle ? (this.checked ? "true" : "false") : nothing}
+          aria-disabled=${this.disabled ? "true" : nothing}
+          @click=${this.onItemClick}
+          @mouseenter=${this.hasSubmenuItems ? this.onItemPointerEnter : nothing}
+          @mouseleave=${this.hasSubmenuItems ? () => this.scheduleSubmenuClose() : nothing}
+          @focusin=${this.hasSubmenuItems ? this.onItemFocusIn : nothing}
+          @focusout=${this.hasSubmenuItems ? this.onItemFocusOut : nothing}
+        >
+          ${content}
+        </div>`;
+
     return html`
-      <div
-        class=${this.itemClass}
-        role=${this.itemRole}
-        tabindex=${this.header || this.disabled ? nothing : "-1"}
-        aria-haspopup=${this.hasSubmenuItems ? "menu" : nothing}
-        aria-expanded=${this.hasSubmenuItems ? (this.submenuOpen ? "true" : "false") : nothing}
-        aria-checked=${this.isToggle ? (this.checked ? "true" : "false") : nothing}
-        aria-disabled=${this.disabled ? "true" : nothing}
-        @click=${this.onItemClick}
-        @mouseenter=${this.hasSubmenuItems ? this.onItemPointerEnter : nothing}
-        @mouseleave=${this.hasSubmenuItems ? () => this.scheduleSubmenuClose() : nothing}
-        @focusin=${this.hasSubmenuItems ? this.onItemFocusIn : nothing}
-        @focusout=${this.hasSubmenuItems ? this.onItemFocusOut : nothing}
-      >
-        ${
-          this.isToggle
-            ? html`<span class="loomi-indicator" aria-hidden="true">
-              ${
-                this.checked
-                  ? this.radio
-                    ? html`<span class="loomi-radio-dot"></span>`
-                    : html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-                      ${CHECK}
-                    </svg>`
-                  : nothing
-              }
-            </span>`
-            : nothing
-        }
-        ${iconRight ? nothing : icon}
-        <span class="loomi-label"><slot></slot></span>
-        ${this.shortcut ? html`<kbd class="loomi-shortcut">${this.shortcut}</kbd>` : nothing}
-        ${iconRight ? icon : nothing}
-        ${
-          this.hasSubmenuItems
-            ? html`<svg
-              class="loomi-submenu-icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              aria-hidden="true"
-            >
-              ${CHEVRON_RIGHT}
-            </svg>`
-            : nothing
-        }
-      </div>
+      ${row}
       <div
         class="loomi-submenu ${this.submenuOpen || this.submenuClosing ? "open" : ""} ${
           this.submenuClosing ? "closing" : ""

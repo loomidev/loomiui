@@ -139,6 +139,12 @@ export class LoomiInput extends LoomiElement {
   showFocusRing = true;
 
   @property({ type: Boolean, reflect: true }) invalid = false;
+  /**
+   * An error supplied from outside the component (a server-side rejection, a failed async
+   * check). Shows the field invalid with this message below it straight away, sets a
+   * `customError` validity, and clears itself as soon as the user edits the value.
+   */
+  @property() error = "";
 
   @query("input") private inputEl!: HTMLInputElement;
 
@@ -186,6 +192,7 @@ export class LoomiInput extends LoomiElement {
     this.value = this.initialValue;
     this.validationVisible = false;
     this.invalid = false;
+    this.error = "";
   }
 
   override willUpdate(changed: PropertyValues<this>): void {
@@ -250,12 +257,15 @@ export class LoomiInput extends LoomiElement {
 
   private syncValidity(showInvalid = this.validationVisible): boolean {
     const empty = this.required && !this.disabled && !this.readonly && this.value.trim() === "";
+    const external = this.error.trim() !== "";
     const wasInvalid = this.invalid;
-    this.invalid = empty && showInvalid;
-    const validity = empty ? { valueMissing: true } : {};
-    const message = empty
-      ? this.errorMessage || loomiT("validation.requiredField", {}, this.locale)
-      : "";
+    this.invalid = external || (empty && showInvalid);
+    const validity = external ? { customError: true } : empty ? { valueMissing: true } : {};
+    const message = external
+      ? this.error
+      : empty
+        ? this.errorMessage || loomiT("validation.requiredField", {}, this.locale)
+        : "";
     if (this.inputEl) this.internals.setValidity(validity, message, this.inputEl);
     else this.internals.setValidity(validity, message);
 
@@ -263,7 +273,7 @@ export class LoomiInput extends LoomiElement {
     // it's off, surface the same message as a toast instead of silently dropping it — only
     // on the valid→invalid transition, so re-validating while already invalid (e.g. typing
     // into an empty required field) doesn't spam a new toast on every keystroke.
-    if (this.invalid && !wasInvalid && !this.showErrorInline && this.errorMessage) {
+    if (this.invalid && !external && !wasInvalid && !this.showErrorInline && this.errorMessage) {
       // Lazy import: apps that render errors inline (or never fail validation) don't load the toast system.
       void import("@loomidev/notification").then(({ showLoomiNotification }) =>
         showLoomiNotification(
@@ -275,7 +285,7 @@ export class LoomiInput extends LoomiElement {
         ),
       );
     }
-    return !empty;
+    return !empty && !external;
   }
 
   private showValidation(): void {
@@ -373,6 +383,7 @@ export class LoomiInput extends LoomiElement {
     const clean = this.normalizeValue(el.value);
     if (clean !== el.value) el.value = clean;
     this.value = el.value;
+    this.error = "";
     if (this.invalid) this.validate();
     this.emit("input");
   };
@@ -513,7 +524,11 @@ export class LoomiInput extends LoomiElement {
         : nothing;
     const forceFloat = hasLabel && this.showPlaceholderAlways;
     const placeholderAttr = hasLabel && !this.showPlaceholderAlways ? " " : this.placeholder || " ";
-    const showError = this.invalid && this.showErrorInline && this.errorMessage;
+    const errorText = this.error.trim()
+      ? this.error
+      : this.invalid && this.showErrorInline
+        ? this.errorMessage
+        : "";
 
     return html`
       ${
@@ -538,6 +553,7 @@ export class LoomiInput extends LoomiElement {
             id="loomi-control"
             aria-label=${ariaLabel}
             aria-invalid=${this.invalid ? "true" : "false"}
+            aria-describedby=${errorText ? "loomi-error" : nothing}
             @input=${this.onInput}
             @change=${this.onChange}
             @keydown=${this.onFieldKeydown}
@@ -551,7 +567,7 @@ export class LoomiInput extends LoomiElement {
         </span>
         ${this.renderSuffix()}
       </div>
-      ${showError ? html`<p class="loomi-error">${this.errorMessage}</p>` : nothing}
+      ${errorText ? html`<p class="loomi-error loomi-field-error" id="loomi-error" part="error">${errorText}</p>` : nothing}
     `;
   }
 }

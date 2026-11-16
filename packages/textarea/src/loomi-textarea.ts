@@ -87,6 +87,12 @@ export class LoomiTextarea extends LoomiElement {
   @property({ attribute: "error-message" }) errorMessage = "";
   @property({ type: Boolean, attribute: "show-error-inline" }) showErrorInline = false;
   @property({ type: Boolean, reflect: true }) invalid = false;
+  /**
+   * An error supplied from outside the component (a server-side rejection, a failed async
+   * check). Shows the field invalid with this message below it straight away, sets a
+   * `customError` validity, and clears itself as soon as the user changes the value.
+   */
+  @property() error = "";
   @property({ type: Boolean, attribute: "show-focus-ring", converter: booleanAttribute })
   showFocusRing = true;
   @property() variant: LoomiTextareaVariant = "default";
@@ -151,6 +157,7 @@ export class LoomiTextarea extends LoomiElement {
   formResetCallback(): void {
     this.value = this.initialValue;
     this.validationVisible = false;
+    this.error = "";
     this.invalid = false;
     this.mentionOpen = false;
     this.mentionTrigger = "";
@@ -191,14 +198,17 @@ export class LoomiTextarea extends LoomiElement {
 
   private syncValidity(showInvalid = this.validationVisible): boolean {
     const empty = this.required && !this.disabled && !this.readonly && this.value.trim() === "";
-    this.invalid = empty && showInvalid;
-    const validity = empty ? { valueMissing: true } : {};
-    const message = empty
-      ? this.errorMessage || loomiT("validation.requiredField", {}, this.locale)
-      : "";
+    const external = this.error.trim() !== "";
+    this.invalid = external || (empty && showInvalid);
+    const validity = external ? { customError: true } : empty ? { valueMissing: true } : {};
+    const message = external
+      ? this.error
+      : empty
+        ? this.errorMessage || loomiT("validation.requiredField", {}, this.locale)
+        : "";
     if (this.textareaEl) this.internals.setValidity(validity, message, this.textareaEl);
     else this.internals.setValidity(validity, message);
-    return !empty;
+    return !empty && !external;
   }
 
   private showValidation(): void {
@@ -304,6 +314,7 @@ export class LoomiTextarea extends LoomiElement {
     e.stopPropagation();
     const target = e.target as HTMLTextAreaElement;
     this.value = target.value;
+    this.error = "";
     if (this.invalid) this.validate();
     if (this.mentionTriggers.length) this.detectMention(target.selectionStart);
     this.emit("input");
@@ -386,7 +397,11 @@ export class LoomiTextarea extends LoomiElement {
         ? this.accessibilityLabel || this.hostAriaLabel
         : nothing;
     const placeholderAttr = hasLabel ? " " : this.placeholder || " ";
-    const showError = this.invalid && this.showErrorInline && this.errorMessage;
+    const errorText = this.error.trim()
+      ? this.error
+      : this.invalid && this.showErrorInline
+        ? this.errorMessage
+        : "";
 
     return html`
       ${
@@ -408,6 +423,7 @@ export class LoomiTextarea extends LoomiElement {
           id="loomi-control"
             aria-label=${ariaLabel}
           aria-invalid=${this.invalid ? "true" : "false"}
+          aria-describedby=${errorText ? "loomi-error" : nothing}
           @input=${this.onInput}
           @keydown=${this.onKeydown}
           @keyup=${this.onKeyup}
@@ -423,7 +439,7 @@ export class LoomiTextarea extends LoomiElement {
         ${this.mentionTriggers.length ? html`<div class="loomi-textarea loomi-mention-mirror" aria-hidden="true"></div>` : nothing}
         ${this.mentionOpen ? this.renderMentionPanel() : nothing}
       </div>
-      ${showError ? html`<p class="loomi-error">${this.errorMessage}</p>` : nothing}
+      ${errorText ? html`<p class="loomi-error loomi-field-error" id="loomi-error" part="error">${errorText}</p>` : nothing}
     `;
   }
 }

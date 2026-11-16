@@ -2,6 +2,18 @@ import { isServer, nothing, type SVGTemplateResult } from "lit";
 import { AsyncDirective, directive } from "lit/async-directive.js";
 import { getLoomiIcon, loadLoomiIcon, type LoomiIconVariant } from "./heroicons.js";
 
+const warned = new Set<string>();
+
+/** One console warning per unknown name, so a typo doesn't fail silently. */
+function warnUnknown(name: string, variant: LoomiIconVariant): void {
+  const key = `${variant}/${name}`;
+  if (warned.has(key)) return;
+  warned.add(key);
+  console.warn(
+    `[loomi-icons] Unknown icon "${name}" (${variant}). Use a Heroicons name, or register it with registerLoomiIcon().`,
+  );
+}
+
 class LoomiIconDirective extends AsyncDirective {
   private request = "";
 
@@ -14,6 +26,7 @@ class LoomiIconDirective extends AsyncDirective {
     if (ready || isServer) return ready ?? nothing;
 
     void loadLoomiIcon(name, variant).then((icon) => {
+      if (!icon && name) warnUnknown(name, variant);
       // Superseded by a newer name, or the part was torn down while loading.
       if (this.request !== request || !this.isConnected) return;
       this.setValue(icon ?? nothing);

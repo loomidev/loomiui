@@ -50,6 +50,18 @@ document.querySelector("loomi-empty-state").addEventListener("action", () => {
 });
 ```
 
+## Linking the Action, and Extra Actions
+
+Most empty states send the user somewhere. `button-href` (with optional `button-target`)
+renders the action as a link instead of a button that fires `action`. Anything placed
+inside the component is rendered in the same row, after the built-in button:
+
+```html
+<loomi-empty-state heading="Your basket is empty" button-label="Start shopping" button-href="/shop">
+  <loomi-button type="secondary" tag="a" href="/orders">View past orders</loomi-button>
+</loomi-empty-state>
+```
+
 ## Without a Call to Action
 
 Omit `button-label` to show a message with no action button - appropriate when there's
@@ -126,14 +138,16 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute      | Default   | Description                                                                                                                                   |
-| -------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `heading`      | _(blank)_ | Optional heading.                                                                                                                             |
-| `message`      | _(blank)_ | Main message text.                                                                                                                            |
-| `button-label` | _(blank)_ | Action button text (omit to hide).                                                                                                            |
-| `image`        | _(blank)_ | Custom image URL (defaults to a built-in illustration).                                                                                       |
-| `image-size`   | `regular` | `small` \| `regular` \| `big` \| `huge` \| `omg`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
-| `show-image`   | `true`    | Show the illustration. Set `false` to use the slot. _(boolean)_                                                                               |
+| Attribute       | Default   | Description                                                                                                                                   |
+| --------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `heading`       | _(blank)_ | Optional heading.                                                                                                                             |
+| `message`       | _(blank)_ | Main message text.                                                                                                                            |
+| `button-label`  | _(blank)_ | Action button text (omit to hide).                                                                                                            |
+| `button-href`   | _(blank)_ | Render the action as a link to this URL instead of a button that fires `action`.                                                              |
+| `button-target` | _(blank)_ | Link target for `button-href`.                                                                                                                |
+| `image`         | _(blank)_ | Custom image URL (defaults to a built-in illustration).                                                                                       |
+| `image-size`    | `regular` | `small` \| `regular` \| `big` \| `huge` \| `omg`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
+| `show-image`    | `true`    | Show the illustration. Set `false` to use the slot. _(boolean)_                                                                               |
 
 ## Slots
 

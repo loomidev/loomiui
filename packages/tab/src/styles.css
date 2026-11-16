@@ -67,6 +67,9 @@
     color 0.12s ease,
     background-color 0.12s ease;
 }
+a.loomi-head {
+  text-decoration: none;
+}
 .loomi-head:disabled {
   opacity: 0.45;
   cursor: not-allowed;
@@ -136,6 +139,68 @@
 
 .loomi-body {
   padding-top: 1rem;
+}
+
+/* overflow="scroll": one line that scrolls sideways, edge fades + scroll buttons. */
+.loomi-tabbar {
+  position: relative;
+}
+.loomi-headings.scroll {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+.loomi-headings.scroll::-webkit-scrollbar {
+  display: none;
+}
+.loomi-headings.scroll .loomi-head {
+  flex: none;
+  white-space: nowrap;
+}
+.loomi-scroll-btn {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  display: none;
+  align-items: center;
+  width: 2.5rem;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  color: var(--loomi-text-muted);
+  cursor: pointer;
+}
+.loomi-scroll-btn:hover {
+  color: var(--_loomi-accent);
+}
+.loomi-scroll-btn svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+.loomi-scroll-btn.start {
+  inset-inline-start: 0;
+  justify-content: flex-start;
+  background: linear-gradient(to right, var(--loomi-surface) 55%, transparent);
+}
+.loomi-scroll-btn.end {
+  inset-inline-end: 0;
+  justify-content: flex-end;
+  background: linear-gradient(to left, var(--loomi-surface) 55%, transparent);
+}
+:host(:dir(rtl)) .loomi-scroll-btn svg {
+  transform: scaleX(-1);
+}
+:host(:dir(rtl)) .loomi-scroll-btn.start {
+  background: linear-gradient(to left, var(--loomi-surface) 55%, transparent);
+}
+:host(:dir(rtl)) .loomi-scroll-btn.end {
+  background: linear-gradient(to right, var(--loomi-surface) 55%, transparent);
+}
+.loomi-tabbar.can-start .loomi-scroll-btn.start,
+.loomi-tabbar.can-end .loomi-scroll-btn.end {
+  display: inline-flex;
 }
 
 @media (prefers-reduced-motion: reduce) {

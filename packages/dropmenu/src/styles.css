@@ -179,6 +179,9 @@
   user-select: none;
   transition: background-color 0.12s ease;
 }
+a.loomi-item {
+  text-decoration: none;
+}
 .loomi-item.hoverable:hover,
 .loomi-item.hoverable:focus-visible,
 :host(:focus-within) .loomi-item.has-submenu {

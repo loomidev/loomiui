@@ -245,6 +245,12 @@ export const fieldStyles: CSSResultGroup = css`
   }
 
   ${fieldTopLabelStyles}
+  /* Message under a field: \`error\` (server-supplied) or an inline \`error-message\`. */
+  .loomi-field-error {
+    margin: 0.35rem 0 0;
+    font-size: 0.8rem;
+    color: var(--loomi-error-500, var(--_loomi-error-500-default));
+  }
 `;
 
 /**

@@ -156,6 +156,53 @@ tbody tr.selected {
 .hoverable tbody tr.selected:hover {
   background: var(--loomi-primary-100, var(--loomi-surface-hover));
 }
+tfoot td,
+tfoot th {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--loomi-table-divider);
+  font-weight: 600;
+  color: var(--loomi-text);
+  text-align: start;
+}
+.compact tfoot td,
+.compact tfoot th {
+  padding: 0.45rem 0.75rem;
+}
+
+/* Helpers for hand-authored template cells: page CSS can't reach this shadow root. */
+td a,
+th a {
+  color: var(--loomi-primary-600, var(--_loomi-primary-600-default));
+  text-decoration: none;
+}
+td a:hover,
+th a:hover {
+  text-decoration: underline;
+}
+.align-end {
+  text-align: end;
+}
+.align-center {
+  text-align: center;
+}
+.nowrap {
+  white-space: nowrap;
+}
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .loomi-group-row td {
   padding: 0.625rem 1rem;
   background: var(--loomi-surface-muted);

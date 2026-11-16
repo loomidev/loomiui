@@ -183,6 +183,25 @@ plain link - clicking it navigates via `location.href` rather than showing a pan
 </loomi-tabs>
 ```
 
+## Many Tabs: Scrolling Instead of Wrapping
+
+By default headings wrap onto more lines. For a bar that may hold more headings than
+fit, such as category filters, set `overflow="scroll"`: the headings stay on one line,
+scroll sideways (touch, trackpad or the edge buttons), fade at the edges, and the active
+heading is scrolled into view on load. Combine with `url` for a row of filter links:
+
+```html
+<loomi-tabs tab-style="pills" overflow="scroll">
+  <loomi-tab label="All" url="/shop" active></loomi-tab>
+  <loomi-tab label="Grains" url="/shop?c=grains"></loomi-tab>
+  <loomi-tab label="Oils" url="/shop?c=oils"></loomi-tab>
+  <!-- … -->
+</loomi-tabs>
+```
+
+A tab with `url` renders its heading as a real link (`aria-current="page"` when active),
+so it opens in a new tab and works without JavaScript.
+
 ## Keyboard Navigation
 
 `<loomi-tabs>` implements the [WAI-ARIA APG "tabs" pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/)
@@ -210,10 +229,11 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ### `<loomi-tabs>`
 
-| Attribute   | Default | Description                        |
-| ----------- | ------- | ---------------------------------- |
-| `color`     | primary | Active-tab color. Any loomi color. |
-| `tab-style` | simple  | `simple` \| `system` \| `pills`    |
+| Attribute   | Default | Description                                                                                                     |
+| ----------- | ------- | --------------------------------------------------------------------------------------------------------------- |
+| `color`     | primary | Active-tab color. Any loomi color.                                                                              |
+| `tab-style` | simple  | `simple` \| `system` \| `pills`                                                                                 |
+| `overflow`  | wrap    | `wrap` wraps headings onto more lines; `scroll` keeps one line that scrolls, with edge fades and scroll buttons |
 
 ### `<loomi-tab>`
 
@@ -225,7 +245,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `icon-variant` | `outline`   | `outline` \| `solid` \| `twotone` (iconsax only).                        |
 | `active`       | `false`     | Selected by default. _(boolean)_                                         |
 | `disabled`     | `false`     | Disabled tab - faded out, ignores clicks and keyboard focus. _(boolean)_ |
-| `url`          | _(blank)_   | Navigate to this URL instead of switching panels.                        |
+| `url`          | _(blank)_   | Render the heading as a link to this URL instead of switching panels.    |
 
 ## Slots
 

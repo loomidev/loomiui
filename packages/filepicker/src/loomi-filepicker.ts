@@ -125,6 +125,12 @@ export class LoomiFilepicker extends LoomiElement {
   showImagePreview = true;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) invalid = false;
+  /**
+   * An error supplied from outside the component (a server-side rejection, a failed async
+   * check). Shows the field invalid with this message below it straight away, sets a
+   * `customError` validity, and clears itself as soon as the user changes the value.
+   */
+  @property() error = "";
   @property({ type: Boolean, converter: booleanAttribute }) crop = false;
   @property({ attribute: "crop-aspect-ratio" }) cropAspectRatio: LoomiCropAspectRatio = "16:9";
   @property({ type: Boolean, converter: booleanAttribute }) resize = false;
@@ -208,6 +214,7 @@ export class LoomiFilepicker extends LoomiElement {
     this.picked = [];
     this.over = false;
     this.validationVisible = false;
+    this.error = "";
     this.invalid = false;
     if (this.input) this.input.value = "";
     this.syncFormValue();
@@ -224,8 +231,11 @@ export class LoomiFilepicker extends LoomiElement {
       changed.has("picked") ||
       changed.has("required") ||
       changed.has("disabled") ||
-      changed.has("name")
+      changed.has("name") ||
+      changed.has("error")
     ) {
+      // A new pick supersedes an error supplied from outside.
+      if (this.hasUpdated && changed.has("picked") && !changed.has("error")) this.error = "";
       this.syncFormValue();
       this.syncValidity();
     }
@@ -261,12 +271,17 @@ export class LoomiFilepicker extends LoomiElement {
 
   private syncValidity(showInvalid = this.validationVisible): boolean {
     const empty = this.required && !this.disabled && this.picked.length === 0;
-    this.invalid = empty && showInvalid;
-    const validity = empty ? { valueMissing: true } : {};
-    const message = empty ? loomiT("validation.selectFile", {}, this.locale) : "";
+    const external = this.error.trim() !== "";
+    this.invalid = external || (empty && showInvalid);
+    const validity = external ? { customError: true } : empty ? { valueMissing: true } : {};
+    const message = external
+      ? this.error
+      : empty
+        ? loomiT("validation.selectFile", {}, this.locale)
+        : "";
     if (this.input) this.internals.setValidity(validity, message, this.input);
     else this.internals.setValidity(validity, message);
-    return !empty;
+    return !empty && !external;
   }
 
   private showValidation(): void {
@@ -635,6 +650,8 @@ export class LoomiFilepicker extends LoomiElement {
           class="loomi-native"
           type="file"
           aria-label=${loomiT("filepicker.chooseFiles", {}, this.locale)}
+          aria-invalid=${this.invalid ? "true" : "false"}
+          aria-describedby=${this.error.trim() ? "loomi-error" : nothing}
           name=${(this.name ? (this.maxFiles > 1 ? this.name + "[]" : this.name) : "") || nothing}
           accept=${this.acceptedFileTypes}
           ?multiple=${this.maxFiles > 1}
@@ -668,6 +685,7 @@ export class LoomiFilepicker extends LoomiElement {
           </div>`
           : nothing
       }
+      ${this.error.trim() ? html`<p class="loomi-error loomi-field-error" id="loomi-error" part="error">${this.error}</p>` : nothing}
       ${this.renderCropModal()}
     </div>`;
   }

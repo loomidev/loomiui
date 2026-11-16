@@ -131,6 +131,12 @@ export class LoomiPassword extends LoomiElement {
   @property({ type: Boolean, attribute: "show-error-inline" }) showErrorInline = false;
   @property({ type: Boolean, attribute: "show-placeholder-always" }) showPlaceholderAlways = false;
   @property({ type: Boolean, reflect: true }) invalid = false;
+  /**
+   * An error supplied from outside the component (a server-side rejection). Shows the field
+   * invalid with this message below it straight away, sets a `customError` validity, and
+   * clears itself as soon as the user edits the value.
+   */
+  @property() error = "";
 
   @state() private revealed = false;
   @state() private prefixOpen = false;
@@ -189,6 +195,7 @@ export class LoomiPassword extends LoomiElement {
     this.value = this.initialValue;
     this.validationVisible = false;
     this.invalid = false;
+    this.error = "";
   }
 
   override disconnectedCallback(): void {
@@ -237,18 +244,21 @@ export class LoomiPassword extends LoomiElement {
       !this.disabled &&
       !this.readonly &&
       this.strengthRequirements().some((requirement) => !requirement.met);
+    const external = this.error.trim() !== "";
     const wasInvalid = this.invalid;
-    this.invalid = (empty || weak) && showInvalid;
-    const validity = empty ? { valueMissing: true } : weak ? { customError: true } : {};
-    const message = empty
-      ? this.errorMessage || loomiT("validation.requiredField", {}, this.locale)
-      : weak
-        ? this.errorMessage || "Password does not meet the strength requirements."
-        : "";
+    this.invalid = external || ((empty || weak) && showInvalid);
+    const validity = external || weak ? { customError: true } : empty ? { valueMissing: true } : {};
+    const message = external
+      ? this.error
+      : empty
+        ? this.errorMessage || loomiT("validation.requiredField", {}, this.locale)
+        : weak
+          ? this.errorMessage || "Password does not meet the strength requirements."
+          : "";
     if (this.inputEl) this.internals.setValidity(validity, message, this.inputEl);
     else this.internals.setValidity(validity, message);
 
-    if (this.invalid && !wasInvalid && !this.showErrorInline && message) {
+    if (this.invalid && !external && !wasInvalid && !this.showErrorInline && message) {
       // Lazy import — see @loomidev/input's syncValidity for the rationale.
       void import("@loomidev/notification").then(({ showLoomiNotification }) =>
         showLoomiNotification(
@@ -261,7 +271,7 @@ export class LoomiPassword extends LoomiElement {
       );
     }
 
-    return !empty && !weak;
+    return !empty && !weak && !external;
   }
 
   private showValidation(): void {
@@ -283,6 +293,7 @@ export class LoomiPassword extends LoomiElement {
     // this component re-fires its own once `value` is up to date.
     e.stopPropagation();
     this.value = (e.target as HTMLInputElement).value;
+    this.error = "";
     if (this.invalid) this.validate();
     this.emit("input");
   };
@@ -466,7 +477,11 @@ export class LoomiPassword extends LoomiElement {
         : nothing;
     const forceFloat = hasLabel && this.showPlaceholderAlways;
     const placeholderAttr = hasLabel && !this.showPlaceholderAlways ? " " : this.placeholder || " ";
-    const showError = this.invalid && this.showErrorInline && this.errorMessage;
+    const errorText = this.error.trim()
+      ? this.error
+      : this.invalid && this.showErrorInline
+        ? this.errorMessage
+        : "";
 
     return html`
       ${
@@ -490,6 +505,7 @@ export class LoomiPassword extends LoomiElement {
             id="loomi-control"
             aria-label=${ariaLabel}
             aria-invalid=${this.invalid ? "true" : "false"}
+            aria-describedby=${errorText ? "loomi-error" : nothing}
             @input=${this.onInput}
             @change=${this.onChange}
             @keydown=${this.onFieldKeydown}
@@ -499,7 +515,7 @@ export class LoomiPassword extends LoomiElement {
         </span>
         ${this.renderSuffix()}
       </div>
-      ${showError ? html`<p class="loomi-error">${this.errorMessage}</p>` : nothing}
+      ${errorText ? html`<p class="loomi-error loomi-field-error" id="loomi-error" part="error">${errorText}</p>` : nothing}
       ${this.renderStrength()}
     `;
   }

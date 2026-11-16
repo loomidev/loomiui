@@ -210,6 +210,19 @@ before a manual submit or API call). It:
      toast instead of inline text, but the red border still appears either way -->
 ```
 
+## Errors from the server
+
+When a form is rejected after submit, or a check the component can't run itself fails
+(a taken username), pass the message in with `error`. The field renders invalid with
+the message below it on load, and the message clears as soon as the user edits it:
+
+```html
+<loomi-input name="phone" label="Phone number" value="12" error="Enter a 10-digit phone number"></loomi-input>
+```
+
+Every form control takes the same attribute: `loomi-input`, `loomi-password`,
+`loomi-textarea`, `loomi-select`, `loomi-number` and `loomi-filepicker`.
+
 ## Forms
 
 Pressing Enter in the field submits its `<form>`, as it does in a native `<input>`. If
@@ -271,44 +284,45 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute                 | Default   | Description                                                                                                                                                  |
-| ------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `name`                    | _(blank)_ | Submitted with the form.                                                                                                                                     |
-| `type`                    | `text`    | `text` \| `email` \| `password` \| `search` \| `tel` \| `url`                                                                                                |
-| `label`                   | _(blank)_ | Floating label (sits in the placeholder spot, floats on focus/fill).                                                                                         |
-| `label-position`          | `default` | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field; `top` renders the label above the field, outside its border. |
-| `accessible-label`        | `""`      | Accessible name for a field with no visible `label`, used as the inner control's `aria-label`. Ignored when `label` is set.                                  |
-| `placeholder`             | _(blank)_ | Placeholder text.                                                                                                                                            |
-| `value`                   | _(blank)_ | Current value (also a property).                                                                                                                             |
-| `required`                | `false`   | Marks the field required (red asterisk on the label). _(boolean)_                                                                                            |
-| `no-implicit-submit`      | `false`   | Stops Enter in the field from submitting its form. _(boolean)_                                                                                               |
-| `disabled`                | `false`   | Disable the field. _(boolean)_                                                                                                                               |
-| `readonly`                | `false`   | Read-only field. _(boolean)_                                                                                                                                 |
-| `numeric`                 | `false`   | Allow digits only. _(boolean)_                                                                                                                               |
-| `with-dots`               | `true`    | Allow one decimal point when `numeric`. _(boolean)_                                                                                                          |
-| `mask`                    | _(blank)_ | Alpine-style mask using `9`, `a`, and `*` wildcards, or `creditcard`.                                                                                        |
-| `dynamic-mask`            | _(blank)_ | Built-in dynamic mask attribute. Currently supports `creditcard`.                                                                                            |
-| `min`                     | _(blank)_ | Clamp numeric values below this on change.                                                                                                                   |
-| `max`                     | _(blank)_ | Clamp numeric values above this on change.                                                                                                                   |
-| `size`                    | `regular` | `tiny` \| `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing).             |
-| `variant`                 | `default` | `default` \| `minimal` (bottom border only, no box)                                                                                                          |
-| `prefix`                  | _(blank)_ | Leading text affix.                                                                                                                                          |
-| `suffix`                  | _(blank)_ | Trailing text affix.                                                                                                                                         |
-| `prefix-options`          | _(blank)_ | Comma, pipe, or JSON array of dropdown options for the leading affix.                                                                                        |
-| `suffix-options`          | _(blank)_ | Comma, pipe, or JSON array of dropdown options for the trailing affix.                                                                                       |
-| `prefix-value`            | _(blank)_ | Selected leading dropdown affix value.                                                                                                                       |
-| `suffix-value`            | _(blank)_ | Selected trailing dropdown affix value.                                                                                                                      |
-| `prefix-icon`             | _(blank)_ | Leading icon-name affix (see `@loomidev/icons`).                                                                                                             |
-| `suffix-icon`             | _(blank)_ | Trailing icon-name affix (see `@loomidev/icons`).                                                                                                            |
-| `transparent-prefix`      | `true`    | Transparent (vs solid) leading affix. _(boolean)_                                                                                                            |
-| `transparent-suffix`      | `true`    | Transparent (vs solid) trailing affix. _(boolean)_                                                                                                           |
-| `viewable`                | `false`   | Deprecated on `<loomi-input>`; use `<loomi-password>` for reveal. _(boolean)_                                                                                |
-| `clearable`               | `false`   | Show a clear (✕) button when the field has a value. _(boolean)_                                                                                              |
-| `hint`                    | _(blank)_ | Show a suffix help icon and render a `loomi-popover`; `career.html` resolves `[data-hint="career"]`.                                                         |
-| `error-message`           | _(blank)_ | Message shown when validation fails. The red invalid border shows either way, even if this is left blank.                                                    |
-| `show-error-inline`       | `false`   | Render `error-message` beneath the field. When `false`, a failed validation shows it as a `loomi-notification` toast instead. _(boolean)_                    |
-| `show-placeholder-always` | `false`   | Keep the placeholder visible even with a label. _(boolean)_                                                                                                  |
-| `no-clearing`             | `false`   | Remove the default bottom margin. _(boolean, attribute on host)_                                                                                             |
+| Attribute                 | Default   | Description                                                                                                                                                                                                                                                         |
+| ------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`                    | _(blank)_ | Submitted with the form.                                                                                                                                                                                                                                            |
+| `type`                    | `text`    | `text` \| `email` \| `password` \| `search` \| `tel` \| `url`                                                                                                                                                                                                       |
+| `label`                   | _(blank)_ | Floating label (sits in the placeholder spot, floats on focus/fill).                                                                                                                                                                                                |
+| `label-position`          | `default` | `default` keeps the floating label; `inside` keeps a compact label inside the top of the field; `top` renders the label above the field, outside its border.                                                                                                        |
+| `accessible-label`        | `""`      | Accessible name for a field with no visible `label`, used as the inner control's `aria-label`. Ignored when `label` is set.                                                                                                                                         |
+| `placeholder`             | _(blank)_ | Placeholder text.                                                                                                                                                                                                                                                   |
+| `value`                   | _(blank)_ | Current value (also a property).                                                                                                                                                                                                                                    |
+| `required`                | `false`   | Marks the field required (red asterisk on the label). _(boolean)_                                                                                                                                                                                                   |
+| `error`                   | _(blank)_ | An error supplied from outside (a server-side rejection, a failed async check). Shows the field invalid with this message below it immediately, wires `aria-invalid`/`aria-describedby`, sets a `customError` validity, and clears when the user changes the value. |
+| `no-implicit-submit`      | `false`   | Stops Enter in the field from submitting its form. _(boolean)_                                                                                                                                                                                                      |
+| `disabled`                | `false`   | Disable the field. _(boolean)_                                                                                                                                                                                                                                      |
+| `readonly`                | `false`   | Read-only field. _(boolean)_                                                                                                                                                                                                                                        |
+| `numeric`                 | `false`   | Allow digits only. _(boolean)_                                                                                                                                                                                                                                      |
+| `with-dots`               | `true`    | Allow one decimal point when `numeric`. _(boolean)_                                                                                                                                                                                                                 |
+| `mask`                    | _(blank)_ | Alpine-style mask using `9`, `a`, and `*` wildcards, or `creditcard`.                                                                                                                                                                                               |
+| `dynamic-mask`            | _(blank)_ | Built-in dynamic mask attribute. Currently supports `creditcard`.                                                                                                                                                                                                   |
+| `min`                     | _(blank)_ | Clamp numeric values below this on change.                                                                                                                                                                                                                          |
+| `max`                     | _(blank)_ | Clamp numeric values above this on change.                                                                                                                                                                                                                          |
+| `size`                    | `regular` | `tiny` \| `small` \| `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing).                                                                                                                    |
+| `variant`                 | `default` | `default` \| `minimal` (bottom border only, no box)                                                                                                                                                                                                                 |
+| `prefix`                  | _(blank)_ | Leading text affix.                                                                                                                                                                                                                                                 |
+| `suffix`                  | _(blank)_ | Trailing text affix.                                                                                                                                                                                                                                                |
+| `prefix-options`          | _(blank)_ | Comma, pipe, or JSON array of dropdown options for the leading affix.                                                                                                                                                                                               |
+| `suffix-options`          | _(blank)_ | Comma, pipe, or JSON array of dropdown options for the trailing affix.                                                                                                                                                                                              |
+| `prefix-value`            | _(blank)_ | Selected leading dropdown affix value.                                                                                                                                                                                                                              |
+| `suffix-value`            | _(blank)_ | Selected trailing dropdown affix value.                                                                                                                                                                                                                             |
+| `prefix-icon`             | _(blank)_ | Leading icon-name affix (see `@loomidev/icons`).                                                                                                                                                                                                                    |
+| `suffix-icon`             | _(blank)_ | Trailing icon-name affix (see `@loomidev/icons`).                                                                                                                                                                                                                   |
+| `transparent-prefix`      | `true`    | Transparent (vs solid) leading affix. _(boolean)_                                                                                                                                                                                                                   |
+| `transparent-suffix`      | `true`    | Transparent (vs solid) trailing affix. _(boolean)_                                                                                                                                                                                                                  |
+| `viewable`                | `false`   | Deprecated on `<loomi-input>`; use `<loomi-password>` for reveal. _(boolean)_                                                                                                                                                                                       |
+| `clearable`               | `false`   | Show a clear (✕) button when the field has a value. _(boolean)_                                                                                                                                                                                                     |
+| `hint`                    | _(blank)_ | Show a suffix help icon and render a `loomi-popover`; `career.html` resolves `[data-hint="career"]`.                                                                                                                                                                |
+| `error-message`           | _(blank)_ | Message shown when validation fails. The red invalid border shows either way, even if this is left blank.                                                                                                                                                           |
+| `show-error-inline`       | `false`   | Render `error-message` beneath the field. When `false`, a failed validation shows it as a `loomi-notification` toast instead. _(boolean)_                                                                                                                           |
+| `show-placeholder-always` | `false`   | Keep the placeholder visible even with a label. _(boolean)_                                                                                                                                                                                                         |
+| `no-clearing`             | `false`   | Remove the default bottom margin. _(boolean, attribute on host)_                                                                                                                                                                                                    |
 
 ### Methods
 
