@@ -13,7 +13,8 @@ allowBuilds:
 # Security advisories in transitive dependencies whose parents have not yet
 # released a bump. Drop an entry once the parent dependency ships the fix.
 overrides:
-  "@hono/node-server": ^1.19.17
+  # 2.1.3 fixes the serveStatic double-decode (GHSA-rmxm-3fg6-px4f); the MCP SDK accepts ^2.0.5.
+  "@hono/node-server": ^2.1.3
   # v3 replaced extract-zip (unpatched symlink path traversal, GHSA-jmr9-qjv8-65gv) with
   # modern-tar. puppeteer-core still asks for ^2, but nothing here drives the Chrome
   # launcher — the test runner uses Playwright — and the full suite passes on v3.
@@ -27,4 +28,4 @@ overrides:
   # express (via @modelcontextprotocol/sdk) pulls body-parser's qs@6.15.3, which has an
   # array-limit bypass and a DoS via attacker-controlled isBuffer (GHSA-x5fp-wj9c-mxmx,
   # GHSA-4mjr-xmp4-gh2g). Drop once express/body-parser bump their qs range past 6.16.0.
-  qs: ^6.16.0
+  qs: ^6.16.1
