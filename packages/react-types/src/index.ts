@@ -302,7 +302,9 @@ interface LoomiEmojiPickerAttributes {
 }
 
 interface LoomiEmptyStateAttributes {
+  "button-href"?: string;
   "button-label"?: string;
+  "button-target"?: string;
   "image-size"?: LoomiSize;
   "show-image"?: boolean;
 }
@@ -423,6 +425,7 @@ interface LoomiOtpAttributes {
 }
 
 interface LoomiPaginationAttributes {
+  "href-template"?: string;
   "page-size"?: number;
   "pagination-style"?: LoomiAttributeValue;
   "show-page-number"?: boolean;

@@ -9,17 +9,27 @@ export const EmptyState: ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-empty-state"], "onAction"> & {
     onAction?: (e: Event) => void;
     buttonLabel?: JSX.IntrinsicElements["loomi-empty-state"]["button-label"];
+    buttonHref?: JSX.IntrinsicElements["loomi-empty-state"]["button-href"];
+    buttonTarget?: JSX.IntrinsicElements["loomi-empty-state"]["button-target"];
     showImage?: JSX.IntrinsicElements["loomi-empty-state"]["show-image"];
     imageSize?: JSX.IntrinsicElements["loomi-empty-state"]["image-size"];
   }
 > = createComponent(
   "loomi-empty-state",
   { action: "onAction" },
-  { buttonLabel: "button-label", showImage: "show-image", imageSize: "image-size" },
+  {
+    buttonLabel: "button-label",
+    buttonHref: "button-href",
+    buttonTarget: "button-target",
+    showImage: "show-image",
+    imageSize: "image-size",
+  },
 ) as unknown as ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-empty-state"], "onAction"> & {
     onAction?: (e: Event) => void;
     buttonLabel?: JSX.IntrinsicElements["loomi-empty-state"]["button-label"];
+    buttonHref?: JSX.IntrinsicElements["loomi-empty-state"]["button-href"];
+    buttonTarget?: JSX.IntrinsicElements["loomi-empty-state"]["button-target"];
     showImage?: JSX.IntrinsicElements["loomi-empty-state"]["show-image"];
     imageSize?: JSX.IntrinsicElements["loomi-empty-state"]["image-size"];
   }

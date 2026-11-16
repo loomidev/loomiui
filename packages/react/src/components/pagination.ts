@@ -15,6 +15,7 @@ export const Pagination: ForwardRefExoticComponent<
     showPageNumber?: JSX.IntrinsicElements["loomi-pagination"]["show-page-number"];
     showTotalPages?: JSX.IntrinsicElements["loomi-pagination"]["show-total-pages"];
     totalLabel?: JSX.IntrinsicElements["loomi-pagination"]["total-label"];
+    hrefTemplate?: JSX.IntrinsicElements["loomi-pagination"]["href-template"];
   }
 > = createComponent(
   "loomi-pagination",
@@ -26,6 +27,7 @@ export const Pagination: ForwardRefExoticComponent<
     showPageNumber: "show-page-number",
     showTotalPages: "show-total-pages",
     totalLabel: "total-label",
+    hrefTemplate: "href-template",
   },
 ) as unknown as ForwardRefExoticComponent<
   Omit<JSX.IntrinsicElements["loomi-pagination"], "onLoomiPageChange"> & {
@@ -36,5 +38,6 @@ export const Pagination: ForwardRefExoticComponent<
     showPageNumber?: JSX.IntrinsicElements["loomi-pagination"]["show-page-number"];
     showTotalPages?: JSX.IntrinsicElements["loomi-pagination"]["show-total-pages"];
     totalLabel?: JSX.IntrinsicElements["loomi-pagination"]["total-label"];
+    hrefTemplate?: JSX.IntrinsicElements["loomi-pagination"]["href-template"];
   }
 >;
