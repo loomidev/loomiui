@@ -412,6 +412,16 @@
             },
             {
               "kind": "field",
+              "name": "error",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "An error supplied from outside the component (a server-side rejection). Shows the field\ninvalid with this message below it straight away, sets a `customError` validity, and\nclears itself as soon as the user edits the value.",
+              "attribute": "error"
+            },
+            {
+              "kind": "field",
               "name": "revealed",
               "type": {
                 "text": "boolean"
@@ -1054,6 +1064,15 @@
               },
               "default": "false",
               "fieldName": "invalid"
+            },
+            {
+              "name": "error",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "An error supplied from outside the component (a server-side rejection). Shows the field\ninvalid with this message below it straight away, sets a `customError` validity, and\nclears itself as soon as the user edits the value.",
+              "fieldName": "error"
             }
           ],
           "superclass": {

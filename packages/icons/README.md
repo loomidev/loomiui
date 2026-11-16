@@ -33,6 +33,13 @@ hasLoomiIcon("bell-alert"); // true: a known name, checked without loading anyth
 await loadLoomiIcon("bell-alert", "solid"); // load one ahead of time
 ```
 
+### Name spelling
+
+Shipped names hyphenate every digit/letter boundary (`squares-2-x-2`, `h-1`,
+`square-3-stack-3-d`). Heroicons' own spellings (`squares-2x2`, `h1`,
+`square-3-stack-3d`) are accepted too. An unknown name logs one console warning per
+name instead of rendering nothing silently.
+
 ### Load every Heroicon up front
 
 If you'd rather pay for the whole set once than load icons one by one, for example in an

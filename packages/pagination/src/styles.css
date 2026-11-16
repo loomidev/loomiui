@@ -40,7 +40,10 @@
     background-color 0.12s ease,
     border-color 0.12s ease;
 }
-.loomi-page:hover:not(:disabled):not(.active) {
+a.loomi-page {
+  text-decoration: none;
+}
+.loomi-page:hover:not(:disabled):not(.active):not(.disabled) {
   background: var(--loomi-surface-hover);
 }
 .loomi-page.active {
@@ -48,7 +51,8 @@
   border-color: var(--_loomi-accent);
   color: var(--loomi-white);
 }
-.loomi-page:disabled {
+.loomi-page:disabled,
+.loomi-page.disabled {
   opacity: 0.45;
   cursor: not-allowed;
 }

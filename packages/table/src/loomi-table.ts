@@ -80,6 +80,11 @@ function fillTemplate(template: string, row: Row): string {
  *
  * @slot header - A `<template>` of heading cells, or `<th>` elements created from script.
  * @slot body - A `<template>` of static `<tr>` rows, for a table authored in HTML.
+ * @slot footer - A `<template>` of `<tr>` rows rendered in a `<tfoot>` (totals and the like).
+ * @csspart row - Every `<tr>` (header, body and footer).
+ * @csspart header-cell - Every `<th>` in the header.
+ * @csspart cell - Every body `<td>`/`<th>`.
+ * @csspart footer-cell - Every cell in the footer.
  * @slot row - Optional `<template>` used when `layout="custom"` and `data` is set.
  * @slot - `<tr>` elements created from script, when not using `data`.
  * @csspart scroll - The horizontal scroll box around the `<table>`; a focusable,
@@ -340,6 +345,59 @@ export class LoomiTable extends LoomiElement {
     return template?.innerHTML || "";
   }
 
+  private get footerTemplateHtml(): string {
+    if (isServer) return "";
+    const template = this.querySelector<HTMLTemplateElement>('template[slot="footer"]');
+    return template?.innerHTML || "";
+  }
+
+  /**
+   * Per-column options read from a `<template slot="header">`'s cells: `align`
+   * (`start` | `center` | `end`), `nowrap` and `width`. They apply to the whole column —
+   * header, body and footer — as a generated stylesheet, since page CSS can't reach cells
+   * stamped in this shadow root.
+   */
+  private columnOptionCss(): string {
+    const header = this.headerTemplateHtml;
+    if (!header || typeof document === "undefined") return "";
+    const tpl = document.createElement("template");
+    tpl.innerHTML = `<table><thead><tr>${header}</tr></thead></table>`;
+    const cells = Array.from(tpl.content.querySelectorAll("th, td"));
+    const hasData = this.data.length > 0;
+    const offset =
+      (this.checkable && hasData ? 1 : 0) +
+      ((this.showRowNumbersAlias ?? this.showRowNumbers) && hasData ? 1 : 0);
+    const rules: string[] = [];
+    let column = offset;
+    for (const cell of cells) {
+      const n = column + 1;
+      column += Math.max(1, Number(cell.getAttribute("colspan")) || 1);
+      const decl: string[] = [];
+      const align = cell.getAttribute("align");
+      if (align === "end" || align === "right") decl.push("text-align: end");
+      else if (align === "center" || align === "middle") decl.push("text-align: center");
+      else if (align === "start" || align === "left") decl.push("text-align: start");
+      if (cell.hasAttribute("nowrap")) decl.push("white-space: nowrap");
+      const width = cell.getAttribute("width");
+      if (width && /^[\d.]+(px|rem|em|%|ch)?$/.test(width))
+        decl.push(`width: ${/\d$/.test(width) ? `${width}px` : width}`);
+      if (decl.length) rules.push(`table > * > tr > :nth-child(${n}) { ${decl.join("; ")}; }`);
+    }
+    return rules.join("\n");
+  }
+
+  /** Tag stamped rows and cells with parts, so `loomi-table::part(cell)` can style them. */
+  private applyCellParts(): void {
+    const table = this.renderRoot.querySelector("table");
+    if (!table) return;
+    for (const tr of table.querySelectorAll("tr")) tr.part.add("row");
+    for (const cell of table.querySelectorAll(":scope > thead > tr > *"))
+      cell.part.add("header-cell");
+    for (const cell of table.querySelectorAll(":scope > tbody > tr > *")) cell.part.add("cell");
+    for (const cell of table.querySelectorAll(":scope > tfoot > tr > *"))
+      cell.part.add("footer-cell");
+  }
+
   private get hasManualRows(): boolean {
     // Light DOM is not readable during server rendering; hydration fills this in on the client.
     if (isServer) return false;
@@ -461,6 +519,7 @@ export class LoomiTable extends LoomiElement {
     if (changed.has("searchContainer")) this.removeExternalSearch();
     this.renderExternalSearch();
     this.observeScrollRegion();
+    this.applyCellParts();
   }
 
   override disconnectedCallback(): void {
@@ -711,7 +770,11 @@ export class LoomiTable extends LoomiElement {
       (this.hasShadowAlias ?? this.hasShadow) ? "shadow" : "",
     ].join(" ");
 
+    const footerHtml = this.footerTemplateHtml;
+    const columnCss = this.columnOptionCss();
+
     return html`<div class="loomi-wrap">
+      ${columnCss ? unsafeHTML(`<style>${columnCss}</style>`) : nothing}
       <div class="loomi-shell ${shellCls}">
         ${
           this.searchable
@@ -750,6 +813,7 @@ export class LoomiTable extends LoomiElement {
             <tbody>
               ${this.renderBody(colSpan, noDataMessage)}
             </tbody>
+            ${footerHtml ? html`<tfoot>${unsafeHTML(footerHtml)}</tfoot>` : nothing}
           </table>
         </div>
 

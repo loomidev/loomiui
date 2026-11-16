@@ -25,6 +25,21 @@ The built-in palette colors are `primary`, `secondary`, `info`, `success`, `erro
 `warning`, and `gray`. `info` uses Tailwind's blue ramp by default and can be
 customized through `--loomi-info-50` to `--loomi-info-950`.
 
+## Before components are defined
+
+Until a component's script loads, its tag is an unknown inline element: button labels
+show as bare text and fields have no size, so the page shifts when they upgrade. The
+optional `undefined.css` hides not-yet-defined `loomi-*` elements and reserves roughly
+their default size, switching itself off per element as each one is defined:
+
+```html
+<link rel="stylesheet" href="/node_modules/@loomidev/theme/src/undefined.css" />
+```
+
+or `import "@loomidev/theme/undefined.css";` with a bundler that handles CSS. Every rule
+is wrapped in `:where()`, so your own styles win; `--loomi-undefined-control-height` and
+`--loomi-undefined-field-spacing` tune the reserved field size.
+
 ## Accessibility
 
 For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).

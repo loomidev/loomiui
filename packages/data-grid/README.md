@@ -177,6 +177,29 @@ keys inside a box don't trigger the grid's own navigation. Pasting several lines
 `loomi-cell-edit` for each. `await grid.focusCell(rowIndex, columnKey)` focuses a
 cell's input once it has rendered — handy after appending a row.
 
+Configure each column's input and flag bad values from the column definition:
+
+```js
+grid.columns = [
+  {
+    key: "phone",
+    label: "Phone",
+    editable: true,
+    inputType: "tel", // the input's `type` (default "text")
+    inputMode: "tel", // on-screen keyboard hint
+    placeholder: "024 000 0000",
+    autocomplete: "tel",
+    invalid: (row) => !/^\d{10}$/.test(row.phone), // sets aria-invalid + the invalid styling
+    cellClass: (row) => (row.locked ? "is-locked" : undefined), // extra class on the input
+  },
+];
+```
+
+The input lives inside the grid's shadow root, so style it from outside with
+`loomi-data-grid::part(cell-input)`; invalid inputs also carry the
+`cell-input-invalid` part. The invalid look is tunable with
+`--loomi-data-grid-invalid-color` (underline) and `--loomi-data-grid-invalid-bg`.
+
 ### Virtual scrolling (`modules/virtual-scrolling.js`)
 
 Renders only the rows visible in the scroll viewport for large datasets. Set

@@ -1,5 +1,5 @@
 import { html, nothing, type TemplateResult } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import {
   LoomiElement,
   loomiStyles,
@@ -23,8 +23,9 @@ const EMPTY_IMAGE_SIZES = [
  * `<loomi-empty-state>` — a friendly placeholder for empty content with an optional
  * heading, message and action button.
  *
- * @slot - Custom content (used when `show-image="false"`).
- * @fires action - Fired when the action button is clicked.
+ * @slot - With `show-image="false"`, replaces the whole layout. Otherwise it is rendered
+ *   in the actions row, after the built-in button: extra actions or links go here.
+ * @fires action - Fired when the action button is clicked (not when `button-href` makes it a link).
  */
 @customElement("loomi-empty-state")
 export class LoomiEmptyState extends LoomiElement {
@@ -36,10 +37,37 @@ export class LoomiEmptyState extends LoomiElement {
   @property() heading = "";
   @property() message = "";
   @property({ attribute: "button-label" }) buttonLabel = "";
+  /** Render the action as a link to this URL instead of a button that fires `action`. */
+  @property({ attribute: "button-href" }) buttonHref = "";
+  /** Link target for `button-href`. */
+  @property({ attribute: "button-target" }) buttonTarget = "";
   @property({ type: Boolean, attribute: "show-image" }) showImage = true;
   @property() image = "";
   /** Illustration width: `small` | `regular` | `big` | `huge` | `omg`. */
   @property({ attribute: "image-size" }) imageSize: LoomiSize = "regular";
+
+  @state() private hasSlotted = false;
+
+  private onSlotChange = (e: Event): void => {
+    const slot = e.target as HTMLSlotElement;
+    this.hasSlotted = slot
+      .assignedNodes({ flatten: true })
+      .some((n) => n.nodeType === Node.ELEMENT_NODE || !!n.textContent?.trim());
+  };
+
+  private renderButton(): TemplateResult | typeof nothing {
+    if (!this.buttonLabel) return nothing;
+    if (this.buttonHref) {
+      return html`<a
+        class="loomi-btn"
+        part="button"
+        href=${this.buttonHref}
+        target=${this.buttonTarget || nothing}
+        rel=${this.buttonTarget === "_blank" ? "noopener noreferrer" : nothing}
+      >${this.buttonLabel}</a>`;
+    }
+    return html`<button class="loomi-btn" part="button" type="button" @click=${() => this.dispatchEvent(new Event("action", { bubbles: true, composed: true }))}>${this.buttonLabel}</button>`;
+  }
 
   override render(): TemplateResult {
     const headingId = this.heading ? "loomi-empty-heading" : undefined;
@@ -56,11 +84,10 @@ export class LoomiEmptyState extends LoomiElement {
       </div>
       ${this.heading ? html`<div class="loomi-heading" id="loomi-empty-heading">${this.heading}</div>` : nothing}
       ${this.message ? html`<div class="loomi-message">${this.message}</div>` : nothing}
-      ${
-        this.buttonLabel
-          ? html`<button class="loomi-btn" type="button" @click=${() => this.dispatchEvent(new Event("action", { bubbles: true, composed: true }))}>${this.buttonLabel}</button>`
-          : nothing
-      }
+      <div class="loomi-actions" part="actions" ?hidden=${!this.buttonLabel && !this.hasSlotted}>
+        ${this.renderButton()}
+        <slot @slotchange=${this.onSlotChange}></slot>
+      </div>
     </div>`;
   }
 }

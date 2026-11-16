@@ -58,6 +58,12 @@ const DEFAULT_EMPTY_DESCRIPTION = "Try changing the filters or search term.";
  * @fires loomi-saved-view-change - `detail: { viewId, view }` when the active saved view changes.
  * @fires loomi-grid-toggle-row - `detail: { rowKey, row, expanded }` when a group or tree row is expanded or collapsed.
  * @fires loomi-export-request - `detail: { format, rows, columns, selectedOnly }` when an export is requested.
+ *
+ * @csspart cell-input - The always-open input of an editable cell (`inlineEditingModule({ mode: "always" })`).
+ * @csspart cell-input-invalid - Also set on that input when its column's `invalid(row)` returns `true`.
+ *
+ * @cssprop [--loomi-data-grid-invalid-color=#dc2626] - Underline colour of an invalid always-open input.
+ * @cssprop [--loomi-data-grid-invalid-bg=rgba(220, 38, 38, 0.08)] - Background of an invalid always-open input.
  */
 @customElement("loomi-data-grid")
 export class LoomiDataGrid<TRecord extends DataGridRecord = DataGridRecord>

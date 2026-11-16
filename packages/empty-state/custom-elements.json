@@ -27,7 +27,7 @@
           "name": "LoomiEmptyState",
           "slots": [
             {
-              "description": "Custom content (used when `show-image=\"false\"`).",
+              "description": "With `show-image=\"false\"`, replaces the whole layout. Otherwise it is rendered in the actions row, after the built-in button: extra actions or links go here.",
               "name": ""
             }
           ],
@@ -69,6 +69,26 @@
             },
             {
               "kind": "field",
+              "name": "buttonHref",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Render the action as a link to this URL instead of a button that fires `action`.",
+              "attribute": "button-href"
+            },
+            {
+              "kind": "field",
+              "name": "buttonTarget",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Link target for `button-href`.",
+              "attribute": "button-target"
+            },
+            {
+              "kind": "field",
               "name": "showImage",
               "type": {
                 "text": "boolean"
@@ -94,6 +114,30 @@
               "default": "\"regular\"",
               "description": "Illustration width: `small` | `regular` | `big` | `huge` | `omg`.",
               "attribute": "image-size"
+            },
+            {
+              "kind": "field",
+              "name": "hasSlotted",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "onSlotChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderButton",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TemplateResult | typeof nothing"
+                }
+              }
             }
           ],
           "events": [
@@ -102,7 +146,7 @@
               "type": {
                 "text": "Event"
               },
-              "description": "Fired when the action button is clicked."
+              "description": "Fired when the action button is clicked (not when `button-href` makes it a link)."
             }
           ],
           "attributes": [
@@ -129,6 +173,24 @@
               },
               "default": "\"\"",
               "fieldName": "buttonLabel"
+            },
+            {
+              "name": "button-href",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Render the action as a link to this URL instead of a button that fires `action`.",
+              "fieldName": "buttonHref"
+            },
+            {
+              "name": "button-target",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Link target for `button-href`.",
+              "fieldName": "buttonTarget"
             },
             {
               "name": "show-image",

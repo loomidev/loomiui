@@ -64,6 +64,27 @@ export interface DataGridColumn<TRecord extends DataGridRecord = DataGridRecord>
   resizable?: boolean;
   filterable?: boolean;
   editable?: boolean;
+  /**
+   * The `type` of this column's always-open input (`inlineEditingModule({ mode: "always" })`).
+   * Defaults to `"text"`.
+   */
+  inputType?: "text" | "number" | "tel" | "email" | "url" | "search" | "password" | "date";
+  /** The `inputmode` hint (which on-screen keyboard to show) for the always-open input. */
+  inputMode?: "none" | "text" | "tel" | "url" | "email" | "numeric" | "decimal" | "search";
+  /** Placeholder shown in the always-open input while a cell is empty. */
+  placeholder?: string;
+  /** The `autocomplete` token for the always-open input. */
+  autocomplete?: string;
+  /**
+   * Extra class name(s) for this row's always-open input, e.g. to flag a computed state.
+   * The input lives in the grid's shadow root: style it from outside with `::part(cell-input)`.
+   */
+  cellClass?: (row: TRecord) => string | undefined;
+  /**
+   * Return `true` to mark this row's always-open input invalid: it gets `aria-invalid="true"`,
+   * the `is-invalid` class and the `cell-input-invalid` part.
+   */
+  invalid?: (row: TRecord) => boolean;
   hidden?: boolean;
   pinned?: "start" | "end";
   /** Used by the row-grouping / pivot modules when summarizing this column. */

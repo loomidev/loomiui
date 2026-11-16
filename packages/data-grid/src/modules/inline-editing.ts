@@ -1,4 +1,5 @@
-import { html } from "lit";
+import { html, nothing } from "lit";
+import { ifDefined } from "lit/directives/if-defined.js";
 import { ref } from "lit/directives/ref.js";
 import {
   defineGridModule,
@@ -107,9 +108,21 @@ export function inlineEditingModule<TRecord extends DataGridRecord = DataGridRec
       void ctx.grid.focusCell(cell.rowIndex + rowDelta, columnKey);
     };
 
+    const { column, row } = cell;
+    const isInvalid = column.invalid?.(row) === true;
+    const classes = [column.cellClass?.(row), isInvalid ? "is-invalid" : ""]
+      .filter(Boolean)
+      .join(" ");
+
     return html`
       <input
-        type="text"
+        part=${isInvalid ? "cell-input cell-input-invalid" : "cell-input"}
+        type=${column.inputType ?? "text"}
+        inputmode=${ifDefined(column.inputMode)}
+        placeholder=${ifDefined(column.placeholder)}
+        autocomplete=${ifDefined(column.autocomplete)}
+        class=${classes || nothing}
+        aria-invalid=${isInvalid ? "true" : nothing}
         aria-label=${cell.column.label ?? columnKey}
         .value=${formatCellValue(value)}
         @click=${(event: Event) => event.stopPropagation()}

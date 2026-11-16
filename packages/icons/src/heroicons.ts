@@ -69,8 +69,31 @@ export function provideLoomiIcons(
   }
 }
 
+/**
+ * Heroicons' own names glue digits to letters (`squares-2x2`, `h1`, `square-3-stack-3d`);
+ * the shipped modules hyphenate every digit/letter boundary (`squares-2-x-2`, `h-1`).
+ * Accept both spellings by mapping the upstream form onto the shipped one.
+ */
+export function canonicalLoomiIconName(name: string): string {
+  return name.replace(/(\d)([a-z])/gi, "$1-$2").replace(/([a-z])(\d)/gi, "$1-$2");
+}
+
+/**
+ * The name to resolve: `name` itself when an app registered or provided it verbatim,
+ * else its canonical (hyphenated) spelling.
+ */
+export function resolveLoomiIconName(name: string): string {
+  if (VARIANTS.some((v) => registered[v].has(name) || provided[v].has(name))) return name;
+  return canonicalLoomiIconName(name);
+}
+
 function lookup(name: string, variant: LoomiIconVariant): SVGTemplateResult | undefined {
-  return registered[variant].get(name) ?? provided[variant].get(name);
+  return (
+    registered[variant].get(name) ??
+    provided[variant].get(name) ??
+    registered[variant].get(canonicalLoomiIconName(name)) ??
+    provided[variant].get(canonicalLoomiIconName(name))
+  );
 }
 
 /** Whether `name` is registered or provided for `variant`, i.e. renders without a load. */
@@ -91,7 +114,9 @@ export function getLoomiIcon(
   const v = isVariant(variant) ? variant : "outline";
   const icon = lookup(name, v);
   if (icon || v === "outline") return icon;
-  return solidFallsBackToOutline.has(name) ? lookup(name, "outline") : undefined;
+  return solidFallsBackToOutline.has(resolveLoomiIconName(name))
+    ? lookup(name, "outline")
+    : undefined;
 }
 
 /**
@@ -106,6 +131,7 @@ export function loadLoomiIcon(
   const v = isVariant(variant) ? variant : "outline";
   const ready = getLoomiIcon(name, v);
   if (ready) return Promise.resolve(ready);
+  name = resolveLoomiIconName(name);
 
   const key = `${v}/${name}`;
   let load = pending.get(key);

@@ -188,6 +188,36 @@
             },
             {
               "kind": "field",
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Make the whole row a link. The row renders as a real `<a>`, so icon and padding\nnavigate too, and open-in-new-tab / middle-click work. Ignored on header, divider,\ncheckbox, radio and submenu rows, and while `disabled`.",
+              "attribute": "href"
+            },
+            {
+              "kind": "field",
+              "name": "target",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Link target, used with `href`.",
+              "attribute": "target"
+            },
+            {
+              "kind": "field",
+              "name": "rel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Link `rel`, used with `href`. Defaults to `noopener noreferrer` when `target=\"_blank\"`.",
+              "attribute": "rel"
+            },
+            {
+              "kind": "field",
               "name": "hasSubmenuItems",
               "type": {
                 "text": "boolean"
@@ -331,6 +361,25 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "field",
+              "name": "isLink",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Whether this row currently renders as a link.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "click",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "The menu activates the focused row with `item.click()` on Enter/Space. A click on the\nhost never reaches the shadow anchor, so forward it there and let the browser follow\nthe link."
             },
             {
               "kind": "method",
@@ -578,6 +627,33 @@
               },
               "default": "false",
               "fieldName": "checked"
+            },
+            {
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Make the whole row a link. The row renders as a real `<a>`, so icon and padding\nnavigate too, and open-in-new-tab / middle-click work. Ignored on header, divider,\ncheckbox, radio and submenu rows, and while `disabled`.",
+              "fieldName": "href"
+            },
+            {
+              "name": "target",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Link target, used with `href`.",
+              "fieldName": "target"
+            },
+            {
+              "name": "rel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Link `rel`, used with `href`. Defaults to `noopener noreferrer` when `target=\"_blank\"`.",
+              "fieldName": "rel"
             }
           ],
           "superclass": {

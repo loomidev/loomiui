@@ -112,6 +112,21 @@ a regular `click` listener.
 </script>
 ```
 
+## Link Items
+
+Give an item `href` (plus optional `target` and `rel`) and the whole row renders as a
+real link: icon and padding navigate too, and open-in-new-tab works. Keyboard activation
+follows the link as well.
+
+```html
+<loomi-dropmenu-item icon="user-circle" href="/account">Account</loomi-dropmenu-item>
+<loomi-dropmenu-item icon="arrow-top-right-on-square" href="https://example.com" target="_blank">Help centre</loomi-dropmenu-item>
+```
+
+`href` is ignored on header, divider, checkbox, radio and submenu rows, and while the
+item is `disabled`. With `target="_blank"` and no `rel`, `rel="noopener noreferrer"` is
+added.
+
 ## Headers, Icons and Dividers
 
 ### Headers

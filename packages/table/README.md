@@ -373,6 +373,36 @@ pagination still works from the `data` array.
 </script>
 ```
 
+### Column options, footers and styling manual tables
+
+Template rows are stamped inside the table's shadow root, so page CSS doesn't reach the
+cells. Three things cover the common needs:
+
+- **Column options on header cells**: `align="start|center|end"`, `nowrap` and `width`
+  apply to the whole column (header, body and footer).
+- **Built-in cell helpers** usable inside templates: `align-end`, `align-center`,
+  `nowrap`, `tabular` (tabular numerals) and `sr-only` (visually hidden). Links in cells
+  get the primary colour.
+- **Parts** for anything else: `::part(row)`, `::part(header-cell)`, `::part(cell)` and
+  `::part(footer-cell)`.
+
+A `<template slot="footer">` renders its rows in a `<tfoot>`, for totals:
+
+```html
+<loomi-table>
+  <template slot="header"><th>Item</th><th align="end" nowrap>Price</th></template>
+  <template slot="body">
+    <tr><td>Rice, 5kg</td><td>GHS 120.00</td></tr>
+    <tr><td>Delivery</td><td>GHS 15.00</td></tr>
+  </template>
+  <template slot="footer"><tr><td>Total paid</td><td>GHS 135.00</td></tr></template>
+</loomi-table>
+```
+
+```css
+loomi-table::part(footer-cell) { font-size: 1rem; }
+```
+
 ## Putting It Together
 
 Search, sort, checkable rows, pagination, and action icons all compose freely on the

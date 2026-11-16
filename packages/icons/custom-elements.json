@@ -447,6 +447,42 @@
         },
         {
           "kind": "function",
+          "name": "canonicalLoomiIconName",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Heroicons' own names glue digits to letters (`squares-2x2`, `h1`, `square-3-stack-3d`);\nthe shipped modules hyphenate every digit/letter boundary (`squares-2-x-2`, `h-1`).\nAccept both spellings by mapping the upstream form onto the shipped one."
+        },
+        {
+          "kind": "function",
+          "name": "resolveLoomiIconName",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "The name to resolve: `name` itself when an app registered or provided it verbatim,\nelse its canonical (hyphenated) spelling."
+        },
+        {
+          "kind": "function",
           "name": "isLoomiIconAvailable",
           "return": {
             "type": {
@@ -554,6 +590,22 @@
           "name": "provideLoomiIcons",
           "declaration": {
             "name": "provideLoomiIcons",
+            "module": "src/heroicons.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "canonicalLoomiIconName",
+          "declaration": {
+            "name": "canonicalLoomiIconName",
+            "module": "src/heroicons.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "resolveLoomiIconName",
+          "declaration": {
+            "name": "resolveLoomiIconName",
             "module": "src/heroicons.ts"
           }
         },

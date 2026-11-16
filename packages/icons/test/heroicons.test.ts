@@ -81,3 +81,16 @@ describe("heroicons registry", () => {
     });
   });
 });
+
+describe("upstream Heroicons name aliases", () => {
+  it("accepts glued digit names", async () => {
+    const { hasLoomiIcon, loadLoomiIcon, canonicalLoomiIconName } =
+      await import("../dist/index.js");
+    expect(canonicalLoomiIconName("squares-2x2")).to.equal("squares-2-x-2");
+    expect(canonicalLoomiIconName("h1")).to.equal("h-1");
+    expect(canonicalLoomiIconName("square-3-stack-3d")).to.equal("square-3-stack-3-d");
+    expect(hasLoomiIcon("squares-2x2")).to.equal(true);
+    expect(await loadLoomiIcon("squares-2x2")).to.exist;
+    expect(hasLoomiIcon("not-a-real-icon")).to.equal(false);
+  });
+});

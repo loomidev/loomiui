@@ -75,6 +75,21 @@ Read the total number of pages at any time via the `pageCount` property.
 document.getElementById("p").pageCount; // 10, for total=240 page-size=25
 ```
 
+## Pages as Links
+
+Set `href-template` when every page has its own URL. Each control renders as a real
+link (`{page}` is replaced with the page number), so pages open in new tabs, are
+crawlable and work without JavaScript:
+
+```html
+<loomi-pagination total="240" page-size="25" page="3" href-template="/orders?page={page}"></loomi-pagination>
+```
+
+`loomi-page-change` still fires before the browser follows the link, and it is
+cancelable in this mode: call `event.preventDefault()` to route client-side instead. The
+current page carries `aria-current="page"`. With the `dropdown` style, picking a page
+navigates to its URL.
+
 ## Driving a Table
 
 [`<loomi-table>`](../table) renders `<loomi-pagination>` internally when `paginated` is
@@ -112,15 +127,16 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute          | Default                  | Description                                          |
-| ------------------ | ------------------------ | ---------------------------------------------------- |
-| `total`            | `0`                      | Total number of items.                               |
-| `page-size`        | `10`                     | Items per page.                                      |
-| `page`             | `1`                      | Current page (1-based).                              |
-| `pagination-style` | `arrows`                 | `arrows` \| `numbers` \| `dropdown`                  |
-| `show-total`       | `true`                   | Show the "Showing :a to :b of :c" label. _(boolean)_ |
-| `total-label`      | `Showing :a to :b of :c` | Label format (`:a` start, `:b` end, `:c` total).     |
-| `color`            | `primary`                | Active-page color.                                   |
+| Attribute          | Default                  | Description                                                                                                                      |
+| ------------------ | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| `total`            | `0`                      | Total number of items.                                                                                                           |
+| `page-size`        | `10`                     | Items per page.                                                                                                                  |
+| `page`             | `1`                      | Current page (1-based).                                                                                                          |
+| `pagination-style` | `arrows`                 | `arrows` \| `numbers` \| `dropdown`                                                                                              |
+| `show-total`       | `true`                   | Show the "Showing :a to :b of :c" label. _(boolean)_                                                                             |
+| `total-label`      | `Showing :a to :b of :c` | Label format (`:a` start, `:b` end, `:c` total).                                                                                 |
+| `href-template`    | _(blank)_                | URL template (e.g. `/orders?page={page}`). When set, every control renders as a link and `loomi-page-change` becomes cancelable. |
+| `color`            | `primary`                | Active-page color.                                                                                                               |
 
 **Property:** `pageCount` (read-only).
 

@@ -556,6 +556,16 @@
             },
             {
               "kind": "field",
+              "name": "error",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "An error supplied from outside the component (a server-side rejection, a failed async\ncheck). Shows the field invalid with this message below it straight away, sets a\n`customError` validity, and clears itself as soon as the user edits the value.",
+              "attribute": "error"
+            },
+            {
+              "kind": "field",
               "name": "inputEl",
               "type": {
                 "text": "HTMLInputElement"
@@ -1385,6 +1395,15 @@
               },
               "default": "false",
               "fieldName": "invalid"
+            },
+            {
+              "name": "error",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "An error supplied from outside the component (a server-side rejection, a failed async\ncheck). Shows the field invalid with this message below it straight away, sets a\n`customError` validity, and clears itself as soon as the user edits the value.",
+              "fieldName": "error"
             }
           ],
           "superclass": {
