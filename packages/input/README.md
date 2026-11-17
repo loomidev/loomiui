@@ -101,8 +101,10 @@ Need full control? Use the `prefix` / `suffix` slots.
 
 ### Dropdown affixes
 
-Use `prefix-options` or `suffix-options` for selectable affixes. Values can be comma
-separated, pipe separated, or a JSON array.
+Use `prefix-options` or `suffix-options` for selectable affixes. Options can be comma
+separated, pipe separated, a JSON array of strings, a JSON array of `{ "value", "label" }`
+objects, or a JSON object mapping value to label. The value is what's submitted and
+reported; the label is what's shown.
 
 ```html
 <loomi-input prefix-options="http://,https://,ftp://" prefix-value="https://" placeholder="example.com"></loomi-input>
@@ -111,6 +113,23 @@ separated, pipe separated, or a JSON array.
 
 The selected values are exposed as `.prefixValue` / `.suffixValue`. Changing a dropdown
 also emits `loomi-prefix-change` or `loomi-suffix-change` with `{ value }`.
+
+To submit the selected affix with the form, name it with `prefix-name` / `suffix-name`.
+This posts a pack size of `5` with a measure id, as two form values:
+
+```html
+<loomi-input
+  name="pack_size"
+  value="5"
+  numeric
+  suffix-options='[{"value":"1","label":"kg"},{"value":"2","label":"g"}]'
+  suffix-name="measure_id"
+></loomi-input>
+<!-- submits pack_size=5&measure_id=1 -->
+```
+
+The form is updated before `loomi-prefix-change` / `loomi-suffix-change` fire, so a
+listener can submit straight away.
 
 ## Hints
 
@@ -312,6 +331,8 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `suffix-options`          | _(blank)_ | Comma, pipe, or JSON array of dropdown options for the trailing affix.                                                                                                                                                                                              |
 | `prefix-value`            | _(blank)_ | Selected leading dropdown affix value.                                                                                                                                                                                                                              |
 | `suffix-value`            | _(blank)_ | Selected trailing dropdown affix value.                                                                                                                                                                                                                             |
+| `prefix-name`             | _(blank)_ | Submit the selected `prefix-options` value with the form under this name.                                                                                                                                                                                           |
+| `suffix-name`             | _(blank)_ | Submit the selected `suffix-options` value with the form under this name.                                                                                                                                                                                           |
 | `prefix-icon`             | _(blank)_ | Leading icon-name affix (see `@loomidev/icons`).                                                                                                                                                                                                                    |
 | `suffix-icon`             | _(blank)_ | Trailing icon-name affix (see `@loomidev/icons`).                                                                                                                                                                                                                   |
 | `transparent-prefix`      | `true`    | Transparent (vs solid) leading affix. _(boolean)_                                                                                                                                                                                                                   |

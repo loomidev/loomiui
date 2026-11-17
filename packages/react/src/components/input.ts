@@ -24,6 +24,8 @@ export const Input: ForwardRefExoticComponent<
     suffixOptions?: JSX.IntrinsicElements["loomi-input"]["suffix-options"];
     prefixValue?: JSX.IntrinsicElements["loomi-input"]["prefix-value"];
     suffixValue?: JSX.IntrinsicElements["loomi-input"]["suffix-value"];
+    prefixName?: JSX.IntrinsicElements["loomi-input"]["prefix-name"];
+    suffixName?: JSX.IntrinsicElements["loomi-input"]["suffix-name"];
     prefixIcon?: JSX.IntrinsicElements["loomi-input"]["prefix-icon"];
     suffixIcon?: JSX.IntrinsicElements["loomi-input"]["suffix-icon"];
     transparentPrefix?: JSX.IntrinsicElements["loomi-input"]["transparent-prefix"];
@@ -52,6 +54,8 @@ export const Input: ForwardRefExoticComponent<
     suffixOptions: "suffix-options",
     prefixValue: "prefix-value",
     suffixValue: "suffix-value",
+    prefixName: "prefix-name",
+    suffixName: "suffix-name",
     prefixIcon: "prefix-icon",
     suffixIcon: "suffix-icon",
     transparentPrefix: "transparent-prefix",
@@ -80,6 +84,8 @@ export const Input: ForwardRefExoticComponent<
     suffixOptions?: JSX.IntrinsicElements["loomi-input"]["suffix-options"];
     prefixValue?: JSX.IntrinsicElements["loomi-input"]["prefix-value"];
     suffixValue?: JSX.IntrinsicElements["loomi-input"]["suffix-value"];
+    prefixName?: JSX.IntrinsicElements["loomi-input"]["prefix-name"];
+    suffixName?: JSX.IntrinsicElements["loomi-input"]["suffix-name"];
     prefixIcon?: JSX.IntrinsicElements["loomi-input"]["prefix-icon"];
     suffixIcon?: JSX.IntrinsicElements["loomi-input"]["suffix-icon"];
     transparentPrefix?: JSX.IntrinsicElements["loomi-input"]["transparent-prefix"];
