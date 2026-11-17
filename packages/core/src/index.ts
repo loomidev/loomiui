@@ -98,6 +98,36 @@ export class LoomiElement extends LitElement {
     this.syncLoomiNameClass();
   }
 
+  private inLoomiUpdate = false;
+
+  protected override performUpdate(): void {
+    this.inLoomiUpdate = true;
+    try {
+      super.performUpdate();
+    } finally {
+      this.inLoomiUpdate = false;
+    }
+  }
+
+  /**
+   * Form controls set their form value in `willUpdate`, which runs a microtask after a
+   * property changes. Without this, a `change` listener that reads `new FormData(form)` or
+   * calls `form.requestSubmit()` would see the previous value. So before a form-associated
+   * element fires `input` or `change`, flush its pending update synchronously.
+   */
+  override dispatchEvent(event: Event): boolean {
+    if (
+      (event.type === "input" || event.type === "change") &&
+      this.isUpdatePending &&
+      this.hasUpdated &&
+      !this.inLoomiUpdate &&
+      (this.constructor as { formAssociated?: boolean }).formAssociated
+    ) {
+      this.performUpdate();
+    }
+    return super.dispatchEvent(event);
+  }
+
   private get defaultLoomiName(): string {
     if (!this.generatedLoomiName) {
       this.generatedLoomiName = `loomi-${componentTypeFromTag(this.localName)}-${randomSuffix()}`;

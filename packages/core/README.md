@@ -113,7 +113,11 @@ framework-specific code in the library.
    `el.value = 7` reads back as `"7"`, and `null` or `undefined` as `""`. Controls do this
    with `toControlValue()` in their `value` setter.
 2. **`input` and `change` events**, both `bubbles: true, composed: true`. `input` fires
-   once per user edit, and `value`/`checked` already holds the new state when it arrives.
+   once per user edit, and `value`/`checked` already holds the new state when it arrives,
+   and so does the control's entry in its form: `new FormData(form)` or
+   `form.requestSubmit()` inside the listener sees the new value. `LoomiElement` makes
+   this hold for every control by flushing a pending render before a form-associated
+   element fires `input` or `change`.
    `change` fires when the user commits: on each pick for choice controls, and when focus
    leaves a text field whose content changed. Programmatic sets fire neither. A control's
    own inner fields never leak a second `input` onto the host.

@@ -49,6 +49,12 @@ const booleanAttribute = {
   },
 };
 
+/** One `prefix-options` / `suffix-options` entry: submitted value and shown label. */
+interface AffixOption {
+  value: string;
+  label: string;
+}
+
 /**
  * `<loomi-input>` — a themeable text input with a floating label, text/icon
  * prefixes & suffixes, contextual hints, clearable field, numeric filtering and
@@ -123,6 +129,10 @@ export class LoomiInput extends LoomiElement {
   @property({ attribute: "suffix-options" }) suffixOptions = "";
   @property({ attribute: "prefix-value" }) prefixValue = "";
   @property({ attribute: "suffix-value" }) suffixValue = "";
+  /** Submit the selected `prefix-options` value with the form under this name. */
+  @property({ attribute: "prefix-name" }) prefixName = "";
+  /** Submit the selected `suffix-options` value with the form under this name. */
+  @property({ attribute: "suffix-name" }) suffixName = "";
   @property({ attribute: "prefix-icon" }) prefixIcon = "";
   @property({ attribute: "suffix-icon" }) suffixIcon = "";
   @property({ type: Boolean, attribute: "transparent-prefix", converter: booleanAttribute })
@@ -212,8 +222,34 @@ export class LoomiInput extends LoomiElement {
       }
     }
 
-    this.internals.setFormValue(this.value);
+    this.syncFormValue();
     this.syncValidity();
+  }
+
+  /**
+   * The field's own value, plus the selected affixes when `prefix-name` / `suffix-name`
+   * are set. Several entries need a FormData, which (unlike a string) carries its own
+   * names, so the field's `name` is added explicitly.
+   */
+  private syncFormValue(): void {
+    const prefix = this.prefixName ? this.affixFormValue("prefix") : undefined;
+    const suffix = this.suffixName ? this.affixFormValue("suffix") : undefined;
+    if (prefix === undefined && suffix === undefined) {
+      this.internals.setFormValue(this.value);
+      return;
+    }
+    const data = new FormData();
+    if (this.name) data.append(this.name, this.value);
+    if (prefix !== undefined) data.append(this.prefixName, prefix);
+    if (suffix !== undefined) data.append(this.suffixName, suffix);
+    this.internals.setFormValue(data, this.value);
+  }
+
+  /** The selected affix's value, or `undefined` when that side has no options. */
+  private affixFormValue(kind: "prefix" | "suffix"): string | undefined {
+    const options = this.parseOptions(kind === "prefix" ? this.prefixOptions : this.suffixOptions);
+    if (!options.length) return undefined;
+    return this.selectedAffix(kind, options);
   }
 
   /** Focus the underlying input. */
@@ -224,7 +260,7 @@ export class LoomiInput extends LoomiElement {
   /** Clear the field. */
   clear(): void {
     this.value = "";
-    this.internals.setFormValue("");
+    this.syncFormValue();
     this.emit("input");
     this.emit("change");
     this.focus();
@@ -405,15 +441,34 @@ export class LoomiInput extends LoomiElement {
     return html`<svg class=${cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${loomiIcon(name)}</svg>`;
   }
 
-  private parseOptions(options: string): string[] {
+  /**
+   * Affix options: `kg|g|lb` (or comma-separated), a JSON array of strings, a JSON array
+   * of `{ value, label }` objects, or a JSON object mapping value to label. The value is
+   * what's submitted and reported; the label is what's shown.
+   */
+  private parseOptions(options: string): AffixOption[] {
     const trimmed = options.trim();
     if (!trimmed) return [];
 
-    if (trimmed.startsWith("[")) {
+    if (trimmed.startsWith("[") || trimmed.startsWith("{")) {
       try {
-        const parsed = JSON.parse(trimmed);
-        if (Array.isArray(parsed))
-          return parsed.map((option) => String(option).trim()).filter(Boolean);
+        const parsed: unknown = JSON.parse(trimmed);
+        const entries: unknown[] = Array.isArray(parsed)
+          ? parsed
+          : parsed && typeof parsed === "object"
+            ? Object.entries(parsed).map(([value, label]) => ({ value, label }))
+            : [];
+        return entries
+          .map((option): AffixOption => {
+            if (option && typeof option === "object") {
+              const o = option as { value?: unknown; label?: unknown };
+              const value = String(o.value ?? o.label ?? "").trim();
+              return { value, label: String(o.label ?? value).trim() || value };
+            }
+            const value = String(option).trim();
+            return { value, label: value };
+          })
+          .filter((o) => o.value !== "");
       } catch {
         // Fall through to simple delimited parsing.
       }
@@ -422,13 +477,18 @@ export class LoomiInput extends LoomiElement {
     return trimmed
       .split(/[|,]/)
       .map((option) => option.trim())
-      .filter(Boolean);
+      .filter(Boolean)
+      .map((value) => ({ value, label: value }));
   }
 
-  private selectedAffix(kind: "prefix" | "suffix", options: string[]): string {
+  private selectedAffix(kind: "prefix" | "suffix", options: AffixOption[]): string {
     const explicit = kind === "prefix" ? this.prefixValue : this.suffixValue;
     const text = kind === "prefix" ? this.prefix : this.suffix;
-    return explicit || text || options[0] || "";
+    // `prefix`/`suffix` text may name an option by its label; resolve it to the value.
+    const fromText = text
+      ? (options.find((o) => o.value === text || o.label === text)?.value ?? "")
+      : "";
+    return explicit || fromText || options[0]?.value || "";
   }
 
   private onAffixChange(kind: "prefix" | "suffix", e: Event): void {
@@ -440,6 +500,8 @@ export class LoomiInput extends LoomiElement {
       this.suffixValue = value;
       this.suffix = value;
     }
+    // Listeners may read the form straight away (and submit it), so update it first.
+    this.syncFormValue();
 
     this.dispatchEvent(
       new CustomEvent(`loomi-${kind}-change`, {
@@ -450,10 +512,10 @@ export class LoomiInput extends LoomiElement {
     );
   }
 
-  private renderAffixSelect(kind: "prefix" | "suffix", options: string[]): TemplateResult {
+  private renderAffixSelect(kind: "prefix" | "suffix", options: AffixOption[]): TemplateResult {
     const value = this.selectedAffix(kind, options);
     return html`<select class="loomi-affix-select" .value=${value} aria-label=${kind} @input=${(e: Event) => e.stopPropagation()} @change=${(e: Event) => this.onAffixChange(kind, e)}>
-      ${options.map((option) => html`<option value=${option} ?selected=${option === value}>${option}</option>`)}
+      ${options.map((option) => html`<option value=${option.value} ?selected=${option.value === value}>${option.label}</option>`)}
     </select>`;
   }
 

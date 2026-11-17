@@ -447,6 +447,26 @@
             },
             {
               "kind": "field",
+              "name": "prefixName",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Submit the selected `prefix-options` value with the form under this name.",
+              "attribute": "prefix-name"
+            },
+            {
+              "kind": "field",
+              "name": "suffixName",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Submit the selected `suffix-options` value with the form under this name.",
+              "attribute": "suffix-name"
+            },
+            {
+              "kind": "field",
               "name": "prefixIcon",
               "type": {
                 "text": "string"
@@ -645,6 +665,36 @@
                   "text": "void"
                 }
               }
+            },
+            {
+              "kind": "method",
+              "name": "syncFormValue",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "The field's own value, plus the selected affixes when `prefix-name` / `suffix-name`\nare set. Several entries need a FormData, which (unlike a string) carries its own\nnames, so the field's `name` is added explicitly."
+            },
+            {
+              "kind": "method",
+              "name": "affixFormValue",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string | undefined"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "kind",
+                  "type": {
+                    "text": "\"prefix\" | \"suffix\""
+                  }
+                }
+              ],
+              "description": "The selected affix's value, or `undefined` when that side has no options."
             },
             {
               "kind": "method",
@@ -908,7 +958,7 @@
               "privacy": "private",
               "return": {
                 "type": {
-                  "text": "string[]"
+                  "text": "AffixOption[]"
                 }
               },
               "parameters": [
@@ -918,7 +968,8 @@
                     "text": "string"
                   }
                 }
-              ]
+              ],
+              "description": "Affix options: `kg|g|lb` (or comma-separated), a JSON array of strings, a JSON array\nof `{ value, label }` objects, or a JSON object mapping value to label. The value is\nwhat's submitted and reported; the label is what's shown."
             },
             {
               "kind": "method",
@@ -939,7 +990,7 @@
                 {
                   "name": "options",
                   "type": {
-                    "text": "string[]"
+                    "text": "AffixOption[]"
                   }
                 }
               ]
@@ -987,7 +1038,7 @@
                 {
                   "name": "options",
                   "type": {
-                    "text": "string[]"
+                    "text": "AffixOption[]"
                   }
                 }
               ]
@@ -1299,6 +1350,24 @@
               },
               "default": "\"\"",
               "fieldName": "suffixValue"
+            },
+            {
+              "name": "prefix-name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Submit the selected `prefix-options` value with the form under this name.",
+              "fieldName": "prefixName"
+            },
+            {
+              "name": "suffix-name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Submit the selected `suffix-options` value with the form under this name.",
+              "fieldName": "suffixName"
             },
             {
               "name": "prefix-icon",

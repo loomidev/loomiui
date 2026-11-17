@@ -369,12 +369,14 @@ interface LoomiInputAttributes {
   "label-position"?: LoomiAttributeValue;
   "no-implicit-submit"?: boolean;
   "prefix-icon"?: string;
+  "prefix-name"?: string;
   "prefix-options"?: string;
   "prefix-value"?: string;
   "show-error-inline"?: boolean;
   "show-focus-ring"?: boolean;
   "show-placeholder-always"?: boolean;
   "suffix-icon"?: string;
+  "suffix-name"?: string;
   "suffix-options"?: string;
   "suffix-value"?: string;
   "transparent-prefix"?: boolean;
