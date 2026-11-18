@@ -1,5 +1,12 @@
 # @loomidev/listview
 
+## 0.16.0
+
+### Patch Changes
+
+- Updated dependencies [c5d5c07]
+  - @loomidev/core@0.16.0
+
 ## 0.15.0
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/accordion",
-  "version": "0.15.0",
+  "version": "0.16.0",
   "description": "<loomi-accordion>/<loomi-accordion-item> — collapsible content sections.",
   "repository": {
     "type": "git",
