@@ -1,5 +1,21 @@
 # @loomidev/navigation
 
+## 0.16.0
+
+### Patch Changes
+
+- @loomidev/bottom-nav@0.16.0
+  - @loomidev/breadcrumb@0.16.0
+  - @loomidev/command-palette@0.16.0
+  - @loomidev/context-menu@0.16.0
+  - @loomidev/dropmenu@0.16.0
+  - @loomidev/pagination@0.16.0
+  - @loomidev/profile-menu@0.16.0
+  - @loomidev/side-nav@0.16.0
+  - @loomidev/tab@0.16.0
+  - @loomidev/theme-switcher@0.16.0
+  - @loomidev/progress-steps@0.16.0
+
 ## 0.15.0
 
 ### Patch Changes
