@@ -1,5 +1,13 @@
 # @loomidev/data-grid
 
+## 0.17.0
+
+### Patch Changes
+
+- Updated dependencies [0eb3327]
+  - @loomidev/core@0.17.0
+  - @loomidev/chart@0.17.0
+
 ## 0.16.0
 
 ### Patch Changes
