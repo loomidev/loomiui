@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/context-menu",
-  "version": "0.16.0",
+  "version": "0.17.0",
   "description": "<loomi-context-menu> — a right-click action menu.",
   "repository": {
     "type": "git",
