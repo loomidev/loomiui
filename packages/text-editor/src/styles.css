@@ -250,7 +250,7 @@
   width: min(100%, 42rem);
 }
 
-:host([disabled]) .loomi-toolbar {
+:host(:is([disabled], :disabled)) .loomi-toolbar {
   pointer-events: none;
 }
 

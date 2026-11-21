@@ -2,7 +2,8 @@
 
 `<loomi-select>` - a themeable custom select. Supports a `data` array (or JSON string),
 manual `<option>` children, search, multiple selection, images and a floating label.
-**Form-associated**: submits the selected value(s) under `name` (comma-joined for multiple).
+**Form-associated**: submits the selected value under `name`; a `multiple` select submits
+each selected value as its own entry, like a native `<select multiple>`.
 
 ```bash
 npm install @loomidev/select lit
@@ -127,6 +128,17 @@ select stays open after each pick - click outside it to close.
 ```
 
 Trying to select past `max-selectable` blocks the extra selection.
+
+A multiple select submits one form entry per selected value, exactly like a native
+`<select multiple>`. For PHP and Laravel, end the name with `[]` so the server reads an
+array:
+
+```html
+<loomi-select name="countries[]" multiple data="..."></loomi-select>
+<!-- submits countries[]=gh&countries[]=ng -->
+```
+
+`value` still reads comma-joined (`"gh,ng"`), and `values` gives the array.
 
 ### Pre-Selecting Multiple Values
 

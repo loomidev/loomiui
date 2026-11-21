@@ -164,7 +164,7 @@ export class LoomiInput extends LoomiElement {
    * an external toolbar button.
    */
   insertText(text: string): void {
-    if (!this.inputEl || this.disabled || this.readonly) return;
+    if (!this.inputEl || this.isDisabled || this.readonly) return;
     insertTextAtCaret(this.inputEl, text);
   }
 
@@ -292,7 +292,7 @@ export class LoomiInput extends LoomiElement {
   }
 
   private syncValidity(showInvalid = this.validationVisible): boolean {
-    const empty = this.required && !this.disabled && !this.readonly && this.value.trim() === "";
+    const empty = this.required && !this.isDisabled && !this.readonly && this.value.trim() === "";
     const external = this.error.trim() !== "";
     const wasInvalid = this.invalid;
     this.invalid = external || (empty && showInvalid);
@@ -560,7 +560,7 @@ export class LoomiInput extends LoomiElement {
 
   private renderSuffix(): TemplateResult | typeof nothing {
     const options = this.parseOptions(this.suffixOptions);
-    const showClear = this.clearable && this.value !== "" && !this.disabled && !this.readonly;
+    const showClear = this.clearable && this.value !== "" && !this.isDisabled && !this.readonly;
     const hasSuffix =
       this.suffix || this.suffixIcon || options.length > 0 || showClear || this.hint;
     if (!hasSuffix) return nothing;
@@ -609,7 +609,7 @@ export class LoomiInput extends LoomiElement {
             name=${this.name || nothing}
             placeholder=${placeholderAttr}
             inputmode=${this.numeric ? "decimal" : nothing}
-            ?disabled=${this.disabled}
+            ?disabled=${this.isDisabled}
             ?readonly=${this.readonly}
             ?required=${this.required}
             id="loomi-control"

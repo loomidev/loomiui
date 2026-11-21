@@ -119,7 +119,7 @@ export class LoomiTextarea extends LoomiElement {
    * an external toolbar button.
    */
   insertText(text: string): void {
-    if (!this.textareaEl || this.disabled || this.readonly) return;
+    if (!this.textareaEl || this.isDisabled || this.readonly) return;
     insertTextAtCaret(this.textareaEl, text);
   }
 
@@ -197,7 +197,7 @@ export class LoomiTextarea extends LoomiElement {
   }
 
   private syncValidity(showInvalid = this.validationVisible): boolean {
-    const empty = this.required && !this.disabled && !this.readonly && this.value.trim() === "";
+    const empty = this.required && !this.isDisabled && !this.readonly && this.value.trim() === "";
     const external = this.error.trim() !== "";
     this.invalid = external || (empty && showInvalid);
     const validity = external ? { customError: true } : empty ? { valueMissing: true } : {};
@@ -417,7 +417,7 @@ export class LoomiTextarea extends LoomiElement {
           name=${this.name || nothing}
           rows=${this.rows}
           placeholder=${placeholderAttr}
-          ?disabled=${this.disabled}
+          ?disabled=${this.isDisabled}
           ?readonly=${this.readonly}
           ?required=${this.required}
           id="loomi-control"

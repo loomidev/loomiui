@@ -90,19 +90,20 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute    | Default   | Description                                   |
-| ------------ | --------- | --------------------------------------------- |
-| `name`       | _(blank)_ | Contact name (initials avatar when no image). |
-| `position`   | _(blank)_ | Job title, shown under the name.              |
-| `department` | _(blank)_ | Department, shown under the name.             |
-| `image`      | _(blank)_ | Avatar image URL.                             |
-| `email`      | _(blank)_ | Email address row, shown with an icon.        |
-| `mobile`     | _(blank)_ | Phone number row, shown with an icon.         |
-| `birthday`   | _(blank)_ | Birthday row, shown with an icon.             |
-| `centered`   | `false`   | Vertically center the layout. _(boolean)_     |
-| `has-shadow` | `true`    | Show a drop shadow. _(boolean)_               |
-| `has-hover`  | `false`   | Lift the card on hover. _(boolean)_           |
-| `url`        | _(blank)_ | Navigate on click.                            |
+| Attribute    | Default   | Description                                                                           |
+| ------------ | --------- | ------------------------------------------------------------------------------------- |
+| `name`       | _(blank)_ | Contact name (initials avatar when no image).                                         |
+| `position`   | _(blank)_ | Job title, shown under the name.                                                      |
+| `department` | _(blank)_ | Department, shown under the name.                                                     |
+| `image`      | _(blank)_ | Avatar image URL.                                                                     |
+| `email`      | _(blank)_ | Email address row, shown with an icon.                                                |
+| `mobile`     | _(blank)_ | Phone number row, shown with an icon.                                                 |
+| `birthday`   | _(blank)_ | Birthday row, shown with an icon.                                                     |
+| `centered`   | `false`   | Vertically center the layout. _(boolean)_                                             |
+| `has-shadow` | `true`    | Show a drop shadow. _(boolean)_                                                       |
+| `has-hover`  | `false`   | Lift the card on hover. _(boolean)_                                                   |
+| `url`        | _(blank)_ | Make the card a real link (`<a href>`), so it opens in a new tab and needs no script. |
+| `target`     | _(blank)_ | Link target for `url`.                                                                |
 
 ## Slots
 

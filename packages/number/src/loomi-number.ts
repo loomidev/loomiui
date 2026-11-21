@@ -142,7 +142,7 @@ export class LoomiNumber extends LoomiElement {
   }
 
   private bump(dir: 1 | -1): void {
-    if (this.disabled) return;
+    if (this.isDisabled) return;
     this.setValue(this.current + dir * this.step);
   }
 
@@ -189,7 +189,7 @@ export class LoomiNumber extends LoomiElement {
   }
 
   private syncValidity(showInvalid = this.validationVisible): boolean {
-    const empty = this.required && !this.disabled && this.value.trim() === "";
+    const empty = this.required && !this.isDisabled && this.value.trim() === "";
     const external = this.error.trim() !== "";
     this.invalid = external || (empty && showInvalid);
     const validity = external ? { customError: true } : empty ? { valueMissing: true } : {};
@@ -216,7 +216,7 @@ export class LoomiNumber extends LoomiElement {
       type="button"
       class=${cls}
       aria-label=${dir === 1 ? loomiT("number.increment", {}, this.locale) : loomiT("number.decrement", {}, this.locale)}
-      ?disabled=${this.disabled || atLimit}
+      ?disabled=${this.isDisabled || atLimit}
       @click=${() => this.bump(dir)}
     >
       <svg class="loomi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -246,7 +246,7 @@ export class LoomiNumber extends LoomiElement {
             max=${this.max}
             step=${this.step}
             placeholder=${placeholderAttr}
-            ?disabled=${this.disabled}
+            ?disabled=${this.isDisabled}
             ?required=${this.required}
             aria-label=${hasLabel ? this.label : nothing}
             aria-invalid=${this.invalid ? "true" : "false"}

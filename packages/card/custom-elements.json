@@ -106,7 +106,18 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Make the whole card a real link. Links inside the card still work on their own.\nAbsolute `http(s)` URLs open in a new tab unless `target` says otherwise.",
               "attribute": "url"
+            },
+            {
+              "kind": "field",
+              "name": "target",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Link target for `url`. Defaults to `_blank` for absolute `http(s)` URLs, else the same tab.",
+              "attribute": "target"
             },
             {
               "kind": "field",
@@ -147,13 +158,12 @@
             },
             {
               "kind": "field",
-              "name": "onClick",
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "onKeydown",
-              "privacy": "private"
+              "name": "linkTarget",
+              "type": {
+                "text": "string"
+              },
+              "description": "The effective link target: explicit `target`, else a new tab for absolute URLs.",
+              "readonly": true
             }
           ],
           "attributes": [
@@ -172,7 +182,17 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Make the whole card a real link. Links inside the card still work on their own.\nAbsolute `http(s)` URLs open in a new tab unless `target` says otherwise.",
               "fieldName": "url"
+            },
+            {
+              "name": "target",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Link target for `url`. Defaults to `_blank` for absolute `http(s)` URLs, else the same tab.",
+              "fieldName": "target"
             },
             {
               "name": "has-hover",

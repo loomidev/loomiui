@@ -20,7 +20,7 @@
   user-select: none;
   color: var(--loomi-text);
 }
-:host([disabled]) .loomi-cb {
+:host(:is([disabled], :disabled)) .loomi-cb {
   cursor: not-allowed;
   opacity: 0.55;
 }

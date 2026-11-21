@@ -16,6 +16,7 @@ import {
   resolveLoomiSize,
   type LoomiSize,
   type LoomiSizeSupport,
+  LoomiFieldErrorController,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 import { LOOMI_COUNTRIES, type LoomiCountryRecord } from "./generated/countries-data.js";
@@ -153,6 +154,13 @@ export class LoomiCountries extends LoomiElement {
   static formAssociated = true;
 
   private internals = this.attachInternals();
+  /**
+   * An error supplied from outside (a server-side rejection). Shows below the control with
+   * `aria-invalid`, blocks submission with a `customError` validity, and clears when the
+   * user changes the value.
+   */
+  @property() error = "";
+  protected readonly errorController = new LoomiFieldErrorController(this, () => this.internals);
   private validationVisible = false;
   private initialSelection = "";
   private initialValue = "";
@@ -280,7 +288,7 @@ export class LoomiCountries extends LoomiElement {
   }
 
   private toggleOpen(): void {
-    if (this.disabled || this.readonly) return;
+    if (this.isDisabled || this.readonly) return;
     if (this.open) {
       this.close(true);
       return;
@@ -338,7 +346,7 @@ export class LoomiCountries extends LoomiElement {
   private syncValidity(showInvalid = this.validationVisible): boolean {
     const empty =
       this.required &&
-      !this.disabled &&
+      !this.isDisabled &&
       !this.readonly &&
       (this.mode === "phone" ? this.value.trim() === "" : this.selectedCode === "");
     this.invalid = empty && showInvalid;
@@ -540,7 +548,7 @@ export class LoomiCountries extends LoomiElement {
         aria-label=${ariaLabel}
         aria-expanded=${this.open ? "true" : "false"}
         aria-activedescendant=${activeId}
-        ?disabled=${this.disabled}
+        ?disabled=${this.isDisabled}
         @click=${() => this.toggleOpen()}
         @blur=${this.showValidation}
       >
@@ -572,7 +580,7 @@ export class LoomiCountries extends LoomiElement {
           aria-controls=${this.controlsId}
           aria-expanded=${this.open ? "true" : "false"}
           aria-label=${loomiT("countries.selectCountryCode", {}, this.locale)}
-          ?disabled=${this.disabled}
+          ?disabled=${this.isDisabled}
           @click=${() => this.toggleOpen()}
           @blur=${this.showValidation}
         >
@@ -587,7 +595,7 @@ export class LoomiCountries extends LoomiElement {
           inputmode="numeric"
           .value=${this.value}
           placeholder=${hasLabel ? " " : this.placeholder || " "}
-          ?disabled=${this.disabled}
+          ?disabled=${this.isDisabled}
           ?readonly=${this.readonly}
           ?required=${this.required}
           aria-label=${phoneLabel}

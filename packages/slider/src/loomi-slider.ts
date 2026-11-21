@@ -1,7 +1,13 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { live } from "lit/directives/live.js";
-import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomidev/core";
+import {
+  LoomiElement,
+  loomiStyles,
+  accentVars,
+  type LoomiColor,
+  LoomiFieldErrorController,
+} from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
 const FILL_TRANSITION_MS = 600;
@@ -40,6 +46,13 @@ export class LoomiSlider extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
   static formAssociated = true;
   private internals = this.attachInternals();
+  /**
+   * An error supplied from outside (a server-side rejection). Shows below the control with
+   * `aria-invalid`, blocks submission with a `customError` validity, and clears when the
+   * user changes the value.
+   */
+  @property() error = "";
+  protected readonly errorController = new LoomiFieldErrorController(this, () => this.internals);
   private initialSelected = 0;
   private initialSelectedEnd = 100;
 

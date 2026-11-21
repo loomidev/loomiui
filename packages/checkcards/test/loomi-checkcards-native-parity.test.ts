@@ -22,7 +22,7 @@ describe("loomi-checkcards native parity", () => {
 
   it("setting value selects the cards, updates the form and fires nothing", async () => {
     const { el, selected } = await cards(2);
-    const { formValue } = inForm(el, "plan");
+    const { form } = inForm(el, "plan");
     const log = recordFormEvents(el);
 
     el.value = "b";
@@ -30,7 +30,8 @@ describe("loomi-checkcards native parity", () => {
     el.values = ["a", "c"];
     expect(el.value).to.equal("a,c");
     expect(selected()).to.deep.equal(["a", "c"]);
-    expect(formValue()).to.equal("a,c");
+    // Several picks submit one entry per value, like a native <select multiple>.
+    expect(new FormData(form).getAll("plan")).to.deep.equal(["a", "c"]);
     expect(log).to.deep.equal([]);
   });
 

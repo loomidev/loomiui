@@ -35,7 +35,10 @@ export class LoomiContactCard extends LoomiElement {
   @property({ type: Boolean, attribute: "has-hover" }) hasHover = false;
   @property({ type: Boolean }) centered = false;
   @property({ type: Boolean, attribute: "no-padding" }) noPadding = false;
+  /** Make the whole card a link (see `loomi-card`'s `url`). */
   @property() url = "";
+  /** Link target for `url`. */
+  @property() target = "";
 
   private initials(): string {
     return this.name
@@ -44,13 +47,6 @@ export class LoomiContactCard extends LoomiElement {
       .slice(0, 2)
       .join("");
   }
-
-  private onClick = (): void => {
-    if (!this.url) return;
-    if (/^https?:\/\//.test(this.url)) window.open(this.url, "_blank");
-    else if (/\)$/.test(this.url)) new Function(this.url)();
-    else location.href = this.url;
-  };
 
   override render(): TemplateResult {
     const cls = [
@@ -61,9 +57,9 @@ export class LoomiContactCard extends LoomiElement {
       this.noPadding ? "flush" : "",
       this.url ? "clickable" : "",
     ].join(" ");
-    return html`<loomi-card size="small" .url=${this.url} ?has-hover=${this.hasHover}>
+    return html`<loomi-card size="small" .url=${this.url} .target=${this.target} ?has-hover=${this.hasHover}>
       <loomi-card-content>
-        <div class=${cls} @click=${this.url ? this.onClick : nothing}>
+        <div class=${cls}>
           ${
             this.image
               ? html`<img class="loomi-avatar" src=${this.image} alt=${this.name} />`

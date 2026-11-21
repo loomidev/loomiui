@@ -17,3 +17,24 @@
 export function toControlValue(value: unknown): string {
   return value == null ? "" : String(value);
 }
+
+/**
+ * The form value for a control holding several values, matching a native
+ * `<select multiple>`: one entry per value under `name` (so `name="tags[]"` arrives as an
+ * array in PHP/Laravel, and repeated keys in everything else), nothing at all when empty.
+ * A single-value control (`multiple` false) submits its one value as a plain string.
+ *
+ * Pass the result to `setFormValue(formValue, values.join(","))` so form-state restore
+ * still gets a string.
+ */
+export function multiValueFormValue(
+  name: string,
+  values: readonly string[],
+  multiple = true,
+): FormData | string | null {
+  if (!multiple) return values[0] ?? "";
+  if (!values.length || !name) return null;
+  const data = new FormData();
+  for (const value of values) data.append(name, value);
+  return data;
+}

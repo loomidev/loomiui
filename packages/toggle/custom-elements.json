@@ -82,6 +82,23 @@
             },
             {
               "kind": "field",
+              "name": "error",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "An error supplied from outside (a server-side rejection). Shows below the control with\n`aria-invalid`, blocks submission with a `customError` validity, and clears when the\nuser changes the value.",
+              "attribute": "error"
+            },
+            {
+              "kind": "field",
+              "name": "errorController",
+              "privacy": "protected",
+              "readonly": true,
+              "default": "new LoomiFieldErrorController(this, () => this.internals)"
+            },
+            {
+              "kind": "field",
               "name": "initialChecked",
               "type": {
                 "text": "boolean"
@@ -192,6 +209,24 @@
               }
             },
             {
+              "kind": "method",
+              "name": "formStateRestoreCallback",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "state",
+                  "type": {
+                    "text": "unknown"
+                  }
+                }
+              ],
+              "description": "Restored state is the submitted value, present only when the control was checked."
+            },
+            {
               "kind": "field",
               "name": "accentColor",
               "type": {
@@ -222,6 +257,15 @@
             }
           ],
           "attributes": [
+            {
+              "name": "error",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "An error supplied from outside (a server-side rejection). Shows below the control with\n`aria-invalid`, blocks submission with a `customError` validity, and clears when the\nuser changes the value.",
+              "fieldName": "error"
+            },
             {
               "name": "name",
               "type": {

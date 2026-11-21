@@ -47,18 +47,18 @@ describe("loomi-select native parity", () => {
     expect(el.value).to.equal("c");
   });
 
-  it("multiple: value is comma-joined and values is settable, without events", async () => {
+  it("multiple: value is comma-joined, the form gets one entry per value, no events", async () => {
     const el = await fixture<LoomiSelect>(
       html`<loomi-select multiple .data=${DATA}></loomi-select>`,
     );
-    const { formValue } = inForm(el, "fruit");
+    const { form } = inForm(el, "fruit");
     const log = recordFormEvents(el);
 
     el.values = ["a", "c"];
     expect(el.value).to.equal("a,c");
     await el.updateComplete;
     expect(shown(el)).to.equal("Apple, Cherry");
-    expect(formValue()).to.equal("a,c");
+    expect(new FormData(form).getAll("fruit")).to.deep.equal(["a", "c"]);
 
     el.value = "b";
     expect(el.values).to.deep.equal(["b"]);

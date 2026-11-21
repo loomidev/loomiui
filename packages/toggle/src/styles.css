@@ -23,7 +23,7 @@
   width: 100%;
   justify-content: space-between;
 }
-:host([disabled]) .loomi-toggle {
+:host(:is([disabled], :disabled)) .loomi-toggle {
   cursor: not-allowed;
   opacity: 0.55;
 }

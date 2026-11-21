@@ -18,6 +18,7 @@ import {
   type LoomiSize,
   type LoomiSizeSupport,
   toControlValue,
+  LoomiFieldErrorController,
 } from "@loomidev/core";
 import { hasLoomiIcon, loomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
@@ -63,6 +64,13 @@ export class LoomiTagInput extends LoomiElement {
   static formAssociated = true;
 
   private internals = this.attachInternals();
+  /**
+   * An error supplied from outside (a server-side rejection). Shows below the control with
+   * `aria-invalid`, blocks submission with a `customError` validity, and clears when the
+   * user changes the value.
+   */
+  @property() error = "";
+  protected readonly errorController = new LoomiFieldErrorController(this, () => this.internals);
   private validationVisible = false;
   private initialValue = "";
 
@@ -160,7 +168,7 @@ export class LoomiTagInput extends LoomiElement {
   }
 
   clear(): void {
-    if (this.disabled || this.readonly) return;
+    if (this.isDisabled || this.readonly) return;
     this.draft = "";
     this.setTags([], true);
     this.focus();
@@ -212,7 +220,8 @@ export class LoomiTagInput extends LoomiElement {
   }
 
   private syncValidity(showInvalid = this.validationVisible): boolean {
-    const empty = this.required && !this.disabled && !this.readonly && this.tagValues.length === 0;
+    const empty =
+      this.required && !this.isDisabled && !this.readonly && this.tagValues.length === 0;
     this.invalid = empty && showInvalid;
     const validity = empty ? { valueMissing: true } : {};
     const message = empty
@@ -234,7 +243,7 @@ export class LoomiTagInput extends LoomiElement {
 
   private commitDraft(): void {
     const tag = this.draft.trim().replace(/\s+/g, " ");
-    if (!tag || this.disabled || this.readonly) return;
+    if (!tag || this.isDisabled || this.readonly) return;
 
     this.draft = "";
     this.autocompleteOpen = false;
@@ -261,7 +270,7 @@ export class LoomiTagInput extends LoomiElement {
   }
 
   private chooseAutocomplete(item: LoomiTagInputAutocompleteItem): void {
-    if (this.disabled || this.readonly) return;
+    if (this.isDisabled || this.readonly) return;
     this.draft = "";
     this.autocompleteOpen = false;
     this.setTags([...this.tagValues, item.value || item.label], true);
@@ -275,7 +284,7 @@ export class LoomiTagInput extends LoomiElement {
   }
 
   private removeTag(index: number): void {
-    if (this.disabled || this.readonly) return;
+    if (this.isDisabled || this.readonly) return;
     this.setTags(
       this.tagValues.filter((_, i) => i !== index),
       true,
@@ -340,7 +349,7 @@ export class LoomiTagInput extends LoomiElement {
     return html`<span class=${`loomi-tag ${this.shade}`} part="tag">
       <span class="loomi-tag-label">${tag}</span>
       ${
-        this.disabled || this.readonly
+        this.isDisabled || this.readonly
           ? nothing
           : html`<button
             type="button"
@@ -456,7 +465,7 @@ export class LoomiTagInput extends LoomiElement {
             .value=${live(this.draft)}
             name=${this.name || nothing}
             placeholder=${placeholderAttr}
-            ?disabled=${this.disabled}
+            ?disabled=${this.isDisabled}
             ?readonly=${this.readonly}
             ?required=${this.required}
             aria-label=${hasLabel ? this.label : nothing}

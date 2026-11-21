@@ -36,7 +36,13 @@ export class LoomiCard extends LoomiElement {
 
   /** Section spacing: `small` | `regular`. */
   @property({ reflect: true }) size: LoomiSize = "regular";
+  /**
+   * Make the whole card a real link. Links inside the card still work on their own.
+   * Absolute `http(s)` URLs open in a new tab unless `target` says otherwise.
+   */
   @property() url = "";
+  /** Link target for `url`. Defaults to `_blank` for absolute `http(s)` URLs, else the same tab. */
+  @property() target = "";
   @property({ type: Boolean, attribute: "has-hover" }) hasHover = false;
   @property({ type: Boolean, attribute: "has-shadow", converter: booleanAttribute }) hasShadow =
     true;
@@ -44,20 +50,10 @@ export class LoomiCard extends LoomiElement {
     true;
   @property({ type: Boolean, reflect: true }) transparent = false;
 
-  private onClick = (): void => {
-    if (!this.url) return;
-    if (/^https?:\/\//.test(this.url)) window.open(this.url, "_blank");
-    else if (/\)$/.test(this.url)) new Function(this.url)();
-    else location.href = this.url;
-  };
-
-  private onKeydown = (event: KeyboardEvent): void => {
-    if (!this.url) return;
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      this.onClick();
-    }
-  };
+  /** The effective link target: explicit `target`, else a new tab for absolute URLs. */
+  get linkTarget(): string {
+    return this.target || (/^https?:\/\//i.test(this.url) ? "_blank" : "");
+  }
 
   override render(): TemplateResult {
     const cls = [
@@ -70,13 +66,20 @@ export class LoomiCard extends LoomiElement {
     ]
       .filter(Boolean)
       .join(" ");
-    return html`<div
-      class=${cls}
-      role=${this.url ? "link" : nothing}
-      tabindex=${this.url ? "0" : nothing}
-      @click=${this.url ? this.onClick : nothing}
-      @keydown=${this.url ? this.onKeydown : nothing}
-    ><slot></slot></div>`;
+    // A real anchor, so the card opens in a new tab, shows its URL and needs no script.
+    // Links and buttons slotted inside keep their own behaviour: the browser activates the
+    // innermost one, and the shadow boundary keeps the nesting valid.
+    if (this.url) {
+      const target = this.linkTarget;
+      return html`<a
+        class=${cls}
+        part="link"
+        href=${this.url}
+        target=${target || nothing}
+        rel=${target === "_blank" ? "noopener noreferrer" : nothing}
+      ><slot></slot></a>`;
+    }
+    return html`<div class=${cls}><slot></slot></div>`;
   }
 }
 

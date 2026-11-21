@@ -177,7 +177,8 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `has-border`        | `true`    | Show a border. _(boolean)_                                                                                                               |
 | `radius`            | `medium`  | `none` \| `small` \| `medium` \| `large` \| `xl`. Presets over `--loomi-panel-radius`; `medium` follows the theme, the rest override it. |
 | `show-spinner`      | `false`   | Show a loading spinner instead of the number. _(boolean)_                                                                                |
-| `url`               | _(blank)_ | Navigate on click.                                                                                                                       |
+| `url`               | _(blank)_ | Make the tile a real link (`<a href>`), so it opens in a new tab and needs no script.                                                    |
+| `target`            | _(blank)_ | Link target for `url`.                                                                                                                   |
 
 ## Slots
 

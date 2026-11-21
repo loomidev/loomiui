@@ -7,6 +7,7 @@ import {
   accentVars,
   isLoomiColor,
   type LoomiColor,
+  LoomiFieldErrorController,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -26,6 +27,13 @@ export class LoomiRadio extends LoomiElement {
   static formAssociated = true;
 
   private internals = this.attachInternals();
+  /**
+   * An error supplied from outside (a server-side rejection). Shows below the control with
+   * `aria-invalid`, blocks submission with a `customError` validity, and clears when the
+   * user changes the value.
+   */
+  @property() error = "";
+  protected readonly errorController = new LoomiFieldErrorController(this, () => this.internals);
   private initialChecked = false;
 
   @property({ reflect: true }) name = "";
@@ -57,6 +65,11 @@ export class LoomiRadio extends LoomiElement {
     this.checked = this.initialChecked;
   }
 
+  /** Restored state is the submitted value, present only when the control was checked. */
+  override formStateRestoreCallback(state: unknown): void {
+    this.checked = typeof state === "string";
+  }
+
   override willUpdate(changed: PropertyValues<this>): void {
     // Like a native radio, checking one — by the user or by setting `checked` — unchecks
     // the rest of its group.
@@ -81,14 +94,14 @@ export class LoomiRadio extends LoomiElement {
   // before `checked` has caught up. Stop it and re-fire from the host once it has.
   private onInput = (e: Event): void => {
     e.stopPropagation();
-    if (this.disabled || this.checked) return;
+    if (this.isDisabled || this.checked) return;
     this.uncheckSiblings();
     this.checked = true;
     this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
   };
 
   private onChange = (): void => {
-    if (this.disabled) return;
+    if (this.isDisabled) return;
     this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
   };
 
@@ -101,7 +114,7 @@ export class LoomiRadio extends LoomiElement {
           type="radio"
           name=${this.name || nothing}
           .checked=${live(this.checked)}
-          ?disabled=${this.disabled}
+          ?disabled=${this.isDisabled}
           @input=${this.onInput}
           @change=${this.onChange}
         />

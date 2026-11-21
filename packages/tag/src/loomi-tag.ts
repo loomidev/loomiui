@@ -1,6 +1,13 @@
 import { html, nothing, svg, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, loomiT, accentVars } from "@loomidev/core";
+import {
+  LoomiElement,
+  loomiStyles,
+  loomiT,
+  accentVars,
+  multiValueFormValue,
+  LoomiFieldErrorController,
+} from "@loomidev/core";
 import "@loomidev/icon/loomi-icon.js";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -106,6 +113,13 @@ export class LoomiTags extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
   static formAssociated = true;
   private internals = this.attachInternals();
+  /**
+   * An error supplied from outside (a server-side rejection). Shows below the control with
+   * `aria-invalid`, blocks submission with a `customError` validity, and clears when the
+   * user changes the value.
+   */
+  @property() error = "";
+  protected readonly errorController = new LoomiFieldErrorController(this, () => this.internals);
 
   @property({ reflect: true }) name = "";
   @property({ type: Number }) max = 0;
@@ -122,6 +136,14 @@ export class LoomiTags extends LoomiElement {
     return Array.from(this.querySelectorAll<LoomiTag>("loomi-tag"));
   }
 
+  /** One form entry per selected tag, like `<select multiple>`; nothing without a `name`. */
+  private syncFormValue(): void {
+    this.internals.setFormValue(
+      this.name ? multiValueFormValue(this.name, this._selected) : null,
+      this._selected.join(","),
+    );
+  }
+
   formResetCallback(): void {
     this.selectedValue = this.initialSelectedValue;
     this._selected = this.initialSelectedValue
@@ -130,7 +152,7 @@ export class LoomiTags extends LoomiElement {
           .map((value) => value.trim())
           .filter(Boolean)
       : [];
-    this.internals.setFormValue(this.name ? this._selected.join(",") : null);
+    this.syncFormValue();
     this.sync();
   }
 
@@ -144,9 +166,7 @@ export class LoomiTags extends LoomiElement {
         : [];
       this._initialized = true;
     }
-    if (this.name) {
-      this.internals.setFormValue(this._selected.join(","));
-    }
+    this.syncFormValue();
   }
 
   private sync(): void {
@@ -174,7 +194,7 @@ export class LoomiTags extends LoomiElement {
     } else {
       this._selected = [...this._selected, value];
     }
-    this.internals.setFormValue(this._selected.join(","));
+    this.syncFormValue();
     this.sync();
     this.dispatchEvent(
       new CustomEvent("change", {

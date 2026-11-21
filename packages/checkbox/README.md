@@ -77,15 +77,16 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute     | Default   | Description                                    |
-| ------------- | --------- | ---------------------------------------------- |
-| `name`        | _(blank)_ | Submitted with the form when checked.          |
-| `value`       | `on`      | Submitted value.                               |
-| `label`       | _(blank)_ | Label text (or use the default slot for HTML). |
-| `checked`     | `false`   | Checked state. _(boolean, reflected)_          |
-| `disabled`    | `false`   | Disable the checkbox. _(boolean)_              |
-| `color`       | `primary` | Active color (any loomi color).                |
-| `no-clearing` | `false`   | Remove the default bottom margin. _(boolean)_  |
+| Attribute     | Default   | Description                                                                                                                                                                                         |
+| ------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`        | _(blank)_ | Submitted with the form when checked.                                                                                                                                                               |
+| `error`       | _(blank)_ | An error supplied from outside (a server-side rejection). Shown below the control with `aria-invalid`, blocks submission with a `customError` validity, and clears when the user changes the value. |
+| `value`       | `on`      | Submitted value.                                                                                                                                                                                    |
+| `label`       | _(blank)_ | Label text (or use the default slot for HTML).                                                                                                                                                      |
+| `checked`     | `false`   | Checked state. _(boolean, reflected)_                                                                                                                                                               |
+| `disabled`    | `false`   | Disable the checkbox. _(boolean)_                                                                                                                                                                   |
+| `color`       | `primary` | Active color (any loomi color).                                                                                                                                                                     |
+| `no-clearing` | `false`   | Remove the default bottom margin. _(boolean)_                                                                                                                                                       |
 
 **Part:** `box`.
 

@@ -18,6 +18,7 @@ import {
   resolveLoomiSize,
   type LoomiSize,
   type LoomiSizeSupport,
+  LoomiFieldErrorController,
 } from "@loomidev/core";
 import "@loomidev/modal/loomi-modal.js";
 import type { LoomiModal } from "@loomidev/modal";
@@ -116,6 +117,13 @@ export class LoomiTimepicker extends LoomiElement {
   static readonly supportedSizes = { size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
   private internals = this.attachInternals();
+  /**
+   * An error supplied from outside (a server-side rejection). Shows below the control with
+   * `aria-invalid`, blocks submission with a `customError` validity, and clears when the
+   * user changes the value.
+   */
+  @property() error = "";
+  protected readonly errorController = new LoomiFieldErrorController(this, () => this.internals);
   private validationVisible = false;
   private initialSelectedValue = "";
   /** The value as of the last `change` (or programmatic set); a pick that lands on it again is a no-op. */

@@ -82,18 +82,19 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute        | Default   | Description                                           |
-| ---------------- | --------- | ----------------------------------------------------- |
-| `name`           | _(blank)_ | Submitted with the form when checked.                 |
-| `value`          | `on`      | Submitted value.                                      |
-| `label`          | _(blank)_ | Clickable label (or use the default slot).            |
-| `label-position` | `left`    | `left` \| `right`                                     |
-| `checked`        | `false`   | Checked state. _(boolean, reflected)_                 |
-| `disabled`       | `false`   | Disable the toggle. _(boolean)_                       |
-| `justified`      | `false`   | Spread label + switch to fill the parent. _(boolean)_ |
-| `bar`            | `thick`   | `thin` \| `thick` \| `thicker`                        |
-| `color`          | `primary` | Active color (any loomi color).                       |
-| `no-clearing`    | `false`   | Remove the default bottom margin. _(boolean)_         |
+| Attribute        | Default   | Description                                                                                                                                                                                         |
+| ---------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`           | _(blank)_ | Submitted with the form when checked.                                                                                                                                                               |
+| `error`          | _(blank)_ | An error supplied from outside (a server-side rejection). Shown below the control with `aria-invalid`, blocks submission with a `customError` validity, and clears when the user changes the value. |
+| `value`          | `on`      | Submitted value.                                                                                                                                                                                    |
+| `label`          | _(blank)_ | Clickable label (or use the default slot).                                                                                                                                                          |
+| `label-position` | `left`    | `left` \| `right`                                                                                                                                                                                   |
+| `checked`        | `false`   | Checked state. _(boolean, reflected)_                                                                                                                                                               |
+| `disabled`       | `false`   | Disable the toggle. _(boolean)_                                                                                                                                                                     |
+| `justified`      | `false`   | Spread label + switch to fill the parent. _(boolean)_                                                                                                                                               |
+| `bar`            | `thick`   | `thin` \| `thick` \| `thicker`                                                                                                                                                                      |
+| `color`          | `primary` | Active color (any loomi color).                                                                                                                                                                     |
+| `no-clearing`    | `false`   | Remove the default bottom margin. _(boolean)_                                                                                                                                                       |
 
 **Parts:** `track`, `knob`.
 

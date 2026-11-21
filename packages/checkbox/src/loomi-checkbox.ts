@@ -7,6 +7,7 @@ import {
   accentVars,
   isLoomiColor,
   type LoomiColor,
+  LoomiFieldErrorController,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -25,6 +26,13 @@ export class LoomiCheckbox extends LoomiElement {
   static formAssociated = true;
 
   private internals = this.attachInternals();
+  /**
+   * An error supplied from outside (a server-side rejection). Shows below the control with
+   * `aria-invalid`, blocks submission with a `customError` validity, and clears when the
+   * user changes the value.
+   */
+  @property() error = "";
+  protected readonly errorController = new LoomiFieldErrorController(this, () => this.internals);
   private initialChecked = false;
 
   @property({ reflect: true }) name = "";
@@ -54,6 +62,11 @@ export class LoomiCheckbox extends LoomiElement {
 
   formResetCallback(): void {
     this.checked = this.initialChecked;
+  }
+
+  /** Restored state is the submitted value, present only when the control was checked. */
+  override formStateRestoreCallback(state: unknown): void {
+    this.checked = typeof state === "string";
   }
 
   override willUpdate(): void {
@@ -87,7 +100,7 @@ export class LoomiCheckbox extends LoomiElement {
           type="checkbox"
           name=${this.name || nothing}
           .checked=${live(this.checked)}
-          ?disabled=${this.disabled}
+          ?disabled=${this.isDisabled}
           @input=${this.onInput}
           @change=${this.onChange}
         />

@@ -47,7 +47,10 @@ export class LoomiStatistic extends LoomiElement {
     true;
   @property({ type: Boolean, attribute: "show-spinner" }) showSpinner = false;
   @property() radius: LoomiStatRadius = "medium";
+  /** Make the tile a real link. */
   @property() url = "";
+  /** Link target for `url`. */
+  @property() target = "";
   @property({ attribute: "icon-color" }) iconColor = "";
   @property({ attribute: "icon-size" }) iconSize = "";
   /** CSS colour for a circle behind the icon (e.g. a light tint of `icon-color`). */
@@ -108,13 +111,7 @@ export class LoomiStatistic extends LoomiElement {
     ]
       .filter(Boolean)
       .join(";");
-    return html`
-      <div
-        class=${cls}
-        role=${this.url ? "link" : nothing}
-        tabindex=${this.url ? "0" : nothing}
-        @click=${this.url ? () => (location.href = this.url) : nothing}
-      >
+    const content = html`
         <div class="loomi-ico ${this.iconBackground ? "tinted" : ""} ${this.hasIcon === false ? "empty" : ""}" part="icon" style=${iconStyle}><slot name="icon" @slotchange=${this.onIconSlotChange}></slot></div>
         <div class="loomi-body ${this.labelPosition}">
           <div class="loomi-label">${this.label}</div>
@@ -134,7 +131,13 @@ export class LoomiStatistic extends LoomiElement {
               : html`<div class="loomi-desc ${this.description || this.hasSlottedDescription ? "" : "empty"}" part="description"><slot name="description" @slotchange=${this.onDescriptionSlotChange}>${this.description}</slot></div>`
           }
         </div>
-      </div>`;
+    `;
+    // A real anchor when `url` is set, so the tile opens in a new tab and needs no script.
+    return this.url
+      ? html`<a class=${cls} part="link" href=${this.url} target=${this.target || nothing}
+          >${content}</a
+        >`
+      : html`<div class=${cls}>${content}</div>`;
   }
 }
 

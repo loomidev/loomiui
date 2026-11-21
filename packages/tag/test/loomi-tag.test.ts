@@ -41,7 +41,7 @@ describe("loomi-tag", () => {
 });
 
 describe("loomi-tags", () => {
-  it("submits the selected values as a comma-separated list", async () => {
+  it("submits one form entry per selected value", async () => {
     const form = await fixture<HTMLFormElement>(html`
       <form>
         <loomi-tags name="labels" selected-value="a,b">
@@ -56,7 +56,7 @@ describe("loomi-tags", () => {
     };
     await tags.updateComplete;
     await nextFrame();
-    expect(new FormData(form).get("labels")).to.equal("a,b");
+    expect(new FormData(form).getAll("labels")).to.deep.equal(["a", "b"]);
   });
 
   it("marks the pre-selected tags as selected", async () => {

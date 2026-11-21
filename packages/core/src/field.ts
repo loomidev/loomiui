@@ -101,7 +101,7 @@ export const controlSizeStyles: CSSResultGroup = css`
  * element itself being \`.open\`) shows the focused chrome while a popup is up,
  * \`.no-focus-ring\` (on the element or an ancestor) suppresses the halo, and
  * \`.variant-minimal\` (on the field, or an ancestor of the trigger) switches to the
- * borderless underline look. \`:host([invalid])\` / \`:host([disabled])\` flip the
+ * borderless underline look. \`:host([invalid])\` / \`:host(:is([disabled], :disabled))\` flip the
  * error and muted treatments.
  *
  * Layout (display, gap, padding, cursor) intentionally stays in each component's own
@@ -149,8 +149,8 @@ export const fieldStyles: CSSResultGroup = css`
   :host([invalid]) .open .loomi-trigger {
     border-color: var(--loomi-error-500, var(--_loomi-error-500-default));
   }
-  :host([disabled]) .loomi-field,
-  :host([disabled]) .loomi-trigger {
+  :host(:is([disabled], :disabled)) .loomi-field,
+  :host(:is([disabled], :disabled)) .loomi-trigger {
     opacity: 0.6;
     cursor: not-allowed;
     background: var(--loomi-surface-muted);
@@ -187,9 +187,9 @@ export const fieldStyles: CSSResultGroup = css`
   :host([invalid]) .open .loomi-trigger.variant-minimal {
     border-bottom-color: var(--loomi-error-500, var(--_loomi-error-500-default));
   }
-  :host([disabled]) .loomi-field.variant-minimal,
-  :host([disabled]) .variant-minimal .loomi-trigger,
-  :host([disabled]) .loomi-trigger.variant-minimal {
+  :host(:is([disabled], :disabled)) .loomi-field.variant-minimal,
+  :host(:is([disabled], :disabled)) .variant-minimal .loomi-trigger,
+  :host(:is([disabled], :disabled)) .loomi-trigger.variant-minimal {
     background: transparent;
   }
 
@@ -245,6 +245,12 @@ export const fieldStyles: CSSResultGroup = css`
   }
 
   ${fieldTopLabelStyles}
+  /* An \`error\` set through LoomiFieldErrorController. Its own rule, so engines without
+     :state() drop only this. */
+  :host(:state(error)) .loomi-field,
+  :host(:state(error)) .loomi-trigger {
+    border-color: var(--loomi-error-400, var(--_loomi-error-400-default));
+  }
   /* Message under a field: \`error\` (server-supplied) or an inline \`error-message\`. */
   .loomi-field-error {
     margin: 0.35rem 0 0;

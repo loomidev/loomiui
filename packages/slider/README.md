@@ -122,24 +122,25 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute        | Default   | Description                                                            |
-| ---------------- | --------- | ---------------------------------------------------------------------- |
-| `name`           | _(blank)_ | Submitted with the form.                                               |
-| `selected`       | `0`       | Current/default value.                                                 |
-| `selected-end`   | `100`     | End value when `range` is enabled.                                     |
-| `range`          | `false`   | Enable dual-handle range selection. _(boolean)_                        |
-| `min`            | `0`       | Lower bound.                                                           |
-| `max`            | `100`     | Upper bound.                                                           |
-| `step`           | `1`       | Increment.                                                             |
-| `color`          | `primary` | Any loomi color (themes the track via `accent-color`).                 |
-| `show-values`    | `true`    | Show the handle value tooltip. _(boolean)_                             |
-| `show-tooltip`   | `true`    | Show or hide the tooltip while keeping the value behavior. _(boolean)_ |
-| `marks`          | _(blank)_ | Comma-separated mark values or a JS number array.                      |
-| `vertical`       | `false`   | Render a vertical slider. _(boolean)_                                  |
-| `handle-width`   | _(blank)_ | Custom handle width, for example `1.25rem`.                            |
-| `handle-variant` | `default` | `default`, `square`, or `line`.                                        |
-| `track-radius`   | `999px`   | Slider bar roundness.                                                  |
-| `value-target`   | _(blank)_ | Selector for an input/output field to update as the slider moves.      |
+| Attribute        | Default   | Description                                                                                                                                                                                         |
+| ---------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`           | _(blank)_ | Submitted with the form.                                                                                                                                                                            |
+| `error`          | _(blank)_ | An error supplied from outside (a server-side rejection). Shown below the control with `aria-invalid`, blocks submission with a `customError` validity, and clears when the user changes the value. |
+| `selected`       | `0`       | Current/default value.                                                                                                                                                                              |
+| `selected-end`   | `100`     | End value when `range` is enabled.                                                                                                                                                                  |
+| `range`          | `false`   | Enable dual-handle range selection. _(boolean)_                                                                                                                                                     |
+| `min`            | `0`       | Lower bound.                                                                                                                                                                                        |
+| `max`            | `100`     | Upper bound.                                                                                                                                                                                        |
+| `step`           | `1`       | Increment.                                                                                                                                                                                          |
+| `color`          | `primary` | Any loomi color (themes the track via `accent-color`).                                                                                                                                              |
+| `show-values`    | `true`    | Show the handle value tooltip. _(boolean)_                                                                                                                                                          |
+| `show-tooltip`   | `true`    | Show or hide the tooltip while keeping the value behavior. _(boolean)_                                                                                                                              |
+| `marks`          | _(blank)_ | Comma-separated mark values or a JS number array.                                                                                                                                                   |
+| `vertical`       | `false`   | Render a vertical slider. _(boolean)_                                                                                                                                                               |
+| `handle-width`   | _(blank)_ | Custom handle width, for example `1.25rem`.                                                                                                                                                         |
+| `handle-variant` | `default` | `default`, `square`, or `line`.                                                                                                                                                                     |
+| `track-radius`   | `999px`   | Slider bar roundness.                                                                                                                                                                               |
+| `value-target`   | _(blank)_ | Selector for an input/output field to update as the slider moves.                                                                                                                                   |
 
 ## Events
 

@@ -195,7 +195,7 @@ export class LoomiFilepicker extends LoomiElement {
    * no visible drop-zone for the user to click directly.
    */
   open(): void {
-    if (this.disabled || this.cropping) return;
+    if (this.isDisabled || this.cropping) return;
     this.input?.click();
   }
 
@@ -270,7 +270,7 @@ export class LoomiFilepicker extends LoomiElement {
   }
 
   private syncValidity(showInvalid = this.validationVisible): boolean {
-    const empty = this.required && !this.disabled && this.picked.length === 0;
+    const empty = this.required && !this.isDisabled && this.picked.length === 0;
     const external = this.error.trim() !== "";
     this.invalid = external || (empty && showInvalid);
     const validity = external ? { customError: true } : empty ? { valueMissing: true } : {};
@@ -301,7 +301,7 @@ export class LoomiFilepicker extends LoomiElement {
   }
 
   private async add(list: FileList | null): Promise<void> {
-    if (!list || this.disabled) return;
+    if (!list || this.isDisabled) return;
     const limit = parseSize(this.maxFileSize);
     const candidates: File[] = [];
     let count = this.picked.length;
@@ -355,7 +355,7 @@ export class LoomiFilepicker extends LoomiElement {
   private onDrop(e: DragEvent): void {
     e.preventDefault();
     this.over = false;
-    if (this.canDrop && !this.disabled && !this.cropping) this.add(e.dataTransfer?.files ?? null);
+    if (this.canDrop && !this.isDisabled && !this.cropping) this.add(e.dataTransfer?.files ?? null);
   }
 
   private placeholder2(): string {
@@ -628,10 +628,10 @@ export class LoomiFilepicker extends LoomiElement {
     );
     return html`<div class="loomi-fp">
       <div
-        class="loomi-drop ${this.over ? "over" : ""} ${this.disabled ? "disabled" : ""} ${this.hasBorder ? "" : "borderless"}"
-        @click=${() => this.canBrowse && !this.disabled && !this.cropping && this.input.click()}
+        class="loomi-drop ${this.over ? "over" : ""} ${this.isDisabled ? "disabled" : ""} ${this.hasBorder ? "" : "borderless"}"
+        @click=${() => this.canBrowse && !this.isDisabled && !this.cropping && this.input.click()}
         @dragover=${(e: DragEvent) => {
-          if (this.canDrop && !this.disabled && !this.cropping) {
+          if (this.canDrop && !this.isDisabled && !this.cropping) {
             e.preventDefault();
             this.over = true;
           }
@@ -655,7 +655,7 @@ export class LoomiFilepicker extends LoomiElement {
           name=${(this.name ? (this.maxFiles > 1 ? this.name + "[]" : this.name) : "") || nothing}
           accept=${this.acceptedFileTypes}
           ?multiple=${this.maxFiles > 1}
-          ?disabled=${this.disabled || !!this.cropping}
+          ?disabled=${this.isDisabled || !!this.cropping}
           @blur=${this.showValidation}
           @input=${(e: Event) => e.stopPropagation()}
           @change=${(e: Event) => this.add((e.target as HTMLInputElement).files)}

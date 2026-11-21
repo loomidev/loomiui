@@ -156,7 +156,18 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Make the tile a real link.",
               "attribute": "url"
+            },
+            {
+              "kind": "field",
+              "name": "target",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Link target for `url`.",
+              "attribute": "target"
             },
             {
               "kind": "field",
@@ -365,7 +376,17 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Make the tile a real link.",
               "fieldName": "url"
+            },
+            {
+              "name": "target",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Link target for `url`.",
+              "fieldName": "target"
             },
             {
               "name": "icon-color",

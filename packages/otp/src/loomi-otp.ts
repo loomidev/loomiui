@@ -15,6 +15,7 @@ import {
   type LoomiSize,
   type LoomiSizeSupport,
   implicitlySubmit,
+  LoomiFieldErrorController,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 const DEFAULT_ERROR_MESSAGE = "Verification code is invalid";
@@ -56,6 +57,13 @@ export class LoomiOtp extends LoomiElement {
   /** Counts as a field that blocks implicit submission, like a native text `<input>`. */
   static blocksImplicitSubmission = true;
   private internals = this.attachInternals();
+  /**
+   * An error supplied from outside (a server-side rejection). Shows below the control with
+   * `aria-invalid`, blocks submission with a `customError` validity, and clears when the
+   * user changes the value.
+   */
+  @property() error = "";
+  protected readonly errorController = new LoomiFieldErrorController(this, () => this.internals);
   /** Falls back to a stable per-instance id when `name` is blank, so a `loomi-notification` toast (see `showError`) re-renders in place across repeated validation failures instead of stacking. */
   private readonly instanceId = randomSuffix();
 
