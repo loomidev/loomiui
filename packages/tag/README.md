@@ -79,8 +79,9 @@ dark the outline is.
 ## Selectable Tags
 
 Wrap tags in `<loomi-tags name="...">` to use them as a form control, similar to a
-checkbox group - give each `<loomi-tag>` a `value`, and the parent submits the selected
-values (comma-joined) under `name`.
+checkbox group - give each `<loomi-tag>` a `value`, and the parent submits each selected
+value as its own entry under `name`, like a native `<select multiple>` (name it
+`labels[]` for PHP/Laravel to read an array).
 
 ```html
 <loomi-tags name="stack" color="warning" max="3">
@@ -139,12 +140,13 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ### `<loomi-tags>` (selectable group)
 
-| Attribute        | Default   | Description                                |
-| ---------------- | --------- | ------------------------------------------ |
-| `name`           | _(blank)_ | Submitted with the form.                   |
-| `max`            | _(blank)_ | Max selectable tags (no limit by default). |
-| `selected-value` | _(blank)_ | Comma-separated values to pre-select.      |
-| `required`       | `false`   | Marks the field required. _(boolean)_      |
+| Attribute        | Default   | Description                                                                                                                                                                                         |
+| ---------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`           | _(blank)_ | Submitted with the form.                                                                                                                                                                            |
+| `error`          | _(blank)_ | An error supplied from outside (a server-side rejection). Shown below the control with `aria-invalid`, blocks submission with a `customError` validity, and clears when the user changes the value. |
+| `max`            | _(blank)_ | Max selectable tags (no limit by default).                                                                                                                                                          |
+| `selected-value` | _(blank)_ | Comma-separated values to pre-select.                                                                                                                                                               |
+| `required`       | `false`   | Marks the field required. _(boolean)_                                                                                                                                                               |
 
 ## Slots
 

@@ -10,6 +10,7 @@ import {
   resolveLoomiSize,
   type LoomiSize,
   type LoomiSizeSupport,
+  LoomiFieldErrorController,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -37,10 +38,21 @@ export class LoomiColorpicker extends LoomiElement {
   static readonly supportedSizes = { size: COLORPICKER_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
   private internals = this.attachInternals();
+  /**
+   * An error supplied from outside (a server-side rejection). Shows below the control with
+   * `aria-invalid`, blocks submission with a `customError` validity, and clears when the
+   * user changes the value.
+   */
+  @property() error = "";
+  protected readonly errorController = new LoomiFieldErrorController(this, () => this.internals);
   private initialSelectedValue = "#000000";
 
   @property({ reflect: true }) name = "";
   @property({ attribute: "selected-value" }) selectedValue = "#000000";
+
+  override formStateRestoreCallback(state: unknown): void {
+    if (typeof state === "string" && state !== "") this.selectedValue = state;
+  }
   @property({ type: Boolean, attribute: "show-value" }) showValue = false;
   @property() colors = "";
   @property() locale = "";

@@ -166,14 +166,15 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ### `<loomi-card>`
 
-| Attribute     | Default   | Description                                                                                                                        |
-| ------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `size`        | `regular` | Section spacing. `small` \| `regular`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
-| `has-shadow`  | `true`    | Restrained, theme-aware panel shadow. _(boolean)_                                                                                  |
-| `has-border`  | `true`    | Hairline border. _(boolean)_                                                                                                       |
-| `has-hover`   | `false`   | Extra shadow on hover. _(boolean)_                                                                                                 |
-| `transparent` | `false`   | Remove the card surface fill. _(boolean)_                                                                                          |
-| `url`         | _(blank)_ | Navigate on click (path, `fn()` call, or full URL).                                                                                |
+| Attribute     | Default   | Description                                                                                                                             |
+| ------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `size`        | `regular` | Section spacing. `small` \| `regular`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing).      |
+| `has-shadow`  | `true`    | Restrained, theme-aware panel shadow. _(boolean)_                                                                                       |
+| `has-border`  | `true`    | Hairline border. _(boolean)_                                                                                                            |
+| `has-hover`   | `false`   | Extra shadow on hover. _(boolean)_                                                                                                      |
+| `transparent` | `false`   | Remove the card surface fill. _(boolean)_                                                                                               |
+| `url`         | _(blank)_ | Make the whole card a real link (`<a href>`). Links inside the card still work on their own. Absolute `http(s)` URLs open in a new tab. |
+| `target`      | _(blank)_ | Link target for `url`; overrides the new-tab default for absolute URLs.                                                                 |
 
 ### Parts
 

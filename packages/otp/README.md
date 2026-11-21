@@ -224,22 +224,23 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute            | Default                        | Description                                                                                                                               |
-| -------------------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`               | _(blank)_                      | Submitted with the form.                                                                                                                  |
-| `label`              | _(blank)_                      | Title of the `loomi-notification` toast (see below); also shown above the boxes with `label-position="top"`.                              |
-| `label-position`     | `default`                      | `top` shows `label` above the boxes, like `<loomi-input label-position="top">`, and names the group of boxes. Otherwise it stays hidden.  |
-| `total-digits`       | `4`                            | Number of input boxes.                                                                                                                    |
-| `type`               | `numeric`                      | Accepted characters. `numeric` \| `alphanumeric` \| `text`                                                                                |
-| `size`               | `regular`                      | `regular` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing).                           |
-| `fluid`              | `false`                        | Shrink the boxes evenly to fit the host's width, never past the `size` maximum. The gap stays fixed.                                      |
-| `variant`            | `default`                      | `default` \| `minimal` (bottom border only, no box)                                                                                       |
-| `separator`          | `false`                        | Show a dash separator between the left and right input groups. _(boolean)_                                                                |
-| `hide-digits`        | `false`                        | Hide entered characters and show large dots. _(boolean)_                                                                                  |
-| `mask`               | `false`                        | Alias for hiding entered characters. _(boolean)_                                                                                          |
-| `no-implicit-submit` | `false`                        | Stops Enter in the field from submitting its form. _(boolean)_                                                                            |
-| `error-message`      | `Verification code is invalid` | Shown when `showError()` is called. The red border shows either way, even if this is left blank.                                          |
-| `show-error-inline`  | `false`                        | Render `error-message` beneath the boxes. When `false`, a failed validation shows it as a `loomi-notification` toast instead. _(boolean)_ |
+| Attribute            | Default                        | Description                                                                                                                                                                                         |
+| -------------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`               | _(blank)_                      | Submitted with the form.                                                                                                                                                                            |
+| `error`              | _(blank)_                      | An error supplied from outside (a server-side rejection). Shown below the control with `aria-invalid`, blocks submission with a `customError` validity, and clears when the user changes the value. |
+| `label`              | _(blank)_                      | Title of the `loomi-notification` toast (see below); also shown above the boxes with `label-position="top"`.                                                                                        |
+| `label-position`     | `default`                      | `top` shows `label` above the boxes, like `<loomi-input label-position="top">`, and names the group of boxes. Otherwise it stays hidden.                                                            |
+| `total-digits`       | `4`                            | Number of input boxes.                                                                                                                                                                              |
+| `type`               | `numeric`                      | Accepted characters. `numeric` \| `alphanumeric` \| `text`                                                                                                                                          |
+| `size`               | `regular`                      | `regular` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing).                                                                                     |
+| `fluid`              | `false`                        | Shrink the boxes evenly to fit the host's width, never past the `size` maximum. The gap stays fixed.                                                                                                |
+| `variant`            | `default`                      | `default` \| `minimal` (bottom border only, no box)                                                                                                                                                 |
+| `separator`          | `false`                        | Show a dash separator between the left and right input groups. _(boolean)_                                                                                                                          |
+| `hide-digits`        | `false`                        | Hide entered characters and show large dots. _(boolean)_                                                                                                                                            |
+| `mask`               | `false`                        | Alias for hiding entered characters. _(boolean)_                                                                                                                                                    |
+| `no-implicit-submit` | `false`                        | Stops Enter in the field from submitting its form. _(boolean)_                                                                                                                                      |
+| `error-message`      | `Verification code is invalid` | Shown when `showError()` is called. The red border shows either way, even if this is left blank.                                                                                                    |
+| `show-error-inline`  | `false`                        | Render `error-message` beneath the boxes. When `false`, a failed validation shows it as a `loomi-notification` toast instead. _(boolean)_                                                           |
 
 **Methods:** `clear()`, `startValidating()`, `showSuccess()`, `showError(message?)`.
 **Properties:** `code` (`pin` is a deprecated alias), `validating` (reflected), `valid`

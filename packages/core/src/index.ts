@@ -17,6 +17,7 @@ export * from "./motion.js";
 export * from "./overlay.js";
 export * from "./size.js";
 export * from "./value.js";
+export * from "./field-error.js";
 
 // Re-export the shared theme surface so components import everything from @loomidev/core.
 export {
@@ -71,7 +72,38 @@ export function randomSuffix(): string {
 export class LoomiElement extends LitElement {
   static override properties = {
     name: { type: String, reflect: true },
+    formDisabled: { state: true },
   };
+
+  /**
+   * Set by the browser (form-associated controls only) when the control is disabled by its
+   * own `disabled` attribute or by an ancestor `<fieldset disabled>`.
+   */
+  declare protected formDisabled: boolean;
+
+  /**
+   * Whether the control should behave as disabled: its own `disabled` property, or a
+   * disabled `<fieldset>` around it. Form controls read this instead of `disabled`.
+   */
+  get isDisabled(): boolean {
+    return (
+      (this as unknown as { disabled?: boolean }).disabled === true || this.formDisabled === true
+    );
+  }
+
+  formDisabledCallback(disabled: boolean): void {
+    this.formDisabled = disabled;
+  }
+
+  /**
+   * Back/forward navigation and browser autofill hand a form control its saved state.
+   * Every control saves its value as a string (the second argument to `setFormValue`), so
+   * the default puts it back through `value`; controls with other shapes override this.
+   */
+  formStateRestoreCallback(state: unknown, _mode?: "restore" | "autocomplete"): void {
+    if (typeof state !== "string" || !("value" in this)) return;
+    (this as unknown as { value: string }).value = state;
+  }
 
   declare name: string;
 

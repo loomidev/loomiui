@@ -9,6 +9,7 @@ import {
   resolveLoomiSize,
   type LoomiSize,
   type LoomiSizeSupport,
+  LoomiFieldErrorController,
 } from "@loomidev/core";
 import type { LoomiPopover } from "@loomidev/popover";
 import "@loomidev/popover";
@@ -175,6 +176,13 @@ export class LoomiEmojiPicker extends LoomiElement {
   static formAssociated = true;
 
   private internals = this.attachInternals();
+  /**
+   * An error supplied from outside (a server-side rejection). Shows below the control with
+   * `aria-invalid`, blocks submission with a `customError` validity, and clears when the
+   * user changes the value.
+   */
+  @property() error = "";
+  protected readonly errorController = new LoomiFieldErrorController(this, () => this.internals);
   private validationVisible = false;
   private initialSelectedValue = "";
 
@@ -343,7 +351,7 @@ export class LoomiEmojiPicker extends LoomiElement {
   }
 
   private syncValidity(showInvalid = this.validationVisible): boolean {
-    const valueMissing = this.required && !this.disabled && !this.readonly && !this.selectedValue;
+    const valueMissing = this.required && !this.isDisabled && !this.readonly && !this.selectedValue;
     this.invalid = valueMissing && showInvalid;
     this.internals.setValidity(
       valueMissing ? { valueMissing: true } : {},
@@ -413,7 +421,7 @@ export class LoomiEmojiPicker extends LoomiElement {
   }
 
   private choose(item: LoomiEmojiItem): void {
-    if (this.disabled || this.readonly) return;
+    if (this.isDisabled || this.readonly) return;
     this.selectedValue = item.value;
     this.validationVisible = true;
     this.syncValidity(true);
@@ -612,7 +620,7 @@ export class LoomiEmojiPicker extends LoomiElement {
             class="loomi-emoji-popover"
             position="bottom"
             .width=${PANEL_WIDTH_PX[this.resolvedSize]}
-            .disabled=${this.disabled || this.readonly}
+            .disabled=${this.isDisabled || this.readonly}
             @loomi-toggle=${this.onPopoverToggle}
           >
             <span

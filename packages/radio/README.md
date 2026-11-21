@@ -83,15 +83,16 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute     | Default   | Description                                   |
-| ------------- | --------- | --------------------------------------------- |
-| `name`        | _(blank)_ | Group name; submitted with the form.          |
-| `value`       | _(blank)_ | Submitted value when selected.                |
-| `label`       | _(blank)_ | Label text (or use the default slot).         |
-| `checked`     | `false`   | Checked state. _(boolean, reflected)_         |
-| `disabled`    | `false`   | Disable the radio. _(boolean)_                |
-| `color`       | `primary` | Active color (any loomi color).               |
-| `no-clearing` | `false`   | Remove the default bottom margin. _(boolean)_ |
+| Attribute     | Default   | Description                                                                                                                                                                                         |
+| ------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`        | _(blank)_ | Group name; submitted with the form.                                                                                                                                                                |
+| `error`       | _(blank)_ | An error supplied from outside (a server-side rejection). Shown below the control with `aria-invalid`, blocks submission with a `customError` validity, and clears when the user changes the value. |
+| `value`       | _(blank)_ | Submitted value when selected.                                                                                                                                                                      |
+| `label`       | _(blank)_ | Label text (or use the default slot).                                                                                                                                                               |
+| `checked`     | `false`   | Checked state. _(boolean, reflected)_                                                                                                                                                               |
+| `disabled`    | `false`   | Disable the radio. _(boolean)_                                                                                                                                                                      |
+| `color`       | `primary` | Active color (any loomi color).                                                                                                                                                                     |
+| `no-clearing` | `false`   | Remove the default bottom margin. _(boolean)_                                                                                                                                                       |
 
 ## Slots
 

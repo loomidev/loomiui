@@ -2,8 +2,9 @@
 
 `<loomi-checkcards>` - selectable cards, a prettier alternative to checkboxes or radio
 groups. Define content in a `<loomi-checkcard>` and give it a `value` - that's what gets
-submitted when the form is submitted. **Form-associated**: submits the selected values
-(comma-joined) under `name`.
+submitted when the form is submitted. **Form-associated**: submits each selected value
+as its own entry under `name`, like a native `<select multiple>` (name it `plans[]` for
+PHP/Laravel to read an array). With `max="1"` it submits the single value.
 
 ```bash
 npm install @loomidev/checkcards lit
@@ -138,17 +139,18 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ### `<loomi-checkcards>`
 
-| Attribute         | Default   | Description                                                                                                                     |
-| ----------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| `name`            | _(blank)_ | Submitted with the form.                                                                                                        |
-| `max`             | `1`       | Max selectable cards.                                                                                                           |
-| `auto-select-new` | `true`    | Drop the oldest selection when exceeding `max` (vs blocking). _(boolean)_                                                       |
-| `color`           | `primary` | Icon/avatar accent color (any loomi color).                                                                                     |
-| `border-color`    | `primary` | Card border color (any loomi color).                                                                                            |
-| `border-width`    | `2`       | Card border width (px).                                                                                                         |
-| `radius`          | `medium`  | `none` \| `small` \| `medium` \| `full`. Presets over `--loomi-panel-radius`; `medium` follows the theme, the rest override it. |
-| `compact`         | `false`   | Reduced padding. _(boolean)_                                                                                                    |
-| `selected-value`  | _(blank)_ | Comma-separated values to pre-select.                                                                                           |
+| Attribute         | Default   | Description                                                                                                                                                                                         |
+| ----------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`            | _(blank)_ | Submitted with the form.                                                                                                                                                                            |
+| `error`           | _(blank)_ | An error supplied from outside (a server-side rejection). Shown below the control with `aria-invalid`, blocks submission with a `customError` validity, and clears when the user changes the value. |
+| `max`             | `1`       | Max selectable cards.                                                                                                                                                                               |
+| `auto-select-new` | `true`    | Drop the oldest selection when exceeding `max` (vs blocking). _(boolean)_                                                                                                                           |
+| `color`           | `primary` | Icon/avatar accent color (any loomi color).                                                                                                                                                         |
+| `border-color`    | `primary` | Card border color (any loomi color).                                                                                                                                                                |
+| `border-width`    | `2`       | Card border width (px).                                                                                                                                                                             |
+| `radius`          | `medium`  | `none` \| `small` \| `medium` \| `full`. Presets over `--loomi-panel-radius`; `medium` follows the theme, the rest override it.                                                                     |
+| `compact`         | `false`   | Reduced padding. _(boolean)_                                                                                                                                                                        |
+| `selected-value`  | _(blank)_ | Comma-separated values to pre-select.                                                                                                                                                               |
 
 ### `<loomi-checkcard>`
 

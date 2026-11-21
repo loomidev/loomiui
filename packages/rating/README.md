@@ -93,14 +93,15 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes
 
-| Attribute   | Default   | Description                                                                                                                 |
-| ----------- | --------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `name`      | _(blank)_ | Submitted with the form.                                                                                                    |
-| `rating`    | `0`       | Current rating (0-5).                                                                                                       |
-| `type`      | `star`    | `star` \| `heart` \| `thumbsup`                                                                                             |
-| `color`     | `warning` | Any loomi color.                                                                                                            |
-| `size`      | `regular` | `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing). |
-| `clickable` | `true`    | Allow changing the rating. _(boolean)_                                                                                      |
+| Attribute   | Default   | Description                                                                                                                                                                                         |
+| ----------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`      | _(blank)_ | Submitted with the form.                                                                                                                                                                            |
+| `error`     | _(blank)_ | An error supplied from outside (a server-side rejection). Shown below the control with `aria-invalid`, blocks submission with a `customError` validity, and clears when the user changes the value. |
+| `rating`    | `0`       | Current rating (0-5).                                                                                                                                                                               |
+| `type`      | `star`    | `star` \| `heart` \| `thumbsup`                                                                                                                                                                     |
+| `color`     | `warning` | Any loomi color.                                                                                                                                                                                    |
+| `size`      | `regular` | `regular` \| `medium` \| `big`. See [Sizing](https://github.com/loomidev/loomiui/blob/main/packages/core/README.md#sizing).                                                                         |
+| `clickable` | `true`    | Allow changing the rating. _(boolean)_                                                                                                                                                              |
 
 ## Events
 

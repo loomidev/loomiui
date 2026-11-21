@@ -9,6 +9,7 @@ import {
   randomSuffix,
   type LoomiFieldLabelPosition,
   toControlValue,
+  LoomiFieldErrorController,
 } from "@loomidev/core";
 import "@loomidev/filepicker/loomi-filepicker.js";
 import "@loomidev/icon/loomi-icon.js";
@@ -419,6 +420,13 @@ export class LoomiTextEditor extends LoomiElement {
   static formAssociated = true;
 
   private internals = this.attachInternals();
+  /**
+   * An error supplied from outside (a server-side rejection). Shows below the control with
+   * `aria-invalid`, blocks submission with a `customError` validity, and clears when the
+   * user changes the value.
+   */
+  @property() error = "";
+  protected readonly errorController = new LoomiFieldErrorController(this, () => this.internals);
   private readonly instanceId = randomSuffix();
   private validationVisible = false;
   private initialValue = "";
@@ -602,7 +610,7 @@ export class LoomiTextEditor extends LoomiElement {
   }
 
   private insertAtSelection(command: "insertText" | "insertHTML", value: string): void {
-    if (this.disabled || this.readonly || !this.editorEl) return;
+    if (this.isDisabled || this.readonly || !this.editorEl) return;
     this.restoreLastSelection();
     this.command(command, value);
   }
@@ -670,7 +678,7 @@ export class LoomiTextEditor extends LoomiElement {
 
   private syncValidity(showInvalid = this.validationVisible): boolean {
     const text = this.editorEl?.textContent ?? stripTags(this.value);
-    const empty = this.required && !this.disabled && !this.readonly && text.trim() === "";
+    const empty = this.required && !this.isDisabled && !this.readonly && text.trim() === "";
     this.invalid = empty && showInvalid;
     const validity = empty ? { valueMissing: true } : {};
     const message = empty
@@ -725,7 +733,7 @@ export class LoomiTextEditor extends LoomiElement {
   }
 
   private command(name: string, value?: string): void {
-    if (this.disabled || this.readonly) return;
+    if (this.isDisabled || this.readonly) return;
     this.focus();
     // execCommand fires the surface's own `input` (handled, and re-fired from the host, by
     // handleInput) in current engines; emit here only when it didn't, so one edit is one
@@ -830,7 +838,7 @@ export class LoomiTextEditor extends LoomiElement {
   }
 
   private wrapSelection(tagName: "code", fallbackText: string): void {
-    if (this.disabled || this.readonly) return;
+    if (this.isDisabled || this.readonly) return;
     this.focus();
 
     const range = this.currentRange();
@@ -856,7 +864,7 @@ export class LoomiTextEditor extends LoomiElement {
   }
 
   private async openEmbedDialog(tool: LoomiTextEditorEmbedTool): Promise<void> {
-    if (this.disabled || this.readonly) return;
+    if (this.isDisabled || this.readonly) return;
     const range = this.currentRange();
     this.savedRange = range ? range.cloneRange() : this.savedRange;
     this.embedFiles = [];
@@ -993,7 +1001,7 @@ export class LoomiTextEditor extends LoomiElement {
   }
 
   private requestAiGeneration(): void {
-    if (this.disabled || this.readonly) return;
+    if (this.isDisabled || this.readonly) return;
     const range = this.currentRange();
     this.savedRange = range ? range.cloneRange() : this.savedRange;
     const selection = this.currentSelectionText();
@@ -1146,7 +1154,7 @@ export class LoomiTextEditor extends LoomiElement {
       type="button"
       aria-label=${label}
       aria-pressed=${active ? "true" : "false"}
-      ?disabled=${this.disabled || this.readonly}
+      ?disabled=${this.isDisabled || this.readonly}
       @mousedown=${this.keepToolbarFocus}
       @click=${() => this.runTool(tool)}
     >
@@ -1201,7 +1209,7 @@ export class LoomiTextEditor extends LoomiElement {
         placeholder=${placeholder}
         selected-value=${selectedValue}
         .data=${options}
-        ?disabled=${this.disabled || this.readonly}
+        ?disabled=${this.isDisabled || this.readonly}
         @pointerdown=${this.captureSelection}
         @loomi-select=${(event: CustomEvent<{ value: string }>) => onSelect(event.detail.value)}
         @input=${stopEvent}
@@ -1218,7 +1226,7 @@ export class LoomiTextEditor extends LoomiElement {
     return this.renderTooltip(
       label,
       html`<label
-        class=${`loomi-color-tool${this.disabled || this.readonly ? " disabled" : ""}`}
+        class=${`loomi-color-tool${this.isDisabled || this.readonly ? " disabled" : ""}`}
         aria-label=${label}
         @pointerdown=${this.captureSelection}
       >
@@ -1227,7 +1235,7 @@ export class LoomiTextEditor extends LoomiElement {
           type="color"
           value=${fallback}
           aria-label=${label}
-          ?disabled=${this.disabled || this.readonly}
+          ?disabled=${this.isDisabled || this.readonly}
           @input=${(event: Event) => {
             event.stopPropagation();
             this.setColor(command, (event.target as HTMLInputElement).value);
@@ -1343,7 +1351,7 @@ export class LoomiTextEditor extends LoomiElement {
       part="custom-tool"
       data-tool=${tool.id}
       aria-label=${tool.label}
-      ?disabled=${this.disabled || this.readonly}
+      ?disabled=${this.isDisabled || this.readonly}
       @mousedown=${this.keepToolbarFocus}
       @click=${() => this.runCustomTool(tool)}
     >
@@ -1362,7 +1370,7 @@ export class LoomiTextEditor extends LoomiElement {
   }
 
   private runCustomTool(tool: LoomiTextEditorCustomTool): void {
-    if (this.disabled || this.readonly) return;
+    if (this.isDisabled || this.readonly) return;
     tool.run?.(this);
     this.dispatchEvent(
       new CustomEvent<LoomiTextEditorToolDetail>("loomi-tool", {
@@ -1423,9 +1431,9 @@ export class LoomiTextEditor extends LoomiElement {
           role="textbox"
           aria-multiline="true"
           aria-label=${this.label || this.placeholder || "Rich text editor"}
-          aria-disabled=${this.disabled ? "true" : "false"}
+          aria-disabled=${this.isDisabled ? "true" : "false"}
           aria-readonly=${this.readonly ? "true" : "false"}
-          contenteditable=${this.disabled || this.readonly ? "false" : "true"}
+          contenteditable=${this.isDisabled || this.readonly ? "false" : "true"}
           data-empty=${isEmpty ? "true" : "false"}
           data-placeholder=${this.placeholder}
           style=${`--loomi-editor-min-height:${Math.max(1, this.rows) * 1.5}em`}

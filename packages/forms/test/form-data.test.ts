@@ -75,11 +75,11 @@ describe("form-associated control integration", () => {
     (slider as FormControl & { selectedEnd: number }).selectedEnd = 80;
     await settle();
 
-    expect(Object.fromEntries(new FormData(form))).to.deep.equal({
-      query: "updated",
-      filters: "open,closed",
-      range: "20 - 80",
-    });
+    const data = new FormData(form);
+    expect(data.get("query")).to.equal("updated");
+    // A multiple select submits one entry per value, like a native <select multiple>.
+    expect(data.getAll("filters")).to.deep.equal(["open", "closed"]);
+    expect(data.get("range")).to.equal("20 - 80");
     form.remove();
   });
 

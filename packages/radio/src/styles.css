@@ -19,7 +19,7 @@
   user-select: none;
   color: var(--loomi-text);
 }
-:host([disabled]) .loomi-radio {
+:host(:is([disabled], :disabled)) .loomi-radio {
   cursor: not-allowed;
   opacity: 0.55;
 }

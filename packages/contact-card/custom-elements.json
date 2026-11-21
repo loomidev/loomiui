@@ -138,7 +138,18 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Make the whole card a link (see `loomi-card`'s `url`).",
               "attribute": "url"
+            },
+            {
+              "kind": "field",
+              "name": "target",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Link target for `url`.",
+              "attribute": "target"
             },
             {
               "kind": "method",
@@ -149,11 +160,6 @@
                   "text": "string"
                 }
               }
-            },
-            {
-              "kind": "field",
-              "name": "onClick",
-              "privacy": "private"
             }
           ],
           "attributes": [
@@ -251,7 +257,17 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Make the whole card a link (see `loomi-card`'s `url`).",
               "fieldName": "url"
+            },
+            {
+              "name": "target",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Link target for `url`.",
+              "fieldName": "target"
             }
           ],
           "superclass": {

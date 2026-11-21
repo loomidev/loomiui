@@ -675,6 +675,17 @@
             },
             {
               "kind": "method",
+              "name": "syncFormValue",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Multiple selections submit one entry per value, like a native `<select multiple>`."
+            },
+            {
+              "kind": "method",
               "name": "emitChange",
               "privacy": "private",
               "return": {

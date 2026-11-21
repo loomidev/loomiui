@@ -9,6 +9,7 @@ import {
   resolveLoomiSize,
   type LoomiSize,
   type LoomiSizeSupport,
+  LoomiFieldErrorController,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -35,6 +36,13 @@ export class LoomiRating extends LoomiElement {
   static readonly supportedSizes = { size: RATING_SIZES } satisfies LoomiSizeSupport;
   static formAssociated = true;
   private internals = this.attachInternals();
+  /**
+   * An error supplied from outside (a server-side rejection). Shows below the control with
+   * `aria-invalid`, blocks submission with a `customError` validity, and clears when the
+   * user changes the value.
+   */
+  @property() error = "";
+  protected readonly errorController = new LoomiFieldErrorController(this, () => this.internals);
   private initialRating = 0;
 
   @property({ reflect: true }) name = "";
@@ -43,6 +51,10 @@ export class LoomiRating extends LoomiElement {
   /** Icon size: `regular` | `medium` | `big`. */
   @property() size: LoomiSize = "regular";
   @property({ type: Number }) rating = 0;
+
+  override formStateRestoreCallback(state: unknown): void {
+    if (typeof state === "string" && state !== "") this.rating = Number(state) || 0;
+  }
   @property({ type: Boolean }) clickable = true;
   @property() locale = "";
 

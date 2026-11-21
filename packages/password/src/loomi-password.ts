@@ -152,7 +152,7 @@ export class LoomiPassword extends LoomiElement {
    * an external toolbar button.
    */
   insertText(text: string): void {
-    if (!this.inputEl || this.disabled || this.readonly) return;
+    if (!this.inputEl || this.isDisabled || this.readonly) return;
     insertTextAtCaret(this.inputEl, text);
   }
 
@@ -238,10 +238,10 @@ export class LoomiPassword extends LoomiElement {
   }
 
   private syncValidity(showInvalid = this.validationVisible): boolean {
-    const empty = this.required && !this.disabled && !this.readonly && this.value.trim() === "";
+    const empty = this.required && !this.isDisabled && !this.readonly && this.value.trim() === "";
     const weak =
       !empty &&
-      !this.disabled &&
+      !this.isDisabled &&
       !this.readonly &&
       this.strengthRequirements().some((requirement) => !requirement.met);
     const external = this.error.trim() !== "";
@@ -332,7 +332,7 @@ export class LoomiPassword extends LoomiElement {
   }
 
   private togglePrefixOpen(): void {
-    if (this.disabled || this.readonly) return;
+    if (this.isDisabled || this.readonly) return;
     this.prefixOpen = !this.prefixOpen;
   }
 
@@ -358,7 +358,7 @@ export class LoomiPassword extends LoomiElement {
         aria-haspopup="listbox"
         aria-expanded=${this.prefixOpen ? "true" : "false"}
         aria-label="prefix"
-        ?disabled=${this.disabled || this.readonly}
+        ?disabled=${this.isDisabled || this.readonly}
         @click=${() => this.togglePrefixOpen()}
         @keydown=${this.onPrefixTriggerKeydown}
       >
@@ -396,7 +396,7 @@ export class LoomiPassword extends LoomiElement {
   }
 
   private renderSuffix(): TemplateResult | typeof nothing {
-    const showClear = this.clearable && this.value !== "" && !this.disabled && !this.readonly;
+    const showClear = this.clearable && this.value !== "" && !this.isDisabled && !this.readonly;
     const showReveal = this.viewable;
     if (!showClear && !showReveal) return nothing;
 
@@ -499,7 +499,7 @@ export class LoomiPassword extends LoomiElement {
             type=${this.revealed ? "text" : "password"}
             name=${this.name || nothing}
             placeholder=${placeholderAttr}
-            ?disabled=${this.disabled}
+            ?disabled=${this.isDisabled}
             ?readonly=${this.readonly}
             ?required=${this.required}
             id="loomi-control"

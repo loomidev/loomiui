@@ -19,6 +19,7 @@ import {
   type LoomiSizeSupport,
   toControlValue,
   implicitlySubmit,
+  LoomiFieldErrorController,
 } from "@loomidev/core";
 import { hasLoomiIcon, loomiIcon, provideLoomiIcons } from "@loomidev/icons";
 import xCircleIcon from "@loomidev/icons/heroicons/outline/x-circle.js";
@@ -220,6 +221,13 @@ export class LoomiAutocomplete extends LoomiElement {
   static blocksImplicitSubmission = true;
 
   private internals = this.attachInternals();
+  /**
+   * An error supplied from outside (a server-side rejection). Shows below the control with
+   * `aria-invalid`, blocks submission with a `customError` validity, and clears when the
+   * user changes the value.
+   */
+  @property() error = "";
+  protected readonly errorController = new LoomiFieldErrorController(this, () => this.internals);
   private cleanup?: () => void;
   private initialValue = "";
   private initialSelectedValue = "";
@@ -401,7 +409,7 @@ export class LoomiAutocomplete extends LoomiElement {
   }
 
   private show(): void {
-    if (this.disabled || this.readonly) return;
+    if (this.isDisabled || this.readonly) return;
     this.open = true;
     this.activeIndex = this.filtered.length ? 0 : -1;
     this.cleanup = onClickOutside(this, () => this.hide());
@@ -520,7 +528,7 @@ export class LoomiAutocomplete extends LoomiElement {
           this.locale,
         );
     const options = this.filtered;
-    const showClear = this.clearable && this.value !== "" && !this.disabled && !this.readonly;
+    const showClear = this.clearable && this.value !== "" && !this.isDisabled && !this.readonly;
     const showSelectedImage = this.value !== "" && this.selectedImage !== "";
     const alignOptionMedia = this.hasOptionImages;
     return html`${topLabel ? loomiTopLabel(this.label, this.required, "loomi-control") : nothing}<div class="loomi-ac size-${resolveLoomiSize(this.size, LOOMI_CONTROL_SIZES)} ${this.open ? "open" : ""} ${this.showFocusRing ? "" : "no-focus-ring"}">
@@ -531,7 +539,7 @@ export class LoomiAutocomplete extends LoomiElement {
           .value=${live(this.displayValue)}
           name=${this.name || nothing}
           placeholder=${placeholder}
-          ?disabled=${this.disabled}
+          ?disabled=${this.isDisabled}
           ?readonly=${this.readonly}
           ?required=${this.required}
           role="combobox"

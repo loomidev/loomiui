@@ -55,6 +55,10 @@
   border-radius: var(--loomi-card-radius) var(--loomi-card-radius) 0 0;
 }
 
+a.card {
+  color: inherit;
+  text-decoration: none;
+}
 .card.clickable {
   cursor: pointer;
 }

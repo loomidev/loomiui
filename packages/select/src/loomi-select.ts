@@ -17,6 +17,7 @@ import {
   resolveLoomiSize,
   type LoomiSize,
   type LoomiSizeSupport,
+  multiValueFormValue,
 } from "@loomidev/core";
 import { loomiIcon } from "@loomidev/icons";
 import { componentStyles } from "./generated/styles.css.js";
@@ -257,7 +258,7 @@ export class LoomiSelect extends LoomiElement {
       !changed.has("error")
     )
       this.error = "";
-    this.internals.setFormValue(this.selected.join(","));
+    this.syncFormValue();
     this.syncValidity();
   }
 
@@ -272,7 +273,7 @@ export class LoomiSelect extends LoomiElement {
   set value(value: string) {
     this.selectedValue = value == null ? "" : String(value);
     this.selected = this.parseSelectedValue();
-    this.internals.setFormValue(this.selected.join(","));
+    this.syncFormValue();
   }
 
   /** The selected values as an array (one entry unless `multiple`). Setting it fires no events. */
@@ -283,7 +284,7 @@ export class LoomiSelect extends LoomiElement {
     const next = (values ?? []).map(String);
     this.selected = this.multiple ? next : next.slice(0, 1);
     this.selectedValue = this.selected.join(",");
-    this.internals.setFormValue(this.selected.join(","));
+    this.syncFormValue();
   }
 
   /** Before the first render `selected` hasn't been parsed from `selectedValue` yet. */
@@ -348,7 +349,7 @@ export class LoomiSelect extends LoomiElement {
   }
 
   private toggleOpen(): void {
-    if (this.disabled || this.readonly) return;
+    if (this.isDisabled || this.readonly) return;
     if (this.open) {
       this.close(true);
       return;
@@ -368,8 +369,16 @@ export class LoomiSelect extends LoomiElement {
     if (showValidation) this.showValidation();
   }
 
+  /** Multiple selections submit one entry per value, like a native `<select multiple>`. */
+  private syncFormValue(): void {
+    this.internals.setFormValue(
+      multiValueFormValue(this.name, this.selected, this.multiple),
+      this.selected.join(","),
+    );
+  }
+
   private emitChange(): void {
-    this.internals.setFormValue(this.selected.join(","));
+    this.syncFormValue();
     this.syncValidity();
     this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
     this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
@@ -409,7 +418,6 @@ export class LoomiSelect extends LoomiElement {
         detail: { url: this.emptyActionUrl },
       }),
     );
-    if (this.emptyActionUrl) location.href = this.emptyActionUrl;
   }
 
   validate(): boolean {
@@ -429,7 +437,7 @@ export class LoomiSelect extends LoomiElement {
   }
 
   private syncValidity(showInvalid = this.validationVisible): boolean {
-    const empty = this.required && !this.disabled && !this.readonly && this.selected.length === 0;
+    const empty = this.required && !this.isDisabled && !this.readonly && this.selected.length === 0;
     const external = this.error.trim() !== "";
     this.invalid = external || (empty && showInvalid);
     const validity = external ? { customError: true } : empty ? { valueMissing: true } : {};
@@ -552,7 +560,7 @@ export class LoomiSelect extends LoomiElement {
           aria-activedescendant=${activeId}
           aria-invalid=${this.invalid ? "true" : "false"}
           aria-describedby=${this.error.trim() ? "loomi-error" : nothing}
-          ?disabled=${this.disabled}
+          ?disabled=${this.isDisabled}
           @click=${this.toggleOpen}
           @blur=${this.showValidation}
         >
@@ -623,7 +631,9 @@ export class LoomiSelect extends LoomiElement {
                       <span>${loomiDefaultText(this.emptyPlaceholder, DEFAULT_EMPTY_PLACEHOLDER, "select.emptyPlaceholder", this.locale)}</span>
                       ${
                         this.emptyActionLabel
-                          ? html`<button type="button" class="loomi-empty-action" @click=${this.onEmptyAction}>${this.emptyActionLabel}</button>`
+                          ? this.emptyActionUrl
+                            ? html`<a class="loomi-empty-action" href=${this.emptyActionUrl} @click=${this.onEmptyAction}>${this.emptyActionLabel}</a>`
+                            : html`<button type="button" class="loomi-empty-action" @click=${this.onEmptyAction}>${this.emptyActionLabel}</button>`
                           : nothing
                       }
                     </div>`

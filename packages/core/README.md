@@ -167,6 +167,29 @@ Alpine's `x-model` reads the element's `type` at runtime, so
 Custom events such as `loomi-select` or `loomi-verify` still fire alongside, carrying
 richer details. Reach for them when you need more than the value.
 
+### Forms: disabling, restoring and errors
+
+Every form control also behaves like a native field in these ways, through `LoomiElement`:
+
+- **`<fieldset disabled>`** disables the controls inside it (and leaves them out of the
+  submission). Controls read `isDisabled`, which is their own `disabled` or a disabled
+  fieldset, instead of `disabled`, and style `:host(:is([disabled], :disabled))`.
+- **Back/forward and autofill restore** puts the saved value back through
+  `formStateRestoreCallback`. Checkbox-like controls restore `checked`.
+- **Several values** submit one entry per value, like `<select multiple>`. Use
+  `multiValueFormValue(name, values, multiple)` when building a control that holds a list.
+- **`error`**, an error supplied from outside, is on every control. New controls get it
+  from `LoomiFieldErrorController`:
+
+  ```ts
+  @property() error = "";
+  protected readonly errorController = new LoomiFieldErrorController(this, () => this.internals);
+  ```
+
+  It renders the message as `part="error"`, sets `aria-invalid`/`aria-describedby` on the
+  control's focusable element, sets a `customError` validity, adds the `error` custom state
+  (`:host(:state(error))`), and clears when the control fires `input` or `change`.
+
 ## Exports
 
 | Export                                                                     | Description                                                                                                                                                                                                                                                                                                                                                                                               |

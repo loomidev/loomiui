@@ -15,6 +15,7 @@ import {
   resolveLoomiSize,
   type LoomiSize,
   type LoomiSizeSupport,
+  LoomiFieldErrorController,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
 
@@ -220,6 +221,13 @@ export class LoomiTimezonepicker extends LoomiElement {
   static formAssociated = true;
 
   private internals = this.attachInternals();
+  /**
+   * An error supplied from outside (a server-side rejection). Shows below the control with
+   * `aria-invalid`, blocks submission with a `customError` validity, and clears when the
+   * user changes the value.
+   */
+  @property() error = "";
+  protected readonly errorController = new LoomiFieldErrorController(this, () => this.internals);
   private validationVisible = false;
   private initialSelection = "";
 
@@ -349,7 +357,7 @@ export class LoomiTimezonepicker extends LoomiElement {
   }
 
   private toggleOpen(): void {
-    if (this.disabled || this.readonly) return;
+    if (this.isDisabled || this.readonly) return;
     if (this.open) {
       this.close(true);
       return;
@@ -409,7 +417,7 @@ export class LoomiTimezonepicker extends LoomiElement {
   }
 
   private syncValidity(showInvalid = this.validationVisible): boolean {
-    const empty = this.required && !this.disabled && !this.readonly && this.selectedId === "";
+    const empty = this.required && !this.isDisabled && !this.readonly && this.selectedId === "";
     this.invalid = empty && showInvalid;
     const validity = empty ? { valueMissing: true } : {};
     const message = empty ? loomiT("validation.selectOption", {}, this.locale) : "";
@@ -616,7 +624,7 @@ export class LoomiTimezonepicker extends LoomiElement {
           aria-label=${ariaLabel}
           aria-expanded=${this.open ? "true" : "false"}
           aria-activedescendant=${activeId}
-          ?disabled=${this.disabled}
+          ?disabled=${this.isDisabled}
           @click=${() => this.toggleOpen()}
           @blur=${this.showValidation}
         >

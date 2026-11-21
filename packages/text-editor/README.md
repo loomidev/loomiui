@@ -475,25 +475,26 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Attributes and Properties
 
-| Attribute / property | Default   | Description                                                                                                                                                 |
-| -------------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`               | _(blank)_ | Submitted with the nearest form.                                                                                                                            |
-| `label`              | _(blank)_ | Label above the editor.                                                                                                                                     |
-| `label-position`     | `default` | `default` keeps the label above the editor; `inside` keeps a compact label inside its top edge.                                                             |
-| `placeholder`        | _(blank)_ | Placeholder text shown when the editor is empty.                                                                                                            |
-| `value`              | _(blank)_ | Current value as HTML.                                                                                                                                      |
-| `tools`              | `default` | Comma-separated string attribute, or string array property.                                                                                                 |
-| `rows`               | `3`       | Minimum height in text rows.                                                                                                                                |
-| `required`           | `false`   | Marks the editor required.                                                                                                                                  |
-| `disabled`           | `false`   | Disables editing and toolbar controls.                                                                                                                      |
-| `readonly`           | `false`   | Makes content readable but not editable.                                                                                                                    |
-| `error-message`      | _(blank)_ | Message used when validation fails.                                                                                                                         |
-| `show-error-inline`  | `false`   | Shows `error-message` under the field.                                                                                                                      |
-| `no-clearing`        | `false`   | Removes the default bottom margin.                                                                                                                          |
-| `variant`            | `default` | `default` \| `minimal` (bottom border only, no box)                                                                                                         |
-| `no-file-upload`     | `false`   | Hides the file picker in the image and video dialogs, leaving URL entry only.                                                                               |
-| `.customTools`       | `[]`      | Property only. App-defined toolbar buttons: `{ id, label, icon?, iconSource?, text?, run? }[]`. See [Custom toolbar tools](#custom-toolbar-tools).          |
-| `.uploadHandler`     | _(unset)_ | Property only. `(file, kind) => Promise<string \| undefined>` - uploads a picked file and returns the URL to insert. Unset, files are inlined as data URLs. |
+| Attribute / property | Default   | Description                                                                                                                                                                                         |
+| -------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`               | _(blank)_ | Submitted with the nearest form.                                                                                                                                                                    |
+| `error`              | _(blank)_ | An error supplied from outside (a server-side rejection). Shown below the control with `aria-invalid`, blocks submission with a `customError` validity, and clears when the user changes the value. |
+| `label`              | _(blank)_ | Label above the editor.                                                                                                                                                                             |
+| `label-position`     | `default` | `default` keeps the label above the editor; `inside` keeps a compact label inside its top edge.                                                                                                     |
+| `placeholder`        | _(blank)_ | Placeholder text shown when the editor is empty.                                                                                                                                                    |
+| `value`              | _(blank)_ | Current value as HTML.                                                                                                                                                                              |
+| `tools`              | `default` | Comma-separated string attribute, or string array property.                                                                                                                                         |
+| `rows`               | `3`       | Minimum height in text rows.                                                                                                                                                                        |
+| `required`           | `false`   | Marks the editor required.                                                                                                                                                                          |
+| `disabled`           | `false`   | Disables editing and toolbar controls.                                                                                                                                                              |
+| `readonly`           | `false`   | Makes content readable but not editable.                                                                                                                                                            |
+| `error-message`      | _(blank)_ | Message used when validation fails.                                                                                                                                                                 |
+| `show-error-inline`  | `false`   | Shows `error-message` under the field.                                                                                                                                                              |
+| `no-clearing`        | `false`   | Removes the default bottom margin.                                                                                                                                                                  |
+| `variant`            | `default` | `default` \| `minimal` (bottom border only, no box)                                                                                                                                                 |
+| `no-file-upload`     | `false`   | Hides the file picker in the image and video dialogs, leaving URL entry only.                                                                                                                       |
+| `.customTools`       | `[]`      | Property only. App-defined toolbar buttons: `{ id, label, icon?, iconSource?, text?, run? }[]`. See [Custom toolbar tools](#custom-toolbar-tools).                                                  |
+| `.uploadHandler`     | _(unset)_ | Property only. `(file, kind) => Promise<string \| undefined>` - uploads a picked file and returns the URL to insert. Unset, files are inlined as data URLs.                                         |
 
 **Methods:** `focus()`, `validate()`, `checkValidity()`, `reportValidity()`, `insertText(text)`, `insertHTML(html)`, `getSelection()`.
 

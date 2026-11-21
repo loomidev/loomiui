@@ -9,13 +9,10 @@ describe("loomi-card", () => {
     expect(el.shadowRoot!.childElementCount).to.be.greaterThan(0);
   });
 
-  it("carries its url as a property rather than rendering an anchor", async () => {
-    // Navigation is a click handler on the card, not an <a href>. Pinning that here
-    // because it is surprising, and because it means a card with a url is not reachable
-    // by keyboard the way a real link would be.
+  it("renders a url as a real, keyboard-reachable anchor", async () => {
     const el = await fixture<LoomiCard>(html`<loomi-card url="/pricing"></loomi-card>`);
     expect(el.url).to.equal("/pricing");
-    expect(el.shadowRoot!.querySelector("a"), "no anchor is rendered").to.not.exist;
+    expect(el.shadowRoot!.querySelector("a")!.getAttribute("href")).to.equal("/pricing");
   });
 
   it("reflects its chrome flags so they can be styled from the light DOM", async () => {

@@ -1,6 +1,13 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { LoomiElement, loomiStyles, accentVars, type LoomiColor } from "@loomidev/core";
+import {
+  LoomiElement,
+  loomiStyles,
+  accentVars,
+  type LoomiColor,
+  multiValueFormValue,
+  LoomiFieldErrorController,
+} from "@loomidev/core";
 import { hasLoomiIcon, provideLoomiIcons } from "@loomidev/icons";
 import checkIcon from "@loomidev/icons/heroicons/outline/check.js";
 import "@loomidev/icon/loomi-icon.js";
@@ -68,6 +75,13 @@ export class LoomiCheckcards extends LoomiElement {
   static override styles = loomiStyles(componentStyles);
   static formAssociated = true;
   private internals = this.attachInternals();
+  /**
+   * An error supplied from outside (a server-side rejection). Shows below the control with
+   * `aria-invalid`, blocks submission with a `customError` validity, and clears when the
+   * user changes the value.
+   */
+  @property() error = "";
+  protected readonly errorController = new LoomiFieldErrorController(this, () => this.internals);
 
   @property({ reflect: true }) name = "";
   @property({ type: Number }) max = 1;
@@ -121,13 +135,21 @@ export class LoomiCheckcards extends LoomiElement {
       .split(",")
       .map((s) => s.trim())
       .filter(Boolean);
-    this.internals.setFormValue(this.selected.join(","));
+    this.syncFormValue();
     if (this.hasUpdated) this.sync();
+  }
+
+  /** Several picks (`max` above 1) submit one entry per value, like `<select multiple>`. */
+  private syncFormValue(): void {
+    this.internals.setFormValue(
+      multiValueFormValue(this.name, this.selected, this.max !== 1),
+      this.selected.join(","),
+    );
   }
 
   override willUpdate(changed: PropertyValues<this>): void {
     if (changed.has("selectedValue")) this.applySelectedValue();
-    this.internals.setFormValue(this.selected.join(","));
+    this.syncFormValue();
   }
 
   private sync(): void {
@@ -160,7 +182,7 @@ export class LoomiCheckcards extends LoomiElement {
     // Keep `selectedValue` in step, so re-setting it later to what it held before still
     // registers as a change.
     this.selectedValue = this.selected.join(",");
-    this.internals.setFormValue(this.selected.join(","));
+    this.syncFormValue();
     this.sync();
     this.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
     this.dispatchEvent(
