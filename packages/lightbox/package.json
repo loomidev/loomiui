@@ -47,9 +47,9 @@
   },
   "devDependencies": {
     "@loomidev/theme": "workspace:^",
-    "@tailwindcss/cli": "^4.3.3",
+    "@tailwindcss/cli": "^4.3.5",
     "lit": "^3.3.3",
-    "tailwindcss": "^4.3.3",
+    "tailwindcss": "^4.3.5",
     "typescript": "^5.6.3"
   },
   "keywords": [
