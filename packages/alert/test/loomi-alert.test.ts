@@ -70,7 +70,8 @@ describe("loomi-alert", () => {
 
     expect(el.iconPlacement).to.equal("top");
     expect(el.getAttribute("icon-placement")).to.equal("top");
-    expect(getComputedStyle(alert).alignItems).to.equal("flex-start");
+    // Newer Chromium serializes flex-start as flow-start.
+    expect(getComputedStyle(alert).alignItems).to.be.oneOf(["flex-start", "flow-start"]);
     expect(
       Math.abs(icon.getBoundingClientRect().top - close.getBoundingClientRect().top),
     ).to.be.lessThan(1);
