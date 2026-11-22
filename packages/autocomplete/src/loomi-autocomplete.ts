@@ -82,12 +82,12 @@ export class LoomiAutocomplete extends LoomiElement {
         border: 0;
         outline: 0;
         background: transparent;
-        color: var(--loomi-text);
+        color: var(--loomi-text, var(--_loomi-text-default));
         font: inherit;
         font-size: var(--loomi-control-font-size);
         padding: 0 var(--loomi-control-pad-x);
       }
-      input::placeholder { color: var(--loomi-text-faint); }
+      input::placeholder { color: var(--loomi-text-faint, var(--_loomi-text-faint-default)); }
       input:disabled { cursor: not-allowed; }
       .loomi-selected-image {
         width: 1.65rem;
@@ -106,14 +106,14 @@ export class LoomiAutocomplete extends LoomiElement {
         top: 50%;
         transform: translateY(-50%);
         transform-origin: left center;
-        color: var(--loomi-text-faint);
+        color: var(--loomi-text-faint, var(--_loomi-text-faint-default));
         line-height: 1;
         pointer-events: none;
         transition: all 0.15s ease;
-        background: var(--loomi-surface);
+        background: var(--loomi-surface, var(--_loomi-surface-default));
         padding-block: 0;
         padding-inline: 0;
-        box-shadow: 0 0 0 0.25rem var(--loomi-surface);
+        box-shadow: 0 0 0 0.25rem var(--loomi-surface, var(--_loomi-surface-default));
         max-width: calc(100% - var(--loomi-control-pad-x));
         overflow: hidden;
         white-space: nowrap;
@@ -144,12 +144,12 @@ export class LoomiAutocomplete extends LoomiElement {
         justify-content: center;
         border: 0;
         background: transparent;
-        color: var(--loomi-text-faint);
+        color: var(--loomi-text-faint, var(--_loomi-text-faint-default));
         cursor: pointer;
         padding: 0.25rem;
         border-radius: 0.375rem;
       }
-      .loomi-iconbtn:hover { color: var(--loomi-text-secondary); }
+      .loomi-iconbtn:hover { color: var(--loomi-text-secondary, var(--_loomi-text-secondary-default)); }
       .loomi-icon { width: 1.15em; height: 1.15em; flex: none; }
       /* Top layer (popover), placed by core's anchorFloatingPanel(): an ancestor's
          overflow - a modal, a card - can't clip it or grow a scrollbar to fit it. The UA
@@ -163,9 +163,9 @@ export class LoomiAutocomplete extends LoomiElement {
         width: var(--loomi-anchor-width, auto);
         max-height: 14rem;
         overflow: auto;
-        border: 1px solid var(--loomi-surface-border);
+        border: 1px solid var(--loomi-surface-border, var(--_loomi-surface-border-default));
         border-radius: 0.5rem;
-        background: var(--loomi-surface);
+        background: var(--loomi-surface, var(--_loomi-surface-default));
         box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
         padding: 0.25rem;
       }
@@ -174,14 +174,14 @@ export class LoomiAutocomplete extends LoomiElement {
         align-items: center;
         gap: 0.55rem;
         border-radius: 0.375rem;
-        color: var(--loomi-text);
+        color: var(--loomi-text, var(--_loomi-text-default));
         cursor: pointer;
         padding: 0.5rem 0.6rem;
       }
       .loomi-option:hover,
       .loomi-option.active {
-        background: var(--loomi-surface-hover-primary);
-        color: var(--loomi-text-on-primary, var(--loomi-white));
+        background: var(--loomi-surface-hover-primary, var(--_loomi-surface-hover-primary-default));
+        color: var(--loomi-text-on-primary, var(--_loomi-text-on-primary-default, var(--loomi-white)));
       }
       .loomi-option:hover .loomi-option-desc,
       .loomi-option.active .loomi-option-desc { color: inherit; }
@@ -209,8 +209,8 @@ export class LoomiAutocomplete extends LoomiElement {
       }
       .loomi-option-copy { min-width: 0; display: grid; gap: 0.05rem; }
       .loomi-option-label { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-      .loomi-option-desc { color: var(--loomi-text-faint); font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-      .loomi-empty { color: var(--loomi-text-faint); padding: 0.75rem; text-align: center; font-size: 0.875rem; }
+      .loomi-option-desc { color: var(--loomi-text-faint, var(--_loomi-text-faint-default)); font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .loomi-empty { color: var(--loomi-text-faint, var(--_loomi-text-faint-default)); padding: 0.75rem; text-align: center; font-size: 0.875rem; }
     `,
   ];
 

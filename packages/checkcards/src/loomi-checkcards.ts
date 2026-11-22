@@ -7,6 +7,7 @@ import {
   type LoomiColor,
   multiValueFormValue,
   LoomiFieldErrorController,
+  loomiT,
 } from "@loomidev/core";
 import { hasLoomiIcon, provideLoomiIcons } from "@loomidev/icons";
 import checkIcon from "@loomidev/icons/heroicons/outline/check.js";
@@ -64,7 +65,7 @@ export class LoomiCheckcard extends LoomiElement {
 
 /**
  * `<loomi-checkcards>` — selectable cards (a prettier checkbox/radio group).
- * Form-associated: submits selected values (comma-joined) under `name`.
+ * Form-associated: submits the selection under `name` (one entry per value when `max` is above 1).
  *
  * @slot - `<loomi-checkcard>` children.
  * @fires input - Fired when the user changes the selection, after `value` has updated (composed).
@@ -93,6 +94,14 @@ export class LoomiCheckcards extends LoomiElement {
   @property({ attribute: "selected-value" }) selectedValue = "";
   @property({ type: Boolean, attribute: "auto-select-new" }) autoSelectNew = true;
   @property({ attribute: "align-items" }) alignItems: "top" | "center" = "top";
+  /**
+   * A choice must be made: the form won't submit while nothing is selected, and the last
+   * selected card can't be clicked off. With `max="1"` this behaves like a required
+   * native radio group.
+   */
+  @property({ type: Boolean, reflect: true }) required = false;
+  /** Locale for the built-in "required" message. */
+  @property() locale = "";
 
   private selected: string[] = [];
   private initialSelectedValue = "";
@@ -145,6 +154,33 @@ export class LoomiCheckcards extends LoomiElement {
       multiValueFormValue(this.name, this.selected, this.max !== 1),
       this.selected.join(","),
     );
+    this.syncValidity();
+  }
+
+  private syncValidity(): void {
+    if (this.error) return; // the error controller owns validity while an error stands
+    const missing = this.required && !this.isDisabled && this.selected.length === 0;
+    this.internals.setValidity(
+      missing ? { valueMissing: true } : {},
+      missing ? loomiT("validation.requiredField", {}, this.locale) : "",
+      missing ? (this.cards[0] ?? undefined) : undefined,
+    );
+  }
+
+  checkValidity(): boolean {
+    return this.internals.checkValidity();
+  }
+
+  reportValidity(): boolean {
+    return this.internals.reportValidity();
+  }
+
+  get validity(): ValidityState {
+    return this.internals.validity;
+  }
+
+  get validationMessage(): string {
+    return this.internals.validationMessage;
   }
 
   override willUpdate(changed: PropertyValues<this>): void {
@@ -169,6 +205,7 @@ export class LoomiCheckcards extends LoomiElement {
     const value = (e as CustomEvent).detail.value as string;
     const has = this.selected.includes(value);
     if (has) {
+      if (this.required && this.selected.length === 1) return; // keep one choice
       this.selected = this.selected.filter((v) => v !== value);
     } else if (this.max === 1) {
       this.selected = [value];

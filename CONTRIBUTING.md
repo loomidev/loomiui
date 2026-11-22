@@ -646,7 +646,10 @@ reinvent it.**
 5. **Write `src/styles.css`** — plain CSS, reference colors as `var(--loomi-gray-300)`
    or `var(--_loomi-accent)` if using `accentVars()`. Reference the semantic tokens
    (`--loomi-surface`, `--loomi-text`, `--loomi-focus-ring`, …) rather than raw gray
-   shades so dark mode works for free. If you're building a **form control**, compose
+   shades so dark mode works for free. Write the short form; the style build expands it to
+   `var(--loomi-surface, var(--_loomi-surface-default))` so a page's `:root` override
+   reaches inside the component. In hand-written `css`` ` blocks, write the long form
+   yourself. If you're building a **form control**, compose
    `fieldStyles` + `controlSizeStyles` from `@loomidev/core` (see [§5](#5-the-three-foundation-packages))
    instead of hand-writing the field border/focus/invalid/disabled chrome — keep only
    layout in your own CSS.

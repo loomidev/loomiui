@@ -127,6 +127,32 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 **Methods:** `show()`, `hide()`.
 
+## CSS Parts
+
+| Part      | Description                                                                 |
+| --------- | --------------------------------------------------------------------------- |
+| `trigger` | The button around the image. It fills the host, so the host's size sets it. |
+| `image`   | The `<img>` built from `src` when nothing is slotted.                       |
+
+To show a photo in a fixed square frame, size the host and let the image cover it:
+
+```css
+loomi-lightbox-image.product {
+  display: block;
+  width: 12rem;
+  aspect-ratio: 1;
+}
+loomi-lightbox-image.product img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+loomi-lightbox-image.product::part(trigger) {
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+```
+
 ## Slots
 
 | Slot        | Description                          |

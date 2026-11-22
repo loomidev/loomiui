@@ -94,7 +94,7 @@
               "type": {
                 "text": "string"
               },
-              "default": "\"var(--loomi-text)\"",
+              "default": "\"var(--loomi-text, var(--_loomi-text-default))\"",
               "attribute": "foreground"
             },
             {
@@ -103,7 +103,7 @@
               "type": {
                 "text": "string"
               },
-              "default": "\"var(--loomi-surface)\"",
+              "default": "\"var(--loomi-surface, var(--_loomi-surface-default))\"",
               "attribute": "background"
             },
             {
@@ -383,7 +383,7 @@
               "type": {
                 "text": "string"
               },
-              "default": "\"var(--loomi-text)\"",
+              "default": "\"var(--loomi-text, var(--_loomi-text-default))\"",
               "fieldName": "foreground"
             },
             {
@@ -391,7 +391,7 @@
               "type": {
                 "text": "string"
               },
-              "default": "\"var(--loomi-surface)\"",
+              "default": "\"var(--loomi-surface, var(--_loomi-surface-default))\"",
               "fieldName": "background"
             },
             {

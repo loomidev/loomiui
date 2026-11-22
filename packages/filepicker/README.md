@@ -98,6 +98,15 @@ toast (auto-created on `document.body` if one isn't already on the page).
 <loomi-filepicker accepted-file-types="application/pdf,.doc,.docx"></loomi-filepicker>
 ```
 
+## Taking a Photo
+
+On phones, `capture` opens the camera straight away instead of the file chooser:
+`environment` for the rear camera, `user` for the front one. Desktop browsers ignore it.
+
+```html
+<loomi-filepicker name="receipt" accepted-file-types="image/*" capture="environment"></loomi-filepicker>
+```
+
 ## Multiple Files
 
 When `max-files` is greater than `1`, the `name` is submitted as an array
@@ -233,6 +242,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | --------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `name`                | _(blank)_                                 | File input name (becomes `name[]` when `max-files > 1`).                                                                                                                                                                                                            |
 | `accepted-file-types` | `image/*,application/pdf`                 | Comma-separated MIME types / extensions.                                                                                                                                                                                                                            |
+| `capture`             | _(blank)_                                 | On phones, open the camera directly: `environment` (rear) or `user` (front).                                                                                                                                                                                        |
 | `placeholder-line1`   | `Choose files or drag and drop to upload` | Drop-zone heading text.                                                                                                                                                                                                                                             |
 | `placeholder-line2`   | `%s up to %s`                             | Drop-zone subtext (`%s` → accepted types, then max size).                                                                                                                                                                                                           |
 | `locale`              | _(global)_                                | Override the shared Loomi locale for this filepicker.                                                                                                                                                                                                               |

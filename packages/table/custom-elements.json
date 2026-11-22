@@ -117,6 +117,10 @@
               "name": "footer"
             },
             {
+              "description": "A `<template>` holding a `<style>` applied inside the table, for styling hand-written rows that page CSS can't reach. Authored `part` attributes also pass through, so `loomi-table::part(status)` styles `<span part=\"status\">` from the page.",
+              "name": "styles"
+            },
+            {
               "description": "Optional `<template>` used when `layout=\"custom\"` and `data` is set.",
               "name": "row"
             },
@@ -1069,6 +1073,16 @@
               },
               "privacy": "private",
               "description": "Static rows from a `<template slot=\"body\">`. A template is the only way to author rows\nin plain HTML: the parser drops a bare `<tr>` that isn't inside a `<table>`, so it\nnever reaches the default slot.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "stylesTemplateHtml",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "description": "`<template slot=\"styles\">` content: page-authored `<style>` for the stamped rows.",
               "readonly": true
             },
             {

@@ -542,7 +542,7 @@ export class LoomiChart extends LoomiElement {
       const [ex, ey] = polar(cx, cy, end, r);
       const fill = resolveFill(this.colorCtx, d, i, true);
       const border = this.withGap
-        ? "var(--loomi-surface)"
+        ? "var(--loomi-surface, var(--_loomi-surface-default))"
         : resolveBorder(this.colorCtx, d, i, true);
       const sw = this.withGap ? 2.5 : border ? 1.5 : 0;
       const active = this.hoverIndex === i;

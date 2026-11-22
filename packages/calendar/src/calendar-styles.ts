@@ -3,15 +3,15 @@ import { HOUR_HEIGHT } from "./calendar-utils.js";
 
 export const calendarStyles = css`
   :host {
-    --loomi-calendar-border: var(--loomi-surface-border, #d9dee3);
-    --loomi-calendar-border-subtle: var(--loomi-surface-border-subtle, #edf0f2);
-    --loomi-calendar-surface: var(--loomi-surface);
-    --loomi-calendar-surface-muted: var(--loomi-surface-muted, #f6f8fa);
-    --loomi-calendar-surface-hover: var(--loomi-surface-hover, #f9fbfc);
-    --loomi-calendar-text: var(--loomi-text, #172026);
-    --loomi-calendar-text-secondary: var(--loomi-text-secondary, #33424f);
-    --loomi-calendar-text-muted: var(--loomi-text-muted, #62717d);
-    --loomi-calendar-text-faint: var(--loomi-text-faint, #8a97a3);
+    --loomi-calendar-border: var(--loomi-surface-border, var(--_loomi-surface-border-default, #d9dee3));
+    --loomi-calendar-border-subtle: var(--loomi-surface-border-subtle, var(--_loomi-surface-border-subtle-default, #edf0f2));
+    --loomi-calendar-surface: var(--loomi-surface, var(--_loomi-surface-default));
+    --loomi-calendar-surface-muted: var(--loomi-surface-muted, var(--_loomi-surface-muted-default, #f6f8fa));
+    --loomi-calendar-surface-hover: var(--loomi-surface-hover, var(--_loomi-surface-hover-default, #f9fbfc));
+    --loomi-calendar-text: var(--loomi-text, var(--_loomi-text-default, #172026));
+    --loomi-calendar-text-secondary: var(--loomi-text-secondary, var(--_loomi-text-secondary-default, #33424f));
+    --loomi-calendar-text-muted: var(--loomi-text-muted, var(--_loomi-text-muted-default, #62717d));
+    --loomi-calendar-text-faint: var(--loomi-text-faint, var(--_loomi-text-faint-default, #8a97a3));
     --loomi-calendar-accent: var(--loomi-primary-600, var(--_loomi-primary-600-default, #2563eb));
     --loomi-calendar-accent-strong: var(--loomi-primary-700, var(--_loomi-primary-700-default, #174ea6));
     --loomi-calendar-accent-soft: var(--loomi-primary-100, var(--_loomi-primary-100-default, #dbeafe));
@@ -191,7 +191,7 @@ export const calendarStyles = css`
   }
 
   .mini-day.selected .mini-day-dot {
-    background: var(--loomi-text-on-primary, var(--loomi-white));
+    background: var(--loomi-text-on-primary, var(--_loomi-text-on-primary-default, var(--loomi-white)));
   }
 
   .mini-day:hover {
@@ -209,7 +209,7 @@ export const calendarStyles = css`
 
   .mini-day.selected {
     background: var(--loomi-calendar-accent);
-    color: var(--loomi-text-on-primary, var(--loomi-white));
+    color: var(--loomi-text-on-primary, var(--_loomi-text-on-primary-default, var(--loomi-white)));
   }
 
   .sidebar-event-list {
@@ -452,14 +452,14 @@ export const calendarStyles = css`
   .btn-primary {
     background: var(--loomi-calendar-accent);
     border-color: var(--loomi-calendar-accent);
-    color: var(--loomi-text-on-primary, var(--loomi-white));
+    color: var(--loomi-text-on-primary, var(--_loomi-text-on-primary-default, var(--loomi-white)));
     font-weight: 600;
   }
 
   .btn-primary:hover {
     background: var(--loomi-calendar-accent-strong);
     border-color: var(--loomi-calendar-accent-strong);
-    color: var(--loomi-text-on-primary, var(--loomi-white));
+    color: var(--loomi-text-on-primary, var(--_loomi-text-on-primary-default, var(--loomi-white)));
   }
 
   .event-form {
@@ -957,7 +957,7 @@ export const calendarStyles = css`
 
   .weekday-btn.is-today .weekday-date {
     background: var(--loomi-calendar-accent);
-    color: var(--loomi-text-on-primary, var(--loomi-white));
+    color: var(--loomi-text-on-primary, var(--_loomi-text-on-primary-default, var(--loomi-white)));
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--loomi-calendar-accent-soft) 70%, transparent);
   }
 
@@ -1036,7 +1036,7 @@ export const calendarStyles = css`
   .month-cell.today .day-num,
   .day-num.today {
     background: var(--loomi-calendar-accent);
-    color: var(--loomi-text-on-primary, var(--loomi-white));
+    color: var(--loomi-text-on-primary, var(--_loomi-text-on-primary-default, var(--loomi-white)));
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--loomi-calendar-accent-soft) 75%, transparent);
   }
 
@@ -1526,7 +1526,7 @@ export const calendarStyles = css`
   .event-primary.selected {
     background: var(--loomi-primary-600, var(--_loomi-primary-600-default));
     border-color: var(--loomi-primary-600, var(--_loomi-primary-600-default));
-    color: var(--loomi-text-on-primary, var(--loomi-white));
+    color: var(--loomi-text-on-primary, var(--_loomi-text-on-primary-default, var(--loomi-white)));
   }
 
   .event-secondary {
@@ -1538,7 +1538,7 @@ export const calendarStyles = css`
   .event-secondary.selected {
     background: var(--loomi-secondary-600, var(--_loomi-secondary-600-default));
     border-color: var(--loomi-secondary-600, var(--_loomi-secondary-600-default));
-    color: var(--loomi-text-on-primary, var(--loomi-white));
+    color: var(--loomi-text-on-primary, var(--_loomi-text-on-primary-default, var(--loomi-white)));
   }
 
   .event-info {
@@ -1550,7 +1550,7 @@ export const calendarStyles = css`
   .event-info.selected {
     background: var(--loomi-info-600, var(--_loomi-info-600-default));
     border-color: var(--loomi-info-600, var(--_loomi-info-600-default));
-    color: var(--loomi-text-on-primary, var(--loomi-white));
+    color: var(--loomi-text-on-primary, var(--_loomi-text-on-primary-default, var(--loomi-white)));
   }
 
   .event-success {
@@ -1562,7 +1562,7 @@ export const calendarStyles = css`
   .event-success.selected {
     background: var(--loomi-success-600, var(--_loomi-success-600-default));
     border-color: var(--loomi-success-600, var(--_loomi-success-600-default));
-    color: var(--loomi-text-on-primary, var(--loomi-white));
+    color: var(--loomi-text-on-primary, var(--_loomi-text-on-primary-default, var(--loomi-white)));
   }
 
   .event-warning {
@@ -1574,7 +1574,7 @@ export const calendarStyles = css`
   .event-warning.selected {
     background: var(--loomi-warning-600, var(--_loomi-warning-600-default));
     border-color: var(--loomi-warning-600, var(--_loomi-warning-600-default));
-    color: var(--loomi-text-on-primary, var(--loomi-white));
+    color: var(--loomi-text-on-primary, var(--_loomi-text-on-primary-default, var(--loomi-white)));
   }
 
   .event-error {
@@ -1586,7 +1586,7 @@ export const calendarStyles = css`
   .event-error.selected {
     background: var(--loomi-error-600, var(--_loomi-error-600-default));
     border-color: var(--loomi-error-600, var(--_loomi-error-600-default));
-    color: var(--loomi-text-on-primary, var(--loomi-white));
+    color: var(--loomi-text-on-primary, var(--_loomi-text-on-primary-default, var(--loomi-white)));
   }
 
   /* Dark mode ("is-dark" toggled on the host via core's watchDarkMode — see

@@ -108,7 +108,20 @@ Available colors: `primary` `secondary` `info` `success` `error` `warning` `gray
 
 > Leaving `color` unset derives it from `type`: `primary` → a `primary` fill,
 > `secondary` → the neutral secondary outline. `color` never changes a secondary button's
-> structure, only its hue.
+> structure, only its hue. On a solid button, `color="secondary"` fills with your
+> secondary brand palette (`--loomi-secondary-*`) like any other colour.
+
+### Text on filled buttons
+
+Filled buttons use white text by default. For a light fill (yellow, lime, a pale brand
+colour), set the matching `--loomi-text-on-<color>` on `:root` or any ancestor:
+
+```css
+:root {
+  --loomi-text-on-primary: #1c1917; /* text on primary buttons */
+  --loomi-text-on-warning: #1c1917; /* text on color="warning" buttons */
+}
+```
 
 ## Icons
 
@@ -184,6 +197,25 @@ single-line field (`<loomi-input>`, `<loomi-password>`, `<loomi-number>`,
 native submit button. That submission runs validation and fires `submit`, but it doesn't
 fire a `click` on the `<loomi-button>`, and `event.submitter` is `null` because a custom
 element can't be a form's submitter. Nothing happens while the button is `disabled`.
+
+Give a submit button a `name` and `value` to tell several submit buttons apart, as with
+native ones. The pair is added to the submission for the button that was pressed:
+
+```html
+<form method="post" action="/orders/7">
+  <loomi-button can-submit name="action" value="approve">Approve</loomi-button>
+  <loomi-button can-submit name="action" value="reject" color="error">Reject</loomi-button>
+</form>
+<!-- pressing Reject submits action=reject -->
+```
+
+The pair is part of the form data while the form submits: a normal submission sends it,
+and so does `new FormData(form)` read inside a `submit` listener. It isn't in the form's
+data at other times.
+
+`element.click()` on the host works like on a native button: it submits a `can-submit`
+button's form (or follows an `href`) unless a listener calls `preventDefault()`. A
+`<fieldset disabled>` around the button disables it.
 
 ## Disabled
 
@@ -270,10 +302,11 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `tag`             | `button`                | Element to render. `button` \| `a`                                                                                                               |
 | `href`            | _(blank)_               | Link target when `tag="a"`.                                                                                                                      |
 | `can-submit`      | `false`                 | Render as `type="submit"`. _(boolean)_                                                                                                           |
+| `value`           | _(blank)_               | With `can-submit` and `name`, sent as `name=value` when this button submits the form.                                                            |
 | `show-focus-ring` | `true`                  | Show the keyboard focus ring. _(boolean)_                                                                                                        |
 | `full-width`      | `false`                 | Stretch to fill the container's width, label centered. _(boolean)_                                                                               |
 | `uppercase`       | `false`                 | Uppercase the label. _(boolean)_                                                                                                                 |
-| `name`            | _(blank)_               | Optional name, reflected as an attribute for targeting.                                                                                          |
+| `name`            | _(blank)_               | With `can-submit`, the field name sent with `value`. Also reflected for targeting.                                                               |
 
 ### Properties & methods (JS)
 

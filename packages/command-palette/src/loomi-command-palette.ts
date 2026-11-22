@@ -40,11 +40,11 @@ export class LoomiCommandPalette extends LoomiElement {
   static override styles = loomiStyles(css`
     :host {
       --loomi-command-backdrop: rgb(15 23 42 / 0.42);
-      --loomi-command-border: var(--loomi-surface-border, #d9dee3);
-      --loomi-command-muted: var(--loomi-text-muted, #62717d);
-      --loomi-command-surface: var(--loomi-surface);
+      --loomi-command-border: var(--loomi-surface-border, var(--_loomi-surface-border-default, #d9dee3));
+      --loomi-command-muted: var(--loomi-text-muted, var(--_loomi-text-muted-default, #62717d));
+      --loomi-command-surface: var(--loomi-surface, var(--_loomi-surface-default));
       --loomi-command-surface-active: var(--loomi-primary-50, var(--_loomi-primary-50-default, #eff6ff));
-      --loomi-command-text: var(--loomi-text, #172026);
+      --loomi-command-text: var(--loomi-text, var(--_loomi-text-default, #172026));
       --loomi-command-accent: var(--loomi-primary-600, var(--_loomi-primary-600-default, #2563eb));
       --loomi-command-accent-strong: var(--loomi-primary-700, var(--_loomi-primary-700-default, #174ea6));
       color: var(--loomi-command-text);

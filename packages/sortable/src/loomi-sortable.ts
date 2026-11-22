@@ -573,7 +573,7 @@ export class LoomiSortable extends LoomiElement {
         alignSelf: "center",
         marginInlineEnd: "0.5rem",
         borderRadius: "0.25rem",
-        color: "var(--loomi-text-faint, currentColor)",
+        color: "var(--loomi-text-faint, var(--_loomi-text-faint-default, currentColor))",
         verticalAlign: "middle",
       });
       row.prepend(handle);
@@ -836,7 +836,8 @@ export class LoomiSortable extends LoomiElement {
     if (!(t instanceof HTMLElement) || !t.hasAttribute("data-loomi-injected")) return;
     if (focused) {
       if (t.matches(":focus-visible")) {
-        t.style.outline = "2px solid var(--loomi-focus-ring-color, currentColor)";
+        t.style.outline =
+          "2px solid var(--loomi-focus-ring-color, var(--_loomi-focus-ring-color-default, currentColor))";
         t.style.outlineOffset = "2px";
       }
       return;

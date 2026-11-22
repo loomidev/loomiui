@@ -126,6 +126,15 @@
             },
             {
               "kind": "field",
+              "name": "defaultImageSrc",
+              "privacy": "private",
+              "default": "defaultImage",
+              "type": {
+                "text": "string | undefined"
+              }
+            },
+            {
+              "kind": "field",
               "name": "onSlotChange",
               "privacy": "private"
             },

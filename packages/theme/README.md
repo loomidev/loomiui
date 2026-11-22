@@ -10,8 +10,12 @@ It provides:
   put it first in `static styles` so `var(--loomi-*)` references resolve.
 - **The palette** - `LOOMI_COLORS`, `LOOMI_SHADES`, the `LoomiColor` / `LoomiShade` types,
   and the `isLoomiColor()` guard.
-- **`tailwind-colors.css`** - a Tailwind `@theme inline` mapping (no hex) for authoring
-  components against the `--loomi-*` slots in your editor.
+- **`tailwind-colors.css`** - a Tailwind `@theme inline` mapping onto the `--loomi-*`
+  slots, so `bg-primary-600` or `border-gray-200` on your page follow the theme. It also
+  declares the defaults on `:root`, so it works on its own.
+- **`defaults.css`** - the default value behind every slot, on `:root` (and the dark-mode
+  values under `.dark`), for page CSS that writes
+  `var(--loomi-gray-600, var(--_loomi-gray-600-default))` itself.
 
 ```ts
 import { themeStyles, LOOMI_COLORS, type LoomiColor } from "@loomidev/theme";
@@ -83,6 +87,20 @@ from `:root` and inherit through the shadow boundary.
 
 Default values come straight from Tailwind's own default ramps (oklch), so there are no
 hand-typed hex values to drift.
+
+The semantic tokens follow the same rule, so you can set them from `:root` too:
+`--loomi-surface`, `--loomi-surface-border`, `--loomi-surface-border-subtle`,
+`--loomi-surface-hover`, `--loomi-surface-hover-primary`, `--loomi-surface-muted`,
+`--loomi-text`, `--loomi-text-secondary`, `--loomi-text-muted`, `--loomi-text-faint`,
+`--loomi-text-on-primary`, `--loomi-focus-ring` and `--loomi-focus-ring-color`. A value
+you set is used in light and dark mode alike; leave it unset to keep the built-in
+dark-mode switch.
+
+```css
+:root {
+  --loomi-text-on-primary: #1c1917; /* dark text on a light primary colour */
+}
+```
 
 <!-- bundle-size:start -->
 

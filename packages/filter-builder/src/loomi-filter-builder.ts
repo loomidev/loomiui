@@ -70,13 +70,13 @@ export class LoomiFilterBuilder extends LoomiElement {
 
   static override styles = loomiStyles(css`
     :host {
-      --loomi-filter-border: var(--loomi-surface-border, #d9dee3);
-      --loomi-filter-muted: var(--loomi-text-muted, #62717d);
-      --loomi-filter-surface: var(--loomi-surface);
-      --loomi-filter-surface-muted: var(--loomi-surface-muted, #f6f8fa);
-      --loomi-filter-surface-hover: var(--loomi-surface-hover, #f9fbfc);
-      --loomi-filter-text: var(--loomi-text, #172026);
-      --loomi-filter-text-secondary: var(--loomi-text-secondary, #33424f);
+      --loomi-filter-border: var(--loomi-surface-border, var(--_loomi-surface-border-default, #d9dee3));
+      --loomi-filter-muted: var(--loomi-text-muted, var(--_loomi-text-muted-default, #62717d));
+      --loomi-filter-surface: var(--loomi-surface, var(--_loomi-surface-default));
+      --loomi-filter-surface-muted: var(--loomi-surface-muted, var(--_loomi-surface-muted-default, #f6f8fa));
+      --loomi-filter-surface-hover: var(--loomi-surface-hover, var(--_loomi-surface-hover-default, #f9fbfc));
+      --loomi-filter-text: var(--loomi-text, var(--_loomi-text-default, #172026));
+      --loomi-filter-text-secondary: var(--loomi-text-secondary, var(--_loomi-text-secondary-default, #33424f));
       --loomi-filter-accent: var(--loomi-primary-600, var(--_loomi-primary-600-default, #2563eb));
       --loomi-filter-accent-soft: var(--loomi-primary-50, var(--_loomi-primary-50-default, #eff6ff));
       display: block;
@@ -203,7 +203,7 @@ export class LoomiFilterBuilder extends LoomiElement {
     .apply {
       border-radius: 6px;
       background: var(--loomi-filter-accent);
-      color: var(--loomi-text-on-primary, var(--loomi-white));
+      color: var(--loomi-text-on-primary, var(--_loomi-text-on-primary-default, var(--loomi-white)));
       font-weight: 700;
     }
 

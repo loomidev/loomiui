@@ -191,6 +191,67 @@ th a:hover {
 .tabular {
   font-variant-numeric: tabular-nums;
 }
+/* Status pill: <span class="badge badge-success">Paid</span>. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--loomi-pill-radius, var(--_loomi-pill-radius-default));
+  background: var(--loomi-gray-100);
+  color: var(--loomi-gray-800);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  white-space: nowrap;
+}
+.badge-primary {
+  background: var(--loomi-primary-100);
+  color: var(--loomi-primary-800);
+}
+.badge-info {
+  background: var(--loomi-info-100);
+  color: var(--loomi-info-800);
+}
+.badge-success {
+  background: var(--loomi-success-100);
+  color: var(--loomi-success-800);
+}
+.badge-error {
+  background: var(--loomi-error-100);
+  color: var(--loomi-error-800);
+}
+.badge-warning {
+  background: var(--loomi-warning-100);
+  color: var(--loomi-warning-800);
+}
+.badge-gray {
+  background: var(--loomi-gray-100);
+  color: var(--loomi-gray-800);
+}
+/* Secondary line under a cell's main text: <span class="muted">SKU 1042</span>. */
+.muted {
+  display: block;
+  color: var(--loomi-text-muted);
+  font-size: 0.8125rem;
+}
+/* Square image: <img class="thumb" src="..." alt="">. */
+.thumb {
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--loomi-control-radius, var(--_loomi-control-radius-default));
+  object-fit: cover;
+  vertical-align: middle;
+  background: var(--loomi-surface-muted);
+}
+/* Right-aligned group of buttons or links: <td><div class="actions">...</div></td>. */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+}
 .sr-only {
   position: absolute;
   width: 1px;

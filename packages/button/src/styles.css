@@ -118,6 +118,33 @@
 }
 
 /* Bordered treatments use a crisp surface and compact default corners. */
+/*
+ * Text on a solid fill. Each palette colour has its own --loomi-text-on-<color> slot so a
+ * light brand colour (yellow, lime) can take dark text; all default to white. Set them on
+ * :root or on any ancestor.
+ */
+.loomi-btn--on-primary {
+  color: var(--loomi-text-on-primary);
+}
+.loomi-btn--on-secondary {
+  color: var(--loomi-text-on-secondary, var(--loomi-white, #ffffff));
+}
+.loomi-btn--on-info {
+  color: var(--loomi-text-on-info, var(--loomi-white, #ffffff));
+}
+.loomi-btn--on-success {
+  color: var(--loomi-text-on-success, var(--loomi-white, #ffffff));
+}
+.loomi-btn--on-error {
+  color: var(--loomi-text-on-error, var(--loomi-white, #ffffff));
+}
+.loomi-btn--on-warning {
+  color: var(--loomi-text-on-warning, var(--loomi-white, #ffffff));
+}
+.loomi-btn--on-gray {
+  color: var(--loomi-text-on-gray, var(--loomi-white, #ffffff));
+}
+
 .loomi-btn.loomi-btn--secondary,
 .loomi-btn.loomi-btn--outline {
   background: var(--loomi-surface, #fff);

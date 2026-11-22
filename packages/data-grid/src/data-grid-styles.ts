@@ -2,21 +2,21 @@ import { css } from "lit";
 
 export const dataGridStyles = css`
   :host {
-    --loomi-data-grid-border: var(--loomi-surface-border, #d9dee3);
-    --loomi-data-grid-border-subtle: var(--loomi-surface-border-subtle, #edf0f2);
-    --loomi-data-grid-muted: var(--loomi-text-muted, #62717d);
-    --loomi-data-grid-faint: var(--loomi-text-faint, #8a97a3);
-    --loomi-data-grid-surface: var(--loomi-surface);
-    --loomi-data-grid-surface-muted: var(--loomi-surface-muted, #f6f8fa);
-    --loomi-data-grid-surface-hover: var(--loomi-surface-hover, #f9fbfc);
-    --loomi-data-grid-text: var(--loomi-text, #172026);
-    --loomi-data-grid-text-secondary: var(--loomi-text-secondary, #33424f);
+    --loomi-data-grid-border: var(--loomi-surface-border, var(--_loomi-surface-border-default, #d9dee3));
+    --loomi-data-grid-border-subtle: var(--loomi-surface-border-subtle, var(--_loomi-surface-border-subtle-default, #edf0f2));
+    --loomi-data-grid-muted: var(--loomi-text-muted, var(--_loomi-text-muted-default, #62717d));
+    --loomi-data-grid-faint: var(--loomi-text-faint, var(--_loomi-text-faint-default, #8a97a3));
+    --loomi-data-grid-surface: var(--loomi-surface, var(--_loomi-surface-default));
+    --loomi-data-grid-surface-muted: var(--loomi-surface-muted, var(--_loomi-surface-muted-default, #f6f8fa));
+    --loomi-data-grid-surface-hover: var(--loomi-surface-hover, var(--_loomi-surface-hover-default, #f9fbfc));
+    --loomi-data-grid-text: var(--loomi-text, var(--_loomi-text-default, #172026));
+    --loomi-data-grid-text-secondary: var(--loomi-text-secondary, var(--_loomi-text-secondary-default, #33424f));
     --loomi-data-grid-accent: var(--loomi-primary-600, var(--_loomi-primary-600-default, #2563eb));
     --loomi-data-grid-accent-strong: var(--loomi-primary-700, var(--_loomi-primary-700-default, #174ea6));
     --loomi-data-grid-accent-soft: var(--loomi-primary-100, var(--_loomi-primary-100-default, #dbeafe));
     --loomi-data-grid-accent-softer: var(--loomi-primary-50, var(--_loomi-primary-50-default, #eff6ff));
-    --loomi-data-grid-heading-bg: var(--loomi-surface-muted, #f8f7f4);
-    --loomi-data-grid-divider: var(--loomi-surface-border-subtle, #f3f0ec);
+    --loomi-data-grid-heading-bg: var(--loomi-surface-muted, var(--_loomi-surface-muted-default, #f8f7f4));
+    --loomi-data-grid-divider: var(--loomi-surface-border-subtle, var(--_loomi-surface-border-subtle-default, #f3f0ec));
     display: block;
     color: var(--loomi-data-grid-text);
     font-family: Inter, ui-sans-serif, system-ui, sans-serif;

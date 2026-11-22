@@ -135,6 +135,25 @@
           "members": [
             {
               "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true",
+              "description": "Form-associated so a `can-submit` button with a `name` can put its `name=value` pair\ninto the submission, the way a native submit button does, and so a disabled\n`<fieldset>` disables it."
+            },
+            {
+              "kind": "field",
+              "name": "internals",
+              "type": {
+                "text": "ElementInternals | undefined"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
               "name": "supportedSizes",
               "static": true,
               "readonly": true,
@@ -345,9 +364,19 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Optional name for targeting this button (reflected as an attribute).",
+              "description": "With `can-submit`, sent with the form as `name=value` when this button submits it, so\none form can tell several submit buttons apart (approve / reject). Also reflected\nfor targeting the button from CSS or script.",
               "attribute": "name",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Sent as `name=value` when this `can-submit` button submits its form.",
+              "attribute": "value"
             },
             {
               "kind": "field",
@@ -523,6 +552,25 @@
             },
             {
               "kind": "field",
+              "name": "isLink",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "followLink",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
               "name": "onClick",
               "privacy": "private"
             },
@@ -536,6 +584,16 @@
                 }
               },
               "description": "Submits the `<form>` this button sits in, crossing the shadow boundary.\n\n`type=\"submit\"` alone is not enough. The rendered `<button>` lives in this\ncomponent's shadow root, and form association never crosses a shadow\nboundary — so a consumer's `<form>` in the light DOM has no idea the button\nexists, and clicking it did nothing at all. Silently: no error, no submit,\njust a form that will not send.\n\n`requestSubmit()` rather than `submit()` so the form's own validation and\nits `submit` listeners still run — which is what a framework's\n`@submit.prevent` handler is attached to."
+            },
+            {
+              "kind": "method",
+              "name": "closestForm",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLFormElement | null"
+                }
+              }
             }
           ],
           "events": [
@@ -713,8 +771,17 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Optional name for targeting this button (reflected as an attribute).",
+              "description": "With `can-submit`, sent with the form as `name=value` when this button submits it, so\none form can tell several submit buttons apart (approve / reject). Also reflected\nfor targeting the button from CSS or script.",
               "fieldName": "name"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Sent as `name=value` when this `can-submit` button submits its form.",
+              "fieldName": "value"
             }
           ],
           "superclass": {

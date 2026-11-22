@@ -6,6 +6,8 @@
 **/src/generated/
 **/custom-elements.json
 packages/icons/data/
+packages/theme/src/tailwind-colors.css
+packages/theme/src/defaults.css
 
 # Managed by other tools
 pnpm-lock.yaml

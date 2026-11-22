@@ -128,13 +128,13 @@ export class LoomiDateRangePicker extends LoomiElement {
 
   static override styles = loomiStyles(css`
     :host {
-      --loomi-date-border: var(--loomi-surface-border, #d9dee3);
-      --loomi-date-muted: var(--loomi-text-muted, #62717d);
-      --loomi-date-surface: var(--loomi-surface);
+      --loomi-date-border: var(--loomi-surface-border, var(--_loomi-surface-border-default, #d9dee3));
+      --loomi-date-muted: var(--loomi-text-muted, var(--_loomi-text-muted-default, #62717d));
+      --loomi-date-surface: var(--loomi-surface, var(--_loomi-surface-default));
       --loomi-date-surface-active: var(--loomi-primary-50, var(--_loomi-primary-50-default, #eff6ff));
-      --loomi-date-surface-hover: var(--loomi-surface-hover, #f9fbfc);
-      --loomi-date-text: var(--loomi-text, #172026);
-      --loomi-date-text-secondary: var(--loomi-text-secondary, #33424f);
+      --loomi-date-surface-hover: var(--loomi-surface-hover, var(--_loomi-surface-hover-default, #f9fbfc));
+      --loomi-date-text: var(--loomi-text, var(--_loomi-text-default, #172026));
+      --loomi-date-text-secondary: var(--loomi-text-secondary, var(--_loomi-text-secondary-default, #33424f));
       --loomi-date-accent: var(--loomi-primary-600, var(--_loomi-primary-600-default, #2563eb));
       --loomi-date-accent-strong: var(--loomi-primary-700, var(--_loomi-primary-700-default, #174ea6));
       display: inline-block;
