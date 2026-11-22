@@ -1,5 +1,16 @@
 # @loomidev/video
 
+## 0.18.0
+
+### Patch Changes
+
+- Updated dependencies [fb65035]
+  - @loomidev/core@0.18.0
+  - @loomidev/button@0.18.0
+  - @loomidev/icon@0.18.0
+  - @loomidev/slider@0.18.0
+  - @loomidev/spinner@0.18.0
+
 ## 0.17.0
 
 ### Patch Changes
