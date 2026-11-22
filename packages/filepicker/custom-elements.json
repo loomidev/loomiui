@@ -121,6 +121,16 @@
             },
             {
               "kind": "field",
+              "name": "capture",
+              "type": {
+                "text": "\"\" | \"user\" | \"environment\""
+              },
+              "default": "\"\"",
+              "description": "On phones, open the camera straight away instead of the file chooser: `environment`\nfor the rear camera (receipts, deliveries), `user` for the front one. Passed to the\nfile input's `capture`; desktops ignore it. Pair with an `image/*` or `video/*`\n`accepted-file-types`.",
+              "attribute": "capture"
+            },
+            {
+              "kind": "field",
               "name": "placeholderLine1",
               "default": "\"Choose files or drag and drop to upload\"",
               "attribute": "placeholder-line1",
@@ -817,6 +827,15 @@
               },
               "default": "\"image/*,application/pdf\"",
               "fieldName": "acceptedFileTypes"
+            },
+            {
+              "name": "capture",
+              "type": {
+                "text": "\"\" | \"user\" | \"environment\""
+              },
+              "default": "\"\"",
+              "description": "On phones, open the camera straight away instead of the file chooser: `environment`\nfor the rear camera (receipts, deliveries), `user` for the front one. Passed to the\nfile input's `capture`; desktops ignore it. Pair with an `image/*` or `video/*`\n`accepted-file-types`.",
+              "fieldName": "capture"
             },
             {
               "name": "placeholder-line1",

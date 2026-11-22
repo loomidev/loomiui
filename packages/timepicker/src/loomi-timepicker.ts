@@ -44,12 +44,12 @@ const CLOCK_STYLE = `
   .loomi-clock-ring.minutes {
     position: absolute; left: 50%; top: 50%; width: 12.8rem; height: 12.8rem;
     transform: translate(-50%, -50%); border-radius: 9999px; cursor: pointer;
-    background: var(--loomi-surface-muted, oklch(98.5% 0.002 247.839));
-    border: 1px solid var(--loomi-surface-border-subtle, oklch(96.7% 0.003 264.542));
+    background: var(--loomi-surface-muted, var(--_loomi-surface-muted-default, oklch(98.5% 0.002 247.839)));
+    border: 1px solid var(--loomi-surface-border-subtle, var(--_loomi-surface-border-subtle-default, oklch(96.7% 0.003 264.542)));
   }
   .loomi-clock button {
     border: 1px solid transparent; border-radius: 9999px; background: transparent;
-    color: var(--loomi-text-secondary, oklch(37.3% 0.034 259.733)); cursor: pointer; font: inherit;
+    color: var(--loomi-text-secondary, var(--_loomi-text-secondary-default, oklch(37.3% 0.034 259.733))); cursor: pointer; font: inherit;
   }
   .loomi-clock button:hover, .loomi-clock button.active {
     background: var(--loomi-primary-100, oklch(93% 0.034 272.788));
@@ -73,9 +73,9 @@ const CLOCK_STYLE = `
   }
   .loomi-clock-center {
     position: absolute; left: 50%; top: 50%; width: 3.2rem; height: 3.2rem; margin: -1.6rem;
-    z-index: 2; border: 1px solid var(--loomi-surface-border, oklch(92.8% 0.006 264.531));
+    z-index: 2; border: 1px solid var(--loomi-surface-border, var(--_loomi-surface-border-default, oklch(92.8% 0.006 264.531)));
     border-radius: 9999px;
-    background: var(--loomi-surface, var(--loomi-white)); color: var(--loomi-primary-700, oklch(45.7% 0.24 277.023));
+    background: var(--loomi-surface, var(--_loomi-surface-default, var(--loomi-white))); color: var(--loomi-primary-700, oklch(45.7% 0.24 277.023));
     font: inherit; font-weight: 700; font-size: 0.85rem; cursor: pointer;
   }
   .loomi-clock-center:hover { background: var(--loomi-primary-100, oklch(93% 0.034 272.788)); }

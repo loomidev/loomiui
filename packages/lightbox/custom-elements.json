@@ -25,6 +25,16 @@
           "kind": "class",
           "description": "`<loomi-lightbox-image>` — wraps a single image so clicking it opens a fullscreen\nview. Fully standalone: drop it anywhere in a document (a blog paragraph, a card, …)\nwith no shared container or parent gallery required. Give two or more instances the\nsame `group` to let Next/Prev cycle between them, in document order.",
           "name": "LoomiLightboxImage",
+          "cssParts": [
+            {
+              "description": "The button wrapping the image. It fills the host, so give the host a size (a square photo frame) and style the image inside to fit it.",
+              "name": "trigger"
+            },
+            {
+              "description": "The `<img>` built from `src` when nothing is slotted.",
+              "name": "image"
+            }
+          ],
           "slots": [
             {
               "description": "The trigger image. Falls back to an `<img src alt>` built from the attributes below when left empty — but wrapping your own existing `<img>` is the common case, so its `alt` is reused for the fullscreen image and the trigger's label when this component's own `alt` attribute is left unset.",

@@ -8,7 +8,24 @@ import {
   type LoomiSizeSupport,
 } from "@loomidev/core";
 import { componentStyles } from "./generated/styles.css.js";
-import { DEFAULT_IMAGE } from "./generated/default-image.js";
+
+/**
+ * The built-in illustration is loaded on first use, in its own chunk, so importing the
+ * component (or using it with `image` / `show-image="false"`) doesn't pull ~25 kB of
+ * image data into the page's main bundle.
+ */
+let defaultImage: string | undefined;
+let defaultImageLoad: Promise<string> | undefined;
+function loadDefaultImage(): Promise<string> {
+  defaultImageLoad ??= import("./generated/default-image.js").then((m) => {
+    defaultImage = m.DEFAULT_IMAGE;
+    return defaultImage;
+  });
+  return defaultImageLoad;
+}
+/** Natural size of the built-in illustration, so its box is reserved while it loads. */
+const DEFAULT_IMAGE_WIDTH = 502;
+const DEFAULT_IMAGE_HEIGHT = 411;
 
 /** The part of the canonical size scale the illustration supports. */
 const EMPTY_IMAGE_SIZES = [
@@ -47,6 +64,13 @@ export class LoomiEmptyState extends LoomiElement {
   @property({ attribute: "image-size" }) imageSize: LoomiSize = "regular";
 
   @state() private hasSlotted = false;
+  @state() private defaultImageSrc = defaultImage;
+
+  override willUpdate(): void {
+    if (this.showImage && !this.image && !this.defaultImageSrc) {
+      void loadDefaultImage().then((src) => (this.defaultImageSrc = src));
+    }
+  }
 
   private onSlotChange = (e: Event): void => {
     const slot = e.target as HTMLSlotElement;
@@ -80,7 +104,16 @@ export class LoomiEmptyState extends LoomiElement {
 
     return html`<div class="loomi-empty" role="status" aria-live="polite" aria-labelledby=${headingId ?? nothing}>
       <div class="loomi-img size-${resolveLoomiSize(this.imageSize, EMPTY_IMAGE_SIZES)}" aria-hidden="true">
-        <img src=${this.image || DEFAULT_IMAGE} alt="" />
+        ${
+          this.image
+            ? html`<img src=${this.image} alt="" />`
+            : html`<img
+                src=${this.defaultImageSrc ?? nothing}
+                width=${DEFAULT_IMAGE_WIDTH}
+                height=${DEFAULT_IMAGE_HEIGHT}
+                alt=""
+              />`
+        }
       </div>
       ${this.heading ? html`<div class="loomi-heading" id="loomi-empty-heading">${this.heading}</div>` : nothing}
       ${this.message ? html`<div class="loomi-message">${this.message}</div>` : nothing}

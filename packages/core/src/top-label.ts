@@ -11,7 +11,7 @@ export const fieldTopLabelStyles = css`
   .loomi-top-label {
     display: block;
     margin: 0 0 0.375rem;
-    color: var(--loomi-text-muted);
+    color: var(--loomi-text-muted, var(--_loomi-text-muted-default));
     font-size: 0.875rem;
     font-weight: 500;
     line-height: 1.25;

@@ -215,7 +215,7 @@
         },
         {
           "kind": "class",
-          "description": "`<loomi-checkcards>` — selectable cards (a prettier checkbox/radio group).\nForm-associated: submits selected values (comma-joined) under `name`.",
+          "description": "`<loomi-checkcards>` — selectable cards (a prettier checkbox/radio group).\nForm-associated: submits the selection under `name` (one entry per value when `max` is above 1).",
           "name": "LoomiCheckcards",
           "slots": [
             {
@@ -348,6 +348,27 @@
             },
             {
               "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "A choice must be made: the form won't submit while nothing is selected, and the last\nselected card can't be clicked off. With `max=\"1\"` this behaves like a required\nnative radio group.",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Locale for the built-in \"required\" message.",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
               "name": "selected",
               "type": {
                 "text": "string[]"
@@ -418,6 +439,50 @@
                 }
               },
               "description": "Several picks (`max` above 1) submit one entry per value, like `<select multiple>`."
+            },
+            {
+              "kind": "method",
+              "name": "syncValidity",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "type": {
+                "text": "ValidityState"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true
             },
             {
               "kind": "method",
@@ -534,6 +599,24 @@
               },
               "default": "\"top\"",
               "fieldName": "alignItems"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "A choice must be made: the form won't submit while nothing is selected, and the last\nselected card can't be clicked off. With `max=\"1\"` this behaves like a required\nnative radio group.",
+              "fieldName": "required"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Locale for the built-in \"required\" message.",
+              "fieldName": "locale"
             }
           ],
           "superclass": {

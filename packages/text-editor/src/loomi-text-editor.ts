@@ -86,12 +86,12 @@ const EMBED_FORM_STYLE = `
   .loomi-embed-upload { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.5rem; }
   .loomi-embed-separator {
     display: flex; align-items: center; gap: 0.75rem;
-    color: var(--loomi-text-faint, oklch(55.1% 0.027 264.364));
+    color: var(--loomi-text-faint, var(--_loomi-text-faint-default, oklch(55.1% 0.027 264.364)));
     font-size: 0.8rem; font-weight: 500; line-height: 1.2;
   }
   .loomi-embed-separator::after {
     content: ""; flex: 1; height: 1px;
-    background: var(--loomi-surface-border, oklch(92.8% 0.006 264.531));
+    background: var(--loomi-surface-border, var(--_loomi-surface-border-default, oklch(92.8% 0.006 264.531)));
   }
 `;
 const EMBED_FORM_STYLE_TAG = unsafeStatic(`<style>${EMBED_FORM_STYLE}</style>`);

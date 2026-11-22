@@ -37,8 +37,8 @@ export class LoomiQrCode extends LoomiElement {
    */
   @property({ attribute: "error-correction" }) errorCorrection: LoomiQrErrorCorrection = "M";
   @property({ type: Number, attribute: "quiet-zone" }) quietZone = 4;
-  @property() foreground = "var(--loomi-text)";
-  @property() background = "var(--loomi-surface)";
+  @property() foreground = "var(--loomi-text, var(--_loomi-text-default))";
+  @property() background = "var(--loomi-surface, var(--_loomi-surface-default))";
   @property() radius: LoomiQrRadius = "medium";
   @property({ type: Boolean }) gradient = false;
   @property({ attribute: "gradient-from" }) gradientFrom = "var(--loomi-primary-600)";

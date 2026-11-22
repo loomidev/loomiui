@@ -69,6 +69,35 @@ const BORDER_WIDTH: Record<number, string> = {
 export class LoomiButton extends LoomiElement {
   static override styles = loomiStyles(buttonStyles);
 
+  /**
+   * Form-associated so a `can-submit` button with a `name` can put its `name=value` pair
+   * into the submission, the way a native submit button does, and so a disabled
+   * `<fieldset>` disables it.
+   */
+  static formAssociated = true;
+
+  private readonly internals?: ElementInternals = this.attachInternals?.();
+
+  constructor() {
+    super();
+    // `element.click()` (and test tools that click the element they found) dispatch on
+    // the host, not on the inner <button>. Act on those like a native button does:
+    // after dispatch, unless a listener called preventDefault().
+    this.addEventListener("click", (event) => {
+      if (event.composedPath()[0] !== this) return;
+      if (this.isDisabled) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        return;
+      }
+      queueMicrotask(() => {
+        if (event.defaultPrevented) return;
+        if (this.isLink) this.followLink();
+        else if (this.canSubmit) this.submitOwningForm();
+      });
+    });
+  }
+
   /** Size names this component supports, from the canonical `LoomiSize` scale. */
   static readonly supportedSizes = { size: LOOMI_CONTROL_SIZES } satisfies LoomiSizeSupport;
 
@@ -153,8 +182,15 @@ export class LoomiButton extends LoomiElement {
   /** Uppercase the label. */
   @property({ type: Boolean }) uppercase = false;
 
-  /** Optional name for targeting this button (reflected as an attribute). */
+  /**
+   * With `can-submit`, sent with the form as `name=value` when this button submits it, so
+   * one form can tell several submit buttons apart (approve / reject). Also reflected
+   * for targeting the button from CSS or script.
+   */
   @property({ reflect: true }) name = "";
+
+  /** Sent as `name=value` when this `can-submit` button submits its form. */
+  @property() value = "";
 
   /**
    * Whether an ancestor of the page has the `dark` class (see `@loomidev/theme-switcher`).
@@ -254,7 +290,9 @@ export class LoomiButton extends LoomiElement {
     // is literally the gray ramp — see palette.json), so outline is a no-op for it: both
     // reuse the same dark-mode-aware --loomi-surface-* tokens instead of secondary's own
     // (theme-static) palette shades.
-    if (c === "secondary") {
+    // An explicit `color="secondary"` on a solid button fills with the secondary palette
+    // like any other colour; only the outline treatments keep the neutral look.
+    if (c === "secondary" && (this.type === "secondary" || this.outline)) {
       return [w, "border-solid", "loomi-btn--secondary"];
     }
     // `type="secondary"` is already an outline, so a colored secondary takes the same
@@ -262,7 +300,15 @@ export class LoomiButton extends LoomiElement {
     if (this.outline || this.type === "secondary") {
       return ["loomi-btn--outline", `text-${c}-600`, w, "border-solid", `loomi-btn--outline-${c}`];
     }
-    return [`bg-${c}-600`, "text-white", `hover:bg-${c}-700`, "border", "border-transparent"];
+    // Text colour comes from --loomi-text-on-<color> (see styles.css), so a light brand
+    // colour can take dark text.
+    return [
+      `bg-${c}-600`,
+      `loomi-btn--on-${c}`,
+      `hover:bg-${c}-700`,
+      "border",
+      "border-transparent",
+    ];
   }
 
   private computeClasses(): string {
@@ -352,8 +398,19 @@ export class LoomiButton extends LoomiElement {
     `;
   }
 
+  private get isLink(): boolean {
+    return this.tag === "a" || !!this.href;
+  }
+
+  private followLink(): void {
+    // Navigate directly rather than clicking the inner <a>, which would fire a second
+    // click on the host.
+    const anchor = this.controlElement;
+    if (anchor instanceof HTMLAnchorElement && anchor.href) window.location.assign(anchor.href);
+  }
+
   private onClick = (event: Event): void => {
-    if (this.disabled) {
+    if (this.isDisabled) {
       event.preventDefault();
       event.stopImmediatePropagation();
       return;
@@ -376,17 +433,27 @@ export class LoomiButton extends LoomiElement {
    * `@submit.prevent` handler is attached to.
    */
   private submitOwningForm(): void {
+    const form = this.internals?.form ?? this.closestForm();
+    if (!form) return;
+    // A native submit button adds its own name=value to the submission. The entry list
+    // is built synchronously inside requestSubmit(), so set the pair just for that call.
+    const sendsValue = !!this.name && !!this.internals;
+    if (sendsValue) this.internals!.setFormValue(this.value);
+    try {
+      form.requestSubmit();
+    } finally {
+      if (sendsValue) this.internals!.setFormValue(null);
+    }
+  }
+
+  private closestForm(): HTMLFormElement | null {
     for (let node: Element | null = this.parentElement ?? this; node;) {
       const form = node.closest("form");
-
-      if (form instanceof HTMLFormElement) {
-        form.requestSubmit();
-        return;
-      }
-
+      if (form instanceof HTMLFormElement) return form;
       const root: Node = node.getRootNode();
       node = root instanceof ShadowRoot ? root.host : null;
     }
+    return null;
   }
 
   override render(): TemplateResult {
@@ -397,11 +464,11 @@ export class LoomiButton extends LoomiElement {
       return html`<a
         class=${cls}
         part="button"
-        href=${ifDefined(this.disabled ? undefined : this.href || undefined)}
+        href=${ifDefined(this.isDisabled ? undefined : this.href || undefined)}
         role="button"
         aria-label=${this.adoptedAriaLabel ?? nothing}
-        aria-disabled=${this.disabled ? "true" : "false"}
-        tabindex=${this.disabled ? "-1" : "0"}
+        aria-disabled=${this.isDisabled ? "true" : "false"}
+        tabindex=${this.isDisabled ? "-1" : "0"}
         @click=${this.onClick}
         >${content}</a
       >`;
@@ -412,7 +479,7 @@ export class LoomiButton extends LoomiElement {
       part="button"
       type=${this.canSubmit ? "submit" : "button"}
       aria-label=${this.adoptedAriaLabel ?? nothing}
-      ?disabled=${this.disabled}
+      ?disabled=${this.isDisabled}
       @click=${this.onClick}
     >
       ${content}

@@ -5,8 +5,11 @@
   display: none;
 }
 
+/* The trigger fills the host, so sizing the host (a square photo frame) sizes it. */
 .loomi-lightbox-trigger {
-  display: inline-block;
+  display: block;
+  width: 100%;
+  height: 100%;
   appearance: none;
   -webkit-appearance: none;
   border: 0;
@@ -23,7 +26,8 @@
   outline-offset: 2px;
   border-radius: 0.25rem;
 }
-.loomi-lightbox-trigger ::slotted(img) {
+.loomi-lightbox-trigger ::slotted(img),
+.loomi-lightbox-trigger > slot > img {
   display: block;
   max-width: 100%;
   height: auto;

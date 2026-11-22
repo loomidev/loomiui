@@ -123,6 +123,19 @@ selected-state checkmark color. Both accept any LoomiUI color.
 new FormData(form).get("hosting"); // "aws,gcp"
 ```
 
+### Required
+
+Add `required` when a choice must be made, such as a delivery address or a payment
+method. The form won't submit while nothing is selected, and the selected card can't be
+clicked off, so with the default `max="1"` it behaves like a required radio group.
+
+```html
+<loomi-checkcards name="shipping" required selected-value="standard">
+  <loomi-checkcard value="standard" title="Standard" description="3-5 days"></loomi-checkcard>
+  <loomi-checkcard value="express" title="Express" description="Next day"></loomi-checkcard>
+</loomi-checkcards>
+```
+
 ## Accessibility
 
 For the library-wide baseline, see [Foundations - Accessibility](https://loomiui.com/foundations/#accessibility).
@@ -144,6 +157,7 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 | `name`            | _(blank)_ | Submitted with the form.                                                                                                                                                                            |
 | `error`           | _(blank)_ | An error supplied from outside (a server-side rejection). Shown below the control with `aria-invalid`, blocks submission with a `customError` validity, and clears when the user changes the value. |
 | `max`             | `1`       | Max selectable cards.                                                                                                                                                                               |
+| `required`        | `false`   | At least one card must be selected: blocks submission while empty, and the last selected card can't be clicked off. _(boolean)_                                                                     |
 | `auto-select-new` | `true`    | Drop the oldest selection when exceeding `max` (vs blocking). _(boolean)_                                                                                                                           |
 | `color`           | `primary` | Icon/avatar accent color (any loomi color).                                                                                                                                                         |
 | `border-color`    | `primary` | Card border color (any loomi color).                                                                                                                                                                |

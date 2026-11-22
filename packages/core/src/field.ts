@@ -115,8 +115,8 @@ export const fieldStyles: CSSResultGroup = css`
     align-items: center;
     width: 100%;
     min-height: var(--loomi-control-height, 2.5rem);
-    background: var(--loomi-surface);
-    border: var(--loomi-control-border-width, 2px) solid var(--loomi-surface-border);
+    background: var(--loomi-surface, var(--_loomi-surface-default));
+    border: var(--loomi-control-border-width, 2px) solid var(--loomi-surface-border, var(--_loomi-surface-border-default));
     border-radius: var(--loomi-control-radius, var(--_loomi-control-radius-default, 0.5rem));
     transition:
       border-color 0.15s ease,
@@ -129,7 +129,7 @@ export const fieldStyles: CSSResultGroup = css`
   .open .loomi-trigger {
     outline: none;
     border-color: var(--loomi-primary-600, var(--_loomi-primary-600-default));
-    box-shadow: 0 0 0 3px var(--loomi-focus-ring, var(--loomi-primary-100, var(--_loomi-primary-100-default)));
+    box-shadow: 0 0 0 3px var(--loomi-focus-ring, var(--_loomi-focus-ring-default, var(--loomi-primary-100, var(--_loomi-primary-100-default))));
   }
   .loomi-field.no-focus-ring:focus-within,
   .no-focus-ring .loomi-field:focus-within,
@@ -153,13 +153,13 @@ export const fieldStyles: CSSResultGroup = css`
   :host(:is([disabled], :disabled)) .loomi-trigger {
     opacity: 0.6;
     cursor: not-allowed;
-    background: var(--loomi-surface-muted);
+    background: var(--loomi-surface-muted, var(--_loomi-surface-muted-default));
   }
   .loomi-field.variant-minimal,
   .variant-minimal .loomi-trigger,
   .loomi-trigger.variant-minimal {
     border: 0;
-    border-bottom: var(--loomi-control-border-width, 2px) solid var(--loomi-surface-border);
+    border-bottom: var(--loomi-control-border-width, 2px) solid var(--loomi-surface-border, var(--_loomi-surface-border-default));
     border-radius: 0;
     background: transparent;
   }
@@ -216,7 +216,7 @@ export const fieldStyles: CSSResultGroup = css`
     margin: 0;
     padding: 0;
     overflow: hidden;
-    color: var(--loomi-text-muted);
+    color: var(--loomi-text-muted, var(--_loomi-text-muted-default));
     background: transparent;
     box-shadow: none;
     font-size: 0.6875rem;
@@ -277,15 +277,15 @@ export const fieldLabelStyles: CSSResultGroup = css`
     top: 50%;
     transform: translateY(-50%);
     transform-origin: left center;
-    color: var(--loomi-text-faint);
+    color: var(--loomi-text-faint, var(--_loomi-text-faint-default));
     font-size: var(--loomi-control-font-size);
     line-height: 1;
     pointer-events: none;
     transition: all 0.15s ease;
-    background: var(--loomi-surface);
+    background: var(--loomi-surface, var(--_loomi-surface-default));
     padding: 0;
     margin: 0;
-    box-shadow: 0 0 0 0.25rem var(--loomi-surface);
+    box-shadow: 0 0 0 0.25rem var(--loomi-surface, var(--_loomi-surface-default));
     max-width: calc(100% - var(--loomi-control-pad-x) - var(--loomi-control-pad-x));
     overflow: hidden;
     white-space: nowrap;

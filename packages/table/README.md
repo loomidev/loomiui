@@ -376,15 +376,45 @@ pagination still works from the `data` array.
 ### Column options, footers and styling manual tables
 
 Template rows are stamped inside the table's shadow root, so page CSS doesn't reach the
-cells. Three things cover the common needs:
+cells. These cover it:
 
 - **Column options on header cells**: `align="start|center|end"`, `nowrap` and `width`
   apply to the whole column (header, body and footer).
 - **Built-in cell helpers** usable inside templates: `align-end`, `align-center`,
   `nowrap`, `tabular` (tabular numerals) and `sr-only` (visually hidden). Links in cells
   get the primary colour.
-- **Parts** for anything else: `::part(row)`, `::part(header-cell)`, `::part(cell)` and
-  `::part(footer-cell)`.
+- **Ready-made cell content**: `badge` (a status pill; add `badge-success`,
+  `badge-error`, `badge-warning`, `badge-info`, `badge-primary` or `badge-gray`),
+  `muted` (a smaller secondary line under the main text), `thumb` (a 40px square image)
+  and `actions` (a right-aligned row of buttons or links).
+- **Parts**: `::part(row)`, `::part(header-cell)`, `::part(cell)` and
+  `::part(footer-cell)`. A `part` you write on an element in the template is kept too, so
+  `<span part="status">` can be styled with `loomi-table::part(status)`.
+- **Your own CSS**: a `<template slot="styles">` holding a `<style>` is applied inside the
+  table.
+
+```html
+<loomi-table>
+  <template slot="styles">
+    <style>
+      .overdue { color: #b91c1c; font-weight: 600; }
+    </style>
+  </template>
+  <template slot="header"><th>Product</th><th>Status</th><th align="end">Actions</th></template>
+  <template slot="body">
+    <tr>
+      <td><img class="thumb" src="/rice.jpg" alt="" /> Rice, 5kg<span class="muted">SKU 1042</span></td>
+      <td><span class="badge badge-success">In stock</span></td>
+      <td><div class="actions"><a href="/products/1042">Edit</a></div></td>
+    </tr>
+    <tr>
+      <td>Palm oil<span class="muted">SKU 2210</span></td>
+      <td><span class="badge badge-error overdue">Out of stock</span></td>
+      <td><div class="actions"><a href="/products/2210">Edit</a></div></td>
+    </tr>
+  </template>
+</loomi-table>
+```
 
 A `<template slot="footer">` renders its rows in a `<tfoot>`, for totals:
 
@@ -511,10 +541,13 @@ For theme activation, token overrides, and contrast guidance, see [Foundations -
 
 ## Slots
 
-| Slot        | Description                          |
-| ----------- | ------------------------------------ |
-| _(default)_ | Content placed inside the component. |
-| `header`    | Custom header content.               |
+| Slot        | Description                                               |
+| ----------- | --------------------------------------------------------- |
+| _(default)_ | Content placed inside the component.                      |
+| `header`    | Custom header content.                                    |
+| `body`      | A `<template>` of static rows.                            |
+| `footer`    | A `<template>` of rows in `<tfoot>`.                      |
+| `styles`    | A `<template>` with a `<style>` applied inside the table. |
 
 ## Events
 

@@ -62,7 +62,7 @@ export class LoomiSideNavItem extends LoomiElement {
         border: 0;
         border-radius: 0.375rem;
         background: transparent;
-        color: var(--loomi-text-secondary, inherit);
+        color: var(--loomi-text-secondary, var(--_loomi-text-secondary-default, inherit));
         cursor: pointer;
         font: inherit;
         font-size: 0.875rem;
@@ -73,11 +73,11 @@ export class LoomiSideNavItem extends LoomiElement {
         text-decoration: none;
       }
       .item:hover {
-        background: var(--loomi-surface-hover);
-        color: var(--loomi-text);
+        background: var(--loomi-surface-hover, var(--_loomi-surface-hover-default));
+        color: var(--loomi-text, var(--_loomi-text-default));
       }
       .item:focus-visible {
-        outline: 2px solid var(--loomi-focus-ring-color, var(--loomi-primary-400, var(--_loomi-primary-400-default, #60a5fa)));
+        outline: 2px solid var(--loomi-focus-ring-color, var(--_loomi-focus-ring-color-default, var(--loomi-primary-400, var(--_loomi-primary-400-default, #60a5fa))));
         outline-offset: 2px;
       }
       :host([active]) .item {
@@ -165,9 +165,9 @@ export class LoomiSideNav extends LoomiElement {
         height: 100%;
         min-height: 0;
         box-sizing: border-box;
-        border-right: 1px solid var(--loomi-surface-border);
-        background: var(--loomi-surface);
-        color: var(--loomi-text);
+        border-right: 1px solid var(--loomi-surface-border, var(--_loomi-surface-border-default));
+        background: var(--loomi-surface, var(--_loomi-surface-default));
+        color: var(--loomi-text, var(--_loomi-text-default));
         padding: 0.75rem;
         transition: width var(--loomi-motion-duration) var(--loomi-motion-ease);
       }
@@ -202,16 +202,16 @@ export class LoomiSideNav extends LoomiElement {
         border: 0;
         border-radius: 0.375rem;
         background: transparent;
-        color: var(--loomi-text-muted);
+        color: var(--loomi-text-muted, var(--_loomi-text-muted-default));
         cursor: pointer;
         padding: 0;
       }
       .toggle:hover {
-        background: var(--loomi-surface-hover);
-        color: var(--loomi-text);
+        background: var(--loomi-surface-hover, var(--_loomi-surface-hover-default));
+        color: var(--loomi-text, var(--_loomi-text-default));
       }
       .toggle:focus-visible {
-        outline: 2px solid var(--loomi-focus-ring-color, var(--loomi-primary-400, var(--_loomi-primary-400-default, #60a5fa)));
+        outline: 2px solid var(--loomi-focus-ring-color, var(--_loomi-focus-ring-color-default, var(--loomi-primary-400, var(--_loomi-primary-400-default, #60a5fa))));
         outline-offset: 2px;
       }
       .toggle svg {
@@ -230,7 +230,7 @@ export class LoomiSideNav extends LoomiElement {
         gap: 0;
       }
       :host([divided]) ::slotted(loomi-side-nav-item:not(:last-child)) {
-        border-bottom: 1px solid var(--loomi-surface-border-subtle, var(--loomi-surface-border));
+        border-bottom: 1px solid var(--loomi-surface-border-subtle, var(--_loomi-surface-border-subtle-default, var(--loomi-surface-border, var(--_loomi-surface-border-default))));
         padding-bottom: 0.25rem;
         margin-bottom: 0.25rem;
       }

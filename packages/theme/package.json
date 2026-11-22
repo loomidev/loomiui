@@ -18,6 +18,7 @@
   "files": [
     "dist",
     "palette.json",
+    "src/defaults.css",
     "src/tailwind-colors.css",
     "src/undefined.css"
   ],
@@ -30,6 +31,7 @@
       "import": "./dist/index.js"
     },
     "./palette.json": "./palette.json",
+    "./defaults.css": "./src/defaults.css",
     "./tailwind-colors.css": "./src/tailwind-colors.css",
     "./undefined.css": "./src/undefined.css"
   },

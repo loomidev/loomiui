@@ -81,6 +81,9 @@ function fillTemplate(template: string, row: Row): string {
  * @slot header - A `<template>` of heading cells, or `<th>` elements created from script.
  * @slot body - A `<template>` of static `<tr>` rows, for a table authored in HTML.
  * @slot footer - A `<template>` of `<tr>` rows rendered in a `<tfoot>` (totals and the like).
+ * @slot styles - A `<template>` holding a `<style>` applied inside the table, for styling
+ *   hand-written rows that page CSS can't reach. Authored `part` attributes also pass
+ *   through, so `loomi-table::part(status)` styles `<span part="status">` from the page.
  * @csspart row - Every `<tr>` (header, body and footer).
  * @csspart header-cell - Every `<th>` in the header.
  * @csspart cell - Every body `<td>`/`<th>`.
@@ -342,6 +345,13 @@ export class LoomiTable extends LoomiElement {
   private get bodyTemplateHtml(): string {
     if (isServer) return "";
     const template = this.querySelector<HTMLTemplateElement>('template[slot="body"]');
+    return template?.innerHTML || "";
+  }
+
+  /** `<template slot="styles">` content: page-authored `<style>` for the stamped rows. */
+  private get stylesTemplateHtml(): string {
+    if (isServer) return "";
+    const template = this.querySelector<HTMLTemplateElement>('template[slot="styles"]');
     return template?.innerHTML || "";
   }
 
@@ -775,6 +785,7 @@ export class LoomiTable extends LoomiElement {
 
     return html`<div class="loomi-wrap">
       ${columnCss ? unsafeHTML(`<style>${columnCss}</style>`) : nothing}
+      ${this.stylesTemplateHtml ? unsafeHTML(this.stylesTemplateHtml) : nothing}
       <div class="loomi-shell ${shellCls}">
         ${
           this.searchable

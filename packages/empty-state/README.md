@@ -106,13 +106,15 @@ READMEs for their respective `empty-placeholder` / `no-data-message` attributes.
 
 ## Replacing the Built-in Illustration
 
-The default illustration (shown whenever `image` is left blank) is a PNG bundled with
-the package and inlined as a data URI at build time, so it works the same whether the
-package is loaded from npm, a bundler, or a CDN - no extra network request and no
-asset-path resolution for consumers to configure.
+The default illustration (shown whenever `image` is left blank) is a small WebP bundled
+with the package as a data URI, so it works the same whether the package is loaded from
+npm, a bundler, or a CDN, with no asset path to configure. It is loaded on first use, in
+its own chunk: importing the component, or using it with your own `image` or
+`show-image="false"`, doesn't add the illustration to your bundle. Its box is reserved
+while it loads, so nothing shifts.
 
 If you're contributing to LoomiUI itself and want to change it, replace
-`src/assets/default-image.png` with a same-named PNG and rebuild:
+`src/assets/default-image.webp` with a same-named WebP and rebuild:
 
 ```bash
 cd /path/to/your-copy-of-loomiui/components

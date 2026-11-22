@@ -163,7 +163,9 @@ describe("loomi-button", () => {
         const btn = el.shadowRoot!.querySelector("button")!;
         const style = getComputedStyle(btn);
 
-        expect(style.backgroundColor).to.equal(resolveColor(el, "var(--loomi-surface)"));
+        expect(style.backgroundColor).to.equal(
+          resolveColor(el, "var(--loomi-surface, var(--_loomi-surface-default))"),
+        );
         expect(style.backgroundColor).not.to.equal(resolveColor(el, shade(color, 600)));
         expect(style.borderTopColor).to.equal(resolveColor(el, shade(color, 300)));
         expect(style.borderTopWidth).to.equal("1px");
@@ -199,9 +201,13 @@ describe("loomi-button", () => {
         const btn = el.shadowRoot!.querySelector("button")!;
         const style = getComputedStyle(btn);
         expect(btn.classList.contains("loomi-btn--secondary")).to.be.true;
-        expect(style.backgroundColor).to.equal(resolveColor(el, "var(--loomi-surface)"));
+        expect(style.backgroundColor).to.equal(
+          resolveColor(el, "var(--loomi-surface, var(--_loomi-surface-default))"),
+        );
         expect(style.borderTopColor).to.equal(resolveColor(el, shade("gray", 300)));
-        expect(style.color).to.equal(resolveColor(el, "var(--loomi-text)"));
+        expect(style.color).to.equal(
+          resolveColor(el, "var(--loomi-text, var(--_loomi-text-default))"),
+        );
       }
     });
   });

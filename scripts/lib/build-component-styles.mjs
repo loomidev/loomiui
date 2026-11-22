@@ -14,6 +14,7 @@ import { spawnSync } from "node:child_process";
 import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { expandSemanticRefs } from "./semantic-tokens.mjs";
 
 /**
  * @param {string} callerUrl `import.meta.url` of the package shim, i.e.
@@ -153,7 +154,9 @@ ${passthrough}
     throw new Error(`Tailwind CLI failed with exit code ${result.status}`);
   }
 
-  const compiled = readFileSync(outputPath, "utf8").trim();
+  // Semantic tokens (`--loomi-surface`, `--loomi-text`, …) get the same public/private
+  // chain as palette colours, so a page's `:root` override reaches inside the component.
+  const compiled = expandSemanticRefs(readFileSync(outputPath, "utf8").trim(), prefix);
 
   const pkgName = JSON.parse(readFileSync(resolve(pkgRoot, "package.json"), "utf8")).name;
 

@@ -24,6 +24,9 @@ import { componentStyles } from "./generated/styles.css.js";
  *   below when left empty — but wrapping your own existing `<img>` is the common case,
  *   so its `alt` is reused for the fullscreen image and the trigger's label when this
  *   component's own `alt` attribute is left unset.
+ * @csspart trigger - The button wrapping the image. It fills the host, so give the host a
+ *   size (a square photo frame) and style the image inside to fit it.
+ * @csspart image - The `<img>` built from `src` when nothing is slotted.
  * @fires loomi-open - Fired when the fullscreen view opens.
  * @fires loomi-close - Fired when it closes.
  */
@@ -173,8 +176,8 @@ export class LoomiLightboxImage extends LoomiElement {
 
   override render(): TemplateResult {
     return html`
-      <button type="button" class="loomi-lightbox-trigger" aria-haspopup="dialog" aria-label=${this.triggerLabel} @click=${this.show}>
-        <slot @slotchange=${this.onSlotChange}>${this.src ? html`<img src=${this.src} alt=${this.alt} />` : nothing}</slot>
+      <button type="button" part="trigger" class="loomi-lightbox-trigger" aria-haspopup="dialog" aria-label=${this.triggerLabel} @click=${this.show}>
+        <slot @slotchange=${this.onSlotChange}>${this.src ? html`<img part="image" src=${this.src} alt=${this.alt} />` : nothing}</slot>
       </button>
       ${this.open ? this.renderOverlay() : nothing}
     `;
