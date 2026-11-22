@@ -1,6 +1,6 @@
 {
   "name": "@loomidev/slider",
-  "version": "0.17.0",
+  "version": "0.18.0",
   "description": "<loomi-slider> — a value slider (form-associated).",
   "repository": {
     "type": "git",

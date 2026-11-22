@@ -1,5 +1,15 @@
 # @loomidev/password
 
+## 0.18.0
+
+### Patch Changes
+
+- Updated dependencies [fb65035]
+  - @loomidev/theme@0.18.0
+  - @loomidev/core@0.18.0
+  - @loomidev/notification@0.18.0
+  - @loomidev/icons@0.18.0
+
 ## 0.17.0
 
 ### Minor Changes
