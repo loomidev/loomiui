@@ -1,4 +1,4 @@
-import { html, fixture, expect, nextFrame, oneEvent } from "@open-wc/testing";
+import { html, fixture, expect, nextFrame, oneEvent, waitUntil } from "@open-wc/testing";
 import "../dist/loomi-drawer.js";
 import { showLoomiDrawer, hideLoomiDrawer, type LoomiDrawer } from "../dist/index.js";
 
@@ -86,8 +86,8 @@ describe("loomi-drawer", () => {
     const closeEvent = oneEvent(el, "close");
     hideLoomiDrawer("test-drawer");
     await closeEvent;
-    await new Promise((r) => setTimeout(r, 100));
-    expect(el.open).to.be.false;
+    // `open` drops when the exit animation ends (500ms fallback); a fixed wait raced it on slow runners.
+    await waitUntil(() => !el.open, "drawer did not close", { timeout: 2000 });
   });
 
   it("moves focus into the panel on show() and restores it on hide()", async () => {
@@ -170,8 +170,8 @@ describe("loomi-drawer", () => {
     await el.updateComplete;
 
     document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
-    await new Promise((r) => setTimeout(r, 100));
-    expect(el.open).to.be.false;
+    // `open` drops when the exit animation ends (500ms fallback); a fixed wait raced it on slow runners.
+    await waitUntil(() => !el.open, "drawer did not close", { timeout: 2000 });
   });
 
   it('closes on a backdrop click by default, and honors close-on-outside-click="false"', async () => {
@@ -179,8 +179,8 @@ describe("loomi-drawer", () => {
     el.show();
     await el.updateComplete;
     (el.shadowRoot!.querySelector(".loomi-backdrop") as HTMLElement).click();
-    await new Promise((r) => setTimeout(r, 100));
-    expect(el.open).to.be.false;
+    // `open` drops when the exit animation ends (500ms fallback); a fixed wait raced it on slow runners.
+    await waitUntil(() => !el.open, "drawer did not close", { timeout: 2000 });
 
     const locked = await fixture<LoomiDrawer>(
       html`<loomi-drawer close-on-outside-click="false"></loomi-drawer>`,
@@ -199,8 +199,8 @@ describe("loomi-drawer", () => {
     expect(el.shadowRoot!.querySelector(".loomi-backdrop")).to.not.exist;
 
     document.body.click();
-    await new Promise((r) => setTimeout(r, 100));
-    expect(el.open).to.be.false;
+    // `open` drops when the exit animation ends (500ms fallback); a fixed wait raced it on slow runners.
+    await waitUntil(() => !el.open, "drawer did not close", { timeout: 2000 });
   });
 
   it("does not close when clicking inside the panel", async () => {
@@ -255,7 +255,7 @@ describe("loomi-drawer", () => {
     const closeEvent = oneEvent(el, "close");
     (el.shadowRoot!.querySelector(".loomi-close") as HTMLElement).click();
     await closeEvent;
-    await new Promise((r) => setTimeout(r, 100));
-    expect(el.open).to.be.false;
+    // `open` drops when the exit animation ends (500ms fallback); a fixed wait raced it on slow runners.
+    await waitUntil(() => !el.open, "drawer did not close", { timeout: 2000 });
   });
 });
