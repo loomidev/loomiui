@@ -49,7 +49,7 @@
   "devDependencies": {
     "@loomidev/theme": "workspace:^",
     "@tailwindcss/cli": "^4.3.5",
-    "emojibase-data": "^17.0.0",
+    "emojibase-data": "^18.0.0",
     "lit": "^3.3.3",
     "tailwindcss": "^4.3.5",
     "typescript": "^5.6.3"
